@@ -18,7 +18,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   // amend fist object of vamc-ehr response to vha_556 facility
   const mockTestVamc = JSON.parse(JSON.stringify(vamcUser));
   mockTestVamc.data.nodeQuery.entities[0].fieldRegionPage.entity.fieldVamcEhrSystem =
-    'cerner_staged';
+    'cerner';
   mockTestVamc.data.nodeQuery.entities[0].fieldFacilityLocatorApiId = 'vha_556';
 
   beforeEach(() => {

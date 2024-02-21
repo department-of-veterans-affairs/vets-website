@@ -39,7 +39,7 @@
             "fieldRegionPage": {
               "entity": {
                 "title": "VA Boise health care",
-                "fieldVamcEhrSystem": "cerner_staged"
+                "fieldVamcEhrSystem": "cerner"
               }
             }
           },
@@ -609,7 +609,7 @@
             "fieldRegionPage": {
               "entity": {
                 "title": "VA Alaska health care",
-                "fieldVamcEhrSystem": "cerner_staged"
+                "fieldVamcEhrSystem": "cerner"
               }
             }
           },
@@ -899,7 +899,7 @@
             "fieldRegionPage": {
               "entity": {
                 "title": "VA Indiana health care",
-                "fieldVamcEhrSystem": "cerner_staged"
+                "fieldVamcEhrSystem": "cerner"
               }
             }
           },
@@ -919,7 +919,7 @@
             "fieldRegionPage": {
               "entity": {
                 "title": "VA Spokane health care",
-                "fieldVamcEhrSystem": "cerner_staged"
+                "fieldVamcEhrSystem": "cerner"
               }
             }
           },
