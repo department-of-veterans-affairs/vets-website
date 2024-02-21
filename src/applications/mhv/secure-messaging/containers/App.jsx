@@ -44,7 +44,10 @@ const App = () => {
   const mhvSMDown = useMemo(
     () => {
       if (scheduledDowntimes.size > 0) {
-        return scheduledDowntimes?.get(externalServices.mhvSm)?.status;
+        return (
+          scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+        );
       }
       return 'downtime status: ok';
     },
