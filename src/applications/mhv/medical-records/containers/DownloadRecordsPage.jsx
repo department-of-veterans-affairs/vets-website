@@ -25,6 +25,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
   const [blueButtonRequested, setBlueButtonRequested] = useState(false);
+  const [downloadType, setDownloadType] = useState('');
 
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
@@ -60,6 +61,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 
   const generatePdf = useCallback(
     async () => {
+      setDownloadType('pdf');
       setBlueButtonRequested(true);
       if (
         !allAreDefined([
@@ -115,6 +117,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
    */
   const generateTxt = useCallback(
     async () => {
+      setDownloadType('txt');
       setBlueButtonRequested(true);
       if (
         !allAreDefined([
@@ -168,7 +171,11 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
         ]) &&
         blueButtonRequested
       ) {
-        generatePdf();
+        if (downloadType === 'pdf') {
+          generatePdf();
+        } else {
+          generateTxt();
+        }
       }
     },
     [
@@ -179,6 +186,8 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
       conditions,
       vitals,
       generatePdf,
+      generateTxt,
+      downloadType,
       blueButtonRequested,
     ],
   );
