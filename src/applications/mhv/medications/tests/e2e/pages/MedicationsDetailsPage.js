@@ -125,7 +125,7 @@ class MedicationsDetailsPage {
 
   clickMedicationsListPageBreadcrumbsOnDetailsPage = () => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[href="/my-health/medications/1"]').click({
+    cy.get('[href="/my-health/medications/"]').click({
       waitForAnimations: true,
     });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
@@ -136,7 +136,7 @@ class MedicationsDetailsPage {
 
   clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[href="/my-health/medications/2"]').click({
+    cy.get('[href="/my-health/medications/"]').click({
       waitForAnimations: true,
     });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
