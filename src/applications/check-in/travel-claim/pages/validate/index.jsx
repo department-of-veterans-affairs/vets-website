@@ -81,7 +81,7 @@ const Validate = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header={t('file-a-travel-reimbursement-claim')}
+        header={t('file-travel-reimbursement-claim')}
         subtitle={t('file-a-travel-reimbursment-claim-if-you-meet')}
         lastNameInput={{
           lastNameError,
