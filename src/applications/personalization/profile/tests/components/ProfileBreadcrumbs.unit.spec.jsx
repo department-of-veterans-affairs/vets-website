@@ -4,7 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { ProfileBreadcrumbs } from '../../components/ProfileBreadcrumbs';
 import { PROFILE_PATHS } from '../../constants';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const setup = path => {
   const view = renderInReduxProvider(
@@ -15,7 +14,6 @@ const setup = path => {
       initialState: {
         featureToggles: {
           loading: false,
-          [Toggler.TOGGLE_NAMES.profileUseHubPage]: true,
         },
       },
     },

@@ -16,7 +16,7 @@ function clickSubNavButton(buttonLabel, mobile) {
  * @param {boolean} mobile - test on a mobile viewport or not
  *
  * This helper:
- * - loads the Profile, confirms the user is redirected to the correct URL,
+ * - loads the personal information page, since that is the first page in the sub-nav
  *   performs an aXe scan, and checks that focus is managed correctly
  * - clicks through each item in the sub-nav and:
  *   - checks that the URL is correct
@@ -24,9 +24,9 @@ function clickSubNavButton(buttonLabel, mobile) {
  *   - performs an aXe scan
  *   - checks that focus is managed correctly
  */
-function checkAllPages(mobile = false) {
+function checkSubNavFocus(mobile = false) {
   cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
   if (mobile) {
     cy.viewport('iphone-4');
   }
@@ -112,16 +112,16 @@ function checkAllPages(mobile = false) {
   );
 }
 
-describe('Profile', () => {
+describe('Profile Navigation - Accessibility', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
-  it('should pass an aXe scan and manage focus on all pages at desktop size', () => {
-    checkAllPages(false);
+  it('check focus for navigating between profile pages via menu on desktop', () => {
+    checkSubNavFocus(false);
   });
 
-  it('should pass an aXe scan and manage focus on all pages at mobile phone size', () => {
-    checkAllPages(true);
+  it('check focus for navigating between profile pages via menu on mobile', () => {
+    checkSubNavFocus(true);
   });
 });
