@@ -9,10 +9,11 @@ export const withAppSet = (Component, options = {}) => {
   return props => {
     const selectApp = useMemo(makeSelectApp, []);
     const { app } = useSelector(selectApp);
-    const { isPreCheckIn } = options;
-    const passedApp = isPreCheckIn
-      ? APP_NAMES.PRE_CHECK_IN
-      : APP_NAMES.CHECK_IN;
+    const { isPreCheckIn, isTravel = false } = options;
+    let passedApp = isPreCheckIn ? APP_NAMES.PRE_CHECK_IN : APP_NAMES.CHECK_IN;
+    if (isTravel) {
+      passedApp = APP_NAMES.TRAVEL_CLAIM;
+    }
     const dispatch = useDispatch();
     useEffect(
       () => {

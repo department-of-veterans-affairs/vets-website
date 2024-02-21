@@ -5,14 +5,22 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import TravelIntroDisplay from '../../../components/pages/TravelIntro/TravelIntroDisplay';
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { hasMultipleFacilities } from '../../../utils/appointment';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+// Appointments will come from redux this is temp
+import { singleFacility } from './testAppointments';
 
 const TravelIntro = props => {
-  const { router } = props;
+  const { router, appointments = singleFacility } = props;
   const { t } = useTranslation();
 
   const { jumpToPage } = useFormRouting(router);
   // @TODO logic need to figure out if we should go to multi-facility page or single
+
+  const nextPage = hasMultipleFacilities(appointments)
+    ? 'select-appointment'
+    : 'travel-mileage';
+
   const fileClaimClick = useCallback(
     e => {
       if (e?.key && e.key !== ' ') {
@@ -22,9 +30,9 @@ const TravelIntro = props => {
         event: createAnalyticsSlug('file-travel-clicked', 'nav'),
       });
       e.preventDefault();
-      jumpToPage('select-appointment');
+      jumpToPage(nextPage);
     },
-    [jumpToPage],
+    [jumpToPage, nextPage],
   );
   return (
     <TravelIntroDisplay
@@ -35,6 +43,8 @@ const TravelIntro = props => {
 };
 
 TravelIntro.propTypes = {
+  // temp prop remove after data fetch in place
+  appointments: PropTypes.array,
   router: PropTypes.object,
 };
 
