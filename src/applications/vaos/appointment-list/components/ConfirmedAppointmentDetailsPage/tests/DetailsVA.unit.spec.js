@@ -27,7 +27,7 @@ const appointmentData = {
 
 const facilityData = new Facility();
 
-describe('DetailsVA component', () => {
+describe('VAOS Component: DetailsVA', () => {
   const initialState = {};
 
   it('should not display type of care header for upcoming C&P appointments', async () => {

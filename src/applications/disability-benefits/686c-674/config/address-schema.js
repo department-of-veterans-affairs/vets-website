@@ -61,7 +61,10 @@ const USA = {
 
 const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
-    <va-additional-info trigger="Learn more about military base addresses">
+    <va-additional-info
+      trigger="Learn more about military base addresses"
+      uswds="false"
+    >
       <span>
         Addresses on U.S. military bases are considered domestic addresses, even
         when the military base is in another country. When you check this box,

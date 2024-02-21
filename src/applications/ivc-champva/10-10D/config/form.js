@@ -1,12 +1,9 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import {
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
-  ssnSchema,
-  ssnUI,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -17,31 +14,57 @@ import {
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
-  relationshipToVeteranSchema,
-  relationshipToVeteranUI,
   yesNoSchema,
   yesNoUI,
   radioSchema,
   radioUI,
   titleSchema,
-  inlineTitleUI,
   titleUI,
+  relationshipToVeteranUI,
+  relationshipToVeteranSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
-import { sponsorWording } from '../helpers/wordingCustomization';
+import {
+  sponsorWording,
+  applicantWording,
+} from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
+import {
+  sponsorCasualtyReportConfig,
+  sponsorDisabilityRatingConfig,
+  sponsorDischargePapersConfig,
+  blankSchema,
+} from '../components/Sponsor/sponsorFileUploads';
+import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
+
+import {
+  ApplicantMedicareStatusPage,
+  ApplicantMedicareStatusReviewPage,
+} from '../pages/ApplicantMedicareStatusPage';
+import ApplicantRelationshipPage, {
+  ApplicantRelationshipReviewPage,
+} from '../pages/ApplicantRelationshipPage';
+import ApplicantMedicareStatusContinuedPage, {
+  ApplicantMedicareStatusContinuedReviewPage,
+} from '../pages/ApplicantMedicareStatusContinuedPage';
+import ApplicantOhiStatusPage, {
+  ApplicantOhiStatusReviewPage,
+} from '../pages/ApplicantOhiStatusPage';
+
+import { fileTypes, attachmentsSchema } from './attachments';
+
+import mockData from '../tests/fixtures/data/test-data.json';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -91,6 +114,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
+          initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -126,7 +150,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI('Your name'),
+            certifierInfoTitle: titleUI('Your name'),
             certifierName: fullNameUI(),
           },
           schema: {
@@ -143,7 +167,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI(
+            certifierInfoTitle: titleUI(
               'Your mailing address',
               'We’ll send any updates about your signer certification to this address',
             ),
@@ -163,7 +187,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI('Your contact information'),
+            certifierInfoTitle: titleUI('Your contact information'),
             certifierPhone: phoneUI(),
           },
           schema: {
@@ -257,10 +281,9 @@ const formConfig = {
         page8: {
           path: 'sponsor-information/status',
           title: 'Sponsor status',
-          // TODO: fix spacing above title
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor status'),
+            sponsorInfoTitle: titleUI('Sponsor status'),
             sponsorIsDeceased: yesNoUI({
               title: 'Is sponsor still living?',
               labels: {
@@ -282,15 +305,17 @@ const formConfig = {
         page9: {
           path: 'sponsor-information/status-date',
           title: 'Sponsor status (continued)',
-          depends: formData => get('sponsorIsDeceased', formData),
+          depends: formData =>
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('sponsorIsDeceased', formData),
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor status (continued)'),
+            sponsorInfoTitle: titleUI('Sponsor status (continued)'),
             sponsorDOD: dateOfDeathUI(),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor pass away on active military service?',
               labels: {
-                Y: 'Yes, sponsor passed away during active military service',
-                N:
+                yes: 'Yes, sponsor passed away during active military service',
+                no:
                   'No, sponsor did not pass away during active military service',
               },
             }),
@@ -305,111 +330,54 @@ const formConfig = {
             },
           },
         },
-        // If person filling out the form is the sponsor:
-        page10a: {
-          path: 'sponsor-information/your-address',
-          title: 'Your mailing address',
-          depends: formData => get('certifierRole', formData) === 'sponsor',
-          uiSchema: {
-            ...titleUI('Your mailing address'),
-            sponsorHasAddress: radioUI({
-              title: 'Do you have a current mailing address?',
-              hint:
-                "If we have a way to contact you, we'll be able to process this request faster. But we don't require a mailing address for this request.",
-              required: true,
-              labels: {
-                yes: 'Yes, I know my current mailing address',
-                no: "No, I don't have a current mailing address",
-                unknown: "I don't know if I have a current mailing address",
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorHasAddress'],
-            properties: {
-              titleSchema,
-              sponsorHasAddress: radioSchema(['yes', 'no', 'unknown']),
-            },
-          },
-        },
-        page10a1: {
-          path: 'sponsor-information/your-address-continued',
-          title: 'Your mailing address (continued)',
+        page9a: {
+          path: 'sponsor-information/status-documents',
+          title: 'Sponsor casualty report',
           depends: formData =>
-            get('sponsorHasAddress', formData) === 'yes' &&
-            get('certifierRole', formData) === 'sponsor',
+            get('sponsorIsDeceased', formData) &&
+            get('sponsorDeathConditions', formData),
           uiSchema: {
             ...titleUI(
-              'Your mailing address (continued)',
-              "We'll send any important information about your application to this address.",
+              'Required supporting file upload',
+              ({ formData }) =>
+                `Upload a file showing the casualty report for ${
+                  formData.veteransFullName.first
+                } ${formData.veteransFullName.last}`,
             ),
-            sponsorAddress: {
-              ...addressUI({
-                labels: {
-                  militaryCheckbox:
-                    'I live on a United States military base outside the country.',
-                },
+            ...sponsorCasualtyReportConfig.uiSchema,
+            sponsorCasualtyReport: {
+              ...fileUploadUI("Upload Sponsor's casualty report", {
+                fileTypes,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
               }),
             },
           },
           schema: {
             type: 'object',
-            required: ['sponsorAddress'],
             properties: {
               titleSchema,
-              sponsorAddress: addressSchema(),
-            },
-          },
-        },
-        // If person filling out the form is NOT the sponsor:
-        page10b: {
-          path: 'sponsor-information/address',
-          title: "Sponsor's mailing address",
-          depends: formData =>
-            !get('sponsorIsDeceased', formData) &&
-            get('certifierRole', formData) !== 'sponsor',
-          uiSchema: {
-            ...titleUI("Sponsor's mailing address"),
-            sponsorHasAddress: radioUI({
-              title: 'Does the Sponsor have a current mailing address?',
-              hint:
-                "If we have a way to contact the Sponsor, we'll be able to process this request faster. But we don't require a mailing address for this request.",
-              required: true,
-              labels: {
-                yes: "Yes, I know the Sponsor's current mailing address",
-                no: "No, the Sponsor doesn't have a current mailing address",
-                unknown:
-                  "I don't know if the Sponsor has a current mailing address",
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorHasAddress'],
-            properties: {
-              titleSchema,
-              sponsorHasAddress: radioSchema(['yes', 'no', 'unknown']),
+              ...sponsorCasualtyReportConfig.schema,
+              sponsorCasualtyReport: attachmentsSchema,
             },
           },
         },
         page10b1: {
-          path: 'sponsor-information/address-continued',
-          title: "Sponsor's mailing address (continued)",
-          depends: formData =>
-            !get('sponsorIsDeceased', formData) &&
-            get('sponsorHasAddress', formData) === 'yes' &&
-            get('certifierRole', formData) !== 'sponsor',
+          path: 'sponsor-information/address',
+          title: formData => `${sponsorWording(formData)} mailing address`,
+          depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             ...titleUI(
-              "Sponsor's mailing address (continued)",
-              "We'll send any important information about your application to this address.",
+              ({ formData }) => `${sponsorWording(formData)} mailing address`,
+              "We'll send any important information about your application to this address. Any updates you make here to your address will apply only to this application",
             ),
+            ...homelessInfo.uiSchema,
             sponsorAddress: {
               ...addressUI({
                 labels: {
                   militaryCheckbox:
-                    'My Sponsor lives on a United States military base outside the country.',
+                    'Address is on a United States military base outside the country.',
                 },
               }),
             },
@@ -419,83 +387,22 @@ const formConfig = {
             required: ['sponsorAddress'],
             properties: {
               titleSchema,
+              ...homelessInfo.schema,
               sponsorAddress: addressSchema(),
             },
           },
         },
-        // If person filling out the form is the sponsor:
-        page11a: {
-          path: 'sponsor-information/your-phone',
-          title: 'Your contact information',
-          depends: formData =>
-            !get('sponsorIsDeceased', formData) &&
-            get('certifierRole', formData) === 'sponsor',
-          uiSchema: {
-            ...titleUI('Your contact information'),
-            sponsorHasPhone: radioUI({
-              title: 'Do you have a current phone number?',
-              hint:
-                "If we have a way to contact you, we'll be able to process this request faster. But we don't require a mailing address for this request.",
-              required: true,
-              labels: {
-                yes: 'Yes, I know my current phone number',
-                no: "No, I don't have a current phone number",
-                unknown: "I don't know if I have a current phone number",
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorHasPhone'],
-            properties: {
-              titleSchema,
-              sponsorHasPhone: radioSchema(['yes', 'no', 'unknown']),
-            },
-          },
-        },
-        // If person filling out the form is NOT the sponsor:
-        page11b: {
-          path: 'sponsor-information/phone',
-          title: "Sponsor's contact information",
-          depends: formData =>
-            !get('sponsorIsDeceased', formData) &&
-            get('certifierRole', formData) !== 'sponsor',
-          uiSchema: {
-            ...titleUI("Sponsor's contact information"),
-            sponsorHasPhone: radioUI({
-              title: 'Does the Sponsor have a current phone number?',
-              hint:
-                "If we have a way to contact the Sponsor, we'll be able to process this request faster. But we don't require a mailing address for this request.",
-              required: true,
-              labels: {
-                yes: "Yes, I know the Sponsor's current phone number",
-                no: "No, the Sponsor doesn't have a current phone number",
-                unknown:
-                  "I don't know if the Sponsor has a current phone number",
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorHasPhone'],
-            properties: {
-              titleSchema,
-              sponsorHasPhone: radioSchema(['yes', 'no', 'unknown']),
-            },
-          },
-        },
         page11: {
-          path: 'sponsor-information/phone-continued',
-          title: formData =>
-            `${sponsorWording(formData)} contact information (continued)`,
-          depends: formData =>
-            get('sponsorHasPhone', formData) === 'yes' &&
-            !get('sponsorIsDeceased', formData),
+          path: 'sponsor-information/phone',
+          title: formData => `${sponsorWording(formData)} contact information`,
+          depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             ...titleUI(
               ({ formData }) =>
-                `${sponsorWording(formData)} contact information (continued)`,
+                `${sponsorWording(formData)} contact information`,
+              'This information helps us contact you faster if we need to follow up with you about your application.',
             ),
+            ...noPhoneInfo.uiSchema,
             sponsorPhone: {
               ...phoneUI({
                 title: 'Phone number',
@@ -508,7 +415,68 @@ const formConfig = {
             required: ['sponsorPhone'],
             properties: {
               titleSchema,
+              ...noPhoneInfo.schema,
               sponsorPhone: phoneSchema,
+            },
+          },
+        },
+        page12: {
+          path: 'sponsor-information/disability',
+          title: 'Sponsor disability rating',
+          uiSchema: {
+            ...titleUI(
+              'Optional supporting file upload',
+              ({ formData }) =>
+                `Upload a file showing the disability rating for ${
+                  formData.veteransFullName.first
+                } ${formData.veteransFullName.last}`,
+            ),
+            ...sponsorDisabilityRatingConfig.uiSchema,
+            sponsorDisabilityRating: {
+              ...fileUploadUI("Upload Sponsor's disability rating", {
+                fileTypes,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              ...sponsorDisabilityRatingConfig.schema,
+              sponsorDisabilityRating: attachmentsSchema,
+            },
+          },
+        },
+        page12a: {
+          path: 'sponsor-information/discharge-papers',
+          title: 'Sponsor discharge papers',
+          uiSchema: {
+            ...titleUI(
+              'Optional supporting file upload',
+              ({ formData }) =>
+                `Upload a file showing the discharge papers for ${
+                  formData.veteransFullName.first
+                } ${formData.veteransFullName.last}`,
+            ),
+            ...sponsorDischargePapersConfig.uiSchema,
+            sponsorDischargePapers: {
+              ...fileUploadUI("Upload Sponsor's discharge papers", {
+                fileTypes,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              ...sponsorDischargePapersConfig.schema,
+              sponsorDischargePapers: attachmentsSchema,
             },
           },
         },
@@ -522,6 +490,10 @@ const formConfig = {
           arrayPath: 'applicants',
           title: 'Applicants',
           uiSchema: {
+            ...titleUI(
+              'Applicant name and date of birth',
+              'Please tell us the names of the applicants that you want to enroll in CHAMPVA. You can only add up to 3 applicants at a time. If you have more than 3 applicants then you will need to submit a separate form for each applicant.',
+            ),
             applicants: {
               'ui:options': {
                 viewField: ApplicantField,
@@ -530,10 +502,11 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
+                maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                'ui:title': ApplicantField,
                 applicantName: fullNameUI(),
+                applicantDOB: dateOfBirthUI({ required: true }),
               },
             },
           },
@@ -543,10 +516,14 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
+                  required: ['applicantDOB'],
                   properties: {
+                    titleSchema,
                     applicantName: fullNameSchema,
+                    applicantDOB: dateOfBirthSchema,
                   },
                 },
               },
@@ -556,9 +533,7 @@ const formConfig = {
         page14: {
           path: 'applicant-information/:index/ssn-dob',
           arrayPath: 'applicants',
-          title: item =>
-            `${item?.applicantName?.first ||
-              'Applicant'} - SSN and date of birth`,
+          title: item => `${applicantWording(item)} identification information`,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -568,11 +543,29 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
+                maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                'ui:title': ApplicantField,
-                applicantSSN: ssnUI(),
-                applicantDOB: dateOfBirthUI(),
+                'view:description': {
+                  'ui:description':
+                    'You must enter either a VA file number or Social Security number',
+                },
+                applicantSSN: ssnOrVaFileNumberUI(),
+                // Dynamic title (uses "your" if certifierRole is applicant and
+                // this is applicant[0])
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} identification information`,
+                        )['ui:title'], // grab styled title rather than plain text
+                    };
+                  },
+                },
               },
             },
           },
@@ -582,11 +575,12 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
-                    applicantSSN: ssnSchema,
-                    applicantDOB: dateOfBirthSchema,
+                    'view:description': blankSchema,
+                    applicantSSN: ssnOrVaFileNumberSchema,
                   },
                 },
               },
@@ -597,14 +591,36 @@ const formConfig = {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - address`,
+          title: item => `${applicantWording(item)} mailing address`,
           uiSchema: {
-            'ui:title': 'Applicant Address',
             applicants: {
               items: {
-                'ui:title': ApplicantField,
-                applicantAddress: addressUI(),
+                'view:description': {
+                  'ui:description':
+                    'We’ll send any important information about your application to this address.',
+                },
+                applicantSSN: ssnOrVaFileNumberUI(),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} mailing address`,
+                        )['ui:title'],
+                    };
+                  },
+                },
+                applicantAddress: {
+                  ...addressUI({
+                    labels: {
+                      militaryCheckbox:
+                        'Address is on a United States military base outside the country.',
+                    },
+                  }),
+                },
               },
             },
           },
@@ -614,9 +630,11 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
+                    'view:description': blankSchema,
                     applicantAddress: addressSchema(),
                   },
                 },
@@ -628,13 +646,24 @@ const formConfig = {
           path: 'applicant-information/:index/email-phone',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - email and phone`,
+          title: item => `${applicantWording(item)} contact information`,
           uiSchema: {
-            'ui:title': 'Applicant Email and Phone',
             applicants: {
               items: {
-                'ui:title': ApplicantField,
+                applicantSSN: ssnOrVaFileNumberUI(),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} contact information`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
@@ -646,6 +675,7 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
@@ -661,13 +691,21 @@ const formConfig = {
           path: 'applicant-information/:index/gender',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - gender`,
+          title: item => `${applicantWording(item)} gender`,
           uiSchema: {
             'ui:title': 'Applicant Gender',
             applicants: {
               items: {
-                'ui:title': ApplicantField,
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(formData, context)} gender`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantGender: radioUI({
                   title: 'Gender',
                   required: true,
@@ -682,6 +720,7 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
@@ -693,111 +732,45 @@ const formConfig = {
           },
         },
         page18: {
-          path: 'applicant-information/:index/additional-info',
+          path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - health insurance`,
-          uiSchema: {
-            'ui:title': 'Applicant Health Insurance and Relationship',
-            applicants: {
-              'ui:options': {
-                viewField: ApplicantField,
-                keepInPageOnReview: true,
-              },
-              items: {
-                'ui:title': ApplicantField,
-                applicantEnrolledInMedicare: yesNoUI({
-                  title: 'Enrolled in Medicare',
-                }),
-                applicantMedicareCardFront: {
-                  ...fileUploadUI('Medicare card (Front)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInMedicare,
-                  }),
-                },
-                applicantMedicareCardBack: {
-                  ...fileUploadUI('Medicare card (Back)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInMedicare,
-                  }),
-                },
-                applicantEnrolledInOHI: yesNoUI({
-                  title: 'Enrolled in Other Health Insurance (OHI)',
-                }),
-                applicantOHICardFront: {
-                  ...fileUploadUI('OHI card (Front)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInOHI,
-                  }),
-                },
-                applicantOHICardBack: {
-                  ...fileUploadUI('OHI card (Back)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInOHI,
-                  }),
-                },
-              },
-            },
-          },
+          title: item => `${applicantWording(item)} relationship to sponsor`,
+          CustomPage: ApplicantRelationshipPage,
+          CustomPageReview: ApplicantRelationshipReviewPage, // CustomReviewField,
           schema: {
             type: 'object',
             properties: {
               applicants: {
                 type: 'array',
-                minItems: 1,
                 items: {
                   type: 'object',
                   properties: {
-                    applicantEnrolledInMedicare: yesNoSchema,
-                    applicantMedicareCardFront: attachmentsSchema,
-                    applicantMedicareCardBack: attachmentsSchema,
-                    applicantEnrolledInOHI: yesNoSchema,
-                    applicantOHICardFront: attachmentsSchema,
-                    applicantOHICardBack: attachmentsSchema,
+                    applicantRelationshipToSponsor: {
+                      type: 'object',
+                      properties: {
+                        relationshipToVeteran: { type: 'string' },
+                        otherRelationshipToVeteran: { type: 'string' },
+                      },
+                    },
                   },
                 },
               },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
             },
           },
         },
         page19: {
-          path: 'applicant-information/:index/relationship',
+          path: 'applicant-information/:index/medicare-status',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first ||
-              'Applicant'} - relationship to sponsor`,
-          uiSchema: {
-            applicants: {
-              items: {
-                'ui:title': ApplicantField, // shows on each page of array
-                applicantRelationshipToSponsor: {
-                  ...relationshipToVeteranUI({
-                    personTitle: 'Sponsor',
-                    labelHeaderLevel: '', // no header
-                  }),
-                  'ui:required': () => true,
-                },
-              },
-            },
-          },
+          title: item => `${applicantWording(item)} Medicare status`,
+          CustomPage: ApplicantMedicareStatusPage,
+          CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: {
             type: 'object',
             properties: {
@@ -806,10 +779,79 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    applicantRelationshipToSponsor: relationshipToVeteranSchema,
+                    applicantMedicareStatus: {
+                      type: 'string',
+                    },
                   },
                 },
               },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
+        },
+        page20: {
+          path: 'applicant-information/:index/medicare-status-continued',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} Medicare status (continued)`,
+          depends: (formData, index) =>
+            get(
+              'applicantMedicareStatus',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'enrolled',
+          CustomPage: ApplicantMedicareStatusContinuedPage,
+          CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantMedicarePart: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
+        },
+        page21: {
+          path: 'applicant-information/:index/ohi',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} other health insurance`,
+          CustomPage: ApplicantOhiStatusPage,
+          CustomPageReview: ApplicantOhiStatusReviewPage,
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantHasOhi: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
             },
           },
         },
