@@ -109,7 +109,7 @@ const TernaryRadios = ({
           >
             <va-additional-info
               trigger="Learn more about C-123 airplanes"
-              uswds={false}
+              uswds
             >
               <p className="vads-u-margin-top--0">
                 The U.S. Air Force used C-123 planes to spray Agent Orange to
@@ -149,7 +149,7 @@ const TernaryRadios = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds={false}
+        uswds
       />
     </>
   );

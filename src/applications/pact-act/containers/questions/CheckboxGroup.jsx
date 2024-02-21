@@ -113,7 +113,7 @@ const CheckboxGroup = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds={false}
+        uswds
       />
     </>
   );
