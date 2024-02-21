@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
