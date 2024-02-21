@@ -143,10 +143,6 @@
         "value": true
       },
       {
-        "name": "show_new_get_medical_records_page",
-        "value": true
-      },
-      {
         "name": "show_new_refill_track_prescriptions_page",
         "value": true
       },

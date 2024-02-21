@@ -1479,14 +1479,6 @@
         "value": true
       },
       {
-        "name": "showNewGetMedicalRecordsPage",
-        "value": true
-      },
-      {
-        "name": "show_new_get_medical_records_page",
-        "value": true
-      },
-      {
         "name": "showNewRefillTrackPrescriptionsPage",
         "value": true
       },
