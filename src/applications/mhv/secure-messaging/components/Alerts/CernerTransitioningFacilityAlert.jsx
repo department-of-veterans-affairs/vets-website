@@ -17,6 +17,7 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { useSelector } from 'react-redux';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { CernerTransitioningFacilities } from '../../util/constants';
 
 const CernerTransitioningFacilityAlert = () => {
@@ -58,7 +59,10 @@ const CernerTransitioningFacilityAlert = () => {
             parseInt(transitioningFacility.vhaId, 10),
         )
       ) {
-        return transitioningFacility;
+        return getVamcSystemNameFromVhaId(
+          ehrFacilities,
+          transitioningFacility.vhaId,
+        );
       }
       return null;
     },
@@ -75,8 +79,8 @@ const CernerTransitioningFacilityAlert = () => {
             </h1>
             <div>
               <p>
-                <strong>{isTranstioningFacility.vamcSystemName}</strong> is
-                moving to our My VA Health portal.
+                <strong>{isTranstioningFacility}</strong> is moving to our My VA
+                Health portal.
               </p>
               <ul>
                 <li>
@@ -107,10 +111,9 @@ const CernerTransitioningFacilityAlert = () => {
             </h1>
             <div>
               <p>
-                We’re moving data for{' '}
-                <strong>{isTranstioningFacility.vamcSystemName}</strong> to our
-                My VA Health portal. On March 9, you can start using My VA
-                Health to send messages to care teams at this facility.
+                We’re moving data for <strong>{isTranstioningFacility}</strong>{' '}
+                to our My VA Health portal. On March 9, you can start using My
+                VA Health to send messages to care teams at this facility.
               </p>
               <p>To contact your care team now, call your facility.</p>
               <p>
@@ -136,7 +139,7 @@ const CernerTransitioningFacilityAlert = () => {
     return null;
   };
 
-  return <>{isTranstioningFacility && content()}</>;
+  return <>{content()}</>;
 };
 
 export default CernerTransitioningFacilityAlert;
