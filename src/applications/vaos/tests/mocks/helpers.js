@@ -1,7 +1,7 @@
 /** @module testing/mocks/helpers */
 
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   mockFetch,
   setFetchJSONResponse,
