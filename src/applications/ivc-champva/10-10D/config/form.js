@@ -802,7 +802,7 @@ const formConfig = {
           path: 'applicant-information/:index/adoption-documents',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} school documents`,
+          title: item => `${applicantWording(item)} adoption documents`,
           depends: (formData, index) =>
             get(
               'applicantRelationshipToSponsor',
@@ -845,7 +845,8 @@ const formConfig = {
           path: 'applicant-information/:index/via-marriage-documents',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} school documents`,
+          title: item =>
+            `${applicantWording(item)} parental marriage documents`,
           depends: (formData, index) =>
             get(
               'applicantRelationshipToSponsor',
