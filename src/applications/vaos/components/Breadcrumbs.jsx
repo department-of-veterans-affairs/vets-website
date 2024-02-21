@@ -2,14 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { useSelector } from 'react-redux';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { GA_PREFIX } from '../utils/constants';
 
 export default function VAOSBreadcrumbs({ children }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const location = useLocation();
   const isPast = location.pathname.includes('/past');
   const isPending =
@@ -53,28 +48,14 @@ export default function VAOSBreadcrumbs({ children }) {
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
       class="vaos-hide-for-print"
+      uswds={false}
     >
       <a href="/" key="home" onClick={handleClick('home')}>
-        {featureBreadcrumbUrlUpdate ? 'VA.gov home' : 'Home'}
+        VA.gov home
       </a>
-      <a
-        href={featureBreadcrumbUrlUpdate ? '/my-health' : '/health-care'}
-        key={featureBreadcrumbUrlUpdate ? '/my-health' : 'health-care'}
-        onClick={handleClick(
-          featureBreadcrumbUrlUpdate ? '/my-health' : 'health-care',
-        )}
-      >
-        {featureBreadcrumbUrlUpdate ? 'My HealtheVet' : 'Health care'}
+      <a href="/my-health" key="/my-health" onClick={handleClick('/my-health')}>
+        My HealtheVet
       </a>
-      {!featureBreadcrumbUrlUpdate && (
-        <a
-          href="/health-care/schedule-view-va-appointments"
-          key="schedule-view-va-appointments"
-          onClick={handleClick('schedule-managed')}
-        >
-          Schedule and manage health appointments
-        </a>
-      )}
       <NavLink to="/" id="vaos-home">
         Appointments
       </NavLink>
@@ -82,7 +63,7 @@ export default function VAOSBreadcrumbs({ children }) {
       {isPast && (
         <li className="va-breadcrumbs-li">
           <NavLink to="/past" id="past">
-            {featureBreadcrumbUrlUpdate ? 'Past appointments' : 'Past'}
+            Past appointments
           </NavLink>
         </li>
       )}
@@ -90,7 +71,7 @@ export default function VAOSBreadcrumbs({ children }) {
       {isPending && (
         <li className="va-breadcrumbs-li">
           <NavLink to="/pending" id="pending">
-            {featureBreadcrumbUrlUpdate ? 'Pending appointments' : 'Pending'}
+            Pending appointments
           </NavLink>
         </li>
       )}

@@ -13,15 +13,12 @@ import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import { SELECTED } from '../../../shared/constants';
 
-const getData = () => ({
+const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   user: {
     profile: {
-      userFullName: {
-        first: 'Foo',
-        middle: 'Man',
-        last: 'Choo',
-        suffix: 'Esq.',
-      },
+      userFullName: renderName
+        ? { first: 'Foo', middle: 'Man', last: 'Choo', suffix }
+        : {},
     },
   },
   form: {
@@ -81,6 +78,26 @@ describe('Confirmation page', () => {
       'Foo Man Choo, Esq.',
     );
   });
+  it('should render the user name without suffix', () => {
+    const { container } = render(
+      <Provider store={mockStore(getData({ suffix: '' }))}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect($('.dd-privacy-hidden', container).textContent).to.contain(
+      'Foo Man Choo',
+    );
+  });
+  it('should not render the user name', () => {
+    const { container } = render(
+      <Provider store={mockStore(getData({ renderName: false }))}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect($('[data-dd-action-name="Veteran full name"]', container)).to.not
+      .exist;
+  });
+
   it('should render the submit date', () => {
     const data = getData();
     const date = moment(data.form.submission.response).format('MMMM D, YYYY');
