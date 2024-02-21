@@ -10,7 +10,12 @@ import {
   updatePageTitle,
 } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
-import { getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  makePdf,
+  getTxtContent,
+  generateTextFile,
+} from '../util/helpers';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
 
@@ -105,6 +110,51 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
     ],
   );
 
+  /**
+   *  Generate text function
+   */
+  const generateTxt = useCallback(
+    async () => {
+      setBlueButtonRequested(true);
+      if (
+        !allAreDefined([
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        ])
+      ) {
+        dispatch(getBlueButtonReportData());
+      } else {
+        setBlueButtonRequested(false);
+        const recordData = {
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        };
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const content = getTxtContent(recordData);
+
+        generateTextFile(content, pdfName);
+      }
+    },
+    [
+      allergies,
+      conditions,
+      dispatch,
+      labsAndTests,
+      notes,
+      user,
+      vaccines,
+      vitals,
+    ],
+  );
+
   useEffect(
     () => {
       if (
@@ -184,11 +234,15 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           Download PDF document
         </button>
         <br />
-        <button className="link-button" type="button">
+        <button
+          className="link-button"
+          type="button"
+          onClick={generateTxt}
+          data-testid="download-blue-button-txt"
+        >
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"
-            data-testid="download-blue-button-txt"
           />
           Download Text file
         </button>
