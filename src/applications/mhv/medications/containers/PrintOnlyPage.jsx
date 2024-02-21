@@ -31,7 +31,7 @@ const PrintOnlyPage = props => {
 };
 
 PrintOnlyPage.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
   preface: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
