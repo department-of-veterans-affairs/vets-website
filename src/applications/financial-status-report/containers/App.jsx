@@ -45,7 +45,6 @@ const App = ({
   router,
   setFormData,
   showFSR,
-  showEnhancedFSR,
   showReviewPageNavigationFeature,
   showWizard,
 }) => {
@@ -92,9 +91,10 @@ const App = ({
   // Contact information data
   useEffect(
     () => {
-      if (isLoggedIn && showEnhancedFSR) {
+      if (isLoggedIn) {
         const { personalData = {} } = formData || {};
         const { veteranContactInformation = {} } = personalData;
+
         if (
           email?.emailAddress !== veteranContactInformation.email ||
           mobilePhone?.updatedAt !==
@@ -116,15 +116,7 @@ const App = ({
         }
       }
     },
-    [
-      email,
-      formData,
-      isLoggedIn,
-      mobilePhone,
-      mailingAddress,
-      setFormData,
-      showEnhancedFSR,
-    ],
+    [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
   );
 
   useEffect(() => {
