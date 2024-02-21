@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -105,26 +106,50 @@ const App = ({ children }) => {
           ],
         },
       ];
-      if (showNotes)
+      if (showNotes) {
+        const notesPath = '/summaries-and-notes';
+        const currentPath = location.pathname;
+
+        const activePath = currentPath.startsWith(notesPath)
+          ? currentPath
+          : notesPath;
+
         navPaths[0].subpaths.push({
-          path: '/summaries-and-notes',
+          path: activePath,
           label: 'Care summaries and notes',
           datatestid: 'care-summaries-and-notes-sidebar',
         });
-      if (showVaccines)
+      }
+      if (showVaccines) {
+        const vaccinesPath = '/vaccines';
+        const currentPath = location.pathname;
+
+        const activePath = currentPath.startsWith(vaccinesPath)
+          ? currentPath
+          : vaccinesPath;
+
         navPaths[0].subpaths.push({
-          path: '/vaccines',
+          path: activePath,
           label: 'Vaccines',
           datatestid: 'vaccines-sidebar',
         });
-      navPaths[0].subpaths.push({
-        path: '/allergies',
-        label: 'Allergies and reactions',
-        datatestid: 'allergies-sidebar',
-      });
+      }
+      if (showSideNav) {
+        const allergiesPath = '/allergies';
+        const currentPath = location.pathname;
+
+        const activePath = currentPath.startsWith(allergiesPath)
+          ? currentPath
+          : allergiesPath;
+        navPaths[0].subpaths.push({
+          path: activePath,
+          label: 'Allergies and reactions',
+          datatestid: 'allergies-sidebar',
+        });
+      }
       setPaths(navPaths);
     },
-    [showNotes, showVaccines],
+    [showNotes, showVaccines, location.pathname, showSideNav],
   );
 
   useEffect(
