@@ -14,6 +14,7 @@ import {
   scrollAndFocus,
 } from './scroll';
 import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
+import { querySelectorWithShadowRoot } from './webComponents';
 
 export {
   focusElement,
@@ -110,9 +111,22 @@ export function formatARN(arnString = '') {
  * @param {String|Function} scrollAndFocusTarget - Custom focus target
  * @param {Number} pageIndex - index inside of a page array loop
  */
-export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
+export async function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
   if (typeof scrollAndFocusTarget === 'string') {
-    scrollAndFocus(document.querySelector(scrollAndFocusTarget));
+    if (scrollAndFocusTarget === '.usa-step-indicator__heading') {
+      // .usa-step-indicator__heading is the v3 bar's H2, inside shadow-DOM
+      const shadowHost = await querySelectorWithShadowRoot(
+        'va-segmented-progress-bar',
+      );
+      scrollTo('topContentElement', getScrollOptions());
+      focusElement(
+        scrollAndFocusTarget,
+        getScrollOptions(),
+        shadowHost.shadowRoot,
+      );
+    } else {
+      scrollAndFocus(document.querySelector(scrollAndFocusTarget));
+    }
   } else if (typeof scrollAndFocusTarget === 'function') {
     scrollAndFocusTarget(pageIndex);
   } else {
