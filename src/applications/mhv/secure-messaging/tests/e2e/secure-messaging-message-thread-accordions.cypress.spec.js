@@ -26,8 +26,8 @@ describe('Secure Messaging Thread Details', () => {
       cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
         .shadow()
         .find('[part="accordion-header"]')
-        .click();
-      // .should('have.focus');
+        .click()
+        .should('have.focus');
 
       // cy.focused().then(el => {
       //   console.log(el);
