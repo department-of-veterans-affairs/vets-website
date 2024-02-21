@@ -91,7 +91,8 @@ describe('functionality of Find Forms', () => {
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`)
       .shadow()
       .get(`option`)
-      // Finds both the shadow DOM option and the React Fiber option, so have to multiply 'expected' by 2
+      // Finds both the shadow DOM option and the React Fiber option, so have to multiply 'expected' by 2,
+      // and plus 1 due to the DST component adding a default select optionn to the dropdown
       .should('have.length', FAF_SORT_OPTIONS.length * 2 + 1);
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`)
       .shadow()
