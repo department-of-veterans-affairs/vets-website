@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import { Notifications } from '../components/Notifications/Notifications';
+import { PoaRequestsWidget } from '../components/PoaRequestsWidget/PoaRequestsWidget';
 
 // import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-const dummyNotificationData = [
+const dummyPoaRequestData = [
   {
     name: 'John Smith',
     id: 12345,
@@ -50,7 +50,7 @@ const Dashboard = ({ POApermissions = true }) => {
               </div>
               <div className="vads-u-display--flex vads-u-flex-direction--row">
                 <div className="vads-l-col--9">
-                  <Notifications notifications={dummyNotificationData} />
+                  <PoaRequestsWidget poaRequests={dummyPoaRequestData} />
                 </div>
                 <div className="vads-l-col--3 vads-u-padding-left--2">
                   <div className="primary dash-box vads-u-background-color--white vads-u-margin-bottom--2 rounded-corners" />
