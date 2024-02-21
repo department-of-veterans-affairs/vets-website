@@ -151,10 +151,6 @@
         "value": false
       },
       {
-        "name": "show_new_secure_messaging_page",
-        "value": false
-      },
-      {
         "name": "show526Wizard",
         "value": false
       }
