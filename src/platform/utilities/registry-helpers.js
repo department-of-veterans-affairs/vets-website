@@ -15,7 +15,7 @@ export const getAppUrl = entryName => {
 
   if (!app) {
     throw new Error(
-      `An app with the entry name '${entryName}' does not exist in the registry.`,
+      `An app with the entry name '${entryName}' does not exist in the registry. Please make sure your content-build repository is up to date.`,
     );
   }
 
