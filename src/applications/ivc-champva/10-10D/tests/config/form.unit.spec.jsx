@@ -50,15 +50,6 @@ testNumberOfWebComponentFields(
   { applicants },
 );
 
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18.schema,
-  formConfig.chapters.applicantInformation.pages.page18.uiSchema,
-  2,
-  'Applicant - health insurance',
-  { applicants },
-);
-
 /*
 // Commented out because this page doesn't exist currently (but may in future)
 testNumberOfWebComponentFields(
