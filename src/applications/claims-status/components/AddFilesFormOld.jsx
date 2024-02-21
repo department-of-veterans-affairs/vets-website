@@ -305,6 +305,7 @@ class AddFilesFormOld extends React.Component {
           <va-button
             primary
             text="Submit Files for Review"
+            class="submit-files-button"
             onClick={this.submit}
             uswds
           />
