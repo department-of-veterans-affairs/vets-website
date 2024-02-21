@@ -20,7 +20,6 @@ const TravelIntro = props => {
   const nextPage = hasMultipleFacilities(appointments)
     ? 'select-appointment'
     : 'travel-mileage';
-
   const fileClaimClick = useCallback(
     e => {
       if (e?.key && e.key !== ' ') {
@@ -157,6 +156,7 @@ const TravelIntro = props => {
               {t('if-youre-claiming-mileage-file-online-now')}
             </p>
             <a
+              data-testid="file-claim-link"
               className="vads-c-action-link--green"
               href="#file-travel-claim"
               onKeyDown={fileClaimClick}
