@@ -69,7 +69,6 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
-            profileUseHubPage: true,
           }),
         ),
       secondsOfDelay,

@@ -22,7 +22,6 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
-        profileUseHubPage: true,
         profileContacts: true,
       }),
     );

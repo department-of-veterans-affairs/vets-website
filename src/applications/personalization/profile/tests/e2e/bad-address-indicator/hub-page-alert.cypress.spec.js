@@ -6,11 +6,7 @@ import BadAddressFeature from './BadAddressFeature';
 
 describe('Bad Address Alert - Profile page', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({ profileUseHubPage: true }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
 
   it('should display bad address', () => {

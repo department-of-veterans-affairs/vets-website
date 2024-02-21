@@ -18,7 +18,6 @@ function createInitialState(
     featureToggles: {
       ...{
         loading: false,
-        [Toggler.TOGGLE_NAMES.profileUseHubPage]: true,
         [Toggler.TOGGLE_NAMES.profileContacts]: false,
       },
       ...toggles,
