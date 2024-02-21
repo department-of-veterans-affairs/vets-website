@@ -22,14 +22,18 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
   const alert = expanded && missingEvents ? missingEventsAlert : null;
 
   return (
-    <div>
-      <va-button secondary text={title} onClick={onToggle} uswds />
+    <li className={`past-events-expander process-step ${cssClass}`}>
+      <va-button
+        secondary
+        class="view-events-button"
+        text={title}
+        onClick={onToggle}
+        uswds
+      />
       <div className="appeal-event-date vads-u-margin-top--1">{dateRange}</div>
-      <li className={`past-events-expander process-step ${cssClass}`}>
-        {alert}
-        {separator}
-      </li>
-    </div>
+      {alert}
+      {separator}
+    </li>
   );
 };
 
