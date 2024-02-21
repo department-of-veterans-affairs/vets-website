@@ -108,12 +108,9 @@ export default function FormNav(props) {
         setIndex(index - 1);
       }
       scrollTo('vaSegmentedProgressBar', { offset: -20 });
-      handleFormNavFocus(page, formConfig, index).then(() => {
-        // TODO: Remove console.log once expanded testing is complete
-        // eslint-disable-next-line no-console
-        console.log('[FormNav] handleFormNavFocus resolved.');
-      });
+      handleFormNavFocus(page, formConfig, index).then(() => {});
     },
+    // only current & index should be included in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [current, index],
   );
