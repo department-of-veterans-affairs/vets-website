@@ -15,6 +15,8 @@ const ReportModal = ({
   existingReports,
   onCloseModal,
   submitRepresentativeReport,
+  handleOtherInputChangeTestId,
+  testReportObject,
 }) => {
   const [reportObject, setReportObject] = useState({
     phone: null,
@@ -121,7 +123,36 @@ const ReportModal = ({
         visible
         uswds
       >
-        <h2 style={{ fontSize: 20, marginTop: 10 }}>
+        {/* These buttons trigger methods for unit testing - temporary workaround for shadow root issues with va checkboxes */}
+        {handleOtherInputChangeTestId ? (
+          <button
+            id="test-button"
+            type="button"
+            onClick={() =>
+              handleCheckboxChange({
+                target: { id: handleOtherInputChangeTestId, checked: 'true' },
+              })
+            }
+          />
+        ) : null}
+        {testReportObject ? (
+          <>
+            <button
+              id="set-report-object-button"
+              type="button"
+              onClick={() => setReportObject({ ...testReportObject })}
+            />
+            <button
+              id="submit-modal-test-button"
+              type="button"
+              onClick={() => onSubmitModal()}
+            />
+          </>
+        ) : null}
+        <h2
+          className="report-modal-header"
+          style={{ fontSize: 20, marginTop: 10 }}
+        >
           Report outdated information for {representativeName}
         </h2>
         {someItemsReported && (

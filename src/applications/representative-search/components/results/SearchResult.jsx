@@ -27,18 +27,12 @@ const SearchResult = ({
 
   const scrollElementId = `result-${representativeId}`;
 
-  const addressExists =
-    addressLine1 ||
-    addressLine2 ||
-    addressLine3 ||
-    city ||
-    stateCode ||
-    zipCode;
+  const addressExists = addressLine1 || city || stateCode || zipCode;
 
   // concatenating address for ReportModal
   const address =
     [
-      addressLine1.trim(),
+      (addressLine1 || '').trim(),
       (addressLine2 || '').trim(),
       (addressLine3 || '').trim(),
     ]
@@ -122,7 +116,13 @@ const SearchResult = ({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {addressLine1} {addressLine2} <br />
+                  {addressLine1}{' '}
+                  {addressLine2 ? (
+                    <>
+                      <br /> {addressLine2}
+                    </>
+                  ) : null}{' '}
+                  <br />
                   {city}, {stateCode} {zipCode}
                 </a>
               </div>
