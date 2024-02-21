@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -34,7 +35,7 @@ const Avs = props => {
     state => state.featureToggles,
   );
   const { isLoggedIn } = props;
-  const { id } = props.params;
+  const { id } = useParams();
 
   const [avs, setAvs] = useState({});
   const [avsLoading, setAvsLoading] = useState(true);

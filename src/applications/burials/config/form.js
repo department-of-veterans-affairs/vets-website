@@ -1,10 +1,10 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
-import FormFooter from 'platform/forms/components/FormFooter';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import GetFormHelp from '@department-of-veterans-affairs/platform-forms/GetPensionOrBurialFormHelp';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
@@ -198,40 +198,35 @@ const formConfig = {
         burialAllowancePartOne: {
           title: 'Burial allowance',
           path: 'benefits/burial-allowance/additional-information',
-          depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: burialAllowancePartOne.uiSchema,
           schema: burialAllowancePartOne.schema,
         },
         burialAllowancePartTwo: {
           title: 'Burial allowance',
           path: 'benefits/burial-allowance/allowance-and-expense',
-          depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: burialAllowancePartTwo.uiSchema,
           schema: burialAllowancePartTwo.schema,
         },
         finalRestingPlace: {
           title: 'Final resting place',
           path: 'benefits/final-resting-place',
-          depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: finalRestingPlace.uiSchema,
           schema: finalRestingPlace.schema,
         },
         nationalOrFederalCemetery: {
           title: 'Cemetery location',
           path: 'benefits/cemetery-type',
-          depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: nationalOrFederalCemetery.uiSchema,
           schema: nationalOrFederalCemetery.schema,
         },
         cemeteryLocationQuestion: {
           title: 'Cemetery location',
           path: 'benefits/cemetery-location',
-          depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: cemeteryLocationQuestion.uiSchema,
           schema: cemeteryLocationQuestion.schema,
         },
@@ -239,7 +234,7 @@ const formConfig = {
           title: 'Cemetery location',
           path: 'benefits/cemetery-location/add',
           depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true &&
+            get('view:claimedBenefits.burialAllowance', form) &&
             get('cemetaryLocationQuestion', form) === 'cemetery',
           uiSchema: cemeteryLocation.uiSchema,
           schema: cemeteryLocation.schema,
@@ -248,7 +243,7 @@ const formConfig = {
           title: 'Cemetery location',
           path: 'benefits/cemetery-location/tribal-land/add',
           depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) === true &&
+            get('view:claimedBenefits.burialAllowance', form) &&
             get('cemetaryLocationQuestion', form) === 'tribalLand',
           uiSchema: tribalLandLocation.uiSchema,
           schema: tribalLandLocation.schema,
@@ -256,24 +251,21 @@ const formConfig = {
         plotAllowancePartOne: {
           title: 'Plot or interment allowance',
           path: 'benefits/plot-allowance/contributions',
-          depends: form =>
-            get('view:claimedBenefits.plotAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.plotAllowance', form),
           uiSchema: plotAllowancePartOne.uiSchema,
           schema: plotAllowancePartOne.schema,
         },
         plotAllowancePartTwo: {
           title: 'Plot or interment allowance',
           path: 'benefits/plot-allowance/expense-responsibility',
-          depends: form =>
-            get('view:claimedBenefits.plotAllowance', form) === true,
+          depends: form => get('view:claimedBenefits.plotAllowance', form),
           uiSchema: plotAllowancePartTwo.uiSchema,
           schema: plotAllowancePartTwo.schema,
         },
         transportationExpenses: {
           title: 'Transportation allowance',
           path: 'benefits/transportation-allowance',
-          depends: form =>
-            get('view:claimedBenefits.transportation', form) === true,
+          depends: form => get('view:claimedBenefits.transportation', form),
           uiSchema: transportationExpenses.uiSchema,
           schema: transportationExpenses.schema,
         },
@@ -291,7 +283,7 @@ const formConfig = {
         transportationReceipts: {
           title: 'Death certificate',
           path: 'additional-information/transportation-receipts',
-          depends: form => get('transportationExpenses', form) === true,
+          depends: form => get('transportationExpenses', form),
           uiSchema: transportationReceipts.uiSchema,
           schema: transportationReceipts.schema,
         },

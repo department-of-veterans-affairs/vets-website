@@ -21,6 +21,7 @@ const requestExtension = {
       'ui:options': {
         enableAnalytics: false,
         hint: content.hint,
+        charcount: true,
       },
       'ui:validations': [extensionReason],
       'ui:errorMessages': {
