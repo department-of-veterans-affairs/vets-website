@@ -22,7 +22,7 @@ export default function CombinedRating({ combinedRating }) {
   const heading = `Your combined disability rating is ${combinedRating}%`;
 
   return (
-    <va-featured-content>
+    <va-summary-box>
       <h3 slot="headline">{heading}</h3>
       <p>
         This rating doesn’t include any conditions from claims that we’re still
@@ -34,7 +34,7 @@ export default function CombinedRating({ combinedRating }) {
         onClick={clickHandler}
         text="Check the status of your claims, decision reviews, or appeals online"
       />
-    </va-featured-content>
+    </va-summary-box>
   );
 }
 
