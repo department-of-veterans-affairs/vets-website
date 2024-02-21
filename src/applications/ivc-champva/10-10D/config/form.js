@@ -72,7 +72,6 @@ import ApplicantOhiStatusPage, {
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
 import { fileTypes, attachmentsSchema } from './attachments';
-import mockData from '../tests/fixtures/data/test-data.json';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -139,7 +138,6 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -557,17 +555,32 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} identification information`,
-                  'You must enter either a VA file number or Social Security number',
-                ),
+                'view:description': {
+                  'ui:description':
+                    'You must enter either a VA file number or Social Security number',
+                },
                 applicantSSN: ssnOrVaFileNumberUI(),
+                // Dynamic title (uses "your" if certifierRole is applicant and
+                // this is applicant[0])
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} identification information`,
+                        )['ui:title'], // grab styled title rather than plain text
+                    };
+                  },
+                },
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
+            'view:description': blankSchema,
             applicantSSN: ssnOrVaFileNumberSchema,
           }),
         },
@@ -579,11 +592,10 @@ const formConfig = {
           uiSchema: {
             applicants: {
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
-                  'We’ll send any important information about your application to this address.',
-                ),
+                'view:description': {
+                  'ui:description':
+                    'We’ll send any important information about your application to this address.',
+                },
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -592,11 +604,24 @@ const formConfig = {
                     },
                   }),
                 },
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} mailing address`,
+                        )['ui:title'], // grab styled title rather than plain text
+                    };
+                  },
+                },
               },
             },
           },
           schema: applicantListSchema([], {
-            titleSchema,
+            'view:description': blankSchema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -608,17 +633,25 @@ const formConfig = {
           uiSchema: {
             applicants: {
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} contact information`,
-                ),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} contact information`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
             },
           },
           schema: applicantListSchema([], {
-            titleSchema,
             applicantEmailAddress: emailSchema,
             applicantPhone: phoneSchema,
           }),
@@ -632,9 +665,16 @@ const formConfig = {
             'ui:title': 'Applicant Gender',
             applicants: {
               items: {
-                ...titleUI(
-                  ({ formData }) => `${applicantWording(formData)} gender`,
-                ),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(formData, context)} gender`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantGender: radioUI({
                   title: 'Gender',
                   required: true,
@@ -644,7 +684,6 @@ const formConfig = {
             },
           },
           schema: applicantListSchema([], {
-            titleSchema,
             applicantGender: radioSchema(['male', 'female']),
           }),
         },
