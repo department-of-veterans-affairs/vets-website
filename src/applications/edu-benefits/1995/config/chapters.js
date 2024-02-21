@@ -44,7 +44,11 @@ export const applicantInformationField = (automatedTest = false) => {
         'dateOfBirth',
         'applicantGender',
       ],
-      required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+      required: [
+        'veteranFullName',
+        'veteranSocialSecurityNumber',
+        'dateOfBirth',
+      ],
     }),
     uiSchema: applicantInformationUpdate.uiSchema,
   };
