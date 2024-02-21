@@ -43,8 +43,8 @@ function BurialsEntry({ location, children, toggleFeatures, profile }) {
   });
 
   const shouldUseV2 = hasV2Form || (burialFormV2 && !hasV1Form);
-  if (shouldUseV2) {
-    window.location.href = '/burials-and-memorials-v2/application/530/';
+  if (!shouldUseV2) {
+    window.location.href = '/burials-and-memorials/application/530/';
     return <></>;
   }
 
