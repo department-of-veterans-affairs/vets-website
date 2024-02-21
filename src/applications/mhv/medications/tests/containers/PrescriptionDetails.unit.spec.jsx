@@ -22,7 +22,7 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouter(<PrescriptionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/1234567891',
+      path: '/21142496',
     });
   };
 
@@ -55,6 +55,27 @@ describe('Prescription details container', () => {
         'MMMM D, YYYY',
       )}`,
     );
+    expect(rxName).to.exist;
+  });
+
+  it('still shows medication details if rx data is received from api instead of redux', () => {
+    const mockData = [nonVaRxResponse];
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: null,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/21142496',
+    });
+    const rxName = screen.findByText(
+      nonVaRxResponse.data.attributes.orderableItem,
+    );
+
     expect(rxName).to.exist;
   });
 
