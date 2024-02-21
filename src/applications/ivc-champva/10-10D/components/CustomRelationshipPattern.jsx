@@ -44,14 +44,13 @@ export const relationshipToVeteranUI = options => {
     ? props => relativeTitle(props)
     : relativeTitle;
 
-  const conjugatedVerbThirdPerson = tense && tense === 'past' ? 'was' : 'is';
-  const conjugatedVerbFirstPerson = tense && tense === 'past' ? 'I was' : 'I’m';
+  const conjugatedVerbThirdPerson = tense === 'past' ? 'was' : 'is';
+  const conjugatedVerbFirstPerson = tense === 'past' ? 'I was' : 'I’m';
 
-  const relativeBeingVerb = `${`${
-    relativeTitleVal
-      ? `${relativeTitleVal} ${conjugatedVerbThirdPerson}`
-      : conjugatedVerbFirstPerson
-  }`}`;
+  let relativeBeingVerb = conjugatedVerbFirstPerson;
+  if (relativeTitleVal) {
+    relativeBeingVerb = `${relativeTitleVal} ${conjugatedVerbThirdPerson}`;
+  }
 
   const relativePossessive = `${`${
     relativeTitleVal ? `${relativeTitleVal}’s` : 'your'
@@ -64,9 +63,9 @@ export const relationshipToVeteranUI = options => {
         spouse: `${relativeBeingVerb} the ${person}’s spouse`,
         child: `${relativeBeingVerb} the ${person}’s child`,
         caretaker: `${relativeBeingVerb} the ${person}’s caretaker`,
-        other: `${`${
+        other: `${
           relativeTitleVal ? `${relativeTitleVal} doesn’t` : 'We don’t'
-        }`} have a relationship that’s listed here`,
+        } have a relationship that’s listed here`,
       },
       errorMessages: {
         required: `Please enter ${relativePossessive} relationship to the ${person}`,
