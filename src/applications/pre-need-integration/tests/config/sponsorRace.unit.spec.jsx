@@ -5,15 +5,15 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  selectRadio,
+  fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need sponsor demographics', () => {
+describe('Pre-need applicant demographics', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.sponsorInformation.pages.sponsorDemographics;
+  } = formConfig.chapters.sponsorInformation.pages.sponsorRace;
 
   it('should render', () => {
     const form = mount(
@@ -24,7 +24,8 @@ describe('Pre-need sponsor demographics', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-checkbox').length).to.equal(7);
     form.unmount();
   });
 
@@ -41,12 +42,13 @@ describe('Pre-need sponsor demographics', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('va-checkbox-group[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should submit with required information', () => {
+  it('should check required boxes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -56,12 +58,17 @@ describe('Pre-need sponsor demographics', () => {
         uiSchema={uiSchema}
       />,
     );
+    fillData(form, 'input#root_application_veteran_ethnicity_2', 'unknown');
+    form
+      .find('va-checkbox[name*="root_application_veteran_race_isAsian"]')
+      .simulate('change', { target: { checked: true } });
 
-    selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
-    form.find('form').simulate('submit');
+    expect(
+      form
+        .find('va-checkbox[name*="root_application_veteran_race_isAsian"]')
+        .exists(),
+    ).to.be.true;
 
-    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });
