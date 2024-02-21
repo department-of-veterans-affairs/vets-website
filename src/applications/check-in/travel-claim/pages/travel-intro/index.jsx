@@ -7,6 +7,8 @@ import Wrapper from '../../../components/layout/Wrapper';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { hasMultipleFacilities } from '../../../utils/appointment';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import TravelEligibilityAddtionalInfo from '../../../components/TravelEligibilityAdditionalInfo';
+
 // Appointments will come from redux this is temp
 import { singleFacility } from './testAppointments';
 
@@ -59,93 +61,7 @@ const TravelIntro = props => {
               trigger={t('travel-reimbursement-eligibility')}
               uswds
             >
-              <div>
-                <Trans
-                  i18nKey="this-must-be-true-youre-traveling-for-care"
-                  components={[
-                    <span key="bold" className="vads-u-font-weight--bold" />,
-                  ]}
-                />
-                <ul className="vads-u-margin-bottom--0">
-                  <li>
-                    <Trans
-                      i18nKey="you-have-a-va-disability-rating-of"
-                      components={[
-                        <span
-                          key="bold"
-                          className="vads-u-font-weight--bold"
-                        />,
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <Trans
-                      i18nKey="youre-traveling-for-treatment-of-a-service-connected-condition"
-                      components={[
-                        <span
-                          key="bold"
-                          className="vads-u-font-weight--bold"
-                        />,
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <Trans
-                      i18nKey="you-receive-va-pension-benefits"
-                      components={[
-                        <span
-                          key="bold"
-                          className="vads-u-font-weight--bold"
-                        />,
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <Trans
-                      i18nKey="you-have-an-annual-income-below-the-maximum"
-                      components={[
-                        <span
-                          key="bold"
-                          className="vads-u-font-weight--bold"
-                        />,
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <Trans
-                      i18nKey="you-cant-afford-to-pay-for-your-travel"
-                      components={[
-                        <span
-                          key="bold"
-                          className="vads-u-font-weight--bold"
-                        />,
-                      ]}
-                    />
-                  </li>
-                  <li>
-                    <Trans
-                      i18nKey="youre-traveling-for-one-of-these-reasons"
-                      components={[
-                        <span
-                          key="bold"
-                          className="vads-u-font-weight--bold"
-                        />,
-                      ]}
-                    />
-                    <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                      <Trans
-                        i18nKey="youre-traveling-in-relation-to-a-compensation-and-pension"
-                        components={[
-                          <span
-                            key="bold"
-                            className="vads-u-font-weight--bold"
-                          />,
-                        ]}
-                      />
-                    </p>
-                  </li>
-                </ul>
-              </div>
+              <TravelEligibilityAddtionalInfo />
             </va-additional-info>
           </va-process-list-item>
           <va-process-list-item>
