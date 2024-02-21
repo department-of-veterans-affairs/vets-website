@@ -39,7 +39,9 @@ const FolderHeader = props => {
   const cernerFacilities = useMemo(
     () => {
       return userFacilities?.filter(facility =>
-        drupalCernerFacilities.some(f => f.vhaId === facility.facilityId),
+        drupalCernerFacilities.some(
+          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+        ),
       );
     },
     [userFacilities, drupalCernerFacilities],

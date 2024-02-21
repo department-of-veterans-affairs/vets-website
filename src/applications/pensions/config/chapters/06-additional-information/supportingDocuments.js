@@ -7,7 +7,7 @@ const SupportingDocument = ({ formId, formName }) => {
   const linkText = `Get VA Form ${formId} to download (opens in new tab)`;
   return (
     <li>
-      a completed {formName} (VA Form {formId})<br />
+      A completed {formName} (VA Form {formId})<br />
       <a
         rel="noopener noreferrer"
         target="_blank"
@@ -77,7 +77,7 @@ function Description({ formData }) {
 
             {hasDisabledChild && (
               <li>
-                private medical records documenting your child's disability
+                Private medical records documenting your child's disability
                 before the age of 18
               </li>
             )}

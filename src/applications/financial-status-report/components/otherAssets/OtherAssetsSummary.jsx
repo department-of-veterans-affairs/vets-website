@@ -172,14 +172,13 @@ const OtherAssetsSummary = ({
             buttons={[
               {
                 label: 'Back',
-                onClick: goBack,
-                secondary: true,
-                iconLeft: '«',
+                onClick: goBack, // Define this function based on page-specific logic
+                isSecondary: true,
               },
               {
                 label: continueButtonText,
-                type: 'submit',
-                iconRight: '»',
+                onClick: onSubmit,
+                isSubmitting: true, // If this button submits a form
               },
             ]}
           />

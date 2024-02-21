@@ -109,7 +109,7 @@ const PrescriptionDetails = () => {
     [prescription],
   );
 
-  const baseTitle = `${prescription?.prescriptionName} | Veterans Affairs`;
+  const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
