@@ -1,31 +1,14 @@
-// import merge from 'lodash/merge';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-// import set from '@department-of-veterans-affairs/platform-forms-system/set';
-// import { createSelector } from 'reselect';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-
-// import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
-// import fullNameUI from 'platform/forms/definitions/fullName';
-// import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-// import * as address from 'platform/forms/definitions/address';
-// import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
-// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-// import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
-
-// import { validateCentralMailPostalCode } from '../utils/validation';
 
 import personalInformation from './chapters/01-claimant-information/personalInformation';
 import relationshipToVeteran from './chapters/01-claimant-information/relationshipToVeteran';
@@ -52,42 +35,14 @@ import cemeteryLocation from './chapters/04-benefits-selection/cemeteryLocation'
 import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocation';
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
+import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
 
-import {
-  // isEligibleNonService,
-  // BurialDateWarning,
-  // fileHelp,
-  // transportationWarning,
-  // serviceRecordNotification,
-  // serviceRecordWarning,
-  submit,
-  // generateTitle,
-  // generateTitle,
-  // generateHelpText,
-} from '../utils/helpers';
-// import { allowanceLabels } from '../utils/labels';
+import deathCertificate from './chapters/05-additional-information/deathCertificate';
+import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
+
+import { submit } from '../utils/helpers';
 import migrations from '../utils/migrations';
-
 import manifest from '../manifest.json';
-
-// const {
-//   claimantEmail,
-//   claimantPhone,
-//   placeOfRemains,
-//   federalCemetery,
-//   stateCemetery,
-//   govtContributions,
-//   amountGovtContribution,
-//   burialAllowanceRequested,
-//   burialCost,
-//   previouslyReceivedAllowance,
-//   benefitsUnclaimedRemains,
-//   burialAllowance,
-//   plotAllowance,
-//   transportation,
-//   amountIncurred,
-//   previousNames,
-// } = fullSchemaBurials.properties;
 
 const {
   fullName,
@@ -95,7 +50,6 @@ const {
   ssn,
   date,
   usaPhone,
-  // files,
   dateRange,
 } = fullSchemaBurials.definitions;
 
@@ -107,7 +61,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  // v3InProgressMessage: true,
   formId: VA_FORM_IDS.FORM_21P_530,
   saveInProgress: {
     messages: {
@@ -207,14 +160,14 @@ const formConfig = {
         uploadDD214: {
           title: 'Separation Documents',
           path: 'military-history/separation-documents/upload',
-          depends: formData => formData['view:separationDocuments'],
+          depends: form => get('view:separationDocuments', form),
           uiSchema: uploadDD214.uiSchema,
           schema: uploadDD214.schema,
         },
         servicePeriods: {
           title: 'Service periods',
           path: 'military-history/service-periods',
-          depends: formData => !formData['view:separationDocuments'],
+          depends: form => !get('view:separationDocuments', form),
           uiSchema: servicePeriods.uiSchema,
           schema: servicePeriods.schema,
         },
@@ -227,7 +180,7 @@ const formConfig = {
         previousNames: {
           title: 'Previous names',
           path: 'military-history/previous-names/add',
-          depends: formData => formData['view:servedUnderOtherNames'],
+          depends: form => get('view:servedUnderOtherNames', form),
           uiSchema: previousNames.uiSchema,
           schema: previousNames.schema,
         },
@@ -316,75 +269,34 @@ const formConfig = {
           uiSchema: plotAllowancePartTwo.uiSchema,
           schema: plotAllowancePartTwo.schema,
         },
-        transportationReceipts: {
+        transportationExpenses: {
           title: 'Transportation allowance',
           path: 'benefits/transportation-allowance',
           depends: form =>
             get('view:claimedBenefits.transportation', form) === true,
-          uiSchema: plotAllowancePartTwo.uiSchema,
-          schema: plotAllowancePartTwo.schema,
+          uiSchema: transportationExpenses.uiSchema,
+          schema: transportationExpenses.schema,
         },
       },
     },
-    // additionalInformation: {
-    //   title: 'Additional information',
-    //   pages: {
-    //     documentUpload: {
-    //       title: 'Document upload',
-    //       path: 'documents',
-    //       editModeOnReviewPage: true,
-    //       uiSchema: {
-    //         'ui:title': 'Document upload',
-    //         'ui:description': fileHelp,
-    //         deathCertificate: {
-    //           ...fileUploadUI('Veteran’s death certificate', {
-    //             fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-    //             hideIf: form => form.burialAllowanceRequested !== 'service',
-    //           }),
-    //           'ui:required': form =>
-    //             form.burialAllowanceRequested === 'service',
-    //         },
-
-    //         transportationReceipts: {
-    //           ...fileUploadUI(
-    //             'Documentation for transportation of the Veteran’s remains or other supporting evidence',
-    //             {
-    //               addAnotherLabel: 'Add Another Document',
-    //               fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-    //             },
-    //           ),
-    //           'ui:required': form =>
-    //             get('view:claimedBenefits.transportation', form) === true,
-    //         },
-
-    //         'view:serviceRecordWarning': {
-    //           'ui:description': serviceRecordWarning,
-    //           'ui:options': {
-    //             hideIf: form => form.toursOfDuty,
-    //           },
-    //         },
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         properties: {
-    //           deathCertificate: {
-    //             ...files,
-    //             minItems: 1,
-    //             maxItems: 1,
-    //           },
-    //           transportationReceipts: {
-    //             ...files,
-    //             minItems: 1,
-    //           },
-    //           'view:serviceRecordWarning': {
-    //             type: 'object',
-    //             properties: {},
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        deathCertificate: {
+          title: 'Death certificate',
+          path: 'additional-information/death-certificate',
+          uiSchema: deathCertificate.uiSchema,
+          schema: deathCertificate.schema,
+        },
+        transportationReceipts: {
+          title: 'Death certificate',
+          path: 'additional-information/transportation-receipts',
+          depends: form => get('transportationExpenses', form) === true,
+          uiSchema: transportationReceipts.uiSchema,
+          schema: transportationReceipts.schema,
+        },
+      },
+    },
   },
 };
 

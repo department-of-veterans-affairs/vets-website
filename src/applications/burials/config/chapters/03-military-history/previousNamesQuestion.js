@@ -15,6 +15,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['view:servedUnderOtherNames'],
     properties: {
       'view:servedUnderOtherNames': {
         type: 'boolean',

@@ -10,6 +10,7 @@ export default {
     previouslyReceivedAllowance: yesNoUI({
       title: 'Did you previously receive a VA burial allowance?',
       classNames: 'vads-u-margin-top--0',
+      hideIf: form => form?.relationshipToVeteran !== 'spouse',
     }),
     burialExpenseResponsibility: yesNoUI({
       title: 'Are you responsible for the Veteran’s burial expenses?',

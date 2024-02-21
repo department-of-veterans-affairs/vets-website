@@ -8,13 +8,22 @@ const { files } = fullSchemaBurials.definitions;
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('DD214 or other separation documents'),
+    'ui:title': generateTitle('Transportation costs'),
     'ui:description': (
       <>
         <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          Upload a copy of the Veteran’s DD214 or other separation documents
-          including all their service periods.
+          Upload an itemized receipt for any costs you paid for transporting the
+          Veteran’s remains.
         </p>
+        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+          <strong>Here’s what the itemized receipt should include:</strong>
+        </p>
+        <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+          <li>The deceased Veteran’s name</li>
+          <li>The transportation costs</li>
+          <li>Date of the transportation service</li>
+          <li>Name of the person who paid the transportation costs</li>
+        </ul>
         <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
           <strong>How to upload files</strong>
         </p>
@@ -24,22 +33,22 @@ export default {
         </ul>
       </>
     ),
-    militarySeparationDocuments: {
-      ...fileUploadUI('Upload DD214 or other separation documents', {
+    transportationReceipts: {
+      ...fileUploadUI('Upload an itemized receipt', {
         fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
         confirmRemove: true,
         uswds: true,
         classNames: 'vads-u-font-size--md',
       }),
+      'ui:required': form => form?.transportationExpenses,
     },
   },
   schema: {
     type: 'object',
-    required: ['militarySeparationDocuments'],
     properties: {
-      militarySeparationDocuments: {
+      transportationReceipts: {
         ...files,
-        minItems: 1,
+        min: 1,
       },
     },
   },

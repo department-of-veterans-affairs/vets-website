@@ -8,12 +8,12 @@ const { files } = fullSchemaBurials.definitions;
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('DD214 or other separation documents'),
+    'ui:title': generateTitle('Death certificate'),
     'ui:description': (
       <>
         <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          Upload a copy of the Veteran’s DD214 or other separation documents
-          including all their service periods.
+          Upload a copy of the Veteran’s death certificate including the cause
+          of death.
         </p>
         <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
           <strong>How to upload files</strong>
@@ -24,22 +24,23 @@ export default {
         </ul>
       </>
     ),
-    militarySeparationDocuments: {
-      ...fileUploadUI('Upload DD214 or other separation documents', {
+    deathCertificate: {
+      ...fileUploadUI('Upload the Veteran’s death certificate', {
         fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
         confirmRemove: true,
         uswds: true,
         classNames: 'vads-u-font-size--md',
       }),
+      'ui:required': () => true,
     },
   },
   schema: {
     type: 'object',
-    required: ['militarySeparationDocuments'],
+    required: ['deathCertificate'],
     properties: {
-      militarySeparationDocuments: {
+      deathCertificate: {
         ...files,
-        minItems: 1,
+        min: 1,
       },
     },
   },

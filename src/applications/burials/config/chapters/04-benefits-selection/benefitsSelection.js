@@ -32,9 +32,7 @@ export default {
     'view:claimedBenefits': {
       ...checkboxGroupUI({
         title: 'Which of these costs did you pay for?',
-        // hint: 'This is a hint',
         required: true,
-        // description: <p>Testing p tags</p>,
         labelHeaderLevel: '',
         tile: false,
         uswds: true,
