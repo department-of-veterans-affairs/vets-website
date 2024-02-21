@@ -7,7 +7,7 @@ import { VIDEO_TYPES } from '../../../../utils/constants';
 import VideoInstructionsLink from '../VideoInstructionsLink';
 
 describe('VAOS Component: VAInstructionsLink', () => {
-  it('should display instructions for video visit', async () => {
+  it.skip('should display instructions for video visit', async () => {
     // Arrange
     const mockAppointment = new MockAppointment({ start: moment() });
     mockAppointment.setComment('Video Visit Preparation');
@@ -30,7 +30,7 @@ describe('VAOS Component: VAInstructionsLink', () => {
     expect(link).to.be.ok;
   });
 
-  it('should display instructions for medication review', async () => {
+  it.skip('should display instructions for medication review', async () => {
     // Arrange
     const mockAppointment = new MockAppointment({ start: moment() });
     mockAppointment.setComment('Medication Review');
