@@ -6,8 +6,7 @@
  * @testrailinfo runName FF-e2e-Required
  */
 import chunk from 'lodash/chunk';
-import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
-import { sortTheResults } from '../../helpers';
+import { FAF_SORT_OPTIONS } from '../../constants';
 import stub from '../../constants/stub.json';
 
 const SELECTORS = {
@@ -67,9 +66,7 @@ describe('functionality of Find Forms', () => {
     cy.axeCheck();
 
     // iterate through all pages and ensure each form download link is present on each form result.
-    const validForms = stub.data
-      .filter(form => form.attributes.validPdf)
-      .sort((a, b) => sortTheResults(INITIAL_SORT_STATE, a, b));
+    const validForms = stub.data.filter(form => form.attributes.validPdf);
 
     const pageLength = 10;
     const pages = chunk(validForms, pageLength);
@@ -95,10 +92,10 @@ describe('functionality of Find Forms', () => {
       .shadow()
       .get(`option`)
       // Finds both the shadow DOM option and the React Fiber option, so have to multiply 'expected' by 2
-      .should('have.length', FAF_SORT_OPTIONS.length * 2);
+      .should('have.length', FAF_SORT_OPTIONS.length * 2 + 1);
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`)
       .shadow()
-      .get(`option:first`)
+      .get('option')
       .should('be.selected')
       .should('contain', FAF_SORT_OPTIONS[0]);
   });
@@ -113,8 +110,7 @@ describe('functionality of Find Forms', () => {
         .click({ force: true });
     });
     cy.get('va-modal', { timeout: 25000 })
-      .shadow()
-      .get('.va-modal-title')
+      .get('.usa-modal__heading')
       .should('contain.text', 'PDF');
 
     cy.injectAxe();
