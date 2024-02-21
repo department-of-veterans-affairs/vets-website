@@ -25,7 +25,7 @@ describe('MHVDowntime', () => {
     getByText(/some of our health tools/i);
   });
 
-  it('renders MHVDowntimeApproaching when a service is going down within an hour', () => {
+  it('renders MHVDowntimeApproaching and children when a service is going down within an hour', () => {
     // Create a starting datetime 30 minutes into the future, though `status` is what really controls what renders
     const soon = new Date(Date.now());
     soon.setMinutes(soon.getMinutes() + 30);
@@ -38,6 +38,7 @@ describe('MHVDowntime', () => {
     };
     const mockProps = {
       status: externalServiceStatus.downtimeApproaching,
+      children: <p>Child content lives here.</p>,
       ...mockServiceProps,
     };
     const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
@@ -46,6 +47,7 @@ describe('MHVDowntime', () => {
       name: 'Upcoming maintenance on My HealtheVet',
     });
     getByText(/you may have trouble using some of our health tools/i);
+    getByText(/child content lives here/i);
   });
 
   it('renders child content when no matching services are down', () => {
