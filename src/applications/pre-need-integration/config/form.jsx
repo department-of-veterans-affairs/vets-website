@@ -255,7 +255,7 @@ const formConfig = {
               schema: applicantRelationshipToVet.schema,
             },
             veteranApplicantDetails: {
-              title: 'Applicant details',
+              title: 'Your details',
               path: 'veteran-applicant-details',
               depends: isVeteran,
               uiSchema: veteranApplicantDetails.uiSchema,
