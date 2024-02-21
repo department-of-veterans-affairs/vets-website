@@ -15,14 +15,13 @@ import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
-
-  const cernerFacilitiesPresent = useSelector(
-    state => state.sm.facilities.cernerFacilities.length > 0,
-  );
+  const { featureToggles } = useSelector(state => state);
+  const facilities = useSelector(state => state?.user?.profile?.facilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -33,6 +32,30 @@ const FolderHeader = props => {
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
       ],
+  );
+
+  const cernerTransition556T30 = useMemo(
+    () => {
+      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        : false;
+    },
+    [featureToggles],
+  );
+
+  const cernerFacilities = useMemo(
+    () => {
+      let cernerFacilitiesFiltered = facilities?.filter(
+        facility => facility.isCerner,
+      );
+      if (cernerTransition556T30) {
+        cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
+          facility => facility.facilityId !== '556',
+        );
+      }
+      return cernerFacilitiesFiltered;
+    },
+    [facilities, cernerTransition556T30],
   );
 
   const folderDescription = useMemo(
@@ -83,8 +106,15 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
 
+      {cernerTransition556T30 &&
+        folder.folderId === Folders.INBOX.id && (
+          <CernerTransitioningFacilityAlert />
+        )}
+
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilitiesPresent && <CernerFacilityAlert />}
+        cernerFacilities?.length && (
+          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
+        )}
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>

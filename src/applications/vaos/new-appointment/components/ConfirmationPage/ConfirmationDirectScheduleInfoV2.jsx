@@ -135,6 +135,7 @@ export default function ConfirmationDirectScheduleInfoV2({
           onClick={() => window.print()}
           text="Print"
           data-testid="print-button"
+          uswds
         />
       </div>
     </>

@@ -461,7 +461,7 @@
   float: none;
   width: 100%;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     float: left;
     width: 63%;
   }
@@ -484,7 +484,7 @@ h1:focus {
 }
 
 .button-container {
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-left: 1em;
     flex-shrink: 0;
   }
@@ -492,7 +492,7 @@ h1:focus {
 
 .item-container {
   margin: 0 0 0.5em 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin: 0;
   }
 }
@@ -606,7 +606,7 @@ h1:focus {
     background: $color-green;
     content: "\2713\fe0e";
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       content: "\2714\fe0e";
     }
   }
@@ -860,7 +860,7 @@ button .claim-timeline-icon.fa {
   display: flex;
   flex-direction: column;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex-direction: row;
   }
 
@@ -874,7 +874,7 @@ button .claim-timeline-icon.fa {
   font-weight: bold;
   padding-right: 10px;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     width: 25%;
     flex-shrink: 0;
   }
@@ -908,6 +908,15 @@ button .claim-timeline-icon.fa {
 
   h3 {
     margin: 0;
+  }
+}
+
+ol.va-list-horizontal {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  li {
+    border-bottom: 1px solid $color-gray-light;
   }
 }
 
@@ -996,7 +1005,7 @@ button .claim-timeline-icon.fa {
 
 .past-due-icon {
   margin-right: 3px;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-right: 6px;
   }
 }
@@ -1406,7 +1415,9 @@ $marker-text-width: 9rem;
   color: $color-primary-darkest;
 }
 
-.claim-card-link {
+// React Router Link css that allows us to
+// have the same styling as va-link active prop
+.active-va-link {
   display: block;
   font-weight: bold;
   margin-top: 16px;

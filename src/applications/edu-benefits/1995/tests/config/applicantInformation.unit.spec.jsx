@@ -8,7 +8,15 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1995/config/form';
+import formConfig from '../../config/form';
+import {
+  applicantInformationField,
+  benefitSelectionSchema,
+  benefitSelectionUiSchema,
+  directDepositField,
+  newSchoolSchema,
+  newSchoolUiSchema,
+} from '../../config/chapters';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -31,8 +39,9 @@ describe('Edu 1995 applicantInformation', () => {
       form,
       'input',
     );
-    expect(inputs.length).to.equal(5);
+    expect(inputs.length).to.equal(8);
   });
+
   it('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -133,5 +142,38 @@ describe('Edu 1995 applicantInformation', () => {
       .empty;
     submitForm(form);
     expect(onSubmit.called).to.be.true;
+  });
+});
+
+describe('Edu 1995 Fields for production', () => {
+  it('should pass applicantInformation for production env', () => {
+    const automatedTest = true;
+    const applicantInformation = applicantInformationField(automatedTest);
+    expect(applicantInformation).not.to.be.null;
+  });
+  it('should pass benefitSelection UiSchema for production env', () => {
+    const automatedTest = true;
+    const benefitSelection = benefitSelectionUiSchema(automatedTest);
+    expect(benefitSelection).not.to.be.null;
+  });
+  it('should pass benefitSelection Schema for production env', () => {
+    const automatedTest = true;
+    const benefitSelection = benefitSelectionSchema(automatedTest);
+    expect(benefitSelection).not.to.be.null;
+  });
+  it('should pass newSchool UiSchema for production env', () => {
+    const automatedTest = true;
+    const newSchool = newSchoolUiSchema(automatedTest);
+    expect(newSchool).not.to.be.null;
+  });
+  it('should pass newSchool Schema for production env', () => {
+    const automatedTest = true;
+    const newSchool = newSchoolSchema(automatedTest);
+    expect(newSchool).not.to.be.null;
+  });
+  it('should pass directDepositField for production env', () => {
+    const automatedTest = true;
+    const directDeposit = directDepositField(automatedTest);
+    expect(directDeposit).not.to.be.null;
   });
 });

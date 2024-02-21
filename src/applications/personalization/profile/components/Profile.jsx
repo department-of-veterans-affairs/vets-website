@@ -165,9 +165,6 @@ class Profile extends Component {
 
     const routes = getRoutes({
       profileContactsPage: toggles.profileContacts,
-      useFieldEditingPage: toggles.profileUseFieldEditingPage,
-      profileUseHubPage: toggles.profileUseHubPage,
-      profileShowProofOfVeteranStatus: toggles.profileShowProofOfVeteranStatus,
     });
 
     return (
@@ -177,7 +174,6 @@ class Profile extends Component {
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
             isBlocked={this.props.isBlocked}
-            profileUseHubPage={toggles.profileUseHubPage}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -210,12 +206,6 @@ class Profile extends Component {
                 exact
                 from="/profile#contact-information"
                 to={PROFILE_PATHS.CONTACT_INFORMATION}
-              />
-
-              <Redirect
-                exact
-                from={PROFILE_PATHS.PROFILE_ROOT}
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
               />
 
               {/* fallback handling: redirect to root route */}

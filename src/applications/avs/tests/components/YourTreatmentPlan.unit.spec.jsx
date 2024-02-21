@@ -24,7 +24,7 @@ describe('Avs: Your Treatment Plan', () => {
       'Test Imaging',
     );
     expect(screen.getByTestId('lab-tests').children[1]).to.have.text(
-      'HEMOGLOBIN A1C (LAB) BLOOD-LAVENDER$',
+      'HEMOGLOBIN A1C (LAB) BLOOD-LAVENDER$ (January 07, 2024)',
     );
     expect(screen.getByTestId('medications').firstChild).to.have.text(
       'Test Medication',
@@ -40,6 +40,15 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.getByTestId('other-instructions')).to.contain.text(
       'Recommend acetaminophen 500 mg',
     );
+    expect(screen.getByTestId('new-medications-list')).to.contain.text(
+      'KETOROLAC TROMETHAMINE INJ - give: 30mg im once',
+    );
+    expect(screen.getByTestId('discontinued-medications-list')).to.contain.text(
+      'IBUPROFEN TAB - give: 800mg po now',
+    );
+    expect(screen.getByTestId('changed-medications-list')).to.contain.text(
+      'ONDANSETRON TAB - give: 8mg po once',
+    );
   });
 
   it('sections without data are hidden', async () => {
@@ -47,6 +56,9 @@ describe('Avs: Your Treatment Plan', () => {
     delete avs.orders;
     delete avs.patientInstructions;
     delete avs.clinicalReminders;
+    avs.medChangesSummary.discontinuedMeds = [];
+    avs.medChangesSummary.newMedications = [];
+    avs.medChangesSummary.changedMedications = [];
     const props = { avs };
     const screen = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('new-orders-heading')).to.not.exist;
@@ -57,5 +69,8 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.queryByTestId('other-orders')).to.not.exist;
     expect(screen.queryByTestId('health-reminders')).to.not.exist;
     expect(screen.queryByTestId('other-instructions')).to.not.exist;
+    expect(screen.queryByTestId('new-medications-list')).to.not.exist;
+    expect(screen.queryByTestId('discontinued-medications-list')).to.not.exist;
+    expect(screen.queryByTestId('changed-medications-list')).to.not.exist;
   });
 });

@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
+import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob } from '../utils/helpers';
-import { isUserLOA3 } from '../utils/selectors';
 import formConfig from '../config/form';
 
 const App = props => {
-  const {
-    children,
-    location,
-    features,
-    formData,
-    isLOA3User,
-    isLoggedIn,
-    setFormData,
-    hasSavedForm,
-    isLoading = true,
-    totalDisabilityRating,
-    getTotalDisabilityRating,
-    user,
-  } = props;
+  const { children, location, setFormData, getTotalDisabilityRating } = props;
 
-  const { isFacilitiesApiEnabled = false, isSigiEnabled = false } = features;
+  const {
+    isLoadingFeatureFlags,
+    isFacilitiesApiEnabled,
+    isSigiEnabled,
+  } = useSelector(selectFeatureToggles);
+  const { dob: veteranDob, loading: isLoadingProfile } = useSelector(
+    selectProfile,
+  );
+  const { totalDisabilityRating } = useSelector(state => state.totalRating);
+  const { data: formData } = useSelector(state => state.form);
+  const loggedIn = useSelector(isLoggedIn);
+  const isLOA3User = useSelector(isLOA3);
+  const { veteranFullName } = formData;
+  const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
 
   // Attempt to fetch disability rating for LOA3 users
   useEffect(
@@ -55,17 +55,17 @@ const App = props => {
   useEffect(
     () => {
       const defaultViewFields = {
-        'view:isLoggedIn': isLoggedIn,
+        'view:isLoggedIn': loggedIn,
         'view:isSigiEnabled': isSigiEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
 
-      if (isLoggedIn) {
+      if (loggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:userDob': parseVeteranDob(user.dob),
+          'view:userDob': parseVeteranDob(veteranDob),
         });
       } else {
         setFormData({
@@ -77,20 +77,19 @@ const App = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      user.dob,
-      isLoggedIn,
-      hasSavedForm,
+      loggedIn,
+      veteranDob,
+      veteranFullName,
       isSigiEnabled,
       isFacilitiesApiEnabled,
       totalDisabilityRating,
-      formData.veteranFullName,
     ],
   );
 
   // Attach analytics events to all yes/no radio inputs
   useEffect(
     () => {
-      if (!isLoading) {
+      if (!isAppLoading) {
         const radios = document.querySelectorAll(
           'input[id$=Yes], input[id$=No]',
         );
@@ -106,13 +105,19 @@ const App = props => {
         }
       }
     },
-    [isLoading, location],
+    [isAppLoading, location],
   );
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return (
+  return isAppLoading ? (
+    <va-loading-indicator
+      message="Loading application..."
+      class="vads-u-margin-y--4"
+      set-focus
+    />
+  ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
@@ -124,34 +129,10 @@ App.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  features: PropTypes.object,
-  formData: PropTypes.object,
   getTotalDisabilityRating: PropTypes.func,
-  hasSavedForm: PropTypes.bool,
-  isLOA3User: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  totalDisabilityRating: PropTypes.number,
-  user: PropTypes.object,
 };
-
-const mapStateToProps = state => ({
-  features: {
-    isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
-    isSigiEnabled: state.featureToggles.hcaSigiEnabled,
-  },
-  formData: state.form.data,
-  hasSavedForm: state.user.profile.savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_10_10EZ,
-  ),
-  isLOA3User: isUserLOA3(state),
-  isLoading: state.featureToggles.loading,
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  totalDisabilityRating: state.totalRating.totalDisabilityRating,
-  user: state.user.profile,
-});
 
 const mapDispatchToProps = {
   setFormData: setData,
@@ -159,6 +140,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(App);

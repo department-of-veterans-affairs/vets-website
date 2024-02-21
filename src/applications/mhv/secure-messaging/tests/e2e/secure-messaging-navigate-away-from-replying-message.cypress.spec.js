@@ -38,12 +38,6 @@ describe('Secure Messaging Reply', () => {
     //   .should('have.attr', 'text', 'Delete draft');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

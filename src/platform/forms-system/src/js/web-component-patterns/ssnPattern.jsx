@@ -10,7 +10,7 @@ const VA_FILE_NUMBER_DEFAULT_TITLE = 'VA file number';
 const SERVICE_NUMBER_DEFAULT_TITLE = 'Military Service number';
 
 /**
- * Web component for Social Security number
+ * Web component v3 for Social Security number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -50,7 +50,7 @@ const ssnUI = title => {
 const ssnSchema = commonDefinitions.ssn;
 
 /**
- * Web component for VA File Number
+ * Web component v3 for VA File Number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -89,7 +89,7 @@ const vaFileNumberUI = title => {
 const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
 
 /**
- * Web component field for Service Number
+ * Web component v3 field for Service Number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -129,7 +129,7 @@ const serviceNumberUI = title => {
 const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
 
 /**
- * Web components for Social Security number or VA File Number
+ * Web components v3 for Social Security number or VA File Number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -169,6 +169,42 @@ const ssnOrVaFileNumberUI = () => {
 };
 
 /**
+ * Web components v3 for Social Security number or VA File Number.
+ * Should be used with a description above the fields such as:
+ * "You must enter a Social Security number or VA file number"
+ *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
+ * A grouped object containing `ssn` and `vaFileNumber` properties
+ * ```js
+ * example: ssnOrVaFileNumberNoHintUI()
+ * ```
+ * @returns {UISchemaOptions}
+ */
+const ssnOrVaFileNumberNoHintUI = () => {
+  return {
+    ssn: ssnUI(),
+    vaFileNumber: vaFileNumberUI(),
+    'ui:options': {
+      updateSchema: (formData, _schema, _uiSchema, index, path) => {
+        const { ssn, vaFileNumber } = get(path, formData) ?? {};
+
+        let required = ['ssn'];
+        if (!ssn && vaFileNumber) {
+          required = ['vaFileNumber'];
+        }
+
+        return {
+          ..._schema,
+          required,
+        };
+      },
+    },
+  };
+};
+
+/**
  * Schema for SSN or VA File Number
  *
  * ```js
@@ -187,6 +223,18 @@ const ssnOrVaFileNumberSchema = {
   required: ['ssn'],
 };
 
+/**
+ * Schema for SSN or VA File Number
+ *
+ * ```js
+ * // uiSchema
+ * example: ssnOrVaFileNumberNoHintUI()
+ * // schema
+ * example: ssnOrVaFileNumberNoHintSchema
+ * ```
+ */
+const ssnOrVaFileNumberNoHintSchema = ssnOrVaFileNumberSchema;
+
 export {
   ssnUI,
   ssnSchema,
@@ -196,4 +244,6 @@ export {
   serviceNumberSchema,
   ssnOrVaFileNumberUI,
   ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
 };

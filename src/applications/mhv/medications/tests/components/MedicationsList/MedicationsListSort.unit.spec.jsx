@@ -33,9 +33,7 @@ describe('Medicaitons List Sort component', () => {
   });
   it('has a sort button', () => {
     const screen = setup();
-
-    const sortButton = screen.getByText('Sort');
-
-    expect(sortButton).to.exist;
+    const sortButton = screen.getByTestId('sort-button');
+    expect(sortButton).to.have.property('text', 'Sort');
   });
 });

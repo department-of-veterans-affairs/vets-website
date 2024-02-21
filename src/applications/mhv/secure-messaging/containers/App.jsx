@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -14,7 +14,6 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
-import { getAllFacilities } from '../actions/facilities';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 
 const App = () => {
@@ -34,25 +33,13 @@ const App = () => {
     state => state.featureToggles,
   );
 
-  const userFacilities = useMemo(
-    () => getAllFacilities(user.profile.facilities),
-    [user.profile.facilities],
-  );
-
   useEffect(
     () => {
       if (user.login.currentlyLoggedIn) {
-        dispatch(userFacilities);
+        dispatch(getAllTriageTeamRecipients());
       }
     },
-    [userFacilities, user.login.currentlyLoggedIn, dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getAllTriageTeamRecipients());
-    },
-    [dispatch],
+    [user.login.currentlyLoggedIn, dispatch],
   );
 
   const datadogRumConfig = {
@@ -107,7 +94,10 @@ const App = () => {
           >
             <DowntimeNotification
               appTitle="Secure Messaging"
-              dependencies={[externalServices.mhv]}
+              dependencies={[
+                externalServices.mhvPlatform,
+                externalServices.mhvSm,
+              ]}
             >
               <Navigation />
               <ScrollToTop />

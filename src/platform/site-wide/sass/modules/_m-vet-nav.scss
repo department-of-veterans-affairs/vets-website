@@ -19,7 +19,7 @@ body.va-pos-fixed {
   }
 
   // For medium and large screens, they're just as big as they need to be
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     min-height: 100%;
   }
 }
@@ -42,14 +42,14 @@ body.va-pos-fixed {
     #vetnav-menu {
       overflow: hidden;
       height: 0;
-      @include media($medium-large-screen) {
+      @include media($medium-screen) {
         height: auto;
         overflow: visible;
       }
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-top: 1rem;
     overflow-y: visible;
     position: relative;
@@ -64,7 +64,7 @@ body.va-pos-fixed {
   margin: 0;
   padding-left: 0;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     display: flex;
     height: auto;
     margin-top: 1rem;
@@ -76,12 +76,12 @@ body.va-pos-fixed {
   > li {
     margin-bottom: 6px;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       margin-bottom: 0;
     }
 
     &:first-of-type {
-      @include media($medium-large-screen) {
+      @include media($medium-screen) {
         display: none;
       }
     }
@@ -108,7 +108,7 @@ body.va-pos-fixed {
       text-decoration: none;
     }
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       display: inline-block;
       background-color: transparent;
       &.vetnav-level2-button-second {
@@ -134,7 +134,7 @@ body.va-pos-fixed {
     fill: $color-white;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     display: none;
   }
 }
@@ -152,7 +152,7 @@ body.va-pos-fixed {
   }
 }
 
-@include media($medium-large-screen) {
+@include media($medium-screen) {
   a.vetnav-level1 {
     //border-bottom: 1px solid transparent;
 
@@ -185,14 +185,14 @@ body.va-pos-fixed {
 
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       background-position: right scale-rem(1.6rem) center;
       padding-right: scale-rem(3.2rem);
     }
   }
 
   &[aria-expanded="true"] {
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       color: $color-base;
       background-color: $color-white;
       background-image: url(/img/arrow-up.svg);
@@ -207,12 +207,12 @@ body.va-pos-fixed {
       background-color: $color-primary;
     }
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       background-image: url(/img/arrow-down-white.svg);
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     background-color: transparent;
     background-size: scale-rem(1rem) auto;
   }
@@ -245,7 +245,7 @@ body.va-pos-fixed {
   -webkit-font-smoothing: antialiased;
   line-height: 1;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center
       no-repeat;
     border-color: transparent;
@@ -284,7 +284,7 @@ body.va-pos-fixed {
     font-weight: bold;
     padding: 0.8rem 1.6rem;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       display: none;
     }
   }
@@ -301,7 +301,7 @@ body.va-pos-fixed {
   width: 100%;
   margin: 0;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     display: none;
   }
 }
@@ -315,7 +315,7 @@ body.va-pos-fixed {
     display: block;
     text-decoration: none;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       color: $color-link-default;
 
       &:hover {
@@ -329,7 +329,7 @@ body.va-pos-fixed {
     padding: 0.8rem 1.6rem;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     box-shadow: 0 5px 9px -5px $color-base;
     background: $color-white;
     padding-bottom: 1.6rem;
@@ -340,7 +340,7 @@ body.va-pos-fixed {
 #vetnav-va-benefits-and-health-care.vetnav-panel {
   width: 250px;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     &.vetnav-submenu--expanded {
       width: 768px;
     }
@@ -362,7 +362,7 @@ body.va-pos-fixed {
     visibility: visible;
     margin: 0;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       border-left: 1px solid $color-gray-warm-light;
       background-color: $color-gray-lightest;
       height: 100%;
@@ -386,7 +386,7 @@ body.va-pos-fixed {
     display: flex;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex: scale-rule(0 1 32.5rem);
     margin-left: 0;
     margin-right: 0;
@@ -509,13 +509,13 @@ body.va-pos-fixed {
       fill: $color-white;
     }
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       display: none;
     }
   }
 
   .vetnav-panel {
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       box-shadow: 0 5px 9px -3px $color-base;
     }
   }

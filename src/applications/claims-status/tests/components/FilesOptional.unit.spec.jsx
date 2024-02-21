@@ -20,7 +20,7 @@ describe('<FilesOptional>', () => {
     getByText(item.displayName);
     getByText(item.description);
     getByText(
-      "You don't have to do anything, but if you have this information you can",
+      'You don’t have to do anything, but if you have this information you can',
     );
     getByText('add it here.');
     expect($('va-alert', container)).to.exist;

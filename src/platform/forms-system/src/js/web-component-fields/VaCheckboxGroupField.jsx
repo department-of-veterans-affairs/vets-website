@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import commonFieldMapping from './commonFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 // Combines schema, uiSchema, and formData together
 // for each checkbox for easier access
@@ -60,9 +61,14 @@ export default function VaCheckboxGroupField(props) {
     props.childrenProps.onChange(newVal);
   };
 
+  const { formsPatternProps, formDescriptionSlot } = formsPatternFieldMapping(
+    props,
+  );
+
   return (
     <VaCheckboxGroup
       {...commonFieldMapping(props)}
+      {...formsPatternProps}
       label={props.label}
       labelHeaderLevel={props.uiOptions?.labelHeaderLevel}
       onVaChange={onGroupChange}
@@ -71,6 +77,7 @@ export default function VaCheckboxGroupField(props) {
     >
       <>
         <>
+          {formDescriptionSlot}
           {/* known a11y issue: this will not be read out */}
           {props.textDescription && <p>{props.textDescription}</p>}
           {props.DescriptionField && (
