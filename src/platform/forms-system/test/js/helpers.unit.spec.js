@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   parseISODate,
@@ -15,7 +16,11 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
+  getFormNavFocusTargetRoot,
+  handleFormNavFocus,
 } from '../../src/js/helpers';
+import * as webComponents from '../../../utilities/ui/webComponents';
+import * as uiUtils from '../../../utilities/ui';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
@@ -1267,5 +1272,62 @@ describe('getUrlPathIndex', () => {
     expect(getUrlPathIndex('form-1/path-2/0')).to.eql(0);
     expect(getUrlPathIndex('/form-1/path-2/3')).to.eql(3);
     expect(getUrlPathIndex('/form-1/path-2/3?add')).to.eql(3);
+  });
+});
+
+describe('getFormNavFocusTargetRoot', () => {
+  let querySelectorWithShadowRootStub;
+
+  beforeEach(() => {
+    querySelectorWithShadowRootStub = sinon.stub(
+      webComponents,
+      'querySelectorWithShadowRoot',
+    );
+  });
+
+  afterEach(() => {
+    querySelectorWithShadowRootStub.restore();
+  });
+
+  it('returns shadowRoot if v3SegmentedProgressBar is true', async () => {
+    const mockShadowHost = { shadowRoot: 'shadowRoot' };
+    querySelectorWithShadowRootStub.resolves(mockShadowHost);
+
+    const result = await getFormNavFocusTargetRoot({
+      v3SegmentedProgressBar: true,
+    });
+    expect(result).to.equal('shadowRoot');
+  });
+
+  it('returns #react-root if v3SegmentedProgressBar is false', async () => {
+    document.body.innerHTML = '<div id="react-root"></div>';
+
+    const result = await getFormNavFocusTargetRoot({
+      v3SegmentedProgressBar: false,
+    });
+    expect(result).to.equal(document.querySelector('#react-root'));
+  });
+});
+
+describe('handleFormNavFocus', () => {
+  let customScrollAndFocusStub;
+
+  beforeEach(() => {
+    customScrollAndFocusStub = sinon.stub(uiUtils, 'customScrollAndFocus');
+  });
+
+  afterEach(() => {
+    customScrollAndFocusStub.restore();
+  });
+
+  it('calls customScrollAndFocus if useCustomScrollAndFocus is true and page is not review', () => {
+    const mockPage = {
+      chapterKey: 'not-review',
+      scrollAndFocusTarget: 'h2',
+    };
+    const mockFormConfig = { useCustomScrollAndFocus: true };
+
+    handleFormNavFocus(mockPage, mockFormConfig, 0);
+    expect(customScrollAndFocusStub.calledWith('h2', 0)).to.equal(true);
   });
 });
