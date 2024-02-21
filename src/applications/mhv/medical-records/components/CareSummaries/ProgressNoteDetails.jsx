@@ -28,6 +28,7 @@ import {
   generateNotesIntro,
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -47,6 +48,14 @@ const ProgressNoteDetails = props => {
       );
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateCareNotesPDF = async () => {
@@ -138,7 +147,9 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record">{record.note}</p>
+        <p data-testid="note-record" className="monospace">
+          {record.note}
+        </p>
       </div>
     </div>
   );

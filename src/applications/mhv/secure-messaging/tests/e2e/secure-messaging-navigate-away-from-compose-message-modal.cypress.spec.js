@@ -17,13 +17,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient();
     composePage.selectCategory();
     composePage.enterDataToMessageSubject();
@@ -43,13 +37,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient();
     composePage.selectCategory();
     composePage.enterDataToMessageSubject();
@@ -73,13 +61,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient();
     composePage.selectCategory();
     composePage.enterDataToMessageSubject();
@@ -103,13 +85,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient();
     composePage.selectCategory();
     composePage.enterDataToMessageSubject();
@@ -133,13 +109,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient();
     composePage.selectCategory();
     composePage.enterDataToMessageSubject();
