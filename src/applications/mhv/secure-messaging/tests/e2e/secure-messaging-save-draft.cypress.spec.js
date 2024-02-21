@@ -19,16 +19,7 @@ describe('Secure Messaging Save Draft', () => {
     draftsPage.loadMessageDetails(mockDraftResponse);
     PatientInterstitialPage.getContinueButton().should('not.exist');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     // composePage.getMessageSubjectField().type('message Test');
     composePage
       .getMessageBodyField()
