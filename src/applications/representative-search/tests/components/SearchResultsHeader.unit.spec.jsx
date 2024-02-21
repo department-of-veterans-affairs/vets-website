@@ -29,6 +29,7 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: '11111' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 0 }}
       />,
@@ -40,7 +41,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for "Accredited attorney" within "50 miles" of "11111"',
+      'No results found for "Accredited attorney" within "50 miles" of "11111" sorted by "Distance  closest to farthest "',
     );
     wrapper.unmount();
   });
@@ -67,6 +68,7 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 5 }}
       />,
@@ -78,7 +80,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for "Accredited attorney" within "50 miles" of "new york"',
+      'No results found for "Accredited attorney" within "50 miles" of "new york" sorted by "Distance  closest to farthest "',
     );
 
     wrapper.unmount();
@@ -93,6 +95,7 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 1 }}
       />,
@@ -104,7 +107,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'Showing 1 result for "Accredited attorney" within "50 miles" of "new york"',
+      'Showing 1 result for "Accredited attorney" within "50 miles" of "new york" sorted by "Distance  closest to farthest "',
     );
 
     wrapper.unmount();
@@ -119,13 +122,14 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 12, currentPage: 2, totalPages: 2 }}
       />,
     );
 
     const expectedString =
-      'Showing 11 - 12 of 12 results for "Accredited attorney" within "50 miles" of "new york"';
+      'Showing 11 - 12 of 12 results for "Accredited attorney" within "50 miles" of "new york" sorted by "Distance  (closest to farthest)"';
     const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
@@ -146,13 +150,13 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 5 }}
       />,
     );
-
     const expectedString =
-      'Showing 5 results for "Accredited attorney" within "50 miles" of "new york"';
+      'Showing 5 results for "Accredited attorney" within "50 miles" of "new york" sorted by "Distance (closest to farthest)"';
     const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
@@ -173,13 +177,14 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 12, currentPage: 1, totalPages: 2 }}
       />,
     );
 
     const expectedString =
-      'Showing1-10of12resultsfor"Accreditedattorney"within"50miles"of"newyork"';
+      'Showing1-10of12resultsfor"Accreditedattorney"within"50miles"of"newyork" sorted by "Distance  (closest to farthest)"';
     const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
@@ -200,13 +205,14 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 25, currentPage: 2, totalPages: 3 }}
       />,
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york"';
+      'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york" sorted by "Distance (closest to farthest)"';
     const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
@@ -234,7 +240,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york"';
+      'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york" sorted by "Last name (A-Z)"';
     const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
@@ -255,6 +261,7 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 5 }}
       />,
@@ -267,6 +274,7 @@ describe('SearchResultsHeader', () => {
           inProgress: false,
           context: { location: 'new york' },
           searchArea: '50',
+          sortType: 'distance_asc',
         }}
         pagination={{ totalEntries: 5 }}
       />,
@@ -278,7 +286,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for "Accredited claims agent" within "50 miles" of "new york"',
+      'No results found for "Accredited claims agent" within "50 miles" of "new york" sorted by "Distance  closest to farthest "',
     );
     wrapper.unmount();
   });

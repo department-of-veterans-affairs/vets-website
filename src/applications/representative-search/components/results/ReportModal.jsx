@@ -15,6 +15,8 @@ const ReportModal = ({
   existingReports,
   onCloseModal,
   submitRepresentativeReport,
+  handleOtherInputChangeTestId,
+  testReportObject,
 }) => {
   const [reportObject, setReportObject] = useState({
     phone: null,
@@ -113,7 +115,6 @@ const ReportModal = ({
   return (
     <>
       <VaModal
-        modalTitle={`Report outdated information for ${representativeName}`}
         onCloseEvent={onCloseModal}
         onPrimaryButtonClick={onSubmitModal}
         onSecondaryButtonClick={onCloseModal}
@@ -122,9 +123,43 @@ const ReportModal = ({
         visible
         uswds
       >
+        {/* These buttons trigger methods for unit testing - temporary workaround for shadow root issues with va checkboxes */}
+        {handleOtherInputChangeTestId ? (
+          <button
+            id="test-button"
+            type="button"
+            onClick={() =>
+              handleCheckboxChange({
+                target: { id: handleOtherInputChangeTestId, checked: 'true' },
+              })
+            }
+          />
+        ) : null}
+        {testReportObject ? (
+          <>
+            <button
+              id="set-report-object-button"
+              type="button"
+              onClick={() => setReportObject({ ...testReportObject })}
+            />
+            <button
+              id="submit-modal-test-button"
+              type="button"
+              onClick={() => onSubmitModal()}
+            />
+          </>
+        ) : null}
+        <h2
+          className="report-modal-header"
+          style={{ fontSize: 20, marginTop: 10 }}
+        >
+          Report outdated information for {representativeName}
+        </h2>
         {someItemsReported && (
           <>
-            <h4>You reported this information</h4>
+            <h3 style={{ fontSize: 17, marginTop: 20 }}>
+              You reported this information
+            </h3>
             <ul>
               {existingReports.address && <li>Outdated address</li>}
               {existingReports.email && <li>Outdated email</li>}
@@ -138,7 +173,9 @@ const ReportModal = ({
         {someItemsReported &&
           notAllItemsReported && (
             <>
-              <h4>You can add to your report</h4>
+              <h3 style={{ fontSize: 17, marginBottom: 0 }}>
+                You can add to your report
+              </h3>
             </>
           )}
 
