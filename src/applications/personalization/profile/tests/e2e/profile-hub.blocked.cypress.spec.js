@@ -24,7 +24,6 @@ describe('Profile - Hub page', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
-        profileUseHubPage: true,
         profileLighthouseDirectDeposit: true,
       }),
     );
