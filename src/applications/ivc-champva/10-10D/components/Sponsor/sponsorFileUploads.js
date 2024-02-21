@@ -1,7 +1,7 @@
 import React from 'react';
 import { fileTypes, maxSize } from '../../config/attachments';
 
-const blankSchema = { type: 'object', properties: {} };
+export const blankSchema = { type: 'object', properties: {} };
 
 function acceptableFileList(list) {
   return {
