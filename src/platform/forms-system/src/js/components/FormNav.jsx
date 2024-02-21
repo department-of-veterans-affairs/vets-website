@@ -114,7 +114,8 @@ export default function FormNav(props) {
         console.log('[FormNav] handleFormNavFocus resolved.');
       });
     },
-    [current, index, page, formConfig],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [current, index],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
