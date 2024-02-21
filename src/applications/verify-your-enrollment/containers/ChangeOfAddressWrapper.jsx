@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
+import { useDispatch } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { scrollToElement } from '../helpers';
@@ -8,11 +9,13 @@ import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
+import { postMailingAddress } from '../actions';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
-
+  // const [updateAddress, setUpdatedAdress] = useState(mailingAddress);
+  const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
 
   const scrollToTopOfForm = () => {
@@ -28,14 +31,20 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   // called when submitting form
   const saveAddressInfo = () => {
     // commented out until tied in with redux
-    // const fields = {
-    //     bankname: formData[`${PREFIX}BankName`],
-    //     bankPhone: formData[`${PREFIX}BankPhone`],
-    //     routingNumber: formData[`${PREFIX}RoutingNumber`],
-    //     accountNumber: formData[`${PREFIX}AccountNumber`],
-    //     accountType: formData[`${PREFIX}AccountType`],
-
-    // };
+    const fields = {
+      Address1: formData.addressLine1,
+      Address2: formData.addressLine2,
+      Address3: formData.addressLine3,
+      Address4: formData.AccountNumber,
+      City: formData.city,
+      State: formData.stateCode,
+      // eslint-disable-next-line camelcase
+      zipCode: formData.zipCode,
+    };
+    // eslint-disable-next-line no-alert
+    alert(JSON.stringify(fields, null, 2));
+    dispatch(postMailingAddress(fields));
+    // setUpdatedAdress(formData);
     handleCloseForm(); // close addressForm form
     // add redux logic here when API is available
   };
@@ -162,9 +171,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
               formSubmit={saveAddressInfo}
             >
               <LoadingButton
-                aria-label="save your bank information for GI Bill benefits"
+                aria-label="save your Mailing address for GI Bill benefits"
                 type="submit"
-                loadingText="saving bank information"
+                loadingText="saving Mailling address"
                 className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
               >
                 Save

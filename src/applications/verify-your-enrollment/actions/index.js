@@ -9,6 +9,9 @@ export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const FETCH_PERSONAL_INFO = 'FETCH_PERSONAL_INFO';
 export const FETCH_PERSONAL_INFO_SUCCESS = 'FETCH_PERSONAL_INFO_SUCCESS';
 export const FETCH_PERSONAL_INFO_FAILED = 'FETCH_PERSONAL_INFO_FAILED';
+export const UPDATE_ADDRESS = 'UPDATE_ADDRESS';
+export const UPDATE_ADDRESS_SUCCESS = 'UPDATE_ADDRESS_SUCCESS';
+export const UPDATE_ADDRESS_FAILURE = 'UPDATE_ADDRESS_FAILURE';
 // Action Creators
 export const updatePendingVerifications = pendingVerifications => ({
   type: UPDATE_PENDING_VERIFICATIONS,
@@ -34,7 +37,12 @@ export const getData = () => {
 export const fetchPersonalInfo = () => {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFO });
-    return apiRequest(`${environment.API_URL}/vye/v1`)
+    return apiRequest(`${environment.API_URL}/vye/v1`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then(response => {
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
@@ -49,3 +57,30 @@ export const fetchPersonalInfo = () => {
       });
   };
 };
+export function postMailingAddress(mailingAddress) {
+  const addressEndPoint = `${environment.API_URL}/vye/v1/address`;
+
+  return async dispatch => {
+    dispatch({ type: UPDATE_ADDRESS });
+
+    return apiRequest(addressEndPoint, {
+      method: 'POST',
+      body: JSON.stringify({
+        address: mailingAddress,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: UPDATE_ADDRESS_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: UPDATE_ADDRESS_FAILURE,
+          errors,
+        }),
+      );
+  };
+}

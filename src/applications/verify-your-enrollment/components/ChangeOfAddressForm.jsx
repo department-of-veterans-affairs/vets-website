@@ -22,7 +22,6 @@ const ChangeOfAddressForm = ({
   const livesOnMilitaryBaseInfo = {
     title: 'view:livesOnMilitaryBaseInfo',
   };
-
   const countryCode = {
     title: 'countryCodeIso3',
     addressSchema: {
