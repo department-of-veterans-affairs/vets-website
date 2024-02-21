@@ -20,8 +20,28 @@ const TRAVEL_PAY_FORM_PAGES = Object.freeze([
     order: 1,
   },
   {
-    url: URLS.COMPLETE,
+    url: URLS.TRAVEL_INTRO,
     order: 2,
+  },
+  {
+    url: URLS.TRAVEL_MILEAGE,
+    order: 3,
+  },
+  {
+    url: URLS.TRAVEL_VEHICLE,
+    order: 4,
+  },
+  {
+    url: URLS.TRAVEL_ADDRESS,
+    order: 5,
+  },
+  {
+    url: URLS.TRAVEL_REVIEW,
+    order: 6,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 7,
   },
 ]);
 
