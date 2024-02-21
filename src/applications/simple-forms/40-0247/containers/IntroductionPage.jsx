@@ -48,7 +48,7 @@ const childContent = (
         <p>Not sure if the Veteran or Reservist is eligible?</p>
         <p>
           <a href="/burials-memorials/eligibility/">
-            Check eligibility requirements for burial in a VA national cemetary
+            Check eligibility requirements for burial in a VA national cemetery
           </a>
         </p>
         <p>
