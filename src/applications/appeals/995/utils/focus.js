@@ -12,7 +12,7 @@ export const focusEvidence = (_index, root) => {
       scrollToFirstError();
       focusElement(error);
     } else {
-      scrollTo('topPageElement');
+      scrollTo('topContentElement');
       focusElement('#main h3', null, root);
     }
   });
@@ -31,6 +31,7 @@ export const focusUploads = (_index, root) => {
       );
     });
   } else {
+    scrollTo('topContentElement');
     focusElement('#main h3', null, root);
   }
 };

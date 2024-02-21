@@ -52,6 +52,7 @@ import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import reviewErrors from '../../shared/content/reviewErrors';
+import { focusRadioH3 } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -118,6 +119,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         ...contactInfo,
       },
