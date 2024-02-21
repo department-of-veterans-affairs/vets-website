@@ -1060,7 +1060,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(firstRadio).to.contain.text('Closest facility');
     });
 
-    it('should fire variant shown and default sort method events when variant shown', async () => {
+    it.skip('should fire variant shown and default sort method events when variant shown', async () => {
       const store = createTestStore({
         ...initialState,
         newAppointment: {

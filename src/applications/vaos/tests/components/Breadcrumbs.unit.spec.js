@@ -4,21 +4,34 @@ import { renderWithStoreAndRouter } from '../mocks/setup';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
 describe('VAOS Component: Breadcrumbs', () => {
-  it('should display new text within the breadcrumb', () => {
-    const initialState = {
-      featureToggles: { vaOnlineSchedulingBreadcrumbUrlUpdate: true },
-    }; // eslint-disable-next-line camelcase
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
+    },
+  };
+  it('should display Pending appointments as last crumb', () => {
+    const url = 'my-health/appointments/pending';
+    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+      initialState,
+      path: url,
+    });
+    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    expect(navigation).to.exist;
+    const crumb =
+      navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+    expect(crumb).to.equal('Pending appointments');
+  });
 
-    const screen = renderWithStoreAndRouter(
-      <Breadcrumbs>
-        <a href="https://www.va.gov/">test</a>
-      </Breadcrumbs>,
-      { initialState },
-    );
-
-    expect(screen.getByText(/VA.gov home/i)).to.be.ok;
-    expect(screen.getByText(/My HealtheVet/i)).to.be.ok;
-    expect(screen.getByRole('link', { name: 'Appointments' })).to.be.ok;
-    expect(screen.getByText(/test/i)).to.be.ok;
+  it('should display Past appointments as last crumb', () => {
+    const url = 'my-health/appointments/past';
+    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+      initialState,
+      path: url,
+    });
+    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    expect(navigation).to.exist;
+    const crumb =
+      navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+    expect(crumb).to.equal('Past appointments');
   });
 });
