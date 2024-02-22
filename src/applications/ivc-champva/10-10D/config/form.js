@@ -25,7 +25,6 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
 import {
-  relationshipToVeteranSchema,
   relationshipToVeteranUI,
   customRelationshipSchema,
 } from '../components/CustomRelationshipPattern';
