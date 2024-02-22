@@ -19,7 +19,7 @@ class TrackClaimsPage {
     }
 
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
-    cy.intercept('GET', '/v0/evss_claims_async', claimsList);
+    cy.intercept('GET', '/v0/benefits_claims', claimsList);
     cy.login();
 
     cy.visit('/track-claims');
@@ -256,10 +256,12 @@ class TrackClaimsPage {
         cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('[data-cy="submit-files-button"]')
+    cy.get('.submit-files-button')
+      .shadow()
+      .find('button')
       .should('contain', 'Submit Files for Review')
       .click();
-    cy.get('[data-cy="submit-files-button"]')
+    cy.get('.submit-files-button')
       .click()
       .then(() => {
         cy.get('va-file-input')

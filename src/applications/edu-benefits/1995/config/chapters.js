@@ -6,6 +6,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
+  applicantInformationUpdate,
   benefitSelection,
   benefitSelectionUpdate,
   dependents,
@@ -17,10 +18,9 @@ import {
 
 import { isProductionOfTestProdEnv } from '../helpers';
 
-export const chapters = {
-  applicantInformation: {
-    title: 'Applicant information',
-    pages: {
+export const applicantInformationField = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return {
       applicantInformation: createApplicantInformationPage(fullSchema1995, {
         isVeteran: true,
         fields: [
@@ -31,6 +31,64 @@ export const chapters = {
         ],
         required: ['veteranFullName'],
       }),
+    };
+  }
+  return {
+    ...createApplicantInformationPage(fullSchema1995, {
+      isVeteran: true,
+      fields: [
+        'veteranFullName',
+        'veteranSocialSecurityNumber',
+        'view:noSSN',
+        'vaFileNumber',
+        'dateOfBirth',
+        'applicantGender',
+      ],
+      required: [
+        'veteranFullName',
+        'veteranSocialSecurityNumber',
+        'dateOfBirth',
+      ],
+    }),
+    uiSchema: applicantInformationUpdate.uiSchema,
+  };
+};
+
+export const benefitSelectionUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? benefitSelection.uiSchema
+    : benefitSelectionUpdate.uiSchema;
+};
+
+export const benefitSelectionSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? benefitSelection.schema
+    : benefitSelectionUpdate.schema;
+};
+
+export const newSchoolUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? newSchool.uiSchema
+    : newSchoolUpdate.uiSchema;
+};
+
+export const newSchoolSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? newSchool.schema
+    : newSchoolUpdate.schema;
+};
+
+export const directDepositField = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? createDirectDepositChangePage(fullSchema1995)
+    : createDirectDepositChangePageUpdate(fullSchema1995);
+};
+
+export const chapters = {
+  applicantInformation: {
+    title: 'Applicant information',
+    pages: {
+      applicantInformation: applicantInformationField(),
     },
   },
   benefitSelection: {
@@ -39,12 +97,8 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: isProductionOfTestProdEnv()
-          ? benefitSelection.uiSchema
-          : benefitSelectionUpdate.uiSchema,
-        schema: isProductionOfTestProdEnv()
-          ? benefitSelection.schema
-          : benefitSelectionUpdate.schema,
+        uiSchema: benefitSelectionUiSchema(),
+        schema: benefitSelectionSchema(),
       },
     },
   },
@@ -76,12 +130,8 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: isProductionOfTestProdEnv()
-          ? newSchool.uiSchema
-          : newSchoolUpdate.uiSchema,
-        schema: isProductionOfTestProdEnv()
-          ? newSchool.schema
-          : newSchoolUpdate.schema,
+        uiSchema: newSchoolUiSchema(),
+        schema: newSchoolSchema(),
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
@@ -102,9 +152,7 @@ export const chapters = {
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: isProductionOfTestProdEnv()
-        ? createDirectDepositChangePage(fullSchema1995)
-        : createDirectDepositChangePageUpdate(fullSchema1995),
+      directDeposit: directDepositField(),
     },
   },
 };

@@ -279,5 +279,8 @@
   "in-person": "in person",
   "details-for": "Details for",
   "the-staff-can-call-you-back": "The staff can call you back once you complete check-in.",
-  "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time."
+  "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time.",
+  "file-a-travel-reimbursement-claim": "File a travel reimbursement claim", 
+  "file-a-travel-reimbursment-claim-if-you-meet": "File a travel reimbursement claim if you meet eligibility for health care travel reimbursement. First, we need your last name and date of birth to make sure it’s you.",
+  "fpo-header": "Placeholder header"
 }
