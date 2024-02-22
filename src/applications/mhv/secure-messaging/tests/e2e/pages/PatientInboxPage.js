@@ -179,6 +179,14 @@ class PatientInboxPage {
       { data: this.singleThread.data[0] },
     ).as('fist-message-in-thread');
 
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[1].attributes.messageId
+      }`,
+      { data: this.singleThread.data[1] },
+    ).as('second-message-in-thread');
+
     cy.contains(mockMessages.data[0].attributes.subject).click({
       waitForAnimations: true,
     });

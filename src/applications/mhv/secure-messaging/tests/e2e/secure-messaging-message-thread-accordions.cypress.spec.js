@@ -11,36 +11,23 @@ describe('Secure Messaging Thread Details', () => {
     el => el.attributes.messageId,
   );
 
-  before('Axe Check Message Details Page', () => {
+  // TODO find the problem - when click on first message focus will back to header
+  // TODO find the alternate for 'cy.wait()'
+  it('verify expanded messages focus', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.loadSingleThread(mockThreadResponse, date);
-    cy.get(`[data-testid="expand-message-button-${messageIdList[0]}"]`)
-      .shadow()
-      .find('[part="accordion-header"]')
-      .click();
-  });
+    // cy.wait(500);
 
-  it('verify expanded messages focus', () => {
-    for (let i = 0; i < messageIdList.length; i += 1) {
+    for (let i = 1; i < messageIdList.length; i += 1) {
       cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
         .shadow()
         .find('[part="accordion-header"]')
-        .click();
-      // .should('have.focus');
-
-      // cy.focused().then(el => {
-      //   console.log(el);
-      // });
+        .click()
+        .should('have.focus');
     }
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
