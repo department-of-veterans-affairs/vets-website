@@ -99,9 +99,10 @@ console.log(splitUnitTests[matrixStep]);
 for (const dir of splitUnitTests[matrixStep]) {
   const testsToRun = options['app-folder']
     ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
-    : `--recursive ${options.path[0].replace(
-        `/${specDirs}/`,
-        `/${JSON.parse(dir).join('/')}/`,
+    : `--recursive ${glob.sync(
+        options.path[0]
+          .replace(`/${specDirs}/`, `/${JSON.parse(dir).join('/')}/`)
+          .join(' '),
       )}`;
 
   const command = `LOG_LEVEL=${options[
