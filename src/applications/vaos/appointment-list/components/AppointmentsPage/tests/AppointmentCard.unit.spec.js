@@ -24,7 +24,7 @@ const appointmentData = {
 };
 
 const facilityData = new Facility();
-describe('AppointmentCard component', () => {
+describe('VAOS Component: AppointmentCard', () => {
   const initialState = {
     featureToggles: {
       featureStatusImprovement: true,
