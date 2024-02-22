@@ -217,7 +217,7 @@ const App = ({ children }) => {
         <MrBreadcrumbs />
         {mhvMrDown === externalServiceStatus.down ? (
           <>
-            <h1>Messages</h1>
+            <h1>Medical records</h1>
             <DowntimeNotification
               appTitle="Medical records"
               dependencies={[
