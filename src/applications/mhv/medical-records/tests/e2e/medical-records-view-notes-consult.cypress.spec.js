@@ -17,34 +17,36 @@ describe('Medical Records Care Summary Page ', () => {
     // Verify Care Summary Page title
     NotesListPage.verifyCareSummariesAndNotesPageTitle();
 
-    NotesDetailsPage.clickProgressNoteLink(0);
+    NotesDetailsPage.clickProgressNoteLink(4);
 
     NotesDetailsPage.verifyProgressNoteTitle(
-      notes.entry[0].resource.content[0].attachment.title,
+      notes.entry[4].resource.content[0].attachment.title,
     );
 
+    // NOTE: consult result notes use the progress note component
     // Verify Progress Note Details Location
     NotesDetailsPage.verifyProgressNoteLocation(
-      notes.entry[0].resource.contained[1].name,
+      notes.entry[4].resource.contained[0].name,
     );
     // Verify Progress Note Details Signed by
     NotesDetailsPage.verifyProgressNoteSignedBy(
-      notes.entry[0].resource.contained[0].name[0].text,
+      notes.entry[4].resource.contained[1].name[0].text,
     );
     // Verify Progress Note Details Cosigned by
     NotesDetailsPage.verifyProgressNoteCoSignedBy(
-      notes.entry[0].resource.contained[2].name[0].text,
+      notes.entry[4].resource.contained[2].name[0].text,
     );
     // Verify Progress Note Details Signed Date
     NotesDetailsPage.verifyProgressNoteSignedDate(
       moment(
-        notes.entry[0].resource.authenticator.extension[0].valueDateTime,
+        notes.entry[4].resource.authenticator.extension[0].valueDateTime,
       ).format('MMMM D, YYYY'),
     );
     // Verify Progress Note Record Details
     NotesDetailsPage.verifyProgressNoteRecord(
-      `LOCAL TITLE: ${notes.entry[0].resource.content[0].attachment.title}`,
+      `LOCAL TITLE: ${notes.entry[4].resource.content[0].attachment.title}`, // ADHC CONSULT RESULTS
     );
+
     cy.injectAxe();
     cy.axeCheck('main');
   });
