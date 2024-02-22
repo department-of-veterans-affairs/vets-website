@@ -20,7 +20,6 @@ import {
   selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
-  hasMHVAccount,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -37,6 +36,9 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
+  const hasMHVAccount = useSelector(state => {
+    return ['OK', 'MULTIPLE'].includes(state.user.profile.mhvAccountState);
+  });
 
   const data = useMemo(
     () => {
