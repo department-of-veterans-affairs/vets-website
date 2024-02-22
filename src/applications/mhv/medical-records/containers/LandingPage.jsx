@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -40,6 +45,16 @@ const LandingPage = () => {
           <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
             Medical records
           </h1>
+
+          <DowntimeNotification
+            appTitle="Medical records"
+            dependencies={[
+              externalServices.mhvMr,
+              externalServices.mhvPlatform,
+              externalServices.global,
+            ]}
+            render={renderMHVDowntime}
+          />
           <p className="va-introtext vads-u-margin-bottom--0">
             Review, print, and download your VA medical records.
           </p>
