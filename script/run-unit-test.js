@@ -104,7 +104,7 @@ for (const dir of splitUnitTests[matrixStep]) {
           .replace(`/${specDirs}/`, `/${JSON.parse(dir).join('/')}/`)
           .join(' '),
       )}`;
-
+  console.log(testsToRun);
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
