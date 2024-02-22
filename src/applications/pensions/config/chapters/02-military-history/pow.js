@@ -15,7 +15,6 @@ export default {
     'ui:title': 'P. O. W. Status',
     powStatus: yesNoUI({
       title: 'Have you ever been a prisoner of war?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     powDateRange: set(
