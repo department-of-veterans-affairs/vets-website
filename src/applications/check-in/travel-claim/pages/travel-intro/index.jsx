@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import Wrapper from '../../../components/layout/Wrapper';
@@ -42,12 +42,7 @@ const TravelIntro = props => {
         classNames="travel-page"
       >
         <p className="vads-u-margin-bottom--0">
-          <Trans
-            i18nKey="you-can-use-this-tool-file-claim"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
+          {t('you-can-use-this-tool-file-claim')}
         </p>
         <va-process-list uswds>
           <va-process-list-item>
@@ -81,9 +76,7 @@ const TravelIntro = props => {
               {t('file-mileage-only-claim')}
             </a>
             <p>
-              {t(
-                'if-claiming-other-expenses-file-online-or-mail-email-fax-in-person',
-              )}
+              {t('if-claiming-other-expenses-file-online-or-mail-or-in-person')}
             </p>
             <a
               className="vads-c-action-link--blue"
