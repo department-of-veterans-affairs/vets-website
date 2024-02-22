@@ -14,8 +14,8 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
-  isLoggedIn,
   selectProfile,
+  isLoggedIn,
   selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
