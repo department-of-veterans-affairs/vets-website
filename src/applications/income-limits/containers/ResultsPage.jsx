@@ -142,13 +142,10 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           Learn more about income limits and deductions (opens in a new tab)
         </a>
         <h2>Select your {previousYear} household income range</h2>
-        <va-accordion
-          bordered
-          data-testid="il-results"
-          open-single
-          uswds={false}
-        >
+        <va-accordion bordered data-testid="il-results" open-single uswds>
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-1"
             header={getFirstAccordionHeader(pension)}
@@ -169,6 +166,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-2"
             header={getSecondAccordionHeader(pension, national)}
@@ -185,6 +184,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           </va-accordion-item>
           {isStandard && (
             <va-accordion-item
+              uswds
+              bordered
               level="3"
               data-testid="il-results-3"
               header={getThirdAccordionHeader(national, gmt)}
@@ -202,6 +203,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             </va-accordion-item>
           )}
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-4"
             header={getFourthAccordionHeader(national, gmt, isStandard)}
@@ -217,6 +220,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-5"
             header={getFifthAccordionHeader(national, gmt, isStandard)}
@@ -261,7 +266,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           class="vads-u-margin-top--3"
           data-testid="il-results-back"
           onClick={() => router.push(ROUTES.REVIEW)}
-          uswds={false}
+          uswds
         />
         <h2>More helpful information</h2>
         <ul className="il-results-more-info">
