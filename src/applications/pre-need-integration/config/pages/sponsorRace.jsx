@@ -1,4 +1,5 @@
-import { merge } from 'lodash';
+import { merge, pick } from 'lodash';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import {
   sponsorDemographicsDescription,
@@ -7,6 +8,8 @@ import {
   sponsorEthnicityTitle,
   sponsorRaceTitle,
 } from '../../utils/helpers';
+
+const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
   ethnicityTitle = sponsorEthnicityTitle,
@@ -42,45 +45,7 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['ethnicity', 'race'],
-          // Keeping this commented out line below for now while this gets merged along with schema changes in vets-json-schema
-          // properties: pick(veteran.properties, ['ethnicity','race']),
-          properties: {
-            ethnicity: {
-              type: 'string',
-              enum: [
-                'isSpanishHispanicLatino',
-                'notSpanishHispanicLatino',
-                'unknown',
-                'na',
-              ],
-            },
-            race: {
-              type: 'object',
-              properties: {
-                isAmericanIndianOrAlaskanNative: {
-                  type: 'boolean',
-                },
-                isAsian: {
-                  type: 'boolean',
-                },
-                isBlackOrAfricanAmerican: {
-                  type: 'boolean',
-                },
-                isNativeHawaiianOrOtherPacificIslander: {
-                  type: 'boolean',
-                },
-                isWhite: {
-                  type: 'boolean',
-                },
-                isOther: {
-                  type: 'boolean',
-                },
-                na: {
-                  type: 'boolean',
-                },
-              },
-            },
-          },
+          properties: pick(veteran.properties, ['ethnicity', 'race']),
         },
       },
     },
