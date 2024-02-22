@@ -46,15 +46,15 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
         <p className="vads-u-font-size--lg vads-u-font-family--serif">
           Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
         </p>
-        <va-table uswds="false">
-          <va-table-row slot="headers" uswds="false">
+        <va-table>
+          <va-table-row slot="headers">
             {fields.map(field => (
               <span key={field.value}>{field.label}</span>
             ))}
           </va-table-row>
           {currentData.map((row, index) => {
             return (
-              <va-table-row key={`payments-${index}`} uswds="false">
+              <va-table-row key={`payments-${index}`}>
                 {fields.map(field => (
                   <span key={`${field.value}-${index}`}>
                     {row[field.value]}
@@ -70,14 +70,14 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
           pages={totalPages.current}
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           showLastPage
-          uswds="false"
+          uswds
         />
       </>
     );
   }
 
   return (
-    <va-alert status="info" uswds="false">
+    <va-alert status="info" uswds>
       {clientServerErrorContent(tableVersion)}
     </va-alert>
   );
