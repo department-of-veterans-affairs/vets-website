@@ -112,6 +112,8 @@ const SearchForm = props => {
     setFiltersCleared(true);
     setCategory('');
     setDateRange('any');
+    setFromDate('');
+    setToDate('');
   };
 
   const queryItem = (key, value) => {
