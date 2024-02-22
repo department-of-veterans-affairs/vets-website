@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
@@ -70,24 +71,29 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
+  const loading = vamcEhrData || featureToggles.loading || profile.loading;
 
   const redirecting = signedIn && !loading && !enabled;
+
+  const hasMHVAccount = useSelector(state => {
+    return ['OK', 'MULTIPLE'].includes(state.user.profile.mhvAccountState);
+  });
 
   useEffect(
     () => {
       async function loadMessages() {
-        const folders = await getFolderList();
-        const unreadMessages = countUnreadMessages(folders);
-        setUnreadMessageCount(unreadMessages);
+        if (hasMHVAccount) {
+          const folders = await getFolderList();
+          const unreadMessages = countUnreadMessages(folders);
+          setUnreadMessageCount(unreadMessages);
+        }
       }
 
       if (enabled) {
         loadMessages();
       }
     },
-    [enabled],
+    [enabled, hasMHVAccount],
   );
 
   useEffect(

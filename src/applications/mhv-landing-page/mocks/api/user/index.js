@@ -57,6 +57,7 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
+        mhvAccountState: 'OK',
       },
     },
   },
