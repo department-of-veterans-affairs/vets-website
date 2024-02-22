@@ -4,7 +4,6 @@ export const PROFILE_TOGGLES = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,

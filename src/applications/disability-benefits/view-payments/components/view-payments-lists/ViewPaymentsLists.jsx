@@ -48,7 +48,7 @@ class ViewPaymentsLists extends Component {
       );
     } else {
       paymentsReturnedTable = (
-        <va-alert status="info">
+        <va-alert status="info" uswds>
           <h2 slot="headline" className="vads-u-font-size--h3">
             We don’t have a record of returned payments
           </h2>
@@ -81,7 +81,7 @@ class ViewPaymentsLists extends Component {
       );
     } else {
       paymentsReceivedTable = (
-        <va-alert status="info">
+        <va-alert status="info" uswds>
           <h2 slot="headline" className="vads-u-font-size--h3">
             We don’t have a record of VA payments made to you
           </h2>
@@ -114,14 +114,22 @@ class ViewPaymentsLists extends Component {
       const alertContent = isClientError(this.props.error.code)
         ? NoPaymentsContent
         : ServerErrorAlertContent;
-      content = <va-alert status={status}>{alertContent}</va-alert>;
+      content = (
+        <va-alert status={status} uswds>
+          {alertContent}
+        </va-alert>
+      );
     } else {
       // Deconstruct payments props object
       // If there are no payments AND no payments returned, render an Alertbox
       // If there are either payments OR payments returned, run payment list builders
       const { returnPayments, payments } = this.props.payments;
       if (returnPayments.length === 0 && payments.length === 0) {
-        content = <va-alert status="info">{NoPaymentsContent}</va-alert>;
+        content = (
+          <va-alert status="info" uswds>
+            {NoPaymentsContent}
+          </va-alert>
+        );
       } else {
         // run payments returned list builder
         paymentsReturnedTable = this.buildReturnedPaymentListContent(
