@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   BlockedTriageAlertStyles,
   BlockedTriageAlertText,
@@ -59,6 +60,10 @@ const BlockedTriageGroupAlert = props => {
           ...sortTriageList(blockedFacilityNames),
         ]
       : sortTriageList(blockedTriageGroupList);
+  }, []);
+
+  useEffect(() => {
+    datadogRum.addAction('Blocked triage group alert');
   }, []);
 
   useEffect(() => {
