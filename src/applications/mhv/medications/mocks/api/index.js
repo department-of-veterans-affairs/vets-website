@@ -9,9 +9,9 @@ const folders = require('./mhv-api/messaging/folders/index');
 const vamcEhr = require('./vamc-ehr.json');
 const personalInformation = require('./user/personal-information.json');
 // prescriptions module generates mocks
-const prescriptions = require('./mhv-api/prescriptions/index');
+// const prescriptions = require('./mhv-api/prescriptions/index');
 // You can user fixtures for mocks, if desired
-// const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
+const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 const allergiesFixture = require('../../tests/e2e/fixtures/allergies.json');
 
 const responses = {
@@ -27,8 +27,8 @@ const responses = {
   // MHV Messaging - folders endpoint powers the red dot on mhv-landing-page
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   // MHV Medications endpoints below
-  'GET /my_health/v1/prescriptions': prescriptions.generateMockPrescriptions(),
-  // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
+  // 'GET /my_health/v1/prescriptions': prescriptions.generateMockPrescriptions(),
+  'GET /my_health/v1/prescriptions': prescriptionsFixture,
   'GET /my_health/v1/medical_records/allergies': allergiesFixture,
 };
 
