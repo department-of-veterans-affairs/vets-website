@@ -479,6 +479,11 @@ module.exports = async (env = {}) => {
             from: 'src/site/assets',
             to: buildPath,
           },
+          {
+            from:
+              'node_modules/@department-of-veterans-affairs/component-library/dist/assets',
+            to: `${buildPath}/assets`,
+          },
         ],
       }),
 
