@@ -8,7 +8,7 @@ import {
   veteranUI,
   ssnDashesUI,
   sponsorDetailsSubHeader,
-  sponsorDetailsDescription,
+  sponsorDetailsGuidingText,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
@@ -18,7 +18,7 @@ export const uiSchema = {
   application: {
     veteran: merge({}, veteranUI, {
       'view:sponsorDetailsDescription': {
-        'ui:description': sponsorDetailsDescription,
+        'ui:description': sponsorDetailsGuidingText,
         'ui:options': {
           displayEmptyObjectOnReview: true,
         },
