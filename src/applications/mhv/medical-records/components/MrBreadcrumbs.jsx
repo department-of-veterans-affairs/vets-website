@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 const MrBreadcrumbs = () => {
   const crumbs = useSelector(state => state.mr.breadcrumbs.list);
