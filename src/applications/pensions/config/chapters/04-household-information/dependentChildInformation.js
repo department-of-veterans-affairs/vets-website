@@ -53,7 +53,7 @@ export default {
   uiSchema: {
     dependents: {
       items: {
-        'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
+        'ui:title': createHouseholdMemberTitle('fullName', 'information'),
         childPlaceOfBirth: {
           'ui:title': 'Place of birth (city and state or foreign country)',
         },

@@ -862,7 +862,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
+                'ui:title': createHouseholdMemberTitle('fullName', 'address'),
                 childAddress: address.uiSchema(
                   '',
                   false,

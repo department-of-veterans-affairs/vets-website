@@ -16,17 +16,9 @@ export default function createDisclosureTitle(path, title) {
     }
 
     return (
-      <div>
-        <h4 className="pensions-disclosure-name">
-          {fullName.first} {fullName.last}
-        </h4>
-        <legend
-          className="schemaform-block-title pensions-disclosure-title"
-          id={id}
-        >
-          {title}
-        </legend>
-      </div>
+      <legend className="schemaform-block-title" id={id}>
+        {fullName.first} {fullName.last} {title}
+      </legend>
     );
   };
 }
