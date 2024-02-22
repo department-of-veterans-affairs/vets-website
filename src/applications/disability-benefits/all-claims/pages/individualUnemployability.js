@@ -1,10 +1,10 @@
 export const uiSchema = {
   'ui:title': 'Individual Unemployability',
   'ui:description':
-    'If you can’t work because of your service-connected disability you may be eligible for Individual Unemployability and increased disability payments.',
+    'If you can’t work because of a service-connected condition or disability, you may be eligible for Individual Unemployability benefits. This includes increased disability payments.',
   'view:unemployable': {
     'ui:title':
-      'Does your disability prevent you from holding down a job that you could otherwise do? (This doesn’t include being retired.)',
+      'Does your condition or disability prevent you from keeping a job that you could otherwise do? (This doesn’t include being retired.)',
     'ui:widget': 'yesNo',
   },
 };

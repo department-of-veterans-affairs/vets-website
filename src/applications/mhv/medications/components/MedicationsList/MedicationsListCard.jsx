@@ -7,6 +7,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 const MedicationsListCard = props => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const MedicationsListCard = props => {
       setBreadcrumbs(
         [
           {
-            url: '/my-health/about-medications',
+            url: '/my-health/medications/about',
             label: 'About medications',
           },
           {
@@ -44,10 +45,14 @@ const MedicationsListCard = props => {
         },
       ),
     );
+    dispatch(setPrescriptionDetails(rx));
   };
   return (
-    <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
-      <div className="rx-card-detials vads-u-padding--2">
+    <div className="no-print rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
+      <div
+        className="rx-card-details vads-u-padding--2"
+        data-testid="rx-card-info"
+      >
         <h3
           aria-describedby="status status-description fill-or-refill-button"
           className="vads-u-font-weight--bold"
@@ -55,22 +60,20 @@ const MedicationsListCard = props => {
         >
           <Link
             data-testid="medications-history-details-link"
-            className="vads-u-margin-y--0p5 vads-u-font-size--h4 no-print"
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescription/${rx.prescriptionId}`}
             onClick={handleLinkClick}
           >
             {rx.prescriptionName ||
               (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
           </Link>
-          <p
-            className="vads-u-margin-y--0p5 vads-u-font-size--h4 print-only"
-            to={`/prescription/${rx.prescriptionId}`}
-          >
-            {rx.dispStatus === 'Active: Non-VA'
-              ? rx.orderableItem
-              : rx.prescriptionName}
-          </p>
         </h3>
+        {rx.dispStatus !== 'Unknown' &&
+          rx.dispStatus !== 'Active: Non-VA' && (
+            <div data-testid="rx-number">
+              Prescription number: {rx.prescriptionNumber}
+            </div>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
         {rx.dispStatus !== 'Unknown' && (

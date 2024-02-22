@@ -146,6 +146,7 @@ const FileInput = props => {
             }
             class="attach-file-button"
             data-testid="attach-file-button"
+            data-dd-action-name="Attach File Button"
           />
         </>
       )}

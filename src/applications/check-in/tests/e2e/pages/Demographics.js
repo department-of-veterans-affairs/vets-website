@@ -58,7 +58,7 @@ class Demographics {
   };
 
   attemptToGoToNextPage = (button = 'yes') => {
-    cy.get(`button[data-testid="${button}-button"]`).click({
+    cy.get(`[data-testid="${button}-button"]`).click({
       waitForAnimations: true,
     });
   };

@@ -1,15 +1,19 @@
 import TopicSelect from '../../../components/FormFields/TopicSelect';
 import FormElementTitle from '../../../components/FormElementTitle';
 import CatAndTopicSummary from '../../../components/CatAndTopicSummary';
+import PageFieldSummary from '../../../components/PageFieldSummary';
+import { CHAPTER_1 } from '../../../constants';
 
 const selectTopicPage = {
   uiSchema: {
-    'ui:description': form =>
+    'ui:title': form =>
       CatAndTopicSummary({ category: form.formData.selectCategory }),
+    'ui:description': FormElementTitle({
+      title: CHAPTER_1.PAGE_2.PAGE_DESCRIPTION,
+    }),
+    'ui:objectViewField': PageFieldSummary,
     selectTopic: {
-      'ui:title': FormElementTitle({
-        title: 'Which topic best describes your question?',
-      }),
+      'ui:title': CHAPTER_1.PAGE_2.QUESTION_1,
       'ui:widget': TopicSelect,
     },
   },

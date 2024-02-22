@@ -179,11 +179,13 @@ const ManageFolderButtons = props => {
             ref={removeButton}
             text="Yes, remove this folder"
             onClick={confirmDelFolder}
+            data-dd-action-name="Confirm Remove Folder Button"
           />
           <va-button
             secondary
             text="No, keep this folder"
             onClick={closeDelModal}
+            data-dd-action-name="Cancel Remove Folder Button"
           />
         </VaModal>
       )}
@@ -194,6 +196,7 @@ const ManageFolderButtons = props => {
         large="true"
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
+        data-dd-action-name="Rename Folder Modal Closed"
       >
         <VaTextInput
           data-dd-privacy="mask"
@@ -208,9 +211,20 @@ const ManageFolderButtons = props => {
           }}
           maxlength="50"
           name="new-folder-name"
+          data-dd-action-name="Rename Folder Input Field"
+          charcount
         />
-        <va-button text="Save" onClick={confirmRenameFolder} />
-        <va-button secondary="true" text="Cancel" onClick={closeRenameModal} />
+        <va-button
+          text="Save"
+          onClick={confirmRenameFolder}
+          data-dd-action-name="Save Rename Folder Button"
+        />
+        <va-button
+          secondary="true"
+          text="Cancel"
+          onClick={closeRenameModal}
+          data-dd-action-name="Cancel Rename Folder Button"
+        />
       </VaModal>
     </>
   );

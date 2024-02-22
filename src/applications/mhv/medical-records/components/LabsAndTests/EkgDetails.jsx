@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -12,10 +12,18 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import { updatePageTitle } from '../../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { reportGeneratedBy, txtLine } from '../../../shared/util/constants';
+import { txtLine } from '../../../shared/util/constants';
+import {
+  generateLabsIntro,
+  generateEkgContent,
+} from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -25,73 +33,32 @@ const EkgDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const formattedDate = record.date ? formatDateLong(record?.date) : '';
   const user = useSelector(state => state.user.profile);
 
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = formattedDate ? `${formattedDate} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
-    [formattedDate, record.name],
+    [record.date, record.name],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateEkgDetails = async () => {
-    const pdfData = {
-      headerLeft: 'Roberts, Jesse',
-      headerRight: 'Date of birth: January 1, 1970',
-      footerLeft: reportGeneratedBy,
-      footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      headerBanner: [
-        {
-          weight: 'normal',
-          text:
-            "If you're ever in crisis and need to talk to someone right away, call the Veterans Crisis line at ",
-        },
-        {
-          weight: 'bold',
-          text: '988',
-        },
-        {
-          weight: 'normal',
-          text: '. Then select 1.',
-        },
-      ],
-      title: `electrocardiogram: ${record.name} on ${formattedDate}`,
-      subject: 'VA Medical Record',
-      preface:
-        'Your VA electrocardiogram list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.',
-      results: {
-        items: [
-          {
-            items: [
-              {
-                title: 'Date',
-                value: record.date,
-                inline: true,
-              },
-              {
-                title: 'Location',
-                value: record.facility,
-                inline: true,
-              },
-              {
-                title: 'Provider',
-                value: record.orderedBy,
-                inline: true,
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    makePdf('electrocardiogram_report', pdfData, 'EKG', runningUnitTest);
+    const { title, subject, preface } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateEkgContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Electrocardiogram details', runningUnitTest);
   };
 
   const generateEkgTxt = async () => {
@@ -104,7 +71,7 @@ const EkgDetails = props => {
     results, you can request a copy of your complete medical record from
     your VA health facility.\n`;
 
-    const fileName = `VA-EKG-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };
@@ -115,7 +82,7 @@ const EkgDetails = props => {
       <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
         {record.name}
       </h1>
-      <DateSubheading date={formattedDate} id="ekg-date" />
+      <DateSubheading date={record.date} id="ekg-date" />
 
       <div className="electrocardiogram-buttons no-print">
         <PrintDownload

@@ -20,7 +20,7 @@ export default {
     ),
     disabilityExams: {
       'ui:options': {
-        itemName: 'exam date',
+        itemName: 'Exam date',
         itemAriaLabel: formData => {
           const friendlyDateString = moment(
             formData.disabilityExamDate,
@@ -37,6 +37,7 @@ export default {
         useDlWrap: true,
         showSave: true,
         reviewMode: true,
+        reviewItemHeaderLevel: '4',
       },
       items: {
         'ui:options': {

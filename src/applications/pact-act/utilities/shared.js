@@ -74,12 +74,7 @@ export const getLastQuestionAnswered = formResponses => {
 export const onResultsBackClick = (formResponses, router) => {
   const previousQuestion = getLastQuestionAnswered(formResponses);
 
-  if (previousQuestion) {
-    return router.push(ROUTES?.[previousQuestion]);
-  }
-
-  printErrorMessage('Unable to find previous question from results page');
-  return router.push(ROUTES.HOME);
+  return pushToRoute(previousQuestion, router);
 };
 
 /** ================================================================

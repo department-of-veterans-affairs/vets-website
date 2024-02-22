@@ -7,6 +7,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -19,6 +20,7 @@ import {
   navigateToFolderByFolderId,
   sortRecipients,
   resetUserSession,
+  updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -27,14 +29,23 @@ import {
   draftAutoSaveTimeout,
   DefaultFolders,
   ErrorMessages,
+  Recipients,
+  ParentComponent,
+  RecipientStatus,
+  BlockedTriageAlertStyles,
+  FormLabels,
 } from '../../util/constants';
-import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import EditPreferences from './EditPreferences';
+import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import ViewOnlyDraftSection from './ViewOnlyDraftSection';
+import { RadioCategories } from '../../util/inputContants';
+import { getCategories } from '../../actions/categories';
 
 const ComposeForm = props => {
-  const { draft, recipients } = props;
+  const { draft, recipients, signature } = props;
+  const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -62,17 +73,29 @@ const ComposeForm = props => {
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
+  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
-  const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const { isSaving } = useSelector(state => state.sm.threadDetails);
+  const categories = useSelector(state => state.sm.categories.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
-  const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
   const debouncedRecipient = useDebounce(
     selectedRecipient,
     draftAutoSaveTimeout,
+  );
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
   );
 
   const localStorageValues = useMemo(() => {
@@ -90,18 +113,20 @@ const ComposeForm = props => {
     clearTimeout(timeoutId);
   };
 
-  const formattededSignature = useMemo(
+  useEffect(
+    () => {
+      if (!categories) {
+        dispatch(getCategories());
+      }
+    },
+    [categories, dispatch],
+  );
+
+  const formattedSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
     },
     [signature],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
   );
 
   const setUnsavedNavigationError = typeOfError => {
@@ -131,16 +156,10 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients?.length) {
-        const filteredRecipients = recipients.filter(
-          team => team.preferredTeam === true,
-        );
-        setRecipientsList(prevRecipientsList => [
-          ...prevRecipientsList.filter(
-            oldRecip =>
-              !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
-          ),
-          ...filteredRecipients,
+      if (recipients.allowedRecipients.length > 0) {
+        setRecipientsList([
+          ...defaultRecipientsList,
+          ...recipients.allowedRecipients,
         ]);
       }
 
@@ -153,6 +172,41 @@ const ComposeForm = props => {
     },
     [recipients, draft],
   );
+
+  useEffect(() => {
+    if (mhvSecureMessagingBlockedTriageGroup1p0) {
+      if (draft) {
+        const tempRecipient = {
+          recipientId: draft.recipientId,
+          name: draft.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
+
+        const {
+          isAssociated,
+          formattedRecipient,
+        } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+
+        if (!isAssociated) {
+          setShowBlockedTriageGroupAlert(true);
+          setBlockedTriageGroupList([
+            formattedRecipient,
+            ...recipients.blockedRecipients,
+          ]);
+        } else if (recipients.associatedBlockedTriageGroupsQty > 0) {
+          setShowBlockedTriageGroupAlert(true);
+          setBlockedTriageGroupList(recipients.blockedRecipients);
+        }
+      } else {
+        setShowBlockedTriageGroupAlert(
+          recipients.associatedBlockedTriageGroupsQty > 0,
+        );
+        setBlockedTriageGroupList(recipients.blockedRecipients);
+      }
+    }
+    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+  }, []);
 
   useEffect(
     () => {
@@ -238,7 +292,7 @@ const ComposeForm = props => {
     );
   };
 
-  if (draft && recipients && !formPopulated) populateForm();
+  if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
     () => {
@@ -501,7 +555,17 @@ const ComposeForm = props => {
 
   return (
     <>
-      <EmergencyNote dropDownFlag />
+      {mhvSecureMessagingBlockedTriageGroup1p0 &&
+      (showBlockedTriageGroupAlert &&
+        (noAssociations || allTriageGroupsBlocked)) ? (
+        <BlockedTriageGroupAlert
+          blockedTriageGroupList={blockedTriageGroupList}
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.COMPOSE_FORM}
+        />
+      ) : (
+        <EmergencyNote dropDownFlag />
+      )}
 
       <form className="compose-form" id="sm-compose-form">
         {saveError && (
@@ -513,6 +577,7 @@ const ComposeForm = props => {
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
+            data-dd-action-name="Save Error Modal Closed"
             visible
           >
             <p>{saveError.p1}</p>
@@ -542,97 +607,204 @@ const ComposeForm = props => {
         />
         <div>
           <EditPreferences />
-          {recipientsList && (
-            <>
-              <VaSelect
-                enable-analytics
-                id="recipient-dropdown"
-                label="To"
-                name="to"
-                value={selectedRecipient}
-                onVaSelect={recipientHandler}
-                class="composeSelect"
-                data-testid="compose-recipient-select"
-                error={recipientError}
-                data-dd-privacy="mask"
-              >
-                {sortRecipients(recipientsList)?.map(item => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </VaSelect>
-            </>
-          )}
+
+          {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (showBlockedTriageGroupAlert &&
+              (!noAssociations && !allTriageGroupsBlocked) && (
+                <div
+                  className="
+                  vads-u-border-top--1px
+                  vads-u-padding-top--3
+                  vads-u-margin-top--3
+                  vads-u-margin-bottom--neg2"
+                >
+                  <BlockedTriageGroupAlert
+                    blockedTriageGroupList={blockedTriageGroupList}
+                    alertStyle={BlockedTriageAlertStyles.ALERT}
+                    parentComponent={ParentComponent.COMPOSE_FORM}
+                  />
+                </div>
+              ))}
+
+          {mhvSecureMessagingBlockedTriageGroup1p0
+            ? recipientsList &&
+              (!noAssociations &&
+                !allTriageGroupsBlocked && (
+                  <>
+                    <VaSelect
+                      enable-analytics
+                      id="recipient-dropdown"
+                      label="To"
+                      name="to"
+                      value={selectedRecipient}
+                      onVaSelect={recipientHandler}
+                      class="composeSelect"
+                      data-testid="compose-recipient-select"
+                      error={recipientError}
+                      data-dd-privacy="mask"
+                      data-dd-action-name="Compose Recipient Dropdown List"
+                    >
+                      {sortRecipients(recipientsList)?.map(item => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </VaSelect>
+                  </>
+                ))
+            : recipientsList && (
+                <>
+                  <VaSelect
+                    enable-analytics
+                    id="recipient-dropdown"
+                    label="To"
+                    name="to"
+                    value={selectedRecipient}
+                    onVaSelect={recipientHandler}
+                    class="composeSelect"
+                    data-testid="compose-recipient-select"
+                    error={recipientError}
+                    data-dd-privacy="mask"
+                    data-dd-action-name="Compose Recipient Dropdown List"
+                  >
+                    {sortRecipients(recipientsList)?.map(item => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </VaSelect>
+                </>
+              )}
+
           <div className="compose-form-div">
-            <CategoryInput
-              category={category}
-              categoryError={categoryError}
-              setCategory={setCategory}
-              setCategoryError={setCategoryError}
-              setUnsavedNavigationError={setUnsavedNavigationError}
-            />
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection
+                title={FormLabels.CATEGORY}
+                body={`${RadioCategories[(draft?.category)].label}: ${
+                  RadioCategories[(draft?.category)].description
+                }`}
+              />
+            ) : (
+              <CategoryInput
+                categories={categories}
+                category={category}
+                categoryError={categoryError}
+                setCategory={setCategory}
+                setCategoryError={setCategoryError}
+                setUnsavedNavigationError={setUnsavedNavigationError}
+              />
+            )}
           </div>
           <div className="compose-form-div">
-            <va-text-input
-              label="Subject"
-              required
-              type="text"
-              id="message-subject"
-              name="message-subject"
-              className="message-subject"
-              data-testid="message-subject-field"
-              onInput={subjectHandler}
-              value={subject}
-              error={subjectError}
-              data-dd-privacy="mask"
-            />
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection title={FormLabels.SUBJECT} body={subject} />
+            ) : (
+              <va-text-input
+                label={FormLabels.SUBJECT}
+                required
+                type="text"
+                id="message-subject"
+                name="message-subject"
+                class="message-subject"
+                data-testid="message-subject-field"
+                onInput={subjectHandler}
+                value={subject}
+                error={subjectError}
+                data-dd-privacy="mask"
+                data-dd-action-name="Compose Message Subject Input Field"
+              />
+            )}
           </div>
           <div className="compose-form-div vads-u-margin-bottom--0">
-            <va-textarea
-              label="Message"
-              required
-              id="compose-message-body"
-              name="compose-message-body"
-              className="message-body"
-              data-testid="message-body-field"
-              onInput={messageBodyHandler}
-              value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
-              error={bodyError}
-              onFocus={e => {
-                setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
-              }}
-              data-dd-privacy="mask"
-            />
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection
+                title={FormLabels.MESSAGE}
+                body={messageBody || formattedSignature}
+              />
+            ) : (
+              <va-textarea
+                label={FormLabels.MESSAGE}
+                required
+                id="compose-message-body"
+                name="compose-message-body"
+                class="message-body"
+                data-testid="message-body-field"
+                onInput={messageBodyHandler}
+                value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
+                error={bodyError}
+                onFocus={e => {
+                  setCaretToPos(
+                    e.target.shadowRoot.querySelector('textarea'),
+                    0,
+                  );
+                }}
+                data-dd-privacy="mask"
+                data-dd-action-name="Compose Message Body Textbox"
+              />
+            )}
           </div>
-          <section className="attachments-section">
-            <AttachmentsList
-              compose
-              attachments={attachments}
-              setAttachments={setAttachments}
-              attachFileSuccess={attachFileSuccess}
-              setAttachFileSuccess={setAttachFileSuccess}
-              setNavigationError={setNavigationError}
-              editingEnabled
-            />
+          {mhvSecureMessagingBlockedTriageGroup1p0
+            ? recipientsList &&
+              (!noAssociations &&
+                !allTriageGroupsBlocked && (
+                  <section className="attachments-section">
+                    <AttachmentsList
+                      compose
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      attachFileSuccess={attachFileSuccess}
+                      setAttachFileSuccess={setAttachFileSuccess}
+                      setNavigationError={setNavigationError}
+                      editingEnabled
+                    />
 
-            <FileInput
-              attachments={attachments}
-              setAttachments={setAttachments}
-              setAttachFileSuccess={setAttachFileSuccess}
-            />
-          </section>
+                    <FileInput
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      setAttachFileSuccess={setAttachFileSuccess}
+                    />
+                  </section>
+                ))
+            : recipientsList && (
+                <section className="attachments-section">
+                  <AttachmentsList
+                    compose
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                    setNavigationError={setNavigationError}
+                    editingEnabled
+                  />
+
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                  />
+                </section>
+              )}
+
           <DraftSavedInfo />
           <ComposeFormActionButtons
-            onSend={sendMessageHandler}
-            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            cannotReply={
+              mhvSecureMessagingBlockedTriageGroup1p0
+                ? noAssociations || allTriageGroupsBlocked
+                : false
+            }
+            deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
+            draftsCount={1}
             formPopulated={formPopulated}
             navigationError={navigationError}
-            setNavigationError={setNavigationError}
+            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            onSend={sendMessageHandler}
             setDeleteButtonClicked={setDeleteButtonClicked}
+            setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
-            deleteButtonClicked={deleteButtonClicked}
           />
         </div>
       </form>
@@ -642,7 +814,8 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   draft: PropTypes.object,
-  recipients: PropTypes.array,
+  recipients: PropTypes.object,
+  signature: PropTypes.object,
 };
 
 export default ComposeForm;

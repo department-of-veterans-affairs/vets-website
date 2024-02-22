@@ -23,10 +23,10 @@ export const fetchRepresentatives = async (
   long,
   name,
   page,
-  /* eslint-disable camelcase */
-  per_page,
+  perPage,
   sort,
   type,
+  distance,
   dispatch,
 ) => {
   try {
@@ -36,9 +36,10 @@ export const fetchRepresentatives = async (
       long,
       name,
       page,
-      per_page,
+      perPage,
       sort,
       type,
+      distance,
     );
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });

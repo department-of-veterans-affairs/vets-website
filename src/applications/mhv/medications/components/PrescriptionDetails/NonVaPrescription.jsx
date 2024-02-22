@@ -16,11 +16,12 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Status
           </h3>
-          <div>{validateField(status)}</div>
+          <div data-testid="rx-status">{validateField(status)}</div>
           <div className="no-print">
             <va-additional-info
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              uswds
             >
               <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>
@@ -88,7 +89,12 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Provider notes
           </h3>
-          <p>{validateField(prescription.remarks)}</p>
+          <p>
+            {validateField(
+              (prescription.remarks ?? '') +
+                (prescription.disclaimer ? ` ${prescription.disclaimer}` : ''),
+            )}
+          </p>
         </section>
       </div>
     );

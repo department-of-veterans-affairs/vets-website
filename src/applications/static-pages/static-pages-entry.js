@@ -37,13 +37,13 @@ import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
+import createEZRSubmissionOptions from './ezr-submission-options';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
@@ -53,7 +53,6 @@ import createFindVaForms, {
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
 import createHCAPerformanceWarning from './hca-performance-warning';
-import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -82,6 +81,7 @@ import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create2010206Access from './simple-forms/20-10206/entry';
 import create210845Access from './simple-forms/21-0845/entry';
 import create210966Access from './simple-forms/21-0966/entry';
 import create210972Access from './simple-forms/21-0972/entry';
@@ -177,11 +177,11 @@ createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
 );
-createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
+createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
@@ -204,7 +204,6 @@ createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
-createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
@@ -220,6 +219,7 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create2010206Access(store, widgetTypes.FORM_2010206_CTA);
 create210845Access(store, widgetTypes.FORM_210845_CTA);
 create210966Access(store, widgetTypes.FORM_210966_CTA);
 create210972Access(store, widgetTypes.FORM_210972_CTA);

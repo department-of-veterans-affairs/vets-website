@@ -3,14 +3,15 @@ import { PropTypes } from 'prop-types';
 
 export default function ClaimCard({ title, children, label, subtitle }) {
   return (
-    <va-card class="claim-list-item">
+    <va-card class="claim-list-item" uswds="false">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
-        {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div role="text">
           {label && <span className="usa-label">{label}</span>}
           {title}
           {subtitle && (
-            <span className="vads-u-margin-top--0p5">{subtitle}</span>
+            <span className="vads-u-margin-top--0p5 submitted-on">
+              {subtitle}
+            </span>
           )}
         </div>
       </h3>

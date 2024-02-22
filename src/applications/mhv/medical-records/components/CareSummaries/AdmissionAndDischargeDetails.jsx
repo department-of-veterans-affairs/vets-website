@@ -22,8 +22,13 @@ import {
   generatePdfScaffold,
   formatName,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, EMPTY_FIELD } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
+import {
+  generateNotesIntro,
+  generateDischargeSummaryContent,
+} from '../../util/pdfHelpers/notes';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -45,64 +50,20 @@ const AdmissionAndDischargeDetails = props => {
     [record],
   );
 
+  usePrintTitle(
+    pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const generateCareNotesPDF = async () => {
-    const title = `Admission and discharge summary on ${formatDateLong(
-      record.dischargeDate,
-    )}`;
-    const subject = 'VA Medical Record';
-    const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      header: 'Details',
-      items: [
-        {
-          title: 'Location',
-          value: record.location,
-          inline: true,
-        },
-        {
-          title: 'Admission date',
-          value: record.admissionDate,
-          inline: true,
-        },
-        {
-          title: 'Discharge date',
-          value: record.dischargeDate,
-          inline: true,
-        },
-        // {
-        //   title: 'Admitted by',
-        //   value: record.admittedBy,
-        //   inline: true,
-        // },
-        {
-          title: 'Discharged by',
-          value: record.dischargedBy,
-          inline: true,
-        },
-      ],
-    };
-    scaffold.results = {
-      header: 'Summary',
-      items: [
-        {
-          items: [
-            {
-              title: '',
-              value: record.summary,
-              inline: false,
-            },
-          ],
-        },
-      ],
-    };
-
-    makePdf(
-      'care_summaries_report',
-      scaffold,
-      'Care Summary details',
-      runningUnitTest,
-    );
+    const { title, subject, preface } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
+    const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Admission/discharge details', runningUnitTest);
   };
 
   const generateCareNotesTxt = () => {
@@ -112,13 +73,12 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Admission and discharge summary\n
+Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
 Admission date: ${record.admissionDate}\n
 Discharge date: ${record.dischargeDate}\n
-Admitted by: ${record.admittedBy}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
 Summary\n
@@ -126,14 +86,9 @@ ${record.summary}`;
 
     generateTextFile(
       content,
-      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+      `VA-summaries-and-notes-details-${getNameDateAndTime(user)}`,
     );
   };
-
-  const dates =
-    record.admissionDate &&
-    record.dischargeDate &&
-    `${record.admissionDate} to ${record.dischargeDate}`;
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
@@ -141,15 +96,24 @@ ${record.summary}`;
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
+        data-testid="admission-discharge-name"
       >
         {record.name}
       </h1>
 
-      <DateSubheading
-        date={dates}
-        label="Discharged on"
-        id="admission-discharge-date"
-      />
+      {record.admissionDate !== EMPTY_FIELD ? (
+        <div>
+          <p id="admission-discharge-date">
+            Admitted on {record.admissionDate}
+          </p>
+        </div>
+      ) : (
+        <DateSubheading
+          date={record.admissionDate}
+          label="Admission date"
+          id="admission-discharge-date"
+        />
+      )}
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility
@@ -171,17 +135,9 @@ ${record.summary}`;
         </h3>
         <p data-testid="note-record-location"> {record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Admission date
-        </h3>
-        <p data-testid="note-admission-date">{record.admissionDate}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharge date
         </h3>
         <p data-testid="note-discharge-date">{record.dischargeDate}</p>
-        {/* <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Admitted by
-        </h3>
-        <p>{record.admittedBy}</p> */}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
@@ -190,7 +146,9 @@ ${record.summary}`;
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p data-testid="note-summary">{record.summary}</p>
+        <p data-testid="note-summary" className="monospace">
+          {record.summary}
+        </p>
       </div>
     </div>
   );

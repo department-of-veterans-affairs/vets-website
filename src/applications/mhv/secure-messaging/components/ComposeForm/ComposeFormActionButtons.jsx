@@ -9,7 +9,9 @@ const ComposeFormActionButtons = ({
   setDeleteButtonClicked,
   cannotReply,
   draftId,
+  draftsCount,
   navigationError,
+  refreshThreadCallback,
   setNavigationError,
   setUnsavedNavigationError,
   savedForm,
@@ -22,9 +24,17 @@ const ComposeFormActionButtons = ({
           text="Send"
           label="Send"
           id="send-button"
-          class={`vads-u-width--full vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0
-                      small-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0`}
+          class={`
+            small-screen:vads-u-flex--1
+            small-screen:vads-u-margin-bottom--0
+            small-screen:vads-u-margin-right--1
+            vads-u-margin-bottom--2
+            vads-u-margin-right--0
+            vads-u-margin-top--0
+            vads-u-width--full
+          `}
           data-testid="Send-Button"
+          data-dd-action-name="Send Button"
           onClick={onSend}
         />
       )}
@@ -33,9 +43,19 @@ const ComposeFormActionButtons = ({
         <button
           type="button"
           id="save-draft-button"
-          className={`usa-button usa-button-secondary save-draft-button vads-u-width--full small-screen:vads-u-margin-left--1
-                            xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0 xsmall-screen:vads-u-margin-right--1
-                            xsmall-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--2 vads-u-padding-x--0p5`}
+          className={`
+            save-draft-button
+            usa-button
+            usa-button-secondary
+            vads-u-margin-bottom--2
+            vads-u-margin-right--0
+            vads-u-margin-top--0
+            vads-u-padding-x--0p5
+            vads-u-width--full
+            xsmall-screen:vads-u-flex--1
+            xsmall-screen:vads-u-margin-bottom--0
+            xsmall-screen:vads-u-margin-right--1
+          `}
           data-testid="Save-Draft-Button"
           onClick={e => onSaveDraft('manual', e)}
         >
@@ -46,8 +66,10 @@ const ComposeFormActionButtons = ({
       {/* UCD requested to keep button even when not saved as draft */}
       <DeleteDraft
         draftId={draftId}
+        draftsCount={draftsCount}
         formPopulated={formPopulated}
         navigationError={navigationError}
+        refreshThreadCallback={refreshThreadCallback}
         savedForm={savedForm}
         setNavigationError={setNavigationError}
         setUnsavedNavigationError={setUnsavedNavigationError}
@@ -62,9 +84,11 @@ const ComposeFormActionButtons = ({
 ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
+  draftsCount: PropTypes.number,
   formPopulated: PropTypes.bool,
   messageBody: PropTypes.string,
   navigationError: PropTypes.object,
+  refreshThreadCallback: PropTypes.func,
   savedForm: PropTypes.bool,
   setDeleteButtonClicked: PropTypes.func,
   setNavigationError: PropTypes.func,

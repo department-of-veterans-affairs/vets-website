@@ -5,6 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import {
   fillDateWebComponentPattern,
+  fillTextAreaWebComponent,
   fillTextWebComponent,
   reviewAndSubmitPageFlow,
   selectCheckboxGroupWebComponent,
@@ -72,7 +73,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { otherBenefitDetails } = data;
-            fillTextWebComponent('otherBenefitDetails', otherBenefitDetails);
+            fillTextAreaWebComponent(
+              'otherBenefitDetails',
+              otherBenefitDetails,
+            );
             cy.findByText(/Continue/i, { selector: 'button' }).click();
           });
         });

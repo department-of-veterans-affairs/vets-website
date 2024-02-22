@@ -30,6 +30,7 @@ const getData = ({
   formData = {},
   contestableIssues = { status: '' },
   returnUrl = '/veteran-details',
+  isStartingOver = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -71,6 +72,7 @@ const getData = ({
       },
     },
     contestableIssues,
+    isStartingOver,
   },
 });
 
@@ -168,7 +170,7 @@ describe('FormApp', () => {
       },
       formData: {
         contestedIssues: [],
-        areaOfDisagreement: [],
+        areaOfDisagreement: [{}],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },
     });
@@ -255,6 +257,28 @@ describe('FormApp', () => {
         expect(action.length).to.eq(0);
       });
     });
+    it('should update part3 flag in formData', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: false,
+      });
+      const store = mockStore({
+        ...data,
+        /* eslint-disable camelcase */
+        featureToggles: { form10182_nod: true, nod_part3_update: true },
+        /* eslint-enable camelcase */
+      });
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions();
+        expect(action[1].type).to.eq(SET_DATA);
+        expect(action[1].data[SHOW_PART3]).to.be.true;
+      });
+    });
     it('should not redirect if on page before part3 questions', async () => {
       const { props, data } = getData({
         ...testData,
@@ -272,6 +296,25 @@ describe('FormApp', () => {
         expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
       });
     });
+    it('should not redirect if starting over', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: true,
+        isStartingOver: true,
+      });
+      const store = mockStore(data);
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions()[0];
+        expect(action.type).to.eq(SET_DATA);
+        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
+      });
+    });
+
     it('should redirect if on page after part3 questions', async () => {
       const { props, data } = getData({
         ...testData,

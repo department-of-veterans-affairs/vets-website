@@ -7,6 +7,7 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { getAppData } from '../selectors';
 import LoadingIndicator from './LoadingIndicator';
@@ -16,16 +17,13 @@ function IntroductionLogin({
   isLoggedIn,
   isLOA3,
   isPersonalInfoFetchComplete,
-  isSponsorsFetchComplete,
+  isPersonalInfoFetchFailed,
   route,
   showHideLoginModal,
-  showMebEnhancements,
-  showMebEnhancements06,
+  showMeb1990EMaintenanceAlert,
   user,
 }) {
-  const apiCallsComplete =
-    isLOA3 === false ||
-    (isPersonalInfoFetchComplete && isSponsorsFetchComplete);
+  const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
 
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
@@ -33,14 +31,16 @@ function IntroductionLogin({
 
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
-  const headlineText = showMebEnhancements06
-    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.'
-    : 'Save time-and save your work in progress-by signing in before starting your application.';
-
+  const headlineText =
+    'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.';
+  const shouldShowLoadingIndicator =
+    ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete) &&
+    !isPersonalInfoFetchFailed &&
+    !showMeb1990EMaintenanceAlert;
+  const shouldShowMaintenanceAlert = showMeb1990EMaintenanceAlert;
   return (
     <>
-      {((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
-        !apiCallsComplete) && <LoadingIndicator />}
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
 
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
@@ -48,8 +48,28 @@ function IntroductionLogin({
         </h2>
       )}
 
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
+
+      {shouldShowMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We’re currently making updates to the My Education Benefits
+              platform. We apologize for the inconvenience. Please check back
+              soon.
+            </p>
+          </div>
+        </va-alert>
+      )}
+
       {!isLoggedIn &&
-        user?.login?.hasCheckedKeepAlive && (
+        user?.login?.hasCheckedKeepAlive &&
+        !shouldShowMaintenanceAlert && (
           <>
             <va-alert
               close-btn-aria-label="Close notification"
@@ -91,28 +111,18 @@ function IntroductionLogin({
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
-              {showMebEnhancements ? (
-                // If showMebEnhancements is true, display paper form option
-                <>
-                  If you don't want to sign in, you can{' '}
-                  <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
-                    apply using the paper form
-                  </a>
-                  . Please expect longer processing time for decisions when
-                  opting for this method.
-                </>
-              ) : (
-                // If showMebEnhancements is false, display option to start application without signing in
-                <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
-                  Start your application without signing in
-                </a>
-              )}
+              If you don't want to sign in, you can{' '}
+              <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+                apply using the paper form
+              </a>
+              . Please expect longer processing time for decisions when opting
+              for this method.
             </p>
           </>
         )}
-
-      {apiCallsComplete &&
-        isLoggedIn &&
+      {isLoggedIn &&
+        apiCallsComplete &&
+        !shouldShowMaintenanceAlert &&
         isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
@@ -170,16 +180,18 @@ IntroductionLogin.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
-  isSponsorsFetchComplete: PropTypes.bool,
+  isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
+  showMeb1990EMaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
+  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  showMeb1990EMaintenanceAlert:
+    state.featureToggles[featureFlagNames.showMeb1990EMaintenanceAlert],
 });
 
 const mapDispatchToProps = {

@@ -7,10 +7,16 @@ import {
   getAllergiesList,
   clearAllergiesError,
 } from '../actions/prescriptions';
-import PrintHeader from './PrintHeader';
+import PrintOnlyPage from './PrintOnlyPage';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { dateFormat, generateMedicationsPDF } from '../util/helpers';
-import PrintDownload from '../components/shared/PrintDownload';
+import {
+  dateFormat,
+  generateMedicationsPDF,
+  generateTextFile,
+} from '../util/helpers';
+import PrintDownload, {
+  DOWNLOAD_FORMAT,
+} from '../components/shared/PrintDownload';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
 import { updatePageTitle } from '../../shared/util/helpers';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
@@ -21,7 +27,18 @@ import {
   buildNonVAPrescriptionPDFList,
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
-import { PDF_GENERATE_STATUS } from '../util/constants';
+import {
+  buildVAPrescriptionTXT,
+  buildNonVAPrescriptionTXT,
+  buildAllergiesTXT,
+} from '../util/txtConfigs';
+import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
+import { getPrescriptionImage } from '../api/rxApi';
+import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
+import { reportGeneratedBy } from '../../shared/util/constants';
+import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
+import { Actions } from '../util/actionTypes';
+import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -35,9 +52,11 @@ const PrescriptionDetails = () => {
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const { prescriptionId } = useParams();
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
-  const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
-    PDF_GENERATE_STATUS.NotStarted,
-  );
+  const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
+    status: PDF_TXT_GENERATE_STATUS.NotStarted,
+    format: undefined,
+    message: undefined,
+  });
   const dispatch = useDispatch();
 
   const prescriptionHeader =
@@ -45,6 +64,13 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
+  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  refillHistory.push({
+    prescriptionName: prescription?.prescriptionName,
+    dispensedDate: prescription?.dispensedDate,
+    cmopNdcNumber: prescription?.cmopNdcNumber,
+    id: prescription?.prescriptionId,
+  });
 
   useEffect(() => {
     if (crumbs.length === 0 && prescription) {
@@ -52,7 +78,7 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/about-medications',
+              url: '/my-health/medications/about',
               label: 'About medications',
             },
             {
@@ -83,6 +109,18 @@ const PrescriptionDetails = () => {
     [prescription],
   );
 
+  const baseTitle = 'Medications | Veterans Affairs';
+  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch({ type: Actions.Prescriptions.CLEAR_DETAILS });
+      };
+    },
+    [dispatch],
+  );
+
   const pdfData = useCallback(
     allergiesPdfList => {
       return {
@@ -90,7 +128,7 @@ const PrescriptionDetails = () => {
         headerBanner: [
           {
             text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
           },
           {
             text: '988',
@@ -104,12 +142,9 @@ const PrescriptionDetails = () => {
           ? `${userName.last}, ${userName.first}`
           : `${userName.last || ' '}`,
         headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: `My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          'MMMM D, YYYY',
-        )}`,
+        footerLeft: reportGeneratedBy,
         footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-        title: 'Medication Details',
+        title: 'Medication details',
         preface: [
           {
             value:
@@ -123,6 +158,20 @@ const PrescriptionDetails = () => {
           },
           {
             header: 'Allergies',
+            ...(allergiesPdfList &&
+              allergiesPdfList.length > 0 && {
+                preface: [
+                  {
+                    value:
+                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
+                  },
+                  {
+                    value: `Showing ${
+                      allergiesPdfList.length
+                    } records from newest to oldest`,
+                  },
+                ],
+              }),
             list: allergiesPdfList || [],
             ...(allergiesPdfList &&
               !allergiesPdfList.length && {
@@ -140,8 +189,36 @@ const PrescriptionDetails = () => {
     [userName, dob, prescription, prescriptionPdfList, prescriptionHeader],
   );
 
-  const handleDownloadPDF = async () => {
-    setPdfGenerateStatus(PDF_GENERATE_STATUS.InProgress);
+  const txtData = useCallback(
+    allergiesList => {
+      return (
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
+          'Medication details\n\n' +
+          'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.\n\n'}${
+          userName.first
+            ? `${userName.last}, ${userName.first}`
+            : userName.last || ' '
+        }\n\n` +
+        `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}\n\n` +
+        `Report generated by My HealtheVet on VA.gov on ${dateFormat(
+          Date.now(),
+          'MMMM D, YYYY',
+        )}\n\n${
+          nonVaPrescription
+            ? buildNonVAPrescriptionTXT(prescription)
+            : buildVAPrescriptionTXT(prescription)
+        }${allergiesList ?? ''}`
+      );
+    },
+    [userName, dob, prescription, nonVaPrescription],
+  );
+
+  const handleFileDownload = async format => {
+    setPdfTxtGenerateStatus({
+      status: PDF_TXT_GENERATE_STATUS.InProgress,
+      format,
+      message: 'Downloading your file...',
+    });
     await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
   };
 
@@ -154,31 +231,71 @@ const PrescriptionDetails = () => {
         }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
         pdfData(allergiesList),
       ).then(() => {
-        setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
+        setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
       });
     },
-    [nonVaPrescription, userName, pdfData],
+    [nonVaPrescription, userName, pdfData, setPdfTxtGenerateStatus],
   );
 
-  useEffect(
-    () => {
-      if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
+  const generateTXT = useCallback(
+    allergiesList => {
+      generateTextFile(
+        txtData(allergiesList),
+        `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
+          userName.first ? `${userName.first}-${userName.last}` : userName.last
+        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+      );
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [prescriptionId, dispatch],
+    [nonVaPrescription, userName, txtData, setPdfTxtGenerateStatus],
   );
 
   useEffect(
     () => {
-      if (allergies && pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress) {
-        generatePDF(buildAllergiesPDFList(allergies));
+      if (!prescription && prescriptionId)
+        dispatch(getPrescriptionDetails(prescriptionId));
+    },
+    [prescriptionId, dispatch, prescription],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getAllergiesList());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (
+        allergies &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+      ) {
+        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
+          generatePDF(buildAllergiesPDFList(allergies));
+        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
+          generateTXT(buildAllergiesTXT(allergies));
+        }
       }
     },
-    [allergies, pdfGenerateStatus, generatePDF],
+    [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
   );
 
   useEffect(
     () => {
-      if (prescription) {
+      if (!prescription) return;
+      const cmopNdcNumber =
+        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription.cmopNdcNumber;
+      if (cmopNdcNumber) {
+        getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
+          setPrescriptionPdfList(
+            nonVaPrescription
+              ? buildNonVAPrescriptionPDFList(prescription)
+              : buildVAPrescriptionPDFList(prescription, image),
+          );
+        });
+      } else {
         setPrescriptionPdfList(
           nonVaPrescription
             ? buildNonVAPrescriptionPDFList(prescription)
@@ -221,65 +338,101 @@ const PrescriptionDetails = () => {
 
   const handleModalClose = () => {
     dispatch(clearAllergiesError());
-    setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
+    setPdfTxtGenerateStatus({
+      ...pdfTxtGenerateStatus,
+      status: PDF_TXT_GENERATE_STATUS.NotStarted,
+    });
   };
 
   const handleModalDownloadButton = () => {
-    generatePDF();
+    if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
+      generatePDF();
+    } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
+      generateTXT(buildAllergiesTXT());
+    }
     dispatch(clearAllergiesError());
   };
 
   const content = () => {
-    if (prescription) {
+    if (
+      (pdfTxtGenerateStatus.status !== PDF_TXT_GENERATE_STATUS.InProgress ||
+        allergiesError) &&
+      prescription
+    ) {
       return (
         <>
-          <PrintHeader />
-          <AllergiesErrorModal
-            onCloseButtonClick={handleModalClose}
-            onDownloadButtonClick={handleModalDownloadButton}
-            onCancelButtonClick={handleModalClose}
-            visible={Boolean(
-              pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress &&
-                allergiesError,
-            )}
-          />
-          <h1
-            aria-describedby="last-filled"
-            data-testid="prescription-name"
-            className="vads-u-margin-bottom--0"
-            id="prescription-name"
-          >
-            {prescriptionHeader}
-          </h1>
-          <p
-            id="last-filled"
-            className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
-            data-testid="rx-last-filled-date"
-          >
-            {filledEnteredDate()}
-          </p>
           <div className="no-print">
-            <PrintDownload
-              download={handleDownloadPDF}
-              isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
+            <AllergiesErrorModal
+              onCloseButtonClick={handleModalClose}
+              onDownloadButtonClick={handleModalDownloadButton}
+              onCancelButtonClick={handleModalClose}
+              visible={Boolean(
+                pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.InProgress && allergiesError,
+              )}
             />
-            <BeforeYouDownloadDropdown />
+            <h1
+              aria-describedby="last-filled"
+              data-testid="prescription-name"
+              className="vads-u-margin-bottom--0"
+              id="prescription-name"
+            >
+              {prescriptionHeader}
+            </h1>
+            <p
+              id="last-filled"
+              className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
+              data-testid="rx-last-filled-date"
+            >
+              {filledEnteredDate()}
+            </p>
+            <div className="no-print">
+              <PrintDownload
+                download={handleFileDownload}
+                isSuccess={
+                  pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.Success
+                }
+              />
+              <BeforeYouDownloadDropdown />
+            </div>
+            {nonVaPrescription ? (
+              <NonVaPrescription {...prescription} />
+            ) : (
+              <VaPrescription {...prescription} />
+            )}
           </div>
-          <div className="print-only">
-            <strong>Note:</strong> This file doesn’t include your allergies or
-            adverse reactions.
-          </div>
-          {nonVaPrescription ? (
-            <NonVaPrescription {...prescription} />
-          ) : (
-            <VaPrescription {...prescription} />
-          )}
+          <PrintOnlyPage
+            title="Medication details"
+            preface={
+              prescription
+                ? 'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.'
+                : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+            }
+          >
+            {prescription && (
+              <>
+                <PrescriptionPrintOnly
+                  hideLineBreak
+                  rx={prescription}
+                  refillHistory={!nonVaPrescription ? refillHistory : []}
+                  isDetailsRx
+                />
+                <AllergiesPrintOnly
+                  allergies={allergies}
+                  allergiesError={allergiesError}
+                />
+              </>
+            )}
+          </PrintOnlyPage>
         </>
       );
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message={
+          pdfTxtGenerateStatus.message || 'Loading your medication record...'
+        }
         setFocus
         data-testid="loading-indicator"
       />

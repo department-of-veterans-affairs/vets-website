@@ -5,6 +5,7 @@ import {
   replacementFunctions as dataUtils,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+import { roundToNearest } from '../utils/helpers';
 import {
   getErrorStatus,
   USER_FORBIDDEN_ERROR,
@@ -13,12 +14,12 @@ import {
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
   FETCH_APPEALS_PENDING,
+} from '../utils/appeals-helpers';
+import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
   FETCH_CLAIMS_ERROR,
-  UNKNOWN_STATUS,
-} from '../utils/appeals-v2-helpers';
-import { roundToNearest } from '../utils/claims-helpers';
+} from '../utils/claims-helpers';
 
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
@@ -84,42 +85,6 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function pollRequest(options) {
-  const {
-    onError,
-    onSuccess,
-    pollingExpiration,
-    pollingInterval,
-    request = apiRequest,
-    shouldFail,
-    shouldSucceed,
-    target,
-  } = options;
-  return request(
-    target,
-    null,
-    response => {
-      if (shouldSucceed(response)) {
-        onSuccess(response);
-        return;
-      }
-
-      if (shouldFail(response)) {
-        onError(response);
-        return;
-      }
-
-      if (pollingExpiration && Date.now() > pollingExpiration) {
-        onError(null);
-        return;
-      }
-
-      setTimeout(pollRequest, pollingInterval, options);
-    },
-    error => onError(error),
-  );
-}
-
 export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
@@ -128,7 +93,7 @@ const recordClaimsAPIEvent = ({
   startTime,
   success,
   error,
-  apiName = 'GET EVSS claims /v0/evss_claims_async',
+  apiName = 'GET Lighthouse claims /v0/benefits_claims',
 }) => {
   const event = {
     event: 'api_call',
@@ -153,78 +118,7 @@ const recordClaimsAPIEvent = ({
   }
 };
 
-const recordLighthouseClaimsAPIEvent = ({ startTime, success, error }) => {
-  recordClaimsAPIEvent({
-    startTime,
-    success,
-    error,
-    apiName: 'GET Lighthouse claims /v0/benefits_claims',
-  });
-};
-
-export function getClaimsV2(options = {}) {
-  // Throw an error if an unsupported value is on the `options` object
-  const recognizedOptions = ['poll', 'pollingExpiration'];
-  Object.keys(options).forEach(option => {
-    if (!recognizedOptions.includes(option)) {
-      throw new TypeError(
-        `Unrecognized option "${option}" passed to "getClaimsV2"\nOnly the following options are supported:\n${recognizedOptions.join(
-          '\n',
-        )}`,
-      );
-    }
-  });
-  const { poll = pollRequest, pollingExpiration } = options;
-  const startTimestampMs = Date.now();
-  return dispatch => {
-    dispatch({ type: FETCH_CLAIMS_PENDING });
-
-    return poll({
-      onError: response => {
-        const errorCode = getErrorStatus(response);
-        if (errorCode && errorCode !== UNKNOWN_STATUS) {
-          Sentry.withScope(scope => {
-            scope.setFingerprint(['{{default}}', errorCode]);
-            Sentry.captureException(
-              `va-dashboard_claims_v2_err_get_claims ${errorCode}`,
-            );
-          });
-        }
-        // This onError callback will be called with a null response arg when
-        // the API takes too long to return data
-        if (response === null) {
-          recordClaimsAPIEvent({
-            startTime: startTimestampMs,
-            success: false,
-            error: '504 Timed out - API took too long',
-          });
-        } else {
-          recordClaimsAPIEvent({
-            startTime: startTimestampMs,
-            success: false,
-            error: errorCode,
-          });
-        }
-
-        return dispatch({ type: FETCH_CLAIMS_ERROR });
-      },
-      onSuccess: response => {
-        recordClaimsAPIEvent({
-          startTime: startTimestampMs,
-          success: true,
-        });
-        dispatch(fetchClaimsSuccess(response));
-      },
-      pollingExpiration,
-      pollingInterval: window.VetsGov.pollTimeout || 5000,
-      shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
-      target: '/evss_claims_async',
-    });
-  };
-}
-
-export function getLighthouseClaims() {
+export function getClaims() {
   const startTimestampMs = Date.now();
 
   return dispatch => {
@@ -232,7 +126,7 @@ export function getLighthouseClaims() {
 
     return apiRequest('/benefits_claims')
       .then(response => {
-        recordLighthouseClaimsAPIEvent({
+        recordClaimsAPIEvent({
           startTime: startTimestampMs,
           success: true,
         });
@@ -246,7 +140,7 @@ export function getLighthouseClaims() {
             `va-dashboard_claims_v2_err_get_lighthouse_claims ${errorCode}`,
           );
         });
-        recordLighthouseClaimsAPIEvent({
+        recordClaimsAPIEvent({
           startTime: startTimestampMs,
           success: false,
           error: errorCode,

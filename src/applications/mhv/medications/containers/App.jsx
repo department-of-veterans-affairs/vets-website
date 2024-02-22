@@ -5,6 +5,10 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { medicationsUrls } from '../util/constants';
 
@@ -39,7 +43,7 @@ const App = ({ children }) => {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
-          message="Loading your medications..."
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
@@ -60,13 +64,18 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      {children}
+      <DowntimeNotification
+        appTitle="Medications"
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvMeds]}
+      >
+        {children}
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 };
 
 App.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.node,
 };
 
 export default App;

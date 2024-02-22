@@ -22,7 +22,12 @@ const CompensationTypeReviewPage = ({ data }) => {
         <dl className="review">
           <div className="review-row">
             <dt>Do you receive VA disability compensation?</dt>
-            <dd>{compensationType}</dd>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="VA disability compensation"
+            >
+              {compensationType}
+            </dd>
           </div>
         </dl>
         <p className="vads-u-margin-top--1p5">

@@ -1,3 +1,5 @@
+// note: the id's are no longer used for classification, but are kept here for compatibility with the old code
+
 export default {
   0: 'ACL tear (anterior cruciate ligament tear), right',
   1: 'ACL tear (anterior cruciate ligament tear), left',

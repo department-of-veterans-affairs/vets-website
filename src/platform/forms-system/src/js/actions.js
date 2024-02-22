@@ -13,7 +13,24 @@ export const SET_VIEWED_PAGES = 'SET_VIEWED_PAGES';
 export const SET_PRE_SUBMIT = 'SET_PRE_SUBMIT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
+export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
+export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
+
+export function closeReviewChapter(closedChapter, pageKeys = []) {
+  return {
+    type: CLOSE_REVIEW_CHAPTER,
+    closedChapter,
+    pageKeys,
+  };
+}
+
+export function openReviewChapter(openedChapter) {
+  return {
+    type: OPEN_REVIEW_CHAPTER,
+    openedChapter,
+  };
+}
 
 export function setData(data) {
   return {
@@ -214,7 +231,7 @@ export function uploadFile(
       uiOptions.maxSize;
 
     if (file.size > maxSize) {
-      const fileSizeText = displayFileSize(maxSize);
+      const fileSizeText = uiOptions?.maxSizeText || displayFileSize(maxSize);
       const fileTooBigErrorMessage = enableShortWorkflow
         ? 'We couldn\u2019t upload your file because it\u2019s too big. ' +
           `Please make sure the file is ${fileSizeText} or less and try again.`
@@ -231,7 +248,8 @@ export function uploadFile(
     }
 
     if (file.size < uiOptions.minSize) {
-      const fileSizeText = displayFileSize(uiOptions.minSize);
+      const fileSizeText =
+        uiOptions?.minSizeText || displayFileSize(uiOptions.minSize);
       const fileTooSmallErrorMessage = enableShortWorkflow
         ? 'We couldn\u2019t upload your file because it\u2019s too small. ' +
           `Please make sure the file is ${fileSizeText} or more and try again.`

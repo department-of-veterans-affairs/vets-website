@@ -346,7 +346,7 @@ fieldset.schemaform-field-template {
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding: 2em 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-top: 0.6em;
     // padding-left: inherit;
   }
@@ -474,6 +474,16 @@ legend.schemaform-label.schemaform-file-label {
   outline: none;
 }
 
+.form-review-panel-page-header {
+  padding-right: 1rem;
+  padding-top: 1rem;
+  line-height: 2.5rem;
+}
+.form-review-panel-page-header-row {
+  align-items: flex-start;
+  justify-content: flex-end; /* ensures edit is on right side */
+}
+
 .schemaform-review-array-error {
   margin: -1em -0.8em 0;
   border: 2px solid $color-gold-lightest;
@@ -509,6 +519,7 @@ legend.schemaform-label.schemaform-file-label {
       height: 1.3em;
       background-size: 2em;
       margin-right: 0.5em;
+      margin-top: 1rem;
     }
   }
   dl.review {

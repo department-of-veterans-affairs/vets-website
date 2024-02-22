@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
-import { scrollToTop } from '../helpers';
+import { scrollToTop, formatFullName } from '../helpers';
 
 const centralTz = 'America/Chicago';
 
@@ -19,14 +19,14 @@ class ConfirmationPage extends React.Component {
       form: { submission, data },
     } = this.props;
     const response = submission?.response ?? {};
-    const name = data?.veteranFullName;
+    const fullName = formatFullName(data?.veteranFullName ?? {});
     const regionalOffice = response?.regionalOffice || [];
 
     const pmcName = regionalOffice?.length
       ? regionalOffice[0].replace('Attention:', '').trim()
       : null;
 
-    const zonedDate = utcToZonedTime(submission?.submittedAt, centralTz);
+    const zonedDate = utcToZonedTime(submission?.timestamp, centralTz);
     const submittedAt = format(zonedDate, 'LLL d, yyyy h:mm a zzz', {
       timeZone: centralTz,
     });
@@ -44,9 +44,7 @@ class ConfirmationPage extends React.Component {
             Veterans Pension Benefit Claim{' '}
             <span className="additional">(Form 21P-527EZ)</span>
           </h4>
-          <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
-          </span>
+          <span>for {fullName}</span>
 
           <ul className="claim-list">
             <li>

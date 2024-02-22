@@ -134,16 +134,18 @@ export const isArrayAndHasItems = obj => {
  * @param {Object} pdfData data to be passed to pdf generator
  * @param {String} sentryError name of the app feature where the call originated
  * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
+ * @param {String} templateId the template id in the pdfGenerator utility, defaults to medicalRecords
  */
 export const makePdf = async (
   pdfName,
   pdfData,
   sentryError,
   runningUnitTest,
+  templateId,
 ) => {
   try {
     if (!runningUnitTest) {
-      await generatePdf('medicalRecords', pdfName, pdfData);
+      await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
     }
   } catch (error) {
     sendErrorToSentry(error, sentryError);
@@ -193,4 +195,35 @@ export const getNameDateAndTime = user => {
   return `${user.userFullName.first}-${user.userFullName.last}-${moment()
     .format('M-D-YYYY_hhmmssa')
     .replace(/\./g, '')}`;
+};
+
+/**
+ * Helper function to retrieve details for a given item.
+ *
+ * If a matching item is found in the list, those details are returned.
+ * If no matching item is found, it fetches the details for the given id using getDetail().
+ *
+ * @param {string} id - The ID of the detail to retrieve.
+ * @param {Array} list - The list of detail object to search in.
+ * @param {Function} dispatch - The Redux dispatch function.
+ * @param {Function} getDetail - The function to fetch detail's object by ID from an API.
+ * @param {string} actionsGetFromList - The action type to dispatch when a matching item is found in the list.
+ * @param {string} actionsGet - The action type to dispatch when a matching item is not found in the list.
+ */
+export const dispatchDetails = async (
+  id,
+  list,
+  dispatch,
+  getDetail,
+  actionsGetFromList,
+  actionsGet,
+) => {
+  const matchingItem = list && list.find(item => item.id === id);
+
+  if (matchingItem) {
+    dispatch({ type: actionsGetFromList, response: matchingItem });
+  } else {
+    const response = await getDetail(id);
+    dispatch({ type: actionsGet, response });
+  }
 };

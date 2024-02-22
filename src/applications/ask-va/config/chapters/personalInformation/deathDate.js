@@ -1,14 +1,15 @@
 import React from 'react';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import { CHAPTER_3 } from '../../../constants';
 
-const question = (
-  <h4 className="vads-u-display--inline">{CHAPTER_3.PAGE_7.QUESTION_1}</h4>
+const questionHeader = (
+  <h4 className="vads-u-display--inline">{CHAPTER_3.DEATH_DATE.TITLE}</h4>
 );
 
 const deathDatePage = {
   uiSchema: {
-    dateOfDeath: currentOrPastDateUI(question),
+    'ui:title': questionHeader,
+    dateOfDeath: currentOrPastDateUI(CHAPTER_3.DEATH_DATE.QUESTION_1),
   },
   schema: {
     type: 'object',

@@ -45,12 +45,15 @@ describe('Fill Refill Button component', () => {
     expect(errorMessage).to.exist;
   });
 
-  it('dispatches the fillPrescription action', async () => {
+  it('dispatches fillPrescription action and shows correct loading message', async () => {
     const screen = setup();
-    const fillButton = screen.getByTestId('refill-request-button');
+    const fillButton = await screen.findByTestId('refill-request-button');
     fireEvent.click(fillButton);
     expect(fillButton).to.exist;
-    await waitFor(() => expect(screen.getByTestId('refill-loader')).to.exist);
+    waitFor(() => {
+      expect(screen.getByTestId('refill-loader')).to.exist;
+      expect(screen.getByText('Submitting your request...')).to.exist;
+    });
   });
 
   it('does not render the fill button when the prescription is NOT fillable', () => {
@@ -73,5 +76,28 @@ describe('Fill Refill Button component', () => {
       },
     );
     expect(screen.queryByTestId('refill-request-button')).to.not.exist;
+  });
+
+  it('renders the correct text when dispensedDate is null', () => {
+    const screen = renderWithStoreAndRouter(
+      <FillRefillButton {...{ ...rx, dispensedDate: null }} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: '/1234567890',
+      },
+    );
+    const button = screen.getByTestId('refill-request-button');
+    expect(button).to.have.property('text', 'Request the first fill');
+  });
+
+  it('renders the correct text when dispensedDate exists', () => {
+    const screen = renderWithStoreAndRouter(<FillRefillButton {...rx} />, {
+      initialState: {},
+      reducers: reducer,
+      path: '/1234567890',
+    });
+    const button = screen.getByTestId('refill-request-button');
+    expect(button).to.have.property('text', 'Request a refill');
   });
 });

@@ -6,6 +6,8 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { parseVeteranDob } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
@@ -52,7 +54,7 @@ const App = props => {
       if (!isAppLoading) {
         const defaultViewFields = {
           'view:userGender': veteranGender,
-          'view:userDob': veteranDateOfBirth,
+          'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': canSubmitFinancialInfo,
         };
@@ -66,6 +68,9 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isAppLoading, canSubmitFinancialInfo, veteranFullName],
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
 
   return isAppLoading || !isProdEnabled ? (
     <va-loading-indicator

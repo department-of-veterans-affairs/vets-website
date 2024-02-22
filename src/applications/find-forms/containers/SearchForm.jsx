@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import URLSearchParams from 'url-search-params';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
 export const SearchForm = ({ fetchForms }) => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const query = queryParams.get('q') || '';
+  const query = new URLSearchParams(window.location.search).get('q') ?? '';
   const [queryState, setQueryState] = useState(query);
   const [showQueryError, setShowQueryError] = useState(false);
 
@@ -102,6 +100,7 @@ export const SearchForm = ({ fetchForms }) => {
         onInput={handleQueryChange}
         onSubmit={onSubmitHandler}
         buttonText="Search"
+        uswds={false}
       />
     </div>
   );

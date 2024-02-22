@@ -490,13 +490,13 @@ describe('actions/paymentInformation', () => {
                 meta: {
                   messages: [
                     {
-                      key: 'cnp.payment.routing.number.fraud.message',
+                      key: 'test.edu.error.message',
                       severity: 'ERROR',
                       text: 'Routing number related to potential fraud',
                     },
                   ],
                 },
-                source: 'EVSS::PPIU::Service',
+                source: 'EVSS::EDU::Service',
                 status: '422',
                 title: 'Potential Fraud',
               },

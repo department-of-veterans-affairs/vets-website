@@ -16,6 +16,14 @@ const initialState = {
 };
 
 const extractName = record => {
+  if (
+    record.content &&
+    record.content.length > 0 &&
+    record.content[0].attachment &&
+    record.content[0].attachment.title
+  ) {
+    return record.content[0].attachment.title;
+  }
   return (
     isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
   );
@@ -23,6 +31,11 @@ const extractName = record => {
 
 const extractType = record => {
   return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
+};
+
+const extractAuthenticator = record => {
+  return extractContainedResource(record, record.authenticator?.reference)
+    ?.name[0].text;
 };
 
 const extractAuthor = record => {
@@ -44,8 +57,18 @@ const extractNote = record => {
   return (
     isArrayAndHasItems(record.content) &&
     typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64').toString('utf-8')
+    Buffer.from(record.content[0].attachment.data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n') // Standardize line endings
   );
+};
+
+export const getDateSigned = record => {
+  const ext = record.authenticator.extension;
+  if (isArrayAndHasItems(ext) && ext[0].valueDateTime) {
+    return formatDateLong(ext[0].valueDateTime);
+  }
+  return null;
 };
 
 const convertAdmissionAndDischargeDetails = record => {
@@ -76,8 +99,10 @@ const convertProgressNote = record => {
     id: record.id,
     name: extractName(record),
     type: extractType(record),
-    dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    dateSigned: getDateSigned(record) || EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
+    coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: extractNote(record) || EMPTY_FIELD,
   };
@@ -87,21 +112,19 @@ const convertProgressNote = record => {
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
  * @returns the type of note/summary that was passed
  */
-const getRecordType = record => {
-  if (
-    record?.type?.coding.some(
-      coding => coding.code === loincCodes.DISCHARGE_SUMMARY,
-    )
-  ) {
-    return noteTypes.DISCHARGE_SUMMARY;
+export const getRecordType = record => {
+  const typeMapping = {
+    [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
+    [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
+    [loincCodes.CONSULT_RESULT]: noteTypes.CONSULT_RESULT,
+  };
+
+  for (const [code, noteType] of Object.entries(typeMapping)) {
+    if (record?.type?.coding.some(coding => coding.code === code)) {
+      return noteType;
+    }
   }
-  if (
-    record?.type?.coding.some(
-      coding => coding.code === loincCodes.PHYSICIAN_PROCEDURE_NOTE,
-    )
-  ) {
-    return noteTypes.PHYSICIAN_PROCEDURE_NOTE;
-  }
+
   return noteTypes.OTHER;
 };
 
@@ -111,6 +134,7 @@ const getRecordType = record => {
 const notesAndSummariesConverterMap = {
   [noteTypes.DISCHARGE_SUMMARY]: convertAdmissionAndDischargeDetails,
   [noteTypes.PHYSICIAN_PROCEDURE_NOTE]: convertProgressNote,
+  [noteTypes.CONSULT_RESULT]: convertProgressNote,
 };
 
 /**
@@ -120,7 +144,9 @@ const notesAndSummariesConverterMap = {
 export const convertCareSummariesAndNotesRecord = record => {
   const type = getRecordType(record);
   const convertRecord = notesAndSummariesConverterMap[type];
-  return convertRecord ? convertRecord(record) : record;
+  return convertRecord
+    ? convertRecord(record)
+    : { ...record, type: noteTypes.OTHER };
 };
 
 export const careSummariesAndNotesReducer = (state = initialState, action) => {
@@ -133,13 +159,21 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
+      return {
+        ...state,
+        careSummariesAndNotesDetails: action.response,
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
         careSummariesAndNotesList:
-          action.response.entry?.map(note => {
-            return convertCareSummariesAndNotesRecord(note.resource);
-          }) || [],
+          action.response.entry
+            ?.map(note => {
+              return convertCareSummariesAndNotesRecord(note.resource);
+            })
+            .filter(record => record.type !== noteTypes.OTHER) || [],
       };
     }
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {

@@ -46,10 +46,9 @@
     "standardClaim": false,
     "newPrimaryDisabilities": [
       {
-        "condition": "PTSD (post traumatic stress disorder)",
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
         "unemployabilityDisability": true,
-        "cause": "NEW",
-        "classificationCode": "5420"
+        "cause": "NEW"
       }
     ],
     "form0781": {
@@ -326,7 +325,7 @@
             "dates": "A while ago. Weird that this isn't a date field, right?"
           }
         ],
-        "disabilityPreventingEmployment": "Diabetes mellitus1,PTSD (post traumatic stress disorder)",
+        "disabilityPreventingEmployment": "Diabetes mellitus1,PTSD (post-traumatic stress disorder), combat-related",
         "underDoctorHopitalCarePast12M": true
       }
     },

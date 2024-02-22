@@ -1,8 +1,12 @@
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   AssetInformationAlert,
-  TotalNetWorthOverTwentyFiveThousand,
+  TotalNetWorthOverTwentyFiveThousandAlert,
 } from '../../../components/FormAlerts';
+
+export const hideIfUnder25000 = formData =>
+  formData.netWorthEstimation === undefined ||
+  parseInt(formData.netWorthEstimation, 10) <= 25000;
 
 /** @type {PageSchema} */
 export default {
@@ -15,11 +19,9 @@ export default {
     },
     netWorthEstimation: currencyUI('Estimate the total value of your assets'),
     'view:warningAlertOnHighValue': {
-      'ui:description': TotalNetWorthOverTwentyFiveThousand,
+      'ui:description': TotalNetWorthOverTwentyFiveThousandAlert,
       'ui:options': {
-        hideIf: formData =>
-          formData.netWorthEstimation === undefined ||
-          parseInt(formData.netWorthEstimation, 10) <= 25000,
+        hideIf: hideIfUnder25000,
       },
     },
   },

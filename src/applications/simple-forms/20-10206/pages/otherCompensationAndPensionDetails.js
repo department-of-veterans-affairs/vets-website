@@ -16,6 +16,9 @@ export default {
         required:
           'Please describe the compensation and/or pension records you’re requesting.',
       },
+      'ui:options': {
+        charcount: true,
+      },
     },
   },
   schema: {
@@ -23,6 +26,7 @@ export default {
     properties: {
       otherCompAndPenDetails: {
         type: 'string',
+        maxLength: 40,
       },
     },
     required: ['otherCompAndPenDetails'],

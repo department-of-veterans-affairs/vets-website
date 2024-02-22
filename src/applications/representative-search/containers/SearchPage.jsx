@@ -1,18 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBreadcrumbs,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
-import SearchResultsHeader from '../components/search/SearchResultsHeader';
-import ResultsList from '../components/search/ResultsList';
-import PaginationWrapper from '../components/search/PaginationWrapper';
-// import { fetchRepresentativeSearchResults } from '../actions/index';
-
-// import { setFocus } from '../utils/helpers';
+import SearchResultsHeader from '../components/results/SearchResultsHeader';
+import ResultsList from '../components/results/ResultsList';
+import PaginationWrapper from '../components/results/PaginationWrapper';
+import GetFormHelp from '../components/footer/GetFormHelp';
+import { ErrorTypes } from '../constants';
 
 import {
   clearSearchText,
@@ -20,10 +24,11 @@ import {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
-  updateSortType,
   geolocateUser,
   geocodeUserAddress,
-  clearGeocodeError,
+  submitRepresentativeReport,
+  updateFromLocalStorage,
+  clearError,
 } from '../actions';
 
 const SearchPage = props => {
@@ -41,14 +46,17 @@ const SearchPage = props => {
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
       page: currentQuery.page || 1,
-      /* eslint-disable camelcase */
-      per_page: 10,
+      perPage: 10,
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.repOrganizationInputString,
-
+      name: currentQuery.representativeInputString,
       ...params,
     };
+
+    if (currentQuery.searchArea !== null) {
+      queryParams.distance = currentQuery.searchArea;
+    }
+
     const queryStringObj = appendQuery(
       `/get-help-from-accredited-representative/find-rep${location.pathname}`,
       queryParams,
@@ -57,7 +65,7 @@ const SearchPage = props => {
   };
 
   const handleSearch = async () => {
-    clearGeocodeError();
+    clearError(ErrorTypes.geocodeError);
     setIsSearching(true);
     props.geocodeUserAddress(props.currentQuery);
   };
@@ -85,11 +93,12 @@ const SearchPage = props => {
           latitude: location.query.lat,
           longitude: location.query.long,
         },
-        repOrganizationQueryString: location.query.name,
-        repOrganizationInputString: location.query.name,
+        representativeQueryString: location.query.name,
+        representativeInputString: location.query.name,
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
+        searchArea: location.query.distance,
       });
     }
   };
@@ -98,25 +107,29 @@ const SearchPage = props => {
     const { currentQuery } = props;
     const {
       context,
-      repOrganizationInputString,
+      representativeInputString,
       representativeType,
       position,
       sortType,
       page,
+      searchArea,
     } = currentQuery;
 
     const { latitude, longitude } = position;
 
     setIsSearching(true);
 
+    const distance = searchArea === 'Show all' ? null : searchArea;
+
     updateUrlParams({
       address: context.location,
-      name: repOrganizationInputString || null,
+      name: representativeInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
       page: page || 1,
       sort: sortType,
+      distance,
     });
 
     if (!props.searchWithInputInProgress) {
@@ -124,11 +137,12 @@ const SearchPage = props => {
         address: currentQuery.context.location,
         lat: latitude,
         long: longitude,
-        name: repOrganizationInputString,
+        name: representativeInputString,
         page,
-        per_page: 10,
+        perPage: 10,
         sort: sortType,
         type: representativeType,
+        distance,
       });
 
       setIsSearching(false);
@@ -146,7 +160,7 @@ const SearchPage = props => {
   // Trigger request on query update following search
   useEffect(
     () => {
-      if (isSearching && !props.currentQuery.geocodeError) {
+      if (isSearching && !props.errors.isErrorGeocode) {
         handleSearchOnQueryChange();
       }
     },
@@ -175,11 +189,11 @@ const SearchPage = props => {
 
   useEffect(
     () => {
-      if (isSearching && props.currentQuery.geocodeError) {
+      if (isSearching && props.errors.isErrorGeocode) {
         setIsSearching(false);
       }
     },
-    [props.currentQuery.geocodeError],
+    [props.errors.isErrorGeocode],
   );
 
   // search complete
@@ -211,34 +225,81 @@ const SearchPage = props => {
   }, []);
 
   const renderBreadcrumbs = () => {
-    return [
+    const breadcrumbs = [
       {
         href: '/',
         label: 'Home',
       },
       {
         href: '/get-help-from-accredited-representative',
-        label: 'Get help from a VA accredited representative',
+        label: 'Get help from a VA accredited representative or VSO',
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
-        label: 'Find a VA accredited representative',
+        label: 'Find a VA accredited representative or VSO',
       },
     ];
+    return (
+      <>
+        <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
+      </>
+    );
   };
 
-  const renderView = () => {
+  const renderSearchSection = () => {
+    return (
+      <div className="row usa-width-three-fourths search-section">
+        <div className="title-section vads-u-padding-y--1">
+          <h1>Find a VA accredited representative or VSO</h1>
+          <p>
+            An accredited attorney, claims agent, or Veterans Service Officer
+            (VSO) can help you file a claim or request a decision review. Use
+            our search tool to find one of these types of accredited
+            representatives to help you.
+          </p>
+          <p>
+            <strong>Note:</strong> You’ll need to contact the accredited
+            representative you’d like to appoint to make sure they’re available
+            to help you.
+          </p>
+        </div>
+
+        <SearchControls
+          geolocateUser={props.geolocateUser}
+          currentQuery={props.currentQuery}
+          onChange={props.updateSearchQuery}
+          onSubmit={handleSearch}
+          clearSearchText={props.clearSearchText}
+          geocodeError={props.errors.isErrorGeocode}
+          clearError={props.clearError}
+        />
+
+        {props.isErrorFetchRepresentatives && (
+          <div className="vads-u-margin-y--3">
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="error"
+              uswds
+              visible
+            >
+              <h2 slot="headline">We’re sorry, something went wrong</h2>
+              <React.Fragment key=".1">
+                <p className="vads-u-margin-y--0">Please try again soon.</p>
+              </React.Fragment>
+            </va-alert>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderResultsSection = () => {
     const {
       currentQuery,
       searchResults,
-      // sortType,
       pagination,
-      searchError,
+      isErrorFetchRepresentatives,
     } = props;
-
-    // const currentPage = pagination ? pagination.currentPage : 1;
-    // const totalPages = pagination ? pagination.totalPages : 1;
-    // const { representativeType } = currentQuery;
 
     const paginationWrapper = () => {
       const currentPage = pagination ? pagination.currentPage : 1;
@@ -258,45 +319,51 @@ const SearchPage = props => {
     const resultsList = () => {
       return (
         <ResultsList
-          // updateUrlParams={updateUrlParams}
           query={currentQuery}
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
           sortType={currentQuery.sortType}
-          onUpdateSortType={props.updateSortType}
+          submitRepresentativeReport={props.submitRepresentativeReport}
         />
       );
     };
 
-    if (isLoading && !searchError) {
+    if (
+      isLoading &&
+      !isErrorFetchRepresentatives &&
+      props.currentQuery.searchCounter > 0
+    ) {
       return (
-        <div>
-          <va-loading-indicator message="Search in progress" />
+        <div className="row usa-width-three-fourths results-section">
+          <div className="loading-indicator-container">
+            <va-loading-indicator
+              label="Searching"
+              message="Searching for representatives..."
+              set-focus
+            />
+          </div>
         </div>
       );
     }
 
     return (
-      <div className="representative-search-results-container">
-        <div id="search-results-title" ref={searchResultTitleRef}>
-          {searchError && (
-            <div className="vads-u-margin-y--3 representative-results-list">
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="error"
-                uswds
-                visible
-              >
-                <h2 slot="headline">Sorry, something went wrong on our end</h2>
-                <React.Fragment key=".1">
-                  <p className="vads-u-margin-y--0">Please try again soon.</p>
-                </React.Fragment>
-              </va-alert>
-            </div>
-          )}
+      <div className="row usa-width-three-fourths results-section">
+        <VaModal
+          modalTitle="Were sorry, something went wrong"
+          message="Please try again soon."
+          onCloseEvent={() =>
+            props.clearError(ErrorTypes.reportSubmissionError)
+          }
+          visible={props.isErrorReportSubmission}
+          status="error"
+          uswds
+        >
+          <p>Please try again soon.</p>
+        </VaModal>
 
+        <div id="search-results-title" ref={searchResultTitleRef}>
           {isDisplayingResults &&
-            !searchError && (
+            !isErrorFetchRepresentatives && (
               <>
                 <SearchResultsHeader
                   searchResults={props.searchResults}
@@ -305,82 +372,114 @@ const SearchPage = props => {
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}
+                {paginationWrapper()}
               </>
             )}
         </div>
-        {paginationWrapper()}
       </div>
     );
   };
 
   return (
     <>
-      <VaBreadcrumbs breadcrumbList={renderBreadcrumbs()} uswds />
-
-      <div className="usa-grid usa-width-three-fourths search-page-container">
-        <div className="title-section vads-u-padding-y--1">
-          <h1>Find a VA accredited representative</h1>
-          <p>
-            Find an accredited representative to help you file a claim, submit
-            an appeal, or request a decision review. Then contact them to ask if
-            they’re available to help.
-          </p>
-        </div>
-
-        <SearchControls
-          geolocateUser={props.geolocateUser}
-          currentQuery={props.currentQuery}
-          onChange={props.updateSearchQuery}
-          onSubmit={handleSearch}
-          clearSearchText={props.clearSearchText}
-          clearGeocodeError={props.clearGeocodeError}
-        />
-        {renderView()}
+      <div className="usa-grid vads-u-padding-left--1p5">
+        {renderBreadcrumbs()}
+        {renderSearchSection()}
+        {renderResultsSection()}
+        <GetFormHelp />
       </div>
     </>
   );
 };
 
 SearchPage.propTypes = {
-  clearSearchText: PropTypes.func.isRequired,
-  currentQuery: PropTypes.object.isRequired,
-  geolocateUser: PropTypes.func.isRequired,
-  searchWithBounds: PropTypes.func.isRequired,
-  searchResults: PropTypes.array.isRequired,
-  sortType: PropTypes.string.isRequired,
-  updateSearchQuery: PropTypes.func.isRequired,
-  // updateSortType: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  clearError: PropTypes.func,
+  clearSearchResults: PropTypes.func,
+  clearSearchText: PropTypes.func,
+  currentQuery: PropTypes.object,
+  errors: PropTypes.shape({
+    isErrorGeocode: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+      PropTypes.oneOf([null]),
+    ]),
+  }),
+  fetchRepresentatives: PropTypes.func,
+  geocodeUserAddress: PropTypes.func,
+  geolocateUser: PropTypes.func,
+  isErrorFetchRepresentatives: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  isErrorGeocode: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  isErrorReportSubmission: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    query: PropTypes.shape({
+      address: PropTypes.string,
+      distance: PropTypes.string,
+      name: PropTypes.string,
+      lat: PropTypes.string,
+      long: PropTypes.string,
+      page: PropTypes.string,
+      perPage: PropTypes.string,
+      sort: PropTypes.string,
+      type: PropTypes.string,
+      searchArea: PropTypes.string,
+    }),
+    search: PropTypes.string,
+  }),
   pagination: PropTypes.shape({
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
+  reportedResults: PropTypes.array,
+  results: PropTypes.array,
+  searchResults: PropTypes.array,
+  searchWithBounds: PropTypes.func,
+  searchWithInput: PropTypes.func,
   searchWithInputInProgress: PropTypes.bool,
-  searchError: PropTypes.object,
+  sortType: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
+  updateSearchQuery: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
+  errors: state.errors,
   searchResults: state.searchResult.searchResults,
-  searchError: state.searchResult.error,
+  isErrorFetchRepresentatives: state.errors.isErrorFetchRepresentatives,
+  isErrorReportSubmission: state.errors.isErrorReportSubmission,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
   specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {
   geolocateUser,
-  clearGeocodeError,
   geocodeUserAddress,
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
-  updateSortType,
   clearSearchResults,
   clearSearchText,
+  submitRepresentativeReport,
+  updateFromLocalStorage,
+  clearError,
 };
 
 export default connect(

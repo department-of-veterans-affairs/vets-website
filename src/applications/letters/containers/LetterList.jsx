@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-// eslint-disable-next-line -- LH_MIGRATION
-import { letterContent, bslHelpInstructions, LH_MIGRATION__getOptions } from '../utils/helpers';
+import {
+  letterContent,
+  bslHelpInstructions,
+  //  eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__getOptions,
+} from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 import { lettersUseLighthouse } from '../selectors';
 
@@ -17,14 +21,16 @@ export class LetterList extends React.Component {
   constructor(props) {
     super(props);
     // eslint-disable-next-line -- LH_MIGRATION
-    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) }
+    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
   }
 
   componentDidMount() {
     const { shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
-    // eslint-disable-next-line -- LH_MIGRATION
-    this.setState({ LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse)});
+    this.setState({
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+    });
   }
 
   render() {
@@ -53,7 +59,6 @@ export class LetterList extends React.Component {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            // eslint-disable-next-line -- LH_MIGRATION
             letterName={letter.name}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
@@ -64,7 +69,7 @@ export class LetterList extends React.Component {
       }
 
       return (
-        <va-accordion-item key={`panel-${index}`}>
+        <va-accordion-item key={`panel-${index}`} uswds="false">
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           {conditionalDownloadButton}
@@ -79,7 +84,7 @@ export class LetterList extends React.Component {
       AVAILABILITY_STATUSES.letterEligibilityError
     ) {
       eligibilityMessage = (
-        <va-alert status="warning" visible>
+        <va-alert status="warning" visible uswds="false">
           <h4 slot="headline">Some letters may not be available</h4>
           <p>
             One of our systems appears to be down. If you believe you’re missing
@@ -115,9 +120,13 @@ export class LetterList extends React.Component {
           . It’s free.
         </p>
         <p>
-          <Link to="confirm-address">Go back to edit address</Link>
+          <Link to="/confirm-address">Go back to edit address</Link>
         </p>
-        <va-accordion bordered>{letterItems}</va-accordion>
+        {letterItems.length !== 0 && (
+          <va-accordion bordered uswds="false">
+            {letterItems}
+          </va-accordion>
+        )}
         {eligibilityMessage}
 
         <br />
@@ -139,18 +148,6 @@ export class LetterList extends React.Component {
               </strong>
             </a>
           </li>
-          {/* <li> // COE to be launched on VA.gov soon
-            <a
-              href="/housing-assistance/home-loans/request-coe-form-26-1880"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <strong>
-                Sign in to eBenefits to request a Certificate of Eligibility
-                (COE) for your home loan benefits.
-              </strong>
-            </a>
-          </li> */}
           <li>
             <a
               href="/records/get-military-service-records/"
@@ -168,8 +165,8 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
-            &#8211; 9 p.m. ET
+            <va-telephone contact="8008271000" uswds="false" />, Monday &#8211;
+            Friday, 8 a.m. &#8211; 9 p.m. ET
           </div>
         </div>
       </div>
@@ -198,6 +195,7 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  shouldUseLighthouse: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(LetterList);

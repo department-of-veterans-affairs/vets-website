@@ -1,3 +1,4 @@
+import { captureError } from '@@vap-svc/util/analytics';
 import recordAnalyticsEvent from '~/platform/monitoring/record-event';
 
 import {
@@ -8,7 +9,6 @@ import {
   isSignedUpForEDUDirectDeposit,
 } from '../util';
 
-import { captureError } from '../util/analytics';
 import { DirectDepositClient } from '../util/direct-deposit';
 import { API_STATUS } from '../constants';
 
@@ -52,7 +52,6 @@ export function fetchCNPPaymentInformation({
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint: true,
       recordEvent,
     });
 
@@ -106,13 +105,11 @@ export function fetchCNPPaymentInformation({
 export function saveCNPPaymentInformation({
   fields,
   isEnrollingInDirectDeposit = false,
-  useLighthouseDirectDepositEndpoint = true,
   recordEvent = recordAnalyticsEvent,
   captureCNPError = captureError,
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint: true,
       recordEvent,
     });
 
@@ -133,7 +130,6 @@ export function saveCNPPaymentInformation({
       const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
         isEnrolling: isEnrollingInDirectDeposit,
-        useLighthouseDirectDepositEndpoint,
       });
 
       client.recordCNPEvent({

@@ -14,6 +14,9 @@ export default {
       'ui:errorMessages': {
         required: 'This is a custom error message.',
       },
+      'ui:options': {
+        charcount: true,
+      },
     },
   },
   schema: {
@@ -21,6 +24,7 @@ export default {
     properties: {
       lifeInsuranceBenefitDetails: {
         type: 'string',
+        maxLength: 25,
       },
     },
   },

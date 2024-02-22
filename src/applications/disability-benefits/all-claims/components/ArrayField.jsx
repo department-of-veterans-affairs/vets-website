@@ -23,7 +23,7 @@ import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/fi
 
 import { NULL_CONDITION_STRING } from '../constants';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 // Mostly copied from USFS with a few additions/modifications:
@@ -98,7 +98,7 @@ export default class ArrayField extends React.Component {
   };
 
   getItemSchema(index) {
-    const schema = this.props.schema;
+    const { schema } = this.props;
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -307,7 +307,7 @@ export default class ArrayField extends React.Component {
       onBlur,
       schema,
     } = this.props;
-    const definitions = registry.definitions;
+    const { definitions } = registry;
     const { TitleField, SchemaField } = registry.fields;
 
     const uiOptions = uiSchema['ui:options'] || {};
@@ -496,7 +496,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData}
             onClick={this.handleAdd}
           >
-            Add Another {uiOptions.itemName}
+            Add another {uiOptions.itemName.toLowerCase()}
           </button>
         </div>
       </Wrapper>

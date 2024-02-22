@@ -288,7 +288,24 @@ export default class ArrayField extends React.Component {
       if (wrapper) {
         const focusableElements = getFocusableElements(wrapper);
         if (focusableElements.length) {
-          focusableElements[0].focus();
+          const firstElement = focusableElements[0];
+
+          if (firstElement.tagName === 'VA-RADIO-OPTION') {
+            const labelForRadio = firstElement.querySelector('label');
+
+            if (labelForRadio) {
+              const associatedRadioInputId = labelForRadio.getAttribute('for');
+              const associatedRadioInput = document.getElementById(
+                associatedRadioInputId,
+              );
+
+              if (associatedRadioInput) {
+                associatedRadioInput.focus();
+              }
+            }
+          } else {
+            firstElement.focus();
+          }
         }
       }
     }, 0);
@@ -331,7 +348,7 @@ export default class ArrayField extends React.Component {
       formData && formData.length
         ? formData
         : [getDefaultFormState(schema, undefined, registry.definitions)];
-    const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+    const showAddAnotherButton = items.length < (schema.maxItems || Infinity);
 
     const containerClassNames = classNames({
       'schemaform-field-container': true,
@@ -470,6 +487,7 @@ export default class ArrayField extends React.Component {
                         this.closeRemoveModal(index)
                       }
                       visible={isRemoving}
+                      uswds
                     >
                       {uiOptions.confirmRemoveDescription && (
                         <p>{uiOptions.confirmRemoveDescription}</p>
@@ -504,25 +522,29 @@ export default class ArrayField extends React.Component {
               </div>
             );
           })}
-          <button
-            type="button"
-            className={classNames(
-              'usa-button-secondary',
-              'va-growable-add-btn',
-              {
-                'usa-button-disabled':
-                  !this.props.formData || addAnotherDisabled,
-              },
-            )}
-            disabled={!this.props.formData || addAnotherDisabled}
-            onClick={this.handleAdd}
-          >
-            Add another {uiItemName}
-          </button>
-          <p>
-            {addAnotherDisabled &&
-              `You’ve entered the maximum number of items allowed.`}
-          </p>
+          {/* Only show the 'Add another ..' button when another item can be added. This approach helps
+           improve accessibility by removing unnecessary elements from the DOM when they are not relevant 
+           or interactable. */}
+          {showAddAnotherButton && (
+            <button
+              type="button"
+              className={classNames(
+                'usa-button-secondary',
+                'va-growable-add-btn',
+              )}
+              onClick={this.handleAdd}
+            >
+              Add another {uiItemName}
+            </button>
+          )}
+          {/* Show an alert when no more items can be added */}
+          {!showAddAnotherButton && (
+            <va-alert status="warning" uswds slim>
+              <p className="vads-u-margin-y--0">
+                You’ve entered the maximum number of items allowed.
+              </p>
+            </va-alert>
+          )}
         </div>
       </div>
     );

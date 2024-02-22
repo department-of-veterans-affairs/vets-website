@@ -17,6 +17,7 @@ export default {
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
+  EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
@@ -33,6 +34,7 @@ export default {
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-pdf-download-helper',
   FORM_10182_CTA: 'form-10182-cta',
   FORM_686_CTA: 'form-686-CTA',
+  FORM_2010206_CTA: 'form2010206',
   FORM_210845_CTA: 'form210845',
   FORM_210966_CTA: 'form210966',
   FORM_210972_CTA: 'form210972',
@@ -49,7 +51,6 @@ export default {
   HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
   HOMEPAGE_SEARCH: 'homepage-search',
   I_18_SELECT: 'i18-select',
-  LETTERS_MOBILE_CTA: 'letters-mobile-cta',
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',

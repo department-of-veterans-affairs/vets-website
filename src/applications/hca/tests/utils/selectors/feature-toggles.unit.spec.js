@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import { selectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 describe('hca FeatureToggles selector', () => {
   const state = {
@@ -8,21 +8,18 @@ describe('hca FeatureToggles selector', () => {
       hca_sigi_enabled: false,
       hca_browser_monitoring_enabled: true,
       hca_enrollment_status_override_enabled: false,
-      hca_household_v2_enabled: false,
       hca_use_facilities_API: false,
       loading: false,
     },
   };
 
-  describe('when `makeSelectFeatureToggles` executes', () => {
+  describe('when `selectFeatureToggles` executes', () => {
     it('should return feature toggles', () => {
-      const selectFeatureToggles = makeSelectFeatureToggles();
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
         isESOverrideEnabled: false,
         isFacilitiesApiEnabled: false,
-        isHouseholdV2Enabled: false,
         isSigiEnabled: false,
       });
     });

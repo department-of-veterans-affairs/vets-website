@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { FileField } from 'platform/forms-system/src/js/fields/FileField';
+import { FileField } from '../components/FileField';
 import SupportingDocsViewField from '../components/SupportingDocsViewField';
 
 import {
@@ -10,10 +10,14 @@ import {
   supportingDocsDescription,
 } from '../helpers';
 
+const uiTitle = 'Upload the Veteran’s or Reservist’s files (preferably DD214)';
+const uiDescription =
+  'We don’t require that you submit anything with this form. But to speed up the process, we encourage you to submit military records or discharge documents if they’re available.';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Upload documents (preferably DD214)'),
+    ...titleUI(uiTitle, uiDescription),
     'ui:description': supportingDocsDescription,
     'ui:objectViewField': SupportingDocsViewField,
     veteranSupportingDocuments: {
@@ -24,6 +28,7 @@ export default {
         showFieldLabel: true,
         buttonText: 'Upload file',
         addAnotherLabel: 'Upload another file',
+        ariaLabelAdditionalText: `${uiTitle}. ${uiDescription}`,
         attachmentType: {
           'ui:title': 'File type',
         },

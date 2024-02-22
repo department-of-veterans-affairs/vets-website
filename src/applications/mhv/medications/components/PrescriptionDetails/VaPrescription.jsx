@@ -85,9 +85,6 @@ const VaPrescription = prescription => {
                 'None noted'
               )}
             </div>
-            <div className="print-only">
-              {prescription?.phoneNumber || 'No phone number provided'}
-            </div>
           </div>
 
           <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3">
@@ -108,7 +105,9 @@ const VaPrescription = prescription => {
             <p>{validateField(prescription.quantity)}</p>
           </div>
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
-            <h2 className="vads-u-margin-top--3">Refill history</h2>
+            <h2 className="vads-u-margin-top--3" data-testid="refill-History">
+              Refill history
+            </h2>
             {(refillHistory.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => (
@@ -120,24 +119,42 @@ const VaPrescription = prescription => {
                       : 'refill-entry'
                   }
                 >
-                  <h3 className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
+                  <h3
+                    className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
+                    data-testid="refill"
+                  >
                     {i + 1 === refillHistory.length
                       ? 'First fill'
                       : `Refill ${refillHistory.length - i - 1}`}
                   </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  <h4
+                    className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                    data-testid="fill-date"
+                  >
                     Filled by pharmacy on
                   </h4>
-                  <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+                  <p
+                    className="vads-u-margin--0 vads-u-margin-bottom--1"
+                    data-testid="dispensedDate"
+                  >
                     {dateFormat(entry.dispensedDate)}
                   </p>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  <h4
+                    className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                    data-testid="shipped-date"
+                  >
                     Shipped on
                   </h4>
-                  <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+                  <p
+                    className="vads-u-margin--0 vads-u-margin-bottom--1"
+                    data-testid="shipped-on"
+                  >
                     {dateFormat(shippedOn?.[i]?.completeDateTime)}
                   </p>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  <h4
+                    className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                    data-testid="med-image"
+                  >
                     Image of the medication or supply
                   </h4>
                   <div className="no-print">
@@ -145,6 +162,7 @@ const VaPrescription = prescription => {
                       <va-additional-info
                         trigger="Review image"
                         data-testid="review-rx-image"
+                        uswds
                       >
                         <img
                           src={getImageUri(entry.cmopNdcNumber)}
@@ -154,19 +172,9 @@ const VaPrescription = prescription => {
                         />
                       </va-additional-info>
                     ) : (
-                      <p className="vads-u-margin--0">No image available</p>
-                    )}
-                  </div>
-                  <div className="print-only">
-                    {entry.cmopNdcNumber ? (
-                      <img
-                        src={getImageUri(entry.cmopNdcNumber)}
-                        alt={entry.prescriptionName}
-                        width="350"
-                        height="350"
-                      />
-                    ) : (
-                      <p className="vads-u-margin--0">Image not available</p>
+                      <p className="vads-u-margin--0" data-testid="no-image">
+                        No image available
+                      </p>
                     )}
                   </div>
                 </div>
@@ -181,7 +189,7 @@ const VaPrescription = prescription => {
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />

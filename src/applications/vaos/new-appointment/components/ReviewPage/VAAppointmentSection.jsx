@@ -1,8 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { startRequestAppointmentFlow } from '../../redux/actions';
 import PreferredDatesSection from './PreferredDatesSection';
 import ContactDetailSection from './ContactDetailSection';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
@@ -10,17 +9,22 @@ import { TYPE_OF_VISIT } from '../../../utils/constants';
 import State from '../../../components/State';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history, dispatch, visitType) {
+function handleClick(history, pageFlow) {
+  const { home, visitType } = pageFlow;
+
   return () => {
-    dispatch(startRequestAppointmentFlow());
-    history.push(visitType.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (visitType.url.endsWith('/') && visitType.url !== home.url)
+    )
+      history.push(`../${visitType.url}`);
+    else history.push(visitType.url);
   };
 }
 
 export default function VAAppointmentSection({ data, facility }) {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { visitType } = useSelector(getNewAppointmentFlow);
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   return (
     <>
@@ -38,7 +42,7 @@ export default function VAAppointmentSection({ data, facility }) {
           </div>
           <div>
             <va-link
-              onClick={handleClick(history, dispatch, visitType)}
+              onClick={handleClick(history, pageFlow)}
               text="Edit"
               aria-label="Edit how to be seen"
             />

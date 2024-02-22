@@ -1,7 +1,7 @@
 import {
   yesNoSchema,
   yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
@@ -9,7 +9,6 @@ export default {
     'ui:title': 'Current employment',
     currentEmployment: yesNoUI({
       title: 'Are you currently employed?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

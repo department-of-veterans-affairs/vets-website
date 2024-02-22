@@ -16,13 +16,11 @@ const RadiologySingleImage = () => {
       name: 'ANKLE LEFT 3 VIEWS',
       category: 'Radiology',
       orderedBy: 'Beth M. Smith',
-      orderingLocation:
-        '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
       reason: 'Injury',
       clinicalHistory: 'Information',
       imagingProvider: 'John J. Lydon',
       id: 122,
-      date: '2022-04-13T17:42:46.000Z',
+      date: 'April 13, 2022, 5:25 a.m. MDT',
       imagingLocation:
         '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
       reactions: ['Just this one'],
@@ -166,12 +164,6 @@ const RadiologySingleImage = () => {
               Ordered by
             </h3>
             <p className="vads-u-margin--0">{labAndTestDetails.orderedBy}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
-              Ordering location
-            </h3>
-            <p className="vads-u-margin--0">
-              {labAndTestDetails.orderingLocation}
-            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
               Imaging location
             </h3>

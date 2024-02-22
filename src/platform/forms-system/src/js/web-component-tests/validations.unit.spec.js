@@ -5,6 +5,7 @@ import {
   symbolsValidation,
   emailValidation,
 } from '../web-component-patterns/emailPattern';
+import { validateNameSymbols } from '../web-component-patterns/fullNamePattern';
 
 describe('minMaxValidation', () => {
   it('should add an error if the number is less than the minimum range', () => {
@@ -90,5 +91,34 @@ describe('email validation', () => {
     const value = 'User_name32+ok-name@email.va';
     emailValidation(errors, value, null, null, errorMessages);
     expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('name symbol validation', () => {
+  const errorMessages = {
+    symbols: `Error symbols message`,
+  };
+
+  it('should show an error message specific to name symbol validation', () => {
+    const errors = { addError: sinon.stub() };
+    // Accented characters like this are not allowed in some APIs, however
+    // we can choose pass this, and let our local backend handle this instead.
+    const value = 'José Ramírez';
+    validateNameSymbols(errors, value, null, null, errorMessages);
+    expect(errors.addError.calledWithMatch(errorMessages.symbols)).to.be.false;
+  });
+
+  it('should show an error message specific to name symbol validation', () => {
+    const errors = { addError: sinon.stub() };
+    const value = 'Oops;';
+    validateNameSymbols(errors, value, null, null, errorMessages);
+    expect(errors.addError.calledWithMatch(errorMessages.symbols)).to.be.true;
+  });
+
+  it('should show an error message specific to name symbol validation', () => {
+    const errors = { addError: sinon.stub() };
+    const value = 'The "name"';
+    validateNameSymbols(errors, value, null, null, errorMessages);
+    expect(errors.addError.calledWithMatch(errorMessages.symbols)).to.be.true;
   });
 });

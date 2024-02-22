@@ -41,9 +41,9 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm, to the best of my knowledge, that the decedent has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the decedent was sentenced to a minimum of life imprisonment',
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment',
       messageAriaDescribedby:
-        'I confirm, to the best of my knowledge, that the decedent has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the decedent was sentenced to a minimum of life imprisonment',
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment',
       fullNamePath: 'applicantFullName',
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
@@ -76,11 +76,11 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
-      title: 'Veteran’s personal information',
+      title: 'Veteran’s or Reservist’s personal information',
       pages: {
         veteranPersonalInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
+          title: 'Veteran’s or Reservist’s personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData: getInitialData({ mockData, environment }),
@@ -92,11 +92,11 @@ const formConfig = {
       },
     },
     veteranIdentificationInfoChapter: {
-      title: 'Veteran’s identification information',
+      title: 'Identification information',
       pages: {
         veteranIdentificationInfoPage: {
-          path: 'veteran-identification-information',
-          title: 'Veteran’s identification information',
+          path: 'identification-information',
+          title: 'Identification information',
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
@@ -105,11 +105,11 @@ const formConfig = {
       },
     },
     veteranSupportingDocumentationChapter: {
-      title: 'Veteran’s supporting documentation',
+      title: 'Supporting documentation',
       pages: {
         veteranSupportDocsPage: {
-          path: 'veteran-supporting-documentation',
-          title: 'Upload documents (preferably DD214)',
+          path: 'supporting-documentation',
+          title: 'Supporting documentation',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',

@@ -63,7 +63,9 @@ export const declineAndLogout = ({
     if (shouldRedirectToMobile) {
       window.location.assign('/terms-of-use/declined');
     } else {
-      window.location = logoutUrlSiS();
+      window.location = logoutUrlSiS({
+        queryParams: { [`agreements_declined`]: true },
+      });
     }
   } else {
     IAMLogout({ queryParams: { [`agreements_declined`]: true } });

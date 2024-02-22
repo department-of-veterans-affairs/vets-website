@@ -44,7 +44,6 @@ describe('Notification Settings', () => {
             '/v0/feature_toggles*',
             generateFeatureToggles({
               profileShowEmailNotificationSettings: true,
-              profileUseNotificationSettingsCheckboxes: true,
               profileShowMhvNotificationSettings: true,
               profileShowPaymentsNotificationSetting: true,
             }),
@@ -97,7 +96,6 @@ describe('Notification Settings', () => {
             '/v0/feature_toggles*',
             generateFeatureToggles({
               profileShowEmailNotificationSettings: true,
-              profileUseNotificationSettingsCheckboxes: true,
               profileShowMhvNotificationSettings: true,
               profileShowPaymentsNotificationSetting: true,
             }),
@@ -161,7 +159,6 @@ describe('Notification Settings', () => {
               '/v0/feature_toggles*',
               generateFeatureToggles({
                 profileShowEmailNotificationSettings: true,
-                profileUseNotificationSettingsCheckboxes: true,
                 profileShowMhvNotificationSettings: true,
               }),
             );

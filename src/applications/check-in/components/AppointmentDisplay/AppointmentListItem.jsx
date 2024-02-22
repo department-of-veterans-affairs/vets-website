@@ -26,6 +26,21 @@ const AppointmentListItem = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
+  const detailsAriaLabel = () => {
+    const modality = appointment.kind === 'phone' ? t('phone') : t('in-person');
+    const type = appointment.clinicStopCodeName
+      ? `${appointment.clinicStopCodeName} ${t('appointment')}`
+      : t('VA-appointment');
+    const provider = appointment.doctorName
+      ? `${t('with')} ${appointment.doctorName}`
+      : '';
+
+    return `${t('details-for')} ${modality} ${type} ${provider} ${t(
+      'on-date-at-time',
+      { date: appointmentDateTime },
+    )}`;
+  };
+
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       return (
@@ -53,10 +68,15 @@ const AppointmentListItem = props => {
       className="vads-u-border-bottom--1px check-in--appointment-item"
       data-testid="appointment-list-item"
     >
-      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2p5">
+        {page === 'confirmation' && (
+          <div className="vads-u-font-family--serif vads-u-font-size--lg vads-u-line-height--2 vads-u-margin-bottom--1">
+            {t('date-long', { date: appointmentDateTime })}
+          </div>
+        )}
         <div
           data-testid="appointment-time"
-          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
+          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
         >
           {t('date-time', { date: appointmentDateTime })}{' '}
         </div>
@@ -86,7 +106,7 @@ const AppointmentListItem = props => {
               t('phone')
             ) : (
               <>
-                {`${t('in-person')} ${appointment.facility}`} <br />
+                {`${t('in-person-at')} ${appointment.facility}`} <br />
                 {`${t('clinic')}: ${clinic}`}
               </>
             )}
@@ -100,12 +120,7 @@ const AppointmentListItem = props => {
                 router.location.basename
               }/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(e, appointment)}
-              aria-label={t('details-for-appointment', {
-                time: appointmentDateTime,
-                type: appointment.clinicStopCodeName
-                  ? appointment.clinicStopCodeName
-                  : 'VA',
-              })}
+              aria-label={detailsAriaLabel()}
             >
               {t('details')}
             </a>
@@ -126,10 +141,11 @@ const AppointmentListItem = props => {
       {app === APP_NAMES.PRE_CHECK_IN &&
         page === 'confirmation' && (
           <va-alert
-            background-only
             show-icon
             data-testid="appointment-message"
             class="vads-u-margin-bottom--2"
+            uswds
+            slim
           >
             <div>{infoBlockMessage()}</div>
           </va-alert>

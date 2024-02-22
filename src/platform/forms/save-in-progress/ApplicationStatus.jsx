@@ -4,17 +4,14 @@ import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
 import { connect } from 'react-redux';
 
-import {
-  formLinks,
-  formDescriptions,
-  formBenefits,
-} from 'applications/personalization/dashboard/helpers';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
+import { FORM_DESCRIPTIONS, FORM_BENEFITS } from '../constants';
+import { getFormLink } from '../helpers';
 import { removeSavedForm } from '../../user/profile/actions';
 
 import {
@@ -51,7 +48,7 @@ export class ApplicationStatus extends React.Component {
         // obsolete once all wizards are moved to the intro page
         sessionStorage.removeItem(this.props.wizardStatus || WIZARD_STATUS);
         if (!this.props.stayAfterDelete) {
-          window.location.href = formLinks[formId];
+          window.location.href = getFormLink(formId);
         } else {
           this.setState({ modalOpen: false, loading: false });
         }
@@ -139,7 +136,7 @@ export class ApplicationStatus extends React.Component {
           <div className="usa-alert usa-alert-info background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
-              Your {formDescriptions[formId]} is in progress.
+              Your {FORM_DESCRIPTIONS[formId]} is in progress.
             </span>
             <br />
             {lastSavedDateTime && (
@@ -158,7 +155,7 @@ export class ApplicationStatus extends React.Component {
             <p>
               <a
                 className="usa-button-primary"
-                href={`${formLinks[formId]}resume`}
+                href={`${getFormLink(formId)}resume`}
                 onClick={this.handleResume}
               >
                 {continueAppButtonText}
@@ -201,8 +198,8 @@ export class ApplicationStatus extends React.Component {
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
-            Your saved {formDescriptions[formId]} has expired. If you want to
-            apply for {formBenefits[formId]}, please start a new {appType}.
+            Your saved {FORM_DESCRIPTIONS[formId]} has expired. If you want to
+            apply for {FORM_BENEFITS[formId]}, please start a new {appType}.
           </span>
           <br />
           <p>
@@ -253,8 +250,8 @@ export class ApplicationStatus extends React.Component {
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
               <a
-                className="usa-button-primary va-button-primary"
-                href={formLinks[formId]}
+                className="vads-c-action-link--green"
+                href={getFormLink(formId)}
               >
                 {applyText}
               </a>

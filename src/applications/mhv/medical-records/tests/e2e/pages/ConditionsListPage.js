@@ -19,6 +19,11 @@ class ConditionsListPage {
 
 */
 
+  verifyConditionsPageTitle = () => {
+    // Verify Conditions Page Title
+    cy.get('[data-testid="health-conditions"]').should('be.visible');
+  };
+
   clickConditionsDetailsLink = (_conditionIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
@@ -52,7 +57,7 @@ class ConditionsListPage {
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
+    // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
 }

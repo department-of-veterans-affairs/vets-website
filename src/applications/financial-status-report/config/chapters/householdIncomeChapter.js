@@ -373,6 +373,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
+          formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,

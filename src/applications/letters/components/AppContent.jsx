@@ -11,6 +11,7 @@ const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 export default class AppContent extends React.Component {
   constructor(props) {
     super(props);
+
     if (props.isDataAvailable === false) {
       Sentry.captureException(new Error(UNREGISTERED_ERROR));
       this.state = { errorLogged: true };
@@ -33,7 +34,7 @@ export default class AppContent extends React.Component {
       return (
         <div className="usa-grid">
           <h1>VA letters and documents</h1>
-          <va-alert status="error">
+          <va-alert status="error" uswds="false">
             We weren’t able to find information about your VA letters. If you
             think you should be able to access this information, please{' '}
             <CallVBACenter />
@@ -51,6 +52,7 @@ export default class AppContent extends React.Component {
         <va-loading-indicator
           data-testid="feature-flags-loading"
           message="Loading your information..."
+          uswds="false"
         />
       </div>
     );
@@ -58,7 +60,10 @@ export default class AppContent extends React.Component {
 }
 
 AppContent.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   featureFlagsLoading: PropTypes.bool,
   isDataAvailable: PropTypes.bool,
 };

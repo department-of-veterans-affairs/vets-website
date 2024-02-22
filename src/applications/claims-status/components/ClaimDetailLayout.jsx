@@ -8,15 +8,19 @@ import {
   getClaimType,
   isPopulatedClaim,
 } from '../utils/helpers';
+import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
 import AskVAQuestions from './AskVAQuestions';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
+import ClaimContentionList from './ClaimContentionList';
 import Notification from './Notification';
 import TabNav from './TabNav';
 
-const MAX_CONTENTIONS = 3;
+const focusHeader = () => {
+  setFocus('.claim-contentions-header');
+};
 
 const getBreadcrumbText = (currentTab, claimType) => {
   let joiner;
@@ -39,7 +43,7 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details'];
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimsPath = `your-claims/${id}`;
 
   const claimType = getClaimType(claim).toLowerCase();
@@ -51,24 +55,18 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
+        uswds="false"
       />
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
     const { closeDate, contentions, status } = claim.attributes || {};
 
-    const hasContentions = contentions && contentions.length;
     const isOpen = status !== 'COMPLETE' && closeDate === null;
-
-    const contentionsText = hasContentions
-      ? contentions
-          .slice(0, MAX_CONTENTIONS)
-          .map(cond => cond.name)
-          .join(', ')
-      : 'Not available';
 
     const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
     const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
       <>
@@ -82,25 +80,19 @@ export default function ClaimDetailLayout(props) {
         )}
         <h1 className="claim-title">
           {claimTitle}
-          <span className="claim-subtitle vads-u-margin-top--1">
-            Submitted on {formattedClaimDate}
+          <span className="vads-u-font-family--sans vads-u-margin-top--1">
+            {claimSubheader}
           </span>
         </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
-          <h2 className="claim-contentions-header vads-u-font-size--h6">
-            What you’ve claimed:
+          <h2 className="claim-contentions-header vads-u-font-size--h3">
+            What you’ve claimed
           </h2>
-          <span>{contentionsText}</span>
-          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
-            <span>
-              <br />
-              <Link to={`your-claims/${claim.id}/details`}>
-                See all your claimed contentions
-              </Link>
-              .
-            </span>
-          ) : null}
+          <ClaimContentionList
+            contentions={contentions}
+            onClick={focusHeader}
+          />
         </div>
       </>
     );

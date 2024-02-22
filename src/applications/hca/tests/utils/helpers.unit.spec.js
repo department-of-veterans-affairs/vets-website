@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import {
   didEnrollmentStatusChange,
-  expensesLessThanIncome,
   transformAttachments,
   prefillTransformer,
   isShortFormEligible,
@@ -11,6 +10,7 @@ import {
   isOfCollegeAge,
   getDependentPageList,
   normalizeFullName,
+  parseVeteranDob,
   getDataToSet,
   getSearchAction,
   getSearchIndex,
@@ -19,147 +19,6 @@ import {
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
 describe('hca helpers', () => {
-  // NOTE: for household v1 only -- remove when v2 is fully-adopted
-  describe('when `expensesLessThanIncome` executes', () => {
-    describe('when only Veteran income is declared', () => {
-      describe('when expenses are less than Veteran income', () => {
-        it('should return `true`', () => {
-          const formData = {
-            veteranNetIncome: 3,
-            deductibleMedicalExpenses: 2,
-          };
-          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          );
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when expenses are greater than Veteran income', () => {
-        it('should return `false`', () => {
-          const formData = {
-            veteranNetIncome: 3,
-            deductibleMedicalExpenses: 4,
-          };
-          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          );
-          expect(result).to.be.false;
-        });
-      });
-    });
-
-    describe('when spousal income is declared', () => {
-      describe('when expenses are less than Veteran and spousal income', () => {
-        it('should return `true`', () => {
-          const formData = {
-            veteranNetIncome: 3,
-            deductibleMedicalExpenses: 2,
-            'view:spouseIncome': { spouseGrossIncome: 3 },
-          };
-          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          );
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when expenses are greater than Veteran and spousal income', () => {
-        it('should return `false`', () => {
-          const formData = {
-            veteranNetIncome: 3,
-            deductibleMedicalExpenses: 8,
-            'view:spouseIncome': { spouseGrossIncome: 3 },
-          };
-          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          );
-          expect(result).to.be.false;
-        });
-      });
-    });
-
-    describe('when dependent income is declared', () => {
-      describe('when expenses are less than Veteran, spousal & dependent income', () => {
-        it('should return `true`', () => {
-          const formData = {
-            veteranNetIncome: 3,
-            deductibleMedicalExpenses: 2,
-            'view:spouseIncome': { spouseGrossIncome: 3 },
-            dependents: [{ grossIncome: 3 }],
-          };
-          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          );
-          expect(result).to.be.true;
-        });
-      });
-
-      describe('when expenses are greater than Veteran, spousal & dependent income', () => {
-        it('should return `false`', () => {
-          const formData = {
-            veteranNetIncome: 3,
-            deductibleMedicalExpenses: 10,
-            'view:spouseIncome': { spouseGrossIncome: 3 },
-            dependents: [{ grossIncome: 3 }],
-          };
-          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          );
-          expect(result).to.be.false;
-        });
-      });
-    });
-
-    describe('when all expense values have data', () => {
-      it('should return `true` for the expense field under the last non-zero field', () => {
-        const formData = {
-          dependents: [{ grossIncome: 3 }],
-          deductibleEducationExpenses: 0,
-          deductibleFuneralExpenses: 0,
-          deductibleMedicalExpenses: 4,
-        };
-        const results = {
-          medical: expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          ),
-          education: expensesLessThanIncome('deductibleEducationExpenses')(
-            formData,
-          ),
-          funeral: expensesLessThanIncome('deductibleFuneralExpenses')(
-            formData,
-          ),
-        };
-        expect(results.medical).to.be.false;
-        expect(results.education).to.be.true;
-        expect(results.funeral).to.be.true;
-      });
-
-      it('should return `true` for just the last expense field when all fields have non-zero data', () => {
-        const formData = {
-          dependents: [{ grossIncome: 3 }],
-          deductibleEducationExpenses: 4,
-          deductibleFuneralExpenses: 4,
-          deductibleMedicalExpenses: 4,
-        };
-        const results = {
-          medical: expensesLessThanIncome('deductibleMedicalExpenses')(
-            formData,
-          ),
-          education: expensesLessThanIncome('deductibleEducationExpenses')(
-            formData,
-          ),
-          funeral: expensesLessThanIncome('deductibleFuneralExpenses')(
-            formData,
-          ),
-        };
-        expect(results.medical).to.be.true;
-        expect(results.education).to.be.false;
-        expect(results.funeral).to.be.true;
-      });
-    });
-  });
-
   describe('when `prefillTransformer` executes', () => {
     const formData = {
       veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
@@ -640,6 +499,39 @@ describe('hca helpers', () => {
             );
           });
         });
+      });
+    });
+  });
+
+  context('when `parseVeteranDob` executes', () => {
+    context('when a value is omitted from the function', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob()).to.eq(null);
+      });
+    });
+
+    context('when an empty value is passed to the function', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob('')).to.eq(null);
+      });
+    });
+
+    context('when an invalid value is passed to the function', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob('1990-01-00')).to.eq(null);
+      });
+    });
+
+    context('when the value is passed to the function is pre-1900', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob('1890-01-01')).to.eq(null);
+      });
+    });
+
+    context('when the value is between 1900-01-01 and today', () => {
+      it('should return the value', () => {
+        const validDate = '1990-01-01';
+        expect(parseVeteranDob(validDate)).to.eq(validDate);
       });
     });
   });

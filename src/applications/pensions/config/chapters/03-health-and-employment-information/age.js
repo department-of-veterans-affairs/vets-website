@@ -1,14 +1,13 @@
 import {
   yesNoUI,
   yesNoSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     isOver65: yesNoUI({
       title: 'Are you 65 years old or older?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

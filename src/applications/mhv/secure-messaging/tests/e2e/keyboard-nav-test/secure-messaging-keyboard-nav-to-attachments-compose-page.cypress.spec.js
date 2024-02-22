@@ -13,9 +13,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.selectCategory(
-      `${requestBody.category}${requestBody.category}input`,
-    );
+    composePage.selectCategory(`${requestBody.category}`);
     // cy.tabToElement('#OTHEROTHERinput');
     // cy.realPress(['Enter']);
     composePage
@@ -27,11 +25,11 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     // verify attachments button has "Attach file" with no attachments
     composePage.verifyAttachmentButtonText(0);
     composePage.attachMessageFromFile('test_image.jpg');
-    composePage.verifyFocusonMessageAttachment();
+    composePage.verifyFocusOnMessageAttachment();
     // verify attachments button has "Attach additional file" with one or more attachments
     composePage.verifyAttachmentButtonText(1);
     composePage.attachMessageFromFile('sample_docx.docx');
-    composePage.verifyFocusonMessageAttachment();
+    composePage.verifyFocusOnMessageAttachment();
     //
     cy.realPress('Enter');
     // After closing the attachment banner, first attachment remove button has focus

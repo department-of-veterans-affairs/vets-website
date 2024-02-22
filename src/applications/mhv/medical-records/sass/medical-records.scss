@@ -95,9 +95,6 @@
 .page-description {
   margin: 8px 0px 16px;
 }
-.page-description-link {
-  display: block;
-}
 
 @media (max-width: $small-screen) {
   .medical-records-container {
@@ -116,4 +113,17 @@
   .page-description {
     margin: 16px 0px;
   }
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto Mono"),
+    url(../../../../site/assets/fonts/robotomono-regular.ttf) format("truetype");
+}
+
+.monospace {
+  font-family: Roboto Mono;
+  // font-family: monospace;
 }

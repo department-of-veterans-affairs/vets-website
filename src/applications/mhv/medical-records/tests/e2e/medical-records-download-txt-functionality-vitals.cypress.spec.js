@@ -1,8 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
-import VitalsDetailsPage from './pages/VitalsDetailsPage';
+import VitalsListPage from './pages/VitalsListPage';
 
-describe('Medical Records Health VitalsListPage', () => {
+describe('Medical Records Vitals', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
@@ -10,26 +9,26 @@ describe('Medical Records Health VitalsListPage', () => {
     cy.visit('my-health/medical-records/vitals');
   });
 
-  it('Vitals ListPage Toggle Menu button Print or download ', () => {
-    // Given Navigate to Vitals ListPage
+  it('Vitals Page Toggle Menu button Print or download ', () => {
+    // Given Navigate to Vitals Page
 
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0);
-
+    VitalsListPage.clickVitalsDetailsLink(0);
     // should display a toggle menu button
-    VitalsDetailsPage.verifyPrintOrDownload();
-    VitalsDetailsPage.clickPrintOrDownload();
-
-    // should display print button for a Details "Print this Details"
-    VitalsDetailsPage.verifyPrintButton();
+    // Verify  PrintDownload button
+    VitalsListPage.verifyPrintOrDownload();
+    // Click PrintDownload button
+    VitalsListPage.clickPrintOrDownload();
+    // should display print button for a list "Print this list"
+    VitalsListPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    VitalsDetailsPage.verifyDownloadPDF();
+    VitalsListPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download Details as a text file"
-    VitalsDetailsPage.verifyDownloadTextFile();
+    // should display a download text file button "Download a text file (.txt) of this list"
+    VitalsListPage.verifyDownloadTextFile();
 
-    VitalsDetailsPage.clickDownloadPDFFile();
-    // cy.readFile(`${Cypress.config('downloadsFolder')}/Vitals_report.pdf`);
+    // PathologyListPage.clickDownloadPDFFile();
+    // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
 
     cy.injectAxe();
     cy.axeCheck('main', {

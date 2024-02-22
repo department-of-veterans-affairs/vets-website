@@ -29,12 +29,6 @@ describe('Medical Records View LabsAndTestsListPage ', () => {
     MicrobiologyDetailsPage.verifyDownloadTextFile();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

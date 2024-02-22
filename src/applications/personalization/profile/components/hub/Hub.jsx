@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import {
-  hasBadAddress as hasBadAddressSelector,
-  selectProfileContactsToggle,
-} from '@@profile/selectors';
+import { selectProfileContactsToggle } from '@@profile/selectors';
+
+import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';
@@ -25,7 +24,7 @@ export const Hub = () => {
 
   return (
     <>
-      <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
+      <ProfileBreadcrumbs className="medium-screen:vads-u-padding-left--1 medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
 
       {/* ROW */}
       <div className="vads-l-row">

@@ -1,5 +1,6 @@
 import React from 'react';
 import commonFieldMapping from './commonFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaTextInputFieldMapping(props) {
@@ -20,9 +21,13 @@ export default function vaTextInputFieldMapping(props) {
   }
 
   const commonFieldProps = commonFieldMapping(props);
+  const { formsPatternProps, formDescriptionSlot } = formsPatternFieldMapping(
+    props,
+  );
 
   return {
     ...commonFieldProps,
+    ...formsPatternProps,
     autocomplete:
       childrenProps.uiSchema['ui:autocomplete'] || uiOptions?.autocomplete,
     value:
@@ -33,6 +38,7 @@ export default function vaTextInputFieldMapping(props) {
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     type: inputType,
     width: uiOptions?.width,
+    charcount: uiOptions?.charcount,
     onInput: (event, value) => {
       // redux value or input value
       let newVal = value || event.target.value;
@@ -44,6 +50,7 @@ export default function vaTextInputFieldMapping(props) {
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
       <>
+        {formDescriptionSlot}
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
           <DescriptionField options={uiOptions} index={index} />

@@ -4,7 +4,6 @@
       "id": "00C891va",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": null,
         "clinic": "437",
         "comment": "Follow-up/Routine: I have a headache",
         "contact": {
@@ -16,7 +15,7 @@
           ]
         },
         "description": "Upcoming COVID-19 appointment",
-        "end": "2023-11-21T18:19:34",
+        "end": "2024-10-13T16:00:00Z",
         "id": "00C891va",
         "kind": "clinic",
         "locationId": "983",
@@ -30,9 +29,12 @@
         },
         "requestedPeriods": null,
         "serviceType": "covid",
-        "slot": null,
-        "start": "2023-11-21T18:19:34",
+        "start": "2024-10-13T15:00:00Z",
         "status": "booked",
+        "created": "2024-11-01T00:00:00Z",
+        "cancellable": true,
+        "localStartTime": "2024-10-13T09:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "telehealth": null
       }
     },
@@ -69,6 +71,8 @@
         "slot": null,
         "start": "2023-12-21T18:19:34",
         "status": "cancelled",
+        "cancellable": false,
+        "localStartTime": "2023-12-21T09:00:00.000-06:00",
         "telehealth": null
       }
     },
@@ -102,8 +106,10 @@
             }
           }
         ],
-        "start": "2022-08-22T12:00:00Z",
-        "created": "2022-08-22T20:33:54Z",
+        "start": "2024-08-22T12:00:00Z",
+        "created": "2024-08-22T20:33:54Z",
+        "localStartTime": "2024-08-21T09:00:00.000-06:00",
+        "avsPath": null,
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -230,7 +236,7 @@
                   "eCheckinAllowed": true
               },
               "localStartTime": "2023-10-13T09:00:00.000-06:00",
-              "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+              "avsPath": "Error retrieving AVS link",
               "serviceName": "CHY MENTAL HEALTH ONE",
               "friendlyName": "CHY MENTAL HEALTH ONE",
               "location": {
@@ -908,6 +914,8 @@
         "minutesDuration": 30,
         "requestedPeriods": null,
         "cancellable": false,
+        "clinic": "some string",
+        "friendlyName": "clinic friendly name",
         "patientInstruction": "Preparations:\n- If you have any new non-VA medical records since your last visit, please bring them.\r\nIf you need to cancel or reschedule your appointment, please call our Contact Center at 614-257-5200 or visit the patient portal.",
         "extension": {
           "ccLocation": {
@@ -1006,16 +1014,12 @@
         "locationId": "984",
         "practitioners": [
           {
-            "name": {
-              "family": "RICHMOND",
-              "given": [
-                "TANISHA R"
-              ]
-            }
           }
         ],
-        "start": "2022-10-22T12:00:00Z",
-        "created": "2022-10-22T20:33:54Z",
+        "start": "2024-08-22T12:00:00Z",
+        "created": "2024-08-22T20:33:54Z",
+        "localStartTime": "2024-08-21T09:00:00.000-06:00",
+        "avsPath": null,
         "cancellable": false,
         "extension": {
           "ccLocation": {
@@ -1536,7 +1540,10 @@
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
-        "start": "2023-09-23T20:00:00Z",
+        "start": "2024-09-22T12:00:00Z",
+        "created": "2024-09-22T20:33:54Z",
+        "localStartTime": "2024-09-21T09:00:00.000-06:00",
+        "avsPath": null,
         "status": "booked",
         "extension": {
           "patientHasMobileGfe": false
@@ -1593,7 +1600,9 @@
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
-        "start": "2024-01-23T20:00:00Z",
+        "start": "2023-01-23T20:00:00Z",
+        "localStartTime": "2023-01-13T09:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "status": "booked",
         "telehealth": {
           "url": null,
@@ -1683,6 +1692,8 @@
         },
         "slot": null,
         "start": "2023-11-09T20:30:00Z",
+        "localStartTime": "2023-11-13T09:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -2072,10 +2083,11 @@
         ],
         "patientIcn": "1013120826V646496",
         "locationId": "983GC",
+        "localStartTime": "2024-06-22T09:00:00.000-06:00",
         "clinic": "945",
-        "start": "2023-06-22T13:00:00Z",
-        "end": "2023-06-22T14:00:00Z",
-        "created": "2023-03-17T00:00:00Z",
+        "start": "2024-06-22T13:00:00Z",
+        "end": "2024-06-22T14:00:00Z",
+        "created": "2024-03-17T00:00:00Z",
         "cancellable": false,
         "extension": {
           "ccLocation": {

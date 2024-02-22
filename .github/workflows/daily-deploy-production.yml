@@ -18,10 +18,11 @@ env:
   VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
   DSVA_SCHEDULE_ENABLED: true
   BUILD_ENV: vagovprod
+  NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
 jobs:
   get-workflow-environment:
-    runs-on: ubuntu-latest
+    runs-on: daily
     outputs:
       environment_name: ${{ steps.check-environment.outputs.env_name }}
     steps:
@@ -35,7 +36,7 @@ jobs:
           fi
   set-env:
     name: Set Env Variables
-    runs-on: ubuntu-latest
+    runs-on: daily
     outputs:
       LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
@@ -47,13 +48,16 @@ jobs:
         uses: andymckay/cancel-action@0.2
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Get latest tag
         id: get-latest-tag
         run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
+      
+      - name: Echo Latest Tag
+        run: echo ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
 
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}
@@ -73,11 +77,11 @@ jobs:
 
   validate-build-status:
     name: Validate Build Status
-    runs-on: ubuntu-latest
+    runs-on: daily
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -96,11 +100,11 @@ jobs:
 
   notify-start:
     name: Notify Start
-    runs-on: ubuntu-latest
+    runs-on: daily
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -131,15 +135,12 @@ jobs:
 
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: daily
     needs: [set-env, notify-start, validate-build-status]
-    
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
@@ -181,7 +182,7 @@ jobs:
 
   archive:
     name: Archive
-    runs-on: ubuntu-latest
+    runs-on: daily
     needs: [set-env, build]
 
     steps:
@@ -191,20 +192,21 @@ jobs:
           name: ${{ env.BUILD_ENV }}.tar.bz2
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -212,30 +214,32 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
 
       - name: Upload build
         run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
   
   create-release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: daily
     needs: [set-env, notify-start, validate-build-status, archive]
     steps:
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
@@ -248,12 +252,18 @@ jobs:
         uses: whatnick/wait-action@master
         with:
           time: ${{ needs.set-env.outputs.RELEASE_WAIT }}m
+          
+      - name: Echo latest tag
+        run: echo ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
       - name: Get next tag version
         id: bump-tag-version
         uses: WyriHaximus/github-action-next-semvers@v1
         with:
           version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
+      
+      - name: Echo new tag version
+        run: echo ${{ steps.bump-tag-version.outputs.v_patch }}
 
       - name: Create tag
         run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }}
@@ -268,7 +278,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: daily
     needs: [set-env, create-release, get-workflow-environment]
     environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
@@ -278,23 +288,24 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
           env_variable_name: AWS_FRONTEND_PROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -302,6 +313,7 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
 
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
@@ -312,12 +324,12 @@ jobs:
 
   notify-success:
     name: Notify Success
-    runs-on: ubuntu-latest
+    runs-on: daily
     needs: deploy
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -330,13 +342,13 @@ jobs:
 
   notify-failure:
     name: Notify Failure
-    runs-on: ubuntu-latest
+    runs-on: daily
     if: ${{ failure() || cancelled() }}
     needs: deploy
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack
         if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}

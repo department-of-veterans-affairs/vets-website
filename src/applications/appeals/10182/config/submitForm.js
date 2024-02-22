@@ -1,5 +1,4 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
 
 import { SHOW_PART3 } from '../constants';
@@ -12,9 +11,7 @@ const submitForm = (form, formConfig) => {
   // v1 (add part III data)
   const apiVer = form.data[SHOW_PART3] ? 'v1' : 'v0';
   const submitUrl = `${environment.API_URL}/${apiVer}/${formConfig.submitUrl}`;
-  const body = formConfig.transformForSubmit
-    ? formConfig.transformForSubmit(formConfig, form)
-    : transformForSubmit(formConfig, form);
+  const body = formConfig.transformForSubmit(formConfig, form);
 
   // eventData for analytics
   const eventData = buildEventData(form.data);

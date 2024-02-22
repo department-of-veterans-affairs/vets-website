@@ -1,7 +1,7 @@
 import {
   yesNoSchema,
   yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { RequestNursingHomeInformationAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
@@ -10,7 +10,6 @@ export default {
     'ui:title': 'Medicaid application status',
     medicaidStatus: yesNoUI({
       title: 'Have you applied for Medicaid?',
-      uswds: true,
     }),
     'view:warningAlert': {
       'ui:description': RequestNursingHomeInformationAlert,

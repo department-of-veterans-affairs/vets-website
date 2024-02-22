@@ -35,6 +35,9 @@
     text-decoration: none;
   }
 }
+.va-button {
+  margin: 4px 0;
+}
 .landing-page {
   h1 {
     color: $color-gray-dark;
@@ -42,6 +45,11 @@
   .medications-list-sort {
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
+    .va-button {
+      padding: 2px 0;
+      margin: 0 0 2.5px 0;
+    }
     .sort-button {
       margin-left: 8px;
       margin-top: 57px;
@@ -64,7 +72,7 @@
     max-width: 500px;
     padding-bottom: 5px;
     color: $color-gray-dark;
-    .rx-card-detials{
+    .rx-card-details{
       margin-left: 5px;
       h3 {
         margin: 8px 0;
@@ -135,6 +143,25 @@
 }
 
 @media print {
+  .landing-page {
+    margin-top: 10px;
+  }
+  h1 {
+    font-size: 40px;
+  }
+  h2 {
+    font-size: 32px;
+    margin: 1rem 0 !important;
+    padding: 0;
+  }
+  .rx-page-total-info {
+    margin: 1.5rem 0 !important;
+    padding: 0;
+  }
+  .line-break {
+    margin: 1rem 0;
+    border-bottom: 1px solid rgb(0, 0, 0);
+  }
   .no-print,
   .no-print * {
     visibility: hidden;
@@ -145,34 +172,46 @@
   .no-break {
     break-inside: avoid;
   }
-  h1 {
-    font-size: 30;
+  .print-only-refill-container {
+    margin-top: 1.5rem;
   }
-  .page-title {
-    border: solid 1px $color-black;
-    padding: 8px 0px;
-    text-align: center;
+  .print-only-crisis-line-header {
+    font-size: 1.46rem;
+    margin-bottom: 5rem;
+    width: 100%;
   }
-  .print-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0px;
-    * {
-      margin: 0px;
+  .print-only-rx-image-container {
+    img {
+      display: block;
+      width: 259px;
+      height: 195.85px;
+      margin: 0.5rem 0;
     }
   }
-
-  .card {
-    margin: 0px 0px 12px 0px !important;
-    padding: 24px 0px 12px !important;
-  }
-  .item-list * {
-    line-height: 1.3;
-  }
-  .print-title {
-    display: flex;
-    flex-wrap: wrap;
+  .print-only-rx-container {
+    margin-bottom: 1.35rem;
+    p {
+      padding: 0;
+      margin: 0;
+      word-wrap: break-word;
+    }
+    .print-only-rx-details-container {
+      margin: 0 auto 1rem auto;
+      width: 95%;
+    }
+    h4 {
+      margin: 1rem 0 0.5rem 0;
+      padding: 0;
+      font-size: 18px;
+    }
+    h3 {
+      margin: 1rem 0;
+      padding: 0;
+      font-size: 22px;
+    }
+    h2 {
+      font-size: 30px;
+    }
   }
 }
 
@@ -192,32 +231,11 @@
   }
 }
 
-@media print {
-  @page {
-      margin-top: 20px;
-      margin-bottom: 0;
-  }
-  body {
-    padding-top: 10px;
-    padding-bottom: 30px ;
-  }
-  button {
-    -webkit-print-color-adjust: exact;
-    width: 200px !important;
-  }
-}
-
-.print-bottom {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  position: fixed;
-  bottom: 20px;
-}
-
 .rx-fill-refill-button {
   va-loading-indicator {
     display: flex;
     justify-content: left;
+    align-items: center;
+    gap: 1.5rem;
   }
 }

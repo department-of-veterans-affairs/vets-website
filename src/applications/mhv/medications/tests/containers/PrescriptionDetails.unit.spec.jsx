@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
@@ -28,6 +29,18 @@ describe('Prescription details container', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('should display loading message when loading specific rx', async () => {
+    const screen = setup({
+      prescriptions: {
+        prescriptionDetails: undefined,
+      },
+    });
+    waitFor(() => {
+      expect(screen.getByTestId('loading-indicator')).to.exist;
+      expect(screen.getByText('Loading your medication record...')).to.exist;
+    });
   });
 
   it('displays the prescription name and filled by date', () => {

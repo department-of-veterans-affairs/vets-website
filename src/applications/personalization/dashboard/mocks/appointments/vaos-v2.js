@@ -1,5 +1,5 @@
-const format = require('date-fns/format');
 const add = require('date-fns/add');
+const { format, utcToZonedTime } = require('date-fns-tz');
 
 const createVaosAppointment = ({
   startsInDays = 1,
@@ -50,6 +50,9 @@ const createVaosAppointment = ({
         id: '983',
         vistaSite: '983',
         name: 'Cheyenne VA Medical Center',
+        timezone: {
+          timeZoneId: 'America/Denver',
+        },
         lat: 39.744507,
         long: -104.830956,
         phone: { main: '307-778-7550' },
@@ -62,8 +65,16 @@ const createVaosAppointment = ({
       },
     },
     start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-    startsAt: format(now, "yyyy-MM-dd'T'HH:mm:ssxxx"),
     end: format(add(now, { hours: 3 }), "yyyy-MM-dd'T'HH:mm:ss"),
+    get localStartTime() {
+      return format(
+        utcToZonedTime(now, this.location.attributes.timezone.timeZoneId),
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+        {
+          timeZone: this.location.attributes.timezone.timeZoneId,
+        },
+      );
+    },
   };
   return appointment;
 };

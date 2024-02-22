@@ -1,12 +1,10 @@
 {
-
   "presets": [
     [
       "@babel/env",
       {
         "forceAllTransforms": true,
         "targets": {
-
           "browsers": [
             "Chrome 61",
             "Firefox 60",
@@ -24,9 +22,7 @@
     ],
     "@babel/react"
   ],
-  "ignore": [
-    "./src/platform/polyfills/preESModulesPolyfills.js"
-  ],
+  "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
   "plugins": [
     "lodash",
 
@@ -57,42 +53,44 @@
           "@department-of-veterans-affairs/component-library/FileInput": "@department-of-veterans-affairs/react-components/FileInput",
           "@department-of-veterans-affairs/component-library/SystemDownView": "@department-of-veterans-affairs/react-components/SystemDownView",
           "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
+          "@department-of-veterans-affairs/mhv/exports": "./src/platform/mhv/exportsFile.js",
           "@department-of-veterans-affairs/platform-pdf/exports": "./src/platform/pdf/exportsFile.js",
           "@department-of-veterans-affairs/platform-startup/exports": "./src/platform/startup/exportsFile.js",
-          "@department-of-veterans-affairs/platform-startup/index" : "./src/platform/startup/index.js",
-          "@department-of-veterans-affairs/platform-startup/store" : "./src/platform/startup/store.js",
-          "@department-of-veterans-affairs/platform-startup/react" : "./src/platform/startup/react.js",
-          "@department-of-veterans-affairs/platform-startup/setup" : "./src/platform/startup/setup.js",
-          "@department-of-veterans-affairs/platform-startup/router" : "./src/platform/startup/router.js",
-          "@department-of-veterans-affairs/platform-startup/analytics-middleware" : "./src/platform/startup/analytics-middleware.js",
+          "@department-of-veterans-affairs/platform-startup/index": "./src/platform/startup/index.js",
+          "@department-of-veterans-affairs/platform-startup/store": "./src/platform/startup/store.js",
+          "@department-of-veterans-affairs/platform-startup/react": "./src/platform/startup/react.js",
+          "@department-of-veterans-affairs/platform-startup/setup": "./src/platform/startup/setup.js",
+          "@department-of-veterans-affairs/platform-startup/router": "./src/platform/startup/router.js",
+          "@department-of-veterans-affairs/platform-startup/analytics-middleware": "./src/platform/startup/analytics-middleware.js",
 
           "@department-of-veterans-affairs/platform-utilities/exports": "./src/platform/utilities/exportsFile.js",
-          "@department-of-veterans-affairs/platform-utilities/environment" : "./src/platform/utilities/environment/index.js",
-          "@department-of-veterans-affairs/platform-utilities/stagingDomains" : "./src/platform/utilities/environment/stagingDomains.js",
-          "@department-of-veterans-affairs/platform-utilities/va-subdomain" : "./src/platform/utilities/environment/va-subdomain.js",
-          "@department-of-veterans-affairs/platform-utilities/feature-toggles" : "./src/platform/utilities/feature-toggles/index.js",
-          "@department-of-veterans-affairs/platform-utilities/feature-toggles/helpers" : "./src/platform/utilities/feature-toggles/helpers.js",
-          "@department-of-veterans-affairs/platform-utilities/flipper-client" : "./src/platform/utilities/feature-toggles/flipper-client.js",
-          "@department-of-veterans-affairs/platform-utilities/featureFlagNames" : "./src/platform/utilities/feature-toggles/featureFlagNames.js",
-          "@department-of-veterans-affairs/platform-utilities/medical-centers" : "./src/platform/utilities/medical-centers/medical-centers.js",
-          "@department-of-veterans-affairs/platform-utilities/sso/constants" : "./src/platform/utilities/sso/constants.js",
-          "@department-of-veterans-affairs/platform-utilities/sso" : "./src/platform/utilities/sso/index.js",
-          "@department-of-veterans-affairs/platform-utilities/keepAliveSSO" : "./src/platform/utilities/sso/keepAliveSSO.js",
-          "@department-of-veterans-affairs/platform-utilities/loginAttempted" : "./src/platform/utilities/sso/loginAttempted.js",
-          "@department-of-veterans-affairs/platform-utilities/mockKeepAliveSSO" : "./src/platform/utilities/sso/mockKeepAliveSSO.js",
-          "@department-of-veterans-affairs/platform-utilities/localStorage" : "./src/platform/utilities/storage/localStorage.js",
-          "@department-of-veterans-affairs/platform-utilities/asyncLoader" : "./src/platform/utilities/ui/asyncLoader.jsx",
-          "@department-of-veterans-affairs/platform-utilities/DelayedRender" : "./src/platform/utilities/ui/DelayedRender.jsx",
-          "@department-of-veterans-affairs/platform-utilities/ui" : "./src/platform/utilities/ui/index.js",
-          "@department-of-veterans-affairs/platform-utilities/scrollTo" : "./src/platform/utilities/ui/scrollTo.js",
-          "@department-of-veterans-affairs/platform-utilities/scrollToTop" : "./src/platform/utilities/ui/scrollToTop.js",
+          "@department-of-veterans-affairs/platform-utilities/environment": "./src/platform/utilities/environment/index.js",
+          "@department-of-veterans-affairs/platform-utilities/stagingDomains": "./src/platform/utilities/environment/stagingDomains.js",
+          "@department-of-veterans-affairs/platform-utilities/va-subdomain": "./src/platform/utilities/environment/va-subdomain.js",
+          "@department-of-veterans-affairs/platform-utilities/feature-toggles": "./src/platform/utilities/feature-toggles/index.js",
+          "@department-of-veterans-affairs/platform-utilities/feature-toggles/helpers": "./src/platform/utilities/feature-toggles/helpers.js",
+          "@department-of-veterans-affairs/platform-utilities/flipper-client": "./src/platform/utilities/feature-toggles/flipper-client.js",
+          "@department-of-veterans-affairs/platform-utilities/featureFlagNames": "./src/platform/utilities/feature-toggles/featureFlagNames.js",
+          "@department-of-veterans-affairs/platform-utilities/medical-centers": "./src/platform/utilities/medical-centers/medical-centers.js",
+          "@department-of-veterans-affairs/platform-utilities/sso/constants": "./src/platform/utilities/sso/constants.js",
+          "@department-of-veterans-affairs/platform-utilities/sso": "./src/platform/utilities/sso/index.js",
+          "@department-of-veterans-affairs/platform-utilities/keepAliveSSO": "./src/platform/utilities/sso/keepAliveSSO.js",
+          "@department-of-veterans-affairs/platform-utilities/loginAttempted": "./src/platform/utilities/sso/loginAttempted.js",
+          "@department-of-veterans-affairs/platform-utilities/mockKeepAliveSSO": "./src/platform/utilities/sso/mockKeepAliveSSO.js",
+          "@department-of-veterans-affairs/platform-utilities/localStorage": "./src/platform/utilities/storage/localStorage.js",
+          "@department-of-veterans-affairs/platform-utilities/asyncLoader": "./src/platform/utilities/ui/asyncLoader.jsx",
+          "@department-of-veterans-affairs/platform-utilities/DelayedRender": "./src/platform/utilities/ui/DelayedRender.jsx",
+          "@department-of-veterans-affairs/platform-utilities/ui": "./src/platform/utilities/ui/index.js",
+          "@department-of-veterans-affairs/platform-utilities/scrollTo": "./src/platform/utilities/ui/scrollTo.js",
+          "@department-of-veterans-affairs/platform-utilities/scrollToTop": "./src/platform/utilities/ui/scrollToTop.js",
           "@department-of-veterans-affairs/platform-utilities/titleCase": "./src/platform/utilities/data/titleCase.js",
+          "@department-of-veterans-affairs/platform-utilities/unset": "./src/platform/utilities/data/unset.js",
           "@department-of-veterans-affairs/platform-utilities/api": "./src/platform/utilities/api/index.js",
 
-          "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
-          "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",
-          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.json",
-          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.json",
+          "@department-of-veterans-affairs/platform-landing-pages/exports": "./src/platform/landing-pages/exportsFile.js",
+          "@department-of-veterans-affairs/platform-landing-pages/dev-template": "./src/platform/landing-pages/dev-template.js",
+          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar": "./src/platform/landing-pages/facility-sidebar.json",
+          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data": "./src/platform/landing-pages/header-footer-data.json",
 
           "@department-of-veterans-affairs/platform-static-data/exports": "./src/platform/static-data/exportsFile.js",
           "@department-of-veterans-affairs/platform-static-data/CallHRC": "./src/platform/static-data/CallHRC.jsx",
@@ -146,7 +144,7 @@
           "@department-of-veterans-affairs/platform-user/local-vapsvc": "./src/platform/user/profile/vap-svc/util/local-vapsvc.js",
           "@department-of-veterans-affairs/platform-user/disableFTUXModals": "./src/platform/user/tests/disableFTUXModals.js",
 
-          "@department-of-veterans-affairs/platform-testing/exports" : "./src/platform/testing/exportsFile.js",
+          "@department-of-veterans-affairs/platform-testing/exports": "./src/platform/testing/exportsFile.js",
           "@department-of-veterans-affairs/platform-testing/contract": "./src/platform/testing/contract/index.js",
           "@department-of-veterans-affairs/platform-testing/form-tester": "./src/platform/testing/e2e/cypress/support/form-tester/index.js",
           "@department-of-veterans-affairs/platform-testing/form-tester/utilities": "./src/platform/testing/e2e/cypress/support/form-tester/utilities.js",
@@ -159,6 +157,7 @@
 
           "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
+          "@department-of-veterans-affairs/platform-site-wide/MobileAppCallout": "./src/platform/site-wide/alerts/MobileAppCallout.jsx",
           "@department-of-veterans-affairs/platform-site-wide/EbenefitsLink": "./src/platform/site-wide/ebenefits/containers/EbenefitsLink.jsx",
           "@department-of-veterans-affairs/platform-site-wide/selectors": "./src/platform/site-wide/feature-toggles/selectors.js",
           "@department-of-veterans-affairs/platform-site-wide/actionTypes": "./src/platform/site-wide/feature-toggles/actionTypes.js",
@@ -183,10 +182,11 @@
           "@department-of-veterans-affairs/platform-site-wide/sitemap-helpers": "./src/platform/site-wide/tests/sitemap/sitemap-helpers.js",
           "@department-of-veterans-affairs/platform-site-wide/actions": "./src/platform/site-wide/user-nav/actions/index.js",
           "@department-of-veterans-affairs/platform-site-wide/AutoSSO": "./src/platform/site-wide/user-nav/containers/AutoSSO.jsx",
+          "@department-of-veterans-affairs/platform-site-wide/PageNotFound": "./src/platform/site-wide/user-nav/components/PageNotFound.jsx",
           "@department-of-veterans-affairs/platform-site-wide/user-nav": "./src/platform/site-wide/user-nav/index.js",
           "@department-of-veterans-affairs/platform-site-wide/sass/user-nav": "./src/platform/site-wide/user-nav/sass/user-nav.scss",
-          "@department-of-veterans-affairs/ask-va/sass/ask-va-too":"./src/applications/ask-va/sass/ask-va-too.scss",
-          "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent":"./src/applications/virtual-agent/sass/virtual-agent.scss",
+          "@department-of-veterans-affairs/ask-va/sass/ask-va-too": "./src/applications/ask-va/sass/ask-va-too.scss",
+          "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent": "./src/applications/virtual-agent/sass/virtual-agent.scss",
           "@department-of-veterans-affairs/platform-site-wide/user-nav/reducers": "./src/platform/site-wide/user-nav/reducers/index.js",
           "@department-of-veterans-affairs/platform-site-wide/va-footer": "./src/platform/site-wide/va-footer/index.js",
           "@department-of-veterans-affairs/platform-site-wide/wizard": "./src/platform/site-wide/wizard/index.js",
@@ -236,6 +236,7 @@
           "@department-of-veterans-affairs/platform-forms/fields": "./src/platform/forms/fields.js",
           "@department-of-veterans-affairs/platform-forms/helpers": "./src/platform/forms/helpers.js",
           "@department-of-veterans-affairs/platform-forms/sub-task": "./src/platform/forms/sub-task/index.js",
+          "@department-of-veterans-affairs/platform-forms/save-in-progress": ".src/platform/forms/save-in-progress/SaveInProgressIntro",
 
           "@department-of-veterans-affairs/platform-forms-system/exports": "./src/platform/forms-system/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms-system/AddressViewField": "./src/platform/forms-system/src/js/components/AddressViewField.jsx",
@@ -268,6 +269,7 @@
           "@department-of-veterans-affairs/platform-forms-system/ObjectField": "./src/platform/forms-system/src/js/fields/ObjectField.jsx",
           "@department-of-veterans-affairs/platform-forms-system/review/PhoneNumberWidget": "./src/platform/forms-system/src/js/review/PhoneNumberWidget.jsx",
           "@department-of-veterans-affairs/platform-forms-system/ReviewChapters": "./src/platform/forms-system/src/js/review/ReviewChapters.jsx",
+          "@department-of-veterans-affairs/platform-forms-system/ReviewCollapsibleChapter": "./src/platform/forms-system/src/js/review/ReviewCollapsibleChapter.jsx",
           "@department-of-veterans-affairs/platform-forms-system/SubmitController": "./src/platform/forms-system/src/js/review/SubmitController.jsx",
           "@department-of-veterans-affairs/platform-forms-system/state/helpers": "./src/platform/forms-system/src/js/state/helpers.js",
           "@department-of-veterans-affairs/platform-forms-system/reducers": "./src/platform/forms-system/src/js/state/reducers.js",
@@ -302,7 +304,8 @@
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/components/DowntimeApproaching": "./src/platform/monitoring/DowntimeNotification/components/DowntimeApproaching.jsx",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/components/Wrapper": "./src/platform/monitoring/DowntimeNotification/components/Wrapper.jsx",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/util/helpers": "./src/platform/monitoring/DowntimeNotification/util/helpers.js",
-          "@department-of-veterans-affairs/platform-monitoring/external-services/ExternalServicesError": "./src/platform/monitoring/external-services/ExternalServicesError.jsx"
+          "@department-of-veterans-affairs/platform-monitoring/external-services/ExternalServicesError": "./src/platform/monitoring/external-services/ExternalServicesError.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/record-event": "./src/platform/monitoring/record-event"
         }
       }
     ]

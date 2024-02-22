@@ -169,6 +169,7 @@ export const Errors = {
   Code: {
     BLOCKED_USER: 'SM119',
     BLOCKED_USER2: 'SM151',
+    TG_NOT_ASSOCIATED: 'SM129',
   },
 };
 
@@ -312,11 +313,6 @@ export const threadSortingOptions = {
   },
 };
 
-export const PrintMessageOptions = {
-  PRINT_MAIN: 'PRINT_MAIN',
-  PRINT_THREAD: 'PRINT_THREAD',
-};
-
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
@@ -329,4 +325,62 @@ export const PageTitles = {
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
     'My folders - MHV Secure Messaging | Veterans Affairs',
+};
+
+export const Recipients = {
+  CARE_TEAM: 'Care Team',
+  FACILITY: 'Facility',
+};
+
+export const ParentComponent = {
+  COMPOSE_FORM: 'Compose Form',
+  FOLDER_HEADER: 'Folder Header',
+  MESSAGE_THREAD: 'Message Thread',
+  REPLY_FORM: 'Reply Form',
+};
+
+export const RecipientStatus = {
+  BLOCKED: 'Blocked',
+  ALLOWED: 'Allowed',
+  NOT_ASSOCIATED: 'Not Associated',
+};
+
+export const BlockedTriageAlertStyles = {
+  INFO: 'info',
+  WARNING: 'warning',
+  ALERT: 'alert',
+};
+
+export const BlockedTriageAlertText = {
+  alertTitle: {
+    NO_ASSOCIATIONS:
+      "You're not connected to any care teams in this messaging tool",
+    ALL_TEAMS_BLOCKED: "You can't send messages to your care teams right now",
+    MULTIPLE_TEAMS_BLOCKED:
+      "You can't send messages to some of your care teams",
+  },
+  alertMessage: {
+    NO_ASSOCIATIONS:
+      'If you need to contact your care team, call your VA health facility.',
+    ALL_TEAMS_BLOCKED:
+      'If you need to contact your care teams, call your VA health facility.',
+    SINGLE_FACILITY_BLOCKED:
+      'If you need to contact these care teams, call the facility.',
+    SINGLE_TEAM_BLOCKED:
+      'If you need to contact this care team, call your VA health facility.',
+    MULTIPLE_TEAMS_BLOCKED:
+      'If you need to contact these care teams, call your VA health facility.',
+  },
+};
+
+export const FormLabels = {
+  CATEGORY: 'Category',
+  MESSAGE: 'Message',
+  SUBJECT: 'Subject',
+};
+
+export const CernerTransitioningFacilities = {
+  NORTH_CHICAGO: {
+    facilityId: '556',
+  },
 };

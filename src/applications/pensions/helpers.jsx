@@ -1,11 +1,11 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import numberToWords from '@department-of-veterans-affairs/platform-forms-system/numberToWords';
-import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
 import { createSelector } from 'reselect';
 
@@ -18,16 +18,13 @@ export const scrollToTop = () => {
   });
 };
 
-function replacer(key, value) {
-  // if the containing object has a name, we’re in the national guard object
-  // and we want to keep addresses no matter what
-  if (
-    !this.name &&
-    typeof value !== 'undefined' &&
-    typeof value.country !== 'undefined' &&
-    (!value.street || !value.city || (!value.postalCode && !value.zipcode))
-  ) {
-    return undefined;
+// Includes obsolete 'dayPhone' and 'nightPhone' for stale forms
+const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
+
+export function replacer(key, value) {
+  if (usaPhoneKeys.includes(key) && value?.length) {
+    // Strip spaces, dashes, and parens from phone numbers
+    return value.replace(/[^\d]/g, '');
   }
 
   // clean up empty objects, which we have no reason to send
@@ -95,7 +92,7 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-function transform(formConfig, form) {
+export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
     pensionClaim: {
@@ -169,6 +166,14 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
+export function getDependentChildTitle(item, description) {
+  if (item.fullName) {
+    return `${item.fullName.first || ''} ${item.fullName.last ||
+      ''} ${description}`;
+  }
+  return 'description';
+}
+
 export function createSpouseLabelSelector(nameTemplate) {
   return createSelector(
     form =>
@@ -189,137 +194,47 @@ export function createSpouseLabelSelector(nameTemplate) {
   );
 }
 
-export const spouseContribution = (
-  <span>
-    How much do you <strong>contribute monthly</strong> to your spouse’s
-    support?
-  </span>
-);
-
-export const specialMonthlyPensionDescription = (
-  <section>
-    <p>
-      If you have certain health needs or disabilities, you may be eligible for
-      additional pension. We call this special monthly pension (SMP).
-    </p>
-    <p>
-      You may be eligible for SMP if you need the regular assistance of another
-      person, have severe visual impairment, or are generally confined to your
-      immediate premises.
-    </p>
-  </section>
-);
-
-export function fileHelp({ formData }) {
-  const hasSchoolChild = (formData.dependents || []).some(
-    child => child.attendingCollege,
-  );
-
-  const hasDisabledChild = (formData.dependents || []).some(
-    child => child.disabled,
-  );
-
-  return (
-    <div>
-      <p>
-        Please upload all documentation to support your claim.{' '}
-        {(hasSchoolChild || hasDisabledChild) && 'This includes:'}
-      </p>
-      <ul>
-        {hasSchoolChild && (
-          <li>
-            A completed Request for Approval of School Attendance (
-            <a
-              href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              VA Form 21-674
-            </a>
-            )
-          </li>
-        )}
-        {hasDisabledChild && (
-          <li>
-            Private medical records documenting your child’s disability before
-            the age of 18
-          </li>
-        )}
-      </ul>
-      <p>
-        If you’re claiming for Aid and Attendance or Housebound benefits, this
-        includes:
-      </p>
-      <ul>
-        <li>
-          A completed Examination for Housebound Status or Permanent Need for
-          Regular Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-2680
-          </a>
-          )
-        </li>
-        <li>
-          A completed Request for Nursing Home Information in Connection with
-          Claim for Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-0779
-          </a>
-          )
-        </li>
-      </ul>
-      <p>File types you can upload: PDF, JPG, PNG</p>
-    </div>
-  );
-}
+export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by
-    electronic funds transfer (EFT), also called direct deposit. If you don’t
-    have a bank account, you must get your payment through Direct Express Debit
-    MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a
-      href="http://www.usdirectexpress.com"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      www.usdirectexpress.com
-    </a>{' '}
-    or by telephone at <va-telephone contact="8003331795" />. If you chose not
-    to enroll, you must contact representatives handling waiver requests for the
-    Department of Treasury at <va-telephone contact="8882242950" />. They will
-    address any questions or concerns you may have and encourage your
-    participation in EFT.
-  </div>
-);
-
-export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <div className="usa-alert-text">
+    <div>
       <p>
-        <strong>Note:</strong> You have indicated that you did not serve during
-        an{' '}
-        <a
-          href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {' '}
-          eligible wartime period
-        </a>
-        . Find out if you still qualify.{' '}
-        <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility
-        </a>
+        The Department of Treasury requires all federal benefit payments be made
+        by electronic funds transfer (EFT), also called direct deposit.
+      </p>
+    </div>
+    <div>
+      <h3>If you don’t have a bank account</h3>
+      <p>
+        If you don’t have a bank account, you must get your payment through
+        Direct Express Debit MasterCard. To request a Direct Express Debit
+        MasterCard, you’ll need to apply one of these two ways:
+      </p>
+      <ul>
+        <li>
+          <a
+            href="http://www.usdirectexpress.com"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Apply online for a Direct Express Debit MasterCard (opens in new tab)"
+          >
+            Apply online for a Direct Express Debit MasterCard (opens in new
+            tab)
+          </a>
+        </li>
+        <li>
+          Call <va-telephone contact="8003331795" /> to apply by phone
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>If you want to opt out of direct deposit</h3>
+      <p>
+        If you chose not to enroll, you must contact representatives handling
+        waiver requests for the Department of Treasury at{' '}
+        <va-telephone contact="8882242950" />. They will address any questions
+        or concerns you may have and encourage your participation in EFT.
       </p>
     </div>
   </div>
@@ -347,184 +262,6 @@ export function servedDuringWartime(period) {
     return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
   });
 }
-
-export const uploadMessage = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        <p>If you have many documents to upload you can mail them to us.</p>
-        <p>
-          <em>We’ll provide an address after you finish the application.</em>
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const aidAttendanceEvidence = (
-  <div>
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming non-service-connected pension benefits with Aid
-              and Attendance benefits
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have corrected vision of 5/200 or less in both eyes,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Have contraction of the concentric visual field to 5 degrees or
-              less, <strong>or</strong>
-            </li>
-            <li>
-              Are a patient in a nursing home due to the loss of mental or
-              physical abilities, <strong>or</strong>
-            </li>
-            <li>
-              Need another person to help you with daily activities like
-              bathing, eating, dressing, adjusting prosthetic devices, or
-              protecting you from the hazards of your environment,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Are bedridden and have to spend most of the day in bed because of
-              your disability
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming for increased disability pension benefits based
-              on being housebound
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have a single permanent disability that’s 100% disabling, and
-              you’re confined to your home, <strong>or</strong>
-            </li>
-            <li>
-              Have a disability (rated 60% or higher) in addition to the
-              disability that qualifies you for a pension
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        You’ll need to provide all private medical records for your child’s
-        disability.
-      </div>
-    </div>
-  </div>
-);
-
-export const schoolAttendanceWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since your child is between 18 and 23 years old, you’ll need to fill out
-        a Request for Approval of School Attendance (
-        <a
-          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          VA Form 21-674
-        </a>
-        ). <strong>You can send us this form later.</strong>
-      </div>
-    </div>
-  </div>
-);
-
-export const marriageWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h4 className="usa-alert-heading">Recognition of marriages</h4>
-      <div className="usa-alert-text">
-        <p>
-          If you’re certifying you are married for VA benefits, your marriage
-          must be recognized by the place you and your spouse lived at the time
-          of your marriage, or where you and your spouse lived at the time you
-          filed your claim (or a later date when you qualified for benefits).
-        </p>
-        <p>
-          Additional information on VA-recognized marriage is at{' '}
-          <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const fdcWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application will be submitted as a fully developed claim.
-      </div>
-    </div>
-  </div>
-);
-
-export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application doesn’t qualify for the Fully Developed Claim (FDC)
-        program. We’ll review your claim through the standard claim process.
-        Please turn in any information to support your claim as soon as you can
-        to the address provided after you finish the application.
-      </div>
-    </div>
-  </div>
-);
-
-export const expeditedProcessDescription = (
-  <div>
-    <h5>Fully developed claim program</h5>
-    <p>
-      If you have uploaded all the supporting documentation you have and any
-      forms for additional benefits, you can apply using the Fully Developed
-      Claim (FDC) program.
-    </p>
-    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
-      Learn more about the FDC program
-    </a>
-    .
-  </div>
-);
-
-export const dependentWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your child won’t qualify as a dependent unless they’re in school or
-        disabled.
-      </div>
-    </div>
-  </div>
-);
 
 export const dependentsMinItem = (
   <span>
@@ -566,23 +303,57 @@ export const dependentSeriouslyDisabledDescription = (
   </div>
 );
 
-export const contactWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact this person without contacting you first.
-      </div>
-    </div>
+export const IncomeSourceDescription = (
+  <div>
+    <p>
+      We want to know more about the gross monthly income you, your spouse, and
+      your dependents receive.
+    </p>
+    <p>List the sources of income for you, your spouse, and your dependents.</p>
   </div>
 );
 
-export const contactWarningMulti = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact any of the people listed here without contacting you
-        first.
-      </div>
-    </div>
-  </div>
-);
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
+  );
+};
+
+export const validateWorkHours = (errors, fieldData) => {
+  if (fieldData > 168) {
+    errors.addError('Enter a number less than 169');
+  }
+};
+
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export const formatFullName = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  // ensure that any middle initials are capitalized
+  const formattedMiddle = middle
+    ? middle.replaceAll(/\b\w\b/g, c => c.toUpperCase())
+    : '';
+  return [first, formattedMiddle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
+};
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}

@@ -1,7 +1,7 @@
 import {
   yesNoSchema,
   yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   AssetInformationAlert,
   RequestIncomeAndAssetInformationAlert,
@@ -18,7 +18,6 @@ export default {
     },
     totalNetWorth: yesNoUI({
       title: 'Do you and your dependents have over $25,000 in assets?',
-      uswds: true,
     }),
     'view:warningAlertOnYes': {
       'ui:description': RequestIncomeAndAssetInformationAlert,

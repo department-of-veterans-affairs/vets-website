@@ -106,6 +106,7 @@ const MessageListItem = props => {
           )}, ${formattedDate}`}
           to={`/thread/${messageId}`}
           data-dd-privacy="mask"
+          data-dd-action-name="Link to Message Subject Details"
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>

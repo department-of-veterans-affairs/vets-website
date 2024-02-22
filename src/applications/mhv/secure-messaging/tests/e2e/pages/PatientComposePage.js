@@ -4,6 +4,7 @@ import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
+import mockRecipients from '../fixtures/recipients-response.json';
 
 class PatientComposePage {
   messageSubjectText = 'testSubject';
@@ -34,7 +35,7 @@ class PatientComposePage {
   };
 
   getCategory = (category = 'COVID') => {
-    return cy.get(`[name=${category}]`);
+    return cy.get(`#compose-message-categories${category}input`);
   };
 
   pushSendMessageWithKeyboardPress = () => {
@@ -56,15 +57,18 @@ class PatientComposePage {
     cy.focused().should('contain.text', 'Secure message was successfully sent');
   };
 
-  //* Refactor*  Need to get rid of this method and split out
-  enterComposeMessageDetails = (category = 'COVID') => {
-    this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
-    cy.get('[data-testid="compose-category-radio-button"]')
-      .find(`input[name="${category}"]`)
-      .click({ force: true });
-    // this.attachMessageFromFile('test_image.jpg');
-    this.getMessageSubjectField().type('Test Subject', { force: true });
-    this.getMessageBodyField().type('Test message body', { force: true });
+  selectRecipient = (recipient = 1) => {
+    cy.get('[data-testid="compose-recipient-select"]').click();
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="select"]')
+      .select(recipient, { force: true });
+  };
+
+  selectCategory = (category = 'OTHER') => {
+    cy.get(`#compose-message-categories${category}input`).click({
+      force: true,
+    });
   };
 
   getMessageSubjectField = () => {
@@ -81,23 +85,6 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
-  selectRecipient = (recipient = 1) => {
-    cy.get('[data-testid="compose-recipient-select"]').click();
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select(recipient, { force: true });
-  };
-
-  selectCategoryByTabbingKeyboard = () => {
-    cy.tabToElement('#OTHEROTHER');
-    cy.realPress(['Enter']);
-  };
-
-  selectCategory = (category = 'OTHEROTHERinput') => {
-    cy.get(`#${category}`).click({ force: true });
-  };
-
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
@@ -112,7 +99,7 @@ class PatientComposePage {
       .type(text, { force: true });
   };
 
-  verifyFocusonMessageAttachment = () => {
+  verifyFocusOnMessageAttachment = () => {
     cy.get('[data-testid="close-success-alert-button"]')
       .should('be.visible')
       .should('have.focus');
@@ -349,12 +336,12 @@ class PatientComposePage {
     );
   };
 
-  verifyRecipient = recipient => {
+  verifyRecipient = (recipient = mockRecipients.data[0].id) => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('select')
       .select(recipient)
-      .should('contain', 'PQR TRIAGE');
+      .should('contain', mockRecipients.data[0].attributes.name);
   };
 
   verifySubjectField = subject => {

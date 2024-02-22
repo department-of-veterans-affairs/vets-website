@@ -116,10 +116,11 @@ const AppointmentMessage = props => {
       {alertMessage ? (
         <div data-testid="appointment-message">
           <va-alert
-            background-only
             show-icon
             class="vads-u-margin-bottom--2"
             data-testid="appointment-action-message"
+            uswds
+            slim
           >
             {alertMessage}
           </va-alert>

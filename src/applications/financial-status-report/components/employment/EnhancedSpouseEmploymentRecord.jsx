@@ -7,7 +7,12 @@ import {
   VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getJobIndex } from '../../utils/session';
+import ButtonGroup from '../shared/ButtonGroup';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 
 const RETURN_PATH = '/spouse-employment-history';
@@ -138,6 +143,29 @@ const EmploymentRecord = props => {
       handleChange('isCurrent', value === 'true');
       setCurrentlyWorksHere(value === 'true');
     },
+    getContinueButtonText: () => {
+      if (
+        employmentRecord.isCurrent ||
+        getJobButton() === jobButtonConstants.FIRST_JOB
+      ) {
+        return 'Continue';
+      }
+
+      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+        return 'Update employment record';
+      }
+      return 'Add employment record';
+    },
+    getCancelButtonText: () => {
+      if (getJobButton() === jobButtonConstants.FIRST_JOB) {
+        return 'Back';
+      }
+
+      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+        return 'Cancel Edit Entry';
+      }
+      return 'Cancel Add Entry';
+    },
   };
 
   return (
@@ -161,6 +189,7 @@ const EmploymentRecord = props => {
             onVaSelect={handlers.onChange}
             error={typeError}
             class="advanced-search-field"
+            uswds
           >
             <option value=""> </option>
             <option value="Full time">Full time</option>
@@ -180,6 +209,7 @@ const EmploymentRecord = props => {
             required
             type="text"
             value={employmentRecord.employerName}
+            uswds
           />
         </div>
         <VaRadio
@@ -187,12 +217,14 @@ const EmploymentRecord = props => {
           label="Does your spouse currently work at this job?"
           onVaValueChange={handlers.onRadioSelect}
           required
+          uswds
         >
           <va-radio-option
             id="works-here"
             label="Yes"
             value="true"
             checked={currentlyWorksHere}
+            uswds
           />
           <va-radio-option
             id="does-not-work-here"
@@ -200,26 +232,24 @@ const EmploymentRecord = props => {
             value="false"
             name="primary"
             checked={!currentlyWorksHere}
+            uswds
           />
         </VaRadio>
-        <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
-            onClick={updateFormData}
-          >
-            {`${editIndex ? 'Update' : 'Add'} employment record`}
-          </button>
-        </p>
+
+        <ButtonGroup
+          buttons={[
+            {
+              label: handlers.getCancelButtonText(),
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: handlers.getContinueButtonText(),
+              onClick: updateFormData,
+              isSubmitting: true,
+            },
+          ]}
+        />
       </fieldset>
     </form>
   );

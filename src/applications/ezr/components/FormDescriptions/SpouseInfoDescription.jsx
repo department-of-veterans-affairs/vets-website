@@ -1,7 +1,7 @@
 import React from 'react';
 import { LAST_YEAR } from '../../utils/constants';
 
-export const SpouseInfoDescription = () => (
+const SpouseInfoDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--1 vads-u-margin-bottom--4"

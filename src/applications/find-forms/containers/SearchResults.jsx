@@ -133,7 +133,7 @@ export const SearchResults = ({
 
   if (error) {
     return (
-      <va-alert status="error">
+      <va-alert status="error" uswds={false}>
         <h3 slot="headline">Something went wrong</h3>
         <div className="usa-alert-text vads-u-font-size--base">{error}</div>
       </va-alert>
@@ -214,7 +214,6 @@ export const SearchResults = ({
           className="vads-u-font-size--md vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5 va-u-outline--none"
           data-forms-focus
         >
-          {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
             <>
               Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}
@@ -232,6 +231,7 @@ export const SearchResults = ({
             setSortByPropertyNameState(formMetaInfo)(value);
           }}
           value={sortByPropertyName}
+          uswds={false}
         >
           {FAF_SORT_OPTIONS.map(opt => (
             <option key={opt} value={opt}>
@@ -255,6 +255,7 @@ export const SearchResults = ({
           modalTitle="Download this PDF and open it in Acrobat Reader"
           initialFocusSelector="#va-modal-title"
           visible={isOpen}
+          uswds={false}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <p>
@@ -305,6 +306,7 @@ export const SearchResults = ({
           page={page}
           pages={totalPages}
           showLastPage
+          uswds
         />
       )}
     </>
