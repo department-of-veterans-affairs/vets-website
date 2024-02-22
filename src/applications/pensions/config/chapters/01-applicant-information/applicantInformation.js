@@ -54,7 +54,6 @@ export default {
     veteranSocialSecurityNumber: ssnUI(),
     vaClaimsHistory: yesNoUI({
       title: 'Have you ever filed a claim with VA?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     vaFileNumber: {
