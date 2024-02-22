@@ -22,6 +22,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  EXPANDABLETITLE: '[class="alert-expandable-title"]',
   HEADER: 'h1',
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',

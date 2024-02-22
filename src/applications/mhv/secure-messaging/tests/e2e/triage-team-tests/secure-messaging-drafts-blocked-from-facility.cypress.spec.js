@@ -50,7 +50,7 @@ describe('verify drafts - blocked from facility', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.EXPANDABLETITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -113,7 +113,7 @@ describe('verify drafts - blocked from facility', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.EXPANDABLETITLE)
       .should('be.visible')
       .and(
         'include.text',
