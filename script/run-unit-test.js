@@ -92,7 +92,7 @@ if (process.env.TESTS_TO_VERIFY) {
 
 const splitUnitTests = splitArray(
   allUnitTestDirs,
-  Math.ceil(allUnitTests.length / numContainers),
+  Math.ceil(allUnitTestDirs.length / numContainers),
 );
 console.log('splitUnitTests:', splitUnitTests);
 console.log('splitUnitTests[matrixStep]: ', splitUnitTests[matrixStep]);
