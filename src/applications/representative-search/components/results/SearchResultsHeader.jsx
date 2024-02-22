@@ -25,7 +25,7 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    veteran_service_officer: 'Accredited Veteran Service Officer (VSO)',
+    veteran_service_officer: 'Accredited Veterans Service Officer (VSO)',
     attorney: 'Accredited attorney',
     claim_agents: 'Accredited claims agent',
   };
