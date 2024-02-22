@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { benefitsLabels } from '../labels';
+import { benefitsLabels } from '../utils/labels';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -111,6 +111,7 @@ class ConfirmationPage extends React.Component {
             className="usa-button screen-only"
             onClick={() => window.print()}
             text="Print for your records"
+            uswds="false"
           />
         </div>
         <div className="confirmation-guidance-container">

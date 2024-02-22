@@ -1,4 +1,4 @@
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 import formConfig from './config/form';
 
 export default {

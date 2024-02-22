@@ -1,124 +1,135 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { focusElement } from 'platform/utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
+const IntroductionPage = ({ route }) => {
+  useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
-  }
+  }, []);
 
-  render() {
-    const { route } = this.props;
-    return (
-      <div className="schemaform-intro">
-        <FormTitle title="Apply for burial benefits" />
-        <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          pageList={route.pageList}
-          downtime={route.formConfig.downtime}
-          startText="Start the Burial Benefits Application"
-        />
-        <h2 className="vads-u-font-size--h4">
-          Follow the steps below to apply for burial benefits.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <a
-              className="vads-c-action-link--blue"
-              href="/burials-memorials/veterans-burial-allowance/"
-            >
-              Find out if you qualify for a burial allowance
-            </a>
-            <h4 className="vads-u-margin-top--2p5">
-              Needed information about the deceased Veteran
-            </h4>
-            <p>
-              To fill out this application, you’ll need information about the
-              deceased Veteran, including their:
-            </p>
-            <ul>
-              <li>Social Security number or VA file number (required)</li>
-              <li>Date and place of birth (required)</li>
-              <li>Date and place of death (required)</li>
-              <li>Military status and history</li>
-            </ul>
-            <h4>You may need to upload:</h4>
-            <ul>
-              <li>
-                A copy of the deceased Veteran’s DD214 or other separation
-                documents
-              </li>
-              <li>A copy of the Veteran’s death certificate</li>
-              <li>
-                Documentation for transportation costs (if you’re claiming costs
-                for the transportation of the Veteran’s remains)
-              </li>
-            </ul>
-            <h4>What if I need help filling out my application?</h4>
-            <p>
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability/get-help-filing-claim/">
-                Get help filing your claim
-              </a>
-              .
-            </p>
-            <h4>Learn about other survivor and dependent benefits</h4>
-            <p>
-              If you’re the survivor or dependent of a Veteran who died in the
-              line of duty or from a service-related illness, you may be able to
-              get a benefit called{' '}
-              <a href="/burials-memorials/dependency-indemnity-compensation/">
-                Dependency and Indemnity Compensation
-              </a>
-              .
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this burial benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>We process claims in the order we receive them.</p>
-            <p>We’ll let you know by mail if we need more information.</p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              After we process your claim, you’ll get a notice in the mail about
-              the decision.
-            </p>
-          </li>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          prefillEnabled={route.formConfig.prefillEnabled}
-          pageList={route.pageList}
-          startText="Start the Burial Benefits Application"
-          downtime={route.formConfig.downtime}
-        />
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <va-omb-info
-            res-burden={15}
-            omb-number="2900-0003"
-            exp-date="04/30/2020"
+  return (
+    <div className="schemaform-intro">
+      <FormTitle title="Apply for burial benefits" />
+      <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
+      <h2 className="vads-u-font-size--h2">
+        Follow these steps below to apply for burial benefits
+      </h2>
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        pageList={route.pageList}
+        downtime={route.formConfig.downtime}
+        startText="Start the Burial Benefits Application"
+      />
+      <va-process-list uswds>
+        <va-process-list-item header="Check to be sure you can request a Board Appeal">
+          <p>
+            Make sure you meet our eligibility requirements before you apply.
+          </p>
+          <a
+            href="/burials-memorials/veterans-burial-allowance"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Find out if you’re eligible for a Veterans burial allowance (opens
+            on new tab)
+          </a>
+          <va-link
+            href="/burials-memorials/veterans-burial-allowance?target=_blank"
+            text=""
           />
-        </div>
+        </va-process-list-item>
+        <va-process-list-item header="Gather your information">
+          <p>
+            <strong>
+              You’ll need this information about the deceased Veteran:
+            </strong>
+          </p>
+          <ul>
+            <li>Social Security number or VA file number</li>
+            <li>Date and place of birth</li>
+            <li>Date and place of death</li>
+            <li>Military service history</li>
+            <li>Date of burial</li>
+            <li>Final resting place</li>
+          </ul>
+          <p>
+            And we’ll ask for your personal information. This includes your
+            Social Security number, date of birth, mailing address, and contact
+            information.
+          </p>
+          <p>
+            <strong>
+              You’ll also need to provide copies of these documents:
+            </strong>
+          </p>
+          <ul>
+            <li>
+              The Veteran’s death certificate including the cause of death
+            </li>
+            <li>
+              An itemized receipt for transportation costs (only if you paid
+              transportation costs for the Veteran’s remains)
+            </li>
+          </ul>
+          <p>
+            We also recommend providing a copy of the Veteran’s DD214 or other
+            separation documents, you can request these documents now.
+          </p>
+          <a
+            href="/burials-memorials/veterans-burial-allowance"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Learn more about requesting military service records (opens on new
+            tab)
+          </a>
+          <p>
+            <strong>What if I need help with my application?</strong>
+          </p>
+          <p>
+            An accredited representative, like a Veterans Service Officer (VSO),
+            can help you fill out your application.
+          </p>
+          <va-link
+            href="/disability/get-help-filing-claim/"
+            text="Learn more about getting help from an accredited representative (opens on new tab)"
+          />
+        </va-process-list-item>
+        <va-process-list-item header="Apply">
+          <p>
+            We’ll take you through each step of the process. It should take
+            about 30 minutes.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="After you apply">
+          <p>
+            We’ll contact you by mail if we need more information. Once we
+            process your application, we’ll mail you a letter with our decision.
+          </p>
+        </va-process-list-item>
+      </va-process-list>
+      <p>
+        If you don’t want to sign in, you can{' '}
+        <va-link
+          href="/records/get-military-service-records/"
+          text="apply using the paper form"
+        />
+        . Please expect longer processing time for decisions when opting for
+        this method.
+      </p>
+      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0003"
+          exp-date="08/31/2025"
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({

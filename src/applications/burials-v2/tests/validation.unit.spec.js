@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { validateBurialAndDeathDates } from '../validation';
+import { validateBurialAndDeathDates } from '../utils/validation';
 
 describe('Burials validation', () => {
   describe('validateBurialAndDeathDates', () => {

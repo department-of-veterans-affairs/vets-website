@@ -1,10 +1,10 @@
+import fullSchema530 from 'vets-json-schema/dist/21P-530-schema.json';
 import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
-import fullSchema530 from 'vets-json-schema/dist/21P-530-schema.json';
-import { transform } from '../../helpers';
+import { transform } from '../../utils/helpers';
 import formConfig from '../../config/form';
 
 describe('530 schema tests', () => {

@@ -181,7 +181,7 @@ export const BurialDateWarning = () => {
   return (
     <div aria-live="polite">
       {shouldRender && (
-        <va-alert background-only show-icon status="warning">
+        <va-alert background-only show-icon status="warning" uswds="false">
           <span className="sr-only">Warning:</span>
           <p className="vads-u-margin-top--0">
             If filing for a non-service-connected allowance, the Veteran’s
@@ -209,4 +209,38 @@ export function fileHelp({ formContext }) {
       Maximum file size: 20MB
     </p>
   );
+}
+
+export const generateTitle = text => {
+  return <h3 className="vads-u-margin-top--0">{text}</h3>;
+};
+
+export const generateDescription = text => {
+  return <h3>{text}</h3>;
+};
+
+export const generateText = text => {
+  return <p>{text}</p>;
+};
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-font-size--md">{text}</span>
+  );
+};
+
+export const labelSize = text => {
+  return (
+    <p className="vads-u-margin-y--0 vads-u-padding-y--0 vads-u-font-size--md vads-u-font-family--sans vads-u-font-weight--normal vads-u-color--base">
+      {text}
+    </p>
+  );
+};
+
+// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
+export function isEligibleNonService(veteranBurialDate) {
+  return moment()
+    .startOf('day')
+    .subtract(2, 'years')
+    .isBefore(veteranBurialDate);
 }

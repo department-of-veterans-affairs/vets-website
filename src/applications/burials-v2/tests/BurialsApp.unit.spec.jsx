@@ -13,7 +13,7 @@ const burialsLocation = {
   hash: '',
   action: 'POP',
   key: null,
-  basename: '/burials-v2/application/530',
+  basename: '/burials/application/530',
   query: '{}',
 };
 
@@ -91,18 +91,39 @@ describe('BurialsApp', () => {
     });
   });
 
-  it('should redirect to v1', async () => {
+  it('should redirect to v2', async () => {
     const mockStore = store({
       burialFormEnabled: true,
-      burialFormV2: false,
+      burialFormV2: true,
+      featuresLoading: false,
+      profileLoading: false,
+      savedForms: [],
+    });
+    const originalHref = window.location.href;
+    global.window.location = {
+      href: originalHref,
+    };
+    render(
+      <Provider store={mockStore}>
+        <BurialsApp location={burialsLocation} />
+      </Provider>,
+    );
+    expect(window.location.href).to.eq(
+      '/burials-and-memorials-v2/application/530/',
+    );
+  });
+
+  it('should redirect to v2 with in progress form', async () => {
+    const mockStore = store({
+      burialFormEnabled: true,
+      burialFormV2: false, // intentionally so.
       featuresLoading: false,
       profileLoading: false,
       savedForms: [
         {
-          // No form with version 3 present.
           form: VA_FORM_IDS.FORM_21P_530,
           metadata: {
-            version: 2,
+            version: 3,
           },
         },
       ],
@@ -117,7 +138,7 @@ describe('BurialsApp', () => {
       </Provider>,
     );
     expect(window.location.href).to.eq(
-      '/burials-and-memorials/application/530/',
+      '/burials-and-memorials-v2/application/530/',
     );
   });
 });

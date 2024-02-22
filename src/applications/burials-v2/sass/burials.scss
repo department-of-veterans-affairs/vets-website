@@ -5,3 +5,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+// a11y - Change gray box to white box with gray border.
+// Needed because when using a web component which
+// has a gray color hint text, the hint text compared to
+// the background color is too low contrast.
+.rjsf-array-field .va-growable-background {
+    border: 1px solid $color-gray-medium !important;
+    background-color: $color-white !important;
+  }
+
+  div.row .small-collapse {
+  margin-left: 0 !important;
+}
