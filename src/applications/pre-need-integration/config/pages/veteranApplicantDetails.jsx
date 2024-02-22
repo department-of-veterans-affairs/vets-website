@@ -5,9 +5,8 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import { merge, pick } from 'lodash';
 
 import {
-  applicantDetailsDescription,
-  applicantDetailsSubHeader,
-  fullMaidenNameUI,
+  veteranApplicantDetailsSubHeader,
+  nonPreparerFullMaidenNameUI,
   ssnDashesUI,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
@@ -19,21 +18,25 @@ const {
   veteran,
 } = fullSchemaPreNeed.properties.application.properties;
 
-export function uiSchema() {
+export function uiSchema(
+  subHeader = veteranApplicantDetailsSubHeader,
+  description = '',
+  nameUI = nonPreparerFullMaidenNameUI,
+) {
   // partial implementation of story resolving the address change:
   // cityTitle = applicantDetailsCityTitle,
   // stateTitle = applicantDetailsStateTitle,
   return {
     application: {
-      'ui:title': applicantDetailsSubHeader,
+      'ui:title': subHeader,
       claimant: {
         'view:applicantDetailsDescription': {
-          'ui:description': applicantDetailsDescription,
+          'ui:description': description,
           'ui:options': {
             displayEmptyObjectOnReview: true,
           },
         },
-        name: fullMaidenNameUI,
+        name: nameUI,
         ssn: ssnDashesUI,
         dateOfBirth: currentOrPastDateUI('Date of birth'),
       },

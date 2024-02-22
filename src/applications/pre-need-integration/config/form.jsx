@@ -59,6 +59,11 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  veteranApplicantDetailsSubHeader,
+  veteranApplicantDetailsPreparerSubHeader,
+  veteranApplicantDetailsPreparerDescription,
+  nonPreparerFullMaidenNameUI,
+  preparerFullMaidenNameUI,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
@@ -258,16 +263,18 @@ const formConfig = {
           schema: applicantRelationshipToVet.schema,
         },
         veteranApplicantDetails: {
-          title: 'Applicant details',
+          title: 'Your details',
           path: 'veteran-applicant-details',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails
-            .uiSchema
+          uiSchema: veteranApplicantDetails.uiSchema(
             // partial implementation of story resolving the address change:
             // applicantDetailsCityTitle,
             // applicantDetailsStateTitle,
-            (),
+            veteranApplicantDetailsSubHeader,
+            '',
+            nonPreparerFullMaidenNameUI,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         veteranApplicantDetailsPreparer: {
@@ -275,12 +282,14 @@ const formConfig = {
           path: 'veteran-applicant-details-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails
-            .uiSchema
+          uiSchema: veteranApplicantDetails.uiSchema(
             // partial implementation of story resolving the address change:
             // applicantDetailsPreparerCityTitle,
             // applicantDetailsPreparerStateTitle,
-            (),
+            veteranApplicantDetailsPreparerSubHeader,
+            veteranApplicantDetailsPreparerDescription,
+            preparerFullMaidenNameUI,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {

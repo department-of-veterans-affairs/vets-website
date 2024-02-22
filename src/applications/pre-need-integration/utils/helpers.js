@@ -10,6 +10,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -28,7 +29,19 @@ import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
-export const applicantDetailsSubHeader = (
+export const veteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
+  </div>
+);
+
+export const veteranApplicantDetailsPreparerSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export const nonVeteranApplicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
   </div>
@@ -166,7 +179,10 @@ export const applicantInformationDescription = (
   </va-additional-info>
 );
 
-export const applicantDetailsDescription = (
+export const veteranApplicantDetailsPreparerDescription =
+  'Provide the details for the person you’re filling out the application for (called the applicant).';
+
+export const nonVeteranApplicantDetailsDescription = (
   <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
     <p>
       If you’re filling out the form on behalf of someone else, you’ll need to
@@ -622,18 +638,37 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = !environment.isProduction()
-  ? merge({}, fullNameUI, {
-      first: { 'ui:title': 'First name' },
-      middle: { 'ui:title': 'Middle name' },
-      last: { 'ui:title': 'Last name' },
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    })
-  : merge({}, fullNameUI, {
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    });
+export const fullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'First name' },
+  middle: { 'ui:title': 'Middle name' },
+  last: { 'ui:title': 'Last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
+
+export const nonPreparerFullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'Your first name' },
+  middle: { 'ui:title': 'Your middle name' },
+  last: { 'ui:title': 'Your last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
+
+export const preparerFullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'Applicant’s first name' },
+  middle: { 'ui:title': 'Applicant’s middle name' },
+  last: { 'ui:title': 'Applicant’s last name' },
+  maiden: { 'ui:title': 'Applicant’s maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
+
+export const nonPreparerDateOfBirthUI = merge(
+  {},
+  currentOrPastDateUI('Your date of birth'),
+  {
+    '': '',
+  },
+);
 
 class SSNWidget extends React.Component {
   constructor(props) {
