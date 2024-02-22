@@ -6,15 +6,15 @@ import {
   applicantDemographicsDescription,
   applicantDemographicsSubHeader,
   veteranUI,
-  applicantDemographicsGenderTitle,
-  applicantDemographicsMaritalStatusTitle,
+  applicantDemographicsEthnicityTitle,
+  applicantDemographicsRaceTitle,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
-  genderTitle = applicantDemographicsGenderTitle,
-  maritalStatusTitle = applicantDemographicsMaritalStatusTitle,
+  ethnicityTitle = applicantDemographicsEthnicityTitle,
+  raceTitle = applicantDemographicsRaceTitle,
 ) {
   return {
     application: {
@@ -26,8 +26,8 @@ export function uiSchema(
         },
       },
       veteran: merge({}, veteranUI, {
-        gender: { 'ui:title': genderTitle },
-        maritalStatus: { 'ui:title': maritalStatusTitle },
+        ethnicity: { 'ui:title': ethnicityTitle },
+        race: { 'ui:title': raceTitle },
       }),
     },
   };
@@ -45,8 +45,8 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['maritalStatus', 'gender'],
-          properties: pick(veteran.properties, ['maritalStatus', 'gender']),
+          required: ['ethnicity', 'race'],
+          properties: pick(veteran.properties, ['ethnicity', 'race']),
         },
       },
     },
