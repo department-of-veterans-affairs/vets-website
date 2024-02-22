@@ -7,7 +7,7 @@ import particularFolderResponse from '../fixtures/drafts-response.json';
 import mockSearchMessages from '../fixtures/search-COVID-results.json';
 import mockSearchCustomMessages from '../fixtures/search-advanced-custom-folder-results.json';
 import mockTrashFolder from '../fixtures/trashResponse/folder-deleted-metadata.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Constants } from '../utils/constants';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 
 describe(manifest.appName, () => {
@@ -27,7 +27,7 @@ describe(manifest.appName, () => {
       landingPage.submitSearchButton();
     });
     it('Check all inbox messages contain the searched category', () => {
-      cy.get(Locators.MESSAGES)
+      cy.get(Constants.MESSAGES)
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();

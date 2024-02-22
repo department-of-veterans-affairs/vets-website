@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Constants, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -57,33 +57,33 @@ describe('verify drafts - blocked from facility', () => {
         `${Alerts.BLOCKED.HEADER} ${mockRecipients.data[0].attributes.name}`,
       );
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
+    cy.get(Constants.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('include.text', Alerts.BLOCKED.PARAGRAPH);
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('include.text', Alerts.BLOCKED.LINK);
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.get(Constants.BUTTONS.REPLY).should('not.exist');
   });
 
   it('existing single draft', () => {
@@ -120,32 +120,32 @@ describe('verify drafts - blocked from facility', () => {
         `${Alerts.BLOCKED.HEADER} ${mockRecipients.data[0].attributes.name}`,
       );
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
+    cy.get(Constants.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('include.text', Alerts.BLOCKED.PARAGRAPH);
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('include.text', Alerts.BLOCKED.LINK);
 
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+    cy.get(Constants.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.get(Constants.BUTTONS.REPLY).should('not.exist');
   });
 });

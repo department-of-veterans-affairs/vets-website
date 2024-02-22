@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
+import { AXE_CONTEXT, Constants, Paths } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
 import { Alerts, DefaultFolders } from '../../util/constants';
@@ -31,7 +31,7 @@ describe('SM back navigation', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
-    cy.get(Locators.HEADER).should('have.text', DefaultFolders.INBOX.header);
+    cy.get(Constants.HEADER).should('have.text', DefaultFolders.INBOX.header);
     cy.location().should(loc => {
       expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.INBOX);
     });
@@ -47,7 +47,7 @@ describe('SM back navigation', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
-    cy.get(Locators.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
+    cy.get(Constants.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
     cy.location().should(loc => {
       expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.DRAFTS);
     });

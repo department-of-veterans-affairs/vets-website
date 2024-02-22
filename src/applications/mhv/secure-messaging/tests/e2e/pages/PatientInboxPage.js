@@ -9,7 +9,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Constants, Paths } from '../utils/constants';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -319,7 +319,7 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
       mockFolders,
     ).as('folders');
-    cy.get(Locators.FOLDERS_LIST).click();
+    cy.get(Constants.FOLDERS_LIST).click();
     cy.wait('@folders');
   };
 
@@ -337,10 +337,10 @@ class PatientInboxPage {
       data: mockThread.data[0],
     }).as('messageAgain');
 
-    cy.get(Locators.BUTTONS.REPLY).click({
+    cy.get(Constants.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click();
+    cy.get(Constants.BUTTONS.CONTINUE).click();
   };
 
   verifySentSuccessMessage = () => {
@@ -382,9 +382,9 @@ class PatientInboxPage {
   };
 
   navigateToComposePageByKeyboard = () => {
-    cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
+    cy.tabToElement(Constants.InboxPage.COMPOSE_MESSAGE);
     cy.realPress(['Enter']);
-    cy.tabToElement(Locators.BUTTONS.CONTINUE);
+    cy.tabToElement(Constants.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);
   };
 
@@ -449,7 +449,7 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click({
+    cy.get(Constants.BUTTONS.FILTER).click({
       waitForAnimations: true,
       force: true,
     });
@@ -514,7 +514,7 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
       mockFilterResponse,
     ).as('filterResult');
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.get(Constants.BUTTONS.FILTER).click({ force: true });
     cy.wait('@filterResult');
   };
 

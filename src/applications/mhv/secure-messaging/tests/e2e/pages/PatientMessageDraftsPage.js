@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Constants, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
@@ -232,7 +232,7 @@ class PatientMessageDraftsPage {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
       'sentDraftResponse',
     );
-    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.get(Constants.BUTTONS.SEND).click({ force: true });
     cy.wait('@sentDraftResponse');
   };
 
@@ -240,7 +240,7 @@ class PatientMessageDraftsPage {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages/${messageId}/reply`, {
       data: mockResponse,
     }).as('sentDraftResponse');
-    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.get(Constants.BUTTONS.SEND).click({ force: true });
     cy.wait('@sentDraftResponse');
   };
 
@@ -255,7 +255,7 @@ class PatientMessageDraftsPage {
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
       { data: mockResponse },
     ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.get(Constants.BUTTONS.SAVE_DRAFT).click();
     cy.wait('@saveDraft');
   };
 
@@ -288,7 +288,7 @@ class PatientMessageDraftsPage {
       data: mockResponse,
     }).as('deletedDraftResponse');
 
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
+    cy.get(Constants.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
     cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
   };
 
@@ -403,7 +403,7 @@ class PatientMessageDraftsPage {
       `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,
       { data: mockResponse },
     ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
+    cy.get(Constants.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
     // cy.wait('@saveDraft');
   };
 

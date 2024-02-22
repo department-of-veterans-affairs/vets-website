@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Constants, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 
@@ -41,7 +41,7 @@ class PatientComposePage {
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get('[data-testid="message-body-field"]').click();
-    cy.tabToElement(Locators.BUTTONS.SEND);
+    cy.tabToElement(Constants.BUTTONS.SEND);
     cy.realPress(['Enter']);
     // cy.wait('@message');
   };

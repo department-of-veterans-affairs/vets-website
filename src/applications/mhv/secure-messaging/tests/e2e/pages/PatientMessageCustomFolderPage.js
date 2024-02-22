@@ -3,7 +3,7 @@ import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-
 import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
-import { Paths, Locators } from '../utils/constants';
+import { Paths, Constants } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 import mockFolderWithMessages from '../fixtures/customResponse/folder-messages-response .json';
@@ -21,7 +21,7 @@ class PatientMessageCustomFolderPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
       foldersList,
     ).as('customFoldersList');
-    cy.get(Locators.FOLDERS_LIST).click();
+    cy.get(Constants.FOLDERS_LIST).click();
     cy.wait('@customFoldersList');
   };
 
@@ -128,7 +128,7 @@ class PatientMessageCustomFolderPage {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
-        cy.get(Locators.HEADER).should('have.text', `${text}`);
+        cy.get(Constants.HEADER).should('have.text', `${text}`);
       });
   };
 
@@ -184,7 +184,7 @@ class PatientMessageCustomFolderPage {
 
   createCustomFolder = folderName => {
     mockFolders.data.push(createdFolderResponse.data);
-    cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.get(Constants.BUTTONS.CREATE_FOLDER).click();
     cy.get('[name="folder-name"]')
       .shadow()
       .find('[name="folder-name"]')
@@ -208,7 +208,7 @@ class PatientMessageCustomFolderPage {
   };
 
   editFolderButton = () => {
-    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
+    return cy.get(Constants.BUTTONS.EDIT_FOLDER);
   };
 
   submitEditFolderName = folderName => {

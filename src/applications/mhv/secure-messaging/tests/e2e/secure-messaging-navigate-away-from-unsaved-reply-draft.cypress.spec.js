@@ -4,7 +4,7 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Constants } from './utils/constants';
 
 describe('Secure Messaging navigate away from unsaved draft', () => {
   it(' Check navigatation away from unsaved draft', () => {
@@ -23,7 +23,7 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
       force: true,
     });
 
-    cy.get(Locators.FOLDERS.INBOX).click();
+    cy.get(Constants.FOLDERS.INBOX).click();
     PatientReplyPage.verifyModalMessageDisplayAndBuddontsCantSaveDraft();
 
     cy.injectAxe();

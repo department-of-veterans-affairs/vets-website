@@ -21,7 +21,7 @@ export const Paths = {
   SIGNATURE: '/signature',
 };
 
-export const Locators = {
+export const Constants = {
   HEADER: 'h1',
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',

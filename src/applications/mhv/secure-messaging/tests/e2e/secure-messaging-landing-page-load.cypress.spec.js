@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Constants } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
 describe('SM main page', () => {
@@ -38,14 +38,14 @@ describe('SM main page', () => {
   it('verify "Start a new message" link', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
+    cy.get(Constants.LINKS.CREATE_NEW_MESSAGE).click();
     cy.location('pathname').should('contain', 'new-message');
   });
 
   it('verify "Go to the inbox" link', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
+    cy.get(Constants.LINKS.GO_TO_INBOX).click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
   });
 });
@@ -61,8 +61,8 @@ describe('SM main page without API calls', () => {
     ).as('Recipients');
     cy.visit('my-health/secure-messages/');
 
-    cy.get(Locators.LINKS.GO_TO_INBOX).should('be.visible');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
+    cy.get(Constants.LINKS.GO_TO_INBOX).should('be.visible');
+    cy.get(Constants.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

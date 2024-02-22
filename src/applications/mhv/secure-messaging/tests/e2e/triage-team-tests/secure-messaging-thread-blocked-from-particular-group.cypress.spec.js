@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Constants, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipients-response.json';
@@ -48,7 +48,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         },
       });
 
-      cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      cy.get(Constants.ALERTS.BLOCKED_GROUP)
         .shadow()
         .find('#alert-body')
         .should('have.class', 'closed');
@@ -61,7 +61,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
     });
 
     beforeEach(() => {
-      cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
+      cy.get(Constants.ALERTS.BLOCKED_GROUP).click({
         waitForAnimations: true,
       });
     });
@@ -75,7 +75,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         },
       });
 
-      cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      cy.get(Constants.ALERTS.BLOCKED_GROUP)
         .shadow()
         .find('#alert-body')
         .should('have.class', 'open');
@@ -90,7 +90,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
           },
         },
       });
-      cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      cy.get(Constants.ALERTS.BLOCKED_GROUP)
         .find('p')
         .should('include.text', Alerts.BLOCKED.PARAGRAPH);
     });
@@ -104,7 +104,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
           },
         },
       });
-      cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      cy.get(Constants.ALERTS.BLOCKED_GROUP)
         .find('a')
         .should('include.text', Alerts.BLOCKED.LINK);
     });
@@ -118,7 +118,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
           },
         },
       });
-      cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      cy.get(Constants.ALERTS.BLOCKED_GROUP)
         .find('a')
         .should('have.attr', 'href', '/find-locations/');
     });
@@ -133,7 +133,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         },
       });
 
-      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.get(Constants.BUTTONS.REPLY).should('not.exist');
     });
   });
 
@@ -148,10 +148,10 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         },
       });
 
-      cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
+      cy.get(Constants.LINKS.CREATE_NEW_MESSAGE).click({
         waitForAnimations: true,
       });
-      cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+      cy.get(Constants.BUTTONS.CONTINUE).click({ waitForAnimations: true });
       cy.get('#select').should(
         'not.contain',
         mockBlockedRecipients.data[3].attributes.name,

@@ -4,7 +4,7 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Constants } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -23,7 +23,7 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
 
-    cy.get(Locators.FOLDERS.INBOX).click();
+    cy.get(Constants.FOLDERS.INBOX).click();
     // this test is temporarily commented-out because this functionality
     // has been removed from the frontend. The modal design needs revision by design/ucd
     // and will be reintroduced later
