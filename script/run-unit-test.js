@@ -94,7 +94,6 @@ const splitUnitTests = splitArray(
   allUnitTestDirs,
   Math.ceil(allUnitTests.length / numContainers),
 );
-console.log(splitUnitTests[matrixStep].length);
 for (const dir of splitUnitTests[matrixStep]) {
   const testsToRun = options['app-folder']
     ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
@@ -107,6 +106,7 @@ for (const dir of splitUnitTests[matrixStep]) {
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
     testsToRun} `;
+  console.log(command);
   runCommand(command);
 }
 // const command = `LOG_LEVEL=${options[
