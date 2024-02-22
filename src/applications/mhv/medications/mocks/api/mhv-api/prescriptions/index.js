@@ -1,3 +1,5 @@
+const { differenceInDays, formatISO, sub } = require('date-fns');
+
 function mockPrescription(n = 0, attrs = {}) {
   return {
     id: `fake-${n}`,
@@ -6,15 +8,15 @@ function mockPrescription(n = 0, attrs = {}) {
       prescriptionId: n,
       prescriptionNumber: `${n}`,
       prescriptionName: `Fake ${n}`,
-      refillStatus: '???',
-      refillSubmitDate: '2024-02-21',
-      refillDate: '2024-02-28',
+      refillStatus: 'active',
+      refillSubmitDate: '2024-02-21T10:30:00-05:00',
+      refillDate: '2024-02-28T10:30:00-05:00',
       refillRemaining: 6,
       facilityName: 'The Facility',
-      orderedDate: '2024-02-23',
+      orderedDate: '2024-02-23T10:30:00-05:00',
       quantity: 1,
-      expirationDate: '2099-01-02',
-      dispensedDate: '2024-02-25',
+      expirationDate: '2099-01-02T10:30:00-05:00',
+      dispensedDate: '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
       isRefillable: true,
       isTrackable: null,
@@ -31,7 +33,6 @@ function mockPrescription(n = 0, attrs = {}) {
       modifiedDate: null,
       institutionId: null,
       dialCmopDivisionPhone: null,
-      dispStatus: null,
       ndc: null,
       reason: 'A good reason',
       prescriptionNumberIndex: null,
@@ -44,7 +45,7 @@ function mockPrescription(n = 0, attrs = {}) {
       rxRfRecords: [],
       tracking: null,
       orderableItem: null,
-      sortedDispensedDate: '2024-02-25',
+      sortedDispensedDate: '2024-02-25T10:30:00-05:00',
       prescriptionImage: null,
       ...attrs,
     },
@@ -54,21 +55,48 @@ function mockPrescription(n = 0, attrs = {}) {
   };
 }
 
-const prescriptionsList = {
-  data: [...Array(10)].map((_, n) => mockPrescription(n)),
-  meta: {
-    updatedAt: '2024-02-21T21:35:19.380Z',
-    failedStationList: null,
-    pagination: {
-      currentPage: 1,
-      perPage: 10,
-      totalPages: 1,
-      totalEntries: 10,
+function mockPrescriptionArray(n = 20) {
+  return [...Array(n)].map((_, i) => {
+    const today = new Date();
+    const someDate = sub(today, { days: i * 2 + 1 });
+    const monthsAgo = sub(someDate, { months: 3 });
+    const oneWeekAgo = sub(someDate, { days: 7 });
+    const recently = sub(someDate, { days: 3 });
+
+    const recentlyISOString = formatISO(recently);
+    const statusString =
+      differenceInDays(today, someDate) > 14 ? 'Expired' : 'Active';
+    const prescriptionName = String.fromCodePoint(65 + i).repeat(5);
+
+    return mockPrescription(i, {
+      lastFilledDate: formatISO(monthsAgo),
+      refillDate: recentlyISOString,
+      refillSubmitDate: formatISO(oneWeekAgo),
+      sortedDispensedDate: recentlyISOString,
+      dispStatus: statusString,
+      refillStatus: statusString.toLowerCase(),
+      prescriptionName,
+    });
+  });
+}
+
+function generateMockPrescriptions(n = 20) {
+  return {
+    data: mockPrescriptionArray(n),
+    meta: {
+      updatedAt: formatISO(new Date()),
+      failedStationList: null,
+      pagination: {
+        currentPage: 1,
+        perPage: n,
+        totalPages: 1,
+        totalEntries: n,
+      },
     },
-  },
-  links: {},
-};
+    links: {},
+  };
+}
 
 module.exports = {
-  prescriptionsList,
+  generateMockPrescriptions,
 };
