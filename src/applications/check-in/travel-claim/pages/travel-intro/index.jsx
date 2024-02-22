@@ -86,7 +86,7 @@ const TravelIntro = props => {
               )}
             </p>
             <a
-              className="vads-c-action-link--green"
+              className="vads-c-action-link--blue"
               href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
             >
               {t('learn-how-file-claims-other-expenses')}
