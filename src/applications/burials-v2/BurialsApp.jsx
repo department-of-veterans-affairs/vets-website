@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
@@ -64,8 +64,8 @@ const mapStateToProps = state => {
 BurialsEntry.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
   toggleFeatures: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = {};
