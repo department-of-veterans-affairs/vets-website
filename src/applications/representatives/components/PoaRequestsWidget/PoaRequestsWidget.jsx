@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const PoaRequestsWidget = ({ poaRequests }) => (
+const PoaRequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
     <a
       className="view-all-link vads-u-margin-bottom--neg4
@@ -32,3 +33,15 @@ export const PoaRequestsWidget = ({ poaRequests }) => (
     </va-table>
   </div>
 );
+
+PoaRequestsWidget.propTypes = {
+  poaRequests: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      id: PropTypes.number,
+      date: PropTypes.string,
+    }),
+  ).isRequired,
+};
+
+export default PoaRequestsWidget;

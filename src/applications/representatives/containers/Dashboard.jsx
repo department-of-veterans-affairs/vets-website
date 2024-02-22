@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import { PoaRequestsWidget } from '../components/PoaRequestsWidget/PoaRequestsWidget';
+import PoaRequestsWidget from '../components/PoaRequestsWidget/PoaRequestsWidget';
 
 // import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
