@@ -258,7 +258,7 @@ const formConfig = {
         applicantMailingAddress: {
           title: 'Applicant Mailing Address Placeholder',
           path: 'applicant-mailing-address',
-          depends: isVeteran,
+          depends: !isVeteran,
           uiSchema: applicantMailingAddress.uiSchema,
           schema: applicantMailingAddress.schema,
         },
