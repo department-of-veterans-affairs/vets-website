@@ -21,22 +21,29 @@ const PrescriptionsPrintOnly = () => {
   const [currentSortOption, setCurrentSortOption] = React.useState(
     selectedSortOption,
   );
+  const [isListLoaded, setIsListLoaded] = React.useState(false);
   const LIST_PAGE_PATTERN = React.useMemo(() => /^\/\d+$/, []);
   React.useEffect(
     () => {
       const getFullList = async () => {
+        setIsListLoaded(false);
         await getPrescriptionSortedList(
           rxListSortingOptions[selectedSortOption].API_ENDPOINT,
           true,
-        ).then(response => {
-          setFullPrescriptionsList(
-            response.data.map(rx => ({ ...rx.attributes })),
-          );
-          dispatch({
-            type: Actions.Prescriptions.GET_SORTED_LIST,
-            response,
+        )
+          .then(response => {
+            setFullPrescriptionsList(
+              response.data.map(rx => ({ ...rx.attributes })),
+            );
+            dispatch({
+              type: Actions.Prescriptions.GET_SORTED_LIST,
+              response,
+            });
+            setIsListLoaded(true);
+          })
+          .catch(() => {
+            setIsListLoaded(false);
           });
-        });
         dispatch(getAllergiesList());
       };
       if (
@@ -62,26 +69,32 @@ const PrescriptionsPrintOnly = () => {
     return (
       <>
         {LIST_PAGE_PATTERN.test(location.pathname) ? (
-          <div className="print-only print-only-rx-full-list-page">
+          <div className="print-only">
             <PrintOnlyPage
               title="Medications"
-              preface="This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records."
-              subtitle="Medications list"
+              preface={
+                isListLoaded
+                  ? 'This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.'
+                  : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+              }
+              subtitle={isListLoaded ? 'Medications list' : ''}
             >
-              <>
-                <MedicationsList
-                  rxList={fullPrescriptionsList}
-                  pagination={{
-                    currentPage: 1,
-                    totalEntries: fullPrescriptionsList.length,
-                  }}
-                  selectedSortOption={selectedSortOption}
-                />
-                <AllergiesPrintOnly
-                  allergies={allergies}
-                  allergiesError={allergiesError}
-                />
-              </>
+              {isListLoaded && (
+                <>
+                  <MedicationsList
+                    rxList={fullPrescriptionsList}
+                    pagination={{
+                      currentPage: 1,
+                      totalEntries: fullPrescriptionsList.length,
+                    }}
+                    selectedSortOption={selectedSortOption}
+                  />
+                  <AllergiesPrintOnly
+                    allergies={allergies}
+                    allergiesError={allergiesError}
+                  />
+                </>
+              )}
             </PrintOnlyPage>
           </div>
         ) : (

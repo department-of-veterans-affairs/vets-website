@@ -1,3 +1,8 @@
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
 import { content } from '../content/extensionRequest';
 import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../constants';
 
@@ -11,13 +16,15 @@ const requestExtension = {
         forceDivWrap: true,
       },
     },
-    requestingExtension: {
-      'ui:title': content.label,
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        enableAnalytics: true,
+    requestingExtension: yesNoUI({
+      title: content.label,
+      enableAnalytics: true,
+      labels: {
+        Y: 'Yes',
+        N: 'No',
       },
-    },
+      uswds: true,
+    }),
   },
 
   schema: {
@@ -27,9 +34,7 @@ const requestExtension = {
         type: 'object',
         properties: {},
       },
-      requestingExtension: {
-        type: 'boolean',
-      },
+      requestingExtension: yesNoSchema,
     },
   },
 
