@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { scrollTo } from 'platform/utilities/ui';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -24,18 +25,14 @@ const SearchResult = ({
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const addressExists =
-    addressLine1 ||
-    addressLine2 ||
-    addressLine3 ||
-    city ||
-    stateCode ||
-    zipCode;
+  const scrollElementId = `result-${representativeId}`;
+
+  const addressExists = addressLine1 || city || stateCode || zipCode;
 
   // concatenating address for ReportModal
   const address =
     [
-      addressLine1.trim(),
+      (addressLine1 || '').trim(),
       (addressLine2 || '').trim(),
       (addressLine3 || '').trim(),
     ]
@@ -47,6 +44,7 @@ const SearchResult = ({
 
   const closeReportModal = () => {
     setReportModalIsShowing(false);
+    scrollTo(scrollElementId);
   };
 
   return (
@@ -74,7 +72,10 @@ const SearchResult = ({
             )}
             {officer && (
               <>
-                <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
+                <div
+                  className="vads-u-font-family--serif vads-u-margin-top--2p5"
+                  id={`result-${representativeId}`}
+                >
                   <h3>{officer}</h3>
                 </div>
                 {associatedOrgs?.length === 1 && (
@@ -115,7 +116,13 @@ const SearchResult = ({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {addressLine1} {addressLine2} <br />
+                  {addressLine1}{' '}
+                  {addressLine2 ? (
+                    <>
+                      <br /> {addressLine2}
+                    </>
+                  ) : null}{' '}
+                  <br />
                   {city}, {stateCode} {zipCode}
                 </a>
               </div>
