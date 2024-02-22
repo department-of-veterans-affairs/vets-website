@@ -125,15 +125,29 @@ const ReportModal = ({
       >
         {/* These buttons trigger methods for unit testing - temporary workaround for shadow root issues with va checkboxes */}
         {handleOtherInputChangeTestId ? (
-          <button
-            id="test-button"
-            type="button"
-            onClick={() =>
-              handleCheckboxChange({
-                target: { id: handleOtherInputChangeTestId, checked: 'true' },
-              })
-            }
-          />
+          <>
+            <button
+              id="handle-checkbox-change-test-button"
+              type="button"
+              onClick={() =>
+                handleCheckboxChange({
+                  target: { id: handleOtherInputChangeTestId, checked: 'true' },
+                })
+              }
+            />
+            <button
+              id="handle-other-input-change-test-button"
+              type="button"
+              onClick={() =>
+                handleOtherInputChange({
+                  target: {
+                    id: handleOtherInputChangeTestId,
+                    value: 'test comment',
+                  },
+                })
+              }
+            />
+          </>
         ) : null}
         {testReportObject ? (
           <>
