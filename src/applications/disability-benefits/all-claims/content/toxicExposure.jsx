@@ -132,6 +132,9 @@ export const makeTEConditionsUISchema = formData => {
   return options;
 };
 
+export const noneAndConditionError =
+  'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
+
 /**
  * Validates selected Toxic Exposure conditions. If the 'none' checkbox is selected along with a new condition
  * adds an error.
@@ -147,8 +150,6 @@ export function validateTEConditions(errors, formData) {
     Object.values(toxicExposureConditions).filter(value => value === true)
       .length > 1
   ) {
-    errors.toxicExposureConditions.addError(
-      'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.',
-    );
+    errors.toxicExposureConditions.addError(noneAndConditionError);
   }
 }
