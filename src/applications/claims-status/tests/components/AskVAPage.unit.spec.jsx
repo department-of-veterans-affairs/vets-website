@@ -45,7 +45,7 @@ describe('<AskVAPage>', () => {
     );
 
     tree.subTree('Checkbox').props.onValueChange(true);
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.null;
+    expect(tree.everySubTree('va-button')[0].props.disabled).to.be.null;
   });
 
   it('should render disabled submitting button', () => {
@@ -85,7 +85,7 @@ describe('<AskVAPage>', () => {
     );
 
     tree.subTree('Checkbox').props.onValueChange(true);
-    tree.subTree('button').props.onClick();
+    tree.subTree('va-button')[0].props.onClick();
     expect(submitRequest.called).to.be.true;
   });
 
