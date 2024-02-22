@@ -20,6 +20,7 @@ import {
   selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
+  hasMHVAccount,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -74,10 +75,6 @@ const App = () => {
   const loading = vamcEhrData || featureToggles.loading || profile.loading;
 
   const redirecting = signedIn && !loading && !enabled;
-
-  const hasMHVAccount = useSelector(state => {
-    return ['OK', 'MULTIPLE'].includes(state.user.profile.mhvAccountState);
-  });
 
   useEffect(
     () => {
