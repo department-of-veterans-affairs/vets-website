@@ -17,7 +17,6 @@ const TravelIntro = props => {
   const { t } = useTranslation();
 
   const { jumpToPage } = useFormRouting(router);
-  // @TODO logic need to figure out if we should go to multi-facility page or single
 
   const nextPage = hasMultipleFacilities(appointments)
     ? 'select-appointment'
