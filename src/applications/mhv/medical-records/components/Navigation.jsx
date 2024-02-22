@@ -61,7 +61,7 @@ const Navigation = props => {
     } else if (pathArr.length === 3)
       relativePath = `/${pathArr[0]}/${pathArr[1]}`;
     else relativePath = location.pathname;
-    if (path === relativePath) return 'is-active';
+    if (path.split('/')[1] === relativePath.split('/')[1]) return 'is-active';
     return '';
   };
 

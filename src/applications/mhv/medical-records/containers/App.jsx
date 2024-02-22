@@ -105,50 +105,26 @@ const App = ({ children }) => {
           ],
         },
       ];
-      if (showNotes) {
-        const notesPath = '/summaries-and-notes';
-        const currentPath = location.pathname;
-
-        const activePath = currentPath.startsWith(notesPath)
-          ? currentPath
-          : notesPath;
-
+      if (showNotes)
         navPaths[0].subpaths.push({
-          path: activePath,
+          path: '/summaries-and-notes',
           label: 'Care summaries and notes',
           datatestid: 'care-summaries-and-notes-sidebar',
         });
-      }
-      if (showVaccines) {
-        const vaccinesPath = '/vaccines';
-        const currentPath = location.pathname;
-
-        const activePath = currentPath.startsWith(vaccinesPath)
-          ? currentPath
-          : vaccinesPath;
-
+      if (showVaccines)
         navPaths[0].subpaths.push({
-          path: activePath,
+          path: '/vaccines',
           label: 'Vaccines',
           datatestid: 'vaccines-sidebar',
         });
-      }
-      if (showSideNav) {
-        const allergiesPath = '/allergies';
-        const currentPath = location.pathname;
-
-        const activePath = currentPath.startsWith(allergiesPath)
-          ? currentPath
-          : allergiesPath;
-        navPaths[0].subpaths.push({
-          path: activePath,
-          label: 'Allergies and reactions',
-          datatestid: 'allergies-sidebar',
-        });
-      }
+      navPaths[0].subpaths.push({
+        path: '/allergies',
+        label: 'Allergies and reactions',
+        datatestid: 'allergies-sidebar',
+      });
       setPaths(navPaths);
     },
-    [showNotes, showVaccines, location.pathname, showSideNav],
+    [showNotes, showVaccines],
   );
 
   useEffect(
