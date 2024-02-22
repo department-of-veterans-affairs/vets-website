@@ -123,9 +123,9 @@ class MedicationsDetailsPage {
     });
   };
 
-  clickMedicationsListPageBreadcrumbsOnDetailsPage = () => {
+  clickMedicationsListPageBreadcrumbsOnDetailsPage = (interceptedPage = 1) => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[href="/my-health/medications/"]').click({
+    cy.get(`[href="/my-health/medications/?page=${interceptedPage}"]`).click({
       waitForAnimations: true,
     });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
@@ -134,9 +134,11 @@ class MedicationsDetailsPage {
     // });
   };
 
-  clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
+  clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = (
+    interceptedPage = 2,
+  ) => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[href="/my-health/medications/?page=2"]').click({
+    cy.get(`[href="/my-health/medications/?page=${interceptedPage}"]`).click({
       waitForAnimations: true,
     });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
