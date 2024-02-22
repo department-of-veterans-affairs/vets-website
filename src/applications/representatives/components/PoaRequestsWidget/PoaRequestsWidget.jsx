@@ -6,7 +6,7 @@ const PoaRequestsWidget = ({ poaRequests }) => (
     <a
       className="view-all-link vads-u-margin-bottom--neg4
      "
-      href="/poaRequests"
+      href="/poa-requests"
     >
       View all
     </a>
