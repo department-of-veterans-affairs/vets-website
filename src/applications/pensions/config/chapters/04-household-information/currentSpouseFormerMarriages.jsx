@@ -12,7 +12,10 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { contactWarning, contactWarningMulti } from '../../../helpers';
+import {
+  ContactWarningAlert,
+  ContactWarningMultiAlert,
+} from '../../../components/FormAlerts';
 
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
@@ -57,13 +60,13 @@ export default {
   uiSchema: {
     'ui:title': SpouseMarriageTitle,
     'view:contactWarning': {
-      'ui:description': contactWarning,
+      'ui:description': ContactWarningAlert,
       'ui:options': {
         hideIf: form => hasMultipleMarriages(form),
       },
     },
     'view:contactWarningMulti': {
-      'ui:description': contactWarningMulti,
+      'ui:description': ContactWarningMultiAlert,
       'ui:options': {
         hideIf: form => !hasMultipleMarriages(form),
       },
@@ -109,9 +112,6 @@ export default {
             'Place of marriage termination (city and state or foreign country)',
         },
       },
-    },
-    'view:contactWarningI': {
-      'ui:description': contactWarning,
     },
   },
   schema: {

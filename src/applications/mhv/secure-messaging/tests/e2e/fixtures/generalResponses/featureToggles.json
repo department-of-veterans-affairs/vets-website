@@ -1319,10 +1319,6 @@
         "value": true
       },
       {
-        "name": "sharable_link",
-        "value": true
-      },
-      {
         "name": "show526Wizard",
         "value": true
       },
@@ -1479,14 +1475,6 @@
         "value": true
       },
       {
-        "name": "showNewGetMedicalRecordsPage",
-        "value": true
-      },
-      {
-        "name": "show_new_get_medical_records_page",
-        "value": true
-      },
-      {
         "name": "showNewRefillTrackPrescriptionsPage",
         "value": true
       },
@@ -1500,14 +1488,6 @@
       },
       {
         "name": "show_new_schedule_view_appointments_page",
-        "value": true
-      },
-      {
-        "name": "showNewSecureMessagingPage",
-        "value": true
-      },
-      {
-        "name": "show_new_secure_messaging_page",
         "value": true
       },
       {
