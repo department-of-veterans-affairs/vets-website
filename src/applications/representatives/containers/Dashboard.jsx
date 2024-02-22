@@ -4,14 +4,14 @@ import { Link } from 'react-router';
 
 import LoginViewWrapper from './LoginViewWrapper';
 
-const Dashboard = ({ POApermissions = true }) => {
-  const breadcrumbs = [
-    { link: '/', label: 'Home' },
-    { link: '/dashboard', label: 'Dashboard' },
-  ];
+import { POAbreadcrumbs } from '../common/breadcrumbs';
 
+const Dashboard = ({ POApermissions = true }) => {
   return (
-    <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
+    <LoginViewWrapper
+      breadcrumbs={POAbreadcrumbs}
+      POApermissions={POApermissions}
+    >
       <h1>Accredited Representative Portal</h1>
       <Link
         to="/poa-requests"
