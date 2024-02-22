@@ -7,3 +7,13 @@ export const getFileSize = num => {
   }
   return `${num} B`;
 };
+
+// Expects a date as a string in YYYY-MM-DD format
+export function getAgeInYears(date) {
+  const difference = Date.now() - Date.parse(date);
+  return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+}
+
+export function isInRange(val, lower, upper) {
+  return val >= lower && val <= upper;
+}
