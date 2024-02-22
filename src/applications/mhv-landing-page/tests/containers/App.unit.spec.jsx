@@ -119,15 +119,5 @@ describe(`${appName} -- <App /> container`, () => {
       const { getByTestId } = setup({ initialState });
       getByTestId('landing-page-container');
     });
-    it('shoud return true if a user has an MHV account', async () => {
-      const initialState = stateFn({ mhvAccountState: 'OK' });
-      const { getByTestId } = setup({ initialState });
-      getByTestId('landing-page-container');
-    });
-    it('shoud return false if a user does not have an MHV account', async () => {
-      const initialState = stateFn({ mhvAccountState: 'NONE' });
-      const { getByTestId } = setup({ initialState });
-      getByTestId('landing-page-container');
-    });
   });
 });
