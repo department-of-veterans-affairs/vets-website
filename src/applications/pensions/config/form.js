@@ -829,6 +829,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
+                'ui:title': createHouseholdMemberTitle('fullName', 'household'),
                 childInHousehold: yesNoUI({
                   title: 'Does your child live with you?',
                 }),
