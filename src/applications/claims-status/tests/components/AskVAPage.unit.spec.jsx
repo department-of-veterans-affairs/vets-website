@@ -31,7 +31,7 @@ describe('<AskVAPage>', () => {
   });
 
   // Disabling this test because it is not compatible with the va-checkbox web component yet.
-  it.skip('should render enabled button', () => {
+  it.skip('should render enabled submit button', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
 
