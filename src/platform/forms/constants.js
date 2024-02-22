@@ -4,6 +4,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_0873: '0873',
   FORM_10182: '10182',
   FORM_10_10CG: '10-10CG',
+  FORM_10_7959C: '10-7959C',
   FORM_10_10D: '10-10D',
   FORM_10_10EZ: '1010ez',
   FORM_10_10EZR: '10-10EZR',
