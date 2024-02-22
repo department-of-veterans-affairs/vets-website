@@ -23,8 +23,8 @@ import { handleFormNavFocus, stringifyUrlParams } from '../helpers';
 async function focusForm(route, index) {
   const { formConfig, pageConfig } = route;
   // Check main toggle to enable custom focus
-  if (formConfig?.useCustomScrollAndFocus) {
-    customScrollAndFocus(pageConfig?.scrollAndFocusTarget, index);
+  if (formConfig.useCustomScrollAndFocus) {
+    customScrollAndFocus(pageConfig.scrollAndFocusTarget, index);
   } else {
     handleFormNavFocus(pageConfig, formConfig, index);
   }
@@ -33,10 +33,12 @@ class FormPage extends React.Component {
   componentDidMount() {
     this.prePopulateArrayData();
     if (!this.props.blockScrollOnMount) {
-      focusForm(this.props.route, this.props?.params?.index).catch(error => {
-        // eslint-disable-next-line no-console
-        console.error('Error focusing on form:', error);
-      });
+      focusForm(this.props.route, this.props?.params?.index)
+        .then(() => {})
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error('Error focusing on form:', error);
+        });
     }
   }
 
@@ -47,10 +49,12 @@ class FormPage extends React.Component {
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       this.prePopulateArrayData();
-      focusForm(this.props.route, this.props?.params?.index).catch(error => {
-        // eslint-disable-next-line no-console
-        console.error('Error focusing on form:', error);
-      });
+      focusForm(this.props.route, this.props?.params?.index)
+        .then(() => {})
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error('Error focusing on form:', error);
+        });
     }
   }
 
