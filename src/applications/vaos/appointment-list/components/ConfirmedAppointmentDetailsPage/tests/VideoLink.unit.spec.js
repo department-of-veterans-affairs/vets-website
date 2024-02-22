@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import VideoLink from '../VideoLink';
 
 describe('VideoVisitInstructions', () => {
@@ -12,7 +12,7 @@ describe('VideoVisitInstructions', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).subtract(30, 'minutes'),
+      localStartTime: moment.tz(now, 'America/Denver').subtract(30, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -36,7 +36,7 @@ describe('VideoVisitInstructions', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).add(240, 'minutes'),
+      localStartTime: moment.tz(now, 'America/Anchorage').add(240, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -60,7 +60,9 @@ describe('VideoVisitInstructions', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).subtract(35, 'minutes'),
+      localStartTime: moment
+        .tz(now, 'America/New_York')
+        .subtract(35, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -78,7 +80,7 @@ describe('VideoVisitInstructions', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).add(242, 'minutes'),
+      localStartTime: moment(now).add(242, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -96,7 +98,7 @@ describe('VideoVisitInstructions', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).subtract(35, 'minutes'),
+      localStartTime: moment(now).subtract(35, 'minutes'),
       videoData: {
         url: 'test.com',
       },
