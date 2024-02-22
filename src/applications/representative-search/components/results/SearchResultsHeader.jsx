@@ -70,6 +70,15 @@ export const SearchResultsHeader = props => {
 
   return (
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
+      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+      {props.onClickApplyButtonTester ? (
+        <button
+          id="test-button"
+          type="button"
+          text-label="button"
+          onClick={onClickApplyButton}
+        />
+      ) : null}
       <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
         {searchResults?.length ? (
