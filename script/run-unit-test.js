@@ -94,6 +94,8 @@ const splitUnitTests = splitArray(
   allUnitTestDirs,
   Math.ceil(allUnitTests.length / numContainers),
 );
+console.log(splitUnitTests);
+console.log(splitUnitTests[matrixStep]);
 for (const dir of splitUnitTests[matrixStep]) {
   const testsToRun = options['app-folder']
     ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
