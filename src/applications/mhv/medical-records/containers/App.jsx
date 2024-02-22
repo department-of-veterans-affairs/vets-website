@@ -13,6 +13,7 @@ import {
   externalServices,
   externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
@@ -67,6 +68,13 @@ const App = ({ children }) => {
       return 'downtime status: ok';
     },
     [scheduledDowntimes, globalDowntime],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getScheduledDowntime());
+    },
+    [dispatch],
   );
 
   const datadogRumConfig = {
