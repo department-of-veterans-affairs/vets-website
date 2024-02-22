@@ -102,7 +102,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  // submitUrl: '/v0/api',
+  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',
