@@ -50,12 +50,12 @@ describe('Landing Page', () => {
         globalDowntime: null,
         isReady: true,
         isPending: false,
-        serviceMap: downtimeApproaching(['mhv_sm']),
+        serviceMap: downtimeApproaching(['mhv_mr']),
         dismissedDowntimeWarnings: [],
       },
       ...initialState,
     };
-    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = false;
+
     const screen = renderWithStoreAndRouter(<LandingPage />, {
       initialState: customState,
       reducers: reducer,
