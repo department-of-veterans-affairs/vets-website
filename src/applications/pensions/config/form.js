@@ -952,7 +952,14 @@ const formConfig = {
           path: 'financial/home-ownership/acres/value',
           depends: isHomeAcreageMoreThanTwo,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: {
+            type: 'object',
+            properties: {
+              homeAcreageValue: {
+                type: 'number',
+              },
+            },
+          },
           CustomPage: HomeAcreageValueInput,
           CustomPageReview: HomeAcreageValueReview,
         },

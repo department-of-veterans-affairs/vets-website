@@ -257,4 +257,50 @@ describe('Pensions formConfig', () => {
       JSON.stringify({ dependents: overflowForm.data.dependents }),
     );
   });
+  it('when transformed for submit, should remove homeAcreageValue if veteran owns no home', () => {
+    const formData = {
+      data: {
+        homeOwnership: false,
+        homeAcreageMoreThanTwo: true,
+        homeAcreageValue: 20000,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({ homeOwnership: false }),
+    );
+  });
+  it('when transformed for submit, should remove homeAcreageValue if veteran owns less than two acres', () => {
+    const formData = {
+      data: {
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: false,
+        homeAcreageValue: 20000,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: false,
+      }),
+    );
+  });
+  it('when transformed for submit, should keep homeAcreageValue if veteran owns more than two acres', () => {
+    const formData = {
+      data: {
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: true,
+        homeAcreageValue: 20000,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: true,
+        homeAcreageValue: 20000,
+      }),
+    );
+  });
 });
