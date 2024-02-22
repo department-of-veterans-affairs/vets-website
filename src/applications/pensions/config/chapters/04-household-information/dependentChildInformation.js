@@ -14,12 +14,11 @@ import {
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
+import { dependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
-  dependentSeriouslyDisabledDescription,
-  dependentWarning,
-  disabilityDocs,
-} from '../../../helpers';
-import { SchoolAttendanceAlert } from '../../../components/FormAlerts';
+  DisabilityDocsAlert,
+  SchoolAttendanceAlert,
+} from '../../../components/FormAlerts';
 
 const { dependents } = fullSchemaPensions.properties;
 
@@ -67,7 +66,6 @@ export default {
         },
         childRelationship: radioUI({
           title: "What's your relationship?",
-          // uiOptions
           labels: childRelationshipOptions,
         }),
         attendingCollege: merge(
@@ -109,18 +107,9 @@ export default {
           'ui:widget': 'yesNo',
         },
         'view:disabilityDocs': {
-          'ui:description': disabilityDocs,
+          'ui:description': DisabilityDocsAlert,
           'ui:options': {
             expandUnder: 'disabled',
-          },
-        },
-        'view:dependentWarning': {
-          'ui:description': dependentWarning,
-          'ui:options': {
-            hideIf: (formData, index) =>
-              get(['dependents', index, 'disabled'], formData) !== false ||
-              get(['dependents', index, 'attendingCollege'], formData) !==
-                false,
           },
         },
         previouslyMarried: yesNoUI({
@@ -137,7 +126,7 @@ export default {
               get(['dependents', index, 'previouslyMarried'], formData),
           },
         ),
-      }, // uiSchema.dependents.items
+      },
     },
   },
   schema: {
@@ -163,7 +152,6 @@ export default {
             'view:schoolWarning': { type: 'object', properties: {} },
             disabled: yesNoSchema,
             'view:disabilityDocs': { type: 'object', properties: {} },
-            'view:dependentWarning': { type: 'object', properties: {} },
             previouslyMarried: yesNoSchema,
             married: yesNoSchema,
           },
