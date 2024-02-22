@@ -79,6 +79,8 @@ const responses = {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user (success)
+    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // user with loa1
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.loa3User); // user with loa3
