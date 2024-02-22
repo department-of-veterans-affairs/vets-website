@@ -6,7 +6,7 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;
-  const diff = moment().diff(moment(appointment.localStartTime), 'minutes');
+  const diff = moment().diff(moment(appointment.start), 'minutes');
 
   // Button is enabled 30 minutes prior to start time, until 4 hours after start time
   // NOTE: If the moment is earlier than the moment you are passing to moment.fn.diff,

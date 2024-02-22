@@ -12,7 +12,7 @@ describe('VAOS Component: VideoLink', () => {
         vistaId: '983',
         locationId: '983',
       },
-      localStartTime: moment.tz(now, 'America/Anchorage').add(240, 'minutes'),
+      start: moment.tz(now, 'America/Anchorage').add(240, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -36,9 +36,7 @@ describe('VAOS Component: VideoLink', () => {
         vistaId: '983',
         locationId: '983',
       },
-      localStartTime: moment
-        .tz(now, 'America/New_York')
-        .subtract(35, 'minutes'),
+      start: moment.tz(now, 'America/New_York').subtract(35, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -56,7 +54,7 @@ describe('VAOS Component: VideoLink', () => {
         vistaId: '983',
         locationId: '983',
       },
-      localStartTime: moment(now).add(242, 'minutes'),
+      start: moment(now).add(242, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -74,7 +72,7 @@ describe('VAOS Component: VideoLink', () => {
         vistaId: '983',
         locationId: '983',
       },
-      localStartTime: moment(now).subtract(35, 'minutes'),
+      start: moment(now).subtract(35, 'minutes'),
       videoData: {
         url: 'test.com',
       },

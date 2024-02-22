@@ -723,7 +723,7 @@ describe('VAOS upcoming appointment flow', () => {
         response: MockAppointmentResponse.createMobileResponses({
           localStartTime: moment()
             .clone()
-            .add(-240, 'minutes'),
+            .add(240, 'minutes'),
         }),
       });
       mockClinicsApi({
