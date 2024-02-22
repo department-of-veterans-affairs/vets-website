@@ -20,11 +20,14 @@ import {
   radioUI,
   titleSchema,
   titleUI,
-  relationshipToVeteranUI,
-  relationshipToVeteranSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+
+import {
+  relationshipToVeteranUI,
+  customRelationshipSchema,
+} from '../components/CustomRelationshipPattern';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -145,10 +148,7 @@ const formConfig = {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
-            ...titleUI(
-              'Your relationship to this form',
-              'We use this information to contact the signer of this form and verify other details.',
-            ),
+            ...titleUI('Your relationship to this form'),
             certifierRole: radioUI({
               title: 'Which of these best describes you?',
               required: true,
@@ -177,14 +177,17 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: titleUI('Your name'),
+            ...titleUI(
+              'Your name',
+              'We use this information to contact the signer of this form and verify other details',
+            ),
             certifierName: fullNameUI(),
           },
           schema: {
             type: 'object',
             required: ['certifierName'],
             properties: {
-              certifierInfoTitle: titleSchema,
+              titleSchema,
               certifierName: fullNameSchema,
             },
           },
@@ -194,17 +197,19 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: titleUI(
+            ...titleUI(
               'Your mailing address',
               'We’ll send any updates about your signer certification to this address',
             ),
+            ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
           },
           schema: {
             type: 'object',
             required: ['certifierAddress'],
             properties: {
-              certifierInfoTitle: titleSchema,
+              titleSchema,
+              ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
@@ -214,14 +219,19 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: titleUI('Your contact information'),
+            ...titleUI(
+              'Your contact information',
+              'We use this information to contact the signer of this form and verify other details.',
+            ),
+            ...noPhoneInfo.uiSchema,
             certifierPhone: phoneUI(),
           },
           schema: {
             type: 'object',
             required: ['certifierPhone'],
             properties: {
-              certifierInfoTitle: titleSchema,
+              titleSchema,
+              ...noPhoneInfo.schema,
               certifierPhone: phoneSchema,
             },
           },
@@ -238,6 +248,12 @@ const formConfig = {
             certifierRelationship: relationshipToVeteranUI({
               personTitle: 'Applicant(s)',
               labelHeaderLevel: 0,
+              customLabels: {
+                spouse: `I’m the spouse of an Applicant`,
+                child: 'I’m the child of an Applicant',
+                caretaker: 'I’m the caretaker of an Applicant',
+                other: 'A relationship not listed',
+              },
             }),
           },
           schema: {
@@ -245,10 +261,12 @@ const formConfig = {
             required: ['certifierRelationship'],
             properties: {
               titleSchema,
-              certifierRelationship: {
-                ...relationshipToVeteranSchema,
-                required: [],
-              },
+              certifierRelationship: customRelationshipSchema([
+                'spouse',
+                'child',
+                'caretaker',
+                'other',
+              ]),
             },
           },
         },
