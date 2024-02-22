@@ -10,10 +10,9 @@ Assumptions that may need to be addressed:
 then additional functionality will need to be added to account for this.
 */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { retrieveFolder } from '../actions/folders';
 import { DefaultFolders as Folder, PageTitles } from '../util/constants';
 import { updatePageTitle } from '../util/helpers';
@@ -29,17 +28,7 @@ const LandingPageAuth = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
   const inbox = useSelector(state => state.sm.folders?.folder);
-  const { featureToggles } = useSelector(state => state);
   const [prefLink, setPrefLink] = useState('');
-
-  const cernerTransition556T30 = useMemo(
-    () => {
-      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        : false;
-    },
-    [featureToggles],
-  );
 
   useEffect(
     () => {
@@ -65,7 +54,7 @@ const LandingPageAuth = () => {
       <AlertBackgroundBox />
       <h1>Messages</h1>
 
-      {cernerTransition556T30 && <CernerTransitioningFacilityAlert />}
+      <CernerTransitioningFacilityAlert />
 
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
