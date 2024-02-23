@@ -36,6 +36,8 @@ function transformApplicants(applicants) {
         app?.applicantOHICardBack,
         app?.applicantMedicarePartAPartBCard,
         app?.applicantMedicarePartDCard,
+        app?.applicantOhiCard,
+        app?.applicant107959c,
         app?.applicantBirthCertOrSocialSecCard,
         app?.applicantMedicarePartAPartBCard,
         app?.applicantMedicarePartDCard,

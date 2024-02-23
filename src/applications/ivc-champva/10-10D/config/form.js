@@ -57,6 +57,8 @@ import {
   applicantStepChildConfig,
   applicantMedicarePartAPartBCardsConfig,
   applicantMedicarePartDCardsConfig,
+  applicantOhiCardsConfig,
+  applicant107959cConfig,
   applicantMarriageCertConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
@@ -1029,7 +1031,7 @@ const formConfig = {
               get(
                 'applicantMedicarePart',
                 formData?.applicants?.[`${index || 0}`],
-              ).includes(part),
+              )?.includes(part),
             ),
           uiSchema: {
             applicants: {
@@ -1070,12 +1072,10 @@ const formConfig = {
               'applicantMedicareStatus',
               formData?.applicants?.[`${index || 0}`],
             ) === 'enrolled' &&
-            ['partD'].some(part =>
-              get(
-                'applicantMedicarePart',
-                formData?.applicants?.[`${index || 0}`],
-              ).includes(part),
-            ),
+            get(
+              'applicantMedicarePart',
+              formData?.applicants?.[`${index || 0}`],
+            )?.includes('partD'),
           uiSchema: {
             applicants: {
               items: {
@@ -1118,6 +1118,80 @@ const formConfig = {
               items: {},
             },
           },
+        },
+        page21a: {
+          path: 'applicant-information/:index/ohi-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} other health insurance`,
+          depends: (formData, index) =>
+            get('applicantHasOhi', formData?.applicants?.[`${index || 0}`]) ===
+            'yes',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s copy of health insurance card.`,
+                ),
+                ...applicantOhiCardsConfig.uiSchema,
+                applicantOhiCard: fileUploadUI(
+                  "Upload the applicant's copy of health insurance card",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantOhiCardsConfig.schema,
+            applicantOhiCard: attachmentsSchema,
+          }),
+        },
+        page22: {
+          path: 'applicant-information/:index/10-7959c-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} 10-7959C upload`,
+          depends: (formData, index) =>
+            get('applicantHasOhi', formData?.applicants?.[`${index || 0}`]) ===
+              'yes' ||
+            get(
+              'applicantMedicareStatus',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'enrolled',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s VA form 10-7959c.`,
+                ),
+                ...applicant107959cConfig.uiSchema,
+                applicant107959c: fileUploadUI(
+                  "Upload the applicant's VA form 10-7959c",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicant107959cConfig.schema,
+            applicant107959c: attachmentsSchema,
+          }),
         },
       },
     },
