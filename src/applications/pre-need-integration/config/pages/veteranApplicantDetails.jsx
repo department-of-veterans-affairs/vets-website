@@ -68,6 +68,37 @@ export const schema = {
               },
             },
             pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
+            {
+              name: {
+                type: 'object',
+                properties: {
+                  first: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 15,
+                  },
+                  middle: {
+                    type: 'string',
+                    maxLength: 15,
+                  },
+                  last: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 25,
+                  },
+                  suffix: {
+                    type: 'string',
+                    enum: ['Jr.', 'Sr.', 'II', 'III', 'IV', 'V'],
+                    maxLength: 3,
+                  },
+                  maiden: {
+                    type: 'string',
+                    maxLength: 15,
+                  },
+                },
+                required: ['first', 'last'],
+              },
+            },
           ),
         },
         veteran: {

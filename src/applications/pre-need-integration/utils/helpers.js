@@ -670,25 +670,18 @@ export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
 export const dateOfBirthHint =
   'Enter 2 digits for the month and day and 4 digits for the year.';
 
-export const nonPreparerDateOfBirthUI = merge(
-  {},
-  currentOrPastDateUI('Your date of birth'),
-  {
+export function dateOfBirthUI(title) {
+  return merge({}, currentOrPastDateUI(title), {
+    // 'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
       hint: dateOfBirthHint,
     },
-  },
-);
+  });
+}
 
-export const preparerDateOfBirthUI = merge(
-  {},
-  currentOrPastDateUI('Applicant’s date of birth'),
-  {
-    'ui:options': {
-      hint: dateOfBirthHint,
-    },
-  },
-);
+export const nonPreparerDateOfBirthUI = dateOfBirthUI('Your date of birth');
+
+export const preparerDateOfBirthUI = dateOfBirthUI('Applicant’s date of birth');
 
 class SSNWidget extends React.Component {
   constructor(props) {
