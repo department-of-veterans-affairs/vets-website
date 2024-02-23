@@ -36,6 +36,8 @@ function transformApplicants(applicants) {
         app?.applicantOHICardBack,
         app?.applicantMedicarePartAPartBCard,
         app?.applicantMedicarePartDCard,
+        app?.applicantOhiCard,
+        app?.applicant107959c,
       ],
       address: app.applicantAddress ?? '',
       gender: app.applicantGender ?? '',

@@ -35,3 +35,15 @@ export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
   'copy of Medicare Part D card',
   false,
 );
+
+export const applicantOhiCardsConfig = uploadWithInfoComponent(
+  ['Front of health insurance card', 'Back of health insurance card'],
+  'copy of other health insurance card',
+  false,
+);
+
+export const applicant107959cConfig = uploadWithInfoComponent(
+  ['PDF of VA Form 10-7959c'],
+  'VA Form 10-7959c',
+  false,
+);
