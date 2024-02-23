@@ -11,15 +11,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
+import { typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
-
-const typeOfIncomeOptions = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  CIVIL_SERVICE: 'Civil Service',
-  PENSION_RETIREMENT: 'Pension or retirement income',
-  OTHER: 'Other income',
-};
 
 const receiverOptions = {
   VETERAN: 'Veteran',
@@ -44,6 +37,8 @@ export default {
     incomeSources: {
       'ui:options': {
         itemName: 'Income source',
+        itemAriaLabel: data =>
+          `${typeOfIncomeLabels[data.typeOfIncome]} income source`,
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
@@ -54,7 +49,7 @@ export default {
       items: {
         typeOfIncome: radioUI({
           title: 'What type of income?',
-          labels: typeOfIncomeOptions,
+          labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
@@ -107,7 +102,7 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
             otherTypeExplanation: { type: 'string' },
             receiver: radioSchema(Object.keys(receiverOptions)),
             dependentName: { type: 'string' },

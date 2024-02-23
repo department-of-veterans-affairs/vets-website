@@ -16,7 +16,7 @@ import {
   ContactWarningAlert,
   ContactWarningMultiAlert,
 } from '../../../components/FormAlerts';
-
+import { formatFullName } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 
@@ -46,9 +46,7 @@ export const otherExplanationRequired = (form, index) =>
   get(['spouseMarriages', index, 'reasonForSeparation'], form) === 'OTHER';
 
 const SpouseMarriageView = ({ formData }) => (
-  <ListItemView
-    title={`${formData.spouseFullName.first} ${formData.spouseFullName.last}`}
-  />
+  <ListItemView title={formatFullName(formData.spouseFullName)} />
 );
 
 SpouseMarriageView.propTypes = {
@@ -74,6 +72,9 @@ export default {
     spouseMarriages: {
       'ui:options': {
         itemName: 'Former marriage of the spouse',
+        itemAriaLabel: data =>
+          data.spouseFullName &&
+          `${formatFullName(data.spouseFullName)} former marriage of spouse`,
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
         keepInPageOnReview: true,

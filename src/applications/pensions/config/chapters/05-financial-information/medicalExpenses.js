@@ -39,6 +39,7 @@ export default {
     medicalExpenses: {
       'ui:options': {
         itemName: 'Unreimbursed Expense',
+        itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
         reviewTitle: 'Unreimbursed Expenses',
         keepInPageOnReview: true,
