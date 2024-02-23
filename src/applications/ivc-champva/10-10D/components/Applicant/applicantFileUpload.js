@@ -35,7 +35,7 @@ export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
   'copy of Medicare Part D card',
   false,
 );
-  
+
 export const applicantMarriageCertConfig = uploadWithInfoComponent(
   ['Marriage certificate', 'Civil union papers'],
   'marriage certificates',
