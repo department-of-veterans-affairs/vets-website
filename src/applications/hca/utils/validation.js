@@ -60,7 +60,7 @@ export function validateExposureDates(
   const toDate = convertToDateField(toxicExposureEndDate);
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.gulfWarEndDate.addError(
+    errors.toxicExposureEndDate.addError(
       'Exposure end date must be after the exposure start date',
     );
   }
