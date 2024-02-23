@@ -2,23 +2,28 @@
 import React, { Component } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/ui/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
+import { getCurrentAcademicYear } from '../../helpers';
 
 export class SearchResults extends Component {
+  // eslint-disable-next-line react/static-property-placement
   static propTypes = {
-    // From mapStateToProps.
     error: PropTypes.string.isRequired,
     fetching: PropTypes.bool.isRequired,
     isToolTipOpen: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
+    perPage: PropTypes.number.isRequired,
+    fetchResultsThunk: PropTypes.func,
     results: PropTypes.arrayOf(
       PropTypes.shape({
         city: PropTypes.string.isRequired,
@@ -30,12 +35,8 @@ export class SearchResults extends Component {
         state: PropTypes.string.isRequired,
       }).isRequired,
     ),
-    page: PropTypes.number.isRequired,
-    perPage: PropTypes.number.isRequired,
-    totalResults: PropTypes.number,
-    // mapDispatchToProps
     toggleAlertToolTip: PropTypes.func,
-    fetchResultsThunk: PropTypes.func,
+    totalResults: PropTypes.number,
   };
 
   componentDidUpdate(prevProps) {
@@ -153,6 +154,8 @@ export class SearchResults extends Component {
       toggleAlertToolTip,
     } = this.props;
 
+    const academicYear = getCurrentAcademicYear();
+
     // Show loading indicator if we are fetching.
     if (fetching) {
       return (
@@ -211,6 +214,7 @@ export class SearchResults extends Component {
           data-display-results-header
           tabIndex="-1"
         >
+          {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
             <span>Displaying {resultsStartNumber}</span>
             <span className="vads-u-visibility--screen-reader">through</span>
@@ -219,6 +223,26 @@ export class SearchResults extends Component {
               {resultsEndNumber} of {totalResults} results
             </span>
           </span>
+          <Toggler
+            toggleName={
+              Toggler.TOGGLE_NAMES.yellowRibbonAutomatedDateOnSchoolSearch
+            }
+          >
+            <Toggler.Enabled>
+              {/* eslint-disable-next-line jsx-a11y/aria-role */}
+              <span role="text">
+                <span>Showing {resultsStartNumber}</span>
+                <span className="vads-u-visibility--screen-reader">
+                  through
+                </span>
+                <span aria-hidden="true">&ndash;</span>
+                <span>
+                  {/* eslint-disable-next-line prettier/prettier */}
+                  {resultsEndNumber} of {totalResults} schools for academic year {academicYear}.
+                </span>
+              </span>
+            </Toggler.Enabled>
+          </Toggler>
         </h2>
         <va-alert
           onClose={toggleAlertToolTip}
