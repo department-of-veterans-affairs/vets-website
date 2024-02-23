@@ -47,6 +47,7 @@ const App = ({ children }) => {
   const [paths, setPaths] = useState([]);
   const location = useLocation();
   const measuredRef = useRef();
+  const atLandingPage = location.pathname === '/';
 
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
@@ -216,10 +217,8 @@ const App = ({ children }) => {
       >
         {mhvMrDown === externalServiceStatus.down ? (
           <>
-            {location.pathname === '/' && <MrBreadcrumbs />}
-            <h1
-              className={{ 'vads-u-margin-top--5': location.pathname !== '/' }}
-            >
+            {atLandingPage && <MrBreadcrumbs />}
+            <h1 className={{ 'vads-u-margin-top--5': !atLandingPage }}>
               Medical records
             </h1>
             <DowntimeNotification
