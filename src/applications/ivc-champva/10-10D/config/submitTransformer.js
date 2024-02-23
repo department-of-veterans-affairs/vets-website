@@ -114,9 +114,9 @@ export default function transformForSubmit(formConfig, form) {
     }
   });
 
-  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs.concat(
-    supDocs,
-  );
+  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs
+    .concat(supDocs)
+    .filter(el => el); // remove undefineds
 
   // eslint-disable-next-line dot-notation
   dataPostTransform.veteran.address['postal_code'] =
