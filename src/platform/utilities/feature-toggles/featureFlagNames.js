@@ -200,7 +200,6 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showMbsPreneedChangeVa4010007: 'show_mbs_preneed_change_va_4010007',
-  showMebDgi42Features: 'show_meb_dgi42_features',
   showDgiDirectDeposit1990EZ: 'show_dgi_direct_deposit_1990EZ',
   showMebEnhancements: 'show_meb_enhancements',
   showMebEnhancements06: 'show_meb_enhancements_06',
