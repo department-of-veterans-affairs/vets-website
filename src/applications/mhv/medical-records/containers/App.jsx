@@ -214,10 +214,12 @@ const App = ({ children }) => {
         ref={measuredRef}
         className="vads-l-grid-container vads-u-padding-left--2"
       >
-        <MrBreadcrumbs />
         {mhvMrDown === externalServiceStatus.down ? (
           <>
-            <h1>Medical records</h1>
+            {location.pathname === '/' && <MrBreadcrumbs />}
+            <h1 className={location.pathname !== '/' && 'vads-u-margin-top--5'}>
+              Medical records
+            </h1>
             <DowntimeNotification
               appTitle="Medical records"
               dependencies={[
@@ -230,6 +232,7 @@ const App = ({ children }) => {
           </>
         ) : (
           <>
+            <MrBreadcrumbs />
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               {showSideNav && (
                 <>
