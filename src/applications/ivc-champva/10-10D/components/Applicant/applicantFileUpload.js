@@ -47,3 +47,9 @@ export const applicant107959cConfig = uploadWithInfoComponent(
   'VA Form 10-7959c',
   false,
 );
+
+export const applicantMarriageCertConfig = uploadWithInfoComponent(
+  ['Marriage certificate', 'Civil union papers'],
+  'marriage certificates',
+  false,
+);

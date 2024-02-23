@@ -59,6 +59,7 @@ import {
   applicantMedicarePartDCardsConfig,
   applicantOhiCardsConfig,
   applicant107959cConfig,
+  applicantMarriageCertConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -108,9 +109,9 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submit: () =>
+  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -757,9 +758,7 @@ const formConfig = {
                   "Upload the applicant's birth certificate",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -806,9 +805,7 @@ const formConfig = {
                   "Upload the applicant's school certification",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -889,9 +886,7 @@ const formConfig = {
                   "Upload the applicant's adoption papers",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -935,9 +930,7 @@ const formConfig = {
                   "Upload marriage certificate between applicant's parent and the sponsor",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -947,6 +940,43 @@ const formConfig = {
             titleSchema,
             ...applicantStepChildConfig.schema,
             applicantStepMarriageCert: attachmentsSchema,
+          }),
+        },
+        page18f: {
+          path: 'applicant-information/:index/spouse',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage documents`,
+          depends: (formData, index) =>
+            get(
+              'applicantRelationshipToSponsor',
+              formData?.applicants?.[`${index || 0}`],
+            )?.relationshipToVeteran === 'spouse',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload a marriage certificate showing the marriage between the sponsor and ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
+                ),
+                ...applicantMarriageCertConfig.uiSchema,
+                applicantMarriageCert: fileUploadUI(
+                  "Upload the applicant's marriage certificate",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMarriageCertConfig.schema,
+            applicantMarriageCert: attachmentsSchema,
           }),
         },
         page19: {
