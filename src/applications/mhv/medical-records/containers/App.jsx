@@ -217,7 +217,9 @@ const App = ({ children }) => {
         {mhvMrDown === externalServiceStatus.down ? (
           <>
             {location.pathname === '/' && <MrBreadcrumbs />}
-            <h1 className={location.pathname !== '/' && 'vads-u-margin-top--5'}>
+            <h1
+              className={{ 'vads-u-margin-top--5': location.pathname !== '/' }}
+            >
               Medical records
             </h1>
             <DowntimeNotification

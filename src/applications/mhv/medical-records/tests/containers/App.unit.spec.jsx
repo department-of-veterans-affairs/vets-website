@@ -294,6 +294,50 @@ describe('App', () => {
     });
   });
 
+  it('renders breadcrumbs when downtime and at the landing page', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medical_records_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: downtime(['mhv_mr']),
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(screen.getByTestId('no-breadcrumbs')).to.exist;
+  });
+
+  it('does not render breadcrumbs when downtime and not at the landing page', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medical_records_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: downtime(['mhv_mr']),
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/vaccines`,
+    });
+    expect(screen.queryByTestId('no-breadcrumbs')).to.not.exist;
+  });
+
   describe('Side Nav feature flag functionality', () => {
     it('feature flag set to false', () => {
       const screen = renderWithStoreAndRouter(
