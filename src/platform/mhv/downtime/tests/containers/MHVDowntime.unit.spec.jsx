@@ -6,6 +6,10 @@ import { externalServiceStatus } from '@department-of-veterans-affairs/platform-
 
 import MHVDowntime from '../../containers/MHVDowntime';
 
+/*
+ * NOTE: Tests will run in various timezones, so look for formatting rather than exact datetimes
+ */
+
 describe('MHVDowntime', () => {
   it('renders MHVDown when a service is down', () => {
     const now = new Date();
@@ -101,7 +105,7 @@ describe('MHVDowntime', () => {
     getByText(
       /During this time, you may have trouble using some of our health tools/i,
     );
-    getByText('July 4, 2019 at 9:00 a.m. ET');
+    getByText(/July 4, 2019 at \d:\d{2} (a|p)\.m\. [A-Z]{1,2}T/);
     expect(queryByText('July 5, 2019 at 3:00 a.m. ET')).to.be.null;
   });
 
@@ -121,6 +125,6 @@ describe('MHVDowntime', () => {
     getByText(
       /During this time, you may have trouble using some of our health tools/i,
     );
-    getByText('July 7, 2019 at 9:00 a.m. ET');
+    getByText(/July 7, 2019 at \d:\d{2} (a|p)\.m\. [A-Z]{1,2}T/);
   });
 });
