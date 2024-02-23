@@ -61,6 +61,7 @@ export default Object.freeze({
   'cstUseLighthouse#index': 'cst_use_lighthouse_index',
   'cstUseLighthouse#show': 'cst_use_lighthouse_show',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
+  cstIncludeDdl5103Letters: 'cst_include_ddl_5103_letters',
   cstUseNewClaimCards: 'cst_use_new_claim_cards',
   cstUseClaimDetailsV2: 'cst_use_claim_details_v2',
   debtLettersShowLetters: 'debt_letters_show_letters',
