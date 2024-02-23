@@ -54,7 +54,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
       },
     });
 
-    cy.get(Locators.EXPANDABLE_TITLE)
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -123,7 +123,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
       },
     });
 
-    cy.get(Locators.EXPANDABLE_TITLE)
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',

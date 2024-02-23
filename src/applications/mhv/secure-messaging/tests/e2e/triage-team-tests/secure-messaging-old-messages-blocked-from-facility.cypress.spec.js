@@ -54,7 +54,7 @@ describe('Verify old messages - blocked from facility', () => {
       },
     });
 
-    cy.get(Locators.ALERT.EXPANDABLE_TITLE)
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -124,7 +124,7 @@ describe('Verify old messages - blocked from facility', () => {
       },
     });
 
-    cy.get(Locators.EXPANDABLETITLE)
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
