@@ -200,12 +200,12 @@
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
-    "mocha": "^10.2.0",
-    "mocha-junit-reporter": "^2.0.0",
+    "mocha": "^10.3.0",
+    "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
     "mochawesome": "^7.1.3",
-    "mochawesome-json-to-md": "^1.2.1",
+    "mochawesome-json-to-md": "^1.3.5",
     "mochawesome-merge": "^4.3.0",
     "mock-fs": "^5.1.1",
     "mockdate": "^3.0.5",
@@ -318,7 +318,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#cb05ca4f2883c6d66aca0396db524ff14fd2a734"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#39dd490a3031bbb28ec30acdb1efa131122a77c8"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
