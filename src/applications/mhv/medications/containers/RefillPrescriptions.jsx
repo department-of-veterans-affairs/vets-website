@@ -42,7 +42,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   );
 
   // Functions
-  const requestRefills = () => {
+  const onRequestRefills = () => {
     if (selectedRefillListLength > 0) {
       fillRxs(selectedRefillList);
     }
@@ -245,9 +245,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             id="request-refill-button"
             aria-describedby="request-refill-button"
             data-testid="request-refill-button"
-            onClick={() => {
-              requestRefills();
-            }}
+            onClick={() => onRequestRefills()}
             text={`Request refill${selectedRefillListLength !== 1 ? 's' : ''}`}
           />
         </div>
