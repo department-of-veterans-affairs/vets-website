@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import POARequestsContent from '../components/POARequestsContent/POARequestsContent';
+import { mockPOARequests } from '../mocks/mockPOARequests';
 import LoginViewWrapper from './LoginViewWrapper';
 
 const breadcrumbs = [
@@ -14,7 +15,7 @@ const POARequests = ({ poaPermissions = true }) => {
   return (
     <LoginViewWrapper breadcrumbs={breadcrumbs} poaPermissions={poaPermissions}>
       <h1>Power of attorney requests</h1>
-      <POARequestsContent />
+      <POARequestsContent poaRequests={mockPOARequests} />
     </LoginViewWrapper>
   );
 };

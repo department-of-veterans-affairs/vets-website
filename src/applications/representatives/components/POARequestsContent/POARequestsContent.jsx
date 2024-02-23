@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
-import { mockPOARequests } from '../../mocks/mockPOARequests';
 
-const POARequestsContent = () => {
+const POARequestsContent = ({ poaRequests }) => {
   const [alert, setAlert] = useState({
     visible: false,
     message: '',
@@ -60,14 +59,9 @@ const POARequestsContent = () => {
           <span>Status</span>
           <span>Actions</span>
         </va-table-row>
-        {mockPOARequests.map(poaRequest => (
+        {poaRequests.map(poaRequest => (
           <va-table-row key={poaRequest.id}>
-            <span>
-              <va-link
-                href={`/poa-requests/${poaRequest.id}`}
-                text={poaRequest.name}
-              />
-            </span>
+            <span>{poaRequest.name}</span>
             <span>{poaRequest.date}</span>
             <span>{poaRequest.description}</span>
             <span>{poaRequest.status}</span>
@@ -117,6 +111,7 @@ const POARequestsContent = () => {
     </>
   );
 };
+
 POARequestsContent.propTypes = {
   poaRequests: PropTypes.arrayOf(
     PropTypes.shape({
