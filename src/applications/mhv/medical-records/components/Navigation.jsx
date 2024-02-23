@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SectionGuideButton from './SectionGuideButton';
+import getActiveLinksStyle from '../util/helpers';
 
 const Navigation = props => {
   const { paths } = props;
@@ -47,26 +48,6 @@ const Navigation = props => {
   );
 
   window.addEventListener('resize', checkScreenSize);
-
-  const getActiveLinksStyle = (linkPath, currentPath) => {
-    let relativePath;
-    if (linkPath === '/' && currentPath === '/') return 'is-active';
-    const pathArr = currentPath.slice(1).split('/');
-    if (
-      pathArr.length > 1 &&
-      pathArr.length < 5 &&
-      pathArr[0] === 'labs-and-tests'
-    ) {
-      relativePath = '/labs-and-tests';
-    } else if (pathArr.length === 3)
-      relativePath = `/${pathArr[0]}/${pathArr[1]}`;
-    else relativePath = currentPath;
-
-    if (linkPath.split('/')[1] === relativePath.split('/')[1])
-      return 'is-active';
-
-    return '';
-  };
 
   const handleActiveLinksStyle = path => {
     return getActiveLinksStyle(path, location.pathname);
