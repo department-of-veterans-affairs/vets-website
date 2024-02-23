@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SectionGuideButton from './SectionGuideButton';
-import getActiveLinksStyle from '../util/helpers';
+import { getActiveLinksStyle } from '../util/helpers';
 
 const Navigation = props => {
   const { paths } = props;
