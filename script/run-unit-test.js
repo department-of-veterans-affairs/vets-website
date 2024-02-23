@@ -97,16 +97,14 @@ const splitUnitTests = splitArray(
 console.log('splitUnitTests:', splitUnitTests);
 console.log('splitUnitTests[matrixStep]: ', splitUnitTests[matrixStep]);
 for (const dir of splitUnitTests[matrixStep]) {
+  const updatedPath = options.path[0].replace(
+    `/${specDirs}/`,
+    `/${JSON.parse(dir).join('/')}/`,
+  );
+  console.log('updated path');
   const testsToRun = options['app-folder']
     ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
-    : `--recursive ${glob
-        .sync(
-          options.path[0].replace(
-            `/${specDirs}/`,
-            `/${JSON.parse(dir).join('/')}/`,
-          ),
-        )
-        .replaceAll(',', ' ')}`;
+    : `--recursive ${glob.sync(updatedPath)}`;
   console.log(testsToRun);
   const command = `LOG_LEVEL=${options[
     'log-level'
