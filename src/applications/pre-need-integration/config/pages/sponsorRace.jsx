@@ -1,36 +1,29 @@
 import { merge, pick } from 'lodash';
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import {
   sponsorDemographicsDescription,
   sponsorDemographicsSubHeader,
   veteranUI,
-  sponsorEthnicityTitle,
-  sponsorRaceTitle,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
-export function uiSchema(
-  ethnicityTitle = sponsorEthnicityTitle,
-  raceTitle = sponsorRaceTitle,
-) {
-  return {
-    application: {
-      'ui:title': sponsorDemographicsSubHeader,
-      'view:sponsorDemographicsDescription': {
-        'ui:description': sponsorDemographicsDescription,
-        'ui:options': {
-          displayEmptyObjectOnReview: true,
-        },
+export const uiSchema = {
+  application: {
+    'ui:title': sponsorDemographicsSubHeader,
+    'view:sponsorDemographicsDescription': {
+      'ui:description': sponsorDemographicsDescription,
+      'ui:options': {
+        displayEmptyObjectOnReview: true,
       },
-      veteran: merge({}, veteranUI, {
-        ethnicity: { 'ui:title': ethnicityTitle },
-        race: { 'ui:title': raceTitle },
-      }),
     },
-  };
-}
+    veteran: merge({}, veteranUI, {
+      ethnicity: { 'ui:title': 'What’s the sponsor’s marital status?' },
+      race: { 'ui:title': 'What’s the sponsor’s sex?' },
+    }),
+  },
+};
 
 export const schema = {
   type: 'object',
@@ -45,7 +38,21 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['ethnicity', 'race'],
-          properties: pick(veteran.properties, ['ethnicity', 'race']),
+          properties: merge(
+            {},
+            // {
+            //   ethnicity: {
+            //     type: 'string',
+            //     enum: [
+            //       'isSpanishHispanicLatino',
+            //       'notSpanishHispanicLatino',
+            //       'unknown',
+            //       'na',
+            //     ],
+            //   },
+            // },
+            pick(veteran.properties, ['ethnicity', 'race']),
+          ),
         },
       },
     },

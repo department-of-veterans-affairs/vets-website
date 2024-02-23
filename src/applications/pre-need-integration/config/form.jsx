@@ -75,8 +75,6 @@ import {
   applicantDemographicsPreparerEthnicityTitle,
   applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
-  sponsorEthnicityTitle,
-  sponsorRaceTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -393,10 +391,7 @@ const formConfig = {
         sponsorRace: {
           path: 'sponsor-race',
           depends: formData => !isVeteran(formData),
-          uiSchema: sponsorRace.uiSchema(
-            sponsorEthnicityTitle,
-            sponsorRaceTitle,
-          ),
+          uiSchema: sponsorRace.uiSchema,
           schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {

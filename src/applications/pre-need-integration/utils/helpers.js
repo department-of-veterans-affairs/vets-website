@@ -444,10 +444,6 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
-export const sponsorEthnicityTitle = 'What’s your sponsor’s ethnicity?';
-
-export const sponsorRaceTitle = 'What’s your sponsor’s race?';
-
 export function isSponsorDeceased(item) {
   return get('application.veteran.isDeceased', item) === 'yes';
 }
