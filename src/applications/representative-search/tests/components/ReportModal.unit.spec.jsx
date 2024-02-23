@@ -166,8 +166,8 @@ describe('ReportModal component', () => {
 
     wrapper.update();
 
-    const vaTextInputExists = wrapper.find('va-text-input').exists();
-    expect(vaTextInputExists).to.be.true;
+    const vaTextAreaExists = wrapper.find('va-textarea').exists();
+    expect(vaTextAreaExists).to.be.true;
     wrapper.unmount();
   });
 
@@ -193,7 +193,7 @@ describe('ReportModal component', () => {
 
     wrapper.update();
 
-    expect(wrapper.find('va-text-input').prop('value')).equal('test comment');
+    expect(wrapper.find('va-textarea').prop('value')).equal('test comment');
 
     wrapper.unmount();
   });
