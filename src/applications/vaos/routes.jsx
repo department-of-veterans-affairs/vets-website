@@ -1,9 +1,8 @@
 import React from 'react';
-import { Redirect, Switch } from 'react-router-dom';
+import { Redirect, Switch, Route } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
-import VAOSApp from './components/VAOSApp';
-import ErrorBoundary from './components/ErrorBoundary';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { captureError } from './utils/error';
 
 import ErrorMessage from './components/ErrorMessage';
@@ -34,38 +33,36 @@ export default function createRoutesWithStore(store) {
   ];
 
   return (
-    <ErrorBoundary fullWidth>
-      <VAOSApp>
-        <Switch>
-          <EnrolledRoute
-            path={vaccinePaths}
-            component={asyncLoader(() =>
-              import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
-                .then(({ NewBookingSection, reducer }) => {
-                  store.injectReducer('covid19Vaccine', reducer);
-                  return NewBookingSection;
-                })
-                .catch(handleLoadError),
-            )}
-          />
-          <EnrolledRoute
-            path={newAppointmentPaths}
-            component={asyncLoader(() =>
-              import(/* webpackChunkName: "vaos-form" */ './new-appointment')
-                .then(({ NewAppointment, reducer }) => {
-                  store.injectReducer('newAppointment', reducer);
-                  return NewAppointment;
-                })
-                .catch(handleLoadError),
-            )}
-          />
-          <Redirect
-            from="/new-covid-19-vaccine-booking"
-            to="/new-appointment"
-          />
-          <EnrolledRoute path="/" component={AppointmentList} />
-        </Switch>
-      </VAOSApp>
-    </ErrorBoundary>
+    <Switch>
+      <EnrolledRoute
+        exact
+        path={vaccinePaths}
+        component={asyncLoader(() =>
+          import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
+            .then(({ NewBookingSection, reducer }) => {
+              store.injectReducer('covid19Vaccine', reducer);
+              return NewBookingSection;
+            })
+            .catch(handleLoadError),
+        )}
+      />
+      <EnrolledRoute
+        exact
+        path={newAppointmentPaths}
+        component={asyncLoader(() =>
+          import(/* webpackChunkName: "vaos-form" */ './new-appointment')
+            .then(({ NewAppointment, reducer }) => {
+              store.injectReducer('newAppointment', reducer);
+              return NewAppointment;
+            })
+            .catch(handleLoadError),
+        )}
+      />
+      <Redirect from="/new-covid-19-vaccine-booking" to="/new-appointment" />
+      <EnrolledRoute exact path="/" component={AppointmentList} />
+      <Route>
+        <PageNotFound />
+      </Route>
+    </Switch>
   );
 }
