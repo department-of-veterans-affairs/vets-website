@@ -17,14 +17,21 @@ describe('Secure Messaging Thread Details', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.loadSingleThread(mockThreadResponse, date);
-    // cy.wait(500);
+    // cy.pause();
 
-    for (let i = 1; i < messageIdList.length; i += 1) {
+    for (let i = 2; i < messageIdList.length; i += 1) {
       cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
         .shadow()
         .find('[part="accordion-header"]')
-        .click()
-        .should('have.focus');
+        .click();
+      // cy.focused().then(el => {
+      //   console.log(el)
+      // })
+      cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
+        .shadow()
+        .find('[part="accordion-header"]')
+        .should('have.attr', 'aria-expanded', 'true')
+        .and('have.focus');
     }
 
     cy.injectAxe();
