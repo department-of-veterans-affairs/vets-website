@@ -714,6 +714,9 @@ const ComposeForm = props => {
                 error={subjectError}
                 data-dd-privacy="mask"
                 data-dd-action-name="Compose Message Subject Input Field"
+                onFocus={e => {
+                  setCaretToPos(e.target.shadowRoot.querySelector('input'), 0);
+                }}
               />
             )}
           </div>
