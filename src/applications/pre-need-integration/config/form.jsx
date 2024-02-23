@@ -24,10 +24,12 @@ import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet'
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
 import * as applicantMailingAddress from './pages/applicantMailingAddress';
+import * as applicantContactInfo from './pages/applicantContactInfo';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
+import * as applicantDemographics2 from './pages/applicantDemographics2';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
@@ -58,6 +60,19 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  // partial implementation of story resolving the address change:
+  // applicantDetailsCityTitle,
+  // applicantDetailsStateTitle,
+  // applicantDetailsPreparerCityTitle,
+  // applicantDetailsPreparerStateTitle,
+  applicantDemographicsGenderTitle,
+  applicantDemographicsMaritalStatusTitle,
+  applicantDemographicsPreparerGenderTitle,
+  applicantDemographicsPreparerMaritalStatusTitle,
+  applicantDemographicsEthnicityTitle,
+  applicantDemographicsRaceTitle,
+  applicantDemographicsPreparerEthnicityTitle,
+  applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -82,6 +97,7 @@ const {
   files,
   centralMailVaFile,
   race,
+  ethnicity,
 } = fullSchemaPreNeed.definitions;
 
 export const applicantMailingAddressStateTitleWrapper = (
@@ -158,6 +174,7 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
+    ethnicity,
   },
   chapters: {
     preparerInformation: {
@@ -242,10 +259,29 @@ const formConfig = {
           schema: applicantRelationshipToVet.schema,
         },
         veteranApplicantDetails: {
-          title: 'Your details',
+          title: 'Applicant details',
           path: 'veteran-applicant-details',
-          depends: isVeteran,
-          uiSchema: veteranApplicantDetails.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: veteranApplicantDetails
+            .uiSchema
+            // partial implementation of story resolving the address change:
+            // applicantDetailsCityTitle,
+            // applicantDetailsStateTitle,
+            (),
+          schema: veteranApplicantDetails.schema,
+        },
+        veteranApplicantDetailsPreparer: {
+          title: 'Applicant details',
+          path: 'veteran-applicant-details-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: veteranApplicantDetails
+            .uiSchema
+            // partial implementation of story resolving the address change:
+            // applicantDetailsPreparerCityTitle,
+            // applicantDetailsPreparerStateTitle,
+            (),
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {
@@ -258,16 +294,58 @@ const formConfig = {
         applicantMailingAddress: {
           title: 'Applicant Mailing Address Placeholder',
           path: 'applicant-mailing-address',
-          depends: !isVeteran,
+          depends: formData => !isVeteran(formData),
           uiSchema: applicantMailingAddress.uiSchema,
           schema: applicantMailingAddress.schema,
+        },
+        applicantContactInfo: {
+          title: 'Applicant contact information',
+          path: 'applicant-contact-info',
+          depends: formData => isVeteran(formData),
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
         },
         applicantDemographics: {
           title: 'Applicant demographics',
           path: 'applicant-demographics',
-          depends: isVeteran,
-          uiSchema: applicantDemographics.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsGenderTitle,
+            applicantDemographicsMaritalStatusTitle,
+          ),
           schema: applicantDemographics.schema,
+        },
+        applicantDemographicsPreparer: {
+          title: 'Applicant demographics',
+          path: 'applicant-demographics-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsPreparerGenderTitle,
+            applicantDemographicsPreparerMaritalStatusTitle,
+          ),
+          schema: applicantDemographics.schema,
+        },
+        applicantDemographics2: {
+          path: 'applicant-demographics-2',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsEthnicityTitle,
+            applicantDemographicsRaceTitle,
+          ),
+          schema: applicantDemographics2.schema,
+        },
+        applicantDemographics2Preparer: {
+          path: 'applicant-demographics-2-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsPreparerEthnicityTitle,
+            applicantDemographicsPreparerRaceTitle,
+          ),
+          schema: applicantDemographics2.schema,
         },
         militaryDetails: {
           path: 'applicant-military-details',

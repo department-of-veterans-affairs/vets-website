@@ -12,7 +12,7 @@ import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
 import AppointmentDetails from '../components/pages/AppointmentDetails';
 import { URLS } from '../utils/navigation';
-
+import { APP_NAMES } from '../utils/appConstants';
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
@@ -97,7 +97,7 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const options = { isPreCheckIn: true };
+        const options = { isPreCheckIn: true, appName: APP_NAMES.PRE_CHECK_IN };
         let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>

@@ -1,62 +1,46 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimPhase from '../../components/ClaimPhase';
 
 describe('<ClaimPhase>', () => {
+  const activity = {
+    1: [
+      {
+        type: 'filed',
+        date: '2010-05-04',
+      },
+    ],
+  };
   it('should render activity when on current phase', () => {
-    const activity = {
-      1: [
-        {
-          type: 'filed',
-          date: '2010-05-04',
-        },
-      ],
-    };
-
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
-    expect(tree.everySubTree('.claims-evidence').length).to.equal(1);
+    expect($('li', container)).to.exist;
+    expect($('.claims-evidence', container)).to.exist;
   });
 
   it('should not render activity when on current phase', () => {
-    const activity = {
-      1: [
-        {
-          type: 'filed',
-          date: '2010-05-04',
-        },
-      ],
-    };
-
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <ClaimPhase id="2" current={1} phase={3} activity={activity} />,
     );
-    expect(tree.everySubTree('.claims-evidence').length).to.equal(0);
+    expect($('li', container)).to.exist;
+    expect($('.claims-evidence', container)).not.to.exist;
   });
 
   it('should display filed message', () => {
-    const activity = {
-      1: [
-        {
-          type: 'filed',
-          date: '2010-05-04',
-        },
-      ],
-    };
-
-    const tree = SkinDeep.shallowRender(
+    const { container, getByText } = render(
       <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
-    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal(
-      'Thank you. VA received your claim',
-    );
+    expect($('.claims-evidence-item', container)).to.exist;
+    getByText('Thank you. VA received your claim');
   });
 
   it('should display requested message', () => {
-    const activity = {
+    const newActivity = {
       1: [
         {
           type: 'tracked_item',
@@ -67,16 +51,16 @@ describe('<ClaimPhase>', () => {
       ],
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
+    const { container, getByText } = render(
+      <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
     );
-    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal(
-      'We added a notice for: <Link />',
-    );
+    expect($('.claims-evidence-item', container)).to.exist;
+    getByText('We added a notice for:');
+    getByText(newActivity[1][0].displayName);
   });
 
-  it('should display show older updates button', () => {
-    const activity = {
+  it('should display show past updates button', () => {
+    const newActivity = {
       1: [
         {
           type: 'tracked_item',
@@ -116,25 +100,15 @@ describe('<ClaimPhase>', () => {
         },
       ],
     };
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
+    const { container } = render(
+      <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
     );
-    expect(tree.everySubTree('button').length).to.equal(2);
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      'Show past updates',
+    );
   });
 
   describe('event descriptions', () => {
-    const activity = {
-      1: [
-        {
-          type: 'tracked_item',
-          date: '2010-05-04',
-          displayName: 'Needed file',
-          status: 'NEEDED_FROM_YOU',
-        },
-      ],
-    };
-
     const tree = SkinDeep.shallowRender(
       <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
