@@ -97,7 +97,7 @@ const splitUnitTests = splitArray(
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
   : splitUnitTests[matrixStep];
-if (testsToVerify === '') {
+if (testsToVerify === null) {
   for (const dir of appsToRun) {
     const updatedPath = options['app-folder']
       ? options.path.map(p => `'${p}'`).join(' ')
