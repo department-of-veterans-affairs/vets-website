@@ -21,17 +21,6 @@ const SELECTORS = {
 
 describe('functionality of Find Forms', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'find_forms_show_pdf_modal',
-            value: true,
-          },
-        ],
-      },
-    });
     cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
   });
 
@@ -76,7 +65,7 @@ describe('functionality of Find Forms', () => {
 
     pages.forEach((page, pageNumber) => {
       page.forEach(form => {
-        cy.get(`a[data-testid="pdf-link-${form.id}"]`).should('exist');
+        cy.get(`button[data-testid="pdf-link-${form.id}"]`).should('exist');
       });
 
       const nextPage = pageNumber + 1;
@@ -105,7 +94,7 @@ describe('functionality of Find Forms', () => {
 
   it('opens PDF modal - C12431', () => {
     cy.visit('/find-forms/?q=health');
-    cy.get('a[data-testid^="pdf-link"]').then($links => {
+    cy.get('button[data-testid^="pdf-link"]').then($links => {
       const randomIndex = Math.floor(Math.random() * $links.length);
       cy.wrap($links)
         .eq(randomIndex)
