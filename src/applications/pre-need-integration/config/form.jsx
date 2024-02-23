@@ -69,6 +69,8 @@ import {
   // applicantDetailsStateTitle,
   // applicantDetailsPreparerCityTitle,
   // applicantDetailsPreparerStateTitle,
+  applicantDemographicsSubHeader,
+  applicantDemographicsPreparerSubHeader,
   applicantDemographicsGenderTitle,
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
@@ -307,11 +309,12 @@ const formConfig = {
           schema: applicantContactInfo.schema,
         },
         applicantDemographics: {
-          title: 'Applicant demographics',
+          title: 'Your demographics',
           path: 'applicant-demographics',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsSubHeader,
             applicantDemographicsGenderTitle,
             applicantDemographicsMaritalStatusTitle,
           ),
@@ -323,12 +326,14 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsPreparerSubHeader,
             applicantDemographicsPreparerGenderTitle,
             applicantDemographicsPreparerMaritalStatusTitle,
           ),
           schema: applicantDemographics.schema,
         },
         applicantDemographics2: {
+          title: 'Your demographics',
           path: 'applicant-demographics-2',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
@@ -339,6 +344,7 @@ const formConfig = {
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {
+          title: 'Applicant demographics',
           path: 'applicant-demographics-2-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),

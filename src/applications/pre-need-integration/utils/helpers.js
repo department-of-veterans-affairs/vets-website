@@ -119,6 +119,12 @@ export const sponsorMilitaryDetailsSubHeader = (
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsPreparerSubHeader = (
+  <div className="applicantDemographicsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
   </div>
 );
@@ -126,8 +132,8 @@ export const applicantDemographicsSubHeader = (
 export const applicantDemographicsDescription = (
   <div className="applicantDemographicsDescription">
     <p>
-      We require some basic details as part of your application. Please know we
-      need to gather the data for statistical purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
