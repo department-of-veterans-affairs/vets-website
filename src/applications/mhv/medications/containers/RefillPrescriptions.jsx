@@ -114,10 +114,23 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
 
   const content = () => {
     if (!showRefillContent || isLoading) {
-      return <va-loading-indicator message="Loading medications..." setFocus />;
+      return (
+        <div className="refill-loading-indicator">
+          <va-loading-indicator message="Loading medications..." setFocus />
+        </div>
+      );
     }
     return (
       <div>
+        <span className="refill-back-arrow">
+          <Link
+            data-testid="medications-page-link"
+            to="/"
+            className="refill-back-link"
+          >
+            Back to Medications
+          </Link>
+        </span>
         <div>
           <h1
             className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"

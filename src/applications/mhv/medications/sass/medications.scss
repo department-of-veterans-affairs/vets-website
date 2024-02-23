@@ -18,6 +18,26 @@
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
+.refill-back-link {
+  margin-top: 50px;
+  display: block;
+  margin-bottom: 16px;
+  margin-left: 13px;
+  width: fit-content;
+}
+.refill-back-arrow {
+  &:before {
+    content: "\f053";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+  }
+}
+.refill-loading-indicator {
+  margin-top: 70px;
+}
 .main-content {
   padding: 0;
   margin-bottom: 40px;
