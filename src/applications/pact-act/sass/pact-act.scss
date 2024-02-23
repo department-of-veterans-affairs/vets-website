@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 .pact-act-app {
 
   h1:focus {
@@ -42,5 +43,15 @@
   .pact-act-form-label {
     margin-top: 1rem;
     padding-left: 6px;
+  }
+
+  va-button-pair {
+    margin-left: -4px;
+    margin-right: -4px;
+
+    @media screen and (min-width: 480px) {
+      margin-left: 4px;
+      margin-right: 4px;
+    }
   }
 }
