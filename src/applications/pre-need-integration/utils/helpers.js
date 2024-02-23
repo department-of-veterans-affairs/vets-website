@@ -388,6 +388,37 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
+export const applicantDetailsCityTitle = 'Your birth city or county';
+
+export const applicantDetailsStateTitle = 'Your birth state or territory';
+
+export const applicantDetailsPreparerCityTitle =
+  'Applicant’s birth city or county';
+
+export const applicantDetailsPreparerStateTitle =
+  'Applicant’s birth state or territory';
+
+export const applicantDemographicsGenderTitle = 'What’s your sex?';
+
+export const applicantDemographicsMaritalStatusTitle =
+  'What’s your marital status?';
+
+export const applicantDemographicsPreparerGenderTitle =
+  'What’s the applicant’s sex?';
+
+export const applicantDemographicsPreparerMaritalStatusTitle =
+  'What’s the applicant’s marital status?';
+
+export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+
+export const applicantDemographicsRaceTitle = 'What’s your race?';
+
+export const applicantDemographicsPreparerEthnicityTitle =
+  'What’s the applicant’s ethnicity?';
+
+export const applicantDemographicsPreparerRaceTitle =
+  'What’s the applicant’s race?';
+
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -644,9 +675,8 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': !environment.isProduction()
-      ? 'Military Service number (if it’s different than your Social Security number)'
-      : 'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title':
+      'Military Service number (if it’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
