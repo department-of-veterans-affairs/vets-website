@@ -48,8 +48,8 @@ const setup = ({ initialState = stateFn() } = {}) => {
       ...initialState.user,
       profile: {
         ...initialState.user.profile,
-        mhvAccountState: 'OK',
       },
+      mhvAccountState: 'OK',
     },
   };
   return renderWithStoreAndRouter(<App />, {
