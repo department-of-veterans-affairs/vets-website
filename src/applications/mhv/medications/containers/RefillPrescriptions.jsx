@@ -135,7 +135,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       );
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
-    // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
+    // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, location.pathname, selectedSortOption],
   );
