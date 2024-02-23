@@ -1,12 +1,13 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
+import mockEhrData from './fixtures/vamc-ehr.json';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
     const site = new SecureMessagingSite();
     const patientInboxPage = new PatientInboxPage();
-    site.login(false);
+    site.login(mockEhrData, false);
     site.loadPageUnauthenticated();
 
     cy.url().should('contain', '/health-care/secure-messaging');

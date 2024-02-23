@@ -9,7 +9,6 @@ export default {
     'ui:title': 'Treatment from a VA medical center',
     vaTreatmentHistory: yesNoUI({
       title: 'Have you received treatment from a VA medical center?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
   },
