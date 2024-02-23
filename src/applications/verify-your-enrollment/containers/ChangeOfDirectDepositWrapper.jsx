@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../sass/change-of-direct-deposit-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,11 +26,11 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     scrollToElement('Direct deposit information');
   };
 
-  const handleCloseForm = () => {
+  const handleCloseForm = useCallback(() => {
     setFormData({}); // clear form data
     setToggleDirectDepositForm(false);
     scrollToTopOfForm();
-  };
+  }, []);
 
   // called when submitting form
   const saveBankInfo = () => {
@@ -55,7 +55,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
         handleCloseForm();
       }
     },
-    [loading],
+    [handleCloseForm, loading],
   );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
