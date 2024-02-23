@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import PropTypes from 'prop-types';
 import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
+import AppRoute from './components/shared/AppRoute';
 import HealthConditions from './containers/HealthConditions';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
@@ -21,23 +21,6 @@ import DownloadRecordsPage from './containers/DownloadRecordsPage';
 import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
-import App from './containers/App';
-
-/**
- * Route that wraps its children within the application component.
- */
-const AppRoute = ({ props, children }) => {
-  return (
-    <Route {...props}>
-      <App>{children}</App>
-    </Route>
-  );
-};
-
-AppRoute.propTypes = {
-  children: PropTypes.object,
-  props: PropTypes.object,
-};
 
 const routes = (
   <Switch>
