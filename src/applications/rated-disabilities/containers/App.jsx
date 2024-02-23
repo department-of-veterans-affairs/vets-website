@@ -37,8 +37,6 @@ const App = props => {
           externalServices.vbms,
         ]}
       >
-        <MVIError />
-
         {!user.profile.verified || user.profile.status !== 'OK' ? (
           <MVIError />
         ) : (
