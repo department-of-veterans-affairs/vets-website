@@ -37,7 +37,7 @@ const App = () => {
     unreadMessageCount,
   );
   const hasMHVAccount = useSelector(state => {
-    return ['OK', 'MULTIPLE'].includes(state.user.profile.mhvAccountState);
+    return ['OK', 'MULTIPLE'].includes(state.user?.profile?.mhvAccountState);
   });
 
   const data = useMemo(
