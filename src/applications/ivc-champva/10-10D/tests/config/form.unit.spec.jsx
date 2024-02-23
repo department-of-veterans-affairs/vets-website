@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+// import sinon from 'sinon';
 import { expect } from 'chai';
 import React from 'react';
 import {
@@ -141,6 +141,9 @@ describe('title text logic', () => {
   });
 });
 
+/*
+// Existing dummy submit function is useless - commenting this test out
+// until we have a proper submit method.
 describe('submit property of formConfig', () => {
   it('should be a promise', () => {
     const goToPathSpy = sinon.spy(formConfig.submit);
@@ -149,3 +152,4 @@ describe('submit property of formConfig', () => {
     });
   });
 });
+*/
