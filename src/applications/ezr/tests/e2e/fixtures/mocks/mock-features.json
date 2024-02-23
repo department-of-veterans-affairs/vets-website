@@ -9,6 +9,10 @@
       {
         "name": "hcaSigiEnabled",
         "value": false
+      },
+      {
+        "name": "hcaTeraEnabled",
+        "value": false
       }
     ]
   }
