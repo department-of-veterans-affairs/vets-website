@@ -144,8 +144,12 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: 'Pensions',
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['maximal-test', 'overflow-test', 'simple-test'],
+    dataDir: path.join('..', 'node_modules', 'vets-json-schema', 'dist'),
+    dataSets: [
+      '21P-527EZ-kitchen_sink-cypress-example',
+      '21P-527EZ-overflow-cypress-example',
+      '21P-527EZ-simple-cypress-example',
+    ],
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
       cy.login(mockUser);
