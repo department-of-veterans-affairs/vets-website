@@ -96,7 +96,6 @@ export function makeSchemas(prefix, defaultName) {
     ),
     [properties.accountType]: {
       'ui:title': 'Account type',
-      // 'ui:widget': 'radio',
       'ui:webComponentField': VaRadioField,
       'ui:errorMessages': {
         required: 'Please select the type that best describes your account',

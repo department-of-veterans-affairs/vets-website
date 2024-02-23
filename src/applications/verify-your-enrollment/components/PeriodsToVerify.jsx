@@ -117,7 +117,11 @@ const PeriodsToVerify = ({
           </div>
           <div>
             {getPeriodsToVerify()}
-            <va-button onClick={handleVerification} text="Verify enrollment" />
+            <va-button
+              onClick={handleVerification}
+              text="Verify enrollment"
+              data-testid="Verify enrollment"
+            />
           </div>
         </va-alert>
       )}

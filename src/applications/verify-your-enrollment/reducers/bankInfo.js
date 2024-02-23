@@ -30,6 +30,11 @@ const bankInfo = (state = initialState, action) => {
         loading: false,
         error: action.errors,
       };
+    case 'RESET_SUCCESS_MESSAGE':
+      return {
+        ...state,
+        data: null,
+      };
     case 'RESET_ERROR':
       return {
         ...state,

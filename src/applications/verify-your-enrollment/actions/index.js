@@ -62,11 +62,11 @@ export const updateBankInfo = bankInfo => {
     return apiRequest(`${API_URL}/bank_info`, {
       method: 'POST',
       body: JSON.stringify(bankInfo),
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
       .then(response => {
-        // eslint-disable-next-line no-console
-        console.log(response);
         dispatch({
           type: UPDATE_BANK_INFO_SUCCESS,
           response,

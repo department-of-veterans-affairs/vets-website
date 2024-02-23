@@ -20,7 +20,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [formData, setFormData] = useState();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector(state => state.bankInfo);
+  const { loading, error, data: response } = useSelector(
+    state => state.bankInfo,
+  );
 
   const scrollToTopOfForm = () => {
     scrollToElement('Direct deposit information');
@@ -31,13 +33,12 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     setToggleDirectDepositForm(false);
     scrollToTopOfForm();
   }, []);
-
   // called when submitting form
   const saveBankInfo = () => {
     // commented out until tied in with redu
     const fields = {
       phone: formData[`${prefix}phone`],
-      phone2: formData[`${prefix}phone`],
+      // phone2: formData[`${prefix}phone`],
       fullName: formData[`${prefix}fullName`],
       email: formData[`${prefix}email`],
       acctType: formData[`${prefix}AccountType`],
@@ -152,6 +153,12 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
               <Alert
                 status="error"
                 message="Sorry, something went wrong. Please try agian Later"
+              />
+            )}
+            {response?.ok && (
+              <Alert
+                status="success"
+                message="Your Bank has been successfully updated."
               />
             )}
             <va-alert

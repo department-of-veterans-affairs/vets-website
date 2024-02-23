@@ -8,6 +8,7 @@ const Alert = ({ status, message }) => {
     () => {
       const timer = setTimeout(() => {
         dispatch({ type: 'RESET_ERROR' });
+        dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
       }, 15000);
       return () => clearTimeout(timer);
     },
@@ -17,6 +18,7 @@ const Alert = ({ status, message }) => {
   return (
     <va-alert
       close-btn-aria-label="Close notification"
+      closeable
       status={status}
       uswds
       visible
