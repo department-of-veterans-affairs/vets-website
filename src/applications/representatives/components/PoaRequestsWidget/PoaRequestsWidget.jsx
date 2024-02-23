@@ -1,23 +1,20 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-const PoaRequestsWidget = ({ poaRequests }) => (
-  <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
-    <a
-      className="view-all-link vads-u-margin-bottom--neg4
-     "
-      href="/poa-requests"
-    >
-      View all
-    </a>
-    <va-table sort-column={1} table-title="POA requests">
-      <va-table-row slot="headers">
-        <span>Claimant</span>
-        <span>Submitted</span>
-        <span>Accept/ decline</span>
-      </va-table-row>
-      {poaRequests.map(request => {
-        return (
+const POARequestsWidget = ({ poaRequests }) => {
+  return (
+    <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
+      <va-link
+        class="view-all-link vads-u-margin-bottom--neg4"
+        href="/representatives/poa-requests"
+        text="View all"
+      />
+      <va-table sort-column={1} table-title="POA requests">
+        <va-table-row slot="headers">
+          <span>Claimant</span>
+          <span>Submitted</span>
+        </va-table-row>
+        {poaRequests.map(request => (
           <va-table-row key={request.id}>
             <span>
               <va-link
@@ -26,22 +23,21 @@ const PoaRequestsWidget = ({ poaRequests }) => (
               />
             </span>
             <span>{request.date}</span>
-            <span />
           </va-table-row>
-        );
-      })}
-    </va-table>
-  </div>
-);
+        ))}
+      </va-table>
+    </div>
+  );
+};
 
-PoaRequestsWidget.propTypes = {
+POARequestsWidget.propTypes = {
   poaRequests: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       id: PropTypes.number,
+      name: PropTypes.string,
       date: PropTypes.string,
     }),
   ).isRequired,
 };
 
-export default PoaRequestsWidget;
+export default POARequestsWidget;
