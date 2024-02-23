@@ -29,11 +29,7 @@ const HealthConditions = () => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
     },

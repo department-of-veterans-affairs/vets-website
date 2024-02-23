@@ -33,7 +33,7 @@ const LabAndTestDetails = () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/labs-and-tests',
+            url: '/labs-and-tests',
             label: 'Lab and test results',
           },
         ]),

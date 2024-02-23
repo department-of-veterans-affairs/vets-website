@@ -32,7 +32,7 @@ const CareSummariesDetails = () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/summaries-and-notes',
+            url: '/summaries-and-notes',
             label: 'Care summaries and notes',
           },
         ]),

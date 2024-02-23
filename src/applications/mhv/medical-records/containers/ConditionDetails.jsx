@@ -63,7 +63,7 @@ const ConditionDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/conditions',
+            url: '/conditions',
             label: 'Conditions',
           },
         ]),
