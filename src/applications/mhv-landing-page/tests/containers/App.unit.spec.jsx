@@ -33,8 +33,8 @@ const stateFn = ({
       signIn: {
         serviceName,
       },
+      mhvAccountState: 'OK',
     },
-    mhvAccountState: 'OK',
     login: {
       currentlyLoggedIn,
     },
@@ -48,8 +48,8 @@ const setup = ({ initialState = stateFn() } = {}) => {
       ...initialState.user,
       profile: {
         ...initialState.user.profile,
+        mhvAccountState: 'OK',
       },
-      mhvAccountState: 'OK',
     },
   };
   return renderWithStoreAndRouter(<App />, {
