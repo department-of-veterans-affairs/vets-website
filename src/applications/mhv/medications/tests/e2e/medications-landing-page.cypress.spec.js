@@ -15,9 +15,6 @@ describe('Medications Landing Page', () => {
   });
 
   it('Visit unsupported URL and get a page not found', () => {
-    const site = new MedicationsSite();
-    site.login();
-
     cy.visit(`${rootUrl}/dummy/dummy`);
     cy.injectAxeThenAxeCheck();
     cy.findByRole('heading', { name: notFoundHeading }).should.exist;
