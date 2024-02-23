@@ -35,7 +35,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
-import { getAgeInYears, isInRange } from '../helpers/utilities';
+import { getAgeInYears, isInRange, getParts } from '../helpers/utilities';
 import {
   sponsorWording,
   applicantWording,
@@ -55,6 +55,8 @@ import {
   applicantSchoolCertConfig,
   applicantAdoptedConfig,
   applicantStepChildConfig,
+  applicantMedicarePartAPartBCardsConfig,
+  applicantMedicarePartDCardsConfig,
   applicantMarriageCertConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
@@ -76,6 +78,8 @@ import ApplicantOhiStatusPage, {
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
 import { fileTypes, attachmentsSchema } from './attachments';
+
+// import mockData from '../tests/fixtures/data/test-data.json';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -146,6 +150,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
+          // initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -1009,6 +1014,94 @@ const formConfig = {
               items: {},
             },
           },
+        },
+        page20a: {
+          path: 'applicant-information/:index/medicare-ab-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} medicare card (parts A/B)`,
+          depends: (formData, index) =>
+            get(
+              'applicantMedicareStatus',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'enrolled' &&
+            ['partA', 'partB'].some(part =>
+              get(
+                'applicantMedicarePart',
+                formData?.applicants?.[`${index || 0}`],
+              ).includes(part),
+            ),
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s copy of Medicare ${getParts(
+                      formData?.applicantMedicarePart,
+                    )} card(s).`,
+                ),
+                ...applicantMedicarePartAPartBCardsConfig.uiSchema,
+                applicantMedicarePartAPartBCard: fileUploadUI(
+                  "Upload the applicant's copy of Medicare Parts A or B card(s)",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMedicarePartAPartBCardsConfig.schema,
+            applicantMedicarePartAPartBCard: attachmentsSchema,
+          }),
+        },
+        page20b: {
+          path: 'applicant-information/:index/medicare-d-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} medicare card (part D)`,
+          depends: (formData, index) =>
+            get(
+              'applicantMedicareStatus',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'enrolled' &&
+            ['partD'].some(part =>
+              get(
+                'applicantMedicarePart',
+                formData?.applicants?.[`${index || 0}`],
+              ).includes(part),
+            ),
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s copy of Medicare Part D card.`,
+                ),
+                ...applicantMedicarePartDCardsConfig.uiSchema,
+                applicantMedicarePartDCard: fileUploadUI(
+                  "Upload the applicant's copy of Medicare Part D",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMedicarePartDCardsConfig.schema,
+            applicantMedicarePartDCard: attachmentsSchema,
+          }),
         },
         page21: {
           path: 'applicant-information/:index/ohi',
