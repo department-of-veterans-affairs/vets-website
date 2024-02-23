@@ -2,7 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import requestBody from '../fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   const site = new SecureMessagingSite();
@@ -36,7 +36,7 @@ describe('Check confirmation message after save draft', () => {
       },
     });
     // next line is for checking if assertion works properly
-    cy.get('#save-draft-button')
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
       .should('exist')
       .and('be.focused');
 
