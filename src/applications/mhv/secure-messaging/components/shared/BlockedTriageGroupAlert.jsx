@@ -62,9 +62,14 @@ const BlockedTriageGroupAlert = props => {
       : sortTriageList(blockedTriageGroupList);
   }, []);
 
-  useEffect(() => {
-    datadogRum.addAction('Blocked triage group alert');
-  }, []);
+  useEffect(
+    () => {
+      if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
+        datadogRum.addAction('Blocked triage group alert');
+      }
+    },
+    [alertTitle.NO_ASSOCIATIONS, alertTitleText],
+  );
 
   useEffect(() => {
     if (parentComponent === ParentComponent.FOLDER_HEADER) {
