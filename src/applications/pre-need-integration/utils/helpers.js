@@ -687,7 +687,7 @@ export const veteranUI = {
   },
   ethnicity: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'Duder',
+    'ui:title': 'What’s your ethnicity?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -701,7 +701,7 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'Duderino',
+    'ui:title': 'What’s your race?',
     'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
