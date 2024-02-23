@@ -61,6 +61,7 @@ export default Object.freeze({
   'cstUseLighthouse#index': 'cst_use_lighthouse_index',
   'cstUseLighthouse#show': 'cst_use_lighthouse_show',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
+  cstIncludeDdl5103Letters: 'cst_include_ddl_5103_letters',
   cstUseNewClaimCards: 'cst_use_new_claim_cards',
   cstUseClaimDetailsV2: 'cst_use_claim_details_v2',
   debtLettersShowLetters: 'debt_letters_show_letters',
@@ -87,7 +88,6 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
-  findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   financialStatusReportDebtsApiModule:
     'financial_status_report_debts_api_module',
