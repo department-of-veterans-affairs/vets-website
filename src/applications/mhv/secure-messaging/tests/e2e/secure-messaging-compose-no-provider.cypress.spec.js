@@ -20,7 +20,7 @@ describe('Secure Messaging Compose with No Provider', () => {
       .getCategory('COVID')
       .first()
       .click();
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage
       .getMessageBodyField()
       .type('Test message body', { force: true });

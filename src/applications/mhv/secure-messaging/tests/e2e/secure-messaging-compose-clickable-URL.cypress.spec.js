@@ -25,7 +25,9 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       .getCategory(requestBodyUpdated.category)
       .first()
       .click();
-    composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
+    composePage
+      .getMessageSubjectField()
+      .type(`${requestBodyUpdated.subject}`, { force: true });
     composePage
       .getMessageBodyField()
       .type(`${requestBodyUpdated.body}`, { force: true });

@@ -20,7 +20,7 @@ describe('Start a new message With Attacments and Errors', () => {
       .click();
 
     composePage.getMessageSubjectField();
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage
       .getMessageBodyField()
       .type('Test message body', { force: true, waitforanimations: true });

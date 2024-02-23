@@ -15,7 +15,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
 
   it('focus on error message for no provider', () => {
     composePage.selectCategory();
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage
       .getMessageBodyField()
       .type('Test Message Body', { force: true });
