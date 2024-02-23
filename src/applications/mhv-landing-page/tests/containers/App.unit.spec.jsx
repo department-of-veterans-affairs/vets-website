@@ -33,8 +33,8 @@ const stateFn = ({
       signIn: {
         serviceName,
       },
-      mhvAccountState: 'OK',
     },
+    mhvAccountState: 'OK',
     login: {
       currentlyLoggedIn,
     },
