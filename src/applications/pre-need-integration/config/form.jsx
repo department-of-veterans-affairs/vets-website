@@ -25,6 +25,7 @@ import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as applicantMailingAddress from './pages/applicantMailingAddress';
 import * as applicantContactInfo from './pages/applicantContactInfo';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
@@ -291,6 +292,13 @@ const formConfig = {
           depends: formData => !isVeteran(formData),
           uiSchema: nonVeteranApplicantDetails.uiSchema,
           schema: nonVeteranApplicantDetails.schema,
+        },
+        applicantMailingAddress: {
+          title: 'Applicant Mailing Address Placeholder',
+          path: 'applicant-mailing-address',
+          depends: formData => !isVeteran(formData),
+          uiSchema: applicantMailingAddress.uiSchema,
+          schema: applicantMailingAddress.schema,
         },
         applicantContactInfo: {
           title: 'Applicant contact information',

@@ -60,7 +60,7 @@ const CourtMartial = ({
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds={false}>
+      <VaRadio {...radioButtonProps} uswds>
         {options.map((option, index) => (
           <va-radio-option
             key={index}
