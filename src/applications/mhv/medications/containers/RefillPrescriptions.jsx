@@ -309,7 +309,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 </div>
               ))}
             <div className="refill-pagination-container">
-              {fullRefillList.length > 20 && (
+              {paginatedRenewablePrescriptions.length > 20 && (
                 <VaPagination
                   max-page-list-length={MAX_PAGE_LIST_LENGTH}
                   id="pagination"
@@ -319,6 +319,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                   pages={pagination.totalPages}
                   unbounded
                   uswds
+                  data-testid="refill-pagination"
                 />
               )}
             </div>
