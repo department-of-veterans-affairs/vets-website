@@ -201,7 +201,6 @@ export default Object.freeze({
   showFormI18n: 'show_form_i18n',
   showMbsPreneedChangeVa4010007: 'show_mbs_preneed_change_va_4010007',
   showDgiDirectDeposit1990EZ: 'show_dgi_direct_deposit_1990EZ',
-  showMebEnhancements: 'show_meb_enhancements',
   showMebEnhancements06: 'show_meb_enhancements_06',
   showMebEnhancements08: 'show_meb_enhancements_08',
   showMebEnhancements09: 'show_meb_enhancements_09',

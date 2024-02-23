@@ -28,11 +28,6 @@ export const getAppData = state => ({
   showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
   ],
-  // Add the new feature flag: showMebEnhancements
-  showMebEnhancements: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements
-  ],
-  // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06
   ],
