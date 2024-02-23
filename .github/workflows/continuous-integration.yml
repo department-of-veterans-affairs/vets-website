@@ -219,7 +219,6 @@ jobs:
       fail-fast: false
       max-parallel: 72
       matrix:
-        # ci_node_index: [mock-form, ezr, post-911-gib-status, appeals, facility-locator, pre-need-integration, ask-a-question, financial-status-report, pre-need, ask-va, auth, avs, gi, hca, rated-disabilities, burial-poc-v6, burials, caregivers, check-in, claims-status, combined-debt-portal, coronavirus-research, coronavirus-screener, debt-letters, dhp-connected-devices, disability-benefits, discharge-wizard, ds-playground, ds-v3-playground, e-folders, edu-benefits, education-letters, enrollment-verification, find-forms, fry-dea, health-care-supply-reordering, income-limits, ivc-champva, letters, lgy, login, medical-copays, messages, mhv-inherited-proofing, mhv-landing-page, mhv, mock-sip-form, my-education-benefits, office-directory, pact-act, pensions, personalization, proxy-rewrite, public-outreach-materials, representative-search, representatives, resources-and-support, sah, search, simple-forms, static-pages, terms-of-use, third-party-app-directory, toe, travel-pay, vaos, verify-your-enrollment, verify, veteran-id-card, virtual-agent, vre, yellow-ribbon]
         ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
@@ -329,138 +328,138 @@ jobs:
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
 
-  # unit-tests-stress-test:
-  #   name: Unit Test Stability Review
-  #   runs-on: self-hosted
-  #   needs: [fetch-allow-lists, unit-tests-prep]
-  #   if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+  unit-tests-stress-test:
+    name: Unit Test Stability Review
+    runs-on: self-hosted
+    needs: [fetch-allow-lists, unit-tests-prep]
+    if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
-  #   env:
-  #     NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-  #     TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
-  #     DISALLOWED_TESTS: '[]'
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
+      DISALLOWED_TESTS: '[]'
 
-  #   strategy:
-  #     fail-fast: false
-  #     max-parallel: 10
-  #     matrix:
-  #       runs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        runs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       timeout-minutes: 30
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
-  #     - name: Create test results folder
-  #       run: mkdir -p test-results
+      - name: Create test results folder
+        run: mkdir -p test-results
 
-  #     - name: Download Unit Test Stability Allow List
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: unit-test-allow-list
-  #         path: .
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
 
-  #     - name: Run unit tests
-  #       run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
-  #       env:
-  #         MOCHA_FILE: test-results/unit-tests.xml
-  #         APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-  #         IS_STRESS_TEST: true
-  #         STEP: ${{ matrix.runs }}
+      - name: Run unit tests
+        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        env:
+          MOCHA_FILE: test-results/unit-tests.xml
+          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          IS_STRESS_TEST: true
+          STEP: ${{ matrix.runs }}
 
-  #     - name: Archive unit test results
-  #       if: ${{ always() }}
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: unit-test-stress-test-results
-  #         path: mocha/results
+      - name: Archive unit test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-stress-test-results
+          path: mocha/results
 
-  # update-unit-test-allow-list:
-  #   name: Update Unit Test Stability Allow List
-  #   runs-on: ubuntu-latest
-  #   needs: [unit-tests-stress-test, fetch-allow-lists]
-  #   if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
-  #   continue-on-error: true
-  #   env:
-  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  update-unit-test-allow-list:
+    name: Update Unit Test Stability Allow List
+    runs-on: ubuntu-latest
+    needs: [unit-tests-stress-test, fetch-allow-lists]
+    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
+    continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
-  #         mask-aws-account-id: true
-
-
-  #     - name: Get va-vsp-bot token
-  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
-
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
-  #     - name: Get AWS IAM role
-  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-  #       with:
-  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-  #     - name: Set UUID for Mochawesome reports
-  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-  #     - name: Configure AWS Credentials (2)
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
-  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-  #         role-duration-seconds: 900
-  #         role-session-name: vsp-frontendteam-githubaction
-  #         mask-aws-account-id: true
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
 
-  #     - name: Download Unit Test results
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: unit-test-stress-test-results
-  #         path: qa-standards-dashboard-data/src/allow-list/data
+      - name: Get va-vsp-bot token
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Download Unit Test Stability Allow List
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: unit-test-allow-list
-  #         path: qa-standards-dashboard-data
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-  #     - name: Copy test results to mochawesome directory
-  #       run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+      - name: Get AWS IAM role
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-  #     - name: Update Unit Test Stability Allow List
-  #       run: yarn update-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         TEST_TYPE: unit_test
-  #         IS_CI: true
-  #         GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
+
+      - name: Download Unit Test results
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-stress-test-results
+          path: qa-standards-dashboard-data/src/allow-list/data
+
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data
+
+      - name: Copy test results to mochawesome directory
+        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Update Unit Test Stability Allow List
+        run: yarn update-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+          IS_CI: true
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   security-audit:
     name: Security Audit
