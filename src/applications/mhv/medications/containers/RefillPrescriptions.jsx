@@ -85,7 +85,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const MAX_PAGE_LIST_LENGTH = 20;
   const [pagination, setPagination] = useState({
     currentPage: 1,
-    totalPages: Math.ceil(fullRefillList.length / MAX_PAGE_LIST_LENGTH),
+    totalPages: Math.ceil(
+      renewablePrescriptionsList.length / MAX_PAGE_LIST_LENGTH,
+    ),
   });
 
   const onPageChange = page => {
@@ -309,7 +311,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 </div>
               ))}
             <div className="refill-pagination-container">
-              {paginatedRenewablePrescriptions.length > 20 && (
+              {renewablePrescriptionsList.length > 20 && (
                 <VaPagination
                   max-page-list-length={MAX_PAGE_LIST_LENGTH}
                   id="pagination"
