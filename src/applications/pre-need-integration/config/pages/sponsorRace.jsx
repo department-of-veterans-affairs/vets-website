@@ -40,17 +40,6 @@ export const schema = {
           required: ['ethnicity', 'race'],
           properties: merge(
             {},
-            // {
-            //   ethnicity: {
-            //     type: 'string',
-            //     enum: [
-            //       'isSpanishHispanicLatino',
-            //       'notSpanishHispanicLatino',
-            //       'unknown',
-            //       'na',
-            //     ],
-            //   },
-            // },
             pick(veteran.properties, ['ethnicity', 'race']),
           ),
         },
