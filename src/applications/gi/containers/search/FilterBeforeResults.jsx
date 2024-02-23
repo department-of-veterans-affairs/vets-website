@@ -470,23 +470,30 @@ export function FilterBeforeResults({
             >
               Community focus
             </h3>
-            <button
+            {/* <button
               className={
                 isProductionOfTestProdEnv()
                   ? 'mobile-jump-link'
                   : 'mobile-jump-link labels-margin'
               }
               onClick={() => jumpLinkClick()}
-            >
-              {smallScreen && <>Go to community focus details</>}
-              {!smallScreen && (
-                <JumpLink
-                  label="Go to community focus details"
-                  jumpToId="learn-more-about-specialized-missions-accordion-button"
-                  iconToggle={false}
-                />
-              )}
-            </button>
+            > */}
+            {smallScreen && <>Go to community focus details</>}
+            {!smallScreen && (
+              <JumpLink
+                label="Go to community focus details"
+                jumpToId="learn-more-about-specialized-missions-accordion-button"
+                dataTestId="go-to-comm-focus-details"
+                iconToggle={false}
+                onClick={() => jumpLinkClick()}
+                className={
+                  isProductionOfTestProdEnv()
+                    ? 'mobile-jump-link'
+                    : 'mobile-jump-link labels-margin'
+                }
+              />
+            )}
+            {/* </button> */}
           </>
         }
         onChange={onChangeCheckbox}
