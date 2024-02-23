@@ -12,6 +12,7 @@ import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 import Validate from './pages/validate';
 import Landing from './pages/landing';
+import LoadingPage from './pages/LoadingPage';
 import TravelIntro from './pages/travel-intro';
 import SelectAppointment from './pages/select-appointment';
 import TravelMileage from './pages/travel-mileage';
@@ -28,6 +29,13 @@ const routes = [
   {
     path: URLS.VALIDATION_NEEDED,
     component: Validate,
+  },
+  {
+    path: URLS.LOADING,
+    component: LoadingPage,
+    permissions: {
+      requireAuthorization: true,
+    },
   },
   {
     path: URLS.TRAVEL_INTRO,
