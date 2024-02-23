@@ -9,6 +9,22 @@ const settings = {
   },
 };
 
+export const acceptPOARequest = async veteranId => {
+  try {
+    const resource = `${apiBasePath}/${veteranId}`;
+    const response = await apiRequest(resource, settings);
+
+    if (!response.ok) {
+      throw new Error(`Server responded with status: ${response.status}`);
+    }
+
+    return { status: 'success' };
+  } catch (error) {
+    const errorMessage = error.message || 'An unexpected error occurred.';
+    return { status: 'error', error: errorMessage };
+  }
+};
+
 export const declinePOARequest = async veteranId => {
   try {
     const resource = `${apiBasePath}/${veteranId}`;
