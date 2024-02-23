@@ -41,3 +41,10 @@
 .view-all-link {
   float: right;
 }
+
+.toast-alert {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
