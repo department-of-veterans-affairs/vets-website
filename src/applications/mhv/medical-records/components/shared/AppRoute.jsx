@@ -17,3 +17,5 @@ const AppRoute = ({ children, ...rest }) => {
 AppRoute.propTypes = {
   children: PropTypes.object,
 };
+
+export default AppRoute;
