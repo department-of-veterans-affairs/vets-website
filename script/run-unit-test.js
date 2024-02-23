@@ -8,7 +8,7 @@ const { runCommand } = require('./utils');
 
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
-const numContainers = process.env.NUM_CONTAINERS || 10;
+const numContainers = process.env.NUM_CONTAINERS || 1;
 const matrixStep = process.env.STEP || 0;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
@@ -94,26 +94,28 @@ const splitUnitTests = splitArray(
   allUnitTestDirs,
   Math.ceil(allUnitTestDirs.length / numContainers),
 );
-// console.log('splitUnitTests:', splitUnitTests);
-// console.log('splitUnitTests[matrixStep]: ', splitUnitTests[matrixStep]);
-for (const dir of splitUnitTests[matrixStep]) {
-  const updatedPath = options.path[0].replace(
-    `/${specDirs}/`,
-    `/${JSON.parse(dir).join('/')}/`,
-  );
-  // console.log('updated path', updatedPath);
+const appsToRun = options['app-folder']
+  ? [options['app-folder']]
+  : splitUnitTests[matrixStep];
+for (const dir of appsToRun) {
+  const updatedPath = options['app-folder']
+    ? options.path.map(p => `'${p}'`).join(' ')
+    : options.path[0].replace(
+        `/${specDirs}/`,
+        `/${JSON.parse(dir).join('/')}/`,
+      );
   const testsToRun = options['app-folder']
-    ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
+    ? `--recursive ${updatedPath}`
     : `--recursive ${glob.sync(updatedPath)}`;
-  // console.log('testsToRun: ', testsToRun);
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
     testsToRun.replace(/,/g, ' ')} `;
-  // console.log('command: ', command);
-  console.log('starting app run: ', dir);
-  runCommand(command);
-  console.log('finishing app run: ', dir);
+  if (testsToVerify !== '' || testsToRun !== '') {
+    runCommand(command);
+  } else {
+    console.log('This app has no tests to run');
+  }
 }
 // const command = `LOG_LEVEL=${options[
 //   'log-level'
@@ -123,5 +125,3 @@ for (const dir of splitUnitTests[matrixStep]) {
 //   'log-level'
 // ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
 //   `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`} `;
-
-// console.log(command);
