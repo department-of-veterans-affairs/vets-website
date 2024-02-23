@@ -227,13 +227,12 @@ const ReportModal = ({
                 !otherIsBlankError ? 'form-expanding-group-open' : null
               } form-expanding-group-inner-enter-done`}
             >
-              <va-text-input
+              <va-textarea
                 hint={null}
-                required
-                error={otherIsBlankError ? 'This field is required' : null}
                 label="Describe the other information we need to update"
+                error={otherIsBlankError ? 'This field is required' : null}
                 value={reportObject.other}
-                name="my-input"
+                name="Other comment input"
                 maxlength={250}
                 onInput={e => handleOtherInputChange(e)}
                 uswds
