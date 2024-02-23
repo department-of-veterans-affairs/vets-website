@@ -338,6 +338,7 @@ const formConfig = {
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsSubHeader,
             applicantDemographicsEthnicityTitle,
             applicantDemographicsRaceTitle,
           ),
@@ -349,6 +350,7 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsPreparerSubHeader,
             applicantDemographicsPreparerEthnicityTitle,
             applicantDemographicsPreparerRaceTitle,
           ),
