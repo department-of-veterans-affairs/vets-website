@@ -25,4 +25,9 @@ export default [
 
     return { formData, metadata: newMetadata };
   },
+  // Prevent test failure when migrations don't match version number
+  // (see src/platform/forms/tests/form.unit.spec.js validMigrations)
+  ({ formData, metadata }) => {
+    return { formData, metadata };
+  },
 ];

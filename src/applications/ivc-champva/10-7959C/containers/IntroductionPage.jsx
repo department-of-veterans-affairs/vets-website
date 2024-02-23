@@ -3,7 +3,7 @@ import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import OMBInfo from '../../10-10D/components/IntroductionPage/OMBInfo';
+import OMBInfo from '../components/IntroductionPage/OMBInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -17,8 +17,8 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Foreign Medical Program (FMP) Registration Form"
-          subtitle="Equal to VA Form 10-7959F-1 (Foreign Medical Program (FMP) Registration Form)"
+          title="10-7959C CHAMPVA Other Health Insurance Certification form"
+          subtitle="Equal to VA Form 10-7959C (10-7959C CHAMPVA Other Health Insurance Certification form)"
         />
         <SaveInProgressIntro
           headingLevel={2}
@@ -27,10 +27,12 @@ class IntroductionPage extends React.Component {
           pageList={pageList}
           startText="Start the Application"
         >
-          Please complete the 10-7959F-1 form to apply for CHAMPVA benefits.
+          Please complete the 10-7959C form to apply for CHAMPVA other health
+          insurance certification.
         </SaveInProgressIntro>
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for CHAMPVA benefits.
+          Follow the steps below to apply for CHAMPVA other health insurance
+          certification.
         </h2>
         <va-process-list>
           <li>
@@ -50,7 +52,9 @@ class IntroductionPage extends React.Component {
           </li>
           <li>
             <h3>Apply</h3>
-            <p>Complete this CHAMPVA benefits form.</p>
+            <p>
+              Complete this CHAMPVA other health insurance certification form.
+            </p>
             <p>
               After submitting the form, you’ll get a confirmation message. You
               can print this for your records.
@@ -81,7 +85,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <p />
-        <OMBInfo resBurden={4} ombNumber="2900-0648" expDate="1/31/2024" />
+        <OMBInfo resBurden={10} ombNumber="2900-0219" expDate="10/31/2024" />
       </article>
     );
   }
