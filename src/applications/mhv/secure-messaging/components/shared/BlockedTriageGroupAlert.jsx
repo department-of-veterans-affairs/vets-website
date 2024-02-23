@@ -16,6 +16,9 @@ const BlockedTriageGroupAlert = props => {
   const { blockedTriageGroupList, alertStyle, parentComponent } = props;
 
   const { alertTitle, alertMessage } = BlockedTriageAlertText;
+  const MESSAGE_TO_CARE_TEAM = "You can't send messages to";
+  const MESSAGE_TO_CARE_TEAMS = "You can't send messages to care teams at";
+  const ACCOUNT_DISCONNECTED = 'Your account is no longer connected to';
 
   const [alertTitleText, setAlertTitleText] = useState(
     alertTitle.NO_ASSOCIATIONS,
@@ -62,9 +65,24 @@ const BlockedTriageGroupAlert = props => {
       : sortTriageList(blockedTriageGroupList);
   }, []);
 
-  useEffect(() => {
-    datadogRum.addAction('Blocked triage group alert');
-  }, []);
+  useEffect(
+    () => {
+      if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
+        let value = '';
+        if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
+          value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
+        } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
+          value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
+        } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
+          value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
+        } else {
+          value = alertTitleText;
+        }
+        datadogRum.addAction('Blocked triage group alert', { type: value });
+      }
+    },
+    [alertTitle.NO_ASSOCIATIONS, alertTitleText],
+  );
 
   useEffect(() => {
     if (parentComponent === ParentComponent.FOLDER_HEADER) {
@@ -94,18 +112,14 @@ const BlockedTriageGroupAlert = props => {
     if (blockedTriageList?.length === 1) {
       if (blockedTriageList[0].type === Recipients.FACILITY) {
         setAlertTitleText(
-          `You can't send messages to care teams at ${
-            blockedTriageList[0].name
-          }`,
+          `${MESSAGE_TO_CARE_TEAMS} ${blockedTriageList[0].name}`,
         );
         setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
       } else {
         setAlertTitleText(
           blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
-            ? `Your account is no longer connected to ${
-                blockedTriageList[0].name
-              }`
-            : `You can't send messages to ${blockedTriageList[0].name}`,
+            ? `${ACCOUNT_DISCONNECTED} ${blockedTriageList[0].name}`
+            : `${MESSAGE_TO_CARE_TEAM} ${blockedTriageList[0].name}`,
         );
         if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
           setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
