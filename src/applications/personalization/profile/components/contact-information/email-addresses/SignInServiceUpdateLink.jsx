@@ -13,7 +13,7 @@ const SignInServiceUpdateLink = () => {
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href={link} target="_blank" rel="noopener noreferrer">
-          Update your sign-in information on the {label} website
+          {`Update your sign-in information on the ${label} website`}
         </a>
       </p>
     </>
