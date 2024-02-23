@@ -48,7 +48,7 @@ const LoginViewWrapper = ({
     <>
       {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
       <div className="vads-u-margin-bottom--3">
-        <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <va-breadcrumbs label="Breadcrumb">
             {breadcrumbs?.map(({ link, label }) => (
               <li key={link}>
@@ -57,7 +57,7 @@ const LoginViewWrapper = ({
             ))}
           </va-breadcrumbs>
           {content}
-        </main>
+        </div>
       </div>
       {/* </RequiredLoginView> */}
     </>
