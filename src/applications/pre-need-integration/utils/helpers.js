@@ -665,14 +665,30 @@ export const preparerFullMaidenNameUI = merge({}, fullNameUI, {
   middle: { 'ui:title': 'Applicant’s middle name' },
   last: { 'ui:title': 'Applicant’s last name' },
   maiden: { 'ui:title': 'Applicant’s maiden name' },
+  suffix: { 'ui:title': 'Applicant’s suffix' },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
+
+export const dateOfBirthHint =
+  'Enter 2 digits for the month and day and 4 digits for the year.';
 
 export const nonPreparerDateOfBirthUI = merge(
   {},
   currentOrPastDateUI('Your date of birth'),
   {
-    '': '',
+    'ui:options': {
+      hint: dateOfBirthHint,
+    },
+  },
+);
+
+export const preparerDateOfBirthUI = merge(
+  {},
+  currentOrPastDateUI('Applicant’s date of birth'),
+  {
+    'ui:options': {
+      hint: dateOfBirthHint,
+    },
   },
 );
 
@@ -709,6 +725,10 @@ class SSNWidget extends React.Component {
 
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
+
+export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
+  'ui:title': 'Applicant’s Social Security number',
+});
 
 export const veteranUI = {
   militaryServiceNumber: {

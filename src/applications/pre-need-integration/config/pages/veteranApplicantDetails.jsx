@@ -1,12 +1,11 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
 import { merge, pick } from 'lodash';
 
 import {
   veteranApplicantDetailsSubHeader,
   nonPreparerFullMaidenNameUI,
+  nonPreparerDateOfBirthUI,
   ssnDashesUI,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
@@ -22,6 +21,8 @@ export function uiSchema(
   subHeader = veteranApplicantDetailsSubHeader,
   description = '',
   nameUI = nonPreparerFullMaidenNameUI,
+  ssnUI = ssnDashesUI,
+  dateOfBirthUI = nonPreparerDateOfBirthUI,
 ) {
   // partial implementation of story resolving the address change:
   // cityTitle = applicantDetailsCityTitle,
@@ -37,8 +38,8 @@ export function uiSchema(
           },
         },
         name: nameUI,
-        ssn: ssnDashesUI,
-        dateOfBirth: currentOrPastDateUI('Date of birth'),
+        ssn: ssnUI,
+        dateOfBirth: dateOfBirthUI,
       },
       veteran: {
         placeOfBirth: {
