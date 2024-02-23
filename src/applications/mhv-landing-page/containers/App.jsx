@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
@@ -20,6 +19,7 @@ import {
   selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
+  selectHasMHVAccountState,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -36,6 +36,7 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
+  const hasMHVAccount = useSelector(selectHasMHVAccountState);
 
   const data = useMemo(
     () => {
@@ -75,10 +76,6 @@ const App = () => {
     vamcEhrData.loading || featureToggles.loading || profile.loading;
 
   const redirecting = signedIn && !loading && !enabled;
-
-  const hasMHVAccount = useSelector(state => {
-    return ['OK', 'MULTIPLE'].includes(state?.user?.profile?.mhvAccountState);
-  });
 
   useEffect(
     () => {

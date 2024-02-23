@@ -10,7 +10,7 @@ const defaultUser = {
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
-        first_name: 'Gina',
+        first_name: 'Monica',
         middle_name: '',
         last_name: 'Doe',
         gender: 'F',
@@ -57,6 +57,7 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
+        mhvAccountState: 'OK',
       },
     },
   },
@@ -118,6 +119,7 @@ const cernerUser = {
             is_cerner: true,
           },
         ],
+        mhvAccountState: 'OK',
       },
     },
   },
@@ -135,6 +137,7 @@ const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
           ...defaultUser.data.attributes.profile,
           facilities,
           first_name: name,
+          mhvAccountState: 'OK',
         },
       },
     },
@@ -153,6 +156,7 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
           sign_in: {
             service_name: serviceProvider,
           },
+          mhvAccountState: 'OK',
         },
       },
     },
@@ -170,6 +174,7 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
           ...defaultUser.data.attributes.va_profile,
           facilities:
             facilities || defaultUser.data.attributes.va_profile.facilities,
+          mhvAccountState: 'OK',
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -185,6 +190,50 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
 
 const noFacilityUser = generateUserWithFacilities({ facilities: [] });
 
+const hasMHVAccount = {
+  ...defaultUser,
+  data: {
+    ...defaultUser.data,
+    attributes: {
+      ...defaultUser.data.attributes,
+      profile: {
+        ...defaultUser.data.attributes.profile,
+        mhvAccountState: 'OK',
+      },
+    },
+  },
+};
+
+const noMHVAccount = {
+  ...defaultUser,
+  data: {
+    ...defaultUser.data,
+    attributes: {
+      ...defaultUser.data.attributes,
+      profile: {
+        ...defaultUser.data.attributes.profile,
+        mhvAccountState: 'NONE',
+      },
+    },
+  },
+};
+
+const generateUserWithMHVAccountState = ({ mhvAccountState = 'OK' }) => {
+  return {
+    ...defaultUser,
+    data: {
+      ...defaultUser.data,
+      attributes: {
+        ...defaultUser.data.attributes,
+        profile: {
+          ...defaultUser.data.attributes.profile,
+          mhvAccountState,
+        },
+      },
+    },
+  };
+};
+
 module.exports = {
   defaultUser,
   cernerUser,
@@ -192,4 +241,7 @@ module.exports = {
   generateUser,
   generateUserWithServiceProvider,
   generateUserWithFacilities,
+  hasMHVAccount,
+  noMHVAccount,
+  generateUserWithMHVAccountState,
 };
