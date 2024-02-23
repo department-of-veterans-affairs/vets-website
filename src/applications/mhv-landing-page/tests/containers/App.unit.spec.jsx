@@ -33,6 +33,7 @@ const stateFn = ({
       signIn: {
         serviceName,
       },
+      mhvAccountState: 'OK',
     },
     login: {
       currentlyLoggedIn,
@@ -40,8 +41,21 @@ const stateFn = ({
   },
 });
 
-const setup = ({ initialState = stateFn() } = {}) =>
-  renderWithStoreAndRouter(<App />, { initialState });
+const setup = ({ initialState = stateFn() } = {}) => {
+  const customInitialState = {
+    ...initialState,
+    user: {
+      ...initialState.user,
+      profile: {
+        ...initialState.user.profile,
+        mhvAccountState: 'OK',
+      },
+    },
+  };
+  return renderWithStoreAndRouter(<App />, {
+    initialState: customInitialState,
+  });
+};
 
 describe(`${appName} -- <App /> container`, () => {
   it('renders', () => {
