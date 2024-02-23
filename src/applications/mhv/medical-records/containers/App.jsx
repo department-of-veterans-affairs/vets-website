@@ -218,7 +218,7 @@ const App = ({ children }) => {
         {mhvMrDown === externalServiceStatus.down ? (
           <>
             {atLandingPage && <MrBreadcrumbs />}
-            <h1 className={{ 'vads-u-margin-top--5': !atLandingPage }}>
+            <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
               Medical records
             </h1>
             <DowntimeNotification
