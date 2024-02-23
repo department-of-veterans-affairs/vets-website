@@ -19,7 +19,7 @@ const routes = (
             <Route exact path={['/about', '/about/*']} key="LandingPage">
               <LandingPage />
             </Route>
-            <Route exact path={['/refill']} key="App">
+            <Route exact path={['/refill']} key="RefillPage">
               <div>
                 <RefillPrescriptions />
                 <div className="no-print">
