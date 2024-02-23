@@ -87,7 +87,6 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
-  findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   financialStatusReportDebtsApiModule:
     'financial_status_report_debts_api_module',
@@ -173,7 +172,6 @@ export default Object.freeze({
   profileShowQuickSubmitNotificationSetting:
     'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
-  profileUseHubPage: 'profile_use_hub_page',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:
@@ -219,12 +217,10 @@ export default Object.freeze({
     'show_meb_service_history_categorize_disagreement',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
-  showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage:
     'show_new_refill_track_prescriptions_page',
   showNewScheduleViewAppointmentsPage:
     'show_new_schedule_view_appointments_page',
-  showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
   stemAutomatedDecision: 'stem_automated_decision',
