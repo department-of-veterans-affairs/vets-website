@@ -101,16 +101,16 @@ for (const dir of splitUnitTests[matrixStep]) {
     `/${specDirs}/`,
     `/${JSON.parse(dir).join('/')}/`,
   );
-  console.log('updated path');
+  console.log('updated path', updatedPath);
   const testsToRun = options['app-folder']
     ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
     : `--recursive ${glob.sync(updatedPath)}`;
-  console.log(testsToRun);
+  console.log('testsToRun: ', testsToRun);
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
     testsToRun} `;
-  console.log(command);
+  console.log('command: ', command);
   runCommand(command);
 }
 // const command = `LOG_LEVEL=${options[
