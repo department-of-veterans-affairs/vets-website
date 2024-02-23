@@ -1,7 +1,7 @@
 import {
-  checkboxGroupSchema,
   checkboxGroupUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   conditionsDescription,
   conditionsPageTitle,
