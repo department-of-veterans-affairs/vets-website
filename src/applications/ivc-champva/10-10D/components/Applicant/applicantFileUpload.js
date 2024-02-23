@@ -24,12 +24,6 @@ export const applicantStepChildConfig = uploadWithInfoComponent(
   false,
 );
 
-export const applicantMarriageCertConfig = uploadWithInfoComponent(
-  ['Marriage certificate', 'Civil union papers'],
-  'marriage certificates',
-  false,
-);
-
 export const applicantMedicarePartAPartBCardsConfig = uploadWithInfoComponent(
   ['Front of Medicare Parts A or B card', 'Back of Medicare Parts A or B card'],
   'copy of Medicare Parts A or B card',
@@ -51,5 +45,11 @@ export const applicantOhiCardsConfig = uploadWithInfoComponent(
 export const applicant107959cConfig = uploadWithInfoComponent(
   ['PDF of VA Form 10-7959c'],
   'VA Form 10-7959c',
+  false,
+);
+
+export const applicantMarriageCertConfig = uploadWithInfoComponent(
+  ['Marriage certificate', 'Civil union papers'],
+  'marriage certificates',
   false,
 );

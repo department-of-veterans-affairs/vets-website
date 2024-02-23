@@ -55,11 +55,11 @@ import {
   applicantSchoolCertConfig,
   applicantAdoptedConfig,
   applicantStepChildConfig,
-  applicantMarriageCertConfig,
   applicantMedicarePartAPartBCardsConfig,
   applicantMedicarePartDCardsConfig,
   applicantOhiCardsConfig,
   applicant107959cConfig,
+  applicantMarriageCertConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
