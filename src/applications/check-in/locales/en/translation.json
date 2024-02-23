@@ -292,5 +292,14 @@
   "learn-how-file-claims-other-expenses": "Learn how to file claims for other expenses",
   "set-up-direct-deposit": "Set up direct deposit",
   "set-up-direct-deposit-to-receive-travel-reimbursement": "You have to set up direct deposit to receive travel reimbursement. If you’ve already done this, no additional steps are needed.",
+  "were-processing-your-travel-claim": "We’re processing your travel reimbursement claim",
+  "these-claims-are-for-your-appointments": "These claims are for appointments on {{date, long}} at ",
+  "well-send-you-a-text-to-let-you-know": "We’ll send you a text to let you know the status of your claims.",
+  "this-claim-is-for-your-appointment": "This claim is for your appointment on {{date, long}} at {{facility}}. We’ll send you a text to let you know the status of your claim.",
+  "you-dont-need-to-do-anything-else": "You don’t need to do anything else.",
+  "to-file-another-claim-for-today": "To file another claim for today using this tool, text <0>travel</0> to 54804. This option is available until the end of today.",
+  "or-you-can-still-file-your-claim": "Or you can still file your claim within 30 days through the Beneficiary Travel Self-Service System (BTSSS).",
+  "claim-submitted": "Claim Submitted",
+  "claims-submitted": "Claims Submitted",
   "fpo-header": "Placeholder header"
 }
