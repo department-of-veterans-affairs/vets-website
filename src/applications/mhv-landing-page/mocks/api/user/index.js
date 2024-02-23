@@ -57,7 +57,6 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
-        mhvAccountState: 'OK',
       },
     },
   },
@@ -119,7 +118,6 @@ const cernerUser = {
             is_cerner: true,
           },
         ],
-        mhvAccountState: 'OK',
       },
     },
   },
@@ -180,7 +178,6 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
             service_name: serviceProvider,
           },
         },
-        mhvAccountState: 'OK',
       },
     },
   };
