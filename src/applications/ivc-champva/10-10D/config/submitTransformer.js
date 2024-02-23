@@ -39,6 +39,8 @@ function transformApplicants(applicants) {
         app?.applicantAdoptionPapers,
         app?.applicantStepMarriageCert,
         app?.applicantMarriageCert,
+        app?.applicantMedicarePartAPartBCard,
+        app?.applicantMedicarePartDCard,
       ],
       address: app.applicantAddress ?? '',
       gender: app.applicantGender ?? '',
