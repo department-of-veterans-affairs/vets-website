@@ -7,11 +7,21 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
+  dataDogLog,
+  STATUS_TYPE,
+  LOG_NAME,
+  newPayload,
+  newError,
+  DD_SESSION_STORAGE_KEY,
+} from 'platform/user/authentication/datadog/utilities';
+import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
   FORCE_NEEDED,
+  CSP_IDS,
+  AUTH_BROKER,
 } from 'platform/user/authentication/constants';
 import {
   AUTH_LEVEL,
@@ -86,6 +96,24 @@ export class AuthApp extends React.Component {
       loginType,
       code,
       requestId,
+    });
+
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+    dataDogLog({
+      name: LOG_NAME.LOGIN_FAIL,
+      payload: newPayload({
+        csp: CSP_IDS.IDME,
+        authBroker: AUTH_BROKER.SIS,
+        authLocation: ddSessionStorage.authLocation,
+        application: ddSessionStorage.application,
+        level: ddSessionStorage.level,
+      }),
+      type: STATUS_TYPE.ERROR,
+      error: newError({
+        message: `${LOG_NAME.LOGIN_FAIL} ${errorCode}`,
+        code,
+        requestId,
+      }),
     });
 
     recordEvent({ event: AUTH_EVENTS.ERROR_USER_FETCH });
@@ -196,8 +224,27 @@ export class AuthApp extends React.Component {
   };
 
   generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
-    recordEvent({ event });
     const { errorCode } = getAuthError(code);
+
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+    dataDogLog({
+      name: LOG_NAME.LOGIN_FAIL,
+      payload: newPayload({
+        csp: CSP_IDS.IDME,
+        authBroker: AUTH_BROKER.SIS,
+        authLocation: ddSessionStorage.authLocation,
+        application: ddSessionStorage.application,
+        level: ddSessionStorage.level,
+      }),
+      type: STATUS_TYPE.ERROR,
+      error: newError({
+        message: `${LOG_NAME.LOGIN_FAIL} ${errorCode}`,
+        code,
+        requestId: this.state.requestId,
+      }),
+    });
+
+    recordEvent({ event });
 
     this.setState(prevState => ({
       ...prevState,

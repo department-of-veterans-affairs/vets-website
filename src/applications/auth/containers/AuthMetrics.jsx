@@ -1,6 +1,13 @@
 import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
+import {
+  dataDogLog,
+  STATUS_TYPE,
+  LOG_NAME,
+  newPayload,
+  DD_SESSION_STORAGE_KEY,
+} from 'platform/user/authentication/datadog/utilities';
 import { CSP_IDS, POLICY_TYPES } from 'platform/user/authentication/constants';
 import { SENTRY_TAGS } from 'platform/user/authentication/errors';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -15,6 +22,7 @@ export default class AuthMetrics {
     this.userProfile = get('data.attributes.profile', payload, {});
     this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
+    this.authBroker = get('signIn.authBroker', this.userProfile, null);
   }
 
   compareLoginPolicy = () => {
@@ -32,16 +40,42 @@ export default class AuthMetrics {
   };
 
   recordGAAuthEvents = () => {
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+    const ddPayload = newPayload({
+      csp: this.serviceName,
+      authBroker: this.authBroker,
+      authLocation: ddSessionStorage.authLocation,
+      application: ddSessionStorage.application,
+      level: this.loaCurrent,
+    });
+
     switch (this.type) {
       case POLICY_TYPES.SIGNUP:
+        dataDogLog({
+          name: LOG_NAME.REGISTER_SUCCESS,
+          payload: ddPayload,
+          status: STATUS_TYPE.INFO,
+        });
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
-      case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
+      case POLICY_TYPES.CUSTOM /* type=custom is used for SSOe auto login */:
+        dataDogLog({
+          name: LOG_NAME.LOGIN_SUCCESS,
+          payload: { ...ddPayload, autoSSO: true },
+          status: STATUS_TYPE.INFO,
+        });
+        break;
       case POLICY_TYPES.MHV_VERIFIED: /* type=mhv_verified */
       case CSP_IDS.MHV:
       case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
+        dataDogLog({
+          name: LOG_NAME.LOGIN_SUCCESS,
+          payload: ddPayload,
+          status: STATUS_TYPE.INFO,
+        });
+        break;
       case CSP_IDS.VAMOCK:
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();

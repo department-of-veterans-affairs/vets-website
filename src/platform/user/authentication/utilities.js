@@ -4,6 +4,14 @@ import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
 import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import {
+  DD_SESSION_STORAGE_KEY,
+  AUTH_LOCATION,
+  dataDogLog,
+  STATUS_TYPE,
+  LOG_NAME,
+  newPayload,
+} from 'platform/user/authentication/datadog/utilities';
 import { externalApplicationsConfig } from './usip-config';
 import {
   AUTH_EVENTS,
@@ -19,6 +27,7 @@ import {
   EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
   IDME_TYPES,
+  AUTH_BROKER,
 } from './constants';
 import recordEvent from '../../monitoring/record-event';
 
@@ -202,6 +211,13 @@ export function sessionTypeUrl({
     externalApplicationsConfig[application] ||
     externalApplicationsConfig.default;
 
+  const sessionData = JSON.stringify({
+    authLocation: externalRedirect ? AUTH_LOCATION.USIP : AUTH_LOCATION.MODAL,
+    application,
+    level: acr,
+  });
+  sessionStorage.setItem(DD_SESSION_STORAGE_KEY, sessionData);
+
   // We should use OAuth when the following are true:
   // OAuth param is 'true'
   // config.OAuthEnabled is true
@@ -324,8 +340,23 @@ export async function login({
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
+  const { application, OAuth } = getQueryParams();
+  const externalRedirect = isExternalRedirect();
+
+  dataDogLog({
+    name: LOG_NAME.LOGIN_ATTEMPT,
+    payload: newPayload({
+      csp: policy,
+      authBroker: OAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
+      authLocation: externalRedirect ? AUTH_LOCATION.USIP : AUTH_LOCATION.MODAL,
+      application,
+      level: 'unknown',
+    }),
+    type: STATUS_TYPE.INFO,
+  });
+
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
-  if (!isExternalRedirect()) {
+  if (!externalRedirect) {
     setLoginAttempted();
   }
   return redirect(url, clickedEvent);
@@ -404,6 +435,41 @@ export async function signupOrVerify({
   const eventAuthBroker = useOAuth ? 'sis' : 'iam';
   const eventIsVerified = allowVerification ? '-verified' : '';
   const event = `${policy}-${eventBase}${eventAuthBroker}${eventIsVerified}`;
+
+  const externalRedirect = isExternalRedirect();
+  const { application } = getQueryParams();
+  // isSignup is true for CreateAccountLink, false for VerifyAccountLink
+  if (isSignup) {
+    // register
+    dataDogLog({
+      name: LOG_NAME.REGISTER_ATTEMPT,
+      payload: newPayload({
+        csp: policy,
+        authBroker: useOAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
+        authLocation: externalRedirect
+          ? AUTH_LOCATION.USIP
+          : AUTH_LOCATION.MODAL,
+        application,
+        level: 'unknown',
+      }),
+      type: STATUS_TYPE.INFO,
+    });
+  } else {
+    // verify
+    dataDogLog({
+      name: LOG_NAME.VERIFY_ATTEMPT,
+      payload: newPayload({
+        csp: policy,
+        authBroker: useOAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
+        authLocation: externalRedirect
+          ? AUTH_LOCATION.USIP
+          : AUTH_LOCATION.MODAL,
+        application,
+        level: 'unknown',
+      }),
+      type: STATUS_TYPE.INFO,
+    });
+  }
 
   return isLink ? url : redirect(url, event);
 }
