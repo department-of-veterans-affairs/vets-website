@@ -28,7 +28,6 @@ const routes = (
               </div>
             </Route>
             <Route exact path={['/']} key="App">
-
               <div>
                 <Prescriptions />
                 <div className="no-print">
