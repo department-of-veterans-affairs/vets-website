@@ -109,7 +109,7 @@ for (const dir of splitUnitTests[matrixStep]) {
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
-    testsToRun.replaceAll(',', ' ')} `;
+    testsToRun.replace(/,/g, ' ')} `;
   console.log('command: ', command);
   runCommand(command);
 }
