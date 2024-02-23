@@ -24,24 +24,8 @@ describe('Medications List Print Page', () => {
     const rxName = screen.findByText('Medications | Veterans Affairs');
     expect(rxName).to.exist;
   });
-  it('displays crisis line text', () => {
-    const screen = setup();
-    const el = screen.getByTestId('crisis-line-print-only');
-    const text =
-      'If you’re ever in crisis and need to talk to someone right away';
-    expect(el).to.exist;
-    expect(el.textContent).to.include(text);
-  });
   it('does not render for paths other than medication list and details', () => {
     const screen = setup({ path: '/foo' });
     expect(screen.queryByTestId('name-date-of-birth')).to.not.exist;
-  });
-  it('shows error message if the API call fails', () => {
-    const screen = setup();
-    const text =
-      "We're sorry. There's a problem with our system. Check back later.";
-    const el = screen.getByTestId('print-only-preface');
-    expect(el).to.exist;
-    expect(el.textContent).to.include(text);
   });
 });

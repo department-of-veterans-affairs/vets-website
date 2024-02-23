@@ -82,7 +82,7 @@ const PrescriptionDetails = () => {
               label: 'About medications',
             },
             {
-              url: '/my-health/medications/1',
+              url: '/my-health/medications/?page=1',
               label: 'Medications',
             },
           ],
