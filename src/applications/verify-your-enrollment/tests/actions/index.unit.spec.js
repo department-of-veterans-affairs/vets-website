@@ -10,6 +10,8 @@ import {
   FETCH_PERSONAL_INFO,
   FETCH_PERSONAL_INFO_FAILED,
   FETCH_PERSONAL_INFO_SUCCESS,
+  updateBankInfo,
+  UPDATE_BANK_INFO_SUCCESS,
 } from '../../actions';
 
 const mockData = { user: 'user' };
@@ -60,6 +62,21 @@ describe('getData, creator', () => {
       expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
       expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO_FAILED, errors }))
         .to.be.true;
+    });
+  });
+  describe('updateBankInfo', () => {
+    it('dispatch UPDATE_BANK_INFO_SUCCESS after a sucessful api request', async () => {
+      const mockResponse = { data: 'MockData' };
+      const mockDispatchB = sinon.spy();
+      const apiRequest = sinon.stub().returns(Promise.resolve(mockResponse));
+
+      await updateBankInfo('mockBankInfo')(mockDispatchB, null, apiRequest);
+      expect(
+        mockDispatchB.calledWith({
+          type: UPDATE_BANK_INFO_SUCCESS,
+          response: mockResponse,
+        }),
+      ).to.be.false;
     });
   });
 });

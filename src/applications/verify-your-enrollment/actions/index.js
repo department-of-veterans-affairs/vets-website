@@ -9,6 +9,12 @@ export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const FETCH_PERSONAL_INFO = 'FETCH_PERSONAL_INFO';
 export const FETCH_PERSONAL_INFO_SUCCESS = 'FETCH_PERSONAL_INFO_SUCCESS';
 export const FETCH_PERSONAL_INFO_FAILED = 'FETCH_PERSONAL_INFO_FAILED';
+export const UPDATE_BANK_INFO = 'UPDATE_BANK_INFO';
+export const UPDATE_BANK_INFO_SUCCESS = 'UPDATE_BANK_INFO_SUCCESS';
+export const UPDATE_BANK_INFO_FAILED = 'UPDATE_BANK_INFO_FAILED';
+
+const API_URL = `${environment.API_URL}/vye/v1`;
+
 // Action Creators
 export const updatePendingVerifications = pendingVerifications => ({
   type: UPDATE_PENDING_VERIFICATIONS,
@@ -34,7 +40,7 @@ export const getData = () => {
 export const fetchPersonalInfo = () => {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFO });
-    return apiRequest(`${environment.API_URL}/vye/v1`)
+    return apiRequest(API_URL)
       .then(response => {
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
@@ -44,6 +50,31 @@ export const fetchPersonalInfo = () => {
       .catch(errors => {
         dispatch({
           type: FETCH_PERSONAL_INFO_FAILED,
+          errors,
+        });
+      });
+  };
+};
+
+export const updateBankInfo = bankInfo => {
+  return async dispatch => {
+    dispatch({ type: UPDATE_BANK_INFO });
+    return apiRequest(`${API_URL}/bank_info`, {
+      method: 'POST',
+      body: JSON.stringify(bankInfo),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response => {
+        // eslint-disable-next-line no-console
+        console.log(response);
+        dispatch({
+          type: UPDATE_BANK_INFO_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: UPDATE_BANK_INFO_FAILED,
           errors,
         });
       });

@@ -41,7 +41,7 @@ describe('Change Of Direct Deposit Form', () => {
     const formDOM = getFormDOM(screen);
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(9);
   });
 
   it('Should raise one error with the account validation', () => {
@@ -106,7 +106,7 @@ describe('Change Of Direct Deposit Form', () => {
       />,
     );
     const formDOM = getFormDOM(screen);
-    const accountTypeButton = screen.getByRole('radio', { name: /checking/i });
+    const accountTypeButton = screen.getByRole('radio', { name: /Checking/i });
     const bankName = screen.getByRole('textbox', {
       name: /name of financial institution \(\*required\)/i,
     });
