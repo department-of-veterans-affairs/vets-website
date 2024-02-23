@@ -161,7 +161,7 @@ const mapDispatchToProps = {
 PeriodsToVerify.propTypes = {
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
-  enrollmentData: PropTypes.func,
+  enrollmentData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,

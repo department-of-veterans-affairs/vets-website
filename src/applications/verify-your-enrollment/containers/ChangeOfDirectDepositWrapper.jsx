@@ -12,6 +12,7 @@ import {
   SMALL_SCREEN,
 } from '../constants/index';
 import { updateBankInfo } from '../actions';
+import Alert from '../components/Alert';
 
 const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
   const prefix = 'GI-Bill-Chapters-';
@@ -148,18 +149,10 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
               text={DIRECT_DEPOSIT_BUTTON_TEXT}
             />
             {error && (
-              <va-alert
-                close-btn-aria-label="Close notification"
+              <Alert
                 status="error"
-                uswds
-                visible
-              >
-                <React.Fragment key=".1">
-                  <p className="vads-u-margin-y--0">
-                    Sorry, something went wrong. Please try agian Later
-                  </p>
-                </React.Fragment>
-              </va-alert>
+                message="Sorry, something went wrong. Please try agian Later"
+              />
             )}
             <va-alert
               close-btn-aria-label="Close notification"
@@ -195,16 +188,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             <p className="vads-u-font-weight--bold">Add new account</p>
             {directDepositDescription}
             {loading && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: '0',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  backgroundColor: 'rgba(255,255,255,0.7)',
-                  alignItems: 'center',
-                }}
-              >
+              <div className="loader">
                 <va-loading-indicator label="Loading" set-focus />
               </div>
             )}
