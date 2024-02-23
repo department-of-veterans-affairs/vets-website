@@ -58,7 +58,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get(Locators.EXPANDABLETITLE)
+    cy.get(Locators.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -124,7 +124,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get(Locators.EXPANDABLETITLE)
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -194,7 +194,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get(Locators.EXPANDABLETITLE)
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -229,7 +229,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
-    cy.get('#select').should(
+    cy.get(Locators.SELECT).should(
       'not.contain',
       mockRecipients.data[0].attributes.name,
     );

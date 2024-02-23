@@ -22,7 +22,7 @@ export const Paths = {
 };
 
 export const Locators = {
-  EXPANDABLETITLE: '[class="alert-expandable-title"]',
+  SELECT: '#select',
   HEADER: 'h1',
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',
@@ -50,6 +50,7 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    EXPANDABLE_TITLE: '[class="alert-expandable-title"]',
     SAVE_DRAFT: '#messagetext',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
   },
