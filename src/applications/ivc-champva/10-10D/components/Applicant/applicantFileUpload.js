@@ -23,3 +23,9 @@ export const applicantStepChildConfig = uploadWithInfoComponent(
   'marriage certificates',
   false,
 );
+
+export const applicantMarriageCertConfig = uploadWithInfoComponent(
+  ['Marriage certificate', 'Civil union papers'],
+  'marriage certificates',
+  false,
+);
