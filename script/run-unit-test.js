@@ -97,26 +97,36 @@ const splitUnitTests = splitArray(
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
   : splitUnitTests[matrixStep];
-for (const dir of appsToRun) {
-  const updatedPath = options['app-folder']
-    ? options.path.map(p => `'${p}'`).join(' ')
-    : options.path[0].replace(
-        `/${specDirs}/`,
-        `/${JSON.parse(dir).join('/')}/`,
-      );
-  const testsToRun = options['app-folder']
-    ? `--recursive ${updatedPath}`
-    : `--recursive ${glob.sync(updatedPath)}`;
+if (testsToVerify === '') {
+  for (const dir of appsToRun) {
+    const updatedPath = options['app-folder']
+      ? options.path.map(p => `'${p}'`).join(' ')
+      : options.path[0].replace(
+          `/${specDirs}/`,
+          `/${JSON.parse(dir).join('/')}/`,
+        );
+    const testsToRun = options['app-folder']
+      ? `--recursive ${updatedPath}`
+      : `--recursive ${glob.sync(updatedPath)}`;
+    const command = `LOG_LEVEL=${options[
+      'log-level'
+    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+      /,/g,
+      ' ',
+    )} `;
+    if (testsToRun !== '') {
+      runCommand(command);
+    } else {
+      console.log('This app has no tests to run');
+    }
+  }
+} else {
   const command = `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
-    testsToRun.replace(/,/g, ' ')} `;
-  if (testsToVerify !== '' || testsToRun !== '') {
-    runCommand(command);
-  } else {
-    console.log('This app has no tests to run');
-  }
+  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify}`;
+  runCommand(command);
 }
+
 // const command = `LOG_LEVEL=${options[
 //   'log-level'
 // ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
