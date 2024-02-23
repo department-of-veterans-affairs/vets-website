@@ -6,7 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-function App({ children }) {
+const App = ({ children }) => {
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -30,7 +30,7 @@ function App({ children }) {
   }
 
   return <>{children}</>;
-}
+};
 
 App.propTypes = {
   children: PropTypes.node.isRequired,
