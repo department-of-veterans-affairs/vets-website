@@ -652,21 +652,19 @@ export const fullMaidenNameUI = merge({}, fullNameUI, {
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
-export const nonPreparerFullMaidenNameUI = merge({}, fullNameUI, {
+export const nonPreparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
   first: { 'ui:title': 'Your first name' },
   middle: { 'ui:title': 'Your middle name' },
   last: { 'ui:title': 'Your last name' },
   maiden: { 'ui:title': 'Maiden name' },
-  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
-export const preparerFullMaidenNameUI = merge({}, fullNameUI, {
+export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
   first: { 'ui:title': 'Applicant’s first name' },
   middle: { 'ui:title': 'Applicant’s middle name' },
   last: { 'ui:title': 'Applicant’s last name' },
   maiden: { 'ui:title': 'Applicant’s maiden name' },
   suffix: { 'ui:title': 'Applicant’s suffix' },
-  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
 export const dateOfBirthHint =
