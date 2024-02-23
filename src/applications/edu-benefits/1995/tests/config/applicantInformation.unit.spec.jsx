@@ -138,36 +138,6 @@ describe('Edu 1995 applicantInformation', () => {
       },
     });
 
-    const birthMonth = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'select',
-    ).find(select => select.id === 'root_dateOfBirthMonth');
-
-    ReactTestUtils.Simulate.change(birthMonth, {
-      target: {
-        value: '1',
-      },
-    });
-
-    const birthDay = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'select',
-    ).find(input => input.id === 'root_dateOfBirthDay');
-    ReactTestUtils.Simulate.change(birthDay, {
-      target: {
-        value: '1',
-      },
-    });
-    const birthYear = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    ).find(input => input.id === 'root_dateOfBirthYear');
-    ReactTestUtils.Simulate.change(birthYear, {
-      target: {
-        value: '1940',
-      },
-    });
-
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
       .empty;
     submitForm(form);

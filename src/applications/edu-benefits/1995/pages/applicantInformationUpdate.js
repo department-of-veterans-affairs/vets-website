@@ -1,6 +1,7 @@
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { genderLabels } from '../../utils/labels';
+import { SeventeenOrOlder } from '../../1990/helpers';
 
 export const uiSchema = {
   veteranFullName: {
@@ -52,6 +53,19 @@ export const uiSchema = {
   },
   dateOfBirth: {
     ...currentOrPastDateUI('Your date of birth'),
+    'ui:errorMessages': {
+      pattern: 'Please provide a valid date',
+      required: 'Please enter a date',
+      futureDate: 'Please provide a valid date',
+    },
+    'ui:validations': [
+      (errors, dob) => {
+        // If we have a complete date, check to make sure it’s a valid dob
+        if (/\d{4}-\d{2}-\d{2}/.test(dob) && !SeventeenOrOlder(dob)) {
+          errors.addError('You must be at least 17 to apply');
+        }
+      },
+    ],
   },
   applicantGender: {
     'ui:widget': 'radio',
