@@ -49,16 +49,9 @@ const Navigation = props => {
   window.addEventListener('resize', checkScreenSize);
 
   const getActiveLinksStyle = (linkPath, currentPath) => {
-    if (linkPath.split('/')[1] === currentPath.split('/')[1])
-      return 'is-active';
-
-    return '';
-  };
-
-  const handleActiveLinksStyle = path => {
     let relativePath;
-    if (path === '/' && location.pathname === '/') return 'is-active';
-    const pathArr = location.pathname.slice(1).split('/');
+    if (linkPath === '/' && currentPath === '/') return 'is-active';
+    const pathArr = currentPath.slice(1).split('/');
     if (
       pathArr.length > 1 &&
       pathArr.length < 5 &&
@@ -67,9 +60,16 @@ const Navigation = props => {
       relativePath = '/labs-and-tests';
     } else if (pathArr.length === 3)
       relativePath = `/${pathArr[0]}/${pathArr[1]}`;
-    else relativePath = location.pathname;
+    else relativePath = currentPath;
 
-    return getActiveLinksStyle(path, relativePath);
+    if (linkPath.split('/')[1] === relativePath.split('/')[1])
+      return 'is-active';
+
+    return '';
+  };
+
+  const handleActiveLinksStyle = path => {
+    return getActiveLinksStyle(path, location.pathname);
   };
 
   // We no longer have dynamically opening/closing nav, but leaving this the handleSubpathsOpen
