@@ -12,6 +12,7 @@ import {
   FETCH_PERSONAL_INFO_SUCCESS,
   updateBankInfo,
   UPDATE_BANK_INFO_SUCCESS,
+  UPDATE_BANK_INFO_FAILED,
 } from '../../actions';
 
 const mockData = { user: 'user' };
@@ -66,17 +67,32 @@ describe('getData, creator', () => {
   });
   describe('updateBankInfo', () => {
     it('dispatch UPDATE_BANK_INFO_SUCCESS after a sucessful api request', async () => {
-      const mockResponse = { data: 'MockData' };
-      const mockDispatchB = sinon.spy();
-      const apiRequest = sinon.stub().returns(Promise.resolve(mockResponse));
-
-      await updateBankInfo('mockBankInfo')(mockDispatchB, null, apiRequest);
+      const apiRequestStub2 = sinon.stub(apiModule, 'apiRequest');
+      const dispatch = sinon.stub();
+      const response = { data: 'test data' };
+      apiRequestStub2.resolves(response);
+      await updateBankInfo()(dispatch);
       expect(
-        mockDispatchB.calledWith({
+        dispatch.calledWith({
           type: UPDATE_BANK_INFO_SUCCESS,
-          response: mockResponse,
+          response,
         }),
-      ).to.be.false;
+      ).to.be.true;
+      apiRequestStub2.restore();
+    });
+    it('dispatch UPDATE_BANK_INFO_FAILED after a sucessful api request', async () => {
+      const apiRequestStub2 = sinon.stub(apiModule, 'apiRequest');
+      const dispatch = sinon.stub();
+      const errors = { erros: 'some error' };
+      apiRequestStub2.rejects(errors);
+      await updateBankInfo()(dispatch);
+      expect(
+        dispatch.calledWith({
+          type: UPDATE_BANK_INFO_FAILED,
+          errors,
+        }),
+      ).to.be.true;
+      apiRequestStub2.restore();
     });
   });
 });
