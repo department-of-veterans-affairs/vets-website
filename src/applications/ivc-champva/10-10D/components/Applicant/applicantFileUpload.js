@@ -24,6 +24,18 @@ export const applicantStepChildConfig = uploadWithInfoComponent(
   false,
 );
 
+export const applicantMedicarePartAPartBCardsConfig = uploadWithInfoComponent(
+  ['Front of Medicare Parts A or B card', 'Back of Medicare Parts A or B card'],
+  'copy of Medicare Parts A or B card',
+  false,
+);
+
+export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
+  ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
+  'copy of Medicare Part D card',
+  false,
+);
+
 export const applicantMarriageCertConfig = uploadWithInfoComponent(
   ['Marriage certificate', 'Civil union papers'],
   'marriage certificates',
