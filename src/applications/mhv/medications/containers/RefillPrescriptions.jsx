@@ -81,7 +81,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     dispatch(setPrescriptionDetails(rx));
   };
 
-  // Pagination
+  // Pagination for renewable prescriptions only
   const MAX_PAGE_LIST_LENGTH = 20;
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -135,6 +135,8 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       );
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
+    // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, location.pathname, selectedSortOption],
   );
 
