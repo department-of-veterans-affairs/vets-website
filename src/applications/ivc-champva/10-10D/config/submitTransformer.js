@@ -86,7 +86,11 @@ export default function transformForSubmit(formConfig, form) {
       state: transformedData?.certifierAddress?.state || '',
       postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
-    supporting_docs: [],
+    supporting_docs: [
+      transformedData?.sponsorCasualtyReport,
+      transformedData?.sponsorDisabilityRating,
+      transformedData?.sponsorDischargePapers,
+    ],
   };
 
   // Flatten supporting docs for all applicants to a single array
@@ -101,7 +105,9 @@ export default function transformForSubmit(formConfig, form) {
     }
   });
 
-  dataPostTransform.supporting_docs = supDocs;
+  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs.concat(
+    supDocs,
+  );
 
   // eslint-disable-next-line dot-notation
   dataPostTransform.veteran.address['postal_code'] =
