@@ -94,24 +94,26 @@ const splitUnitTests = splitArray(
   allUnitTestDirs,
   Math.ceil(allUnitTestDirs.length / numContainers),
 );
-console.log('splitUnitTests:', splitUnitTests);
-console.log('splitUnitTests[matrixStep]: ', splitUnitTests[matrixStep]);
+// console.log('splitUnitTests:', splitUnitTests);
+// console.log('splitUnitTests[matrixStep]: ', splitUnitTests[matrixStep]);
 for (const dir of splitUnitTests[matrixStep]) {
   const updatedPath = options.path[0].replace(
     `/${specDirs}/`,
     `/${JSON.parse(dir).join('/')}/`,
   );
-  console.log('updated path', updatedPath);
+  // console.log('updated path', updatedPath);
   const testsToRun = options['app-folder']
     ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
     : `--recursive ${glob.sync(updatedPath)}`;
-  console.log('testsToRun: ', testsToRun);
+  // console.log('testsToRun: ', testsToRun);
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
     testsToRun.replace(/,/g, ' ')} `;
-  console.log('command: ', command);
+  // console.log('command: ', command);
+  console.log('starting app run: ', dir);
   runCommand(command);
+  console.log('finishing app run: ', dir);
 }
 // const command = `LOG_LEVEL=${options[
 //   'log-level'
