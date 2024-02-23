@@ -716,7 +716,7 @@ export const veteranUI = {
     },
   },
   ethnicity: {
-    'ui:field': RaceEthnicityReviewField,
+    // 'ui:field': RaceEthnicityReviewField,
     'ui:title': 'What’s your ethnicity?',
     'ui:widget': 'radio',
     'ui:options': {
