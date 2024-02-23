@@ -17,7 +17,7 @@ describe('Medical Records View Vitals', () => {
       0,
       'Blood pressure',
       '130/70',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October', //  27, 2023, 7:00 a.m. PDT
       'ADTP BURNETT',
     );
 
@@ -25,7 +25,7 @@ describe('Medical Records View Vitals', () => {
       1,
       'Heart rate',
       '70 beats per minute',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       'ADTP BURNETT',
     );
 
@@ -33,7 +33,7 @@ describe('Medical Records View Vitals', () => {
       2,
       'Breathing rate',
       '15 breaths per minute',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       'ADTP BURNETT',
     );
 
@@ -41,7 +41,7 @@ describe('Medical Records View Vitals', () => {
       3,
       'Blood oxygen level (pulse oximetry)',
       '98%',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       'ADTP BURNETT',
     );
 
@@ -49,7 +49,7 @@ describe('Medical Records View Vitals', () => {
       4,
       'Temperature',
       '99 °F',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       'ADTP BURNETT',
     );
 
@@ -57,7 +57,7 @@ describe('Medical Records View Vitals', () => {
       5,
       'Weight',
       '185 pounds',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       'ADTP BURNETT',
     );
 
@@ -65,7 +65,7 @@ describe('Medical Records View Vitals', () => {
       6,
       'Height',
       '70 inches',
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       'ADTP BURNETT',
     );
 

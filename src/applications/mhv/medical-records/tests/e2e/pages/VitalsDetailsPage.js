@@ -38,10 +38,10 @@ class VitalsDetailsPage {
       .contains(notes);
   };
 
-  verifyVitalsPageText = Vitals => {
+  verifyVitalsPageTitle = title => {
     // Verify "Vitals" Page title Text
     cy.get('[data-testid="vitals"]').should('be.visible');
-    cy.get('[data-testid="vitals"]').contains(Vitals);
+    cy.get('[data-testid="vitals"]').contains(title);
   };
 
   clickBreadCrumbsLink = (breadcrumb = 0) => {

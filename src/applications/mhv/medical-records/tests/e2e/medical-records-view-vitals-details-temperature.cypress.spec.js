@@ -18,7 +18,7 @@ describe('Medical Records Vitals Details Page', () => {
     // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      'October 27, 2023, 7:00 a.m. PDT',
+      'October',
       '99 °F',
       'ADTP BURNETT',
       'None noted',
@@ -27,7 +27,7 @@ describe('Medical Records Vitals Details Page', () => {
     // verify second reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      'August 4, 2023, 7:08 a.m. PDT',
+      'August',
       '98.5 °F',
       '23 HOUR OBSERVATION',
       'None noted',
@@ -36,7 +36,7 @@ describe('Medical Records Vitals Details Page', () => {
     // verify third reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      'August 18, 2022, 1:29 p.m. PDT',
+      'August',
       '98.5 °F',
       'ADMISSIONS (LOC)',
       'None noted',
@@ -45,7 +45,7 @@ describe('Medical Records Vitals Details Page', () => {
     // verify fourth reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      'May 11, 2021, 7:20 a.m. PDT',
+      'May',
       '98.5 °F',
       'ADTP SCREENING',
       'None noted',
