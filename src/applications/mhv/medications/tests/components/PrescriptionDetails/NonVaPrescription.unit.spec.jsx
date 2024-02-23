@@ -25,4 +25,17 @@ describe('nonVaPrescription details container', () => {
     const status = screen.getAllByText(dispStatus);
     expect(status).to.exist;
   });
+
+  //   it('displays the disclaimer', () => {
+  //     const prescriptionWithDisclaimer = {...nonVaRxDetailsResponse.data.attributes, disclaimer: "TEST DISCLAIMER"}
+  //     console.log(prescriptionWithDisclaimer)
+  //     const screen = () => {
+  //       return renderWithStoreAndRouter(<NonVaPrescription {...prescriptionWithDisclaimer} />, {
+  //         initialState: {},
+  //         reducers: {},
+  //         path: '/prescriptions/1234567891',
+  //       });}
+  //     const disclaimer = screen.getAllByText("TEST DISCLAIMER")
+  //     expect(disclaimer).to.exist
+  //   });
 });

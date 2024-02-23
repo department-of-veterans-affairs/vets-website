@@ -27,7 +27,25 @@ describe('Prescription details container', () => {
   };
 
   it('renders without errors', () => {
-    const screen = setup();
+    const screen = setup({
+      ...initialState,
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            rxRfRecords: [
+              [
+                'rf_record',
+                [
+                  {
+                    cmopNdcNumber: '00093314705',
+                  },
+                ],
+              ],
+            ],
+          },
+        },
+      },
+    });
     expect(screen);
   });
 
@@ -70,7 +88,7 @@ describe('Prescription details container', () => {
         },
       },
       reducers: reducer,
-      path: '/21142496',
+      path: '/medication/21142496',
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,

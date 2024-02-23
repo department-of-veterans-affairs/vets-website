@@ -28,6 +28,15 @@ describe('Medicaitons Print/Download button component', () => {
 
   it('renders without errors', () => {
     const screen = setup();
+    const printButton = screen.getByText('Print this page');
+    fireEvent.click(printButton);
+    expect(screen);
+  });
+
+  it('renders without errors', () => {
+    const screen = setup();
+    const printButton = screen.getByText('Print this page');
+    fireEvent.click(printButton);
     expect(screen);
   });
 
