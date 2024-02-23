@@ -76,9 +76,16 @@ const App = () => {
 
   const redirecting = signedIn && !loading && !enabled;
 
+  const hasMHVAccount = useSelector(state => {
+    return ['OK', 'MULTIPLE'].includes(state?.user?.profile?.mhvAccountState);
+  });
+
   useEffect(
     () => {
       async function loadMessages() {
+        if (!hasMHVAccount) {
+          return;
+        }
         const folders = await getFolderList();
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
@@ -87,7 +94,7 @@ const App = () => {
         loadMessages();
       }
     },
-    [enabled],
+    [enabled, hasMHVAccount],
   );
 
   useEffect(
