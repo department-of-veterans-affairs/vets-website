@@ -139,6 +139,7 @@ export default Object.freeze({
   mhvMedicalRecordsDisplayVitals: 'mhv_medical_records_display_vitals',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
+  mhvMedicationsDisplayRefillContent: 'mhv_medications_display_refill_content',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal:
     'mhv_to_logingov_account_transition_modal',

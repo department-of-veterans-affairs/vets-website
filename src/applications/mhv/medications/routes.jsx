@@ -6,6 +6,7 @@ import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
 import PrescriptionsPrintOnly from './containers/PrescriptionsPrintOnly';
+import RefillPrescriptions from './containers/RefillPrescriptions';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -16,6 +17,14 @@ const routes = (
           <Switch>
             <Route exact path={['/about', '/about/*']} key="LandingPage">
               <LandingPage />
+            </Route>
+            <Route exact path={['/refill']} key="App">
+              <div>
+                <RefillPrescriptions />
+                <div className="no-print">
+                  <va-back-to-top />
+                </div>
+              </div>
             </Route>
             <Route exact path={['/', '/:page']} key="App">
               <div>
