@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import POARequestsWidget from '../components/POARequestsWidget/POARequestsWidget';
+import PoaRequestsWidget from '../components/PoaRequestsWidget/PoaRequestsWidget';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 
 const breadcrumbs = [
@@ -24,7 +24,7 @@ const Dashboard = ({ poaPermissions = true }) => {
               </div>
               <div className="vads-u-display--flex vads-u-flex-direction--row">
                 <div className="vads-l-col--9">
-                  <POARequestsWidget poaRequests={mockPOARequests} />
+                  <PoaRequestsWidget poaRequests={mockPOARequests} />
                 </div>
                 <div className="vads-l-col--3 vads-u-padding-left--2">
                   <div className="primary dash-box vads-u-background-color--white vads-u-margin-bottom--2 rounded-corners" />

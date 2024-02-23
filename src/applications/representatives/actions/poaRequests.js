@@ -1,6 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
-const apiBasePath = 'poa_requests';
+const apiBasePath = '/poa_requests';
 
 const settings = {
   method: 'POST',
