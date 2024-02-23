@@ -36,9 +36,6 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const hasMHVAccount = useSelector(state => {
-    return ['OK', 'MULTIPLE'].includes(state?.user?.profile?.mhvAccountState);
-  });
 
   const data = useMemo(
     () => {
@@ -81,18 +78,15 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        if (hasMHVAccount) {
-          const folders = await getFolderList();
-          const unreadMessages = countUnreadMessages(folders);
-          setUnreadMessageCount(unreadMessages);
-        }
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+        setUnreadMessageCount(unreadMessages);
       }
-
       if (enabled) {
         loadMessages();
       }
     },
-    [enabled, hasMHVAccount],
+    [enabled],
   );
 
   useEffect(

@@ -18,7 +18,7 @@ import localStorageFallback from 'local-storage-fallback';
 function getLocalStorage() {
   try {
     const testItem = 'testItem';
-    const localStorage = window.localStorage;
+    const { localStorage } = window;
     localStorage.setItem(testItem, testItem);
     localStorage.removeItem(testItem);
     return localStorage;
