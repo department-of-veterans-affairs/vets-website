@@ -148,7 +148,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       <div>
         <span className="refill-back-arrow">
           <Link
-            data-testid="medications-page-link"
+            data-testid="back-to-medications-page-link"
             to="/"
             className="refill-back-link"
           >

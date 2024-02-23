@@ -86,6 +86,12 @@ describe('RefillPrescriptions', () => {
     fireEvent.click(link);
   });
 
+  it('Clicks the medications list page link', async () => {
+    const screen = setup();
+    const link = await screen.findByTestId('back-to-medications-page-link');
+    fireEvent.click(link);
+  });
+
   it('Shows the correct "last filled on" date for refill', async () => {
     const screen = setup();
     const lastFilledEl = await screen.findByTestId('refill-last-filled-0');
