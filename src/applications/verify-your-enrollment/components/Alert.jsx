@@ -18,7 +18,6 @@ const Alert = ({ status, message }) => {
   return (
     <va-alert
       close-btn-aria-label="Close notification"
-      closeable
       status={status}
       uswds
       visible

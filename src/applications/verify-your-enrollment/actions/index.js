@@ -40,11 +40,17 @@ export const getData = () => {
 export const fetchPersonalInfo = () => {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFO });
-    return apiRequest(API_URL)
-      .then(response => {
+    return apiRequest(API_URL, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(({ data }) => {
+        // eslint-disable-next-line no-console
+        console.log(data, 'ger rersfs');
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
-          response,
+          data,
         });
       })
       .catch(errors => {
