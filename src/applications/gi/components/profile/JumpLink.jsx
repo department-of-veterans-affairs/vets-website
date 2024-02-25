@@ -10,6 +10,7 @@ export default function JumpLink({
   iconToggle = true,
   onClick,
   dataTestId,
+  customClass,
 }) {
   const jumpLinkClicked = e => {
     e.preventDefault();
@@ -44,14 +45,16 @@ export default function JumpLink({
 
   return (
     <a
-      className="jump-link arrow-down-link"
+      className={`jump-link ${customClass || 'arrow-down-link'}`}
       href={`#${jumpToId}`}
       onClick={handleClick}
       tabIndex={0}
       data-testid={dataTestId}
     >
-      <p>
-        {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
+      <p className={customClass && 'filter-before-res-link'}>
+        {iconToggle && (
+          <i className="fa fa-arrow-down iconToggle" aria-hidden="true" />
+        )}
         {label}
       </p>
     </a>
