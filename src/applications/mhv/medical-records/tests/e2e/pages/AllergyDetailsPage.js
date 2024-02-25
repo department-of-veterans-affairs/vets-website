@@ -45,13 +45,13 @@ class AllergyDetailsPage {
     cy.get('[data-testid="allergy-notes"]').should('contain', notes);
   };
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
   verifyPrintOrDownload = () => {
     // should display a toggle menu button
     cy.get('[data-testid="print-records-button"]').should('be.visible');
+  };
+
+  clickPrintOrDownload = () => {
+    cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 
   verifyPrintButton = () => {
