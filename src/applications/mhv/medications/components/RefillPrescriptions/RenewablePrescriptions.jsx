@@ -73,7 +73,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
         />
       </p>
       <p>
-        <strong>Note:</strong> If your prescriptions isn’t in this list, find it
+        <strong>Note:</strong> If your prescription isn’t in this list, find it
         in your medications list.{' '}
         <Link data-testid="medications-page-link" to="/">
           Go to your medications list
