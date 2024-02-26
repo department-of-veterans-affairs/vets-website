@@ -7,15 +7,22 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
+import {
+  fetchPersonalInformation,
+  fetchDirectDeposit,
+  fetchDuplicateContactInfo,
+} from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  duplicateEmail,
+  duplicatePhone,
   formData,
   getDirectDeposit,
+  getDuplicateContactInfo,
   getPersonalInformation,
   isLOA3,
   location,
@@ -106,6 +113,44 @@ function ToeApp({
           showMebEnhancements08,
         });
       }
+
+      if (
+        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+        formData?.email?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone &&
+        formData?.showMebEnhancements08
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.email?.email, dupe: '' }],
+          [
+            {
+              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+              dupe: '',
+            },
+          ],
+        );
+      }
+
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
+      }
     },
     [formData, setFormData, showMebEnhancements08],
   );
@@ -159,21 +204,24 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: state.form?.data?.sponsors,
-  sponsorsInitial: state?.data?.sponsors,
-  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-  user: state.user,
-});
+const mapStateToProps = state => {
+  return {
+    ...getAppData(state),
+    formData: state.form?.data || {},
+    claimant: state.data?.formData?.data?.attributes?.claimant,
+    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+    sponsors: state.form?.data?.sponsors,
+    sponsorsInitial: state?.data?.sponsors,
+    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
 export default connect(

@@ -38,6 +38,19 @@ export const DIRECT_DEPOSIT_ENDPOINT = `${
   environment.API_URL
 }/v0/profile/ch33_bank_accounts`;
 
+export const DUPLICATE_CONTACT_INFO_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/duplicate_contact_info`;
+export const FETCH_DUPLICATE_CONTACT = 'FETCH_DUPLICATE_CONTACT';
+export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
+  'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
+export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
+  'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
+export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
+export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+export const UPDATE_GLOBAL_EMAIL = 'UPDATE_GLOBAL_EMAIL';
+export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
+
 const FIVE_SECONDS = 5000;
 const ONE_MINUTE_IN_THE_FUTURE = () => {
   return new Date(new Date().getTime() + FIVE_SECONDS * 12);
@@ -153,5 +166,59 @@ export function fetchClaimStatus() {
       successDispatchType: FETCH_CLAIM_STATUS_SUCCESS,
       failureDispatchType: FETCH_CLAIM_STATUS_FAILURE,
     });
+  };
+}
+
+export function fetchDuplicateContactInfo(email, phoneNumber) {
+  return async dispatch => {
+    dispatch({ type: FETCH_DUPLICATE_CONTACT });
+    return apiRequest(DUPLICATE_CONTACT_INFO_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        emails: email,
+        phones: phoneNumber,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function updateGlobalEmail(email) {
+  return {
+    type: UPDATE_GLOBAL_EMAIL,
+    email,
+  };
+}
+
+export function updateGlobalPhoneNumber(mobilePhone) {
+  return {
+    type: UPDATE_GLOBAL_PHONE_NUMBER,
+    mobilePhone,
+  };
+}
+
+export function acknowledgeDuplicate(contactInfo) {
+  return {
+    type: ACKNOWLEDGE_DUPLICATE,
+    contactInfo,
+  };
+}
+
+export function toggleModal(toggle) {
+  return {
+    type: TOGGLE_MODAL,
+    toggle,
   };
 }

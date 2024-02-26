@@ -6,12 +6,15 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
+  duplicateEmail: state.data?.duplicateEmail,
+  duplicatePhone: state.data?.duplicatePhone,
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isPersonalInfoFetchComplete: state.data?.personalInfoFetchComplete,
   isSponsorsFetchComplete: state.data?.fetchedSponsorsComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
+  openModal: state?.data?.openModal,
   savedForms: state?.user?.profile?.savedForms,
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements: !!toggleValues(state)[
