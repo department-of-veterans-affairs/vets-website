@@ -23,9 +23,9 @@ import {
 const { dependents } = fullSchemaPensions.properties;
 
 const childRelationshipOptions = {
-  biological: "They're my biological child",
-  adopted: "They're my adopted child",
-  stepchild: "They're my stepchild",
+  BIOLOGICAL: "They're my biological child",
+  ADOPTED: "They're my adopted child",
+  STEP_CHILD: "They're my stepchild",
 };
 
 function isBetween18And23(childDOB) {
@@ -72,7 +72,6 @@ export default {
           {},
           yesNoUI({
             title: 'Is your child in school?',
-            // uiOptions
             hideIf: (formData, index) =>
               !isBetween18And23(
                 get(['dependents', index, 'childDateOfBirth'], formData),
