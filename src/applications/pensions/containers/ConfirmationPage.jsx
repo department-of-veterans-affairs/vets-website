@@ -38,9 +38,7 @@ class ConfirmationPage extends React.Component {
           </p>
         </va-alert>
 
-        <br />
-
-        <va-summary-box uswds>
+        <div className="inset">
           <h3>Your information for this application</h3>
 
           <h4>Your name</h4>
@@ -50,10 +48,10 @@ class ConfirmationPage extends React.Component {
           <span>{submittedAt}</span>
 
           {response?.confirmationNumber && (
-            <>
+            <div id="pension_527ez_submission_confirmation">
               <h4>Confirmation number</h4>
               <span>{response?.confirmationNumber}</span>
-            </>
+            </div>
           )}
 
           <br />
@@ -63,7 +61,7 @@ class ConfirmationPage extends React.Component {
               window.print();
             }}
           />
-        </va-summary-box>
+        </div>
 
         <section>
           <h3>If you need to submit supporting documents</h3>
