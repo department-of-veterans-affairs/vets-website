@@ -24,7 +24,9 @@
         "applicantDOB": "2000-01-04",
         "applicantName": {
           "first": "Johnny",
-          "last": "Alvin"
+          "middle": "T",
+          "last": "Alvin",
+          "suffix": "Jr."
         },
         "applicantMedicareStatus": "enrolled",
         "applicantMedicarePart": "partA, partD",

@@ -1,6 +1,10 @@
 import { expect } from 'chai';
+import React from 'react';
 import { applicantWording } from '../../helpers/wordingCustomization';
 import { getAgeInYears, isInRange, getParts } from '../../helpers/utilities';
+import ApplicantField from '../../components/Applicant/ApplicantField';
+import { testComponentRender } from '../../../shared/tests/pages/pageTests.spec';
+import mockData from '../fixtures/data/test-data.json';
 
 describe('applicantWording helper', () => {
   it('should concatenate first and last names', () => {
@@ -39,3 +43,8 @@ describe('getParts helper', () => {
     expect(getParts('partA, partB, partD')).to.equal('Part A, Part B');
   });
 });
+
+testComponentRender(
+  'ApplicantField',
+  <ApplicantField formData={mockData.data.applicants[0]} />,
+);
