@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import sinon from 'sinon';
 import { SearchResultsHeader } from '../../components/results/SearchResultsHeader';
-// import { RepresentativeType } from '../../constants';
 import testDataRepresentative from '../../constants/mock-representative-v0.json';
 import testDataResponse from '../../constants/mock-representative-data.json';
 
@@ -288,6 +288,42 @@ describe('SearchResultsHeader', () => {
     ).to.equal(
       'No results found for "Accredited claims agent" within "50 miles" of "new york" sorted by "Distance  closest to farthest "',
     );
+    wrapper.unmount();
+  });
+
+  it('calls updateSearchQuerySpy when sort is selected', () => {
+    const updateSearchQuerySpy = sinon.spy();
+
+    const wrapper = mount(
+      <SearchResultsHeader
+        updateSearchQuery={updateSearchQuerySpy}
+        searchResults={[]}
+        pagination={{ currentPage: 1, totalPages: 1, totalEntries: 0 }}
+        query={{
+          inProgress: false,
+          context: {},
+          representativeType: 'attorney',
+          sortType: 'name',
+          searchArea: '50',
+        }}
+        onClickApplyButtonTester
+      />,
+    );
+
+    wrapper.find('#test-button').simulate('click');
+
+    wrapper.update();
+
+    sinon.assert.calledOnce(updateSearchQuerySpy);
+
+    sinon.assert.calledWith(
+      updateSearchQuerySpy,
+      sinon.match({
+        page: 1,
+        sortType: 'name',
+      }),
+    );
+
     wrapper.unmount();
   });
 });
