@@ -16,8 +16,8 @@ export default {
           name here.
         </p>
         <p>
-          <b>Note:</b> You must be recognized by VA to make decisions or sign
-          for them.
+          <strong>Note:</strong> You must be recognized by VA to make decisions
+          or sign for them.
         </p>
       </>,
     ),

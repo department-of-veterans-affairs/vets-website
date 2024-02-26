@@ -34,8 +34,8 @@ class IntroductionPage extends React.Component {
         </p>
         <h2>What to know before you fill out this form</h2>
         <p>
-          After you submit your intent to file, you have <b>1 year</b> to
-          complete and file your claim. After 1 year, the potential effective
+          After you submit your intent to file, you have <strong>1 year</strong>{' '}
+          to complete and file your claim. After 1 year, the potential effective
           date for your benefits will expire.
         </p>
         <va-alert
