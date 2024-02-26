@@ -672,7 +672,6 @@ export const dateOfBirthHint =
 
 export function dateOfBirthUI(title) {
   return merge({}, currentOrPastDateUI(title), {
-    // 'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
       hint: dateOfBirthHint,
     },
