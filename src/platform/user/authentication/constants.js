@@ -217,17 +217,85 @@ export const DOWNTIME_BANNER_CONFIG = {
     message:
       'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
   },
+  maintenance: {
+    headline: 'Scheduled Maintenance',
+    status: 'warning',
+  },
+};
+
+const maintenanceWindow = (startTime, endTime) => {
+  return (
+    <>
+      <b>
+        {new Date(startTime).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+        })}
+      </b>{' '}
+      on{' '}
+      <b>
+        {new Date(startTime).toLocaleString('en-US', {
+          day: 'numeric',
+          year: 'numeric',
+          month: 'long',
+        })}
+      </b>{' '}
+      and{' '}
+      <b>
+        {new Date(endTime).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+        })}
+      </b>{' '}
+      on{' '}
+      <b>
+        {new Date(endTime).toLocaleString('en-US', {
+          day: 'numeric',
+          year: 'numeric',
+          month: 'long',
+        })}
+      </b>
+    </>
+  );
 };
 
 export const getStatusFromStatuses = _status => {
-  const sorted = _status
-    .sort((a, b) => {
-      if (a.service < b.service) return 1;
-      if (a.service > b.service) return -1;
-      return 0;
-    })
-    .find(k => !['active'].includes(k.status));
+  const { status } = _status[0];
+  if (status === 'maintenance') {
+    const { startTime, endTime, csp } = _status[0];
 
+    if (csp && csp === SERVICE_PROVIDERS[csp]?.policy) {
+      return {
+        ...DOWNTIME_BANNER_CONFIG.maintenance,
+        message: (
+          <>
+            We’re sorry. Our <b> {SERVICE_PROVIDERS[csp].label} </b> sign in
+            process is currently scheduled to undergo maintenance between{' '}
+            {maintenanceWindow(startTime, endTime)}. This may temporarily impact
+            your ability to sign in to to VA.gov using your{' '}
+            <b>{SERVICE_PROVIDERS[csp].label}</b> account. We apologize for any
+            inconvenience this may cause and appreciate your understanding.
+          </>
+        ),
+      };
+    }
+    return {
+      ...DOWNTIME_BANNER_CONFIG.maintenance,
+      message: (
+        <>
+          We’re sorry. Our system is currently scheduled to undergo maintenance
+          between {maintenanceWindow(startTime, endTime)}. This may temporarily
+          impact your ability to sign in or use tools on to VA.gov. We apologize
+          for any inconvenience this may cause and appreciate your
+          understanding.
+        </>
+      ),
+    };
+  }
+
+  const sorted = _status
+    .sort((a, b) => (a.service < b.service ? 1 : -1))
+    .find(k => !['active'].includes(k.status));
   return sorted && AUTH_DEPENDENCIES.some(id => id === sorted.serviceId)
     ? DOWNTIME_BANNER_CONFIG[sorted.serviceId]
     : {};

@@ -7,6 +7,7 @@ import {
 const INITIAL_STATE = {
   loading: false,
   statuses: null,
+  maintenanceWindows: [],
 };
 
 export default function externalServiceStatuses(state = INITIAL_STATE, action) {
@@ -18,8 +19,8 @@ export default function externalServiceStatuses(state = INITIAL_STATE, action) {
       return { ...state, loading: false };
 
     case FETCH_BACKEND_STATUSES_SUCCESS: {
-      const { statuses } = action.data.attributes;
-      return { ...state, loading: false, statuses };
+      const { statuses, maintenanceWindows } = action.data.attributes;
+      return { ...state, loading: false, statuses, maintenanceWindows };
     }
 
     default:
