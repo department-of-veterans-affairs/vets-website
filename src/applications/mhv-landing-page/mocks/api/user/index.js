@@ -10,7 +10,7 @@ const defaultUser = {
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
-        first_name: 'Monica',
+        first_name: 'Gina',
         middle_name: '',
         last_name: 'Doe',
         gender: 'F',
