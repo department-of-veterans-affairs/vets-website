@@ -717,6 +717,8 @@ const ComposeForm = props => {
                 onFocus={e => {
                   setCaretToPos(e.target.shadowRoot.querySelector('input'), 0);
                 }}
+                maxlength="50"
+                uswds
               />
             )}
           </div>
