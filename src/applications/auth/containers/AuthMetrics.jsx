@@ -46,7 +46,7 @@ export default class AuthMetrics {
     };
     const ddPayload = newPayload({
       csp: this.serviceName,
-      authBroker: this.authBroker,
+      authBroker: this.authBroker || 'unknown',
       authLocation: ddSessionStorage.authLocation,
       application: ddSessionStorage.application,
       level: this.loaCurrent || 'unknown',
@@ -67,24 +67,29 @@ export default class AuthMetrics {
           payload: { ...ddPayload, autoSSO: true },
           status: STATUS_TYPE.INFO,
         });
-        break;
+      // fallthrough expected here
+      // eslint-disable-next-line no-fallthrough
       case POLICY_TYPES.MHV_VERIFIED: /* type=mhv_verified */
       case CSP_IDS.MHV:
       case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
-        dataDogLog({
-          name: LOG_NAME.LOGIN_SUCCESS,
-          payload: ddPayload,
-          status: STATUS_TYPE.INFO,
-        });
-        break;
+        if (this.type !== POLICY_TYPES.CUSTOM)
+          dataDogLog({
+            name: LOG_NAME.LOGIN_SUCCESS,
+            payload: ddPayload,
+            status: STATUS_TYPE.INFO,
+          });
+      // fallthrough expected here
+      // eslint-disable-next-line no-fallthrough
       case CSP_IDS.VAMOCK:
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
       default:
-        recordEvent({ event: `login-or-register-success-${this.serviceName}` });
+        recordEvent({
+          event: `login-or-register-success-${this.serviceName}`,
+        });
         Sentry.withScope(scope => {
           scope.setExtra(SENTRY_TAGS.REQUEST_ID, this.requestId);
           scope.setExtra(SENTRY_TAGS.ERROR_CODE, this.errorCode);

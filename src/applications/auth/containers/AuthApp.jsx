@@ -106,7 +106,7 @@ export class AuthApp extends React.Component {
     dataDogLog({
       name: LOG_NAME.LOGIN_FAIL,
       payload: newPayload({
-        csp: CSP_IDS.IDME,
+        csp: CSP_IDS.ID_ME,
         authBroker: AUTH_BROKER.SIS,
         authLocation: ddSessionStorage.authLocation,
         application: ddSessionStorage.application,
@@ -238,7 +238,7 @@ export class AuthApp extends React.Component {
     dataDogLog({
       name: LOG_NAME.LOGIN_FAIL,
       payload: newPayload({
-        csp: CSP_IDS.IDME,
+        csp: CSP_IDS.ID_ME,
         authBroker: AUTH_BROKER.SIS,
         authLocation: ddSessionStorage.authLocation,
         application: ddSessionStorage.application,

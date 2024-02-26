@@ -1,7 +1,7 @@
 import { datadogLogs } from '@datadog/browser-logs';
 
 const DATA_DOG_TOKEN = 'pube9cdb0054ba0126c0adac86ff8ac50e2';
-const DATA_DOG_SERVICE = 'benefits-notice-of-disagreement';
+const DATA_DOG_SERVICE = 'octo-identity';
 
 export const DD_SESSION_STORAGE_KEY = 'dataDogSession';
 
