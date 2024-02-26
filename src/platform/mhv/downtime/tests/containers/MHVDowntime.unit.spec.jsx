@@ -25,7 +25,6 @@
 //     getByText(/some of our health tools/i);
 //   });
 
-
 //  it('renders MHVDowntimeApproaching and children when a service is going down within an hour', () => {
 //     // Create a starting datetime 30 minutes into the future, though `status` is what really controls what renders
 //     const soon = new Date(Date.now());
