@@ -7,6 +7,7 @@ import mockFacilities from '../fixtures/facilityResponse/facilities-no-cerner.js
 
 class SecureMessagingSite {
   login = (
+    mockVamc = vamcUser,
     isSMUser = true,
     user = mockUser,
     userFacilities = mockFacilities,
@@ -14,7 +15,7 @@ class SecureMessagingSite {
     if (isSMUser === true) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc).as('vamcUser');
       cy.intercept('GET', '/v0/user', user).as('mockUser');
       cy.intercept('GET', '/v0/user_transition_availabilities', user);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
@@ -81,6 +82,19 @@ class SecureMessagingSite {
     ).as(`inboxMessages${interceptedPage}`);
     cy.get('[aria-label="Previous page"]').click();
     cy.wait(`@inboxMessages${interceptedPage}`);
+  };
+
+  loadVAPaginationLastPage = (pageNumber, mockMessages) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${pageNumber}&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as(`inboxMessages${pageNumber}`);
+    cy.get('.usa-pagination__list')
+      .last()
+      .should('be.visible')
+      .click();
+    cy.wait(`@inboxMessages${pageNumber}`);
   };
 
   loadVAPaginationPageMessages = (interceptedPage = 1, mockMessages) => {

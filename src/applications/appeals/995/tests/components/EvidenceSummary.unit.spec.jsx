@@ -74,12 +74,13 @@ const setupSummary = ({
   vaMR = true,
   privateMR = true,
   other = true,
-  limit = 'Pizza addiction',
+  limit,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
   onReviewPage = false,
   updatePage = () => {},
+  list = records(),
 } = {}) =>
   render(
     <div>
@@ -89,7 +90,7 @@ const setupSummary = ({
           [EVIDENCE_PRIVATE]: privateMR,
           [EVIDENCE_OTHER]: other,
 
-          ...records(),
+          ...list,
           limitedConsent: limit,
         }}
         goBack={goBack}
@@ -106,13 +107,44 @@ const setupSummary = ({
 
 describe('<EvidenceSummary>', () => {
   it('should render', () => {
-    const { container } = setupSummary();
+    const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($$('h3', container).length).to.eq(1);
     expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
+  });
+
+  it('should render with no data', () => {
+    const { container } = setupSummary({ list: {} });
+
+    expect($$('h3', container).length).to.eq(2); // includes no evidence alert
+    expect($$('ul', container).length).to.eq(0);
+    expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(2);
+  });
+
+  it('should render error messages with partial data', () => {
+    const goForward = sinon.spy();
+    const { container } = setupSummary({
+      list: {
+        locations: [{}],
+        providerFacility: [{}],
+        additionalDocuments: [{}],
+      },
+      goForward,
+    });
+
+    expect($$('h3', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(4);
+    expect($$('ul', container).length).to.eq(3);
+    expect($$('.usa-input-error-message', container).length).to.eq(8);
+    expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(2);
+
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    expect(goForward.called).to.be.false;
   });
 
   it('should render only one section', () => {
@@ -174,16 +206,51 @@ describe('<EvidenceSummary>', () => {
   });
 
   it('should not navigate forward with errors', () => {
-    const goFoward = sinon.spy();
+    const goForward = sinon.spy();
+    const list = records();
+    list.locations[0].issues = [];
+    const { container } = setupSummary({
+      limit: 'Pizza addiction',
+      list,
+      goForward,
+    });
+
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    expect(goForward.called).to.be.false;
+  });
+
+  it('should not update on review & submit with errors', () => {
+    const updateSpy = sinon.spy();
+    const list = records();
+    list.locations[0].issues = [];
+    const { container } = setupSummary({
+      limit: 'Pizza addiction',
+      list,
+      onReviewPage: true,
+      updatePage: updateSpy,
+    });
+
+    fireEvent.click($('.form-nav-buttons va-button', container));
+    expect(updateSpy.called).to.be.false;
+  });
+
+  it('should navigate forward with not-included partial data', () => {
+    const goForward = sinon.spy();
     const { container } = setupSummary({
       vaMR: false,
       privateMR: false,
       other: false,
-      goFoward,
+      limit: 'Pizza addiction',
+      list: {
+        locations: [{}],
+        providerFacility: [{}],
+        additionalDocuments: [{}],
+      },
+      goForward,
     });
 
     fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goFoward.called).to.be.false;
+    expect(goForward.called).to.be.true;
   });
 
   it('should call goBack to get to the private limitation page, even with errors', () => {
@@ -192,6 +259,7 @@ describe('<EvidenceSummary>', () => {
       vaMR: false,
       privateMR: false,
       other: false,
+      limit: 'Pizza addiction',
       goBack,
     });
 
@@ -268,7 +336,10 @@ describe('<EvidenceSummary>', () => {
 
   it('should remove private limitations when remove is clicked', async () => {
     const setFormData = sinon.spy();
-    const { container } = setupSummary({ setFormData });
+    const { container } = setupSummary({
+      setFormData,
+      limit: 'Pizza addiction',
+    });
     // remove limitation
     fireEvent.click($('va-button[label="Remove limitations"]', container));
 
@@ -283,7 +354,10 @@ describe('<EvidenceSummary>', () => {
 
   it('should not remove limitations when "No" is selected in the modal', async () => {
     const setFormData = sinon.spy();
-    const { container } = setupSummary({ setFormData });
+    const { container } = setupSummary({
+      setFormData,
+      limit: 'Pizza addiction',
+    });
 
     // remove second VA entry
     fireEvent.click($('va-button[label="Remove limitations"]', container));

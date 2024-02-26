@@ -6,8 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-$large-screen-content-width: 940px;
-
 .find-a-representative {
   .clearfix {
     content: "";
@@ -19,79 +17,122 @@ $large-screen-content-width: 940px;
     visibility: hidden !important;
   }
 
-  .search-controls-container {
-    #representative-search-controls {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-
-      .location-input-container {
+  .search-section {
+    .search-controls-container {
+      #representative-search-controls {
+        display: flex;
+        flex-direction: column;
         position: relative;
-      }
 
-      .usa-input-error {
-        margin-top: 0em;
-      }
+        .search-controls-text-inputs {
+          @media (min-width: $medium-screen) {
+            .geolocation-container {
+              display: flex;
+              min-width: 10rem;
 
-      .use-my-location-button-container {
-        @media (min-width: $large-screen) {
-          position: absolute;
-          left: 30em;
-          top: 2em;
-          min-width: 10em;
+              .location-input {
+                min-width: 48rem;
+              }
+
+              .use-my-location-button-container {
+                align-self: flex-end;
+                min-width: 10em;
+                margin-left: 2em;
+                margin-bottom: 4px;
+              }
+            }
+
+            .search-area-dropdown {
+              width: 48rem;
+            }
+
+            .representative-name-input {
+              width: 48rem;
+            }
+          }
+          @media (max-width: $medium-screen) {
+            .location-input {
+              max-width: 46rem;
+            }
+
+            .search-area-dropdown {
+              max-width: 46rem;
+            }
+
+            .representative-name-input {
+              max-width: 46rem;
+            }
+          }
         }
-      }
 
-      .use-my-location-button-container-error {
-        @media (min-width: $large-screen) {
-          top: 4em;
+        .usa-input-error {
+          margin-top: 0em;
         }
-      }
 
-      .use-my-location-button {
-        text-decoration: none;
-        background-color: transparent;
-        color: $color-link-default;
-        font-weight: normal;
-        padding: 0 0 0 1.5em;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        max-width: 9em;
-      }
+        .use-my-location-button-container-error {
+          @media (min-width: $large-screen) {
+            top: 4em;
+          }
+        }
 
-      .finding-your-location-loading {
-        min-width: 14em;
-        text-decoration: none;
-        background-color: transparent;
-        margin-top: 0.3em;
-        color: $color-link-default;
-        font-weight: normal;
-        background-repeat: no-repeat;
-        background-color: transparent;
-      }
+        .use-my-location-button {
+          text-decoration: none;
+          background-color: transparent;
+          color: $color-link-default;
+          font-weight: normal;
+          padding: 0 0 0 1.5em;
+          background-image: url("/img/location-arrow-solid.svg");
+          background-repeat: no-repeat;
+          background-color: transparent;
+          max-width: 9em;
+        }
 
-      #representative-search {
-        max-width: 8em;
-        margin: 2em 0 2em 0 !important;
-      }
+        .finding-your-location-loading {
+          min-width: 14em;
+          text-decoration: none;
+          background-color: transparent;
+          margin-top: 0.3em;
+          color: $color-link-default;
+          font-weight: normal;
+          background-repeat: no-repeat;
+          background-color: transparent;
+        }
 
-      .rep-type-selector {
-        p:last-child {
-          margin-bottom: -1em !important;
+        #representative-search {
+          max-width: 8em;
+          margin: 2em 0 2em 0 !important;
+        }
+
+        .rep-type-selector {
+          p:last-child {
+            margin-bottom: -1em !important;
+          }
         }
       }
     }
   }
 
-  .representative-search-results-container {
-    .pagination-container .hydrated {
-      @media (min-width: $large-screen) {
-        width: $large-screen-content-width;
-      }
+  .results-section {
+    @media (min-width: $medium-screen) {
+      min-width: 60rem;
+    }
 
+    .loading-indicator-container {
+      margin-bottom: 60rem !important;
+    }
+
+    hr {
+      @media (min-width: $medium-screen) {
+        min-width: 60rem;
+      }
+      @media (max-width: $medium-screen) {
+        max-width: 57rem;
+      }
+    }
+    .pagination-container .hydrated {
       border-top: none !important;
     }
+
     #search-results-title {
       margin-bottom: 2em;
     }
@@ -100,53 +141,115 @@ $large-screen-content-width: 940px;
       margin: 0.5em 0 0.5em 0;
     }
 
-    hr {
-      @media (min-width: $large-screen) {
-        width: 64em;
-      }
-    }
-
-    .search-results-header {
-      @media (min-width: $large-screen) {
+    .sort-dropdown {
+      .sort-select-and-apply {
         display: flex;
         align-items: flex-end;
-        // justify-content: center;
-        width: $large-screen-content-width;
 
-        h2 {
-          margin: 0 7em 0 0 !important;
-          padding: 0px !important;
-          width: 32em;
+        .sort-select {
+          margin-bottom: 4.8px;
+          min-width: 25rem;
+          margin-left: 0;
+        }
+
+        .sort-apply-button {
+          margin-left: 2rem;
         }
       }
-      padding-bottom: 3em;
 
-      .sort-dropdown {
-        label {
-          @media (min-width: $large-screen) {
-            margin-top: 0 !important;
+      @media (max-width: 26rem) {
+        .sort-select-and-apply {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .sort-apply-button {
+            margin: 0;
           }
         }
       }
     }
 
     .representative-results-list {
-      @media (min-width: $large-screen) {
-        width: $large-screen-content-width;
-      }
+      width: 100%;
 
-      > * {
-        border-bottom: 2px solid $color-gray-lighter;
-        &:first-child {
-          border-top: 2px solid $color-gray-lighter;
+      .representative-result-card {
+        border: 1px solid $color-gray-medium !important;
+
+        .representative-result-card-content {
+          @media (min-width: 29rem) {
+            .report-outdated-information-button {
+              min-width: 27rem;
+            }
+          }
         }
+
+        @media (min-width: $medium-screen) {
+          min-width: 60rem;
+
+          .representative-result-card-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto;
+
+            .report-thank-you-alert {
+              grid-column: 1 / 5;
+              margin-bottom: 1rem;
+            }
+
+            .associated-organizations-info {
+              grid-column: 1 / 5;
+              grid-row: 3;
+            }
+
+            .representative-info-heading {
+              grid-column: 1 / 3;
+              grid-row: 2;
+            }
+            .representative-contact-section {
+              grid-column: 1 / 3;
+              grid-row: 4;
+            }
+
+            .report-outdated-information-button {
+              grid-column: 3 / 5;
+              grid-row: 2;
+              text-align: right;
+            }
+          }
+        }
+
+        @media (max-width: $medium-screen) {
+          display: flex;
+          align-items: center;
+          max-width: 57rem;
+
+          .report-thank-you-alert {
+            margin-top: 3rem;
+            margin-bottom: 0;
+          }
+
+          .report-outdated-information-button {
+            margin-top: 3rem;
+          }
+        }
+        @media (min-width: 565px) and (max-width: $medium-screen) {
+          .representative-result-card-content {
+            min-width: 35rem;
+          }
+        }
+      }
+    }
+
+    .report-other-text-input {
+      @media (min-width: $small-screen) {
+        padding-left: 4rem;
       }
     }
   }
 
   .help-footer-container {
-    @media (min-width: $large-screen) {
-      width: $large-screen-content-width;
+    @media (max-width: $medium-screen) {
+      padding-right: 2.5rem;
     }
   }
 }

@@ -56,6 +56,7 @@ export const MaxSelectionsAlert = ({ closeModal, appName }) => (
     status="warning"
     onCloseEvent={closeModal}
     visible
+    uswds
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
     {appName} request. If you would like to select more than{' '}
@@ -102,11 +103,8 @@ export const MessageAlert = ({
 
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error" class={classes}>
-        <Header
-          slot="headline"
-          className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
-        >
+      <va-alert status="error" class={classes} uswds>
+        <Header slot="headline" className="eligible-issues-error">
           {title}
         </Header>
         <p>{message}</p>
@@ -173,7 +171,7 @@ NoneSelectedAlert.propTypes = {
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info trigger="Why isn’t my issue listed here?">
+  <va-additional-info trigger="Why isn’t my issue listed here?" uswds>
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. If you
     have a decision date, you can add a new issue now.

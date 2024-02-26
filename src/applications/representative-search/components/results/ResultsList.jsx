@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import { focusElement } from 'platform/utilities/ui';
 import { representativeTypes } from '../../config';
-import { setFocus } from '../../utils/helpers';
 import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
 
@@ -17,7 +16,7 @@ const ResultsList = props => {
 
   useEffect(
     () => {
-      setFocus(searchResultTitle.current);
+      focusElement(searchResultTitle.current);
       recordSearchResultsEvents(searchResults, props);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,28 +25,33 @@ const ResultsList = props => {
 
   return (
     <>
-      <div className="representative-results-list" style={{ marginBottom: 25 }}>
+      <div className="representative-results-list">
+        {searchResults.length ? <hr /> : null}
         {searchResults?.map((result, index) => {
           return (
-            <>
+            <div key={index} className="vads-u-margin-top--4">
               <SearchResult
                 officer={result.attributes.fullName || result.attributes.name}
-                key={result.id}
+                reports={result.reports}
+                key={index}
                 type={result.type}
                 addressLine1={result.attributes.addressLine1}
                 addressLine2={result.attributes.addressLine2}
                 addressLine3={result.attributes.addressLine3}
                 city={result.attributes.city}
-                state={result.attributes.stateCode}
+                stateCode={result.attributes.stateCode}
                 zipCode={result.attributes.zipCode}
                 phone={result.attributes.phone}
                 email={result.attributes.email}
                 distance={result.attributes.distance}
+                associatedOrgs={result.attributes.organizationNames}
                 representative={result}
+                representativeId={result.id}
+                submitRepresentativeReport={props.submitRepresentativeReport}
                 query={query}
                 index={index}
               />
-            </>
+            </div>
           );
         })}
       </div>
@@ -65,7 +69,7 @@ ResultsList.propTypes = {
   searchError: PropTypes.object,
   searchResults: PropTypes.array,
   sortType: PropTypes.string,
-  onUpdateSortType: PropTypes.func,
+  submitRepresentativeReport: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

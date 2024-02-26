@@ -20,6 +20,7 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -41,6 +42,14 @@ const RadiologyDetails = props => {
     [record],
   );
 
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const download = () => {
     GenerateRadiologyPdf(record, user, runningUnitTest);
   };
@@ -57,7 +66,6 @@ ${txtLine}\n\n
 Reason for test: ${record.reason} \n
 Clinical history: ${record.clinicalHistory} \n
 Ordered by: ${record.orderedBy} \n
-Order location: ${record.orderingLocation} \n
 Imaging location: ${record.imagingLocation} \n
 Imaging provider: ${record.imagingProvider} \n
 ${txtLine}\n\n
@@ -91,9 +99,8 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
           Images
         </h3>
-        <p className="no-print">
+        <p data-testid="radiology-image" className="no-print">
           <va-link
-            active
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'va-medical-images-and-reports',

@@ -1,5 +1,4 @@
 import { Actions } from '../util/actionTypes';
-import { PrintMessageOptions } from '../util/constants';
 import { updateMessageInThread } from '../util/helpers';
 
 const initialState = {
@@ -10,7 +9,6 @@ const initialState = {
   threadFolderId: undefined,
   replyToMessageId: undefined,
   cannotReply: false,
-  printOption: PrintMessageOptions.PRINT_THREAD,
   threadViewCount: 5,
 };
 

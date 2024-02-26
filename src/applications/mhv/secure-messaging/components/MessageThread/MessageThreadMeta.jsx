@@ -9,6 +9,7 @@ const MessageThreadMeta = props => {
     replyMessage,
     activeReplyDraftMessage,
     draftMessageHistoryItem,
+    forPrint,
   } = props;
   const { recipientName, senderName, triageGroupName, messageId, sentDate } =
     message ||
@@ -20,7 +21,10 @@ const MessageThreadMeta = props => {
     <div className="message-thread-meta">
       <div>
         {sentDate !== null && (
-          <p className="vads-u-margin-y--0p5" data-testid="message-date">
+          <p
+            className="vads-u-margin-y--0p5"
+            data-testid={!forPrint ? 'message-date' : ''}
+          >
             <>Date: </>
             <span data-dd-privacy="mask">
               {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
@@ -29,7 +33,7 @@ const MessageThreadMeta = props => {
         )}
         <p
           className="vads-u-padding-right--2 vads-u-margin-y--0p5"
-          data-testid="from"
+          data-testid={!forPrint ? 'from' : ''}
         >
           <>From: </>
           <span data-dd-privacy="mask">
@@ -42,14 +46,17 @@ const MessageThreadMeta = props => {
         </p>
         <p
           className="vads-u-padding-right--2 vads-u-margin-y--0p5"
-          data-testid={!draftMessageHistoryItem ? 'to' : 'draftTo'}
+          data-testid={!forPrint && !draftMessageHistoryItem ? 'to' : 'draftTo'}
         >
           <>To: </>
           <span data-dd-privacy="mask">
             {recipientName || draftMessageHistoryItem[0]?.recipientName}
           </span>
         </p>
-        <p className="vads-u-margin-y--0p5" data-testid="message-id">
+        <p
+          className="vads-u-margin-y--0p5"
+          data-testid={!forPrint ? 'message-id' : ''}
+        >
           <>Message ID: </>
           <span data-dd-privacy="mask">
             {messageId || draftMessageHistoryItem[0]?.messageId}
@@ -64,6 +71,7 @@ MessageThreadMeta.propTypes = {
   fromMe: PropTypes.bool.isRequired,
   activeReplyDraftMessage: PropTypes.object,
   draftMessageHistoryItem: PropTypes.array,
+  forPrint: PropTypes.bool,
   message: PropTypes.object,
   replyMessage: PropTypes.object,
 };

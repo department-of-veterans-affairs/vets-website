@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import { setPrescriptionDetails } from '../../actions/prescriptions';
 
-const MedicationsListCard = props => {
+const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const { rx } = props;
+  const pagination = useSelector(
+    state => state.rx.prescriptions?.prescriptionsPagination,
+  );
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -32,7 +34,7 @@ const MedicationsListCard = props => {
             label: 'About medications',
           },
           {
-            url: `/my-health/medications${location.pathname}`,
+            url: `/my-health/medications/?page=${pagination?.currentPage || 1}`,
             label: 'Medications',
           },
         ],
@@ -44,6 +46,7 @@ const MedicationsListCard = props => {
         },
       ),
     );
+    dispatch(setPrescriptionDetails(rx));
   };
   return (
     <div className="no-print rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
@@ -66,6 +69,12 @@ const MedicationsListCard = props => {
               (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
           </Link>
         </h3>
+        {rx.dispStatus !== 'Unknown' &&
+          rx.dispStatus !== 'Active: Non-VA' && (
+            <div data-testid="rx-number">
+              Prescription number: {rx.prescriptionNumber}
+            </div>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
         {rx.dispStatus !== 'Unknown' && (

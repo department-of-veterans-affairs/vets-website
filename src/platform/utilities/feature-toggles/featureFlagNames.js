@@ -6,12 +6,11 @@ export default Object.freeze({
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   benefitsDocumentsUseLighthouse: 'benefits_documents_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
+  caregiverBrowserMonitoringEnabled: 'caregiver_browser_monitoring_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
-  cernerOverride463: 'cerner_override_463',
-  cernerOverride531: 'cerner_override_531',
-  cernerOverride648: 'cerner_override_648',
+  cernerTransition556T30: 'cerner_transition_556_t30',
+  cernerTransition556T5: 'cerner_transition_556_t5',
   cernerOverride653: 'cerner_override_653',
-  cernerOverride663: 'cerner_override_663',
   cernerOverride668: 'cerner_override_668',
   cernerOverride687: 'cerner_override_687',
   cernerOverride692: 'cerner_override_692',
@@ -62,6 +61,7 @@ export default Object.freeze({
   'cstUseLighthouse#index': 'cst_use_lighthouse_index',
   'cstUseLighthouse#show': 'cst_use_lighthouse_show',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
+  cstIncludeDdl5103Letters: 'cst_include_ddl_5103_letters',
   cstUseNewClaimCards: 'cst_use_new_claim_cards',
   cstUseClaimDetailsV2: 'cst_use_claim_details_v2',
   debtLettersShowLetters: 'debt_letters_show_letters',
@@ -88,7 +88,6 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
-  findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   financialStatusReportDebtsApiModule:
     'financial_status_report_debts_api_module',
@@ -115,7 +114,6 @@ export default Object.freeze({
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
-  hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
@@ -132,10 +130,13 @@ export default Object.freeze({
   mhvSecureMessagingBlockedTriageGroup1p0:
     'mhv_secure_messaging_blocked_triage_group_1_0',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
+  mhvMedicalRecordsDisplayConditions: 'mhv_medical_records_display_conditions',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
+  mhvMedicalRecordsDisplayLabsAndTests: 'mhv_medical_records_display_labs_and_tests',
   mhvMedicalRecordsDisplayNotes: 'mhv_medical_records_display_notes',
   mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
   mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
+  mhvMedicalRecordsDisplayVitals: 'mhv_medical_records_display_vitals',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
@@ -171,8 +172,6 @@ export default Object.freeze({
   profileShowQuickSubmitNotificationSetting:
     'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
-  profileUseFieldEditingPage: 'profile_use_field_editing_page',
-  profileUseHubPage: 'profile_use_hub_page',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:
@@ -218,13 +217,10 @@ export default Object.freeze({
     'show_meb_service_history_categorize_disagreement',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
-  showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage:
     'show_new_refill_track_prescriptions_page',
   showNewScheduleViewAppointmentsPage:
     'show_new_schedule_view_appointments_page',
-  showNewSecureMessagingPage: 'show_new_secure_messaging_page',
-  showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
   stemAutomatedDecision: 'stem_automated_decision',

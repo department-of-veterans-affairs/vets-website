@@ -14,6 +14,8 @@ const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 const docTypeToDescription = {
   27: 'Board Of Appeals Decision Letter',
+  65: '5103 Notice',
+  68: '5103 Notice',
   184: 'Notification Letter',
 };
 
@@ -53,9 +55,11 @@ const ClaimLetterListItem = ({ letter }) => {
         download
         filename={filename}
         filetype="PDF"
+        disable-analytics="true"
         href={getDownloadUrl(letter.documentId, letter.docType)}
         onClick={() => downloadHandler(letter.docType)}
         text={`Download ${formattedDate} letter`}
+        uswds="false"
       />
     </li>
   );

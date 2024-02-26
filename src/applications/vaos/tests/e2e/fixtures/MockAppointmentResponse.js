@@ -196,8 +196,158 @@ export default class MockAppointmentResponse {
       );
   }
 
+  static createCCResponse({ serviceType }) {
+    return new MockAppointmentResponse({
+      kind: 'cc',
+      status: APPOINTMENT_STATUS.proposed,
+      serviceType,
+    });
+  }
+
+  setCancelationReason(value) {
+    this.attributes.cancelationReason = {
+      coding: [{ code: value }],
+    };
+
+    return this;
+  }
+
+  setClinicId(id) {
+    this.attributes.clinic = id;
+    return this;
+  }
+
+  setContact({ phone, email }) {
+    this.attributes.contact = {
+      telecom: [
+        { type: 'phone', value: phone },
+        { type: 'email', value: email },
+      ],
+    };
+
+    return this;
+  }
+
   setId(value) {
     this.id = value.toString();
+    return this;
+  }
+
+  setLocation(location) {
+    this.attributes.location = location;
+    return this;
+  }
+
+  setTypeOfCare(value) {
+    this.attributes.serviceType = value;
+    return this;
+  }
+
+  setCCProvider() {
+    this.attributes.extension = {
+      ccLocation: {
+        address: {
+          line: ['Address line 1'],
+          city: 'City',
+          state: 'State',
+          postalCode: '12345',
+          text: '10640 MAIN ST ; STE 100\nFAIRFAX VA 22030',
+        },
+        telecom: [
+          {
+            system: 'phone',
+            value: '123-456-7890',
+          },
+        ],
+      },
+      ccTreatingSpecialty: 'Treating specialty',
+    };
+
+    return this;
+  }
+
+  setLocationId(value) {
+    this.attributes.locationId = value.toString();
+    return this;
+  }
+
+  setPractitioner({ id }) {
+    this.attributes.practitioners = [
+      {
+        identifier: [
+          {
+            system: 'http://hl7.org/fhir/sid/us-npi',
+            value: id,
+          },
+        ],
+        address: {
+          line: ['line 1'],
+          city: 'City',
+          state: 'State',
+          postalCode: 'Postal code',
+        },
+      },
+    ];
+
+    return this;
+  }
+
+  setPreferredProviderName(value) {
+    this.attributes.preferredProviderName = value;
+    return this;
+  }
+
+  setPreferredTimesForPhoneCall({ morning, afternoon, evening }) {
+    const array = [];
+
+    if (morning) array.push('Morning');
+    if (afternoon) array.push('Afternoon');
+    if (evening) array.push('Evening');
+
+    this.attributes.preferredTimesForPhoneCall = array;
+
+    return this;
+  }
+
+  setReasonCode({ code, text }) {
+    this.attributes.reasonCode = {
+      coding: [{ code }],
+      text,
+    };
+
+    return this;
+  }
+
+  getRequestedPeriods() {
+    // Throwing an error since using null, undefined or [] when constructing a moment
+    // will default to the current date and time.
+    if (!this.attributes.requestedPeriods)
+      throw new Error('Attribute not defined');
+
+    return this.attributes.requestedPeriods;
+  }
+
+  setRequestedPeriods(requestedPeriods) {
+    this.attributes.localStartTime = undefined;
+    this.attributes.requestedPeriods = requestedPeriods.map(date => {
+      return {
+        start: moment(date).format('YYYY-MM-DDThh:mm:ssZ'),
+        end: moment(date)
+          .add(1, 'hour')
+          .format('YYYY-MM-DDThh:mm:ssZ'),
+      };
+    });
+
+    return this;
+  }
+
+  setStart(value) {
+    this.attributes.start = value;
+    return this;
+  }
+
+  setStatus(value) {
+    this.attributes.status = value;
     return this;
   }
 }

@@ -51,15 +51,37 @@ h3.name-of-deceased-text {
   padding-left: 1rem;
 }
 
-article#pre-need[data-location="applicant-demographics"] {
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="applicant-demographics-preparer"],
+article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
+  }
+}
+
+article#pre-need[data-location="applicant-demographics-2"],
+article#pre-need[data-location="applicant-demographics-2-preparer"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: -1em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+}
+
+article#pre-need[data-location="sponsor-deceased"],
+article#pre-need[data-location="sponsor-date-of-death"] {
+  .schemaform-first-field .schemaform-label  {
+    padding-top: 3em;
   }
 }
 
 article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
   }
 }
 
@@ -108,18 +130,32 @@ fieldset.schemaform-field-template.schemaform-first-field {
   font-weight: normal;
 }
 
-.applicantDetailsSubHeader {
+.applicantDetailsSubHeader,
+.sponsorDetailsSubHeader {
   margin-bottom: -1em;
 }
 
-.applicantDemographicsDescription {
-  padding-bottom: 1em;
+.sponsorMilitaryDetailsSubHeader {
+  margin-bottom: -2em;
+}
+
+.applicantDemographicsSubHeader,
+.sponsorDemographicsSubHeader {
+  margin-bottom: -1em;
+}
+
+.applicantDemographicsDescription,
+.sponsorDemographicsDescription {
+  padding-bottom: 0.5em;
 }
 
 .ApplicantDescriptionWrapper {
   padding-bottom: 1em;
 }
 
+.sponsorDateOfDeathSubheader{
+  margin-top: -1em;
+}
 
 .militaryDetailsSubHeader {
   margin-bottom: -1em;

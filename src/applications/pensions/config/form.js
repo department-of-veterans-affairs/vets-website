@@ -29,8 +29,11 @@ import {
   submit,
   createSpouseLabelSelector,
   generateHelpText,
+  isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
+import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
+import ServicePeriodReview from '../components/ServicePeriodReview';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
@@ -188,12 +191,6 @@ export function medicaidDoesNotCoverNursingHome(formData) {
   return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
 
-export function isHomeAcreageMoreThanTwo(formData) {
-  return (
-    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
-  );
-}
-
 export function ownsHome(formData) {
   return formData.homeOwnership === true;
 }
@@ -239,6 +236,19 @@ function usingDirectDeposit(formData) {
   return formData['view:noDirectDeposit'] !== true;
 }
 
+export function doesHaveDependents(formData) {
+  return get(['view:hasDependents'], formData) === true;
+}
+
+export function dependentIsOutsideHousehold(formData, index) {
+  // if 'view:hasDependents' is false,
+  // all checks requiring dependents must be false
+  return (
+    doesHaveDependents(formData) &&
+    !get(['dependents', index, 'childInHousehold'], formData)
+  );
+}
+
 const marriageProperties = marriages.items.properties;
 
 const marriageType = {
@@ -268,7 +278,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -284,7 +294,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for Veterans’ pension benefits',
+  title: 'Apply for Veterans Pension benefits',
   subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
@@ -347,6 +357,7 @@ const formConfig = {
           title: 'Service period',
           uiSchema: servicePeriod.uiSchema,
           schema: servicePeriod.schema,
+          CustomPageReview: ServicePeriodReview,
         },
         general: {
           path: 'military/general',
@@ -532,14 +543,19 @@ const formConfig = {
                     'ui:title': 'Spouse’s suffix',
                   },
                 }),
-                dateOfMarriage: currentOrPastDateUI('Date of marriage'),
-                locationOfMarriage: {
-                  'ui:title':
-                    'Place of marriage (city and state or foreign country)',
-                },
                 'view:currentMarriage': {
                   'ui:options': {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
+                  },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => isCurrentMarriage(...args) },
+                  ),
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   marriageType: {
                     'ui:title': 'How did you get married?',
@@ -593,10 +609,20 @@ const formConfig = {
                       expandUnderCondition: separationTypeLabels.other,
                     },
                   },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => !isCurrentMarriage(...args) },
+                  ),
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                     'ui:validations': [validateAfterMarriageDate],
+                  },
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
                   locationOfSeparation: {
                     'ui:title':
@@ -614,18 +640,15 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'locationOfMarriage',
-                  ],
+                  required: ['spouseFullName'],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
                     'view:currentMarriage': {
                       type: 'object',
                       properties: {
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         marriageType,
                         otherExplanation: marriageProperties.otherExplanation,
                       },
@@ -635,7 +658,10 @@ const formConfig = {
                       properties: {
                         reasonForSeparation,
                         otherExplanation: marriageProperties.otherExplanation,
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
                       },
@@ -766,14 +792,14 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents/add',
-          depends: form => get(['view:hasDependents'], form) === true,
+          depends: doesHaveDependents,
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
           title: item => getDependentChildTitle(item, 'information'),
-          depends: form => get(['view:hasDependents'], form) === true,
+          depends: doesHaveDependents,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -782,7 +808,7 @@ const formConfig = {
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
           title: item => getDependentChildTitle(item, 'household'),
-          depends: form => get(['view:hasDependents'], form) === true,
+          depends: doesHaveDependents,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -813,8 +839,7 @@ const formConfig = {
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => getDependentChildTitle(item, 'address'),
-          depends: (form, index) =>
-            !get(['dependents', index, 'childInHousehold'], form),
+          depends: dependentIsOutsideHousehold,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -841,8 +866,7 @@ const formConfig = {
                 childAddress: address.uiSchema(
                   '',
                   false,
-                  (form, index) =>
-                    !get(['dependents', index, 'childInHousehold'], form),
+                  dependentIsOutsideHousehold,
                 ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
@@ -859,10 +883,8 @@ const formConfig = {
                     'ui:title': 'Suffix',
                   },
                   'ui:options': {
-                    updateSchema: (form, UISchema, schema, index) => {
-                      if (
-                        !get(['dependents', index, 'childInHousehold'], form)
-                      ) {
+                    updateSchema: (form, _UISchema, _schema, index) => {
+                      if (dependentIsOutsideHousehold(form, index)) {
                         return fullName;
                       }
                       return nonRequiredFullName;
@@ -875,8 +897,7 @@ const formConfig = {
                     "How much do you contribute per month to your child's support?",
                   ),
                   {
-                    'ui:required': (form, index) =>
-                      !get(['dependents', index, 'childInHousehold'], form),
+                    'ui:required': dependentIsOutsideHousehold,
                   },
                 ),
               },
@@ -925,9 +946,16 @@ const formConfig = {
           path: 'financial/home-ownership/acres/value',
           depends: isHomeAcreageMoreThanTwo,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: {
+            type: 'object',
+            properties: {
+              homeAcreageValue: {
+                type: 'number',
+              },
+            },
+          },
           CustomPage: HomeAcreageValueInput,
-          CustomPageReview: null,
+          CustomPageReview: HomeAcreageValueReview,
         },
         landMarketable: {
           title: 'Land marketable',
@@ -964,13 +992,13 @@ const formConfig = {
         },
         hasMedicalExpenses: {
           path: 'financial/medical-expenses',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           uiSchema: hasMedicalExpenses.uiSchema,
           schema: hasMedicalExpenses.schema,
         },
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,

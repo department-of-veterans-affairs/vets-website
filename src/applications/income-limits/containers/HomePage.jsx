@@ -59,6 +59,7 @@ const HomePage = ({
         close-btn-aria-label="Close notification"
         status="info"
         visible
+        uswds
       >
         <h2 slot="headline">
           We’ve updated this tool to check 2024 income limits

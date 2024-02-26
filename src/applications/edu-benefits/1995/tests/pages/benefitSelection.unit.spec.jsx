@@ -24,7 +24,7 @@ describe('Edu 1995 benefitSelection', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 
@@ -68,7 +68,7 @@ describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 });

@@ -22,6 +22,7 @@ import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import CernerTransitioningFacilityAlert from '../components/Alerts/CernerTransitioningFacilityAlert';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,9 @@ const LandingPageAuth = () => {
     <div className="dashboard">
       <AlertBackgroundBox />
       <h1>Messages</h1>
+
+      <CernerTransitioningFacilityAlert />
+
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
       </p>

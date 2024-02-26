@@ -13,9 +13,12 @@ import {
   getTrackedItemId,
   getTrackedItems,
   getFilesNeeded,
+  getFilesOptional,
   getUserPhase,
   getUserPhaseDescription,
   getPhaseDescription,
+  getStatusDescription,
+  getClaimStatusDescription,
   truncateDescription,
   getItemDate,
   isClaimComplete,
@@ -519,6 +522,40 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('getFilesOptional', () => {
+    context('when useLighthouse is true', () => {
+      const useLighthouse = true;
+      it('when trackedItems is empty, should return empty array', () => {
+        const trackedItems = [];
+        const filesNeeded = getFilesOptional(trackedItems, useLighthouse);
+        expect(filesNeeded.length).to.equal(0);
+      });
+
+      it('when trackedItems exists, should return data', () => {
+        const trackedItems = [{ status: 'NEEDED_FROM_OTHERS' }];
+        const filesNeeded = getFilesOptional(trackedItems, useLighthouse);
+        expect(filesNeeded.length).to.equal(1);
+      });
+    });
+
+    context('when useLighthouse is false', () => {
+      const useLighthouse = false;
+      it('when eventsTimeline is empty, should return empty array', () => {
+        const eventsTimeline = [];
+        const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
+        expect(filesNeeded.length).to.equal(0);
+      });
+
+      it('when eventsTimeline exists, should return data', () => {
+        const eventsTimeline = [
+          { type: 'still_need_from_others_list', status: 'NEEDED' },
+        ];
+        const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
+        expect(filesNeeded.length).to.equal(1);
+      });
+    });
+  });
+
   describe('getUserPhase', () => {
     it('should get phase 3 desc for 4-6', () => {
       const phase = getUserPhase(5);
@@ -532,6 +569,24 @@ describe('Disability benefits helpers: ', () => {
       const desc = getUserPhaseDescription(3);
 
       expect(desc).to.equal('Evidence gathering, review, and decision');
+    });
+  });
+
+  describe('getStatusDescription', () => {
+    it('should display status description from map', () => {
+      const desc = getStatusDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('Step 1 of 5: Claim received');
+    });
+  });
+
+  describe('getClaimStatusDescription', () => {
+    it('should display claim status description from map', () => {
+      const desc = getClaimStatusDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal(
+        'We received your claim. We haven’t assigned the claim to a reviewer yet.',
+      );
     });
   });
 

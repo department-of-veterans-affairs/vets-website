@@ -21,6 +21,7 @@ import {
   getMedicationsTaking,
   getMedicationsNotTaking,
 } from '../utils/medications';
+import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
 
 import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
@@ -55,11 +56,9 @@ const primaryCareProvider = avs => {
       <div>
         <h3>Primary care provider</h3>
         <ul data-testid="primary-care-provider">
-          {/* TODO: Confirm that this is correct. */}
           {avs.primaryCareProviders.length && (
             <li>{avs.primaryCareProviders[0]}</li>
           )}
-          {avs.primaryCareTeam && <li>{avs.primaryCareTeam}</li>}
         </ul>
       </div>
     );
@@ -79,8 +78,11 @@ const primaryCareTeam = avs => {
 
     return (
       <div>
-        <h3>Primary care team</h3>
-        <ul className="bulleted-list" data-testid="primary-care-team">
+        <h3 data-testid="primary-care-team">Primary care team</h3>
+        <p data-testid="primary-care-team-name">
+          {avs.primaryCareTeam && `Team name: ${avs.primaryCareTeam}`}
+        </p>
+        <ul className="bulleted-list" data-testid="primary-care-team-list">
           {teamMembers}
         </ul>
       </div>
@@ -297,6 +299,9 @@ const renderFieldWithBreak = (field, prefix = '') => {
 };
 
 const renderVaMedication = medication => {
+  const facilityPhone = normalizePhoneNumber(medication.facilityPhone);
+  const phoneNotClickable = !numberIsClickable(facilityPhone);
+
   return (
     <>
       <p>
@@ -312,7 +317,8 @@ const renderVaMedication = medication => {
           <>
             Main phone: [
             <va-telephone
-              contact={medication.facilityPhone.replace(/\D/g, '')}
+              contact={facilityPhone}
+              not-clickable={phoneNotClickable}
             />
             ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
           </>

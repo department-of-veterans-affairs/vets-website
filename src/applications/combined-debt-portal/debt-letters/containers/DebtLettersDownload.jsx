@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
 
@@ -17,15 +17,33 @@ const DebtLettersDownload = () => {
 
   return (
     <>
-      <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb">
-          <a href="/">Home</a>
-          <a href="/manage-va-debt/">Manage your VA debt</a>
-          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-          <Link to="/debt-balances/">Current VA debt</Link>
-          <Link to="/debt-balances/letters">Debt letters</Link>
-        </va-breadcrumbs>
-      </div>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/manage-va-debt/summary/debt-balances',
+            label: 'Current VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary/debt-balances/letters',
+            label: 'Debt letters',
+          },
+        ]}
+        label="Breadcrumb"
+        uswds
+        wrapping
+      />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1
           id="downloadDebtLetters"
@@ -34,7 +52,7 @@ const DebtLettersDownload = () => {
         >
           Download debt letters
         </h1>
-        <p className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--lg">
+        <p className="va-introtext">
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>

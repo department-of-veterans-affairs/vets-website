@@ -1,11 +1,20 @@
-// https://stackoverflow.com/a/50171440/1000622
-export const setFocus = (selector, tabIndexInclude = true) => {
-  const el =
-    typeof selector === 'string' ? document.querySelector(selector) : selector;
-  if (el) {
-    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
-    el.focus();
+export const appendReportsFromLocalStorage = resultsArray => {
+  const localReportsArray = localStorage.getItem('vaReports');
+
+  if (localReportsArray) {
+    const parsedLocalReportsArray = JSON.parse(localReportsArray);
+    for (const localReport of parsedLocalReportsArray) {
+      const resultMatch = resultsArray.find(
+        resultItem => resultItem.id === localReport.representativeId,
+      );
+
+      if (resultMatch) {
+        resultMatch.reports = localReport.reports;
+      }
+    }
   }
+
+  return resultsArray;
 };
 
 /**
@@ -58,45 +67,6 @@ export const areBoundsEqual = (box1, box2) => {
   );
 };
 
-export const mockPaginatedResponse = (allResults, page) => {
-  const itemsPerPage = 10;
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const data = allResults.data.slice(startIndex, endIndex);
-  const link = `https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives${window.location.search.substring(
-    1,
-  )}`;
-  const links = {
-    self: link,
-    first: link,
-    prev: null,
-    next: link,
-    last: link,
-  };
-  const meta = {
-    pagination: {
-      currentPage: page,
-      perPage: 10,
-      totalPages: Math.ceil(allResults.data.length / 10),
-      totalEntries: allResults.data.length,
-    },
-  };
-
-  return { data, links, meta };
-};
-
-/**
- * A utility to break URL query strings up into a queriable object
- *
- * @param {string} urlParams A URL query string (e.g. key=value&key2=value2...)
- */
-export const urlParamStringToObj = urlParams =>
-  urlParams.split('&').map(p => {
-    const [key, value] = p.split('=');
-    return { [key]: value };
-  });
-
 /**
  * "Enum" of keyboard keys to their numerical equivalent
  */
@@ -107,23 +77,4 @@ export const keyMap = {
   SPACE: 32,
   UP: 38,
   DOWN: 40,
-};
-
-/**
- *
- * @param {Object} urlObj Typically location.pathname
- * @param {String} urlPrefixString Types like "/facility" or "/provider"
- *
- * Matches on all of the following URL shapes.
- * The first item would not match our previous regex,
- * and the breadcrumb would not add a third link.
- *
- * find-locations/facility/nca_s1130
- * find-locations/facility/vha_691GE
- * find-locations/facility/nca_827
- */
-export const validateIdString = (urlObj, urlPrefixString) => {
-  const regex = '/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
-  const unparsedString = `${urlPrefixString}${regex}`;
-  return urlObj.match(unparsedString);
 };

@@ -19,17 +19,11 @@ describe('Secure Messaging Compose', () => {
     ).as('signature');
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4', {
       force: true,
     });
-    cy.get('[name="COVID"]')
+    cy.get(`[name="compose-message-categories"][value=COVID]`)
       .first()
       .click();
     composePage.attachMessageFromFile('test_image.jpg', { force: true });

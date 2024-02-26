@@ -62,8 +62,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileUseFieldEditingPage: true,
-            profileUseHubPage: true,
+            profileHideDirectDepositCompAndPen: false,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
@@ -76,6 +75,7 @@ const responses = {
     );
   },
   'GET /v0/user': (_req, res) => {
+    // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
@@ -87,7 +87,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
-
+    // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -119,7 +119,14 @@ const responses = {
     // return res.status(500).json(genericErrors.error500);
 
     // Lighthouse based API endpoint for direct deposit CNP
+    // happy path response / user with data
     return res.json(mockDisabilityCompensations.base);
+
+    // edge cases
+    // return res.json(mockDisabilityCompensations.isDeceased);
+    // return res.json(mockDisabilityCompensations.isFiduciary);
+    // return res.json(mockDisabilityCompensations.isNotCompetent);
+    // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     return res
@@ -148,8 +155,11 @@ const responses = {
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected0,
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    return res.status(200).json(ratingInfo.success);
+    // return res.status(500).json(genericErrors.error500);
+  },
+
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
@@ -257,7 +267,7 @@ const responses = {
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
-  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
   'GET /v0/profile/contacts': contacts,
 };
 
