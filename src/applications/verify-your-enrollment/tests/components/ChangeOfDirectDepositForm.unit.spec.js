@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import apiRequest from '@department-of-veterans-affairs/platform-utilities/api';
 import { expect } from 'chai';
 import {
   getFormDOM,
@@ -66,7 +68,10 @@ describe('Change Of Direct Deposit Form', () => {
     const VeteranEmail = screen.getByRole('textbox', {
       name: "Veteran's Email Address (*Required)",
     });
-    // const accountTypeButton = screen.queryByText(/checking/i);
+    const accountTypeButton = screen.container.querySelector(
+      'va-radio-option[label="Checking"]',
+    );
+
     const bankName = screen.getByRole('textbox', {
       name: /name of financial institution \(\*required\)/i,
     });
@@ -83,7 +88,7 @@ describe('Change Of Direct Deposit Form', () => {
       name: /verify account number \(\*required\)/i,
     });
 
-    // fireEvent.click(accountTypeButton);
+    fireEvent.click(accountTypeButton);
     fireEvent.change(fullName, { target: { value: 'Jhon Doe' } });
     fireEvent.change(VeteranPhone, { target: { value: '3134567890' } });
     fireEvent.change(VeteranEmail, {
@@ -94,8 +99,6 @@ describe('Change Of Direct Deposit Form', () => {
     fireEvent.change(routingNumber, { target: { value: '123456789' } });
     fireEvent.change(accountNumber, { target: { value: '123' } });
     fireEvent.change(verifyAccountNumber, { target: { value: '123456' } });
-
-    // expect(accountTypeButton.checked).to.be.true;
     expect(bankName.value).to.equal('Test Bank Name');
     expect(bankPhone.value).to.equal('1234567890');
     expect(routingNumber.value).to.equal('123456789');
@@ -107,7 +110,9 @@ describe('Change Of Direct Deposit Form', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
   });
 
-  it('Should submit form', () => {
+  it('Should submit form', async () => {
+    const apiRequestStub = sinon.stub().resolves({ ok: true });
+    sinon.stub(apiRequest, 'mockResolvedValue').returns(apiRequestStub);
     const screen = render(
       <DefinitionTester
         pagePerItemIndex={0}
@@ -123,7 +128,9 @@ describe('Change Of Direct Deposit Form', () => {
     const fullName = screen.getByRole('textbox', {
       name: "Veteran's Full Name (*Required)",
     });
-    // const accountTypeButton = screen.queryByText(/checking/i);
+    const accountTypeButton = screen.container.querySelector(
+      'va-radio-option[label="Checking"]',
+    );
     const bankName = screen.getByRole('textbox', {
       name: /name of financial institution \(\*required\)/i,
     });
@@ -145,7 +152,7 @@ describe('Change Of Direct Deposit Form', () => {
     const verifyAccountNumber = screen.getByRole('textbox', {
       name: /verify account number \(\*required\)/i,
     });
-    // fireEvent.click(accountTypeButton);
+    fireEvent.click(accountTypeButton);
     fireEvent.change(fullName, { target: { value: 'Jhon Doe' } });
     fireEvent.change(VeteranPhone, { target: { value: '3134567890' } });
     fireEvent.change(VeteranEmail, {
@@ -157,15 +164,18 @@ describe('Change Of Direct Deposit Form', () => {
     fireEvent.change(accountNumber, { target: { value: '123' } });
     fireEvent.change(verifyAccountNumber, { target: { value: '123' } });
 
-    // expect(accountTypeButton.checked).to.be.true;
     expect(bankName.value).to.equal('Test Bank Name');
     expect(bankPhone.value).to.equal('1234567890');
     expect(routingNumber.value).to.equal('123456789');
     expect(accountNumber.value).to.equal('123');
     expect(verifyAccountNumber.value).to.equal('123');
-
+    const res = { data: {}, status: 204 };
     formDOM.submitForm();
-
+    apiRequestStub.resolves(res);
+    await waitFor(() => {
+      expect(screen.getByTestId('alert')).to.exist;
+    });
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    apiRequestStub.restore();
   });
 });

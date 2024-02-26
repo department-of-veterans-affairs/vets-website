@@ -23,7 +23,9 @@ const Alert = ({ status, message }) => {
       visible
     >
       <React.Fragment key=".1">
-        <p className="vads-u-margin-y--0">{message}</p>
+        <p data-testid="alert" className="vads-u-margin-y--0">
+          {message}
+        </p>
       </React.Fragment>
     </va-alert>
   );
