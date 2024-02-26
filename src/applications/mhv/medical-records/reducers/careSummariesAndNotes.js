@@ -32,7 +32,7 @@ const extractType = record => {
 
 const extractAuthenticator = record => {
   return extractContainedResource(record, record.authenticator?.reference)
-    ?.name[0].text;
+    ?.name?.[0]?.text;
 };
 
 const extractAuthor = record => {
@@ -51,13 +51,15 @@ const extractLocation = record => {
 };
 
 const extractNote = record => {
-  return (
+  if (
     isArrayAndHasItems(record.content) &&
-    typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64')
+    typeof record.content[0].attachment?.data === 'string'
+  ) {
+    return Buffer.from(record.content[0].attachment.data, 'base64')
       .toString('utf-8')
-      .replace(/\r\n|\r/g, '\n') // Standardize line endings
-  );
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
 };
 
 export const getDateSigned = record => {
