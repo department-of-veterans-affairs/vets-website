@@ -6,12 +6,12 @@ describe('Medical Records Vitals', () => {
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/vitals');
+    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Page Toggle Menu button Print or download ', () => {
     // Given Navigate to Vitals Page
-
+    VitalsListPage.goToVitals();
     VitalsListPage.clickVitalsDetailsLink(0);
     // should display a toggle menu button
     // Verify  PrintDownload button
