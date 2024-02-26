@@ -72,13 +72,11 @@ describe('<Hub />', () => {
 
   Object.values(SERVICE_PROVIDERS).forEach(service => {
     it('should render with the correct service name and link', () => {
-      const { container } = setup({
+      const { container, getByText } = setup({
         signInServiceName: service.policy,
       });
       expect(
-        container.querySelector(
-          `[text="Update your sign-in info on the ${service.label} website"]`,
-        ),
+        getByText(`Update your sign-in info on the ${service.label} website`),
       ).to.exist;
       expect(container.querySelector(`[href="${service.link}"]`)).to.exist;
     });
