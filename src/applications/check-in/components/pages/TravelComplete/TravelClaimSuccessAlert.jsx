@@ -12,7 +12,7 @@ const TravelClaimSuccessAlert = props => {
     return (
       <va-alert
         show-icon
-        data-testid="travel-pay-message"
+        data-testid="travel-pay-message-mulitple-facilities"
         status="success"
         uswds
       >
@@ -40,7 +40,12 @@ const TravelClaimSuccessAlert = props => {
   }
 
   return (
-    <va-alert show-icon data-testid="travel-pay-message" status="success" uswds>
+    <va-alert
+      show-icon
+      data-testid="travel-pay-message-single-facility"
+      status="success"
+      uswds
+    >
       <h2 slot="headline">{t('claim-submitted')}</h2>
       <p
         className="vads-u-margin-top--0"
