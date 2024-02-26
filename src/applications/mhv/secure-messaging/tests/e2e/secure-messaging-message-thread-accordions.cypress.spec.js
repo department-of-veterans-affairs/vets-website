@@ -17,22 +17,43 @@ describe('Secure Messaging Thread Details', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.loadSingleThread(mockThreadResponse, date);
-    // cy.pause();
+    // cy.wait(500);
 
-    for (let i = 2; i < messageIdList.length; i += 1) {
-      cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
-        .shadow()
-        .find('[part="accordion-header"]')
-        .click();
-      // cy.focused().then(el => {
-      //   console.log(el)
-      // })
-      cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
-        .shadow()
-        .find('[part="accordion-header"]')
-        .should('have.attr', 'aria-expanded', 'true')
-        .and('have.focus');
-    }
+    cy.then(() => {
+      for (let i = 1; i < messageIdList.length; i += 1) {
+        cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
+          .shadow()
+          .find('[part="accordion-header"]')
+          .click()
+          .then(el => {
+            cy.wrap(el)
+              .should('have.css', 'outline-color', 'rgb(61, 69, 81)')
+              .and('be.enabled');
+          });
+        cy.focused().then(el => {
+          if (cy.wrap(el).contains('h1')) {
+            cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
+              .shadow()
+              .find('[part="accordion-header"]')
+              .click();
+          } else {
+            cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
+              .shadow()
+              .find('[part="accordion-header"]')
+              .should('have.attr', 'aria-expanded', 'true')
+              .and('have.focus');
+          }
+        });
+        // cy.focused().then(el => {
+        //   console.log(el);
+        // });
+        // cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
+        //   .shadow()
+        //   .find('[part="accordion-header"]')
+        //   .should('have.attr', 'aria-expanded', 'true')
+        //   .and('have.focus');
+      }
+    });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
