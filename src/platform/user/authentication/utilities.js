@@ -349,7 +349,7 @@ export async function login({
       csp: policy,
       authBroker: OAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
       authLocation: externalRedirect ? AUTH_LOCATION.USIP : AUTH_LOCATION.MODAL,
-      application,
+      application: application || 'unknown',
       level: 'unknown',
     }),
     type: STATUS_TYPE.INFO,
@@ -438,38 +438,19 @@ export async function signupOrVerify({
 
   const externalRedirect = isExternalRedirect();
   const { application } = getQueryParams();
+
   // isSignup is true for CreateAccountLink, false for VerifyAccountLink
-  if (isSignup) {
-    // register
-    dataDogLog({
-      name: LOG_NAME.REGISTER_ATTEMPT,
-      payload: newPayload({
-        csp: policy,
-        authBroker: useOAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
-        authLocation: externalRedirect
-          ? AUTH_LOCATION.USIP
-          : AUTH_LOCATION.MODAL,
-        application,
-        level: 'unknown',
-      }),
-      type: STATUS_TYPE.INFO,
-    });
-  } else {
-    // verify
-    dataDogLog({
-      name: LOG_NAME.VERIFY_ATTEMPT,
-      payload: newPayload({
-        csp: policy,
-        authBroker: useOAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
-        authLocation: externalRedirect
-          ? AUTH_LOCATION.USIP
-          : AUTH_LOCATION.MODAL,
-        application,
-        level: 'unknown',
-      }),
-      type: STATUS_TYPE.INFO,
-    });
-  }
+  dataDogLog({
+    name: isSignup ? LOG_NAME.REGISTER_ATTEMPT : LOG_NAME.VERIFY_ATTEMPT,
+    payload: newPayload({
+      csp: policy,
+      authBroker: useOAuth ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
+      authLocation: externalRedirect ? AUTH_LOCATION.USIP : AUTH_LOCATION.MODAL,
+      application: application || 'unknown',
+      level: 'unknown',
+    }),
+    type: STATUS_TYPE.INFO,
+  });
 
   return isLink ? url : redirect(url, event);
 }

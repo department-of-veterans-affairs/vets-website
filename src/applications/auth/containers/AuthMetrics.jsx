@@ -40,13 +40,16 @@ export default class AuthMetrics {
   };
 
   recordGAAuthEvents = () => {
-    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY) || {
+      authLocation: 'unknown',
+      application: 'unknown',
+    };
     const ddPayload = newPayload({
       csp: this.serviceName,
       authBroker: this.authBroker,
       authLocation: ddSessionStorage.authLocation,
       application: ddSessionStorage.application,
-      level: this.loaCurrent,
+      level: this.loaCurrent || 'unknown',
     });
 
     switch (this.type) {

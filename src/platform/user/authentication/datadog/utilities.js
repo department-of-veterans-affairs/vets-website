@@ -1,6 +1,6 @@
 import { datadogLogs } from '@datadog/browser-logs';
 
-const DATA_DOG_TOKEN = 'pubb208973905b7f32eb100b1c27688ecc9';
+const DATA_DOG_TOKEN = 'pube9cdb0054ba0126c0adac86ff8ac50e2';
 const DATA_DOG_SERVICE = 'benefits-notice-of-disagreement';
 
 export const DD_SESSION_STORAGE_KEY = 'dataDogSession';
@@ -17,24 +17,21 @@ export const LOG_NAME = {
   LOGIN_ATTEMPT: 'ui:login-attempt',
   LOGIN_SUCCESS: 'ui:login-success',
   LOGIN_FAIL: 'ui:login-fail',
-  // Signup
-  SIGNUP_ATTEMPT: 'ui:signup-attempt',
-  SIGNUP_SUCCESS: 'ui:signup-success',
-  SIGNUP_FAILURE: 'ui:signup-failure',
+  // Register
+  REGISTER_ATTEMPT: 'ui:register-attempt',
+  REGISTER_SUCCESS: 'ui:register-success',
+  REGISTER_FAILURE: 'ui:register-failure',
   // Verify
   VERIFY_ATTEMPT: 'ui:verify-attempt',
   VERIFY_SUCCESS: 'ui:verify-success',
   VERIFY_FAILURE: 'ui:verify-failure',
   // Logout
   LOGOUT_ATTEMPT: 'ui:logout-attempt',
-  // Register
-  REGISTER_ATTEMPT: 'ui:register-attempt',
-  REGISTER_SUCCESS: 'ui:register-success',
 };
 
 export const EVENT_TYPE = {
   LOGIN: 'login',
-  SIGNUP: 'signup',
+  REGISTER: 'register',
   VERIFY: 'verify',
   SIGNOUT: 'signout',
 };

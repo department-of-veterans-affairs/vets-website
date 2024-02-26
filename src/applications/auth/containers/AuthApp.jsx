@@ -98,7 +98,11 @@ export class AuthApp extends React.Component {
       requestId,
     });
 
-    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY) || {
+      authLocation: 'unknown',
+      application: 'unknown',
+      level: 'unknown',
+    };
     dataDogLog({
       name: LOG_NAME.LOGIN_FAIL,
       payload: newPayload({
@@ -226,7 +230,11 @@ export class AuthApp extends React.Component {
   generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
     const { errorCode } = getAuthError(code);
 
-    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY) || {
+      authLocation: 'unknown',
+      application: 'unknown',
+      level: 'unknown',
+    };
     dataDogLog({
       name: LOG_NAME.LOGIN_FAIL,
       payload: newPayload({

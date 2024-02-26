@@ -330,7 +330,11 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   };
 
   const isSSOe = !wait.shouldWait;
-  const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY);
+  const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY) || {
+    authLocation: 'unknown',
+    application: 'unknown',
+    level: 'unknown',
+  };
   dataDogLog({
     name: LOG_NAME.LOGOUT_ATTEMPT,
     payload: newPayload({
