@@ -12,10 +12,6 @@ import {
   testComponentRender,
   getProps,
 } from '../../../shared/tests/pages/pageTests.spec';
-import {
-  ApplicantMedicareStatusPage,
-  ApplicantMedicareStatusReviewPage,
-} from '../../pages/ApplicantMedicareStatusPage';
 import ApplicantMedicareStatusContinuedPage, {
   ApplicantMedicareStatusContinuedReviewPage,
 } from '../../pages/ApplicantMedicareStatusContinuedPage';
@@ -243,16 +239,6 @@ testNumberOfWebComponentFields(
   { applicants },
 );
 */
-
-testComponentRender(
-  'ApplicantMedicareStatusPage',
-  <ApplicantMedicareStatusPage data={{}} />,
-);
-
-testComponentRender(
-  'ApplicantMedicareStatusReviewPage',
-  <>{ApplicantMedicareStatusReviewPage()}</>,
-);
 
 testComponentRender(
   'ApplicantMedicareStatusContinuedPage',
