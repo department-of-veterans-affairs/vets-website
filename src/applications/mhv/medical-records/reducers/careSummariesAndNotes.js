@@ -16,21 +16,18 @@ const initialState = {
 };
 
 const extractName = record => {
-  if (
-    record.content &&
-    record.content.length > 0 &&
-    record.content[0].attachment &&
-    record.content[0].attachment.title
-  ) {
-    return record.content[0].attachment.title;
-  }
   return (
-    isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
+    record.content?.[0]?.attachment?.title ||
+    (isArrayAndHasItems(record.type?.coding)
+      ? record.type.coding[0].display
+      : null)
   );
 };
 
 const extractType = record => {
-  return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
+  return isArrayAndHasItems(record.type?.coding)
+    ? record.type.coding[0].code
+    : null;
 };
 
 const extractAuthenticator = record => {
@@ -42,7 +39,7 @@ const extractAuthor = record => {
   return extractContainedResource(
     record,
     isArrayAndHasItems(record.author) && record.author[0].reference,
-  )?.name[0].text;
+  )?.name?.[0]?.text;
 };
 
 const extractLocation = record => {
@@ -64,9 +61,9 @@ const extractNote = record => {
 };
 
 export const getDateSigned = record => {
-  const ext = record.authenticator.extension;
-  if (isArrayAndHasItems(ext) && ext[0].valueDateTime) {
-    return formatDateLong(ext[0].valueDateTime);
+  if (isArrayAndHasItems(record.authenticator?.extension)) {
+    const ext = record.authenticator.extension.find(e => e.valueDateTime);
+    return ext ? formatDateLong(ext.valueDateTime) : null;
   }
   return null;
 };
@@ -84,10 +81,11 @@ const convertAdmissionAndDischargeDetails = record => {
     dischargeDate: record.context?.period?.end
       ? formatDateLong(record.context?.period?.end)
       : EMPTY_FIELD,
-    admittedBy: summary
-      .split('ATTENDING:')[1]
-      .split('\n')[0]
-      .trim(),
+    admittedBy:
+      summary
+        .split('ATTENDING:')[1]
+        ?.split('\n')[0]
+        ?.trim() || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
