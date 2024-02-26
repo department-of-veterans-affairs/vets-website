@@ -541,7 +541,7 @@ const testConfig = createTestConfig(
       // '/some-form-app-url/introduction'. Either format can be used.
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.get('va-button[text*="start"]')
             .first()
             .click();
         });
