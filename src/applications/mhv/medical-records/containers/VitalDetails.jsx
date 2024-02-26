@@ -68,7 +68,7 @@ const VitalDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/vitals',
+            url: '/vitals',
             label: 'Vitals',
           },
         ]),

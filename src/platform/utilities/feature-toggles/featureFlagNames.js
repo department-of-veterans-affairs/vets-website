@@ -61,6 +61,7 @@ export default Object.freeze({
   'cstUseLighthouse#index': 'cst_use_lighthouse_index',
   'cstUseLighthouse#show': 'cst_use_lighthouse_show',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
+  cstIncludeDdl5103Letters: 'cst_include_ddl_5103_letters',
   cstUseNewClaimCards: 'cst_use_new_claim_cards',
   cstUseClaimDetailsV2: 'cst_use_claim_details_v2',
   debtLettersShowLetters: 'debt_letters_show_letters',
@@ -138,6 +139,7 @@ export default Object.freeze({
   mhvMedicalRecordsDisplayVitals: 'mhv_medical_records_display_vitals',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
+  mhvMedicationsDisplayRefillContent: 'mhv_medications_display_refill_content',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal:
     'mhv_to_logingov_account_transition_modal',

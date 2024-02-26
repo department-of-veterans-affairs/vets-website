@@ -60,7 +60,7 @@ const AllergyDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/allergies',
+            url: '/allergies',
             label: 'Allergies',
           },
         ]),
