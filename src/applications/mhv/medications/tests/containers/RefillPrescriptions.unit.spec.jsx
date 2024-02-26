@@ -7,7 +7,7 @@ import reducer from '../../reducers';
 import prescriptions from '../fixtures/refillablePrescriptionsList.json';
 import { dateFormat } from '../../util/helpers';
 
-describe('RefillPrescriptions', () => {
+describe('Refill Prescriptions Component', () => {
   const initialState = {
     featureToggles: {
       // eslint-disable-next-line camelcase
@@ -74,18 +74,6 @@ describe('RefillPrescriptions', () => {
     button.click();
   });
 
-  it('Clicks the details page link', async () => {
-    const screen = setup();
-    const link = await screen.findByTestId('medication-details-page-link-0');
-    fireEvent.click(link);
-  });
-
-  it('Clicks the medications list page link', async () => {
-    const screen = setup();
-    const link = await screen.findByTestId('medications-page-link');
-    fireEvent.click(link);
-  });
-
   it('Clicks the medications list page link', async () => {
     const screen = setup();
     const link = await screen.findByTestId('back-to-medications-page-link');
@@ -107,27 +95,6 @@ describe('RefillPrescriptions', () => {
     expect(lastFilledEl).to.exist;
     const rx = prescriptions.find(
       ({ prescriptionId }) => prescriptionId === 22217099,
-    );
-    expect(lastFilledEl).to.have.text(
-      `Last filled on: ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
-    );
-  });
-
-  it('Shows the correct last filled on date for renew', async () => {
-    const screen = setup();
-    const lastFilledEl = await screen.findByTestId('renew-last-filled-0');
-    expect(lastFilledEl).to.exist;
-    expect(lastFilledEl).to.have.text(
-      `Last filled on: ${dateFormat(prescriptions[1].dispensedDate)}`,
-    );
-  });
-
-  it('Shows the correct "last filled on" date (w/rxRfRecords) for renew', async () => {
-    const screen = setup();
-    const lastFilledEl = await screen.findByTestId(`renew-last-filled-1`);
-    expect(lastFilledEl).to.exist;
-    const rx = prescriptions.find(
-      ({ prescriptionId }) => prescriptionId === 22217089,
     );
     expect(lastFilledEl).to.have.text(
       `Last filled on: ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
@@ -156,15 +123,6 @@ describe('RefillPrescriptions', () => {
     const countEl = await screen.findByTestId('refill-page-list-count');
     expect(countEl).to.exist;
     expect(countEl).to.have.text('You have 1 prescription ready to refill.');
-  });
-
-  it('Shows the correct text for 2 prescriptions', async () => {
-    const screen = setup(initialState, [prescriptions[1], prescriptions[1]]);
-    const countEl = await screen.findByTestId('renew-page-list-count');
-    expect(countEl).to.exist;
-    expect(countEl).to.have.text(
-      'Showing 2 prescriptions you may need to renew',
-    );
   });
 
   it('Completes api request with selected prescriptions', async () => {

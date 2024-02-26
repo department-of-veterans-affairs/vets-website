@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  VaButton,
-  VaPagination,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { setPrescriptionDetails } from '../actions/prescriptions';
+import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -59,50 +56,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       setSelectedRefillList(fullRefillList.map(p => p.prescriptionId));
     }
   };
-  const onRxLinkClick = rx => {
-    dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: '/my-health/medications/about',
-            label: 'About medications',
-          },
-          {
-            url: `/my-health/medications${location.pathname}`,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
-          label: rx?.prescriptionName,
-        },
-      ),
-    );
-    dispatch(setPrescriptionDetails(rx));
-  };
-
-  // Pagination for renewable prescriptions only
-  const MAX_PAGE_LIST_LENGTH = 20;
-  const [pagination, setPagination] = useState({
-    currentPage: 1,
-    totalPages: Math.ceil(
-      renewablePrescriptionsList.length / MAX_PAGE_LIST_LENGTH,
-    ),
-  });
-
-  const onPageChange = page => {
-    setPagination(prevState => ({
-      ...prevState,
-      currentPage: page,
-    }));
-  };
-
-  const startIdx = (pagination.currentPage - 1) * MAX_PAGE_LIST_LENGTH;
-  const endIdx = pagination.currentPage * MAX_PAGE_LIST_LENGTH;
-  const paginatedRenewablePrescriptions = renewablePrescriptionsList.slice(
-    startIdx,
-    endIdx,
-  );
 
   useEffect(
     () => {
@@ -253,82 +206,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             text={`Request refill${selectedRefillListLength !== 1 ? 's' : ''}`}
           />
         </div>
-        <div>
-          <h2
-            className="vads-u-margin-top--4"
-            data-testid="renew-section-subtitle"
-          >
-            If your prescription isn’t ready to refill
-          </h2>
-          <p className="vads-u-margin-y--3">
-            You may need to renew it. Here are some recent prescriptions you may
-            need to renew.{' '}
-            <va-link
-              href="/my-health/medications/about/accordion-renew-rx"
-              text="Learn how to renew prescriptions"
-              data-testid="learn-to-renew-prescriptions-link"
-            />
-          </p>
-          <p>
-            <strong>Note:</strong> If your prescriptions isn’t in this list,
-            find it in your medications list.{' '}
-            <Link data-testid="medications-page-link" to="/">
-              Go to your medications list
-            </Link>
-          </p>
-          <p data-testid="renew-page-list-count">
-            {`Showing ${renewablePrescriptionsList.length} prescription${
-              renewablePrescriptionsList.length > 1 ? 's' : ''
-            } `}
-            you may need to renew
-          </p>
-          <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
-          <div>
-            {paginatedRenewablePrescriptions
-              .slice()
-              .map((prescription, idx) => (
-                <div key={idx}>
-                  <h4 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
-                    <Link
-                      data-testid={`medication-details-page-link-${idx}`}
-                      to={`/prescription/${prescription.prescriptionId}`}
-                      onClick={() => onRxLinkClick(prescription)}
-                    >
-                      {prescription.prescriptionName}
-                    </Link>
-                  </h4>
-                  <p className="vads-u-margin-top--0">
-                    Prescription number: {prescription.prescriptionNumber}
-                    <br />
-                    <span data-testid={`renew-last-filled-${idx}`}>
-                      Last filled on:{' '}
-                      {dateFormat(
-                        prescription.rxRfRecords?.[0]?.[1]?.find(
-                          record => record.dispensedDate,
-                        )?.dispensedDate || prescription.dispensedDate,
-                        'MMMM D, YYYY',
-                      )}
-                    </span>
-                  </p>
-                </div>
-              ))}
-            <div className="refill-pagination-container">
-              {renewablePrescriptionsList.length > 20 && (
-                <VaPagination
-                  max-page-list-length={MAX_PAGE_LIST_LENGTH}
-                  id="pagination"
-                  className="vads-u-justify-content--center no-print"
-                  onPageSelect={e => onPageChange(e.detail.page)}
-                  page={pagination.currentPage}
-                  pages={pagination.totalPages}
-                  unbounded
-                  uswds
-                  data-testid="refill-pagination"
-                />
-              )}
-            </div>
-          </div>
-        </div>
+        <RenewablePrescriptions
+          renewablePrescriptionsList={renewablePrescriptionsList}
+        />
       </div>
     );
   };
