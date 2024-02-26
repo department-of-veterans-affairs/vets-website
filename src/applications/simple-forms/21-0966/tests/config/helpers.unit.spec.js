@@ -13,6 +13,7 @@ import {
   hasActiveCompensationITF,
   hasActivePensionITF,
   noActiveITF,
+  hasVeteranPrefill,
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
@@ -40,6 +41,7 @@ describe('form helper functions', () => {
     expect(hasActiveCompensationITF()).to.equal(false);
     expect(hasActivePensionITF()).to.equal(false);
     expect(noActiveITF()).to.equal(true);
+    expect(hasVeteranPrefill()).to.equal(false);
     expect(statementOfTruthFullNamePath()).to.equal(
       'survivingDependentFullName',
     );
@@ -220,6 +222,36 @@ describe('form helper functions', () => {
     };
 
     expect(noActiveITF({ formData })).to.equal(true);
+  });
+});
+
+describe('hasVeteranPrefill', () => {
+  it('returns true when veteran prefill data is present', () => {
+    const formData = {
+      'view:veteranPrefillStore': {
+        fullName: {
+          first: 'Marty',
+          last: 'McFly',
+        },
+        ssn: '111519551',
+        dateOfBirth: '1955-11-15',
+      },
+    };
+
+    expect(hasVeteranPrefill({ formData })).to.be.true;
+  });
+  it('returns false when any part of the veteran prefill data is absent', () => {
+    const formData = {
+      'view:veteranPrefillStore': {
+        fullName: {
+          first: 'Marty',
+          last: 'McFly',
+        },
+        dateOfBirth: '1955-11-15',
+      },
+    };
+
+    expect(hasVeteranPrefill({ formData })).to.be.false;
   });
 });
 

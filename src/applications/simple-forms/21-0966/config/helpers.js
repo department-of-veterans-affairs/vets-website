@@ -57,6 +57,14 @@ export const noActiveITF = ({ formData } = {}) => {
   );
 };
 
+export const hasVeteranPrefill = ({ formData } = {}) => {
+  return (
+    !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
+    !isEmpty(formData?.['view:veteranPrefillStore']?.ssn) &&
+    !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth)
+  );
+};
+
 export const statementOfTruthFullNamePath = ({ formData } = {}) => {
   if (preparerIsThirdParty({ formData })) {
     return 'thirdPartyPreparerFullName';
