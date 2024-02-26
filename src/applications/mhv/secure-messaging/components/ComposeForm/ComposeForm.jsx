@@ -109,9 +109,12 @@ const ComposeForm = props => {
 
   const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
 
-  const noTimeout = () => {
-    clearTimeout(timeoutId);
-  };
+  const noTimeout = useCallback(
+    () => {
+      clearTimeout(timeoutId);
+    },
+    [timeoutId],
+  );
 
   useEffect(
     () => {
@@ -170,43 +173,46 @@ const ComposeForm = props => {
         setMessageBody('');
       }
     },
-    [recipients, draft],
+    [recipients, draft, defaultRecipientsList],
   );
 
-  useEffect(() => {
-    if (mhvSecureMessagingBlockedTriageGroup1p0) {
-      if (draft) {
-        const tempRecipient = {
-          recipientId: draft.recipientId,
-          name: draft.triageGroupName,
-          type: Recipients.CARE_TEAM,
-          status: RecipientStatus.ALLOWED,
-        };
+  useEffect(
+    () => {
+      if (mhvSecureMessagingBlockedTriageGroup1p0) {
+        if (draft) {
+          const tempRecipient = {
+            recipientId: draft.recipientId,
+            name: draft.triageGroupName,
+            type: Recipients.CARE_TEAM,
+            status: RecipientStatus.ALLOWED,
+          };
 
-        const {
-          isAssociated,
-          formattedRecipient,
-        } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
-
-        if (!isAssociated) {
-          setShowBlockedTriageGroupAlert(true);
-          setBlockedTriageGroupList([
+          const {
+            isAssociated,
             formattedRecipient,
-            ...recipients.blockedRecipients,
-          ]);
-        } else if (recipients.associatedBlockedTriageGroupsQty > 0) {
-          setShowBlockedTriageGroupAlert(true);
+          } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+
+          if (!isAssociated) {
+            setShowBlockedTriageGroupAlert(true);
+            setBlockedTriageGroupList([
+              formattedRecipient,
+              ...recipients.blockedRecipients,
+            ]);
+          } else if (recipients.associatedBlockedTriageGroupsQty > 0) {
+            setShowBlockedTriageGroupAlert(true);
+            setBlockedTriageGroupList(recipients.blockedRecipients);
+          }
+        } else {
+          setShowBlockedTriageGroupAlert(
+            recipients.associatedBlockedTriageGroupsQty > 0,
+          );
           setBlockedTriageGroupList(recipients.blockedRecipients);
         }
-      } else {
-        setShowBlockedTriageGroupAlert(
-          recipients.associatedBlockedTriageGroupsQty > 0,
-        );
-        setBlockedTriageGroupList(recipients.blockedRecipients);
       }
-    }
-    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-  }, []);
+      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+    },
+    [draft, mhvSecureMessagingBlockedTriageGroup1p0, recipients],
+  );
 
   useEffect(
     () => {
@@ -216,8 +222,8 @@ const ComposeForm = props => {
           body: messageBody,
           subject,
         };
-        messageData[`${'draft_id'}`] = draft?.messageId;
-        messageData[`${'recipient_id'}`] = selectedRecipient;
+        messageData.draftID = draft?.messageId;
+        messageData.recipientId = selectedRecipient;
 
         let sendData;
         if (attachments.length > 0) {
@@ -237,7 +243,19 @@ const ComposeForm = props => {
           .catch(setSendMessageFlag(false));
       }
     },
-    [sendMessageFlag, isSaving],
+    [
+      sendMessageFlag,
+      isSaving,
+      attachments,
+      category,
+      currentFolder?.folderId,
+      dispatch,
+      draft?.messageId,
+      history,
+      messageBody,
+      selectedRecipient,
+      subject,
+    ],
   );
 
   useEffect(
@@ -255,7 +273,7 @@ const ComposeForm = props => {
         focusElement(lastFocusableElement);
       }
     },
-    [alertStatus],
+    [alertStatus, lastFocusableElement],
   );
 
   const recipientExists = recipientId => {
@@ -348,7 +366,7 @@ const ComposeForm = props => {
         }
       }
 
-      const draftId = draft && draft.messageId;
+      const draftId = draft?.messageId;
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || selectedRecipient, 10),
         cat: debouncedCategory || category,
@@ -456,12 +474,14 @@ const ComposeForm = props => {
       category,
       checkMessageValidity,
       deleteButtonClicked,
+      draft?.body,
       draft?.category,
-      draft?.messageBody,
+      draft.messageBody,
       draft?.recipientId,
       draft?.subject,
       formPopulated,
       messageBody,
+      savedDraft,
       selectedRecipient,
       subject,
     ],
@@ -523,21 +543,22 @@ const ComposeForm = props => {
         e.preventDefault();
         window.onbeforeunload = () => signOutMessage;
         e.returnValue = true;
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        e.returnValue = false;
-        noTimeout();
+        return;
       }
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+      window.onbeforeunload = null;
+      e.returnValue = false;
+      noTimeout();
     },
     [
-      draft,
       selectedRecipient,
+      draft,
       category,
       subject,
       messageBody,
-      attachments,
-      timeoutId,
+      attachments.length,
+      noTimeout,
+      signOutMessage,
     ],
   );
 
@@ -550,7 +571,7 @@ const ComposeForm = props => {
         noTimeout();
       };
     },
-    [beforeUnloadHandler],
+    [beforeUnloadHandler, noTimeout],
   );
 
   return (
@@ -630,30 +651,6 @@ const ComposeForm = props => {
             ? recipientsList &&
               (!noAssociations &&
                 !allTriageGroupsBlocked && (
-                  <>
-                    <VaSelect
-                      enable-analytics
-                      id="recipient-dropdown"
-                      label="To"
-                      name="to"
-                      value={selectedRecipient}
-                      onVaSelect={recipientHandler}
-                      class="composeSelect"
-                      data-testid="compose-recipient-select"
-                      error={recipientError}
-                      data-dd-privacy="mask"
-                      data-dd-action-name="Compose Recipient Dropdown List"
-                    >
-                      {sortRecipients(recipientsList)?.map(item => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </VaSelect>
-                  </>
-                ))
-            : recipientsList && (
-                <>
                   <VaSelect
                     enable-analytics
                     id="recipient-dropdown"
@@ -673,7 +670,27 @@ const ComposeForm = props => {
                       </option>
                     ))}
                   </VaSelect>
-                </>
+                ))
+            : recipientsList && (
+                <VaSelect
+                  enable-analytics
+                  id="recipient-dropdown"
+                  label="To"
+                  name="to"
+                  value={selectedRecipient}
+                  onVaSelect={recipientHandler}
+                  class="composeSelect"
+                  data-testid="compose-recipient-select"
+                  error={recipientError}
+                  data-dd-privacy="mask"
+                  data-dd-action-name="Compose Recipient Dropdown List"
+                >
+                  {sortRecipients(recipientsList)?.map(item => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </VaSelect>
               )}
 
           <div className="compose-form-div">
