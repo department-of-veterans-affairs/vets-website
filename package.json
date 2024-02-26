@@ -317,7 +317,8 @@
     "url-search-params": "^1.1.0",
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
-    "vanilla-lazyload": "^16.1.0"
+    "vanilla-lazyload": "^16.1.0",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e97ed438ab16e131513e7df72712dc91db4e6a3"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
