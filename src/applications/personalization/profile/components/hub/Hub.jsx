@@ -81,7 +81,7 @@ export const Hub = () => {
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
-              className="medium-screen--line-break-at-50-characters"
+              className="medium-screen--line-break-at-40-characters"
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
             />
