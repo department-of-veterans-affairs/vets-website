@@ -74,6 +74,11 @@ function generateWebpackDevConfig(buildOptions) {
       if (buildOptions['local-proxy-rewrite']) {
         setupLocalProxyRewrite(devServer, buildOptions);
       }
+      const vamcEhrData = require('../src/applications/mhv-landing-page/tests/fixtures/vamc-ehr.json');
+
+      devServer.app.get('/data/cms/vamc-ehr.json', (_, res) => {
+        res.json(vamcEhrData);
+      });
 
       return middlewares;
     },
