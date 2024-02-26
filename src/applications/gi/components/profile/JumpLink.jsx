@@ -4,13 +4,23 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import { isProductionOfTestProdEnv } from '../../utils/helpers';
 
-export default function JumpLink({ label, jumpToId, iconToggle = true }) {
+export default function JumpLink({
+  label,
+  jumpToId,
+  iconToggle = true,
+  onClick,
+  dataTestId,
+  customClass,
+}) {
   const jumpLinkClicked = e => {
     e.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
   };
 
   const handleClick = e => {
+    if (onClick) {
+      onClick();
+    }
     jumpLinkClicked(e);
     recordEvent({
       event: 'nav-jumplink-click',
@@ -35,14 +45,17 @@ export default function JumpLink({ label, jumpToId, iconToggle = true }) {
 
   return (
     <a
-      className="jump-link arrow-down-link"
+      className={`jump-link ${customClass || 'arrow-down-link'}`}
       href={`#${jumpToId}`}
       onClick={handleClick}
       tabIndex={0}
+      data-testid={dataTestId}
     >
-      <p>
-        {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
-        <span>{label}</span>
+      <p className={customClass && 'filter-before-res-link'}>
+        {iconToggle && (
+          <i className="fa fa-arrow-down iconToggle" aria-hidden="true" />
+        )}
+        {label}
       </p>
     </a>
   );
