@@ -181,8 +181,8 @@ describe('App', () => {
       </Provider>,
     );
 
+    // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
-      // testing issuesNeedUpdating branch for code coverage
       const [action] = store.getActions();
       expect(action.type).to.eq('SET_DATA');
       expect(action.data).to.deep.equal(hasComp);
@@ -204,8 +204,8 @@ describe('App', () => {
       </Provider>,
     );
 
+    // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
-      // testing issuesNeedUpdating branch for code coverage
       const [action] = store.getActions();
       expect(action.type).to.eq('SET_DATA');
       expect(action.data).to.deep.equal({
@@ -239,8 +239,8 @@ describe('App', () => {
       </Provider>,
     );
 
+    // testing update evidence (evidenceNeedsUpdating) branch for code coverage
     await waitFor(() => {
-      // testing update evidence (evidenceNeedsUpdating) branch for code coverage
       const [action] = store.getActions();
       expect(action.type).to.eq('SET_DATA');
       expect(action.data).to.deep.equal({
