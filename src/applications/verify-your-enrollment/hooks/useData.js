@@ -18,7 +18,7 @@ export const useData = () => {
     [dispatch],
   );
   const userInfo =
-    environment.API_URL === 'http://localhost:3000'
+    environment.API_URL !== 'http://localhost:3000'
       ? data && data['vye::UserInfo']
       : personalInfo && personalInfo['vye::UserInfo'];
   const date = translateDateIntoMonthDayYearFormat(userInfo?.delDate);

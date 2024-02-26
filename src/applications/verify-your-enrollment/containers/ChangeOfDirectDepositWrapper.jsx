@@ -13,6 +13,7 @@ import {
 } from '../constants/index';
 import { updateBankInfo } from '../actions';
 import Alert from '../components/Alert';
+import Loader from '../components/Loader';
 
 const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
   const prefix = 'GI-Bill-Chapters-';
@@ -194,11 +195,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
           <div className="direct-deposit-form-container">
             <p className="vads-u-font-weight--bold">Add new account</p>
             {directDepositDescription}
-            {loading && (
-              <div className="loader">
-                <va-loading-indicator label="Loading" set-focus />
-              </div>
-            )}
+            {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
               defaultName={applicantName}
               formData={formData}

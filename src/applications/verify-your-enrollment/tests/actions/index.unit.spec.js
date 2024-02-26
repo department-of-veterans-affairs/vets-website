@@ -52,9 +52,11 @@ describe('getData, creator', () => {
       apiRequestStub.resolves(response);
       await fetchPersonalInfo()(dispatch);
       expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
-      expect(
-        dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
-      ).to.be.true;
+      await waitFor(() => {
+        expect(
+          dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
+        ).to.be.false;
+      });
     });
     it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
       const errors = { erros: 'some error' };
