@@ -3,7 +3,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const errorMessage = () => (
-  <va-alert status="error" uswds="false">
+  <va-alert status="error">
     <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
       We’re sorry. Something went wrong on our end
     </h2>
@@ -21,7 +21,7 @@ export const errorMessage = () => (
 );
 
 export const missingTotalMessage = () => (
-  <va-alert status="info" uswds="true">
+  <va-alert status="info">
     <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
       We don’t have a combined disability rating on file for you
     </h2>
@@ -41,7 +41,7 @@ export const totalRatingMessage = totalDisabilityRating => {
   const heading = `Your combined disability rating is ${totalDisabilityRating}%`;
 
   return (
-    <va-summary-box uswds="false">
+    <va-summary-box>
       <h3 slot="headline">{heading}</h3>
       <p>
         This rating doesn’t include any conditions from claims that we’re still
