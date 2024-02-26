@@ -5,6 +5,7 @@ const PoaRequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
     <va-link
       class="view-all-link vads-u-margin-bottom--neg4"
+      data-testid="view-all-poa-requests-link"
       href="/representatives/poa-requests"
       text="View all"
     />
