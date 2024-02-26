@@ -19,6 +19,15 @@ describe('Get vitals action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vitals.GET_LIST);
     });
   });
+
+  it('should dispatch an add alert action', () => {
+    const mockData = vitals;
+    mockApiRequest(mockData, false);
+    const dispatch = sinon.spy();
+    return getVitals()(dispatch).then(() => {
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
+  });
 });
 
 describe('Get vital action', () => {
@@ -30,6 +39,15 @@ describe('Get vital action', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(Actions.Vitals.GET);
     });
   });
+
+  it('should dispatch an add alert action', () => {
+    const mockData = vitals;
+    mockApiRequest(mockData, false);
+    const dispatch = sinon.spy();
+    return getVitalDetails()(dispatch).then(() => {
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
+  });
 });
 
 describe('Get vital details action', () => {
@@ -37,6 +55,13 @@ describe('Get vital details action', () => {
     const dispatch = sinon.spy();
     await getVitalDetails('vitalType', [{ id: '1' }])(dispatch);
     expect(dispatch.firstCall.args[0]?.type).to.equal(Actions.Vitals.GET);
+  });
+
+  it('should dispatch an add alert action', () => {
+    const dispatch = sinon.spy();
+    return getVitalDetails()(dispatch).then(() => {
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
   });
 });
 

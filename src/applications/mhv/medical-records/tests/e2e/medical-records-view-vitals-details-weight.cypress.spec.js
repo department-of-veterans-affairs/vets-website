@@ -10,16 +10,16 @@ describe('Medical Records Vitals Details Page', () => {
     cy.visit('my-health/medical-records');
   });
 
-  it('Vitals Details Heart Rate', () => {
+  it('Vitals Details Weight', () => {
     VitalsListPage.goToVitals();
-    // click vitals page Heart Rate Link
-    VitalsListPage.clickLinkByRecordListItemIndex(1);
+    // click vitals page weight link
+    VitalsListPage.clickLinkByRecordListItemIndex(5);
 
     // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
       'October',
-      '70 beats per minute',
+      '185 pounds',
       'ADTP BURNETT',
       'None noted',
     );
@@ -28,7 +28,7 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
       'August',
-      '85 beats per minute',
+      '200 pounds',
       '23 HOUR OBSERVATION',
       'None noted',
     );
@@ -37,7 +37,7 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
       'August',
-      '90 beats per minute',
+      '190 pounds',
       'ADMISSIONS (LOC)',
       'None noted',
     );
@@ -46,10 +46,11 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
       'May',
-      '60 beats per minute',
+      '185 pounds',
       'ADTP SCREENING',
       'None noted',
     );
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
