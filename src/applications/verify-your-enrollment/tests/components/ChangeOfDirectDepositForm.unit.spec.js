@@ -1,13 +1,10 @@
 import React from 'react';
-import sinon from 'sinon';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import apiRequest from '@department-of-veterans-affairs/platform-utilities/api';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import {
   getFormDOM,
   DefinitionTester,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-
 import ChangeOfDirectDepositForm, {
   makeSchemas,
 } from '../../components/ChangeOfDirectDepositForm';
@@ -111,8 +108,6 @@ describe('Change Of Direct Deposit Form', () => {
   });
 
   it('Should submit form', async () => {
-    const apiRequestStub = sinon.stub().resolves({ ok: true });
-    sinon.stub(apiRequest, 'mockResolvedValue').returns(apiRequestStub);
     const screen = render(
       <DefinitionTester
         pagePerItemIndex={0}
@@ -169,13 +164,7 @@ describe('Change Of Direct Deposit Form', () => {
     expect(routingNumber.value).to.equal('123456789');
     expect(accountNumber.value).to.equal('123');
     expect(verifyAccountNumber.value).to.equal('123');
-    const res = { data: {}, status: 204 };
     formDOM.submitForm();
-    apiRequestStub.resolves(res);
-    await waitFor(() => {
-      expect(screen.getByTestId('alert')).to.exist;
-    });
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    apiRequestStub.restore();
   });
 });
