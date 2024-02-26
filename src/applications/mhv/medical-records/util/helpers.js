@@ -230,7 +230,7 @@ export const dispatchDetails = async (
 };
 
 /**
- * Helper function to parse consolidated downloads for txt files.
+ * Helper function to parse consolidated downloads data for txt files.
  *
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
