@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-import { isLoggedIn } from 'platform/user/selectors';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
@@ -36,7 +36,10 @@ class FormApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const lastPathComponent = currentLocation.pathname.split('/').pop();
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isNonFormPage = this.nonFormPages.includes(lastPathComponent);
+    // eslint-disable-next-line react/prop-types
+    const isPageNotFound = children.type && children.type === PageNotFound;
+    const isNonFormPage =
+      this.nonFormPages.includes(lastPathComponent) || isPageNotFound;
     const Footer = formConfig.footerContent;
     const title =
       typeof formConfig.title === 'function'
@@ -82,7 +85,9 @@ class FormApp extends React.Component {
       );
     }
     const wrapperClass =
-      notProd && fullWidth ? '' : 'usa-width-two-thirds medium-8 columns';
+      (notProd && fullWidth) || isPageNotFound
+        ? ''
+        : 'usa-width-two-thirds medium-8 columns';
 
     return (
       <div>

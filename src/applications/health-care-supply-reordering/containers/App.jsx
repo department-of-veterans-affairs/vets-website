@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -59,19 +60,22 @@ class App extends Component {
       expired: `Your saved ${supplyDescription} order has expired. If you want to order ${supplyDescription}, please start a new order.`,
       saved: `Your ${supplyDescription} order has been saved.`,
     };
+    // eslint-disable-next-line react/prop-types
+    const isPageNotFound = children.type && children.type === PageNotFound;
 
     return (
       <>
-        {!featureToggles.loading && (
-          <va-breadcrumbs class="va-nav-breadcrumbs">
-            <a href="/">Home</a>
-            {/* this will get updated when this route is added */}
-            <a href="/health-care">Health care</a>
-            <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-              Order {supplyDescription}
-            </a>
-          </va-breadcrumbs>
-        )}
+        {!featureToggles.loading &&
+          !isPageNotFound && (
+            <va-breadcrumbs class="va-nav-breadcrumbs">
+              <a href="/">Home</a>
+              {/* this will get updated when this route is added */}
+              <a href="/health-care">Health care</a>
+              <a href="/health-care/order-hearing-aid-batteries-and-accessories">
+                Order {supplyDescription}
+              </a>
+            </va-breadcrumbs>
+          )}
         {pending && (
           <va-loading-indicator>
             Loading your information...

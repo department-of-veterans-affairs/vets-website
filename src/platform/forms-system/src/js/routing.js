@@ -1,3 +1,4 @@
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import findIndex from 'lodash/findIndex';
 import {
   getActiveExpandedPages,
@@ -103,7 +104,7 @@ export function createRoutes(formConfig) {
     },
     {
       path: '*',
-      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/'),
+      component: PageNotFound,
     },
   ]);
 }
