@@ -293,7 +293,7 @@
     "react": "^17.0.2",
     "react-device-detect": "^2.2.3",
     "react-dom": "^17.0.2",
-    "react-focus-lock": "^2.11.1",
+    "react-focus-lock": "^2.6.0",
     "react-is": "^17.0.2",
     "react-leaflet": "^3.2.2",
     "react-linkify": "^1.0.0-alpha",
@@ -318,7 +318,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#39dd490a3031bbb28ec30acdb1efa131122a77c8"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e97ed438ab16e131513e7df72712dc91db4e6a3"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
