@@ -1,7 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
-const apiBasePath = '/poa_requests';
-
 const settings = {
   method: 'POST',
   headers: {
@@ -9,25 +7,9 @@ const settings = {
   },
 };
 
-export const acceptPOARequest = async veteranId => {
+export const acceptDeclinePOARequest = async (veteranId, action) => {
   try {
-    const resource = `${apiBasePath}/${veteranId}`;
-    const response = await apiRequest(resource, settings);
-
-    if (!response.ok) {
-      throw new Error(`Server responded with status: ${response.status}`);
-    }
-
-    return { status: 'success' };
-  } catch (error) {
-    const errorMessage = error.message || 'An unexpected error occurred.';
-    return { status: 'error', error: errorMessage };
-  }
-};
-
-export const declinePOARequest = async veteranId => {
-  try {
-    const resource = `${apiBasePath}/${veteranId}`;
+    const resource = `/poa_requests/${veteranId}/${action}`;
     const response = await apiRequest(resource, settings);
 
     if (!response.ok) {
