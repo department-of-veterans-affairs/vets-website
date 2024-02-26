@@ -38,10 +38,6 @@ class VaccinesDetailsPage {
         .contains(VaccinesDetails.resource.note[noteIndex].text);
     }
   };
-
-  verifySidenavHighlightVaccines = () => {
-    cy.get('.is-active').should('contain', 'Vaccines');
-  };
 }
 
 export default new VaccinesDetailsPage();

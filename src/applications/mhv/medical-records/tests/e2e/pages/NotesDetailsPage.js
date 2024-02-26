@@ -155,10 +155,6 @@ class NotesDetailsPage {
     // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
-
-  verifySidenavHighlightNotes = () => {
-    cy.get('.is-active').should('contain', 'Care summaries and notes');
-  };
 }
 
 export default new NotesDetailsPage();
