@@ -14,6 +14,7 @@ import { postMailingAddress } from '../actions';
 const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
+
   // const [updateAddress, setUpdatedAdress] = useState(mailingAddress);
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';

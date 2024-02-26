@@ -6,6 +6,7 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import { addressFormRequiredData, blockURLsRegEx } from '../constants';
 import { MILITARY_STATES } from '../helpers';
 import { getFormSchema, getUiSchema } from './addressSchema';
+import { useData } from '../hooks/useData';
 
 const ChangeOfAddressForm = ({
   children,
@@ -15,9 +16,9 @@ const ChangeOfAddressForm = ({
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
-
+  const { fullName: applicantName } = useData();
   const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema();
+    const fSchema = getFormSchema(applicantName);
 
     if (requiredArray.size === 0) {
       return fSchema;

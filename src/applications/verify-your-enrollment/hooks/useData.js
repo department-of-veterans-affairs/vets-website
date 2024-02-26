@@ -7,7 +7,7 @@ export const useData = () => {
   // This custom hook is for fetching and preparing user data from the Redux state.
   const dispatch = useDispatch();
   const { data, loading } = useSelector(state => state.getDataReducer);
-  const { personalInfo } = useSelector(state => state.personalInfo);
+  // const { personalInfo } = useSelector(state => state.personalInfo);
 
   useEffect(
     () => {
@@ -18,7 +18,7 @@ export const useData = () => {
   );
   // eslint-disable-next-line no-console
   console.log(data, 'inooo');
-  const userInfo = personalInfo && personalInfo['vye::UserInfo'];
+  const userInfo = data && data['vye::UserInfo'];
   const date = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
   return {
     loading,
