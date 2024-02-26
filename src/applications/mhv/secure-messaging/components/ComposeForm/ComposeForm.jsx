@@ -49,7 +49,7 @@ const ComposeForm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const defaultRecipientsList = [{ id: 0, name: ' ' }];
+  const defaultRecipientsList = useMemo(() => [{ id: 0, name: ' ' }], []);
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [selectedRecipient, setSelectedRecipient] = useState(
     defaultRecipientsList[0].id,
