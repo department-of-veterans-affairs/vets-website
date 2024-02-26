@@ -13,9 +13,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.selectCategory(
-      `${requestBody.category}${requestBody.category}input`,
-    );
+    composePage.selectCategory(`${requestBody.category}`);
     // cy.tabToElement('#OTHEROTHERinput');
     // cy.realPress(['Enter']);
     composePage

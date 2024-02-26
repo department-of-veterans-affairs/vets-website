@@ -39,6 +39,7 @@ import {
   reportGeneratedBy,
 } from '../../shared/util/constants';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -62,7 +63,7 @@ const ConditionDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/conditions',
+            url: '/conditions',
             label: 'Conditions',
           },
         ]),
@@ -92,6 +93,14 @@ const ConditionDetails = props => {
       }
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.HEALTH_CONDITIONS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateConditionDetails = async () => {

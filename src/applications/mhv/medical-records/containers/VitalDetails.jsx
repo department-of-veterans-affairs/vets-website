@@ -40,6 +40,7 @@ import {
   generateVitalsContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -67,7 +68,7 @@ const VitalDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/vitals',
+            url: '/vitals',
             label: 'Vitals',
           },
         ]),
@@ -91,6 +92,14 @@ const VitalDetails = props => {
       }
     },
     [records],
+  );
+
+  usePrintTitle(
+    pageTitles.VITALS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const paginateData = data => {

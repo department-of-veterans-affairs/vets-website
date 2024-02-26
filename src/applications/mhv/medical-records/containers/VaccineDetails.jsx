@@ -36,6 +36,7 @@ import {
   txtLine,
 } from '../../shared/util/constants';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -66,7 +67,7 @@ const VaccineDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/vaccines',
+            url: '/vaccines',
             label: 'Vaccines',
           },
         ]),
@@ -86,6 +87,14 @@ const VaccineDetails = props => {
       }
     },
     [dispatch, record],
+  );
+
+  usePrintTitle(
+    pageTitles.VACCINES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateVaccinePdf = async () => {

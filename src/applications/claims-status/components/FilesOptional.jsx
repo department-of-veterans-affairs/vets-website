@@ -7,7 +7,7 @@ function FilesOptional({ id, item }) {
   return (
     <va-alert
       class="optional-alert vads-u-margin-bottom--2"
-      status="default"
+      status="info"
       uswds
     >
       <h4 slot="headline" className="alert-title">
