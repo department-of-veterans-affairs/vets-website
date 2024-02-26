@@ -47,16 +47,16 @@ describe('Secure Messaging Compose', () => {
     );
 
     composePage.getMessageSubjectField().type(normalText, { force: true });
-    cy.get(Locators.INFO.SUBJECT_LIMIT).should(
-      'have.text',
-      `${charsLimit - normalText.length} characters left`,
-    );
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find(Locators.INFO.SUBJECT_LIMIT)
+      .should('have.text', `${charsLimit - normalText.length} characters left`);
 
     composePage.getMessageSubjectField().type(maxText, { force: true });
-    cy.get(Locators.INFO.SUBJECT_LIMIT).should(
-      'have.text',
-      `${charsLimit - maxText.length} characters left`,
-    );
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find(Locators.INFO.SUBJECT_LIMIT)
+      .should('have.text', `${charsLimit - maxText.length} characters left`);
 
     composePage.getMessageSubjectField().type(maxText, { force: true });
     cy.get('#message-subject').should('have.attr', 'value', `${maxText}`);
