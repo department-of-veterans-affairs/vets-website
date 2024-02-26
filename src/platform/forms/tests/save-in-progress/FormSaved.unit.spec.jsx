@@ -1,8 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { render } from '@testing-library/react';
+
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import { VA_FORM_IDS } from '../../constants';
 import { FormSaved } from '../../save-in-progress/FormSaved';
 
 describe('Schemaform <FormSaved>', () => {
@@ -25,9 +31,10 @@ describe('Schemaform <FormSaved>', () => {
     },
   };
   const formId = VA_FORM_IDS.FORM_10_10EZ;
-  const user = () => ({
+  const user = ({ verified = true } = {}) => ({
     profile: {
       prefillsAvailable: [],
+      verified,
     },
     login: {
       verifyUrl: 'http://fake-verify-url',
@@ -37,7 +44,7 @@ describe('Schemaform <FormSaved>', () => {
   const expirationDate = moment().unix() + 2000;
 
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormSaved
         scrollParams={{}}
         location={{}}
@@ -48,18 +55,16 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
-    expect(
-      tree.subTree('withRouter(FormStartControls)').props.startPage,
-    ).to.equal('testing');
-    expect(tree.subTree('.usa-alert').text()).to.contain('June 12, 2017, at');
-    expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
-    expect(tree.subTree('.usa-alert').text()).to.contain(
+    const alertText = $('va-alert', container).textContent;
+    expect(alertText).to.contain('June 12, 2017, at');
+    expect(alertText).to.contain('will expire on');
+    expect(alertText).to.contain(
       'Your education benefits (123) application has been saved.',
     );
+    expect($$('va-alert', container).length).to.equal(1);
   });
   it('should display verify link if user is not verified', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormSaved
         scrollParams={{}}
         location={{}}
@@ -67,31 +72,16 @@ describe('Schemaform <FormSaved>', () => {
         lastSavedDate={lastSavedDate}
         expirationDate={expirationDate}
         route={route}
-        user={user()}
+        user={user({ verified: false })}
       />,
     );
-
-    expect(tree.everySubTree('.usa-alert').length).to.equal(2);
+    expect($$('va-alert', container).length).to.equal(2);
+    expect($('va-alert[status="warning"]', container).innerHTML).to.contain(
+      'href="/verify',
+    );
   });
   it('should not display verify link if user is verified', () => {
-    const u = user();
-    u.profile.verified = true;
-    const tree = SkinDeep.shallowRender(
-      <FormSaved
-        scrollParams={{}}
-        location={{}}
-        formId={formId}
-        lastSavedDate={lastSavedDate}
-        expirationDate={expirationDate}
-        route={route}
-        user={u}
-      />,
-    );
-
-    expect(tree.everySubTree('.usa-alert').length).to.equal(1);
-  });
-  it('should still show start a new button', () => {
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormSaved
         scrollParams={{}}
         location={{}}
@@ -102,8 +92,22 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)').props.resumeOnly).to
-      .not.be.true;
+
+    expect($('va-alert[status="warning"]', container)).to.not.exist;
+  });
+  it('should still show start a new & continue button (not resumeOnly)', () => {
+    const { container } = render(
+      <FormSaved
+        scrollParams={{}}
+        location={{}}
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={route}
+        user={user()}
+      />,
+    );
+    expect($$('va-button', container).length).to.eq(2);
   });
   it('should config form controls to be resume only', () => {
     const thisRoute = {
@@ -125,7 +129,7 @@ describe('Schemaform <FormSaved>', () => {
         },
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormSaved
         scrollParams={{}}
         location={{}}
@@ -136,8 +140,9 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)').props.resumeOnly).to.be
-      .true;
+    const button = $$('va-button', container);
+    expect(button.length).to.eq(1);
+    expect(button[0].getAttribute('text')).to.contain('Continue your app');
   });
 
   it('should handle form config being empty', () => {
@@ -152,7 +157,7 @@ describe('Schemaform <FormSaved>', () => {
       ],
       formConfig: {},
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormSaved
         scrollParams={{}}
         location={{}}
@@ -163,7 +168,7 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)')).exist;
+    expect($('va-button', container)).exist;
   });
   it('should handle save in progress being empty', () => {
     const thisRoute = {
@@ -179,7 +184,7 @@ describe('Schemaform <FormSaved>', () => {
         saveInProgress: {},
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <FormSaved
         scrollParams={{}}
         location={{}}
@@ -190,6 +195,6 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
-    expect(tree.subTree('withRouter(FormStartControls)')).to.exist;
+    expect($('va-button', container)).exist;
   });
 });
