@@ -8,12 +8,14 @@ describe('Secure Messaging Compose', () => {
   const landingPage = new PatientInboxPage();
   const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
+
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
   });
-  it('verify user can send a message', () => {
+
+  it('verify user can successfully send a message', () => {
     composePage.selectRecipient(requestBody.recipientId);
     composePage
       .getCategory(requestBody.category)
