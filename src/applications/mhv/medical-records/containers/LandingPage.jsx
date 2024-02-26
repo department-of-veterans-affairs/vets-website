@@ -23,7 +23,7 @@ const LandingPage = () => {
       createSession();
       dispatch(
         setBreadcrumbs([], {
-          url: '/my-health/medical-records',
+          url: '/',
           label: 'Medical records',
         }),
       );
