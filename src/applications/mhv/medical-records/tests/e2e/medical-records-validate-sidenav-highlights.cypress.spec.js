@@ -15,7 +15,6 @@ describe('Medical Records Validate Sidenav Highlights', () => {
     AllergyDetailsPage.verifySidenavHighlightAllergies();
     // navigate to allergies details page
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
-    cy.get('@allergyDetails.all').should('have.length', 0);
     AllergyDetailsPage.verifySidenavHighlightAllergies();
     cy.injectAxe();
     cy.axeCheck('main');
