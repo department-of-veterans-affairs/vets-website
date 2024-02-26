@@ -14,7 +14,7 @@ describe('Pensions DependentField', () => {
             first: 'Jane',
             last: 'Doe',
           },
-          relationship: 'child',
+          relationship: 'CHILD',
         }}
       />,
     );
