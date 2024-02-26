@@ -38,7 +38,7 @@ class ConfirmationPage extends React.Component {
           </p>
         </va-alert>
 
-        <div className="inset">
+        <va-summary-box>
           <h3>Your information for this application</h3>
 
           <h4>Your name</h4>
@@ -61,7 +61,7 @@ class ConfirmationPage extends React.Component {
               window.print();
             }}
           />
-        </div>
+        </va-summary-box>
 
         <section>
           <h3>If you need to submit supporting documents</h3>

@@ -67,8 +67,7 @@ describe('<ConfirmationPage>', () => {
     const alert = tree.everySubTree('va-alert', { status: 'success' });
     expect(alert.length).to.eql(1);
 
-    // va-summary-box was not displaying, so reverted to <div className='inset'>
-    const info = tree.everySubTree('div', { className: 'inset' });
+    const info = tree.everySubTree('va-summary-box');
     expect(info.length).to.eql(1);
     expect(info[0]?.subTree('va-button').props.text).to.equal(
       'Print this page for your records',
