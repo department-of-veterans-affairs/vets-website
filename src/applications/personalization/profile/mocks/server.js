@@ -63,6 +63,7 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
             profileHideDirectDepositCompAndPen: false,
+            profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
@@ -77,12 +78,10 @@ const responses = {
   'GET /v0/user': (_req, res) => {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user (success)
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
-    // return res.json(user.loa1User); // user with loa1
     // return res.json(user.badAddress); // user with bad address
-    // return res.json(user.loa3User); // user with loa3
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
@@ -217,7 +216,7 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    // uncomment this to simlulate multiple status calls
+    // uncomment this to simulate multiple status calls
     // aka long latency on getting update to go through
     // if (retries < 2) {
     //   retries += 1;

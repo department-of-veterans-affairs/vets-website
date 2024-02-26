@@ -16,6 +16,20 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import { AccountSecurityTables } from './AccountSecurityTables';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { AccountSecurityLoa1CredAlert } from '../alerts/CredRetirementAlerts';
+
+const IdNotVerifiedContent = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showCredRetirementMessaging = useToggleValue(
+    TOGGLE_NAMES.profileShowCredentialRetirementMessaging,
+  );
+  return showCredRetirementMessaging ? (
+    <AccountSecurityLoa1CredAlert />
+  ) : (
+    <IdentityNotVerified />
+  );
+};
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -29,7 +43,7 @@ export const AccountSecurityContent = ({
       {isBlocked && (
         <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
       )}
-      {!isIdentityVerified && <IdentityNotVerified />}
+      {!isIdentityVerified && <IdNotVerifiedContent />}
       {showMPIConnectionError && (
         <MPIConnectionError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
