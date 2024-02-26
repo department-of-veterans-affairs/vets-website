@@ -15,7 +15,7 @@ const displayBenefit = {
 
 const displayNewBenefit = {
   ...benefitAppliedFor,
-  enum: [...benefitAppliedFor.enum],
+  enum: [...(benefitAppliedFor?.enum || [])],
 };
 
 /*

@@ -35,7 +35,7 @@
         "jobTitle": "Manager"
       }
     ],
-    "maritalStatus": "Never Married",
+    "maritalStatus": "NEVER_MARRIED",
     "view:hasDependents": false,
     "totalNetWorth": true,
     "hasCareExpenses": false,
