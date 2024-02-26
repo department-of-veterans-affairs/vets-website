@@ -40,5 +40,14 @@ describe('check-in', () => {
       expect(link.getAttribute('href')).to.equal('/');
       expect(link.getAttribute('hrefLang')).to.equal('tl');
     });
+    it('renders a test id', () => {
+      const screen = render(
+        <ExternalLink hrefLang="tl" href="/" dataTestId="test-id">
+          LinkText
+        </ExternalLink>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.getAttribute('data-testid')).to.equal('test-id');
+    });
   });
 });
