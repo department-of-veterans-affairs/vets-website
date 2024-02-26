@@ -1,7 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
-const apiBasePath = 'poa_requests';
-
 const settings = {
   method: 'POST',
   headers: {
@@ -9,9 +7,9 @@ const settings = {
   },
 };
 
-export const declinePOARequest = async veteranId => {
+export const acceptDeclinePOARequest = async (veteranId, action) => {
   try {
-    const resource = `${apiBasePath}/${veteranId}`;
+    const resource = `/poa_requests/${veteranId}/${action}`;
     const response = await apiRequest(resource, settings);
 
     if (!response.ok) {
