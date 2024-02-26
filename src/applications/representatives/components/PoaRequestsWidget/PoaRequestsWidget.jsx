@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 
 const PoaRequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
-    <a
-      className="view-all-link vads-u-margin-bottom--neg4
-     "
-      href="/poa-requests"
-    >
-      View all
-    </a>
+    <va-link
+      class="view-all-link vads-u-margin-bottom--neg4"
+      href="/representatives/poa-requests"
+      text="View all"
+    />
     <va-table sort-column={1} table-title="POA requests">
       <va-table-row slot="headers">
         <span>Claimant</span>
