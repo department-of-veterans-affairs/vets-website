@@ -224,7 +224,7 @@ describe('<NameSearchForm>', () => {
       preview: { version: '1' },
       search: { query: { name: 'some name' }, tab: null, loadFromUrl: true },
     };
-    const { getByRole } = renderWithStoreAndRouter(
+    const { getByRole, getByTestId } = renderWithStoreAndRouter(
       <NameSearchForm smallScreen={false} {...props} />,
       {
         initialState: {
@@ -238,7 +238,7 @@ describe('<NameSearchForm>', () => {
         },
       },
     );
-    const btn = getByRole('button', { name: 'Go to community focus details' });
+    const btn = getByTestId('go-to-comm-focus-details');
     userEvent.click(btn);
     const heading = getByRole('heading', {
       name: 'Historically Black Colleges and Universities',
