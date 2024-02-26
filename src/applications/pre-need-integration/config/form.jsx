@@ -19,6 +19,8 @@ import * as sponsorDetails from './pages/sponsorDetails';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
+import * as sponsorContactInfo from './pages/sponsorContactInfo';
+import * as sponsorRace from './pages/sponsorRace';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
@@ -389,13 +391,6 @@ const formConfig = {
           uiSchema: sponsorDetails.uiSchema,
           schema: sponsorDetails.schema,
         },
-        sponsorDemographics: {
-          title: 'Sponsor demographics',
-          path: 'sponsor-demographics',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorDemographics.uiSchema,
-          schema: sponsorDemographics.schema,
-        },
         sponsorDeceased: {
           path: 'sponsor-deceased',
           depends: formData => !isVeteran(formData),
@@ -408,6 +403,27 @@ const formConfig = {
             !isVeteran(formData) && isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
+        },
+        // sponsorContactInfo is a placeholder screen for MBMS-54141
+        sponsorContactInfo: {
+          path: 'sponsor-contact-info',
+          depends: formData =>
+            !isVeteran(formData) && !isSponsorDeceased(formData),
+          uiSchema: sponsorContactInfo.uiSchema,
+          schema: sponsorContactInfo.schema,
+        },
+        sponsorDemographics: {
+          title: 'Sponsor demographics',
+          path: 'sponsor-demographics',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDemographics.uiSchema,
+          schema: sponsorDemographics.schema,
+        },
+        sponsorRace: {
+          path: 'sponsor-race',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorRace.uiSchema,
+          schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {
           title: "Sponsor's military details",

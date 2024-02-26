@@ -47,7 +47,7 @@ const MedicationsListSort = props => {
           onClick={() => {
             if (sortListOption) {
               sortRxList(sortListOption);
-              history.push(`/1`);
+              history.push(`/?page=1`);
               waitForRenderThenFocus(
                 "[data-testid='page-total-info']",
                 document,
