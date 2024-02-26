@@ -44,27 +44,19 @@ describe('Secure Messaging Compose', () => {
       `${charsLimit}`,
     );
 
-    composePage
-      .getMessageSubjectField()
-      .type(normalText, { waitForAnimations: true });
+    composePage.getMessageSubjectField().type(normalText, { force: true });
     cy.get(Locators.INFO.SUBJECT_LIMIT).should(
       'have.text',
       `${charsLimit - normalText.length} characters left`,
     );
 
-    composePage
-      .getMessageSubjectField()
-      .clear()
-      .type(maxText, { waitForAnimations: true });
+    composePage.getMessageSubjectField().type(maxText, { force: true });
     cy.get(Locators.INFO.SUBJECT_LIMIT).should(
       'have.text',
       `${charsLimit - maxText.length} characters left`,
     );
 
-    composePage
-      .getMessageSubjectField()
-      .clear()
-      .type(maxText, { waitForAnimations: true });
+    composePage.getMessageSubjectField().type(maxText, { force: true });
     cy.get('#message-subject').should('have.attr', 'value', `${maxText}`);
 
     cy.injectAxe();
