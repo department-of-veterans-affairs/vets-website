@@ -33,7 +33,7 @@ function ExternalLink({
       data-testid={dataTestId}
     >
       {children}
-      {!i18n?.language?.startsWith(hrefLang) ? (
+      {!i18n?.language.startsWith(hrefLang) ? (
         <> ({t(`in-${hrefLang}`)})</>
       ) : null}
     </a>
