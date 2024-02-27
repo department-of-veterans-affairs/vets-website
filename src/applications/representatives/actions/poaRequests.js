@@ -7,7 +7,7 @@ const settings = {
   },
 };
 
-export const acceptDeclinePOARequest = async (veteranId, action) => {
+const handlePOARequest = async (veteranId, action) => {
   try {
     const resource = `/poa_requests/${veteranId}/${action}`;
     const response = await apiRequest(resource, settings);
@@ -22,3 +22,8 @@ export const acceptDeclinePOARequest = async (veteranId, action) => {
     return { status: 'error', error: errorMessage };
   }
 };
+
+export const acceptPOARequest = veteranId =>
+  handlePOARequest(veteranId, 'accept');
+export const declinePOARequest = veteranId =>
+  handlePOARequest(veteranId, 'decline');
