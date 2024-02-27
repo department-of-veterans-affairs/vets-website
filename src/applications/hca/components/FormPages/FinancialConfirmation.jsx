@@ -6,7 +6,7 @@ const DisabilityConfirmation = props => {
   const { goBack, goForward } = props;
 
   return (
-    <va-featured-content
+    <va-summary-box
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
       uswds
     >
@@ -48,7 +48,7 @@ const DisabilityConfirmation = props => {
           />
         </div>
       </div>
-    </va-featured-content>
+    </va-summary-box>
   );
 };
 

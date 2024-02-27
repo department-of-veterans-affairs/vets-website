@@ -13,9 +13,9 @@ describe('hca Disability Confirmation page', () => {
   context('when the component renders', () => {
     const { props } = getData();
 
-    it('should render `va-featured-content`', () => {
+    it('should render `va-summary-box`', () => {
       const { container } = render(<DisabilityConfirmation {...props} />);
-      const selector = container.querySelector('va-featured-content');
+      const selector = container.querySelector('va-summary-box');
       expect(selector).to.exist;
     });
 

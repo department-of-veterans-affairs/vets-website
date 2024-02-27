@@ -87,9 +87,7 @@ describe('hca <GetStartedContent>', () => {
           <GetStartedContent {...props} />
         </Provider>,
       );
-      const selector = container.querySelectorAll(
-        'va-alert, va-featured-content',
-      );
+      const selector = container.querySelectorAll('va-alert, va-summary-box');
       expect(selector).to.have.lengthOf(2);
     });
 

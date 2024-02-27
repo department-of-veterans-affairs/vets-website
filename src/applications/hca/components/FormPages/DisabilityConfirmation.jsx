@@ -13,7 +13,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   };
 
   return (
-    <va-featured-content
+    <va-summary-box
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
       uswds
     >
@@ -45,7 +45,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
           />
         </div>
       </div>
-    </va-featured-content>
+    </va-summary-box>
   );
 };
 

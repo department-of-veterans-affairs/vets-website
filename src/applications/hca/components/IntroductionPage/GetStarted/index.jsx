@@ -13,7 +13,7 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   return (
     <>
       {showLoginAlert ? (
-        <va-featured-content uswds>
+        <va-summary-box uswds>
           <h2
             slot="headline"
             className="vads-u-font-size--h4 vads-u-margin-bottom--2"
@@ -26,7 +26,7 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
             data-testid="hca-login-alert-button"
             uswds
           />
-        </va-featured-content>
+        </va-summary-box>
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
