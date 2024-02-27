@@ -28,7 +28,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </va-alert>
       </div>
 
-      <va-featured-content class="vads-u-margin-bottom--4" uswds>
+      <va-summary-box class="vads-u-margin-bottom--4" uswds>
         <h3 slot="headline">{content['confirm-app-title']}</h3>
 
         <h4>{content['confirm-app-list-name']}</h4>
@@ -59,7 +59,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             uswds
           />
         </div>
-      </va-featured-content>
+      </va-summary-box>
     </>
   );
 };
