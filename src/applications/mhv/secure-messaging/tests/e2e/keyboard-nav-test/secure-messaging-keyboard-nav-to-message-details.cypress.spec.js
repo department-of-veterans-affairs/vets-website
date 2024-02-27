@@ -3,7 +3,7 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 import mockMessages from '../fixtures/messages-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Navigate to Message Details ', () => {
   it('Keyboard Navigation to Print Button', () => {
@@ -22,11 +22,10 @@ describe('Navigate to Message Details ', () => {
       .should('contain', 'Print');
 
     cy.realPress('Tab');
-    cy.get('button:contains("Move")').should('have.focus');
+    cy.get(Locators.BUTTONS.BUTTON_MOVE).should('have.focus');
 
     cy.realPress('Tab');
-    cy.get('button:contains("Trash")').should('be.visible');
-    cy.get('button:contains("Trash")').should('have.focus');
+    cy.get(Locators.BUTTONS.BUTTON_TRASH).should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

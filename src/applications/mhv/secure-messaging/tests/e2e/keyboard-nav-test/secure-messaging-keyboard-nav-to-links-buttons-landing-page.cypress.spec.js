@@ -1,6 +1,6 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
@@ -8,8 +8,8 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     const landingPage = new PatientInboxPage();
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[class="sidebar-navigation-messages-list-header"]').click();
-    cy.get('[text="Go to your inbox"]').should('be.visible');
+    cy.get(Locators.ALERTS.SIDEBAR_NAV).click();
+    cy.get(Locators.ALERTS.INBOX_TEXT).should('be.visible');
     cy.tabToElement('[text="Go to your inbox"]').should(
       'have.text',
       'Go to your inbox',
@@ -20,17 +20,17 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     );
 
     cy.realPress('Tab');
-    cy.get('.welcome-message')
+    cy.get(Locators.ALERTS.WELCOME_MESSAGE)
       .find('a')
       .should('have.focus');
 
     cy.realPress('Tab');
-    cy.get('[data-testid="faq-accordion-item"]').each(el => {
+    cy.get(Locators.ALERTS.ACC_ITEM).each(el => {
       cy.get(el).should('have.focus');
       cy.realPress('Tab');
     });
 
-    cy.get('va-back-to-top')
+    cy.get(Locators.ALERTS.BACK_TOP)
       .scrollIntoView()
       .should('have.focus');
 

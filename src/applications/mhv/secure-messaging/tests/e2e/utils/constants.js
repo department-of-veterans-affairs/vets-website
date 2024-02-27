@@ -37,6 +37,8 @@ export const Locators = {
   BUTTONS: {
     REPLY: '[data-testid="reply-button-body"]',
     CONTINUE: '[data-testid="continue-button"]',
+    BUTTON_MOVE: 'button:contains("Move")',
+    BUTTON_TRASH: 'button:contains("Trash")',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="Send-Button"]',
     SAVE_DRAFT: '#save-draft-button',
@@ -50,9 +52,17 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    PAGE_TITLE: '.page-title',
     EXPANDABLE_TITLE: '[class="alert-expandable-title"]',
     SAVE_DRAFT: '#messagetext',
+    SIDEBAR_NAV: '[class="sidebar-navigation-messages-list-header"]',
+    INBOX_TEXT: '[text="Go to your inbox"]',
+    WELCOME_MESSAGE: '.welcome-message',
+    BACK_TOP: 'va-back-to-top',
+    ACC_ITEM: '[data-testid="faq-accordion-item"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+    REPT_SELECT: '[data-testid="compose-recipient-select"]',
+    MESS_CATAGO: '[data-testid="compose-message-categories"]',
   },
 };
 
