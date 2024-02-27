@@ -15,7 +15,7 @@ const HowToVerifyLink = () => (
 );
 
 const IdentityNotVerified = ({
-  headline = 'Verify your identity to view your complete profile',
+  headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
 }) => {
   return (
@@ -30,7 +30,7 @@ const IdentityNotVerified = ({
             We need to make sure you’re you&#8212;and not someone pretending to
             be you&#8212;before we can give you access to your personal and
             health-related information. This helps to keep your information
-            safe, and to prevent fraud and identity theft.
+            safe. It helps to prevent fraud and identity theft.
           </p>
 
           <p className="vads-u-font-weight--bold">
