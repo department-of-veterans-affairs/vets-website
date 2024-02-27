@@ -28,16 +28,16 @@ function VAFacilityInfoSection(props) {
       {props.vaFacility.title &&
         props.vaFacility.website && (
           <a href={props.vaFacility.website}>
-            <h4 className="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md vads-u-font-size--lg">
+            <h3 className="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md vads-u-font-size--lg">
               {props.vaFacility.title}
-            </h4>
+            </h3>
           </a>
         )}
       {props.vaFacility.title &&
         !props.vaFacility.website && (
-          <h4 className="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md vads-u-font-size--lg">
+          <h3 className="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md vads-u-font-size--lg">
             {props.vaFacility.title}
-          </h4>
+          </h3>
         )}
 
       <div className="vads-u-margin-bottom--1">
