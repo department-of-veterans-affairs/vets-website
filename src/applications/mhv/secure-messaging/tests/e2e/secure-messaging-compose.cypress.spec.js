@@ -63,7 +63,7 @@ describe('Secure Messaging Compose', () => {
       .getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
-    cy.get('#message-subject').should('have.attr', 'value', maxText);
+    cy.get('#message-subject').should('have.attr', 'value', `${maxText}`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
