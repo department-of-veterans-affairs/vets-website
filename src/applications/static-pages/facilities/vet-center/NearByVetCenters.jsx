@@ -11,6 +11,8 @@ import {
   distancesToNearbyVetCenters,
 } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+import createStructuredVALocation from './createStructuredVALocation';
+import { getCenterDistance } from './distances';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 120;
 
@@ -162,29 +164,9 @@ const NearByVetCenters = props => {
     let centerDistance = false;
 
     if (nearbyVetCenterDistances) {
-      const vetCenterDistance = nearbyVetCenterDistances.find(
-        distance => distance.id === vc.id,
-      );
-
-      centerDistance = vetCenterDistance.distance;
+      centerDistance = getCenterDistance(nearbyVetCenterDistances, vc);
     }
-
-    return {
-      id: vc.id,
-      entityBundle: vc.attributes.facilityType,
-      fieldPhoneNumber: vc.attributes.phone.main,
-      distance: centerDistance,
-      title: vc.attributes.name,
-      fieldAddress: {
-        addressLine1: vc.attributes.address.physical.address1,
-        administrativeArea: vc.attributes.address.physical.state,
-        locality: vc.attributes.address.physical.city,
-        postalCode: vc.attributes.address.physical.zip,
-      },
-      fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
-      fieldOperatingStatusMoreInfo:
-        vc.attributes.operatingStatus?.additionalInfo,
-    };
+    return createStructuredVALocation(vc, centerDistance);
   };
 
   const normalizeFetchedVetCenters = vcs => {
@@ -235,11 +217,12 @@ const NearByVetCenters = props => {
 };
 
 NearByVetCenters.propTypes = {
-  vetCenters: PropTypes.array,
-  mainVetCenterPhone: PropTypes.string,
+  facilitiesLoading: PropTypes.bool,
   mainVetCenterAddress: PropTypes.object,
   mainVetCenterId: PropTypes.string,
+  mainVetCenterPhone: PropTypes.string,
   satteliteVetCenters: PropTypes.array,
+  vetCenters: PropTypes.array,
 };
 
 const mapStateToProps = store => ({

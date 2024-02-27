@@ -9,15 +9,17 @@ import {
   fetchMultiFacilitySuccess,
 } from '../actions';
 import {
-  calculateBoundingBox,
   convertMetersToMiles,
   distancesToNearbyVetCenters,
 } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+import createStructuredVALocation from './createStructuredVALocation';
+import { generatePartialParams } from './generatePartialParams';
+import { getCenterDistance } from './distances';
 
-const NEARBY_VA_LOCATIONS_RADIUS_MILES = 120;
+const NEARBY_VA_LOCATIONS_RADIUS_MILES = 150;
 
-const NearByVALocations = props => {
+const NearbyLocations = props => {
   const [originalCoordinates, setOriginalCoordinates] = useState([]);
   const [fetchedVALocations, setFetchedVALocations] = useState([]);
   const [nearbyVADistances, setNearbyVADistances] = useState(false);
@@ -57,19 +59,10 @@ const NearByVALocations = props => {
 
       if (coordinates) {
         setOriginalCoordinates(coordinates);
-        const boundingBox = calculateBoundingBox(
-          coordinates[1],
-          coordinates[0],
+        const partialParams = generatePartialParams(
+          coordinates,
           NEARBY_VA_LOCATIONS_RADIUS_MILES,
         );
-        const partialParams = [
-          'page=1',
-          'per_page=2',
-          `radius=${NEARBY_VA_LOCATIONS_RADIUS_MILES}`,
-          `latitude=${coordinates[1]}`,
-          `longitude=${coordinates[0]}`,
-          ...boundingBox.map(c => `bbox[]=${c}`),
-        ];
         fetchVALocations(
           `/facilities/va/?${[
             'type=health',
@@ -173,32 +166,10 @@ const NearByVALocations = props => {
   const normalizeFetchedFacilityProperties = useCallback(
     vc => {
       let centerDistance = false;
-
       if (nearbyVADistances.length === fetchedVALocations.length) {
-        const facilityDistance = nearbyVADistances.find(
-          distance => distance.id === vc.id,
-        );
-        centerDistance = facilityDistance.distance;
+        centerDistance = getCenterDistance(nearbyVADistances, vc);
       }
-      return {
-        id: vc.id,
-        entityBundle: vc.attributes.facilityType,
-        fieldPhoneNumber: vc.attributes.phone.main,
-        fieldPhoneMentalHealth: vc.attributes.phone.mentalHealthClinic,
-        distance: centerDistance,
-        title: vc.attributes.name,
-        fieldAddress: {
-          addressLine1: vc.attributes.address.physical.address1,
-          administrativeArea: vc.attributes.address.physical.state,
-          locality: vc.attributes.address.physical.city,
-          postalCode: vc.attributes.address.physical.zip,
-        },
-        fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
-        fieldOperatingStatusMoreInfo:
-          vc.attributes.operatingStatus?.additionalInfo,
-        website: vc.attributes.website,
-        source: vc.source,
-      };
+      return createStructuredVALocation(vc, centerDistance);
     },
     [nearbyVADistances, fetchedVALocations],
   );
@@ -296,7 +267,7 @@ const NearByVALocations = props => {
   return null;
 };
 
-NearByVALocations.propTypes = {
+NearbyLocations.propTypes = {
   mainAddress: PropTypes.object,
   mainFacilityApiId: PropTypes.string,
   mainPhone: PropTypes.string,
@@ -310,4 +281,4 @@ const mapStateToProps = store => ({
   togglesLoading: store.featureToggles?.loading,
 });
 
-export default connect(mapStateToProps)(NearByVALocations);
+export default connect(mapStateToProps)(NearbyLocations);
