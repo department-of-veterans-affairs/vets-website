@@ -49,6 +49,8 @@ function getDefaultData(schema) {
  * @property {function} updateFormData Will be called if form is updated
  */
 export class DefinitionTester extends React.Component {
+  debouncedAutoSave = sinon.spy();
+
   constructor(props) {
     super(props);
     const { data, uiSchema } = props;
@@ -58,20 +60,18 @@ export class DefinitionTester extends React.Component {
     };
     const schema = replaceRefSchemas(props.schema, definitions);
 
-    const { data: newData, schema: newSchema } = updateSchemasAndData(
-      schema,
-      uiSchema,
-      data || getDefaultData(schema),
-    );
+    const {
+      data: newData,
+      schema: newSchema,
+      uiSchema: newUiSchema,
+    } = updateSchemasAndData(schema, uiSchema, data || getDefaultData(schema));
 
     this.state = {
       formData: newData,
       schema: newSchema,
-      uiSchema,
+      uiSchema: newUiSchema,
     };
   }
-
-  debouncedAutoSave = sinon.spy();
 
   handleChange = data => {
     const { schema, uiSchema, formData } = this.state;
@@ -87,6 +87,7 @@ export class DefinitionTester extends React.Component {
 
     let newData = newSchemaAndData.data;
     const newSchema = newSchemaAndData.schema;
+    const newUiSchema = newSchemaAndData.uiSchema;
 
     if (typeof updateFormData === 'function') {
       if (arrayPath && typeof pagePerItemIndex === 'undefined') {
@@ -106,7 +107,7 @@ export class DefinitionTester extends React.Component {
     this.setState({
       formData: newData,
       schema: newSchema,
-      uiSchema,
+      uiSchema: newUiSchema,
     });
   };
 
