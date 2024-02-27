@@ -14,13 +14,10 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
       fail-fast: false
@@ -210,7 +207,7 @@ jobs:
     name: Unit Tests
     needs: [fetch-allow-lists, unit-tests-prep]
     timeout-minutes: 30
-    runs-on: ubuntu-16-cores-latest
+    runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -222,8 +219,7 @@ jobs:
       fail-fast: false
       max-parallel: 72
       matrix:
-        ci_node_index: [mock-form, ezr, post-911-gib-status, appeals, facility-locator, pre-need-integration, ask-a-question, financial-status-report, pre-need, ask-va, auth, avs, gi, hca, rated-disabilities, burial-poc-v6, burials, caregivers, check-in, claims-status, combined-debt-portal, coronavirus-research, coronavirus-screener, debt-letters, dhp-connected-devices, disability-benefits, discharge-wizard, ds-playground, ds-v3-playground, e-folders, edu-benefits, education-letters, enrollment-verification, find-forms, fry-dea, health-care-supply-reordering, income-limits, ivc-champva, letters, lgy, login, medical-copays, messages, mhv-inherited-proofing, mhv-landing-page, mhv, mock-sip-form, my-education-benefits, office-directory, pact-act, pensions, personalization, proxy-rewrite, public-outreach-materials, representative-search, representatives, resources-and-support, sah, search, simple-forms, static-pages, terms-of-use, third-party-app-directory, toe, travel-pay, vaos, verify-your-enrollment, verify, veteran-id-card, virtual-agent, vre, yellow-ribbon]
-
+        ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -251,14 +247,14 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        run: yarn test:unit --app-folder ${{ matrix.ci_node_index }} ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
-          NUM_CONTAINERS: 72
+          NUM_CONTAINERS: 10
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -334,12 +330,11 @@ jobs:
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [fetch-allow-lists, unit-tests-prep]
     if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 
