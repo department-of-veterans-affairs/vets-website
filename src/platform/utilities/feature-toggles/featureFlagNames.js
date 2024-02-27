@@ -116,6 +116,7 @@ export default Object.freeze({
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
+  hcaTeraEnabled: 'hca_tera_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   hlrBrowserMonitoringEnabled: 'hlr_browser_monitoring_enabled',
   lettersCheckDiscrepancies: 'letters_check_discrepancies',
