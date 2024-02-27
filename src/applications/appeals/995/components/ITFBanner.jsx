@@ -20,7 +20,7 @@ const ITFBanner = props => {
   const [messageDismissed, setMessageDismissed] = useState(false);
 
   const goHome = () => {
-    props.router.push(`${BASE_URL}/introduction`);
+    props.router.push(`/introduction`);
   };
 
   const dismissMessage = () => {
