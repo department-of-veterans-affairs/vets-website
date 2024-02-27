@@ -8,6 +8,7 @@ import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
 import PrescriptionsPrintOnly from './containers/PrescriptionsPrintOnly';
+import RefillPrescriptions from './containers/RefillPrescriptions';
 
 /**
  * Route that wraps its children within the application component.
@@ -34,6 +35,14 @@ const routes = (
       <Switch>
         <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
           <LandingPage />
+        </AppRoute>
+        <AppRoute exact path={['/refill']} key="RefillPage">
+          <div>
+            <RefillPrescriptions />
+            <div className="no-print">
+              <va-back-to-top />
+            </div>
+          </div>
         </AppRoute>
         <AppRoute exact path={['/', '/:page']} key="App">
           <div>
