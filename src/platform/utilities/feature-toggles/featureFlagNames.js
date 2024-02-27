@@ -139,6 +139,7 @@ export default Object.freeze({
   mhvMedicalRecordsDisplayVitals: 'mhv_medical_records_display_vitals',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
+  mhvMedicationsDisplayRefillContent: 'mhv_medications_display_refill_content',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal:
     'mhv_to_logingov_account_transition_modal',
@@ -277,5 +278,7 @@ export default Object.freeze({
   virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
   virtualAgentEnableMsftPvaTesting: 'virtual_agent_enable_msft_pva_testing',
   virtualAgentEnableNluPvaTesting: 'virtual_agent_enable_nlu_pva_testing',
+  yellowRibbonDegreeFilter: 'yellow_ribbon_degree_filter',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  yellowRibbonAutomatedDateOnSchoolSearch: 'yellow_ribbon_automated_date_on_school_search',
 });

@@ -35,7 +35,7 @@ describe('Secure Messaging Compose', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  // temporarily skipped ('#charcount-message's elector could not be found)
+  // temporarily skipped ('#charcount-message' selector could not be found)
   it.skip('verify subject field max size', () => {
     const charsLimit = 50;
     const normalText = 'Qwerty1234';
