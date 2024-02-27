@@ -1,5 +1,7 @@
-import { formatDateLong } from 'platform/utilities/date';
-import { focusElement } from 'platform/utilities/ui';
+import {
+  formatDateLong,
+  focusElement,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
