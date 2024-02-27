@@ -11,26 +11,33 @@ const TravelClaimSuccessAlert = props => {
   const { t } = useTranslation();
 
   return (
-    <va-alert show-icon data-testid="travel-pay-message" status="success" uswds>
-      <h2 slot="headline">
-        {t('claim-submitted', { count: facilities.length })}
-      </h2>
-      <p
-        className="vads-u-margin-top--0"
-        data-testid="travel-pay-single-claim-submitted"
+    <div className="vads-u-margin-y--4">
+      <va-alert
+        show-icon
+        data-testid="travel-pay-message"
+        status="success"
+        uswds
       >
-        {`${t('this-claim-is-for-your-appointment', {
-          date: new Date('2024-02-23T11:12:11'),
-          count: facilities.length,
-        })} ${formatList(facilities, t('and'))} ${t(
-          'well-send-you-a-text-to-let-you-know',
-          {
+        <h2 slot="headline">
+          {t('claim-submitted', { count: facilities.length })}
+        </h2>
+        <p
+          className="vads-u-margin-top--0"
+          data-testid="travel-pay-single-claim-submitted"
+        >
+          {`${t('this-claim-is-for-your-appointment', {
+            date: new Date('2024-02-23T11:12:11'),
             count: facilities.length,
-          },
-        )}`}
-      </p>
-      <p>{t('you-dont-need-to-do-anything-else')}</p>
-    </va-alert>
+          })} ${formatList(facilities, t('and'))} ${t(
+            'well-send-you-a-text-to-let-you-know',
+            {
+              count: facilities.length,
+            },
+          )}`}
+        </p>
+        <p>{t('you-dont-need-to-do-anything-else')}</p>
+      </va-alert>
+    </div>
   );
 };
 
