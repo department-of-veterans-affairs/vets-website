@@ -56,7 +56,7 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
