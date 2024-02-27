@@ -33,6 +33,7 @@ export default function CombinedRating({ combinedRating }) {
         href="/claim-or-appeal-status"
         onClick={clickHandler}
         text="Check the status of your claims, decision reviews, or appeals online"
+        uswds="false"
       />
     </va-summary-box>
   );
