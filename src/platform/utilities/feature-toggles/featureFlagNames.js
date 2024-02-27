@@ -279,4 +279,5 @@ export default Object.freeze({
   virtualAgentEnableMsftPvaTesting: 'virtual_agent_enable_msft_pva_testing',
   virtualAgentEnableNluPvaTesting: 'virtual_agent_enable_nlu_pva_testing',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  yellowRibbonAutomatedDateOnSchoolSearch: 'yellow_ribbon_automated_date_on_school_search',
 });
