@@ -26,7 +26,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         </va-alert>
       </div>
 
-      <va-featured-content class="vads-u-margin-bottom--4" uswds>
+      <va-summary-box class="vads-u-margin-bottom--4" uswds>
         <h3 slot="headline">Your application information</h3>
 
         <h4>Veteran’s name</h4>
@@ -65,7 +65,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         <div className="caregiver-application--download">
           <ApplicationDownloadLink form={form} />
         </div>
-      </va-featured-content>
+      </va-summary-box>
     </>
   );
 };
