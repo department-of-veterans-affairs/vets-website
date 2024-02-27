@@ -11,6 +11,7 @@ import { getStatements } from '../actions/copays';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
+  debtLettersShowLettersVBMS,
 } from '../utils/helpers';
 
 const CombinedPortalApp = ({ children }) => {
@@ -18,6 +19,9 @@ const CombinedPortalApp = ({ children }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const isCombinedPortalActive = useSelector(state =>
     combinedPortalAccess(state),
+  );
+  const debtLettersActive = useSelector(state =>
+    debtLettersShowLettersVBMS(state),
   );
 
   // Generic loading flags
@@ -36,7 +40,7 @@ const CombinedPortalApp = ({ children }) => {
   useEffect(
     () => {
       if (userLoggedIn) {
-        fetchDebtLetters(dispatch);
+        fetchDebtLetters(dispatch, debtLettersActive);
         getStatements(dispatch);
       }
     },
