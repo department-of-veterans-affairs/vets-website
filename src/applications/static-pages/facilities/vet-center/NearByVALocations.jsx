@@ -265,11 +265,16 @@ const NearByVALocations = props => {
     const useSorted = filteredByDistance.length === 0;
 
     return (
-      <div>
-        {(useSorted ? sortedVaLocations : filteredByDistance).map(vc => {
-          return renderFacility(vc, props.mainPhone);
-        })}
-      </div>
+      <>
+        <h2 className="vads-u-line-height--1 vads-u-margin-bottom--3">
+          Other nearby VA locations
+        </h2>
+        <div>
+          {(useSorted ? sortedVaLocations : filteredByDistance).map(vc => {
+            return renderFacility(vc, props.mainPhone);
+          })}
+        </div>
+      </>
     );
   };
 
