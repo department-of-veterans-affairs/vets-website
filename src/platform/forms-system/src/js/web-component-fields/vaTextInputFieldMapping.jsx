@@ -40,8 +40,12 @@ export default function vaTextInputFieldMapping(props) {
     width: uiOptions?.width,
     charcount: uiOptions?.charcount,
     onInput: (event, value) => {
-      // redux value or input value
+      // redux value or input value.
       let newVal = value || event.target.value;
+      // always a string onChange - converts to integer to validate if using number pattern
+      if (['number', 'integer'].includes(inputType)) {
+        newVal = Number(newVal);
+      }
       // pattern validation will trigger if you have '',
       // so set as undefined instead.
       newVal = newVal === '' ? undefined : newVal;
