@@ -60,8 +60,9 @@ export const getMobileHeaderHtml = megaMenuData => {
               <div class="hidden-header vads-u-display--flex vads-u-align-items--center">
                 <div class="sign-in-nav">
                   <div class="sign-in-links">
-                    <button class="sign-in-link">Sign in</button>
+                    <button id="sign-in-button" class="sign-in-link">Sign in</button>
                   </div>
+                  <div id="sign-in-modal"></div>
                 </div>
               </div>
               <!-- end Sign In button -->

@@ -23,6 +23,7 @@ import {
   addOverlayTriggers,
 } from './utilities/menu-behavior';
 import Search from './partials/search';
+import Modal from './partials/signInModal';
 
 const store = createCommonStore();
 
@@ -83,7 +84,6 @@ function renderHeader(megaMenuData, headerContainer = null) {
       document.body.firstChild.before(container);
     }
   }
-
   addHeaderEventListeners();
 
   const parentElement = isMobile
@@ -95,6 +95,15 @@ function renderHeader(megaMenuData, headerContainer = null) {
       <Search isMobile={isMobile} />
     </Provider>,
     document.getElementById(parentElement),
+  );
+
+  const signInElement = document.getElementById('sign-in-modal');
+
+  startReactApp(
+    <Provider store={store}>
+      <Modal />
+    </Provider>,
+    signInElement,
   );
 
   return null;
