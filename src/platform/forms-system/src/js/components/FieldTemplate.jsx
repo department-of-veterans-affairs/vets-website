@@ -167,7 +167,7 @@ export default function FieldTemplate(props) {
 FieldTemplate.propTypes = {
   children: PropTypes.element,
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.number,
+    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     submitted: PropTypes.bool,
     touched: PropTypes.shape({}),
   }),

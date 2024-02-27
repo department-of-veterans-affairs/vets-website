@@ -36,6 +36,11 @@ describe('Folder Header component', () => {
       messageDetails: { message: messageResponse },
     },
     drupalStaticData,
+    user: {
+      profile: {
+        facilities: [],
+      },
+    },
   };
   const initialPath = `/folders/${customFolder.folderId}`;
   const initialThreadCount = threadList.length;
@@ -145,6 +150,12 @@ describe('Folder Header component', () => {
         folders: {
           folder: inbox,
           folderList,
+        },
+      },
+      drupalStaticData,
+      user: {
+        profile: {
+          facilities: [],
         },
       },
     };
