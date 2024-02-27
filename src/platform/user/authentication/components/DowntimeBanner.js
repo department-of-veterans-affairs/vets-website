@@ -17,12 +17,19 @@ export default function DowntimeBanners() {
     }
   }, []);
 
-  const statusArray =
-    statuses || isLocalhost
-      ? []
-      : [{ service: 'mvi', serviceId: 'mvi', status: 'down' }];
+  let downStatus = null;
+  let maintenanceStatus = null;
+  let bannerStatus = [];
 
-  let bannerStatus = {};
+  let statusArray = statuses && !isLocalhost ? statuses : [];
+
+  statusArray =
+    statusArray.length === 0 && !isLocalhost
+      ? [{ service: 'mvi', serviceId: 'mvi', status: 'down' }]
+      : statusArray;
+
+  downStatus =
+    statusArray.length > 0 ? getStatusFromStatuses(statusArray) : null;
 
   if (maintenanceWindows.length > 0) {
     const checkMaintenanceWindow = () => {
@@ -39,7 +46,7 @@ export default function DowntimeBanners() {
     };
 
     const formattedMaintenanceStatus = () => {
-      const maintenanceStatus = maintenanceWindows
+      const formattedStatus = maintenanceWindows
         .filter(checkMaintenanceWindow)
         .map(window => ({
           csp: window.external_service,
@@ -48,29 +55,30 @@ export default function DowntimeBanners() {
           endTime: window.end_time,
         }));
 
-      return [...maintenanceStatus];
+      return [...formattedStatus];
     };
 
-    bannerStatus = checkMaintenanceWindow()
+    maintenanceStatus = checkMaintenanceWindow()
       ? getStatusFromStatuses(formattedMaintenanceStatus())
-      : {};
+      : null;
   }
 
-  if (!Object.keys(bannerStatus).length) return null;
-
-  const { headline, status, message } =
-    bannerStatus || getStatusFromStatuses(statusArray);
+  bannerStatus = [downStatus, maintenanceStatus].filter(
+    status => status !== null,
+  );
 
   return (
     !loading && (
       <div className="downtime-notification row">
         <div className="columns small-12">
-          <div className="form-warning-banner fed-warning--v2">
-            <va-alert visible status={status}>
-              <h2 slot="headline">{headline}</h2>
-              {message}
-            </va-alert>
-          </div>
+          {bannerStatus.map(({ headline, status, message }, index) => (
+            <div key={index} className="form-warning-banner fed-warning--v2">
+              <va-alert visible status={status}>
+                <h2 slot="headline">{headline}</h2>
+                {message}
+              </va-alert>
+            </div>
+          ))}
         </div>
       </div>
     )

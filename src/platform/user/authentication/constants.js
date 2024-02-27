@@ -294,11 +294,11 @@ export const getStatusFromStatuses = _status => {
       ),
     };
   }
-
   const sorted = _status
     .sort((a, b) => (a.service < b.service ? 1 : -1))
     .find(k => !['active'].includes(k.status));
+
   return sorted && AUTH_DEPENDENCIES.some(id => id === sorted.serviceId)
     ? DOWNTIME_BANNER_CONFIG[sorted.serviceId]
-    : {};
+    : DOWNTIME_BANNER_CONFIG.mvi;
 };
