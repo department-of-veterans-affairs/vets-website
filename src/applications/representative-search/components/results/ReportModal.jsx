@@ -15,6 +15,8 @@ const ReportModal = ({
   existingReports,
   onCloseModal,
   submitRepresentativeReport,
+  handleOtherInputChangeTestId,
+  testReportObject,
 }) => {
   const [reportObject, setReportObject] = useState({
     phone: null,
@@ -113,8 +115,6 @@ const ReportModal = ({
   return (
     <>
       <VaModal
-        modalTitle={`Report outdated information for 
-          ${representativeName}`}
         onCloseEvent={onCloseModal}
         onPrimaryButtonClick={onSubmitModal}
         onSecondaryButtonClick={onCloseModal}
@@ -123,9 +123,57 @@ const ReportModal = ({
         visible
         uswds
       >
+        {/* These buttons trigger methods for unit testing - temporary workaround for shadow root issues with va checkboxes */}
+        {handleOtherInputChangeTestId ? (
+          <>
+            <button
+              id="handle-checkbox-change-test-button"
+              type="button"
+              onClick={() =>
+                handleCheckboxChange({
+                  target: { id: handleOtherInputChangeTestId, checked: 'true' },
+                })
+              }
+            />
+            <button
+              id="handle-other-input-change-test-button"
+              type="button"
+              onClick={() =>
+                handleOtherInputChange({
+                  target: {
+                    id: handleOtherInputChangeTestId,
+                    value: 'test comment',
+                  },
+                })
+              }
+            />
+          </>
+        ) : null}
+        {testReportObject ? (
+          <>
+            <button
+              id="set-report-object-button"
+              type="button"
+              onClick={() => setReportObject({ ...testReportObject })}
+            />
+            <button
+              id="submit-modal-test-button"
+              type="button"
+              onClick={() => onSubmitModal()}
+            />
+          </>
+        ) : null}
+        <h2
+          className="report-modal-header"
+          style={{ fontSize: 20, marginTop: 10 }}
+        >
+          Report outdated information for {representativeName}
+        </h2>
         {someItemsReported && (
           <>
-            <h3>You reported this information</h3>
+            <h3 style={{ fontSize: 17, marginTop: 20 }}>
+              You reported this information
+            </h3>
             <ul>
               {existingReports.address && <li>Outdated address</li>}
               {existingReports.email && <li>Outdated email</li>}
@@ -139,7 +187,9 @@ const ReportModal = ({
         {someItemsReported &&
           notAllItemsReported && (
             <>
-              <h3>You can add to your report</h3>
+              <h3 style={{ fontSize: 17, marginBottom: 0 }}>
+                You can add to your report
+              </h3>
             </>
           )}
 
@@ -155,28 +205,13 @@ const ReportModal = ({
               uswds
             >
               {addressReportable && (
-                <va-checkbox
-                  label="Incorrect address"
-                  name="address"
-                  uswds
-                  id="1"
-                />
+                <va-checkbox label="Address" name="address" uswds id="1" />
               )}
               {emailReportable && (
-                <va-checkbox
-                  label="Incorrect email"
-                  name="email"
-                  uswds
-                  id="2"
-                />
+                <va-checkbox label="Email" name="email" uswds id="2" />
               )}
               {phoneReportable && (
-                <va-checkbox
-                  label="Incorrect phone number"
-                  name="phone"
-                  uswds
-                  id="3"
-                />
+                <va-checkbox label="Phone number" name="phone" uswds id="3" />
               )}
               {otherReportable && (
                 <va-checkbox label="Other" name="other" uswds id="4" />
@@ -186,19 +221,18 @@ const ReportModal = ({
         )}
 
         {otherIsChecked && (
-          <div className="vads-u-padding-left--4">
+          <div className="report-other-text-input">
             <div
               className={`${
                 !otherIsBlankError ? 'form-expanding-group-open' : null
               } form-expanding-group-inner-enter-done`}
             >
-              <va-text-input
+              <va-textarea
                 hint={null}
-                required
-                error={otherIsBlankError ? 'This field is required' : null}
                 label="Describe the other information we need to update"
+                error={otherIsBlankError ? 'This field is required' : null}
                 value={reportObject.other}
-                name="my-input"
+                name="Other comment input"
                 maxlength={250}
                 onInput={e => handleOtherInputChange(e)}
                 uswds

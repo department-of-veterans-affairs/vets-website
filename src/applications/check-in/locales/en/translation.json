@@ -279,5 +279,18 @@
   "in-person": "in person",
   "details-for": "Details for",
   "the-staff-can-call-you-back": "The staff can call you back once you complete check-in.",
-  "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time."
+  "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time.",
+  "file-travel-reimbursement-claim": "File a travel reimbursement claim", 
+  "file-a-travel-reimbursment-claim-if-you-meet": "File a travel reimbursement claim if you meet eligibility for health care travel reimbursement. First, we need your last name and date of birth to make sure it’s you.",
+  "you-can-use-this-tool-file-claim": "You can use this tool to file a claim for today’s appointments until the end of today.",
+  "check-your-eligibility": "Check your eligibility",
+  "file-your-claim": "File your claim",
+  "if-youre-eligible-for-travel-reimbursement-you-can-file": "If you’re eligible for health care travel reimbursement and you have your direct deposit set up, you can file a reimbursement claim now.",
+  "if-youre-claiming-mileage-file-online-now": "If you’re claiming only mileage, you can file online right now. We’ll ask you a few questions. You won’t need receipts.",
+  "file-mileage-only-claim": "File a mileage-only claim",
+  "if-claiming-other-expenses-file-online-or-mail-or-in-person": "If you’re claiming other expenses, like lodging, meals, or tolls, you can file online through the Beneficiary Travel Self Service System (BTSSS). Or you can file by mail or in person. You’ll need receipts for other expenses.",
+  "learn-how-file-claims-other-expenses": "Learn how to file claims for other expenses",
+  "set-up-direct-deposit": "Set up direct deposit",
+  "set-up-direct-deposit-to-receive-travel-reimbursement": "You have to set up direct deposit to receive travel reimbursement. If you’ve already done this, no additional steps are needed.",
+  "fpo-header": "Placeholder header"
 }
