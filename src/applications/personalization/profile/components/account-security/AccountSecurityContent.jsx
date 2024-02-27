@@ -17,7 +17,7 @@ import { AccountSecurityTables } from './AccountSecurityTables';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import { AccountSecurityLoa1CredAlert } from '../alerts/CredRetirementAlerts';
+import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
 
 const IdNotVerifiedContent = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();

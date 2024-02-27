@@ -25,9 +25,9 @@ export const AccountSecurityLoa1CredAlert = () => {
             Then sign back in with that account to continue.
           </p>
           <p>
-            If you don’t have one of these accounts, you can create one and
+            {`If you don’t have one of these accounts, you can create one and
             verify your identity now. Starting December 31, 2024, you’ll no
-            longer be able to sign in with your {label} username and password.
+            longer be able to sign in with your ${label} username and password.`}
           </p>
 
           <p className="vads-u-margin-bottom--0">
@@ -51,9 +51,9 @@ export const SignInEmailAlert = () => {
     <va-alert status="continue" visible uswds class="vads-u-margin-bottom--3">
       <div>
         <p className="vads-u-margin-top--0">
-          Starting December 31, 2024, you’ll no longer be able to sign in with
-          your {label} username and password. You’ll need to use a verified
-          Login.gov or ID.me account to access your profile.
+          {`Starting December 31, 2024, you’ll no longer be able to sign in with
+          your ${label} username and password. You’ll need to use a verified
+          Login.gov or ID.me account to access your profile.`}
         </p>
 
         <p>

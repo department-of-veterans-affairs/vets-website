@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useSignInServiceProvider } from '../../../hooks';
-import { SignInEmailAlert } from '../../alerts/CredRetirementAlerts';
+import { SignInEmailAlert } from '../../alerts/CredentialRetirementAlerts';
 import { selectShowCredRetirementMessaging } from '../../../selectors';
 
 const SignInServiceUpdateLink = ({ isIdentityVerified }) => {
