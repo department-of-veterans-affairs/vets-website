@@ -44,15 +44,15 @@ describe('recipients dropdown box', () => {
 
     // ad assertion to check blocked group does not exist in the dd list
 
-    cy.get().click();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
     cy.wait('@recipients').then(() => {
-      cy.get('[data-testid="compose-recipient-select"]')
+      cy.get(Locators.ALERTS.REPT_SELECT)
         .find('select')
         .find('option')
         .its('length')
         .should('equal', mockBlockedRecipientsresponse.data.length);
-      cy.get('[data-testid="compose-message-categories"]')
+      cy.get(Locators.ALERTS.REPT_SELECT)
         .first()
         .click();
     });

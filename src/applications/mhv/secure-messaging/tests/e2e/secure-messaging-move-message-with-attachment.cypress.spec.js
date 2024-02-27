@@ -30,7 +30,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
 
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
+    cy.get('Locators.FOLDERS.SIDEBAR > a').click();
     messageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,

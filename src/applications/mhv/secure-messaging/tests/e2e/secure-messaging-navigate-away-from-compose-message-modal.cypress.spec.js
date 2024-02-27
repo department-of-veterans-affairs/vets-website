@@ -5,7 +5,7 @@ import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-delet
 import mockSentFolderMetaResponse from './fixtures/sentResponse/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 import mockCustomFolderMetaResponse from './fixtures/customResponse/custom-folder-messages-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   const landingPage = new PatientInboxPage();
@@ -29,7 +29,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
     composePage.verifyExpectedPageOpened('Inbox');
-    cy.get('[data-testid="compose-message-link"]').should('be.visible');
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
   });
 
   it('Navigate Away From `Start a new message` To Draft', () => {

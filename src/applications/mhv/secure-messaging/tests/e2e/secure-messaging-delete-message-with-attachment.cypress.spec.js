@@ -33,7 +33,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
 
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
+    cy.get('Locators.FOLDERS.SIDEBAR > a').click();
 
     detailsPage.loadMessageDetails(
       mockMessagewithAttachment,

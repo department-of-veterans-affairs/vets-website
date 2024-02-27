@@ -29,7 +29,7 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     draftsPage.confirmDeleteDraft(mockDraftResponse, true);
     draftsPage.verifyDeleteConfirmationMessage();
-    cy.get('[data-testid="inbox-sidebar"]')
+    cy.get('Locators.FOLDERS.SIDEBAR')
       .find('a')
       .should('have.class', 'is-active');
     cy.injectAxe();
