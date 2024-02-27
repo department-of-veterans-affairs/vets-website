@@ -31,6 +31,7 @@ import {
   txtLine,
 } from '../../shared/util/constants';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -45,7 +46,7 @@ const AllergyDetails = props => {
   );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
@@ -59,7 +60,7 @@ const AllergyDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/allergies',
+            url: '/allergies',
             label: 'Allergies',
           },
         ]),
@@ -79,6 +80,14 @@ const AllergyDetails = props => {
       }
     },
     [dispatch, allergy],
+  );
+
+  usePrintTitle(
+    pageTitles.ALLERGIES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateAllergyPdf = async () => {

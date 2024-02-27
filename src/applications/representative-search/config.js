@@ -7,10 +7,20 @@ import manifest from './manifest.json';
 
 export const sortOptions = {
   distance_asc: 'Distance (closest to farthest)',
-  first_name_asc: 'First Name (A - Z)',
-  first_name_desc: 'First Name (Z - A)',
-  last_name_asc: 'Last Name (A - Z)',
-  last_name_desc: 'Last Name (Z - A)',
+  first_name_asc: 'First name (A - Z)',
+  first_name_desc: 'First name (Z - A)',
+  last_name_asc: 'Last name (A - Z)',
+  last_name_desc: 'Last name (Z - A)',
+};
+
+export const searchAreaOptions = {
+  '5': '5 miles',
+  '10': '10 miles',
+  '25': '25 miles',
+  '50': '50 miles',
+  '100': '100 miles',
+  '200': '200 miles',
+  'Show all': 'Show all',
 };
 
 /*
@@ -69,6 +79,7 @@ export const resolveParamsWithUrl = ({
   perPage = 10,
   sort,
   type = 'veteran_service_officer',
+  distance,
 }) => {
   const params = [
     address ? `address=${address}` : null,
@@ -79,6 +90,7 @@ export const resolveParamsWithUrl = ({
     `per_page=${perPage}`,
     `sort=${sort}`,
     `type=${type}`,
+    distance ? `distance=${distance}` : null,
   ];
 
   return `?${compact([...params]).join('&')}`;

@@ -53,9 +53,16 @@ export default function StatusAlert({ appointment, facility }) {
             level={1}
             headline="We can't access after-visit summaries at this time."
           >
-            Were sorry. We’ve run into a problem.
+            We’re sorry. We’ve run into a problem.
           </InfoAlert>
         </div>
+      );
+    }
+    if (!avsLink) {
+      return (
+        <p className="vads-u-margin--0">
+          An after-visit summary is not available at this time.
+        </p>
       );
     }
     return (
@@ -105,7 +112,7 @@ export default function StatusAlert({ appointment, facility }) {
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
           This appointment happened in the past.
         </p>
-        {avsLink && displayAvsLink()}
+        {displayAvsLink()}
       </>
     );
   }

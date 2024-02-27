@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
@@ -7,9 +8,10 @@ import fastLevenshtein from 'fast-levenshtein';
 
 import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   DATA_PATHS,
@@ -174,6 +176,10 @@ export const ReservesGuardDescription = ({ formData }) => {
   );
 };
 
+ReservesGuardDescription.propTypes = {
+  formData: PropTypes.object,
+};
+
 export const title10DatesRequired = formData =>
   _.get(
     'serviceInformation.reservesNationalGuardService.view:isTitle10Activated',
@@ -318,8 +324,8 @@ export const isDisabilityPtsd = disability => {
 export const hasRatedDisabilities = formData =>
   formData?.ratedDisabilities?.length > 0;
 
-export const showToxicExposurePages =
-  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true';
+export const showToxicExposurePages = () =>
+  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === true;
 
 export const isClaimingNew = formData =>
   _.get(
@@ -678,11 +684,19 @@ export const show526MaxRating = state =>
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <va-breadcrumbs>
-      <a href="/">Home</a>
-      <a href="/disability">Disability Benefits</a>
-      <a href="/disability/file-disability-claim-form-21-526ez">{title}</a>
-    </va-breadcrumbs>
+    <div className="row">
+      <VaBreadcrumbs
+        uswds
+        breadcrumbList={[
+          { href: '/', label: 'Home' },
+          { href: '/disability', label: 'Disability Benefits' },
+          {
+            href: '/disability/file-disability-claim-form-21-526ez',
+            label: title,
+          },
+        ]}
+      />
+    </div>
     {component}
   </>
 );

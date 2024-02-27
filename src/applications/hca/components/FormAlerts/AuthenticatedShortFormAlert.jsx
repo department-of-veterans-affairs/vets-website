@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from 'platform/monitoring/record-event';
 
-const AuthenticatedShortFormAlert = ({ formData }) => {
-  const disabilityRating = formData['view:totalDisabilityRating'];
+const AuthenticatedShortFormAlert = () => {
+  const { data: formData } = useSelector(state => state.form);
+  const { 'view:totalDisabilityRating': disabilityRating } = formData;
 
   // use logging to compare number of short forms started vs completed
   useEffect(() => {
@@ -40,12 +40,4 @@ const AuthenticatedShortFormAlert = ({ formData }) => {
   );
 };
 
-AuthenticatedShortFormAlert.propTypes = {
-  formData: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-  formData: state.form.data,
-});
-
-export default connect(mapStateToProps)(AuthenticatedShortFormAlert);
+export default AuthenticatedShortFormAlert;

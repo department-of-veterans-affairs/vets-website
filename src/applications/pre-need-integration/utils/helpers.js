@@ -9,6 +9,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 
 import {
   stringifyFormReplacer,
@@ -51,6 +52,56 @@ export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
 
 export const currentlyBuriedPersonsTitle = (
   <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
+
+export const sponsorDeceasedDescription = (
+  <div className="sponsorDeceasedDescriptionNotProd">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+);
+
+export const sponsorDetailsSubHeader = (
+  <div className="sponsorDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+  </div>
+);
+
+export const sponsorDemographicsSubHeader = (
+  <div className="sponsorDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+  </div>
+);
+
+export const sponsorDemographicsDescription = (
+  <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+);
+
+export const sponsorDeceasedSubheader = (
+  <div className="sponsorDeceasedSubheader">
+    <p>Has the sponsor died?</p>
+  </div>
+);
+
+export const sponsorDateOfDeathSubheader = (
+  <div className="sponsorDateOfDeathSubheader">
+    <p>When did the sponsor pass away?</p>
+  </div>
+);
+
+export const sponsorMilitaryDetailsSubHeader = (
+  <div className="sponsorMilitaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+  </div>
 );
 
 export const applicantDemographicsSubHeader = (
@@ -122,6 +173,25 @@ export const applicantDetailsDescription = (
       provide their details below. As the preparer, we’ll ask for your own
       details later.
     </p>
+  </va-additional-info>
+);
+
+export const sponsorDetailsDescription = (
+  <va-additional-info trigger="What is a sponsor?">
+    <ul>
+      <>
+        <li>
+          You’re considered the sponsor if you’re the service member or Veteran
+          sponsoring the applicant’s benefits. We’ll ask you to provide your
+          details.
+        </li>
+        <li>
+          If you’re not the sponsor, you’ll still need to provide the details
+          for the service member or Veteran who is sponsoring the applicant’s
+          benefits.
+        </li>
+      </>
+    </ul>
   </va-additional-info>
 );
 
@@ -318,6 +388,37 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
+export const applicantDetailsCityTitle = 'Your birth city or county';
+
+export const applicantDetailsStateTitle = 'Your birth state or territory';
+
+export const applicantDetailsPreparerCityTitle =
+  'Applicant’s birth city or county';
+
+export const applicantDetailsPreparerStateTitle =
+  'Applicant’s birth state or territory';
+
+export const applicantDemographicsGenderTitle = 'What’s your sex?';
+
+export const applicantDemographicsMaritalStatusTitle =
+  'What’s your marital status?';
+
+export const applicantDemographicsPreparerGenderTitle =
+  'What’s the applicant’s sex?';
+
+export const applicantDemographicsPreparerMaritalStatusTitle =
+  'What’s the applicant’s marital status?';
+
+export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+
+export const applicantDemographicsRaceTitle = 'What’s your race?';
+
+export const applicantDemographicsPreparerEthnicityTitle =
+  'What’s the applicant’s ethnicity?';
+
+export const applicantDemographicsPreparerRaceTitle =
+  'What’s the applicant’s race?';
+
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -341,6 +442,10 @@ export function sponsorMailingAddressHasState(item) {
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
+}
+
+export function isSponsorDeceased(item) {
+  return get('application.veteran.isDeceased', item) === 'yes';
 }
 
 export function isSpouse(item) {
@@ -566,9 +671,8 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': !environment.isProduction()
-      ? 'Military Service number (if it’s different than your Social Security number)'
-      : 'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title':
+      'Military Service number (if it’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -583,15 +687,18 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -600,21 +707,33 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+        na: 'Prefer not to answer',
       },
+    },
+  },
+  ethnicity: {
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your ethnicity?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
     },
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
-    isSpanishHispanicLatino: {
-      'ui:title': 'Hispanic or Latino',
-    },
-    notSpanishHispanicLatino: {
-      'ui:title': 'Not Hispanic or Latino',
-    },
+    'ui:title': 'What’s your race?',
+    'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
     },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
@@ -622,11 +741,14 @@ export const veteranUI = {
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
     isWhite: {
       'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -637,6 +759,7 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },

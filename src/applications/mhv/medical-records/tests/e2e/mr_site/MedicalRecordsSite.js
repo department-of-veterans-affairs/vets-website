@@ -42,6 +42,30 @@ class MedicalRecordsSite {
               name: 'mhv_medical_records_display_vaccines',
               value: true,
             },
+            {
+              name: 'mhv_medical_records_display_notes',
+              value: true,
+            },
+            {
+              name: 'mhv_medical_records_display_conditions',
+              value: true,
+            },
+            {
+              name: 'mhv_medical_records_display_vitals',
+              value: true,
+            },
+            {
+              name: 'mhv_medical_records_display_labs_and_tests',
+              value: true,
+            },
+            {
+              name: 'mhvMedicalRecordsDisplaySidenav',
+              value: true,
+            },
+            {
+              name: 'mhv_medical_records_display_sidenav',
+              value: true,
+            },
           ],
         },
       }).as('featureToggle');

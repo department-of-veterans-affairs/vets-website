@@ -185,6 +185,7 @@ const DependentAges = ({
         required
         min={0}
         max={MAXIMUM_DEPENDENT_AGE}
+        uswds
       />
     </div>
   );
@@ -260,14 +261,13 @@ const DependentAges = ({
               buttons={[
                 {
                   label: 'Back',
-                  onClick: handlers.onCancel,
-                  secondary: true,
-                  iconLeft: '«',
+                  onClick: handlers.onCancel, // Define this function based on page-specific logic
+                  isSecondary: true,
                 },
                 {
                   label: continueButtonText,
-                  type: 'submit',
-                  iconRight: '»',
+                  onClick: handlers.onSubmit,
+                  isSubmitting: true, // If this button submits a form
                 },
               ]}
             />

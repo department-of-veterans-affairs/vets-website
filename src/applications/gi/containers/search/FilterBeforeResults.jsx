@@ -7,8 +7,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
-import LearnMoreLabel from '../../components/LearnMoreLabel';
-import AccordionItem from '../../components/AccordionItem';
+// import LearnMoreLabel from '../../components/LearnMoreLabel';
+// import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
 import {
   isProductionOfTestProdEnv,
@@ -24,9 +24,9 @@ import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
+import VaAccordionGi from '../../components/VaAccordionGi';
 
 export function FilterBeforeResults({
-  dispatchShowModal,
   dispatchFilterChange,
   dispatchError,
   filters,
@@ -457,43 +457,45 @@ export function FilterBeforeResults({
     ];
 
     return (
-      <CheckboxGroup
-        class="vads-u-margin-y--4"
-        className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
-        label={
-          <>
-            <h3
-              className={
-                isProductionOfTestProdEnv() ? '' : 'school-types-label'
-              }
-              aria-level={2}
-            >
-              Community focus
-            </h3>
-            <button
+      <div className="community-focus-container">
+        <h3
+          className={isProductionOfTestProdEnv() ? '' : 'school-types-label'}
+          aria-level={2}
+        >
+          Community focus
+        </h3>
+        <div style={{ marginTop: '-10px' }}>
+          {smallScreen && <>Go to community focus details</>}
+          {!smallScreen && (
+            <JumpLink
+              label="Go to community focus details"
+              jumpToId="learn-more-about-specialized-missions-accordion-button"
+              dataTestId="go-to-comm-focus-details"
+              iconToggle={false}
+              onClick={() => jumpLinkClick()}
+              customClass="filter-before-res-jump-link"
               className={
                 isProductionOfTestProdEnv()
                   ? 'mobile-jump-link'
                   : 'mobile-jump-link labels-margin'
               }
-              onClick={() => jumpLinkClick()}
-            >
-              {smallScreen && <>Go to community focus details</>}
-              {!smallScreen && (
-                <JumpLink
-                  label="Go to community focus details"
-                  jumpToId="learn-more-about-specialized-missions-accordion-button"
-                  iconToggle={false}
-                />
-              )}
-            </button>
-          </>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        colNum="4"
-      />
+            />
+          )}
+          <CheckboxGroup
+            class="vads-u-margin-y--4"
+            className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
+            label={
+              <h3 className="visually-hidden" aria-level={2}>
+                Community focus
+              </h3>
+            }
+            onChange={onChangeCheckbox}
+            options={options}
+            row={!smallScreen}
+            colNum="4"
+          />
+        </div>
+      </div>
     );
   };
 
@@ -593,15 +595,16 @@ export function FilterBeforeResults({
             id="learn-more-about-specialized-missions-accordion-button"
             className="vads-u-margin-top--3"
           >
-            <AccordionItem
-              button="Learn more about community focus filters"
-              section
+            <VaAccordionGi
+              onChange={e => {
+                e.preventDefault();
+                setSmfAccordionExpanded(!smfAccordionExpanded);
+              }}
               expanded={smfAccordionExpanded}
-              onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
-              expandedWidth
+              title="Learn more about community focus filters"
             >
               <div>{smfDefinitions}</div>
-            </AccordionItem>
+            </VaAccordionGi>
           </div>
         </fieldset>
       </>

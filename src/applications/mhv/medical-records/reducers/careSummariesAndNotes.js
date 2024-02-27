@@ -17,24 +17,29 @@ const initialState = {
 
 const extractName = record => {
   return (
-    isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
+    record.content?.[0]?.attachment?.title ||
+    (isArrayAndHasItems(record.type?.coding)
+      ? record.type.coding[0].display
+      : null)
   );
 };
 
 const extractType = record => {
-  return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
+  return isArrayAndHasItems(record.type?.coding)
+    ? record.type.coding[0].code
+    : null;
 };
 
 const extractAuthenticator = record => {
   return extractContainedResource(record, record.authenticator?.reference)
-    ?.name[0].text;
+    ?.name?.[0]?.text;
 };
 
 const extractAuthor = record => {
   return extractContainedResource(
     record,
     isArrayAndHasItems(record.author) && record.author[0].reference,
-  )?.name[0].text;
+  )?.name?.[0]?.text;
 };
 
 const extractLocation = record => {
@@ -46,11 +51,23 @@ const extractLocation = record => {
 };
 
 const extractNote = record => {
-  return (
+  if (
     isArrayAndHasItems(record.content) &&
-    typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64').toString('utf-8')
-  );
+    typeof record.content[0].attachment?.data === 'string'
+  ) {
+    return Buffer.from(record.content[0].attachment.data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
+};
+
+export const getDateSigned = record => {
+  if (isArrayAndHasItems(record.authenticator?.extension)) {
+    const ext = record.authenticator.extension.find(e => e.valueDateTime);
+    return ext ? formatDateLong(ext.valueDateTime) : null;
+  }
+  return null;
 };
 
 const convertAdmissionAndDischargeDetails = record => {
@@ -66,10 +83,11 @@ const convertAdmissionAndDischargeDetails = record => {
     dischargeDate: record.context?.period?.end
       ? formatDateLong(record.context?.period?.end)
       : EMPTY_FIELD,
-    admittedBy: summary
-      .split('ATTENDING:')[1]
-      .split('\n')[0]
-      .trim(),
+    admittedBy:
+      summary
+        .split('ATTENDING:')[1]
+        ?.split('\n')[0]
+        ?.trim() || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
@@ -81,7 +99,8 @@ const convertProgressNote = record => {
     id: record.id,
     name: extractName(record),
     type: extractType(record),
-    dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    dateSigned: getDateSigned(record) || EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
     coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
@@ -93,21 +112,19 @@ const convertProgressNote = record => {
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
  * @returns the type of note/summary that was passed
  */
-const getRecordType = record => {
-  if (
-    record?.type?.coding.some(
-      coding => coding.code === loincCodes.DISCHARGE_SUMMARY,
-    )
-  ) {
-    return noteTypes.DISCHARGE_SUMMARY;
+export const getRecordType = record => {
+  const typeMapping = {
+    [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
+    [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
+    [loincCodes.CONSULT_RESULT]: noteTypes.CONSULT_RESULT,
+  };
+
+  for (const [code, noteType] of Object.entries(typeMapping)) {
+    if (record?.type?.coding.some(coding => coding.code === code)) {
+      return noteType;
+    }
   }
-  if (
-    record?.type?.coding.some(
-      coding => coding.code === loincCodes.PHYSICIAN_PROCEDURE_NOTE,
-    )
-  ) {
-    return noteTypes.PHYSICIAN_PROCEDURE_NOTE;
-  }
+
   return noteTypes.OTHER;
 };
 
@@ -117,6 +134,7 @@ const getRecordType = record => {
 const notesAndSummariesConverterMap = {
   [noteTypes.DISCHARGE_SUMMARY]: convertAdmissionAndDischargeDetails,
   [noteTypes.PHYSICIAN_PROCEDURE_NOTE]: convertProgressNote,
+  [noteTypes.CONSULT_RESULT]: convertProgressNote,
 };
 
 /**

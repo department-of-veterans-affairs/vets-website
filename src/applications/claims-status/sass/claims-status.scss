@@ -567,7 +567,6 @@ h1:focus {
 .claim-timeline {
   padding-top: 0;
 
-  .section-header-button,
   .section-header-title {
     width: 100%;
     position: relative;
@@ -585,13 +584,6 @@ h1:focus {
     padding: inherit;
     z-index: inherit;
     text-align: left;
-    padding: 1rem;
-  }
-
-  .section-header-button:focus {
-    outline: 2px solid;
-    outline-color: $color-gold-light;
-    outline-offset: 0;
   }
 
   .section-current > .section-header {
@@ -610,11 +602,6 @@ h1:focus {
       content: "\2714\fe0e";
     }
   }
-
-  // > .section-current,
-  // > .section-complete {
-  //   cursor: pointer;
-  // }
 }
 
 .usa-alert {
@@ -701,7 +688,6 @@ h1:focus {
 
   // Only let the (+) and "See / Hide past events" be clickable
   .past-events-expander {
-    pointer-events: none;
     position: relative;
 
     button {
@@ -750,10 +736,6 @@ h1:focus {
 
   .appeal-event-date {
     color: $color-gray-medium;
-
-    & + .usa-alert {
-      margin-top: 1em;
-    }
   }
 
   & + .down-arrow {
@@ -908,6 +890,15 @@ button .claim-timeline-icon.fa {
 
   h3 {
     margin: 0;
+  }
+}
+
+ol.va-list-horizontal {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  li {
+    border-bottom: 1px solid $color-gray-light;
   }
 }
 
@@ -1406,7 +1397,9 @@ $marker-text-width: 9rem;
   color: $color-primary-darkest;
 }
 
-.claim-card-link {
+// React Router Link css that allows us to
+// have the same styling as va-link active prop
+.active-va-link {
   display: block;
   font-weight: bold;
   margin-top: 16px;
@@ -1497,7 +1490,7 @@ $marker-text-width: 9rem;
 }
 
 .tab-content {
-  border-top: 1px solid $color-gray-lighter;
+  border-top: 1px solid $color-gray-light;
 }
 
 .tab-panel:focus {

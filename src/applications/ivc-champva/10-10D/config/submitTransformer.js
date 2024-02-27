@@ -34,6 +34,19 @@ function transformApplicants(applicants) {
         app?.applicantMedicareCardBack,
         app?.applicantOHICardFront,
         app?.applicantOHICardBack,
+        app?.applicantMedicarePartAPartBCard,
+        app?.applicantMedicarePartDCard,
+        app?.applicantOhiCard,
+        app?.applicant107959c,
+        app?.applicantBirthCertOrSocialSecCard,
+        app?.applicantMedicarePartAPartBCard,
+        app?.applicantMedicarePartDCard,
+        app?.applicantOhiCard,
+        app?.applicant107959c,
+        app?.applicantSchoolCert,
+        app?.applicantAdoptionPapers,
+        app?.applicantStepMarriageCert,
+        app?.applicantMarriageCert,
       ],
       address: app.applicantAddress ?? '',
       gender: app.applicantGender ?? '',
@@ -86,7 +99,11 @@ export default function transformForSubmit(formConfig, form) {
       state: transformedData?.certifierAddress?.state || '',
       postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
-    supporting_docs: [],
+    supporting_docs: [
+      transformedData?.sponsorCasualtyReport,
+      transformedData?.sponsorDisabilityRating,
+      transformedData?.sponsorDischargePapers,
+    ],
   };
 
   // Flatten supporting docs for all applicants to a single array
@@ -101,7 +118,9 @@ export default function transformForSubmit(formConfig, form) {
     }
   });
 
-  dataPostTransform.supporting_docs = supDocs;
+  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs
+    .concat(supDocs)
+    .filter(el => el); // remove undefineds
 
   // eslint-disable-next-line dot-notation
   dataPostTransform.veteran.address['postal_code'] =

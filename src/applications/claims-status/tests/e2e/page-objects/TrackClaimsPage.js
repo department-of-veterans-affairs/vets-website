@@ -19,7 +19,7 @@ class TrackClaimsPage {
     }
 
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
-    cy.intercept('GET', '/v0/evss_claims_async', claimsList);
+    cy.intercept('GET', '/v0/benefits_claims', claimsList);
     cy.login();
 
     cy.visit('/track-claims');
@@ -229,10 +229,10 @@ class TrackClaimsPage {
     cy.get('.claims-alert-status a')
       .click()
       .then(() => {
-        cy.get('.usa-button-secondary');
+        cy.get('.button-secondary');
         cy.axeCheck();
       });
-    cy.get('.main .usa-button-primary').click({ force: true });
+    cy.get('.main .button-primary').click({ force: true });
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
@@ -240,7 +240,7 @@ class TrackClaimsPage {
       .first()
       .check()
       .then(() => {
-        cy.get('.main .usa-button-primary').click();
+        cy.get('.main .button-primary').click();
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
@@ -256,10 +256,12 @@ class TrackClaimsPage {
         cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('[data-cy="submit-files-button"]')
+    cy.get('.submit-files-button')
+      .shadow()
+      .find('button')
       .should('contain', 'Submit Files for Review')
       .click();
-    cy.get('[data-cy="submit-files-button"]')
+    cy.get('.submit-files-button')
       .click()
       .then(() => {
         cy.get('va-file-input')
