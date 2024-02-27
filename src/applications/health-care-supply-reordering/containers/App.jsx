@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { hasPageNotFound } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -60,9 +60,7 @@ class App extends Component {
       expired: `Your saved ${supplyDescription} order has expired. If you want to order ${supplyDescription}, please start a new order.`,
       saved: `Your ${supplyDescription} order has been saved.`,
     };
-    const isPageNotFound =
-      // eslint-disable-next-line react/prop-types
-      children && children.type && children.type === PageNotFound;
+    const isPageNotFound = hasPageNotFound(children);
 
     return (
       <>

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { hasPageNotFound } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import FormNav from '../components/FormNav';
@@ -36,9 +36,7 @@ class FormApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const lastPathComponent = currentLocation.pathname.split('/').pop();
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isPageNotFound =
-      // eslint-disable-next-line react/prop-types
-      children && children.type && children.type === PageNotFound;
+    const isPageNotFound = hasPageNotFound(children);
     const isNonFormPage =
       this.nonFormPages.includes(lastPathComponent) || isPageNotFound;
     const Footer = formConfig.footerContent;

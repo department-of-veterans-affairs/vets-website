@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Children } from 'react';
 import PropTypes from 'prop-types';
 // Cypress does not like @ imports, so import record-event with a path
 import recordEventFn from '~/platform/monitoring/record-event';
@@ -14,6 +14,12 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
     },
     [recordEvent],
   );
+
+  useEffect(() => {
+    // Hide the breadcrumbs.
+    const breadcrumbs = document.getElementById('va-breadcrumbs');
+    if (breadcrumbs) breadcrumbs.style.display = 'none';
+  }, []);
 
   return (
     <>
@@ -119,6 +125,26 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
 
 PageNotFound.propTypes = {
   recordEvent: PropTypes.func,
+};
+
+/**
+ * Recursively checks the children of a React component for the presence of
+ * the PageNotFound component.
+ * @param {React.Element} children the children of a component, can be null or undefined
+ * @returns true if the PageNotFound component was found in any of the children
+ */
+export const hasPageNotFound = children => {
+  if (children) {
+    for (const child of Children.toArray(children)) {
+      if (
+        child?.type === PageNotFound ||
+        hasPageNotFound(child?.props?.children)
+      )
+        return true;
+    }
+  }
+
+  return false;
 };
 
 export default PageNotFound;
