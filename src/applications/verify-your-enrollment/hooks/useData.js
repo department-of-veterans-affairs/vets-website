@@ -16,8 +16,6 @@ export const useData = () => {
     },
     [dispatch],
   );
-  // eslint-disable-next-line no-console
-  console.log(data, 'inooo');
   const userInfo = data && data['vye::UserInfo'];
   const date = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
   return {

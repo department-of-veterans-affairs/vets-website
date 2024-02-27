@@ -292,9 +292,6 @@ const ChangeOfAddressForm = ({
     },
     [addressFormData],
   );
-
-  // eslint-disable-next-line no-console
-  console.log(addressSchema);
   return (
     <SchemaForm
       addNameAttribute

@@ -32,15 +32,27 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   // called when submitting form
   const saveAddressInfo = () => {
     // commented out until tied in with redux
+    let stateAndZip = {};
+    if (formData.countryCodeIso3 === 'USA') {
+      stateAndZip = {
+        State: formData.stateCode,
+        zipCode: formData.zipCode,
+      };
+    } else {
+      stateAndZip = {
+        State: formData.province,
+        zipCode: formData.internationalPostalCode,
+      };
+    }
+
     const fields = {
+      veteranName: formData.fullName,
       Address1: formData.addressLine1,
       Address2: formData.addressLine2,
       Address3: formData.addressLine3,
-      Address4: formData.AccountNumber,
+      Address4: formData.addressLine4,
       City: formData.city,
-      State: formData.stateCode,
-      // eslint-disable-next-line camelcase
-      zipCode: formData.zipCode,
+      ...stateAndZip,
     };
     // eslint-disable-next-line no-alert
     alert(JSON.stringify(fields, null, 2));
