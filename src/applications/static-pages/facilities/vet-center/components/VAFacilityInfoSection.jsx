@@ -9,13 +9,13 @@ function VAFacilityInfoSection(props) {
     props.vaFacility.fieldAddress.postalCode
   }`;
 
-  const renderPhone = phoneNumber => {
+  const renderPhone = (type, phoneNumber) => {
     if (!phoneNumber) return null;
     return (
       <>
         <div className="main-phone">
           <span>
-            <strong>Main number: </strong>
+            <strong>{type}: </strong>
           </span>
           <va-telephone contact={phoneNumber} />
         </div>
@@ -69,8 +69,10 @@ function VAFacilityInfoSection(props) {
         </div>
       </div>
       {props.vaFacility.entityBundle === 'vet_center_cap'
-        ? renderPhone(props.mainPhone)
-        : renderPhone(props.vaFacility.fieldPhoneNumber)}
+        ? renderPhone('Main number', props.mainPhone)
+        : renderPhone('Main number', props.vaFacility.fieldPhoneNumber)}
+      {!!props.vaFacility.fieldPhoneMentalHealth &&
+        renderPhone('Mental health', props.vaFacility.fieldPhoneMentalHealth)}
     </>
   );
 }

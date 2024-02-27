@@ -15,7 +15,7 @@ import {
 } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
 
-const NEARBY_VA_LOCATIONS_RADIUS_MILES = 210;
+const NEARBY_VA_LOCATIONS_RADIUS_MILES = 120;
 
 const NearByVALocations = props => {
   const [originalCoordinates, setOriginalCoordinates] = useState([]);
@@ -184,6 +184,7 @@ const NearByVALocations = props => {
         id: vc.id,
         entityBundle: vc.attributes.facilityType,
         fieldPhoneNumber: vc.attributes.phone.main,
+        fieldPhoneMentalHealth: vc.attributes.phone.mentalHealthClinic,
         distance: centerDistance,
         title: vc.attributes.name,
         fieldAddress: {
@@ -236,7 +237,11 @@ const NearByVALocations = props => {
       .sort((a, b) => a.distance - b.distance)
       .reduce(
         (acc, vaf) => {
-          if (vaf.source === 'Health' && acc[0] === null) {
+          if (
+            vaf.source === 'Health' &&
+            (acc[0] === null ||
+              (vaf.fieldPhoneMentalHealth && !acc[0].fieldPhoneMentalHealth))
+          ) {
             acc[0] = vaf;
           } else if (vaf.source === 'Cemetery' && acc[1] === null) {
             acc[1] = vaf;
