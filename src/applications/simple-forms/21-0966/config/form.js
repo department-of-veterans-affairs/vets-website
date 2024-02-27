@@ -31,7 +31,7 @@ import {
   benefitSelectionChapterTitle,
   survivingDependentPersonalInformationChapterTitle,
   survivingDependentContactInformationChapterTitle,
-  initializeFormDataWithPreparerIdentification,
+  initializeFormDataWithPreparerIdentificationAndPrefill,
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
@@ -164,8 +164,9 @@ const formConfig = {
             }
           },
           updateFormData: (oldFormData, newFormData) =>
-            initializeFormDataWithPreparerIdentification(
+            initializeFormDataWithPreparerIdentificationAndPrefill(
               newFormData.preparerIdentification,
+              newFormData['view:veteranPrefillStore'],
             ),
         },
         thirdPartyPreparerFullName: {

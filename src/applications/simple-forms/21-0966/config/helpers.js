@@ -1,5 +1,4 @@
 import { isEmpty } from 'lodash';
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import {
   preparerIdentifications,
@@ -137,12 +136,15 @@ export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
   return 'Veteran’s contact information';
 };
 
-export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
-  return set(
-    'preparerIdentification',
+export const initializeFormDataWithPreparerIdentificationAndPrefill = (
+  preparerIdentification,
+  veteranPrefillStore,
+) => {
+  return {
+    ...createInitialState(formConfig).data,
     preparerIdentification,
-    createInitialState(formConfig).data,
-  );
+    'view:veteranPrefillStore': veteranPrefillStore,
+  };
 };
 
 export const confirmationPageFormBypassed = formData => {

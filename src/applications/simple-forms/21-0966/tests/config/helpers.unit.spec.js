@@ -9,7 +9,7 @@ import {
   preparerIsVeteran,
   survivingDependentPersonalInformationChapterTitle,
   benefitSelectionChapterTitle,
-  initializeFormDataWithPreparerIdentification,
+  initializeFormDataWithPreparerIdentificationAndPrefill,
   hasActiveCompensationITF,
   hasActivePensionITF,
   noActiveITF,
@@ -255,15 +255,26 @@ describe('hasVeteranPrefill', () => {
   });
 });
 
-describe('initializeFormDataWithPreparerIdentification', () => {
-  it('returns an initialized formData object with preparerIdentification selection', () => {
+describe('initializeFormDataWithPreparerIdentificationAndPrefill', () => {
+  it('returns an initialized formData object with preparerIdentification selection and prefill data', () => {
+    const veteranPrefillStore = {
+      fullName: {
+        first: 'John',
+        last: 'Dude',
+      },
+      ssn: '111223333',
+      dateOfBirth: '2000-10-10',
+    };
+
     expect(
-      initializeFormDataWithPreparerIdentification(
+      initializeFormDataWithPreparerIdentificationAndPrefill(
         preparerIdentifications.veteran,
+        veteranPrefillStore,
       ),
     ).to.deep.equal({
       ...createInitialState(formConfig).data,
       preparerIdentification: preparerIdentifications.veteran,
+      'view:veteranPrefillStore': veteranPrefillStore,
     });
   });
 });
