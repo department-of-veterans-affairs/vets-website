@@ -6,7 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 const initializeDatadogRum = config => {
   if (
     // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
+    // environment.BASE_URL.indexOf('localhost') < 0 &&
     // Prevent re-initializing the SDK.
     !window.DD_RUM?.getInitConfiguration() &&
     !window.Mocha
@@ -20,12 +20,17 @@ const initializeDatadogRum = config => {
   }
 };
 
-const useDatadogRum = config => {
+const useDatadogRum = (config, user) => {
   useEffect(
     () => {
       initializeDatadogRum(config);
+      if (user?.login?.currentlyLoggedIn) {
+        datadogRum.setUser({
+          id: user.profile.accountUUid,
+        });
+      }
     },
-    [config],
+    [config, user],
   );
 };
 

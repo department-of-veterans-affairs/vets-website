@@ -63,7 +63,7 @@ const App = () => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  useDatadogRum(datadogRumConfig);
+  useDatadogRum(datadogRumConfig, user);
 
   if (featureTogglesLoading) {
     return (
