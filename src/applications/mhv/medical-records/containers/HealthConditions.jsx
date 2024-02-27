@@ -18,7 +18,7 @@ import useAlerts from '../hooks/use-alerts';
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
