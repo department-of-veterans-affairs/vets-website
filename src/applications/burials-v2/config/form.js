@@ -41,7 +41,7 @@ import deathCertificate from './chapters/05-additional-information/deathCertific
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 
 import { submit } from '../utils/helpers';
-import migrations from '../utils/migrations';
+import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 const {

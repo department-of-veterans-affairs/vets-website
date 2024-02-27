@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
@@ -22,6 +22,7 @@ export default function BurialsEntry({ location, children }) {
   if (!burialFormEnabled) {
     if (location.pathname !== '/introduction') {
       window.location.href = '/burials-memorials/veterans-burial-allowance/';
+      return <></>;
     }
     return <NoFormPage />;
   }
@@ -46,6 +47,7 @@ export default function BurialsEntry({ location, children }) {
     !isLoadingFeatures && (hasV2Form || (burialFormV2 && !hasV1Form));
   if (!shouldUseV2) {
     window.location.href = '/burials-and-memorials/application/530/';
+    return <></>;
   }
 
   return (
@@ -55,9 +57,9 @@ export default function BurialsEntry({ location, children }) {
   );
 }
 
-// BurialsEntry.propTypes = {
-//   children: PropTypes.node.isRequired,
-//   location: PropTypes.object.isRequired,
-//   profile: PropTypes.object.isRequired,
-//   toggleFeatures: PropTypes.object.isRequired,
-// };
+BurialsEntry.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
+  // profile: PropTypes.object.isRequired,
+  // toggleFeatures: PropTypes.object.isRequired,
+};

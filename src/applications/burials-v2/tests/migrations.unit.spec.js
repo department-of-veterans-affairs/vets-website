@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import migrations from '../utils/migrations';
+import migrations from '../migrations';
 
 describe('Burials migrations', () => {
   it('should set url to address page if zip is bad', () => {
