@@ -1,4 +1,4 @@
-// import sinon from 'sinon';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import React from 'react';
 import {
@@ -285,6 +285,27 @@ describe('FileFieldCustom remove button', () => {
 
     await waitFor(() => {
       expect($('.no-attachments', view.container)).to.exist;
+    });
+  });
+});
+
+describe('FileFieldCustom continue button', () => {
+  it('should call goForward', async () => {
+    const goFwdSpy = sinon.spy();
+    const component = (
+      <FileFieldCustom
+        data={{ supportingDocuments: [{ name: 'filetest', size: 100 }] }}
+        goForward={goFwdSpy}
+        setFormData={() => {}}
+      />
+    );
+    const { mockStore } = getProps();
+    const view = render(<Provider store={mockStore}>{component}</Provider>);
+    const continueButton = $('.usa-button-primary', view.container);
+    expect(continueButton).to.contain.text('Continue');
+    fireEvent.click(continueButton);
+    await waitFor(() => {
+      expect(goFwdSpy.called).to.be.true;
     });
   });
 });
