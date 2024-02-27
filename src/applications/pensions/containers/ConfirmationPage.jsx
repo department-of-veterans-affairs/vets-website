@@ -41,7 +41,9 @@ class ConfirmationPage extends React.Component {
         <br />
 
         <va-summary-box uswds>
-          <h3>Your information for this application</h3>
+          <h3 slot="headline" className="vads-u-margin-top--0">
+            Your information for this application
+          </h3>
 
           <h4>Your name</h4>
           <span>{fullName}</span>
