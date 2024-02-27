@@ -1,15 +1,18 @@
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import React from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSignInServiceProvider } from '../../hooks';
 import { HowToVerifyLink } from '~/platform/user/authorization/components/IdentityNotVerified';
+import { useSessionStorage } from '../../../common/hooks/useSessionStorage';
 
 // alerts to be used during the transition period of MHV and DS Logon credential retirement
 
 export const AccountSecurityLoa1CredAlert = () => {
   const { label } = useSignInServiceProvider();
+
   return (
     <>
-      <va-alert status="continue" visible uswds>
+      <VaAlert status="continue" visible uswds>
         <h2 slot="headline">
           Verify your identity with Login.gov or ID.me to manage your profile
           information
@@ -30,6 +33,11 @@ export const AccountSecurityLoa1CredAlert = () => {
             longer be able to sign in with your ${label} username and password.`}
           </p>
 
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn how to create an account"
+          />
+
           <p className="vads-u-margin-bottom--0">
             <strong>Note:</strong> If you need help updating your personal
             information, call us at{' '}
@@ -38,7 +46,7 @@ export const AccountSecurityLoa1CredAlert = () => {
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </div>
-      </va-alert>
+      </VaAlert>
 
       <HowToVerifyLink />
     </>
@@ -47,8 +55,24 @@ export const AccountSecurityLoa1CredAlert = () => {
 
 export const SignInEmailAlert = () => {
   const { label } = useSignInServiceProvider();
+
+  const [dismissed, setDismissed] = useSessionStorage(
+    'dismissedCredentialAlerts',
+  );
+
+  const hideAlert = () => {
+    setDismissed('true');
+  };
+
   return (
-    <va-alert status="continue" visible uswds class="vads-u-margin-bottom--3">
+    <VaAlert
+      onCloseEvent={hideAlert}
+      status="continue"
+      visible={dismissed !== 'true'}
+      uswds
+      class={!dismissed && 'vads-u-margin-bottom--3'}
+      closeable
+    >
       <div>
         <p className="vads-u-margin-top--0">
           {`Starting December 31, 2024, you’ll no longer be able to sign in with
@@ -66,6 +90,6 @@ export const SignInEmailAlert = () => {
           text="Learn how to create an account"
         />
       </div>
-    </va-alert>
+    </VaAlert>
   );
 };

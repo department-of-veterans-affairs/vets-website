@@ -81,6 +81,9 @@ const responses = {
     return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    // return res.json(user.loa1User); // LOA1 user w/id.me
+    // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
+    // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error

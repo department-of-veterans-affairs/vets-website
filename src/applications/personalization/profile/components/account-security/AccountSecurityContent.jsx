@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import {
@@ -14,15 +14,16 @@ import IdentityNotVerified from '~/platform/user/authorization/components/Identi
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import { AccountSecurityTables } from './AccountSecurityTables';
-import { selectIsBlocked } from '../../selectors';
+import {
+  selectIsBlocked,
+  selectShowCredRetirementMessaging,
+} from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
 
 const IdNotVerifiedContent = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showCredRetirementMessaging = useToggleValue(
-    TOGGLE_NAMES.profileShowCredentialRetirementMessaging,
+  const showCredRetirementMessaging = useSelector(
+    selectShowCredRetirementMessaging,
   );
   return showCredRetirementMessaging ? (
     <AccountSecurityLoa1CredAlert />
