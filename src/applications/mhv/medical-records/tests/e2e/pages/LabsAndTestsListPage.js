@@ -26,15 +26,6 @@ class LabsAndTestsListPage {
       .click();
   };
 
-  clickLabsAndTestsRadiologyLink = () => {
-    cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').should(
-      'be.visible',
-    );
-    cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').click({
-      force: true,
-    });
-  };
-
   verifyPrintOrDownload = () => {
     // should display a toggle menu button
     cy.get('[data-testid="print-records-button"]').should('be.visible');

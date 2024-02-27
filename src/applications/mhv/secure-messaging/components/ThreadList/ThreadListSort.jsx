@@ -22,7 +22,10 @@ const ThreadListSort = props => {
   };
 
   return (
-    <div className="thread-list-sort vads-u-display--flex">
+    <div
+      className="thread-list-sort vads-u-display--flex"
+      data-testid="thread-list-sort"
+    >
       <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
         id="sort-order-dropdown"

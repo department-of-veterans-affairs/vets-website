@@ -25,7 +25,7 @@ const Description = (
 
     <p>You can upload your documents now.</p>
 
-    <p>File types you can upload: PDF, JPG, PNG</p>
+    <p>File types you can upload: PDF</p>
   </div>
 );
 
@@ -39,8 +39,12 @@ const UploadMessage = (
     </p>
 
     <p>
-      <a href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit">
-        Go to AccessVA to use QuickSubmit
+      <a
+        href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Go to AccessVA to use QuickSubmit (opens in a new tab)
       </a>
     </p>
 
@@ -55,7 +59,7 @@ const UploadMessage = (
       <br />
       PO Box 5365
       <br />
-      Janesville, WI 53547-5192
+      Janesville, WI 53547-5365
       <br />
     </p>
   </div>

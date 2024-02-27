@@ -55,9 +55,13 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('should contain a link to view record details', () => {
-    const recordDetailsLink = screen.getByRole('link', {
-      name: /Details/,
-    });
+    const recordDetailsLink = screen.getByText(
+      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
+      {
+        selector: 'a',
+        exact: true,
+      },
+    );
     expect(recordDetailsLink).to.exist;
   });
 });

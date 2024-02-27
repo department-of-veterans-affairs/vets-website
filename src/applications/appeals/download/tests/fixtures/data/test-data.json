@@ -6,8 +6,8 @@
       "address": {
         "addressLine1": "123 Charlesgate Rd",
         "addressLine2": "",
-        "addressLine3": "Providence",
-        "city": "Rhode Island",
+        "addressLine3": "",
+        "city": "Providence",
         "countryName": "United States",
         "countryCodeIso2": "US",
         "stateCode": "RI",
@@ -36,7 +36,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "tinnitus",
-          "approxDecisionDate": "2021-6-1",
+          "approxDecisionDate": "2023-06-01",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": "3",
@@ -47,7 +47,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "left knee",
-          "approxDecisionDate": "2021-6-2",
+          "approxDecisionDate": "2023-06-02",
           "decisionIssueId": 4,
           "ratingIssueReferenceId": "5"
         }
@@ -57,7 +57,8 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "tinnitus"
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "2023-06-01"
         },
         "disagreementOptions": {
           "serviceConnection": true,
@@ -69,7 +70,8 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "left knee"
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "2023-06-02"
         },
         "disagreementOptions": {
           "serviceConnection": false,

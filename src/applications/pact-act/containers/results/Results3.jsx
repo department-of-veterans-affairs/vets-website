@@ -5,14 +5,8 @@ import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 import { onResultsBackClick } from '../../utilities/shared';
 import { QUESTION_MAP } from '../../constants/question-data-map';
-import { updateCurrentPage } from '../../actions';
 
-const Results3 = ({
-  formResponses,
-  router,
-  updateTheCurrentPage,
-  viewedIntroPage,
-}) => {
+const Results3 = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = QUESTION_MAP.RESULTS_3;
 
   useEffect(() => {
@@ -59,9 +53,8 @@ const Results3 = ({
         back
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
-        onClick={() =>
-          onResultsBackClick(formResponses, router, updateTheCurrentPage)
-        }
+        onClick={() => onResultsBackClick(formResponses, router)}
+        uswds
       />
     </>
   );
@@ -72,7 +65,6 @@ Results3.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -81,11 +73,4 @@ const mapStateToProps = state => ({
   viewedIntroPage: state?.pactAct?.viewedIntroPage,
 });
 
-const mapDispatchToProps = {
-  updateTheCurrentPage: updateCurrentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Results3);
+export default connect(mapStateToProps)(Results3);

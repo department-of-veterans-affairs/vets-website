@@ -24,7 +24,7 @@ export const Hub = () => {
 
   return (
     <>
-      <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
+      <ProfileBreadcrumbs className="medium-screen:vads-u-padding-left--1 medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
 
       {/* ROW */}
       <div className="vads-l-row">
@@ -81,7 +81,7 @@ export const Hub = () => {
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
-              className="medium-screen--line-break-at-50-characters"
+              className="medium-screen--line-break-at-40-characters"
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
             />

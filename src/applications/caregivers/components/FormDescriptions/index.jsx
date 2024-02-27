@@ -98,7 +98,7 @@ export const PreferredFacilityDescription = (
 );
 
 export const PreferredFacilityAPIDescription = (
-  <div>
+  <>
     <p>
       Select the facility where the Veteran gets or plans to get their care.
       <span className="vads-u-color--secondary-darkest">(*Required)</span>
@@ -108,7 +108,7 @@ export const PreferredFacilityAPIDescription = (
       facility to find the nearest facility that processes applications. Only
       some facilities process caregiver program applications.
     </p>
-  </div>
+  </>
 );
 
 export const RepresentativeDescription = (

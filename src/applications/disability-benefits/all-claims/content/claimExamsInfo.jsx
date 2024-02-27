@@ -7,7 +7,7 @@ export const claimExamsDescription = (
       (also known as a C&P exam).
     </p>
 
-    <va-alert status="warning">
+    <va-alert status="warning" uswds>
       <h3 slot="headline">
         You might receive a phone call from an unfamiliar number to schedule
         your exam
@@ -20,7 +20,7 @@ export const claimExamsDescription = (
       <p>
         You can go to your{' '}
         <a href="/profile" target="_blank" rel="noreferrer">
-          VA.gov profile (opens in a new tab)
+          VA.gov profile (opens in new tab)
         </a>{' '}
         to confirm your phone number.
       </p>
@@ -38,8 +38,8 @@ export const claimExamsDescription = (
 export const claimExamsFAQ = (
   <>
     <h3 className="vads-u-font-size--h4">More information about claim exams</h3>
-    <va-accordion bordered>
-      <va-accordion-item>
+    <va-accordion bordered uswds>
+      <va-accordion-item bordered uswds>
         <h4 slot="headline">What happens if I miss a phone call?</h4>
         <p>
           If we can’t reach you by phone, we’ll schedule an appointment for you.
@@ -61,13 +61,12 @@ export const claimExamsFAQ = (
             rel="noreferrer"
           >
             {' '}
-            contact an Overseas Military Services Coordinator (opens in a new
-            tab)
+            contact an Overseas Military Services Coordinator (opens in new tab)
           </a>{' '}
           for help scheduling a claim exam.
         </p>
       </va-accordion-item>
-      <va-accordion-item>
+      <va-accordion-item bordered uswds>
         <h4 slot="headline">Why do I need a claim exam?</h4>
         <p>
           Not everyone who files a disability claim will need an exam. We’ll ask

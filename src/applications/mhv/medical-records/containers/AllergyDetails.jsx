@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -18,13 +19,19 @@ import {
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
+  formatName,
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import { txtLine } from '../../shared/util/constants';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -39,7 +46,7 @@ const AllergyDetails = props => {
   );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
@@ -53,7 +60,7 @@ const AllergyDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/allergies',
+            url: '/allergies',
             label: 'Allergies',
           },
         ]),
@@ -75,6 +82,14 @@ const AllergyDetails = props => {
     [dispatch, allergy],
   );
 
+  usePrintTitle(
+    pageTitles.ALLERGIES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const generateAllergyPdf = async () => {
     const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
@@ -86,16 +101,22 @@ const AllergyDetails = props => {
 
   const generateAllergyTxt = async () => {
     const content = `
-    ${allergy.name} \n
-    Date entered: ${allergy.date} \n
-    ${txtLine} \n
-    \t Signs and symptoms: ${allergy.reaction} \n
-    \t Type of Allergy: ${allergy.type} \n
-    \t Location: ${allergy.location} \n
-    \t Observed or historical: ${allergy.observedOrReported} \n
-    \t Provider notes: ${allergy.notes} \n`;
+${crisisLineHeader}\n\n
+${allergy.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${allergy.date} \n
+${txtLine} \n
+Signs and symptoms: ${allergy.reaction} \n
+Type of Allergy: ${allergy.type} \n
+Location: ${allergy.location} \n
+Observed or historical: ${allergy.observedOrReported} \n
+Provider notes: ${allergy.notes} \n`;
 
-    generateTextFile(content, 'Allergy');
+    const fileName = `VA-allergies-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const content = () => {

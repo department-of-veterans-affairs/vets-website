@@ -1,31 +1,34 @@
-import React from 'react';
+import {
+  checkboxGroupUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   conditionsDescription,
-  conditionsTitle,
+  conditionsPageTitle,
+  conditionsQuestion,
+  makeTEConditionsSchema,
+  makeTEConditionsUISchema,
+  validateTEConditions,
 } from '../../content/toxicExposure';
-import { makeSchemaForNewDisabilities } from '../../utils/schemas';
+import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': (
-    <h3 className="vads-u-font-size--h4 vads-u-margin--0">Toxic Exposure</h3>
-  ),
-  toxicExposureConditions: {
-    'ui:title': conditionsTitle,
-    'ui:description': conditionsDescription,
-    'ui:options': {
-      hideDuplicateDescription: true,
-      showFieldLabel: true,
-      updateSchema: makeSchemaForNewDisabilities,
-    },
-  },
+  'ui:title': formTitle(conditionsPageTitle),
+  toxicExposureConditions: checkboxGroupUI({
+    title: conditionsQuestion,
+    description: conditionsDescription,
+    labels: {},
+    required: false,
+    uswds: false,
+    replaceSchema: makeTEConditionsSchema,
+    updateUiSchema: makeTEConditionsUISchema,
+  }),
+  'ui:validations': [validateTEConditions],
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    toxicExposureConditions: {
-      type: 'object',
-      properties: {},
-    },
+    toxicExposureConditions: checkboxGroupSchema([]),
   },
 };

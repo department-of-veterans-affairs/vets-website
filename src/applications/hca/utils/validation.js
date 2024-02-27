@@ -1,6 +1,4 @@
 import moment from 'moment';
-import get from 'platform/utilities/data/get';
-
 import {
   convertToDateField,
   validateCurrentOrPastDate,
@@ -40,26 +38,35 @@ export function validateServiceDates(
   }
 }
 
-// NOTE: for household v1 only -- remove after v2 is fully-adopted
-export function validateDependentDate(
+export function validateGulfWarDates(
   errors,
-  dependentDate,
-  formData,
-  schema,
-  messages,
-  index,
+  { gulfWarStartDate, gulfWarEndDate },
 ) {
-  const dependent = moment(dependentDate);
-  const dob = moment(get(`dependents[${index}].dateOfBirth`, formData));
+  const fromDate = convertToDateField(gulfWarStartDate);
+  const toDate = convertToDateField(gulfWarEndDate);
 
-  if (formData.discloseFinancialInformation && dob.isAfter(dependent)) {
-    errors.addError('This date must come after the dependent’s birth date');
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.gulfWarEndDate.addError(
+      'Service end date must be after the service start date',
+    );
   }
-  validateCurrentOrPastDate(errors, dependentDate);
 }
 
-// NOTE: for household v2 only -- rename when v2 is fully-adopted
-export function validateV2DependentDate(errors, fieldData, { dateOfBirth }) {
+export function validateExposureDates(
+  errors,
+  { toxicExposureStartDate, toxicExposureEndDate },
+) {
+  const fromDate = convertToDateField(toxicExposureStartDate);
+  const toDate = convertToDateField(toxicExposureEndDate);
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.toxicExposureEndDate.addError(
+      'Exposure end date must be after the exposure start date',
+    );
+  }
+}
+
+export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
   const dependentDate = moment(fieldData);
   const birthDate = moment(dateOfBirth);
 

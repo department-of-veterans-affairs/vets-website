@@ -161,12 +161,14 @@ const profileContactInfo = ({
           contactPath,
           keys,
           requiredKeys: contactInfoRequiredKeys,
+          contactInfoPageKey,
         }),
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,
           content,
           keys,
+          contactInfoPageKey,
         }),
       uiSchema: contactInfoUiSchema,
       schema: {
@@ -211,7 +213,7 @@ export const profileReviewErrorOverride = ({
 } = {}) => err => {
   if (typeof err === 'string' && err.startsWith(wrapperKey)) {
     return {
-      contactInfoChapterKey,
+      chapterKey: contactInfoChapterKey,
       pageKey: contactInfoPageKey,
     };
   }

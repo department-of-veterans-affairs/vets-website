@@ -16,6 +16,7 @@ import {
   clinicName,
   getAppointmentId,
   findAppointment,
+  hasMultipleFacilities,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -471,6 +472,30 @@ describe('check in', () => {
         expect(findAppointment(appointmentId, appointments)).to.deep.equal(
           appointments[1],
         );
+      });
+    });
+    describe('hasMultipleFacilities', () => {
+      it('returns true if more than one unique stationNo values', () => {
+        const appointments = [
+          {
+            stationNo: '4343',
+          },
+          {
+            stationNo: '7780',
+          },
+        ];
+        expect(hasMultipleFacilities(appointments)).to.be.true;
+      });
+      it('returns false if one unique stationNo value', () => {
+        const appointments = [
+          {
+            stationNo: '7780',
+          },
+          {
+            stationNo: '7780',
+          },
+        ];
+        expect(hasMultipleFacilities(appointments)).to.be.false;
       });
     });
   });

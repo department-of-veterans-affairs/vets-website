@@ -5,20 +5,40 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // HCA internal app imports
+import { prefillTransformer, transform } from '../utils/helpers';
 import {
-  prefillTransformer,
-  transform,
-  isShortFormEligible,
+  isLoggedOut,
+  isSigiEnabled,
+  isMissingVeteranDob,
+  hasDifferentHomeAddress,
+  hasLowDisabilityRating,
+  hasNoCompensation,
+  hasHighCompensation,
+  notShortFormEligible,
+  dischargePapersRequired,
+  teraInformationEnabled,
+  includeTeraInformation,
+  includeGulfWarServiceDates,
+  includeOtherExposureDates,
+  includeOtherExposureDetails,
+  showFinancialConfirmation,
+  includeHouseholdInformation,
   includeSpousalInformation,
-} from '../utils/helpers';
-import { HIGH_DISABILITY_MINIMUM, SHARED_PATHS } from '../utils/constants';
+  spouseDidNotCohabitateWithVeteran,
+  spouseAddressDoesNotMatchVeterans,
+  includeDependentInformation,
+  collectMedicareInformation,
+  useJsonFacilityList,
+  useLighthouseFacilityList,
+} from '../utils/helpers/form-config';
+import { SHARED_PATHS } from '../utils/constants';
 import migrations from './migrations';
 import manifest from '../manifest.json';
-import IDPage from '../containers/IDPage';
+import IdentityPage from '../containers/IdentityPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import { DowntimeWarning } from '../components/FormAlerts';
+import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
@@ -35,42 +55,43 @@ import veteranGender from './chapters/veteranInformation/veteranGender';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
 
-// chapter 2 Military Service
-import serviceInformation from './chapters/militaryService/serviceInformation';
-import additionalInformation from './chapters/militaryService/additionalInformation';
-import documentUpload from './chapters/militaryService/documentUpload';
-
-// chapter 3 VA Benefits
+// chapter 2 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
 import pensionInformation from './chapters/vaBenefits/pensionInformation';
 import DisabilityConfirmationPage from '../components/FormPages/DisabilityConfirmation';
 import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
-// chapter 4 Household Information - for v1 only -- remove when v2 is fully-adopted
-import v1FinancialDisclosure from './chapters/householdInformation/financialDisclosure';
-import v1MaritalStatus from './chapters/householdInformation/maritalStatus';
-import v1SpouseInformation from './chapters/householdInformation/spouseInformation';
-import v1DependentInformation from './chapters/householdInformation/dependentInformation';
-import v1AnnualIncome from './chapters/householdInformation/annualIncome';
-import v1DeductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+// chapter 3 Military Service
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import toxicExposure from './chapters/militaryService/toxicExposure';
+import radiationCleanup from './chapters/militaryService/radiationCleanup';
+import gulfWarService from './chapters/militaryService/gulfWarService';
+import gulfWarServiceDates from './chapters/militaryService/gulfWarServiceDates';
+import combatOperationService from './chapters/militaryService/combatOperationService';
+import agentOrangeExposure from './chapters/militaryService/agentOrangeExposure';
+import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
+import otherToxicExposureDetails from './chapters/militaryService/otherToxicExposureDetails';
+import otherToxicExposureDates from './chapters/militaryService/otherToxicExposureDates';
+import documentUpload from './chapters/militaryService/documentUpload';
 
-// chapter 4 Household Information - for v2 only -- rename imports when v2 is fully-adopted
-import v2FinancialDisclosure from './chapters/householdInformationV2/financialDisclosure';
-import v2MaritalStatus from './chapters/householdInformationV2/maritalStatus';
-import v2SpouseBasicInformation from './chapters/householdInformationV2/spouseBasicInformation';
-import v2SpouseContactInformation from './chapters/householdInformationV2/spouseContactInformation';
-import v2SpouseAdditionalInformation from './chapters/householdInformationV2/spouseAdditionalInformation';
-import v2SpouseFinancialSupport from './chapters/householdInformationV2/spouseFinancialSupport';
-import v2DependentSummary from './chapters/householdInformationV2/dependentSummary';
-import v2SpouseAnnualIncome from './chapters/householdInformationV2/spouseAnnualIncome';
-import v2VeteranAnnualIncome from './chapters/householdInformationV2/veteranAnnualIncome';
-import v2DeductibleExpenses from './chapters/householdInformationV2/deductibleExpenses';
-import v2FinancialOnboarding from '../components/FormPages/FinancialOnboarding';
-import v2FinancialConfirmation from '../components/FormPages/FinancialConfirmation';
-import v2FinancialInformation from '../components/FormPages/FinancialInformation';
-import v2DependentInformationPage from '../components/FormPages/DependentInformation';
-import v2DependentSummaryPage from '../components/FormPages/DependentSummary';
-import v2DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
+// chapter 4 Household Information
+import FinancialDisclosure from './chapters/householdInformation/financialDisclosure';
+import MaritalStatus from './chapters/householdInformation/maritalStatus';
+import SpouseBasicInformation from './chapters/householdInformation/spouseBasicInformation';
+import SpouseContactInformation from './chapters/householdInformation/spouseContactInformation';
+import SpouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
+import SpouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
+import DependentSummary from './chapters/householdInformation/dependentSummary';
+import SpouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
+import VeteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
+import DeductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+import FinancialOnboarding from '../components/FormPages/FinancialOnboarding';
+import FinancialConfirmation from '../components/FormPages/FinancialConfirmation';
+import FinancialInformation from '../components/FormPages/FinancialInformation';
+import DependentInformationPage from '../components/FormPages/DependentInformation';
+import DependentSummaryPage from '../components/FormPages/DependentSummary';
+import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
 
 // chapter 5 Insurance Information
 import medicaid from './chapters/insuranceInformation/medicaid';
@@ -105,7 +126,7 @@ const formConfig = {
       saved: 'Your health care benefits application has been saved.',
     },
   },
-  version: 6,
+  version: 7,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
@@ -122,9 +143,9 @@ const formConfig = {
   additionalRoutes: [
     {
       path: 'id-form',
-      component: IDPage,
+      component: IdentityPage,
       pageKey: 'id-form',
-      depends: formData => !formData['view:isLoggedIn'],
+      depends: isLoggedOut,
     },
   ],
   confirmation: ConfirmationPage,
@@ -155,8 +176,7 @@ const formConfig = {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
           initialData: {},
-          depends: formData =>
-            formData['view:isLoggedIn'] && !formData['view:userDob'],
+          depends: isMissingVeteranDob,
           uiSchema: veteranDateOfBirth.uiSchema,
           schema: veteranDateOfBirth.schema,
         },
@@ -185,7 +205,7 @@ const formConfig = {
           path: 'veteran-information/veteran-gender',
           title: 'Gender',
           initialData: {},
-          depends: formData => formData['view:isSigiEnabled'],
+          depends: isSigiEnabled,
           uiSchema: veteranGender.uiSchema,
           schema: veteranGender.schema,
         },
@@ -211,7 +231,7 @@ const formConfig = {
           path: 'veteran-information/veteran-home-address',
           title: 'Home address',
           initialData: {},
-          depends: formData => !formData['view:doesMailingMatchHomeAddress'],
+          depends: hasDifferentHomeAddress,
           uiSchema: veteranHomeAddress.uiSchema,
           schema: veteranHomeAddress.schema,
         },
@@ -230,8 +250,7 @@ const formConfig = {
         vaBenefits: {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
-          depends: formData =>
-            formData['view:totalDisabilityRating'] < HIGH_DISABILITY_MINIMUM,
+          depends: hasLowDisabilityRating,
           CustomPageReview: CompensationTypeReviewPage,
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
@@ -240,7 +259,7 @@ const formConfig = {
           path: 'va-benefits/confirm-service-pay',
           title: 'Disability confirmation',
           initialData: {},
-          depends: formData => formData.vaCompensationType === 'highDisability',
+          depends: hasHighCompensation,
           CustomPage: DisabilityConfirmationPage,
           CustomPageReview: null,
           uiSchema: {},
@@ -249,7 +268,7 @@ const formConfig = {
         vaPension: {
           path: 'va-benefits/pension-information',
           title: 'VA pension',
-          depends: formData => formData.vaCompensationType === 'none',
+          depends: hasNoCompensation,
           uiSchema: pensionInformation.uiSchema,
           schema: pensionInformation.schema,
         },
@@ -261,255 +280,207 @@ const formConfig = {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
-          depends: formData => !isShortFormEligible(formData),
+          depends: notShortFormEligible,
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
-          depends: formData => !isShortFormEligible(formData),
+          depends: notShortFormEligible,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
+        },
+        toxicExposure: {
+          path: 'military-service/toxic-exposure',
+          title: 'Toxic exposure',
+          depends: teraInformationEnabled,
+          uiSchema: toxicExposure.uiSchema,
+          schema: toxicExposure.schema,
+        },
+        radiationCleanup: {
+          path: 'military-service/radiation-cleanup-efforts',
+          title: 'Radiation cleanup or response efforts',
+          depends: includeTeraInformation,
+          uiSchema: radiationCleanup.uiSchema,
+          schema: radiationCleanup.schema,
+        },
+        gulfWarService: {
+          path: 'military-service/gulf-war-service',
+          title: 'Gulf War service locations',
+          depends: includeTeraInformation,
+          uiSchema: gulfWarService.uiSchema,
+          schema: gulfWarService.schema,
+        },
+        gulfWarServiceDates: {
+          path: 'military-service/gulf-war-service-dates',
+          title: 'Gulf War service dates',
+          depends: includeGulfWarServiceDates,
+          uiSchema: gulfWarServiceDates.uiSchema,
+          schema: gulfWarServiceDates.schema,
+        },
+        combatOperationService: {
+          path: 'military-service/operation-support',
+          title: 'Operations',
+          depends: includeTeraInformation,
+          uiSchema: combatOperationService.uiSchema,
+          schema: combatOperationService.schema,
+        },
+        agentOrangeExposure: {
+          path: 'military-service/agent-orange-exposure',
+          title: 'Agent Orange exposure',
+          depends: includeTeraInformation,
+          uiSchema: agentOrangeExposure.uiSchema,
+          schema: agentOrangeExposure.schema,
+        },
+        otherToxicExposure: {
+          path: 'military-service/other-toxic-exposure',
+          title: 'Other toxic exposures',
+          depends: includeTeraInformation,
+          uiSchema: otherToxicExposure.uiSchema,
+          schema: otherToxicExposure.schema,
+        },
+        otherToxicExposureDetails: {
+          path: 'military-service/other-toxins-or-hazards',
+          title: 'Other toxin or hazard exposure',
+          depends: includeOtherExposureDetails,
+          uiSchema: otherToxicExposureDetails.uiSchema,
+          schema: otherToxicExposureDetails.schema,
+        },
+        otherToxicExposureDates: {
+          path: 'military-service/other-toxic-exposure-dates',
+          title: 'Other toxic exposure dates',
+          depends: includeOtherExposureDates,
+          uiSchema: otherToxicExposureDates.uiSchema,
+          schema: otherToxicExposureDates.schema,
         },
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: formData =>
-            !isShortFormEligible(formData) && !formData['view:isUserInMvi'],
+          depends: dischargePapersRequired,
           editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
         },
       },
     },
-    // NOTE: for household v1 only -- remove when v2 is fully-adopted
     householdInformation: {
-      title: 'Household information',
-      pages: {
-        v1FinancialDisclosure: {
-          path: 'household-information/financial-disclosure',
-          title: 'Financial disclosure',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            !formData['view:isHouseholdV2Enabled'],
-          uiSchema: v1FinancialDisclosure.uiSchema,
-          schema: v1FinancialDisclosure.schema,
-        },
-        v1MaritalStatus: {
-          path: 'household-information/marital-status',
-          title: 'Marital status information',
-          initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            !formData['view:isHouseholdV2Enabled'],
-          uiSchema: v1MaritalStatus.uiSchema,
-          schema: v1MaritalStatus.schema,
-        },
-        v1SpouseInformation: {
-          path: 'household-information/spouse-information',
-          title: 'Spouse\u2019s information',
-          initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            includeSpousalInformation(formData) &&
-            !formData['view:isHouseholdV2Enabled'],
-          uiSchema: v1SpouseInformation.uiSchema,
-          schema: v1SpouseInformation.schema,
-        },
-        v1DependentInformation: {
-          path: 'household-information/dependent-information',
-          title: 'Dependent information',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            !formData['view:isHouseholdV2Enabled'],
-          uiSchema: v1DependentInformation.uiSchema,
-          schema: v1DependentInformation.schema,
-        },
-        v1AnnualIncome: {
-          path: 'household-information/annual-income',
-          title: 'Annual income',
-          initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            !formData['view:isHouseholdV2Enabled'],
-          uiSchema: v1AnnualIncome.uiSchema,
-          schema: v1AnnualIncome.schema,
-        },
-        v1DeductibleExpenses: {
-          path: 'household-information/deductible-expenses',
-          title: 'Deductible expenses',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            !formData['view:isHouseholdV2Enabled'],
-          uiSchema: v1DeductibleExpenses.uiSchema,
-          schema: v1DeductibleExpenses.schema,
-        },
-      },
-    },
-    // NOTE: for household v2 only -- rename routes when v2 is fully-adopted
-    householdInformationV2: {
       title: 'Household financial information',
       pages: {
-        v2FinancialOnboarding: {
-          path: 'household-information-v2/financial-information-use',
+        FinancialOnboarding: {
+          path: 'household-information/financial-information-use',
           title: 'Financial information use',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData['view:isHouseholdV2Enabled'],
-          CustomPage: v2FinancialOnboarding,
+          depends: notShortFormEligible,
+          CustomPage: FinancialOnboarding,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        v2FinancialDisclosure: {
-          path: 'household-information-v2/share-financial-information',
+        FinancialDisclosure: {
+          path: 'household-information/share-financial-information',
           title: 'Share financial information',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2FinancialDisclosure.uiSchema,
-          schema: v2FinancialDisclosure.schema,
+          depends: notShortFormEligible,
+          uiSchema: FinancialDisclosure.uiSchema,
+          schema: FinancialDisclosure.schema,
         },
-        v2FinancialConfirmation: {
-          path: 'household-information-v2/share-financial-information-confirm',
+        FinancialConfirmation: {
+          path: 'household-information/share-financial-information-confirm',
           title: 'Share financial information confirmation',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            !formData.discloseFinancialInformation &&
-            formData['view:isHouseholdV2Enabled'],
-          CustomPage: v2FinancialConfirmation,
+          depends: showFinancialConfirmation,
+          CustomPage: FinancialConfirmation,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        v2FinancialInformation: {
-          path: 'household-information-v2/financial-information-needed',
+        FinancialInformation: {
+          path: 'household-information/financial-information-needed',
           title: 'Financial information needed',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            formData['view:isHouseholdV2Enabled'],
-          CustomPage: v2FinancialInformation,
+          depends: includeHouseholdInformation,
+          CustomPage: FinancialInformation,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        v2MaritalStatus: {
-          path: 'household-information-v2/marital-status',
+        MaritalStatus: {
+          path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2MaritalStatus.uiSchema,
-          schema: v2MaritalStatus.schema,
+          depends: notShortFormEligible,
+          uiSchema: MaritalStatus.uiSchema,
+          schema: MaritalStatus.schema,
         },
-        v2SpouseBasicInformation: {
-          path: 'household-information-v2/spouse-personal-information',
+        SpouseBasicInformation: {
+          path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            includeSpousalInformation(formData) &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2SpouseBasicInformation.uiSchema,
-          schema: v2SpouseBasicInformation.schema,
+          depends: includeSpousalInformation,
+          uiSchema: SpouseBasicInformation.uiSchema,
+          schema: SpouseBasicInformation.schema,
         },
-        v2SpouseAdditionalInformation: {
-          path: 'household-information-v2/spouse-additional-information',
+        SpouseAdditionalInformation: {
+          path: 'household-information/spouse-additional-information',
           title: 'Spouse\u2019s additional information',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            includeSpousalInformation(formData) &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2SpouseAdditionalInformation.uiSchema,
-          schema: v2SpouseAdditionalInformation.schema,
+          depends: includeSpousalInformation,
+          uiSchema: SpouseAdditionalInformation.uiSchema,
+          schema: SpouseAdditionalInformation.schema,
         },
-        v2SpouseFinancialSupport: {
-          path: 'household-information-v2/spouse-financial-support',
+        SpouseFinancialSupport: {
+          path: 'household-information/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            includeSpousalInformation(formData) &&
-            !formData.cohabitedLastYear &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2SpouseFinancialSupport.uiSchema,
-          schema: v2SpouseFinancialSupport.schema,
+          depends: spouseDidNotCohabitateWithVeteran,
+          uiSchema: SpouseFinancialSupport.uiSchema,
+          schema: SpouseFinancialSupport.schema,
         },
-        v2SpouseContactInformation: {
-          path: 'household-information-v2/spouse-contact-information',
+        SpouseContactInformation: {
+          path: 'household-information/spouse-contact-information',
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            includeSpousalInformation(formData) &&
-            !formData.sameAddress &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2SpouseContactInformation.uiSchema,
-          schema: v2SpouseContactInformation.schema,
+          depends: spouseAddressDoesNotMatchVeterans,
+          uiSchema: SpouseContactInformation.uiSchema,
+          schema: SpouseContactInformation.schema,
         },
-        v2DependentSummary: {
+        DependentSummary: {
           path: DEPENDENT_PATHS.summary,
           title: 'Dependents',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            formData['view:isHouseholdV2Enabled'],
-          CustomPage: v2DependentSummaryPage,
-          CustomPageReview: v2DependentsReviewPage,
-          uiSchema: v2DependentSummary.uiSchema,
-          schema: v2DependentSummary.schema,
+          depends: includeHouseholdInformation,
+          CustomPage: DependentSummaryPage,
+          CustomPageReview: DependentsReviewPage,
+          uiSchema: DependentSummary.uiSchema,
+          schema: DependentSummary.schema,
         },
-        v2DependentInformation: {
+        DependentInformation: {
           path: DEPENDENT_PATHS.info,
           title: 'Dependent information',
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            !formData['view:skipDependentInfo'] &&
-            formData.discloseFinancialInformation &&
-            formData['view:isHouseholdV2Enabled'],
-          CustomPage: v2DependentInformationPage,
+          depends: includeDependentInformation,
+          CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        v2VeteranAnnualIncome: {
-          path: 'household-information-v2/veteran-annual-income',
+        VeteranAnnualIncome: {
+          path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2VeteranAnnualIncome.uiSchema,
-          schema: v2VeteranAnnualIncome.schema,
+          depends: includeHouseholdInformation,
+          uiSchema: VeteranAnnualIncome.uiSchema,
+          schema: VeteranAnnualIncome.schema,
         },
-        v2SpouseAnnualIncome: {
-          path: 'household-information-v2/spouse-annual-income',
+        SpouseAnnualIncome: {
+          path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            includeSpousalInformation(formData) &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2SpouseAnnualIncome.uiSchema,
-          schema: v2SpouseAnnualIncome.schema,
+          depends: includeSpousalInformation,
+          uiSchema: SpouseAnnualIncome.uiSchema,
+          schema: SpouseAnnualIncome.schema,
         },
-        v2DeductibleExpenses: {
-          path: 'household-information-v2/deductible-expenses',
+        DeductibleExpenses: {
+          path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) &&
-            formData.discloseFinancialInformation &&
-            formData['view:isHouseholdV2Enabled'],
-          uiSchema: v2DeductibleExpenses.uiSchema,
-          schema: v2DeductibleExpenses.schema,
+          depends: includeHouseholdInformation,
+          uiSchema: DeductibleExpenses.uiSchema,
+          schema: DeductibleExpenses.schema,
         },
       },
     },
@@ -527,7 +498,7 @@ const formConfig = {
           path: 'insurance-information/medicare',
           title: 'Medicare coverage',
           initialData: {},
-          depends: formData => !isShortFormEligible(formData),
+          depends: notShortFormEligible,
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,
         },
@@ -535,8 +506,7 @@ const formConfig = {
           path: 'insurance-information/medicare-part-a-effective-date',
           title: 'Medicare Part A effective date',
           initialData: {},
-          depends: formData =>
-            !isShortFormEligible(formData) && formData.isEnrolledMedicarePartA,
+          depends: collectMedicareInformation,
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
         },
@@ -552,7 +522,7 @@ const formConfig = {
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          depends: formData => !formData['view:isFacilitiesApiEnabled'],
+          depends: useJsonFacilityList,
           uiSchema: vaFacilityJsonPage.uiSchema,
           schema: vaFacilityJsonPage.schema,
         },
@@ -562,7 +532,7 @@ const formConfig = {
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          depends: formData => formData['view:isFacilitiesApiEnabled'],
+          depends: useLighthouseFacilityList,
           uiSchema: vaFacilityApiPage.uiSchema,
           schema: vaFacilityApiPage.schema,
         },

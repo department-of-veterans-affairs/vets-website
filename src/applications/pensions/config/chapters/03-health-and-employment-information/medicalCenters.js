@@ -36,10 +36,14 @@ const generateMedicalCentersSchemas = (
       [medicalCentersKey]: {
         'ui:title': medicalCenterMessage,
         'ui:options': {
-          itemName: 'medical center',
+          itemName: 'Medical center',
+          itemAriaLabel: data => data.medicalCenter,
           viewField: MedicalCenterView,
           reviewTitle: medicalCentersReviewTitle,
           keepInPageOnReview: true,
+          customTitle: ' ',
+          confirmRemove: true,
+          useDlWrap: true,
         },
         items: {
           medicalCenter: {

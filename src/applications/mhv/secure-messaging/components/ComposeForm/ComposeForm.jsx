@@ -33,15 +33,18 @@ import {
   ParentComponent,
   RecipientStatus,
   BlockedTriageAlertStyles,
+  FormLabels,
 } from '../../util/constants';
-import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import ViewOnlyDraftSection from './ViewOnlyDraftSection';
+import { RadioCategories } from '../../util/inputContants';
+import { getCategories } from '../../actions/categories';
 
 const ComposeForm = props => {
-  const { draft, recipients } = props;
+  const { draft, recipients, signature } = props;
   const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,9 +80,9 @@ const ComposeForm = props => {
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
+  const categories = useSelector(state => state.sm.categories.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
-  const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
@@ -110,18 +113,20 @@ const ComposeForm = props => {
     clearTimeout(timeoutId);
   };
 
-  const formattededSignature = useMemo(
+  useEffect(
+    () => {
+      if (!categories) {
+        dispatch(getCategories());
+      }
+    },
+    [categories, dispatch],
+  );
+
+  const formattedSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
     },
     [signature],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
   );
 
   const setUnsavedNavigationError = typeOfError => {
@@ -550,7 +555,17 @@ const ComposeForm = props => {
 
   return (
     <>
-      <EmergencyNote dropDownFlag />
+      {mhvSecureMessagingBlockedTriageGroup1p0 &&
+      (showBlockedTriageGroupAlert &&
+        (noAssociations || allTriageGroupsBlocked)) ? (
+        <BlockedTriageGroupAlert
+          blockedTriageGroupList={blockedTriageGroupList}
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.COMPOSE_FORM}
+        />
+      ) : (
+        <EmergencyNote dropDownFlag />
+      )}
 
       <form className="compose-form" id="sm-compose-form">
         {saveError && (
@@ -594,21 +609,22 @@ const ComposeForm = props => {
           <EditPreferences />
 
           {mhvSecureMessagingBlockedTriageGroup1p0 &&
-            (showBlockedTriageGroupAlert && (
-              <div
-                className="
+            (showBlockedTriageGroupAlert &&
+              (!noAssociations && !allTriageGroupsBlocked) && (
+                <div
+                  className="
                   vads-u-border-top--1px
                   vads-u-padding-top--3
                   vads-u-margin-top--3
                   vads-u-margin-bottom--neg2"
-              >
-                <BlockedTriageGroupAlert
-                  blockedTriageGroupList={blockedTriageGroupList}
-                  alertStyle={BlockedTriageAlertStyles.ALERT}
-                  parentComponent={ParentComponent.COMPOSE_FORM}
-                />
-              </div>
-            ))}
+                >
+                  <BlockedTriageGroupAlert
+                    blockedTriageGroupList={blockedTriageGroupList}
+                    alertStyle={BlockedTriageAlertStyles.ALERT}
+                    parentComponent={ParentComponent.COMPOSE_FORM}
+                  />
+                </div>
+              ))}
 
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
@@ -661,47 +677,76 @@ const ComposeForm = props => {
               )}
 
           <div className="compose-form-div">
-            <CategoryInput
-              category={category}
-              categoryError={categoryError}
-              setCategory={setCategory}
-              setCategoryError={setCategoryError}
-              setUnsavedNavigationError={setUnsavedNavigationError}
-            />
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection
+                title={FormLabels.CATEGORY}
+                body={`${RadioCategories[(draft?.category)].label}: ${
+                  RadioCategories[(draft?.category)].description
+                }`}
+              />
+            ) : (
+              <CategoryInput
+                categories={categories}
+                category={category}
+                categoryError={categoryError}
+                setCategory={setCategory}
+                setCategoryError={setCategoryError}
+                setUnsavedNavigationError={setUnsavedNavigationError}
+              />
+            )}
           </div>
           <div className="compose-form-div">
-            <va-text-input
-              label="Subject"
-              required
-              type="text"
-              id="message-subject"
-              name="message-subject"
-              class="message-subject"
-              data-testid="message-subject-field"
-              onInput={subjectHandler}
-              value={subject}
-              error={subjectError}
-              data-dd-privacy="mask"
-              data-dd-action-name="Compose Message Subject Input Field"
-            />
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection title={FormLabels.SUBJECT} body={subject} />
+            ) : (
+              <va-text-input
+                label={FormLabels.SUBJECT}
+                required
+                type="text"
+                id="message-subject"
+                name="message-subject"
+                class="message-subject"
+                data-testid="message-subject-field"
+                onInput={subjectHandler}
+                value={subject}
+                error={subjectError}
+                data-dd-privacy="mask"
+                data-dd-action-name="Compose Message Subject Input Field"
+                maxlength="50"
+                uswds
+              />
+            )}
           </div>
           <div className="compose-form-div vads-u-margin-bottom--0">
-            <va-textarea
-              label="Message"
-              required
-              id="compose-message-body"
-              name="compose-message-body"
-              class="message-body"
-              data-testid="message-body-field"
-              onInput={messageBodyHandler}
-              value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
-              error={bodyError}
-              onFocus={e => {
-                setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
-              }}
-              data-dd-privacy="mask"
-              data-dd-action-name="Compose Message Body Textbox"
-            />
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection
+                title={FormLabels.MESSAGE}
+                body={messageBody || formattedSignature}
+              />
+            ) : (
+              <va-textarea
+                label={FormLabels.MESSAGE}
+                required
+                id="compose-message-body"
+                name="compose-message-body"
+                class="message-body"
+                data-testid="message-body-field"
+                onInput={messageBodyHandler}
+                value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
+                error={bodyError}
+                onFocus={e => {
+                  setCaretToPos(
+                    e.target.shadowRoot.querySelector('textarea'),
+                    0,
+                  );
+                }}
+                data-dd-privacy="mask"
+                data-dd-action-name="Compose Message Body Textbox"
+              />
+            )}
           </div>
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
@@ -772,6 +817,7 @@ const ComposeForm = props => {
 ComposeForm.propTypes = {
   draft: PropTypes.object,
   recipients: PropTypes.object,
+  signature: PropTypes.object,
 };
 
 export default ComposeForm;

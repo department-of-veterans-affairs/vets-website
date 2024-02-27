@@ -7,18 +7,22 @@ const LabsAndTestsListItem = props => {
   const { record } = props;
 
   return (
-    <div
-      className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <h3
-        className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-        aria-label={`${record.name} ${record.date}`}
-      >
-        {record.name}
+      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5">
+        <Link
+          to={`/labs-and-tests/${record.id}`}
+          data-dd-privacy="mask"
+          aria-label={`${record.name} on ${record.date}`}
+        >
+          {record.name}
+        </Link>
       </h3>
 
-      <div className="fields">
+      <div>
         <div>{record.date}</div>
         {record.type === labTypes.RADIOLOGY && (
           <div>Type of test: X-rays and imaging tests (Radiology)</div>
@@ -26,28 +30,9 @@ const LabsAndTestsListItem = props => {
         {record.type === labTypes.CHEM_HEM && (
           <div>Type of test: Chemistry and hematology</div>
         )}
-        <div>
-          <span className="field-label">Ordered by:</span> {record.orderedBy}
-        </div>
+        <div>Ordered by {record.orderedBy}</div>
       </div>
-      <Link
-        to={`/labs-and-tests/${record.id}`}
-        className="vads-u-margin-y--0p5 no-print"
-        aria-describedby={`details-button-description-${record.id}`}
-      >
-        <strong>Details</strong>
-        <i
-          className="fas fa-angle-right details-link-icon"
-          aria-hidden="true"
-        />
-        <span
-          id={`details-button-description-${record.id}`}
-          className="sr-only"
-        >
-          {record.name} {record.date}
-        </span>
-      </Link>
-    </div>
+    </va-card>
   );
 };
 

@@ -18,21 +18,33 @@ import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
+import dynamicFields from '../pages/mockDynamicFields';
+import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
+import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
+import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
 import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
+import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
+import {
+  onNavBackKeepUrlParams,
+  onNavForwardKeepUrlParams,
+  onNavBackRemoveAddingItem,
+} from '../arrayBuilder/helpers';
 
 const chapterSelectInitialData = {
   chapterSelect: {
     textInput: true,
     numberInput: true,
+    formsPattern: true,
     checkbox: true,
     radio: true,
     select: true,
     date: true,
+    miscellaneous: true,
     arraySinglePage: true,
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
@@ -49,6 +61,7 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: false,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
@@ -132,6 +145,32 @@ const formConfig = {
         },
       },
     },
+    formsPattern: {
+      title: 'Forms Pattern',
+      pages: {
+        formsPatternSingleRadio: {
+          path: 'forms-pattern-single-radio',
+          title: 'Forms Pattern Single Radio title for review page',
+          uiSchema: formsPatternSingleRadio.uiSchema,
+          schema: formsPatternSingleRadio.schema,
+          depends: includeChapter('formsPattern'),
+        },
+        formsPatternSingleCheckboxGroup: {
+          path: 'forms-pattern-single-checkbox-group',
+          title: 'Forms Pattern Single Checkbox group title for review page',
+          uiSchema: formsPatternSingleCheckboxGroup.uiSchema,
+          schema: formsPatternSingleCheckboxGroup.schema,
+          depends: includeChapter('formsPattern'),
+        },
+        formsPatternMultiple: {
+          path: 'forms-pattern-multiple',
+          title: 'Forms Pattern Multiple title for review page',
+          uiSchema: formsPatternMultiple.uiSchema,
+          schema: formsPatternMultiple.schema,
+          depends: includeChapter('formsPattern'),
+        },
+      },
+    },
     checkbox: {
       title: 'Checkbox',
       pages: {
@@ -194,6 +233,26 @@ const formConfig = {
         },
       },
     },
+    miscellaneous: {
+      title: 'Miscellaneous',
+      pages: {
+        dynamicFields: {
+          title: 'Dynamic fields', // for review page (has to be more than one word)
+          path: 'dynamic-fields',
+          uiSchema: dynamicFields.uiSchema,
+          schema: dynamicFields.schema,
+          depends: includeChapter('miscellaneous'),
+        },
+        mockCustomPage: {
+          path: 'mock-custom-page',
+          title: 'Mock Custom Page', // for review page (has to be more than one word)
+          CustomPage: MockCustomPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
+          depends: includeChapter('miscellaneous'),
+        },
+      },
+    },
     arraySinglePage: {
       title: 'Array Single Page',
       pages: {
@@ -228,7 +287,7 @@ const formConfig = {
       },
     },
     arrayMultiPageBuilder: {
-      title: 'Array Multi-Page Builder',
+      title: 'Array Multi-Page Builder (WIP)',
       pages: {
         multiPageBuilderStart: {
           title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
@@ -238,7 +297,9 @@ const formConfig = {
           onNavForward: ({ formData, goPath }) => {
             if (formData.hasEmployment) {
               const index = formData.employers ? formData.employers.length : 0;
-              goPath(`/array-multiple-page-builder-item-page-1/${index}`);
+              goPath(
+                `/array-multiple-page-builder-item-page-1/${index}?add=true`,
+              );
             } else {
               goPath('/review-and-submit');
             }
@@ -253,6 +314,15 @@ const formConfig = {
           arrayPath: 'employers',
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
+          onNavBack: onNavBackRemoveAddingItem({
+            arrayPath: 'employers',
+            summaryPathUrl: '/array-multiple-page-builder-summary',
+          }),
+          onNavForward: onNavForwardKeepUrlParams,
+          ContentBeforeButtons:
+            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
@@ -263,8 +333,11 @@ const formConfig = {
           showPagePerItem: true,
           allowPathWithNoItems: true,
           arrayPath: 'employers',
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
+          onNavBack: onNavBackKeepUrlParams,
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),

@@ -5,10 +5,10 @@ import { CHAPTER_3, contactOptions } from '../../../constants';
 const howToContactPage = {
   uiSchema: {
     'ui:description': FormElementTitle({
-      title: CHAPTER_3.PAGE_12.TITLE,
+      title: CHAPTER_3.CONTACT_PREF.TITLE,
     }),
     contactPreference: radioUI({
-      title: CHAPTER_3.PAGE_12.QUESTION_1,
+      title: CHAPTER_3.CONTACT_PREF.QUESTION_1,
       description: '',
       labels: contactOptions,
     }),

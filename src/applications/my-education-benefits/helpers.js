@@ -622,23 +622,161 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
   };
 }
 
+export function prefillTransformerV4(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
+  const contactInfo = claimant?.contactInfo || {};
+  const stateUser = state.user || {};
+
+  const profile = stateUser?.profile;
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+
+  const emailAddress =
+    vapContactInfo.email?.emailAddress ||
+    profile?.email ||
+    contactInfo.emailAddress ||
+    undefined;
+
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
+
+  const newData = {
+    ...formData,
+    [formFields.formId]: state.data?.formData?.data?.id,
+    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
+        first: firstName || undefined,
+        middle: middleName || undefined,
+        last: lastName || undefined,
+      },
+    },
+    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
+    },
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
+      },
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
+      },
+    },
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
+    },
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode || address?.province,
+        postalCode:
+          address?.zipCode ||
+          address?.zipcode ||
+          address?.internationalPostalCode,
+        country: getSchemaCountryCode(
+          address?.countryCodeIso3 || address?.countryCode,
+        ),
+      },
+      [formFields.livesOnMilitaryBase]:
+        address?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.viewDirectDeposit]: {
+      [formFields.bankAccount]: {
+        ...bankInformation,
+        accountType: bankInformation?.accountType?.toLowerCase(),
+      },
+    },
+    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
+  };
+
+  if (suffix) {
+    newData[formFields.viewUserFullName].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        formFields.viewUserFullName
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, suffix),
+      ) || undefined;
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
   const featureTogglesLoaded = state.featureToggles?.loading === false;
   const showInternationalAddressPrefill =
     state.featureToggles?.showMebInternationalAddressPrefill;
   const mebExclusionPeriodEnabled =
     state.featureToggles?.mebExclusionPeriodEnabled;
+  const showDgiDirectDeposit1990EZ =
+    state.featureToggles?.show_dgi_direct_deposit_1990EZ;
+
   // Return an empty object if feature toggles haven't loaded yet
   if (!featureTogglesLoaded) {
     return {};
   }
+  if (showDgiDirectDeposit1990EZ) {
+    return prefillTransformerV4(pages, formData, metadata, state);
+  }
+
+  if (showInternationalAddressPrefill) {
+    return prefillTransformerV2(pages, formData, metadata, state);
+  }
   // Use prefillTransformerV3 if mebExclusionPeriodEnabled feature flag is on
   if (mebExclusionPeriodEnabled) {
     return prefillTransformerV3(pages, formData, metadata, state);
-  }
-  // Fallback to prefillTransformerV2 if showInternationalAddressPrefill is enabled
-  if (showInternationalAddressPrefill) {
-    return prefillTransformerV2(pages, formData, metadata, state);
   }
   // Default to prefillTransformerV1 if none of the above conditions are met
   return prefillTransformerV1(pages, formData, metadata, state);

@@ -3,7 +3,6 @@ import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
-
 import {
   ADDRESS_FORM_VALUES,
   USA,

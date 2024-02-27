@@ -11,18 +11,14 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
+import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
-
-const typeOfIncomeOptions = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  RETIREMENT: 'Retirement income',
-  PENSION: 'Pension income',
-  OTHER: 'Other income',
-};
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
+
+export const dependentNameRequired = (form, index) =>
+  get(['incomeSources', index, 'receiver'], form) === 'DEPENDENT';
 
 /** @type {PageSchema} */
 export default {
@@ -35,14 +31,19 @@ export default {
     incomeSources: {
       'ui:options': {
         itemName: 'Income source',
+        itemAriaLabel: data =>
+          `${typeOfIncomeLabels[data.typeOfIncome]} income source`,
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         typeOfIncome: radioUI({
           title: 'What type of income?',
-          labels: typeOfIncomeOptions,
+          labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
@@ -53,13 +54,18 @@ export default {
           },
           'ui:required': otherExplanationRequired,
         },
-        receiver: {
-          'ui:title': 'Who receives this income?',
+        receiver: radioUI({
+          title: 'Who receives this income?',
+          labels: recipientTypeLabels,
+        }),
+        dependentName: {
+          'ui:title': 'Which dependent?',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
-            hint:
-              'Enter your name, or the name of your spouse or one of your dependents.',
+            expandUnder: 'receiver',
+            expandUnderCondition: 'DEPENDENT',
           },
+          'ui:required': dependentNameRequired,
         },
         payer: {
           'ui:title': 'Who pays this income?',
@@ -90,9 +96,10 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
             otherTypeExplanation: { type: 'string' },
-            receiver: { type: 'string' },
+            receiver: radioSchema(Object.keys(recipientTypeLabels)),
+            dependentName: { type: 'string' },
             payer: { type: 'string' },
             amount: { type: 'number' },
           },

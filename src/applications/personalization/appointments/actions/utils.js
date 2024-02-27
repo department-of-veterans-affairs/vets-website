@@ -1,9 +1,9 @@
-import differenceInMilliseconds from 'date-fns/differenceInMilliseconds';
+import { differenceInMilliseconds, isFuture, parseISO } from 'date-fns';
 import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 import {
   getVATimeZone,
   getTimezoneBySystemId,
-} from '~/applications/personalization/dashboard/utils/timezone';
+} from '~/applications/personalization/dashboard/utils/date-formatting/timezone';
 import environment from '~/platform/utilities/environment';
 
 const getStagingID = facilityID => {
@@ -26,8 +26,14 @@ const getStagingID = facilityID => {
   return facilityID;
 };
 
+const isFutureAppointment = appointment => {
+  const apptDateTime = parseISO(appointment.attributes.start);
+  return isFuture(apptDateTime);
+};
+
 const transformAppointment = appointment => {
   const isVideo = appointment.attributes?.kind === 'telehealth';
+  const isUpcoming = isFutureAppointment(appointment);
   const facilityStagingId = getStagingID(appointment.attributes.locationId);
   const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
   const date = appointment.attributes.start;
@@ -35,10 +41,12 @@ const transformAppointment = appointment => {
     ? moment(date).tz(timezone)
     : moment(date)
   ).format();
+
   return {
     ...appointment.attributes,
     id: appointment.id,
     isVideo,
+    isUpcoming,
     startsAt,
     type: appointment.attributes?.kind,
     timeZone: getVATimeZone(facilityStagingId),
@@ -50,7 +58,7 @@ const transformAppointment = appointment => {
 
 const sortAppointments = appointments => {
   return appointments.sort((a, b) => {
-    return differenceInMilliseconds(a.startAt, b.startAt);
+    return differenceInMilliseconds(parseISO(a.startsAt), parseISO(b.startsAt));
   });
 };
 

@@ -27,6 +27,7 @@ export const labTypes = {
 
 export const noteTypes = {
   PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
+  CONSULT_RESULT: 'consult_result',
   DISCHARGE_SUMMARY: 'discharge_summary',
   OTHER: 'other',
 };
@@ -39,6 +40,7 @@ export const loincCodes = {
   RADIOLOGY: '18748-4',
   // care summaries and notes
   PHYSICIAN_PROCEDURE_NOTE: '11506-3',
+  CONSULT_RESULT: '11488-4',
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',
@@ -116,22 +118,42 @@ export const IS_TESTING = false;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
-  BREATHING_RATE: 'BREATHING_RATE',
   PULSE: 'PULSE',
-  HEIGHT: 'HEIGHT',
+  RESPIRATION: 'RESPIRATION',
+  PULSE_OXIMETRY: 'PULSE_OXIMETRY',
   TEMPERATURE: 'TEMPERATURE',
   WEIGHT: 'WEIGHT',
-  PAIN: 'PAIN',
+  HEIGHT: 'HEIGHT',
 };
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
-  BREATHING_RATE: 'Breathing rate',
   PULSE: 'Heart rate',
-  HEIGHT: 'Height',
+  RESPIRATION: 'Breathing rate',
+  PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
-  PAIN: 'Pain',
+  HEIGHT: 'Height',
+};
+
+export const vitalUnitCodes = {
+  BLOOD_PRESSURE: '',
+  PULSE: '/min',
+  RESPIRATION: '/min',
+  PULSE_OXIMETRY: '%',
+  TEMPERATURE: '[degF]',
+  WEIGHT: '[lb_av]',
+  HEIGHT: '[in_i]',
+};
+
+export const vitalUnitDisplayText = {
+  BLOOD_PRESSURE: '',
+  PULSE: ' beats per minute',
+  RESPIRATION: ' breaths per minute',
+  PULSE_OXIMETRY: '%',
+  TEMPERATURE: ' °F',
+  WEIGHT: ' pounds',
+  HEIGHT: ' inches',
 };
 
 export const ALERT_TYPE_ERROR = 'error';
@@ -143,7 +165,8 @@ export const pageTitles = {
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
-  ALLERGIES_PAGE_TITLE: 'Allergies - Medical Records | Veterans Affairs',
+  ALLERGIES_PAGE_TITLE:
+    'Allergies and Reactions - Medical Records | Veterans Affairs',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
@@ -158,4 +181,36 @@ export const allergyTypes = {
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const refreshExtractTypes = {
+  ALLERGY: 'Allergy',
+  IMAGING: 'ImagingStudy',
+  VPR: 'VPR',
+  CHEM_HEM: 'ChemistryHematology',
+};
+
+/** These are the extracts that we are actively using from the status response. */
+export const EXTRACT_LIST = [
+  refreshExtractTypes.ALLERGY,
+  refreshExtractTypes.IMAGING,
+  refreshExtractTypes.VPR,
+  refreshExtractTypes.CHEM_HEM,
+];
+
+export const VALID_REFRESH_DURATION = 3600000; // 1 hour
+
+export const STATUS_POLL_INTERVAL = 2000;
+
+export const refreshPhases = {
+  STALE: 'stale',
+  IN_PROGRESS: 'in_progress',
+  CURRENT: 'current',
+  FAILED: 'failed',
+};
+
+export const loadStates = {
+  PRE_FETCH: 'pre-fetch',
+  FETCHING: 'fetching',
+  FETCHED: 'fetched',
 };

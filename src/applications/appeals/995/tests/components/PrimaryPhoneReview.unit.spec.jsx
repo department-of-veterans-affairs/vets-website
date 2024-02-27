@@ -37,6 +37,13 @@ describe('<PrimaryPhoneReview>', () => {
     expect($('dd', container).textContent).to.contain('(555) 800-2222');
   });
 
+  it('should not render anything', () => {
+    const { container } = render(
+      setup({ data: { veteran: {} }, primary: 'mobile' }),
+    );
+    expect(container.innerHTML).to.eq('<div></div>');
+  });
+
   it('should switch to edit mode', () => {
     const editPageSpy = sinon.spy();
     const { container } = render(setup({ editPage: editPageSpy }));

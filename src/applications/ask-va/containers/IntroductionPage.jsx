@@ -1,11 +1,18 @@
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaButton,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import recordEvent from 'platform/monitoring/record-event';
-import * as userNavActions from 'platform/site-wide/user-nav/actions';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { focusElement } from 'platform/utilities/ui';
+import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import {
+  isLoggedIn,
+  selectProfile,
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // @ path now working
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -35,7 +42,6 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      {/* TODO: Add breadcrumbs  - Ticket #228 */}
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
 
       {loggedIn ? (
@@ -50,7 +56,7 @@ const IntroductionPage = props => {
           <p className="schemaform-subtitle vads-u-font-size--lg vads-u-margin-bottom--4">
             You should receive a response within 7 business days.
           </p>
-          <va-alert
+          <VaAlert
             close-btn-aria-label="Close notification"
             status="continue"
             visible
@@ -65,13 +71,13 @@ const IntroductionPage = props => {
                 You need to sign in if your question is about education benefits
                 and work study or debt.
               </p>
-              <va-button
+              <VaButton
                 primary-alternate
                 text="Sign in or create an account"
-                onClick={() => toggleLoginModal(true, 'cta-form')}
+                onClick={toggleLoginModal}
               />
             </div>
-          </va-alert>
+          </VaAlert>
           <h2 slot="headline">Sign in for the best experience</h2>
           <div>
             <p className="vads-u-margin-top--0">
@@ -110,6 +116,12 @@ const IntroductionPage = props => {
       <h2>Check the status of your question</h2>
       <p className="vads-u-margin--0">Reference number</p>
       <VaSearchInput label="Reference number" />
+      <Link
+        className="vads-c-action-link--blue vads-u-margin-top--2"
+        to="/user/profile-test"
+      >
+        User Profile Test
+      </Link>
     </div>
   );
 };
@@ -135,9 +147,9 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  toggleLoginModal: userNavActions.toggleLoginModal,
-};
+const mapDispatchToProps = dispatch => ({
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+});
 
 export default connect(
   mapStateToProps,

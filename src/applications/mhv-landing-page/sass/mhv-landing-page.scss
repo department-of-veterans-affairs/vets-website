@@ -112,6 +112,10 @@ $anchor-font-size: 1.9rem;
   }
 }
 
+.visibility\:hidden {
+  visibility: hidden;
+}
+
 @media (max-width: $medium-screen) {
   .mhv-c-navlink {
     display: flex;

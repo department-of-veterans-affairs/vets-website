@@ -313,11 +313,6 @@ export const threadSortingOptions = {
   },
 };
 
-export const PrintMessageOptions = {
-  PRINT_MAIN: 'PRINT_MAIN',
-  PRINT_THREAD: 'PRINT_THREAD',
-};
-
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
@@ -375,5 +370,17 @@ export const BlockedTriageAlertText = {
       'If you need to contact this care team, call your VA health facility.',
     MULTIPLE_TEAMS_BLOCKED:
       'If you need to contact these care teams, call your VA health facility.',
+  },
+};
+
+export const FormLabels = {
+  CATEGORY: 'Category',
+  MESSAGE: 'Message',
+  SUBJECT: 'Subject',
+};
+
+export const CernerTransitioningFacilities = {
+  NORTH_CHICAGO: {
+    facilityId: '556',
   },
 };

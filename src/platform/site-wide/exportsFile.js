@@ -1,5 +1,7 @@
 import showVaExpandableAlert from './alerts/showVaAlertExpandable';
 
+import MobileAppCallout from './alerts/MobileAppCallout';
+
 import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
 
 import { toggleValues, isProduction } from './feature-toggles/selectors';
@@ -40,6 +42,7 @@ import {
 } from './user-nav/actions';
 
 import AutoSSO from './user-nav/containers/AutoSSO';
+import PageNotFound from './user-nav/components/PageNotFound';
 
 import userNavReducer from './user-nav/reducers';
 
@@ -59,6 +62,7 @@ const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
   showVaExpandableAlert,
+  MobileAppCallout,
   EbenefitsLink,
   toggleValues,
   isProduction,
@@ -86,6 +90,7 @@ export {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   AutoSSO,
+  PageNotFound,
   userNavReducer,
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,

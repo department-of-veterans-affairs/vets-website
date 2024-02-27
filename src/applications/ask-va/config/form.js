@@ -22,24 +22,17 @@ import questionAboutPage from './chapters/yourQuestion/questionAbout';
 import reasonContactPage from './chapters/yourQuestion/reasonContacting';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
-// Personal Information
-import deathDatePage from './chapters/personalInformation/deathDate';
-import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
-import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
-import vaEmployeePage from './chapters/personalInformation/vaEmployee';
-import aboutTheFamilyMemberPage from './chapters/personalInformation/aboutTheFamilyMember';
-import aboutYourRelationshipToFamilyMemberPage from './chapters/personalInformation/relationshipToFamilyMember';
+// // Personal Information
 import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
-import aboutYourRelationshipPage from './chapters/personalInformation/aboutYourRelationship';
-import whoQuestionAboutPage from './chapters/personalInformation/questionIsAbout';
-import howToContactPage from './chapters/personalInformation/howToContact';
-import aboutTheVeteranPage from './chapters/personalInformation/aboutTheVeteran';
-import veteransAddressZipPage from './chapters/personalInformation/veteranAddressZip';
-import aboutYourselfPage from './chapters/personalInformation/aboutYourself';
-import yourPhoneAndEmailPage from './chapters/personalInformation/yourPhoneAndEmail';
-import yourCountryPage from './chapters/personalInformation/yourCountry';
-import yourAddressPage from './chapters/personalInformation/yourAddress';
-import addressConfirmationPage from './chapters/personalInformation/addressConfirmation';
+import {
+  flowPaths,
+  generalQuestionPages,
+  myOwnBenFamPages,
+  myOwnBenVetPages,
+  someoneElseBen3rdPartyPages,
+  someoneElseBenFamPages,
+  someoneElseBenVetPages,
+} from './schema-helpers/formFlowHelper';
 
 // Review Page
 import Footer from '../components/Footer';
@@ -81,7 +74,7 @@ const formConfig = {
   },
   title: 'Ask VA',
   subTitle:
-    'Get answers to your questions about VA benefits and services and send documents online',
+    'Get answers to your questions about VA benefits and services and upload documents online.',
   footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
@@ -130,6 +123,15 @@ const formConfig = {
           title: CHAPTER_2.PAGE_3.TITLE,
           uiSchema: yourQuestionPage.uiSchema,
           schema: yourQuestionPage.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.questionAbout === 'GENERAL') {
+              goPath(`/${flowPaths.general}-1`);
+            } else if (formData.questionAbout !== 'GENERAL') {
+              goPath(`/${CHAPTER_3.RELATIONSHIP_TO_VET.PATH}`);
+            } else {
+              goPath('/review-then-submit');
+            }
+          },
         },
       },
     },
@@ -137,108 +139,48 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       pages: {
         relationshipToVeteran: {
-          path: CHAPTER_3.PAGE_1.PATH,
-          title: CHAPTER_3.PAGE_1.TITLE,
+          path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
+          title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
+          onNavForward: ({ formData, goPath }) => {
+            // TODO: Refactor this when we know what the other category flows will look like.
+            if (
+              formData.personalRelationship === 'VETERAN' &&
+              formData.questionAbout === 'MY_OWN'
+            ) {
+              goPath(`/${flowPaths.myOwnBenVet}-1`);
+            } else if (
+              formData.personalRelationship === 'FAMILY_MEMBER' &&
+              formData.questionAbout === 'MY_OWN'
+            ) {
+              goPath(`/${flowPaths.myOwnBenFam}-1`);
+            } else if (
+              formData.personalRelationship === 'FAMILY_MEMBER' &&
+              formData.questionAbout === 'SOMEONE_ELSE'
+            ) {
+              goPath(`/${flowPaths.someoneElseBenFam}-1`);
+            } else if (
+              formData.personalRelationship === 'VETERAN' &&
+              formData.questionAbout === 'SOMEONE_ELSE'
+            ) {
+              goPath(`/${flowPaths.someoneElseBenVet}-1`);
+            } else if (
+              formData.personalRelationship === 'WORK' &&
+              formData.questionAbout === 'SOMEONE_ELSE'
+            ) {
+              goPath(`/${flowPaths.someoneElseBen3rdParty}-1`);
+            } else {
+              goPath('/review-then-submit');
+            }
+          },
         },
-        aboutYourRelationship: {
-          path: CHAPTER_3.PAGE_2.PATH,
-          title: CHAPTER_3.PAGE_2.TITLE,
-          uiSchema: aboutYourRelationshipPage.uiSchema,
-          schema: aboutYourRelationshipPage.schema,
-        },
-        aboutTheVeteran: {
-          path: CHAPTER_3.PAGE_3.PATH,
-          title: CHAPTER_3.PAGE_3.TITLE,
-          uiSchema: aboutTheVeteranPage.uiSchema,
-          schema: aboutTheVeteranPage.schema,
-        },
-        veteranDeceased: {
-          path: CHAPTER_3.PAGE_4.PATH,
-          title: CHAPTER_3.PAGE_4.TITLE,
-          uiSchema: isTheVeteranDeceasedPage.uiSchema,
-          schema: isTheVeteranDeceasedPage.schema,
-        },
-        dateOfDeath: {
-          path: CHAPTER_3.PAGE_5.PATH,
-          title: CHAPTER_3.PAGE_5.TITLE,
-          uiSchema: deathDatePage.uiSchema,
-          schema: deathDatePage.schema,
-        },
-        veteransAddressZip: {
-          path: CHAPTER_3.PAGE_6.PATH,
-          title: CHAPTER_3.PAGE_6.TITLE,
-          uiSchema: veteransAddressZipPage.uiSchema,
-          schema: veteransAddressZipPage.schema,
-        },
-        whoThisIsAbout: {
-          path: CHAPTER_3.PAGE_7.PATH,
-          title: CHAPTER_3.PAGE_7.TITLE,
-          uiSchema: whoQuestionAboutPage.uiSchema,
-          schema: whoQuestionAboutPage.schema,
-        },
-        vaEmployee: {
-          path: CHAPTER_3.PAGE_8.PATH,
-          title: CHAPTER_3.PAGE_8.TITLE,
-          uiSchema: vaEmployeePage.uiSchema,
-          schema: vaEmployeePage.schema,
-        },
-        aboutYourself: {
-          path: CHAPTER_3.PAGE_9.PATH,
-          title: CHAPTER_3.PAGE_9.TITLE,
-          uiSchema: aboutYourselfPage.uiSchema,
-          schema: aboutYourselfPage.schema,
-        },
-        searchVAMedicalCenter: {
-          path: CHAPTER_3.PAGE_10.PATH,
-          title: CHAPTER_3.PAGE_10.TITLE,
-          uiSchema: searchVAMedicalCenterPage.uiSchema,
-          schema: searchVAMedicalCenterPage.schema,
-        },
-        yourPhoneAndEmail: {
-          path: CHAPTER_3.PAGE_11.PATH,
-          title: CHAPTER_3.PAGE_11.TITLE,
-          uiSchema: yourPhoneAndEmailPage.uiSchema,
-          schema: yourPhoneAndEmailPage.schema,
-        },
-        howToContact: {
-          path: CHAPTER_3.PAGE_12.PATH,
-          title: CHAPTER_3.PAGE_12.TITLE,
-          uiSchema: howToContactPage.uiSchema,
-          schema: howToContactPage.schema,
-        },
-        yourCountry: {
-          path: CHAPTER_3.PAGE_13.PATH,
-          title: CHAPTER_3.PAGE_13.TITLE,
-          uiSchema: yourCountryPage.uiSchema,
-          schema: yourCountryPage.schema,
-        },
-        yourAddress: {
-          path: CHAPTER_3.PAGE_14.PATH,
-          title: CHAPTER_3.PAGE_14.TITLE,
-          uiSchema: yourAddressPage.uiSchema,
-          schema: yourAddressPage.schema,
-        },
-        yourAddressConfirmation: {
-          path: CHAPTER_3.PAGE_15.PATH,
-          title: CHAPTER_3.PAGE_15.TITLE,
-          uiSchema: addressConfirmationPage.uiSchema,
-          schema: addressConfirmationPage.schema,
-          depends: form => !form.onBaseOutsideUS,
-        },
-        aboutYourFamilyMember: {
-          path: CHAPTER_3.PAGE_16.PATH,
-          title: CHAPTER_3.PAGE_16.TITLE,
-          uiSchema: aboutTheFamilyMemberPage.uiSchema,
-          schema: aboutTheFamilyMemberPage.schema,
-        },
-        aboutYourRelationshipToFamilyMember: {
-          path: CHAPTER_3.PAGE_17.PATH,
-          title: CHAPTER_3.PAGE_17.TITLE,
-          uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
-          schema: aboutYourRelationshipToFamilyMemberPage.schema,
-        },
+        ...generalQuestionPages,
+        ...myOwnBenVetPages,
+        ...myOwnBenFamPages,
+        ...someoneElseBenVetPages,
+        ...someoneElseBenFamPages,
+        ...someoneElseBen3rdPartyPages,
       },
     },
     review: {

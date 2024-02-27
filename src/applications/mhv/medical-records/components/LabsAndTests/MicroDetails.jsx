@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -14,16 +15,22 @@ import {
   makePdf,
 } from '../../util/helpers';
 import {
+  formatName,
   generatePdfScaffold,
   updatePageTitle,
 } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine } from '../../../shared/util/constants';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
 import {
   generateLabsIntro,
   generateMicrobioContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -38,14 +45,19 @@ const MicroDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateMicrobiologyPdf = async () => {
@@ -58,7 +70,11 @@ const MicroDetails = props => {
 
   const generateMicroTxt = async () => {
     const content = `\n
+${crisisLineHeader}\n\n
 ${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
@@ -130,7 +146,7 @@ ${record.results}`;
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base make-monospace">
+        <p className="vads-u-font-size--base monospace">
           {record.results}
         </p>{' '}
       </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
@@ -15,14 +16,14 @@ import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
+  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
 
-  const cernerFacilitiesPresent = useSelector(
-    state => state.sm.facilities.cernerFacilities.length > 0,
-  );
+  const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -33,6 +34,17 @@ const FolderHeader = props => {
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
       ],
+  );
+
+  const cernerFacilities = useMemo(
+    () => {
+      return userFacilities?.filter(facility =>
+        drupalCernerFacilities.some(
+          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+        ),
+      );
+    },
+    [userFacilities, drupalCernerFacilities],
   );
 
   const folderDescription = useMemo(
@@ -83,8 +95,14 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
 
+      {folder.folderId === Folders.INBOX.id && (
+        <CernerTransitioningFacilityAlert />
+      )}
+
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilitiesPresent && <CernerFacilityAlert />}
+        cernerFacilities?.length > 0 && (
+          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
+        )}
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>

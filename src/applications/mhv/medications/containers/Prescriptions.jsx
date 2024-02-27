@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
@@ -11,15 +11,21 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
-import { dateFormat, generateMedicationsPDF } from '../util/helpers';
+import {
+  dateFormat,
+  generateMedicationsPDF,
+  generateTextFile,
+} from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import {
-  PDF_GENERATE_STATUS,
+  PDF_TXT_GENERATE_STATUS,
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
 } from '../util/constants';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload, {
+  DOWNLOAD_FORMAT,
+} from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -27,21 +33,19 @@ import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
-import { getPrescriptionSortedList } from '../api/rxApi';
+import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { reportGeneratedBy } from '../../shared/util/constants';
+import usePrintTitle from '../components/shared/usePrintTitle';
 
-const Prescriptions = props => {
-  const { fullList = [] } = props;
-  const location = useLocation();
+const Prescriptions = () => {
+  const { search } = useLocation();
   const history = useHistory();
-  const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
-  const [fullPrescriptionsList, setFullPrescriptionsList] = useState(fullList);
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -53,11 +57,23 @@ const Prescriptions = props => {
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
+  const prescriptionsFullList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFullList,
+  );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
-    PDF_GENERATE_STATUS.NotStarted,
+  const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
+    status: PDF_TXT_GENERATE_STATUS.NotStarted,
+    format: undefined,
+  });
+
+  const page = useMemo(
+    () => {
+      const query = new URLSearchParams(search);
+      return Number(query.get('page'));
+    },
+    [search],
   );
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
@@ -73,7 +89,10 @@ const Prescriptions = props => {
   };
 
   const sortRxList = sortOption => {
-    setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
+    setPdfTxtGenerateStatus({
+      ...pdfTxtGenerateStatus,
+      status: PDF_TXT_GENERATE_STATUS.NotStarted,
+    });
     if (sortOption !== selectedSortOption) {
       updateSortOption(sortOption);
       updateLoadingStatus(true, 'Sorting your medications...');
@@ -93,13 +112,13 @@ const Prescriptions = props => {
             },
           ],
           {
-            url: '/my-health/medications',
+            url: `/my-health/medications/?page=${page}`,
             label: 'Medications',
           },
         ),
       );
     },
-    [dispatch],
+    [dispatch, page],
   );
 
   useEffect(
@@ -107,7 +126,10 @@ const Prescriptions = props => {
       if (!paginatedPrescriptionsList) {
         updateLoadingStatus(true, 'Loading your medications...');
       }
-      if (!page) history.replace('/1');
+      if (Number.isNaN(page) || page < 1) {
+        history.replace('/?page=1');
+        return;
+      }
       const sortOption = selectedSortOption ?? defaultSelectedSortOption;
       dispatch(
         getPrescriptionsPaginatedSortedList(
@@ -120,8 +142,11 @@ const Prescriptions = props => {
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption],
+    [dispatch, page, selectedSortOption],
   );
+
+  const baseTitle = 'Medications | Veterans Affairs';
+  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
     () => {
@@ -142,7 +167,7 @@ const Prescriptions = props => {
         headerBanner: [
           {
             text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
           },
           {
             text: '988',
@@ -207,6 +232,32 @@ const Prescriptions = props => {
     [userName, dob, selectedSortOption],
   );
 
+  const txtData = useCallback(
+    (rxList, allergiesList) => {
+      return (
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
+          'Medications\n\n'}${
+          userName.first
+            ? `${userName.last}, ${userName.first}`
+            : userName.last || ' '
+        }\n\n` +
+        `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}\n\n` +
+        `Report generated by My HealtheVet on VA.gov on ${dateFormat(
+          Date.now(),
+          'MMMM D, YYYY',
+        )}\n\n` +
+        `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
+        `Medications list\n\n` +
+        `Showing ${
+          prescriptionsFullList?.length
+        } records, ${rxListSortingOptions[
+          selectedSortOption
+        ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
+      );
+    },
+    [userName, dob, selectedSortOption, prescriptionsFullList],
+  );
+
   const generatePDF = useCallback(
     (rxList, allergiesList) => {
       generateMedicationsPDF(
@@ -216,56 +267,86 @@ const Prescriptions = props => {
         }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
         pdfData(rxList, allergiesList),
       ).then(() => {
-        setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
+        setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
         updateLoadingStatus(false, '');
       });
     },
-    [userName, pdfData, setPdfGenerateStatus],
+    [userName, pdfData, setPdfTxtGenerateStatus],
+  );
+
+  const generateTXT = useCallback(
+    (rxList, allergiesList) => {
+      generateTextFile(
+        txtData(rxList, allergiesList),
+        `VA-medications-list-${
+          userName.first ? `${userName.first}-${userName.last}` : userName.last
+        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+      );
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
+      updateLoadingStatus(false, '');
+    },
+    [userName, txtData, setPdfTxtGenerateStatus],
   );
 
   useEffect(
     () => {
       if (
-        fullPrescriptionsList?.length &&
+        prescriptionsFullList?.length &&
         allergies &&
-        pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
-        generatePDF(
-          buildPrescriptionsPDFList(fullPrescriptionsList),
-          buildAllergiesPDFList(allergies),
-        );
+        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
+          generatePDF(
+            buildPrescriptionsPDFList(prescriptionsFullList),
+            buildAllergiesPDFList(allergies),
+          );
+        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
+          generateTXT(
+            buildPrescriptionsTXT(prescriptionsFullList),
+            buildAllergiesTXT(allergies),
+          );
+        }
       }
     },
-    [allergies, fullPrescriptionsList, pdfGenerateStatus, generatePDF],
+    [
+      allergies,
+      prescriptionsFullList,
+      pdfTxtGenerateStatus.status,
+      pdfTxtGenerateStatus.format,
+      generatePDF,
+      generateTXT,
+    ],
   );
 
-  const handleDownloadPDF = async () => {
+  const handleFullListDownload = async format => {
     updateLoadingStatus(true, 'Downloading your file...');
-    setPdfGenerateStatus(PDF_GENERATE_STATUS.InProgress);
-    await Promise.allSettled([
-      getPrescriptionSortedList(
-        rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-        true,
-      ).then(response =>
-        setFullPrescriptionsList(
-          response.data.map(rx => {
-            return { ...rx.attributes };
-          }),
-        ),
-      ),
-      !allergies && dispatch(getAllergiesList()),
-    ]);
+    setPdfTxtGenerateStatus({
+      status: PDF_TXT_GENERATE_STATUS.InProgress,
+      format,
+    });
+    if (!allergies) await dispatch(getAllergiesList());
   };
 
   const handleModalClose = () => {
     dispatch(clearAllergiesError());
-    setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
+    setPdfTxtGenerateStatus({
+      ...pdfTxtGenerateStatus,
+      status: PDF_TXT_GENERATE_STATUS.NotStarted,
+    });
   };
 
   const handleModalDownloadButton = () => {
-    generatePDF(buildPrescriptionsPDFList(fullPrescriptionsList));
+    if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
+      generatePDF(buildPrescriptionsPDFList(prescriptionsFullList));
+    } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
+      generateTXT(
+        buildPrescriptionsTXT(prescriptionsFullList),
+        buildAllergiesTXT(),
+      );
+    }
     dispatch(clearAllergiesError());
   };
+
   const content = () => {
     if (!isLoading) {
       return (
@@ -289,13 +370,16 @@ const Prescriptions = props => {
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
             onCancelButtonClick={handleModalClose}
-            visible={Boolean(fullPrescriptionsList?.length && allergiesError)}
+            visible={Boolean(prescriptionsFullList?.length && allergiesError)}
           />
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">
               <PrintDownload
-                download={handleDownloadPDF}
-                isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
+                download={handleFullListDownload}
+                isSuccess={
+                  pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.Success
+                }
                 list
               />
               <BeforeYouDownloadDropdown />

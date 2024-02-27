@@ -123,7 +123,7 @@
   }
 
   .additional-resources {
-    @include media-maxwidth($medium-large-screen - 1) {
+    @include media-maxwidth($medium-screen - 1) {
       display: none;
     }
   }
@@ -318,7 +318,7 @@
   .graph-key {
     margin-top: 1rem;
 
-    @include media-maxwidth($medium-large-screen) {
+    @include media-maxwidth($medium-screen) {
       width: 200%;
     }
   }
@@ -701,6 +701,9 @@
 .arrow-down-link {
   text-decoration: none;
 }
+.arrow-down-link:hover, .arrow-down-link:visited{
+  color: rgb(0, 94, 162);
+}
 
 .profile-card {
   border-radius: 10px;
@@ -727,4 +730,13 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+}
+.filter-before-res-link{
+  display: inline-block;
+  text-decoration: underline;
+}
+.iconToggle{
+  display: inline-block;
+  margin-right: 15px;
+
 }

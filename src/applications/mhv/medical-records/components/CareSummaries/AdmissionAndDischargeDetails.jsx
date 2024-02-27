@@ -22,12 +22,13 @@ import {
   generatePdfScaffold,
   formatName,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, EMPTY_FIELD } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateNotesIntro,
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -49,6 +50,14 @@ const AdmissionAndDischargeDetails = props => {
     [record],
   );
 
+  usePrintTitle(
+    pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const generateCareNotesPDF = async () => {
     const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
@@ -68,6 +77,7 @@ Review a summary of your stay at a hospital or other health facility (called an 
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
+Admission date: ${record.admissionDate}\n
 Discharge date: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
@@ -86,15 +96,24 @@ ${record.summary}`;
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
+        data-testid="admission-discharge-name"
       >
         {record.name}
       </h1>
 
-      <DateSubheading
-        date={record.admissionDate}
-        label="Admission date"
-        id="admission-discharge-date"
-      />
+      {record.admissionDate !== EMPTY_FIELD ? (
+        <div>
+          <p id="admission-discharge-date">
+            Admitted on {record.admissionDate}
+          </p>
+        </div>
+      ) : (
+        <DateSubheading
+          date={record.admissionDate}
+          label="Admission date"
+          id="admission-discharge-date"
+        />
+      )}
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility
@@ -127,7 +146,9 @@ ${record.summary}`;
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p data-testid="note-summary">{record.summary}</p>
+        <p data-testid="note-summary" className="monospace">
+          {record.summary}
+        </p>
       </div>
     </div>
   );

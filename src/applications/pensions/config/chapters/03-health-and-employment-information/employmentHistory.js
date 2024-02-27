@@ -49,10 +49,14 @@ const generateEmployersSchemas = (
       [employersKey]: {
         'ui:title': employerMessage,
         'ui:options': {
-          itemName: 'Employment',
+          itemName: 'Job',
+          itemAriaLabel: data => data.jobTitle,
           viewField: EmployerView,
           reviewTitle: employersReviewTitle,
           keepInPageOnReview: true,
+          customTitle: ' ',
+          confirmRemove: true,
+          useDlWrap: true,
         },
         items: {
           ...(showJobDateField && {

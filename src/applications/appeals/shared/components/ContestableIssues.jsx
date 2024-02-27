@@ -13,7 +13,8 @@ import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
 import {
   ContestableIssuesLegend,
-  NoIssuesLoadedAlert,
+  ApiFailureAlert,
+  NoEligibleIssuesAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
@@ -85,12 +86,14 @@ const ContestableIssues = props => {
     .concat(formData.additionalIssues || []);
 
   const hasSelected = someSelected(items);
-  const showNoIssues =
+  const showApiFailure =
     !submitted &&
     !onReviewPage &&
     apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
+  const showNoneSelected =
+    !submitted && !onReviewPage && formData.contestedIssues?.length === 0;
   const showEditModeError =
-    !showNoIssues && !hasSelected && (onReviewPage || submitted);
+    !showNoneSelected && !hasSelected && (onReviewPage || submitted);
 
   useEffect(
     () => {
@@ -203,7 +206,8 @@ const ContestableIssues = props => {
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert />}
+      {showApiFailure && <ApiFailureAlert />}
+      {showNoneSelected && !showApiFailure && <NoEligibleIssuesAlert />}
       {showEditModeError && (
         <NoneSelectedAlert
           count={formData.contestedIssues?.length || 0}
@@ -226,6 +230,7 @@ const ContestableIssues = props => {
           onPrimaryButtonClick={handlers.onRemoveIssue}
           onSecondaryButtonClick={handlers.onRemoveModalClose}
           visible={showRemoveModal}
+          uswds
         >
           <p>
             {removeIndex !== null

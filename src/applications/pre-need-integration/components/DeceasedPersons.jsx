@@ -19,6 +19,10 @@ import {
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
+import {
+  CurrentlyBurriedPersonsDescriptionWrapper,
+  currentlyBuriedPersonsTitle,
+} from '../utils/helpers';
 
 const { Element } = Scroll;
 
@@ -347,6 +351,8 @@ export default class DeceasedPersons extends React.Component {
 
     return (
       <div className={containerClassNames}>
+        {currentlyBuriedPersonsTitle}
+        <CurrentlyBurriedPersonsDescriptionWrapper formContext={formContext} />
         {hasTitleOrDescription && (
           <div className="schemaform-block-header">
             {title &&

@@ -27,12 +27,13 @@ import {
   crisisLineHeader,
   reportGeneratedBy,
 } from '../../../shared/util/constants';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateLabsIntro,
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -47,14 +48,19 @@ const ChemHemDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record.date, record.name],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateChemHemPdf = async () => {

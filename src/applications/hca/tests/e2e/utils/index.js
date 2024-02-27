@@ -4,7 +4,7 @@ const { data: testData } = maxTestData;
 
 export const goToNextPage = pagePath => {
   // Clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' })
+  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
     .first()
     .scrollIntoView()
     .click();
@@ -13,7 +13,7 @@ export const goToNextPage = pagePath => {
   }
 };
 
-export const advanceToHouseholdV2 = () => {
+export const advanceToToxicExposure = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -37,10 +37,118 @@ export const advanceToHouseholdV2 = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information-v2/financial-information-use');
 };
 
-export const advanceFromHouseholdV2ToReview = () => {
+export const advanceFromToxicExposureToReview = () => {
+  goToNextPage('/household-information/financial-information-use');
+
+  goToNextPage('/household-information/share-financial-information');
+  cy.get('[name="root_discloseFinancialInformation"]').check('N');
+
+  goToNextPage('/household-information/share-financial-information-confirm');
+  cy.findAllByText(/confirm/i, { selector: 'button' })
+    .first()
+    .click();
+
+  goToNextPage('/household-information/marital-status');
+  cy.get('#root_maritalStatus').select(testData.maritalStatus);
+
+  goToNextPage('/insurance-information/medicaid');
+  cy.get('[name="root_isMedicaidEligible"]').check('N');
+
+  goToNextPage('/insurance-information/medicare');
+  cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
+
+  goToNextPage('/insurance-information/general');
+  cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
+
+  goToNextPage('/insurance-information/va-facility');
+  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+    testData['view:preferredFacility']['view:facilityState'],
+  );
+  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+    testData['view:preferredFacility'].vaMedicalFacility,
+  );
+
+  goToNextPage('review-and-submit');
+};
+
+export const fillGulfWarDateRange = () => {
+  const { gulfWarStartDate, gulfWarEndDate } = testData[
+    'view:gulfWarServiceDates'
+  ];
+  const [startYear, startMonth] = gulfWarStartDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [endYear, endMonth] = gulfWarEndDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateMonth"]').select(
+    startMonth,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateYear"]').type(
+    startYear,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateMonth"]').select(
+    endMonth,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateYear"]').type(
+    endYear,
+  );
+};
+
+export const fillToxicExposureDateRange = () => {
+  const { toxicExposureStartDate, toxicExposureEndDate } = testData[
+    'view:toxicExposureDates'
+  ];
+  const [startYear, startMonth] = toxicExposureStartDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [endYear, endMonth] = toxicExposureEndDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  cy.get(
+    '[name="root_view:toxicExposureDates_toxicExposureStartDateMonth"]',
+  ).select(startMonth);
+  cy.get(
+    '[name="root_view:toxicExposureDates_toxicExposureStartDateYear"]',
+  ).type(startYear);
+  cy.get(
+    '[name="root_view:toxicExposureDates_toxicExposureEndDateMonth"]',
+  ).select(endMonth);
+  cy.get('[name="root_view:toxicExposureDates_toxicExposureEndDateYear"]').type(
+    endYear,
+  );
+};
+
+export const advanceToHousehold = () => {
+  cy.get('[href="#start"]')
+    .first()
+    .click();
+  cy.wait('@mockSip');
+  cy.location('pathname').should(
+    'include',
+    '/veteran-information/personal-information',
+  );
+  goToNextPage('/veteran-information/birth-information');
+  goToNextPage('/veteran-information/maiden-name-information');
+  goToNextPage('/veteran-information/birth-sex');
+  goToNextPage('/veteran-information/demographic-information');
+  goToNextPage('/veteran-information/veteran-address');
+  cy.get('[name="root_view:doesMailingMatchHomeAddress"]').check('Y');
+
+  goToNextPage('/veteran-information/contact-information');
+  cy.wait('@mockSip');
+  goToNextPage('/va-benefits/basic-information');
+  cy.get('[name="root_vaCompensationType"]').check('none');
+  goToNextPage('/va-benefits/pension-information');
+  cy.get('[name="root_vaPensionType"]').check('No');
+  goToNextPage('/military-service/service-information');
+  goToNextPage('/military-service/additional-information');
+  goToNextPage('/household-information/financial-information-use');
+};
+
+export const advanceFromHouseholdToReview = () => {
   goToNextPage('/insurance-information/medicaid');
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 

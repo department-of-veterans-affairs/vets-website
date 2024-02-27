@@ -17,6 +17,7 @@ const UnauthContext = () => {
         close-btn-aria-label="Close notification"
         status="continue"
         visible
+        uswds
       >
         <h3 id="track-your-status-on-mobile" slot="headline">
           Sign in to file a travel pay claim
@@ -29,9 +30,12 @@ const UnauthContext = () => {
             these accounts, you can create a free <strong>Login.gov</strong> or{' '}
             <strong>ID.me</strong> account now.
           </p>
-          <button className="va-button-primary" onClick={handleSigninClick}>
-            Sign in or create an account
-          </button>
+          <va-button
+            onClick={handleSigninClick}
+            primary-alternate
+            text="Sign in or create an account"
+            uswds
+          />
         </div>
       </va-alert>
     </>

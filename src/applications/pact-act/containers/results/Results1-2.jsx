@@ -51,13 +51,15 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           a claim. If we don’t consider your condition presumptive, you’ll need
           to provide evidence that your service caused your condition.
         </p>
-        <va-accordion class="vads-u-margin-top--4" bordered>
+        <va-accordion class="vads-u-margin-top--4" bordered uswds>
           {getDynamicAccordions(formResponses).map((accordion, index) => (
             <va-accordion-item
               level="4"
               data-testid={`il-results-${index}`}
               header={accordion.title}
               key={`il-results-${index}`}
+              bordered
+              uswds
             >
               {accordion.test}
               {accordion.content}
@@ -65,11 +67,6 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           ))}
         </va-accordion>
         <p>
-          <strong>Note:</strong> If your condition isn’t listed here, you can
-          learn more about other presumptive conditions and disability benefit
-          eligibility. And if you have an illness that we don’t consider
-          presumptive, you can still file a claim. But you’ll need to provide
-          evidence that your service caused your condition.{' '}
           <a
             className="vads-u-display--block vads-u-margin-top--1"
             href="/disability/eligibility"
@@ -158,6 +155,7 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
         onClick={() => router.push(ROUTES.RESULTS_1_1)}
+        uswds
       />
     </>
   );

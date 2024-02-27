@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
@@ -10,6 +11,7 @@ import {
   ALERT_TYPE_ERROR,
   pageTitles,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -20,19 +22,31 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-import { txtLine } from '../../shared/util/constants';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
 import {
   generateAllergiesIntro,
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const listState = useSelector(state => state.mr.allergies.listState);
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const allergiesCurrentAsOf = useSelector(
+    state => state.mr.allergies.listCurrentAsOf,
+  );
+  const refresh = useSelector(state => state.mr.refresh);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -40,26 +54,32 @@ const Allergies = props => {
       ],
   );
   const user = useSelector(state => state.user.profile);
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: allergiesCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.ALLERGY,
+    dispatchAction: getAllergiesList,
+    dispatch,
+  });
 
   useEffect(
     () => {
-      dispatch(getAllergiesList());
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  usePrintTitle(
+    pageTitles.ALLERGIES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateAllergiesPdf = async () => {
@@ -70,29 +90,36 @@ const Allergies = props => {
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
+  const generateAllergyListItemTxt = item => {
+    return `
+${txtLine}\n\n
+${item.name}\n
+Date entered: ${item.date}\n
+Signs and symptoms: ${item.reaction}\n
+Type of Allergy: ${item.type}\n
+Location: ${item.location}\n
+Observed or historical: ${item.observedOrReported}\n
+Provider notes: ${item.notes}\n`;
+  };
+
   const generateAllergiesTxt = async () => {
     const content = `
-    Allergies and reactions \n 
-    Review allergies, reactions, and side effects in your VA medical
-    records. This includes medication side effects (also called adverse drug
-    reactions). \n
-    If you have allergies that are missing from this list, tell your care
-    team at your next appointment. \n
-    
-    Showing ${allergies.length} from newest to oldest. \n
-    ${allergies.map(
-      entry =>
-        `${txtLine} \n
-      ${entry.name} \n
-      \t Date entered: ${entry.date} \n
-      \t Signs and symptoms: ${entry.reaction} \n
-      \t Type of Allergy: ${entry.type} \n
-      \t Location: ${entry.location} \n
-      \t Observed or historical: ${entry.observedOrReported} \n
-      \t Provider notes: ${entry.notes} \n`,
-    )}`;
+${crisisLineHeader}\n\n
+Allergies and reactions\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Review allergies, reactions, and side effects in your VA medical
+records. This includes medication side effects (also called adverse drug
+reactions).\n
+If you have allergies that are missing from this list, tell your care
+team at your next appointment.\n
+Showing ${allergies.length} from newest to oldest
+${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
-    generateTextFile(content, 'AllergyList');
+    const fileName = `VA-allergies-list-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

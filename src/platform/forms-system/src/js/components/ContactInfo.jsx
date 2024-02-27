@@ -71,6 +71,7 @@ const ContactInfo = ({
   requiredKeys,
   uiSchema,
   testContinueAlert = false,
+  contactInfoPageKey,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -186,12 +187,10 @@ const ContactInfo = ({
               : `#updated-${lastEdited}`;
           scrollTo(
             onReviewPage
-              ? 'confirmContactInformationScrollElement'
+              ? `${contactInfoPageKey}ScrollElement`
               : 'topScrollElement',
           );
-          focusElement(
-            onReviewPage ? '#confirmContactInformationHeader' : target,
-          );
+          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
         });
       }
     },
@@ -337,10 +336,10 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
-      <Element name="confirmContactInformationScrollElement" />
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
-          id="confirmContactInformationHeader"
+          id={`${contactInfoPageKey}Header`}
           className="vads-u-margin-top--0"
         >
           {content.title}
@@ -414,6 +413,7 @@ const ContactInfo = ({
 };
 
 ContactInfo.propTypes = {
+  contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
   content: contactInfoPropTypes.content, // content passed in from profileContactInfo
   contentAfterButtons: PropTypes.element,

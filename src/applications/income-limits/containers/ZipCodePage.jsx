@@ -155,14 +155,17 @@ const ZipCodePage = ({
           onBlur={onBlurInput}
           onInput={onZipInput}
           required
+          uswds
           value={zipCode || ''}
         />
         {!submitting && (
           <VaButtonPair
+            class="vads-u-margin-top--1"
             data-testid="il-buttonPair"
             onPrimaryClick={onContinueClick}
             onSecondaryClick={onBackClick}
             continue
+            uswds
           />
         )}
         {submitting && (

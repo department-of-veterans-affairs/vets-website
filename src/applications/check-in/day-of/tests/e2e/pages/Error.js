@@ -2,9 +2,9 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 const titles = {
   default: {
-    en: 'We couldn’t check you in.',
-    es: 'No pudimos completar el registro.',
-    tl: 'Hindi ka namin mai-check in.',
+    en: 'We couldn’t check you in',
+    es: 'No pudimos completar el registro',
+    tl: 'Hindi ka namin mai-check in',
   },
   uuidNotFound: {
     en: 'This link has expired.',

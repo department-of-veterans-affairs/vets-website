@@ -11,7 +11,7 @@ import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import { SMALL_SCREEN_WIDTH } from '../constants';
+import { SMALL_SCREEN_WIDTH, filterKeys } from '../constants';
 
 /**
  * Snake-cases field names
@@ -232,7 +232,10 @@ export const boolYesNo = field => {
   return field ? 'Yes' : 'No';
 };
 
-export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
+export const isSmallScreen = () => {
+  const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
+  return matchMedia('(max-width: 480px)').matches && browserZoomLevel <= 150;
+};
 
 export const scrollToFocusedElement = () => {
   const compareDrawerHeight = document.getElementById('compare-drawer')
@@ -324,3 +327,36 @@ export const specializedMissionDefinitions = [
       'An Alaska Native-Serving Institution (ANSI) is a college or university  that receives federal funding to help serve Alaska Native students. At least 20 percent of the school’s full-time undergraduate students identify as Alaska Native.',
   },
 ];
+
+export const validateSearchTerm = (
+  searchTerm,
+  dispatchError,
+  error,
+  filters,
+  type,
+) => {
+  const empty = searchTerm.trim() === '';
+  const invalidZipCodePattern = /^\d{6,}$/;
+
+  if (type === 'name') {
+    if (empty) {
+      dispatchError('Please fill in a school, employer, or training provider.');
+    } else if (filterKeys.every(key => filters[key] === false)) {
+      dispatchError('Please select at least one filter.');
+    } else if (error !== null) {
+      dispatchError(null);
+    }
+  }
+
+  if (type === 'location') {
+    if (empty) {
+      dispatchError('Please fill in a city, state, or postal code.');
+    } else if (invalidZipCodePattern.test(searchTerm)) {
+      dispatchError('Please enter a valid postal code.');
+    } else if (error !== null) {
+      dispatchError(null);
+    }
+  }
+
+  return !empty;
+};

@@ -23,6 +23,7 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
+import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -78,7 +79,11 @@ class FormPage extends React.Component {
     // Probably safe to do this for regular pages, too, but it hasn’t been
     // necessary. Additionally, it should NOT setData for a CustomPage. The
     // CustomPage should take care of that itself.
-    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
+    if (
+      route.pageConfig.showPagePerItem &&
+      (!route.pageConfig.CustomPage ||
+        route.pageConfig.customPageUsesPagePerItemData)
+    ) {
       const newData = this.setArrayIndexedData(formData);
       this.props.setData(newData);
     }
@@ -89,7 +94,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavForward({
         formData,
         goPath: customPath => this.props.router.push(customPath),
-        goNextPath: () => this.props.router.push(path),
+        goNextPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -135,7 +146,9 @@ class FormPage extends React.Component {
   formData = () => {
     const { pageConfig } = this.props.route;
     // If it's a CustomPage, return the entire form data
-    if (pageConfig.CustomPage) return this.props.form.data;
+    if (pageConfig.CustomPage && !pageConfig.customPageUsesPagePerItemData) {
+      return this.props.form.data;
+    }
 
     // If it's an array page, return only the data for that array item
     // Otherwise, return the data for the entire form
@@ -157,7 +170,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavBack({
         formData: form.data,
         goPath: customPath => this.props.router.push(customPath),
-        goPreviousPath: () => this.props.router.push(path),
+        goPreviousPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -207,7 +226,11 @@ class FormPage extends React.Component {
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
-    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
+    if (
+      route.pageConfig.showPagePerItem &&
+      (!route.pageConfig.CustomPage ||
+        route.pageConfig.customPageUsesPagePerItemData)
+    ) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       const { items, additionalItems } = schema.properties[
@@ -251,6 +274,12 @@ class FormPage extends React.Component {
     if (isReactComponent(route.pageConfig.CustomPage)) {
       return (
         <div className={pageClasses}>
+          {showNavLinks && (
+            <DevModeNavLinks
+              pageList={route.pageList}
+              collapsible={route.formConfig?.dev?.collapsibleNavLinks}
+            />
+          )}
           <route.pageConfig.CustomPage
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
@@ -270,6 +299,8 @@ class FormPage extends React.Component {
             setFormData={this.props.setData}
             contentBeforeButtons={contentBeforeButtons}
             contentAfterButtons={contentAfterButtons}
+            appStateData={appStateData}
+            formContext={this.formContext}
           />
         </div>
       );
@@ -277,7 +308,12 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
-        {showNavLinks && <DevModeNavLinks pageList={route.pageList} />}
+        {showNavLinks && (
+          <DevModeNavLinks
+            pageList={route.pageList}
+            collapsible={route.formConfig?.dev?.collapsibleNavLinks}
+          />
+        )}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
@@ -337,6 +373,7 @@ FormPage.propTypes = {
   }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    query: PropTypes.object,
   }),
   params: PropTypes.shape({
     // for testing only?
@@ -356,6 +393,7 @@ FormPage.propTypes = {
         PropTypes.elementType,
         PropTypes.func,
       ]),
+      customPageUsesPagePerItemData: PropTypes.bool,
       onContinue: PropTypes.func,
       onNavBack: PropTypes.func,
       onNavForward: PropTypes.func,
@@ -374,6 +412,7 @@ FormPage.propTypes = {
     formConfig: PropTypes.shape({
       dev: PropTypes.shape({
         showNavLinks: PropTypes.bool,
+        collapsibleNavLinks: PropTypes.bool,
       }),
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,

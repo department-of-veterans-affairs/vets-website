@@ -164,7 +164,7 @@ class ObjectField extends React.Component {
       onEdit = formContext?.onEdit,
       text = 'Edit',
     } = {}) => (
-      <va-button secondary aria-label={label} onClick={onEdit} text={text} />
+      <va-button secondary label={label} onClick={onEdit} text={text} uswds />
     );
 
     if (isReactComponent(ObjectViewField)) {
@@ -184,11 +184,13 @@ class ObjectField extends React.Component {
         {!formContext?.hideHeaderRow && (
           <div className="form-review-panel-page-header-row">
             {((titleString && title.trim()) || !titleString) &&
-              !formContext?.hideTitle && (
-                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-                  {title}
-                </h4>
-              )}
+            !formContext?.hideTitle ? (
+              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                {title}
+              </h4>
+            ) : (
+              <div className="form-review-panel-page-header" />
+            )}
             <div className="vads-u-justify-content--flex-end">
               {defaultEditButton()}
             </div>
