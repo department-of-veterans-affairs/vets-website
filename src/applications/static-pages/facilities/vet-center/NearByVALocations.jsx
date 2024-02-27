@@ -237,15 +237,11 @@ const NearByVALocations = props => {
       .sort((a, b) => a.distance - b.distance)
       .reduce(
         (acc, vaf) => {
-          if (
-            vaf.source === 'Health' &&
-            (acc[0] === null ||
-              (vaf.fieldPhoneMentalHealth && !acc[0].fieldPhoneMentalHealth))
-          ) {
+          if (vaf.source === 'Health' && acc[0] === null) {
             acc[0] = vaf;
-          } else if (vaf.source === 'Cemetery' && acc[1] === null) {
+          } else if (vaf.source === 'VetCenter' && acc[1] === null) {
             acc[1] = vaf;
-          } else if (vaf.source === 'VetCenter' && acc[2] === null) {
+          } else if (vaf.source === 'Cemetery' && acc[2] === null) {
             acc[2] = vaf;
           }
           return acc;
