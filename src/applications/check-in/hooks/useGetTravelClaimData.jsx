@@ -9,7 +9,7 @@ import { useFormRouting } from './useFormRouting';
 
 import { useUpdateError } from './useUpdateError';
 
-const useGetTravelClaimData = ({ refreshNeeded, reload = false, router }) => {
+const useGetTravelClaimData = ({ refreshNeeded, router }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [isComplete, setIsComplete] = useState(false);
@@ -60,7 +60,7 @@ const useGetTravelClaimData = ({ refreshNeeded, reload = false, router }) => {
           });
       }
     },
-    [isStale, setTravelData, token, isLoading, reload, updateError, jumpToPage],
+    [isStale, setTravelData, token, isLoading, updateError, jumpToPage],
   );
 
   return {

@@ -1,6 +1,10 @@
 const receivedTravelDataHandler = (state, action) => {
-  const payload = JSON.parse(JSON.stringify(action.payload));
-  return { ...state, ...payload };
+  const { appointments, address } = JSON.parse(JSON.stringify(action.payload));
+  return {
+    ...state,
+    appointments,
+    veteranData: { ...state.veteranData, address },
+  };
 };
 
 export { receivedTravelDataHandler };

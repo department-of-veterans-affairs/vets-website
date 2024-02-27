@@ -94,7 +94,10 @@ const TravelIntro = props => {
           </va-process-list-item>
         </va-process-list>
         <va-featured-content class="vads-u-margin-bottom--1" uswds>
-          <h2 className="vads-u-font-family--sans vads-u-margin-top--0">
+          <h2
+            className="vads-u-font-family--sans vads-u-margin-top--0"
+            slot="headline"
+          >
             {t('set-up-direct-deposit')}
           </h2>
           <p>{t('set-up-direct-deposit-to-receive-travel-reimbursement')}</p>

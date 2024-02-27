@@ -2,6 +2,7 @@ const initialState = {
   appointments: [],
   veteranData: {
     demographics: {},
+    address: '',
   },
   context: {},
   form: {
@@ -10,7 +11,6 @@ const initialState = {
   },
   app: '',
   error: '',
-  address: '',
 };
 
 import {
