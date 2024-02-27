@@ -7,26 +7,42 @@ import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import {
   singleFacility,
   multiFacility,
-} from '../../../travel-claim/pages/travel-intro/testAppointments';
+  singleAppointment,
+} from '../travel-intro/testAppointments';
 
 describe('Check-in experience', () => {
   describe('shared components', () => {
     describe('TravelClaimSuccessAlert', () => {
       it('renders correct content if only one facility', () => {
-        const { getByTestId } = render(
+        const { getByText } = render(
           <CheckInProvider>
             <TravelClaimSuccessAlert appointments={singleFacility} />
           </CheckInProvider>,
         );
-        expect(getByTestId('travel-pay-message-single-facility')).to.exist;
+        expect(
+          getByText(
+            'This claim is for your appointment on February 23, 2024 at Wompsville. We’ll send you a text to let you know the status of your claim.',
+          ),
+        ).to.exist;
       });
-      it('renders correct content if only more than facility', () => {
-        const { getByTestId, getByText } = render(
+      it('renders correct content if only one apppointment', () => {
+        const { getByText } = render(
+          <CheckInProvider>
+            <TravelClaimSuccessAlert appointments={singleAppointment} />
+          </CheckInProvider>,
+        );
+        expect(
+          getByText(
+            'This claim is for your appointment on February 23, 2024 at Wompsville. We’ll send you a text to let you know the status of your claim.',
+          ),
+        ).to.exist;
+      });
+      it('renders correct content if more than one facility', () => {
+        const { getByText } = render(
           <CheckInProvider>
             <TravelClaimSuccessAlert appointments={multiFacility} />
           </CheckInProvider>,
         );
-        expect(getByTestId('travel-pay-message-mulitple-facilities')).to.exist;
         expect(
           getByText(
             'These claims are for appointments on February 23, 2024 at Chittenango, Wompsville, and Canastota. We’ll send you a text to let you know the status of your claims.',
