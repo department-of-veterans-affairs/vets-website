@@ -12,6 +12,7 @@ import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
 import IncomeSourceView from '../../../components/IncomeSourceView';
+import { recipientTypeLabels } from '../../../labels';
 
 const typeOfIncomeOptions = {
   SOCIAL_SECURITY: 'Social Security',
@@ -19,12 +20,6 @@ const typeOfIncomeOptions = {
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
-};
-
-const receiverOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Spouse',
-  DEPENDENT: 'Dependent',
 };
 
 export const otherExplanationRequired = (form, index) =>
@@ -67,7 +62,7 @@ export default {
         },
         receiver: radioUI({
           title: 'Who receives this income?',
-          labels: receiverOptions,
+          labels: recipientTypeLabels,
         }),
         dependentName: {
           'ui:title': 'Which dependent?',
@@ -109,7 +104,7 @@ export default {
           properties: {
             typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
             otherTypeExplanation: { type: 'string' },
-            receiver: radioSchema(Object.keys(receiverOptions)),
+            receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName: { type: 'string' },
             payer: { type: 'string' },
             amount: { type: 'number' },
