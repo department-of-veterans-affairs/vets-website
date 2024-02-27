@@ -57,6 +57,7 @@ import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createNearByVALocations from './facilities/vet-center/createNearByVALocations';
 import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
@@ -158,6 +159,7 @@ createVetCentersHours(store);
 createVetCentersSatelliteLocationHours(store);
 createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
+createNearByVALocations(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);

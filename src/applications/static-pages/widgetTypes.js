@@ -72,6 +72,7 @@ export default {
   VET_CENTER_HOURS: 'vet-center-hours',
   VET_CENTER_HOURS_SATELLITE_LOCATIONS: 'vet-center-hours-satellite-locations',
   VET_CENTER_NEARBY: 'vet-center-nearby',
+  VA_LOCATION_NEARBY: 'va-location-nearby',
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
