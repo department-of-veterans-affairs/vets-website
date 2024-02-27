@@ -4,11 +4,14 @@ import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
   inlineTitleUI,
-  titleSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
   phoneSchema,
+  titleUI,
+  titleSchema,
+  dateOfBirthUI,
+  dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -60,21 +63,26 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: `Veteran's Information`,
       pages: {
         page1: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran Personal Information',
           uiSchema: {
-            fullNameTitle: inlineTitleUI('Your name'),
+            ...titleUI(
+              `Veteran's personal information`,
+              `We use this information to contact you and verify other details.`,
+            ),
             fullName: fullNameUI(),
+            veteranDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['fullName', 'veteranDOB'],
             properties: {
-              fullNameTitle: titleSchema,
+              titleSchema,
               fullName: fullNameSchema,
+              veteranDOB: dateOfBirthSchema,
             },
           },
         },
