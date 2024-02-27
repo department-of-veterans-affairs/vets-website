@@ -16,8 +16,8 @@ import {
 
 import { createPayload } from '../../shared/utils/upload';
 
-const focusFileCard = name => {
-  const target = $$('.schemaform-file-list li').find(entry =>
+export const focusFileCard = (name, root = document) => {
+  const target = $$('.schemaform-file-list li', root).find(entry =>
     entry.textContent?.trim().includes(name),
   );
   if (target) {
@@ -46,6 +46,7 @@ export const evidenceUploadUI = {
     },
     classNames: '',
     attachmentName: false,
+    uswds: true,
   }),
   'ui:description': EvidenceUploadDescription,
 };
