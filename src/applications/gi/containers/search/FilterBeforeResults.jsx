@@ -594,8 +594,7 @@ export function FilterBeforeResults({
             className="vads-u-margin-top--3"
           >
             <VaAccordionGi
-              onChange={e => {
-                e.preventDefault();
+              onChange={() => {
                 setSmfAccordionExpanded(!smfAccordionExpanded);
               }}
               expanded={smfAccordionExpanded}

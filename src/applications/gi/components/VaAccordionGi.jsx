@@ -7,8 +7,31 @@ import {
 
 const VaAccordionGi = ({ title, children, expanded, onChange }) => {
   return (
-    <VaAccordion uswds>
-      <VaAccordionItem open={expanded} onClick={onChange}>
+    <VaAccordion uswds openSingle>
+      <VaAccordionItem
+        open={expanded}
+        onClick={e => {
+          if (e.target.tagName === 'VA-ACCORDION-ITEM') {
+            onChange();
+          }
+          // eslint-disable-next-line no-console
+          console.log('-------------');
+          // eslint-disable-next-line no-console
+          console.log(e.target);
+          // eslint-disable-next-line no-console
+          console.log(e.target.toString());
+          // eslint-disable-next-line no-console
+          console.log(`-------tageName=${e.target.tagName}`);
+          // eslint-disable-next-line no-console
+          console.log(typeof e.target);
+          /*
+            // eslint-disable-next-line no-console
+            console.log(e);
+            // eslint-disable-next-line no-console
+            console.log(e.nativeEvent);
+           */
+        }}
+      >
         <h2 slot="headline">{title}</h2>
         {children}
       </VaAccordionItem>
