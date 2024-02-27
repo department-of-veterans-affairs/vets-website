@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isValidCurrency } from '../../utils/validations';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const defaultRecord = [
   {
@@ -151,27 +152,26 @@ const CreditCardBill = props => {
     },
   };
 
+  const addCancelButtonsText =
+    creditCardBills.length === index ? 'Add' : 'Update';
+
   const renderAddCancelButtons = () => {
     return (
       <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto usa-button-primary"
-          onClick={handlers.onUpdate}
-        >
-          {`${
-            creditCardBills.length === index ? 'Add' : 'Update'
-          } a credit card bill`}
-        </button>
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Cancel',
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: `${addCancelButtonsText} a credit card bill`,
+              onClick: handlers.onUpdate,
+              isSubmitting: true,
+            },
+          ]}
+        />
       </>
     );
   };
@@ -179,22 +179,20 @@ const CreditCardBill = props => {
   const renderContinueBackButtons = () => {
     return (
       <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={updateFormData}
-        >
-          Continue
-        </button>
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Back',
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: 'Continue',
+              onClick: updateFormData,
+              isSubmitting: true,
+            },
+          ]}
+        />
       </>
     );
   };
