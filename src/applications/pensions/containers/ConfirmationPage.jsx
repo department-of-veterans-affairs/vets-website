@@ -26,19 +26,21 @@ class ConfirmationPage extends React.Component {
     });
 
     return (
-      <div>
+      <div className="vads-u-margin-bottom--9">
         <h2>Your Veteran's Pension application</h2>
 
-        <va-alert status="success">
+        <va-alert uswds status="success">
           <h3>Thank you for submitting your Veterans Pension application.</h3>
-          <p>
+          <p className="vads-u-margin-y--0">
             We've received your Veterans Pension application (VA Form
             21P-527EZ). After we complete our review, we'll mail you a decision
             letter with the details of our decision.
           </p>
         </va-alert>
 
-        <va-summary-box>
+        <br />
+
+        <va-summary-box uswds>
           <h3>Your information for this application</h3>
 
           <h4>Your name</h4>
@@ -54,8 +56,9 @@ class ConfirmationPage extends React.Component {
             </div>
           )}
 
-          <br />
           <va-button
+            uswds
+            class="screen-only vads-u-margin-top--2"
             text="Print this page for your records"
             onClick={() => {
               window.print();
@@ -75,7 +78,7 @@ class ConfirmationPage extends React.Component {
             </p>
             <va-link
               href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
-              text="Go to AccessVA to use QuickSubmit (opens in new tab)."
+              text="Go to AccessVA to use QuickSubmit"
             />
           </div>
 
@@ -87,7 +90,7 @@ class ConfirmationPage extends React.Component {
               documents, you can mail copies of your documents to us at this
               address:
             </p>
-            <p className=".va-address-block">
+            <p className="va-address-block">
               Department of Veterans Affairs
               <br />
               Pension Intake Center
