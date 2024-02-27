@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { acceptDeclinePOARequest } from '../../actions/poaRequests';
+import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
 
 const PoaRequestsTable = ({ poaRequests }) => {
   return (
@@ -26,13 +26,13 @@ const PoaRequestsTable = ({ poaRequests }) => {
                   data-testid={`${id}-accept-button`}
                   secondary
                   text="Accept"
-                  onClick={() => acceptDeclinePOARequest(id, 'accept')}
+                  onClick={() => acceptPOARequest(id)}
                 />
                 <va-button
                   data-testid={`${id}-decline-button`}
                   secondary
                   text="Decline"
-                  onClick={() => acceptDeclinePOARequest(id, 'decline')}
+                  onClick={() => declinePOARequest(id)}
                 />
               </>
             )}
