@@ -1,4 +1,4 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
+import Timeouts from '~/platform/testing/e2e/timeouts';
 import applicationSubmit from './fixtures/mocks/application-submit.json';
 import testData from './fixtures/test-data.json';
 
@@ -15,7 +15,7 @@ describe('Opt Out Test', () => {
     cy.injectAxeThenAxeCheck();
 
     // Claimant information
-    cy.get('input[name="root_claimantFullName_first"]');
+    cy.get('input[name="root_claimantFullName_first"]').should('be.visible');
 
     cy.fillName('root_claimantFullName', testData.claimantFullName);
     cy.get('input[name="root_view:noSSN"]').click();
