@@ -6,9 +6,9 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
