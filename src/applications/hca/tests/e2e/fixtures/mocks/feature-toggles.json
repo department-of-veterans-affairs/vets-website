@@ -3,15 +3,19 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "hcaSigiEnabled",
+        "name": "hca_sigi_enabled",
         "value": false
       },
       {
-        "name": "hcaBrowserMonitoringEnabled",
+        "name": "hca_tera_enabled",
         "value": false
       },
       {
-        "name": "hcaUseFacilitiesApi",
+        "name": "hca_browser_monitoring_enabled",
+        "value": false
+      },
+      {
+        "name": "hca_use_facilities_api",
         "value": false
       }
     ]

@@ -60,7 +60,7 @@ export default function BackLink({ appointment }) {
   };
   return (
     <div
-      className="backLinkContainer"
+      className="backLinkContainer vads-u-margin-top--2"
       aria-describedby="vaos-hide-for-print backLink"
     >
       <div
