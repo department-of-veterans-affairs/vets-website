@@ -1,13 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import VideoLink from '../VideoLink';
 
 describe('VAOS Component: VideoLink', () => {
   it('renders join appoinment link', () => {
+    const now = moment();
     const appointment = {
-      start: moment(),
+      location: {
+        vistaId: '983',
+        locationId: '983',
+      },
+      start: moment.tz(now, 'America/Anchorage').add(240, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -25,8 +30,13 @@ describe('VAOS Component: VideoLink', () => {
       .be.true;
   });
   it('renders disabled join appoinment link 35 minutes prior to start time', () => {
+    const now = moment();
     const appointment = {
-      start: moment().add(35, 'm'),
+      location: {
+        vistaId: '983',
+        locationId: '983',
+      },
+      start: moment.tz(now, 'America/New_York').subtract(35, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -38,8 +48,13 @@ describe('VAOS Component: VideoLink', () => {
     expect(wrapper.container.querySelector('.usa-button-disabled')).to.exist;
   });
   it('renders disabled join appoinment link 4 hours after start time', () => {
+    const now = moment();
     const appointment = {
-      start: moment().subtract(241, 'm'),
+      location: {
+        vistaId: '983',
+        locationId: '983',
+      },
+      start: moment(now).add(242, 'minutes'),
       videoData: {
         url: 'test.com',
       },
@@ -51,8 +66,13 @@ describe('VAOS Component: VideoLink', () => {
     expect(wrapper.container.querySelector('.usa-button-disabled')).to.exist;
   });
   it('call preventDefault function', () => {
+    const now = moment();
     const appointment = {
-      start: moment().add(35, 'm'),
+      location: {
+        vistaId: '983',
+        locationId: '983',
+      },
+      start: moment(now).subtract(35, 'minutes'),
       videoData: {
         url: 'test.com',
       },
