@@ -17,7 +17,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
 
   useEffect(() => {
     // Hide the breadcrumbs.
-    const breadcrumbs = document.getElementById('va-breadcrumbs');
+    const breadcrumbs = document.getElementByClassName('va-nav-breadcrumbs');
     if (breadcrumbs) breadcrumbs.style.display = 'none';
   }, []);
 
