@@ -12,10 +12,10 @@ describe('Opt Out Test', () => {
 
     cy.visit('/education/opt-out-information-sharing/opt-out-form-0993/');
     cy.get('body').should('be.visible');
+    cy.injectAxeThenAxeCheck();
 
     // Claimant information
     cy.get('input[name="root_claimantFullName_first"]');
-    cy.injectAxeThenAxeCheck();
 
     cy.fillName('root_claimantFullName', testData.claimantFullName);
     cy.get('input[name="root_view:noSSN"]').click();
