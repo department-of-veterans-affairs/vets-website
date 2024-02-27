@@ -8,10 +8,12 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
+import { getCurrentAcademicYear } from '../../helpers';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -153,6 +155,8 @@ export class SearchResults extends Component {
       toggleAlertToolTip,
     } = this.props;
 
+    const academicYear = getCurrentAcademicYear();
+
     // Show loading indicator if we are fetching.
     if (fetching) {
       return (
@@ -211,7 +215,7 @@ export class SearchResults extends Component {
           data-display-results-header
           tabIndex="-1"
         >
-          <span role="text">
+          <span>
             <span>Displaying {resultsStartNumber}</span>
             <span className="vads-u-visibility--screen-reader">through</span>
             <span aria-hidden="true">&ndash;</span>
@@ -220,6 +224,23 @@ export class SearchResults extends Component {
             </span>
           </span>
         </h2>
+        <Toggler
+          toggleName={
+            Toggler.TOGGLE_NAMES.yellowRibbonAutomatedDateOnSchoolSearch
+          }
+        >
+          <Toggler.Enabled>
+            <span>
+              <span>Showing {resultsStartNumber}</span>
+              <span className="vads-u-visibility--screen-reader">through</span>
+              <span aria-hidden="true">&ndash;</span>
+              <span>
+                {/* eslint-disable-next-line prettier/prettier */}
+                {resultsEndNumber} of {totalResults} schools for academic year {academicYear}.
+              </span>
+            </span>
+          </Toggler.Enabled>
+        </Toggler>
         <va-alert
           onClose={toggleAlertToolTip}
           visible={isToolTipOpen}
