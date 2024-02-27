@@ -3,9 +3,9 @@ import { relationshipToVeteranUI } from '../../components/CustomRelationshipPatt
 
 describe('Custom relationship pattern', () => {
   it('should default to veteran', async () => {
-    const relationship = relationshipToVeteranUI('something');
+    const relationship = relationshipToVeteranUI();
     expect(relationship.relationshipToVeteran?.['ui:title']).to.contain(
-      'something',
+      'Veteran',
     );
   });
 });
