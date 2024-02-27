@@ -61,14 +61,14 @@ const VitalDetails = props => {
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/vitals',
+            url: '/vitals',
             label: 'Vitals',
           },
         ]),
