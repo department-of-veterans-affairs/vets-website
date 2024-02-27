@@ -15,11 +15,11 @@ export default {
       title: 'Do you also intend to file a claim for pension?',
       labelHeaderLevel: '3',
       labels: {
-        Y: 'Yes, I want to submit an intent to file for a pension claim',
-        N: 'No, I don’t intend to file a claim for pension',
+        Y: 'Yes',
+        N: 'No',
       },
       errorMessages: {
-        required: 'Please answer if you intend to file a claim for pension',
+        required: 'Select yes if you intend to file a claim for pension',
       },
     }),
   },
