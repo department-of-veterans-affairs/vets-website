@@ -3,8 +3,9 @@ import React from 'react';
 
 import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
 
+const isActionable = status => status === 'Pending';
+
 const PoaRequestsTable = ({ poaRequests }) => {
-  const isActionable = status => status === 'Pending';
   return (
     <va-table data-testid="poa-requests-table" sort-column={1}>
       <va-table-row slot="headers">
