@@ -42,13 +42,13 @@ class IntroductionPage extends React.Component {
           </li>
           <li>
             In some cases, it may take us a few days to process your intent to
-            file after you submit it. We'll let you know what your potential
+            file after you submit it. We’ll let you know what your potential
             effective date is after we process your intent to file.
           </li>
         </ul>
-        <h2>What to know if you're signing on behalf of someone else</h2>
+        <h2>What to know if you’re signing on behalf of someone else</h2>
         <p>
-          We'll need to have one of these forms showing that you're authorized
+          We’ll need to have one of these forms showing that you’re authorized
           to sign for the person filing the claim:
         </p>
 
@@ -61,19 +61,19 @@ class IntroductionPage extends React.Component {
           <li>
             <a href="https://www.va.gov/find-forms/about-form-21-22/">
               VA Form 21-22 (Appointment of Veterans Service Organization as
-              Claimant's Representative)
+              Claimant’s Representative)
             </a>
           </li>
           <li>
             <a href="https://www.va.gov/find-forms/about-form-21-22a/">
-              VA Form 21-22a (Appointment of Individual As Claimant's
+              VA Form 21-22a (Appointment of Individual As Claimant’s
               Representative)
             </a>
           </li>
         </ul>
         <p>
-          <strong>Note:</strong> If you've already submitted one of these forms,
-          you don't need to do anything else. If you haven't, submit one of
+          <strong>Note:</strong> If you’ve already submitted one of these forms,
+          you don’t need to do anything else. If you haven’t, submit one of
           these forms before you submit an intent to file.
         </p>
         <va-alert
@@ -87,13 +87,13 @@ class IntroductionPage extends React.Component {
         >
           <p className="vads-u-margin-y--0">
             This form only tells us that you plan to file a claim. To get
-            benefits, you'll need to complete and file the claim application.
-            And then we'll need to approve it.
+            benefits, you’ll need to complete and file the claim application.
+            And then we’ll need to approve it.
           </p>
         </va-alert>
         <h2>Claims you can file after filling out this form</h2>
         <p>
-          After you complete this form, we'll direct you to one or more of these
+          After you complete this form, we’ll direct you to one or more of these
           benefit applications for you to complete:
         </p>
         <ul>
@@ -102,7 +102,7 @@ class IntroductionPage extends React.Component {
               Disability compensation claim (VA Form 21-526EZ)
             </a>
             . <strong>Note:</strong> If you start your disability claim online
-            now, you don't need to fill out this intent to file form. When you
+            now, you don’t need to fill out this intent to file form. When you
             start your disability application or Supplemental Claim online, it
             notifies us automatically of your intent to file.
           </li>
@@ -119,10 +119,10 @@ class IntroductionPage extends React.Component {
         </ul>
         <h2 id="start-your-request">Start your intent to file</h2>
         <p>
-          <strong>Note</strong>: You'll need to sign in with a verified{' '}
+          <strong>Note</strong>: You’ll need to sign in with a verified{' '}
           <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
           Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
-          account. If you don't have any of those accounts, you can create a
+          account. If you don’t have any of those accounts, you can create a
           free <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
         </p>
         {userLoggedIn &&
@@ -134,7 +134,7 @@ class IntroductionPage extends React.Component {
                   file
                 </h2>
                 <p>
-                  We need to make sure you're you — and not someone pretending
+                  We need to make sure you’re you — and not someone pretending
                   to be you — before we can give you access to your personal
                   information. This helps to keep your information safe, and to
                   prevent fraud and identity theft.
@@ -154,7 +154,7 @@ class IntroductionPage extends React.Component {
                 </p>
               </va-alert>
               <p className="vads-u-margin-top--3">
-                If you don't want to verify your identity right now, you can
+                If you don’t want to verify your identity right now, you can
                 still download and complete the PDF version of this request.
               </p>
               <p className="vads-u-margin-y--3">
@@ -181,7 +181,7 @@ class IntroductionPage extends React.Component {
               <div>
                 <div className="usa-alert usa-alert-info schemaform-sip-alert">
                   <div className="usa-alert-body">
-                    <strong>Note:</strong> Since you're signed into your
+                    <strong>Note:</strong> Since you’re signed into your
                     account, you can save your application in progress and come
                     back later to finish filling it out.
                   </div>
