@@ -6,36 +6,6 @@ import nonServiceConnectedOnly from './fixtures/non-service-connected-only.json'
 
 const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
 
-// const testHappyPath = () => {
-//   cy.intercept('GET', DISABILITIES_ENDPOINT, mockDisabilities).as(
-//     'mockDisabilities',
-//   );
-//   cy.intercept('GET', TOTAL_RATING_ENDPOINT, mockTotalRating).as(
-//     'mockTotalRating',
-//   );
-
-//   cy.findByText(/90%/).should('exist');
-//   cy.findAllByText(/Diabetes mellitus0/).should('have.length', 2);
-// };
-
-// const testErrorStates = () => {
-//   cy.intercept('GET', DISABILITIES_ENDPOINT, {
-//     body: mockErrorResponse,
-//     statusCode: 404,
-//   }).as('clientError');
-//   cy.intercept('GET', TOTAL_RATING_ENDPOINT, {
-//     body: mockErrorResponse,
-//     statusCode: 404,
-//   }).as('totalRatingClientError');
-
-//   cy.findByText(
-//     /We don’t have a combined disability rating on file for you/,
-//   ).should('exist');
-//   cy.findByText(/We don’t have rated disabilities on file for you/).should(
-//     'exist',
-//   );
-// };
-
 describe('View rated disabilities', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
