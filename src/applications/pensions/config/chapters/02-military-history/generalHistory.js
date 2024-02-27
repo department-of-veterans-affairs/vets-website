@@ -14,7 +14,6 @@ export default {
     'ui:title': 'Other service names',
     serveUnderOtherNames: yesNoUI({
       title: 'Did you serve under another name?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     placeOfSeparation: {
