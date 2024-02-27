@@ -5,10 +5,9 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
-import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 const content = {
@@ -31,7 +30,7 @@ const optionValues = options.map(option => option.value);
 
 const getNextPage = data =>
   data?.benefitType === optionValues[0]
-    ? `${BASE_URL}/introduction` // valid benefit type, go to intro page
+    ? `/introduction` // valid benefit type, go to intro page
     : pageNames.other; // benefit type not supported
 
 const validate = ({ benefitType } = {}) => optionValues.includes(benefitType);
