@@ -11,14 +11,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
-import { typeOfIncomeLabels } from '../../../labels';
+import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
-
-const receiverOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Spouse',
-  DEPENDENT: 'Dependent',
-};
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
@@ -62,7 +56,7 @@ export default {
         },
         receiver: radioUI({
           title: 'Who receives this income?',
-          labels: receiverOptions,
+          labels: recipientTypeLabels,
         }),
         dependentName: {
           'ui:title': 'Which dependent?',
@@ -104,7 +98,7 @@ export default {
           properties: {
             typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
             otherTypeExplanation: { type: 'string' },
-            receiver: radioSchema(Object.keys(receiverOptions)),
+            receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName: { type: 'string' },
             payer: { type: 'string' },
             amount: { type: 'number' },
