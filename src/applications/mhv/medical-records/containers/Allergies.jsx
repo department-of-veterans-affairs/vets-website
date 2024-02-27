@@ -54,7 +54,7 @@ const Allergies = props => {
       ],
   );
   const user = useSelector(state => state.user.profile);
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useListRefresh({
     listState,

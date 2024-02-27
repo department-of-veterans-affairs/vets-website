@@ -8,7 +8,7 @@ export const getLabsAndTestsList = () => async dispatch => {
     const response = await getLabsAndTests();
     dispatch({ type: Actions.LabsAndTests.GET_LIST, response });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
@@ -17,7 +17,7 @@ export const getlabsAndTestsDetails = labId => async dispatch => {
     const response = await getLabOrTest(labId);
     dispatch({ type: Actions.LabsAndTests.GET, response });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
