@@ -124,7 +124,10 @@ export const Form526Entry = ({
         sessionStorage.setItem(SHOW_8940_4192, showSubforms);
 
         // save feature flag for Toxic Exposure pages
-        sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, showToxicExposurePages);
+        window.sessionStorage.setItem(
+          SHOW_TOXIC_EXPOSURE,
+          showToxicExposurePages,
+        );
       }
       // Set user account & application id in Sentry so we can access their form
       // data for any thrown errors
