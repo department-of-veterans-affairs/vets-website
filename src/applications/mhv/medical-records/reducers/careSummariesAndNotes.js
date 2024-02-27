@@ -16,33 +16,30 @@ const initialState = {
 };
 
 const extractName = record => {
-  if (
-    record.content &&
-    record.content.length > 0 &&
-    record.content[0].attachment &&
-    record.content[0].attachment.title
-  ) {
-    return record.content[0].attachment.title;
-  }
   return (
-    isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
+    record.content?.[0]?.attachment?.title ||
+    (isArrayAndHasItems(record.type?.coding)
+      ? record.type.coding[0].display
+      : null)
   );
 };
 
 const extractType = record => {
-  return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
+  return isArrayAndHasItems(record.type?.coding)
+    ? record.type.coding[0].code
+    : null;
 };
 
 const extractAuthenticator = record => {
   return extractContainedResource(record, record.authenticator?.reference)
-    ?.name[0].text;
+    ?.name?.[0]?.text;
 };
 
 const extractAuthor = record => {
   return extractContainedResource(
     record,
     isArrayAndHasItems(record.author) && record.author[0].reference,
-  )?.name[0].text;
+  )?.name?.[0]?.text;
 };
 
 const extractLocation = record => {
@@ -54,19 +51,21 @@ const extractLocation = record => {
 };
 
 const extractNote = record => {
-  return (
+  if (
     isArrayAndHasItems(record.content) &&
-    typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64')
+    typeof record.content[0].attachment?.data === 'string'
+  ) {
+    return Buffer.from(record.content[0].attachment.data, 'base64')
       .toString('utf-8')
-      .replace(/\r\n|\r/g, '\n') // Standardize line endings
-  );
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
 };
 
 export const getDateSigned = record => {
-  const ext = record.authenticator.extension;
-  if (isArrayAndHasItems(ext) && ext[0].valueDateTime) {
-    return formatDateLong(ext[0].valueDateTime);
+  if (isArrayAndHasItems(record.authenticator?.extension)) {
+    const ext = record.authenticator.extension.find(e => e.valueDateTime);
+    return ext ? formatDateLong(ext.valueDateTime) : null;
   }
   return null;
 };
@@ -84,10 +83,11 @@ const convertAdmissionAndDischargeDetails = record => {
     dischargeDate: record.context?.period?.end
       ? formatDateLong(record.context?.period?.end)
       : EMPTY_FIELD,
-    admittedBy: summary
-      .split('ATTENDING:')[1]
-      .split('\n')[0]
-      .trim(),
+    admittedBy:
+      summary
+        .split('ATTENDING:')[1]
+        ?.split('\n')[0]
+        ?.trim() || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
