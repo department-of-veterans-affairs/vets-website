@@ -593,7 +593,6 @@ class PatientInboxPage {
       i < user.data.attributes.vaProfile.facilities.length;
       i += 1
     ) {
-      cy.log(` i = ${i}`);
       const facility = user.data.attributes.vaProfile.facilities[i];
       let facilityName = '';
 
@@ -615,17 +614,15 @@ class PatientInboxPage {
             'not.be.visible',
           );
         } else if (cernerCount === 1) {
-          cy.get('[data-testid="cerner-facilities-alert"]')
-            .shadow()
-            .get('[data-testid="single-cerner-facility-text"]')
-            .contains(facilityName);
+          cy.get('[data-testid="single-cerner-facility-text"]').should(
+            'contain',
+            `${facilityName}`,
+          );
           break;
         } else if (cernerCount > 1) {
-          cy.get('[data-testid="cerner-facilities-alert"]')
-            .shadow()
-            .get('[data-testid="cerner-facility"]')
+          cy.get('[data-testid="cerner-facility"]')
             .eq(cernerIndex)
-            .contains(facilityName);
+            .should('contain', `${facilityName}`);
         }
         cernerIndex += 1;
       }
