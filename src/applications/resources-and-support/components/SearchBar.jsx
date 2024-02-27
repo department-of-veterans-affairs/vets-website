@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import resourcesSettings from '../manifest.json';
 
 const searchUrl = getAppUrl('search');
@@ -45,7 +46,16 @@ export default function SearchBar({
     onInputChange(onlySpaces(input) ? input.trim() : input);
   };
 
+  const onFormSubmit = () => {
+    const baseURL = isGlobalSearch
+      ? `${searchUrl}/`
+      : `${resourcesSettings.rootUrl}/`;
+    const url = `${baseURL}?query=${userInput}`;
+    window.location.href = url;
+  };
+
   const handleSubmit = event => {
+    event.preventDefault();
     // First, check input state is valid and set error status.
     const inputState = isInputValid(userInput);
     setInputError(!inputState);
@@ -74,12 +84,12 @@ export default function SearchBar({
         'type-ahead-options-list': undefined,
         'type-ahead-options-count': undefined,
       });
-      return;
+      onFormSubmit();
     }
 
     // Third, check if we are not on the /resources/search page and exit early to let the form submit manually
     if (useDefaultFormSearch) {
-      return;
+      onFormSubmit();
     }
 
     // Fourth, we are at /resources/search so handle the search
@@ -114,19 +124,12 @@ export default function SearchBar({
             aria-hidden="true"
           />
         </button>
+
         {/* Search form */}
-        <form
-          action={
-            isGlobalSearch ? `${searchUrl}/` : `${resourcesSettings.rootUrl}/`
-          }
+        <div
           className={`${
             expanded ? 'va-border-bottom-radius--5px' : 'vads-u-display--none'
           } vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex`}
-          data-testid="resources-support-search"
-          id="resources-support-search"
-          method="get"
-          data-e2e-id="resources-support-search-form"
-          onSubmit={handleSubmit}
         >
           <div
             role="search"
@@ -210,31 +213,15 @@ export default function SearchBar({
                 Please fill in a keyword, phrase, or question.
               </span>
             )}
-            <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-              <div className="vads-u-flex--1 vads-u-width--auto">
-                <input
-                  className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0 vads-u-color--gray-dark"
-                  id="resources-and-support-query"
-                  name="query"
-                  onChange={handleInputChange}
-                  ref={inputFieldRef}
-                  type="text"
-                  value={userInput}
-                  data-e2e-id="resources-support-input"
-                />
-              </div>
-              <div className="vads-u-flex--auto vads-u-width--full vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-width--auto">
-                <button
-                  className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen-va-border-left-radius--0"
-                  type="submit"
-                  data-e2e-id="resources-support-search-button"
-                >
-                  <i className="fa fa-search" aria-hidden="true" /> Search
-                </button>
-              </div>
-            </div>
+            <VaSearchInput
+              id="resources-and-support-query"
+              onInput={handleInputChange}
+              onSubmit={handleSubmit}
+              value={userInput}
+              uswds
+            />
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
