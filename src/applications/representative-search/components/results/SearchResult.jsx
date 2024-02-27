@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { scrollTo } from 'platform/utilities/ui';
 import ReportModal from './ReportModal';
-import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
@@ -18,26 +18,22 @@ const SearchResult = ({
   associatedOrgs,
   submitRepresentativeReport,
   reports,
-  representative,
   representativeId,
   query,
+  setReportModalTester,
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const addressExists =
-    addressLine1 ||
-    addressLine2 ||
-    addressLine3 ||
-    city ||
-    stateCode ||
-    zipCode;
+  const scrollElementId = `result-${representativeId}`;
+
+  const addressExists = addressLine1 || city || stateCode || zipCode;
 
   // concatenating address for ReportModal
   const address =
     [
-      addressLine1.trim(),
+      (addressLine1 || '').trim(),
       (addressLine2 || '').trim(),
       (addressLine3 || '').trim(),
     ]
@@ -49,10 +45,20 @@ const SearchResult = ({
 
   const closeReportModal = () => {
     setReportModalIsShowing(false);
+    scrollTo(scrollElementId);
   };
 
   return (
     <div className="report-outdated-information-modal">
+      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+      {setReportModalTester ? (
+        <button
+          id="open-modal-test-button"
+          type="button"
+          onClick={() => setReportModalIsShowing(true)}
+        />
+      ) : null}
+
       {reportModalIsShowing && (
         <ReportModal
           representativeName={officer}
@@ -75,14 +81,26 @@ const SearchResult = ({
               </div>
             )}
             {officer && (
-              <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
-                <h3>{officer}</h3>
-              </div>
+              <>
+                <div
+                  className="vads-u-font-family--serif vads-u-margin-top--2p5"
+                  id={`result-${representativeId}`}
+                >
+                  <h3>{officer}</h3>
+                </div>
+                {associatedOrgs?.length === 1 && (
+                  <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
+                )}
+              </>
             )}
           </div>
-          {associatedOrgs && (
+          {associatedOrgs?.length > 1 && (
             <div className="associated-organizations-info vads-u-margin-top--1p5">
-              <va-additional-info trigger="See associated organizations" uswds>
+              <va-additional-info
+                trigger="See associated organizations"
+                disable-border
+                uswds
+              >
                 {associatedOrgs?.map((org, index) => {
                   return (
                     <>
@@ -99,10 +117,25 @@ const SearchResult = ({
 
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
-              <RepresentativeDirectionsLink
-                representative={representative}
-                query={query}
-              />
+              <div className="address-link">
+                <a
+                  href={`https://maps.google.com?saddr=${
+                    query?.context?.location
+                  }&daddr=${address}`}
+                  tabIndex="0"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {addressLine1}{' '}
+                  {addressLine2 ? (
+                    <>
+                      <br /> {addressLine2}
+                    </>
+                  ) : null}{' '}
+                  <br />
+                  {city}, {stateCode} {zipCode}
+                </a>
+              </div>
             )}
             {phone && (
               <div className="vads-u-margin-top--1p5">
@@ -128,7 +161,7 @@ const SearchResult = ({
                 visible="true"
               >
                 <p className="vads-u-margin-y--0">
-                  Thank you for reporting outdated information.
+                  Thanks for reporting outdated information.
                 </p>
               </va-alert>
             </div>
@@ -164,9 +197,8 @@ SearchResult.propTypes = {
     phone: PropTypes.string,
     email: PropTypes.string,
     address: PropTypes.string,
-    otherComment: PropTypes.string,
+    other: PropTypes.string,
   }),
-  representative: PropTypes.object,
   representativeId: PropTypes.string,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,

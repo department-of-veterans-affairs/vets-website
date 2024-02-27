@@ -179,7 +179,7 @@ const ReviewPage = ({
           onPrimaryClick={onContinueClick}
           onSecondaryClick={onBackClick}
           continue
-          uswds={false}
+          uswds
         />
       )}
       {submitting && (

@@ -28,6 +28,7 @@ import {
   generateNotesIntro,
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -49,6 +50,14 @@ const ProgressNoteDetails = props => {
     [record],
   );
 
+  usePrintTitle(
+    pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const generateCareNotesPDF = async () => {
     const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
@@ -66,9 +75,10 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
+Date: ${record.date}\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}`}
+${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
 Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
@@ -89,11 +99,18 @@ ${record.note}`;
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
+        data-testid="progress-note-name"
       >
         {record.name}
       </h1>
 
-      <DateSubheading date={record.dateSigned} id="progress-note-date" />
+      {record.date !== EMPTY_FIELD ? (
+        <div>
+          <p id="progress-note-date">Entered on {record.date}</p>
+        </div>
+      ) : (
+        <DateSubheading date={record.date} id="progress-note-date" />
+      )}
 
       <div className="no-print">
         <PrintDownload
@@ -130,7 +147,9 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record">{record.note}</p>
+        <p data-testid="note-record" className="monospace">
+          {record.note}
+        </p>
       </div>
     </div>
   );

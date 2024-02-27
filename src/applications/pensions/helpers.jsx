@@ -92,7 +92,7 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-function transform(formConfig, form) {
+export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
     pensionClaim: {
@@ -150,7 +150,7 @@ export const employmentDescription = (
 );
 
 export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
+  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
 
 export function getMarriageTitle(index) {
@@ -240,29 +240,6 @@ export const directDepositWarning = (
   </div>
 );
 
-export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <div className="usa-alert-text">
-      <p>
-        <strong>Note:</strong> You have indicated that you did not serve during
-        an{' '}
-        <a
-          href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {' '}
-          eligible wartime period
-        </a>
-        . Find out if you still qualify.{' '}
-        <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility
-        </a>
-      </p>
-    </div>
-  </div>
-);
-
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
   ['1917-04-06', '1918-11-11'], // World War I (April 6, 1917 - November 11, 1918)
@@ -285,28 +262,6 @@ export function servedDuringWartime(period) {
     return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
   });
 }
-
-export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        You’ll need to provide all private medical records for your child’s
-        disability.
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your child won’t qualify as a dependent unless they’re in school or
-        disabled.
-      </div>
-    </div>
-  </div>
-);
 
 export const dependentsMinItem = (
   <span>
@@ -348,29 +303,6 @@ export const dependentSeriouslyDisabledDescription = (
   </div>
 );
 
-export const contactWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We usually don’t need to contact a former spouse of a Veteran’s spouse.
-        In very rare cases where we need information from this person, we’ll
-        contact you first.
-      </div>
-    </div>
-  </div>
-);
-
-export const contactWarningMulti = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact any of the people listed here without contacting you
-        first.
-      </div>
-    </div>
-  </div>
-);
-
 export const IncomeSourceDescription = (
   <div>
     <p>
@@ -391,6 +323,33 @@ export const validateWorkHours = (errors, fieldData) => {
   if (fieldData > 168) {
     errors.addError('Enter a number less than 169');
   }
+};
+
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export const formatFullName = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  // ensure that any middle initials are capitalized
+  const formattedMiddle = middle
+    ? middle.replaceAll(/\b\w\b/g, c => c.toUpperCase())
+    : '';
+  return [first, formattedMiddle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
 };
 
 export function isHomeAcreageMoreThanTwo(formData) {

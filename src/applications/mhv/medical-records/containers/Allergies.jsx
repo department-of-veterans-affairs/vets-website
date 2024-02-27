@@ -36,6 +36,7 @@ import {
   generateAllergiesIntro,
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -53,7 +54,7 @@ const Allergies = props => {
       ],
   );
   const user = useSelector(state => state.user.profile);
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useListRefresh({
     listState,
@@ -66,15 +67,19 @@ const Allergies = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  usePrintTitle(
+    pageTitles.ALLERGIES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateAllergiesPdf = async () => {
