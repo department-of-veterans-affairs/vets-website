@@ -46,8 +46,6 @@ export const fetchPersonalInfo = () => {
       },
     })
       .then(({ data }) => {
-        // eslint-disable-next-line no-console
-        console.log(data, 'ger rersfs');
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
           data,
