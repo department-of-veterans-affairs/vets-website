@@ -61,28 +61,21 @@ export default class AuthMetrics {
         });
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
-      case POLICY_TYPES.CUSTOM /* type=custom is used for SSOe auto login */:
-        dataDogLog({
-          name: LOG_NAME.LOGIN_SUCCESS,
-          payload: { ...ddPayload, autoSSO: true },
-          status: STATUS_TYPE.INFO,
-        });
-      // fallthrough expected here
-      // eslint-disable-next-line no-fallthrough
+      case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
       case POLICY_TYPES.MHV_VERIFIED: /* type=mhv_verified */
       case CSP_IDS.MHV:
       case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
-        if (this.type !== POLICY_TYPES.CUSTOM)
-          dataDogLog({
-            name: LOG_NAME.LOGIN_SUCCESS,
-            payload: ddPayload,
-            status: STATUS_TYPE.INFO,
-          });
-      // fallthrough expected here
-      // eslint-disable-next-line no-fallthrough
       case CSP_IDS.VAMOCK:
+        dataDogLog({
+          name: LOG_NAME.LOGIN_SUCCESS,
+          payload: {
+            ...ddPayload,
+            ...(this.type === POLICY_TYPES.CUSTOM && { autoSSO: true }),
+          },
+          status: STATUS_TYPE.INFO,
+        });
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
