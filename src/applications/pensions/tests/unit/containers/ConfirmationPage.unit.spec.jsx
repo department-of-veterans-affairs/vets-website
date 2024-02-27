@@ -62,7 +62,7 @@ describe('<ConfirmationPage>', () => {
 
     const heading = tree.everySubTree('h2');
     expect(heading.length).to.eql(1);
-    expect(heading[0]?.text()).to.equal("Your Veteran's Pension application");
+    expect(heading[0]?.text()).to.equal('Your Veterans Pension application');
 
     const alert = tree.everySubTree('va-alert', { status: 'success' });
     expect(alert.length).to.eql(1);
@@ -82,6 +82,9 @@ describe('<ConfirmationPage>', () => {
     expect(sections[2].subTree('h3').text()).to.equal(
       'How to contact us if you have questions',
     );
+
+    const address = tree.everySubTree('p', { className: 'va-address-block' });
+    expect(address.length).to.eql(1);
 
     const phoneNums = tree.everySubTree('va-telephone');
     expect(phoneNums.length).to.eql(2);

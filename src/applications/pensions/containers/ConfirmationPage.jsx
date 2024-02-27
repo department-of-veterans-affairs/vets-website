@@ -27,7 +27,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div className="vads-u-margin-bottom--9">
-        <h2>Your Veteran's Pension application</h2>
+        <h2>Your Veterans Pension application</h2>
 
         <va-alert uswds status="success">
           <h3>Thank you for submitting your Veterans Pension application.</h3>
