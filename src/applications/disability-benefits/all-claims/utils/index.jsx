@@ -324,8 +324,8 @@ export const isDisabilityPtsd = disability => {
 export const hasRatedDisabilities = formData =>
   formData?.ratedDisabilities?.length > 0;
 
-export const showToxicExposurePages =
-  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true';
+export const showToxicExposurePages = () =>
+  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === true;
 
 export const isClaimingNew = formData =>
   _.get(
