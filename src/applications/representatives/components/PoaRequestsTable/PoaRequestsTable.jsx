@@ -4,6 +4,7 @@ import React from 'react';
 import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
 
 const PoaRequestsTable = ({ poaRequests }) => {
+  const isActionable = status => status === 'Pending';
   return (
     <va-table data-testid="poa-requests-table" sort-column={1}>
       <va-table-row slot="headers">
@@ -20,7 +21,7 @@ const PoaRequestsTable = ({ poaRequests }) => {
           <span data-testid={`${id}-description`}>{description}</span>
           <span data-testid={`${id}-status`}>{status}</span>
           <span>
-            {status === 'Pending' && (
+            {isActionable(status) && (
               <>
                 <va-button
                   data-testid={`${id}-accept-button`}
