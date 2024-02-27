@@ -26,7 +26,7 @@ const LabAndTestDetails = () => {
   );
   const fullState = useSelector(state => state);
   const { labId } = useParams();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {

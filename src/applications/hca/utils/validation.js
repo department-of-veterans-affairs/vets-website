@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import {
   convertToDateField,
   validateCurrentOrPastDate,
@@ -38,6 +37,35 @@ export function validateServiceDates(
     }
   }
 }
+
+export function validateGulfWarDates(
+  errors,
+  { gulfWarStartDate, gulfWarEndDate },
+) {
+  const fromDate = convertToDateField(gulfWarStartDate);
+  const toDate = convertToDateField(gulfWarEndDate);
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.gulfWarEndDate.addError(
+      'Service end date must be after the service start date',
+    );
+  }
+}
+
+export function validateExposureDates(
+  errors,
+  { toxicExposureStartDate, toxicExposureEndDate },
+) {
+  const fromDate = convertToDateField(toxicExposureStartDate);
+  const toDate = convertToDateField(toxicExposureEndDate);
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.toxicExposureEndDate.addError(
+      'Exposure end date must be after the exposure start date',
+    );
+  }
+}
+
 export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
   const dependentDate = moment(fieldData);
   const birthDate = moment(dateOfBirth);

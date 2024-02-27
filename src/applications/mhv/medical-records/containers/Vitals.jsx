@@ -24,7 +24,7 @@ const Vitals = () => {
   const user = useSelector(state => state.user.profile);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
