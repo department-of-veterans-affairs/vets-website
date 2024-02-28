@@ -7,11 +7,15 @@ const { plotExpenseResponsibility } = fullSchemaBurials.properties;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Plot or interment allowance'),
-    plotExpenseResponsibility: yesNoUI({
-      title:
-        'Are you responsible for the Veteran’s plot or interment expenses?',
-      classNames: 'vads-u-margin-bottom--2',
-    }),
+    plotExpenseResponsibility: {
+      ...yesNoUI({
+        title:
+          'Are you responsible for the Veteran’s plot or interment expenses?',
+      }),
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--2',
+      },
+    },
   },
   schema: {
     type: 'object',

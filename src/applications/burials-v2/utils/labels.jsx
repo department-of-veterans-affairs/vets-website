@@ -29,7 +29,7 @@ export const benefitsLabels = {
 };
 
 export const restingPlaceLabels = {
-  cemetary: 'Cemetery or graveyard',
+  cemetery: 'Cemetery or graveyard',
   mausoleum: 'Mausoleum, vault, tomb, or crypt',
   privateResidence: 'Private residence',
   other: 'Other',
