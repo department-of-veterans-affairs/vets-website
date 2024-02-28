@@ -44,7 +44,7 @@ const CombinedPortalApp = ({ children }) => {
         getStatements(dispatch);
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, debtLettersActive],
   );
 
   // Authentication!
