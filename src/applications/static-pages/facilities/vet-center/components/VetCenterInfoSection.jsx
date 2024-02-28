@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import ExpandableOperatingStatus from './ExpandableOperatingStatus';
 import { buildOperatingStatusProps } from '../buildOperatingStatusProps';
-import VAFacilityAddress from './VAFacilityAddress';
 
 function VetCenterInfoSection(props) {
+  const addressDirections = `${props.vetCenter.fieldAddress.addressLine1}, ${
+    props.vetCenter.fieldAddress.locality
+  }, ${props.vetCenter.fieldAddress.administrativeArea}, ${
+    props.vetCenter.fieldAddress.postalCode
+  }`;
+
   const attrs = {
     opStatus: props.vetCenter.fieldOperatingStatusFacility,
     opStatusExtra: props.vetCenter.fieldOperatingStatusMoreInfo,
@@ -44,8 +50,33 @@ function VetCenterInfoSection(props) {
           ? 'Located at'
           : 'Address'}
       </h4>
-      <div className="vads-u-margin-bottom--2">
-        <VAFacilityAddress vaFacility={props.vetCenter} />
+      <div className="vads-u-margin-bottom--3">
+        <address className="vads-u-margin-bottom--0">
+          <div>{props.vetCenter.fieldAddress.organization}</div>
+          <div>{props.vetCenter.fieldAddress.addressLine1}</div>
+          <div>
+            {props.vetCenter.fieldAddress.locality}
+            {', '}
+            {props.vetCenter.fieldAddress.administrativeArea}{' '}
+            {props.vetCenter.fieldAddress.postalCode}
+          </div>
+        </address>
+        <div>
+          <a
+            onClick={() => {
+              recordEvent({
+                event: 'directions-link-click',
+                'vet-center-facility-name': props.vetCenter.title,
+              });
+            }}
+            href={`https://www.google.com/maps?saddr=Current+Location&daddr=${addressDirections}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get directions on Google Maps{' '}
+            <span className="sr-only">{`to ${props.vetCenter.title}`}</span>
+          </a>
+        </div>
       </div>
       {props.vetCenter.entityBundle === 'vet_center_cap'
         ? renderPhone(props.mainVetCenterPhone)
@@ -55,8 +86,8 @@ function VetCenterInfoSection(props) {
 }
 
 VetCenterInfoSection.propTypes = {
-  mainVetCenterPhone: PropTypes.string,
   vetCenter: PropTypes.object,
+  mainVetCenterPhone: PropTypes.string,
 };
 
 export default VetCenterInfoSection;
