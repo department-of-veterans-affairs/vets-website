@@ -15,7 +15,6 @@
     "livingSituation": {
       "NONE": true
     },
-    "otherHousingRisks": "Other housing risks",
     "mailingAddressYesNo": true,
     "veteranMailingAddress": {
       "country": "USA",
