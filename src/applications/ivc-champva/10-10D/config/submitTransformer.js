@@ -34,19 +34,15 @@ function transformApplicants(applicants) {
         app?.applicantMedicareCardBack,
         app?.applicantOHICardFront,
         app?.applicantOHICardBack,
-        app?.applicantMedicarePartAPartBCard,
-        app?.applicantMedicarePartDCard,
-        app?.applicantOhiCard,
-        app?.applicant107959c,
         app?.applicantBirthCertOrSocialSecCard,
-        app?.applicantMedicarePartAPartBCard,
-        app?.applicantMedicarePartDCard,
-        app?.applicantOhiCard,
-        app?.applicant107959c,
         app?.applicantSchoolCert,
         app?.applicantAdoptionPapers,
         app?.applicantStepMarriageCert,
         app?.applicantMarriageCert,
+        app?.applicantMedicarePartAPartBCard,
+        app?.applicantMedicarePartDCard,
+        app?.applicantOhiCard,
+        app?.applicant107959c,
       ],
       address: app.applicantAddress ?? '',
       gender: app.applicantGender ?? '',
@@ -119,6 +115,7 @@ export default function transformForSubmit(formConfig, form) {
   });
 
   dataPostTransform.supporting_docs = dataPostTransform.supporting_docs
+    .flat()
     .concat(supDocs)
     .filter(el => el); // remove undefineds
 
