@@ -281,7 +281,7 @@ const formConfig = {
           schema: deathCertificate.schema,
         },
         transportationReceipts: {
-          title: 'Death certificate',
+          title: 'Transportation Receipts',
           path: 'additional-information/transportation-receipts',
           depends: form => get('transportationExpenses', form),
           uiSchema: transportationReceipts.uiSchema,

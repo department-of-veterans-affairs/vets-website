@@ -12,15 +12,18 @@ export default {
         title: 'Did you previously receive a VA burial allowance?',
         hideIf: form => form?.relationshipToVeteran !== 'spouse',
       }),
-      'ui:required': form => form?.relationshipToVeteran,
+      'ui:required': form => form?.relationshipToVeteran === 'spouse',
       'ui:options:': {
         classNames: 'vads-u-margin-top--0',
       },
     },
-    burialExpenseResponsibility: yesNoUI({
-      title: 'Are you responsible for the Veteran’s burial expenses?',
-      classNames: 'vads-u-margin-bottom--2',
-    }),
+    burialExpenseResponsibility: {
+      ...yesNoUI({
+        title: 'Are you responsible for the Veteran’s burial expenses?',
+        classNames: 'vads-u-margin-bottom--2',
+      }),
+      // 'ui:required': form => form?.relationshipToVeteran,
+    },
   },
   schema: {
     type: 'object',
