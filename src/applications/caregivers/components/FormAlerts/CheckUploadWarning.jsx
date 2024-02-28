@@ -8,7 +8,7 @@ const CheckUploadWarning = () => {
 
   return (
     <div className="caregivers-upload-warning">
-      <va-alert status="warning" background-only>
+      <va-alert status="warning" uswds>
         <h3 slot="headline">Check your upload before you continue</h3>
         <p>
           It’s easy to upload the wrong file by mistake. We want to make sure
