@@ -39,6 +39,10 @@ const formConfig = {
   transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
