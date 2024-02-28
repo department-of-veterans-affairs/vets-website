@@ -32,18 +32,18 @@ describe('AccountSecurityLoa1CredAlert', () => {
     ).to.exist;
   });
 
-  it('renders alert with ID_ME service provider in text', () => {
+  it('renders alert with MHV service provider in text', () => {
     const { getByText } = renderWithProfileReducersAndRouter(
       <AccountSecurityLoa1CredAlert />,
       {
         initialState: createCustomProfileState({
-          user: { profile: { signIn: { serviceName: CSP_IDS.ID_ME } } },
+          user: { profile: { signIn: { serviceName: CSP_IDS.MHV } } },
         }),
       },
     );
 
     expect(
-      getByText('sign in with your ID.me username and password', {
+      getByText('sign in with your My HealtheVet username and password', {
         exact: false,
       }),
     ).to.exist;
@@ -70,18 +70,18 @@ describe('SignInEmailAlert', () => {
     ).to.exist;
   });
 
-  it('renders alert with ID_ME service provider in text', () => {
+  it('renders alert with MHV service provider in text', () => {
     const { getByText } = renderWithProfileReducersAndRouter(
       <SignInEmailAlert />,
       {
         initialState: createCustomProfileState({
-          user: { profile: { signIn: { serviceName: CSP_IDS.ID_ME } } },
+          user: { profile: { signIn: { serviceName: CSP_IDS.MHV } } },
         }),
       },
     );
 
     expect(
-      getByText('sign in with your ID.me username and password', {
+      getByText('sign in with your My HealtheVet username and password', {
         exact: false,
       }),
     ).to.exist;
