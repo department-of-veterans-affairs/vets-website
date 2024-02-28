@@ -20,6 +20,7 @@
     "veteranMailingAddress": {
       "country": "USA",
       "street": "123 Any St",
+      "street2": "Apt 1",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
