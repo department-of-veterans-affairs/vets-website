@@ -4,7 +4,7 @@ import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authe
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-const HowToVerifyLink = () => (
+export const HowToVerifyLink = () => (
   <p className="vads-u-margin-y--4">
     <va-link
       href="/resources/verifying-your-identity-on-vagov/"
