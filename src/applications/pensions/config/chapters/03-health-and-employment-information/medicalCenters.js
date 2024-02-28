@@ -37,6 +37,7 @@ const generateMedicalCentersSchemas = (
         'ui:title': medicalCenterMessage,
         'ui:options': {
           itemName: 'Medical center',
+          itemAriaLabel: data => data.medicalCenter,
           viewField: MedicalCenterView,
           reviewTitle: medicalCentersReviewTitle,
           keepInPageOnReview: true,
