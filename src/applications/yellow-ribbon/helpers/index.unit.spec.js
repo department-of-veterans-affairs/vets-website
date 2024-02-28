@@ -1,7 +1,12 @@
 // Dependencies.
 import { expect } from 'chai';
 // Relative imports.
-import { capitalize, normalizeResponse, titleCase } from '.';
+import {
+  capitalize,
+  getCurrentAcademicYear,
+  normalizeResponse,
+  titleCase,
+} from '.';
 
 describe('Yellow Ribbon helpers', () => {
   describe('`capitalize`', () => {
@@ -87,6 +92,19 @@ describe('Yellow Ribbon helpers', () => {
         ],
         totalResults: 227,
       });
+    });
+  });
+
+  describe('getCurrentAcademicYear', () => {
+    xit('returns Academic Year "2023 to 2024" if the current date is before August 2024', () => {
+      // Date() arguments are Year, Month, Day where Month = 0 is January
+      const testDate = new Date(2024, 6, 31);
+      expect(getCurrentAcademicYear(testDate)).to.equal('2023 to 2024');
+    });
+
+    it('returns Academic Year "2024 to 2025" if the current date is on or after August 2024', () => {
+      const testDate = new Date(2024, 7, 1);
+      expect(getCurrentAcademicYear(testDate)).to.equal('2024 to 2025');
     });
   });
 });
