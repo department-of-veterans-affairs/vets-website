@@ -181,7 +181,7 @@ const useGetCheckInData = ({
           case 'dayOf':
           case 'travelClaim':
             api.v2
-              .getCheckInData(token, app === 'travelClaim' ? 'oh' : '')
+              .getCheckInData(token, app === 'travelClaim' ? 'oh' : null)
               .then(json => {
                 if (app === 'travelClaim') {
                   setTravelData(json.payload);
