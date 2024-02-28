@@ -13,12 +13,11 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   };
 
   return (
-    <va-alert
+    <va-summary-box
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
-      status="info"
-      background-only
+      uswds
     >
-      <h3 className="vads-u-margin-top--0">
+      <h3 slot="headline">
         Confirm that you receive service-connected pay for a 50% or higher
         disability rating
       </h3>
@@ -46,7 +45,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
           />
         </div>
       </div>
-    </va-alert>
+    </va-summary-box>
   );
 };
 

@@ -18,7 +18,7 @@ const AuthenticatedShortFormAlert = () => {
   }, []);
 
   return (
-    <va-alert class="vads-u-margin-y--5" status="info">
+    <va-alert status="info" class="vads-u-margin-y--5" uswds>
       <h3 slot="headline">You can fill out a shorter application</h3>
       <p>
         Our records show that you have a{' '}

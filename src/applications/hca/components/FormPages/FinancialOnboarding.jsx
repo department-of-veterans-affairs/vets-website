@@ -61,7 +61,10 @@ const HouseholdFinancialOnboarding = props => {
         with the Internal Revenue Service (IRS).
       </p>
 
-      <va-additional-info trigger="Learn more about enhanced eligibility status for VA health care">
+      <va-additional-info
+        trigger="Learn more about enhanced eligibility status for VA health care"
+        uswds
+      >
         <div>
           <p className="vads-u-font-weight--bold vads-u-margin-top--0">
             You may qualify for enhanced eligibility status if you receive any

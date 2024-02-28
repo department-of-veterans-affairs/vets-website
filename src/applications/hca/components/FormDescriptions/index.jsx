@@ -20,6 +20,7 @@ export const BirthSexDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-y--2"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -96,6 +97,7 @@ export const SIGIGenderDescription = (
     <va-additional-info
       trigger="What to know before you decide to share your gender identity"
       class="vads-u-margin-top--2"
+      uswds
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -156,6 +158,7 @@ export const CompensationTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -198,6 +201,7 @@ export const PensionTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -245,6 +249,7 @@ export const DependentDescription = () => {
     <va-additional-info
       trigger="Who we consider a dependent"
       class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+      uswds
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -285,6 +290,7 @@ export const DependentSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a dependent"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -307,6 +313,7 @@ export const EducationalExpensesDescription = (
   <va-additional-info
     trigger="What we consider college or vocational expenses"
     class="vads-u-margin-y--1"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -337,6 +344,7 @@ export const GrossIncomeDescription = (
     <va-additional-info
       trigger="What we consider gross annual income"
       class="vads-u-margin-y--1"
+      uswds
     >
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-top--0">
@@ -387,6 +395,7 @@ export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -403,6 +412,7 @@ export const MedicalExpensesDescription = (
   <va-additional-info
     trigger="What we consider non-reimbursable medical expenses"
     class="vads-u-margin-y--1"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -434,6 +444,7 @@ export const OtherIncomeDescription = (
     <va-additional-info
       trigger="What we consider other annual income"
       class="vads-u-margin-y--1"
+      uswds
     >
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-top--0">
@@ -479,6 +490,7 @@ export const SpouseAdditionalInformationDescription = () => {
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+      uswds
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -494,6 +506,7 @@ export const SpouseFinancialSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a spouse"
     class="vads-u-margin-y--2"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -518,6 +531,7 @@ export const EssentialCoverageDescription = (
   <va-additional-info
     trigger="Learn more about minimum essential coverage."
     class="vads-u-margin-y--2 vads-u-margin-left--4"
+    uswds
   >
     To avoid the penalty for not having insurance, you must be enrolled in a
     health plan that qualifies as minimum essential coverage. Being signed up
@@ -579,6 +593,7 @@ export const HealthInsuranceCoverageDescription = (
   <va-additional-info
     trigger="Why we ask this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -632,6 +647,7 @@ export const MedicareClaimNumberDescription = (
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+      uswds
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -698,7 +714,7 @@ export const PolicyOrGroupDescription = (
 );
 
 export const TricarePolicyDescription = (
-  <va-additional-info trigger="I have TRICARE. What’s my policy number?">
+  <va-additional-info trigger="I have TRICARE. What’s my policy number?" uswds>
     <div>
       <p className="vads-u-margin-top--0">
         You can use your Department of Defense benefits number (DBN) or your
