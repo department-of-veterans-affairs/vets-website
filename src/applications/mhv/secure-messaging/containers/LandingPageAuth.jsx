@@ -13,14 +13,14 @@ then additional functionality will need to be added to account for this.
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { retrieveFolder } from '../actions/folders';
 import { DefaultFolders as Folder, PageTitles } from '../util/constants';
 import { updatePageTitle } from '../util/helpers';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CernerTransitioningFacilityAlert from '../components/Alerts/CernerTransitioningFacilityAlert';
 
@@ -29,29 +29,31 @@ const LandingPageAuth = () => {
   const fullState = useSelector(state => state);
   const inbox = useSelector(state => state.sm.folders?.folder);
   const [prefLink, setPrefLink] = useState('');
+  const [isLandingPage, setIsLandingPage] = useState(false);
 
-  useEffect(
-    () => {
-      setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
-    },
-    [fullState],
-  );
+  useEffect(() => {
+    setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
+  }, [fullState]);
 
-  useEffect(
-    () => {
-      dispatch(retrieveFolder(Folder.INBOX.id));
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(retrieveFolder(Folder.INBOX.id));
+  }, [dispatch]);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
     updatePageTitle(PageTitles.DEFAULT_PAGE_TITLE_TAG);
   }, []);
 
+  useEffect(() => {
+    const h1Content = document.querySelector('h1').textContent;
+    if (h1Content === 'Messages') {
+      setIsLandingPage(true);
+    }
+  }, []);
+
   return (
     <div className="dashboard">
-      <AlertBackgroundBox />
+      <AlertBackgroundBox isLandingPage={isLandingPage} />
       <h1>Messages</h1>
 
       <CernerTransitioningFacilityAlert />
