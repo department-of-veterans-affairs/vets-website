@@ -8,7 +8,7 @@ import Checklist from '../shared/CheckList';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 
 const SpousePayrollDeductionChecklist = props => {
-  const { goToPath, goBack, onReviewPage, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -121,7 +121,7 @@ const SpousePayrollDeductionChecklist = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
+
   const title = `Your spouse’s job at ${employerName}`;
   const prompt = 'Which of these payroll deductions does your spouse pay for?';
 
@@ -144,7 +144,7 @@ const SpousePayrollDeductionChecklist = props => {
           spouse.
         </p>
       </va-additional-info>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };
