@@ -35,14 +35,14 @@ export default function transformForSubmit(formConfig, form) {
     const { first, middle, last } = transformedData.veteranFullName;
     transformedData.veteranFullName = {
       first: first.slice(0, 12),
-      middle: middle.charAt(0),
+      middle: middle?.charAt(0),
       last: last.slice(0, 18),
     };
   } else {
     const { first, middle, last } = transformedData.nonVeteranFullName;
     transformedData.nonVeteranFullName = {
       first: first.slice(0, 12),
-      middle: middle.charAt(0),
+      middle: middle?.charAt(0),
       last: last.slice(0, 18),
     };
   }
@@ -68,12 +68,31 @@ export default function transformForSubmit(formConfig, form) {
     delete transformedData.nonVeteranPhone;
     delete transformedData.nonVeteranEmailAddress;
   } else {
-    delete transformedData.veteranFullName;
-    delete transformedData.veteranDateOfBirth;
-    delete transformedData.veteranId;
+    // veteran personal- & identification data still required
     delete transformedData.veteranMailingAddress;
     delete transformedData.veteranPhone;
     delete transformedData.veteranEmailAddress;
+  }
+
+  // TODO: Once PDF has been updated to remove OCR-boxes,
+  // remove this address-values truncation-block below.
+  if (
+    preparerType === PREPARER_TYPES.VETERAN &&
+    transformedData.veteranMailingAddress
+  ) {
+    const { street, street2, city } = transformedData.veteranMailingAddress;
+    transformedData.veteranMailingAddress.street = street.slice(0, 30);
+    transformedData.veteranMailingAddress.street2 = street2.slice(0, 5);
+    transformedData.veteranMailingAddress.city = city.slice(0, 20);
+  }
+  if (
+    preparerType === PREPARER_TYPES.NON_VETERAN &&
+    transformedData.nonVeteranMailingAddress
+  ) {
+    const { street, street2, city } = transformedData.nonVeteranMailingAddress;
+    transformedData.nonVeteranMailingAddress.street = street.slice(0, 30);
+    transformedData.nonVeteranMailingAddress.street2 = street2.slice(0, 5);
+    transformedData.nonVeteranMailingAddress.city = city.slice(0, 20);
   }
 
   // delete unneeded otherHousingRisks data based on livingSituation
