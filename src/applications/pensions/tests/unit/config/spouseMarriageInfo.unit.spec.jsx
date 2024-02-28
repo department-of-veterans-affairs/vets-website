@@ -120,7 +120,7 @@ describe('Pensions spouse info', () => {
   });
 
   it('depends should return true if married', () => {
-    const result = depends({ maritalStatus: 'Married' });
+    const result = depends({ maritalStatus: 'MARRIED' });
 
     expect(result).to.be.true;
   });

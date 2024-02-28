@@ -339,40 +339,56 @@ export const UploadContent = ({
     <>
       <Header5>{content.otherTitle}</Header5>
       <ul className="evidence-summary">
-        {list.map((upload, index) => (
-          <li key={upload.name + index} className={listClassNames}>
-            <Header6
-              className="dd-privacy-hidden"
-              data-dd-action-name="Uploaded document file name"
+        {list.map((upload, index) => {
+          const errors = {
+            attachmentId: upload.attachmentId
+              ? ''
+              : content.missing.attachmentId,
+          };
+          const hasErrors = Object.values(errors).join('');
+
+          return (
+            <li
+              key={upload.name + index}
+              className={hasErrors ? errorClassNames : listClassNames}
             >
-              {upload.name}
-            </Header6>
-            <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
-            {!reviewMode && (
+              <Header6
+                className="dd-privacy-hidden"
+                data-dd-action-name="Uploaded document file name"
+              >
+                {upload.name}
+              </Header6>
               <div>
-                <Link
-                  id={`edit-upload-${index}`}
-                  className="edit-item"
-                  to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
-                  aria-label={`${content.editLinkAria} ${upload.name}`}
-                  data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-                >
-                  {content.edit}
-                </Link>
-                <va-button
-                  data-index={index}
-                  data-type="upload"
-                  onClick={handlers.showModal}
-                  class={removeButtonClass}
-                  label={`${content.remove} ${upload.name}`}
-                  text={content.remove}
-                  secondary
-                  uswds
-                />
+                {errors.attachmentId ||
+                  ATTACHMENTS_OTHER[upload.attachmentId] ||
+                  ''}
               </div>
-            )}
-          </li>
-        ))}
+              {!reviewMode && (
+                <div>
+                  <Link
+                    id={`edit-upload-${index}`}
+                    className="edit-item"
+                    to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                    aria-label={`${content.editLinkAria} ${upload.name}`}
+                    data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                  >
+                    {content.edit}
+                  </Link>
+                  <va-button
+                    data-index={index}
+                    data-type="upload"
+                    onClick={handlers.showModal}
+                    class={removeButtonClass}
+                    label={`${content.remove} ${upload.name}`}
+                    text={content.remove}
+                    secondary
+                    uswds
+                  />
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </>
   ) : null;
