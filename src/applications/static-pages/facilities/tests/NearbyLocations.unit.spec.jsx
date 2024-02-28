@@ -72,156 +72,154 @@ const fetchedVetCenters = {
     },
   ],
 };
-const fetchedVALocations = {
-  data: [
-    {
+const fetchedVALocationsData = [
+  {
+    id: 'vha_541QB',
+    type: 'facility',
+    attributes: {
+      access: {
+        health: [
+          {
+            service: 'MentalHealthCare',
+            new: 47,
+            established: 2,
+          },
+          {
+            service: 'PrimaryCare',
+            new: 7,
+            established: 8,
+          },
+        ],
+        effectiveDate: '2024-02-25',
+      },
+      activeStatus: 'A',
+      address: {
+        mailing: {},
+        physical: {
+          zip: '44103-4014',
+          city: 'Cleveland',
+          state: 'OH',
+          address1: '7000 Euclid Avenue',
+          address2: null,
+          address3: 'Suites 102 and 202',
+        },
+      },
+      classification: 'Primary Care CBOC',
+      detailedServices: [],
+      facilityType: 'va_health_facility',
+      feedback: {
+        health: {
+          primaryCareUrgent: 0,
+          primaryCareRoutine: 0,
+        },
+        effectiveDate: '2022-06-28',
+      },
+      hours: {
+        friday: '500AM-530PM',
+        monday: '500AM-530PM',
+        sunday: 'Closed',
+        tuesday: '500AM-530PM',
+        saturday: '500AM-530PM',
+        thursday: '500AM-530PM',
+        wednesday: '500AM-530PM',
+      },
       id: 'vha_541QB',
-      type: 'facility',
-      attributes: {
-        access: {
-          health: [
-            {
-              service: 'MentalHealthCare',
-              new: 47,
-              established: 2,
-            },
-            {
-              service: 'PrimaryCare',
-              new: 7,
-              established: 8,
-            },
-          ],
-          effectiveDate: '2024-02-25',
-        },
-        activeStatus: 'A',
-        address: {
-          mailing: {},
-          physical: {
-            zip: '44103-4014',
-            city: 'Cleveland',
-            state: 'OH',
-            address1: '7000 Euclid Avenue',
-            address2: null,
-            address3: 'Suites 102 and 202',
-          },
-        },
-        classification: 'Primary Care CBOC',
-        detailedServices: [],
-        facilityType: 'va_health_facility',
-        feedback: {
-          health: {
-            primaryCareUrgent: 0,
-            primaryCareRoutine: 0,
-          },
-          effectiveDate: '2022-06-28',
-        },
-        hours: {
-          friday: '500AM-530PM',
-          monday: '500AM-530PM',
-          sunday: 'Closed',
-          tuesday: '500AM-530PM',
-          saturday: '500AM-530PM',
-          thursday: '500AM-530PM',
-          wednesday: '500AM-530PM',
-        },
-        id: 'vha_541QB',
-        lat: 41.503689,
-        long: -81.6410655,
-        mobile: false,
-        name: 'Cleveland VA Clinic-Euclid',
-        operatingStatus: {
-          code: 'LIMITED',
-          additionalInfo:
-            'Regular office hours are 8 a.m. to 4:30 p.m. ET, Monday through Friday.',
-        },
-        operationalHoursSpecialInstructions: null,
-        phone: {
-          fax: '216-391-0265',
-          main: '216-391-0264',
-          pharmacy: '216-791-2300 x62001',
-          afterHours: '216-391-0264',
-          patientAdvocate: '216-791-3800 x61700',
-          enrollmentCoordinator: '216-791-3800 x63576',
-          healthConnect: null,
-        },
-        services: {
-          other: [],
-          health: ['MentalHealthCare', 'Podiatry', 'PrimaryCare'],
-          lastUpdated: '2024-02-25',
-        },
-        uniqueId: '541QB',
-        visn: '10',
-        website:
-          'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
+      lat: 41.503689,
+      long: -81.6410655,
+      mobile: false,
+      name: 'Cleveland VA Clinic-Euclid',
+      operatingStatus: {
+        code: 'LIMITED',
+        additionalInfo:
+          'Regular office hours are 8 a.m. to 4:30 p.m. ET, Monday through Friday.',
       },
+      operationalHoursSpecialInstructions: null,
+      phone: {
+        fax: '216-391-0265',
+        main: '216-391-0264',
+        pharmacy: '216-791-2300 x62001',
+        afterHours: '216-391-0264',
+        patientAdvocate: '216-791-3800 x61700',
+        enrollmentCoordinator: '216-791-3800 x63576',
+        healthConnect: null,
+      },
+      services: {
+        other: [],
+        health: ['MentalHealthCare', 'Podiatry', 'PrimaryCare'],
+        lastUpdated: '2024-02-25',
+      },
+      uniqueId: '541QB',
+      visn: '10',
+      website:
+        'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
     },
-    {
+  },
+  {
+    id: 'vha_541GM',
+    type: 'facility',
+    attributes: {
+      access: {
+        health: [],
+        effectiveDate: null,
+      },
+      activeStatus: 'A',
+      address: {
+        mailing: {},
+        physical: {
+          zip: '44106',
+          city: 'Cleveland',
+          state: 'OH',
+          address1: '8901 Superior Avenue',
+          address2: null,
+          address3: null,
+        },
+      },
+      classification: 'Other Outpatient Services (OOS)',
+      detailedServices: [],
+      facilityType: 'va_health_facility',
+      feedback: {
+        health: {},
+        effectiveDate: null,
+      },
+      hours: {
+        friday: '730AM-500PM',
+        monday: '730AM-500PM',
+        sunday: 'Closed',
+        tuesday: '730AM-500PM',
+        saturday: 'Closed',
+        thursday: '730AM-500PM',
+        wednesday: '730AM-500PM',
+      },
       id: 'vha_541GM',
-      type: 'facility',
-      attributes: {
-        access: {
-          health: [],
-          effectiveDate: null,
-        },
-        activeStatus: 'A',
-        address: {
-          mailing: {},
-          physical: {
-            zip: '44106',
-            city: 'Cleveland',
-            state: 'OH',
-            address1: '8901 Superior Avenue',
-            address2: null,
-            address3: null,
-          },
-        },
-        classification: 'Other Outpatient Services (OOS)',
-        detailedServices: [],
-        facilityType: 'va_health_facility',
-        feedback: {
-          health: {},
-          effectiveDate: null,
-        },
-        hours: {
-          friday: '730AM-500PM',
-          monday: '730AM-500PM',
-          sunday: 'Closed',
-          tuesday: '730AM-500PM',
-          saturday: 'Closed',
-          thursday: '730AM-500PM',
-          wednesday: '730AM-500PM',
-        },
-        id: 'vha_541GM',
-        lat: 41.52075514,
-        long: -81.62566982,
-        mobile: false,
-        name: 'Cleveland VA Clinic-Superior',
-        operatingStatus: {
-          code: 'NORMAL',
-        },
-        operationalHoursSpecialInstructions: null,
-        phone: {
-          fax: '216-421-3134',
-          main: '216-421-3133',
-          pharmacy: '216-791-3800 x62001',
-          afterHours: '216-791-3800 x64441',
-          patientAdvocate: '216-791-3800 x61700',
-          enrollmentCoordinator: '216-791-3800 x65189',
-          healthConnect: null,
-        },
-        services: {
-          other: [],
-          health: [],
-          lastUpdated: null,
-        },
-        uniqueId: '541GM',
-        visn: '10',
-        website:
-          'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-superior/',
+      lat: 41.52075514,
+      long: -81.62566982,
+      mobile: false,
+      name: 'Cleveland VA Clinic-Superior',
+      operatingStatus: {
+        code: 'NORMAL',
       },
+      operationalHoursSpecialInstructions: null,
+      phone: {
+        fax: '216-421-3134',
+        main: '216-421-3133',
+        pharmacy: '216-791-3800 x62001',
+        afterHours: '216-791-3800 x64441',
+        patientAdvocate: '216-791-3800 x61700',
+        enrollmentCoordinator: '216-791-3800 x65189',
+        healthConnect: null,
+      },
+      services: {
+        other: [],
+        health: [],
+        lastUpdated: null,
+      },
+      uniqueId: '541GM',
+      visn: '10',
+      website:
+        'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-superior/',
     },
-  ],
-};
+  },
+];
 
 const mainVetCenterAddress = {
   countryCode: 'US',
@@ -327,6 +325,7 @@ describe('NearbyVALocations', () => {
     const state = {
       facility: {
         multiLoading: { Health: true, VetCenter: false, Cemetery: false },
+        multidata: { Health: {}, VetCenter: {}, Cemetery: {} },
       },
     };
     const fakeStore = createFakeStore(state);
@@ -343,6 +342,7 @@ describe('NearbyVALocations', () => {
     const state = {
       facility: {
         multiLoading: { Health: false, VetCenter: false, Cemetery: false },
+        multidata: { Health: {}, VetCenter: {}, Cemetery: {} },
       },
     };
     const fakeStore = createFakeStore(state);
@@ -359,6 +359,7 @@ describe('NearbyVALocations', () => {
     const state = {
       facility: {
         multiLoading: { Health: false, VetCenter: false, Cemetery: false },
+        multidata: { Health: {}, VetCenter: {}, Cemetery: {} },
       },
       featureToggles: { loading: false },
     };
@@ -376,15 +377,26 @@ describe('NearbyVALocations', () => {
     const automatedState = {
       facility: {
         multiLoading: { Health: false, VetCenter: false, Cemetery: false },
+        multidata: {
+          Health: {
+            data: fetchedVALocationsData.map(d => ({ ...d, source: 'Health' })),
+          },
+          VetCenter: {
+            data: [],
+          },
+          Cemetery: {
+            data: [],
+          },
+        },
       },
       featureToggles: {
         loading: false,
       },
     };
 
-    it('should render auto-fetched vet center', done => {
+    it('should render auto-fetched VA Facility', done => {
       const fakeStore = createFakeStore(automatedState);
-      mockApiRequest(fetchedVALocations);
+      mockApiRequest({ data: fetchedVALocationsData });
 
       const wrapper = mount(
         <Provider store={fakeStore}>

@@ -1,58 +1,78 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { apiRequest } from 'platform/utilities/api';
 import { connect, useDispatch } from 'react-redux';
 import VAFacilityInfoSection from './components/VAFacilityInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
-import {
-  fetchMultiFacilityStarted,
-  fetchMultiFacilitySuccess,
-} from '../actions';
+import { multiTypeQuery } from '../actions';
 import {
   calculateBoundingBox,
   convertMetersToMiles,
   distancesToNearbyVetCenters,
 } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+import buildFacility from './buildFacility';
 
 const NEARBY_VA_LOCATIONS_RADIUS_MILES = 120;
+const isStartedLoading = multiLoading => {
+  return multiLoading.Health || multiLoading.VetCenter || multiLoading.Cemetery;
+};
+const isFinishedLoading = (multiLoading, multidata) => {
+  return (
+    !multiLoading.Health &&
+    !multiLoading.VetCenter &&
+    !multiLoading.Cemetery &&
+    multidata?.Health?.data &&
+    multidata?.VetCenter?.data &&
+    multidata?.Cemetery?.data
+  );
+};
 
+const joinData = multidata => {
+  return [
+    ...(multidata?.Health?.data || []),
+    ...(multidata?.VetCenter?.data || []),
+    ...(multidata?.Cemetery?.data || []),
+  ];
+};
+
+const genQuery = (boundingBox, coordinates, type, mobileFalse) => {
+  const query = '/facilities/va/?';
+  const params = [
+    'page=1',
+    'per_page=2',
+    `type=${type}`,
+    `radius=${NEARBY_VA_LOCATIONS_RADIUS_MILES}`,
+    `latitude=${coordinates[1]}`,
+    `longitude=${coordinates[0]}`,
+    ...boundingBox.map(c => `bbox[]=${c}`),
+  ];
+  if (mobileFalse) {
+    params.push('mobile=false');
+  }
+  return query + params.join('&');
+};
 const NearByVALocations = props => {
   const [originalCoordinates, setOriginalCoordinates] = useState([]);
-  const [fetchedVALocations, setFetchedVALocations] = useState([]);
   const [nearbyVADistances, setNearbyVADistances] = useState(false);
   const dispatch = useDispatch();
 
   const fetchNearbyVALocations = useCallback(
     async () => {
-      const fetchVALocations = (query, facilityType) => {
-        // We are using this action to track the loading state of the multi facility type request
-        // Not for multiple facilities. Once all facilityTypes are not in loading state, we can assume
-        // that all the facility types have been fetched
-        dispatch(fetchMultiFacilityStarted(facilityType));
-        apiRequest(query, {
-          apiVersion: 'v1',
-        }).then(res => {
-          dispatch(fetchMultiFacilitySuccess({}, facilityType));
-          // All types get put in the locations
-          setFetchedVALocations(locations => [
-            ...locations,
-            ...(res.data || []).map(datum => ({
-              ...datum,
-              source: facilityType,
-            })),
-          ]);
-        });
-      };
-
+      if (
+        props.multidata.Cemetery ||
+        props.multidata.Health ||
+        props.multidata.VetCenter
+      ) {
+        return;
+      }
       const { mainAddress } = props;
       if (!mainAddress) {
         return;
       }
-      const query = `${mainAddress.addressLine1}, ${mainAddress.locality} ${
-        mainAddress.administrativeArea
-      } ${mainAddress.postalCode}`;
-      const mapboxResponse = await getFeaturesFromAddress(query);
+      const addressQuery = `${mainAddress.addressLine1}, ${
+        mainAddress.locality
+      } ${mainAddress.administrativeArea} ${mainAddress.postalCode}`;
+      const mapboxResponse = await getFeaturesFromAddress(addressQuery);
       const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
 
       if (coordinates) {
@@ -62,33 +82,23 @@ const NearByVALocations = props => {
           coordinates[0],
           NEARBY_VA_LOCATIONS_RADIUS_MILES,
         );
-        const partialParams = [
-          'page=1',
-          'per_page=2',
-          `radius=${NEARBY_VA_LOCATIONS_RADIUS_MILES}`,
-          `latitude=${coordinates[1]}`,
-          `longitude=${coordinates[0]}`,
-          ...boundingBox.map(c => `bbox[]=${c}`),
-        ];
-        fetchVALocations(
-          `/facilities/va/?${[
-            'type=health',
-            'mobile=false',
-            ...partialParams,
-          ].join('&')}`,
-          'Health',
+        dispatch(
+          multiTypeQuery(
+            'Health',
+            genQuery(boundingBox, coordinates, 'health', true),
+          ),
         );
-        fetchVALocations(
-          `/facilities/va/?${[
-            'type=vet_center',
-            'mobile=false',
-            ...partialParams,
-          ].join('&')}`,
-          'VetCenter',
+        dispatch(
+          multiTypeQuery(
+            'Cemetery',
+            genQuery(boundingBox, coordinates, 'cemetery', false),
+          ),
         );
-        fetchVALocations(
-          `/facilities/va/?${['type=cemetery', ...partialParams].join('&')}`,
-          'Cemetery',
+        dispatch(
+          multiTypeQuery(
+            'VetCenter',
+            genQuery(boundingBox, coordinates, 'vet_center', true),
+          ),
         );
       }
     },
@@ -97,33 +107,23 @@ const NearByVALocations = props => {
 
   useEffect(
     () => {
-      if (
-        !props.togglesLoading &&
-        !props.multiLoading.Cemetery &&
-        !props.multiLoading.Health &&
-        !props.multiLoading.VetCenter &&
-        !fetchedVALocations.length
-      ) {
+      if (!props.togglesLoading && !isStartedLoading(props.multiLoading)) {
         fetchNearbyVALocations();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.togglesLoading, props.multiLoading, fetchedVALocations],
+    [props.togglesLoading, props.multiLoading],
   );
 
   useEffect(
     () => {
       const noDistancesToMeasure =
         originalCoordinates.length === 0 ||
-        fetchedVALocations.length === 0 ||
-        props.multiLoading.Health ||
-        props.multiLoading.VetCenter ||
-        props.multiLoading.Cemetery;
-
+        !isFinishedLoading(props.multiLoading, props.multidata);
       if (nearbyVADistances || noDistancesToMeasure) {
         return false;
       }
-      const facilityCoordinates = fetchedVALocations
+      const facilityCoordinates = joinData(props.multidata)
         .filter(center => center.id !== props.mainFacilityApiId)
         .map(center => {
           return {
@@ -165,8 +165,8 @@ const NearByVALocations = props => {
     [
       props.mainFacilityApiId,
       props.multiLoading,
+      props.multidata,
       originalCoordinates,
-      fetchedVALocations,
       nearbyVADistances,
     ],
   );
@@ -174,33 +174,18 @@ const NearByVALocations = props => {
     vc => {
       let centerDistance = false;
 
-      if (nearbyVADistances.length === fetchedVALocations.length) {
+      if (
+        isFinishedLoading(props.multiLoading, props.multidata) &&
+        nearbyVADistances.length
+      ) {
         const facilityDistance = nearbyVADistances.find(
           distance => distance.id === vc.id,
         );
         centerDistance = facilityDistance.distance;
       }
-      return {
-        id: vc.id,
-        entityBundle: vc.attributes.facilityType,
-        fieldPhoneNumber: vc.attributes.phone.main,
-        fieldPhoneMentalHealth: vc.attributes.phone.mentalHealthClinic,
-        distance: centerDistance,
-        title: vc.attributes.name,
-        fieldAddress: {
-          addressLine1: vc.attributes.address.physical.address1,
-          administrativeArea: vc.attributes.address.physical.state,
-          locality: vc.attributes.address.physical.city,
-          postalCode: vc.attributes.address.physical.zip,
-        },
-        fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
-        fieldOperatingStatusMoreInfo:
-          vc.attributes.operatingStatus?.additionalInfo,
-        website: vc.attributes.website,
-        source: vc.source,
-      };
+      return buildFacility(vc, centerDistance);
     },
-    [nearbyVADistances, fetchedVALocations],
+    [nearbyVADistances, props.multidata, props.multiLoading],
   );
 
   // TODO: consider moving to a separate component
@@ -274,23 +259,14 @@ const NearByVALocations = props => {
     );
   };
 
-  const filteredVaLocations = fetchedVALocations.filter(
-    vc => vc.id !== props.mainFacilityApiId,
-  );
   // Possible returns with the components
-  if (
-    props.multiLoading.Health ||
-    props.multiLoading.VetCenter ||
-    props.multiLoading.Cemetery
-  ) {
+  if (isStartedLoading(props.multiLoading)) {
     return <va-loading-indicator message="Loading facilities..." />;
   }
-
-  if (filteredVaLocations.length > 0) {
+  const joined = joinData(props.multidata);
+  if (joined.length > 0) {
     // only render the section if there are some facilities within the birds-eye radius
-    const normalizedFetchedFacilities = normalizeFetchedFacilities(
-      filteredVaLocations,
-    );
+    const normalizedFetchedFacilities = normalizeFetchedFacilities(joined);
     return renderNearbyFacilitiesContainer(normalizedFetchedFacilities);
   }
   return null;
@@ -301,12 +277,14 @@ NearByVALocations.propTypes = {
   mainFacilityApiId: PropTypes.string,
   mainPhone: PropTypes.string,
   multiLoading: PropTypes.objectOf(PropTypes.bool),
+  multidata: PropTypes.objectOf(PropTypes.object),
   nearbyLocations: PropTypes.array,
   togglesLoading: PropTypes.bool,
 };
 
 const mapStateToProps = store => ({
   multiLoading: store.facility?.multiLoading,
+  multidata: store.facility?.multidata,
   togglesLoading: store.featureToggles?.loading,
 });
 
