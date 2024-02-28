@@ -9,6 +9,7 @@ import {
   fullNameSchema,
   phoneUI,
   phoneSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -79,17 +80,20 @@ const formConfig = {
           },
         },
         page2: {
-          path: 'sponsor-information/ssn',
-          title: 'Sponsor SSN and VA file number',
+          path: 'veteran-information/ssn',
+          title: 'Veteran SSN and VA file number',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor SSN or VA file number'),
+            ...titleUI(
+              `Veteran's identification information`,
+              `You must enter either a Social Security number of VA File number`,
+            ),
             ssn: ssnOrVaFileNumberUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
               ssn: ssnOrVaFileNumberSchema,
             },
           },

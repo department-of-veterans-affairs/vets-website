@@ -18,6 +18,7 @@ export const HealthInsuranceAddtlInfoDescription = () => (
   <va-additional-info
     trigger="Why giving us your health insurance information may help you"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0 vads-u-font-weight--bold">

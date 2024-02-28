@@ -9,7 +9,7 @@ export const getVitals = () => async dispatch => {
     const response = await getVitalsList();
     dispatch({ type: Actions.Vitals.GET_LIST, response });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
@@ -20,7 +20,7 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
     }
     dispatch({ type: Actions.Vitals.GET, vitalType });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
