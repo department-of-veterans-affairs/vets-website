@@ -38,13 +38,13 @@ const VerifyIdentityInfo = () => (
 const IdentityNotVerified = ({
   headline = 'Verify your identity to use your ID.me account on My HealtheVet',
   showHelpContent = true,
-  showVerifyIdenityHelpInfo = false,
+  showVerifyIdenityHelpInfo = true,
 }) => {
   return (
     <>
       <va-alert
         status="continue"
-        class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+        class="vads-u-margin-top--3 vads-u-margin-bottom--3"
       >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
