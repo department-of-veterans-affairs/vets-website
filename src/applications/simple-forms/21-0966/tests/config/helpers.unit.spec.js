@@ -194,7 +194,7 @@ describe('form helper functions', () => {
   it('returns true for ITF functions when ITF formData values are present and false when values are empty objects', () => {
     const formData = {
       'view:activeCompensationITF': {
-        expirationDate: '1-1-1999',
+        expirationDate: new Date().toISOString(),
         status: 'active',
       },
       'view:activePensionITF': {},
@@ -206,7 +206,7 @@ describe('form helper functions', () => {
 
     formData['view:activeCompensationITF'] = {};
     formData['view:activePensionITF'] = {
-      expirationDate: '1-1-1999',
+      expirationDate: new Date().toISOString(),
       status: 'active',
     };
 
@@ -367,10 +367,10 @@ describe('Confirmation Page helper functions', () => {
     const formData = {
       benefitSelection: {},
       'view:activeCompensationITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: new Date().toISOString(),
       },
       'view:activePensionITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: new Date().toISOString(),
       },
     };
 
@@ -386,7 +386,9 @@ describe('Confirmation Page helper functions', () => {
       'Our records show that you already have an intent to file for disability compensation and it will expire on 1-1-2025.',
     );
 
-    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
+    formData['view:activePensionITF'] = {
+      expirationDate: new Date().toISOString(),
+    };
     formData['view:activeCompensationITF'] = {};
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
@@ -407,10 +409,10 @@ describe('Confirmation Page helper functions', () => {
     const formData = {
       benefitSelection: {},
       'view:activeCompensationITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: new Date().toISOString(),
       },
       'view:activePensionITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: new Date().toISOString(),
       },
     };
 
@@ -429,7 +431,9 @@ describe('Confirmation Page helper functions', () => {
       'disability compensation',
     );
 
-    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
+    formData['view:activePensionITF'] = {
+      expirationDate: new Date().toISOString(),
+    };
     formData['view:activeCompensationITF'] = {};
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
