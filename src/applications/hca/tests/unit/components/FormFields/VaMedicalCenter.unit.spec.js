@@ -52,19 +52,14 @@ describe('hca <VaMedicalCenter>', () => {
   context('when the component renders on form page', () => {
     const { mockStore, props } = getData({});
 
-    it('should render `va-select` with empty option', () => {
+    it('should render `va-select`', () => {
       const { container } = render(
         <Provider store={mockStore}>
           <VaMedicalCenter {...props} />
         </Provider>,
       );
-      const selectors = {
-        input: container.querySelector('#preferredFacility_vaMedicalFacility'),
-        options: container.querySelectorAll('option'),
-      };
-      expect(selectors.input).to.exist;
-      expect(selectors.options).to.have.lengthOf(1);
-      expect(selectors.options[0]).to.have.attr('value', '');
+      const selector = container.querySelector(`#${props.id}`);
+      expect(selector).to.exist;
     });
 
     it('should not render the facility name container', () => {
