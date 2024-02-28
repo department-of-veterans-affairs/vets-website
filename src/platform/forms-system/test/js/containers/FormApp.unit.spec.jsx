@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import { FormApp } from '../../../src/js/containers/FormApp';
+import PageNotFound from '../../../../site-wide/user-nav/components/PageNotFound';
 
 describe('Schemaform <FormApp>', () => {
   it('should render children on intro page, but not form title or nav', () => {
@@ -115,6 +116,36 @@ describe('Schemaform <FormApp>', () => {
     expect(tree.everySubTree('.child')).not.to.be.empty;
     expect(tree.everySubTree('FormTitle')).to.be.empty;
     expect(tree.everySubTree('.row')).to.be.empty;
+    expect(tree.everySubTree('.usa-width-two-thirds')).to.be.empty;
+  });
+
+  it('should hide title, nav and layout classes when a PageNotFound is shown', () => {
+    const formConfig = {
+      title: 'Main title',
+    };
+    const currentLocation = {
+      pathname: '/veteran-information/dummy',
+      search: '',
+    };
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
+
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+      >
+        <PageNotFound className="child" />
+      </FormApp>,
+    );
+    expect(tree.everySubTree('.child')).not.to.be.empty;
+    expect(tree.everySubTree('FormTitle')).to.be.empty;
+    // row is used by the child and footer, so when no footer then = 1
+    expect(tree.everySubTree('.row')).to.have.lengthOf(1);
     expect(tree.everySubTree('.usa-width-two-thirds')).to.be.empty;
   });
 });

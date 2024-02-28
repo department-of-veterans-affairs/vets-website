@@ -6,6 +6,7 @@ import {
   checkValidPagePath,
   createRoutes,
 } from '../../src/js/routing';
+import PageNotFound from '../../../site-wide/user-nav/components/PageNotFound';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {
@@ -139,6 +140,8 @@ describe('Schemaform routing', () => {
 
       expect(routes[0].path).to.equal('test-page');
       expect(routes[1].path).to.equal('review-and-submit');
+      expect(routes[routes.length - 1].path).to.equal('*');
+      expect(routes[routes.length - 1].component).to.equal(PageNotFound);
     });
     it('should create routes with intro', () => {
       const formConfig = {
