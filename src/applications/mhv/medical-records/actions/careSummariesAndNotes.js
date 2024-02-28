@@ -10,6 +10,7 @@ export const getCareSummariesAndNotesList = () => async dispatch => {
     dispatch({ type: Actions.CareSummariesAndNotes.GET_LIST, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
@@ -28,6 +29,7 @@ export const getCareSummaryAndNotesDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
