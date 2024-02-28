@@ -202,7 +202,7 @@ const InstallmentContract = props => {
               isSecondary: true,
             },
             {
-              label: `${addUpdateButtonsText} an installment contract`,
+              label: `${addUpdateButtonsText} installment contract`,
               onClick: handlers.onUpdate,
               isSubmitting: true,
             },
@@ -218,7 +218,7 @@ const InstallmentContract = props => {
         <ButtonGroup
           buttons={[
             {
-              label: 'Cancel',
+              label: 'Back',
               onClick: handlers.onCancel,
               isSecondary: true,
             },

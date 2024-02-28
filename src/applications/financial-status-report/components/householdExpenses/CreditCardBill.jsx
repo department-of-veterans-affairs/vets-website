@@ -166,7 +166,7 @@ const CreditCardBill = props => {
               isSecondary: true,
             },
             {
-              label: `${addCancelButtonsText} a credit card bill`,
+              label: `${addCancelButtonsText} credit card bill`,
               onClick: handlers.onUpdate,
               isSubmitting: true,
             },
@@ -204,7 +204,7 @@ const CreditCardBill = props => {
           <h3 className="vads-u-margin--0">
             {`${
               creditCardBills.length === index ? 'Add' : 'Update'
-            } a credit card bill`}
+            } credit card bill`}
           </h3>
           <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
             Enter your credit card bill’s information.

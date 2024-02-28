@@ -147,7 +147,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             <ButtonGroup
               buttons={[
                 {
-                  label: 'Back',
+                  label: 'Cancel',
                   onClick: handlers.onCancel, // Define this function based on page-specific logic
                   isSecondary: true,
                 },
