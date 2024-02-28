@@ -118,8 +118,8 @@ const VaMedicalCenter = props => {
       required={required}
       onVaSelect={handleChange}
       onBlur={handleBlur}
+      uswds
     >
-      <option value="">&nbsp;</option>
       {facilities.map(f => (
         <option key={f.id} value={f.id.split('_').pop()}>
           {f.name}
