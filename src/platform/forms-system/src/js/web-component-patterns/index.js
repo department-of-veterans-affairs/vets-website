@@ -8,6 +8,7 @@ export * from './phonePattern';
 export * from './relationshipToVeteranPattern';
 export * from './radioPattern';
 export * from './arnPattern';
+export * from './selectPattern';
 export * from './ssnPattern';
 export * from './titlePattern';
 export * from './yesNoPattern';
