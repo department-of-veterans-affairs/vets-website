@@ -163,7 +163,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                         prescription.prescriptionId,
                       ) || false
                     }
-                    id={prescription.prescriptionId}
+                    id={`checkbox-${prescription.prescriptionId}`}
                     name={prescription.prescriptionId}
                     className="vads-u-margin-y--0"
                     onChange={e =>
@@ -172,7 +172,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     }
                   />
                   <label
-                    htmlFor={prescription.id}
+                    htmlFor={`checkbox-${prescription.prescriptionId}`}
                     className="vads-u-margin-y--0"
                   >
                     <h4 className="vads-u-display--inline-block vads-u-margin-y--0">
