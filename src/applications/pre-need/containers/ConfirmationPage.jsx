@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -13,11 +13,11 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const { form } = this.props;
-    const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
-      : {};
+    //  const response = this.props.form.submission.response
+    //   ? this.props.form.submission.response.attributes
+    //   : {};
     const { name } = form.data.application.claimant;
-    const submittedAt = moment(form.submission.submittedAt);
+    // const submittedAt = moment(form.submission.submittedAt);
 
     return (
       <div>
@@ -40,25 +40,19 @@ class ConfirmationPage extends React.Component {
                 {name.first} {name.middle} {name.last} {name.suffix}
               </div>
             </li>
-            {response.trackingNumber && (
-              <li>
-                <strong>Confirmation number</strong>
-                <br />
-                <span>{response.trackingNumber}</span>
-              </li>
-            )}
+
             <li>
               <strong>Form name</strong>
               <br />
               <div>Burial Pre-Need Claim (Form 40-10007)</div>
             </li>
-            {response.trackingNumber && (
+            {/* {response.trackingNumber && (
               <li>
                 <strong>Date submitted</strong>
                 <br />
                 <span>{submittedAt.format('MMM D, YYYY')}</span>
               </li>
-            )}
+            )} */}
           </ul>
 
           <va-button
