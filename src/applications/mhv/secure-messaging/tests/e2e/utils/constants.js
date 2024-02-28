@@ -67,7 +67,7 @@ export const Locators = {
   ALERTS: {
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
     DRAFT_MESSAGE: '@draft_message',
-    MAIN_CONTENT: 'main-content > va-alert',
+    MAIN_CONTENT: '.va-alert',
     PAGE_TITLE: '.page-title',
     EXPANDABLE_TITLE: '[class="alert-expandable-title"]',
     SAVE_DRAFT: '#messagetext',
