@@ -24,12 +24,12 @@ inputs:
 runs:
   using: composite
   steps:
-    uses: aws-actions/configure-aws-credentials@v4
-    with:
-      aws-access-key-id: ${{ inputs.aws_id }}
-      aws-secret-access-key: ${{ inputs.aws_key }}
-      aws-region: ${{ inputs.aws_region }}
-      mask-aws-account-id: true
-      role-to-assume: ${{ inputs.role }}
-      role-session-name: ${{ inputs.session_name }}
-      role-duration-seconds: ${{ inputs.role_duration }}
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.aws_id }}
+        aws-secret-access-key: ${{ inputs.aws_key }}
+        aws-region: ${{ inputs.aws_region }}
+        mask-aws-account-id: true
+        role-to-assume: ${{ inputs.role }}
+        role-session-name: ${{ inputs.session_name }}
+        role-duration-seconds: ${{ inputs.role_duration }}
