@@ -239,8 +239,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.findAllByText(/Continue/i, { selector: 'button' })
-            .first()
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
             .click({ waitForAnimations: true });
         });
       },
@@ -388,8 +389,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Continue/i, { selector: 'button' })
-            .first()
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
             .click();
           // cy.get('.usa-button-primary').click();
         });
@@ -451,10 +453,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Continue/i, {
-            selector: 'button',
-          })
-            .first()
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
             .click();
           // cy.get('.usa-button-primary').click();
         });
