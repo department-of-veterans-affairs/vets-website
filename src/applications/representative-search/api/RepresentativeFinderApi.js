@@ -1,5 +1,5 @@
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
-import { getApi, resolveParamsWithUrl } from '../config';
+import { getApi, resolveParamsWithUrl, endpointOptions } from '../config';
 
 class RepresentativeFinderApi {
   /**
@@ -30,8 +30,8 @@ class RepresentativeFinderApi {
 
     const endpoint =
       type === 'veteran_service_officer'
-        ? '/vso_accredited_representatives'
-        : '/other_accredited_representatives';
+        ? endpointOptions.fetchVSOReps
+        : endpointOptions.fetchOtherReps;
 
     const { requestUrl, apiSettings } = getApi(endpoint);
     const startTime = new Date().getTime();
@@ -74,7 +74,7 @@ class RepresentativeFinderApi {
     }
 
     const { requestUrl, apiSettings } = getApi(
-      '/flag_accredited_representatives',
+      endpointOptions.flagReps,
       'POST',
       reportRequestBody,
     );
