@@ -57,9 +57,9 @@ export const currentlyBuriedPersonsTitle = (
 export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescriptionNotProd">
     <p>
-      We’ll now ask you questions about the sponsor’s passing. We understand
-      that the questions may be difficult to answer, but your answers will help
-      us determine eligibility for your application.
+      We’ll ask you questions about your sponsor’s death. We understand that the
+      questions may be difficult to answer, but your answers will help us
+      determine eligibility for your application.
     </p>
   </div>
 );
