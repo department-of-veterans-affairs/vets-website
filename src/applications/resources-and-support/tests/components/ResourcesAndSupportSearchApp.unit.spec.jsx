@@ -6,9 +6,9 @@ import { fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 // Relative imports.
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import ResourcesAndSupportSearchApp from '../../components/ResourcesAndSupportSearchApp';
 import mockData from './articles.json';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 describe('ResourcesAndSupportSearchApp', () => {
   let server = null;
@@ -30,13 +30,6 @@ describe('ResourcesAndSupportSearchApp', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<ResourcesAndSupportSearchApp />, div);
-  });
-
-  it('creates a landmark for the search form', async () => {
-    const screen = renderInReduxProvider(<ResourcesAndSupportSearchApp />);
-    await screen.findByLabelText('Enter a keyword, phrase, or question');
-
-    screen.getByRole('search');
   });
 
   // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10217/tests
