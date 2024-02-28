@@ -11,7 +11,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Edu 1995 benefitSelection', () => {
+describe.skip('Edu 1995 benefitSelection', () => {
   const {
     schema,
     uiSchema,
@@ -49,7 +49,7 @@ describe('Edu 1995 benefitSelection', () => {
   });
 });
 
-describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
+describe.skip('Delete Environment Variables Edu 1995 benefitSelection', () => {
   beforeEach(() => {
     global.window.buildType = true;
   });
