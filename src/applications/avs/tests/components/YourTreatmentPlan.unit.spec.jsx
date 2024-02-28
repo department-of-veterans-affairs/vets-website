@@ -56,9 +56,7 @@ describe('Avs: Your Treatment Plan', () => {
     delete avs.orders;
     delete avs.patientInstructions;
     delete avs.clinicalReminders;
-    avs.medChangesSummary.discontinuedMeds = [];
-    avs.medChangesSummary.newMedications = [];
-    avs.medChangesSummary.changedMedications = [];
+    avs.medChangesSummary = null;
     const props = { avs };
     const screen = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('new-orders-heading')).to.not.exist;
