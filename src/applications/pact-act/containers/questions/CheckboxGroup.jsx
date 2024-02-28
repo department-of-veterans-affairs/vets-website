@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {
   VaButtonPair,
   VaCheckbox,
+  VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
@@ -57,6 +57,7 @@ const CheckboxGroup = ({
           name={shortName}
           value={response}
           onVaChange={onValueChange}
+          uswds
         />
       );
     });
@@ -82,33 +83,20 @@ const CheckboxGroup = ({
 
   return (
     <>
-      <div
-        className={classNames('vads-u-margin-bottom--3', {
-          'pact-act-form-question-error': formError,
-        })}
+      <h1 className="pact-act-form-question-header" id="pact-act-form-question">
+        {h1}
+      </h1>
+      <VaCheckboxGroup
+        data-testid={testId}
+        error={formError ? 'Select a location.' : null}
+        label="Select all that apply."
+        label-header-level="2"
+        uswds
       >
-        <h1
-          className="pact-act-form-question-header"
-          id="pact-act-form-question"
-        >
-          {h1}
-        </h1>
-        <fieldset
-          aria-labelledby="pact-act-form-question pact-act-form-instructions"
-          data-testid={testId}
-        >
-          {formError && (
-            <span className="usa-error-message" role="alert">
-              <div className="pact-act-form-text-error">
-                <span className="usa-sr-only">Error</span> Select a location.
-              </div>
-            </span>
-          )}
-          <p id="pact-act-form-instructions">Select all that apply.</p>
-          {createCheckboxes()}
-        </fieldset>
-      </div>
+        {createCheckboxes()}
+      </VaCheckboxGroup>
       <VaButtonPair
+        class="vads-u-margin-top--3"
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}

@@ -46,12 +46,6 @@
   }
 
   va-button-pair {
-    margin-left: -4px;
-    margin-right: -4px;
-
-    @media screen and (min-width: 480px) {
-      margin-left: 4px;
-      margin-right: 4px;
-    }
+    margin-left: 4px;
   }
 }
