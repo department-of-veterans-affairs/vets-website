@@ -2,23 +2,26 @@ name: Annotations
 description: Annotations
 
 inputs:
-  key:
-    description: keys for actions/cache@v4
+  check_title:
+    description: Title of the annotations step
+    required: false
+    default: Annotate files
+  input_json:
+    description: JSON env variable that contains the annotations
     required: false
     default: ''
-  restore-keys:
-    description: restore-keys for actions/cache@v4
-    required: false
+  token:
+    description: Repo Token
+    required: true
     default: ''
-  yarn_cache_folder:
-    description: path for yarn cache
-    required: false
-    default: ''
-  path:
-    description: path for actions/cache@v4
-    required: false
-    default: ''
+
 
 runs:
   using: composite
   steps:
+    - uses: yuzutech/annotations-action@v0.4.0
+      with:
+        repo-token: ${{ inputs.token }}
+        title: ${{ inputs.check_title }}
+        input: ${{ input_json }}
+    

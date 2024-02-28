@@ -26,9 +26,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Configure AWS credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -97,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -161,9 +159,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -222,9 +218,7 @@ jobs:
         ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -346,9 +340,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -394,7 +386,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -465,9 +457,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -495,9 +485,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -546,7 +534,7 @@ jobs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -599,9 +587,7 @@ jobs:
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -696,7 +682,7 @@ jobs:
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
@@ -797,7 +783,7 @@ jobs:
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
@@ -870,7 +856,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -990,7 +976,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       # ----------------
       # | Notify Slack |
@@ -1126,7 +1112,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1219,7 +1205,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1291,7 +1277,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
@@ -1414,7 +1400,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
@@ -1544,9 +1530,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -1629,18 +1613,18 @@ jobs:
 
       - name: Annotate E2E Files accordingly
         if: ${{ env.e2e-annotations-json != '[]' }}
-        uses: yuzutech/annotations-action@v0.4.0
+        uses: ./github/workflows/annotations
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'E2E Test Stability Allow List Annotations'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'E2E Test Stability Allow List Annotations'
           input: './e2e-annotations.json'
 
       - name: Annotate Unit Test Files accordingly
         if: ${{ env.unit-test-annotations-json != '[]' }}
-        uses: yuzutech/annotations-action@v0.4.0
+        uses: ./github/workflows/annotations
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Unit Test Stability Allow List Annotations'
+          oken: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Unit Test Stability Allow List Annotations'
           input: './unit-test-annotations.json'
 
       - name: Verify Merge Eligibility
@@ -1673,7 +1657,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: ./.github/workflows/checkout
 
       - name: Download build artifact
         uses: actions/download-artifact@v3
@@ -1787,9 +1771,7 @@ jobs:
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1862,9 +1844,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: ./.github/workflows/checkout
 
       - name: Install dependencies
         if: env.ALERT_TEAMS == 'true'
