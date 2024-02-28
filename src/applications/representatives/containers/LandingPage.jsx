@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import { SIGN_IN_URL } from '../constants';
+
 const LandingPage = () => {
   return (
     <div className="homepage-hero__wrapper homepage-hero__look-and-feel">
@@ -35,7 +37,10 @@ const LandingPage = () => {
                 </h2>
                 <va-button
                   className="vads-u-padding-x--4 vads-u-margin-bottom--3"
-                  text="Create account"
+                  text="Sign in or create an account"
+                  onClick={() => {
+                    window.location = SIGN_IN_URL;
+                  }}
                 />
               </div>
             </div>

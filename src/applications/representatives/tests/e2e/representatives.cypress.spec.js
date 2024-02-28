@@ -19,13 +19,23 @@ describe('Representatives', () => {
       .should('include', '/representatives/dashboard')
       .injectAxe()
       .axeCheck();
+
     cy.contains('Accredited Representative Portal');
     cy.contains('Manage power of attorney requests').click();
 
-    cy.url().should('include', '/representatives/poa-requests');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.url()
+      .should('include', '/representatives/poa-requests')
+      .injectAxe()
+      .axeCheck();
+
     cy.contains('Power of attorney requests');
     cy.get('[data-testid=poa-requests-table]').should('exist');
+  });
+
+  it('allows navigation from landing page to unified sign-in page', () => {
+    cy.visit('/representatives');
+    cy.contains('Sign in or create an account').click();
+
+    cy.url().should('include', '/sign-in/?application=arp&oauth=true');
   });
 });
