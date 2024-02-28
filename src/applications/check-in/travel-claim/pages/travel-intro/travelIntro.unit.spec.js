@@ -13,6 +13,7 @@ describe('travel-claim', () => {
   describe('Intro page', () => {
     it('links to select page if multiple facilites in payload', () => {
       const push = sinon.spy();
+      store.appointments = multiFacility;
       const component = render(
         <CheckInProvider
           store={store}
@@ -22,7 +23,7 @@ describe('travel-claim', () => {
             params: {},
           }}
         >
-          <TravelIntro appointments={multiFacility} />
+          <TravelIntro />
         </CheckInProvider>,
       );
       const link = component.getByTestId('file-claim-link');
@@ -31,6 +32,7 @@ describe('travel-claim', () => {
     });
     it('links to single page if one facility in payload', () => {
       const push = sinon.spy();
+      store.appointments = singleFacility;
       const component = render(
         <CheckInProvider
           store={store}
@@ -40,7 +42,7 @@ describe('travel-claim', () => {
             params: {},
           }}
         >
-          <TravelIntro appointments={singleFacility} />
+          <TravelIntro />
         </CheckInProvider>,
       );
       const link = component.getByTestId('file-claim-link');

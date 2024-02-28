@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -7,15 +8,14 @@ import Wrapper from '../../../components/layout/Wrapper';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { hasMultipleFacilities } from '../../../utils/appointment';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { makeSelectTravelClaimData } from '../../../selectors';
 import TravelEligibilityAddtionalInfo from '../../../components/TravelEligibilityAdditionalInfo';
 
-// Appointments will come from redux this is temp
-import { singleFacility } from './testAppointments';
-
 const TravelIntro = props => {
-  const { router, appointments = singleFacility } = props;
+  const { router } = props;
   const { t } = useTranslation();
-
+  const selectTravelClaimData = useMemo(makeSelectTravelClaimData, []);
+  const appointments = useSelector(selectTravelClaimData);
   const { jumpToPage } = useFormRouting(router);
 
   const nextPage = hasMultipleFacilities(appointments)
@@ -86,7 +86,10 @@ const TravelIntro = props => {
           </va-process-list-item>
         </va-process-list>
         <va-featured-content class="vads-u-margin-bottom--1" uswds>
-          <h2 className="vads-u-font-family--sans vads-u-margin-top--0">
+          <h2
+            className="vads-u-font-family--sans vads-u-margin-top--0"
+            slot="headline"
+          >
             {t('set-up-direct-deposit')}
           </h2>
           <p>{t('set-up-direct-deposit-to-receive-travel-reimbursement')}</p>

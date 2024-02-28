@@ -17,6 +17,10 @@ import { URLS } from '..';
 const TRAVEL_PAY_FORM_PAGES = Object.freeze([
   {
     url: URLS.VERIFY,
+    order: 0,
+  },
+  {
+    url: URLS.LOADING,
     order: 1,
   },
   {
