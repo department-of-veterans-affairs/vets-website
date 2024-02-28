@@ -203,13 +203,13 @@ export const updateFormDataAddress = (
  * ```
  * @param {{
  *   labels?: {
- *     militaryCheckbox?: string
+ *     militaryCheckbox?: string,
  *     street?: string,
  *     street2?: string,
  *     street3?: string,
- *   }},
+ *   },
  *   omit?: Array<AddressSchemaKey>,
- *   required?: Record<AddressSchemaKey, (formData:any) => boolean>
+ *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
  * }} [options]
  * @returns {UISchemaOptions}
  */
@@ -218,7 +218,10 @@ export function addressUI(options) {
   let cityMaxLength = 100;
 
   const omit = key => options?.omit?.includes(key);
-  const customRequired = key => options?.required?.[key];
+  let customRequired = key => options?.required?.[key];
+  if (options?.required === false) {
+    customRequired = () => () => false;
+  }
 
   /** @type {UISchemaOptions} */
   const uiSchema = {};
@@ -564,9 +567,9 @@ export const addressSchema = options => {
  *     street?: string,
  *     street2?: string,
  *     street3?: string,
- *   }},
+ *   },
  *   omit?: Array<AddressSchemaKey>,
- *   required?: Record<AddressSchemaKey, (formData:any) => boolean>
+ *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
  * }} [options]
  * @returns {UISchemaOptions}
  */
