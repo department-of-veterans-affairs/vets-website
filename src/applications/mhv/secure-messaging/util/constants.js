@@ -131,6 +131,8 @@ export const Alerts = {
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
     SEND_MESSAGE_SUCCESS: 'Secure message was successfully sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
+    SERVER_ERROR_503:
+      'We’re sorry. We couldn’t load this page. Try again later.',
   },
 
   Folder: {
@@ -170,6 +172,7 @@ export const Errors = {
     BLOCKED_USER: 'SM119',
     BLOCKED_USER2: 'SM151',
     TG_NOT_ASSOCIATED: 'SM129',
+    SERVICE_OUTAGE: '503',
   },
 };
 
