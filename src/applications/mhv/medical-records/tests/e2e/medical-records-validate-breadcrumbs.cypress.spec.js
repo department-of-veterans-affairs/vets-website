@@ -11,10 +11,10 @@ describe('Medical Records validate breadcrumbs', () => {
     cy.visit('my-health/medical-records');
     // navigate to allergies list page
     AllergiesListPage.clickGotoAllergiesLink(allergies);
-    AllergiesListPage.verifyBreadcrumbs();
+    AllergiesListPage.verifyBreadcrumbs('Back to medical records');
     // navigate to allergies details page
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
-    AllergyDetailsPage.verifyBreadcrumbs();
+    AllergyDetailsPage.verifyBreadcrumbs('Back to allergies');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

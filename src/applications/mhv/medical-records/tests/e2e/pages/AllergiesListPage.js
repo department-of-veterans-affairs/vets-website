@@ -42,10 +42,10 @@ class AllergiesListPage {
     );
   };
 
-  verifyBreadcrumbs = () => {
+  verifyBreadcrumbs = breadcrumbsText => {
     cy.get('[data-testid="breadcrumbs"]').should(
       'contain',
-      '‹ Back to medical records',
+      `‹ ${breadcrumbsText}`,
     );
   };
 }

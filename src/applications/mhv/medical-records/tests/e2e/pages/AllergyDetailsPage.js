@@ -69,10 +69,10 @@ class AllergyDetailsPage {
     cy.get('[data-testid="printButton-2"]').should('be.visible');
   };
 
-  verifyBreadcrumbs = () => {
+  verifyBreadcrumbs = breadcrumbsText => {
     cy.get('[data-testid="breadcrumbs"]').should(
       'contain',
-      '‹ Back to allergies',
+      `‹ ${breadcrumbsText}`,
     );
   };
 }
