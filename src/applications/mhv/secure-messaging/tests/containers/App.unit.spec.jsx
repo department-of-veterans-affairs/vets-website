@@ -22,6 +22,17 @@ describe('App', () => {
   afterEach(() => {
     global.window.location = oldLocation;
   });
+
+  const noDowntime = {
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
+    },
+  };
+
   const initialState = {
     user: {
       login: {
@@ -35,15 +46,6 @@ describe('App', () => {
       breadcrumbs: {
         list: [],
       },
-    },
-  };
-  const noDowntime = {
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
     },
   };
   const downtime = maintenanceWindows => {
@@ -65,6 +67,7 @@ describe('App', () => {
     // expected behavior is be redirected to the home page with next in the url
     renderWithStoreAndRouter(<App />, {
       initialState: {
+        ...initialState,
         user: {
           login: {
             currentlyLoggedIn: false,
@@ -75,7 +78,7 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    expect(window.location.replace.calledOnce).to.be.true;
+    expect(window.location.replace.called).to.be.true;
   });
 
   it('feature flags are still loading', () => {
@@ -95,8 +98,7 @@ describe('App', () => {
   it('feature flag set to false', () => {
     const customState = {
       ...initialState,
-      featureToggles: [],
-      scheduledDowntime: {},
+      featureToggles: {},
     };
     customState.featureToggles[
       `${'mhv_secure_messaging_to_va_gov_release'}`
@@ -114,12 +116,12 @@ describe('App', () => {
     ).to.be.null;
     expect(screen.queryByText('Messages', { selector: 'h1', exact: true })).to
       .be.null;
-    expect(window.location.replace.calledOnce).to.be.true;
+    expect(window.location.replace.called).to.be.true;
   });
 
   it('feature flag set to true', () => {
     const customState = {
-      featureToggles: [],
+      featureToggles: {},
       ...initialState,
       ...noDowntime,
     };
@@ -306,7 +308,7 @@ describe('App', () => {
   });
   it('redirects Basic users to /health-care/secure-messaging', async () => {
     const customState = {
-      featureToggles: [],
+      featureToggles: {},
       user: {
         login: {
           currentlyLoggedIn: true,
