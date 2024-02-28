@@ -57,7 +57,7 @@ const BenefitsProfileWrapper = ({ children }) => {
                 zip: addressLine6,
               }}
             />
-            <ChangeOfDirectDepositWrapper />
+            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
             <PendingDocuments
               loading={loading}
               pendingDocuments={pendingDocuments}
