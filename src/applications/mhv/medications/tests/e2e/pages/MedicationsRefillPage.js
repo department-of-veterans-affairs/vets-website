@@ -14,6 +14,31 @@ class MedicationsRefillPage {
       'Refill prescriptions',
     );
   };
+
+  verifySelectAllRefillButtonExists = () => {
+    cy.get('[data-testid="select-all-button"]').should('exist');
+  };
+
+  clickSelectAllRefillButton = () => {
+    cy.get('[data-testid="select-all-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyRequestRefillsButtonExists = () => {
+    cy.get('[data-testid="request-refill-button"]')
+      .shadow()
+      .find('[type ="button"]')
+      .should('contain', 'Request refills');
+  };
+
+  verifyRefillCheckBoxIsClicked = () => {
+    for (let i = 0; i < 2; i++) {
+      cy.get(`[data-testid="refill-prescription-checkbox-${i}"]`).should(
+        'be.checked',
+      );
+    }
+  };
 }
 
 export default MedicationsRefillPage;
