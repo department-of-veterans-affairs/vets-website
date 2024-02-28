@@ -128,10 +128,6 @@ class MedicationsDetailsPage {
     cy.get(`[href="/my-health/medications/?page=${interceptedPage}"]`).click({
       waitForAnimations: true,
     });
-    // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
-    // cy.get('[data-testid="rx-breadcrumb"]').click({
-    //   waitForAnimations: true,
-    // });
   };
 
   clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = (

@@ -1,7 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe('Medications Landing Page', () => {
+describe('Medications Landing Page Verify', () => {
   it('visits Medications landing Page', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
