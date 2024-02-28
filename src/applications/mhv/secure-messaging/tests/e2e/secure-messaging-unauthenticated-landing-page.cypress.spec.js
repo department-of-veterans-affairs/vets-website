@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 import mockEhrData from './fixtures/vamc-ehr.json';
 
 describe('Secure Messaging Compose', () => {
@@ -15,7 +15,7 @@ describe('Secure Messaging Compose', () => {
     site.login();
 
     patientInboxPage.loadInboxMessages();
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
+    cy.get(Locators.FOLDERS.INBOX).click();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

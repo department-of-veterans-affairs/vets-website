@@ -27,11 +27,13 @@ export const Locators = {
   MESSAGES: '[data-testid="message-list-item"]',
   THREADS: '[data-testid="thread-list-item"]',
   FOLDERS: {
-    INBOX: '[data-testid="inbox-sidebar"]',
+    NAME: '[data-testid="folder-name"]',
+    INBOX: '[data-testid="inbox-sidebar"] > a',
     DRAFTS: '[data-testid="drafts-sidebar"]',
     SENT: '[data-testid="sent-sidebar"]',
     TRASH: '[data-testid="trash-sidebar"]',
     CUSTOM: '[data-testid="my-folders-sidebar"]',
+    ATTACH_FILE_INPUT: '[data-testid="attach-file-input"]',
   },
   BUTTONS: {
     REPLY: '[data-testid="reply-button-body"]',

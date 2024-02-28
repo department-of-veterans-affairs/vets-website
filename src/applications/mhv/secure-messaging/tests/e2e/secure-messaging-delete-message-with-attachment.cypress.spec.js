@@ -5,7 +5,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
@@ -33,7 +33,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
 
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
+    cy.get(Locators.FOLDERS.INBOX).click();
 
     detailsPage.loadMessageDetails(
       mockMessagewithAttachment,
