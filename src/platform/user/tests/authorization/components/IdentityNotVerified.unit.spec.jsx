@@ -15,9 +15,12 @@ describe('IdentityNotVerified component', () => {
       expect(view.getByText(headline)).to.exist;
     });
     it('renders the correct alert content', () => {
-      expect(view.getByText(/We need to make sure you’re you/i)).to.exist;
-      expect(view.getByText(/your personal and health-related information/i)).to
-        .exist;
+      expect(
+        view.getByText(/We need you to verify your identity for this account/i),
+      ).to.exist;
+      expect(
+        view.getByText(/ID.me will ask you for certain personal information/i),
+      ).to.exist;
     });
     it('renders the correct CTA', () => {
       expect(
