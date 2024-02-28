@@ -117,13 +117,11 @@ const PeriodsToVerify = ({
           </div>
           <div>
             {getPeriodsToVerify()}
-            <button
-              className="usa-button-primary"
-              type="button"
+            <va-button
               onClick={handleVerification}
-            >
-              Verify enrollment
-            </button>
+              text="Verify enrollment"
+              data-testid="Verify enrollment"
+            />
           </div>
         </va-alert>
       )}
@@ -161,7 +159,7 @@ const mapDispatchToProps = {
 PeriodsToVerify.propTypes = {
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
-  enrollmentData: PropTypes.func,
+  enrollmentData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,
