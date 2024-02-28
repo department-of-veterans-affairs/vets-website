@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
-import { waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/react';
 import {
   getData,
   GET_DATA,
@@ -13,6 +13,10 @@ import {
   updateBankInfo,
   UPDATE_BANK_INFO_SUCCESS,
   UPDATE_BANK_INFO_FAILED,
+  UPDATE_ADDRESS,
+  UPDATE_ADDRESS_SUCCESS,
+  UPDATE_ADDRESS_FAILURE,
+  postMailingAddress,
 } from '../../actions';
 
 const mockData = { user: 'user' };
@@ -55,7 +59,7 @@ describe('getData, creator', () => {
       await waitFor(() => {
         expect(
           dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
-        ).to.be.false;
+        ).to.be.true;
       });
     });
     it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
@@ -95,6 +99,66 @@ describe('getData, creator', () => {
         }),
       ).to.be.true;
       apiRequestStub2.restore();
+    });
+  });
+  describe('postMailingAddress action', () => {
+    let dispatch;
+    let apiRequestStub;
+
+    beforeEach(() => {
+      dispatch = sinon.spy();
+      apiRequestStub = sinon.stub(apiModule, 'apiRequest');
+    });
+
+    afterEach(() => {
+      apiRequestStub.restore();
+    });
+
+    it('dispatches UPDATE_ADDRESS action immediately', async () => {
+      const mailingAddress = {
+        street: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        zip: '12345',
+      };
+
+      await waitFor(() => {
+        postMailingAddress(mailingAddress)(dispatch);
+      });
+
+      expect(dispatch.calledWith({ type: UPDATE_ADDRESS })).to.be.true;
+    });
+
+    it('dispatches UPDATE_ADDRESS_SUCCESS action when API request succeeds', async () => {
+      const mailingAddress = {
+        street: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        zip: '12345',
+      };
+      const response = { status: 'success', data: mailingAddress };
+      apiRequestStub.resolves(response);
+
+      await postMailingAddress(mailingAddress)(dispatch);
+
+      expect(dispatch.calledWith({ type: UPDATE_ADDRESS_SUCCESS, response })).to
+        .be.true;
+    });
+
+    it('dispatches UPDATE_ADDRESS_FAILURE action when API request fails', async () => {
+      const mailingAddress = {
+        street: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        zip: '12345',
+      };
+      const errors = { status: 'error', message: 'Failed to update address' };
+      apiRequestStub.rejects(errors);
+
+      await postMailingAddress(mailingAddress)(dispatch);
+
+      expect(dispatch.calledWith({ type: UPDATE_ADDRESS_FAILURE, errors })).to
+        .be.true;
     });
   });
 });
