@@ -109,10 +109,17 @@ describe('VAOS select appointment date', () => {
       ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 2/i, isCovid: true })
         .clickNextButton();
-
-      DateTimeSelectPageObject.assertUrl()
-        .selectDate(secondDate)
-        .assertDateSelected(secondDate);
+      // if secondDate is first of the month then click next month
+      if (secondDate.date() === 1) {
+        DateTimeSelectPageObject.assertUrl()
+          .clickNextMonth()
+          .selectDate(secondDate)
+          .assertDateSelected(secondDate);
+      } else {
+        DateTimeSelectPageObject.assertUrl()
+          .selectDate(secondDate)
+          .assertDateSelected(secondDate);
+      }
 
       // Assert
       cy.axeCheckBestPractice();
