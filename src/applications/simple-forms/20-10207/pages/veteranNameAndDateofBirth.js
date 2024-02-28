@@ -11,12 +11,6 @@ import {
   getFullNameLabels,
 } from '../helpers';
 
-// set custom max-lengths per PDF
-const customNameSchema = fullNameNoSuffixSchema;
-customNameSchema.properties.first.maxLength = 12;
-customNameSchema.properties.middle.maxLength = 1;
-customNameSchema.properties.last.maxLength = 18;
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -30,7 +24,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      veteranFullName: customNameSchema,
+      veteranFullName: fullNameNoSuffixSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
     required: ['veteranFullName', 'veteranDateOfBirth'],
