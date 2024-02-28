@@ -18,12 +18,6 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
-import {
-  MissingServices,
-  MissingId,
-  MissingDob,
-} from './containers/MissingServices';
-
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
   DOCUMENT_TITLE_SUFFIX,
@@ -45,6 +39,12 @@ import {
   fetchBranches,
   getBranches,
 } from './utils/serviceBranches';
+import { Missing526Identifiers } from './containers/Missing526Identifiers';
+import {
+  MissingDob,
+  MissingId,
+  MissingServices,
+} from './containers/MissingServices';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -65,6 +65,21 @@ export const hasRequiredId = profile =>
   idRequired.some(service => profile.services.includes(service));
 
 export const hasRequiredDob = profile => !!profile.dob;
+
+const listMissingIdentifiers = profile => {
+  // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
+  // We simply check for the presence of it here instead of toggling a feature flag on the front end as well
+  const identiferDetail = profile?.claims?.form526RequiredIdentifierPresence;
+
+  // If we do have this information, are any of the identifiers marked false, meaning we are missing that identifer on the back end?
+  if (identiferDetail && typeof identiferDetail === 'object') {
+    return Object.values(identiferDetail).some(
+      idPresence => idPresence === false,
+    );
+  }
+
+  return false;
+};
 
 export const isIntroPage = ({ pathname = '' } = {}) =>
   pathname.endsWith('/introduction');
@@ -210,15 +225,31 @@ export const Form526Entry = ({
   // RequiredLoginView will handle unverified users by showing the
   // appropriate link
   if (profile.verified) {
+    if (listMissingIdentifiers(profile)) {
+      // Render more descriptive Missing526Identifiers component which will replace the misleading MissingDob, MissingId and MissingServices components
+      const identifiers = profile.claims.form526RequiredIdentifierPresence;
+
+      return wrapWithBreadcrumb(
+        title,
+        <Missing526Identifiers
+          title={title}
+          form526RequiredIdentifers={identifiers}
+        />,
+      );
+    }
+
     // EVSS requires user DOB for submission - see #27374
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
     if (!hasRequiredDob(profile)) {
       return wrapWithBreadcrumb(title, <MissingDob title={title} />);
     }
     // User is missing either their SSN, EDIPI, or BIRLS ID
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
     if (!hasRequiredId(profile)) {
       return wrapWithBreadcrumb(title, <MissingId title={title} />);
     }
     // User doesn't have the required services. Show an alert
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
     if (!hasRequiredServices(profile)) {
       return wrapWithBreadcrumb(title, <MissingServices title={title} />);
     }
