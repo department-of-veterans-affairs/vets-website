@@ -60,11 +60,6 @@ export default {
         childPlaceOfBirth: {
           'ui:title': 'Place of birth (city and state or foreign country)',
           'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            charcount: true,
-            inert: true,
-            enableAnalytics: true,
-          },
         },
         childSocialSecurityNumber: merge({}, ssnUI(), {
           'ui:required': (formData, index) =>
