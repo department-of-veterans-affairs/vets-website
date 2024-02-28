@@ -115,6 +115,7 @@ export default function transformForSubmit(formConfig, form) {
   });
 
   dataPostTransform.supporting_docs = dataPostTransform.supporting_docs
+    .flat()
     .concat(supDocs)
     .filter(el => el); // remove undefineds
 
