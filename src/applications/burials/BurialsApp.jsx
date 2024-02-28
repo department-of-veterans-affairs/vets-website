@@ -15,7 +15,7 @@ export default function BurialsEntry({ location, children }) {
     burialFormV2,
   } = useSelector(state => state?.featureToggles);
 
-  if (isLoadingFeatures) {
+  if (isLoadingFeatures || !profile || profile.loading) {
     return <va-loading-indicator message="Loading application..." />;
   }
 
@@ -59,6 +59,4 @@ export default function BurialsEntry({ location, children }) {
 BurialsEntry.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
-  // toggleFeatures: PropTypes.object.isRequired,
-  // profile: PropTypes.object.isRequired,
 };
