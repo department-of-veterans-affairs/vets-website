@@ -15,21 +15,48 @@ describe('Opt Out Test', () => {
     cy.injectAxeThenAxeCheck();
 
     // Claimant information
-    cy.get('input[name="root_claimantFullName_first"]').should('be.visible');
+    cy.findByRole('textbox', { name: /Your first name/i })
+      .should('be.visible')
+      .clear();
+    cy.findByRole('textbox', { name: /Your first name/i }).type(
+      testData.claimantFullName.first,
+    );
 
-    cy.fillName('root_claimantFullName', testData.claimantFullName);
-    cy.get('input[name="root_view:noSSN"]').click();
-    cy.get('input[name="root_vaFileNumber"]', {
-      timeout: Timeouts.slow,
-    }).click();
-    cy.fill('input[name="root_vaFileNumber"]', testData.vaFileNumber);
-    cy.get('.form-progress-buttons .usa-button-primary').click();
+    cy.findByRole('textbox', { name: /Your middle name/i })
+      .should('be.visible')
+      .clear();
+    cy.findByRole('textbox', { name: /Your middle name/i }).type(
+      testData.claimantFullName.middle,
+    );
+
+    cy.findByRole('textbox', { name: /Your last name/i })
+      .should('be.visible')
+      .clear();
+    cy.findByRole('textbox', { name: /Your last name/i }).type(
+      testData.claimantFullName.last,
+    );
+
+    cy.findByRole('checkbox', {
+      name: /I don’t have a Social Security number/i,
+    })
+      .should('exist')
+      .check();
+    cy.findByRole('textbox', { name: /VA file number/i })
+      .should('be.visible')
+      .clear();
+    cy.findByRole('textbox', { name: /VA file number/i }).type(
+      testData.vaFileNumber,
+    );
+
+    cy.findByRole('button', { name: /Continue/i }).click();
 
     // Review and submit page
-    cy.url({ timeout: Timeouts.slow }).should(
-      'not.contain',
-      '/claimant-information',
+    cy.url({ timeout: Timeouts.submission }).should(
+      'contain',
+      '/review-and-submit',
     );
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('[name="privacyAgreementAccepted"]')
       .find('label[for="checkbox-element"]')
@@ -41,16 +68,13 @@ describe('Opt Out Test', () => {
         force: true,
       });
 
-    cy.axeCheck();
-    cy.get('.form-progress-buttons .usa-button-primary').click();
-    cy.wait('@optOutClaim');
-    cy.url({ timeout: Timeouts.submission }).should(
-      'not.contain',
-      '/review-and-submit',
-    );
+    cy.findByRole('button', { name: /Submit application/i }).click();
 
-    // Confirmation Page
-    cy.get('.confirmation-page-title').should('be.visible');
-    cy.axeCheck();
+    // Confirmation page
+    cy.url({ timeout: Timeouts.submission }).should('contain', '/confirmation');
+    cy.injectAxeThenAxeCheck();
+    cy.findByRole('heading', {
+      name: /Your opt-out form has been submitted/i,
+    }).should('exist');
   });
 });
