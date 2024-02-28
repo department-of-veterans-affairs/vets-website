@@ -2,23 +2,27 @@ name: Checks Action
 description: Checks Action
 
 inputs:
-  key:
-    description: keys for actions/cache@v4
-    required: false
-    default: ''
-  restore-keys:
-    description: restore-keys for actions/cache@v4
-    required: false
-    default: ''
-  yarn_cache_folder:
-    description: path for yarn cache
-    required: false
-    default: ''
-  path:
-    description: path for actions/cache@v4
-    required: false
-    default: ''
+  check_name:
+    description: Name of check being created
+    required: true
+  conclusion:
+    description: Conclusion of job driving check
+    required: true
+  output:
+    description: Output for check
+    required: true
+  token:
+    description: GH Token
+    required: true
 
 runs:
   using: composite
   steps:
+    - name: Unit test results
+      if: ${{ always() }}
+      uses: LouisBrunner/checks-action@v1.1.1
+      with:
+        token: ${{ inputs.token }}
+        name: ${{ inputs.check_name }}
+        conclusion: ${{ inputs.conclusion }}
+        output: ${{ inputs.output }}
