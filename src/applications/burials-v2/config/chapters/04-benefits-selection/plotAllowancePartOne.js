@@ -2,12 +2,13 @@ import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import {
   yesNoUI,
   numberUI,
+  numberSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 const {
   govtContributions,
-  amountGovtContribution,
+  // amountGovtContribution,
 } = fullSchemaBurials.properties;
 
 export default {
@@ -36,7 +37,7 @@ export default {
     required: ['govtContributions'],
     properties: {
       govtContributions,
-      amountGovtContribution,
+      amountGovtContribution: numberSchema,
     },
   },
 };
