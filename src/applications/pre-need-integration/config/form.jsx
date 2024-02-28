@@ -62,11 +62,22 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  veteranApplicantDetailsSubHeader,
+  veteranApplicantDetailsPreparerSubHeader,
+  veteranApplicantDetailsPreparerDescription,
+  nonPreparerFullMaidenNameUI,
+  preparerFullMaidenNameUI,
+  ssnDashesUI,
+  preparerSsnDashesUI,
+  nonPreparerDateOfBirthUI,
+  preparerDateOfBirthUI,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
   // applicantDetailsPreparerCityTitle,
   // applicantDetailsPreparerStateTitle,
+  applicantDemographicsSubHeader,
+  applicantDemographicsPreparerSubHeader,
   applicantDemographicsGenderTitle,
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
@@ -261,16 +272,20 @@ const formConfig = {
           schema: applicantRelationshipToVet.schema,
         },
         veteranApplicantDetails: {
-          title: 'Applicant details',
+          title: 'Your details',
           path: 'veteran-applicant-details',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails
-            .uiSchema
+          uiSchema: veteranApplicantDetails.uiSchema(
             // partial implementation of story resolving the address change:
             // applicantDetailsCityTitle,
             // applicantDetailsStateTitle,
-            (),
+            veteranApplicantDetailsSubHeader,
+            '',
+            nonPreparerFullMaidenNameUI,
+            ssnDashesUI,
+            nonPreparerDateOfBirthUI,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         veteranApplicantDetailsPreparer: {
@@ -278,12 +293,16 @@ const formConfig = {
           path: 'veteran-applicant-details-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails
-            .uiSchema
+          uiSchema: veteranApplicantDetails.uiSchema(
             // partial implementation of story resolving the address change:
             // applicantDetailsPreparerCityTitle,
             // applicantDetailsPreparerStateTitle,
-            (),
+            veteranApplicantDetailsPreparerSubHeader,
+            veteranApplicantDetailsPreparerDescription,
+            preparerFullMaidenNameUI,
+            preparerSsnDashesUI,
+            preparerDateOfBirthUI,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {
@@ -308,11 +327,12 @@ const formConfig = {
           schema: applicantContactInfo.schema,
         },
         applicantDemographics: {
-          title: 'Applicant demographics',
+          title: 'Your demographics',
           path: 'applicant-demographics',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsSubHeader,
             applicantDemographicsGenderTitle,
             applicantDemographicsMaritalStatusTitle,
           ),
@@ -324,6 +344,7 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsPreparerSubHeader,
             applicantDemographicsPreparerGenderTitle,
             applicantDemographicsPreparerMaritalStatusTitle,
           ),
@@ -334,6 +355,7 @@ const formConfig = {
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsSubHeader,
             applicantDemographicsEthnicityTitle,
             applicantDemographicsRaceTitle,
           ),
@@ -344,6 +366,7 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsPreparerSubHeader,
             applicantDemographicsPreparerEthnicityTitle,
             applicantDemographicsPreparerRaceTitle,
           ),
