@@ -1,0 +1,34 @@
+{
+  "data": {
+    "preparerType": "veteran",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
+    },
+    "livingSituation": {
+      "NONE": true
+    },
+    "mailingAddressYesNo": false,
+    "veteranPhone": "1234567890",
+    "otherReasons": {
+      "OVER_85": true
+    },
+    "medicalTreatments": [
+      {
+        "facilityName": "Guido’s Trailer",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2018-01-01"
+      }
+    ]
+  }
+}
