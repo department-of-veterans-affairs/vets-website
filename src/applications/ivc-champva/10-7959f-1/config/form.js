@@ -63,15 +63,15 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: `Veteran's Information`,
+      title: "Veteran's Information",
       pages: {
         page1: {
           path: 'veteran-information',
           title: 'Veteran Personal Information',
           uiSchema: {
             ...titleUI(
-              `Veteran's personal information`,
-              `We use this information to contact you and verify other details.`,
+              "Veteran's personal information",
+              'We use this information to contact you and verify other details.',
             ),
             fullName: fullNameUI(),
             veteranDOB: dateOfBirthUI(),
