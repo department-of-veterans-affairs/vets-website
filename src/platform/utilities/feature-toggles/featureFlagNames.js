@@ -116,6 +116,7 @@ export default Object.freeze({
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
+  hcaTeraEnabled: 'hca_tera_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   hlrBrowserMonitoringEnabled: 'hlr_browser_monitoring_enabled',
   lettersCheckDiscrepancies: 'letters_check_discrepancies',
@@ -139,6 +140,7 @@ export default Object.freeze({
   mhvMedicalRecordsDisplayVitals: 'mhv_medical_records_display_vitals',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
+  mhvMedicationsDisplayRefillContent: 'mhv_medications_display_refill_content',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal:
     'mhv_to_logingov_account_transition_modal',
@@ -161,6 +163,7 @@ export default Object.freeze({
     'profile_do_not_require_international_zip_code',
   profileHideDirectDepositCompAndPen:
     'profile_hide_direct_deposit_comp_and_pen',
+  profileShowCredentialRetirementMessaging: 'profile_show_credential_retirement_messaging',
   profileShowEmailNotificationSettings:
     'profile_show_email_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
@@ -277,5 +280,7 @@ export default Object.freeze({
   virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
   virtualAgentEnableMsftPvaTesting: 'virtual_agent_enable_msft_pva_testing',
   virtualAgentEnableNluPvaTesting: 'virtual_agent_enable_nlu_pva_testing',
+  yellowRibbonDegreeFilter: 'yellow_ribbon_degree_filter',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  yellowRibbonAutomatedDateOnSchoolSearch: 'yellow_ribbon_automated_date_on_school_search',
 });

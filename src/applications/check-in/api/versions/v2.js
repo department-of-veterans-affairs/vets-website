@@ -56,9 +56,14 @@ const v2 = {
     };
   },
 
-  getCheckInData: async token => {
+  getCheckInData: async (token, facilityType = null) => {
     const url = '/check_in/v2/patient_check_ins/';
-    const requestUrl = `${environment.API_URL}${url}${token}`;
+    let requestUrl = `${environment.API_URL}${url}${token}`;
+    if (facilityType) {
+      requestUrl = appendQuery(requestUrl, {
+        facilityType,
+      });
+    }
     const json = await makeApiCallWithSentry(
       apiRequest(requestUrl),
       'get-lorota-data',
