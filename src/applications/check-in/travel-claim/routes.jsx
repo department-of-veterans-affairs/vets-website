@@ -43,6 +43,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_SELECT,
@@ -50,6 +51,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_MILEAGE,
@@ -57,6 +59,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_VEHICLE,
@@ -64,6 +67,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_ADDRESS,
@@ -71,6 +75,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_REVIEW,
@@ -78,6 +83,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.COMPLETE,
@@ -85,6 +91,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
 ];
 
@@ -122,7 +129,7 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper isPreCheckIn={false} {...props}>
+              <ReloadWrapper app={APP_NAMES.TRAVEL_CLAIM} {...props}>
                 <Component {...props} />
               </ReloadWrapper>
             );

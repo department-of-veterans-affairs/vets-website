@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { useGetTravelClaimData } from '../../../hooks/useGetTravelClaimData';
+import { APP_NAMES } from '../../../utils/appConstants';
+import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
@@ -11,19 +12,20 @@ const LoadingPage = props => {
 
   const { goToNextPage } = useFormRouting(router);
 
-  const { travelClaimDataError, isComplete } = useGetTravelClaimData({
+  const { checkInDataError, isComplete } = useGetCheckInData({
     refreshNeeded: true,
+    app: APP_NAMES.TRAVEL_CLAIM,
   });
 
   const { updateError } = useUpdateError();
 
   useEffect(
     () => {
-      if (travelClaimDataError) {
+      if (checkInDataError) {
         updateError('cant-retrieve-travel-claim-data');
       }
     },
-    [travelClaimDataError, updateError],
+    [checkInDataError, updateError],
   );
 
   useEffect(
