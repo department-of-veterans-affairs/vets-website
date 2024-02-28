@@ -11,6 +11,7 @@ const profileToggles = {
   profileShowMhvNotificationSettings: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
+  profileShowCredentialRetirementMessaging: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
 };
