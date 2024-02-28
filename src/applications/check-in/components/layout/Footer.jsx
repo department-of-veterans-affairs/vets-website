@@ -24,6 +24,8 @@ const Footer = ({ router, isPreCheckIn }) => {
     'travel-review',
   ];
 
+  const appName = useSelector(state => state.checkInData.app);
+
   const showTravelHelp = () => {
     if (travelPages.includes(currentPage)) {
       return true;
@@ -39,6 +41,15 @@ const Footer = ({ router, isPreCheckIn }) => {
     );
   };
 
+  const showTravelClaimHelp = () => {
+    if (appName === 'travelClaim') return appName === 'travelClaim';
+
+    return (
+      currentPage === 'error' &&
+      (error === 'check-in-post-error' || error === 'error-completing-check-in')
+    );
+  };
+
   return (
     <footer>
       <h2
@@ -47,15 +58,23 @@ const Footer = ({ router, isPreCheckIn }) => {
       >
         {t('need-help')}
       </h2>
-      {showTravelHelp() ? (
+      {showTravelHelp &&
+        !showTravelClaimHelp && (
+          <div data-testid="check-in-message">
+            <HelpBlock travel />
+          </div>
+        )}
+      {showTravelClaimHelp && (
         <div data-testid="check-in-message">
-          <HelpBlock travel />
-        </div>
-      ) : (
-        <div data-testid="check-in-message">
-          <HelpBlock />
+          <HelpBlock travelOnly />
         </div>
       )}
+      {!showTravelHelp &&
+        !showTravelClaimHelp && (
+          <div data-testid="check-in-message">
+            <HelpBlock />
+          </div>
+        )}
       {currentPage === 'introduction' && (
         <p data-testid="intro-extra-message">
           <span className="vads-u-font-weight--bold">
