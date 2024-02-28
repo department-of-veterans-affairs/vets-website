@@ -24,7 +24,9 @@ describe('ezr InsurancePolicyReviewPage', () => {
       const { container } = render(
         <InsurancePolicyReviewPage {...defaultProps} />,
       );
-      const selector = container.querySelector('.edit-btn');
+      const selector = container.querySelector(
+        `va-button[text="${content['button-edit']}"]`,
+      );
       expect(selector).to.not.exist;
     });
 
@@ -56,7 +58,9 @@ describe('ezr InsurancePolicyReviewPage', () => {
 
     it('should render edit button', () => {
       const { container } = render(<InsurancePolicyReviewPage {...props} />);
-      const selector = container.querySelector('.edit-btn');
+      const selector = container.querySelector(
+        `va-button[text="${content['button-edit']}"]`,
+      );
       expect(selector).to.exist;
     });
 
@@ -83,7 +87,9 @@ describe('ezr InsurancePolicyReviewPage', () => {
 
     it('should fire event to trigger the edit flow', () => {
       const { container } = render(<InsurancePolicyReviewPage {...props} />);
-      const selector = container.querySelector('.edit-btn');
+      const selector = container.querySelector(
+        `va-button[text="${content['button-edit']}"]`,
+      );
       fireEvent.click(selector);
       expect(props.editPage.called).to.be.true;
     });
