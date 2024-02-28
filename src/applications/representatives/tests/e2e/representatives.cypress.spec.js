@@ -22,7 +22,7 @@ describe('Representatives', () => {
       .injectAxe()
       .axeCheck();
     cy.contains('Accredited Representative Portal');
-    cy.contains('Manage power of attorney requests').click();
+    cy.contains('View all').click();
 
     cy.url().should('include', '/representatives/poa-requests');
     cy.injectAxe();
