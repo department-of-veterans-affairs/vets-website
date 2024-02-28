@@ -615,6 +615,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} mailing address`,
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 'view:description': {
                   'ui:description':
@@ -656,6 +657,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} contact information`,
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 'ui:options': {
                   updateSchema: formData => {
@@ -688,6 +690,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Applicant Gender',
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 'ui:options': {
                   updateSchema: formData => {
@@ -745,6 +748,7 @@ const formConfig = {
             )?.relationshipToVeteran === 'child',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -792,6 +796,7 @@ const formConfig = {
             ),
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -829,6 +834,7 @@ const formConfig = {
             )?.relationshipToVeteran === 'child',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   ({ formData }) =>
@@ -873,6 +879,7 @@ const formConfig = {
             ) === 'adoption',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -915,6 +922,7 @@ const formConfig = {
             ) === 'step',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -954,6 +962,7 @@ const formConfig = {
             )?.relationshipToVeteran === 'spouse',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -1035,6 +1044,7 @@ const formConfig = {
             ),
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -1078,6 +1088,7 @@ const formConfig = {
             )?.includes('partD'),
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -1129,6 +1140,7 @@ const formConfig = {
             'yes',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -1168,6 +1180,7 @@ const formConfig = {
             ) === 'enrolled',
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
