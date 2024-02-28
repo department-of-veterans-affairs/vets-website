@@ -11,29 +11,14 @@ import {
 } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
 import buildFacility from './buildFacility';
+import {
+  hasAnyMultiData,
+  isFinishedLoading,
+  isStartedLoading,
+  joinMultiData,
+} from './multiLoadingDataHelpers';
 
 const NEARBY_VA_LOCATIONS_RADIUS_MILES = 120;
-const isStartedLoading = multiLoading => {
-  return multiLoading.Health || multiLoading.VetCenter || multiLoading.Cemetery;
-};
-const isFinishedLoading = (multiLoading, multidata) => {
-  return (
-    !multiLoading.Health &&
-    !multiLoading.VetCenter &&
-    !multiLoading.Cemetery &&
-    multidata?.Health?.data &&
-    multidata?.VetCenter?.data &&
-    multidata?.Cemetery?.data
-  );
-};
-
-const joinData = multidata => {
-  return [
-    ...(multidata?.Health?.data || []),
-    ...(multidata?.VetCenter?.data || []),
-    ...(multidata?.Cemetery?.data || []),
-  ];
-};
 
 const genQuery = (boundingBox, coordinates, type, mobileFalse) => {
   const query = '/facilities/va/?';
@@ -58,11 +43,7 @@ const NearByVALocations = props => {
 
   const fetchNearbyVALocations = useCallback(
     async () => {
-      if (
-        props.multidata.Cemetery ||
-        props.multidata.Health ||
-        props.multidata.VetCenter
-      ) {
+      if (hasAnyMultiData(props)) {
         return;
       }
       const { mainAddress } = props;
@@ -118,12 +99,12 @@ const NearByVALocations = props => {
   useEffect(
     () => {
       const noDistancesToMeasure =
-        originalCoordinates.length === 0 ||
-        !isFinishedLoading(props.multiLoading, props.multidata);
+        originalCoordinates.length === 0 || !isFinishedLoading(props);
+
       if (nearbyVADistances || noDistancesToMeasure) {
         return false;
       }
-      const facilityCoordinates = joinData(props.multidata)
+      const facilityCoordinates = joinMultiData(props)
         .filter(center => center.id !== props.mainFacilityApiId)
         .map(center => {
           return {
@@ -162,22 +143,13 @@ const NearByVALocations = props => {
       fetchDrivingData();
       return false;
     },
-    [
-      props.mainFacilityApiId,
-      props.multiLoading,
-      props.multidata,
-      originalCoordinates,
-      nearbyVADistances,
-    ],
+    [props, originalCoordinates, nearbyVADistances],
   );
   const normalizeFetchedFacilityProperties = useCallback(
     vc => {
       let centerDistance = false;
 
-      if (
-        isFinishedLoading(props.multiLoading, props.multidata) &&
-        nearbyVADistances.length
-      ) {
+      if (isFinishedLoading(props) && nearbyVADistances.length) {
         const facilityDistance = nearbyVADistances.find(
           distance => distance.id === vc.id,
         );
@@ -185,7 +157,7 @@ const NearByVALocations = props => {
       }
       return buildFacility(vc, centerDistance);
     },
-    [nearbyVADistances, props.multidata, props.multiLoading],
+    [nearbyVADistances, props],
   );
 
   // TODO: consider moving to a separate component
@@ -263,7 +235,7 @@ const NearByVALocations = props => {
   if (isStartedLoading(props.multiLoading)) {
     return <va-loading-indicator message="Loading facilities..." />;
   }
-  const joined = joinData(props.multidata);
+  const joined = joinMultiData(props);
   if (joined.length > 0) {
     // only render the section if there are some facilities within the birds-eye radius
     const normalizedFetchedFacilities = normalizeFetchedFacilities(joined);
