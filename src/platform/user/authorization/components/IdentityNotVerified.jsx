@@ -14,9 +14,26 @@ const HowToVerifyLink = () => (
   </p>
 );
 
+const VerifyIdentityInfo = () => (
+  <va-additional-info
+    trigger="If you have trouble verifying your identity"
+    uswds
+  >
+    <a href="https://www.va.gov/resources/verifying-your-identity-on-vagov/">
+      Get answers to common questions about verifying your identity
+    </a>
+    <p>
+      Or, if you have a Premium My HealtheVet account with a My HealtheVet user
+      ID and password, you can sign out and then sign back in with that account
+      to access My HealtheVet.
+    </p>
+  </va-additional-info>
+);
+
 const IdentityNotVerified = ({
-  headline = 'Verify your identity to access your complete profile',
+  headline = 'Verify your identity to use your ID.me account on My HealtheVet',
   showHelpContent = true,
+  showVerifyIdenityHelpInfo = false,
 }) => {
   return (
     <>
@@ -27,14 +44,15 @@ const IdentityNotVerified = ({
 
         <div className="vads-u-margin-bottom--1">
           <p>
-            We need to make sure you’re you&#8212;and not someone pretending to
-            be you&#8212;before we can give you access to your personal and
-            health-related information. This helps to keep your information
-            safe. It helps to prevent fraud and identity theft.
+            Our records show that you haven’t verified your identity for your
+            ID.me account. We need you to verify your identity for this account
+            to help us keep your information safe and prevent fraud and identity
+            theft.
           </p>
 
           <p className="vads-u-font-weight--bold">
-            This one-time process takes about 5-10 minutes.
+            ID.me will ask you for certain personal information and
+            identification. This process often takes about 10 minutes.
           </p>
 
           <a
@@ -48,6 +66,7 @@ const IdentityNotVerified = ({
       </va-alert>
 
       {showHelpContent && <HowToVerifyLink />}
+      {showVerifyIdenityHelpInfo && <VerifyIdentityInfo />}
     </>
   );
 };
@@ -56,6 +75,7 @@ IdentityNotVerified.propTypes = {
   additionalInfoClickHandler: PropTypes.func,
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
+  showVerifyIdenityHelpInfo: PropTypes.bool,
 };
 
 export { IdentityNotVerified as default };
