@@ -19,8 +19,8 @@ export const uiSchema = {
       },
     },
     veteran: merge({}, veteranUI, {
-      ethnicity: { 'ui:title': 'What’s the sponsor’s marital status?' },
-      race: { 'ui:title': 'What’s the sponsor’s sex?' },
+      ethnicity: { 'ui:title': 'What’s the sponsor’s ethnicity?' },
+      race: { 'ui:title': 'What’s the sponsor’s race?' },
     }),
   },
 };
