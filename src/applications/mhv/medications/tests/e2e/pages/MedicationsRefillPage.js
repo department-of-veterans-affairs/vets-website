@@ -39,6 +39,20 @@ class MedicationsRefillPage {
       );
     }
   };
+
+  verifyRefillPageRenewSectionTitleExists = () => {
+    cy.get('[data-testid="renew-section-subtitle"]').should(
+      'have.text',
+      'If your prescription isn’t ready to refill',
+    );
+  };
+
+  clickLearnHowToRenewPrescriptionsLink = () => {
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default MedicationsRefillPage;
