@@ -106,12 +106,6 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   let content;
 
   if (showClaimLetters) {
-    /**
-     * This commented code was deemed likely to be needed.
-     * Commented on: 01/06/2023
-     * Stale by: 03/01/2023
-     */
-    // const fromToNums = getFromToNums(currentPage, totalItems.current);
     content = (
       <>
         <h1>Your VA claim letters</h1>
