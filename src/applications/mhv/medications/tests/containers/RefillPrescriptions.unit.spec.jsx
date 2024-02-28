@@ -85,7 +85,7 @@ describe('Refill Prescriptions Component', () => {
     const lastFilledEl = await screen.findByTestId('refill-last-filled-0');
     expect(lastFilledEl).to.exist;
     expect(lastFilledEl).to.have.text(
-      `Last filled on: ${dateFormat(prescriptions[0].dispensedDate)}`,
+      `Last filled on ${dateFormat(prescriptions[0].dispensedDate)}`,
     );
   });
 
@@ -97,7 +97,7 @@ describe('Refill Prescriptions Component', () => {
       ({ prescriptionId }) => prescriptionId === 22217099,
     );
     expect(lastFilledEl).to.have.text(
-      `Last filled on: ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
+      `Last filled on ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
     );
   });
 

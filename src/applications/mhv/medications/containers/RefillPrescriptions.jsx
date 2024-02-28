@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
@@ -94,7 +95,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   );
 
   const content = () => {
-    if (!showRefillContent || isLoading) {
+    if (!showRefillContent) {
+      return <PageNotFound />;
+    }
+    if (isLoading) {
       return (
         <div className="refill-loading-indicator">
           <va-loading-indicator message="Loading medications..." setFocus />
@@ -150,7 +154,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               .slice()
               .filter(rx => rx.refillRemaining > 0)
               .map((prescription, idx) => (
-                <div key={idx}>
+                <div key={idx} className="vads-u-margin-bottom--2">
                   <input
                     data-testid={`refill-prescription-checkbox-${idx}`}
                     type="checkbox"
@@ -161,6 +165,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     }
                     id={prescription.prescriptionId}
                     name={prescription.prescriptionId}
+                    className="vads-u-margin-y--0"
                     onChange={e =>
                       e.type === 'change' &&
                       onSelectPrescription(prescription.prescriptionId)
@@ -168,12 +173,14 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                   />
                   <label
                     htmlFor={prescription.id}
-                    className="vads-u-font-weight--bold vads-u-margin-top--0"
+                    className="vads-u-margin-y--0"
                   >
-                    {prescription.prescriptionName}
+                    <h4 className="vads-u-display--inline-block vads-u-margin-y--0">
+                      {prescription.prescriptionName}
+                    </h4>
                   </label>
                   <p
-                    className="vads-u-margin-left--4"
+                    className="vads-u-margin-left--4 vads-u-margin-top--0"
                     data-testid={`refill-prescription-details-${
                       prescription.prescriptionNumber
                     }`}
@@ -181,7 +188,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     Prescription number: {prescription.prescriptionNumber}
                     <br />
                     <span data-testid={`refill-last-filled-${idx}`}>
-                      Last filled on:{' '}
+                      Last filled on{' '}
                       {dateFormat(
                         prescription.rxRfRecords?.[0]?.[1]?.find(
                           record => record.dispensedDate,
