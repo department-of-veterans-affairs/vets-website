@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { scrollToElement } from '../helpers';
@@ -10,11 +10,15 @@ import {
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
 import { postMailingAddress } from '../actions';
+import Alert from '../components/Alert';
+import Loader from '../components/Loader';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
-
+  const { loading: isLoading, error, data: response } = useSelector(
+    state => state.updateAddress,
+  );
   // const [updateAddress, setUpdatedAdress] = useState(mailingAddress);
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
@@ -23,11 +27,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
     scrollToElement('Contact information');
   };
 
-  const handleCloseForm = () => {
+  const handleCloseForm = useCallback(() => {
     setFormData({}); // clear form data
     setToggleAddressForm(false);
     scrollToTopOfForm();
-  };
+  }, []);
 
   // called when submitting form
   const saveAddressInfo = () => {
@@ -35,57 +39,83 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
       stateAndZip = {
-        State: formData.stateCode,
+        state: formData.stateCode,
         zipCode: formData.zipCode,
       };
     } else {
       stateAndZip = {
-        State: formData.province,
+        state: formData.province,
         zipCode: formData.internationalPostalCode,
       };
     }
 
     const fields = {
       veteranName: formData.fullName,
-      Address1: formData.addressLine1,
-      Address2: formData.addressLine2,
-      Address3: formData.addressLine3,
-      Address4: formData.addressLine4,
-      City: formData.city,
+      address1: formData.addressLine1,
+      address2: formData.addressLine2,
+      address3: formData.addressLine3,
+      address4: formData.addressLine4,
+      city: formData.city,
       ...stateAndZip,
     };
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(fields, null, 2));
     dispatch(postMailingAddress(fields));
     // setUpdatedAdress(formData);
-    handleCloseForm(); // close addressForm form
-    // add redux logic here when API is available
   };
-
+  useEffect(
+    () => {
+      if (!isLoading) {
+        handleCloseForm();
+      }
+    },
+    [handleCloseForm, isLoading],
+  );
   const addressDescription = () => {
     return (
-      <div className="vads-u-margin-bottom--1">
-        <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
-          Mailing address
-        </p>
-        <p>
-          <span className="vads-u-display--block">
-            {`${mailingAddress.street}`}
-          </span>
-          <span className="vads-u-display--block">
-            {`${mailingAddress.city}, ${mailingAddress.state} ${
-              mailingAddress.zip
-            }`}
-          </span>
-        </p>
-      </div>
+      <>
+        {loading ? (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading mailing address..."
+          />
+        ) : (
+          <div className="vads-u-margin-bottom--1">
+            <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+              Mailing address
+            </p>
+            <p>
+              <span className="vads-u-display--block">
+                {`${mailingAddress.street}`}
+              </span>
+              <span className="vads-u-display--block">
+                {`${mailingAddress.city}, ${mailingAddress.state} ${
+                  mailingAddress.zip
+                }`}
+              </span>
+            </p>
+            {error && (
+              <Alert
+                status="error"
+                message="Sorry, something went wrong. Please try agian Later"
+              />
+            )}
+            {response?.ok && (
+              <Alert
+                status="success"
+                message="Your Address has been successfully updated."
+              />
+            )}
+          </div>
+        )}
+      </>
     );
   };
 
-  const handleAddNewClick = () => {
-    // toggle show form true
-    setToggleAddressForm(true);
-    scrollToTopOfForm();
+  const handleAddNewClick = event => {
+    event.preventDefault();
+    if (!loading) {
+      setToggleAddressForm(prevState => !prevState);
+      scrollToTopOfForm();
+    }
   };
   const updateAddressData = data => {
     const tempData = { ...data };
@@ -130,21 +160,13 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
       >
         {!toggleAddressForm && (
           <>
-            {loading ? (
-              <va-loading-indicator
-                label="Loading"
-                message="Loading mailing address..."
-              />
-            ) : (
-              <>
-                {addressDescription()}
-                <va-button
-                  id="VYE-mailing-address-button"
-                  onClick={handleAddNewClick}
-                  text={ADDRESS_BUTTON_TEXT}
-                />
-              </>
-            )}
+            {addressDescription()}
+            <va-button
+              id="VYE-mailing-address-button"
+              onClick={event => handleAddNewClick(event)}
+              text={ADDRESS_BUTTON_TEXT}
+            />
+
             <va-alert
               close-btn-aria-label="Close notification"
               status="info"
@@ -176,7 +198,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
         {toggleAddressForm && (
           <div className="address-change-form-container">
             <p className="vads-u-font-weight--bold">Change mailing address</p>
-
+            {isLoading && <Loader className="loader" />}
             <ChangeOfAddressForm
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}

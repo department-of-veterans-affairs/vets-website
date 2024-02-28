@@ -6,9 +6,8 @@ import {
 
 const initialState = {
   loading: false,
-  address: null,
+  data: null,
   error: null,
-  message: null,
 };
 const updateAddress = (state = initialState, action) => {
   switch (action.type) {
@@ -21,13 +20,23 @@ const updateAddress = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        message: 'Address updated Successfuly',
+        data: action.response,
       };
     case UPDATE_ADDRESS_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.errors,
+      };
+    case 'RESET_SUCCESS_MESSAGE':
+      return {
+        ...state,
+        data: null,
+      };
+    case 'RESET_ERROR':
+      return {
+        ...state,
+        error: null,
       };
     default:
       return state;

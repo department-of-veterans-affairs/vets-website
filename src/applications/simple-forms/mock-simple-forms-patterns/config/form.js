@@ -28,6 +28,7 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
+import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import {
   onNavBackKeepUrlParams,
   onNavForwardKeepUrlParams,
@@ -242,6 +243,14 @@ const formConfig = {
           schema: dynamicFields.schema,
           depends: includeChapter('miscellaneous'),
         },
+        mockCustomPage: {
+          path: 'mock-custom-page',
+          title: 'Mock Custom Page', // for review page (has to be more than one word)
+          CustomPage: MockCustomPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
+          depends: includeChapter('miscellaneous'),
+        },
       },
     },
     arraySinglePage: {
@@ -278,7 +287,7 @@ const formConfig = {
       },
     },
     arrayMultiPageBuilder: {
-      title: 'Array Multi-Page Builder',
+      title: 'Array Multi-Page Builder (WIP)',
       pages: {
         multiPageBuilderStart: {
           title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
