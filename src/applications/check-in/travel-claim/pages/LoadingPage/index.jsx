@@ -14,7 +14,7 @@ const LoadingPage = props => {
 
   const { checkInDataError, isComplete } = useGetCheckInData({
     refreshNeeded: true,
-    app: APP_NAMES.CHECK_IN,
+    app: APP_NAMES.TRAVEL_CLAIM,
   });
 
   const { updateError } = useUpdateError();
@@ -22,7 +22,7 @@ const LoadingPage = props => {
   useEffect(
     () => {
       if (checkInDataError) {
-        updateError('cant-retrieve-check-in-data');
+        updateError('cant-retrieve-travel-claim-data');
       }
     },
     [checkInDataError, updateError],

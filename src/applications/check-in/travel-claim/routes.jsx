@@ -12,6 +12,7 @@ import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 import Validate from './pages/validate';
 import Landing from './pages/landing';
+import LoadingPage from './pages/LoadingPage';
 import TravelIntro from './pages/travel-intro';
 import SelectAppointment from './pages/select-appointment';
 import TravelMileage from './pages/travel-mileage';
@@ -30,11 +31,19 @@ const routes = [
     component: Validate,
   },
   {
+    path: URLS.LOADING,
+    component: LoadingPage,
+    permissions: {
+      requireAuthorization: true,
+    },
+  },
+  {
     path: URLS.TRAVEL_INTRO,
     component: TravelIntro,
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_SELECT,
@@ -42,6 +51,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_MILEAGE,
@@ -49,6 +59,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_VEHICLE,
@@ -56,6 +67,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_ADDRESS,
@@ -63,6 +75,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_REVIEW,
@@ -70,6 +83,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.COMPLETE,
@@ -77,6 +91,7 @@ const routes = [
     permissions: {
       requireAuthorization: true,
     },
+    reloadable: true,
   },
 ];
 
@@ -114,7 +129,7 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper isPreCheckIn={false} {...props}>
+              <ReloadWrapper app={APP_NAMES.TRAVEL_CLAIM} {...props}>
                 <Component {...props} />
               </ReloadWrapper>
             );
