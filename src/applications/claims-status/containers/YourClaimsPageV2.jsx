@@ -14,17 +14,17 @@ import {
   getStemClaims as getStemClaimsAction,
 } from '../actions';
 
-import AppealListItem from '../components/appeals-v2/AppealListItem';
+import AppealListItem from '../components/appeals-v2/AppealListItemV3';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ClaimsListItem from '../components/ClaimsListItem';
+import ClaimsListItem from '../components/ClaimsListItemV3';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
-import StemClaimListItem from '../components/StemClaimListItem';
+import StemClaimListItem from '../components/StemClaimListItemV3';
 
 import { ITEMS_PER_PAGE } from '../constants';
 

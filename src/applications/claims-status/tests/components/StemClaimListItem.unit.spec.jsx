@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import StemClaimListItem from '../../components/StemClaimListItem';
+import StemClaimListItem from '../../components/StemClaimListItemV3';
 
 describe('<StemClaimListItem>', () => {
   const defaultClaim = {
