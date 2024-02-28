@@ -24,7 +24,7 @@ describe('check in', () => {
         const action = receivedTravelData(data);
         const state = receivedTravelDataHandler({}, action);
         expect(state.appointments).to.be.an('array');
-        expect(state.address).to.be.a('string');
+        expect(state.veteranData.address).to.be.a('string');
       });
       it('should set the correct values', () => {
         const action = receivedTravelData(data);
@@ -35,7 +35,7 @@ describe('check in', () => {
         expect(state.appointments[0].clinicFriendlyName).to.equal(
           'TEST CLINIC',
         );
-        expect(state.address).to.equal('111 fake st.');
+        expect(state.veteranData.address).to.equal('111 fake st.');
       });
     });
     describe('reducer is called;', () => {
@@ -48,7 +48,7 @@ describe('check in', () => {
         expect(state.appointments[0].clinicFriendlyName).to.equal(
           'TEST CLINIC',
         );
-        expect(state.address).to.equal('111 fake st.');
+        expect(state.veteranData.address).to.equal('111 fake st.');
       });
     });
   });
