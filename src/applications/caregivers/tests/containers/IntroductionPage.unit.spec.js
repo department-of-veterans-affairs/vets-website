@@ -90,7 +90,7 @@ describe('CG <IntroductionPage>', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const selector = view.container.querySelector('.schemaform-process');
+    const selector = view.container.querySelector('va-process-list');
     expect(selector).to.exist;
   });
 
