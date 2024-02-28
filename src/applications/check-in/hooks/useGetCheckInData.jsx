@@ -123,84 +123,107 @@ const useGetCheckInData = ({
     },
     [dispatch],
   );
+  const fetchPreCheckIn = useCallback(
+    () => {
+      api.v2
+        .getPreCheckInData(token, reload)
+        .then(json => {
+          if (json.error) {
+            updateError('error-getting-pre-check-in-data');
+            return; // prevent a react no-op on an unmounted component
+          }
+          const { payload } = json;
+          setPreCheckInData(payload);
+
+          if (payload.appointments?.length > 0) {
+            if (appointmentStartTimePast15(payload.appointments)) {
+              updateError('pre-check-in-past-appointment');
+              return;
+            }
+            if (preCheckinExpired(payload.appointments)) {
+              updateError('pre-check-in-expired');
+              return;
+            }
+          }
+
+          if (appointmentWasCanceled(payload.appointments)) {
+            updateError('possible-canceled-appointment');
+            return;
+          }
+
+          if (allAppointmentsCanceled(payload.appointments)) {
+            updateError('appointment-canceled');
+            return;
+          }
+
+          if (preCheckinAlreadyCompleted(payload.appointments)) {
+            setPreCheckinComplete(window, true);
+            jumpToPage(URLS.COMPLETE);
+          }
+        })
+        .catch(e => {
+          if (e.errors && e?.errors[0]?.status === '404') {
+            updateError('uuid-not-found');
+          } else {
+            setCheckInDataError(true);
+          }
+        })
+        .finally(() => {
+          setIsStale(false);
+          setIsComplete(true);
+          setIsLoading(false);
+        });
+    },
+    [
+      jumpToPage,
+      reload,
+      setPreCheckInData,
+      setPreCheckinComplete,
+      token,
+      updateError,
+    ],
+  );
+
+  const fetchDayOfOrTravel = useCallback(
+    facilityType => {
+      api.v2
+        .getCheckInData(token, facilityType)
+        .then(json => {
+          if (app === 'travelClaim') {
+            setTravelData(json.payload);
+          } else {
+            setDayOfData(json.payload);
+          }
+        })
+        .catch(e => {
+          if (e.errors && e.errors[0]?.status === '404') {
+            updateError('uuid-not-found');
+          } else {
+            setCheckInDataError(true);
+          }
+        })
+        .finally(() => {
+          setIsStale(false);
+          setIsComplete(true);
+          setIsLoading(false);
+        });
+    },
+    [app, setDayOfData, setTravelData, token, updateError],
+  );
+
   useLayoutEffect(
     () => {
       if (isStale && token && !isLoading) {
         setIsLoading(true);
         switch (app) {
           case 'preCheckIn':
-            api.v2
-              .getPreCheckInData(token, reload)
-              .then(json => {
-                if (json.error) {
-                  updateError('error-getting-pre-check-in-data');
-                  return; // prevent a react no-op on an unmounted component
-                }
-                const { payload } = json;
-                setPreCheckInData(payload);
-
-                if (payload.appointments?.length > 0) {
-                  if (appointmentStartTimePast15(payload.appointments)) {
-                    updateError('pre-check-in-past-appointment');
-                    return;
-                  }
-                  if (preCheckinExpired(payload.appointments)) {
-                    updateError('pre-check-in-expired');
-                    return;
-                  }
-                }
-
-                if (appointmentWasCanceled(payload.appointments)) {
-                  updateError('possible-canceled-appointment');
-                  return;
-                }
-
-                if (allAppointmentsCanceled(payload.appointments)) {
-                  updateError('appointment-canceled');
-                  return;
-                }
-
-                if (preCheckinAlreadyCompleted(payload.appointments)) {
-                  setPreCheckinComplete(window, true);
-                  jumpToPage(URLS.COMPLETE);
-                }
-              })
-              .catch(e => {
-                if (e.errors && e?.errors[0]?.status === '404') {
-                  updateError('uuid-not-found');
-                } else {
-                  setCheckInDataError(true);
-                }
-              })
-              .finally(() => {
-                setIsStale(false);
-                setIsComplete(true);
-                setIsLoading(false);
-              });
+            fetchPreCheckIn();
             break;
           case 'dayOf':
+            fetchDayOfOrTravel(null);
+            break;
           case 'travelClaim':
-            api.v2
-              .getCheckInData(token, app === 'travelClaim' ? 'oh' : null)
-              .then(json => {
-                if (app === 'travelClaim') {
-                  setTravelData(json.payload);
-                } else {
-                  setDayOfData(json.payload);
-                }
-              })
-              .catch(e => {
-                if (e.errors && e.errors[0]?.status === '404') {
-                  updateError('uuid-not-found');
-                } else {
-                  setCheckInDataError(true);
-                }
-              })
-              .finally(() => {
-                setIsStale(false);
-                setIsComplete(true);
-                setIsLoading(false);
-              });
+            fetchDayOfOrTravel('oh');
             break;
           default:
             break;
@@ -219,6 +242,8 @@ const useGetCheckInData = ({
       setPreCheckinComplete,
       app,
       setTravelData,
+      fetchPreCheckIn,
+      fetchDayOfOrTravel,
     ],
   );
 
