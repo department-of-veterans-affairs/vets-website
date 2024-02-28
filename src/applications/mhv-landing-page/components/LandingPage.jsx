@@ -33,6 +33,7 @@ const LandingPage = ({ data = {} }) => {
     <IdentityNotVerified
       headline={unVerifiedHeadline}
       showHelpContent={false}
+      showVerifyIdenityHelpInfo
     />
   ) : (
     <NoHealthAlert />

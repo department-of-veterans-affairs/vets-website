@@ -36,9 +36,9 @@ const VerifyIdentityInfo = () => (
 );
 
 const IdentityNotVerified = ({
-  headline = 'Verify your identity to use your ID.me account on My HealtheVet',
+  headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
-  showVerifyIdenityHelpInfo = true,
+  showVerifyIdenityHelpInfo = false,
 }) => {
   return (
     <>
