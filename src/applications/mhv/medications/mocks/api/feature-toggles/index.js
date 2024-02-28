@@ -3,6 +3,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvLandingPageEnabled = true,
     mhvLandingPagePersonalization = true,
     mhvMedicationsToVaGovRelease = true,
+    mhvMedicationsDisplayRefillContent = true,
   } = toggles;
 
   return {
@@ -20,6 +21,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_to_va_gov_release',
           value: mhvMedicationsToVaGovRelease,
+        },
+        {
+          name: 'mhv_medications_display_refill_content',
+          value: mhvMedicationsDisplayRefillContent,
         },
       ],
     },

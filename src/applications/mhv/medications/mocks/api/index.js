@@ -12,6 +12,7 @@ const personalInformation = require('./user/personal-information.json');
 // const prescriptions = require('./mhv-api/prescriptions/index');
 // You can user fixtures for mocks, if desired
 const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
+const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 const allergiesFixture = require('../../tests/e2e/fixtures/allergies.json');
 
 const responses = {
@@ -19,6 +20,7 @@ const responses = {
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
+    mhvMedicationsDisplayRefillContent: true,
   }),
   // VAMC facility data that apps query for on startup
   'GET /data/cms/vamc-ehr.json': vamcEhr,
@@ -29,6 +31,7 @@ const responses = {
   // MHV Medications endpoints below
   // 'GET /my_health/v1/prescriptions': prescriptions.generateMockPrescriptions(),
   'GET /my_health/v1/prescriptions': prescriptionsFixture,
+  'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/medical_records/allergies': allergiesFixture,
 };
 
