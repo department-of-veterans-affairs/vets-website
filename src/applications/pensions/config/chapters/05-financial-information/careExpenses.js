@@ -41,6 +41,7 @@ export default {
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',
+        itemAriaLabel: data => `${data.provider} care expense`,
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
         keepInPageOnReview: true,
