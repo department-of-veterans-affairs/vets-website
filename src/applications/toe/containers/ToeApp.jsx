@@ -34,6 +34,7 @@ function ToeApp({
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  toeDupContactInfoCall,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -114,12 +115,19 @@ function ToeApp({
         });
       }
 
+      if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
+        setFormData({
+          ...formData,
+          toeDupContactInfoCall,
+        });
+      }
+
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
         !formData?.duplicateEmail &&
         !formData?.duplicatePhone &&
-        formData?.showMebEnhancements08
+        formData?.toeDupContactInfoCall
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -152,7 +160,7 @@ function ToeApp({
         });
       }
     },
-    [formData, setFormData, showMebEnhancements08],
+    [formData, setFormData, showMebEnhancements08, toeDupContactInfoCall],
   );
 
   useEffect(
