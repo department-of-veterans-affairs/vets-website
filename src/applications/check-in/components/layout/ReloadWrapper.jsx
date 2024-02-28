@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { APP_NAMES } from '../../utils/appConstants';
 import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
 import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
@@ -11,16 +12,17 @@ import { useGetCheckInData } from '../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../hooks/useUpdateError';
 
 const ReloadWrapper = props => {
-  const { children, router, isPreCheckIn } = props;
+  const { children, router, app } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  // @TODO change this when useStorage gets refactored to no use isPreCheckIn
   const {
     getProgressState,
     setProgressState,
     getCurrentToken,
     getPermissions,
-  } = useStorage(isPreCheckIn);
+  } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
@@ -32,7 +34,7 @@ const ReloadWrapper = props => {
       appointmentsOnly: true,
       reload: true,
       router,
-      isPreCheckIn,
+      app,
     },
   );
   const [refreshData, setRefreshData] = useState(true);
@@ -100,8 +102,8 @@ const ReloadWrapper = props => {
 };
 
 ReloadWrapper.propTypes = {
+  app: PropTypes.string.isRequired,
   children: PropTypes.node,
-  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 

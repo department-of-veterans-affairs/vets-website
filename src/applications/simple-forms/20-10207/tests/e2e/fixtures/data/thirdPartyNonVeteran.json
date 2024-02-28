@@ -3,7 +3,7 @@
     "preparerType": "third-party-non-veteran",
     "thirdPartyFullName": {
       "first": "Joe",
-      "last": "POA-Non-Veteran"
+      "last": "Third-Pty-Non-Vet"
     },
     "thirdPartyType": "power-of-attorney",
     "nonVeteranFullName": {
@@ -20,7 +20,7 @@
     "mailingAddressYesNo": true,
     "nonVeteranMailingAddress": {
       "country": "USA",
-      "street": "126 Any St",
+      "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
