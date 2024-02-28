@@ -11,7 +11,9 @@ describe('Opt Out Test', () => {
     ).as('optOutClaim');
 
     cy.visit('/education/opt-out-information-sharing/opt-out-form-0993/');
-    cy.get('body').should('be.visible');
+    cy.findByRole('heading', {
+      name: /Opt out of sharing education benefits information/i,
+    }).should('be.visible');
     cy.injectAxeThenAxeCheck();
 
     // Claimant information
@@ -76,5 +78,22 @@ describe('Opt Out Test', () => {
     cy.findByRole('heading', {
       name: /Your opt-out form has been submitted/i,
     }).should('exist');
+  });
+
+  it('redirects to proper page', () => {
+    cy.visit('/education/opt-out-information-sharing/opt-out-form-0993/');
+    cy.injectAxeThenAxeCheck();
+    cy.url({ timeout: Timeouts.submission }).should(
+      'contain',
+      '/claimant-information',
+    );
+
+    cy.visit(
+      '/education/opt-out-information-sharing/opt-out-form-0993/introduction',
+    );
+    cy.url({ timeout: Timeouts.submission }).should(
+      'contain',
+      '/claimant-information',
+    );
   });
 });

@@ -1,4 +1,4 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/platform-forms/save-in-progress/helpers';
 import formConfig from './config/form';
 import Form0993App from './Form0993App';
 import RoutedSavableFormPage from './containers/RoutedSavableFormPage';
@@ -12,13 +12,20 @@ const childRoutes = createRoutesWithSaveInProgress(formConfig).filter(
 // Set form page component with custom back behavior
 childRoutes[0].component = RoutedSavableFormPage;
 
-const route = {
-  path: '/',
-  component: Form0993App,
-  indexRoute: {
-    onEnter: (nextState, replace) => replace('/claimant-information'),
+const routes = [
+  {
+    path: '/introduction',
+    onEnter: (nextState, replace) =>
+      replace(formConfig.urlPrefix || '/claimant-information'),
   },
-  childRoutes,
-};
+  {
+    path: '/',
+    component: Form0993App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/claimant-information'),
+    },
+    childRoutes,
+  },
+];
 
-export default route;
+export default routes;
