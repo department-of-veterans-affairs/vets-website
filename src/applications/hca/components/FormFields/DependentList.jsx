@@ -122,6 +122,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
               className="fas fa-chevron-right vads-u-margin-left--0p5"
             />
           </Link>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="va-button-link hca-button-remove"
@@ -155,6 +156,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         visible={modal.show}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
           This will remove{' '}
