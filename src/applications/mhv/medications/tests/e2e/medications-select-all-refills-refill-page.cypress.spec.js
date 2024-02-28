@@ -6,7 +6,7 @@ describe('Medications Select All Refills', () => {
   it('visits Medications Refill Page Select Refills', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
-
+    const checkboxes = 2;
     site.login();
     refillPage.loadRefillPage(refillPrescriptions);
     cy.injectAxe();
@@ -14,6 +14,6 @@ describe('Medications Select All Refills', () => {
     refillPage.verifySelectAllRefillButtonExists();
     refillPage.clickSelectAllRefillButton();
     refillPage.verifyRequestRefillsButtonExists();
-    refillPage.verifyRefillCheckBoxIsClicked();
+    refillPage.verifyRefillCheckBoxesClicked(checkboxes);
   });
 });

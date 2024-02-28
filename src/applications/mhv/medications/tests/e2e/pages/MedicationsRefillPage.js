@@ -32,8 +32,8 @@ class MedicationsRefillPage {
       .should('contain', 'Request refills');
   };
 
-  verifyRefillCheckBoxIsClicked = () => {
-    for (let i = 0; i < 2; i++) {
+  verifyRefillCheckBoxesClicked = numberOfCheckboxes => {
+    for (let i = 0; i < `${numberOfCheckboxes}`; i++) {
       cy.get(`[data-testid="refill-prescription-checkbox-${i}"]`).should(
         'be.checked',
       );
