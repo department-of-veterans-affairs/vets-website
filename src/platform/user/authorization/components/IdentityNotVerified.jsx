@@ -19,14 +19,19 @@ const VerifyIdentityInfo = () => (
     trigger="If you have trouble verifying your identity"
     uswds
   >
-    <a href="https://www.va.gov/resources/verifying-your-identity-on-vagov/">
+    <a
+      href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
+      clasName="vads-u-padding-bottom--2"
+    >
       Get answers to common questions about verifying your identity
     </a>
-    <p>
-      Or, if you have a Premium My HealtheVet account with a My HealtheVet user
-      ID and password, you can sign out and then sign back in with that account
-      to access My HealtheVet.
-    </p>
+    <div className="vads-u-margin-top--2p5">
+      <p>
+        Or, if you have a Premium My HealtheVet account with a My HealtheVet
+        user ID and password, you can sign out and then sign back in with that
+        account to access My HealtheVet.
+      </p>
+    </div>
   </va-additional-info>
 );
 
@@ -37,11 +42,13 @@ const IdentityNotVerified = ({
 }) => {
   return (
     <>
-      <va-alert status="continue" class="vads-u-margin-top--3">
+      <va-alert
+        status="continue"
+        class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+      >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
         </h2>
-
         <div className="vads-u-margin-bottom--1">
           <p>
             Our records show that you haven’t verified your identity for your
@@ -49,12 +56,10 @@ const IdentityNotVerified = ({
             to help us keep your information safe and prevent fraud and identity
             theft.
           </p>
-
-          <p className="vads-u-font-weight--bold">
+          <p>
             ID.me will ask you for certain personal information and
             identification. This process often takes about 10 minutes.
           </p>
-
           <a
             className="vads-c-action-link--green"
             href="/verify"
