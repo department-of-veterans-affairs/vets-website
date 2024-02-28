@@ -26,6 +26,27 @@ export default function transformForSubmit(formConfig, form) {
     MEDAL_AWARD: 'medalAwardDocuments',
   };
 
+  // TODO: Once PDF has been updated to remove OCR-boxes,
+  // remove this name-values truncation-block below.
+  if (
+    preparerType === PREPARER_TYPES.VETERAN ||
+    preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN
+  ) {
+    const { first, middle, last } = transformedData.veteranFullName;
+    transformedData.veteranFullName = {
+      first: first.slice(0, 12),
+      middle: middle.charAt(0),
+      last: last.slice(0, 18),
+    };
+  } else {
+    const { first, middle, last } = transformedData.nonVeteranFullName;
+    transformedData.nonVeteranFullName = {
+      first: first.slice(0, 12),
+      middle: middle.charAt(0),
+      last: last.slice(0, 18),
+    };
+  }
+
   // delete third-party form-data based on preparerType
   if (
     preparerType === PREPARER_TYPES.VETERAN ||
