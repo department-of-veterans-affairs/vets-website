@@ -50,6 +50,7 @@ const BenefitsProfileWrapper = ({ children }) => {
             />
             <ChangeOfAddressWrapper
               loading={loading}
+              applicantName={applicantName}
               mailingAddress={{
                 street: `${addressLine3} ${addressLine2}`,
                 city: addressLine4,

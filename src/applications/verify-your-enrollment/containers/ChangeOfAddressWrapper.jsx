@@ -13,7 +13,7 @@ import { postMailingAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 
-const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
+const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const { loading: isLoading, error, data: response } = useSelector(
@@ -200,6 +200,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
             <p className="vads-u-font-weight--bold">Change mailing address</p>
             {isLoading && <Loader className="loader" />}
             <ChangeOfAddressForm
+              applicantName={applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
@@ -231,6 +232,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   );
 };
 ChangeOfAddressWrapper.propTypes = {
+  applicantName: PropTypes.string,
   loading: PropTypes.bool,
   mailingAddress: PropTypes.object,
 };
