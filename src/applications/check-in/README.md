@@ -18,7 +18,9 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
     - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - Login using the mock user, Last name: `Smith` DOB: `04-07-1935`
+
+### Log in
+  - **Log in using the mock user, Last name: `Smith` DOB: `04-07-1935`**
 
 ## Mock UUIDs
 There are several different mock UUIDs that can be used as a value for the `id` URL param.
