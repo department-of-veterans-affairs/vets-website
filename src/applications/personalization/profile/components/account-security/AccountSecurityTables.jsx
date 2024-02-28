@@ -81,11 +81,12 @@ export const AccountSecurityTables = ({
   );
   return (
     <>
-      {/* legacy toble view for email address table */}
       <ProfileInfoCard
         title="Sign-in information"
         level={2}
-        data={<SignInServiceUpdateLink />}
+        data={
+          <SignInServiceUpdateLink isIdentityVerified={isIdentityVerified} />
+        }
         className="vads-u-margin-bottom--2"
       />
 
