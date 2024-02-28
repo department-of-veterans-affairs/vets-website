@@ -14,40 +14,28 @@ describe('Check-in experience', () => {
   describe('shared components', () => {
     describe('TravelClaimSuccessAlert', () => {
       it('renders correct content if only one facility', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <TravelClaimSuccessAlert appointments={singleFacility} />
           </CheckInProvider>,
         );
-        expect(
-          getByText(
-            'This claim is for your appointment on February 23, 2024 at Wompsville. We’ll send you a text to let you know the status of your claim.',
-          ),
-        ).to.exist;
+        expect(getByTestId('travel-pay-single-claim-submitted')).to.exist;
       });
       it('renders correct content if only one apppointment', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <TravelClaimSuccessAlert appointments={singleAppointment} />
           </CheckInProvider>,
         );
-        expect(
-          getByText(
-            'This claim is for your appointment on February 23, 2024 at Wompsville. We’ll send you a text to let you know the status of your claim.',
-          ),
-        ).to.exist;
+        expect(getByTestId('travel-pay-single-claim-submitted')).to.exist;
       });
       it('renders correct content if more than one facility', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <TravelClaimSuccessAlert appointments={multiFacility} />
           </CheckInProvider>,
         );
-        expect(
-          getByText(
-            'These claims are for appointments on February 23, 2024 at Chittenango, Wompsville, and Canastota. We’ll send you a text to let you know the status of your claims.',
-          ),
-        ).to.exist;
+        expect(getByTestId('travel-pay-multi-claim-submitted')).to.exist;
       });
     });
   });

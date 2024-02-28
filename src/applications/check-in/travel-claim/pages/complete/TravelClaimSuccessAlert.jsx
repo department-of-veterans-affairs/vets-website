@@ -5,6 +5,7 @@ import { getUniqueFacilies } from '../../../utils/appointment';
 import { formatList } from '../../../utils/formatters';
 
 const TravelClaimSuccessAlert = props => {
+  // @TODO refactor this once we have worked out where to derive facilities and times for claims from
   const { appointments } = props;
   const facilities = getUniqueFacilies(appointments);
 
@@ -23,7 +24,9 @@ const TravelClaimSuccessAlert = props => {
         </h2>
         <p
           className="vads-u-margin-top--0"
-          data-testid="travel-pay-single-claim-submitted"
+          data-testid={`travel-pay-${
+            facilities.length > 1 ? 'multi' : 'single'
+          }-claim-submitted`}
         >
           {`${t('this-claim-is-for-your-appointment', {
             date: new Date('2024-02-23T11:12:11'),
