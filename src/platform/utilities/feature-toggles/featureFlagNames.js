@@ -163,6 +163,7 @@ export default Object.freeze({
     'profile_do_not_require_international_zip_code',
   profileHideDirectDepositCompAndPen:
     'profile_hide_direct_deposit_comp_and_pen',
+  profileShowCredentialRetirementMessaging: 'profile_show_credential_retirement_messaging',
   profileShowEmailNotificationSettings:
     'profile_show_email_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
