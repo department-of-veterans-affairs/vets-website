@@ -33,6 +33,12 @@ thirdPartyVeteran.minimal.json, thirdPartyVeteran-maximal-1.json, & thirdPartyVe
 
 thirdPartyNonVeteran.minimal.json, thirdPartyNonVeteran-maximal-1.json, & thirdPartyNonVeteran-maximal-2.json are organized the same way as for Non-veteran story, plus third-party data.
 
+## Optional evidence (file-upload) pages
+
+Depending on otherReasons User-selections, we'll have evidence....js optional pages come up in the form-flow. There're NO file-upload data in our fixture-files, so be sure to handle the file-uploads in the backend.
+
+Update front-end's initially-defined upload-URLs as needed to work better with backend endpoints.
+
 ## Questions?
 
 If you have further questions about the fixture-files or data organization, please contact Tze Lei, Sr. Software Engineer FEBE, Ad Hoc LLC.
