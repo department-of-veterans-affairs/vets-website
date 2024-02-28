@@ -1,7 +1,7 @@
 import React from 'react';
 
 const OMBInfo = () => (
-  <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={30}>
+  <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={35}>
     <p>
       <strong>The Paperwork Reduction Act</strong> of 1995 requires us to notify
       you that this information collection is in accordance with the clearance

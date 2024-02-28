@@ -13,11 +13,8 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   return (
     <>
       {showLoginAlert ? (
-        <va-summary-box uswds>
-          <h2
-            slot="headline"
-            className="vads-u-font-size--h4 vads-u-margin-bottom--2"
-          >
+        <va-alert status="info" uswds>
+          <h2 slot="headline" className="vads-u-font-size--h3">
             Have you applied for VA health care before?
           </h2>
           <va-button
@@ -26,7 +23,7 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
             data-testid="hca-login-alert-button"
             uswds
           />
-        </va-summary-box>
+        </va-alert>
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
@@ -35,7 +32,18 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           downtime={formConfig.downtime}
           pageList={pageList}
           startText="Start the health care application"
-        />
+        >
+          <p>
+            You should know that we updated our online form.{' '}
+            <strong>If you started applying online before March 5, 2024</strong>
+            , we have some new questions for you to answer. And you may need to
+            provide certain information again.
+          </p>
+          <p>
+            Select <strong>Continue your application</strong> to use our updated
+            form, or come back later to finish your application.
+          </p>
+        </SaveInProgressIntro>
       )}
 
       <ProcessTimeline />
