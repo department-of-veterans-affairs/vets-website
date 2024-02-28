@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
 export default function DowntimeMessage({
@@ -11,11 +13,12 @@ export default function DowntimeMessage({
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   return (
     <va-alert
-      className={classNames({
+      class={classNames({
         'schemaform-downtime-after-steps': isAfterSteps,
       })}
       isVisible
       status="warning"
+      uswds
     >
       <h3 slot="headline">{`This ${appType} is down for maintenance.`}</h3>
       {endTime ? (
@@ -33,3 +36,15 @@ export default function DowntimeMessage({
     </va-alert>
   );
 }
+
+DowntimeMessage.propTypes = {
+  downtime: PropTypes.shape({
+    endTime: PropTypes.number,
+  }),
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }),
+  isAfterSteps: PropTypes.bool,
+};

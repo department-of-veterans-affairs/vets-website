@@ -36,4 +36,20 @@ describe('Dashboard', () => {
     const { getByText } = render(<Dashboard POApermissions={false} />);
     expect(getByText('You are missing some permissions')).to.exist;
   });
+
+  describe('Pending POA requests', () => {
+    it('renders table headers', () => {
+      const { getByText } = render(<Dashboard />);
+      expect(getByText('Claimant')).to.exist;
+      expect(getByText('Submitted')).to.exist;
+      expect(getByText('Accept/ decline')).to.exist;
+    });
+
+    it('renders view all link', () => {
+      const { getByTestId } = render(<Dashboard />);
+      expect(
+        getByTestId('view-all-poa-requests-link').getAttribute('text'),
+      ).to.equal('View all');
+    });
+  });
 });
