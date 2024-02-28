@@ -34,7 +34,7 @@ export const Locators = {
   MESSAGES: '[data-testid="message-list-item"]',
   THREADS: '[data-testid="thread-list-item"]',
   FOLDERS: {
-    INBOX: 'Locators.FOLDERS.SIDEBAR',
+    INBOX: '[data-testid="inbox-sidebar"] > a',
     DRAFTS: '[data-testid="drafts-sidebar"]',
     SENT: '[data-testid="sent-sidebar"]',
     TRASH: '[data-testid="trash-sidebar"]',
@@ -51,7 +51,7 @@ export const Locators = {
     SEND: '[data-testid="Send-Button"]',
     SAVE_DRAFT: '#save-draft-button',
     DELETE_DRAFT: '#delete-draft-button',
-    CREATE_FOLDER: '[data-testid="create-new-folder"]',
+    CREATE_FOLDER_BUTTON: '[data-testid="create-folder-button"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
     PRINT: '[data-testid="print-button"]',
     BUTTON_SORT: '[data-testid="sort-button"]',
@@ -65,6 +65,7 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
     DRAFT_MESSAGE: '@draft_message',
     MAIN_CONTENT: 'main-content > va-alert',
     PAGE_TITLE: '.page-title',
