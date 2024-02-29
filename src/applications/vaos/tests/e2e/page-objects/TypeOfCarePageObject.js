@@ -17,10 +17,10 @@ export class TypeOfCarePageObject extends PageObject {
   }
 
   assertUrl() {
-    cy.url().should('include', '/type-of-care', { timeout: 5000 });
-    cy.axeCheckBestPractice();
-
-    return this;
+    return super.assertUrl({
+      url: '/type-of-care',
+      breadcrumb: 'Choose the type of care you need',
+    });
   }
 
   selectTypeOfCare(label) {
