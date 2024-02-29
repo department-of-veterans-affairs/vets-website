@@ -8,7 +8,7 @@ describe('Permissions page', () => {
   it('renders', () => {
     const container = render(<PermissionsPage />);
 
-    expect(container.getByText('Permissions')).to.exist;
+    expect(container.getByRole('h1', { name: 'Permissions' })).to.exist;
 
     expect(container.getByText('Add')).to.exist;
     expect(container.getByText('Upload CSV')).to.exist;
