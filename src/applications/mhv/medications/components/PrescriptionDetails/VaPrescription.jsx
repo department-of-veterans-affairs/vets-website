@@ -40,7 +40,7 @@ const VaPrescription = prescription => {
             {prescription && <ExtraDetails {...prescription} />}
             {showRefillContent && prescription?.isRefillable ? (
               <Link
-                className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3 olol"
+                className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3"
                 to={medicationsUrls.MEDICATIONS_REFILL}
                 data-testid="refill-nav-link"
               >
