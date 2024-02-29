@@ -4,7 +4,7 @@ import { expect } from 'chai';
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
-import AppealListItem from '../../../components/appeals-v2/AppealListItemV3';
+import AppealListItem from '../../../components/appeals-v2/AppealListItem';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';
 
 describe('<AppealListItem>', () => {
@@ -23,7 +23,7 @@ describe('<AppealListItem>', () => {
             date: '2016-05-01',
           },
         ],
-        // These should really be objects, but AppealListItemV2 doesn't really care
+        // These should really be objects, but AppealListItem doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'compensation',
@@ -46,7 +46,7 @@ describe('<AppealListItem>', () => {
             date: '2016-05-01',
           },
         ],
-        // These should really be objects, but AppealListItemV2 doesn't really care
+        // These should really be objects, but AppealListItem doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'medical',
