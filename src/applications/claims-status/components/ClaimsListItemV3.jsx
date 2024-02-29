@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { DATE_FORMATS } from '../constants';
 import {
   getClaimType,
   buildDateFormatter,
@@ -8,7 +9,7 @@ import {
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
+const formatDate = date => buildDateFormatter(DATE_FORMATS.LONG_DATE)(date);
 
 const getTitle = claim => {
   return `Claim for ${getClaimType(claim).toLowerCase()}`;
@@ -42,7 +43,12 @@ const CommunicationsItem = ({ children, icon }) => {
   );
 };
 
-export default function ClaimsListItemV3({ claim }) {
+CommunicationsItem.propTypes = {
+  children: PropTypes.node.isRequired,
+  icon: PropTypes.string.isRequired,
+};
+
+export default function ClaimsListItem({ claim }) {
   const {
     claimDate,
     decisionLetterSent,
@@ -91,6 +97,6 @@ export default function ClaimsListItemV3({ claim }) {
   );
 }
 
-ClaimsListItemV3.propTypes = {
+ClaimsListItem.propTypes = {
   claim: PropTypes.object,
 };
