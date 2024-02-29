@@ -75,6 +75,8 @@ const App = () => {
 
   const redirecting = signedIn && !loading && !enabled;
 
+  // E2E testing
+
   useEffect(
     () => {
       async function loadMessages() {
