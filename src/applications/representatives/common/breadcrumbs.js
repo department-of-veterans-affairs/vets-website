@@ -1,4 +1,10 @@
-export const POAbreadcrumbs = page => {
+/**
+ * Function takes a page name and returns an array of breadcrumbs for that page
+ *
+ * @param {string} page
+ * @returns {Array}
+ */
+export const POABreadcrumbs = page => {
   let breadcrumbs = [];
 
   switch (page) {

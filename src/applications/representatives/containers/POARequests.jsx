@@ -4,15 +4,15 @@ import PoaRequestsTable from '../components/PoaRequestsTable/PoaRequestsTable';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 import LoginViewWrapper from './LoginViewWrapper';
 
-import { POAbreadcrumbs } from '../common/breadcrumbs';
+import { POABreadcrumbs } from '../common/breadcrumbs';
 
-const POARequests = ({ POApermissions = true }) => {
-  const POABreadcrumbs = POAbreadcrumbs('poa-requests');
+const POARequests = ({ POAPermissions = true }) => {
+  const POAPageBreadcrumbs = POABreadcrumbs('poa-requests');
 
   return (
     <LoginViewWrapper
-      breadcrumbs={POABreadcrumbs}
-      POApermissions={POApermissions}
+      breadcrumbs={POAPageBreadcrumbs}
+      POAPermissions={POAPermissions}
     >
       <h1>Power of attorney requests</h1>
       <PoaRequestsTable poaRequests={mockPOARequests} />
@@ -21,7 +21,7 @@ const POARequests = ({ POApermissions = true }) => {
 };
 
 POARequests.propTypes = {
-  POApermissions: PropTypes.bool,
+  POAPermissions: PropTypes.bool,
 };
 
 export default POARequests;

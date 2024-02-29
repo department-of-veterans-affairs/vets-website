@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LoginViewWrapper from './LoginViewWrapper';
 
-import { POAbreadcrumbs } from '../common/breadcrumbs';
+import { POABreadcrumbs } from '../common/breadcrumbs';
 
 const PermissionsPage = () => {
-  const permissionsBreadcrumbs = POAbreadcrumbs('permissions');
+  const permissionsBreadcrumbs = POABreadcrumbs('permissions');
   return (
-    <LoginViewWrapper breadcrumbs={permissionsBreadcrumbs} POApermissions>
+    <LoginViewWrapper breadcrumbs={permissionsBreadcrumbs} POAPermissions>
       <h1>Permissions</h1>
       <va-button
         onClick={function noRefCheck() {}}
@@ -25,6 +26,10 @@ const PermissionsPage = () => {
       </div>
     </LoginViewWrapper>
   );
+};
+
+PermissionsPage.propTypes = {
+  POAPermissions: PropTypes.bool,
 };
 
 export default PermissionsPage;
