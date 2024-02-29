@@ -143,28 +143,15 @@ const EmploymentRecord = props => {
       handleChange('isCurrent', value === 'true');
       setCurrentlyWorksHere(value === 'true');
     },
-    getContinueButtonText: () => {
-      if (
-        employmentRecord.isCurrent ||
-        getJobButton() === jobButtonConstants.FIRST_JOB
-      ) {
-        return 'Continue';
-      }
-
-      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
-        return 'Update employment record';
-      }
-      return 'Add employment record';
-    },
     getCancelButtonText: () => {
       if (getJobButton() === jobButtonConstants.FIRST_JOB) {
         return 'Back';
       }
 
       if (getJobButton() === jobButtonConstants.EDIT_JOB) {
-        return 'Cancel Edit Entry';
+        return 'Cancel edit entry';
       }
-      return 'Cancel Add Entry';
+      return 'Cancel add entry';
     },
   };
 
@@ -244,7 +231,7 @@ const EmploymentRecord = props => {
               isSecondary: true,
             },
             {
-              label: handlers.getContinueButtonText(),
+              label: 'Continue',
               onClick: updateFormData,
               isSubmitting: true,
             },
