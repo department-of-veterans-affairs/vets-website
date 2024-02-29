@@ -6,7 +6,10 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureBookingExclusion,
+} from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
@@ -77,6 +80,9 @@ export default function AppointmentsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const featureBookingExclusion = useSelector(state =>
+    selectFeatureBookingExclusion(state),
+  );
 
   const subPageTitle = getSubPageTitleFromLocation(location.pathname);
 
@@ -94,15 +100,17 @@ export default function AppointmentsPage() {
     pageTitle = 'Appointments';
   }
   const registeredFacilities = useSelector(selectPatientFacilities);
-  const hasRegisteredOHTransitionSite = registeredFacilities.find(
+  const hasRegisteredOHTransitionSite = registeredFacilities?.find(
     ({ facilityId }) => facilityId === OH_TRANSITION_SITES.Lovell.id,
   );
-  const hasRegisteredNonTransitionSite = registeredFacilities.find(
+  const hasRegisteredNonTransitionSite = registeredFacilities?.find(
     ({ facilityId }) => facilityId !== OH_TRANSITION_SITES.Lovell.id,
   );
-  // hide schedule lknk if user is registered at an OH Transition site and has no other registered facilities.
+  // hide schedule link if user is registered at an OH Transition site and has no other registered facilities.
   const hideScheduleLink = () =>
-    !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite;
+    featureBookingExclusion
+      ? !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite
+      : false;
 
   useEffect(
     () => {
@@ -154,10 +162,12 @@ export default function AppointmentsPage() {
       </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
-      <CernerTransitionAlert
-        className="vads-u-margin-bottom--3"
-        pageTitle={pageTitle}
-      />
+      {featureBookingExclusion && (
+        <CernerTransitionAlert
+          className="vads-u-margin-bottom--3"
+          pageTitle={pageTitle}
+        />
+      )}
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady

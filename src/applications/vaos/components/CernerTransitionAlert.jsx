@@ -11,14 +11,14 @@ export default function CernerTransitionAlert({
 }) {
   const H = `h${level}`;
   const registeredFacilities = useSelector(selectPatientFacilities);
-  const hasRegisteredOHTransitionSite = registeredFacilities.find(
+  const hasRegisteredOHTransitionSite = registeredFacilities?.find(
     ({ facilityId }) => facilityId === OH_TRANSITION_SITES.Lovell.id,
   );
   // Show Alert if user is registered at an OH Transition site
   const showAlert = () =>
     !!hasRegisteredOHTransitionSite && pageTitle === 'Appointments';
 
-  const hasRegisteredNonTransitionSite = registeredFacilities.find(
+  const hasRegisteredNonTransitionSite = registeredFacilities?.find(
     ({ facilityId }) => facilityId !== OH_TRANSITION_SITES.Lovell.id,
   );
 
