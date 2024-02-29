@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
-// import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import App from '../../containers/App';
@@ -49,7 +49,7 @@ describe('App', () => {
         currentlyLoggedIn: true,
       },
       profile: {
-        // services: [backendServices.HEALTH_RECORDS],
+        services: [backendServices.MEDICAL_RECORDS],
       },
     },
     mr: {
@@ -58,6 +58,7 @@ describe('App', () => {
       },
     },
   };
+
   const noDowntime = {
     scheduledDowntime: {
       globalDowntime: null,
@@ -67,6 +68,7 @@ describe('App', () => {
       dismissedDowntimeWarnings: [],
     },
   };
+
   const downtime = maintenanceWindows => {
     return createServiceMap(
       maintenanceWindows.map(maintenanceWindow => {
@@ -81,6 +83,7 @@ describe('App', () => {
       }),
     );
   };
+
   describe('App-level feature flag functionality', () => {
     it('feature flags are still loading', () => {
       const screen = renderWithStoreAndRouter(
@@ -379,5 +382,27 @@ describe('App', () => {
       );
       expect(screen.queryByTestId('mhv-mr-navigation'));
     });
+  });
+
+  it('redirects Basic users to /health-care/get-medical-records', async () => {
+    const customState = {
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          services: [],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_to_va_gov_release: true,
+      },
+    };
+    renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(window.location.replace.called).to.be.true;
   });
 });
