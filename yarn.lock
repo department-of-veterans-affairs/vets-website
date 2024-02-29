@@ -2781,13 +2781,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^35.0.0":
-  version "35.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-35.0.0.tgz#6d204a8a90fa9a1a4df98d2d21481b2214e0d3be"
-  integrity sha512-oNJr2Ywzv5Aya5Z9ksAqHLLNI8XkTy8qWjZQDn/P0dUvWNq8oxBVPAaMxGLkR2oPc9iiZchmMd//up7NWKBWTA==
+"@department-of-veterans-affairs/component-library@^37.0.0":
+  version "37.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-37.0.0.tgz#b36cce43dc1d53b0f0fd55c496b5ddded5035e69"
+  integrity sha512-Y1fJhicBlTM5AAaQfWOByAJKt0LOJ9wY7wBqZ6co5H/+rbkty5/Ur5ISmS8112ammyAb/OYKkN6VmKx8ucHw7w==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "26.0.1"
-    "@department-of-veterans-affairs/web-components" "4.59.1"
+    "@department-of-veterans-affairs/react-components" "28.0.0"
+    "@department-of-veterans-affairs/web-components" "5.0.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2833,10 +2833,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@26.0.1":
-  version "26.0.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-26.0.1.tgz#38eeb0dbe14ffe5f4a5fad6007d4688b33eabfdf"
-  integrity sha512-qCT32ZH7m6B5QMScML+dd/urB4IVNHmiJfX2XTFNE2ROzi2C61A7XMtDEt4bILa1Dno4H49QVhCFe3DqV6rU4w==
+"@department-of-veterans-affairs/react-components@28.0.0":
+  version "28.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-28.0.0.tgz#8ff7bbc1303a68e7ad2806e743a8ee72416aa284"
+  integrity sha512-FJW/z+Tpr1SiOnxOLhdDtgjF0rtGqSc00yvMhItY+P29AL8UPRo6SiR6C3Ephi6MpeCzC6L3x0HhrdcYL6omMA==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2874,10 +2874,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.59.1":
-  version "4.59.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.59.1.tgz#295cf8c2f04f1913ceef0ecffe0da39a3b38616c"
-  integrity sha512-nAc/ER8voz0uVzOdKylqmH0A9v7Kv7k8ukbho0SjfVnDH09QcCGxcMkD8k+WIVYTW2pQBUytp4rgmV/x+GiJ1Q==
+"@department-of-veterans-affairs/web-components@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-5.0.0.tgz#81628780cef1e647dfd3f87d1473058b8cee481d"
+  integrity sha512-OHeCxd89lgzjCmF/G5RIvWjH81X0aq7XfoSx54RR1jl7pNbAZkm9oWxCD6adG4YGqrtmr2GArMvS17bO+lRRsg==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.3.1"
     "@stencil/core" "^2.19.2"
@@ -6428,7 +6428,7 @@ chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.3.2, chalk@^2.4.2:
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -6551,14 +6551,6 @@ chokidar@^3.4.2, chokidar@^3.5.2:
     readdirp "~3.6.0"
   optionalDependencies:
     fsevents "~2.3.2"
-
-choma@^1.1.0:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/choma/-/choma-1.2.1.tgz"
-  integrity sha512-4KwEouEHt6SfG8vYnN2gSJfq/cGmnY2gubnUgsgkRXzHoSRAgluX2YXQgDg6bTDWuOmUrTb/cfwMpNlvnnPZCg==
-  dependencies:
-    chalk "^2.3.2"
-    seedrandom "^2.4.3"
 
 chownr@^1.1.1, chownr@^1.1.4:
   version "1.1.4"
@@ -10140,10 +10132,10 @@ focus-lock@^0.11.2:
   dependencies:
     tslib "^2.0.3"
 
-focus-lock@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/focus-lock/-/focus-lock-0.9.2.tgz#9d30918aaa99b1b97677731053d017f82a540d5b"
-  integrity sha512-YtHxjX7a0IC0ZACL5wsX8QdncXofWpGPNoVMuI/nZUrPGp6LmNI6+D5j0pPj+v8Kw5EpweA+T5yImK0rnWf7oQ==
+focus-lock@^1.3.2:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/focus-lock/-/focus-lock-1.3.3.tgz#b26711506025ec1ecdca69bb41fd10f0c15c4ae2"
+  integrity sha512-hfXkZha7Xt4RQtrL1HBfspAuIj89Y0fb6GX0dfJilb8S2G/lvL4akPAcHq6xoD2NuZnDMCnZL/zQesMyeu6Psg==
   dependencies:
     tslib "^2.0.3"
 
@@ -16742,7 +16734,7 @@ rc@1.2.8, rc@^1.0.1, rc@^1.1.6, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-clientside-effect@^1.2.5, react-clientside-effect@^1.2.6:
+react-clientside-effect@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.6.tgz#29f9b14e944a376b03fb650eed2a754dd128ea3a"
   integrity sha512-XGGGRQAKY+q25Lz9a/4EPqom7WRjz3z9R2k4jhVKA/puQFH/5Nt27vFZYql4m4NVNdUvX8PS3O7r/Zzm7cjUlg==
@@ -16778,17 +16770,17 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-focus-lock@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.6.0.tgz#97345c7abe439bf2974410b45529c2e208b1a633"
-  integrity sha512-2yB5KWyaefbvFDgqvsg/KpIjbqVlhIY2c/dyDcokDLhB3Ib7I4bjsrta5OkI5euUoIu5xBTyBwIQZPykUJAr1g==
+react-focus-lock@^2.11.1:
+  version "2.11.1"
+  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.11.1.tgz#9d532b29107c760c68ddadc1baff1a36e69c1fe0"
+  integrity sha512-IXLwnTBrLTlKTpASZXqqXJ8oymWrgAlOfuuDYN4XCuN1YJ72dwX198UCaF1QqGUk5C3QOnlMik//n3ufcfe8Ig==
   dependencies:
     "@babel/runtime" "^7.0.0"
-    focus-lock "^0.9.2"
+    focus-lock "^1.3.2"
     prop-types "^15.6.2"
-    react-clientside-effect "^1.2.5"
-    use-callback-ref "^1.2.5"
-    use-sidecar "^1.0.5"
+    react-clientside-effect "^1.2.6"
+    use-callback-ref "^1.3.0"
+    use-sidecar "^1.1.2"
 
 react-focus-lock@^2.9.0:
   version "2.9.1"
@@ -18091,10 +18083,6 @@ secure-compare@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/secure-compare/-/secure-compare-3.0.1.tgz#f1a0329b308b221fae37b9974f3d578d0ca999e3"
   integrity sha1-8aAymzCLIh+uN7mXTz1XjQypmeM=
-
-seedrandom@^2.4.3:
-  version "2.4.3"
-  resolved "https://registry.npmjs.org/seedrandom/-/seedrandom-2.4.3.tgz"
 
 select-hose@^2.0.0:
   version "2.0.0"
@@ -20234,14 +20222,14 @@ url@~0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-callback-ref@^1.2.5, use-callback-ref@^1.3.0:
+use-callback-ref@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.3.0.tgz#772199899b9c9a50526fedc4993fc7fa1f7e32d5"
   integrity sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==
   dependencies:
     tslib "^2.0.0"
 
-use-sidecar@^1.0.5, use-sidecar@^1.1.2:
+use-sidecar@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.1.2.tgz#2f43126ba2d7d7e117aa5855e5d8f0276dfe73c2"
   integrity sha512-epTbsLuzZ7lPClpz2TyryBfztm7m+28DlEv2ZCQ3MDr5ssiwyOwGH/e5F9CkfWjJ1t4clvI58yF822/GUkjjhw==
@@ -20389,9 +20377,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#cb05ca4f2883c6d66aca0396db524ff14fd2a734":
-  version "20.36.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#cb05ca4f2883c6d66aca0396db524ff14fd2a734"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e97ed438ab16e131513e7df72712dc91db4e6a3":
+  version "20.37.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e97ed438ab16e131513e7df72712dc91db4e6a3"
   dependencies:
     minimist "^1.2.3"
 

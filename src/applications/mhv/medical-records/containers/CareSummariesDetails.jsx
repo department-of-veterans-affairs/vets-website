@@ -25,14 +25,14 @@ const CareSummariesDetails = () => {
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
   const { summaryId } = useParams();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records/summaries-and-notes',
+            url: '/summaries-and-notes',
             label: 'Care summaries and notes',
           },
         ]),

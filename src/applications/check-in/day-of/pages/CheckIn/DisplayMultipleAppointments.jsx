@@ -6,7 +6,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useTranslation, Trans } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
-
+import { APP_NAMES } from '../../../utils/appConstants';
 import BackButton from '../../../components/BackButton';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -38,7 +38,7 @@ const DisplayMultipleAppointments = props => {
     {
       refreshNeeded: shouldRefresh,
       appointmentsOnly: true,
-      isPreCheckIn: false,
+      app: APP_NAMES.CHECK_IN,
     },
   );
 

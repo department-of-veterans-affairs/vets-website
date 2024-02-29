@@ -15,7 +15,7 @@ const store = createStore(() => ({
 }));
 
 describe('<AskVAPage>', () => {
-  it('should render disabled button', () => {
+  it('should render disabled submit button', () => {
     const router = getRouter();
 
     const tree = SkinDeep.shallowRender(
@@ -25,12 +25,13 @@ describe('<AskVAPage>', () => {
         router={router}
       />,
     );
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
+    expect(tree.everySubTree('va-button')[0].props.disabled).to.be.true;
+    expect(tree.everySubTree('va-button')[0].props.text).to.equal('Submit');
     expect(router.push.called).to.be.false;
   });
 
   // Disabling this test because it is not compatible with the va-checkbox web component yet.
-  it.skip('should render enabled button', () => {
+  it.skip('should render enabled submit button', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
 
@@ -44,7 +45,7 @@ describe('<AskVAPage>', () => {
     );
 
     tree.subTree('Checkbox').props.onValueChange(true);
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.null;
+    expect(tree.everySubTree('va-button')[0].props.disabled).to.be.null;
   });
 
   it('should render disabled submitting button', () => {
@@ -63,8 +64,10 @@ describe('<AskVAPage>', () => {
       />,
     );
 
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
-    expect(tree.everySubTree('button')[0].text()).to.equal('Submitting...');
+    expect(tree.everySubTree('va-button')[0].props.disabled).to.be.true;
+    expect(tree.everySubTree('va-button')[0].props.text).to.equal(
+      'Submitting...',
+    );
   });
 
   // Disabling this test because it is not compatible with the va-checkbox web component yet.
@@ -82,7 +85,7 @@ describe('<AskVAPage>', () => {
     );
 
     tree.subTree('Checkbox').props.onValueChange(true);
-    tree.subTree('button').props.onClick();
+    tree.subTree('va-button')[0].props.onClick();
     expect(submitRequest.called).to.be.true;
   });
 

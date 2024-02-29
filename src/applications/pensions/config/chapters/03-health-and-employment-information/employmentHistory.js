@@ -50,6 +50,7 @@ const generateEmployersSchemas = (
         'ui:title': employerMessage,
         'ui:options': {
           itemName: 'Job',
+          itemAriaLabel: data => data.jobTitle,
           viewField: EmployerView,
           reviewTitle: employersReviewTitle,
           keepInPageOnReview: true,
