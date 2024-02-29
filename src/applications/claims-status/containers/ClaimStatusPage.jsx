@@ -20,6 +20,7 @@ import ClaimStatusHeader from '../components/ClaimStatusHeader';
 import WhatWeAreDoing from '../components/claim-status-tab/WhatWeAreDoing';
 import RecentActivity from '../components/claim-status-tab/RecentActivity';
 import NextSteps from '../components/claim-status-tab/NextSteps';
+import Payments from '../components/claim-status-tab/Payments';
 
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -243,7 +244,16 @@ class ClaimStatusPage extends React.Component {
                 <WhatWeAreDoing claim={claim} />
               </>
             ) : (
-              <NextSteps />
+              <>
+                <Payments />
+                <NextSteps />
+                <ClaimTimeline
+                  id={claim.id}
+                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                  currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                  events={generateEventTimeline(claim)}
+                />
+              </>
             )}
             <RecentActivity claim={claim} />
           </Toggler.Enabled>

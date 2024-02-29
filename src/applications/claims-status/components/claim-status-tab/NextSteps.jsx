@@ -4,7 +4,7 @@ function NextSteps() {
   return (
     <div className="next-steps-container">
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-        Next Steps
+        Next steps
       </h3>
       <p>
         <strong>If you agree with your claim decision</strong>, you don’t need
