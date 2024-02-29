@@ -15,8 +15,16 @@ describe('Medication card component', () => {
     });
   };
 
-  it('renders without errors', () => {
-    const screen = setup();
+  it('renders without errors, even when no prescription name is given ', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      prescriptionName: '',
+      dispStatus: 'Active: Non-VA',
+    });
+    const medicationName = screen.getByTestId(
+      'medications-history-details-link',
+    );
+    fireEvent.click(medicationName);
     expect(screen);
   });
 

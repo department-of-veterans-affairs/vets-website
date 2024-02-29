@@ -5,10 +5,11 @@ import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
 import { dateFormat } from '../../../util/helpers';
+import { dispStatusObj } from '../../../util/constants';
 
 describe('Medications List Card Extra Details', () => {
-  const rx = prescriptionsListItem;
-  const setup = () => {
+  const prescription = prescriptionsListItem;
+  const setup = (rx = prescription) => {
     return renderWithStoreAndRouter(<ExtraDetails {...rx} />, {
       path: '/',
       state: {},
@@ -21,6 +22,38 @@ describe('Medications List Card Extra Details', () => {
     expect(screen);
   });
 
+  it('when dispStatus is discontinued, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.discontinued,
+    });
+    expect(screen.findByTestId('discontinued'));
+  });
+
+  it('when dispStatus is transferred, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.transferred,
+    });
+    expect(screen.findByTestId('transferred'));
+  });
+
+  it('when dispStatus is onHold, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.onHold,
+    });
+    expect(screen.findByTestId('active-onHold'));
+  });
+
+  it('when dispStatus is submitted, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.submitted,
+    });
+    expect(screen.findByTestId('submitted-refill-request'));
+  });
+
   it('displays the refillinprocess information', () => {
     const screen = setup();
 
@@ -29,7 +62,10 @@ describe('Medications List Card Extra Details', () => {
     );
 
     expect(screen.getByTestId('rx-refillinprocess-info')).to.have.text(
-      `We expect to fill it on ${dateFormat(rx.refillDate, 'MMMM D, YYYY')}.`,
+      `We expect to fill it on ${dateFormat(
+        prescription.refillDate,
+        'MMMM D, YYYY',
+      )}.`,
     );
     expect(rxName).to.exist;
   });

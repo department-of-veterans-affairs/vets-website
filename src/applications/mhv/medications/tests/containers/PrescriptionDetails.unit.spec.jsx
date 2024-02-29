@@ -29,6 +29,12 @@ describe('Prescription details container', () => {
   it('renders without errors', () => {
     const screen = setup({
       ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: 'January, 01, 2000',
+        },
+      },
       rx: {
         prescriptions: {
           prescriptionDetails: {

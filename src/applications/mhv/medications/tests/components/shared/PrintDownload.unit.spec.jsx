@@ -87,4 +87,22 @@ describe('Medicaitons Print/Download button component', () => {
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.false;
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.true;
   });
+
+  it('user keyboard events: upArrow, downArrow, and esc keys', () => {
+    const screen = setup(handleFullListDownload, false, true);
+    const printDownloadDropdownList = screen.getByTestId('print-download-list');
+    fireEvent.keyDown(printDownloadDropdownList, { charCode: 38 });
+    fireEvent.keyDown(printDownloadDropdownList, { charCode: 40 });
+    fireEvent.keyDown(printDownloadDropdownList, { charCode: 27 });
+
+    expect(screen);
+  });
+
+  it('on mousedown, click user events ', () => {
+    const screen = setup(handleFullListDownload, false, true);
+    const printRecordsButton = screen.getByTestId('print-records-button');
+    fireEvent.mouseDown(printRecordsButton);
+    fireEvent.click(printRecordsButton);
+    expect(screen);
+  });
 });

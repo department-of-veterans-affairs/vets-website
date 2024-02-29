@@ -78,7 +78,12 @@ describe('Medicaitons List component', () => {
           selectedSortOption={sortOption}
         />,
         {
-          initialState: state,
+          initialState: {
+            ...state,
+            rx: {
+              prescriptions: { prescriptionDetails: { prescriptionId: 123 } },
+            },
+          },
           reducers: reducer,
           path: '/',
         },
