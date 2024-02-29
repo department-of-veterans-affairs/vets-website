@@ -12,6 +12,7 @@ import {
 } from '../../utilities/page-navigation';
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
+import { applyFocus } from '../../utilities/page-setup';
 
 /**
  * Produces a variable group of checkboxes
@@ -33,6 +34,7 @@ const CheckboxGroup = ({
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const [headerHasFocused, setHeaderHasFocused] = useState(false);
 
   const onValueChange = event => {
     const { value } = event?.target;
@@ -87,8 +89,14 @@ const CheckboxGroup = ({
         data-testid={testId}
         error={formError ? 'Select a location.' : null}
         hint="Select all that apply."
+        id="paw-checkbox"
         label={h1}
         label-header-level="1"
+        onLoad={applyFocus(
+          'paw-checkbox',
+          headerHasFocused,
+          setHeaderHasFocused,
+        )}
         uswds
       >
         {createCheckboxes()}

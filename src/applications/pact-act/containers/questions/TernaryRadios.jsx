@@ -13,6 +13,7 @@ import {
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
+import { applyFocus } from '../../utilities/page-setup';
 
 /**
  * Produces a set of 3 radio options
@@ -35,6 +36,7 @@ const TernaryRadios = ({
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const [headerHasFocused, setHeaderHasFocused] = useState(false);
 
   const onContinueClick = () => {
     if (!formValue) {
@@ -89,8 +91,9 @@ const TernaryRadios = ({
         form-heading={h1}
         form-heading-level={1}
         error={formError ? 'Select a response.' : null}
-        id="form-pattern-single-radio"
+        id="paw-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
+        onLoad={applyFocus('paw-radio', headerHasFocused, setHeaderHasFocused)}
         use-forms-pattern="single"
         uswds
       >
