@@ -42,7 +42,7 @@ const Footer = ({ router, isPreCheckIn }) => {
   };
 
   const showTravelClaimHelp = () => {
-    if (appName === 'travelClaim') return appName === 'travelClaim';
+    if (appName === 'travelClaim') return true;
 
     return (
       currentPage === 'error' &&
@@ -58,19 +58,19 @@ const Footer = ({ router, isPreCheckIn }) => {
       >
         {t('need-help')}
       </h2>
-      {showTravelHelp &&
-        !showTravelClaimHelp && (
+      {showTravelHelp() &&
+        !showTravelClaimHelp() && (
           <div data-testid="check-in-message">
             <HelpBlock travel />
           </div>
         )}
-      {showTravelClaimHelp && (
+      {showTravelClaimHelp() && (
         <div data-testid="check-in-message">
           <HelpBlock travelOnly />
         </div>
       )}
-      {!showTravelHelp &&
-        !showTravelClaimHelp && (
+      {!showTravelHelp() &&
+        !showTravelClaimHelp() && (
           <div data-testid="check-in-message">
             <HelpBlock />
           </div>
