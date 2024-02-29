@@ -85,6 +85,14 @@ export const Locators = {
     ERROR_MESSAGE: '[data-testid="file-input-error-message"]',
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
   },
+  FIELDS: {
+    RECIPIENT: '#select',
+    SUBJECT: '#inputField',
+    MESSAGE: '#textarea',
+  },
+  INFO: {
+    SUBJECT_LIMIT: '#charcount-message',
+  },
 };
 
 export const Alerts = {

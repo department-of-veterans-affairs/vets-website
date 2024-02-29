@@ -18,9 +18,9 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error) {
     // get token from session store
-    const { isPreCheckIn } = this.props;
+    const { app } = this.props;
     const KEYS = createStorageKeys({
-      isPreCheckIn,
+      app,
     });
     const data = window.sessionStorage.getItem(KEYS.CURRENT_UUID);
     const token = data ? JSON.parse(data).token : null;
@@ -42,8 +42,8 @@ class ErrorBoundary extends React.Component {
 }
 
 ErrorBoundary.propTypes = {
+  app: PropTypes.string,
   children: PropTypes.node,
-  isPreCheckIn: PropTypes.bool,
 };
 
 export default withAppName(ErrorBoundary);

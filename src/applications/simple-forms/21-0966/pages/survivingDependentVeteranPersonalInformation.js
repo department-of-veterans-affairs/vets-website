@@ -11,7 +11,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Veteran’s name and date of birth',
-      'Tell us about the Veteran who you are connected to.',
+      'Now tell us about the Veteran whose benefits you’re connected to',
     ),
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI(),
