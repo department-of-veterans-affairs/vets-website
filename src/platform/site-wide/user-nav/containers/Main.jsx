@@ -17,7 +17,6 @@ import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
 import {
   signInServiceName as signInServiceNameSelector,
-  transitionMHVAccount,
   isAuthenticatedWithOAuth,
   signInServiceEnabled,
 } from 'platform/user/authentication/selectors';
@@ -26,7 +25,6 @@ import {
   isProfileLoading,
   isLOA3,
   selectUser,
-  mhvTransitionEnabled,
   mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
@@ -287,14 +285,14 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
-    mhvTransition: mhvTransitionEnabled(state),
+    mhvTransition: false,
     mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
     useSignInService: signInServiceEnabled(state),
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
-    canTransferMHVAccount: transitionMHVAccount(state),
+    canTransferMHVAccount: false,
     ...state.navigation,
   };
 };

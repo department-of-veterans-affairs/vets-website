@@ -141,9 +141,6 @@ export default Object.freeze({
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
   mhvMedicationsDisplayRefillContent: 'mhv_medications_display_refill_content',
-  mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
-  mhvToLogingovAccountTransitionModal:
-    'mhv_to_logingov_account_transition_modal',
   myVaEnableNotificationComponent: 'my_va_notification_component',
   myVaUseExperimental: 'my_va_experimental',
   myVaUseExperimentalFrontend: 'my_va_experimental_frontend',

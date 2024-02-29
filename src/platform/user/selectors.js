@@ -48,8 +48,5 @@ export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);
 }
 
-export const mhvTransitionEnabled = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransition];
-
 export const mhvTransitionModalEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransitionModal];
