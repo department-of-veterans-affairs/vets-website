@@ -29,7 +29,7 @@ class TrackClaimsPage {
     );
 
     if (claimsList.data.length) {
-      cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
+      cy.get('.claim-list-item', { timeout: Timeouts.slow }).should(
         'be.visible',
       );
     } else {
@@ -67,11 +67,13 @@ class TrackClaimsPage {
       'contain',
       'Check your claim, decision review, or appeal status',
     );
-    cy.get('.claim-list-item-header-v2')
+    cy.get('.claim-list-item-header')
       .first()
-      .should('contain', `Claim for disability compensation`)
-      .and('contain', 'updated on October 31, 2016');
-    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+      .should('contain', `Claim for disability compensation`);
+    cy.get('.card-status')
+      .first()
+      .should('contain', `Last updated: October 31, 2016`);
+    cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
         cy.url().should('contain', '/your-claims/189685/status');
@@ -79,7 +81,7 @@ class TrackClaimsPage {
   }
 
   verifyReadyClaim() {
-    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+    cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -99,7 +101,7 @@ class TrackClaimsPage {
   }
 
   verifyInProgressClaim(inProgress = true) {
-    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+    cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -229,10 +231,10 @@ class TrackClaimsPage {
     cy.get('.claims-alert-status a')
       .click()
       .then(() => {
-        cy.get('.usa-button-secondary');
+        cy.get('.button-secondary');
         cy.axeCheck();
       });
-    cy.get('.main .usa-button-primary').click({ force: true });
+    cy.get('.main .button-primary').click({ force: true });
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
@@ -240,7 +242,7 @@ class TrackClaimsPage {
       .first()
       .check()
       .then(() => {
-        cy.get('.main .usa-button-primary').click();
+        cy.get('.main .button-primary').click();
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
