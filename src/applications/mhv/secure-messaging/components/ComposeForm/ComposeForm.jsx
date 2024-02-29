@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { scrollToFirstError } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -23,7 +24,6 @@ import {
   updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
-import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
@@ -243,7 +243,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (messageInvalid) {
-        focusOnErrorField();
+        scrollToFirstError();
       }
     },
     [messageInvalid],
@@ -640,7 +640,7 @@ const ComposeForm = props => {
                       onVaSelect={recipientHandler}
                       class="composeSelect"
                       data-testid="compose-recipient-select"
-                      error={recipientError}
+                      {...recipientError && { error: recipientError }}
                       data-dd-privacy="mask"
                       data-dd-action-name="Compose Recipient Dropdown List"
                     >
@@ -663,7 +663,7 @@ const ComposeForm = props => {
                     onVaSelect={recipientHandler}
                     class="composeSelect"
                     data-testid="compose-recipient-select"
-                    error={recipientError}
+                    {...recipientError && { error: recipientError }}
                     data-dd-privacy="mask"
                     data-dd-action-name="Compose Recipient Dropdown List"
                   >
@@ -711,12 +711,9 @@ const ComposeForm = props => {
                 data-testid="message-subject-field"
                 onInput={subjectHandler}
                 value={subject}
-                error={subjectError}
+                {...subjectError && { error: subjectError }}
                 data-dd-privacy="mask"
                 data-dd-action-name="Compose Message Subject Input Field"
-                onFocus={e => {
-                  setCaretToPos(e.target.shadowRoot.querySelector('input'), 0);
-                }}
                 maxlength="50"
                 uswds
               />
@@ -739,15 +736,15 @@ const ComposeForm = props => {
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
                 value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
-                error={bodyError}
+                {...bodyError && { error: bodyError }}
+                data-dd-privacy="mask"
+                data-dd-action-name="Compose Message Body Textbox"
                 onFocus={e => {
                   setCaretToPos(
                     e.target.shadowRoot.querySelector('textarea'),
                     0,
                   );
                 }}
-                data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Body Textbox"
               />
             )}
           </div>
