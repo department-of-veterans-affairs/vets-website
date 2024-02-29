@@ -74,6 +74,24 @@ class MedicationsRefillPage {
       waitForAnimations: true,
     });
   };
+
+  clickBackToMedicationsBreadcrumbOnRefillPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      medicationsList,
+    ).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      medicationsList,
+    );
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.get('[data-testid="back-to-medications-page-link"]').should('exist');
+    cy.get('[data-testid="back-to-medications-page-link"]').click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default MedicationsRefillPage;
