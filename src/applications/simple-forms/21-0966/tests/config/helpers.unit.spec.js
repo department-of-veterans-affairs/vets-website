@@ -194,7 +194,7 @@ describe('form helper functions', () => {
   it('returns true for ITF functions when ITF formData values are present and false when values are empty objects', () => {
     const formData = {
       'view:activeCompensationITF': {
-        expirationDate: '1-1-1999',
+        expirationDate: '2025-01-30T17:56:30.512Z',
         status: 'active',
       },
       'view:activePensionITF': {},
@@ -206,7 +206,7 @@ describe('form helper functions', () => {
 
     formData['view:activeCompensationITF'] = {};
     formData['view:activePensionITF'] = {
-      expirationDate: '1-1-1999',
+      expirationDate: '2025-01-30T17:56:30.512Z',
       status: 'active',
     };
 
@@ -367,10 +367,10 @@ describe('Confirmation Page helper functions', () => {
     const formData = {
       benefitSelection: {},
       'view:activeCompensationITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: '2025-01-30T17:56:30.512Z',
       },
       'view:activePensionITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: '2025-01-30T17:56:30.512Z',
       },
     };
 
@@ -383,15 +383,17 @@ describe('Confirmation Page helper functions', () => {
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
     expect(confirmationPageAlertParagraph(formData)).to.equal(
-      'Our records show that you already have an intent to file for disability compensation and it will expire on 1-1-2025.',
+      'Our records show that you already have an intent to file for disability compensation and it will expire on January 30, 2025.',
     );
 
-    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
+    formData['view:activePensionITF'] = {
+      expirationDate: '2025-01-30T17:56:30.512Z',
+    };
     formData['view:activeCompensationITF'] = {};
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
     expect(confirmationPageAlertParagraph(formData)).to.equal(
-      'Our records show that you already have an intent to file for pension claims and it will expire on 1-1-2025.',
+      'Our records show that you already have an intent to file for pension claims and it will expire on January 30, 2025.',
     );
 
     formData['view:activePensionITF'] = {};
@@ -407,10 +409,10 @@ describe('Confirmation Page helper functions', () => {
     const formData = {
       benefitSelection: {},
       'view:activeCompensationITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: '2025-01-30T17:56:30.512Z',
       },
       'view:activePensionITF': {
-        expirationDate: '1-1-2025',
+        expirationDate: '2025-01-30T17:56:30.512Z',
       },
     };
 
@@ -429,7 +431,9 @@ describe('Confirmation Page helper functions', () => {
       'disability compensation',
     );
 
-    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
+    formData['view:activePensionITF'] = {
+      expirationDate: '2025-01-30T17:56:30.512Z',
+    };
     formData['view:activeCompensationITF'] = {};
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
