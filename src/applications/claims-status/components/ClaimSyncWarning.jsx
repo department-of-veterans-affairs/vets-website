@@ -21,13 +21,9 @@ export default function ClaimSyncWarning({ olderVersion }) {
           Please refresh the page or try again later.
           {additionalText}
         </p>
-        <va-button
-          primary
-          class="vads-u-margin-top--1"
-          text="Refresh the page"
-          onClick={handleClick}
-          uswds
-        />
+        <button type="button" className="usa-button" onClick={handleClick}>
+          Refresh the page
+        </button>
       </div>
     </div>
   );

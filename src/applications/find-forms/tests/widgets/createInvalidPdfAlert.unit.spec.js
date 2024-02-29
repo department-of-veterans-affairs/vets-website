@@ -33,6 +33,13 @@ describe('createInvalidPdfAlert', () => {
       ],
     });
   });
+  const reduxStore = {
+    getState: () => {
+      return {
+        featureToggles: {},
+      };
+    },
+  };
 
   it('shows an alert banner for invalid forms', async () => {
     const link = {
@@ -52,7 +59,7 @@ describe('createInvalidPdfAlert', () => {
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(event);
+    await onDownloadLinkClick(event, reduxStore, sinon.stub());
 
     expect(link.click.called).to.be.false;
     expect(link.parentNode.insertBefore.called).to.be.true;
@@ -67,13 +74,13 @@ describe('createInvalidPdfAlert', () => {
   it('does not show an alert banner for valid forms', async () => {
     const link = {
       click: sinon.stub(),
+      removeEventListener: sinon.stub(),
       href: 'https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf',
       dataset: {
         formNumber: '10-10EZ',
       },
       parentNode: {
         removeChild: sinon.stub(),
-        insertBefore: sinon.stub(),
       },
     };
 
@@ -82,13 +89,10 @@ describe('createInvalidPdfAlert', () => {
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(event);
+    await onDownloadLinkClick(event, reduxStore, sinon.stub());
 
     expect(link.parentNode.removeChild.called).to.be.false;
-    expect(link.parentNode.insertBefore.called).to.be.true;
-
-    const alertBox = link.parentNode.insertBefore.firstCall.args[0];
-
-    expect(alertBox.innerHTML).to.include('Download this PDF');
+    expect(link.removeEventListener.called).to.be.true;
+    expect(link.click.called).to.be.true;
   });
 });

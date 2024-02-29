@@ -17,14 +17,6 @@
     visibility: hidden !important;
   }
 
-  @media (min-width: $small-screen) and (max-width: $medium-screen) {
-    .usa-content,
-    .va-nav-breadcrumbs {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
-
   .search-section {
     .search-controls-container {
       #representative-search-controls {
@@ -255,7 +247,7 @@
     }
   }
 
-  .help-section {
+  .help-footer-container {
     @media (max-width: $medium-screen) {
       padding-right: 2.5rem;
     }

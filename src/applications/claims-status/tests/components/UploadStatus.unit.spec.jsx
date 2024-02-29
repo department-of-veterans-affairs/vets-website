@@ -20,7 +20,7 @@ describe('<UploadStatus>', () => {
       <UploadStatus files={1} onCancel={onCancel} progress={0.5} />,
     );
 
-    tree.subTree('va-button').props.onClick({
+    tree.subTree('button').props.onClick({
       preventDefault: () => {},
     });
     expect(onCancel.called).to.be.true;

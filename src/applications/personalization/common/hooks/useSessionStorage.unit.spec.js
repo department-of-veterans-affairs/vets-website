@@ -1,12 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import {
-  render,
-  act,
-  fireEvent,
-  waitFor,
-  cleanup,
-} from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import PropTypes from 'prop-types';
 
@@ -39,7 +33,6 @@ TestComponent.propTypes = {
 };
 
 describe('useSessionStorage', () => {
-  afterEach(cleanup);
   const testKey = 'testKey';
 
   it('retrieves an existing value from sessionStorage', () => {

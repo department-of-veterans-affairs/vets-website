@@ -118,22 +118,26 @@ class AskVAPage extends React.Component {
                   onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
                 />
               </div>
-              <va-button
+              <button
                 disabled={submitDisabled}
-                submit
-                uswds
-                class="button-primary vads-u-margin-top--1"
-                text={buttonMsg}
+                type="button"
+                className={
+                  submitDisabled
+                    ? 'usa-button-primary usa-button-disabled'
+                    : 'usa-button-primary'
+                }
                 onClick={() => submitFunc(this.props.params.id)}
-              />
+              >
+                {buttonMsg}
+              </button>
               {!loadingDecisionRequest ? (
-                <va-button
-                  secondary
-                  uswds
-                  class="button-secondary vads-u-margin-top--1"
-                  text="Not yet–I still have more evidence to submit"
+                <button
+                  className="usa-button-secondary"
                   onClick={this.goToStatusPage}
-                />
+                  type="button"
+                >
+                  Not yet–I still have more evidence to submit
+                </button>
               ) : null}
             </div>
           </div>

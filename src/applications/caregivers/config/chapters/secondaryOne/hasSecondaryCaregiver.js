@@ -1,6 +1,5 @@
-import { shouldHideAlert } from '../../../utils/helpers';
 import { primaryCaregiverFields } from '../../../definitions/constants';
-import SecondaryRequiredAlert from '../../../components/FormAlerts/SecondaryRequiredAlert';
+import { secondaryRequiredAlert } from '../../../definitions/UIDefinitions/caregiverUI';
 import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const hasSecondaryCaregiverPage = {
@@ -31,13 +30,7 @@ const hasSecondaryCaregiverPage = {
         },
       ],
     },
-    'view:secondaryAlert': {
-      'ui:title': ' ',
-      'ui:widget': SecondaryRequiredAlert,
-      'ui:options': {
-        hideIf: formData => shouldHideAlert(formData),
-      },
-    },
+    'view:secondaryAlert': secondaryRequiredAlert,
   },
   schema: {
     type: 'object',

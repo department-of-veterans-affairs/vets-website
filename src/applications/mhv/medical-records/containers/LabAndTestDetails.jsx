@@ -26,14 +26,14 @@ const LabAndTestDetails = () => {
   );
   const fullState = useSelector(state => state);
   const { labId } = useParams();
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/labs-and-tests',
+            url: '/my-health/medical-records/labs-and-tests',
             label: 'Lab and test results',
           },
         ]),

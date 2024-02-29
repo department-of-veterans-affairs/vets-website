@@ -3,7 +3,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { genderLabels } from 'platform/static-data/labels';
 
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
+import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { gender } = fullSchemaHca.properties;
@@ -13,7 +13,7 @@ export default {
     'view:birthSexShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: notShortFormEligible,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:prefillMessage': {

@@ -5,7 +5,6 @@ import manifest from '../manifest.json';
 
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 
-import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -27,11 +26,10 @@ import {
   hasActiveCompensationITF,
   hasActivePensionITF,
   noActiveITF,
-  hasVeteranPrefill,
   benefitSelectionChapterTitle,
   survivingDependentPersonalInformationChapterTitle,
   survivingDependentContactInformationChapterTitle,
-  initializeFormDataWithPreparerIdentificationAndPrefill,
+  initializeFormDataWithPreparerIdentification,
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
@@ -39,7 +37,6 @@ import {
 import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
 import thirdPartySurvivingDependentBenefitSelection from '../pages/thirdPartySurvivingDependentBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
-import confirmVeteranPersonalInformation from '../pages/confirmVeteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
 import thirdPartyPreparerRole from '../pages/thirdPartyPreparerRole';
@@ -86,7 +83,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   v3SegmentedProgressBar: true,
   subTitle:
     'Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966)',
@@ -164,9 +160,8 @@ const formConfig = {
             }
           },
           updateFormData: (oldFormData, newFormData) =>
-            initializeFormDataWithPreparerIdentificationAndPrefill(
+            initializeFormDataWithPreparerIdentification(
               newFormData.preparerIdentification,
-              newFormData['view:veteranPrefillStore'],
             ),
         },
         thirdPartyPreparerFullName: {
@@ -309,20 +304,10 @@ const formConfig = {
       title: ({ formData }) =>
         veteranPersonalInformationChapterTitle({ formData }),
       pages: {
-        confirmVeteranPersonalInformation: {
-          path: 'confirm-veteran-personal-information',
-          depends: formData =>
-            preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData }),
-          title: 'Confirm the personal information we have on file for you',
-          uiSchema: confirmVeteranPersonalInformation.uiSchema,
-          schema: confirmVeteranPersonalInformation.schema,
-          editModeOnReviewPage: true,
-        },
         veteranPersonalInformation: {
           path: 'veteran-personal-information',
           depends: formData =>
-            (preparerIsVeteran({ formData }) &&
-              !hasVeteranPrefill({ formData })) ||
+            (preparerIsVeteran({ formData }) && noActiveITF({ formData })) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
@@ -347,10 +332,7 @@ const formConfig = {
         veteranIdentificationInformation: {
           path: 'veteran-identification-information',
           title: 'Identification information',
-          depends: formData =>
-            !preparerIsVeteran({ formData }) ||
-            (preparerIsVeteran({ formData }) &&
-              !hasVeteranPrefill({ formData })),
+          depends: formData => noActiveITF({ formData }),
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
         },
@@ -378,8 +360,7 @@ const formConfig = {
         veteranMailingAddress: {
           path: 'veteran-mailing-address',
           depends: formData =>
-            (preparerIsVeteran({ formData }) &&
-              !hasVeteranPrefill({ formData })) ||
+            (preparerIsVeteran({ formData }) && noActiveITF({ formData })) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Mailing address',
           uiSchema: veteranMailingAddress.uiSchema,
@@ -388,8 +369,7 @@ const formConfig = {
         veteranPhoneAndEmailAddress: {
           path: 'veteran-phone-and-email-address',
           depends: formData =>
-            (preparerIsVeteran({ formData }) &&
-              !hasVeteranPrefill({ formData })) ||
+            (preparerIsVeteran({ formData }) && noActiveITF({ formData })) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Phone and email address',
           uiSchema: veteranPhoneAndEmailAddress.uiSchema,

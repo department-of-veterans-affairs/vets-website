@@ -203,11 +203,10 @@ const DependentInformation = props => {
           {/** Cancel confirmation modal trigger */}
           <div className="vads-u-margin-y--2">
             <va-button
-              id="hca-modal-cancel"
               text={`Cancel ${searchAction.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
-              uswds
+              id="hca-modal-cancel"
             />
           </div>
 
@@ -232,7 +231,6 @@ const DependentInformation = props => {
         visible={modal}
         status="warning"
         clickToClose
-        uswds
       >
         <p className="vads-u-margin--0">
           If you cancel {searchAction.label} this dependent, we won’t save their

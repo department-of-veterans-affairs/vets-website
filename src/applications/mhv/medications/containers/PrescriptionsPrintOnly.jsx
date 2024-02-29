@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -10,26 +10,20 @@ import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 
 const PrescriptionsPrintOnly = () => {
-  const { search } = useLocation();
-  const [fullPrescriptionsList, setFullPrescriptionsList] = useState([]);
+  const location = useLocation();
+  const [fullPrescriptionsList, setFullPrescriptionsList] = React.useState([]);
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions.selectedSortOption,
   );
-  const [currentSortOption, setCurrentSortOption] = useState(
+  const [currentSortOption, setCurrentSortOption] = React.useState(
     selectedSortOption,
   );
-  const [isListLoaded, setIsListLoaded] = useState(false);
-  const page = useMemo(
-    () => {
-      const query = new URLSearchParams(search);
-      return Number(query.get('page'));
-    },
-    [search],
-  );
-  useEffect(
+  const [isListLoaded, setIsListLoaded] = React.useState(false);
+  const LIST_PAGE_PATTERN = React.useMemo(() => /^\/\d+$/, []);
+  React.useEffect(
     () => {
       const getFullList = async () => {
         setIsListLoaded(false);
@@ -53,8 +47,7 @@ const PrescriptionsPrintOnly = () => {
         dispatch(getAllergiesList());
       };
       if (
-        !Number.isNaN(page) &&
-        page > 0 &&
+        LIST_PAGE_PATTERN.test(location.pathname) &&
         (fullPrescriptionsList.length === 0 ||
           currentSortOption !== selectedSortOption)
       ) {
@@ -63,9 +56,10 @@ const PrescriptionsPrintOnly = () => {
       }
     },
     [
-      page,
+      location.pathname,
       selectedSortOption,
       fullPrescriptionsList.length,
+      LIST_PAGE_PATTERN,
       currentSortOption,
       allergies,
       dispatch,
@@ -74,7 +68,7 @@ const PrescriptionsPrintOnly = () => {
   const content = () => {
     return (
       <>
-        {page ? (
+        {LIST_PAGE_PATTERN.test(location.pathname) ? (
           <div className="print-only">
             <PrintOnlyPage
               title="Medications"

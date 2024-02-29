@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Element } from 'react-scroll';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import {
@@ -40,8 +37,6 @@ const EvidenceSummary = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [removeData, setRemoveData] = useState({});
-  const [hasErrors, setHasErrors] = useState(false);
-  const containerRef = useRef(null);
 
   const { limitedConsent = '' } = data;
   const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
@@ -54,16 +49,6 @@ const EvidenceSummary = ({
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
-
-  useEffect(
-    () => {
-      setHasErrors(
-        containerRef?.current.querySelectorAll('.usa-input-error-message')
-          .length > 0,
-      );
-    },
-    [containerRef, evidenceLength],
-  );
 
   useEffect(
     () => {
@@ -133,18 +118,10 @@ const EvidenceSummary = ({
     },
 
     onGoForward: () => {
-      if (hasErrors) {
-        scrollToFirstError();
-      } else {
-        goForward(data);
-      }
+      goForward(data);
     },
     onUpdate: () => {
-      if (hasErrors) {
-        scrollToFirstError();
-      } else {
-        updatePage();
-      }
+      updatePage();
     },
   };
   const visibleError = evidenceLength === 0;
@@ -163,10 +140,7 @@ const EvidenceSummary = ({
   };
 
   return (
-    <div
-      ref={containerRef}
-      className={onReviewPage ? 'form-review-panel-page' : ''}
-    >
+    <div className={onReviewPage ? 'form-review-panel-page' : ''}>
       {/* <Element> is outside of div wrapper because of how the first element
         is found and focused in the ReviewCollapsibleChapter code */}
       <Element name="evidenceSummaryScrollElement" />

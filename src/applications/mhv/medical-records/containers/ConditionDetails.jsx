@@ -56,14 +56,14 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/conditions',
+            url: '/my-health/medical-records/conditions',
             label: 'Conditions',
           },
         ]),

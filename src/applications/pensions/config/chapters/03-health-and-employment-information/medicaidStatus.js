@@ -10,6 +10,7 @@ export default {
     'ui:title': 'Medicaid application status',
     medicaidStatus: yesNoUI({
       title: 'Have you applied for Medicaid?',
+      uswds: true,
     }),
     'view:warningAlert': {
       'ui:description': RequestNursingHomeInformationAlert,

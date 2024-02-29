@@ -40,12 +40,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: [
-      'no-evidence-test',
-      'minimal-test',
-      'partial-evidence-test',
-      'maximal-test',
-    ],
+    dataSets: ['no-evidence-test', 'minimal-test', 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),

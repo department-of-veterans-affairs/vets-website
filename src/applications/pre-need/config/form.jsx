@@ -11,8 +11,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import transformForSubmit from './transformForSubmit';
-
 import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -60,8 +58,6 @@ import {
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
   isSponsorDeceased,
-  createPayload,
-  parseResponse,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -130,13 +126,9 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: environment.isProduction()
-    ? `${environment.API_URL}/v0/preneeds/burial_forms`
-    : `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
-  transformForSubmit: environment.isProduction()
-    ? transform
-    : transformForSubmit,
+  transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_40_10007,
   saveInProgress: {
     messages: {
@@ -336,28 +328,22 @@ const formConfig = {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 buttonText: 'Upload file',
                 addAnotherLabel: 'Upload another file',
-                fileUploadUrl: environment.isProduction()
-                  ? `${environment.API_URL}/v0/preneeds/preneed_attachments`
-                  : `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/v0/preneeds/preneed_attachments`,
                 fileTypes: ['pdf'],
                 maxSize: 15728640,
                 hideLabelText: true,
-                createPayload: !environment.isProduction()
-                  ? createPayload
-                  : file => {
-                      const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file);
+                createPayload: file => {
+                  const payload = new FormData();
+                  payload.append('preneed_attachment[file_data]', file);
 
-                      return payload;
-                    },
-                parseResponse: !environment.isProduction()
-                  ? parseResponse
-                  : (response, file) => ({
-                      name: file.name,
-                      confirmationCode: response.data.attributes.guid,
-                    }),
+                  return payload;
+                },
+                parseResponse: (response, file) => ({
+                  name: file.name,
+                  confirmationCode: response.data.attributes.guid,
+                }),
                 attachmentSchema: {
                   'ui:title': 'What kind of file is this?',
                 },

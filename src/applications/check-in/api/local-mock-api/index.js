@@ -55,10 +55,6 @@ const responses = {
   },
   'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
     const { uuid } = req.params;
-    const { facilityType } = req.query;
-    if (facilityType === 'oh') {
-      return res.json(sharedData.get.createAppointmentsOH(uuid));
-    }
     if (uuid === demographicsConfirmedUUID) {
       const yesterday = dateFns.sub(new Date(), { days: -1 }).toISOString();
       return res.json(

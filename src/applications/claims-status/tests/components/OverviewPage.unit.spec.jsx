@@ -61,6 +61,7 @@ describe('<OverviewPage>', () => {
         supportingDocuments: [],
         claimDate: '2023-01-01',
         closeDate: '2023-01-10',
+        documentsNeeded: true,
         decisionLetterSent: false,
         status: 'COMPLETE',
         claimPhaseDates: {
@@ -118,6 +119,7 @@ describe('<OverviewPage>', () => {
         supportingDocuments: [],
         claimDate: '2023-01-01',
         closeDate: null,
+        documentsNeeded: false,
         decisionLetterSent: true,
         status: 'INITIAL_REVIEW',
         claimPhaseDates: {
@@ -180,6 +182,7 @@ describe('<OverviewPage>', () => {
         supportingDocuments: [],
         claimDate: '2023-01-01',
         closeDate: null,
+        documentsNeeded: false,
         decisionLetterSent: false,
         status: 'INITIAL_REVIEW',
         claimPhaseDates: {
@@ -217,10 +220,66 @@ describe('<OverviewPage>', () => {
     });
   });
 
+  context('when documentsNeeded is true', () => {
+    const claim = {
+      id: '1',
+      attributes: {
+        supportingDocuments: [],
+        claimDate: '2023-01-01',
+        closeDate: null,
+        documentsNeeded: true,
+        decisionLetterSent: false,
+        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2015-01-02',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+            phase2CompleteDate: '2023-02-08',
+          },
+        },
+        trackedItems: [
+          {
+            id: 1,
+            status: 'NEEDED_FROM_YOU',
+            displayName: 'Test',
+            description: 'Test',
+            suspenseDate: '2024-02-01',
+            date: '2023-01-01',
+          },
+        ],
+      },
+    };
+
+    it('should render need files from you component', () => {
+      const { container, getByText, queryByText } = render(
+        <Provider store={store}>
+          <OverviewPage
+            claim={claim}
+            useLighthouse
+            params={params}
+            clearNotification={() => {}}
+          />
+        </Provider>,
+      );
+
+      const overviewPage = $('#tabPanelFiles', container);
+      expect(overviewPage).to.exist;
+      getByText('Overview of the claim process');
+      expect(queryByText('View Details')).to.exist;
+      expect(queryByText('We decided your claim')).not.to.exist;
+      expect(queryByText('You can download your decision letter online now.'))
+        .not.to.exist;
+      expect($('.claim-timeline', container)).to.exist;
+    });
+  });
+
   it('should not render timeline without a phase', () => {
     const claim = {
       attributes: {
         phase: null,
+        documentsNeeded: false,
         decisionLetterSent: false,
         waiverSubmitted: true,
         eventsTimeline: [

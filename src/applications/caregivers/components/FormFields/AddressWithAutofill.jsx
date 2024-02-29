@@ -132,7 +132,6 @@ const PrimaryAddressWithAutofill = props => {
         checked={formData['view:autofill']}
         label="Use the same address as the Veteran"
         onVaChange={handleCheck}
-        uswds
       />
 
       <VaTextInput
@@ -143,10 +142,9 @@ const PrimaryAddressWithAutofill = props => {
         hint="This is the address where the Caregiver lives"
         className="cg-address-input"
         error={showError('street') || null}
+        required
         onInput={handleChange}
         onBlur={handleBlur}
-        required
-        uswds
       />
 
       <VaTextInput
@@ -157,7 +155,6 @@ const PrimaryAddressWithAutofill = props => {
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}
-        uswds
       />
 
       <VaTextInput
@@ -167,10 +164,9 @@ const PrimaryAddressWithAutofill = props => {
         label="City"
         className="cg-address-input"
         error={showError('city') || null}
+        required
         onInput={handleChange}
         onBlur={handleBlur}
-        required
-        uswds
       />
 
       <VaSelect
@@ -180,11 +176,11 @@ const PrimaryAddressWithAutofill = props => {
         label="State"
         className="cg-address-select"
         error={showError('state') || null}
+        required
         onVaSelect={handleChange}
         onBlur={handleBlur}
-        required
-        uswds
       >
+        <option value=""> </option>
         {constants.states.USA.map(state => (
           <option key={state.value} value={state.value}>
             {state.label}
@@ -200,10 +196,9 @@ const PrimaryAddressWithAutofill = props => {
         className="cg-address-input cg-input-size-medium"
         error={showError('postalCode') || null}
         pattern={schemaProps.postalCode.pattern}
+        required
         onInput={handleChange}
         onBlur={handleBlur}
-        required
-        uswds
       />
     </fieldset>
   );

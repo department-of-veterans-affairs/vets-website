@@ -11,8 +11,6 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
-import { useDatadogRum } from '../hooks/useDatadogRum';
-
 import BreadCrumb from '../components/BreadCrumb';
 import MoreInformation from '../components/MoreInformation';
 import TextWithLineBreaks from '../components/TextWithLineBreaks';
@@ -26,8 +24,6 @@ const generateAppointmentHeader = avs => {
 };
 
 const Avs = props => {
-  useDatadogRum();
-
   const user = useSelector(selectUser);
   const { avsEnabled, featureTogglesLoading } = useSelector(
     state => {

@@ -181,6 +181,7 @@ const BankruptcyDetails = ({
         />
       </fieldset>
       {contentBeforeButtons}
+
       <ButtonGroup
         buttons={[
           {
@@ -195,6 +196,7 @@ const BankruptcyDetails = ({
           },
         ]}
       />
+
       {contentAfterButtons}
     </form>
   );

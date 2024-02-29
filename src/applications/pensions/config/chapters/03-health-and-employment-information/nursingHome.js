@@ -9,6 +9,7 @@ export default {
     'ui:title': 'Nursing home information',
     nursingHome: yesNoUI({
       title: 'Do you live in a nursing home?',
+      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

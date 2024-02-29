@@ -1,79 +1,81 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import {
   VaButton,
-  VaModal,
+  VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '../../monitoring/record-event';
-
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_RESTARTING,
-} from '~/platform/site-wide/wizard';
+} from 'platform/site-wide/wizard';
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
 
-const FormStartControls = props => {
-  const {
-    formId,
-    migrations,
-    startPage,
-    gaStartEventName,
-    prefillAvailable,
-    prefillTransformer,
-    ariaLabel = null,
-    ariaDescribedby = null,
-    startText,
-    formSaved,
-    isExpired,
-    resumeOnly,
-  } = props;
+class FormStartControls extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false };
+  }
 
-  // get access to the formConfig object through this route
-  const { formConfig } = props.routes?.[1] || props.formConfig || {};
+  // /* eslint-disable-next-line camelcase */
+  // UNSAFE_componentWillReceiveProps = newProps => {
+  //   if (!this.props.returnUrl && newProps.returnUrl) {
+  //     // TODO: Remove this; it doesn't actually run
+  //     // The redirect is instead done in RoutedSavableApp
+  //     // Navigate to the last page they were on
+  //     this.props.router.push(newProps.returnUrl);
+  //   }
+  // };
 
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const goToBeginning = () => {
-    props.router.push(startPage);
+  goToBeginning = () => {
+    this.props.router.push(this.props.startPage);
   };
 
-  const captureAnalytics = () =>
-    gaStartEventName && recordEvent({ event: gaStartEventName });
+  captureAnalytics = () =>
+    this.props.gaStartEventName &&
+    recordEvent({ event: this.props.gaStartEventName });
 
-  const handleLoadPrefill = () => {
-    captureAnalytics();
-    if (prefillAvailable) {
-      props.fetchInProgressForm(
+  handleLoadPrefill = () => {
+    this.captureAnalytics();
+    if (this.props.prefillAvailable) {
+      this.props.fetchInProgressForm(
         // TODO: where does this come from?
-        formId,
-        migrations,
+        this.props.formId,
+        this.props.migrations,
         true,
-        prefillTransformer,
+        this.props.prefillTransformer,
       );
     } else {
-      goToBeginning();
+      this.goToBeginning();
     }
   };
 
-  const handleLoadForm = () =>
+  handleLoadForm = () =>
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    props.fetchInProgressForm(formId, migrations);
+    this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
+  toggleModal = () => {
+    this.setState(prevState => ({ modalOpen: !prevState.modalOpen }));
   };
 
-  const startOver = () => {
-    captureAnalytics();
-    toggleModal();
-    props.removeInProgressForm(formId, migrations, prefillTransformer);
+  startOver = () => {
+    this.captureAnalytics();
+    this.toggleModal();
+    this.props.removeInProgressForm(
+      this.props.formId,
+      this.props.migrations,
+      this.props.prefillTransformer,
+    );
 
+    const { formConfig = {} } =
+      this.props.routes?.[1] || this.props.formConfig || {};
     // Wizard status needs an intermediate value between not-started &
     // complete to prevent infinite loops in the RoutedSavableApp
     sessionStorage.setItem(
@@ -82,68 +84,72 @@ const FormStartControls = props => {
     );
   };
 
-  const {
-    appType = APP_TYPE_DEFAULT,
-    continueAppButtonText = CONTINUE_APP_DEFAULT_MESSAGE,
-    startNewAppButtonText = START_NEW_APP_DEFAULT_MESSAGE,
-  } = formConfig?.customText || {};
+  render() {
+    // get access to the formConfig object through this route
+    const { formConfig } =
+      this.props.routes?.[1] || this.props.formConfig || {};
+    const {
+      appType = APP_TYPE_DEFAULT,
+      continueAppButtonText = CONTINUE_APP_DEFAULT_MESSAGE,
+      startNewAppButtonText = START_NEW_APP_DEFAULT_MESSAGE,
+    } = formConfig?.customText || {};
+    const { ariaLabel = null, ariaDescribedby = null } = this.props;
 
-  if (formSaved) {
+    if (this.props.formSaved) {
+      return (
+        <div>
+          {!this.props.isExpired && (
+            <VaButton
+              onClick={this.handleLoadForm}
+              text={continueAppButtonText}
+              label={ariaLabel}
+              data-testid="continue-your-application"
+            />
+          )}
+          {!this.props.resumeOnly && (
+            <VaButton
+              onClick={this.toggleModal}
+              text={startNewAppButtonText}
+              secondary={!this.props.isExpired}
+              label={ariaLabel}
+            />
+          )}
+          <Modal
+            cssClass="va-modal-large"
+            id="start-over-modal"
+            onClose={this.toggleModal}
+            visible={this.state.modalOpen}
+          >
+            <h4>Starting over will delete your in-progress {appType}.</h4>
+            <p>Are you sure you want to start over?</p>
+            <VaButtonPair
+              primaryLabel={startNewAppButtonText}
+              onPrimaryClick={this.startOver}
+              secondaryLabel="Cancel"
+              onSecondaryClick={this.toggleModal}
+            />
+          </Modal>
+        </div>
+      );
+    }
+    const { startText } = this.props;
+
     return (
-      <div>
-        {!isExpired && (
-          <VaButton
-            onClick={handleLoadForm}
-            text={continueAppButtonText}
-            label={ariaLabel}
-            data-testid="continue-your-application"
-            uswds
-          />
-        )}
-        {!resumeOnly && (
-          <VaButton
-            onClick={toggleModal}
-            text={startNewAppButtonText}
-            secondary={!isExpired}
-            label={ariaLabel}
-            uswds
-          />
-        )}
-        <VaModal
-          id="start-over-modal"
-          status="warning"
-          clickToClose
-          modalTitle={`Starting over will delete your in-progress ${appType}.`}
-          primaryButtonText={startNewAppButtonText}
-          secondaryButtonText="Cancel"
-          onCloseEvent={toggleModal}
-          onPrimaryButtonClick={startOver}
-          onSecondaryButtonClick={toggleModal}
-          visible={modalOpen}
-          uswds
-        >
-          {/* <h4>Starting over will delete your in-progress {appType}.</h4> */}
-          <p>Are you sure you want to start over?</p>
-        </VaModal>
-      </div>
+      <a
+        href="#start"
+        className="vads-c-action-link--green"
+        onClick={event => {
+          event.preventDefault();
+          this.handleLoadPrefill();
+        }}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedby}
+      >
+        {startText}
+      </a>
     );
   }
-
-  return (
-    <a
-      href="#start"
-      className="vads-c-action-link--green"
-      onClick={event => {
-        event.preventDefault();
-        handleLoadPrefill();
-      }}
-      aria-label={ariaLabel}
-      aria-describedby={ariaDescribedby}
-    >
-      {startText}
-    </a>
-  );
-};
+}
 
 FormStartControls.propTypes = {
   fetchInProgressForm: PropTypes.func.isRequired,

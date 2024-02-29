@@ -24,7 +24,7 @@ export default {
     type: 'object',
     required: ['maritalStatus'],
     properties: {
-      maritalStatus: radioSchema(Object.keys(maritalStatusOptions)),
+      maritalStatus: radioSchema(Object.values(maritalStatusOptions)),
     },
   },
 };

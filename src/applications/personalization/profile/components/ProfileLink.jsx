@@ -7,47 +7,39 @@ import PropTypes from 'prop-types';
 import { PROFILE_PATHS } from '../constants';
 import { normalizePath } from '../../common/helpers';
 
-const linkAndAnchorStyles = `
-i {
-  &:before {
-    content: '\f105';
-    display: inline-block;
-    margin-bottom: 0.1rem;
-    margin-left: 0.8rem;
-    margin-right: 0;
-    vertical-align: middle;
-    moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-family: 'Font Awesome 5 Free';
-    font-size: 1.6rem;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 900;
-    line-height: 1;
-    text-rendering: auto;
-  }
-}
-
-&:hover,
-&:focus {
-  i {
-    &:before {
-      margin-left: 1.2rem;
-      transition-duration: 0.3s;
-      transition-timing-function: ease-in-out;
-      transition-property: margin;
-    }
-  }
-}
-`;
-
 // sets up same styles for icon as va-link with active prop
 const StyledRouterLink = styled(Link)`
-  ${linkAndAnchorStyles};
-`;
+  i {
+    &:before {
+      content: '\f105';
+      display: inline-block;
+      margin-bottom: 0.1rem;
+      margin-left: 0.8rem;
+      margin-right: 0;
+      vertical-align: middle;
+      moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      font-family: 'Font Awesome 5 Free';
+      font-size: 1.6rem;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: 900;
+      line-height: 1;
+      text-rendering: auto;
+    }
+  }
 
-const StyledAnchor = styled.a`
-  ${linkAndAnchorStyles};
+  &:hover,
+  &:focus {
+    i {
+      &:before {
+        margin-left: 1.2rem;
+        transition-duration: 0.3s;
+        transition-timing-function: ease-in-out;
+        transition-property: margin;
+      }
+    }
+  }
 `;
 
 export const ProfileLink = ({ href, active = true, className = '', text }) => {
@@ -69,14 +61,13 @@ export const ProfileLink = ({ href, active = true, className = '', text }) => {
       {active && <i />}
     </StyledRouterLink>
   ) : (
-    <StyledAnchor
+    <va-link
+      active={active}
+      text={text}
       href={href}
-      className={`${classes}`}
+      class={className}
       data-testid="profile-link-external"
-    >
-      {text}
-      {active && <i />}
-    </StyledAnchor>
+    />
   );
 };
 

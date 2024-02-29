@@ -24,6 +24,7 @@ import ClaimsListItemOld from '../components/ClaimsListItem';
 import ClaimsListItemV3 from '../components/ClaimsListItemV3'; // This is the Lighthouse version with an updated design
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
+import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItemV2 from '../components/StemClaimListItem';
@@ -262,11 +263,7 @@ class YourClaimsPageV2 extends React.Component {
               trigger="Find out why we sometimes combine claims."
               uswds="false"
             >
-              <div>
-                If you turn in a new claim while we’re reviewing another one
-                from you, we’ll add any new information to the original claim
-                and close the new claim, with no action required from you.
-              </div>
+              {consolidatedClaimsContent}
             </va-additional-info>
             {content}
             <FeaturesWarning />

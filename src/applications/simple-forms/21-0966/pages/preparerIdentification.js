@@ -11,13 +11,13 @@ export default {
       title: 'Which of these best describes you?',
       labels: {
         [preparerIdentifications.veteran]:
-          'I’m a Veteran, and I intend to file a VA claim for myself',
+          'I’m a Veteran, and I intend to file a VA claim.',
         [preparerIdentifications.survivingDependent]:
-          'I’m the spouse or child of a Veteran, and I intend to file a VA claim for myself',
+          'I’m the spouse or child of a Veteran, and I intend to file a VA claim.',
         [preparerIdentifications.thirdPartyVeteran]:
-          'I’m representing a Veteran who intends to file a VA claim',
+          'I’m an alternate signer, Veteran Service Officer, fiduciary, or third-party representative for a Veteran who intends to file a VA claim.',
         [preparerIdentifications.thirdPartySurvivingDependent]:
-          'I’m representing a Veteran’s spouse or child who intends to file a VA claim (called the claimant in this form)',
+          'I’m an alternate signer, Veterans Service Officer, fiduciary, or third-party representative for a Veteran’s spouse or child who intends to file a VA claim.',
       },
       labelHeaderLevel: '3',
       errorMessages: {

@@ -59,7 +59,7 @@ const PendingDocuments = ({ loading, pendingDocuments }) => {
 
 PendingDocuments.propTypes = {
   loading: PropTypes.bool,
-  pendingDocuments: PropTypes.array,
+  pendingDocuments: PropTypes.object,
 };
 
 export default PendingDocuments;

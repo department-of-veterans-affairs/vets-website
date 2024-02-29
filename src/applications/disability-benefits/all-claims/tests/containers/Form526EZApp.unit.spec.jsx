@@ -51,7 +51,6 @@ describe('Form 526EZ Entry Page', () => {
     pathname = '/introduction',
     router = [],
     addBranches = true,
-    claims = [],
   } = {}) => {
     const initialState = {
       form: {
@@ -74,7 +73,6 @@ describe('Form 526EZ Entry Page', () => {
           status: '',
           dob,
           accountUuid: 'uuid',
-          claims,
         },
       },
       currentLocation: {
@@ -149,142 +147,60 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
 
-  describe('Missing user identifiers', () => {
-    // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
-    describe('When there is no form526RequiredIdentifierPresence object in the profile claims object', () => {
-      // Logged in & verified, but missing ID
-      it('should render Missing ID page', () => {
-        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-        const tree = testPage({
-          currentlyLoggedIn: true,
-          verified: true,
-          services: [],
-        });
-
-        expect(tree.find('main')).to.have.lengthOf(0);
-        expect(tree.find('h1').text()).to.contain('File for disability');
-        expect(tree.find('va-alert')).to.have.lengthOf(1);
-        expect(tree.find('va-alert').text()).to.contain('BIRLS ID');
-        const recordedEvent = getLastEvent();
-        expect(recordedEvent.event).to.equal('visible-alert-box');
-        expect(recordedEvent['error-key']).to.include('birls_id');
-        tree.unmount();
-      });
-
-      // Logged in & verified, but missing 526 services
-      it('should render Missing services page', () => {
-        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-        const tree = testPage({
-          currentlyLoggedIn: true,
-          verified: true,
-          // only include 'EVSS_CLAIMS' service
-          services: [idRequired[0]],
-        });
-
-        expect(tree.find('main')).to.have.lengthOf(0);
-        expect(tree.find('h1').text()).to.contain('File for disability');
-        expect(tree.find('va-alert')).to.have.lengthOf(1);
-        expect(tree.find('va-alert').text()).to.contain(
-          'need some information',
-        );
-        const recordedEvent = getLastEvent();
-        expect(recordedEvent.event).to.equal('visible-alert-box');
-        expect(recordedEvent['error-key']).to.include('missing_526');
-        tree.unmount();
-      });
-
-      // Logged in & verified, but missing DOB
-      it('should render Missing DOB alert', () => {
-        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-        const tree = testPage({
-          currentlyLoggedIn: true,
-          verified: true,
-          // only include 'EVSS_CLAIMS' service
-          services: [idRequired[0]],
-          dob: '',
-        });
-        expect(tree.find('main')).to.have.lengthOf(0);
-        expect(tree.find('h1').text()).to.contain('File for disability');
-        expect(tree.find('va-alert')).to.have.lengthOf(1);
-        expect(tree.find('va-alert').text()).to.contain('your date of birth');
-        const recordedEvent = getLastEvent();
-        expect(recordedEvent.event).to.equal('visible-alert-box');
-        expect(recordedEvent['error-key']).to.include('missing_dob');
-        tree.unmount();
-      });
+  // Logged in & verified, but missing ID
+  it('should render Missing ID page', () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      services: [],
     });
-
-    // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
-    describe('When a form526RequiredIdentifierPresence object is in the profile claims object', () => {
-      it('should render Missing identifers page and log an event in Google Analytics', () => {
-        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-        const tree = testPage({
-          verified: true,
-          claims: {
-            form526RequiredIdentifierPresence: {
-              participantId: false,
-              birlsId: true,
-              ssn: false,
-              birthDate: true,
-              edipi: false,
-            },
-          },
-        });
-
-        expect(tree.find('va-alert')).to.have.lengthOf(1);
-        expect(tree.find('va-alert').text()).to.contain(
-          'We’re missing your Participant ID, Social Security Number, and EDIPI',
-        );
-
-        const recordedEvent = getLastEvent();
-        expect(recordedEvent.event).to.equal('visible-alert-box');
-        expect(recordedEvent['error-key']).to.include(
-          'missing_526_identifiers_participantId_ssn_edipi',
-        );
-        tree.unmount();
-      });
-    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1').text()).to.contain('File for disability');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('BIRLS ID');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('birls_id');
+    tree.unmount();
   });
 
-  it('should render loading indicator when feature is undefined', () => {
-    sessionStorage.removeItem(WIZARD_STATUS);
-    const initialState = {
-      form: {
-        loadedStatus: 'success',
-        savedStatus: '',
-        loadedData: { metadata: {} },
-      },
-      user: {
-        login: { currentlyLoggedIn: false },
-        profile: { verified: false, services: [], loading: false, status: '' },
-      },
-      currentLocation: { pathname: '/introduction', search: '' },
-      mvi: { addPersonState: '' },
-    };
-    const fakeStore = createStore(
-      combineReducers({
-        ...commonReducer,
-        ...reducers,
-      }),
-      initialState,
-    );
-    window.dataLayer = [];
-    gaData = global.window.dataLayer;
-    const tree = mount(
-      <Provider store={fakeStore}>
-        <Form526Entry
-          location={initialState.currentLocation}
-          user={initialState.user}
-          router={[]}
-        >
-          <main>
-            <h1>{fakeSipsIntro(initialState.user)}</h1>
-          </main>
-        </Form526Entry>
-      </Provider>,
-    );
-    expect(tree.find('va-loading-indicator')).to.have.lengthOf(1);
-    expect(tree.find('WizardContainer')).to.have.lengthOf(0);
+  // Logged in & verified, but missing 526 services
+  it('should render Missing services page', () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      // only include 'EVSS_CLAIMS' service
+      services: [idRequired[0]],
+    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1').text()).to.contain('File for disability');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('need some information');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('missing_526');
+    tree.unmount();
+  });
+
+  // Logged in & verified, but missing DOB
+  it('should render Missing DOB alert', () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      // only include 'EVSS_CLAIMS' service
+      services: [idRequired[0]],
+      dob: '',
+    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('h1').text()).to.contain('File for disability');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('your date of birth');
+    const recordedEvent = getLastEvent();
+    expect(recordedEvent.event).to.equal('visible-alert-box');
+    expect(recordedEvent['error-key']).to.include('missing_dob');
     tree.unmount();
   });
 

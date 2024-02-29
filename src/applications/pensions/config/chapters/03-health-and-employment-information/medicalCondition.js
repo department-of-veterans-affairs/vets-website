@@ -10,6 +10,7 @@ export default {
     'ui:title': 'Medical condition',
     medicalCondition: yesNoUI({
       title: 'Do you have a medical condition that prevents you from working?',
+      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlert': {

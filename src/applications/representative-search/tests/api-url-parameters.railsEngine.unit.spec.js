@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { resolveParamsWithUrl, getApi, endpointOptions } from '../config';
+import { resolveParamsWithUrl, getApi } from '../config';
 
 describe('Locator url and parameters builder', () => {
   const address = '43210';
@@ -13,7 +13,7 @@ describe('Locator url and parameters builder', () => {
   it('should build VA request with type=veteran_service_officer', () => {
     const type = 'veteran_service_officer';
 
-    const { requestUrl } = getApi(endpointOptions.fetchVSOReps);
+    const { requestUrl } = getApi('/vso_accredited_representatives');
 
     const params = resolveParamsWithUrl({
       address,
@@ -38,7 +38,7 @@ describe('Locator url and parameters builder', () => {
   it('should build VA request with type=claim_agents', () => {
     const type = 'claim_agents';
 
-    const { requestUrl } = getApi(endpointOptions.fetchOtherReps);
+    const { requestUrl } = getApi('/other_accredited_representatives');
 
     const params = resolveParamsWithUrl({
       address,
@@ -62,7 +62,7 @@ describe('Locator url and parameters builder', () => {
 
   it('should build VA request with type=attorney and page = 2 and perPage = 7', () => {
     const type = 'attorney';
-    const { requestUrl } = getApi(endpointOptions.fetchOtherReps);
+    const { requestUrl } = getApi('/other_accredited_representatives');
 
     const params = resolveParamsWithUrl({
       address,
@@ -86,12 +86,12 @@ describe('Locator url and parameters builder', () => {
 
   it('should set csrfToken in request headers', () => {
     localStorage.setItem('csrfToken', '12345');
-    const { apiSettings } = getApi(endpointOptions.flagReps);
+    const { apiSettings } = getApi('/flag_accredited_representatives');
     expect(apiSettings?.headers?.['X-CSRF-Token']).to.eql('12345');
   });
 
   it('should exclude null params from request', () => {
-    const { requestUrl } = getApi(endpointOptions.fetchOtherReps);
+    const { requestUrl } = getApi('/other_accredited_representatives');
 
     const params = resolveParamsWithUrl({
       address: null,

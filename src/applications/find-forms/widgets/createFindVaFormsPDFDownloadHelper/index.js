@@ -12,7 +12,7 @@ export function sentryLogger(form, formNumber, downloadUrl, message) {
   });
 }
 
-export async function onDownloadLinkClick(event) {
+export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
   // This function purpose is to determine if the PDF is valid on click.
   // Once it's done, it passes information to DownloadPDFGuidance() which determines what to render.
   event.preventDefault();
@@ -29,22 +29,18 @@ export async function onDownloadLinkClick(event) {
 
   try {
     const forms = await fetchFormsApi(formNumber);
-
     form = forms.results.find(
       f => f?.attributes?.formName === link?.dataset?.formNumber,
     );
-
     formPdfIsValid = form?.attributes.validPdf;
 
     const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
-
     if (formPdfIsValid && isSameOrigin) {
       // URLS can be entered invalid, 400 is returned, this checks to make sure href is valid
       // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
       const response = await fetch(downloadUrl, {
         method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
       });
-
       if (!response.ok) formPdfUrlIsValid = false;
     }
   } catch (err) {
@@ -65,16 +61,20 @@ export async function onDownloadLinkClick(event) {
     formPdfIsValid,
     formPdfUrlIsValid,
     link,
+    listenerFunction,
     netWorkRequestError,
+    reduxStore,
   });
 }
 
-export default widgetType => {
+export default (reduxStore, widgetType) => {
   const downloadLinks = document.querySelectorAll(
     `[data-widget-type="${widgetType}"]`,
   );
 
   for (const downloadLink of [...downloadLinks]) {
-    downloadLink.addEventListener('click', e => onDownloadLinkClick(e));
+    downloadLink.addEventListener('click', function handleDownloadClick(e) {
+      onDownloadLinkClick(e, reduxStore, handleDownloadClick);
+    });
   }
 };

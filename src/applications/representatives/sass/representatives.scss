@@ -1,17 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-
-.dash-container {
-  max-width: 1024px;
-  margin: 32px auto;
-
-  .nav {
-    height: 48px;
-  }
-}
-
 .placeholder-container {
-
   .notif {
     height: 96px;
   }
@@ -32,12 +21,4 @@
       $color-primary-alt-darkest
     );
   }
-}
-
-.rounded-corners {
-  border-radius: 10px;
-}
-
-.view-all-link {
-  float: right;
 }

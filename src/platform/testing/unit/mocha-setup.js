@@ -166,10 +166,6 @@ const cleanupStorage = () => {
   sessionStorage.clear();
 };
 
-function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
-}
-
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
@@ -185,6 +181,5 @@ export const mochaHooks = {
   },
   afterEach() {
     cleanupStorage();
-    flushPromises();
   },
 };

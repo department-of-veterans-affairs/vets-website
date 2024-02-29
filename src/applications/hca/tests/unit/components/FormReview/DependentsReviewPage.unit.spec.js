@@ -40,7 +40,7 @@ describe('hca DependentsReviewPage', () => {
 
     it('should not render edit button', () => {
       const { container } = render(<DependentsReviewPage {...props} />);
-      const selector = container.querySelector('va-button[text="Edit"]');
+      const selector = container.querySelector('.edit-btn');
       expect(selector).to.not.exist;
     });
 
@@ -59,7 +59,7 @@ describe('hca DependentsReviewPage', () => {
 
     it('should render `Edit` button', () => {
       const { container } = render(<DependentsReviewPage {...props} />);
-      const selector = container.querySelector('va-button[text="Edit"]');
+      const selector = container.querySelector('.edit-btn');
       expect(selector).to.exist;
     });
 
@@ -75,7 +75,7 @@ describe('hca DependentsReviewPage', () => {
 
     it('should fire event to trigger the edit flow', () => {
       const { container } = render(<DependentsReviewPage {...props} />);
-      const selector = container.querySelector('va-button[text="Edit"]');
+      const selector = container.querySelector('.edit-btn');
       fireEvent.click(selector);
       expect(props.editPage.called).to.be.true;
     });

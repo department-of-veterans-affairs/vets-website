@@ -7,7 +7,6 @@ import mockFacilities from '../fixtures/facilityResponse/facilities-no-cerner.js
 
 class SecureMessagingSite {
   login = (
-    mockVamc = vamcUser,
     isSMUser = true,
     user = mockUser,
     userFacilities = mockFacilities,
@@ -15,7 +14,7 @@ class SecureMessagingSite {
     if (isSMUser === true) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc).as('vamcUser');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       cy.intercept('GET', '/v0/user', user).as('mockUser');
       cy.intercept('GET', '/v0/user_transition_availabilities', user);
       cy.intercept('GET', '/v0/profile/status', mockStatus);

@@ -28,9 +28,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should verify Video Connect at ATLAS calendar ics file format', () => {
       // Arrange
-      const startDate = moment()
-        .clone()
-        .add(1, 'day');
+      const startDate = moment().add(1, 'day');
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createAtlasResponses({
           localStartTime: startDate,
@@ -67,9 +65,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should verify Video Connect at home calendar ics file format', () => {
       // Arrange
-      const startDate = moment()
-        .clone()
-        .add(1, 'day');
+      const startDate = moment().add(1, 'day');
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
           localStartTime: startDate,
@@ -106,9 +102,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should verify Video Connect at VA location calendar ics file format', () => {
       // Arrange
-      const startDate = moment()
-        .clone()
-        .add(1, 'day');
+      const startDate = moment().add(1, 'day');
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: startDate,
       });
@@ -147,9 +141,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should verify Video Connect on VA device calendar ics file format', () => {
       // Arrange
-      const startDate = moment()
-        .clone()
-        .add(1, 'day');
+      const startDate = moment().add(1, 'day');
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createGfeResponses({
           localStartTime: startDate,
@@ -198,39 +190,25 @@ describe('VAOS upcoming appointment flow', () => {
       const response = [
         MockAppointmentResponse.createVAResponses({ localStartTime: moment() }),
         MockAppointmentResponse.createCCResponses({
-          localStartTime: moment()
-            .clone()
-            .add(1, 'day'),
+          localStartTime: moment().add(1, 'day'),
         }),
         MockAppointmentResponse.createPhoneResponses({
-          localStartTime: moment()
-            .clone()
-            .add(1, 'day'),
+          localStartTime: moment().add(1, 'day'),
         }),
         MockAppointmentResponse.createAtlasResponses({
-          localStartTime: moment()
-            .clone()
-            .add(2, 'day'),
+          localStartTime: moment().add(2, 'day'),
         }),
         MockAppointmentResponse.createClinicResponses({
-          localStartTime: moment()
-            .clone()
-            .add(2, 'day'),
+          localStartTime: moment().add(2, 'day'),
         }),
         MockAppointmentResponse.createStoreForwardResponses({
-          localStartTime: moment()
-            .clone()
-            .add(2, 'day'),
+          localStartTime: moment().add(2, 'day'),
         }),
         MockAppointmentResponse.createGfeResponses({
-          localStartTime: moment()
-            .clone()
-            .add(2, 'day'),
+          localStartTime: moment().add(2, 'day'),
         }),
         MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(3, 'day'),
+          localStartTime: moment().add(3, 'day'),
         }),
       ];
 
@@ -391,9 +369,7 @@ describe('VAOS upcoming appointment flow', () => {
     it('should display layout correctly for multiply appointments - same month, different day', () => {
       // Arrange
       const today = moment();
-      const tomorrow = moment()
-        .clone()
-        .add(1, 'day');
+      const tomorrow = moment().add(1, 'day');
       const response = [];
 
       for (let i = 1; i <= 4; i += 1) {
@@ -484,9 +460,7 @@ describe('VAOS upcoming appointment flow', () => {
         response.push(appt);
       }
 
-      const nextMonth = moment()
-        .clone()
-        .add(1, 'month');
+      const nextMonth = moment().add(1, 'month');
       const appt = new MockAppointmentResponse({
         id: '3',
         cancellable: false,
@@ -527,9 +501,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createVAResponses({
-          localStartTime: moment()
-            .clone()
-            .add(1, 'day'),
+          localStartTime: moment().add(1, 'day'),
         }),
       });
       mockClinicsApi({
@@ -574,9 +546,7 @@ describe('VAOS upcoming appointment flow', () => {
     it('should display appointment details for CC appointment', () => {
       // Arrange
       const responses = MockAppointmentResponse.createCCResponses({
-        localStartTime: moment()
-          .clone()
-          .add(1, 'day'),
+        localStartTime: moment().add(1, 'day'),
       });
       responses[0].setTypeOfCare('audiology').setCCProvider();
 
@@ -626,9 +596,7 @@ describe('VAOS upcoming appointment flow', () => {
     it('should display appointment details for VA appointment', () => {
       // Arrange
       const responses = MockAppointmentResponse.createVAResponses({
-        localStartTime: moment()
-          .clone()
-          .add(1, 'day'),
+        localStartTime: moment().add(1, 'day'),
       });
       responses[0].setLocationId('983').setClinicId(1);
       mockAppointmentsGetApi({
@@ -679,9 +647,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(30, 'minutes'),
+          localStartTime: moment().add(30, 'minutes'),
         }),
       });
       mockClinicsApi({
@@ -721,9 +687,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(240, 'minutes'),
+          localStartTime: moment().add(-240, 'minutes'),
         }),
       });
       mockClinicsApi({
@@ -764,9 +728,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(20, 'minutes'),
+          localStartTime: moment().add(20, 'minutes'),
         }),
       });
       mockClinicsApi({
@@ -806,9 +768,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createAtlasResponses({
-          localStartTime: moment()
-            .clone()
-            .add(1, 'day'),
+          localStartTime: moment().add(1, 'day'),
         }),
       });
       mockClinicsApi({
@@ -891,14 +851,10 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for GFE video appointment.', () => {
       // Arrange
-      const responses = MockAppointmentResponse.createGfeResponses({
-        localStartTime: moment()
-          .clone()
-          .add(2, 'day'),
-      });
-      responses[0].setLocationId('983');
       mockAppointmentsGetApi({
-        response: responses,
+        response: MockAppointmentResponse.createGfeResponses({
+          localStartTime: moment().add(2, 'day'),
+        }),
       });
       mockClinicsApi({
         locationId: '983',
@@ -934,14 +890,10 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for HOME video appointment', () => {
       // Arrange
-      const responses = MockAppointmentResponse.createMobileResponses({
-        localStartTime: moment()
-          .clone()
-          .subtract(31, 'minutes'),
-      });
-      responses[0].setLocationId('983');
       mockAppointmentsGetApi({
-        response: responses,
+        response: MockAppointmentResponse.createMobileResponses({
+          localStartTime: moment().add(32, 'minutes'),
+        }),
       });
       mockClinicsApi({
         locationId: '983',

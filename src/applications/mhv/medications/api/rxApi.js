@@ -17,17 +17,6 @@ export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   );
 };
 
-export const getRefillablePrescriptionList = () => {
-  return apiRequest(
-    `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-};
-
 export const getPrescriptionImage = cmopNdcNumber => {
   return apiRequest(
     `${apiBasePath}/prescriptions/get_prescription_image/${cmopNdcNumber}`,
@@ -69,16 +58,4 @@ export const fillRx = id => {
       'Content-Type': 'application/json',
     },
   });
-};
-
-export const fillRxs = ids => {
-  const idParams = ids.map(id => `ids[]=${id}`).join('&');
-  const url = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
-  const requestOptions = {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return apiRequest(url, requestOptions);
 };

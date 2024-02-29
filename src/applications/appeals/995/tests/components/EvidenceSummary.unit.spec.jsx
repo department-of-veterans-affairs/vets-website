@@ -125,28 +125,6 @@ describe('<EvidenceSummary>', () => {
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
-  it('should render error messages with partial data', () => {
-    const goForward = sinon.spy();
-    const { container } = setupSummary({
-      list: {
-        locations: [{}],
-        providerFacility: [{}],
-        additionalDocuments: [{}],
-      },
-      goForward,
-    });
-
-    expect($$('h3', container).length).to.eq(1);
-    expect($$('h4', container).length).to.eq(4);
-    expect($$('ul', container).length).to.eq(3);
-    expect($$('.usa-input-error-message', container).length).to.eq(8);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
-    expect($$('.form-nav-buttons button', container).length).to.eq(2);
-
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.false;
-  });
-
   it('should render only one section', () => {
     const { container } = setupSummary({
       privateMR: false,
@@ -206,51 +184,17 @@ describe('<EvidenceSummary>', () => {
   });
 
   it('should not navigate forward with errors', () => {
-    const goForward = sinon.spy();
-    const list = records();
-    list.locations[0].issues = [];
-    const { container } = setupSummary({
-      limit: 'Pizza addiction',
-      list,
-      goForward,
-    });
-
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.false;
-  });
-
-  it('should not update on review & submit with errors', () => {
-    const updateSpy = sinon.spy();
-    const list = records();
-    list.locations[0].issues = [];
-    const { container } = setupSummary({
-      limit: 'Pizza addiction',
-      list,
-      onReviewPage: true,
-      updatePage: updateSpy,
-    });
-
-    fireEvent.click($('.form-nav-buttons va-button', container));
-    expect(updateSpy.called).to.be.false;
-  });
-
-  it('should navigate forward with not-included partial data', () => {
-    const goForward = sinon.spy();
+    const goFoward = sinon.spy();
     const { container } = setupSummary({
       vaMR: false,
       privateMR: false,
       other: false,
       limit: 'Pizza addiction',
-      list: {
-        locations: [{}],
-        providerFacility: [{}],
-        additionalDocuments: [{}],
-      },
-      goForward,
+      goFoward,
     });
 
     fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    expect(goForward.called).to.be.true;
+    expect(goFoward.called).to.be.false;
   });
 
   it('should call goBack to get to the private limitation page, even with errors', () => {

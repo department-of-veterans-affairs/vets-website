@@ -42,11 +42,12 @@ describe('Secure Messaging Message Details', () => {
     detailsPage.expandThreadMessageDetails(updatedMockThread, 1);
     // cy.reload(true);
     detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 1);
-    // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage group name only on received messages
-    // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); // TODO UCD is still determining whether to display this
+    // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage grop name only on received messages
+    // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); //TODO UCD is still determining whether to display this
     detailsPage.verifyExpandedMessageDateDisplay(mockParentMessageDetails, 1);
+    cy.get('@messageDetails.all').should('have.length', 1);
 
-    detailsPage.verifyUnexpandedMessageAttachment(2);
+    // detailsPage.verifyUnexpandedMessageAttachment(1); //TODO attachment icons will be added in a future story
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });

@@ -135,6 +135,7 @@ const deriveRelatedTo = ({
 const SearchResult = ({
   form,
   formMetaInfo,
+  showPDFInfoVersionOne,
   toggleModalState,
   setPrevFocusedLink,
 }) => {
@@ -175,13 +176,17 @@ const SearchResult = ({
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
 
-    recordEvent({
-      event: 'int-modal-click',
-      'modal-status': 'opened',
-      'modal-title': 'Download this PDF and open it in Acrobat Reader',
-    });
+    if (showPDFInfoVersionOne) {
+      recordEvent({
+        event: 'int-modal-click',
+        'modal-status': 'opened',
+        'modal-title': 'Download this PDF and open it in Acrobat Reader',
+      });
 
-    toggleModalState(formName, url, pdfLabel);
+      toggleModalState(formName, url, pdfLabel);
+    } else {
+      recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
+    }
   };
 
   return (
@@ -224,18 +229,19 @@ const SearchResult = ({
         </div>
       ) : null}
       <div className="vads-u-margin-y--0">
-        <button
-          className="find-forms-max-content vads-u-text-decoration--none va-button-link"
+        <a
+          className="find-forms-max-content vads-u-text-decoration--none"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
           rel="noreferrer noopener"
+          href={showPDFInfoVersionOne ? null : url}
           tabIndex="0"
           onKeyDown={event => {
-            if (event === 13) {
+            if (event.keyCode === 13) {
               pdfDownloadHandler();
             }
           }}
-          onClick={pdfDownloadHandler}
+          onClick={() => pdfDownloadHandler()}
           {...linkProps}
         >
           <i
@@ -247,7 +253,7 @@ const SearchResult = ({
           <span lang={language} className="vads-u-text-decoration--underline">
             {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>
-        </button>
+        </a>
       </div>
     </li>
   );
@@ -257,6 +263,7 @@ SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
   setPrevFocusedLink: PropTypes.func,
+  showPDFInfoVersionOne: PropTypes.bool,
   toggleModalState: PropTypes.func,
 };
 

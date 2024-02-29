@@ -26,7 +26,7 @@ Object.values(SERVICE_PROVIDERS).forEach(csp => {
         initialState,
       });
       const linkElement = getByText(
-        `Update your sign-in information on the ${expectedLabel} website`,
+        `Update sign-in information on ${expectedLabel}`,
       );
 
       expect(linkElement).to.exist;

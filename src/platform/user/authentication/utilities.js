@@ -124,9 +124,6 @@ export const createExternalApplicationUrl = () => {
     case EXTERNAL_APPS.MY_VA_HEALTH:
       URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizeCernerParams(to));
       break;
-    case EXTERNAL_APPS.ARP:
-      URL = sanitizeUrl(`${externalRedirectUrl}`);
-      break;
     default:
       break;
   }

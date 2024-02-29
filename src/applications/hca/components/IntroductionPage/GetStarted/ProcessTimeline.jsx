@@ -4,8 +4,9 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 const ProcessTimeline = () => (
   <>
     <h2 className="vads-u-font-size--h3">Follow these steps to get started</h2>
-    <va-process-list uswds>
-      <va-process-list-item header="Check your eligibility">
+    <va-process-list class="vads-u-margin-left--neg5">
+      <li>
+        <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
         <p>
           Make sure you meet our eligibility requirements for enrollment before
           you apply.
@@ -19,10 +20,7 @@ const ProcessTimeline = () => (
             text="Find out how to get mental health care"
           />
         </p>
-        <va-additional-info
-          trigger="What are the eligibility requirements to enroll in VA health care?"
-          uswds
-        >
+        <va-additional-info trigger="What are the eligibility requirements to enroll in VA health care?">
           <p>
             You may be eligible to enroll in VA health care if all of these
             statements are true:
@@ -70,9 +68,11 @@ const ProcessTimeline = () => (
             </a>
           </p>
         </va-additional-info>
-      </va-process-list-item>
+      </li>
 
-      <va-process-list-item header="Gather your information">
+      <li>
+        <h3 className="vads-u-font-size--h4">Gather your information</h3>
+
         <p>Here’s what you’ll need to apply:</p>
         <ul>
           <li>
@@ -108,7 +108,7 @@ const ProcessTimeline = () => (
           </li>
         </ul>
 
-        <va-additional-info trigger="Why does VA need this information?" uswds>
+        <va-additional-info trigger="Why does VA need this information?">
           <p>When you apply, we review this information:</p>
           <ul>
             <li>Your service history</li>
@@ -146,14 +146,17 @@ const ProcessTimeline = () => (
             eligibility for VA health care.
           </p>
         </va-additional-info>
-      </va-process-list-item>
+      </li>
 
-      <va-process-list-item header="Start your application">
+      <li>
+        <div>
+          <h3 className="vads-u-font-size--h4">Start your application</h3>
+        </div>
         <p>
           We’ll take you through each step of the process. It should take about
           30 minutes.
         </p>
-        <va-additional-info trigger="What happens after I apply?" uswds>
+        <va-additional-info trigger="What happens after I apply?">
           <p>
             We process health care applications within about a week. We’ll send
             you a letter in the mail with our decision.
@@ -170,7 +173,7 @@ const ProcessTimeline = () => (
             .
           </p>
         </va-additional-info>
-      </va-process-list-item>
+      </li>
     </va-process-list>
   </>
 );

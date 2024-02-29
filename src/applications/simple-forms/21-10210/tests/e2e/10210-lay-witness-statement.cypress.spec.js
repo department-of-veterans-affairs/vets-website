@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-button[text*="start"]');
+          cy.findByText(/start/i, { selector: 'button' });
           cy.findByText(/without signing in/i).click({ force: true });
         });
       },

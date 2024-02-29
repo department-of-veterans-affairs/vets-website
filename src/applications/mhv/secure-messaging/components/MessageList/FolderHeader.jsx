@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
@@ -21,9 +20,8 @@ import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacil
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
-  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
-
-  const drupalCernerFacilities = useSelector(selectCernerFacilities);
+  const { featureToggles } = useSelector(state => state);
+  const facilities = useSelector(state => state?.user?.profile?.facilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -36,15 +34,28 @@ const FolderHeader = props => {
       ],
   );
 
+  const cernerTransition556T30 = useMemo(
+    () => {
+      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        : false;
+    },
+    [featureToggles],
+  );
+
   const cernerFacilities = useMemo(
     () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
+      let cernerFacilitiesFiltered = facilities?.filter(
+        facility => facility.isCerner,
       );
+      if (cernerTransition556T30) {
+        cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
+          facility => facility.facilityId !== '556',
+        );
+      }
+      return cernerFacilitiesFiltered;
     },
-    [userFacilities, drupalCernerFacilities],
+    [facilities, cernerTransition556T30],
   );
 
   const folderDescription = useMemo(
@@ -95,12 +106,13 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
 
-      {folder.folderId === Folders.INBOX.id && (
-        <CernerTransitioningFacilityAlert />
-      )}
+      {cernerTransition556T30 &&
+        folder.folderId === Folders.INBOX.id && (
+          <CernerTransitioningFacilityAlert />
+        )}
 
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length > 0 && (
+        cernerFacilities?.length && (
           <CernerFacilityAlert cernerFacilities={cernerFacilities} />
         )}
 

@@ -21,7 +21,6 @@ import {
   getMedicationsTaking,
   getMedicationsNotTaking,
 } from '../utils/medications';
-import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
 
 import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
@@ -299,9 +298,6 @@ const renderFieldWithBreak = (field, prefix = '') => {
 };
 
 const renderVaMedication = medication => {
-  const facilityPhone = normalizePhoneNumber(medication.facilityPhone);
-  const phoneNotClickable = !numberIsClickable(facilityPhone);
-
   return (
     <>
       <p>
@@ -317,8 +313,7 @@ const renderVaMedication = medication => {
           <>
             Main phone: [
             <va-telephone
-              contact={facilityPhone}
-              not-clickable={phoneNotClickable}
+              contact={medication.facilityPhone.replace(/\D/g, '')}
             />
             ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
           </>

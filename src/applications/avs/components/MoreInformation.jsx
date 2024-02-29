@@ -4,16 +4,11 @@ import PropTypes from 'prop-types';
 import ItemsBlock from './ItemsBlock';
 import ParagraphBlock from './ParagraphBlock';
 
-import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
-
 const MoreInformation = props => {
   const { avs } = props;
   const { clinicalServices, clinicsVisited, moreHelpAndInformation } = avs;
 
   const renderClinicalService = service => {
-    const servicePhone = normalizePhoneNumber(service.phone);
-    const phoneNotClickable = !numberIsClickable(servicePhone);
-
     return (
       <>
         <h4>{service.name}</h4>
@@ -22,11 +17,7 @@ const MoreInformation = props => {
           <br />
           Hours of operation: {service.hours}
           <br />
-          Phone:{' '}
-          <va-telephone
-            contact={servicePhone}
-            not-clickable={phoneNotClickable}
-          />
+          Phone: <va-telephone contact={service.phone.replace(/\D/g, '')} />
           <br />
           Comment: {service.comment}
         </p>

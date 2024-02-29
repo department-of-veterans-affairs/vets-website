@@ -8,7 +8,7 @@ import {
 
 import { MailingAddressDescription } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
+import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { veteranAddress: address } = fullSchemaHca.properties;
@@ -18,7 +18,7 @@ export default {
     'view:veteranAddressShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: notShortFormEligible,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:prefillMessage': {

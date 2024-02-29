@@ -33,9 +33,7 @@ import optIn from '../pages/optIn';
 import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
-import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
-import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
@@ -203,8 +201,8 @@ const formConfig = {
           depends: hasVAEvidence,
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
-          uiSchema: evidenceVaRecords.uiSchema,
-          schema: evidenceVaRecords.schema,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },
@@ -232,8 +230,8 @@ const formConfig = {
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
           CustomPageReview: null,
-          uiSchema: evidencePrivateRecords.uiSchema,
-          schema: evidencePrivateRecords.schema,
+          uiSchema: blankUiSchema,
+          schema: blankSchema,
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {

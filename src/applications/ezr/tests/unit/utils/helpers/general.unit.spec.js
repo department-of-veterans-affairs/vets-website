@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import {
   maskSSN,
   parseVeteranDob,
-  parseVeteranGender,
   normalizeFullName,
   replaceStrValues,
 } from '../../../../utils/helpers/general';
@@ -138,27 +137,6 @@ describe('ezr general helpers', () => {
       it('should return the value', () => {
         const validDate = '1990-01-01';
         expect(parseVeteranDob(validDate)).to.eq(validDate);
-      });
-    });
-  });
-
-  context('when `parseVeteranGender` executes', () => {
-    context('when a value is omitted from the function', () => {
-      it('should return `null`', () => {
-        expect(parseVeteranGender()).to.eq(null);
-      });
-    });
-
-    context('when an empty value is passed to the function', () => {
-      it('should return `null`', () => {
-        expect(parseVeteranGender('')).to.eq(null);
-      });
-    });
-
-    context('when the value is valid', () => {
-      it('should return the value', () => {
-        const validBirthSex = 'M';
-        expect(parseVeteranGender(validBirthSex)).to.eq(validBirthSex);
       });
     });
   });

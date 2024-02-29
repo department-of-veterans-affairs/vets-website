@@ -232,10 +232,7 @@ export const boolYesNo = field => {
   return field ? 'Yes' : 'No';
 };
 
-export const isSmallScreen = () => {
-  const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
-  return matchMedia('(max-width: 480px)').matches && browserZoomLevel <= 150;
-};
+export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
 
 export const scrollToFocusedElement = () => {
   const compareDrawerHeight = document.getElementById('compare-drawer')

@@ -6,7 +6,6 @@ import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import {
-  acceptPrivacyAgreement,
   advanceToHousehold,
   advanceFromHouseholdToReview,
   goToNextPage,
@@ -79,7 +78,11 @@ describe('HCA-Household-Non-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -143,7 +146,11 @@ describe('HCA-Household-Non-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -259,7 +266,11 @@ describe('HCA-Household-Spousal-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -361,7 +372,11 @@ describe('HCA-Household-Spousal-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -474,7 +489,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -558,7 +577,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -640,7 +663,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -727,7 +754,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -803,7 +834,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -884,7 +919,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -963,7 +1002,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -1047,7 +1090,11 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -1186,7 +1233,11 @@ describe('HCA-Household-Full-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    acceptPrivacyAgreement();
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();

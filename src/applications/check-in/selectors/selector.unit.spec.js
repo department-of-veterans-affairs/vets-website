@@ -7,8 +7,6 @@ import {
   makeSelectSeeStaffMessage,
   makeSelectApp,
   makeSelectError,
-  makeSelectTravelClaimData,
-  makeSelectVeteranAddress,
 } from './index';
 
 describe('check-in', () => {
@@ -117,30 +115,6 @@ describe('check-in', () => {
         expect(selectError(state)).to.eql({
           error: 'max-validation',
         });
-      });
-    });
-    describe('makeSelectTravelClaimData', () => {
-      const state = {
-        checkInData: {
-          appointments: ['appt 1', 'appt 2'],
-        },
-      };
-      it('returns appointments', () => {
-        const selectTravelClaimData = makeSelectTravelClaimData();
-        expect(selectTravelClaimData(state)).to.eql(['appt 1', 'appt 2']);
-      });
-    });
-    describe('makeSelectVeteranAddress', () => {
-      const state = {
-        checkInData: {
-          veteranData: {
-            address: 'test',
-          },
-        },
-      };
-      it('returns address', () => {
-        const selectVeteranAddress = makeSelectVeteranAddress();
-        expect(selectVeteranAddress(state)).to.eql('test');
       });
     });
   });

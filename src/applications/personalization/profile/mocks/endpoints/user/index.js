@@ -1411,20 +1411,6 @@ const mockErrorResponses = {
   },
 };
 
-// user that is loa1 but is a dslogon user
-const loa1UserDSLogon = set(
-  cloneDeep(baseUserResponses.loa1User),
-  'data.attributes.profile.signIn.serviceName',
-  'dslogon',
-);
-
-// user that is loa1 but is a mhv user
-const loa1UserMHV = set(
-  cloneDeep(baseUserResponses.loa1User),
-  'data.attributes.profile.signIn.serviceName',
-  'mhv',
-);
-
 // users with various contact info missing
 const loa3UserWithNoMobilePhone = set(
   cloneDeep(baseUserResponses.loa3User72),
@@ -1473,8 +1459,6 @@ const loa3UserWithoutMailingAddress = set(
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
-  loa1UserDSLogon,
-  loa1UserMHV,
   loa3UserWithNoMobilePhone,
   loa3UserWithNoEmail,
   loa3UserWithNoEmailOrMobilePhone,

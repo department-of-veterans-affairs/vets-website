@@ -8,16 +8,11 @@ const {
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 
-const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
-
 // check in UUIDS
+const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
-
-// travel-claim UUIDS
-const multiApptSingleFacilityUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
-const multiApptMultiFacilityUUID = '8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0';
 
 // Minutes before start time that the window for check-in starts.
 const checkInStartWindowMinutes = 45;
@@ -273,103 +268,9 @@ const createMockNotFoundResponse = () => {
   };
 };
 
-const createAppointmentOH = ({
-  appointmentIen = '1111',
-  type = 'Endoscopy',
-  clinicPhoneNumber = '555-555-5555',
-  facility = 'Example Veterans Hospital',
-  facilityAddress = {
-    street1: '12345 Main St',
-    street2: 'Suite 100',
-    street3: 'Box #3',
-    city: 'Washington',
-    state: 'DC',
-    zip: '20002',
-  },
-  stationNo = '530',
-  clinicIen = '32216049',
-  clinicLocation = '',
-  doctorName = 'Dr. Smith',
-  kind = 'clinic',
-  startTime = new Date().toISOString(),
-  status = 'Confirmed',
-  timezone = 'America/Los_Angeles',
-} = {}) => {
-  return {
-    facility,
-    kind,
-    clinicPhoneNumber,
-    clinicFriendlyName: type,
-    clinicName: type,
-    appointmentIen,
-    startTime,
-    status,
-    stationNo,
-    clinicLocation,
-    clinicStopCodeName: type,
-    doctorName,
-    clinicIen,
-    facilityAddress,
-    timezone,
-  };
-};
-
-const createAppointmentsOH = (token = defaultUUID) => {
-  const appointments = [createAppointmentOH()];
-
-  if (token === multiApptSingleFacilityUUID) {
-    appointments.push(
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 1).toISOString(),
-        type: 'Mental Health',
-      }),
-    );
-  }
-
-  if (token === multiApptMultiFacilityUUID) {
-    appointments.push(
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 1).toISOString(),
-        type: 'Mental Health',
-      }),
-      createAppointmentOH({
-        appointmentIen: '1111',
-        startTime: dateFns.addHours(new Date(), 2).toISOString(),
-        type: 'Primary Care',
-        stationNo: '500',
-        facility: 'VA Facility 2',
-      }),
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 3).toISOString(),
-        type: 'Anesthesiology',
-        stationNo: '500',
-        facility: 'VA Facility 2',
-      }),
-      createAppointmentOH({
-        appointmentIen: '6767',
-        startTime: dateFns.addHours(new Date(), 4).toISOString(),
-        type: 'Neurology',
-        station: '622',
-        facility: 'VA Facility 3',
-      }),
-    );
-  }
-  return {
-    id: token,
-    payload: {
-      appointments,
-      address: '1166 6th Avenue\n22\nNew York, NY 23423\nUS',
-    },
-  };
-};
-
 module.exports = {
   aboutToExpireUUID,
   createAppointments,
-  createAppointmentsOH,
   createAppointment,
   defaultUUID,
   mockDemographics,

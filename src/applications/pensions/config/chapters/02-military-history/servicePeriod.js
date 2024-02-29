@@ -12,10 +12,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
-
 import { serviceBranchLabels } from '../../../labels';
-import { WartimeWarningAlert } from '../../../components/FormAlerts';
-import { servedDuringWartime } from '../../../helpers';
+import { wartimeWarning, servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
 
 /** @type {PageSchema} */
@@ -52,7 +50,7 @@ export default {
       );
 
       return {
-        'ui:description': WartimeWarningAlert,
+        'ui:description': wartimeWarning,
         'ui:options': {
           hideIf: hideWartimeWarning,
         },

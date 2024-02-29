@@ -12,6 +12,7 @@ export default {
         'Have you received treatment from any non-VA federal medical facilities within the past year?',
       hint:
         'Examples of federal medical facilities include military bases and prisons',
+      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

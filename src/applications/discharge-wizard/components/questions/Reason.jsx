@@ -53,7 +53,7 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
+      <VaRadio {...radioButtonProps} uswds={false}>
         {options.map((option, index) => (
           <va-radio-option
             key={index}

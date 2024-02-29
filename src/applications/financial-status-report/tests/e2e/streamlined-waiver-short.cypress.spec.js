@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['sw-short-path-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
-    skip: true, // leaving in until we finish deprecating the legacy pages
+
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.intercept('GET', '/v0/feature_toggles*', {

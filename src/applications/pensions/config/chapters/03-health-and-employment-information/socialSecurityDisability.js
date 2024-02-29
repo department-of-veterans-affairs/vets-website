@@ -10,6 +10,7 @@ export default {
     'ui:title': 'Social Security disability',
     socialSecurityDisability: yesNoUI({
       title: 'Do you currently receive Social Security disability payments?',
+      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlert': {

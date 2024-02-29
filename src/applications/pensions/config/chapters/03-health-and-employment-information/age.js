@@ -8,6 +8,7 @@ export default {
   uiSchema: {
     isOver65: yesNoUI({
       title: 'Are you 65 years old or older?',
+      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

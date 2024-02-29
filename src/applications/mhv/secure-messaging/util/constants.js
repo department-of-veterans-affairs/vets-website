@@ -379,8 +379,4 @@ export const FormLabels = {
   SUBJECT: 'Subject',
 };
 
-export const CernerTransitioningFacilities = {
-  NORTH_CHICAGO: {
-    facilityId: '556',
-  },
-};
+export const CernerTransitioningFacilities = { NORTH_CHICAGO: 556 };

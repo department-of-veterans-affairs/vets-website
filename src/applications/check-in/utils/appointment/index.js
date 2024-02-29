@@ -274,30 +274,6 @@ const findAppointment = (appointmentId, appointments) => {
   );
 };
 
-/**
- * Determine if the appoinents have multiple facilities.
- *
- * @param {Array<Appointment>} appointments
- * @returns {bool}
- */
-
-const hasMultipleFacilities = appointments => {
-  const uniqueFacilites = [
-    ...new Map(appointments.map(appt => [appt.stationNo, appt])).values(),
-  ];
-  return uniqueFacilites.length > 1;
-};
-
-/**
- * Return unique facilities as an array
- * @param {Array<Appointment>} appointments
- * @returns {Array}
- */
-
-const getUniqueFacilies = appointments => {
-  return [...new Set(appointments.map(appt => appt.facility))];
-};
-
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -315,6 +291,4 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
-  hasMultipleFacilities,
-  getUniqueFacilies,
 };

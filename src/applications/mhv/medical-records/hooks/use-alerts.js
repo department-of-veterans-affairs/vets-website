@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { clearAlerts } from '../actions/alerts';
 
-const useAlerts = dispatch => {
+const useAlerts = () => {
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
 
@@ -20,15 +19,6 @@ const useAlerts = dispatch => {
       }
     },
     [alertList],
-  );
-
-  useEffect(
-    () => {
-      return () => {
-        if (dispatch) dispatch(clearAlerts());
-      };
-    },
-    [dispatch],
   );
 
   return activeAlert;

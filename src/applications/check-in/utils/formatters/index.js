@@ -49,24 +49,9 @@ const removeTimezoneOffset = str => {
   return str.replace(/(T.*)(Z|[+-](\d{2}:?\d{2}$)|([+-]\d{2}$))/, '$1Z');
 };
 
-/**
- * @param {string} items
- * @param {string} conjuction
- * @returns {string}
- */
-
-const formatList = (items, conjuction) => {
-  if (items.length === 1) {
-    return `${items[0]}.`;
-  }
-  const lastItem = items.pop();
-  return `${items.join(', ')}, ${conjuction} ${lastItem}.`;
-};
-
 export {
   formatPhone,
   formatDemographicString,
   toCamelCase,
   removeTimezoneOffset,
-  formatList,
 };

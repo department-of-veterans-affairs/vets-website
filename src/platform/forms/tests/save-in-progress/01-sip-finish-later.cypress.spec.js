@@ -105,10 +105,11 @@ describe('SIP Finish Later', () => {
       .shadow()
       .find('button')
       .click();
-    cy.get('#start-over-modal').should('be.visible');
-    cy.get('#start-over-modal')
+    cy.get('.va-modal').should('be.visible');
+    cy.get('.va-modal va-button-pair')
+      .first()
       .shadow()
-      .find('.usa-button-group va-button')
+      .find('va-button')
       .first()
       .shadow()
       .find('button')

@@ -18,7 +18,7 @@ import useAlerts from '../hooks/use-alerts';
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -29,7 +29,11 @@ const HealthConditions = () => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
     },

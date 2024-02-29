@@ -11,7 +11,7 @@ const EnrollmentStatusWarning = ({
   enrollmentStatus,
   preferredFacility,
 }) => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <WarningHeadline enrollmentStatus={enrollmentStatus} />
     <WarningStatus
       enrollmentStatus={enrollmentStatus}

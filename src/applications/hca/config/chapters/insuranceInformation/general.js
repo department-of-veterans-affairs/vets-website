@@ -14,8 +14,10 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import { getInsuranceAriaLabel } from '../../../utils/helpers';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
+import {
+  getInsuranceAriaLabel,
+  isShortFormEligible,
+} from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { providers, isCoveredByHealthInsurance } = fullSchemaHca.properties;
@@ -26,7 +28,7 @@ export default {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: notShortFormEligible,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:healthInsuranceDescription': {
@@ -44,14 +46,14 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderViewField,
-        itemAriaLabel: getInsuranceAriaLabel,
+        itemAriaLabel: formData => getInsuranceAriaLabel(formData),
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
         'ui:options': {
-          itemAriaLabel: getInsuranceAriaLabel,
+          itemAriaLabel: formData => getInsuranceAriaLabel(formData),
         },
         insuranceName: {
           'ui:title': 'Name of insurance provider',

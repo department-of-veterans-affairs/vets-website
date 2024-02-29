@@ -12,7 +12,6 @@ describe('check in', () => {
           appointments: [],
           veteranData: {
             demographics: {},
-            address: '',
           },
           context: {},
           form: {

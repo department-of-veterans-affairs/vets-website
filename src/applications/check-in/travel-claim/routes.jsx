@@ -2,19 +2,18 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
+import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
 import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
-import { APP_NAMES } from '../utils/appConstants';
+
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 import Validate from './pages/validate';
 import Landing from './pages/landing';
-import LoadingPage from './pages/LoadingPage';
-import TravelIntro from './pages/travel-intro';
-import SelectAppointment from './pages/select-appointment';
+import TravelIntro from './pages/intro';
 import TravelMileage from './pages/travel-mileage';
 import TravelVehiclePage from './pages/travel-vehicle';
 import TravelAddressPage from './pages/travel-address';
@@ -29,69 +28,51 @@ const routes = [
   {
     path: URLS.VALIDATION_NEEDED,
     component: Validate,
-  },
-  {
-    path: URLS.LOADING,
-    component: LoadingPage,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
   },
   {
     path: URLS.TRAVEL_INTRO,
     component: TravelIntro,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
-    reloadable: true,
-  },
-  {
-    path: URLS.TRAVEL_SELECT,
-    component: SelectAppointment,
-    permissions: {
-      requireAuthorization: true,
-    },
-    reloadable: true,
   },
   {
     path: URLS.TRAVEL_MILEAGE,
     component: TravelMileage,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
-    reloadable: true,
   },
   {
     path: URLS.TRAVEL_VEHICLE,
     component: TravelVehiclePage,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
-    reloadable: true,
   },
   {
     path: URLS.TRAVEL_ADDRESS,
     component: TravelAddressPage,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
-    reloadable: true,
   },
   {
     path: URLS.TRAVEL_REVIEW,
     component: TravelReviewPage,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
-    reloadable: true,
   },
   {
     path: URLS.COMPLETE,
     component: Complete,
     permissions: {
-      requireAuthorization: true,
+      requiresForm: true,
     },
-    reloadable: true,
   },
 ];
 
@@ -99,11 +80,7 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const options = {
-          // @TODO Refactor out this isPreCheckIn concept, will be important when we get to session work
-          isPreCheckIn: false,
-          appName: APP_NAMES.TRAVEL_CLAIM,
-        };
+        const options = { isPreCheckIn: false };
         let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
@@ -112,7 +89,10 @@ const createRoutesWithStore = () => {
           /* eslint-disable react/jsx-props-no-spreading */
         );
         if (route.permissions) {
-          const { requireAuthorization } = route.permissions;
+          const { requiresForm, requireAuthorization } = route.permissions;
+          if (requiresForm) {
+            Component = withForm(Component, options);
+          }
           if (requireAuthorization) {
             Component = withAuthorization(Component, options);
           }
@@ -129,7 +109,7 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper app={APP_NAMES.TRAVEL_CLAIM} {...props}>
+              <ReloadWrapper isPreCheckIn={false} {...props}>
                 <Component {...props} />
               </ReloadWrapper>
             );

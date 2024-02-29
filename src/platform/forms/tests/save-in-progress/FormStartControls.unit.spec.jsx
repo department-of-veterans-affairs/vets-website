@@ -1,14 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { WIZARD_STATUS_RESTARTING } from '../../../site-wide/wizard';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
   const wizardStorageKey = 'testKey';
+  const restartDestination = '/test-page';
   const oldDataLayer = global.window.dataLayer;
   let defaultRoutes;
 
@@ -19,8 +20,8 @@ describe('Schemaform <FormStartControls>', () => {
         formConfig: {
           wizardStorageKey,
           customText: {
-            startNewAppButtonText: 'Start new app',
-            continueAppButtonText: 'Continue app',
+            startNewAppButtonText: '',
+            continueAppButtonText: '',
           },
         },
       },
@@ -32,7 +33,7 @@ describe('Schemaform <FormStartControls>', () => {
     global.window.sessionStorage.removeItem(wizardStorageKey);
   });
 
-  it('should render start action link when logged in with no saved form', () => {
+  it('should render 1 button when not logged in', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
@@ -48,16 +49,35 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    const link = tree.baseElement.querySelector('a.vads-c-action-link--green');
-    expect(link).to.exist;
-    expect(link.textContent).to.contain('Get Started');
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
   });
-  it('should render start a new app button when logged in with an expired form & clear in progress form & set wizard restart', async () => {
+  it('should render 1 button when logged in with no saved form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
-    const removeSpy = sinon.spy();
+    const tree = render(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved={false}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
+      />,
+    );
+    expect(
+      tree.baseElement.querySelectorAll('a.vads-c-action-link--green').length,
+    ).to.equal(1);
+  });
+  it('should render 1 va-button and 1 va-button-pair when logged in with an expired form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
     const tree = render(
       <FormStartControls
         formId="1010ez"
@@ -68,30 +88,15 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
         routes={defaultRoutes}
-        removeInProgressForm={removeSpy}
       />,
     );
-    const button = tree.baseElement.querySelector('va-button');
-    expect(button).to.exist;
-    expect(button.getAttribute('text')).to.contain('Start new app');
-
-    await button.click();
-    const modal = await tree.baseElement.querySelector(
-      'va-modal[visible="true"]',
-    );
-    expect(modal).to.exist;
-
-    await modal.__events.primaryButtonClick();
-    await waitFor(() => {
-      expect(removeSpy.called).to.be.true;
-      expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.eq(
-        WIZARD_STATUS_RESTARTING,
-      );
-      expect(tree.baseElement.querySelector('va-modal[visible="false"]')).to
-        .exist;
-    });
+    tree.baseElement.querySelector('va-button').click();
+    const buttonSelector = 'va-button,va-button-pair';
+    const buttonCount = tree.baseElement.querySelectorAll(buttonSelector)
+      .length;
+    expect(buttonCount).to.equal(2);
   });
-  it('should render continue & start new app buttons with a saved form', () => {
+  it('should render 2 buttons and a button pair when logged in with a saved form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
@@ -110,7 +115,9 @@ describe('Schemaform <FormStartControls>', () => {
     const buttons = tree.baseElement.querySelectorAll('va-button');
     expect(buttons.length).to.equal(2);
     buttons[1].click();
-    expect(tree.baseElement.querySelector('va-modal[visible="true"]')).to.exist;
+    expect(tree.baseElement.querySelectorAll('va-button-pair').length).to.equal(
+      1,
+    );
   });
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
@@ -193,7 +200,7 @@ describe('Schemaform <FormStartControls>', () => {
     expect(fetchSpy.firstCall.args[2]).to.be.true;
   });
 
-  it('should show modal and remove form when starting over', async () => {
+  it('should show modal and remove form when starting over', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
@@ -209,21 +216,51 @@ describe('Schemaform <FormStartControls>', () => {
         routes={defaultRoutes}
       />,
     );
-    await tree.baseElement.querySelectorAll('va-button')[1].click();
-    const modal = await tree.baseElement.querySelector(
-      'va-modal[visible="true"]',
-    );
-    expect(modal).to.exist;
+    tree.baseElement.querySelectorAll('va-button')[1].click();
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.__events.primaryClick();
+    expect(fetchSpy.called).to.be.true;
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
+  });
 
-    await modal.__events.primaryButtonClick();
-    await waitFor(() => {
-      expect(fetchSpy.called).to.be.true;
-      expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.eq(
-        WIZARD_STATUS_RESTARTING,
-      );
-      expect(tree.baseElement.querySelector('va-modal[visible="false"]')).to
-        .exist;
-    });
+  it('should show modal and remove form when starting over', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = render(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        router={routerSpy}
+        formSaved
+        removeInProgressForm={fetchSpy}
+        prefillAvailable
+        routes={[
+          {},
+          {
+            formConfig: {
+              wizardStorageKey,
+              saveInProgress: {
+                restartFormCallback: () => restartDestination,
+              },
+            },
+          },
+        ]}
+      />,
+    );
+    tree.baseElement.querySelectorAll('va-button')[1].click();
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.not.be.null;
+
+    const buttonPair = tree.baseElement.querySelector('va-button-pair');
+    buttonPair.__events.primaryClick();
+
+    expect(fetchSpy.called).to.be.true;
+    expect(tree.baseElement.querySelector('.va-modal-body')).to.be.null;
+    expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.equal(
+      WIZARD_STATUS_RESTARTING,
+    );
   });
 
   it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {
@@ -436,9 +473,9 @@ describe('Schemaform <FormStartControls>', () => {
     );
     const buttons = tree.baseElement.querySelectorAll('va-button');
     buttons[1].click();
-    const buttonSelector = 'va-button';
+    const buttonSelector = 'va-button, va-button-pair';
     const allButtons = tree.baseElement.querySelectorAll(buttonSelector);
-    expect(allButtons.length).to.equal(2);
+    expect(allButtons.length).to.equal(3);
 
     // Modal buttons = last 2, do not include these aria-attributes
     expect(buttons[0].getAttribute('label')).to.eq('test aria-label');
