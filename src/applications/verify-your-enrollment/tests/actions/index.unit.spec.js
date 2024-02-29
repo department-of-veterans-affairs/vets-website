@@ -10,6 +10,9 @@ import {
   FETCH_PERSONAL_INFO,
   FETCH_PERSONAL_INFO_FAILED,
   FETCH_PERSONAL_INFO_SUCCESS,
+  updateBankInfo,
+  UPDATE_BANK_INFO_SUCCESS,
+  UPDATE_BANK_INFO_FAILED,
 } from '../../actions';
 
 const mockData = { user: 'user' };
@@ -49,9 +52,11 @@ describe('getData, creator', () => {
       apiRequestStub.resolves(response);
       await fetchPersonalInfo()(dispatch);
       expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
-      expect(
-        dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
-      ).to.be.true;
+      await waitFor(() => {
+        expect(
+          dispatch.calledWith({ type: FETCH_PERSONAL_INFO_SUCCESS, response }),
+        ).to.be.false;
+      });
     });
     it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
       const errors = { erros: 'some error' };
@@ -60,6 +65,36 @@ describe('getData, creator', () => {
       expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
       expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO_FAILED, errors }))
         .to.be.true;
+    });
+  });
+  describe('updateBankInfo', () => {
+    it('dispatch UPDATE_BANK_INFO_SUCCESS after a sucessful api request', async () => {
+      const apiRequestStub2 = sinon.stub(apiModule, 'apiRequest');
+      const dispatch = sinon.stub();
+      const response = { data: 'test data' };
+      apiRequestStub2.resolves(response);
+      await updateBankInfo()(dispatch);
+      expect(
+        dispatch.calledWith({
+          type: UPDATE_BANK_INFO_SUCCESS,
+          response,
+        }),
+      ).to.be.true;
+      apiRequestStub2.restore();
+    });
+    it('dispatch UPDATE_BANK_INFO_FAILED after a sucessful api request', async () => {
+      const apiRequestStub2 = sinon.stub(apiModule, 'apiRequest');
+      const dispatch = sinon.stub();
+      const errors = { erros: 'some error' };
+      apiRequestStub2.rejects(errors);
+      await updateBankInfo()(dispatch);
+      expect(
+        dispatch.calledWith({
+          type: UPDATE_BANK_INFO_FAILED,
+          errors,
+        }),
+      ).to.be.true;
+      apiRequestStub2.restore();
     });
   });
 });

@@ -46,8 +46,10 @@ describe('Dashboard', () => {
     });
 
     it('renders view all link', () => {
-      const { getByText } = render(<Dashboard />);
-      expect(getByText('View all')).to.exist;
+      const { getByTestId } = render(<Dashboard />);
+      expect(
+        getByTestId('view-all-poa-requests-link').getAttribute('text'),
+      ).to.equal('View all');
     });
   });
 });
