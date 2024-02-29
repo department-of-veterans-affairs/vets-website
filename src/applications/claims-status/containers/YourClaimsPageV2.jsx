@@ -14,24 +14,21 @@ import {
   getStemClaims as getStemClaimsAction,
 } from '../actions';
 
-import AppealListItemV2 from '../components/appeals-v2/AppealListItemV2';
-import AppealListItemV3 from '../components/appeals-v2/AppealListItemV3';
+import AppealListItem from '../components/appeals-v2/AppealListItemV3';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ClaimsListItemOld from '../components/ClaimsListItem';
-import ClaimsListItemV3 from '../components/ClaimsListItemV3'; // This is the Lighthouse version with an updated design
+import ClaimsListItem from '../components/ClaimsListItemV3';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
-import StemClaimListItemV2 from '../components/StemClaimListItem';
-import StemClaimListItemV3 from '../components/StemClaimListItemV3';
+import StemClaimListItem from '../components/StemClaimListItemV3';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
-import { cstUseNewClaimCards, getBackendServices } from '../selectors';
+import { getBackendServices } from '../selectors';
 
 import {
   appealsAvailability,
@@ -105,28 +102,15 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   renderListItem(claim) {
-    // START lighthouse_migration
-    const { useNewClaimCards } = this.props;
-    // END lighthouse_migration
     if (appealTypes.includes(claim.type)) {
       const { fullName } = this.props;
-      const AppealListItem = useNewClaimCards
-        ? AppealListItemV3
-        : AppealListItemV2;
+
       return <AppealListItem key={claim.id} appeal={claim} name={fullName} />;
     }
 
     if (claim.type === 'education_benefits_claims') {
-      const StemClaimListItem = useNewClaimCards
-        ? StemClaimListItemV3
-        : StemClaimListItemV2;
       return <StemClaimListItem key={claim.id} claim={claim} />;
     }
-
-    // START lighthouse_migration
-    const ClaimsListItem = useNewClaimCards
-      ? ClaimsListItemV3
-      : ClaimsListItemOld;
 
     return <ClaimsListItem key={claim.id} claim={claim} />;
   }
@@ -306,7 +290,6 @@ YourClaimsPageV2.propTypes = {
     }),
   ),
   stemClaimsLoading: PropTypes.bool,
-  useNewClaimCards: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -340,7 +323,6 @@ function mapStateToProps(state) {
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
-    useNewClaimCards: cstUseNewClaimCards(state),
   };
 }
 

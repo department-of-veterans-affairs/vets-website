@@ -2,9 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import StemClaimListItemV3 from '../../components/StemClaimListItemV3';
+import StemClaimListItem from '../../components/StemClaimListItemV3';
 
-describe('<StemClaimListItemV3>', () => {
+describe('<StemClaimListItem>', () => {
   const defaultClaim = {
     id: 1,
     attributes: {
@@ -15,7 +15,7 @@ describe('<StemClaimListItemV3>', () => {
   };
 
   it('should render a denied STEM claim', () => {
-    const tree = shallow(<StemClaimListItemV3 claim={defaultClaim} />);
+    const tree = shallow(<StemClaimListItem claim={defaultClaim} />);
     expect(tree.find('ClaimCard').length).to.equal(1);
     tree.unmount();
   });
@@ -28,13 +28,13 @@ describe('<StemClaimListItemV3>', () => {
       },
     };
 
-    const tree = shallow(<StemClaimListItemV3 claim={claim} />);
+    const tree = shallow(<StemClaimListItem claim={claim} />);
     expect(tree.isEmptyRender()).to.be.true;
     tree.unmount();
   });
 
   it('should render updated on and submitted on with proper date', () => {
-    const wrapper = shallow(<StemClaimListItemV3 claim={defaultClaim} />);
+    const wrapper = shallow(<StemClaimListItem claim={defaultClaim} />);
     expect(
       wrapper
         .find('ClaimCard')
@@ -46,7 +46,7 @@ describe('<StemClaimListItemV3>', () => {
   });
 
   it('should show denied status', () => {
-    const tree = shallow(<StemClaimListItemV3 claim={defaultClaim} />);
+    const tree = shallow(<StemClaimListItem claim={defaultClaim} />);
     expect(
       tree
         .find('.card-status p')

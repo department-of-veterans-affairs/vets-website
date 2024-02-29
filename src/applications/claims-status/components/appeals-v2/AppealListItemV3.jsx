@@ -19,7 +19,7 @@ const capitalizeWord = word => {
 
 const formatDate = buildDateFormatter('MMMM d, yyyy');
 
-export default function AppealListItemV3({ appeal, name }) {
+export default function AppealListItem({ appeal, name }) {
   let requestEventType;
   let isAppeal;
 
@@ -101,7 +101,7 @@ export default function AppealListItemV3({ appeal, name }) {
   );
 }
 
-AppealListItemV3.propTypes = {
+AppealListItem.propTypes = {
   appeal: PropTypes.shape({
     id: PropTypes.string,
     attributes: PropTypes.shape({
