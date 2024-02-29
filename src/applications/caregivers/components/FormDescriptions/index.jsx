@@ -42,6 +42,7 @@ export const HeathCareCoverageDescription = (
   <va-additional-info
     trigger="Why we ask this information"
     class="vads-u-margin-y--2p5"
+    uswds
   >
     <p className="vads-u-margin-top--0">
       This information helps us determine if you may be eligible for health care
@@ -126,7 +127,10 @@ export const RepresentativeDescription = (
       that proves you have this authority.
     </p>
 
-    <va-additional-info trigger="Learn more about the types of documents we can and can’t accept">
+    <va-additional-info
+      trigger="Learn more about the types of documents we can and can’t accept"
+      uswds
+    >
       We can only accept a document that proves you have legal authority to make
       decisions for the Veteran (such as a valid Power of Attorney, legal
       guardianship order, or other legal document). We can’t accept a marriage
@@ -182,6 +186,7 @@ export const VeteranSSNDescription = (
   <va-additional-info
     trigger="Why is this required?"
     class="vads-u-margin-y--1p5"
+    uswds
   >
     We need the Veteran’s Social Security number or tax identification number to
     process the application when it’s submitted online, but it’s not a
