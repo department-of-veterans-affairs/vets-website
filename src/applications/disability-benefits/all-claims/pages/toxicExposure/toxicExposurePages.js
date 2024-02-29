@@ -11,7 +11,8 @@ export const toxicExposurePages = {
   toxicExposureConditions: {
     title: conditionsPageTitle,
     path: 'toxic-exposure-conditions',
-    depends: formData => isClaimingNew(formData) && showToxicExposurePages(),
+    depends: formData =>
+      isClaimingNew(formData) && showToxicExposurePages(formData),
     uiSchema: toxicExposureConditions.uiSchema,
     schema: toxicExposureConditions.schema,
   },
