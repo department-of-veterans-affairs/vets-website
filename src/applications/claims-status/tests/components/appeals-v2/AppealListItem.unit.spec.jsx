@@ -23,7 +23,7 @@ describe('<AppealListItem>', () => {
             date: '2016-05-01',
           },
         ],
-        // These should really be objects, but AppealListItemV2 doesn't really care
+        // These should really be objects, but AppealListItem doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'compensation',
@@ -46,7 +46,7 @@ describe('<AppealListItem>', () => {
             date: '2016-05-01',
           },
         ],
-        // These should really be objects, but AppealListItemV2 doesn't really care
+        // These should really be objects, but AppealListItem doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'medical',
