@@ -23,5 +23,5 @@ runs:
       with:
         repo-token: ${{ inputs.token }}
         title: ${{ inputs.check_title }}
-        input: ${{ input_json }}
+        input: ${{ inputs.input_json }}
     

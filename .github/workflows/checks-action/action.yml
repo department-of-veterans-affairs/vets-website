@@ -2,7 +2,7 @@ name: Checks Action
 description: Checks Action
 
 inputs:
-  check_name:
+  name:
     description: Name of check being created
     required: true
   conclusion:
