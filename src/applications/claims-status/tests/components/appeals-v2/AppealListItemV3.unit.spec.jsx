@@ -4,10 +4,10 @@ import { expect } from 'chai';
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
-import AppealListItemV3 from '../../../components/appeals-v2/AppealListItemV3';
+import AppealListItem from '../../../components/appeals-v2/AppealListItemV3';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';
 
-describe('<AppealListItemV3/>', () => {
+describe('<AppealListItem>', () => {
   const defaultProps = {
     appeal: {
       id: 1234,
@@ -56,13 +56,13 @@ describe('<AppealListItemV3/>', () => {
   };
 
   it('should render', () => {
-    const wrapper = shallow(<AppealListItemV3 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     expect(wrapper.name()).to.equal('ClaimCard');
     wrapper.unmount();
   });
 
   it('should show the right date with submitted on', () => {
-    const wrapper = shallow(<AppealListItemV3 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     expect(
       wrapper
         .find('ClaimCard')
@@ -74,7 +74,7 @@ describe('<AppealListItemV3/>', () => {
   });
 
   it('should correctly title a VHA Supplemental Claim', () => {
-    const wrapper = shallow(<AppealListItemV3 {...vhaScProps} />);
+    const wrapper = shallow(<AppealListItem {...vhaScProps} />);
     expect(
       wrapper
         .find('ClaimCard')
@@ -91,7 +91,7 @@ describe('<AppealListItemV3/>', () => {
       ["I'm an issue!"],
       defaultProps,
     );
-    const wrapper = shallow(<AppealListItemV3 {...props} />);
+    const wrapper = shallow(<AppealListItem {...props} />);
     const issuesText = wrapper
       .find('.card-status > p')
       .first()
@@ -102,7 +102,7 @@ describe('<AppealListItemV3/>', () => {
   });
 
   it('should say "issues" if there are multiple issues on appeal', () => {
-    const wrapper = shallow(<AppealListItemV3 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     const issuesText = wrapper
       .find('.card-status > p')
       .first()
@@ -112,7 +112,7 @@ describe('<AppealListItemV3/>', () => {
   });
 
   it('should say "review" if the appeal is a Supplemental Claim', () => {
-    const wrapper = shallow(<AppealListItemV3 {...vhaScProps} />);
+    const wrapper = shallow(<AppealListItem {...vhaScProps} />);
     const issuesText = wrapper
       .find('.card-status > p')
       .first()
@@ -122,7 +122,7 @@ describe('<AppealListItemV3/>', () => {
   });
 
   it('should create a link to the appeal status page', () => {
-    const wrapper = shallow(<AppealListItemV3 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     const linkProps = wrapper
       .find('ClaimCardLink')
       .first()
@@ -133,7 +133,7 @@ describe('<AppealListItemV3/>', () => {
 
   it('should not show the issue text if no description is given', () => {
     const props = set('appeal.attributes.description', undefined, defaultProps);
-    const wrapper = shallow(<AppealListItemV3 {...props} />);
+    const wrapper = shallow(<AppealListItem {...props} />);
     expect(
       wrapper
         .find('.card-status > p')
@@ -144,7 +144,7 @@ describe('<AppealListItemV3/>', () => {
   });
 
   it('should show the issue text if a description is given', () => {
-    const wrapper = shallow(<AppealListItemV3 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     expect(
       wrapper
         .find('.card-status > p')
