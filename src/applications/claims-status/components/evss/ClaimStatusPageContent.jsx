@@ -5,7 +5,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 import { getCompletedDate } from '../../utils/helpers';
 import ClaimComplete from '../ClaimComplete';
 import ClaimsDecision from '../ClaimsDecision';
-import ClaimsTimeline from '../ClaimsTimeline';
+import ClaimsTimeline from './ClaimsTimeline';
 import NeedFilesFromYou from '../NeedFilesFromYou';
 import WhatYouNeedToDo from '../claim-status-tab/WhatYouNeedToDo';
 

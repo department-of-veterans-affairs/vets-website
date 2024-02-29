@@ -21,6 +21,7 @@ import WhatWeAreDoing from '../components/claim-status-tab/WhatWeAreDoing';
 import RecentActivity from '../components/claim-status-tab/RecentActivity';
 import NextSteps from '../components/claim-status-tab/NextSteps';
 import Payments from '../components/claim-status-tab/Payments';
+import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -245,14 +246,9 @@ class ClaimStatusPage extends React.Component {
               </>
             ) : (
               <>
+                <ClosedClaimAlert claim={claim} />
                 <Payments />
                 <NextSteps />
-                <ClaimTimeline
-                  id={claim.id}
-                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-                  currentPhaseBack={claimPhaseDates.currentPhaseBack}
-                  events={generateEventTimeline(claim)}
-                />
               </>
             )}
             <RecentActivity claim={claim} />

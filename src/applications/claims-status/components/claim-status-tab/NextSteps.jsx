@@ -2,7 +2,7 @@ import React from 'react';
 
 function NextSteps() {
   return (
-    <div className="next-steps-container">
+    <div className="vads-u-margin-bottom--4">
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
         Next steps
       </h3>
