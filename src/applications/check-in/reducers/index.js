@@ -2,6 +2,7 @@ const initialState = {
   appointments: [],
   veteranData: {
     demographics: {},
+    address: '',
   },
   context: {},
   form: {
@@ -36,6 +37,10 @@ import {
   additionalContextHandler,
 } from './day-of';
 
+import { RECEIVED_TRAVEL_DATA } from '../actions/travel-claim';
+
+import { receivedTravelDataHandler } from './travel-claim';
+
 import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
 
 import { INIT_FORM } from '../actions/navigation';
@@ -68,6 +73,7 @@ const handler = Object.freeze({
   [SET_ERROR]: setErrorHandler,
   [SET_FORM]: setFormHandler,
   [ADDITIONAL_CONTEXT]: additionalContextHandler,
+  [RECEIVED_TRAVEL_DATA]: receivedTravelDataHandler,
 
   default: state => {
     return { ...state };
