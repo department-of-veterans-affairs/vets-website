@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { scrollTo } from 'platform/utilities/ui';
+import { scrollTo, focusElement } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -26,7 +27,7 @@ const SearchResult = ({
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const scrollElementId = `result-${representativeId}`;
+  const reportButton = $(`[name="report-button-${representativeId}"]`);
 
   const addressExists = addressLine1 || city || stateCode || zipCode;
 
@@ -45,7 +46,14 @@ const SearchResult = ({
 
   const closeReportModal = () => {
     setReportModalIsShowing(false);
-    scrollTo(scrollElementId);
+
+    scrollTo(reportButton);
+
+    focusElement(
+      'button, .report-button',
+      {},
+      $(`${reportButton}, .report-button`)?.ShadowRoot,
+    );
   };
 
   return (
@@ -171,6 +179,8 @@ const SearchResult = ({
               onClick={() => {
                 setReportModalIsShowing(true);
               }}
+              tabIndex={-1}
+              name={`report-button-${representativeId}`}
               secondary
               text="Report outdated information"
               uswds
