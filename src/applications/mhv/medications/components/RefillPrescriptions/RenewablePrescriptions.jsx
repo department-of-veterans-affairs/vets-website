@@ -8,7 +8,7 @@ import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 import { dateFormat } from '../../util/helpers';
 
-const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
+const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
   const dispatch = useDispatch();
 
@@ -73,7 +73,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
         />
       </p>
       <p>
-        <strong>Note:</strong> If your prescriptions isn’t in this list, find it
+        <strong>Note:</strong> If your prescription isn’t in this list, find it
         in your medications list.{' '}
         <Link data-testid="medications-page-link" to="/">
           Go to your medications list
@@ -133,7 +133,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
 };
 
 RenewablePrescriptions.propTypes = {
-  renewablePrescriptionsList: PropTypes.array.isRequired,
+  renewablePrescriptionsList: PropTypes.array,
 };
 
 export default RenewablePrescriptions;
