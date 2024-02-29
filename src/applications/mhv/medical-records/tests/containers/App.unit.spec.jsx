@@ -362,21 +362,32 @@ describe('App', () => {
     });
   });
 
-  it('redirects Basic users to /health-care/get-medical-records', async () => {
-    const customState = {
-      ...initialState,
-      user: {
-        ...initialState.user,
-        profile: {
-          services: [],
+  describe('Service-based redirection', async () => {
+    it('redirects Basic users to /health-care/get-medical-records', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          ...initialState.user,
+          profile: {
+            services: [],
+          },
         },
-      },
-    };
-    renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
+      };
+      renderWithStoreAndRouter(<App />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `/`,
+      });
+      expect(window.location.replace.called).to.be.true;
     });
-    expect(window.location.replace.called).to.be.true;
+
+    it('does not redirect Premium users', async () => {
+      renderWithStoreAndRouter(<App />, {
+        initialState,
+        reducers: reducer,
+        path: `/`,
+      });
+      expect(window.location.replace.called).to.be.false;
+    });
   });
 });
