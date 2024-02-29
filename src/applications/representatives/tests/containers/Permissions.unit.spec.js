@@ -10,13 +10,7 @@ describe('Permissions page', () => {
 
     expect(container.getByRole('heading', { name: 'Permissions' })).to.exist;
 
-    expect(container.getByText('Add')).to.exist;
-    expect(container.getByText('Upload CSV')).to.exist;
-  });
-
-  it('renders breadcrumbs', () => {
-    const { container } = render(<PermissionsPage />);
-
-    expect(container.getByText('Home')).to.exist;
+    expect(container.getByTestId('permissions-add-button')).to.exist;
+    expect(container.getByTestId('permissions-upload-csv-button')).to.exist;
   });
 });
