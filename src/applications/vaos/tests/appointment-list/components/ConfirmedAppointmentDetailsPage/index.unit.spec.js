@@ -196,22 +196,22 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     //   }),
     // ).to.be.ok;
     // expect(screen.getByText(/New medical issue: I have a headache/)).to.be.ok;
-    // expect(
-    //   screen.getByTestId('add-to-calendar-link', {
-    //     name: new RegExp(
-    //       futureDate
-    //         .tz('America/Denver')
-    //         .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-    //       'i',
-    //     ),
-    //   }),
-    // ).to.be.ok;
-    // expect(screen.getByText(/Print/)).to.be.ok;
-    // expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+    expect(
+      screen.getByTestId('add-to-calendar-link', {
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
 
-    // expect(screen.baseElement).not.to.contain.text(
-    //   'This appointment occurred in the past.',
-    // );
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
   });
 
   it('should show who cancel phone appointments detail page', async () => {
