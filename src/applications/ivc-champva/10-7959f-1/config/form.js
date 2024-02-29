@@ -6,17 +6,15 @@ import {
   inlineTitleUI,
   fullNameUI,
   fullNameSchema,
-  phoneUI,
-  phoneSchema,
+  // phoneUI,
+  // phoneSchema,
   titleUI,
   titleSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
+  addressUI,
+  addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../10-7959F-1-schema.json';
-
 // import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
 
 import manifest from '../manifest.json';
@@ -103,34 +101,50 @@ const formConfig = {
           },
         },
         page3: {
-          path: 'contact-information',
-          title: 'Contact Information',
+          path: 'physical-address',
+          title: 'Physical Address',
           uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI(),
+            ...titleUI("Veteran's physical address (residence)"),
+            physicalAddress: addressUI(),
           },
           schema: {
             type: 'object',
+            required: ['physicalAddress'],
             properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: phoneSchema,
+              titleSchema,
+              physicalAddress: addressSchema(),
             },
           },
         },
+        // page3: {
+        //   path: 'contact-information',
+        //   title: 'Contact Information',
+        //   uiSchema: {
+        //     address: address.uiSchema('Mailing address'),
+        //     email: {
+        //       'ui:title': 'Primary email',
+        //     },
+        //     altEmail: {
+        //       'ui:title': 'Secondary email',
+        //     },
+        //     phoneNumber: phoneUI(),
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       address: address.schema(fullSchema, true),
+        //       email: {
+        //         type: 'string',
+        //         format: 'email',
+        //       },
+        //       altEmail: {
+        //         type: 'string',
+        //         format: 'email',
+        //       },
+        //       phoneNumber: phoneSchema,
+        //     },
+        //   },
+        // },
       },
     },
   },
