@@ -154,7 +154,10 @@ export default function AppointmentsPage() {
       </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
-      <CernerTransitionAlert className="vads-u-margin-bottom--3" />
+      <CernerTransitionAlert
+        className="vads-u-margin-bottom--3"
+        pageTitle={pageTitle}
+      />
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady

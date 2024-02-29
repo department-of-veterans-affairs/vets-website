@@ -4,14 +4,19 @@ import { useSelector } from 'react-redux';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import { OH_TRANSITION_SITES } from '../utils/constants';
 
-export default function CernerTransitionAlert({ className, level = 2 }) {
+export default function CernerTransitionAlert({
+  className,
+  pageTitle,
+  level = 2,
+}) {
   const H = `h${level}`;
   const registeredFacilities = useSelector(selectPatientFacilities);
   const hasRegisteredOHTransitionSite = registeredFacilities.find(
     ({ facilityId }) => facilityId === OH_TRANSITION_SITES.Lovell.id,
   );
   // Show Alert if user is registered at an OH Transition site
-  const showAlert = () => !!hasRegisteredOHTransitionSite;
+  const showAlert = () =>
+    !!hasRegisteredOHTransitionSite && pageTitle === 'Appointments';
 
   const hasRegisteredNonTransitionSite = registeredFacilities.find(
     ({ facilityId }) => facilityId !== OH_TRANSITION_SITES.Lovell.id,
@@ -54,6 +59,7 @@ export default function CernerTransitionAlert({ className, level = 2 }) {
   );
 }
 CernerTransitionAlert.propTypes = {
+  pageTitle: PropTypes.string.isRequired,
   className: PropTypes.string,
   level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
