@@ -32,13 +32,12 @@ jobs:
 
       - name: Configure AWS credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true    
-            
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+              
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -58,7 +57,7 @@ jobs:
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
           env_variable_name: MAPBOX_TOKEN
@@ -86,7 +85,7 @@ jobs:
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
@@ -100,16 +99,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -134,14 +132,14 @@ jobs:
 
       - name: Archive E2E Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: e2e-allow-list
           path: qa-standards-dashboard-data/e2e_allow_list.json
 
       - name: Archive Unit Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json
@@ -183,7 +181,7 @@ jobs:
           output-type: 'entry_name, url'
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-allow-list
           path: .
@@ -258,7 +256,7 @@ jobs:
 
       - name: Archive unit test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-report
           path: mocha/results
@@ -267,7 +265,7 @@ jobs:
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
           name: unit-test-coverage-report
@@ -275,33 +273,31 @@ jobs:
 
       - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get AWS IAM role
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
@@ -320,10 +316,10 @@ jobs:
       - name: Publish test results
         if: ${{ always() }}
         continue-on-error: true
-        uses: mikepenz/action-junit-report@v2.8.4
+        uses: ./.github/workflows/publish-test-results
         with:
           check_name: 'Unit Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
@@ -364,7 +360,7 @@ jobs:
         run: mkdir -p test-results
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-allow-list
           path: .
@@ -379,7 +375,7 @@ jobs:
 
       - name: Archive unit test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results
           path: mocha/results
@@ -397,16 +393,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -417,7 +412,7 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -426,25 +421,24 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       - name: Download Unit Test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data
@@ -563,15 +557,14 @@ jobs:
       # exports app list and assigns to environmental variable at this step
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -621,7 +614,7 @@ jobs:
           output-type: 'entry_name, url'
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: e2e-allow-list
           path: .
@@ -684,23 +677,24 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
-      - name: Configure AWS credentials
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+      
+          
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
 
@@ -739,21 +733,21 @@ jobs:
 
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-mochawesome-test-results
           path: cypress/results
@@ -787,13 +781,12 @@ jobs:
     steps:
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
@@ -801,7 +794,7 @@ jobs:
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
 
@@ -841,14 +834,14 @@ jobs:
 
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-stress-test-videos
           path: cypress/videos
 
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && always() }}
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-stress-test-results
           path: cypress/results
@@ -873,16 +866,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -894,7 +886,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -903,19 +895,18 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
@@ -925,13 +916,13 @@ jobs:
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Download E2E Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: e2e-allow-list
           path: qa-standards-dashboard-data
@@ -965,7 +956,7 @@ jobs:
 
       - name: Publish E2E Test Stability Review Results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
+        uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: E2E Test Stability Review Summary
@@ -1005,24 +996,22 @@ jobs:
         with:
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       # ------------------------
       # | Upload BigQuery Data |
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -1034,7 +1023,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -1043,23 +1032,22 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
       # --------------------------------------------------
 
       - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-report
           path: qa-standards-dashboard-data/src/testing-reports/data
@@ -1101,10 +1089,10 @@ jobs:
 
       - name: Unit test results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
+        uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Unit Tests Summary
+          check_name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
@@ -1133,16 +1121,15 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -1154,7 +1141,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -1163,23 +1150,22 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
       # --------------------------------------------------
 
       - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
@@ -1201,7 +1187,7 @@ jobs:
 
       - name: Publish Unit Test Stability Review Results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
+        uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Unit Test Stability Review Summary
@@ -1226,16 +1212,15 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -1247,7 +1232,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -1256,23 +1241,22 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
 
       - name: Download Unit Test Coverage Report
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-coverage-report
           path: qa-standards-dashboard-data/src/testing-reports/data
@@ -1302,23 +1286,22 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
         # ------------------------
         # | Upload BigQuery Data |
         # ------------------------
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -1330,7 +1313,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -1339,29 +1322,28 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: cypress-mochawesome-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: cypress-video-artifacts
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
@@ -1396,7 +1378,7 @@ jobs:
         # -------------------------
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
+        uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Cypress Tests Summary
@@ -1425,23 +1407,22 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
         # ------------------------
         # | Upload BigQuery Data |
         # ------------------------
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -1453,7 +1434,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -1462,29 +1443,28 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
@@ -1519,7 +1499,7 @@ jobs:
         # -------------------------
       - name: Publish E2E Test Stability Review Results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
+        uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Cypress Stress Tests Summary
@@ -1549,16 +1529,15 @@ jobs:
           fetch-depth: 0
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -1629,19 +1608,19 @@ jobs:
 
       - name: Annotate E2E Files accordingly
         if: ${{ env.e2e-annotations-json != '[]' }}
-        uses: yuzutech/annotations-action@v0.4.0
+        uses: ./.github/workflows/annotations
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'E2E Test Stability Allow List Annotations'
-          input: './e2e-annotations.json'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'E2E Test Stability Allow List Annotations'
+          input_json: './e2e-annotations.json'
 
       - name: Annotate Unit Test Files accordingly
         if: ${{ env.unit-test-annotations-json != '[]' }}
-        uses: yuzutech/annotations-action@v0.4.0
+        uses: ./.github/workflows/annotations
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Unit Test Stability Allow List Annotations'
-          input: './unit-test-annotations.json'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Unit Test Stability Allow List Annotations'
+          input_json: './unit-test-annotations.json'
 
       - name: Verify Merge Eligibility
         run: node script/github-actions/verify-merge-eligibility.js
@@ -1676,7 +1655,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
 
@@ -1708,31 +1687,29 @@ jobs:
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       - name: Upload build
         run: |
@@ -1809,33 +1786,31 @@ jobs:
 
       - name: Configure AWS credentials (1)
         if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
 
       - name: Get AWS IAM role
         if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam_role }}
           env_variable_name: ${{ matrix.iam_role }}
 
       - name: Configure AWS Credentials (2)
         if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
 
       - name: Deploy
         if: steps.check-deployability.outputs.is_deployable == 'true'
@@ -1891,8 +1866,8 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Notify Slack
         if: steps.get-changed-apps.outputs.slack_groups == ''
@@ -1901,5 +1876,5 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
