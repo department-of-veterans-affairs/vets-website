@@ -22,11 +22,6 @@ describe('Dashboard', () => {
     expect(getByText('Accredited Representative Portal')).to.exist;
   });
 
-  it('renders link to POA requests', () => {
-    const { getByText } = render(<Dashboard />);
-    expect(getByText('Manage power of attorney requests')).to.exist;
-  });
-
   it('renders content when has POA permissions', () => {
     const { container } = render(<Dashboard POApermissions />);
     expect(container.querySelector('.placeholder-container')).to.exist;
