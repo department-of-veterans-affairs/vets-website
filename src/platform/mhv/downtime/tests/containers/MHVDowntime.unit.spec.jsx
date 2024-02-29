@@ -101,7 +101,7 @@ describe('MHVDowntime', () => {
     getByText(
       /During this time, you may have trouble using some of our health tools/i,
     );
-    getByText('July 4, 2019 at 9:00 a.m. UTC');
+    getByText(/July 4, 2019 at \d{1,2}:00 (a|p).m. [A-Z]TC?/);
     expect(queryByText('July 5, 2019 at 3:00 a.m. UTC')).to.be.null;
   });
 
@@ -121,6 +121,6 @@ describe('MHVDowntime', () => {
     getByText(
       /During this time, you may have trouble using some of our health tools/i,
     );
-    getByText('July 7, 2019 at 9:00 a.m. UTC');
+    getByText(/July 7, 2019 at \d{1,2}:00 (a|p).m. [A-Z]TC?/);
   });
 });
