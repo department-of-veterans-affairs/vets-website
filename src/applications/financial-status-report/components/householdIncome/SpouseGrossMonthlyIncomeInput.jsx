@@ -7,7 +7,7 @@ import { getJobIndex } from '../../utils/session';
 import { isValidCurrency } from '../../utils/validations';
 
 const SpouseGrossMonthlyIncomeInput = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -131,7 +131,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -154,6 +153,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
         max={MAXIMUM_GROSS_MONTHLY_INCOME}
         width="md"
         error={error}
+        uswds
       />
       <va-additional-info
         trigger="How to calculate your spouse’s gross monthly income"
@@ -177,7 +177,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
           <li>Divide that number by 12</li>
         </ol>
       </va-additional-info>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

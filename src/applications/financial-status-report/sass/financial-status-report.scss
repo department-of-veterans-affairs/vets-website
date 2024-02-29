@@ -370,3 +370,70 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     }
   }
 }
+
+.va-button-override {
+  @media (min-width: $xsmall-screen) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 18px;
+    max-width: 451.25px;
+  }
+  @media (min-width: $small-screen) {
+    max-width: 374px;
+  }
+}
+
+.va-button-override va-button {
+  &::part(button) {
+    white-space: nowrap;
+    z-index: 1;
+    position: relative;
+  }
+  @media (max-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    margin-bottom: 1rem;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+  @media (min-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"],
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::after,
+    &::before {
+      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
+      font-weight: 900; /* Use 900 for solid icons */
+      font-size: 1.6rem;
+      vertical-align: bottom;
+    }
+  }
+}
+
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::before {
+      content: "\f100";
+      margin-right: 8px;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"] {
+  &::part(button) {
+    &::after {
+      content: "\f101";
+      margin-left: 8px;
+    }
+  }
+}

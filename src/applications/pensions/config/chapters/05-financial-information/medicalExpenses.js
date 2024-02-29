@@ -7,14 +7,10 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ListItemView from '../../../components/ListItemView';
-
-const recipientOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Veteran’s spouse',
-  CHILD: 'Veteran’s child',
-};
+import { recipientTypeLabels } from '../../../labels';
 
 const frequencyOptions = {
   ONCE_MONTH: 'Once a month',
@@ -39,6 +35,7 @@ export default {
     medicalExpenses: {
       'ui:options': {
         itemName: 'Unreimbursed Expense',
+        itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
         reviewTitle: 'Unreimbursed Expenses',
         keepInPageOnReview: true,
@@ -49,24 +46,27 @@ export default {
       items: {
         recipients: radioUI({
           title: 'Who is the expense for?',
-          labels: recipientOptions,
+          labels: recipientTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         childName: {
           'ui:title': 'Enter the child’s name',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'CHILD',
+            expandUnderCondition: 'DEPENDENT',
           },
           'ui:required': (form, index) =>
-            get(['medicalExpenses', index, 'recipients'], form) === 'CHILD',
+            get(['medicalExpenses', index, 'recipients'], form) === 'DEPENDENT',
         },
         provider: {
           'ui:title': 'Who receives the payment?',
+          'ui:webComponentField': VaTextInputField,
         },
         purpose: {
           'ui:title': 'What’s the payment for?',
+          'ui:webComponentField': VaTextInputField,
         },
         paymentDate: currentOrPastDateUI('What’s the date of the payment?'),
         paymentFrequency: radioUI({
@@ -96,7 +96,7 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientOptions)),
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName: { type: 'string' },
             provider: { type: 'string' },
             purpose: { type: 'string' },

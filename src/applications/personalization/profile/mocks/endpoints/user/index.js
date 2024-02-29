@@ -1392,7 +1392,7 @@ const mockErrorResponses = {
     meta: {
       errors: [
         {
-          externalService: 'Vet360',
+          externalService: 'VAProfile',
           startTime: '2020-11-19T17:32:54Z',
           endTime: null,
           description:
@@ -1400,7 +1400,7 @@ const mockErrorResponses = {
           status: 502,
         },
         {
-          externalService: 'Vet360',
+          externalService: 'VAProfile',
           startTime: '2020-11-19T17:32:54Z',
           endTime: null,
           description: 'Second error message',
@@ -1410,6 +1410,20 @@ const mockErrorResponses = {
     },
   },
 };
+
+// user that is loa1 but is a dslogon user
+const loa1UserDSLogon = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'dslogon',
+);
+
+// user that is loa1 but is a mhv user
+const loa1UserMHV = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'mhv',
+);
 
 // users with various contact info missing
 const loa3UserWithNoMobilePhone = set(
@@ -1459,6 +1473,8 @@ const loa3UserWithoutMailingAddress = set(
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
+  loa1UserDSLogon,
+  loa1UserMHV,
   loa3UserWithNoMobilePhone,
   loa3UserWithNoEmail,
   loa3UserWithNoEmailOrMobilePhone,

@@ -7,6 +7,7 @@ import BenefitsProfileStatement from '../components/BenefitsProfileStatement';
 import RemainingBenefits from '../components/RemainingBenefits';
 import BenefitsExpirationDate from '../components/BenefitsExpirationDate';
 import PayeeInformationWrapper from './PayeeInformationWrapper';
+import PendingDocuments from '../components/PendingDocuments';
 import PageLink from '../components/PageLink';
 import {
   VERIFICATION_RELATIVE_URL,
@@ -27,7 +28,9 @@ const BenefitsProfileWrapper = ({ children }) => {
     addressLine6,
     indicator: applicantChapter,
     fullName: applicantName,
+    pendingDocuments,
   } = useData();
+
   return (
     <>
       <div name="topScrollElement" />
@@ -47,14 +50,19 @@ const BenefitsProfileWrapper = ({ children }) => {
             />
             <ChangeOfAddressWrapper
               loading={loading}
+              applicantName={applicantName}
               mailingAddress={{
                 street: `${addressLine3} ${addressLine2}`,
                 city: addressLine4,
                 state: addressLine5,
-                zip: addressLine6,
+                zipCode: addressLine6,
               }}
             />
-            <ChangeOfDirectDepositWrapper />
+            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+            <PendingDocuments
+              loading={loading}
+              pendingDocuments={pendingDocuments}
+            />
             <RemainingBenefits />
             <BenefitsExpirationDate date={date} loading={loading} />
             <PageLink

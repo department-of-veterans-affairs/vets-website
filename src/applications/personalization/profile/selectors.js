@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 import {
   cnpDirectDepositBankInfo,
@@ -145,20 +146,15 @@ export const selectProfileShowProofOfVeteranStatusToggle = state =>
 
 export const selectProfileContacts = state => state?.profileContacts || {};
 
-export const selectEmergencyContact = state => {
-  const contacts = selectProfileContacts(state).data || [];
-  const emergencyContacts =
-    contacts.filter(contact =>
-      contact?.attributes?.contactType?.match(/emergency contact/i),
-    ) || [];
-  return emergencyContacts[0];
+export const selectHasRetiringSignInService = state => {
+  const serviceName = state?.user?.profile?.signIn?.serviceName;
+  return !serviceName || [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName);
 };
 
-export const selectNextOfKin = state => {
-  const contacts = selectProfileContacts(state).data || [];
-  const nextOfKin =
-    contacts.filter(contact =>
-      contact?.attributes?.contactType?.match(/next of kin/i),
-    ) || [];
-  return nextOfKin[0];
+export const selectShowCredRetirementMessaging = state => {
+  return (
+    toggleValues(state)?.[
+      FEATURE_FLAG_NAMES.profileShowCredentialRetirementMessaging
+    ] && selectHasRetiringSignInService(state)
+  );
 };

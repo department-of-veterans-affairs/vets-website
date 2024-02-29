@@ -58,7 +58,7 @@ const ArrayBuilderSummaryCardList = ({
     <div className="vads-u-margin-bottom--2">
       <va-card name={`${arrayPath}_${index}`}>
         <CardContent item={item} />
-        <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between">
+        <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between vads-u-font-weight--bold">
           <Link to={`${itemBasePathUrl}/${index}?edit=true`} data-action="edit">
             Edit
             <i
@@ -69,13 +69,13 @@ const ArrayBuilderSummaryCardList = ({
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
-            className="va-button-link vads-u-color--secondary-dark"
+            className="va-button-link vads-u-color--secondary-dark vads-u-font-weight--bold vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
             data-action="remove"
             onClick={() => showRemoveConfirmationModal(index)}
           >
             <i
               aria-hidden="true"
-              className="fa fa-times vads-u-margin-right--1"
+              className="fa fa-times vads-u-margin-right--1 vads-u-font-weight--bold vads-u-font-size--lg "
             />
             Remove
           </button>
@@ -95,17 +95,20 @@ const ArrayBuilderSummaryCardList = ({
     <div>
       <Heading>{title}</Heading>
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column">
-        {arrayData?.length &&
-          arrayData.map((item, index) => (
-            <Card key={index} item={item} index={index} />
-          ))}
+        {arrayData?.length && (
+          <div className="vads-u-margin-top--4">
+            {arrayData.map((item, index) => (
+              <Card key={index} item={item} index={index} />
+            ))}
+          </div>
+        )}
       </div>
       <VaModal
         clickToClose
         status="warning"
         modalTitle={removeTitle}
         primaryButtonText={removeYesLabel}
-        secondaryButtonText="No, cancel"
+        secondaryButtonText="No, continue adding"
         onCloseEvent={hideRemoveConfirmationModal}
         onPrimaryButtonClick={removeAction}
         onSecondaryButtonClick={hideRemoveConfirmationModal}
@@ -127,17 +130,15 @@ const mapDispatchToProps = {
 };
 
 ArrayBuilderSummaryCardList.propTypes = {
-  CardContent: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  CardContent: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
   arrayPath: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
   itemBasePathUrl: PropTypes.string.isRequired,
   setFormData: PropTypes.func.isRequired,
-  title: PropTypes.object.isRequired,
-  removeDescription: PropTypes.string,
-  removeTitle: PropTypes.func,
-  removeYesLabel: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  removeDescription: PropTypes.func,
+  removeTitle: PropTypes.string,
+  removeYesLabel: PropTypes.string,
   titleHeaderLevel: PropTypes.func,
 };
 

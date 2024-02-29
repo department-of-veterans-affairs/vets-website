@@ -7,10 +7,10 @@ import manifest from './manifest.json';
 
 export const sortOptions = {
   distance_asc: 'Distance (closest to farthest)',
-  first_name_asc: 'First Name (A - Z)',
-  first_name_desc: 'First Name (Z - A)',
-  last_name_asc: 'Last Name (A - Z)',
-  last_name_desc: 'Last Name (Z - A)',
+  first_name_asc: 'First name (A - Z)',
+  first_name_desc: 'First name (Z - A)',
+  last_name_asc: 'Last name (A - Z)',
+  last_name_desc: 'Last name (Z - A)',
 };
 
 export const searchAreaOptions = {
@@ -23,6 +23,12 @@ export const searchAreaOptions = {
   'Show all': 'Show all',
 };
 
+export const endpointOptions = {
+  fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`,
+  fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`,
+  flagReps: `/representation_management/v0/flag_accredited_representatives`,
+};
+
 /*
  * Toggle true for local development
  */
@@ -30,8 +36,8 @@ export const useStagingDataLocally = true;
 
 const baseUrl =
   useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-    ? `https://staging-api.va.gov/services/veteran/v0`
-    : `${environment.API_URL}/services/veteran/v0`;
+    ? `https://staging-api.va.gov`
+    : `${environment.API_URL}`;
 
 /**
  * Build requestUrl and settings for api calls
