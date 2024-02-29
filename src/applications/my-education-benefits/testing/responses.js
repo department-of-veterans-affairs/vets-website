@@ -82,16 +82,7 @@ module.exports = {
       },
     },
     meta: {
-      errors: [
-        {
-          externalService: 'EMIS',
-          startTime: '2022-01-10T19:57:56Z',
-          endTime: null,
-          description:
-            'EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED',
-          status: 401,
-        },
-      ],
+      errors: [],
     },
   },
   'GET /v0/in_progress_forms/22-1990EZ': {
