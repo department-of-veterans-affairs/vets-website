@@ -54,6 +54,14 @@ describe('Medications List Card Extra Details', () => {
     expect(screen.findByTestId('submitted-refill-request'));
   });
 
+  it('when dispStatus is expired, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.expired,
+    });
+    expect(screen.findByTestId('expired'));
+  });
+
   it('displays the refillinprocess information', () => {
     const screen = setup();
 
