@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { buildDateFormatter } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
 const formatDate = buildDateFormatter('MMMM d, yyyy');
 
-export default function StemClaimListItemV3({ claim }) {
+export default function StemClaimListItem({ claim }) {
   if (!claim.attributes.automatedDenial) {
     return null;
   }
@@ -52,6 +52,6 @@ export default function StemClaimListItemV3({ claim }) {
   );
 }
 
-StemClaimListItemV3.propTypes = {
+StemClaimListItem.propTypes = {
   claim: PropTypes.object,
 };
