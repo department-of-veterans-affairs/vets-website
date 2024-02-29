@@ -95,7 +95,7 @@ const formConfig = {
           path: 'physical-address',
           title: 'Physical Address',
           uiSchema: {
-            ...titleUI("Veteran's physical address (residence)"),
+            ...titleUI("Veteran's home address (residence)"),
             physicalAddress: addressUI(),
           },
           schema: {
