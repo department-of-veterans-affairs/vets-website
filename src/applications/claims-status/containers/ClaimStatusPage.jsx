@@ -251,26 +251,30 @@ class ClaimStatusPage extends React.Component {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
             <ClaimStatusHeader claim={claim} />
-            <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
-            <WhatWeAreDoing claim={claim} />
+            {isOpen ? (
+              <>
+                <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
+                <WhatWeAreDoing claim={claim} />
+              </>
+            ) : null}
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
-          {showDocsNeeded && (
-            <Toggler.Disabled>
+          <Toggler.Disabled>
+            {showDocsNeeded && (
               <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            </Toggler.Disabled>
-          )}
+            )}
+            {decisionLetterSent && !isOpen ? (
+              <ClaimsDecision
+                completedDate={closeDate}
+                showClaimLettersLink={showClaimLettersLink}
+              />
+            ) : null}
+            {!decisionLetterSent && !isOpen ? (
+              <ClaimComplete completedDate={closeDate} />
+            ) : null}
+          </Toggler.Disabled>
         </Toggler>
 
-        {decisionLetterSent && !isOpen ? (
-          <ClaimsDecision
-            completedDate={closeDate}
-            showClaimLettersLink={showClaimLettersLink}
-          />
-        ) : null}
-        {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={closeDate} />
-        ) : null}
         {status && isOpen ? (
           <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
             <Toggler.Disabled>
