@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
-import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import * as customPropTypes from '../prop-types';
 import {
   FORM_MOMENT_PRESENTATION_DATE_FORMAT,
