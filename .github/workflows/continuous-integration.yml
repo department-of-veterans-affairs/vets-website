@@ -1612,7 +1612,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           check_title: 'E2E Test Stability Allow List Annotations'
-          input: './e2e-annotations.json'
+          input_json: './e2e-annotations.json'
 
       - name: Annotate Unit Test Files accordingly
         if: ${{ env.unit-test-annotations-json != '[]' }}
@@ -1620,7 +1620,7 @@ jobs:
         with:
           oken: ${{ secrets.GITHUB_TOKEN }}
           check_title: 'Unit Test Stability Allow List Annotations'
-          input: './unit-test-annotations.json'
+          input_json: './unit-test-annotations.json'
 
       - name: Verify Merge Eligibility
         run: node script/github-actions/verify-merge-eligibility.js
