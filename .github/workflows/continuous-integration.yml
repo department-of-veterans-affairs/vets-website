@@ -1618,7 +1618,7 @@ jobs:
         if: ${{ env.unit-test-annotations-json != '[]' }}
         uses: ./.github/workflows/annotations
         with:
-          oken: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           check_title: 'Unit Test Stability Allow List Annotations'
           input_json: './unit-test-annotations.json'
 
