@@ -14,7 +14,7 @@ const getLastUpdated = claim => {
   return `Last updated: ${updatedOn}`;
 };
 
-function ClaimStatusHeader({ claim }) {
+function ClaimStatusHeader({ claim, isOpen }) {
   const inProgress = !isClaimComplete(claim) ? 'In Progress' : null;
 
   return (
@@ -23,18 +23,21 @@ function ClaimStatusHeader({ claim }) {
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3 va-introtext">
         Here’s the latest information on your claim.{' '}
       </p>
-      <div className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        {inProgress && <span className="usa-label">{inProgress}</span>}
-        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-          {getLastUpdated(claim)}
-        </p>
-      </div>
+      {isOpen && (
+        <div className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+          {inProgress && <span className="usa-label">{inProgress}</span>}
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+            {getLastUpdated(claim)}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
 
 ClaimStatusHeader.propTypes = {
   claim: PropTypes.object,
+  isOpen: PropTypes.bool,
 };
 
 export default ClaimStatusHeader;

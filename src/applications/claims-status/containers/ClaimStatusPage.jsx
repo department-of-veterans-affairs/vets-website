@@ -15,10 +15,11 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
+import WhatYouNeedToDo from '../components/claim-status-tab/WhatYouNeedToDo';
 import ClaimStatusHeader from '../components/ClaimStatusHeader';
-import WhatWeAreDoing from '../components/WhatWeAreDoing';
-import RecentActivity from '../components/RecentActivity';
+import WhatWeAreDoing from '../components/claim-status-tab/WhatWeAreDoing';
+import RecentActivity from '../components/claim-status-tab/RecentActivity';
+import NextSteps from '../components/claim-status-tab/NextSteps';
 
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -235,13 +236,15 @@ class ClaimStatusPage extends React.Component {
       <div>
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
-            <ClaimStatusHeader claim={claim} />
+            <ClaimStatusHeader claim={claim} isOpen={isOpen} />
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
                 <WhatWeAreDoing claim={claim} />
               </>
-            ) : null}
+            ) : (
+              <NextSteps />
+            )}
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
           <Toggler.Disabled>

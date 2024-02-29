@@ -7,7 +7,7 @@ import ClaimComplete from '../ClaimComplete';
 import ClaimsDecision from '../ClaimsDecision';
 import ClaimsTimeline from '../ClaimsTimeline';
 import NeedFilesFromYou from '../NeedFilesFromYou';
-import WhatYouNeedToDo from '../WhatYouNeedToDo';
+import WhatYouNeedToDo from '../claim-status-tab/WhatYouNeedToDo';
 
 const itemsNeedingAttentionFromVet = events => {
   return events?.filter(
