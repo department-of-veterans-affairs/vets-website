@@ -42,9 +42,9 @@ describe('Dashboard', () => {
 
     it('renders view all link', () => {
       const { getByTestId } = render(<Dashboard />);
-      expect(
-        getByTestId('view-all-poa-requests-link').getAttribute('text'),
-      ).to.equal('View all');
+      expect(getByTestId('view-all-poa-requests-link')).to.contain.text(
+        'View all',
+      );
     });
   });
 });
