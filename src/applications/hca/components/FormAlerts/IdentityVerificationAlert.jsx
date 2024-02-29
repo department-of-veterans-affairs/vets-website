@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const IdentityVerificationAlert = ({ onVerify }) => (
-  <va-alert status="continue" data-testid="hca-identity-alert">
+  <va-alert status="continue" data-testid="hca-identity-alert" uswds>
     <h4 slot="headline">
       Please verify your identity before applying for VA health care
     </h4>
