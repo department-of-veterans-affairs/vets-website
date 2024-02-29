@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { CLIENT_IDS } from 'platform/utilities/oauth/constants';
+import { CLIENT_IDS } from '../../../utilities/oauth/constants';
 import { EXTERNAL_APPS } from '../constants';
 
 export const defaultSignInProviders = {
