@@ -5,9 +5,11 @@ import LoginViewWrapper from './LoginViewWrapper';
 import { POAbreadcrumbs } from '../common/breadcrumbs';
 
 const POARequests = ({ POApermissions = true }) => {
+  const POABreadcrumbs = POAbreadcrumbs('poa-requests');
+
   return (
     <LoginViewWrapper
-      breadcrumbs={POAbreadcrumbs}
+      breadcrumbs={POABreadcrumbs}
       POApermissions={POApermissions}
     >
       <h1>Power of attorney requests</h1>

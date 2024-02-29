@@ -7,9 +7,11 @@ import LoginViewWrapper from './LoginViewWrapper';
 import { POAbreadcrumbs } from '../common/breadcrumbs';
 
 const Dashboard = ({ POApermissions = true }) => {
+  const dashboardBreadcrumbs = POAbreadcrumbs('dashboard');
+
   return (
     <LoginViewWrapper
-      breadcrumbs={POAbreadcrumbs}
+      breadcrumbs={dashboardBreadcrumbs}
       POApermissions={POApermissions}
     >
       <h1>Accredited Representative Portal</h1>
