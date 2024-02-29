@@ -228,7 +228,6 @@ export default Object.freeze({
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
-  supplementalClaim: 'supplemental_claim',
   supplyReorderingSleepApneaEnabled: 'supply_reordering_sleep_apnea_enabled',
   termsOfUse: 'terms_of_use',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',

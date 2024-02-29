@@ -4,11 +4,6 @@
     "features": [{
       "name": "nod_part3_update",
       "value": true
-    },
-
-    {
-      "name": "supplemental_claim",
-      "value": true
     }]
   }
 }
