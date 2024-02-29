@@ -12,7 +12,7 @@ const { powDateRange } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Prisoner of War status',
+    'ui:title': 'Prisoner of war status',
     powStatus: yesNoUI({
       title: 'Have you ever been a prisoner of war?',
       classNames: 'vads-u-margin-bottom--2',
