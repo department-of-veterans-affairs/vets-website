@@ -14,11 +14,16 @@ import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  OH_TRANSITION_SITES,
+} from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
+import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 
 const SUBPAGE_TITLES = {
   upcoming: 'Your appointments',
@@ -56,6 +61,10 @@ function renderWarningNotification() {
     );
   };
 }
+renderWarningNotification.propTypes = {
+  description: PropTypes.string,
+  status: PropTypes.string,
+};
 
 export default function AppointmentsPage() {
   const location = useLocation();
@@ -84,6 +93,16 @@ export default function AppointmentsPage() {
   } else {
     pageTitle = 'Appointments';
   }
+  const registeredFacilities = useSelector(selectPatientFacilities);
+  const hasRegisteredOHTransitionSite = registeredFacilities.find(
+    ({ facilityId }) => facilityId === OH_TRANSITION_SITES.Lovell.id,
+  );
+  const hasRegisteredNonTransitionSite = registeredFacilities.find(
+    ({ facilityId }) => facilityId !== OH_TRANSITION_SITES.Lovell.id,
+  );
+  // hide schedule lknk if user is registered at an OH Transition site and has no other registered facilities.
+  const hideScheduleLink = () =>
+    !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite;
 
   useEffect(
     () => {
@@ -135,13 +154,14 @@ export default function AppointmentsPage() {
       </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
+      <CernerTransitionAlert className="vads-u-margin-bottom--3" />
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
         render={renderWarningNotification()}
       />
-      <ScheduleNewAppointment />
+      {!hideScheduleLink() && <ScheduleNewAppointment />}
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">
@@ -160,8 +180,3 @@ export default function AppointmentsPage() {
     </PageLayout>
   );
 }
-
-renderWarningNotification.propTypes = {
-  description: PropTypes.string,
-  status: PropTypes.string,
-};
