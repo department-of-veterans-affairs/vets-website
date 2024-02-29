@@ -1,14 +1,17 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import {
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
+  inlineTitleUI,
+  titleSchema,
+  fullNameUI,
+  fullNameSchema,
+  phoneUI,
+  phoneSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from '../10-7959F-1-schema.json';
 
@@ -19,14 +22,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// pages
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
-
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -36,55 +32,73 @@ const formConfig = {
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+    },
+  },
   formId: '10-7959F-1',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your health care benefits application (10-7959F-1) is in progress.',
-    //   expired: 'Your saved health care benefits application (10-7959F-1) has expired. If you want to apply for health care benefits, please start a new application.',
-    //   saved: 'Your health care benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your CHAMPVA application (10-7959F-1) is in progress.',
+      expired:
+        'Your saved CHAMPVA benefits application (10-7959F-1) has expired. If you want to apply for Foriegn Medical Program benefits, please start a new application.',
+      saved: 'Your CHAMPVA benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for health care benefits.',
+    notFound: 'Please start over to apply for CHAMPVA benefits.',
     noAuth:
-      'Please sign in again to continue your application for health care benefits.',
+      'Please sign in again to continue your application for CHAMPVA benefits.',
   },
-  title: 'Complex Form',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-  },
+  title: 'Foreign Medical Program (FMP) Registration Form',
+  defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        page1: {
+          path: 'veteran-information',
+          title: 'Veteran Information',
           uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
+            fullNameTitle: inlineTitleUI('Your name'),
+            fullName: fullNameUI(),
           },
           schema: {
             type: 'object',
             required: ['fullName'],
             properties: {
-              fullName,
-              ssn,
+              fullNameTitle: titleSchema,
+              fullName: fullNameSchema,
             },
           },
         },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
+        page2: {
+          path: 'veteran-information/ssn',
+          title: 'Veteran SSN and VA file number',
+          uiSchema: {
+            ...titleUI(
+              `Veteran's identification information`,
+              `You must enter either a Social Security number of VA File number`,
+            ),
+            ssn: ssnOrVaFileNumberUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['ssn'],
+            properties: {
+              titleSchema,
+              ssn: ssnOrVaFileNumberSchema,
+            },
+          },
+        },
+        page3: {
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: {
@@ -95,7 +109,7 @@ const formConfig = {
             altEmail: {
               'ui:title': 'Secondary email',
             },
-            phoneNumber: phoneUI('Daytime phone'),
+            phoneNumber: phoneUI(),
           },
           schema: {
             type: 'object',
@@ -109,7 +123,7 @@ const formConfig = {
                 type: 'string',
                 format: 'email',
               },
-              phoneNumber: usaPhone,
+              phoneNumber: phoneSchema,
             },
           },
         },

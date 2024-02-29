@@ -12,11 +12,15 @@ const getTokenFromLocation = location => location?.query?.id;
  * @param {Object} [params.url]
  */
 
-import { updateFormPages, URLS } from '..';
+import { URLS } from '..';
 
 const TRAVEL_PAY_FORM_PAGES = Object.freeze([
   {
     url: URLS.VERIFY,
+    order: 0,
+  },
+  {
+    url: URLS.LOADING,
     order: 1,
   },
   {
@@ -24,8 +28,12 @@ const TRAVEL_PAY_FORM_PAGES = Object.freeze([
     order: 2,
   },
   {
-    url: URLS.TRAVEL_MILEAGE,
+    url: URLS.TRAVEL_SELECT,
     order: 3,
+  },
+  {
+    url: URLS.TRAVEL_MILEAGE,
+    order: 4,
   },
   {
     url: URLS.TRAVEL_VEHICLE,
@@ -33,39 +41,20 @@ const TRAVEL_PAY_FORM_PAGES = Object.freeze([
   },
   {
     url: URLS.TRAVEL_ADDRESS,
-    order: 5,
-  },
-  {
-    url: URLS.TRAVEL_REVIEW,
     order: 6,
   },
   {
-    url: URLS.COMPLETE,
+    url: URLS.TRAVEL_REVIEW,
     order: 7,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 8,
   },
 ]);
 
 const createForm = () => {
   return TRAVEL_PAY_FORM_PAGES.map(page => page.url);
 };
-const updateForm = (
-  patientDemographicsStatus,
-  isTravelReimbursementEnabled,
-  appointments,
-  isTravelLogicEnabled,
-  travelPaySent,
-) => {
-  const pages = TRAVEL_PAY_FORM_PAGES.map(page => page.url);
 
-  return updateFormPages(
-    patientDemographicsStatus,
-    pages,
-    URLS,
-    isTravelReimbursementEnabled,
-    appointments,
-    isTravelLogicEnabled,
-    travelPaySent,
-  );
-};
-
-export { TRAVEL_PAY_FORM_PAGES, createForm, getTokenFromLocation, updateForm };
+export { TRAVEL_PAY_FORM_PAGES, createForm, getTokenFromLocation };
