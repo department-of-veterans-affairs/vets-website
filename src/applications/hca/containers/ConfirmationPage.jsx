@@ -36,6 +36,12 @@ const ConfirmationPage = () => {
       </section>
 
       <ConfirmationFAQ />
+
+      <div className="vads-u-margin-y--4 no-print">
+        <a href="https://www.va.gov/" className="vads-c-action-link--green">
+          Go back to VA.gov
+        </a>
+      </div>
     </div>
   );
 };
