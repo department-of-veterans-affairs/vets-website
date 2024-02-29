@@ -20,6 +20,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const [isLoading, updateLoadingStatus] = useState(isLoadingList);
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [fullRefillList, setFullRefillList] = useState(refillList);
+  const [fullRenewList, setFullRenewList] = useState(refillList);
 
   // Selectors
   const selectedSortOption = useSelector(
@@ -31,13 +32,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
   ]);
-  const renewablePrescriptionsList = useMemo(
-    () =>
-      fullRefillList.filter(
-        rx => rx.dispStatus === 'Active' && rx.refillRemaining === 0,
-      ),
-    [fullRefillList],
-  );
 
   // Functions
   const onRequestRefills = () => {
@@ -60,17 +54,25 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
 
   useEffect(
     () => {
-      if (!fullRefillList) {
+      if (fullRefillList === undefined || fullRefillList.length === 0) {
         updateLoadingStatus(true);
       }
       getRefillablePrescriptionList().then(({ data }) => {
-        setFullRefillList(
-          data
-            .map(({ attributes }) => attributes)
-            .sort((a, b) =>
-              a.prescriptionName.localeCompare(b.prescriptionName),
-            ),
-        );
+        const fullList = data
+          .map(({ attributes }) => attributes)
+          .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
+        const reduceBy = ([refillable, renewable], rx) => {
+          if (rx.dispStatus === 'Active' && rx.refillRemaining > 0) {
+            return [[...refillable, rx], renewable];
+          }
+          return [refillable, [...renewable, rx]];
+        };
+        const [refillableList, renewableList] = fullList.reduce(reduceBy, [
+          [],
+          [],
+        ]);
+        setFullRefillList(refillableList);
+        setFullRenewList(renewableList);
         updateLoadingStatus(false);
       });
       dispatch(
@@ -173,11 +175,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                   />
                   <label
                     htmlFor={`checkbox-${prescription.prescriptionId}`}
-                    className="vads-u-margin-y--0"
+                    className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
                   >
-                    <h4 className="vads-u-display--inline-block vads-u-margin-y--0">
-                      {prescription.prescriptionName}
-                    </h4>
+                    {prescription.prescriptionName}
                   </label>
                   <p
                     className="vads-u-margin-left--4 vads-u-margin-top--0"
@@ -210,12 +210,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             aria-describedby="request-refill-button"
             data-testid="request-refill-button"
             onClick={() => onRequestRefills()}
-            text={`Request refill${selectedRefillListLength !== 1 ? 's' : ''}`}
+            text={`Request ${
+              selectedRefillListLength > 0 ? selectedRefillListLength : ''
+            } refill${selectedRefillListLength !== 1 ? 's' : ''}`}
           />
         </div>
-        <RenewablePrescriptions
-          renewablePrescriptionsList={renewablePrescriptionsList}
-        />
+        <RenewablePrescriptions renewablePrescriptionsList={fullRenewList} />
       </div>
     );
   };
