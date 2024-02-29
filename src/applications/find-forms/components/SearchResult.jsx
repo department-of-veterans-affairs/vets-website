@@ -159,7 +159,9 @@ const SearchResult = ({
     },
     id,
   } = form;
-  const relativeFormToolUrl = replaceWithStagingDomain(formToolUrl);
+  const relativeFormToolUrl = formToolUrl
+    ? replaceWithStagingDomain(formToolUrl)
+    : formToolUrl;
   const linkProps = deriveLinkPropsFromFormURL(url);
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
