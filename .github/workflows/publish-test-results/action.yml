@@ -19,7 +19,7 @@ inputs:
     required: true
 
 runs:
-using: composite
+  using: composite
   steps:
     - uses: mikepenz/action-junit-report@v2.8.4
       with:
