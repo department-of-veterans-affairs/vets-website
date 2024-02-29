@@ -39,7 +39,7 @@ const SubmissionErrorAlert = () => {
           <p>
             <va-link
               href="/health-care/how-to-apply/#you-can-also-apply-in-any-of-t"
-              text="Learn more about how to apply by mail or in person"
+              text="Learn more about how to apply by phone, mail, or in person"
             />
           </p>
         </div>
