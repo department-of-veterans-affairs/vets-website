@@ -67,7 +67,7 @@ describe('Medications Breadcrumbs', () => {
     const isDateFormattedCorrectly = datePattern.test(shippingDateText);
     expect(isDateFormattedCorrectly).to.be.true;
   });
-  it('If no carrier is provided, then display trakingNumber', () => {
+  it('If no carrier is provided, then display trackingNumber', () => {
     const screen = setup('');
     expect(screen.findByText('000'));
   });
