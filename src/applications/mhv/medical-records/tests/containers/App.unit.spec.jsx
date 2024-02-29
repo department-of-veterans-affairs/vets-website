@@ -52,6 +52,10 @@ describe('App', () => {
         services: [backendServices.MEDICAL_RECORDS],
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_to_va_gov_release: true,
+    },
     mr: {
       breadcrumbs: {
         list: [],
@@ -92,10 +96,12 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               loading: true,
+              // eslint-disable-next-line camelcase
+              mhv_medical_records_to_va_gov_release: undefined,
             },
-            ...initialState,
           },
           path: `/`,
           reducers: reducer,
@@ -111,11 +117,11 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               // eslint-disable-next-line camelcase
               mhv_medical_records_to_va_gov_release: false,
             },
-            ...initialState,
           },
           path: `/`,
           reducers: reducer,
@@ -141,10 +147,6 @@ describe('App', () => {
         </App>,
         {
           initialState: {
-            featureToggles: {
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_to_va_gov_release: true,
-            },
             ...initialState,
             ...noDowntime,
           },
@@ -168,10 +170,7 @@ describe('App', () => {
     it('renders the global downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: true,
             isReady: true,
@@ -179,7 +178,6 @@ describe('App', () => {
             serviceMap: downtime(['global']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -200,10 +198,7 @@ describe('App', () => {
     it('renders the downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: null,
             isReady: true,
@@ -211,7 +206,6 @@ describe('App', () => {
             serviceMap: downtime(['mhv_mr']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -235,10 +229,7 @@ describe('App', () => {
     it('renders the downtime notification for multiple services', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: null,
             isReady: true,
@@ -246,7 +237,6 @@ describe('App', () => {
             serviceMap: downtime(['mhv_mr', 'mhv_platform']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -270,10 +260,7 @@ describe('App', () => {
     it('does NOT render the downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: null,
             isReady: true,
@@ -281,7 +268,6 @@ describe('App', () => {
             serviceMap: downtime(['mhv_meds']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -300,10 +286,7 @@ describe('App', () => {
   it('renders breadcrumbs when downtime and at the landing page', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medical_records_to_va_gov_release: true,
-        },
+        ...initialState,
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -311,7 +294,6 @@ describe('App', () => {
           serviceMap: downtime(['mhv_mr']),
           dismissedDowntimeWarnings: [],
         },
-        ...initialState,
       },
       reducers: reducer,
       path: `/`,
@@ -322,10 +304,7 @@ describe('App', () => {
   it('does not render breadcrumbs when downtime and not at the landing page', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medical_records_to_va_gov_release: true,
-        },
+        ...initialState,
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -333,7 +312,6 @@ describe('App', () => {
           serviceMap: downtime(['mhv_mr']),
           dismissedDowntimeWarnings: [],
         },
-        ...initialState,
       },
       reducers: reducer,
       path: `/vaccines`,
@@ -349,11 +327,11 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               // eslint-disable-next-line camelcase
               mhv_medical_records_display_sidenav: false,
             },
-            ...initialState,
           },
           path: `/`,
           reducers: reducer,
@@ -369,11 +347,11 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               // eslint-disable-next-line camelcase
               mhv_medical_records_display_sidenav: true,
             },
-            ...initialState,
             ...noDowntime,
           },
           reducers: reducer,
@@ -392,10 +370,6 @@ describe('App', () => {
         profile: {
           services: [],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_to_va_gov_release: true,
       },
     };
     renderWithStoreAndRouter(<App />, {
