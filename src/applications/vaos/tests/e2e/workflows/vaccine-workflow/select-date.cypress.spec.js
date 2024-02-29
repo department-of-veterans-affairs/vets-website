@@ -109,17 +109,11 @@ describe('VAOS select appointment date', () => {
       ClinicChoicePageObject.assertUrl()
         .selectClinic({ selection: /Clinic 2/i, isCovid: true })
         .clickNextButton();
-      // if secondDate is first of the month then click next month
-      if (secondDate.date() === 1) {
-        DateTimeSelectPageObject.assertUrl()
-          .clickNextMonth()
-          .selectDate(secondDate)
-          .assertDateSelected(secondDate);
-      } else {
-        DateTimeSelectPageObject.assertUrl()
-          .selectDate(secondDate)
-          .assertDateSelected(secondDate);
-      }
+
+      DateTimeSelectPageObject.assertUrl()
+        .compareDatesClickNextMonth(firstDate, secondDate)
+        .selectDate(secondDate)
+        .assertDateSelected(secondDate);
 
       // Assert
       cy.axeCheckBestPractice();
@@ -182,7 +176,11 @@ describe('VAOS select appointment date', () => {
       // Add one day since same day appointments are not allowed.
       const firstDate = moment().add(1, 'day');
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-
+      const todayDate = moment().date();
+      const endOfMonthDate = moment()
+        .clone()
+        .endOf('month')
+        .date();
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
@@ -204,7 +202,10 @@ describe('VAOS select appointment date', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
-      TypeOfCarePageObject.assertUrl()
+      TypeOfCarePageObject.assertUrl({
+        url: '/type-of-care',
+        breadcrumb: 'Choose the type of care you need',
+      })
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();
@@ -229,8 +230,10 @@ describe('VAOS select appointment date', () => {
         .clickNextMonth()
         .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
-        .assertCallCount({ alias: '@v2:get:slots', count: 2 });
-
+        .assertCallCount({
+          alias: '@v2:get:slots',
+          count: todayDate < endOfMonthDate ? 2 : 3,
+        });
       // Assert
       cy.axeCheckBestPractice();
     });

@@ -23,7 +23,6 @@ export default class MockAppointmentResponse {
    * @param {Moment} props.localStartTime - Set appointment start time.
    * @param {string=} props.url - Set video appointment URL.
    * @param {string=} props.vvsKind - Set type of video appointment.
-   * @param {string=} props.physicalLocation - Set clinic location for VA appointment and clinic video appointment.
    * @param {string|number} [props.id=1] - Set appointment id.
    * @param {boolean} [props.cancellable=true] - Set if appointment is cancellable.
    * @param {string|TYPE_OF_VISIT_ID} [props.kind=clinic] - Set if appointment is VA or CC appointment.
@@ -43,7 +42,6 @@ export default class MockAppointmentResponse {
     patientHasMobileGfe = false,
     serviceType = 'primaryCare',
     status = 'booked',
-    physicalLocation = null,
   } = {}) {
     const requestedPeriods = [];
     let timestamp = moment();
@@ -68,7 +66,6 @@ export default class MockAppointmentResponse {
       },
       kind,
       localStartTime: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
-      physicalLocation,
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
       serviceType,
