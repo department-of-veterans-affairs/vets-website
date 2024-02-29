@@ -26,8 +26,10 @@ import {
   buildDateFormatter,
   getClaimType,
   getItemDate,
+  getStatusMap,
   getTrackedItemDate,
   getUserPhase,
+  isClaimOpen,
   itemsNeedingAttentionFromVet,
   setDocumentTitle,
 } from '../utils/helpers';
@@ -43,22 +45,6 @@ const getClaimDate = claim => {
 // END lighthouse_migration
 
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
-  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
-  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
-  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
-  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
 
 const STATUSES = getStatusMap();
 
@@ -240,8 +226,7 @@ class ClaimStatusPage extends React.Component {
       documentsNeeded,
       status,
     } = attributes;
-
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
@@ -263,6 +248,15 @@ class ClaimStatusPage extends React.Component {
             {showDocsNeeded && (
               <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
             )}
+            {status &&
+              isOpen && (
+                <ClaimTimeline
+                  id={claim.id}
+                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                  currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                  events={generateEventTimeline(claim)}
+                />
+              )}
             {decisionLetterSent && !isOpen ? (
               <ClaimsDecision
                 completedDate={closeDate}
@@ -274,19 +268,6 @@ class ClaimStatusPage extends React.Component {
             ) : null}
           </Toggler.Disabled>
         </Toggler>
-
-        {status && isOpen ? (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
-              <ClaimTimeline
-                id={claim.id}
-                phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-                currentPhaseBack={claimPhaseDates.currentPhaseBack}
-                events={generateEventTimeline(claim)}
-              />
-            </Toggler.Disabled>
-          </Toggler>
-        ) : null}
       </div>
     );
   }

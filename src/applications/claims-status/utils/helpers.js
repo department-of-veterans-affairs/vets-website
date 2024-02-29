@@ -8,16 +8,25 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
-const getStatusMap = () => {
+// Using a Map instead of the typical Object because
+// we want to guarantee that the key insertion order
+// is maintained when converting to an array of keys
+export const getStatusMap = () => {
   const map = new Map();
   map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
+  map.set('COMPLETE', 'COMPLETE');
+  map.set(
+    'EVIDENCE_GATHERING_REVIEW_DECISION',
+    'EVIDENCE_GATHERING_REVIEW_DECISION',
+  );
   map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
-  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
+  map.set('INITIAL_REVIEW', 'INITIAL_REVIEW');
   map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
   map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
   map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
+  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
+  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
+
   return map;
 };
 
@@ -51,7 +60,7 @@ export function getClaimStatusDescription(status) {
   return statusDescriptionMap[status];
 }
 
-export function isOpen(status, closeDate) {
+export function isClaimOpen(status, closeDate) {
   const STATUSES = getStatusMap();
 
   return status !== STATUSES.COMPLETE && closeDate === null;
