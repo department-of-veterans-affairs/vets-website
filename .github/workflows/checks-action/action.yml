@@ -23,6 +23,6 @@ runs:
       uses: LouisBrunner/checks-action@v1.1.1
       with:
         token: ${{ inputs.token }}
-        name: ${{ inputs.check_name }}
+        name: ${{ inputs.name }}
         conclusion: ${{ inputs.conclusion }}
         output: ${{ inputs.output }}
