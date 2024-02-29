@@ -476,6 +476,6 @@ export const OH_TRANSITION_SITES = {
     id: '556',
     name: 'Lovell Federal Health Care Center',
     transitionDate: 'March 9',
-    telephone: '847-688-1900',
+    telephone: '8476881900',
   },
 };

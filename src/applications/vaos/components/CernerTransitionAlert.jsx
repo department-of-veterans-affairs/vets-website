@@ -44,7 +44,8 @@ export default function CernerTransitionAlert({ className, level = 2 }) {
             </p>
             <div className="main-phone vads-u-margin-bottom--1">
               <strong>Main phone: </strong>
-              {/* <va-telephone contact='888-888-8888' /> (<va-telephone contact={711} tty />) */}
+              <va-telephone contact={OH_TRANSITION_SITES.Lovell.telephone} /> (
+              <va-telephone contact="711" tty />)
             </div>
           </va-alert>
         </div>
