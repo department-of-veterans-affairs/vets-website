@@ -159,7 +159,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             {response?.ok && (
               <Alert
                 status="success"
-                message="Your Bank has been successfully updated."
+                message="Your direct deposit information has been updated."
               />
             )}
             <va-alert
