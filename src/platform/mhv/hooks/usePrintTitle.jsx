@@ -10,9 +10,7 @@ const usePrintTitle = (
   useEffect(
     () => {
       const { first, last, suffix } = userDetails;
-      const name = `${first} ${last} ${suffix}`
-        .replace(/\s*(undefined|null)\s*/g, '')
-        .trim();
+      const name = `${first} ${last} ${suffix}`.trim();
       const pageTitle = `${baseTitle} | ${name} | ${dateFormat(new Date(dob))}`;
 
       const beforePrintHandler = () => {
