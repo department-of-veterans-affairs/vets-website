@@ -60,6 +60,13 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
   };
 
   const handleSubmit = event => {
+    if (!event.target.value) {
+      setInputError(true);
+      return;
+    }
+
+    setInputError(false);
+
     if (setSearchData) {
       setSearchData();
     }
@@ -98,6 +105,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
     }
 
     event.preventDefault();
+
     onSearch();
   };
 
@@ -134,7 +142,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
         </button>
         <div
           className={classNames(
-            'vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex',
+            'vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-top-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex',
             { 'va-border-bottom-radius--5px': expanded },
             { 'vads-u-display--none': !expanded },
             { 'usa-input-error vads-u-margin--0': inputError },
