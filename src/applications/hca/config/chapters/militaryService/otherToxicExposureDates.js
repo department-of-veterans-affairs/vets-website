@@ -15,7 +15,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Dates of exposure',
-      'Enter any date range when you were exposed to other toxic hazards or substances. You don\u2019t need to have exact dates.',
+      'Enter any date range when you were exposed to other toxins or hazards. You don\u2019t need to have exact dates.',
     ),
     'view:toxicExposureDates': {
       toxicExposureStartDate: {
