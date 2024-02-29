@@ -779,6 +779,10 @@ jobs:
       CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
+      - name: Checkout vets-website
+        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+        uses: actions/checkout@v4
+
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
         uses: ./.github/workflows/configure-aws-credentials
@@ -786,11 +790,6 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-          
-
-      - name: Checkout vets-website
-        if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: actions/checkout@v4
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
