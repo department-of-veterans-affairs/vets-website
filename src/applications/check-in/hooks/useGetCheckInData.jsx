@@ -28,6 +28,7 @@ import {
 import { useFormRouting } from './useFormRouting';
 import { useStorage } from './useStorage';
 import { URLS } from '../utils/navigation';
+import { APP_NAMES } from '../utils/appConstants';
 
 import { useUpdateError } from './useUpdateError';
 
@@ -50,8 +51,8 @@ const useGetCheckInData = ({
     selectFeatureToggles,
   );
   const { jumpToPage } = useFormRouting(router);
-  const { setPreCheckinComplete } = useStorage();
-  const { getTravelPaySent } = useStorage(false, true);
+  const { setPreCheckinComplete } = useStorage(APP_NAMES.PRE_CHECK_IN);
+  const { getTravelPaySent } = useStorage(APP_NAMES.CHECK_IN, true);
 
   const dispatch = useDispatch();
 

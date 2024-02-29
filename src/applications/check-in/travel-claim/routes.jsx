@@ -100,8 +100,6 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => {
         const options = {
-          // @TODO Refactor out this isPreCheckIn concept, will be important when we get to session work
-          isPreCheckIn: false,
           appName: APP_NAMES.TRAVEL_CLAIM,
         };
         let Component = props => (

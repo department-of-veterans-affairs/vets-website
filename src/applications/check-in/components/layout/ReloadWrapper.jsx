@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { APP_NAMES } from '../../utils/appConstants';
 import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
 import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
@@ -16,13 +15,12 @@ const ReloadWrapper = props => {
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  // @TODO change this when useStorage gets refactored to no use isPreCheckIn
   const {
     getProgressState,
     setProgressState,
     getCurrentToken,
     getPermissions,
-  } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
+  } = useStorage(app);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
