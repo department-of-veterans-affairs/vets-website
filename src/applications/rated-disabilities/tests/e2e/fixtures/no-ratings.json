@@ -1,0 +1,12 @@
+{
+  "data": {
+    "id": null,
+    "type": "disability_ratings",
+    "attributes": {
+      "combinedDisabilityRating": 20,
+      "combinedEffectiveDate": "2020-01-01",
+      "legalEffectiveDate": "2020-12-31",
+      "individualRatings": []
+    }
+  }
+}
