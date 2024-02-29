@@ -216,7 +216,7 @@ const App = ({ children }) => {
 
   const isMissingRequiredService = services => {
     if (!services.includes(backendServices.MEDICAL_RECORDS)) {
-      window.location.replace('/health-care/secure-messaging');
+      window.location.replace('/health-care/get-medical-records');
       return true;
     }
     return false;
