@@ -1091,7 +1091,7 @@ jobs:
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: Unit Tests Summary
+          name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
