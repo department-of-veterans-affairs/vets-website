@@ -4,7 +4,7 @@ import { expect } from 'chai';
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
-import AppealListItem from '../../../components/appeals-v2/AppealListItemV3';
+import AppealListItem from '../../../components/appeals-v2/AppealListItem';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';
 
 describe('<AppealListItem>', () => {

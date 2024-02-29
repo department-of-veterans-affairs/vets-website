@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 
-import ClaimsListItem from '../../components/ClaimsListItemV3';
+import ClaimsListItem from '../../components/ClaimsListItem';
 
 describe('<ClaimsListItem>', () => {
   it('should not show any flags', () => {
