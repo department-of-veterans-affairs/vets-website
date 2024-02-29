@@ -71,6 +71,9 @@ export function postMailingAddress(mailingAddress) {
       headers: { 'Content-Type': 'application/json' },
     })
       .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update address');
+        }
         dispatch({
           type: UPDATE_ADDRESS_SUCCESS,
           response,
@@ -81,6 +84,7 @@ export function postMailingAddress(mailingAddress) {
           type: UPDATE_ADDRESS_FAILURE,
           errors,
         });
+        throw errors;
       });
   };
 }
@@ -96,6 +100,9 @@ export const updateBankInfo = bankInfo => {
       },
     })
       .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update bank info');
+        }
         dispatch({
           type: UPDATE_BANK_INFO_SUCCESS,
           response,
@@ -106,6 +113,7 @@ export const updateBankInfo = bankInfo => {
           type: UPDATE_BANK_INFO_FAILED,
           errors,
         });
+        throw errors;
       });
   };
 };

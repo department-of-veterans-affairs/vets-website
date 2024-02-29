@@ -20,7 +20,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     state => state.updateAddress,
   );
   const [newAddress, setNewAddress] = useState({});
-  const [newAddres2, setNewAddress2] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
 
@@ -30,12 +29,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   useEffect(
     () => {
-      if (!response?.ok) {
-        setNewAddress(mailingAddress);
-      }
       setNewAddress(mailingAddress);
     },
-    [mailingAddress, response?.ok],
+    [mailingAddress],
   );
 
   const handleCloseForm = useCallback(() => {
@@ -45,7 +41,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   }, []);
 
   // called when submitting form
-  const saveAddressInfo = () => {
+  const saveAddressInfo = async () => {
     // commented out until tied in with redux
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
@@ -69,10 +65,16 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       city: formData.city,
       ...stateAndZip,
     };
-
-    dispatch(postMailingAddress(fields));
-    setNewAddress2(formData);
-    // setUpdatedAdress(formData);
+    try {
+      await dispatch(postMailingAddress(fields));
+      setNewAddress({
+        street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
+        city: formData.city,
+        ...stateAndZip,
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
   };
   useEffect(
     () => {
@@ -81,19 +83,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       }
     },
     [handleCloseForm, isLoading],
-  );
-  useEffect(
-    () => {
-      if (!error) {
-        setNewAddress({
-          street: `${newAddres2.addressLine1} ${newAddres2.addressLine2 || ''}`,
-          city: newAddres2.city,
-          state: newAddres2.stateCode,
-          zipCode: newAddres2.zipCode,
-        });
-      }
-    },
-    [error, newAddres2],
   );
   const addressDescription = () => {
     return (
