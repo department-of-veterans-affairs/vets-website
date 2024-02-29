@@ -76,6 +76,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       throw new Error(err);
     }
   };
+
   useEffect(
     () => {
       if (!isLoading) {

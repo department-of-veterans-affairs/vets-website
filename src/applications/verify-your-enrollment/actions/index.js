@@ -65,55 +65,51 @@ export const fetchPersonalInfo = () => {
 export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
-    return apiRequest(`${API_URL}/address`, {
-      method: 'POST',
-      body: JSON.stringify(mailingAddress),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to update address');
-        }
+    try {
+      const response = await apiRequest(`${API_URL}/address`, {
+        method: 'POST',
+        body: JSON.stringify(mailingAddress),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response?.ok) {
         dispatch({
           type: UPDATE_ADDRESS_SUCCESS,
           response,
         });
-      })
-      .catch(errors => {
-        dispatch({
-          type: UPDATE_ADDRESS_FAILURE,
-          errors,
-        });
-        throw errors;
+      }
+    } catch (error) {
+      dispatch({
+        type: UPDATE_ADDRESS_FAILURE,
+        errors: error,
       });
+      throw error;
+    }
   };
 }
 
 export const updateBankInfo = bankInfo => {
   return async dispatch => {
     dispatch({ type: UPDATE_BANK_INFO });
-    return apiRequest(`${API_URL}/bank_info`, {
-      method: 'POST',
-      body: JSON.stringify(bankInfo),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to update bank info');
-        }
+    try {
+      const response = await apiRequest(`${API_URL}/bank_info`, {
+        method: 'POST',
+        body: JSON.stringify(bankInfo),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response?.ok) {
         dispatch({
           type: UPDATE_BANK_INFO_SUCCESS,
           response,
         });
-      })
-      .catch(errors => {
-        dispatch({
-          type: UPDATE_BANK_INFO_FAILED,
-          errors,
-        });
-        throw errors;
+      }
+    } catch (error) {
+      dispatch({
+        type: UPDATE_BANK_INFO_FAILED,
+        errors: error,
       });
+      throw error;
+    }
   };
 };
