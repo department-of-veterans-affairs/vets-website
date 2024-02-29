@@ -20,8 +20,12 @@ const loa1DashboardTest = (mobile, stubs) => {
   }
 
   // make sure that the "Verify" alert is shown
-  cy.findByText(/Verify your identity to access/i).should('exist');
-  cy.findByText(/we need to make sure you’re you/i).should('exist');
+  cy.findByText(/We need you to verify your identity for this account/i).should(
+    'exist',
+  );
+  cy.findByText(/will ask you for certain personal information/i).should(
+    'exist',
+  );
   cy.findByRole('link', { name: 'Verify your identity' }).should(
     'have.attr',
     'href',
