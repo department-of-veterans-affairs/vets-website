@@ -22,7 +22,7 @@ export default {
     type: 'object',
     required: ['currentSpouseMaritalHistory'],
     properties: {
-      currentSpouseMaritalHistory: radioSchema(Object.keys(radioOptions)),
+      currentSpouseMaritalHistory: radioSchema(Object.values(radioOptions)),
     },
   },
 };

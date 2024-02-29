@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -170,7 +170,7 @@ describe('App', () => {
     expect(push.calledWith('/start')).to.be.true;
   });
 
-  it('should update benefit type in form data', async () => {
+  it('should update benefit type in form data', () => {
     const { props, data } = getData({ loggedIn: true, data: {} });
     const store = mockStore(data);
     setStoredSubTask(hasComp);
@@ -182,14 +182,12 @@ describe('App', () => {
     );
 
     // testing issuesNeedUpdating branch for code coverage
-    await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
-      expect(action.data).to.deep.equal(hasComp);
-    });
+    const [action] = store.getActions();
+    expect(action.type).to.eq('SET_DATA');
+    expect(action.data).to.deep.equal(hasComp);
   });
 
-  it('should update contestable issues', async () => {
+  it('should update contestable issues', () => {
     const { props, data } = getData({ loggedIn: true });
     const contestableIssues = {
       status: 'done',
@@ -205,18 +203,16 @@ describe('App', () => {
     );
 
     // testing issuesNeedUpdating branch for code coverage
-    await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
-      expect(action.data).to.deep.equal({
-        ...hasComp,
-        contestedIssues: [],
-        legacyCount: 0,
-      });
+    const [action] = store.getActions();
+    expect(action.type).to.eq('SET_DATA');
+    expect(action.data).to.deep.equal({
+      ...hasComp,
+      contestedIssues: [],
+      legacyCount: 0,
     });
   });
 
-  it('should update evidence', async () => {
+  it('should update evidence', () => {
     const { props, data } = getData({ loggedIn: true });
     const contestableIssues = {
       status: 'done',
@@ -240,18 +236,16 @@ describe('App', () => {
     );
 
     // testing update evidence (evidenceNeedsUpdating) branch for code coverage
-    await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
-      expect(action.data).to.deep.equal({
-        ...data.form.data,
-        providerFacility: [],
-        locations: [{ issues: [] }],
-      });
+    const [action] = store.getActions();
+    expect(action.type).to.eq('SET_DATA');
+    expect(action.data).to.deep.equal({
+      ...data.form.data,
+      providerFacility: [],
+      locations: [{ issues: [] }],
     });
   });
 
-  it('should set Sentry tags with account UUID & in progress ID', async () => {
+  it('should set Sentry tags with account UUID & in progress ID', () => {
     const { props, data } = getData({ accountUuid: 'abcd-5678' });
     const store = mockStore(data);
 
@@ -262,10 +256,8 @@ describe('App', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
-      expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
-      setTag.restore();
-    });
+    expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
+    expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
+    setTag.restore();
   });
 });

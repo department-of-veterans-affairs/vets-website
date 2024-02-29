@@ -1,12 +1,9 @@
+import React from 'react';
 import { intersection, pick } from 'lodash';
 
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-import {
-  titleUI,
-  currentOrPastDateUI,
-  selectSchema,
-  selectUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import { previousSahApplicationFields } from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
@@ -22,16 +19,32 @@ const pageFields = [
 export default {
   uiSchema: {
     [previousSahApplicationFields.parentObject]: {
-      ...titleUI(
-        'Past SAH grant application details',
-        'Tell us about your last SAH application',
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Past SAH grant application details
+        </h3>
       ),
-      [previousSahApplicationFields.previousSahApplicationDate]: currentOrPastDateUI(
+      'ui:description': (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+          Tell us about your last SAH application
+        </p>
+      ),
+      [previousSahApplicationFields.previousSahApplicationDate]: dateUI(
         'Date you last applied',
       ),
       [previousSahApplicationFields.previousSahApplicationAddress]: {
-        city: selectUI(
-          'VA regional office city connected with your past application',
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
+            Address connected to your past application
+          </p>
+        ),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[previousSahApplicationFields.parentObject][
+              previousSahApplicationFields.hasPreviousSahApplication
+            ],
         ),
       },
     },
@@ -44,16 +57,13 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          [previousSahApplicationFields.previousSahApplicationAddress]: {
-            type: 'object',
-            properties: {
-              city: selectSchema([
-                'Atlanta',
-                'Boston',
-                // Temporary data. To be updated in ticket #1065
-              ]),
-            },
-          },
+          [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
+            fullSchema,
+            formData =>
+              formData[previousSahApplicationFields.parentObject][
+                previousSahApplicationFields.hasPreviousSahApplication
+              ],
+          ),
         },
       },
     },

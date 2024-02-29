@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
-import ButtonGroup from '../shared/ButtonGroup';
 
 const defaultRecord = {
   make: '',
@@ -119,25 +118,25 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     }
   };
 
-  const labelText = automobiles.length === editIndex ? 'Add' : 'Update';
-
   const renderAddCancelButtons = () => {
     return (
       <>
-        <ButtonGroup
-          buttons={[
-            {
-              label: 'Cancel',
-              onClick: handleBack, // Define this function based on page-specific logic
-              isSecondary: true,
-            },
-            {
-              label: `${labelText} vehicle`,
-              onClick: updateFormData,
-              isSubmitting: true, // If this button submits a form
-            },
-          ]}
-        />
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handleBack}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          {`${automobiles.length === editIndex ? 'Add' : 'Update'} vehicle`}
+        </button>
       </>
     );
   };
@@ -145,20 +144,22 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
   const renderContinueBackButtons = () => {
     return (
       <>
-        <ButtonGroup
-          buttons={[
-            {
-              label: 'Back',
-              onClick: handleBack, // Define this function based on page-specific logic
-              isSecondary: true,
-            },
-            {
-              label: 'Continue',
-              onClick: updateFormData,
-              isSubmitting: true, // If this button submits a form
-            },
-          ]}
-        />
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handleBack}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
       </>
     );
   };

@@ -23,7 +23,6 @@ import YesNoField from '../web-component-fields/YesNoField';
  *   tile?: boolean,
  *   yesNoReverse?: boolean,
  *   hint?: string,
- *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  * }} options - a string to use as the title or an object with options
  * @returns {UISchemaOptions}

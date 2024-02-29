@@ -9,7 +9,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ListItemView from '../../../components/ListItemView';
-import { recipientTypeLabels } from '../../../labels';
+
+const recipientOptions = {
+  VETERAN: 'Veteran',
+  SPOUSE: 'Veteran’s spouse',
+  CHILD: 'Veteran’s child',
+};
 
 const frequencyOptions = {
   ONCE_MONTH: 'Once a month',
@@ -34,7 +39,6 @@ export default {
     medicalExpenses: {
       'ui:options': {
         itemName: 'Unreimbursed Expense',
-        itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
         reviewTitle: 'Unreimbursed Expenses',
         keepInPageOnReview: true,
@@ -45,7 +49,7 @@ export default {
       items: {
         recipients: radioUI({
           title: 'Who is the expense for?',
-          labels: recipientTypeLabels,
+          labels: recipientOptions,
           classNames: 'vads-u-margin-bottom--2',
         }),
         childName: {
@@ -53,10 +57,10 @@ export default {
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'DEPENDENT',
+            expandUnderCondition: 'CHILD',
           },
           'ui:required': (form, index) =>
-            get(['medicalExpenses', index, 'recipients'], form) === 'DEPENDENT',
+            get(['medicalExpenses', index, 'recipients'], form) === 'CHILD',
         },
         provider: {
           'ui:title': 'Who receives the payment?',
@@ -92,7 +96,7 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientTypeLabels)),
+            recipients: radioSchema(Object.keys(recipientOptions)),
             childName: { type: 'string' },
             provider: { type: 'string' },
             purpose: { type: 'string' },

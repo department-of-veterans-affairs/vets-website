@@ -19,7 +19,13 @@ export default function UploadStatus({ files, onCancel, progress }) {
         </h4>
         <va-progress-bar percent={progress * 100} />
         <p>Your files are uploading. Please do not close this window.</p>
-        <va-button secondary uswds text="Cancel" onClick={handleClick} />
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={handleClick}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

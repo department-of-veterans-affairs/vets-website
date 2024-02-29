@@ -19,7 +19,6 @@ const RxBreadcrumbs = () => {
   return (
     <>
       {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
-        !medicationsUrls.MEDICATIONS_REFILL.endsWith(location.pathname) &&
         allCrumbs.length > 0 &&
         allCrumbs[0]?.url && (
           <div className="no-print">

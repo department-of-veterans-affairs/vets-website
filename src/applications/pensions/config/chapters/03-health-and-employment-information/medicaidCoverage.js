@@ -9,6 +9,7 @@ export default {
     'ui:title': 'Medicaid coverage',
     medicaidCoverage: yesNoUI({
       title: 'Does Medicaid cover all or part of your nursing home costs?',
+      uswds: true,
     }),
   },
   schema: {

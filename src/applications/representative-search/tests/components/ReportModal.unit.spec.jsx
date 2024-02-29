@@ -93,7 +93,7 @@ describe('ReportModal component', () => {
         handleOtherInputChangeTestId="1"
       />,
     );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
+    wrapper.find('#test-button').simulate('click');
 
     wrapper.update();
 
@@ -116,7 +116,7 @@ describe('ReportModal component', () => {
         handleOtherInputChangeTestId="2"
       />,
     );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
+    wrapper.find('#test-button').simulate('click');
 
     wrapper.update();
 
@@ -139,7 +139,7 @@ describe('ReportModal component', () => {
         handleOtherInputChangeTestId="3"
       />,
     );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
+    wrapper.find('#test-button').simulate('click');
 
     wrapper.update();
 
@@ -162,39 +162,12 @@ describe('ReportModal component', () => {
         handleOtherInputChangeTestId="4"
       />,
     );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
+    wrapper.find('#test-button').simulate('click');
 
     wrapper.update();
 
-    const vaTextAreaExists = wrapper.find('va-textarea').exists();
-    expect(vaTextAreaExists).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('controls text input', () => {
-    const wrapper = mount(
-      <ReportModal
-        representativeName="Bob law"
-        representativeId="123"
-        address="123 Main St"
-        phone="794-273-8433"
-        email="rep@example.com"
-        existingReports={{}}
-        submitRepresentativeReport={() => {}}
-        onCloseModal={() => {}}
-        handleOtherInputChangeTestId="4"
-      />,
-    );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    wrapper.find('#handle-other-input-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    expect(wrapper.find('va-textarea').prop('value')).equal('test comment');
-
+    const vaTextInputExists = wrapper.find('va-text-input').exists();
+    expect(vaTextInputExists).to.be.true;
     wrapper.unmount();
   });
 

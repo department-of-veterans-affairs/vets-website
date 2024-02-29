@@ -10,13 +10,13 @@ export default {
     thirdPartyPreparerRole: radioUI({
       title: 'Which of these best describes you?',
       labels: {
-        fiduciary: 'I’m a fiduciary',
-        officer: 'I’m a Veteran service officer',
-        alternate: 'I’m an alternate signer',
+        fiduciary: 'I am a fiduciary',
+        officer: 'I am a Veteran service officer',
+        alternate: 'I am an alternate signer',
         other: 'My role isn’t listed here',
       },
       errorMessages: {
-        required: 'Select your applicable role',
+        required: 'Select the applicable role',
       },
       labelHeaderLevel: '3',
     }),

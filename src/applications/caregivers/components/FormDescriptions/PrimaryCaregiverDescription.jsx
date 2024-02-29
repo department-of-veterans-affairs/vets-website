@@ -48,7 +48,6 @@ const PrimaryCaregiverDescription = ({
         <va-additional-info
           trigger="Learn more about who qualifies as a Primary Family Caregiver"
           class="vads-u-margin-y--2p5"
-          uswds
         >
           <p className="vads-u-margin-top--0">
             Family caregivers are approved and designated by VA as Primary

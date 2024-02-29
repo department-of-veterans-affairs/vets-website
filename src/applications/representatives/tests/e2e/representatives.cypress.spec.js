@@ -28,6 +28,5 @@ describe('Representatives', () => {
     cy.injectAxe();
     cy.axeCheck();
     cy.contains('Power of attorney requests');
-    cy.get('[data-testid=poa-requests-table]').should('exist');
   });
 });

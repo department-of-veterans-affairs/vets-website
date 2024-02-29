@@ -16,8 +16,8 @@ const AuthProfileInformation = ({ user }) => {
           ? 'This is the personal information we have on file for you.'
           : 'Here\u2019s the name we have on file for you.'}
       </p>
-      <div className="va-address-block vads-u-margin-y--3">
-        <dl>
+      <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
+        <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
           <div data-testid="hca-veteran-fullname">
             <dt className="vads-u-visibility--screen-reader">Full name:</dt>
             <dd

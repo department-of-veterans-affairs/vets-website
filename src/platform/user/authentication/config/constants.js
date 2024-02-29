@@ -31,14 +31,4 @@ export const defaultWebOAuthOptions = {
   acrVerify: { idme: 'loa3', logingov: 'ial2' },
 };
 
-export const arpWebOAuthOptions = {
-  clientId: 'vaweb',
-  acr: { idme: 'loa3', logingov: 'ial2' },
-  acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
-};
-
-export const OAuthEnabledApplications = [
-  undefined /* default */,
-  'vamobile',
-  'arp',
-];
+export const OAuthEnabledApplications = [undefined /* default */, 'vamobile'];

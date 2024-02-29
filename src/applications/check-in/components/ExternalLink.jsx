@@ -12,7 +12,6 @@ function ExternalLink({
   hrefLang,
   eventId = null,
   eventPrefix = '',
-  dataTestId = 'external-link',
 }) {
   const { t, i18n } = useTranslation();
 
@@ -27,11 +26,7 @@ function ExternalLink({
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <a
-      {...{ href, hrefLang }}
-      onClick={eventId ? handleClick : null}
-      data-testid={dataTestId}
-    >
+    <a {...{ href, hrefLang }} onClick={eventId ? handleClick : null}>
       {children}
       {!i18n?.language.startsWith(hrefLang) ? (
         <> ({t(`in-${hrefLang}`)})</>
@@ -42,7 +37,6 @@ function ExternalLink({
 
 ExternalLink.propTypes = {
   children: PropTypes.node,
-  dataTestId: PropTypes.string,
   eventId: PropTypes.string,
   eventPrefix: PropTypes.string,
   href: PropTypes.string,

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
@@ -9,11 +9,10 @@ import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 
-const MedicationsListCard = ({ rx }) => {
+const MedicationsListCard = props => {
   const dispatch = useDispatch();
-  const pagination = useSelector(
-    state => state.rx.prescriptions?.prescriptionsPagination,
-  );
+  const location = useLocation();
+  const { rx } = props;
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -34,7 +33,7 @@ const MedicationsListCard = ({ rx }) => {
             label: 'About medications',
           },
           {
-            url: `/my-health/medications/?page=${pagination?.currentPage || 1}`,
+            url: `/my-health/medications${location.pathname}`,
             label: 'Medications',
           },
         ],

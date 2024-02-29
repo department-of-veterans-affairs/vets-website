@@ -119,7 +119,6 @@ const SignatureInput = props => {
       value={signature.value}
       error={error}
       onBlur={onBlur}
-      uswds
     />
   );
 };

@@ -54,23 +54,21 @@ function SaveStatus({
     <div>
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container vads-u-display--flex vads-u-padding--1 vads-u-margin-bottom--1p5 vads-u-display--block">
-          <va-alert status="success" slim uswds>
+          <i className="fa fa-check-circle saved-success-icon vads-u-margin-top--0p5" />
+          <div>
             {appSavedSuccessfullyMessage}
             {savedAtMessage}
             {formIdMessage}
-          </va-alert>
+          </div>
         </div>
       )}
       {autoSavedStatus === SAVE_STATUSES.pending && (
         <p className="saved-form-autosaving">Saving...</p>
       )}
       {hasError && (
-        <va-alert
-          status="error"
+        <div
           role="alert"
-          class="schemaform-save-error"
-          slim
-          uswds
+          className="usa-alert usa-alert-error background-color-only schemaform-save-error"
         >
           {autoSavedStatus === SAVE_STATUSES.clientFailure &&
             `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
@@ -91,7 +89,7 @@ function SaveStatus({
                 .
               </span>
             )}
-        </va-alert>
+        </div>
       )}
     </div>
   );

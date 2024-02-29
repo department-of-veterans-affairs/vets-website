@@ -119,5 +119,3 @@ export const OAUTH_ERROR_RESPONSES = {
   // Default | Unknown
   default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
 };
-
-export const APPROVED_OAUTH_APPS = ['arp'];

@@ -5,7 +5,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchFacilities } from '../../actions/fetchFacilities';
-import GeneralErrorAlert from '../FormAlerts/GeneralErrorAlert';
+import { GeneralErrorAlert } from '../FormAlerts';
 
 export const FacilityList = ({
   input,
@@ -70,7 +70,9 @@ export const FacilityList = ({
   );
 
   if (reviewMode) {
-    return <span data-testid="cg-facility-name">{getFacilityName(value)}</span>;
+    return (
+      <span data-testid="cg-facility-reviewmode">{getFacilityName(value)}</span>
+    );
   }
 
   if (isLoading) {
@@ -98,10 +100,11 @@ export const FacilityList = ({
         id={id}
         name={id}
         value={value}
+        role="radio"
         onVaValueChange={handleChange}
         error={showError() || null}
+        hint=""
         required
-        uswds
       >
         {facilities.map(facility => (
           <VaRadioOption
@@ -121,10 +124,10 @@ export const FacilityList = ({
 };
 
 FacilityList.propTypes = {
-  value: PropTypes.string.isRequired,
+  input: PropTypes.string,
   coordinates: PropTypes.array,
   formContext: PropTypes.object,
   id: PropTypes.string,
-  input: PropTypes.string,
   onChange: PropTypes.func,
+  value: PropTypes.string.isRequired,
 };

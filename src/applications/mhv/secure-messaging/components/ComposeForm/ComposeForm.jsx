@@ -714,8 +714,6 @@ const ComposeForm = props => {
                 error={subjectError}
                 data-dd-privacy="mask"
                 data-dd-action-name="Compose Message Subject Input Field"
-                maxlength="50"
-                uswds
               />
             )}
           </div>

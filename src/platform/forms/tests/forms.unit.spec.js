@@ -16,7 +16,6 @@ const remapFormId = {
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
-  VA_FORM_IDS.FORM_10_7959C,
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_21_22,

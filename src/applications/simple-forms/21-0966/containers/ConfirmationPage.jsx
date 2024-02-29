@@ -108,11 +108,7 @@ export const ConfirmationPage = props => {
                   Our records show that you already have an intent to file for
                   disability compensation. Your intent to file for disability
                   compensation expires on{' '}
-                  {format(
-                    new Date(data['view:activeCompensationITF'].expirationDate),
-                    'MMMM d, yyyy',
-                  )}
-                  .
+                  {data['view:activeCompensationITF'].expirationDate}.
                 </p>
               </div>
             )}
@@ -125,12 +121,7 @@ export const ConfirmationPage = props => {
                 <p>
                   Our records show that you already have an intent to file for
                   pension claims. Your intent to file for pension claims expires
-                  on{' '}
-                  {format(
-                    new Date(data['view:activePensionITF'].expirationDate),
-                    'MMMM d, yyyy',
-                  )}
-                  .
+                  on {data['view:activePensionITF'].expirationDate}.
                 </p>
               </div>
             )}

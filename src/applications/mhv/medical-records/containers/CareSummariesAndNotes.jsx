@@ -20,7 +20,7 @@ const CareSummariesAndNotes = () => {
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -34,7 +34,7 @@ const CareSummariesAndNotes = () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/',
+            url: '/my-health/medical-records',
             label: 'Medical records',
           },
         ]),

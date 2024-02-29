@@ -94,7 +94,7 @@ const ApplicationDownloadLink = ({ form }) => {
   if (errors?.length > 0) {
     return (
       <div className="caregiver-download-error">
-        <va-alert status="error" uswds>
+        <va-alert status="error">
           <h3 slot="headline" className="vads-u-font-size--h4">
             Something went wrong
           </h3>

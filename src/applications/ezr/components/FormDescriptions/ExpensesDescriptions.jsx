@@ -4,7 +4,6 @@ export const EducationalExpensesDescription = (
   <va-additional-info
     trigger="What we consider college or vocational expenses"
     class="vads-u-margin-y--1"
-    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">

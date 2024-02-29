@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import {
@@ -14,23 +14,8 @@ import IdentityNotVerified from '~/platform/user/authorization/components/Identi
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import { AccountSecurityTables } from './AccountSecurityTables';
-import {
-  selectIsBlocked,
-  selectShowCredRetirementMessaging,
-} from '../../selectors';
+import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
-import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
-
-const IdNotVerifiedContent = () => {
-  const showCredRetirementMessaging = useSelector(
-    selectShowCredRetirementMessaging,
-  );
-  return showCredRetirementMessaging ? (
-    <AccountSecurityLoa1CredAlert />
-  ) : (
-    <IdentityNotVerified />
-  );
-};
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -44,7 +29,7 @@ export const AccountSecurityContent = ({
       {isBlocked && (
         <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
       )}
-      {!isIdentityVerified && <IdNotVerifiedContent />}
+      {!isIdentityVerified && <IdentityNotVerified />}
       {showMPIConnectionError && (
         <MPIConnectionError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}

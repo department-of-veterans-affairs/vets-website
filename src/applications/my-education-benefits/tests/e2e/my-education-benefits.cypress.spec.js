@@ -18,7 +18,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-button[text*="start"]')
+          cy.findAllByText(/start/i, { selector: 'button' })
             .last()
             .click();
         });

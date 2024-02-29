@@ -46,6 +46,16 @@ describe('Pre-need ConfirmationPage component', () => {
     expect(screen.getByText('Your claim has been submitted.')).to.exist;
   });
 
+  it('it should show response dependent text', () => {
+    const screen = render(
+      <Provider store={mockStore(storeBase1)}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect(screen.getByText('123456')).to.exist;
+    expect(screen.getByText('Oct. 25, 2023')).to.exist;
+  });
+
   const storeBase2 = {
     form: {
       formId: formConfig.formId,

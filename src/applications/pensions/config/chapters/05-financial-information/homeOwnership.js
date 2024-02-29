@@ -10,6 +10,7 @@ export default {
     homeOwnership: yesNoUI({
       title:
         'Do you, your spouse, or your dependents own your home (also known as your primary residence)?',
+      uswds: true,
     }),
   },
   schema: {

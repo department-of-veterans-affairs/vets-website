@@ -71,8 +71,8 @@ const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
     .find('.signature-checkbox')
     .shadow()
-    .find('label')
-    .click();
+    .find('[type="checkbox"]')
+    .check();
 };
 
 const testSecondaryTwo = createTestConfig(
@@ -127,7 +127,7 @@ const testSecondaryTwo = createTestConfig(
             .shadow()
             .find('input')
             .type('33880');
-          cy.get('[data-testid="caregivers-search-btn"]').click();
+          cy.get('.search-btn').click();
           cy.wait('@getFacilities');
           cy.get('#root_plannedClinic_plannedClinic')
             .should('be.visible')
@@ -153,8 +153,8 @@ const testSecondaryTwo = createTestConfig(
           cy.fillPage();
           cy.get('#root_primaryAddress_autofill')
             .shadow()
-            .find('label')
-            .click();
+            .find('[type="checkbox"]')
+            .check();
           cy.get('.usa-button-primary').click();
         });
       },

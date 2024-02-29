@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
  */
 const AlertMessage = ({ content, isVisible, status }) => {
   return (
-    <va-alert visible={isVisible} status={status} uswds>
+    <va-alert visible={isVisible} status={status} uswds={false}>
       <div className="usa-alert-text vads-u-font-size--base">
         {content || null}
       </div>

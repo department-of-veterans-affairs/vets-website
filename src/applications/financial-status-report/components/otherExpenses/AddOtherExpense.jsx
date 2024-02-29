@@ -6,7 +6,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_OTHER_LIVING_NAME_LENGTH } from '../../constants/checkboxSelections';
-import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/other-expenses-summary';
 const CHECKLIST_PATH = '/other-expenses-checklist';
@@ -92,7 +91,6 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
           otherExpenses: newExpenses,
         });
       }
-      handlers.onSubmit(event);
     },
   };
 
@@ -100,8 +98,6 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
     otherExpenses.length === index
       ? 'Add your additional living expense'
       : 'Update your living expense';
-
-  const labelText = otherExpenses.length === index ? 'Add' : 'Update';
 
   return (
     <>
@@ -144,20 +140,22 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             uswds
           />
           <div className="vads-u-margin-top--2">
-            <ButtonGroup
-              buttons={[
-                {
-                  label: 'Cancel',
-                  onClick: handlers.onCancel, // Define this function based on page-specific logic
-                  isSecondary: true,
-                },
-                {
-                  label: `${labelText} expense`,
-                  onClick: handlers.onUpdate,
-                  isSubmitting: true, // If this button submits a form
-                },
-              ]}
-            />
+            <button
+              type="button"
+              id="cancel"
+              className="usa-button-secondary vads-u-width--auto"
+              onClick={handlers.onCancel}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              id="submit"
+              className="vads-u-width--auto"
+              onClick={handlers.onUpdate}
+            >
+              {`${otherExpenses.length === index ? 'Add' : 'Update'} expense`}
+            </button>
           </div>
         </fieldset>
       </form>

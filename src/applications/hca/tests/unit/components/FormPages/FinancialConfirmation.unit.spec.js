@@ -12,9 +12,9 @@ describe('hca Financial Confirmation page', () => {
   context('when the component renders', () => {
     const { props } = getData();
 
-    it('should render `va-summary-box` with correct title', () => {
+    it('should render `va-alert` with correct title', () => {
       const { container } = render(<FinancialConfirmation {...props} />);
-      const selector = container.querySelector('va-summary-box');
+      const selector = container.querySelector('va-alert');
       expect(selector).to.exist;
       expect(selector).to.contain.text(
         'Confirm that you don\u2019t want to provide your household financial information',

@@ -14,7 +14,7 @@ import {
   updatePaginationAction,
 } from '../actions';
 import { deriveDefaultModalState } from '../helpers';
-import { getFindFormsAppState } from '../helpers/selectors';
+import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -49,6 +49,7 @@ export const SearchResults = ({
   sortByPropertyName,
   hasOnlyRetiredForms,
   startIndex,
+  showPDFInfoVersionOne,
   updatePagination,
   updateSortByPropertyName,
 }) => {
@@ -198,6 +199,7 @@ export const SearchResults = ({
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
+        showPDFInfoVersionOne={showPDFInfoVersionOne}
         toggleModalState={toggleModalState}
         setPrevFocusedLink={setPrevFocusedLink}
       />
@@ -261,7 +263,7 @@ export const SearchResults = ({
               Adobe Acrobat Reader to open and fill out the form. Don’t try to
               open the PDF on a mobile device or fill it out in your browser.
             </p>{' '}
-            <p className="vads-u-margin-top--0">
+            <p>
               If you want to fill out a paper copy, open the PDF in your browser
               and print it from there.
             </p>{' '}
@@ -320,6 +322,7 @@ SearchResults.propTypes = {
   startIndex: PropTypes.number.isRequired,
   updatePagination: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
+  showPDFInfoVersionOne: PropTypes.bool,
   sortByPropertyName: PropTypes.string,
   updateSortByPropertyName: PropTypes.func,
 };
@@ -333,6 +336,7 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
+  showPDFInfoVersionOne: showPDFModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

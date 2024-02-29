@@ -6,7 +6,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_UTILITY_NAME_LENGTH } from '../../constants/checkboxSelections';
-import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/utility-bill-summary';
 const CHECKLIST_PATH = '/utility-bill-checklist';
@@ -82,7 +81,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
           utilityRecords: newUtility,
         });
       }
-      handlers.onSubmit(event);
     },
   };
 
@@ -90,8 +88,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
     utilityRecords.length === index
       ? 'Add your additional utility bill'
       : 'Update your utility bill';
-
-  const labelText = utilityRecords.length === index ? 'Add' : 'Update';
 
   return (
     <>
@@ -132,21 +128,26 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             value={utilityAmount || ''}
             uswds
           />
-
-          <ButtonGroup
-            buttons={[
-              {
-                label: 'Cancel',
-                onClick: handlers.onCancel, // Define this function based on page-specific logic
-                isSecondary: true,
-              },
-              {
-                label: `${labelText} utility bill`,
-                onClick: handlers.onUpdate,
-                isSubmitting: true, // If this button submits a form
-              },
-            ]}
-          />
+          <p>
+            <button
+              type="button"
+              id="cancel"
+              className="usa-button-secondary vads-u-width--auto"
+              onClick={handlers.onCancel}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              id="submit"
+              className="vads-u-width--auto"
+              onClick={handlers.onUpdate}
+            >
+              {`${
+                utilityRecords.length === index ? 'Add' : 'Update'
+              } utility bill`}
+            </button>
+          </p>
         </fieldset>
       </form>
     </>

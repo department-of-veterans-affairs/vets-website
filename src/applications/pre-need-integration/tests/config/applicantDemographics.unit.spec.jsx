@@ -7,6 +7,7 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
@@ -25,7 +26,7 @@ describe('Pre-need applicant demographics', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(14);
     form.unmount();
   });
 
@@ -42,7 +43,7 @@ describe('Pre-need applicant demographics', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -58,6 +59,11 @@ describe('Pre-need applicant demographics', () => {
       />,
     );
     fillData(form, 'input#root_application_veteran_gender_0', 'Female');
+    selectCheckbox(
+      form,
+      'root_application_veteran_race_isSpanishHispanicLatino',
+      true,
+    );
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
 
     form.find('form').simulate('submit');

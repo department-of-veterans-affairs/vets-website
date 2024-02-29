@@ -61,7 +61,7 @@ const defaultLogSettings = {
   forwardErrorsToLogs: true,
   forwardConsoleLogs: ['error'],
   forwardReports: [],
-  telemetrySampleRate: 100, // default 20
+  telemetrySampleRate: 20, // default
 };
 
 const initializeBrowserLogging = customLogSettings => {

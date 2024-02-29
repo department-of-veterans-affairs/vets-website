@@ -236,7 +236,7 @@
                   "eCheckinAllowed": true
               },
               "localStartTime": "2023-10-13T09:00:00.000-06:00",
-              "avsPath": null,
+              "avsPath": "Error retrieving AVS link",
               "serviceName": "CHY MENTAL HEALTH ONE",
               "friendlyName": "CHY MENTAL HEALTH ONE",
               "location": {
@@ -299,123 +299,7 @@
                   }
               }
           }
-  }, {
-    "id": "1923055",
-    "type": "appointments",
-    "attributes": {
-        "id": "192308",
-        "identifier": [
-            {
-                "system": "Appointment/",
-                "value": "413938333131363637"
-            },
-            {
-                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
-                "value": "983:11667"
-            }
-        ],
-        "kind": "clinic",
-        "status": "booked",
-        "serviceCategory": [
-            {
-                "coding": [
-                    {
-                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
-                        "code": "SERVICE CONNECTED",
-                        "display": "SERVICE CONNECTED"
-                    }
-                ],
-                "text": "SERVICE CONNECTED"
-            }
-        ],
-        "patientIcn": "1012845331V153043",
-        "locationId": "983",
-        "clinic": "1049",
-        "start": "2023-10-23T15:00:00Z",
-        "end": "2023-10-23T16:00:00Z",
-        "minutesDuration": 60,
-        "slot": {
-            "id": "3230323331303133313530303A323032333130313331363030",
-            "start": "2023-10-13T15:00:00Z",
-            "end": "2023-10-13T16:00:00Z"
-        },
-        "created": "2023-11-01T00:00:00Z",
-        "cancellable": true,
-        "extension": {
-            "ccLocation": {
-                "address": {}
-            },
-            "vistaStatus": [
-                "CHECKED OUT"
-            ],
-            "preCheckinAllowed": false,
-            "eCheckinAllowed": true
-        },
-        "localStartTime": "2023-10-13T09:00:00.000-06:00",
-        "avsPath": "Error retrieving AVS link",
-        "serviceName": "CHY MENTAL HEALTH ONE",
-        "friendlyName": "CHY MENTAL HEALTH ONE",
-        "location": {
-            "id": "983",
-            "type": "appointments",
-            "attributes": {
-                "id": "983",
-                "vistaSite": "983",
-                "vastParent": "983",
-                "type": "va_facilities",
-                "name": "Cheyenne VA Medical Center",
-                "classification": "VA Medical Center (VAMC)",
-                "timezone": {
-                    "timeZoneId": "America/Denver"
-                },
-                "lat": 39.744507,
-                "long": -104.830956,
-                "website": "https://www.denver.va.gov/locations/directions.asp",
-                "phone": {
-                    "main": "307-778-7550",
-                    "fax": "307-778-7381",
-                    "pharmacy": "866-420-6337",
-                    "afterHours": "307-778-7550",
-                    "patientAdvocate": "307-778-7550 x7517",
-                    "mentalHealthClinic": "307-778-7349",
-                    "enrollmentCoordinator": "307-778-7550 x7579"
-                },
-                "physicalAddress": {
-                    "type": "physical",
-                    "line": [
-                        "2360 East Pershing Boulevard"
-                    ],
-                    "city": "Cheyenne",
-                    "state": "WY",
-                    "postalCode": "82001-5356"
-                },
-                "mobile": false,
-                "healthService": [
-                    "Audiology",
-                    "Cardiology",
-                    "DentalServices",
-                    "EmergencyCare",
-                    "Gastroenterology",
-                    "Gynecology",
-                    "MentalHealthCare",
-                    "Nutrition",
-                    "Ophthalmology",
-                    "Optometry",
-                    "Orthopedics",
-                    "Podiatry",
-                    "PrimaryCare",
-                    "SpecialtyCare",
-                    "UrgentCare",
-                    "Urology",
-                    "WomensHealth"
-                ],
-                "operatingStatus": {
-                    "code": "NORMAL"
-                }
-            }
-        }
-    }
-},
+  },
     {
       "id": "115069",
       "type": "appointments",

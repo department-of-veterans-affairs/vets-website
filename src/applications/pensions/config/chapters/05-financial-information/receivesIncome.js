@@ -11,6 +11,7 @@ export default {
       title: 'Do you, your spouse, or your dependents receive income?',
       hint:
         'Your income is how much you earn. It includes your Social Security benefits, investment and retirement payments, and any income your spouse and dependents receive.',
+      uswds: true,
     }),
   },
   schema: {

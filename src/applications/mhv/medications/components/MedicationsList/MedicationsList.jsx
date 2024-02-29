@@ -36,7 +36,7 @@ const MedicationsList = props => {
   const onPageChange = page => {
     document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
     updateLoadingStatus(true, 'Loading your list...');
-    history.push(`/?page=${page}`);
+    history.push(`/${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 

@@ -1,13 +1,8 @@
 import React from 'react';
 import { intersection, pick } from 'lodash';
 
+import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-import {
-  addressNoMilitarySchema,
-  addressNoMilitaryUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { livingSituationFields } from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
@@ -22,25 +17,35 @@ const pageFields = [
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(
-      'Facility details',
-      'Tell us more about the nursing home or medical care facility you live in',
-    ),
     [livingSituationFields.parentObject]: {
+      'ui:title': (
+        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
+          Facility details
+        </h3>
+      ),
+      'ui:description': (
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+          Tell us more about the nursing home or medical care facility you live
+          in
+        </p>
+      ),
       [livingSituationFields.careFacilityName]: {
         'ui:title': 'Facility name',
-        'ui:webComponentField': VaTextInputField,
       },
       [livingSituationFields.careFacilityAddress]: {
-        'ui:title': (
-          <h4 className="vads-u-margin-bottom--neg1 vads-u-color--gray-dark vads-u-margin-top--4">
+        'ui:description': (
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
             Facility address
-          </h4>
+          </p>
         ),
-        ...addressNoMilitaryUI({
-          omit: ['street3'],
-          required: false,
-        }),
+        ...address.uiSchema(
+          '',
+          false,
+          formData =>
+            formData[livingSituationFields.parentObject][
+              livingSituationFields.isInCareFacility
+            ],
+        ),
       },
     },
   },
@@ -52,9 +57,13 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          [livingSituationFields.careFacilityAddress]: addressNoMilitarySchema({
-            omit: ['street3'],
-          }),
+          [livingSituationFields.careFacilityAddress]: address.schema(
+            fullSchema,
+            formData =>
+              formData[livingSituationFields.parentObject][
+                livingSituationFields.isInCareFacility
+              ],
+          ),
         },
       },
     },

@@ -52,20 +52,9 @@ h3.name-of-deceased-text {
 }
 
 article#pre-need[data-location="applicant-demographics"],
-article#pre-need[data-location="applicant-demographics-preparer"],
 article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
-  }
-}
-
-article#pre-need[data-location="applicant-demographics-2"],
-article#pre-need[data-location="applicant-demographics-2-preparer"] {
-  .schemaform-widget-wrapper > fieldset {
-    margin-top: -1em !important;
-  }
-  .form-checkbox {
-    margin-bottom: -1em;
   }
 }
 
@@ -76,16 +65,9 @@ article#pre-need[data-location="sponsor-date-of-death"] {
   }
 }
 
-.sponsorDeceasedDescriptionNotProd {
-  margin-bottom: 2em;
-}
-
 article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
-  }
-  .form-checkbox {
-    margin-bottom: -1em;
   }
 }
 

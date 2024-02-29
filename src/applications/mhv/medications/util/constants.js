@@ -18,7 +18,6 @@ export const medicationsUrls = {
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
   MEDICATIONS_ABOUT: '/my-health/medications/about',
-  MEDICATIONS_REFILL: '/my-health/medications/refill',
 };
 
 export const dispStatusForRefillsLeft = [

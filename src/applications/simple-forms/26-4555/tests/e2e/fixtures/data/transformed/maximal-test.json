@@ -16,14 +16,24 @@
     "previousHiApplication": {
       "previousHiApplicationDate": "1999-02-04",
       "previousHiApplicationAddress": {
-        "city": "Atlanta"
+        "street": "2222 Stone st",
+        "street2": "Behind the big rock",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
       },
       "hasPreviousHiApplication": true
     },
     "previousSahApplication": {
       "previousSahApplicationDate": "2000-06-10",
       "previousSahApplicationAddress": {
-        "city": "Atlanta"
+        "street": "2222 Stone st.",
+        "street2": "Behind the big rock",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
       },
       "hasPreviousSahApplication": true
     },
@@ -36,6 +46,7 @@
         "country": "USA",
         "street": "1111 Rock st.",
         "street2": "Apartment 2",
+        "street3": "Left door on the right",
         "city": "APO",
         "state": "AA",
         "postalCode": "11111"

@@ -218,7 +218,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <va-summary-box uswds>
+      <va-featured-content uswds>
         <h3 className="vads-u-margin-top--0" slot="headline">
           Request your military records (DD214)
         </h3>
@@ -226,7 +226,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           href="/records/get-military-service-records"
           text="Learn how to request your DD214 and other military records"
         />
-      </va-summary-box>
+      </va-featured-content>
 
       {profileShowProofOfVeteranStatus && (
         <div className="vads-u-margin-y--4">

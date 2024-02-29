@@ -60,44 +60,38 @@ describe('<ConfirmationPage>', () => {
     const form = generateForm();
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
-    const heading = tree.everySubTree('h2');
-    expect(heading.length).to.eql(1);
-    expect(heading[0]?.text()).to.equal('Your Veterans Pension application');
-
-    const alert = tree.everySubTree('va-alert', { status: 'success' });
-    expect(alert.length).to.eql(1);
-
-    const info = tree.everySubTree('va-summary-box');
-    expect(info.length).to.eql(1);
-    expect(info[0]?.subTree('va-button').props.text).to.equal(
-      'Print this page for your records',
+    expect(tree.subTree('.confirmation-page-title').text()).to.equal(
+      'Claim submitted',
     );
-
-    const sections = tree.everySubTree('section');
-    expect(sections.length).to.eql(3);
-    expect(sections[0].subTree('h3').text()).to.equal(
-      'If you need to submit supporting documents',
+    expect(
+      tree
+        .everySubTree('span')[1]
+        .text()
+        .trim(),
+    ).to.equal('for Jane Doe');
+    expect(tree.everySubTree('li')[2].text()).to.contain('Western Region');
+    expect(tree.everySubTree('p')[0].text()).to.contain(
+      'We process claims in the order we receive them',
     );
-    expect(sections[1].subTree('h3').text()).to.equal('What to expect next');
-    expect(sections[2].subTree('h3').text()).to.equal(
-      'How to contact us if you have questions',
+    expect(tree.everySubTree('p')[1].text()).to.contain(
+      'We may contact you for more information or documents.',
     );
+    expect(tree.everySubTree('p')[3].text()).to.contain('VA Regional Office');
+  });
 
-    const address = tree.everySubTree('p', { className: 'va-address-block' });
-    expect(address.length).to.eql(1);
+  it('should render with empty regionalOffice', () => {
+    const form = generateForm({ hasRegionalOffice: false });
+    const tree = shallow(<ConfirmationPage form={form} />);
 
-    const phoneNums = tree.everySubTree('va-telephone');
-    expect(phoneNums.length).to.eql(2);
-    expect(phoneNums[0].props.international).to.be.true;
-    expect(phoneNums[1].props.tty).to.be.true;
+    expect(tree.find('address').children().length).to.eql(0);
+    tree.unmount();
   });
 
   it('should render if no submission response', () => {
     const form = generateForm({ hasResponse: false });
     const tree = shallow(<ConfirmationPage form={form} />);
 
-    const confirmation = tree.find('#pension_527ez_submission_confirmation');
-    expect(confirmation.length).to.eql(0);
+    expect(tree.find('.claim-list').children().length).to.eql(4);
     tree.unmount();
   });
 });

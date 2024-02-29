@@ -58,13 +58,6 @@ export default function StatusAlert({ appointment, facility }) {
         </div>
       );
     }
-    if (!avsLink) {
-      return (
-        <p className="vads-u-margin--0">
-          An after-visit summary is not available at this time.
-        </p>
-      );
-    }
     return (
       <>
         <va-link
@@ -112,7 +105,7 @@ export default function StatusAlert({ appointment, facility }) {
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
           This appointment happened in the past.
         </p>
-        {displayAvsLink()}
+        {avsLink && displayAvsLink()}
       </>
     );
   }

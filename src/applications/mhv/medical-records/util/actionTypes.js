@@ -1,7 +1,6 @@
 export const Actions = {
   Alerts: {
     ADD_ALERT: 'MR_ALERT_ADD_ALERT',
-    CLEAR_ALERT: 'MR_ALERT_CLEAR',
   },
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'MR_SET_BREAD_CRUMBS',

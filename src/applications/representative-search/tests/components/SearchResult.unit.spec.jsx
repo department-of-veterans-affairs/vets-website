@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import SearchResult from '../../components/results/SearchResult';
 
 describe('SearchResults', () => {
@@ -174,30 +174,5 @@ describe('SearchResults', () => {
       '.vads-u-font-family--serif.vads-u-margin-top--2p5 h3',
     );
     expect(officerElement).to.exist;
-  });
-
-  it('renders modal when appropriate', () => {
-    const wrapper = mount(
-      <SearchResult
-        officer="Paul Luebkert"
-        addressLine1="123 Main St"
-        city="Anytown"
-        stateCode="State"
-        zipCode="12345"
-        phone="123-456-7890"
-        email="test@example.com"
-        representativeId="123"
-        reports={{}}
-        setReportModalTester
-      />,
-    );
-
-    wrapper.find('#open-modal-test-button').simulate('click');
-
-    wrapper.update();
-
-    expect(wrapper.find('.report-outdated-information-modal')).to.exist;
-
-    wrapper.unmount();
   });
 });

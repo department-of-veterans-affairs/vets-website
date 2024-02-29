@@ -9,11 +9,10 @@ import {
   preparerIsVeteran,
   survivingDependentPersonalInformationChapterTitle,
   benefitSelectionChapterTitle,
-  initializeFormDataWithPreparerIdentificationAndPrefill,
+  initializeFormDataWithPreparerIdentification,
   hasActiveCompensationITF,
   hasActivePensionITF,
   noActiveITF,
-  hasVeteranPrefill,
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
@@ -41,7 +40,6 @@ describe('form helper functions', () => {
     expect(hasActiveCompensationITF()).to.equal(false);
     expect(hasActivePensionITF()).to.equal(false);
     expect(noActiveITF()).to.equal(true);
-    expect(hasVeteranPrefill()).to.equal(false);
     expect(statementOfTruthFullNamePath()).to.equal(
       'survivingDependentFullName',
     );
@@ -194,7 +192,7 @@ describe('form helper functions', () => {
   it('returns true for ITF functions when ITF formData values are present and false when values are empty objects', () => {
     const formData = {
       'view:activeCompensationITF': {
-        expirationDate: '2025-01-30T17:56:30.512Z',
+        expirationDate: '1-1-1999',
         status: 'active',
       },
       'view:activePensionITF': {},
@@ -206,7 +204,7 @@ describe('form helper functions', () => {
 
     formData['view:activeCompensationITF'] = {};
     formData['view:activePensionITF'] = {
-      expirationDate: '2025-01-30T17:56:30.512Z',
+      expirationDate: '1-1-1999',
       status: 'active',
     };
 
@@ -225,56 +223,15 @@ describe('form helper functions', () => {
   });
 });
 
-describe('hasVeteranPrefill', () => {
-  it('returns true when veteran prefill data is present', () => {
-    const formData = {
-      'view:veteranPrefillStore': {
-        fullName: {
-          first: 'Marty',
-          last: 'McFly',
-        },
-        ssn: '111519551',
-        dateOfBirth: '1955-11-15',
-      },
-    };
-
-    expect(hasVeteranPrefill({ formData })).to.be.true;
-  });
-  it('returns false when any part of the veteran prefill data is absent', () => {
-    const formData = {
-      'view:veteranPrefillStore': {
-        fullName: {
-          first: 'Marty',
-          last: 'McFly',
-        },
-        dateOfBirth: '1955-11-15',
-      },
-    };
-
-    expect(hasVeteranPrefill({ formData })).to.be.false;
-  });
-});
-
-describe('initializeFormDataWithPreparerIdentificationAndPrefill', () => {
-  it('returns an initialized formData object with preparerIdentification selection and prefill data', () => {
-    const veteranPrefillStore = {
-      fullName: {
-        first: 'John',
-        last: 'Dude',
-      },
-      ssn: '111223333',
-      dateOfBirth: '2000-10-10',
-    };
-
+describe('initializeFormDataWithPreparerIdentification', () => {
+  it('returns an initialized formData object with preparerIdentification selection', () => {
     expect(
-      initializeFormDataWithPreparerIdentificationAndPrefill(
+      initializeFormDataWithPreparerIdentification(
         preparerIdentifications.veteran,
-        veteranPrefillStore,
       ),
     ).to.deep.equal({
       ...createInitialState(formConfig).data,
       preparerIdentification: preparerIdentifications.veteran,
-      'view:veteranPrefillStore': veteranPrefillStore,
     });
   });
 });
@@ -367,10 +324,10 @@ describe('Confirmation Page helper functions', () => {
     const formData = {
       benefitSelection: {},
       'view:activeCompensationITF': {
-        expirationDate: '2025-01-30T17:56:30.512Z',
+        expirationDate: '1-1-2025',
       },
       'view:activePensionITF': {
-        expirationDate: '2025-01-30T17:56:30.512Z',
+        expirationDate: '1-1-2025',
       },
     };
 
@@ -383,17 +340,15 @@ describe('Confirmation Page helper functions', () => {
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
     expect(confirmationPageAlertParagraph(formData)).to.equal(
-      'Our records show that you already have an intent to file for disability compensation and it will expire on January 30, 2025.',
+      'Our records show that you already have an intent to file for disability compensation and it will expire on 1-1-2025.',
     );
 
-    formData['view:activePensionITF'] = {
-      expirationDate: '2025-01-30T17:56:30.512Z',
-    };
+    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
     formData['view:activeCompensationITF'] = {};
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;
     expect(confirmationPageAlertParagraph(formData)).to.equal(
-      'Our records show that you already have an intent to file for pension claims and it will expire on January 30, 2025.',
+      'Our records show that you already have an intent to file for pension claims and it will expire on 1-1-2025.',
     );
 
     formData['view:activePensionITF'] = {};
@@ -409,10 +364,10 @@ describe('Confirmation Page helper functions', () => {
     const formData = {
       benefitSelection: {},
       'view:activeCompensationITF': {
-        expirationDate: '2025-01-30T17:56:30.512Z',
+        expirationDate: '1-1-2025',
       },
       'view:activePensionITF': {
-        expirationDate: '2025-01-30T17:56:30.512Z',
+        expirationDate: '1-1-2025',
       },
     };
 
@@ -431,9 +386,7 @@ describe('Confirmation Page helper functions', () => {
       'disability compensation',
     );
 
-    formData['view:activePensionITF'] = {
-      expirationDate: '2025-01-30T17:56:30.512Z',
-    };
+    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
     formData['view:activeCompensationITF'] = {};
 
     expect(confirmationPageFormBypassed(formData)).to.be.true;

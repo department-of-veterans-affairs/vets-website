@@ -13,10 +13,9 @@ const YourTreatmentPlan = props => {
   const { avs } = props;
   const { medChangesSummary, orders } = avs;
 
-  const medChanges =
-    medChangesSummary && !allArraysEmpty(medChangesSummary)
-      ? medChangesSummary
-      : null;
+  const medChanges = !allArraysEmpty(medChangesSummary)
+    ? medChangesSummary
+    : null;
 
   const medsIntro = (
     <>

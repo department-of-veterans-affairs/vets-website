@@ -159,37 +159,6 @@
 .labels-margin {
   margin-top: -10px !important;
 }
-.community-focus-container{
-  display: flex;
-  flex-direction: column;
-  padding-top: 15px;
-}
-.visually-hidden{
-  clip: rect(0,0,0,0);
-  margin: -1;
-  overflow: hidden;
-  border: 0;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-}
-.filter-before-res-jump-link{
-  font-weight: 700;
-  color: rgb(0, 94, 162);
-  text-decoration: underline;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-  font-size: 1.6rem;
-  position: relative;
-  z-index: 1;
-  display: inline !important;
-  padding: 0 !important;
-}
-.filter-before-res-jump-link:hover, .filter-before-res-jump-link:visited{
-  color: rgb(0, 94, 162);
-  background-color: transparent;
-}
-
 .accordion-dropdown {
   border: 1px solid $color-gray;
   position: relative;

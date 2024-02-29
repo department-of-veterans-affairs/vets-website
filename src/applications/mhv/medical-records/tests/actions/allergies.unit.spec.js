@@ -35,7 +35,7 @@ describe('Get allergies action', () => {
   });
 });
 
-describe('Get allergy details action', () => {
+describe('Get allergy action', () => {
   it('should dispatch a get details action', () => {
     const mockData = allergy;
     mockApiRequest(mockData);
@@ -44,7 +44,18 @@ describe('Get allergy details action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
     });
   });
-  it('should dispatch a get details action and pull from the list argument', () => {
+  it('should dispatch an add alert action', () => {
+    const mockData = allergy;
+    mockApiRequest(mockData, false);
+    const dispatch = sinon.spy();
+    return getAllergyDetails()(dispatch).then(() => {
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
+  });
+});
+
+describe('Get allergy details action ', () => {
+  it('should dispatch a get details action and pull the list', () => {
     const dispatch = sinon.spy();
     return getAllergyDetails('1', [{ id: '1' }])(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
@@ -53,8 +64,6 @@ describe('Get allergy details action', () => {
     });
   });
   it('should dispatch an add alert action', () => {
-    const mockData = allergy;
-    mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
     return getAllergyDetails()(dispatch).then(() => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('function');

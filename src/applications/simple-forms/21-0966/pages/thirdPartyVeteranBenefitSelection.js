@@ -9,8 +9,8 @@ import { veteranBenefits } from '../definitions/constants';
 export default {
   uiSchema: {
     benefitSelection: checkboxGroupUI({
-      title: 'Select the benefits the Veteran intends to file a claim for.',
-      hint: 'Select all that apply',
+      title:
+        'Select the benefits the Veteran intends to file a claim for. Select all that apply',
       required: true,
       labelHeaderLevel: '3',
       tile: true,
@@ -18,12 +18,12 @@ export default {
         [veteranBenefits.COMPENSATION]: {
           title: 'Compensation',
           description:
-            'Select this option if you intend to file for disability compensation (VA Form 21-526EZ)',
+            'Select this option if you intend to file for disability compensation (VA Form 21-526EZ).',
         },
         [veteranBenefits.PENSION]: {
           title: 'Pension',
           description:
-            'Select this option if you intend to file a pension claim (VA Form 21P-527EZ)',
+            'Select this option if you intend to file a pension claim (VA Form 21P-527EZ).',
         },
       },
       errorMessages: {
@@ -33,11 +33,10 @@ export default {
     'view:additionalInfo': {
       'ui:description': (
         <va-additional-info trigger="What's an intent to file?">
-          An intent to file sets a potential start date (or effective date) for
-          your benefits. If you notify us of your intent to file and we approve
-          your claim, you may be able to get retroactive payments. Retroactive
-          payments are payments for the time between when we processed your
-          intent to file and when we approved your claim.
+          An intent to file request lets us know that you’re planning to file a
+          claim. An intent to file reserves a potential effective date for when
+          you could start getting benefits while you prepare your claim and
+          gather supporting documents.
         </va-additional-info>
       ),
     },

@@ -128,7 +128,7 @@ describe('Child information page', () => {
 
     const relation = $('va-radio[name="root_childRelationship"]', container);
     relation.__events.vaValueChange(
-      new CustomEvent('selected', { detail: { value: 'BIOLOGICAL' } }),
+      new CustomEvent('selected', { detail: { value: 'biological' } }),
     );
 
     const college = $('va-radio[name="root_attendingCollege"]', container);

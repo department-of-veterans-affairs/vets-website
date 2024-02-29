@@ -44,6 +44,7 @@ export default {
     hasMedicalExpenses: yesNoUI({
       title:
         "Do you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
+      uswds: true,
     }),
   },
   schema: {

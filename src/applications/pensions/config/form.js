@@ -166,17 +166,17 @@ export function isUnder65(formData, currentDate) {
 export function showSpouseAddress(form) {
   return (
     isMarried(form) &&
-    (form.maritalStatus === 'SEPARATED' ||
+    (form.maritalStatus === 'Separated' ||
       get(['view:liveWithSpouse'], form) === false)
   );
 }
 
 export function isSeparated(formData) {
-  return formData.maritalStatus === 'SEPARATED';
+  return formData.maritalStatus === 'Separated';
 }
 
 export function currentSpouseHasFormerMarriages(formData) {
-  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'YES';
+  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'Yes';
 }
 
 export function hasNoSocialSecurityDisability(formData) {
@@ -253,12 +253,12 @@ const marriageProperties = marriages.items.properties;
 
 const marriageType = {
   ...marriageProperties.marriageType,
-  enum: Object.keys(marriageTypeLabels),
+  enum: [marriageTypeLabels.ceremony, marriageTypeLabels.other],
 };
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: Object.keys(separationTypeLabels),
+  enum: Object.values(separationTypeLabels),
 };
 
 const formConfig = {
@@ -278,7 +278,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 5,
+  version: 4,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -560,9 +560,6 @@ const formConfig = {
                   marriageType: {
                     'ui:title': 'How did you get married?',
                     'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: marriageTypeLabels,
-                    },
                     'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   otherExplanation: {
@@ -579,10 +576,10 @@ const formConfig = {
                           'marriageType',
                         ],
                         form,
-                      ) === 'OTHER',
+                      ) === marriageTypeLabels.other,
                     'ui:options': {
                       expandUnder: 'marriageType',
-                      expandUnderCondition: 'OTHER',
+                      expandUnderCondition: marriageTypeLabels.other,
                     },
                   },
                 },
@@ -593,9 +590,6 @@ const formConfig = {
                   reasonForSeparation: {
                     'ui:title': 'How did the marriage end?',
                     'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: separationTypeLabels,
-                    },
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
                   otherExplanation: {
@@ -609,10 +603,10 @@ const formConfig = {
                           'reasonForSeparation',
                         ],
                         form,
-                      ) === 'OTHER',
+                      ) === separationTypeLabels.other,
                     'ui:options': {
                       expandUnder: 'reasonForSeparation',
-                      expandUnderCondition: 'OTHER',
+                      expandUnderCondition: separationTypeLabels.other,
                     },
                   },
                   dateOfMarriage: merge(
@@ -952,14 +946,7 @@ const formConfig = {
           path: 'financial/home-ownership/acres/value',
           depends: isHomeAcreageMoreThanTwo,
           uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {
-              homeAcreageValue: {
-                type: 'number',
-              },
-            },
-          },
+          schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
           CustomPageReview: HomeAcreageValueReview,
         },

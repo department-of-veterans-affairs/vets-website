@@ -1,19 +1,28 @@
 import mockUser from '../fixtures/user.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
-import mockToggles from '../fixtures/toggles-response.json';
 
 import prescriptions from '../fixtures/prescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true) => {
+  login = (isMedicationsUser = true, featureToggle = true) => {
     if (isMedicationsUser) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
 
       cy.intercept(
         { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
+        {
+          data: {
+            type: 'feature_toggles',
+            features: [
+              {
+                name: 'mhv_medications_to_va_gov_release',
+                value: featureToggle,
+              },
+            ],
+          },
+        },
       ).as('featureToggle');
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
@@ -36,7 +45,7 @@ class MedicationsSite {
             features: [
               {
                 name: 'mhv_medications_to_va_gov_release',
-                value: true,
+                value: featureToggle,
               },
             ],
           },

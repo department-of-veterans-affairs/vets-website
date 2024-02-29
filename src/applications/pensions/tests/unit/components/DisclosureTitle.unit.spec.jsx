@@ -26,7 +26,7 @@ describe('Pensions DisclosureTitle', () => {
       <DisclosureTitle
         id="id"
         formData={{
-          maritalStatus: 'MARRIED',
+          maritalStatus: 'Married',
           marriages: [
             {
               spouseFullName: {

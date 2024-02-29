@@ -7,7 +7,7 @@ import { getJobIndex } from '../../utils/session';
 import { isValidCurrency } from '../../utils/validations';
 
 const GrossMonthlyIncomeInput = props => {
-  const { goToPath, goBack, setFormData } = props;
+  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -131,6 +131,7 @@ const GrossMonthlyIncomeInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -175,7 +176,7 @@ const GrossMonthlyIncomeInput = props => {
           <li>Divide that number by 12</li>
         </ol>
       </va-additional-info>
-      {navButtons}
+      {onReviewPage ? updateButton : navButtons}
     </form>
   );
 };

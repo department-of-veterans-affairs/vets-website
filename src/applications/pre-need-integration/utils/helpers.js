@@ -9,8 +9,6 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -29,19 +27,7 @@ import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
-export const veteranApplicantDetailsSubHeader = (
-  <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your details</h3>
-  </div>
-);
-
-export const veteranApplicantDetailsPreparerSubHeader = (
-  <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Applicant details</h3>
-  </div>
-);
-
-export const nonVeteranApplicantDetailsSubHeader = (
+export const applicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
   </div>
@@ -107,7 +93,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>When did the sponsor pass away?</p>
+    <p>Sponsor’s date of death</p>
   </div>
 );
 
@@ -119,12 +105,6 @@ export const sponsorMilitaryDetailsSubHeader = (
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your demographics</h3>
-  </div>
-);
-
-export const applicantDemographicsPreparerSubHeader = (
-  <div className="applicantDemographicsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
   </div>
 );
@@ -132,8 +112,8 @@ export const applicantDemographicsPreparerSubHeader = (
 export const applicantDemographicsDescription = (
   <div className="applicantDemographicsDescription">
     <p>
-      We require demographic information as part of this application. We use
-      this information for statistical purposes only.
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
     </p>
   </div>
 );
@@ -185,10 +165,7 @@ export const applicantInformationDescription = (
   </va-additional-info>
 );
 
-export const veteranApplicantDetailsPreparerDescription =
-  'Provide the details for the person you’re filling out the application for (called the applicant).';
-
-export const nonVeteranApplicantDetailsDescription = (
+export const applicantDetailsDescription = (
   <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
     <p>
       If you’re filling out the form on behalf of someone else, you’ll need to
@@ -410,37 +387,6 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
-export const applicantDetailsCityTitle = 'Your birth city or county';
-
-export const applicantDetailsStateTitle = 'Your birth state or territory';
-
-export const applicantDetailsPreparerCityTitle =
-  'Applicant’s birth city or county';
-
-export const applicantDetailsPreparerStateTitle =
-  'Applicant’s birth state or territory';
-
-export const applicantDemographicsGenderTitle = 'What’s your sex?';
-
-export const applicantDemographicsMaritalStatusTitle =
-  'What’s your marital status?';
-
-export const applicantDemographicsPreparerGenderTitle =
-  'What’s the applicant’s sex?';
-
-export const applicantDemographicsPreparerMaritalStatusTitle =
-  'What’s the applicant’s marital status?';
-
-export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
-
-export const applicantDemographicsRaceTitle = 'What’s your race?';
-
-export const applicantDemographicsPreparerEthnicityTitle =
-  'What’s the applicant’s ethnicity?';
-
-export const applicantDemographicsPreparerRaceTitle =
-  'What’s the applicant’s race?';
-
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -644,36 +590,18 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: { 'ui:title': 'First name' },
-  middle: { 'ui:title': 'Middle name' },
-  last: { 'ui:title': 'Last name' },
-  maiden: { 'ui:title': 'Maiden name' },
-  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-});
-
-export const nonPreparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
-  first: { 'ui:title': 'Your first name' },
-  middle: { 'ui:title': 'Your middle name' },
-  last: { 'ui:title': 'Your last name' },
-  maiden: { 'ui:title': 'Maiden name' },
-});
-
-export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
-  first: { 'ui:title': 'Applicant’s first name' },
-  middle: { 'ui:title': 'Applicant’s middle name' },
-  last: { 'ui:title': 'Applicant’s last name' },
-  maiden: { 'ui:title': 'Applicant’s maiden name' },
-  suffix: { 'ui:title': 'Applicant’s suffix' },
-});
-
-export const nonPreparerDateOfBirthUI = currentOrPastDateUI(
-  'Your date of birth',
-);
-
-export const preparerDateOfBirthUI = currentOrPastDateUI(
-  'Applicant’s date of birth',
-);
+export const fullMaidenNameUI = !environment.isProduction()
+  ? merge({}, fullNameUI, {
+      first: { 'ui:title': 'First name' },
+      middle: { 'ui:title': 'Middle name' },
+      last: { 'ui:title': 'Last name' },
+      maiden: { 'ui:title': 'Maiden name' },
+      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+    })
+  : merge({}, fullNameUI, {
+      maiden: { 'ui:title': 'Maiden name' },
+      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+    });
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -709,14 +637,11 @@ class SSNWidget extends React.Component {
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
-export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
-  'ui:title': 'Applicant’s Social Security number',
-});
-
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title':
-      'Military Service number (if it’s different than your Social Security number)',
+    'ui:title': !environment.isProduction()
+      ? 'Military Service number (if it’s different than your Social Security number)'
+      : 'Military Service number (if you have one that’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -731,18 +656,15 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'What’s your sex?',
+    'ui:title': !environment.isProduction()
+      ? 'What’s your sex?'
+      : 'Sex (information will be used for statistical purposes only)',
     'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        female: 'Female',
-        male: 'Male',
-        na: 'Prefer not to answer',
-      },
-    },
   },
   maritalStatus: {
-    'ui:title': 'What’s your marital status?',
+    'ui:title': !environment.isProduction()
+      ? 'What’s your marital status?'
+      : 'Marital status',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -751,33 +673,21 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
-        na: 'Prefer not to answer',
       },
-    },
-  },
-  ethnicity: {
-    // 'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your ethnicity?',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        isSpanishHispanicLatino: 'Hispanic or Latino',
-        notSpanishHispanicLatino: 'Not Hispanic or Latino',
-        unknown: 'Unknown',
-        na: 'Prefer not to answer',
-      },
-      showFieldLabel: true,
     },
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your race?',
-    'ui:webComponentField': VaCheckboxGroupField,
+    'ui:title':
+      'Which categories best describe you? (You may check more than one)',
+    isSpanishHispanicLatino: {
+      'ui:title': 'Hispanic or Latino',
+    },
+    notSpanishHispanicLatino: {
+      'ui:title': 'Not Hispanic or Latino',
+    },
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
-    },
-    isAsian: {
-      'ui:title': 'Asian',
     },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
@@ -785,14 +695,11 @@ export const veteranUI = {
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
     isWhite: {
       'ui:title': 'White',
-    },
-    isOther: {
-      'ui:title': 'Other',
-    },
-    na: {
-      'ui:title': 'Prefer not to answer',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -803,7 +710,6 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
-      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },

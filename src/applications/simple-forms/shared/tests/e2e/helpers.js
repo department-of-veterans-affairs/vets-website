@@ -158,7 +158,7 @@ export const selectRelationshipToVeteranPattern = (fieldName, value) => {
 // page test definitions
 
 export const introductionPageFlow = () => {
-  cy.get('va-button[text*="start"]');
+  cy.findAllByText(/start/i, { selector: 'button' });
   cy.findAllByText(/without signing in/i)
     .first()
     .click({ force: true });

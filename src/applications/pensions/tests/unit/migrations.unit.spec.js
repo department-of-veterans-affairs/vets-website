@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import v3formData from '../fixtures/data/v3formData.json';
-import v4formData from '../fixtures/data/v4formData.json';
 import v3formDataMigrated from '../fixtures/data/v3formDataMigrated.json';
 import migrations from '../../migrations';
 
@@ -170,32 +169,5 @@ describe('Pension migrations', () => {
     v3Fields.forEach(key => {
       expect(v4Fields.includes(key)).to.be.true;
     });
-  });
-  it('should update from v4 to v5', () => {
-    const { formData } = migrations[4]({
-      formData: v4formData,
-      metadata: {
-        returnUrl: 'any',
-      },
-    });
-
-    expect(formData).to.be.an('object');
-    expect(formData.maritalStatus).to.equal('SEPARATED');
-    expect(formData.currentSpouseMaritalHistory).to.equal('IDK');
-    expect(
-      formData.marriages[0]['view:pastMarriage'].reasonForSeparation,
-    ).to.equal('DIVORCE');
-    expect(
-      formData.marriages[1]['view:pastMarriage'].reasonForSeparation,
-    ).to.equal('DEATH');
-    expect(formData.marriages[2]['view:currentMarriage'].marriageType).to.equal(
-      'CEREMONIAL',
-    );
-    expect(formData.dependents[0].childRelationship).to.equal('BIOLOGICAL');
-    expect(formData.dependents[1].childRelationship).to.equal('ADOPTED');
-    expect(formData.careExpenses[0].recipients).to.equal('VETERAN');
-    expect(formData.careExpenses[1].recipients).to.equal('DEPENDENT');
-    expect(formData.medicalExpenses[0].recipients).to.equal('VETERAN');
-    expect(formData.medicalExpenses[1].recipients).to.equal('DEPENDENT');
   });
 });

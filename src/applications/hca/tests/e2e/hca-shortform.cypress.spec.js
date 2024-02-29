@@ -6,7 +6,6 @@ import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import minTestData from './fixtures/data/minimal-test.json';
 import {
-  acceptPrivacyAgreement,
   goToNextPage,
   shortFormAdditionalHelpAssertion,
   shortFormSelfDisclosureToSubmit,
@@ -147,8 +146,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
 
     goToNextPage('review-and-submit');
-    acceptPrivacyAgreement();
 
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .shadow()
+      .find('[type="checkbox"]')
+      .check();
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit');
     cy.location('pathname').should('include', '/confirmation');

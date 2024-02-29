@@ -1,8 +1,10 @@
 .landing-page {
-  a {
-    color: $color-link-default;
-  }
-  a:visited {
-    color: $color-link-default;
+  .section-link {
+    a {
+      color: $color-link-default;
+    }
+    a:visited {
+      color: $color-link-default;
+    }
   }
 }

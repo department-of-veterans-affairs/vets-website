@@ -17,7 +17,7 @@ export const getAllergiesList = (isCurrent = false) => async dispatch => {
       isCurrent,
     });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
 };
 
@@ -32,7 +32,7 @@ export const getAllergyDetails = (id, allergyList) => async dispatch => {
       Actions.Allergies.GET,
     );
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
 };
 

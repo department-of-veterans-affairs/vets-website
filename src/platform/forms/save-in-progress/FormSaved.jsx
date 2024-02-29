@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
-import scrollToTop from '~/platform/utilities/ui/scrollToTop';
-import { focusElement, getScrollOptions } from '~/platform/utilities/ui';
-import { savedMessage } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
-
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
@@ -54,12 +53,9 @@ class FormSaved extends React.Component {
 
     return (
       <div>
-        <va-alert status="info" uswds>
+        <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <h2
-              slot="headline"
-              className="vads-u-font-size--h3 vads-u-margin-y--0"
-            >
+            <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
               {savedMessage(this.props.route.formConfig)}
             </h2>
             <br />
@@ -84,9 +80,9 @@ class FormSaved extends React.Component {
             If you’re on a public computer, please sign out of your account
             before you leave so your information stays secure.
           </div>
-        </va-alert>
+        </div>
         {!verified && (
-          <va-alert status="warning" uswds class="vads-u-margin-top--2">
+          <div className="usa-alert usa-alert-warning">
             <div className="usa-alert-body">
               We want to keep your information safe with the highest level of
               security. Please{' '}
@@ -98,7 +94,7 @@ class FormSaved extends React.Component {
               </a>
               .
             </div>
-          </va-alert>
+          </div>
         )}
         <br />
         <FormStartControls
@@ -120,7 +116,6 @@ class FormSaved extends React.Component {
 }
 
 FormSaved.propTypes = {
-  expirationDate: PropTypes.number,
   expirationMessage: PropTypes.node,
   fetchInProgressForm: PropTypes.func,
   formId: PropTypes.string,
@@ -138,16 +133,8 @@ FormSaved.propTypes = {
     ),
     formConfig: PropTypes.object.isRequired,
   }),
-  router: PropTypes.shape({
-    replace: PropTypes.func,
-  }),
+  router: PropTypes.shape({}),
   scrollParams: PropTypes.object,
-  user: PropTypes.shape({
-    profile: PropTypes.shape({
-      prefillsAvailable: PropTypes.array,
-      verified: PropTypes.bool,
-    }),
-  }),
 };
 
 function mapStateToProps(state) {

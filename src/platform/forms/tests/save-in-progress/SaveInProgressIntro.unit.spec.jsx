@@ -7,10 +7,7 @@ import sinon from 'sinon';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
-import { VA_FORM_IDS } from '~/platform/forms/constants';
-
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
 describe('Schemaform <SaveInProgressIntro>', () => {
@@ -324,7 +321,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       },
     };
 
-    const { container } = render(
+    const tree = shallow(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -338,18 +335,18 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect($('va-alert', container).textContent).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'We can fill in some of your information for you to save you time.',
     );
-    expect($('va-button', container).getAttribute('text')).to.contain(
+    expect(tree.find('.usa-button-primary').text()).to.contain(
       'Sign in to start your application',
     );
-    expect($('a', container).textContent).to.contain(
+    expect(tree.find('.schemaform-start-button').html()).to.contain(
       'Start your application without signing in',
     );
-    expect(container.textContent).to.include(
-      'lose any information you already',
-    );
+    expect(tree.text()).to.include('lose any information you already');
+    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -772,7 +769,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       },
     };
 
-    const { container } = render(
+    const tree = shallow(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -788,9 +785,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={formConfig}
       />,
     );
-    expect(container.querySelector('va-button').outerHTML).to.contain(
+    expect(tree.find('.usa-button-primary').text()).to.equal(
       'Custom message displayed to non-signed-in users',
     );
+    tree.unmount();
   });
 
   it('should not render an inProgress message', () => {

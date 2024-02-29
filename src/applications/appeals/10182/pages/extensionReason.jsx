@@ -12,6 +12,7 @@ import { MAX_LENGTH } from '../../shared/constants';
 const requestExtension = {
   uiSchema: {
     'ui:title': content.title,
+    'ui:description': content.description,
     extensionReason: {
       'ui:title': content.label,
       'ui:reviewField': ExtensionReasonReviewField,

@@ -22,7 +22,7 @@ context('when user is LOA3 but Non 2Fa', () => {
 
     // check content within the process list
     cy.findByText('We’ve verified your identity.');
-    cy.findByRole('button', { name: 'Add multifactor authentication' });
+    cy.findByRole('button', { name: 'Add 2-factor authentication' });
 
     cy.injectAxeThenAxeCheck();
   });

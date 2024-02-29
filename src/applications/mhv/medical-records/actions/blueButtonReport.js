@@ -28,6 +28,6 @@ export const getBlueButtonReportData = () => async dispatch => {
     });
     dispatch({ type: Actions.Vitals.GET_LIST, response: response.vitals });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
 };

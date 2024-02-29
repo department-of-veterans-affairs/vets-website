@@ -20,7 +20,7 @@ const LabsAndTests = () => {
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -31,7 +31,11 @@ const LabsAndTests = () => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },

@@ -9,7 +9,7 @@ export const getConditionsList = () => async dispatch => {
     const response = await getConditions();
     dispatch({ type: Actions.Conditions.GET_LIST, response });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
 };
 
@@ -27,7 +27,7 @@ export const getConditionDetails = (
       Actions.Conditions.GET,
     );
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
 };
 

@@ -46,7 +46,7 @@ const AllergyDetails = props => {
   );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -60,7 +60,7 @@ const AllergyDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/allergies',
+            url: '/my-health/medical-records/allergies',
             label: 'Allergies',
           },
         ]),

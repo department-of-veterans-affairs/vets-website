@@ -35,7 +35,7 @@ const CheckInConfirmation = props => {
   } = useGetCheckInData({
     refreshNeeded: false,
     appointmentsOnly: true,
-    app: APP_NAMES.CHECK_IN,
+    isPreCheckIn: false,
   });
   const { updateError } = useUpdateError();
   const { t } = useTranslation();

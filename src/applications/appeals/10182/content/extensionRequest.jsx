@@ -28,14 +28,14 @@ export const ShowAlert = () => {
 };
 
 export const content = {
-  title: (
+  title: <ShowAlert />,
+  description: (
     <>
-      <ShowAlert />
       <h3 className="vads-u-margin-top--0">{title}</h3>
-      <div className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--md vads-u-font-weight--normal">
+      <p className="vads-u-margin-y--0">
         If you request an extension (extra time) to file VA Form 10182 for good
         cause, you’ll need to tell us why you have good cause.
-      </div>
+      </p>
     </>
   ),
   label: 'Are you requesting an extension?',

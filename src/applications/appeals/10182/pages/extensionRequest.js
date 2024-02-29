@@ -8,10 +8,12 @@ import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../constants';
 
 const requestExtension = {
   uiSchema: {
-    'ui:title': content.title,
+    'ui:title': ' ',
     'view:requestExtensionInfo': {
-      'ui:option': {
-        forceDivWrapper: true,
+      'ui:title': content.title,
+      'ui:description': content.description,
+      'ui:options': {
+        forceDivWrap: true,
       },
     },
     requestingExtension: yesNoUI({

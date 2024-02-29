@@ -229,10 +229,10 @@ class TrackClaimsPage {
     cy.get('.claims-alert-status a')
       .click()
       .then(() => {
-        cy.get('.button-secondary');
+        cy.get('.usa-button-secondary');
         cy.axeCheck();
       });
-    cy.get('.main .button-primary').click({ force: true });
+    cy.get('.main .usa-button-primary').click({ force: true });
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
@@ -240,7 +240,7 @@ class TrackClaimsPage {
       .first()
       .check()
       .then(() => {
-        cy.get('.main .button-primary').click();
+        cy.get('.main .usa-button-primary').click();
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');

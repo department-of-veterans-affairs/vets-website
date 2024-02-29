@@ -387,12 +387,9 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button {
   &::part(button) {
     white-space: nowrap;
-    z-index: 1;
-    position: relative;
   }
   @media (max-width: $xsmall-screen) {
     width: -webkit-fill-available;
-    margin-bottom: 1rem;
     &::part(button) {
       width: 100%;
     }

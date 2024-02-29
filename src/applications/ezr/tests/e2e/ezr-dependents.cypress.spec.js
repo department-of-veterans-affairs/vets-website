@@ -38,11 +38,11 @@ function submitDependentInformation(dependent, showIncomePages) {
   advanceFromDependentsToReview(testData);
 
   // accept the privacy agreement
-  cy.get('va-checkbox[name="privacyAgreementAccepted"]')
+  cy.get('[name="privacyAgreementAccepted"]')
     .scrollIntoView()
     .shadow()
-    .find('label')
-    .click();
+    .find('[type="checkbox"]')
+    .check();
 
   // submit form
   cy.findByText(/submit/i, { selector: 'button' }).click();

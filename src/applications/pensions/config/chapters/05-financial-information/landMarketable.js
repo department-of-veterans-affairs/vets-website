@@ -23,6 +23,7 @@ export default {
     'ui:description': LandMarketableDescription,
     landMarketable: yesNoUI({
       title: 'Is the additional land marketable?',
+      uswds: true,
     }),
     'view:warningAlert': {
       'ui:description': IncomeAssetStatementFormAlert,

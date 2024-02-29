@@ -35,10 +35,6 @@ export const cstUseLighthouse = (state, endpoint) => {
 export const cstIncludeDdlBoaLetters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdlBoaLetters];
 
-// 'cst_include_ddl_5103_letters'
-export const cstIncludeDdl5103Letters = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdl5103Letters];
-
 // 'benefits_documents_use_lighthouse'
 export const benefitsDocumentsUseLighthouse = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.benefitsDocumentsUseLighthouse];

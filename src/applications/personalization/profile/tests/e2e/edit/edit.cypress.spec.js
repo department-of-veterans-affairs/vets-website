@@ -59,10 +59,9 @@ describe('Edit page', () => {
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
-        .last()
         .shadow()
         .within(() => {
-          cy.get('.usa-button-group va-button')
+          cy.get('va-button')
             .first()
             .click();
         });
@@ -89,7 +88,6 @@ describe('Edit page', () => {
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
-        .last()
         .shadow()
         .within(() => {
           cy.get('va-button')
@@ -117,7 +115,6 @@ describe('Edit page', () => {
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
-        .last()
         .shadow()
         .within(() => {
           cy.get('va-button')

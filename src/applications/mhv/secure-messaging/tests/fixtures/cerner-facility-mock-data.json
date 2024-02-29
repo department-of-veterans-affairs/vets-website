@@ -20,40 +20,8 @@
             "vamcFacilityName": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
             "vamcSystemName": "VA Spokane health care",
             "ehr": "cerner"
-          },
-          "687": {
-            "vhaId": "687",
-            "vamcFacilityName": "Jonathan M. Wainwright Memorial VA Medical Center",
-            "vamcSystemName": "VA Walla Walla health care",
-            "ehr": "cerner"
-          },
-          "692": {
-            "vhaId": "692",
-            "vamcFacilityName": "White City VA Medical Center",
-            "vamcSystemName": "VA Southern Oregon health care",
-            "ehr": "cerner"
           }
-        },
-        "cernerFacilities": [
-          {
-            "vhaId": "668",
-            "vamcFacilityName": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
-            "vamcSystemName": "VA Spokane health care",
-            "ehr": "cerner"
-          },
-          {
-            "vhaId": "687",
-            "vamcFacilityName": "Jonathan M. Wainwright Memorial VA Medical Center",
-            "vamcSystemName": "VA Walla Walla health care",
-            "ehr": "cerner"
-          },
-          {
-            "vhaId": "692",
-            "vamcFacilityName": "White City VA Medical Center",
-            "vamcSystemName": "VA Southern Oregon health care",
-            "ehr": "cerner"
-          }
-        ]
+        }
       }
     }
   },

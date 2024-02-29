@@ -9,8 +9,6 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { focusElement } from 'platform/utilities/ui';
 
 import {
   stringifyFormReplacer,
@@ -26,38 +24,6 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
-
-export const createPayload = (file, formId, password) => {
-  const payload = new FormData();
-  payload.set('form_id', formId);
-  payload.append('file', file);
-  if (password) {
-    payload.append('password', password);
-  }
-  return payload;
-};
-
-export function parseResponse({ data }) {
-  const { name } = data.attributes;
-  const focusFileCard = () => {
-    const target = $$('.schemaform-file-list li').find(entry =>
-      entry.textContent?.trim().includes(name),
-    );
-
-    if (target) {
-      focusElement(target);
-    }
-  };
-
-  setTimeout(() => {
-    focusFileCard();
-  }, 100);
-
-  return {
-    name,
-    confirmationCode: data.attributes.confirmationCode,
-  };
-}
 
 export const applicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">

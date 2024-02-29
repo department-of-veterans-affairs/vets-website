@@ -172,12 +172,12 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               {isBDDForm ? (
-                <va-summary-box class="vads-u-margin-bottom--1" uswds>
+                <va-featured-content class="vads-u-margin-bottom--1" uswds>
                   <strong>
                     Please be aware that you’ll need to be available for 45 days
                     after you file a BDD claim to complete a VA exam.
                   </strong>
-                </va-summary-box>
+                </va-featured-content>
               ) : (
                 <>
                   <p>

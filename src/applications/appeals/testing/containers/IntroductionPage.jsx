@@ -76,7 +76,7 @@ const IntroductionPage = ({ route }) => {
         </a>
       </p>
 
-      <va-summary-box uswds>
+      <va-featured-content uswds>
         <h2 slot="headline">Can I request a Board Appeal?</h2>
         <p>
           You can submit this online form (VA Form 10182) to appeal a VA
@@ -123,7 +123,7 @@ const IntroductionPage = ({ route }) => {
             </p>
           </li>
         </ul>
-      </va-summary-box>
+      </va-featured-content>
 
       <h2 className="vads-u-margin-top--2">
         Steps to requesting a Board Appeal

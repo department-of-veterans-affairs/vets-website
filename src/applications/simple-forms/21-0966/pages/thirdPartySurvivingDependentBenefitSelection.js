@@ -18,7 +18,7 @@ export default {
           title:
             'Survivors pension and/or dependency and indemnity compensation (DIC)',
           description:
-            'Select this option if you intend to file a DIC claim (VA Form 21P-534 or VA Form 21P-534EZ)',
+            'Select this option if you intend to file a DIC claim (VA Form 21P-534 or VA Form 21P-534EZ).',
         },
       },
       errorMessages: {
@@ -28,11 +28,10 @@ export default {
     'view:additionalInfo': {
       'ui:description': (
         <va-additional-info trigger="What's an intent to file?">
-          An intent to file sets a potential start date (or effective date) for
-          your benefits. If you notify us of your intent to file and we approve
-          your claim, you may be able to get retroactive payments. Retroactive
-          payments are payments for the time between when we processed your
-          intent to file and when we approved your claim.
+          An intent to file request lets us know that you’re planning to file a
+          claim. An intent to file reserves a potential effective date for when
+          you could start getting benefits while you prepare your claim and
+          gather supporting documents.
         </va-additional-info>
       ),
     },

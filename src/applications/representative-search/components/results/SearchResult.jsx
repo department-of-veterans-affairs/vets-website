@@ -20,7 +20,6 @@ const SearchResult = ({
   reports,
   representativeId,
   query,
-  setReportModalTester,
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
@@ -50,15 +49,6 @@ const SearchResult = ({
 
   return (
     <div className="report-outdated-information-modal">
-      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
-      {setReportModalTester ? (
-        <button
-          id="open-modal-test-button"
-          type="button"
-          onClick={() => setReportModalIsShowing(true)}
-        />
-      ) : null}
-
       {reportModalIsShowing && (
         <ReportModal
           representativeName={officer}

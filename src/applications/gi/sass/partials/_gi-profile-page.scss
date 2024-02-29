@@ -701,9 +701,6 @@
 .arrow-down-link {
   text-decoration: none;
 }
-.arrow-down-link:hover, .arrow-down-link:visited{
-  color: rgb(0, 94, 162);
-}
 
 .profile-card {
   border-radius: 10px;
@@ -730,13 +727,4 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-}
-.filter-before-res-link{
-  display: inline-block;
-  text-decoration: underline;
-}
-.iconToggle{
-  display: inline-block;
-  margin-right: 15px;
-
 }

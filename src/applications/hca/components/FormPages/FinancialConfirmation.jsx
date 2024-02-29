@@ -6,11 +6,12 @@ const DisabilityConfirmation = props => {
   const { goBack, goForward } = props;
 
   return (
-    <va-summary-box
+    <va-alert
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
-      uswds
+      status="info"
+      background-only
     >
-      <h3 slot="headline">
+      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Confirm that you don’t want to provide your household financial
         information
       </h3>
@@ -48,7 +49,7 @@ const DisabilityConfirmation = props => {
           />
         </div>
       </div>
-    </va-summary-box>
+    </va-alert>
   );
 };
 

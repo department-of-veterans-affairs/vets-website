@@ -23,6 +23,7 @@ export default {
     hasCareExpenses: yesNoUI({
       title:
         "Do you, your spouse, or your dependents pay recurring care expenses that aren't reimbursed?",
+      uswds: true,
     }),
   },
   schema: {

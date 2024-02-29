@@ -51,7 +51,7 @@ const VaccineDetails = props => {
   );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -67,7 +67,7 @@ const VaccineDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/vaccines',
+            url: '/my-health/medical-records/vaccines',
             label: 'Vaccines',
           },
         ]),
