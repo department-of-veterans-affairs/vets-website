@@ -7,9 +7,9 @@
       "lossOfLimbs": true,
       "lossOfLegs": true,
       "lossOfExtremity": true,
-      "burns": true,
-      "otherConditions": "This really weird fungus thing"
+      "burns": true
     },
+    "otherConditions": "This really weird fungus thing",
     "livingSituation": {
       "careFacilityName": "One Stone Facility Care",
       "careFacilityAddress": {
