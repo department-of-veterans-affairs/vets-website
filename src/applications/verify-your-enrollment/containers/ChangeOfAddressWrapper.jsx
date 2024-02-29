@@ -19,13 +19,24 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
-  // const [updateAddress, setUpdatedAdress] = useState(mailingAddress);
+  const [newAddress, setNewAddress] = useState({});
+  const [newAddres2, setNewAddress2] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
 
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
+
+  useEffect(
+    () => {
+      if (!response?.ok) {
+        setNewAddress(mailingAddress);
+      }
+      setNewAddress(mailingAddress);
+    },
+    [mailingAddress, response?.ok],
+  );
 
   const handleCloseForm = useCallback(() => {
     setFormData({}); // clear form data
@@ -58,7 +69,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       city: formData.city,
       ...stateAndZip,
     };
+
     dispatch(postMailingAddress(fields));
+    setNewAddress2(formData);
     // setUpdatedAdress(formData);
   };
   useEffect(
@@ -68,6 +81,19 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       }
     },
     [handleCloseForm, isLoading],
+  );
+  useEffect(
+    () => {
+      if (!error) {
+        setNewAddress({
+          street: `${newAddres2.addressLine1} ${newAddres2.addressLine2 || ''}`,
+          city: newAddres2.city,
+          state: newAddres2.stateCode,
+          zipCode: newAddres2.zipCode,
+        });
+      }
+    },
+    [error, newAddres2],
   );
   const addressDescription = () => {
     return (
@@ -79,19 +105,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           />
         ) : (
           <div className="vads-u-margin-bottom--1">
-            <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
-              Mailing address
-            </p>
-            <p>
-              <span className="vads-u-display--block">
-                {`${mailingAddress.street}`}
-              </span>
-              <span className="vads-u-display--block">
-                {`${mailingAddress.city}, ${mailingAddress.state} ${
-                  mailingAddress.zip
-                }`}
-              </span>
-            </p>
             {error && (
               <Alert
                 status="error"
@@ -104,6 +117,19 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 message="Your Address has been successfully updated."
               />
             )}
+            <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+              Mailing address
+            </p>
+            <p>
+              <span className="vads-u-display--block">
+                {`${newAddress.street}`}
+              </span>
+              <span className="vads-u-display--block">
+                {`${newAddress.city}, ${newAddress.state} ${
+                  newAddress.zipCode
+                }`}
+              </span>
+            </p>
           </div>
         )}
       </>

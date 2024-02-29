@@ -63,28 +63,25 @@ export const fetchPersonalInfo = () => {
 };
 
 export function postMailingAddress(mailingAddress) {
-  const addressEndPoint = `${environment.API_URL}/vye/v1/address`;
-
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
-
-    return apiRequest(addressEndPoint, {
+    return apiRequest(`${API_URL}/address`, {
       method: 'POST',
       body: JSON.stringify(mailingAddress),
       headers: { 'Content-Type': 'application/json' },
     })
-      .then(response =>
+      .then(response => {
         dispatch({
           type: UPDATE_ADDRESS_SUCCESS,
           response,
-        }),
-      )
-      .catch(errors =>
+        });
+      })
+      .catch(errors => {
         dispatch({
           type: UPDATE_ADDRESS_FAILURE,
           errors,
-        }),
-      );
+        });
+      });
   };
 }
 
