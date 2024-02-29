@@ -83,14 +83,12 @@ const CheckboxGroup = ({
 
   return (
     <>
-      <h1 className="pact-act-form-question-header" id="pact-act-form-question">
-        {h1}
-      </h1>
       <VaCheckboxGroup
         data-testid={testId}
         error={formError ? 'Select a location.' : null}
-        label="Select all that apply."
-        label-header-level="2"
+        hint="Select all that apply."
+        label={h1}
+        label-header-level="1"
         uswds
       >
         {createCheckboxes()}

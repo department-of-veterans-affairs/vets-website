@@ -82,43 +82,38 @@ const TernaryRadios = ({
     });
   };
 
-  const ariaLabelledBy = `aria-labelledby="pact-act-form-instructions"`;
-
   return (
     <>
-      <h1 className="pact-act-form-question-header" id="pact-act-form-question">
-        {h1}
-      </h1>
-      {shortName === SHORT_NAME_MAP.ORANGE_2_2_2 && (
-        <div
-          className="vads-u-margin-top--1"
-          data-testid="paw-orange-2-2-2-info"
-        >
-          <va-additional-info trigger="Learn more about C-123 airplanes" uswds>
-            <p className="vads-u-margin-top--0">
-              The U.S. Air Force used C-123 planes to spray Agent Orange to
-              clear jungles that provided enemy cover in Vietnam. After 1971,
-              the Air Force reassigned the remaining C-123 planes to Air Force
-              Reserve units in the U.S. for routine cargo and medical evacuation
-              missions. Veterans, including some Reservists, who flew, trained,
-              or worked on C-123 planes anytime from 1969 to 1986 may have had
-              exposure to Agent Orange.
-            </p>
-          </va-additional-info>
-        </div>
-      )}
-      {locationList ? (
-        <div id="pact-act-form-instructions">{locationList}</div>
-      ) : null}
       <VaRadio
-        aria-labelledby="pact-act-form-question"
         data-testid={testId}
+        form-heading={h1}
+        form-heading-level={1}
         error={formError ? 'Select a response.' : null}
+        id="form-pattern-single-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
+        use-forms-pattern="single"
         uswds
-        {...(locationList?.length ? ariaLabelledBy : {})}
       >
+        {shortName === SHORT_NAME_MAP.ORANGE_2_2_2 && (
+          <div id="paw-orange-2-2-2-info" data-testid="paw-orange-2-2-2-info">
+            <va-additional-info
+              trigger="Learn more about C-123 airplanes"
+              uswds
+            >
+              <p className="vads-u-margin-top--0">
+                The U.S. Air Force used C-123 planes to spray Agent Orange to
+                clear jungles that provided enemy cover in Vietnam. After 1971,
+                the Air Force reassigned the remaining C-123 planes to Air Force
+                Reserve units in the U.S. for routine cargo and medical
+                evacuation missions. Veterans, including some Reservists, who
+                flew, trained, or worked on C-123 planes anytime from 1969 to
+                1986 may have had exposure to Agent Orange.
+              </p>
+            </va-additional-info>
+          </div>
+        )}
         {renderRadioOptions()}
+        <div slot="form-description">{locationList}</div>
       </VaRadio>
       <VaButtonPair
         class="vads-u-margin-top--3"
