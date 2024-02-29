@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { validateField, getImageUri, dateFormat } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -38,13 +39,13 @@ const VaPrescription = prescription => {
             <h2 className="vads-u-margin-y--2">About your prescription</h2>
             {prescription && <ExtraDetails {...prescription} />}
             {showRefillContent && prescription?.isRefillable ? (
-              <a
-                className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3"
-                href={medicationsUrls.MEDICATIONS_REFILL}
+              <Link
+                className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3 olol"
+                to={medicationsUrls.MEDICATIONS_REFILL}
                 data-testid="refill-nav-link"
               >
                 {hasBeenDispensed ? 'Refill' : 'Fill'} this prescription
-              </a>
+              </Link>
             ) : (
               <FillRefillButton {...prescription} />
             )}
