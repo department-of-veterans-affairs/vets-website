@@ -146,7 +146,7 @@ export function ConfirmationPage(props) {
         <section>
           <p>
             <strong>
-              {veteransFullName.first} {veteransFullName.last}:
+              {veteransFullName?.first} {veteransFullName?.last}:
             </strong>
           </p>
           <ul>
