@@ -35,6 +35,8 @@ const createStore = ({
   features = {},
   error = null,
   seeStaffMessage = null,
+  eligibleToFile = null,
+  alreadyFiled = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -43,6 +45,8 @@ const createStore = ({
       app,
       context: {
         token: 'some-token',
+        eligibleToFile,
+        alreadyFiled,
       },
       form: {
         pages: formPages,

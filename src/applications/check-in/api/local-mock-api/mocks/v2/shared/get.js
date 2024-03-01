@@ -352,7 +352,7 @@ const createAppointmentsOH = (token = defaultUUID) => {
         appointmentIen: '6767',
         startTime: dateFns.addHours(new Date(), 4).toISOString(),
         type: 'Neurology',
-        station: '622',
+        stationNo: '622',
         facility: 'VA Facility 3',
       }),
     );
