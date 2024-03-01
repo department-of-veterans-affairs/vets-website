@@ -102,3 +102,5 @@ export const selectFeatureStartSchedulingLink = state =>
 
 export const selectFeaturePhysicalLocation = state =>
   toggleValues(state).vaOnlineSchedulingPhysicalLocation;
+export const selectFeatureBookingExclusion = state =>
+  toggleValues(state).vaOnlineSchedulingBookingExclusion;
