@@ -54,7 +54,7 @@ describe('VAOS Component: VideoLink', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).add(242, 'minutes'),
+      start: moment.tz(now, 'America/Denver').add(242, 'minutes'),
       videoData: {
         url: 'test.com',
       },
