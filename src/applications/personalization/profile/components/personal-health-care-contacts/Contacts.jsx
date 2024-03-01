@@ -1,38 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
+import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 
 import Contact from './Contact';
-
-const Instructions = ({ testId }) => (
-  <div data-testid={testId}>
-    To add a contact, call us at <HelpDeskContact testId={testId} />.
-  </div>
-);
-
-Instructions.propTypes = {
-  testId: PropTypes.string,
-};
-
-const HelpDeskContact = ({ testId }) => (
-  <>
-    <va-telephone
-      data-testid={`${testId}-va-800-number`}
-      contact={CONTACTS.HELP_DESK}
-    />{' '}
-    (
-    <va-telephone
-      data-testid={`${testId}-va-711-number`}
-      contact={CONTACTS['711']}
-      tty
-    />
-    )
-  </>
-);
-
-HelpDeskContact.propTypes = {
-  testId: PropTypes.string,
-};
+import HelpDeskContact from './HelpDeskContact';
+import Instructions from './Instructions';
 
 const Contacts = ({ data }) => {
   const ecs = data.filter(el => el.id.match(/emergency contact/i));
@@ -40,28 +13,36 @@ const Contacts = ({ data }) => {
 
   const renderEmergencyContacts =
     ecs && ecs.length ? (
-      ecs.map((ec, i) => (
-        <Contact
-          testId={`phcc-emergency-contact-${i}`}
-          key={ec.id}
-          index={i}
-          {...ec.attributes}
-        />
-      ))
+      ecs.map((ec, i) => ({
+        value: (
+          <>
+            <Contact
+              testId={`phcc-emergency-contact-${i}`}
+              key={ec.id}
+              index={i}
+              {...ec.attributes}
+            />
+          </>
+        ),
+      }))
     ) : (
       <Instructions testId="phcc-no-ecs" />
     );
 
   const renderNextOfKin =
     noks && noks.length ? (
-      noks.map((nok, i) => (
-        <Contact
-          testId={`phcc-next-of-kin-${i}`}
-          key={nok.id}
-          index={i}
-          {...nok.attributes}
-        />
-      ))
+      noks.map((nok, i) => ({
+        value: (
+          <>
+            <Contact
+              testId={`phcc-next-of-kin-${i}`}
+              key={nok.id}
+              index={i}
+              {...nok.attributes}
+            />
+          </>
+        ),
+      }))
     ) : (
       <Instructions testId="phcc-no-nok" />
     );
@@ -86,27 +67,18 @@ const Contacts = ({ data }) => {
         </va-additional-info>
       </div>
 
-      <section className="profile-info-card">
-        <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border--1px">
-          <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-            Medical emergency contacts
-          </h2>
-          <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            The people we’ll contact in an emergency.
-          </p>
-          {renderEmergencyContacts}
-        </div>
+      <ProfileInfoCard
+        title="Emergency contacts"
+        data={renderEmergencyContacts}
+        namedAnchor="emergency-contacts"
+      />
 
-        <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border-left--1px vads-u-border-right--1px vads-u-border-bottom--1px">
-          <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-            Next of kin contacts
-          </h2>
-          <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            The people you want to represent your health care wishes if needed.
-          </p>
-          {renderNextOfKin}
-        </div>
-      </section>
+      <ProfileInfoCard
+        title="Next of kin contacts"
+        data={renderNextOfKin}
+        namedAnchor="next-of-kin-contacts"
+        className="vads-u-margin-top--4"
+      />
     </>
   );
 };

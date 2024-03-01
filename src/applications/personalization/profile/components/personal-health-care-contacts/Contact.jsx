@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 // modeled after VA Profile's Health Benefit AssociatedPersonBio
 
@@ -39,24 +38,34 @@ const Contact = ({
     addressLine3,
     addressLine4,
   ].filter(line => !!line);
-  const showAddress = contactType.match(/next of kin/i);
+  const isNextOfKin = contactType.match(/next of kin/i);
+  let title = index === 0 ? 'Primary' : 'Secondary';
+  title = `${title} ${isNextOfKin ? 'next of kin' : 'emergency contact'}`;
+  const description = isNextOfKin
+    ? 'The person you want to represent your health care wishes if needed.'
+    : 'The person we’ll contact in an emergency.';
 
   return (
-    <div
-      data-testid={testId}
-      className={classNames({ 'vads-u-margin-top--2': index > 0 })}
-    >
-      {name}
-      <br />
-      {showAddress &&
-        addressLines.length >= 2 &&
-        addressLines.map((line, i) => (
-          <React.Fragment key={i}>
-            {line}
-            <br />
-          </React.Fragment>
-        ))}
-      {primaryPhone}
+    <div data-testid={testId}>
+      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
+        {title}
+      </h3>
+      <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
+        {description}
+      </p>
+      <p>
+        {name}
+        <br />
+        {isNextOfKin &&
+          addressLines.length >= 2 &&
+          addressLines.map((line, i) => (
+            <React.Fragment key={i}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+        {primaryPhone}
+      </p>
     </div>
   );
 };
