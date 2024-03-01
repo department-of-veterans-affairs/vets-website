@@ -4,15 +4,29 @@ export function validateSponsorDeathDate(
   errors,
   { isDeceased, dateOfBirth, dateOfDeath },
 ) {
-  if (
-    dateOfBirth &&
-    isDeceased === 'yes' &&
-    dateOfDeath &&
-    moment(dateOfDeath).isSameOrBefore(moment(dateOfBirth))
-  ) {
-    errors.dateOfDeath.addError('Date of death must be after date of birth');
+  if (dateOfBirth && isDeceased === 'yes' && dateOfDeath) {
+    // dob = date of birth && dod = date of death
+    const dob = moment(dateOfBirth);
+    const dod = moment(dateOfDeath);
+
+    // Check if the sponsor is deceased and date of death is on or before date of birth
+    if (dod.isSameOrBefore(dob)) {
+      errors.dateOfDeath.addError(
+        'The sponsor’s date of death must be after the sponsor’s date of birth.',
+      );
+    }
+
+    // Check if dates have 16 or more years between them
+    if (dod.diff(dob) < 16) {
+      errors.dateOfDeath.addError(
+        'From sponsor’s date of birth to sponsor’s date of death must be at least 16 years.',
+      );
+    }
   }
+
+  return errors;
 }
+
 export function validateTopLevelDomain(errors, email) {
   if (email.length === 0) return;
   const index = email.lastIndexOf('.');

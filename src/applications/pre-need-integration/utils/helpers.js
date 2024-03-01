@@ -115,7 +115,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>When did the sponsor pass away?</p>
+    <p>When did the sponsor die?</p>
   </div>
 );
 
