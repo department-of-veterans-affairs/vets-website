@@ -7,9 +7,9 @@
       "lossOfLimbs": true,
       "lossOfLegs": true,
       "lossOfExtremity": true,
-      "burns": true,
-      "otherConditions": "This really weird fungus thing"
+      "burns": true
     },
+    "otherConditions": "This really weird fungus thing",
     "livingSituation": {
       "careFacilityName": "One Stone Facility Care",
       "careFacilityAddress": {
@@ -25,24 +25,14 @@
     "previousHiApplication": {
       "previousHiApplicationDate": "1999-02-04",
       "previousHiApplicationAddress": {
-        "street": "2222 Stone st",
-        "street2": "Behind the big rock",
-        "city": "Stoneville",
-        "country": "USA",
-        "state": "ID",
-        "postalCode": "11111"
+        "city": "Atlanta"
       },
       "hasPreviousHiApplication": true
     },
     "previousSahApplication": {
       "previousSahApplicationDate": "2000-06-10",
       "previousSahApplicationAddress": {
-        "street": "2222 Stone st.",
-        "street2": "Behind the big rock",
-        "city": "Stoneville",
-        "country": "USA",
-        "state": "ID",
-        "postalCode": "11111"
+        "city": "Atlanta"
       },
       "hasPreviousSahApplication": true
     },
@@ -56,7 +46,6 @@
         "view:militaryBaseDescription": {},
         "street": "1111 Rock st.",
         "street2": "Apartment 2",
-        "street3": "Left door on the right",
         "city": "APO",
         "state": "AA",
         "postalCode": "11111"

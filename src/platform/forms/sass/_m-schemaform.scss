@@ -506,9 +506,10 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin: -1em -1.2em 5rem;
+  margin-bottom: 5rem;
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
+    margin: -1em -1.2em 0 -1.2em;
     background-color: var(--color-secondary-lightest);
     &:before {
       display: block;
