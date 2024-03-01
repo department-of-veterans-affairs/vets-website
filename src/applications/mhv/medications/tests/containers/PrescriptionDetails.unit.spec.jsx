@@ -27,7 +27,31 @@ describe('Prescription details container', () => {
   };
 
   it('renders without errors', () => {
-    const screen = setup();
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: 'January, 01, 2000',
+        },
+      },
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            rxRfRecords: [
+              [
+                'rf_record',
+                [
+                  {
+                    cmopNdcNumber: '00093314705',
+                  },
+                ],
+              ],
+            ],
+          },
+        },
+      },
+    });
     expect(screen);
   });
 
@@ -58,6 +82,26 @@ describe('Prescription details container', () => {
     expect(rxName).to.exist;
   });
 
+  it('still shows medication details if rx data is received from api instead of redux', () => {
+    const mockData = [nonVaRxResponse];
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: null,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/medication/21142496',
+    });
+    const rxName = screen.findByText(
+      nonVaRxResponse.data.attributes.orderableItem,
+    );
+
+    expect(rxName).to.exist;
+  });
   it('displays "Not filled yet" when there is no dispense date', () => {
     const stateWdispensedDate = {
       ...initialState,
