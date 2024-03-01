@@ -5,12 +5,12 @@ import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
 describe('Navigate to Print DropDown on Details Page', () => {
-  it('verify print dropdown on medications details page', () => {
+  it('verify print dropdown on Medications details page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
-    // cy.visit('my-health/about-medications/');
+   
     site.login();
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
