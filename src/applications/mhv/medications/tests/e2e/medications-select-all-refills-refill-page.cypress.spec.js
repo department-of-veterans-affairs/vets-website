@@ -6,7 +6,7 @@ describe('Medications Select All Refills', () => {
   it('visits Medications Refill Page Select Refills', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
-    const checkboxes = 1;
+    const checkboxes = 2;
     site.login();
     refillPage.loadRefillPage(refillPrescriptions);
     cy.injectAxe();

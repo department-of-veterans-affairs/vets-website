@@ -29,7 +29,7 @@ class MedicationsRefillPage {
     cy.get('[data-testid="request-refill-button"]')
       .shadow()
       .find('[type ="button"]')
-      .should('contain', 'refill');
+      .should('contain', 'Request refills');
   };
 
   verifyRefillCheckBoxesClicked = numberOfCheckboxes => {
