@@ -1,12 +1,9 @@
 import environment from 'platform/utilities/environment';
 
 export const isReviewInstance = () => {
-  return !(
-    environment.isProduction() ||
-    environment.isDev() ||
-    environment.isLocalhost() ||
-    environment.isStaging()
-  );
+  const { hostname } = window.location;
+  const globalRegex = new RegExp('review.vetsgov-internal', 'g');
+  return globalRegex.test(hostname);
 };
 
 export const isProductionOfTestProdEnv = automatedTest => {
