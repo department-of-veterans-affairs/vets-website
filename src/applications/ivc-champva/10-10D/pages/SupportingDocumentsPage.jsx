@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { identifyMissingUploads } from '../helpers/supportingDocsVerification';
+import MissingFileList from '../components/File/MissingFileList';
 
-function checkFlags(person, newListOfMissingFiles) {
+/**
+ * TODO:
+ * - Get edit links working
+ * - Implement way to tell if files are required or optional
+ *   - Add proper wording to top of page based on required status
+ * - Create follow-on page:
+ *   - Add checkbox acknowledging if any files have to be mailed in
+ * - Refactor final confirmation page to use React components from this page
+ */
+
+// TODO: find this wording elsewhere and collapse vars
+const optionalDescription =
+  'These files are not required to complete your application, but may prevent delays in your processing time.';
+// const requiredDescription =
+//  'These files are required to complete your application';
+
+export function checkFlags(person, newListOfMissingFiles) {
   const personUpdated = person; // shallow, updates reflect on actual form state
   if (
     personUpdated?.missingUploads === undefined ||
@@ -30,7 +48,7 @@ function checkFlags(person, newListOfMissingFiles) {
         missingUploads.push({ ...el, uploaded: true });
       }
     });
-    personUpdated.missingUploads = missingUploads; // Update whole object
+    personUpdated.missingUploads = missingUploads;
   }
   return personUpdated;
 }
@@ -41,6 +59,8 @@ export default function SupportingDocumentsPage({
   goBack,
   goForward,
 }) {
+  // eslint-disable-next-line no-unused-vars
+  const [apps, setApps] = useState(data.applicants);
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
   const pgTmp = contentAfterButtons.props.form.pages;
   const pages = Object.keys(pgTmp).map(pg => pgTmp[pg]);
@@ -50,12 +70,39 @@ export default function SupportingDocumentsPage({
     // data.applicants will reflect changes
     checkFlags(app, identifyMissingUploads(pages, app, false)),
   );
-  // Update sponsor to identify missing uploads
-  checkFlags(data, identifyMissingUploads(pages, data, true));
+
+  // Update sponsor to identify missing uploads (not in use currently)
+  // checkFlags(data, identifyMissingUploads(pages, data, true));
+
+  const filesAreMissing = apps?.[0].missingUploads.length > 0;
 
   return (
     <>
+      {/* TODO: conditional logic here based on required or optional */}
       {titleUI('Upload your supporting files')['ui:title']}
+      {filesAreMissing ? (
+        <MissingFileList
+          data={apps}
+          nameKey="applicantName"
+          title="Optional"
+          description={optionalDescription}
+        />
+      ) : (
+        <>
+          <VaAlert status="success" uswds>
+            <h2>All supporting files uploaded</h2>
+            <p>
+              You will not need to mail or fax in any files. Your application
+              will be considered complete upon submission
+            </p>
+          </VaAlert>
+          <p>
+            You will not need to take any further action after submission of
+            your application.
+          </p>
+        </>
+      )}
+
       {navButtons}
     </>
   );
