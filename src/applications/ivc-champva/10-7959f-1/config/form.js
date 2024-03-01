@@ -1,9 +1,6 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
-  inlineTitleUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -14,9 +11,7 @@ import {
   addressSchema,
   phoneUI,
   phoneSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
 
 import manifest from '../manifest.json';
 
@@ -108,7 +103,7 @@ const formConfig = {
           path: 'physical-address',
           title: 'Physical Address',
           uiSchema: {
-            ...titleUI("Veteran's physical address (residence)"),
+            ...titleUI("Veteran's home address (residence)"),
             physicalAddress: addressUI(),
           },
           schema: {
