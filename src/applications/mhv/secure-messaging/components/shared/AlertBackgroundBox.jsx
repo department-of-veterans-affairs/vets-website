@@ -1,22 +1,42 @@
 /** TODO
- * This component requires a further decision on how to habdle the alertList.
+ * This component requires a further decision on how to handle the alertList.
  * Currently, we are displaying the most recent alert marked as active.
  * We may want to display all active alerts, or only the most recent alert.
  * Multiple alerts are not currently supported.
  * They can be displayed as a list in one alert box, or as multiple alert boxes.
  */
+
+/**
+ * Added accessibility fix to ensure that the alert content and the current location are
+ * announced to the user in a way that's accessible to screen readers.
+ * This component uses @prop isLandingPage @boolean to check if url location is on
+ * the secure messages landing page so that if there's a service outage, a unique server
+ * error message from api response content will be displayed only for that page.
+ */
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import { Alerts, Errors } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
+import { formatPathName } from '../../util/helpers';
 
 const AlertBackgroundBox = props => {
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState(null);
   const alertRef = useRef();
+
+  const {
+    Message: { SERVER_ERROR_503 },
+  } = Alerts;
+
+  const {
+    Code: { SERVICE_OUTAGE },
+  } = Errors;
 
   useEffect(
     () => {
@@ -45,6 +65,17 @@ const AlertBackgroundBox = props => {
     dispatch(focusOutAlert());
   };
 
+  const location = useLocation();
+  const lastPathName = formatPathName(location.pathname, 'Messages');
+  let alertContent = activeAlert?.content;
+  if (!props.isLandingPage && activeAlert?.response?.code === SERVICE_OUTAGE) {
+    alertContent = SERVER_ERROR_503;
+  }
+
+  const alertAriaLabel = `${alertContent}. You are in ${
+    lastPathName === 'Folders' ? 'My folders' : lastPathName
+  }.`;
+
   return (
     <>
       {activeAlert && (
@@ -66,7 +97,12 @@ const AlertBackgroundBox = props => {
           }}
         >
           <div>
-            <p className="vads-u-margin-y--0">{activeAlert.content}</p>
+            <p className="vads-u-margin-y--0">
+              {alertContent}
+              <span className="sr-only" aria-live="polite" aria-atomic="true">
+                {alertAriaLabel}
+              </span>
+            </p>
           </div>
         </VaAlert>
       )}
@@ -76,6 +112,7 @@ const AlertBackgroundBox = props => {
 
 AlertBackgroundBox.propTypes = {
   closeable: PropTypes.bool,
+  isLandingPage: PropTypes.bool,
   noIcon: PropTypes.bool,
 };
 

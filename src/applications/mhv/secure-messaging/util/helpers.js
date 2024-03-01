@@ -25,12 +25,30 @@ export const handleRemoveAttachmentModalId = file => {
 };
 ///
 
+// Only use with window.location.pathname **DO NOT USE WITH useLocation() hooks**
 export const getLastPathName = pathname => {
   const paths = pathname.split('/').filter(Boolean);
   return (
     paths[paths.length - 1].charAt(0).toUpperCase() +
     paths[paths.length - 1].slice(1)
   );
+};
+
+// Only use with useLocation() hook **Can add custom string name for landing page**
+export const formatPathName = (pathname, string) => {
+  // Split the pathname into parts
+  const parts = pathname.split('/').filter(Boolean);
+
+  // If the pathname is "/", return string
+  if (parts.length === 0) {
+    return string;
+  }
+
+  // Get the last part of the pathname
+  const lastPart = parts[parts.length - 1];
+
+  // Capitalize the first letter and return
+  return lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
 };
 
 export const folderPathByFolderId = folderId => {
@@ -142,10 +160,11 @@ export const isOlderThan = (timestamp, days) => {
 };
 
 export const getLastSentMessage = messages => {
-  return messages.find(m =>
-    m.attributes !== undefined
-      ? m.attributes.sentDate !== null
-      : m.sentDate !== null,
+  return messages.find(
+    m =>
+      m.attributes !== undefined
+        ? m.attributes.sentDate !== null
+        : m.sentDate !== null,
   );
 };
 
@@ -230,7 +249,9 @@ export const convertPathNameToTitleCase = str => {
 
 export const messageSignatureFormatter = singatureObj => {
   if (singatureObj?.includeSignature) {
-    return `\n\n\n${singatureObj.signatureName}\n${singatureObj.signatureTitle}`;
+    return `\n\n\n${singatureObj.signatureName}\n${
+      singatureObj.signatureTitle
+    }`;
   }
   return null;
 };

@@ -173,7 +173,7 @@ describe('Folder Thread List View container', () => {
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
-      expect(screen.getByText(res.errors[0].detail)).to.exist;
+      expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
       expect(document.querySelector('h1')).to.not.exist;
     });
   });

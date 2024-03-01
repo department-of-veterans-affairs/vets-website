@@ -179,7 +179,7 @@ const FolderThreadListView = props => {
     if (folder?.folderId !== null) {
       dispatch(
         getListOfThreads(
-          folder.folderId,
+          folder?.folderId,
           threadsPerPage,
           threadSort.page,
           threadSort.value,

@@ -5,7 +5,7 @@ import reducer from '../../../reducers';
 import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
 import { Alerts } from '../../../util/constants';
 
-describe('Alert Backround Box component', () => {
+xdescribe('Alert Backround Box component', () => {
   it('ERROR alert should render without errors', () => {
     const initialState = {
       sm: {

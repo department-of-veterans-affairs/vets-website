@@ -31,13 +31,19 @@ const LandingPageAuth = () => {
   const [prefLink, setPrefLink] = useState('');
   const [isLandingPage, setIsLandingPage] = useState(false);
 
-  useEffect(() => {
-    setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
-  }, [fullState]);
+  useEffect(
+    () => {
+      setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
+    },
+    [fullState],
+  );
 
-  useEffect(() => {
-    dispatch(retrieveFolder(Folder.INBOX.id));
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(retrieveFolder(Folder.INBOX.id));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -45,8 +51,8 @@ const LandingPageAuth = () => {
   }, []);
 
   useEffect(() => {
-    const h1Content = document.querySelector('h1').textContent;
-    if (h1Content === 'Messages') {
+    const h1 = document.querySelector('h1');
+    if (h1 && h1.textContent === 'Messages') {
       setIsLandingPage(true);
     }
   }, []);
