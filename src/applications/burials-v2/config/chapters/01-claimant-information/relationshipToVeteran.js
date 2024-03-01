@@ -6,8 +6,6 @@ import {
 import { relationshipLabels } from '../../../utils/labels';
 import { generateTitle } from '../../../utils/helpers';
 
-// const { relationship } = fullSchemaBurials.properties;
-
 export const relationshipToVeteranUI = options => {
   const { personTitle } =
     typeof options === 'object' ? options : { personTitle: options };

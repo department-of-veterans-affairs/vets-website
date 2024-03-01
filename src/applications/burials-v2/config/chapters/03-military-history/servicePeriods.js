@@ -69,6 +69,11 @@ export default {
         hint: 'testing hint',
       }),
       'ui:webComponentField': VaTextInputField,
+      'ui:reviewWidget': form => (
+        <span className="dd-privacy-hidden" data-dd-action-name="data value">
+          {form?.militaryServiceNumber}
+        </span>
+      ),
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
         uswds: true,

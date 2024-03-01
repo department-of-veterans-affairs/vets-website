@@ -16,13 +16,6 @@ const IntroductionPage = ({ route }) => {
       <h2 className="vads-u-font-size--h2">
         Follow these steps below to apply for burial benefits
       </h2>
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        pageList={route.pageList}
-        downtime={route.formConfig.downtime}
-        startText="Start the Burial Benefits Application"
-      />
       <va-process-list uswds>
         <va-process-list-item header="Check to be sure you can request a Board Appeal">
           <p>
@@ -111,6 +104,13 @@ const IntroductionPage = ({ route }) => {
           </p>
         </va-process-list-item>
       </va-process-list>
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        pageList={route.pageList}
+        downtime={route.formConfig.downtime}
+        startText="Start the Burial Benefits Application"
+      />
       <p>
         If you don’t want to sign in, you can{' '}
         <va-link

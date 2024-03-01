@@ -43,7 +43,7 @@ export default {
         hideTitle: true,
         uswds: true,
         classNames: 'vads-u-margin--0',
-        reviewTitle: 'Service periods',
+        reviewTitle: 'Previous names',
         keepInPageOnReview: true,
         customTitle: ' ',
         confirmRemove: true,
