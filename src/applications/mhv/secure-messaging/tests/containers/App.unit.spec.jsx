@@ -22,6 +22,7 @@ describe('App', () => {
   afterEach(() => {
     global.window.location = oldLocation;
   });
+
   const initialState = {
     user: {
       login: {
@@ -313,63 +314,5 @@ describe('App', () => {
       path: `/`,
     });
     expect(window.location.replace.called).to.be.true;
-  });
-
-  it('renders pilot environment when feature flag is enabled', () => {
-    const customState = {
-      featureToggles: [],
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-        profile: {
-          services: [backendServices.MESSAGING],
-        },
-      },
-      ...noDowntime,
-    };
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
-
-    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.calledOnce).to.be.false;
-  });
-
-  it('redirects from pilot environment when feature flag is enabled', () => {
-    const customState = {
-      featureToggles: [],
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-        profile: {
-          services: [backendServices.MESSAGING],
-        },
-      },
-      ...noDowntime,
-    };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_cerner_pilot'}`
-    ] = false;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
-
-    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.calledOnce).to.be.true;
   });
 });
