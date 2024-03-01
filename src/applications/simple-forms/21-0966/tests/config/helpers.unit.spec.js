@@ -307,6 +307,24 @@ describe('statementOfTruthFullNamePath', () => {
     );
   });
 
+  it('returns the required signature formData path for veterans with prefill', () => {
+    const formData = {
+      preparerIdentification: preparerIdentifications.veteran,
+      'view:veteranPrefillStore': {
+        fullName: {
+          first: 'Cheesy',
+          last: 'Grits',
+        },
+        dateOfBirth: '1995-12-21',
+        ssn: '555221111',
+      },
+    };
+
+    expect(statementOfTruthFullNamePath({ formData })).to.equal(
+      'view:veteranPrefillStore.fullName',
+    );
+  });
+
   it('returns the required signature formData path for non-third party surviving dependents', () => {
     const formData = {
       preparerIdentification: preparerIdentifications.survivingDependent,
