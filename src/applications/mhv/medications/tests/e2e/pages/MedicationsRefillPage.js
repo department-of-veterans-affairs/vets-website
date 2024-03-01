@@ -28,11 +28,11 @@ class MedicationsRefillPage {
     });
   };
 
-  verifyRequestRefillsButtonExists = () => {
+  verifyRequestRefillsButtonExists = numberOfRefills => {
     cy.get('[data-testid="request-refill-button"]')
       .shadow()
-      .find('[type ="button"]')
-      .should('contain', 'Request refills');
+      .find('[type ="button"]', { force: true })
+      .should('contain', `Request ${numberOfRefills} refills`);
   };
 
   verifyRefillCheckBoxesClicked = numberOfCheckboxes => {
