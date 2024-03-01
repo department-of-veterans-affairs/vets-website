@@ -5,6 +5,7 @@ import mockUser from './fixtures/mocks/mockUser';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import {
+  acceptPrivacyAgreement,
   advanceToToxicExposure,
   advanceFromToxicExposureToReview,
   goToNextPage,
@@ -61,11 +62,7 @@ describe('HCA-Toxic-Exposure-Non-Disclosure', () => {
     advanceFromToxicExposureToReview();
 
     // accept the privacy agreement
-    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('label')
-      .click();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -146,11 +143,7 @@ describe('HCA-Toxic-Exposure-Disclosure', () => {
     advanceFromToxicExposureToReview();
 
     // accept the privacy agreement
-    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('label')
-      .click();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -206,11 +199,7 @@ describe('HCA-Toxic-Exposure-Disclosure', () => {
     advanceFromToxicExposureToReview();
 
     // accept the privacy agreement
-    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('label')
-      .click();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -267,11 +256,7 @@ describe('HCA-Toxic-Exposure-Disclosure', () => {
     advanceFromToxicExposureToReview();
 
     // accept the privacy agreement
-    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('label')
-      .click();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
