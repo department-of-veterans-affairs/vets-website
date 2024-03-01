@@ -214,8 +214,8 @@ const App = ({ children }) => {
     return <></>;
   }
 
-  const isMissingRequiredService = services => {
-    if (!services.includes(backendServices.MEDICAL_RECORDS)) {
+  const isMissingRequiredService = (loggedIn, services) => {
+    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
       window.location.replace('/health-care/get-medical-records');
       return true;
     }
@@ -227,7 +227,7 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.MEDICAL_RECORDS]}
     >
-      {isMissingRequiredService(userServices) || (
+      {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
         <div
           ref={measuredRef}
           className="vads-l-grid-container vads-u-padding-left--2"
