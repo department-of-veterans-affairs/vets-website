@@ -42,11 +42,11 @@ const LoadingPage = props => {
         if (eligibleToFile && eligibleToFile.length) {
           goToNextPage();
         } else {
-          updateError('already-filed');
+          updateError('already-filed-claim');
         }
       }
     },
-    [isComplete, goToNextPage, travelPaySent],
+    [isComplete, goToNextPage, travelPaySent, eligibleToFile, updateError],
   );
   window.scrollTo(0, 0);
 
