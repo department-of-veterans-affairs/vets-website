@@ -9,30 +9,30 @@ describe('<ClosedClaimAlert>', () => {
   context('when closeDate null', () => {
     const date = null;
     context('when decisionLetterSent false', () => {
-      it('should render message without date sentence', () => {
+      it('should render message without date ', () => {
         const { container, queryByText } = render(
           <ClosedClaimAlert closeDate={date} />,
         );
         const link = $('.link-action-container', container);
         expect(link).not.to.exist;
-        expect(queryByText('We closed your claim on')).not.to.exist;
+        expect(queryByText('We closed your claim')).to.exist;
       });
     });
     context('when decisionLetterSent true', () => {
-      it('should render message without date sentence and with a link', () => {
+      it('should render message without date and with a link', () => {
         const { container, queryByText } = render(
           <ClosedClaimAlert closeDate={date} decisionLetterSent="true" />,
         );
         const link = $('.link-action-container', container);
         expect(link).to.exist;
-        expect(queryByText('We closed your claim on')).not.to.exist;
+        expect(queryByText('We closed your claim')).to.exist;
       });
     });
   });
   context('when closeDate exists', () => {
     const date = '2010-03-01';
     context('when decisionLetterSent false', () => {
-      it('should render message with date sentence', () => {
+      it('should render message with date', () => {
         const { container, queryByText } = render(
           <ClosedClaimAlert closeDate={date} />,
         );
@@ -42,7 +42,7 @@ describe('<ClosedClaimAlert>', () => {
       });
     });
     context('when decisionLetterSent true', () => {
-      it('should render message with date sentence and with a link', () => {
+      it('should render message with date and with a link', () => {
         const { container, queryByText } = render(
           <ClosedClaimAlert closeDate={date} decisionLetterSent="true" />,
         );
