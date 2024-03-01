@@ -52,7 +52,7 @@ describe('App', () => {
         // services: [backendServices.HEALTH_RECORDS],
       },
     },
-    sm: {
+    mr: {
       breadcrumbs: {
         list: [],
       },
@@ -173,7 +173,7 @@ describe('App', () => {
             globalDowntime: true,
             isReady: true,
             isPending: false,
-            serviceMap: downtime([]),
+            serviceMap: downtime(['global']),
             dismissedDowntimeWarnings: [],
           },
           ...initialState,
@@ -214,15 +214,18 @@ describe('App', () => {
         path: `/`,
       });
       expect(
-        screen.getByText('This tool is down for maintenance', {
-          selector: 'h3',
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
           exact: true,
         }),
       );
       expect(
-        screen.getByText('We’re making some updates to this tool', {
-          exact: false,
-        }),
+        screen.getByText(
+          'We’re working on My HealtheVet. The maintenance will last 48 hours.',
+          {
+            exact: false,
+          },
+        ),
       );
     });
 
@@ -246,15 +249,18 @@ describe('App', () => {
         path: `/`,
       });
       expect(
-        screen.getByText('This tool is down for maintenance', {
-          selector: 'h3',
+        screen.getByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
           exact: true,
         }),
       );
       expect(
-        screen.getByText('We’re making some updates to this tool', {
-          exact: false,
-        }),
+        screen.getByText(
+          'We’re working on My HealtheVet. The maintenance will last 48 hours',
+          {
+            exact: false,
+          },
+        ),
       );
     });
 
@@ -278,14 +284,58 @@ describe('App', () => {
         path: `/`,
       });
       const downtimeComponent = screen.queryByText(
-        'This tool is down for maintenance',
+        'Maintenance on My HealtheVet',
         {
-          selector: 'h3',
+          selector: 'h2',
           exact: true,
         },
       );
       expect(downtimeComponent).to.be.null;
     });
+  });
+
+  it('renders breadcrumbs when downtime and at the landing page', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medical_records_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: downtime(['mhv_mr']),
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(screen.getByTestId('no-breadcrumbs')).to.exist;
+  });
+
+  it('does not render breadcrumbs when downtime and not at the landing page', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medical_records_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: downtime(['mhv_mr']),
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/vaccines`,
+    });
+    expect(screen.queryByTestId('no-breadcrumbs')).to.not.exist;
   });
 
   describe('Side Nav feature flag functionality', () => {
