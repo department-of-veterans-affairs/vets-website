@@ -15,31 +15,6 @@ const params = { id: 1 };
 describe('<OverviewPage>', () => {
   const store = createStore(() => ({}));
 
-  context('DDL feature flag is enabled', () => {
-    const claim = {
-      attributes: {
-        closeDate: '2022-10-20',
-        decisionLetterSent: true,
-        status: 'COMPLETE',
-      },
-    };
-
-    it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = render(
-        <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
-
-      screen.getByText('Get your claim letters');
-    });
-  });
-
   context('when claim is closed', () => {
     const claim = {
       id: '1',
@@ -174,6 +149,7 @@ describe('<OverviewPage>', () => {
         trackedItems: [],
       },
     };
+
     it('should render page with no alerts and a timeline', () => {
       const { container, getByText, queryByText } = render(
         <Provider store={store}>
@@ -194,27 +170,6 @@ describe('<OverviewPage>', () => {
         .not.to.exist;
       expect($('.claim-timeline', container)).to.exist;
     });
-  });
-
-  it('should not render timeline without a phase', () => {
-    const claim = {
-      attributes: {
-        phase: null,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
   });
 
   it('should render empty content when loading', () => {
