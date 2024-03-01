@@ -9,8 +9,6 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getStoredSubTask } from 'platform/forms/sub-task';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import {
   getContestableIssues as getContestableIssuesAction,
@@ -24,7 +22,6 @@ import {
 } from '../utils/evidence';
 
 import ITFWrapper from './ITFWrapper';
-import { WIP } from '../components/WIP';
 import {
   DATA_DOG_ID,
   DATA_DOG_TOKEN,
@@ -49,10 +46,8 @@ export const App = ({
   getContestableIssues,
   contestableIssues,
   legacyCount,
-  isLoadingFeatures,
   accountUuid,
   inProgressFormId,
-  show995,
 }) => {
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
@@ -75,10 +70,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (
-        show995 &&
-        SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)
-      ) {
+      if (SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
         if (!formData.benefitType) {
@@ -123,7 +115,6 @@ export const App = ({
 
       setFormData,
       subTaskBenefitType,
-      show995,
     ],
   );
 
@@ -161,13 +152,6 @@ export const App = ({
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
   });
-
-  if (isLoadingFeatures) {
-    return wrapInH1(<va-loading-indicator message="Loading application..." />);
-  }
-  if (!show995) {
-    return <WIP />;
-  }
 
   if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
     router.push('/start');
@@ -212,7 +196,6 @@ App.propTypes = {
     legacyCount: PropTypes.number,
   }),
   inProgressFormId: PropTypes.number,
-  isLoadingFeatures: PropTypes.bool,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({
     pathname: PropTypes.string,
@@ -225,7 +208,6 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  show995: PropTypes.bool,
   testSetTag: PropTypes.func,
 };
 
@@ -237,8 +219,6 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
-  isLoadingFeatures: toggleValues(state).loading,
-  show995: toggleValues(state)[FEATURE_FLAG_NAMES.supplementalClaim] || false,
 });
 
 const mapDispatchToProps = {
