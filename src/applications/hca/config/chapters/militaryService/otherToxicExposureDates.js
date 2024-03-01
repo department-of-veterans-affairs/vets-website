@@ -26,11 +26,11 @@ export default {
         ...currentOrPastMonthYearUI('Exposure end date'),
         'ui:description': ServiceDateRangeDescription,
       },
+      'ui:validations': [validateExposureDates],
     },
     'view:dateRange': {
       'ui:description': DateRangeDescription,
     },
-    'ui:validations': [validateExposureDates],
   },
   schema: {
     type: 'object',
