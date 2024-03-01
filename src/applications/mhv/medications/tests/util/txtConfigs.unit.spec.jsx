@@ -13,10 +13,13 @@ import { validateField } from '../../util/helpers';
 describe('Prescriptions List Txt Config', () => {
   it('Should show all rxs with prescription name', () => {
     const txt = buildPrescriptionsTXT(prescriptions);
-    // console.log(txt);
     prescriptions.filter(rx => !!rx.prescriptionName).forEach(rx => {
       expect(txt).to.include(rx.prescriptionName);
     });
+  });
+  it('Should show None noted if provider name is not provided', () => {
+    const txt = buildPrescriptionsTXT(prescriptions);
+    expect(txt).to.include('Prescribed by: None noted');
   });
 });
 
@@ -57,6 +60,12 @@ describe('Allergies List Config', () => {
       expect(txt).to.include(allergy.name);
     });
   });
+  it('should show try again message when allergies is falsy', () => {
+    const txt = buildAllergiesTXT(null);
+    const msg =
+      'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, email us at vamhvfeedback@va.gov.';
+    expect(txt).to.include(msg);
+  });
 });
 
 describe('VA prescription Config', () => {
@@ -75,21 +84,34 @@ describe('VA prescription Config', () => {
 });
 
 describe('Non VA prescription Config', () => {
+  // config rx object to cover all scenarios in function.
+  const nonVaRx = {
+    ...nonVAPrescription.data.attributes,
+    dispStatus: 'Active',
+    providerFirstName: null,
+  };
+
   it('should contain prescription name', () => {
-    const txt = buildNonVAPrescriptionTXT(nonVAPrescription.data.attributes);
-    const name = `${nonVAPrescription.data.attributes.prescriptionName ||
-      (nonVAPrescription.data.attributes.dispStatus === 'Active: Non-VA'
-        ? nonVAPrescription.data.attributes.orderableItem
-        : '')}`;
+    const txt = buildNonVAPrescriptionTXT(nonVaRx);
+    const name = `${nonVaRx.prescriptionName ||
+      (nonVaRx.dispStatus === 'Active: Non-VA' ? nonVaRx.orderableItem : '')}`;
     expect(txt).to.include(name);
   });
 
   it('should contain facility name', () => {
-    const txt = buildNonVAPrescriptionTXT(nonVAPrescription.data.attributes);
+    const txt = buildNonVAPrescriptionTXT(nonVaRx);
     expect(txt).to.include(
-      `Documented at this facility: ${validateField(
-        nonVAPrescription.data.attributes.facilityName,
-      )}`,
+      `Documented at this facility: ${validateField(nonVaRx.facilityName)}`,
     );
+  });
+
+  it('should display none noted if no provide name is given', () => {
+    const nonVaRxWithoutProviderName = {
+      ...nonVaRx,
+      providerLastName: null,
+    };
+
+    const txt = buildNonVAPrescriptionTXT(nonVaRxWithoutProviderName);
+    expect(txt).to.include('Documented by: None noted');
   });
 });

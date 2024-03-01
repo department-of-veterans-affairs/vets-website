@@ -58,6 +58,21 @@ function transformApplicants(applicants) {
   return applicantsPostTransform;
 }
 
+function parseCertifier(transformedData) {
+  return {
+    date: new Date().toJSON().slice(0, 10),
+    firstName: transformedData.veteransFullName.first || '',
+    lastName: transformedData.veteransFullName.last || '',
+    middleInitial: transformedData?.veteransFullName.middle || '',
+    phone_number: transformedData?.sponsorPhone || '',
+    relationship: '',
+    streetAddress: transformedData.sponsorAddress.street || '',
+    city: transformedData.sponsorAddress.city || '',
+    state: transformedData.sponsorAddress.state || '',
+    postal_code: transformedData.sponsorAddress.postal_code || '',
+  };
+}
+
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
@@ -101,6 +116,10 @@ export default function transformForSubmit(formConfig, form) {
       transformedData?.sponsorDischargePapers,
     ],
   };
+
+  // Fill in certification data with sponsor info as needed
+  if (form.data.certifierRole === 'sponsor')
+    dataPostTransform.certification = { ...parseCertifier(transformedData) };
 
   // Flatten supporting docs for all applicants to a single array
   const supDocs = [];

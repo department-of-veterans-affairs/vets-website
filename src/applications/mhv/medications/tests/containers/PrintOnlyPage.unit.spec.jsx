@@ -46,6 +46,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
             ? 'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.'
             : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
         }
+        subtitle="test"
       >
         {rx && (
           <>
