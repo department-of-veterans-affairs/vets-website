@@ -15,7 +15,7 @@ describe('<ClosedClaimAlert>', () => {
         );
         const link = $('.link-action-container', container);
         expect(link).not.to.exist;
-        expect(queryByText('We decided your claim on')).not.to.exist;
+        expect(queryByText('We closed your claim on')).not.to.exist;
       });
     });
     context('when decisionLetterSent true', () => {
@@ -25,7 +25,7 @@ describe('<ClosedClaimAlert>', () => {
         );
         const link = $('.link-action-container', container);
         expect(link).to.exist;
-        expect(queryByText('We decided your claim on')).not.to.exist;
+        expect(queryByText('We closed your claim on')).not.to.exist;
       });
     });
   });
@@ -38,7 +38,7 @@ describe('<ClosedClaimAlert>', () => {
         );
         const link = $('.link-action-container', container);
         expect(link).not.to.exist;
-        expect(queryByText('We decided your claim on March 1, 2010')).to.exist;
+        expect(queryByText('We closed your claim on March 1, 2010')).to.exist;
       });
     });
     context('when decisionLetterSent true', () => {
@@ -48,7 +48,7 @@ describe('<ClosedClaimAlert>', () => {
         );
         const link = $('.link-action-container', container);
         expect(link).to.exist;
-        expect(queryByText('We decided your claim on March 1, 2010')).to.exist;
+        expect(queryByText('We closed your claim on March 1, 2010')).to.exist;
       });
     });
   });

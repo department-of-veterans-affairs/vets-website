@@ -5,11 +5,13 @@ import { Link } from 'react-router';
 
 const formatDate = closedDate => moment(closedDate).format('MMMM D, YYYY');
 
+const headerText = closedDate =>
+  `We closed your claim on ${formatDate(closedDate)}`;
 function ClosedClaimAlert({ closeDate, decisionLetterSent = false }) {
   return (
     <va-alert class="vads-u-margin-bottom--4" status="info" uswds>
-      <h2 id="track-your-status-on-mobile" slot="headline">
-        We closed your claim on {formatDate(closeDate)}
+      <h2 id="claims-alert-header" slot="headline">
+        {closeDate && headerText(closeDate)}
       </h2>
       {decisionLetterSent ? (
         <>
