@@ -27,7 +27,7 @@ const VAFacilityPhone = ({ phoneTitle, phoneNumber }) => {
 };
 
 VAFacilityPhone.propTypes = {
-  phoneNumber: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   phoneTitle: PropTypes.string,
 };
 
