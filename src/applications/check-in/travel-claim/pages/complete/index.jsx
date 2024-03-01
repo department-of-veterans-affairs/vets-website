@@ -4,17 +4,21 @@ import { Trans, useTranslation } from 'react-i18next';
 import Wrapper from '../../../components/layout/Wrapper';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelClaimSuccessAlert from './TravelClaimSuccessAlert';
+import { getUniqueFacilies } from '../../../utils/appointment';
 
 // @TODO Appointments will come from redux this is temp
 import { multiFacility } from '../travel-intro/testAppointments';
 
 const Complete = () => {
   const { t } = useTranslation();
+  const facilities = getUniqueFacilies(multiFacility);
 
   return (
     <>
       <Wrapper
-        pageTitle={t('were-processing-your-travel-claim')}
+        pageTitle={t('were-processing-your-travel-claim', {
+          count: facilities.length,
+        })}
         classNames="travel-page"
       >
         <TravelClaimSuccessAlert appointments={multiFacility} />

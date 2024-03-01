@@ -5,7 +5,7 @@ import { parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../selectors';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
@@ -29,7 +29,10 @@ const AppointmentAction = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
-  const { setCheckinComplete } = useStorage(false);
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
+  const { setCheckinComplete } = useStorage(app);
 
   const { updateError } = useUpdateError();
 

@@ -2,16 +2,11 @@ import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import { useStorage } from '../../useStorage';
 
-export default function TestComponent({
-  window,
-  isPreCheckIn,
-  token,
-  travelPay,
-}) {
+export default function TestComponent({ window, app, token, travelPay }) {
   const { clearCurrentStorage, getCurrentToken, setCurrentToken } = useStorage(
-    isPreCheckIn,
+    app,
   );
-  const { setTravelPaySent, getTravelPaySent } = useStorage(isPreCheckIn, true);
+  const { setTravelPaySent, getTravelPaySent } = useStorage(app, true);
 
   const [fromSession, setFromSession] = useState();
   const [fromLocal, setFromLocal] = useState();
@@ -90,7 +85,7 @@ export default function TestComponent({
 }
 
 TestComponent.propTypes = {
-  isPreCheckIn: propTypes.bool,
+  app: propTypes.string,
   token: propTypes.string,
   travelPay: propTypes.object,
   window: propTypes.object,

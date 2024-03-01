@@ -27,11 +27,9 @@ const Landing = props => {
   const { t } = useTranslation();
 
   const { jumpToPage } = useFormRouting(router);
-  const {
-    clearCurrentStorage,
-    setPreCheckinComplete,
-    setCurrentToken,
-  } = useStorage();
+  const { clearCurrentStorage, setCurrentToken } = useStorage(
+    APP_NAMES.TRAVEL_CLAIM,
+  );
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);
@@ -64,7 +62,7 @@ const Landing = props => {
 
       if (token && isUUID(token)) {
         // call the sessions api
-        const checkInType = APP_NAMES.PRE_CHECK_IN;
+        const checkInType = APP_NAMES.TRAVEL_CLAIM;
 
         if (token && !sessionCallMade) {
           setSessionCallMade(true);
@@ -78,7 +76,6 @@ const Landing = props => {
                 updateError('session-error');
               } else {
                 setCurrentToken(window, token);
-                setPreCheckinComplete(window, false);
                 const pages = createForm();
                 const firstPage = pages[0];
                 initForm(pages, firstPage);
@@ -112,7 +109,6 @@ const Landing = props => {
       router,
       sessionCallMade,
       setCurrentToken,
-      setPreCheckinComplete,
       setSession,
       updateError,
     ],

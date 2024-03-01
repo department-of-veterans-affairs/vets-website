@@ -9,7 +9,7 @@ import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
@@ -40,6 +40,9 @@ const TravelPage = ({
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
   const onClick = event => {
     const answer = event.target.attributes.value.value;
     recordEvent({
@@ -61,7 +64,7 @@ const TravelPage = ({
       goToNextPage();
     }
   };
-  const { getCheckinComplete } = useStorage(false);
+  const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);

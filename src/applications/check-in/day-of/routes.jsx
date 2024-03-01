@@ -167,7 +167,7 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const options = { isPreCheckIn: false, appName: APP_NAMES.CHECK_IN };
+        const options = { appName: APP_NAMES.CHECK_IN };
         let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>

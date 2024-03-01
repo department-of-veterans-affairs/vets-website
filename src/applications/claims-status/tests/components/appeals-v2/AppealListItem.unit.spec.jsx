@@ -1,12 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import set from 'platform/utilities/data/set';
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
-import AppealListItemV2 from '../../../components/appeals-v2/AppealListItemV2';
+import AppealListItem from '../../../components/appeals-v2/AppealListItem';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';
 
-describe('<AppealListItemV2/>', () => {
+describe('<AppealListItem>', () => {
   const defaultProps = {
     appeal: {
       id: 1234,
@@ -22,7 +23,7 @@ describe('<AppealListItemV2/>', () => {
             date: '2016-05-01',
           },
         ],
-        // These should really be objects, but AppealListItemV2 doesn't really care
+        // These should really be objects, but AppealListItem doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'compensation',
@@ -45,7 +46,7 @@ describe('<AppealListItemV2/>', () => {
             date: '2016-05-01',
           },
         ],
-        // These should really be objects, but AppealListItemV2 doesn't really care
+        // These should really be objects, but AppealListItem doesn't really care
         issues: ["I'm an issue!", 'So am I!'],
         description: 'Description here.',
         programArea: 'medical',
@@ -55,56 +56,32 @@ describe('<AppealListItemV2/>', () => {
   };
 
   it('should render', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
-    wrapper.unmount();
-  });
-
-  it('should append open class to status-circle div when status active', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
-    expect(wrapper.find('div.open-claim').length).to.equal(1);
-    expect(wrapper.find('div.closed-claim').length).to.equal(0);
-    wrapper.unmount();
-  });
-
-  it('should append closed class to status-circle div when status inactive', () => {
-    const closedProps = set('appeal.attributes.active', false, defaultProps);
-    const wrapper = shallow(<AppealListItemV2 {...closedProps} />);
-    expect(wrapper.find('div.closed-claim').length).to.equal(1);
-    expect(wrapper.find('div.open-claim').length).to.equal(0);
-    wrapper.unmount();
-  });
-
-  it('should show the right date in the header', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
-    expect(
-      wrapper
-        .find('.claim-list-item-header-v2')
-        .render()
-        .text(),
-    ).to.contain('May 1, 2016');
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
+    expect(wrapper.name()).to.equal('ClaimCard');
     wrapper.unmount();
   });
 
   it('should show the right date with submitted on', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     expect(
       wrapper
-        .find('p')
-        .last()
+        .find('ClaimCard')
+        .shallow()
+        .find('.submitted-on')
         .text(),
-    ).to.equal('Received on: May 1, 2016');
+    ).to.equal('Received on May 1, 2016');
     wrapper.unmount();
   });
 
   it('should correctly title a VHA Supplemental Claim', () => {
-    const wrapper = shallow(<AppealListItemV2 {...vhaScProps} />);
+    const wrapper = shallow(<AppealListItem {...vhaScProps} />);
     expect(
       wrapper
-        .find('.claim-list-item-header-v2')
-        .render()
+        .find('ClaimCard')
+        .shallow()
+        .find('.claim-list-item-header')
         .text(),
-    ).to.equal('Supplemental claim for health care\n updated on May 1, 2016');
+    ).to.contain('Supplemental claim for health care');
     wrapper.unmount();
   });
 
@@ -114,9 +91,9 @@ describe('<AppealListItemV2/>', () => {
       ["I'm an issue!"],
       defaultProps,
     );
-    const wrapper = shallow(<AppealListItemV2 {...props} />);
+    const wrapper = shallow(<AppealListItem {...props} />);
     const issuesText = wrapper
-      .find('.card-status + p')
+      .find('.card-status > p')
       .first()
       .text();
     expect(issuesText).to.contain('Issue');
@@ -125,9 +102,9 @@ describe('<AppealListItemV2/>', () => {
   });
 
   it('should say "issues" if there are multiple issues on appeal', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
     const issuesText = wrapper
-      .find('.card-status + p')
+      .find('.card-status > p')
       .first()
       .text();
     expect(issuesText).to.contain('Issues');
@@ -135,9 +112,9 @@ describe('<AppealListItemV2/>', () => {
   });
 
   it('should say "review" if the appeal is a Supplemental Claim', () => {
-    const wrapper = shallow(<AppealListItemV2 {...vhaScProps} />);
+    const wrapper = shallow(<AppealListItem {...vhaScProps} />);
     const issuesText = wrapper
-      .find('.card-status + p')
+      .find('.card-status > p')
       .first()
       .text();
     expect(issuesText).to.contain('review');
@@ -145,26 +122,35 @@ describe('<AppealListItemV2/>', () => {
   });
 
   it('should create a link to the appeal status page', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
-    expect(
-      wrapper
-        .find('Link')
-        .first()
-        .props().to,
-    ).to.equal(`appeals/${defaultProps.appeal.id}/status`);
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
+    const linkProps = wrapper
+      .find('ClaimCardLink')
+      .first()
+      .props();
+    expect(linkProps.href).to.equal(`appeals/${defaultProps.appeal.id}/status`);
     wrapper.unmount();
   });
 
   it('should not show the issue text if no description is given', () => {
     const props = set('appeal.attributes.description', undefined, defaultProps);
-    const wrapper = shallow(<AppealListItemV2 {...props} />);
-    expect(wrapper.find('.card-status + p').exists()).to.be.false;
+    const wrapper = shallow(<AppealListItem {...props} />);
+    expect(
+      wrapper
+        .find('.card-status > p')
+        .first()
+        .text(),
+    ).to.not.contain('Description here.');
     wrapper.unmount();
   });
 
   it('should show the issue text if a description is given', () => {
-    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
-    expect(wrapper.find('.card-status + p').exists()).to.be.true;
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
+    expect(
+      wrapper
+        .find('.card-status > p')
+        .first()
+        .text(),
+    ).to.contain('Description here.');
     wrapper.unmount();
   });
 });

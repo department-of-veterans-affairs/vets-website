@@ -27,7 +27,7 @@ const DisplayMultipleAppointments = props => {
   const { appointments, router } = props;
   const { t } = useTranslation();
 
-  const { getCheckinComplete } = useStorage(false);
+  const { getCheckinComplete } = useStorage(APP_NAMES.CHECK_IN);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);

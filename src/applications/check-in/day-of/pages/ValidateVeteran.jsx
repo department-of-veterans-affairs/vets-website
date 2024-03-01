@@ -11,6 +11,7 @@ import { useUpdateError } from '../../hooks/useUpdateError';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
+import { APP_NAMES } from '../../utils/appConstants';
 
 import { useStorage } from '../../hooks/useStorage';
 
@@ -18,7 +19,7 @@ const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { setPermissions } = useStorage(false);
+  const { setPermissions } = useStorage(APP_NAMES.CHECK_IN);
 
   const { updateError } = useUpdateError();
 

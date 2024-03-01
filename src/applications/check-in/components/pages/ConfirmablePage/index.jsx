@@ -15,7 +15,6 @@ import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
 import { URLS } from '../../../utils/navigation';
-import { APP_NAMES } from '../../../utils/appConstants';
 import TravelWarningAlert from '../../TravelWarningAlert';
 
 const ConfirmablePage = ({
@@ -41,7 +40,7 @@ const ConfirmablePage = ({
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const { jumpToPage } = useFormRouting(router);
-  const { getCheckinComplete } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
+  const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);

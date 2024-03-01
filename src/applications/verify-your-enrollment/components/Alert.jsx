@@ -16,18 +16,20 @@ const Alert = ({ status, message }) => {
   );
 
   return (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status={status}
-      uswds
-      visible
-    >
-      <React.Fragment key=".1">
-        <p data-testid="alert" className="vads-u-margin-y--0">
-          {message}
-        </p>
-      </React.Fragment>
-    </va-alert>
+    <div className="vads-u-margin-y--2">
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status={status}
+        uswds
+        visible
+      >
+        <React.Fragment key=".1">
+          <p data-testid="alert" className="vads-u-margin-y--0">
+            {message}
+          </p>
+        </React.Fragment>
+      </va-alert>
+    </div>
   );
 };
 

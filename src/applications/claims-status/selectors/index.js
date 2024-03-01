@@ -43,10 +43,6 @@ export const cstIncludeDdl5103Letters = state =>
 export const benefitsDocumentsUseLighthouse = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.benefitsDocumentsUseLighthouse];
 
-// 'cst_use_new_claim_cards'
-export const cstUseNewClaimCards = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseNewClaimCards];
-
 // 'cst_use_claim_details_v2'
 export const cstUseClaimDetailsV2 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstUseClaimDetailsV2];
