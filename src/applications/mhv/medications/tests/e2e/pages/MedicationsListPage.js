@@ -455,5 +455,12 @@ class MedicationsListPage {
       .first()
       .should('contain', prescriptionNumber);
   };
+
+  verifyMedicationsListPageTitle = () => {
+    cy.get('[data-testid="list-page-title"]').should(
+      'have.text',
+      'Medications',
+    );
+  };
 }
 export default MedicationsListPage;
