@@ -26,6 +26,10 @@ export const cstUseLighthouse = (state, endpoint) => {
     }
   }
 
+  // Returning true here because the feature toggle sometimes returns
+  // undefined and the feature toggle should always return true anyways
+  if (endpoint === 'show') return true;
+
   return toggleValues(state)[
     FEATURE_FLAG_NAMES[`cstUseLighthouse#${endpoint}`]
   ];
