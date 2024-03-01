@@ -99,23 +99,8 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // three different scenarios for testing downtime banner
     // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
     // but couldn't be directly imported due to export default vs module.exports
-
-    // return res.json(
-    //   maintenanceWindows.createDowntimeApproachingNotification([
-    //     maintenanceWindows.SERVICES.EMIS,
-    //   ]),
-    // );
-
-    // return res.json(
-    //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.MVI,
-    //     maintenanceWindows.SERVICES.EMIS,
-    //   ]),
-    // );
-
     return res.json(maintenanceWindows.noDowntime);
   },
 
