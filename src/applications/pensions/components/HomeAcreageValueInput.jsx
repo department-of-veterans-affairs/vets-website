@@ -108,7 +108,11 @@ const HomeAcreageValueInput = props => {
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">Income and assets</legend>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+            Income and assets
+          </h3>
+        </legend>
         <va-number-input
           currency
           label="What’s the value of the land that’s more than 2 acres?"

@@ -2,6 +2,7 @@ import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const reasonForCurrentSeparationOptions = {
@@ -17,7 +18,7 @@ export const otherExplanationRequired = form =>
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Reason for separation',
+    ...titleUI('Reason for separation'),
     reasonForCurrentSeparation: radioUI({
       title: 'What’s the reason you’re separated from your spouse?',
       labels: reasonForCurrentSeparationOptions,
