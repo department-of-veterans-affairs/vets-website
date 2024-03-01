@@ -19,6 +19,8 @@ export const Paths = {
   CATEGORIES: '/categories',
   RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
+  USER: '/user',
+  MAINTENANCE: '/maintenance_windows',
 };
 
 export const Locators = {
