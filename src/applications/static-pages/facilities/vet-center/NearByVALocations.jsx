@@ -35,7 +35,7 @@ const genQuery = (boundingBox, coordinates, type, mobileFalse) => {
   }
   return query + params.join('&');
 };
-const NearByVALocations = props => {
+const NearbyLocations = props => {
   const [originalCoordinates, setOriginalCoordinates] = useState([]);
   const [nearbyVADistances, setNearbyVADistances] = useState(false);
   const dispatch = useDispatch();
@@ -216,7 +216,7 @@ const NearByVALocations = props => {
   return null;
 };
 
-NearByVALocations.propTypes = {
+NearbyLocations.propTypes = {
   mainAddress: PropTypes.object,
   mainFacilityApiId: PropTypes.string,
   mainPhone: PropTypes.string,
@@ -232,4 +232,4 @@ const mapStateToProps = store => ({
   togglesLoading: store.featureToggles?.loading,
 });
 
-export default connect(mapStateToProps)(NearByVALocations);
+export default connect(mapStateToProps)(NearbyLocations);
