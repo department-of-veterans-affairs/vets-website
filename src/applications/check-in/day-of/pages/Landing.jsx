@@ -9,6 +9,7 @@ import {
 } from '../../utils/navigation/day-of';
 
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -34,7 +35,7 @@ const Landing = props => {
     setShouldSendTravelPayClaim,
     setCurrentToken,
     setCheckinComplete,
-  } = useStorage(false);
+  } = useStorage(APP_NAMES.CHECK_IN);
   const dispatch = useDispatch();
 
   const initForm = useCallback(

@@ -11,13 +11,14 @@ import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay'
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
-  const { setPermissions } = useStorage(true);
+  const { setPermissions } = useStorage(APP_NAMES.PRE_CHECK_IN);
   const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
