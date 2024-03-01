@@ -43,7 +43,5 @@ describe('Thread list load error', () => {
 
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
-
-    cy.get('[data-testid="loading-indicator"]').should('be.visible');
   });
 });

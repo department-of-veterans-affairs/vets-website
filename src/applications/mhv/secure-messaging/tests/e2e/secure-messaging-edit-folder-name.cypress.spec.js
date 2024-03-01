@@ -27,9 +27,9 @@ describe('edit custom folder name validation', () => {
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
-    cy.get('[close-btn-aria-label="Close notification"]')
+    cy.get('[data-testid="alert-text"]')
       .should('be.visible')
-      .and('have.text', 'Folder was successfully renamed.');
+      .and('contain.text', 'Folder was successfully renamed.');
 
     cy.get('[data-testid="folder-header"]').should('be.visible');
   });

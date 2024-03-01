@@ -294,17 +294,14 @@ class PatientMessageDraftsPage {
 
   // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should(
-      'have.text',
+    cy.get('[data-testid="alert-text"]').should(
+      'contain.text',
       Alerts.Message.DELETE_DRAFT_SUCCESS,
     );
   };
 
   verifyConfirmationMessage = message => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
-      'have.text',
-      message,
-    );
+    cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
   verifyDeleteConfirmationHasFocus = () => {

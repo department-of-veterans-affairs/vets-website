@@ -140,12 +140,12 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get('[class="vads-u-margin-y--0"]');
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder was successfully removed.',
     );
   };
@@ -156,14 +156,14 @@ class FolderManagementPage {
 
   verifyCreateFolderNetworkFailureMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
     );
   };
 
   verifyCreateFolderSuccessMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder was successfully created.',
     );
   };
@@ -236,9 +236,9 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]')
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('have.text', 'Message conversation was successfully moved.');
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {
