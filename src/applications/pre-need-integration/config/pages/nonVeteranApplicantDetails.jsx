@@ -1,36 +1,36 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
-import { merge, pick } from 'lodash';
+import { pick } from 'lodash';
 
 import {
   nonVeteranApplicantDetailsDescription,
   nonVeteranApplicantDetailsSubHeader,
-  fullMaidenNameUI,
   ssnDashesUI,
+  nonPreparerFullMaidenNameUI,
+  nonPreparerDateOfBirthUI,
 } from '../../utils/helpers';
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
-export const uiSchema = {
-  'ui:description': applicantDescription,
-  application: {
-    'ui:title': nonVeteranApplicantDetailsSubHeader,
-    claimant: {
-      'view:applicantDetailsDescription': {
-        'ui:description': nonVeteranApplicantDetailsDescription,
-        'ui:options': {
-          displayEmptyObjectOnReview: true,
-        },
+export function uiSchema(
+  subHeader = nonVeteranApplicantDetailsSubHeader,
+  description = nonVeteranApplicantDetailsDescription,
+  nameUI = nonPreparerFullMaidenNameUI,
+  ssnUI = ssnDashesUI,
+  dateOfBirthUI = nonPreparerDateOfBirthUI,
+) {
+  return {
+    application: {
+      'ui:title': subHeader,
+      'ui:description': description,
+      claimant: {
+        name: nameUI,
+        ssn: ssnUI,
+        dateOfBirth: dateOfBirthUI,
       },
-      name: fullMaidenNameUI,
-      ssn: ssnDashesUI,
-      dateOfBirth: currentOrPastDateUI('Date of birth'),
     },
-  },
-};
+  };
+}
 
 export const schema = {
   type: 'object',
@@ -41,16 +41,7 @@ export const schema = {
         claimant: {
           type: 'object',
           required: ['name', 'ssn', 'dateOfBirth'],
-          properties: merge(
-            {},
-            {
-              'view:applicantDetailsDescription': {
-                type: 'object',
-                properties: {},
-              },
-            },
-            pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
-          ),
+          properties: pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
         },
       },
     },
