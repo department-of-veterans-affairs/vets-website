@@ -13,13 +13,13 @@ import { useUpdateError } from '../hooks/useUpdateError';
 
 const withAuthorization = (Component, options) => {
   const WrappedComponent = props => {
-    const { isPreCheckIn } = options;
+    const { appName } = options;
     const { router } = props;
     const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
     const { token, permissions } = useSelector(selectCurrentContext);
 
     const { jumpToPage } = useFormRouting(router);
-    const { getCurrentToken } = useStorage(isPreCheckIn);
+    const { getCurrentToken } = useStorage(appName);
     const { updateError } = useUpdateError();
 
     useEffect(

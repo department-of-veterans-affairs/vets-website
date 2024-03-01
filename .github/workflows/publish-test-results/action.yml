@@ -1,0 +1,30 @@
+name: Publish Test Results
+description: Publish Test Results
+
+inputs:
+  check_name:
+    description: Name of check being created
+    required: true
+  token:
+    description: Auth token for GitHub
+    required: true
+  report_paths:
+    description: Path of where the report exists that is being summarized
+    required: true
+  summary:
+    description: Summary text that accompanies the report resutls
+    required: true
+  fail_on_failures:
+    description: Fail this check if the report has failures in it?
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: mikepenz/action-junit-report@v2.8.4
+      with:
+        check_name: ${{ inputs.check_name }}
+        github_token: ${{ inputs.token }}
+        report_paths: ${{ inputs.report_paths }}
+        summary: ${{ inputs.summary }}
+        fail_on_failure: ${{ inputs.fail_on_failures }}
