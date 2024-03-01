@@ -2,15 +2,7 @@
   "data": {
     "type": "feature_toggles",
     "features": [{
-      "name": "form10182_nod",
-      "value": true
-    }, {
       "name": "nod_part3_update",
-      "value": true
-    },
-
-    {
-      "name": "supplemental_claim",
       "value": true
     }]
   }
