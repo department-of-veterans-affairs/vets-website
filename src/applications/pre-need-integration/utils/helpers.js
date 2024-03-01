@@ -43,7 +43,7 @@ export const veteranApplicantDetailsPreparerSubHeader = (
 
 export const nonVeteranApplicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+    <h3 className="vads-u-font-size--h5">Your details</h3>
   </div>
 );
 
@@ -196,15 +196,11 @@ export const applicantInformationDescription = (
 export const veteranApplicantDetailsPreparerDescription =
   'Provide the details for the person you’re filling out the application for (called the applicant).';
 
-export const nonVeteranApplicantDetailsDescription = (
-  <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
-    <p>
-      If you’re filling out the form on behalf of someone else, you’ll need to
-      provide their details below. As the preparer, we’ll ask for your own
-      details later.
-    </p>
-  </va-additional-info>
-);
+export const nonVeteranApplicantDetailsDescription =
+  "Since you're applying for eligibility determination, first we'll ask for your details. Then we'll ask for the details for the Veteran or service member you’re connected to.";
+
+export const nonVeteranApplicantDetailsDescriptionPreparer =
+  'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
 // do not render with a prod flag
 export const applicantContactInfoDescriptionVet = (
