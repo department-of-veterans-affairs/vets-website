@@ -6,7 +6,6 @@ import { APP_NAMES } from '../../../utils/appConstants';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
-import { useStorage } from '../../../hooks/useStorage';
 import { makeSelectCurrentContext } from '../../../selectors';
 
 const LoadingPage = props => {
@@ -16,9 +15,6 @@ const LoadingPage = props => {
   const { eligibleToFile } = useSelector(selectCurrentContext);
 
   const { goToNextPage } = useFormRouting(router);
-
-  const { getTravelPaySent } = useStorage(APP_NAMES.TRAVEL_CLAIM, true);
-  const travelPaySent = getTravelPaySent(window);
 
   const { checkInDataError, isComplete } = useGetCheckInData({
     refreshNeeded: true,
@@ -35,7 +31,6 @@ const LoadingPage = props => {
     },
     [checkInDataError, updateError],
   );
-
   useEffect(
     () => {
       if (isComplete) {
@@ -46,7 +41,7 @@ const LoadingPage = props => {
         }
       }
     },
-    [isComplete, goToNextPage, travelPaySent, eligibleToFile, updateError],
+    [isComplete, goToNextPage, eligibleToFile, updateError],
   );
   window.scrollTo(0, 0);
 

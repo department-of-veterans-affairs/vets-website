@@ -19,7 +19,7 @@ import {
 
 import {
   receivedTravelData,
-  receivedFilteredAppointments,
+  setFilteredAppointments,
 } from '../actions/travel-claim';
 
 import {
@@ -147,7 +147,7 @@ const useGetCheckInData = ({
       });
       batch(() => {
         dispatch(receivedTravelData(payload));
-        dispatch(receivedFilteredAppointments(filteredAppointments));
+        dispatch(setFilteredAppointments(filteredAppointments));
       });
     },
     [dispatch, getTravelPaySentTravelClaim],

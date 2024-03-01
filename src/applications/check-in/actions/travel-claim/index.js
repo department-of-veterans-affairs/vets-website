@@ -7,11 +7,11 @@ export const receivedTravelData = payload => {
   };
 };
 
-export const RECEIVED_FILTERED_APPOINTMENTS = 'RECEIVED_FILTERED_APPOINTMENTS';
+export const SET_FILTERED_APPOINTMENTS = 'SET_FILTERED_APPOINTMENTS';
 
-export const receivedFilteredAppointments = payload => {
+export const setFilteredAppointments = payload => {
   return {
-    type: RECEIVED_FILTERED_APPOINTMENTS,
+    type: SET_FILTERED_APPOINTMENTS,
     payload,
   };
 };
