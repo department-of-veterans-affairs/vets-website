@@ -1,16 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import { useStorage } from '../../../hooks/useStorage';
+import { makeSelectCurrentContext } from '../../../selectors';
 
 const LoadingPage = props => {
   const { router } = props;
   const { t } = useTranslation();
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { eligibleToFile } = useSelector(selectCurrentContext);
 
   const { goToNextPage } = useFormRouting(router);
+
+  const { getTravelPaySent } = useStorage(APP_NAMES.TRAVEL_CLAIM, true);
+  const travelPaySent = getTravelPaySent(window);
 
   const { checkInDataError, isComplete } = useGetCheckInData({
     refreshNeeded: true,
@@ -31,10 +39,14 @@ const LoadingPage = props => {
   useEffect(
     () => {
       if (isComplete) {
-        goToNextPage();
+        if (eligibleToFile && eligibleToFile.length) {
+          goToNextPage();
+        } else {
+          updateError('already-filed');
+        }
       }
     },
-    [isComplete, goToNextPage],
+    [isComplete, goToNextPage, travelPaySent],
   );
   window.scrollTo(0, 0);
 

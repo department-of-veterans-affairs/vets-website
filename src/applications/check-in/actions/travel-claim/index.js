@@ -6,3 +6,12 @@ export const receivedTravelData = payload => {
     payload,
   };
 };
+
+export const RECEIVED_FILTERED_APPOINTMENTS = 'RECEIVED_FILTERED_APPOINTMENTS';
+
+export const receivedFilteredAppointments = payload => {
+  return {
+    type: RECEIVED_FILTERED_APPOINTMENTS,
+    payload,
+  };
+};
