@@ -14,13 +14,10 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
       fail-fast: true
@@ -33,13 +30,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
-
       - name: Configure AWS credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: aws-actions/configure-aws-credentials@v4
@@ -48,7 +38,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
           mask-aws-account-id: true    
-          
+            
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -58,6 +48,13 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -209,15 +206,20 @@ jobs:
   unit-tests:
     name: Unit Tests
     needs: [fetch-allow-lists, unit-tests-prep]
-    runs-on: self-hosted
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
 
+    strategy:
+      fail-fast: false
+      max-parallel: 72
+      matrix:
+        ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -250,8 +252,9 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: 1
+          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
+          NUM_CONTAINERS: 10
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -302,7 +305,12 @@ jobs:
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
-        run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+        run: |
+          if [ -f coverage/test-coverage-report.json ]; then
+            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          else
+            echo 'No coverage report exists as no tests were run.'
+          fi
 
       - name: Get code coverage
         if: ${{ always() }}
@@ -322,12 +330,11 @@ jobs:
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [fetch-allow-lists, unit-tests-prep]
     if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 
@@ -1762,7 +1769,12 @@ jobs:
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
-        run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
+        run: |
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
+          else
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
+          fi
 
   deploy:
     name: Deploy

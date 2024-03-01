@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
+const path = require('path');
 const printUnitTestHelp = require('./run-unit-test-help');
 const { runCommand } = require('./utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
+const numContainers = process.env.NUM_CONTAINERS || 1;
+const matrixStep = process.env.STEP || 0;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
@@ -24,7 +27,28 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     defaultValue: [defaultPath],
   },
 ];
+const allUnitTests = glob.sync(defaultPath);
+const allUnitTestDirs = Array.from(
+  new Set(
+    allUnitTests.map(spec =>
+      JSON.stringify(
+        path
+          .dirname(spec)
+          .split('/')
+          .slice(1, 4),
+      ),
+    ),
+  ),
+).filter(spec => spec !== undefined);
 
+function splitArray(array, chunks) {
+  const [...arrayCopy] = array;
+  const arrayChunks = [];
+  while (arrayCopy.length) {
+    arrayChunks.push(arrayCopy.splice(0, chunks));
+  }
+  return arrayChunks;
+}
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 let coverageInclude = '';
 

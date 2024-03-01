@@ -52,6 +52,14 @@ export const Locators = {
     SAVE_DRAFT: '#messagetext',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
   },
+  FIELDS: {
+    RECIPIENT: '#select',
+    SUBJECT: '#inputField',
+    MESSAGE: '#textarea',
+  },
+  INFO: {
+    SUBJECT_LIMIT: '#charcount-message',
+  },
 };
 
 export const Alerts = {
