@@ -1,8 +1,19 @@
 import environment from 'platform/utilities/environment';
 
+export const isReviewInstance = () => {
+  return !(
+    environment.isProduction() ||
+    environment.isDev() ||
+    environment.isLocalhost() ||
+    environment.isStaging()
+  );
+};
+
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
     environment.isProduction() ||
+    environment.isDev() ||
+    isReviewInstance() ||
     automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
