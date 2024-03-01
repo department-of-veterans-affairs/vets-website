@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { fireEvent } from '@testing-library/dom';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
 import reducers from '../../../reducers';
@@ -14,8 +15,16 @@ describe('Medication card component', () => {
     });
   };
 
-  it('renders without errors', () => {
-    const screen = setup();
+  it('renders without errors, even when no prescription name is given ', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      prescriptionName: '',
+      dispStatus: 'Active: Non-VA',
+    });
+    const medicationName = screen.getByTestId(
+      'medications-history-details-link',
+    );
+    fireEvent.click(medicationName);
     expect(screen);
   });
 
@@ -34,5 +43,16 @@ describe('Medication card component', () => {
     };
     const screen = setup(rxWithUnknownStatus);
     expect(screen.queryByText(rxWithUnknownStatus.dispStatus)).to.not.exist;
+  });
+  it('able to click on medication name', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: 'Active: Non-VA',
+    });
+    const medicationName = screen.getByText(
+      prescriptionsListItem.prescriptionName,
+    );
+    fireEvent.click(medicationName);
+    expect(screen);
   });
 });
