@@ -23,11 +23,11 @@ export default {
         ...currentOrPastMonthYearUI('Service end date'),
         'ui:description': ServiceDateRangeDescription,
       },
+      'ui:validations': [validateGulfWarDates],
     },
     'view:dateRange': {
       'ui:description': DateRangeDescription,
     },
-    'ui:validations': [validateGulfWarDates],
   },
   schema: {
     type: 'object',
