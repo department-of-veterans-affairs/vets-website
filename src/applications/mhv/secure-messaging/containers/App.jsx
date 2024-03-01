@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -15,8 +16,9 @@ import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
+import manifest from '../manifest.json';
 
-const App = () => {
+const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
@@ -31,6 +33,10 @@ const App = () => {
       };
     },
     state => state.featureToggles,
+  );
+  const cernerPilotSmFeatureFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
   useEffect(
@@ -75,6 +81,14 @@ const App = () => {
     window.location.replace('/health-care/secure-messaging');
     return <></>;
   }
+
+  // Feature flag maintains whitelist for cerner integration pilot environment.
+  // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
+  // redirect to the SM main experience landing page
+  if (isPilot && !cernerPilotSmFeatureFlag) {
+    window.location.replace(manifest.rootUrl);
+    return <></>;
+  }
   return (
     <RequiredLoginView
       user={user}
@@ -113,6 +127,10 @@ const App = () => {
       )}
     </RequiredLoginView>
   );
+};
+
+App.propTypes = {
+  isPilot: PropTypes.bool,
 };
 
 export default App;
