@@ -44,14 +44,8 @@ import * as otherAssets from './assets/other';
 import * as otherAssetPages from './assets/other/otherAssetsEnhanced';
 import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
-import * as utilities from './expenses/utilities';
-import * as utilityRecords from './expenses/utilities/records';
 import * as utilityBillPages from './expenses/utilities/utilityBillsEnhanced';
-import * as repayments from './expenses/repayments';
-import * as repaymentRecords from './expenses/repayments/records';
-import * as otherExpenses from './expenses/other';
 import * as otherExpensesPages from './expenses/other/otherExpensesPages';
-import * as otherExpenseRecords from './expenses/other/records';
 import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
@@ -114,13 +108,7 @@ export {
   otherAssetRecords,
   otherAssetPages,
   expenses,
-  utilities,
-  utilityRecords,
   utilityBillPages,
-  repayments,
-  repaymentRecords,
-  otherExpenses,
-  otherExpenseRecords,
   otherExpensesPages,
   resolutionOption,
   resolutionComment,
