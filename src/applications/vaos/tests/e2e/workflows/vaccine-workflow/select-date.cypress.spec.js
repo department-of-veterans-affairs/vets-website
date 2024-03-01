@@ -111,6 +111,7 @@ describe('VAOS select appointment date', () => {
         .clickNextButton();
 
       DateTimeSelectPageObject.assertUrl()
+        // advance to next month if secondDate lands on following month
         .compareDatesClickNextMonth(firstDate, secondDate)
         .selectDate(secondDate)
         .assertDateSelected(secondDate);
@@ -227,6 +228,7 @@ describe('VAOS select appointment date', () => {
 
       DateTimeSelectPageObject.assertUrl()
         // Account for 1st call returning 2 months of slots
+        // if endOfMonthDate then 1st call returns 1 month of slots
         .clickNextMonth()
         .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
