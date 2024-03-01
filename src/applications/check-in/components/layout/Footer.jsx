@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
+import { APP_NAMES } from '../../utils/appConstants';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../BackToHome';
 import HelpBlock from '../HelpBlock';
-import { makeSelectError } from '../../selectors';
+import { makeSelectError, makeSelectApp } from '../../selectors';
 
-const Footer = ({ router, isPreCheckIn }) => {
+const Footer = ({ router }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
   const selectError = useMemo(makeSelectError, []);
@@ -24,14 +25,18 @@ const Footer = ({ router, isPreCheckIn }) => {
     'travel-review',
   ];
 
-  const appName = useSelector(state => state.checkInData.app);
+  const selectApp = useMemo(makeSelectApp, []);
+  const { appName } = useSelector(selectApp);
 
   const showTravelHelp = () => {
     if (travelPages.includes(currentPage)) {
       return true;
     }
 
-    if (currentPage?.includes('complete') && !isPreCheckIn) {
+    if (
+      currentPage?.includes('complete') &&
+      appName !== APP_NAMES.PRE_CHECK_IN
+    ) {
       return true;
     }
 
@@ -42,12 +47,10 @@ const Footer = ({ router, isPreCheckIn }) => {
   };
 
   const showTravelClaimHelp = () => {
-    if (appName === 'travelClaim') return true;
+    // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+    if (appName === APP_NAMES.TRAVEL_CLAIM) return true;
 
-    return (
-      currentPage === 'error' &&
-      (error === 'check-in-post-error' || error === 'error-completing-check-in')
-    );
+    return false;
   };
 
   return (
@@ -61,12 +64,12 @@ const Footer = ({ router, isPreCheckIn }) => {
       {showTravelHelp() &&
         !showTravelClaimHelp() && (
           <div data-testid="check-in-message">
-            <HelpBlock travel />
+            <HelpBlock dayOfTravel />
           </div>
         )}
       {showTravelClaimHelp() && (
         <div data-testid="check-in-message">
-          <HelpBlock travelOnly />
+          <HelpBlock travelClaim />
         </div>
       )}
       {!showTravelHelp() &&
@@ -94,7 +97,6 @@ const Footer = ({ router, isPreCheckIn }) => {
 };
 
 Footer.propTypes = {
-  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 

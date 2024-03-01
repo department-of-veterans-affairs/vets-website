@@ -4,12 +4,12 @@ import { useTranslation, Trans } from 'react-i18next';
 import { phoneNumbers } from '../utils/appConstants';
 import ExternalLink from './ExternalLink';
 
-const HelpBlock = ({ travel, travelOnly }) => {
+const HelpBlock = ({ dayOfTravel, travelClaim }) => {
   const { t } = useTranslation();
 
   return (
     <div data-testid="help-block">
-      {travelOnly && (
+      {travelClaim && (
         <>
           <p data-testid="for-questions-about-filing">
             <Trans
@@ -44,36 +44,35 @@ const HelpBlock = ({ travel, travelOnly }) => {
         </>
       )}
 
-      {!travelOnly && (
-        <p data-testid="for-help-using-this-tool">
-          <Trans
-            i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-              <va-telephone
-                key={phoneNumbers.mainInfo}
-                contact={phoneNumbers.mainInfo}
-              />,
-              <va-telephone
-                key={phoneNumbers.tty}
-                contact={phoneNumbers.tty}
-                tty
-                ariaLabel="7 1 1."
-              />,
-            ]}
-          />
-        </p>
-      )}
-
-      {!travelOnly && (
-        <p data-testid="if-you-have-questions">
-          <Trans
-            i18nKey="if-you-have-questions-about-your-appointments"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
-        </p>
+      {!travelClaim && (
+        <>
+          <p data-testid="for-help-using-this-tool">
+            <Trans
+              i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+                <va-telephone
+                  key={phoneNumbers.mainInfo}
+                  contact={phoneNumbers.mainInfo}
+                />,
+                <va-telephone
+                  key={phoneNumbers.tty}
+                  contact={phoneNumbers.tty}
+                  tty
+                  ariaLabel="7 1 1."
+                />,
+              ]}
+            />
+          </p>
+          <p data-testid="if-you-have-questions">
+            <Trans
+              i18nKey="if-you-have-questions-about-your-appointments"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+              ]}
+            />
+          </p>
+        </>
       )}
       <ExternalLink
         href="https://www.va.gov/find-locations"
@@ -84,7 +83,7 @@ const HelpBlock = ({ travel, travelOnly }) => {
         {t('find-your-va-health-facility')}
       </ExternalLink>
 
-      {travel && (
+      {dayOfTravel && (
         <>
           <p data-testid="for-questions-about-filing">
             <Trans
@@ -143,8 +142,8 @@ const HelpBlock = ({ travel, travelOnly }) => {
 };
 
 HelpBlock.propTypes = {
-  travel: PropTypes.bool,
-  travelOnly: PropTypes.bool,
+  dayOfTravel: PropTypes.bool,
+  travelClaim: PropTypes.bool,
 };
 
 export default HelpBlock;
