@@ -327,6 +327,7 @@ jobs:
   unit-tests-stress-test:
     name: Unit Test Stability Review
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [fetch-allow-lists, unit-tests-prep]
     if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
