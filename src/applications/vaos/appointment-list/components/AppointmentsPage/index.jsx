@@ -6,7 +6,10 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureBookingExclusion,
+} from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
@@ -14,11 +17,16 @@ import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  OH_TRANSITION_SITES,
+} from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
+import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 
 const SUBPAGE_TITLES = {
   upcoming: 'Your appointments',
@@ -56,6 +64,10 @@ function renderWarningNotification() {
     );
   };
 }
+renderWarningNotification.propTypes = {
+  description: PropTypes.string,
+  status: PropTypes.string,
+};
 
 export default function AppointmentsPage() {
   const location = useLocation();
@@ -67,6 +79,9 @@ export default function AppointmentsPage() {
   );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
+  );
+  const featureBookingExclusion = useSelector(state =>
+    selectFeatureBookingExclusion(state),
   );
 
   const subPageTitle = getSubPageTitleFromLocation(location.pathname);
@@ -84,6 +99,18 @@ export default function AppointmentsPage() {
   } else {
     pageTitle = 'Appointments';
   }
+  const registeredFacilities = useSelector(selectPatientFacilities);
+  const hasRegisteredOHTransitionSite = registeredFacilities?.find(
+    ({ facilityId }) => facilityId === OH_TRANSITION_SITES.Lovell.id,
+  );
+  const hasRegisteredNonTransitionSite = registeredFacilities?.find(
+    ({ facilityId }) => facilityId !== OH_TRANSITION_SITES.Lovell.id,
+  );
+  // hide schedule link if user is registered at an OH Transition site and has no other registered facilities.
+  const hideScheduleLink = () =>
+    featureBookingExclusion
+      ? !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite
+      : false;
 
   useEffect(
     () => {
@@ -135,13 +162,19 @@ export default function AppointmentsPage() {
       </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
+      {featureBookingExclusion && (
+        <CernerTransitionAlert
+          className="vads-u-margin-bottom--3"
+          pageTitle={pageTitle}
+        />
+      )}
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
         render={renderWarningNotification()}
       />
-      <ScheduleNewAppointment />
+      {!hideScheduleLink() && <ScheduleNewAppointment />}
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">
@@ -160,8 +193,3 @@ export default function AppointmentsPage() {
     </PageLayout>
   );
 }
-
-renderWarningNotification.propTypes = {
-  description: PropTypes.string,
-  status: PropTypes.string,
-};
