@@ -206,7 +206,7 @@ describe('Landing dashboard', () => {
 
     expect(
       screen.getByText('Upcoming maintenance on My HealtheVet', {
-        selector: 'h3',
+        selector: 'h2',
         exact: true,
       }),
     );
