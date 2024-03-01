@@ -9,7 +9,6 @@ export const isReviewInstance = () => {
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
     environment.isProduction() ||
-    environment.isDev() ||
     isReviewInstance() ||
     automatedTest ||
     (global && global?.window && global?.window?.buildType)
