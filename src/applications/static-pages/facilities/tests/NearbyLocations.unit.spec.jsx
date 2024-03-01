@@ -7,6 +7,11 @@ import { mockApiRequest } from 'platform/testing/unit/helpers.js';
 import * as mapboxUtils from 'applications/facility-locator/utils/mapbox';
 import NearbyVetCenters from '../vet-center/NearByVetCenters';
 import NearByVALocations from '../vet-center/NearByVALocations';
+import VAFacilityInfoSection from '../vet-center/components/VAFacilityInfoSection';
+import VAFacilityPhone, {
+  processPhoneNumber,
+} from '../vet-center/components/VAFacilityPhone';
+import buildFacility from '../vet-center/buildFacility';
 
 const createFakeStore = state => {
   return {
@@ -421,6 +426,103 @@ describe('NearbyVALocations', () => {
         wrapper.unmount();
         done();
       }, 100);
+    });
+  });
+});
+describe('VAFacilityInfoSection', () => {
+  it('should render VAFacilityInfoSection', () => {
+    const mainPhone = '800-827-1000';
+    const vaFacility = buildFacility(fetchedVALocationsData[0], 3);
+    const wrapper = mount(
+      <VAFacilityInfoSection mainPhone={mainPhone} vaFacility={vaFacility} />,
+    );
+    expect(wrapper.find('h3').exists()).to.be.true;
+    expect(wrapper.find('strong').exists()).to.be.true;
+    const telephone = wrapper.find('va-telephone');
+    const telephoneProps = telephone.props();
+    expect(telephoneProps).to.deep.equal({
+      contact: '216-391-0264',
+      extension: '',
+    });
+
+    wrapper.unmount();
+  });
+});
+describe('VAFacilityPhone', () => {
+  it('should render VAFacilityPhone with a phone number title', () => {
+    const wrapper = mount(
+      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main phone" />,
+    );
+    expect(wrapper.find('strong').exists()).to.be.true;
+    const telephone = wrapper.find('va-telephone');
+    const telephoneProps = telephone.props();
+    expect(telephoneProps).to.deep.equal({
+      contact: '301-000-0000',
+      extension: '',
+    });
+    wrapper.unmount();
+  });
+  it('should render VAFacilityPhone with NO phone number title', () => {
+    const wrapper = mount(<VAFacilityPhone phoneNumber="301-000-0000" />);
+    expect(wrapper.find('strong').exists()).to.be.false;
+    const telephone = wrapper.find('va-telephone');
+    const telephoneProps = telephone.props();
+    expect(telephoneProps).to.deep.equal({
+      contact: '301-000-0000',
+      extension: '',
+    });
+    wrapper.unmount();
+  });
+});
+describe('processPhoneNumber', () => {
+  it('should process phone number strings into phone and extension', () => {
+    const phoneNumber = '800-827-1000';
+    const phoneNumberNoDashes = '8008271000';
+    const extension = '123';
+    const temp1 = phoneNumber;
+    const temp2 = `${phoneNumber}x${extension}`;
+    const temp3 = `${phoneNumber} ext ${extension}`;
+    const temp4 = `${phoneNumber} ext. ${extension}`;
+    const temp5 = `${phoneNumber} extension ${extension}`;
+    const temp6 = `${phoneNumber} x. ${extension}`;
+    const temp7 = `${phoneNumber}, x${extension}`;
+    const temp8 = `${phoneNumber}, ext${extension}`;
+    const temp9 = `${phoneNumber}, ext. ${extension}`;
+    expect(processPhoneNumber(temp1)).to.deep.equal({
+      phone: phoneNumber, // doesn't replace dashes
+      ext: '',
+    });
+    expect(processPhoneNumber(temp2)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp3)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp4)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp5)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp6)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp7)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp8)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
+    });
+    expect(processPhoneNumber(temp9)).to.deep.equal({
+      phone: phoneNumberNoDashes,
+      ext: extension,
     });
   });
 });

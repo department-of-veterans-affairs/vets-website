@@ -12,7 +12,7 @@ const numContainers = process.env.NUM_CONTAINERS || 1;
 const matrixStep = process.env.STEP || 0;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'all' },
+  { name: 'log-level', type: String, defaultValue: 'log' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'coverage-html', type: Boolean, defaultValue: false },
