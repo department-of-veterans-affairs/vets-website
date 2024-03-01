@@ -17,6 +17,7 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
+import { Actions } from '../util/actionTypes';
 
 const App = ({ isPilot }) => {
   const dispatch = useDispatch();
@@ -46,6 +47,15 @@ const App = ({ isPilot }) => {
       }
     },
     [user.login.currentlyLoggedIn, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isPilot) {
+        dispatch({ type: Actions.App.IS_PILOT });
+      }
+    },
+    [isPilot, dispatch],
   );
 
   const datadogRumConfig = {
