@@ -9,6 +9,7 @@ import DemographicsDisplay from '../../components/pages/demographics/Demographic
 import { makeSelectVeteranData } from '../../selectors';
 import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const Demographics = props => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const Demographics = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
   const { goToNextPage, jumpToPage } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useStorage(false);
+  const { setShouldSendDemographicsFlags } = useStorage(APP_NAMES.CHECK_IN);
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
