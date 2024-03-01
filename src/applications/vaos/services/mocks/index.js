@@ -477,11 +477,15 @@ const responses = {
           active_status: 'active',
           facilities: [
             {
-              facility_id: '983',
+              facility_id: '556',
               is_cerner: false,
             },
             {
               facility_id: '984',
+              is_cerner: false,
+            },
+            {
+              facility_id: '983',
               is_cerner: false,
             },
           ],
