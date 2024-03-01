@@ -1,7 +1,7 @@
 import React from 'react';
 
 const OMBInfo = () => (
-  <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={24}>
+  <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={27}>
     <p>
       <strong>The Paperwork Reduction Act</strong> of 1995 requires us to notify
       you that this information collection is in accordance with the clearance
@@ -9,7 +9,7 @@ const OMBInfo = () => (
       may not conduct or sponsor, and you are not required to respond to, a
       collection of information unless it displays a valid OMB number. We
       anticipate that the time expended by all individuals who must complete
-      this form will average 24 minutes. This includes the time it will take to
+      this form will average 27 minutes. This includes the time it will take to
       read instructions, gather the necessary facts and fill out the form.
     </p>
     <p>
