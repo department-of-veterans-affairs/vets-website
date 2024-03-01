@@ -245,7 +245,7 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
