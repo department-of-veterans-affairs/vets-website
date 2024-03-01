@@ -25,10 +25,14 @@ export const applyFocus = (parentId, headerHasFocused, setHeaderHasFocused) => {
             );
           }
         }
-      }
 
-      header?.focus();
-      setHeaderHasFocused(true);
+        header.addEventListener('focus', () => {
+          header.style.outline = 'none';
+        });
+
+        header?.focus();
+        setHeaderHasFocused(true);
+      }
     }, 500);
   }
 };
