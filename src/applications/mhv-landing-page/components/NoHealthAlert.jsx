@@ -2,7 +2,12 @@ import React from 'react';
 
 const NoHealthAlert = () => {
   return (
-    <va-alert status="warning" visible data-testid="no-health-message">
+    <va-alert
+      status="warning"
+      visible
+      data-testid="no-health-message"
+      uswds="false"
+    >
       <h2 slot="headline">You don’t have access to My HealtheVet</h2>
       <div>
         <p className="vads-u-margin-y--0">
