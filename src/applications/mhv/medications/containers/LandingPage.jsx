@@ -11,6 +11,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { medicationsUrls } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { selectRefillContentFlag } from '../util/selectors';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -26,12 +27,16 @@ const LandingPage = () => {
     },
     state => state.featureToggles,
   );
+  const showRefillContent = useSelector(selectRefillContentFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.MEDICATIONS_URL
+    : medicationsUrls.MEDICATIONS_LOGIN;
+  const refillUrl = fullState.user.login.currentlyLoggedIn
+    ? medicationsUrls.MEDICATIONS_REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
 
   const focusAndOpenAccordionRxRenew = () => {
@@ -70,20 +75,44 @@ const LandingPage = () => {
           </section>
           <section>
             <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-              <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                Go to your medications now
-              </h2>
-              <p className="vads-u-margin-y--3">
-                Refill and track your VA prescriptions. And review your
-                medications list.
-              </p>
-              <a
-                className="vads-c-action-link--green vads-u-margin--0"
-                href={medicationsUrl}
-                data-testid="prescriptions-nav-link"
-              >
-                Go to your medications
-              </a>
+              {showRefillContent ? (
+                <>
+                  <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
+                    Manage your medications
+                  </h2>
+                  <a
+                    className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
+                    href={refillUrl}
+                    data-testid="refill-nav-link"
+                  >
+                    Refill prescriptions
+                  </a>
+                  <a
+                    className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                    href={medicationsUrl}
+                    data-testid="prescriptions-nav-link"
+                  >
+                    Go to your medications list
+                  </a>
+                </>
+              ) : (
+                <>
+                  <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                    Go to your medications now
+                  </h2>
+                  <p className="vads-u-margin-y--3">
+                    Refill and track your VA prescriptions. And review your
+                    medications list.
+                  </p>
+                  <a
+                    className="vads-c-action-link--green vads-u-margin--0"
+                    href={medicationsUrl}
+                    data-testid="prescriptions-nav-link"
+                  >
+                    Go to your medications
+                  </a>
+                </>
+              )}
             </div>
           </section>
           <hr className="vads-u-margin-top--6" />
