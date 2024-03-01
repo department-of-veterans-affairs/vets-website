@@ -85,7 +85,7 @@ const TravelIntro = props => {
             </a>
           </va-process-list-item>
         </va-process-list>
-        <va-featured-content class="vads-u-margin-bottom--1" uswds>
+        <va-summary-box class="vads-u-margin-bottom--1" uswds>
           <h2
             className="vads-u-font-family--sans vads-u-margin-top--0"
             slot="headline"
@@ -96,7 +96,7 @@ const TravelIntro = props => {
           <a href="https://www.va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/">
             {t('set-up-direct-deposit')}
           </a>
-        </va-featured-content>
+        </va-summary-box>
       </Wrapper>
     </>
   );
