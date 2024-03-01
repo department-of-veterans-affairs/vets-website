@@ -6,14 +6,15 @@ import {
   inlineTitleUI,
   fullNameUI,
   fullNameSchema,
-  // phoneUI,
-  // phoneSchema,
   titleUI,
   titleSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   addressUI,
   addressSchema,
+  phoneUI,
+  phoneSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 // import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
 
@@ -85,17 +86,20 @@ const formConfig = {
           },
         },
         page2: {
-          path: 'sponsor-information/ssn',
-          title: 'Sponsor SSN and VA file number',
+          path: 'veteran-information/ssn',
+          title: 'Veteran SSN and VA file number',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor SSN or VA file number'),
+            ...titleUI(
+              `Veteran's identification information`,
+              `You must enter either a Social Security number of VA File number`,
+            ),
             ssn: ssnOrVaFileNumberUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
               ssn: ssnOrVaFileNumberSchema,
             },
           },
