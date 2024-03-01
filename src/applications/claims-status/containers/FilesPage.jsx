@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 // START lighthouse_migration
 import FilesPageContent from '../components/evss/FilesPageContent';
@@ -15,6 +15,8 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
+import AdditionalEvidencePage from './AdditionalEvidencePage';
+import ClaimFileHeader from '../components/ClaimFileHeader';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
@@ -22,9 +24,12 @@ import {
   buildDateFormatter,
   getClaimType,
   setDocumentTitle,
+  getFilesNeeded,
+  getFilesOptional,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 import { DATE_FORMATS } from '../constants';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -107,12 +112,8 @@ class FilesPage extends React.Component {
       claim.attributes.claimPhaseDates.latestPhaseType ===
         FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
 
-    const filesNeeded = trackedItems.filter(
-      item => item.status === 'NEEDED_FROM_YOU',
-    );
-    const optionalFiles = trackedItems.filter(
-      item => item.status === 'NEEDED_FROM_OTHERS',
-    );
+    const filesNeeded = getFilesNeeded(trackedItems, useLighthouse);
+    const optionalFiles = getFilesOptional(trackedItems, useLighthouse);
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
@@ -126,11 +127,19 @@ class FilesPage extends React.Component {
     return (
       <div>
         {isOpen && (
-          <RequestedFilesInfo
-            id={claim.id}
-            filesNeeded={filesNeeded}
-            optionalFiles={optionalFiles}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+            <Toggler.Disabled>
+              <RequestedFilesInfo
+                id={claim.id}
+                filesNeeded={filesNeeded}
+                optionalFiles={optionalFiles}
+              />
+            </Toggler.Disabled>
+            <Toggler.Enabled>
+              <ClaimFileHeader />
+              <AdditionalEvidencePage />
+            </Toggler.Enabled>
+          </Toggler>
         )}
         {showDecision && <AskVAToDecide id={params.id} />}
         <div className="submitted-files-list">

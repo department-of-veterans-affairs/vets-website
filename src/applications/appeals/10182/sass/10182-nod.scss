@@ -196,3 +196,18 @@ article[data-location="review-and-submit"] {
     word-break: break-all;
   }
 }
+
+/* Fix va-radio v3 input overlapping finish this request later link */
+.schemaform-save-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* contestable issues widget - copy uswds v3 style */
+.widget-checkbox-wrap label:before {
+  box-shadow: rgb(27, 27, 27) 0px 0px 0px 2px;
+}
+
+.rjsf-object-field:empty {
+  display: none;
+}

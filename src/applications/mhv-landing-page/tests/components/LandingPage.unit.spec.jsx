@@ -4,6 +4,7 @@ import React from 'react';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import LandingPage from '../../components/LandingPage';
+import reducers from '../../reducers';
 
 const stateFn = ({
   mhv_landing_page_personalization = false,
@@ -27,7 +28,7 @@ const stateFn = ({
 });
 
 const setup = ({ initialState = stateFn(), props = {} } = {}) =>
-  renderInReduxProvider(<LandingPage {...props} />, { initialState });
+  renderInReduxProvider(<LandingPage {...props} />, { initialState, reducers });
 
 describe('LandingPage component', () => {
   it('renders', () => {

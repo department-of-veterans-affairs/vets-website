@@ -87,7 +87,7 @@ describe('pension service periods page', () => {
 
     const submitBtn = queryByText('Submit');
     const branchOfService = container.querySelector(
-      'va-checkbox[name="root_serviceBranch_ARMY"]',
+      'va-checkbox[name="root_serviceBranch_army"]',
     );
     const startMonth = container.querySelector(
       '#root_activeServiceDateRange_fromMonth',
@@ -147,7 +147,7 @@ describe('pension service periods page', () => {
 
     const submitBtn = queryByText('Submit');
     const branchOfService = container.querySelector(
-      'va-checkbox[name="root_serviceBranch_ARMY"]',
+      'va-checkbox[name="root_serviceBranch_army"]',
     );
     const startMonth = container.querySelector(
       '#root_activeServiceDateRange_fromMonth',
@@ -173,7 +173,7 @@ describe('pension service periods page', () => {
 
     fireEvent.click(submitBtn);
     await waitFor(() => {
-      expect($$('.usa-alert', container).length).to.equal(0);
+      expect($$('va-alert', container).length).to.equal(0);
       fireEvent.click(branchOfService);
       fireEvent.change(serviceNumber, { value: '123456' });
       fireEvent.change(startMonth, { target: { value: '2' } });
@@ -183,7 +183,7 @@ describe('pension service periods page', () => {
       fireEvent.change(endDay, { target: { value: '15' } });
       fireEvent.change(endYear, { target: { value: '1984' } });
       fireEvent.click(submitBtn);
-      expect($$('.usa-alert', container).length).to.equal(1);
+      expect($$('va-alert', container).length).to.equal(1);
     });
   });
 });

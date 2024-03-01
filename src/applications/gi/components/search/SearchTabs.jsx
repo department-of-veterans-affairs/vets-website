@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
+import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
-export default function SearchTabs({ onChange, search }) {
+export default function SearchTabs({ onChange, search, dispatchError }) {
   const { tab } = search;
 
   useEffect(
@@ -49,7 +49,10 @@ export default function SearchTabs({ onChange, search }) {
         className={tabClasses}
         aria-selected={activeTab}
         role="tab"
-        onClick={() => onChange(tabName)}
+        onClick={() => {
+          onChange(tabName);
+          dispatchError(null);
+        }}
       >
         {label}
       </button>

@@ -1,26 +1,33 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
-
-  const { inProgress, context, representativeType, sortType } = query;
+  const {
+    inProgress,
+    context,
+    representativeType,
+    sortType,
+    searchArea,
+  } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
+  const noResultsFound = !searchResults || !searchResults?.length;
 
-  const noResultsFound = !searchResults || !searchResults.length;
+  const [selectedSortType, setSelectedSortType] = useState(sortType);
 
   if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
   }
 
   const repFormat = {
-    officer: 'Veteran Service Officers',
-    attorney: 'Attorneys',
-    claim_agents: 'Claims agents',
+    veteran_service_officer: 'Accredited Veterans Service Officer (VSO)',
+    attorney: 'Accredited attorney',
+    claim_agents: 'Accredited claims agent',
   };
 
   const handleNumberOfResults = () => {
@@ -52,54 +59,119 @@ export const SearchResultsHeader = props => {
     </option>
   ));
 
-  // method for triggering sortResults when sortType updates
-  const handleSortTypeChange = e => {
+  // selection is updated in redux
+  const onClickApplyButton = () => {
     props.updateSearchQuery({
       id: Date.now(),
       page: 1,
-      sortType: e.target.value,
+      sortType: selectedSortType,
     });
   };
 
   return (
-    <div className="search-results-header">
-      <h2
-        id="search-results-subheader"
-        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding-y--0p5 vads-u-margin-y--1"
-        tabIndex="-1"
-      >
-        {handleNumberOfResults()} for
-        {` `}
-        <b>{repFormat[representativeType]}</b>
-        {context.repOrgName && (
+    <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
+      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+      {props.onClickApplyButtonTester ? (
+        <button
+          id="test-button"
+          type="button"
+          text-label="button"
+          onClick={onClickApplyButton}
+        />
+      ) : null}
+      <h2 className="vads-u-margin-y--1">Your search results</h2>
+      <div className="vads-u-margin-top--3">
+        {searchResults?.length ? (
+          <div>
+            {' '}
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              uswds
+              visible
+            >
+              <h3 id="track-your-status-on-mobile" slot="headline">
+                We’re updating our search tool
+              </h3>
+              <p>
+                Our search tool may show outdated contact information for some
+                accredited representatives. You can report outdated information
+                in your search results.
+              </p>
+            </va-alert>
+          </div>
+        ) : null}
+
+        <p
+          id="search-results-subheader"
+          className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-bottom--0 vads-u-margin-top--3"
+          tabIndex="-1"
+        >
+          {handleNumberOfResults()} for
+          {` `}
+          &quot;
+          <b>{repFormat[representativeType]}</b>
+          &quot;
+          {context.repOrgName && (
+            <>
+              {` `}
+              named &quot;
+              <b>{context.repOrgName}</b>
+              &quot;
+            </>
+          )}
+          {` `}
+          {context.location && (
+            <>
+              within &quot;
+              <b>
+                {searchArea === 'Show all' ? (
+                  'Show all'
+                ) : (
+                  <>{searchArea} miles</>
+                )}
+              </b>
+              &quot; of &quot;
+              <b>{context.location}</b>
+              &quot;{' '}
+            </>
+          )}
           <>
-            {` `}
-            matching <b>"{context.repOrgName}"</b>
-          </>
-        )}
-        {` `}
-        {context.location && (
-          <>
-            within 50 miles of &quot;
-            <b>{context.location}</b>
+            sorted by &quot;
+            <b>{sortOptions[selectedSortType]}</b>
             &quot;
           </>
+        </p>
+
+        {noResultsFound ? (
+          <p className="vads-u-margin-bottom--8">
+            For better results, you can increase your <b>search area</b>.
+          </p>
+        ) : (
+          <div className="sort-dropdown">
+            <div className="sort-select-and-apply">
+              <div className="sort-select">
+                <VaSelect
+                  name="sort"
+                  value={selectedSortType}
+                  label="Sort by"
+                  onVaSelect={e => setSelectedSortType(e.target.value)}
+                  uswds
+                >
+                  {options}
+                </VaSelect>
+              </div>
+
+              <div className="sort-apply-button">
+                <va-button
+                  onClick={onClickApplyButton}
+                  text="Apply"
+                  secondary
+                />
+              </div>
+            </div>
+          </div>
         )}
-      </h2>
-      <div className="sort-dropdown">
-        <label htmlFor="sort-by-dropdown">Sort by</label>
-        <select
-          id="representative-sorting-dropdown"
-          aria-label="Sort"
-          // ref={sortTypeRef}
-          value={sortType}
-          title="Sort by:"
-          onChange={handleSortTypeChange}
-          style={{ fontWeight: 'bold' }}
-        >
-          {' '}
-          {options}{' '}
-        </select>
       </div>
     </div>
   );

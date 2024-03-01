@@ -185,7 +185,7 @@ describe('<ClaimsListItemV2>', () => {
         .find('p')
         .last()
         .text(),
-    ).to.equal('Submitted on: February 10, 2019');
+    ).to.equal('Received on: February 10, 2019');
     tree.unmount();
   });
 });

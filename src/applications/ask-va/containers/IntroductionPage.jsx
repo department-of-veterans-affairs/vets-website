@@ -42,7 +42,6 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      {/* TODO: Add breadcrumbs  - Ticket #228 */}
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
 
       {loggedIn ? (
@@ -117,6 +116,12 @@ const IntroductionPage = props => {
       <h2>Check the status of your question</h2>
       <p className="vads-u-margin--0">Reference number</p>
       <VaSearchInput label="Reference number" />
+      <Link
+        className="vads-c-action-link--blue vads-u-margin-top--2"
+        to="/user/profile-test"
+      >
+        User Profile Test
+      </Link>
     </div>
   );
 };

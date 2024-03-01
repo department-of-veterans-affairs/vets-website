@@ -48,7 +48,7 @@ const ReplyDrafts = props => {
           return (
             <ReplyDraftItem
               key={draft?.messageId}
-              cannotReply={cannotReply}
+              cannotReply={cannotReply || showBlockedTriageGroupAlert}
               draft={draft}
               draftsCount={drafts?.length}
               draftsequence={drafts.length - i}
@@ -78,7 +78,7 @@ ReplyDrafts.propTypes = {
   saveDraftHandler: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
-  signature: PropTypes.string,
+  signature: PropTypes.object,
 };
 
 export default ReplyDrafts;

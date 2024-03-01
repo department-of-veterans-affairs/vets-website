@@ -1,4 +1,5 @@
 import ADDRESS_DATA from 'platform/forms/address/data';
+import { TIMS_DOCUMENTS } from './constants';
 
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
@@ -18,6 +19,7 @@ export const translateDateIntoMonthYearFormat = dateString => {
 
 export const translateDateIntoMonthDayYearFormat = dateString => {
   // Parse the date string as UTC
+  if (!dateString) return null;
   const [year, month, day] = dateString
     .split('-')
     .map(num => parseInt(num, 10));
@@ -121,4 +123,10 @@ export const getCurrentDateFormatted = () => {
   const year = today.getFullYear();
 
   return `${month}/${day}/${year}`;
+};
+
+export const getPendingDocumentDescription = docType => {
+  const documentDisplayName = TIMS_DOCUMENTS?.[docType]?.displayName;
+  const documentExplanation = TIMS_DOCUMENTS?.[docType]?.explanation;
+  return { documentDisplayName, documentExplanation };
 };

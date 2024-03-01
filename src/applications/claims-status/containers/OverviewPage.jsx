@@ -13,7 +13,7 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 // END lighthouse_migration
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
-import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
@@ -22,7 +22,6 @@ import {
   getItemDate,
   getTrackedItemDate,
   getUserPhase,
-  itemsNeedingAttentionFromVet,
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
@@ -231,20 +230,14 @@ class OverviewPage extends React.Component {
       claimPhaseDates,
       closeDate,
       decisionLetterSent,
-      documentsNeeded,
       status,
     } = attributes;
 
     const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
-    const showDocsNeeded =
-      !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
     return (
       <div>
-        {showDocsNeeded ? (
-          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-        ) : null}
+        <ClaimOverviewHeader />
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
             completedDate={closeDate}

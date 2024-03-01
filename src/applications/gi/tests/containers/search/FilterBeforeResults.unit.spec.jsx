@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { waitFor } from '@testing-library/react';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults';
 import { updateUrlParams } from '../../../selectors/search';
@@ -27,6 +28,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const historyMock = {
@@ -63,6 +65,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const recordCheckboxEventSpy = sinon.spy();
@@ -98,6 +101,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const fakeEvent = { target: { name: 'someSchoolType', checked: true } };
@@ -134,6 +138,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const fakeEvent = {
@@ -224,6 +229,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: true,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     expect(wrapper).to.not.be.null;
@@ -245,6 +251,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: true,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     expect(wrapper.find('VaLoadingIndicator')).to.exist;
@@ -272,6 +279,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     beforeEach(() => {
       global.window.buildType = true;
@@ -283,6 +291,66 @@ describe('<FilterBeforeResults />', () => {
           .find('label')
           .someWhere(n => n.text() === 'Native American-serving institutions'),
       ).to.be.false;
+      wrapper.unmount();
+    });
+    it('calls dispatchFilterChange with the correct parameters on clearAllFilters', async () => {
+      const mockDispatchFilterChange = sinon.spy();
+      props = {
+        smallScreen: false,
+        dispatchFilterChange: mockDispatchFilterChange,
+        dispatchShowModal: sinon.spy(),
+        recordCheckboxEvent: sinon.spy(),
+        filters: {
+          excludedSchoolTypes: [],
+          vettec: false,
+          preferredProvider: false,
+        },
+        modalClose: sinon.spy(),
+        preview: {},
+        search: {
+          inProgres: true,
+          location: { facets: {} },
+          name: { facets: {} },
+          tab: '',
+          query: '',
+        },
+        history: [],
+        version: 'v1.0.0',
+        errorReducer: { error: null },
+      };
+      wrapper = mount(<FilterBeforeResults {...props} />);
+      wrapper.find('button.clear-filters-button').simulate('click');
+      const expectedDispatchArgument = {
+        accredited: false,
+        country: 'ALL',
+        employers: false,
+        excludeCautionFlags: false,
+        excludedSchoolTypes: [],
+        preferredProvider: false,
+        schools: false,
+        specialMissionAANAPII: false,
+        specialMissionANNHI: false,
+        specialMissionHSI: false,
+        specialMissionHbcu: false,
+        specialMissionMenonly: false,
+        specialMissionNANTI: false,
+        specialMissionPBI: false,
+        specialMissionRelaffil: false,
+        specialMissionTRIBAL: false,
+        specialMissionWomenonly: false,
+        state: 'ALL',
+        studentVeteran: false,
+        vettec: false,
+        yellowRibbonScholarship: false,
+      };
+      await waitFor(() => {
+        sinon.assert.calledOnce(mockDispatchFilterChange);
+        sinon.assert.calledWith(
+          mockDispatchFilterChange,
+          expectedDispatchArgument,
+        );
+      });
+
       wrapper.unmount();
     });
   });

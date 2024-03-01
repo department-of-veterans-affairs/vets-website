@@ -123,14 +123,22 @@ export const SIGIGenderDescription = (
 );
 
 /** CHAPTER 2: Military Service */
-export const ServiceHistoryTitle = (
-  <>
-    Service history
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      Check all that apply to you.
-    </div>
-  </>
+export const ServiceDateRangeDescription = (
+  <div className="vads-u-color--gray-medium">
+    If you don’t know the exact date, enter your best guess
+  </div>
+);
+
+export const OtherToxicExposureDescription = (
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+    <a
+      target="_blank"
+      rel="noreferrer"
+      href="https://www.publichealth.va.gov/exposures/index.asp"
+    >
+      Learn more about exposures on our public health website (opens in new tab)
+    </a>
+  </div>
 );
 
 /** CHAPTER 3: VA Benefits */

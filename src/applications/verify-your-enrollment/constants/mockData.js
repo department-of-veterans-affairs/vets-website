@@ -8,12 +8,12 @@ export const USER_MOCK_DATA = {
     addressLine5: 'Montana',
     addressLine6: '03729-2762',
     zip: '46786-3217',
-    remEnt: 'earum',
+    remEnt: '2854321', // 28(first 2 numbers) for months .54321 * 30 = res needs to be rounded
     certIssueDate: '2019-06-28T00:00:00.000Z',
     delDate: '2021-09-03T00:00:00.000Z',
     dateLastCertified: '2018-06-21T00:00:00.000Z',
     paymentAmt: '3989.36',
-    indicator: 'perferendis',
+    indicator: 'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
     awards: [
       {
         id: 8,
@@ -22,7 +22,7 @@ export const USER_MOCK_DATA = {
         awardEndDate: '2024-01-15T16:12:43.447Z',
         trainingTime: 40,
         paymentDate: '2024-01-01T16:12:43.447Z',
-        monthlyRate: '684.0',
+        monthlyRate: '3200.0',
         beginRsn: 'reason',
         endRsn: 'reason',
         typeTraining: 'type',
@@ -214,7 +214,7 @@ export const USER_MOCK_DATA = {
     ],
     pendingDocuments: [
       {
-        docType: 'voluptatem',
+        docType: '1990',
         queueDate: '2023-12-04T22:24:20.000Z',
       },
     ],

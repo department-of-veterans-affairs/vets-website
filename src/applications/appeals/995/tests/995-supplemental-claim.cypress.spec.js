@@ -40,7 +40,12 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['no-evidence-test', 'minimal-test', 'maximal-test'],
+    dataSets: [
+      'no-evidence-test',
+      'minimal-test',
+      'partial-evidence-test',
+      'maximal-test',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -111,7 +116,7 @@ const testConfig = createTestConfig(
                 )
                   .closest('li')
                   .find('input[type="checkbox"]')
-                  .click();
+                  .click({ force: true });
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();
@@ -126,7 +131,7 @@ const testConfig = createTestConfig(
               cy.get('va-checkbox')
                 .shadow()
                 .find('input')
-                .click();
+                .click({ force: true });
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -159,7 +164,7 @@ const testConfig = createTestConfig(
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
                     .find('input')
-                    .check();
+                    .check({ force: true });
                 });
                 cy.fillDate('from', location.evidenceDates?.from);
                 cy.fillDate('to', location.evidenceDates?.to);
@@ -200,7 +205,7 @@ const testConfig = createTestConfig(
               cy.get('va-checkbox')
                 .shadow()
                 .find('input')
-                .click();
+                .click({ force: true });
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -263,7 +268,7 @@ const testConfig = createTestConfig(
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
                     .find('input')
-                    .check();
+                    .check({ force: true });
                 });
                 cy.fillDate('from', facility.treatmentDateRange?.from);
                 cy.fillDate('to', facility.treatmentDateRange?.to);

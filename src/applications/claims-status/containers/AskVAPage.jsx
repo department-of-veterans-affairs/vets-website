@@ -112,31 +112,28 @@ class AskVAPage extends React.Component {
               <div className="usa-alert usa-alert-info background-color-only claims-alert">
                 <VaCheckbox
                   className="claims-alert-checkbox"
+                  uswds="false"
                   checked={this.state.submittedDocs}
                   label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."
                   onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
                 />
               </div>
-              <button
+              <va-button
                 disabled={submitDisabled}
-                type="button"
-                className={
-                  submitDisabled
-                    ? 'usa-button-primary usa-button-disabled'
-                    : 'usa-button-primary'
-                }
+                submit
+                uswds
+                class="button-primary vads-u-margin-top--1"
+                text={buttonMsg}
                 onClick={() => submitFunc(this.props.params.id)}
-              >
-                {buttonMsg}
-              </button>
+              />
               {!loadingDecisionRequest ? (
-                <button
-                  className="usa-button-secondary"
+                <va-button
+                  secondary
+                  uswds
+                  class="button-secondary vads-u-margin-top--1"
+                  text="Not yet–I still have more evidence to submit"
                   onClick={this.goToStatusPage}
-                  type="button"
-                >
-                  Not yet–I still have more evidence to submit
-                </button>
+                />
               ) : null}
             </div>
           </div>

@@ -30,7 +30,7 @@ export default class MockSlotResponse {
     };
   }
 
-  static createResponses({ startTimes } = {}) {
+  static createResponses({ startTimes = [] } = {}) {
     return startTimes.map(
       (start, index) => new MockSlotResponse({ id: index + 1, start }),
     );

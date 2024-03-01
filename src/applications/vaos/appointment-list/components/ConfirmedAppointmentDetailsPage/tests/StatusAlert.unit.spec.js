@@ -13,7 +13,7 @@ import {
 
 const facilityData = new Facility();
 
-describe('VAOS <StatusAlert> component', () => {
+describe('VAOS Component: StatusAlert', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: false,
@@ -105,7 +105,7 @@ describe('VAOS <StatusAlert> component', () => {
     expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
   });
 });
-describe('VAOS <StatusAlert> component with After visit summary link', () => {
+describe('VAOS Component: StatusAlert', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: true,
@@ -168,5 +168,30 @@ describe('VAOS <StatusAlert> component with After visit summary link', () => {
     expect(window.dataLayer[0]).to.deep.equal({
       event: 'vaos-after-visit-summary-link-clicked',
     });
+  });
+  it('Should display after visit summary link unavailable message', async () => {
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
+    mockAppointment.setAvsPath(null);
+    mockAppointment.setIsUpcomingAppointment(false);
+    mockAppointment.setIsPastAppointment(true);
+
+    const screen = renderWithStoreAndRouter(
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+      {
+        initialState,
+        path: `/${mockAppointment.id}`,
+      },
+    );
+    expect(
+      screen.getByText(
+        'An after-visit summary is not available at this time.',
+        {
+          exact: true,
+          selector: 'p',
+        },
+      ),
+    );
   });
 });

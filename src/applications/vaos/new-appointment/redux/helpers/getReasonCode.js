@@ -21,8 +21,11 @@ export function getReasonCode({ data, isCC, isDS }) {
     visit => visit.id === data.visitType,
   ).map(visit => visit.vsGUI);
 
-  if (isCC && data.reasonAdditionalInfo) {
-    reasonText = data.reasonAdditionalInfo.slice(0, 250);
+  if (isCC) {
+    reasonText = data.reasonAdditionalInfo?.slice(0, 250);
+    return {
+      text: reasonText,
+    };
   }
   if (!isCC) {
     const formattedDates = data.selectedDates.map(

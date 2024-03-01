@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -28,16 +28,10 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <div className="schemaform-intro vads-u-margin-left--1">
-      <va-breadcrumbs label="Breadcrumbs" class="vads-u-margin-left--neg1">
-        <a href="/decision-reviews">Decision review and appeals</a>
-        <a href="/decision-reviews/board-appeal">Board Appeals</a>
-        <a href="/decision-reviews/appeals-testing">Request a Board Appeal</a>
-      </va-breadcrumbs>
-
-      {/* <VaBreadcrumbs
+      <VaBreadcrumbs
         label="Breadcrumbs"
         class="vads-u-margin-left--neg1"
-        breadcrumbsList={[
+        breadcrumbList={[
           {
             href: '/decision-reviews',
             label: 'Decision review and appeals',
@@ -52,7 +46,7 @@ const IntroductionPage = ({ route }) => {
           },
         ]}
         uswds
-      /> */}
+      />
 
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
       <p>
@@ -82,7 +76,7 @@ const IntroductionPage = ({ route }) => {
         </a>
       </p>
 
-      <va-featured-content uswds>
+      <va-summary-box uswds>
         <h2 slot="headline">Can I request a Board Appeal?</h2>
         <p>
           You can submit this online form (VA Form 10182) to appeal a VA
@@ -129,7 +123,7 @@ const IntroductionPage = ({ route }) => {
             </p>
           </li>
         </ul>
-      </va-featured-content>
+      </va-summary-box>
 
       <h2 className="vads-u-margin-top--2">
         Steps to requesting a Board Appeal

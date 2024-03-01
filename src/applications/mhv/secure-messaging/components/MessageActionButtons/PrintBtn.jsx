@@ -1,67 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { PrintMessageOptions, DefaultFolders } from '../../util/constants';
+import { DefaultFolders } from '../../util/constants';
 
 const PrintBtn = props => {
-  const [printOption, setPrintOption] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const printButtonRef = useRef(null);
   const { activeFolder } = props;
 
-  if (isModalVisible === false && printOption !== null) {
-    setPrintOption(null);
-  }
-
-  const openModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleConfirmPrint = async option => {
-    await closeModal();
-    setPrintOption(null);
-    props.handlePrint(option);
+  const handleConfirmPrint = () => {
+    props.handlePrint();
     focusElement(printButtonRef.current);
-  };
-
-  const printModal = () => {
-    return (
-      <div className="message-actions-buttons-modal">
-        <VaModal
-          data-dd-action-name="Print Modal Closed"
-          id="print-modal"
-          modalTitle="Make sure you have all messages expanded"
-          onCloseEvent={closeModal}
-          data-testid="print-modal-popup"
-          visible={isModalVisible}
-        >
-          <p>
-            We can only print messages that you currently have expanded. If you
-            don’t have all messages expanded, cancel this print request. Then
-            select <strong>Expand all</strong> and print again.
-          </p>
-
-          <va-button
-            data-dd-action-name="Confirm Print Button in modal"
-            text="Print"
-            onClick={() => {
-              handleConfirmPrint(PrintMessageOptions.PRINT_THREAD);
-            }}
-          />
-          <va-button
-            secondary
-            text="Cancel"
-            onClick={closeModal}
-            data-dd-action-name="Cancel Print Button in modal"
-          />
-        </VaModal>
-      </div>
-    );
   };
 
   return (
@@ -69,6 +17,7 @@ const PrintBtn = props => {
       {/* TODO add GA event tracking Print button */}
       <button
         ref={printButtonRef}
+        id="print-button"
         type="button"
         className={`usa-button-secondary small-screen:${
           activeFolder?.folderId !== DefaultFolders.SENT.id
@@ -76,7 +25,9 @@ const PrintBtn = props => {
             : 'vads-l-row--3'
         } `}
         style={{ minWidth: '100px' }}
-        onClick={openModal}
+        onClick={() => {
+          handleConfirmPrint();
+        }}
       >
         <i
           className="fas fa-print vads-u-margin-right--0p5"
@@ -86,7 +37,6 @@ const PrintBtn = props => {
           Print
         </span>
       </button>
-      {isModalVisible ? printModal() : null}
     </>
   );
 };

@@ -12,10 +12,14 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { contactWarning, contactWarningMulti } from '../../../helpers';
+import {
+  ContactWarningAlert,
+  ContactWarningMultiAlert,
+} from '../../../components/FormAlerts';
 
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
+import { separationTypeLabels } from '../../../labels';
 
 import {
   validateAfterMarriageDates,
@@ -25,12 +29,6 @@ import {
 const { marriages } = fullSchemaPensions.definitions;
 
 const marriageProperties = marriages.items.properties;
-
-const separationOptions = {
-  DEATH: 'Death',
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
-};
 
 const hasMultipleMarriages = form => {
   const spouseMarriagesLength = get(['spouseMarriages', 'length'], form)
@@ -57,13 +55,13 @@ export default {
   uiSchema: {
     'ui:title': SpouseMarriageTitle,
     'view:contactWarning': {
-      'ui:description': contactWarning,
+      'ui:description': ContactWarningAlert,
       'ui:options': {
         hideIf: form => hasMultipleMarriages(form),
       },
     },
     'view:contactWarningMulti': {
-      'ui:description': contactWarningMulti,
+      'ui:description': ContactWarningMultiAlert,
       'ui:options': {
         hideIf: form => !hasMultipleMarriages(form),
       },
@@ -74,12 +72,15 @@ export default {
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
         reasonForSeparation: radioUI({
           title: 'How did the marriage end?',
-          labels: separationOptions,
+          labels: separationTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         otherExplanation: {
@@ -107,9 +108,6 @@ export default {
         },
       },
     },
-    'view:contactWarningI': {
-      'ui:description': contactWarning,
-    },
   },
   schema: {
     type: 'object',
@@ -131,7 +129,7 @@ export default {
           ],
           properties: {
             spouseFullName: fullNameSchema,
-            reasonForSeparation: radioSchema(Object.keys(separationOptions)),
+            reasonForSeparation: radioSchema(Object.keys(separationTypeLabels)),
             otherExplanation: marriageProperties.otherExplanation,
             dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,

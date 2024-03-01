@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
@@ -8,7 +9,7 @@ import {
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
 
-const ChangeOfAddressWrapper = ({ mailingAddress }) => {
+const ChangeOfAddressWrapper = ({ mailingAddress, loading }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
 
@@ -92,7 +93,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
+      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
         {CHANGE_OF_ADDRESS_TITLE}
       </p>
       <div
@@ -107,12 +108,21 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
       >
         {!toggleAddressForm && (
           <>
-            {addressDescription()}
-            <va-button
-              id="VYE-mailing-address-button"
-              onClick={handleAddNewClick}
-              text={ADDRESS_BUTTON_TEXT}
-            />
+            {loading ? (
+              <va-loading-indicator
+                label="Loading"
+                message="Loading mailing address..."
+              />
+            ) : (
+              <>
+                {addressDescription()}
+                <va-button
+                  id="VYE-mailing-address-button"
+                  onClick={handleAddNewClick}
+                  text={ADDRESS_BUTTON_TEXT}
+                />
+              </>
+            )}
             <va-alert
               close-btn-aria-label="Close notification"
               status="info"
@@ -176,5 +186,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
     </div>
   );
 };
-
+ChangeOfAddressWrapper.propTypes = {
+  loading: PropTypes.bool,
+  mailingAddress: PropTypes.object,
+};
 export default ChangeOfAddressWrapper;

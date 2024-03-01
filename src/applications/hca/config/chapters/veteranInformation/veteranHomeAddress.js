@@ -7,8 +7,8 @@ import {
 } from 'platform/forms/definitions/address';
 
 import { HomeAddressDescription } from '../../../components/FormDescriptions';
-import { ShortFormAlert } from '../../../components/FormAlerts';
-import { isShortFormEligible } from '../../../utils/helpers';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
+import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { veteranHomeAddress: address } = fullSchemaHca.properties;
@@ -18,7 +18,7 @@ export default {
     'view:homeAddressShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: formData => !isShortFormEligible(formData),
+        hideIf: notShortFormEligible,
       },
     },
     'view:prefillMessage': {

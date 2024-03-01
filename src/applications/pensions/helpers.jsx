@@ -18,7 +18,15 @@ export const scrollToTop = () => {
   });
 };
 
+// Includes obsolete 'dayPhone' and 'nightPhone' for stale forms
+const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
+
 export function replacer(key, value) {
+  if (usaPhoneKeys.includes(key) && value?.length) {
+    // Strip spaces, dashes, and parens from phone numbers
+    return value.replace(/[^\d]/g, '');
+  }
+
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
@@ -84,7 +92,7 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-function transform(formConfig, form) {
+export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
     pensionClaim: {
@@ -142,7 +150,7 @@ export const employmentDescription = (
 );
 
 export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
+  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
 
 export function getMarriageTitle(index) {
@@ -190,43 +198,43 @@ export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by
-    electronic funds transfer (EFT), also called direct deposit. If you don’t
-    have a bank account, you must get your payment through Direct Express Debit
-    MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a
-      href="http://www.usdirectexpress.com"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      www.usdirectexpress.com
-    </a>{' '}
-    or by telephone at <va-telephone contact="8003331795" />. If you chose not
-    to enroll, you must contact representatives handling waiver requests for the
-    Department of Treasury at <va-telephone contact="8882242950" />. They will
-    address any questions or concerns you may have and encourage your
-    participation in EFT.
-  </div>
-);
-
-export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <div className="usa-alert-text">
+    <div>
       <p>
-        <strong>Note:</strong> You have indicated that you did not serve during
-        an{' '}
-        <a
-          href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {' '}
-          eligible wartime period
-        </a>
-        . Find out if you still qualify.{' '}
-        <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility
-        </a>
+        The Department of Treasury requires all federal benefit payments be made
+        by electronic funds transfer (EFT), also called direct deposit.
+      </p>
+    </div>
+    <div>
+      <h3>If you don’t have a bank account</h3>
+      <p>
+        If you don’t have a bank account, you must get your payment through
+        Direct Express Debit MasterCard. To request a Direct Express Debit
+        MasterCard, you’ll need to apply one of these two ways:
+      </p>
+      <ul>
+        <li>
+          <a
+            href="http://www.usdirectexpress.com"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Apply online for a Direct Express Debit MasterCard (opens in new tab)"
+          >
+            Apply online for a Direct Express Debit MasterCard (opens in new
+            tab)
+          </a>
+        </li>
+        <li>
+          Call <va-telephone contact="8003331795" /> to apply by phone
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>If you want to opt out of direct deposit</h3>
+      <p>
+        If you chose not to enroll, you must contact representatives handling
+        waiver requests for the Department of Treasury at{' '}
+        <va-telephone contact="8882242950" />. They will address any questions
+        or concerns you may have and encourage your participation in EFT.
       </p>
     </div>
   </div>
@@ -254,47 +262,6 @@ export function servedDuringWartime(period) {
     return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
   });
 }
-
-export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        You’ll need to provide all private medical records for your child’s
-        disability.
-      </div>
-    </div>
-  </div>
-);
-
-export const schoolAttendanceWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since your child is between 18 and 23 years old, you’ll need to fill out
-        a Request for Approval of School Attendance (
-        <a
-          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          VA Form 21-674
-        </a>
-        ). <strong>You can send us this form later.</strong>
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your child won’t qualify as a dependent unless they’re in school or
-        disabled.
-      </div>
-    </div>
-  </div>
-);
 
 export const dependentsMinItem = (
   <span>
@@ -336,27 +303,6 @@ export const dependentSeriouslyDisabledDescription = (
   </div>
 );
 
-export const contactWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact this person without contacting you first.
-      </div>
-    </div>
-  </div>
-);
-
-export const contactWarningMulti = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact any of the people listed here without contacting you
-        first.
-      </div>
-    </div>
-  </div>
-);
-
 export const IncomeSourceDescription = (
   <div>
     <p>
@@ -378,3 +324,36 @@ export const validateWorkHours = (errors, fieldData) => {
     errors.addError('Enter a number less than 169');
   }
 };
+
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export const formatFullName = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  // ensure that any middle initials are capitalized
+  const formattedMiddle = middle
+    ? middle.replaceAll(/\b\w\b/g, c => c.toUpperCase())
+    : '';
+  return [first, formattedMiddle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
+};
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}
