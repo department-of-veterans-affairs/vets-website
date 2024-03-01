@@ -68,5 +68,12 @@ class AllergyDetailsPage {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-2"]').should('be.visible');
   };
+
+  verifyBreadcrumbs = breadcrumbsText => {
+    cy.get('[data-testid="breadcrumbs"]').should(
+      'contain',
+      `‹ ${breadcrumbsText}`,
+    );
+  };
 }
 export default new AllergyDetailsPage();
