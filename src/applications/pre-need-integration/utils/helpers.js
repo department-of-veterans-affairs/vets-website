@@ -100,9 +100,8 @@ export const sponsorDemographicsSubHeader = (
 export const sponsorDemographicsDescription = (
   <div className="sponsorDemographicsDescription">
     <p>
-      We require some basic details about the applicant’s sponsor as part of the
-      application. Please know we need to gather the data for statistical
-      purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
