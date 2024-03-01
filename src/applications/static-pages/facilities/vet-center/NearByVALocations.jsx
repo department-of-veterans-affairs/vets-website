@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import VAFacilityInfoSection from './components/VAFacilityInfoSection';
-import VetCenterImageSection from './components/VetCenterImageSection';
 import { multiTypeQuery } from '../actions';
 import {
   calculateBoundingBox,
@@ -17,6 +15,7 @@ import {
   isStartedLoading,
   joinMultiData,
 } from './multiLoadingDataHelpers';
+import VAFacility from './components/VAFAcility';
 
 const NEARBY_VA_LOCATIONS_RADIUS_MILES = 120;
 
@@ -104,14 +103,13 @@ const NearByVALocations = props => {
       if (nearbyVADistances || noDistancesToMeasure) {
         return false;
       }
+
       const facilityCoordinates = joinMultiData(props)
         .filter(center => center.id !== props.mainFacilityApiId)
-        .map(center => {
-          return {
-            id: center.id,
-            coordinates: [center.attributes.long, center.attributes.lat],
-          };
-        });
+        .map(center => ({
+          id: center.id,
+          coordinates: [center.attributes.long, center.attributes.lat],
+        }));
 
       const fetchDrivingData = async () => {
         if (nearbyVADistances) {
@@ -129,12 +127,10 @@ const NearByVALocations = props => {
         );
 
         const facilityCoordinatesWithDistances = [...facilityCoordinates].map(
-          (center, index) => {
-            return {
-              ...center,
-              distance: nearbyDistances[index],
-            };
-          },
+          (center, index) => ({
+            ...center,
+            distance: nearbyDistances[index],
+          }),
         );
 
         setNearbyVADistances(facilityCoordinatesWithDistances);
@@ -159,34 +155,6 @@ const NearByVALocations = props => {
     },
     [nearbyVADistances, props],
   );
-
-  // TODO: consider moving to a separate component
-  const renderFacility = (vaFacility, mainVetCenterPhone) => {
-    return (
-      <div
-        className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row facility
-      vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
-        key={vaFacility.id || vaFacility.fieldFacilityLocatorApiId}
-      >
-        <section className="region-grid vads-u-margin-right--2">
-          <VAFacilityInfoSection
-            vaFacility={vaFacility}
-            mainPhone={mainVetCenterPhone}
-          />
-        </section>
-
-        {vaFacility.fieldMedia && (
-          <section
-            className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial
-        vads-u-margin-bottom--2"
-          >
-            <VetCenterImageSection vetCenter={vaFacility} />
-          </section>
-        )}
-      </div>
-    );
-  };
 
   const normalizeFetchedFacilities = vcs => {
     return vcs
@@ -223,9 +191,13 @@ const NearByVALocations = props => {
           Other nearby VA locations
         </h2>
         <div>
-          {(useSorted ? sortedVaLocations : filteredByDistance).map(vc => {
-            return renderFacility(vc, props.mainPhone);
-          })}
+          {(useSorted ? sortedVaLocations : filteredByDistance).map(vf => (
+            <VAFacility
+              key={vf.id}
+              vaFacility={vf}
+              mainPhone={props.mainPhone}
+            />
+          ))}
         </div>
       </>
     );
