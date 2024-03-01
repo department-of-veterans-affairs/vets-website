@@ -36,9 +36,13 @@ const TravelQuestion = props => {
   };
   const bodyText = (
     <>
-      <p>{t('review-body-text')}</p>
+      <p>{t('you-can-submit-your-claim-now-in-this-tool')}</p>
+      <Trans
+        i18nKey="if-you-choose-to-file-later"
+        components={[<span key="bold" className="vads-u-font-weight--bold" />]}
+      />
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
-        <h2>{t('claim-informaiton')}</h2>
+        <h2 className="vads-u-margin-top--2p5">{t('claim-informaiton')}</h2>
         <a
           className="vads-u-margin-left--auto"
           href="travel-vehicle"
@@ -113,9 +117,9 @@ const TravelQuestion = props => {
       bodyText={bodyText}
       pageType="travel-review"
       router={router}
-      yesButtonText={t('agree-to-these-terms')}
+      yesButtonText={t('file-claim')}
       yesFunction={validation}
-      noButtonText={t('file-later')}
+      noButtonText={t('back')}
       noFunction={fileLater}
     />
   );

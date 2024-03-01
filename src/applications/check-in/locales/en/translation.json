@@ -304,5 +304,11 @@
   "or-you-can-still-file-your-claim": "Or you can still file your claim within 30 days through the Beneficiary Travel Self-Service System (BTSSS).",
   "claim-submitted_one": "Claim submitted",
   "claim-submitted_other": "Claims submitted",
-  "fpo-header": "Placeholder header"
+  "fpo-header": "Placeholder header",
+  "if-you-traveled-by-bus-train-taxi-or-other-bold--help-text": "<0>If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, or in person.",
+  "if-you-traveled-from-a-different-address-bold--helptext": "<0>If you traveled from a different address, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, or in person.",
+  "you-can-submit-your-claim-now-in-this-tool": "You can submit your claim now in this tool or choose to file later.",
+  "if-you-choose-to-file-later": "If you choose to file later, you can text <0>travel</0> to 54804 until the end of today. Or you can file within 30 days through the Beneficiary Travel Self-Service System (BTSSS).",
+  "file-claim": "File claim",
+  "back": "Back"
 }
