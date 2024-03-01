@@ -5,9 +5,7 @@ import { Link } from 'react-router';
 
 const formatDate = closedDate => moment(closedDate).format('MMMM D, YYYY');
 
-function ClosedClaimAlert({ claim }) {
-  const { closeDate, decisionLetterSent } = claim.attributes;
-
+function ClosedClaimAlert({ closeDate, decisionLetterSent = false }) {
   return (
     <va-alert class="vads-u-margin-bottom--4" status="info" uswds>
       <h2 id="track-your-status-on-mobile" slot="headline">
@@ -41,7 +39,8 @@ function ClosedClaimAlert({ claim }) {
 }
 
 ClosedClaimAlert.propTypes = {
-  claim: PropTypes.object,
+  closeDate: PropTypes.string,
+  decisionLetterSent: PropTypes.bool,
 };
 
 export default ClosedClaimAlert;

@@ -246,7 +246,10 @@ class ClaimStatusPage extends React.Component {
               </>
             ) : (
               <>
-                <ClosedClaimAlert claim={claim} />
+                <ClosedClaimAlert
+                  closeDate={closeDate}
+                  decisionLetterSent={decisionLetterSent}
+                />
                 <Payments />
                 <NextSteps />
               </>
