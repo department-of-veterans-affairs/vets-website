@@ -35,7 +35,7 @@ const CheckInConfirmation = props => {
   } = useGetCheckInData({
     refreshNeeded: false,
     appointmentsOnly: true,
-    isPreCheckIn: false,
+    app: APP_NAMES.CHECK_IN,
   });
   const { updateError } = useUpdateError();
   const { t } = useTranslation();
@@ -60,9 +60,12 @@ const CheckInConfirmation = props => {
   const {
     setShouldSendTravelPayClaim,
     getShouldSendTravelPayClaim,
-  } = useStorage(false);
+  } = useStorage(APP_NAMES.CHECK_IN);
 
-  const { setTravelPaySent, getTravelPaySent } = useStorage(false, true);
+  const { setTravelPaySent, getTravelPaySent } = useStorage(
+    APP_NAMES.CHECK_IN,
+    true,
+  );
 
   useEffect(
     () => {

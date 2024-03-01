@@ -11,6 +11,7 @@ import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay'
 import { makeSelectVeteranData } from '../../selectors';
 import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const NextOfKin = props => {
   const { router } = props;
@@ -24,7 +25,7 @@ const NextOfKin = props => {
     goToPreviousPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useStorage(false);
+  const { setShouldSendDemographicsFlags } = useStorage(APP_NAMES.CHECK_IN);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',
