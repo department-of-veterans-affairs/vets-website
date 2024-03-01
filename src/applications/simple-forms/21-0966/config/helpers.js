@@ -70,6 +70,9 @@ export const statementOfTruthFullNamePath = ({ formData } = {}) => {
     return 'thirdPartyPreparerFullName';
   }
   if (preparerIsVeteran({ formData })) {
+    if (hasVeteranPrefill({ formData })) {
+      return 'view:veteranPrefillStore.fullName';
+    }
     return 'veteranFullName';
   }
   return 'survivingDependentFullName';
