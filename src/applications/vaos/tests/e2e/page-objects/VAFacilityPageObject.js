@@ -31,6 +31,7 @@ export class VAFacilityPageObject extends PageObject {
    * @memberof VAFacilityPageObject
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
+    cy.wait('@v2:get:facilities');
     if (isVA) {
       cy.findByText(/We found one VA facility for your .* appointment/i);
     } else {
