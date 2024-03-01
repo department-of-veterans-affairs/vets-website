@@ -21,7 +21,7 @@ describe('MHVDowntime', () => {
       ...mockServiceProps,
     };
     const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
-    getByRole('heading', { level: 3, name: 'Maintenance on My HealtheVet' });
+    getByRole('heading', { level: 2, name: 'Maintenance on My HealtheVet' });
     getByText(/some of our health tools/i);
   });
 
@@ -43,7 +43,7 @@ describe('MHVDowntime', () => {
     };
     const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
     getByRole('heading', {
-      level: 3,
+      level: 2,
       name: 'Upcoming maintenance on My HealtheVet',
     });
     getByText(/you may have trouble using some of our health tools/i);
