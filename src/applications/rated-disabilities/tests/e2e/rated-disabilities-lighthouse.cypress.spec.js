@@ -25,7 +25,7 @@ describe('View rated disabilities', () => {
       cy.findByText(
         'We don’t have a combined disability rating on file for you',
       ).should('exist');
-      cy.get('va-featured-content').should('not.exist');
+      cy.get('va-summary-box').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
