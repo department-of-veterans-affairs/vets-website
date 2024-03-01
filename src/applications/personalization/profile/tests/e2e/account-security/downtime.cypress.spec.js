@@ -34,7 +34,7 @@ context('downtime notification cases for Account Security', () => {
           id: '139',
           type: 'maintenance_windows',
           attributes: {
-            externalService: 'emis',
+            externalService: 'evss',
             description: 'My description',
             startTime: withinHour,
             endTime,
@@ -56,7 +56,7 @@ context('downtime notification cases for Account Security', () => {
           id: '139',
           type: 'maintenance_windows',
           attributes: {
-            externalService: 'emis',
+            externalService: 'evss',
             description: 'My description',
             startTime: beforeNow,
             endTime,
