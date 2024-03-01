@@ -272,6 +272,7 @@ export default Object.freeze({
     'va_online_scheduling_after_visit_summary',
   vaOnlineSchedulingStartSchedulingLink:
     'va_online_scheduling_start_scheduling_link',
+  vaOnlineSchedulingBookingExclusion: 'va_online_scheduling_booking_exclusion	',
   vaOnlineSchedulingPhysicalLocation: 'va_online_scheduling_physical_location',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
