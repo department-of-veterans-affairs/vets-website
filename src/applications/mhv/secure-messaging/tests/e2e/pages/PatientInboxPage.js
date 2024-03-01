@@ -179,6 +179,16 @@ class PatientInboxPage {
       { data: this.singleThread.data[0] },
     ).as('fist-message-in-thread');
 
+    if (this.singleThread.data.length > 1) {
+      cy.intercept(
+        'GET',
+        `${Paths.SM_API_EXTENDED}/${
+          this.singleThread.data[1].attributes.messageId
+        }`,
+        { data: this.singleThread.data[1] },
+      ).as('second-message-in-thread');
+    }
+
     cy.contains(mockMessages.data[0].attributes.subject).click({
       waitForAnimations: true,
     });
@@ -582,7 +592,6 @@ class PatientInboxPage {
       i < user.data.attributes.vaProfile.facilities.length;
       i += 1
     ) {
-      cy.log(` i = ${i}`);
       const facility = user.data.attributes.vaProfile.facilities[i];
       let facilityName = '';
 
@@ -604,17 +613,15 @@ class PatientInboxPage {
             'not.be.visible',
           );
         } else if (cernerCount === 1) {
-          cy.get('[data-testid="cerner-facilities-alert"]')
-            .shadow()
-            .get('[data-testid="single-cerner-facility-text"]')
-            .contains(facilityName);
+          cy.get('[data-testid="single-cerner-facility-text"]').should(
+            'contain',
+            `${facilityName}`,
+          );
           break;
         } else if (cernerCount > 1) {
-          cy.get('[data-testid="cerner-facilities-alert"]')
-            .shadow()
-            .get('[data-testid="cerner-facility"]')
+          cy.get('[data-testid="cerner-facility"]')
             .eq(cernerIndex)
-            .contains(facilityName);
+            .should('contain', `${facilityName}`);
         }
         cernerIndex += 1;
       }

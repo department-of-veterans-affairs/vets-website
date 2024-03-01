@@ -1,3 +1,4 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
@@ -23,24 +24,22 @@ describe('Medical Records Care Summary Page', () => {
       notes.entry[1].resource.content[0].attachment.title,
     );
 
-    // Verify Discharge Summary Note Details Location
-    NotesDetailsPage.verifyDischargeSummaryLocation('DAYTON');
-
-    // Verify Discharge Summary Details DischargeDate
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate('August 9, 2022');
-    // Verify Discharge Summary Admitted By --this is currently removed
-    // NotesDetailsPage.verifyDischargeSummaryAdmittedBy('AHMED,NAJEEB');
-
+    // Verify Discharge Summary Note Location
+    NotesDetailsPage.verifyDischargeSummaryLocation(
+      notes.entry[1].resource.contained[1].name,
+    );
+    // Verify Discharged Date
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate(
+      moment(notes.entry[1].resource.date).format('MMMM D, YYYY'),
+    );
     // Verify Discharge Summary discharged By
-    NotesDetailsPage.verifyDischargeSummaryDischargedBy('AHMED,MARUF');
-
+    NotesDetailsPage.verifyDischargeSummaryDischargedBy(
+      notes.entry[1].resource.contained[0].name[0].text,
+    );
     // Verify Discharge Summary Note
     NotesDetailsPage.verifyDischargeSummaryNote(
-      'LOCAL TITLE: Discharge Summary',
+      `LOCAL TITLE: ${notes.entry[1].resource.content[0].attachment.title}`,
     );
-
-    // Click Back to Care summaries and notes
-    // NotesDetailsPage.clickBreadCrumbsLink(0);
 
     cy.injectAxe();
     cy.axeCheck('main');
