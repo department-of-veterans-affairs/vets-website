@@ -1,0 +1,18 @@
+name: Inject SSM Secrets
+description: Inject SSM Secrets
+
+inputs:
+  ssm_parameter:
+    description: Parameter name to inject into the environment
+    required: true
+  env_variable_name:
+    description: Environment Variable to set with this value
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+      with:
+        ssm_parameter: ${{ inputs.ssm_parameter }}
+        env_variable_name: ${{ inputs.env_variable_name }}

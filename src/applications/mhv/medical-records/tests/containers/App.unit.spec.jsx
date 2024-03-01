@@ -215,7 +215,7 @@ describe('App', () => {
       });
       expect(
         screen.getByText('Maintenance on My HealtheVet', {
-          selector: 'h3',
+          selector: 'h2',
           exact: true,
         }),
       );
@@ -250,7 +250,7 @@ describe('App', () => {
       });
       expect(
         screen.getByText('Maintenance on My HealtheVet', {
-          selector: 'h3',
+          selector: 'h2',
           exact: true,
         }),
       );
@@ -286,7 +286,7 @@ describe('App', () => {
       const downtimeComponent = screen.queryByText(
         'Maintenance on My HealtheVet',
         {
-          selector: 'h3',
+          selector: 'h2',
           exact: true,
         },
       );
