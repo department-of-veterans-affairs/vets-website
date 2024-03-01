@@ -10,14 +10,15 @@ import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay'
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
+import { makeSelectCurrentContext } from '../../../selectors';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Validate = ({ router }) => {
-  const { setPermissions } = useStorage(true);
+  const { setPermissions } = useStorage(APP_NAMES.TRAVEL_CLAIM);
   const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -33,9 +34,6 @@ const Validate = ({ router }) => {
 
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
-
-  const selectApp = useMemo(makeSelectApp, []);
-  const { app } = useSelector(selectApp);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -58,20 +56,11 @@ const Validate = ({ router }) => {
         goToNextPage,
         token,
         setSession,
-        app,
+        APP_NAMES.TRAVEL_CLAIM,
         updateError,
       );
     },
-    [
-      app,
-      goToNextPage,
-      lastName,
-      dob,
-      dobError,
-      setSession,
-      token,
-      updateError,
-    ],
+    [goToNextPage, lastName, dob, dobError, setSession, token, updateError],
   );
 
   const validateErrorMessage = t(
