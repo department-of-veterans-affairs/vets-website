@@ -66,7 +66,7 @@ describe('when <ChangeOfAddressForm/> renders', () => {
     wrapper.find('form').simulate('submit');
     const staterrorMsg = wrapper.find('.usa-input-error').last();
     await waitFor(() => {
-      expect(staterrorMsg.text()).includes('State is required');
+      expect(staterrorMsg.text()).includes('Zip code is required');
     });
     wrapper.unmount();
   });

@@ -26,6 +26,7 @@ export const addressFormRequiredData = [
   'addressLine1',
   'city',
   'stateCode',
+  'zipCode',
 ];
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
