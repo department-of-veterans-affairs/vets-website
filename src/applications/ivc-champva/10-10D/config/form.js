@@ -76,6 +76,7 @@ import ApplicantMedicareStatusContinuedPage, {
 import ApplicantOhiStatusPage, {
   ApplicantOhiStatusReviewPage,
 } from '../pages/ApplicantOhiStatusPage';
+import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
 
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
@@ -90,6 +91,8 @@ const applicantListSchema = (requireds, propertyList) => {
     properties: {
       applicants: {
         type: 'array',
+        minItems: 1,
+        maxItems: 25,
         items: {
           type: 'object',
           required: requireds,
@@ -1229,6 +1232,23 @@ const formConfig = {
             ...applicant107959cConfig.schema,
             applicant107959c: attachmentsSchema,
           }),
+        },
+      },
+    },
+    uploadFiles: {
+      title: 'Upload files',
+      pages: {
+        page23: {
+          path: 'supporting-files',
+          title: 'Upload your supporting files',
+          CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
         },
       },
     },
