@@ -7,7 +7,6 @@ import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import { renderWithStoreAndRouter, getTestDate } from '../../../mocks/setup';
-
 import { AppointmentList } from '../../../../appointment-list';
 import {
   mockAppointmentApi,
