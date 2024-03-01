@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import RecentActivity from '../../components/RecentActivity';
+import RecentActivity from '../../components/claim-status-tab/RecentActivity';
 
 describe('<RecentActivity>', () => {
   context('when claim doesnt have trackedItems', () => {

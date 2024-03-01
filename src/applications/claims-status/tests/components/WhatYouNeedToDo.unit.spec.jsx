@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import WhatYouNeedToDo from '../../components/WhatYouNeedToDo';
+import WhatYouNeedToDo from '../../components/claim-status-tab/WhatYouNeedToDo';
 
 describe('<WhatYouNeedToDo>', () => {
   context('when useLighthouse true', () => {

@@ -238,7 +238,7 @@ class ClaimStatusPage extends React.Component {
       <div>
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
-            <ClaimStatusHeader claim={claim} isOpen={isOpen} />
+            <ClaimStatusHeader claim={claim} />
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />

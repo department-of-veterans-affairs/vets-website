@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { buildDateFormatter } from '../utils/helpers';
+import { buildDateFormatter, isClaimOpen } from '../utils/helpers';
 
 const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 
@@ -14,8 +14,11 @@ const getLastUpdated = claim => {
   return `Last updated: ${updatedOn}`;
 };
 
-function ClaimStatusHeader({ claim, isOpen }) {
+function ClaimStatusHeader({ claim }) {
+  const { closeDate, status } = claim.attributes;
   const inProgress = !isClaimComplete(claim) ? 'In Progress' : null;
+
+  const isOpen = isClaimOpen(status, closeDate);
 
   return (
     <div className="claim-status-header-container">
@@ -37,7 +40,6 @@ function ClaimStatusHeader({ claim, isOpen }) {
 
 ClaimStatusHeader.propTypes = {
   claim: PropTypes.object,
-  isOpen: PropTypes.bool,
 };
 
 export default ClaimStatusHeader;
