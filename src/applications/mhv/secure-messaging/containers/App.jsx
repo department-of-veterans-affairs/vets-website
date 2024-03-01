@@ -9,11 +9,11 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { useDatadogRum } from '@department-of-veterans-affairs/mhv/exports';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 
 const App = () => {
