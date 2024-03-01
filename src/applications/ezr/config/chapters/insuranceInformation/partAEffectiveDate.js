@@ -1,5 +1,4 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   descriptionUI,
   currentOrPastDateUI,
@@ -14,7 +13,6 @@ const { medicareClaimNumber } = ezrSchema.properties;
 
 export default {
   uiSchema: {
-    ...descriptionUI(PrefillMessage, { hideOnReview: true }),
     medicarePartAEffectiveDate: currentOrPastDateUI({
       title: content['insurance-medicare-part-a-title'],
       hint: content['insuance-medicare-part-a-hint'],

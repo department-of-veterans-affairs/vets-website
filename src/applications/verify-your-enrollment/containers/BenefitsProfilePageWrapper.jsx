@@ -50,14 +50,15 @@ const BenefitsProfileWrapper = ({ children }) => {
             />
             <ChangeOfAddressWrapper
               loading={loading}
+              applicantName={applicantName}
               mailingAddress={{
                 street: `${addressLine3} ${addressLine2}`,
                 city: addressLine4,
                 state: addressLine5,
-                zip: addressLine6,
+                zipCode: addressLine6,
               }}
             />
-            <ChangeOfDirectDepositWrapper />
+            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
             <PendingDocuments
               loading={loading}
               pendingDocuments={pendingDocuments}
