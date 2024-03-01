@@ -332,7 +332,7 @@ describe('App', () => {
     customState.featureToggles[
       `${'mhv_secure_messaging_to_va_gov_release'}`
     ] = true;
-    customState.isPilot = true;
+
     const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
       initialState: customState,
       reducers: reducer,
@@ -362,7 +362,7 @@ describe('App', () => {
     customState.featureToggles[
       `${'mhv_secure_messaging_to_va_gov_release'}`
     ] = true;
-    customState.isPilot = true;
+
     const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
       initialState: customState,
       reducers: reducer,
