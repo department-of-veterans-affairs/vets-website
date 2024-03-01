@@ -688,7 +688,6 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} gender`,
           uiSchema: {
-            'ui:title': 'Applicant Gender',
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
@@ -741,11 +740,13 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} birth certificate`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -779,21 +780,18 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} school documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child' &&
-            // Calculate the current app's age and check if it's between
-            // 18-23. Did this isInRange method bc can't store temp age value
-            // and didn't want to calculate age twice to do comparison
-            isInRange(
-              getAgeInYears(
-                get('applicantDOB', formData?.applicants?.[`${index || 0}`]),
-              ),
-              18,
-              23,
-            ),
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child' &&
+              isInRange(
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                18,
+                23,
+              )
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -827,11 +825,15 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -868,15 +870,19 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} adoption documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child' &&
-            get(
-              'applicantRelationshipOrigin',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'adoption',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child' &&
+              get(
+                'applicantRelationshipOrigin',
+                formData?.applicants?.[index],
+              ) === 'adoption'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -911,15 +917,19 @@ const formConfig = {
           showPagePerItem: true,
           title: item =>
             `${applicantWording(item)} parental marriage documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child' &&
-            get(
-              'applicantRelationshipOrigin',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'step',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child' &&
+              get(
+                'applicantRelationshipOrigin',
+                formData?.applicants?.[index],
+              ) === 'step'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -955,11 +965,15 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'spouse',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1010,11 +1024,13 @@ const formConfig = {
           showPagePerItem: true,
           title: item =>
             `${applicantWording(item)} Medicare status (continued)`,
-          depends: (formData, index) =>
-            get(
-              'applicantMedicareStatus',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+              'enrolled'
+            );
+          },
           CustomPage: ApplicantMedicareStatusContinuedPage,
           CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
           schema: applicantListSchema([], {
@@ -1031,17 +1047,19 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} medicare card (parts A/B)`,
-          depends: (formData, index) =>
-            get(
-              'applicantMedicareStatus',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled' &&
-            ['partA', 'partB'].some(part =>
-              get(
-                'applicantMedicarePart',
-                formData?.applicants?.[`${index || 0}`],
-              )?.includes(part),
-            ),
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+                'enrolled' &&
+              ['partA', 'partB'].some(part =>
+                get(
+                  'applicantMedicarePart',
+                  formData?.applicants?.[index],
+                )?.includes(part),
+              )
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1077,15 +1095,17 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} medicare card (part D)`,
-          depends: (formData, index) =>
-            get(
-              'applicantMedicareStatus',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled' &&
-            get(
-              'applicantMedicarePart',
-              formData?.applicants?.[`${index || 0}`],
-            )?.includes('partD'),
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+                'enrolled' &&
+              get(
+                'applicantMedicarePart',
+                formData?.applicants?.[index],
+              )?.includes('partD')
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1135,9 +1155,12 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} other health insurance`,
-          depends: (formData, index) =>
-            get('applicantHasOhi', formData?.applicants?.[`${index || 0}`]) ===
-            'yes',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1171,13 +1194,14 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} 10-7959C upload`,
-          depends: (formData, index) =>
-            get('applicantHasOhi', formData?.applicants?.[`${index || 0}`]) ===
-              'yes' ||
-            get(
-              'applicantMedicareStatus',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+                'enrolled'
+            );
+          },
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
