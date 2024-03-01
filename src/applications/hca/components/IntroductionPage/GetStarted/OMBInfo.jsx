@@ -9,7 +9,7 @@ const OMBInfo = () => (
       may not conduct or sponsor, and you are not required to respond to, a
       collection of information unless it displays a valid OMB number. We
       anticipate that the time expended by all individuals who must complete
-      this form will average 30 minutes. This includes the time it will take to
+      this form will average 35 minutes. This includes the time it will take to
       read instructions, gather the necessary facts and fill out the form.
     </p>
     <p>
