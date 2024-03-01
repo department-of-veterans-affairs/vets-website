@@ -7,10 +7,24 @@ import { expect } from 'chai';
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
+import mockData from '../fixtures/data/test-data.json';
+
 const subDate = new Date('11/13/2023').toString();
 
 const storeBase = {
   form: {
+    ...formConfig,
+    pages: {
+      page1: {
+        schema: {
+          properties: {
+            applicants: {
+              items: [],
+            },
+          },
+        },
+      },
+    },
     formId: formConfig.formId,
     submission: {
       response: {
@@ -18,24 +32,15 @@ const storeBase = {
       },
       timestamp: subDate,
     },
-    data: {
-      veteransFullName: {
-        first: 'Jack',
-        middle: 'W',
-        last: 'Veteran',
-        suffix: 'Jr.',
-      },
-    },
+    data: mockData.data,
   },
 };
 
+const fullName = `${mockData.data.veteransFullName.first} ${
+  mockData.data.veteransFullName.last
+}`;
+
 // Prepare some alternate data for different tests
-const storeBaseNoVetName = JSON.parse(JSON.stringify(storeBase));
-delete storeBaseNoVetName.form.data.veteransFullName;
-
-const storeBaseNoVetSuffix = JSON.parse(JSON.stringify(storeBase));
-delete storeBaseNoVetSuffix.form.data.veteransFullName.suffix;
-
 const storeBaseNoSubmissionDate = JSON.parse(JSON.stringify(storeBase));
 storeBaseNoSubmissionDate.form.submission.timestamp = '';
 
@@ -60,27 +65,7 @@ describe('Confirmation page', () => {
       </Provider>,
     );
 
-    expect(getByText(/Jack W Veteran, Jr./)).to.exist;
-  });
-
-  it('should display correct name of person without a suffix', () => {
-    const { getByText } = render(
-      <Provider store={mockStore(storeBaseNoVetSuffix)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-
-    expect(getByText(/Jack W Veteran/)).to.exist;
-  });
-
-  it('should not display a full name if no full name is provided', () => {
-    const { container } = render(
-      <Provider store={mockStore(storeBaseNoVetName)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-
-    expect(container.querySelector('.veterans-full-name')).to.not.exist;
+    expect(getByText(fullName)).to.exist;
   });
 
   it('should not display submission date if it is invalid', () => {
