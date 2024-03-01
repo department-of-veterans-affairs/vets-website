@@ -4,16 +4,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import TravelIntro from '.';
-import { multiFacility, singleFacility } from './testAppointments';
 
 describe('travel-claim', () => {
   const store = {
-    formPages: ['travel-info', 'select-appointment', 'travel-mileage'],
+    formPages: ['travel-info', 'travel-mileage'],
   };
   describe('Intro page', () => {
-    it('links to select page if multiple facilites in payload', () => {
+    it('links to next page', () => {
       const push = sinon.spy();
-      store.appointments = multiFacility;
       const component = render(
         <CheckInProvider
           store={store}
@@ -28,26 +26,7 @@ describe('travel-claim', () => {
       );
       const link = component.getByTestId('file-claim-link');
       fireEvent.click(link);
-      expect(push.calledWith({ pathname: 'select-appointment' })).to.be.true;
-    });
-    it('links to single page if one facility in payload', () => {
-      const push = sinon.spy();
-      store.appointments = singleFacility;
-      const component = render(
-        <CheckInProvider
-          store={store}
-          router={{
-            push,
-            currentPage: '/travel-info',
-            params: {},
-          }}
-        >
-          <TravelIntro />
-        </CheckInProvider>,
-      );
-      const link = component.getByTestId('file-claim-link');
-      fireEvent.click(link);
-      expect(push.calledWith({ pathname: 'travel-mileage' })).to.be.true;
+      expect(push.calledWith('travel-mileage')).to.be.true;
     });
   });
 });
