@@ -64,7 +64,7 @@ describe('Wrapper component', () => {
     const mockStore = configureStore(middleware);
     const initState = {
       checkInData: {
-        app: 'PreCheckIn',
+        app: 'preCheckIn',
         form: {
           pages: [],
         },
