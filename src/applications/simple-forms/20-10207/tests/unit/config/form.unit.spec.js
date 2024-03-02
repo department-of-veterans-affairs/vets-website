@@ -829,5 +829,337 @@ describe('formConfig', () => {
         });
       });
     });
+
+    describe('veteranPersonalInformationChapter page.depends', () => {
+      describe('veteranNameAndDateOfBirthPageB.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.veteranPersonalInformationChapter.pages.veteranNameAndDateOfBirthPageB;
+
+        it('returns FALSE if preparerType is veteran or third-party-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if preparerType is non-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('veteranIdentificationInformationPageB.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.veteranPersonalInformationChapter.pages.veteranIdentificationInformationPageB;
+
+        it('returns FALSE if preparerType is veteran or third-party-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if preparerType is non-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+    });
+
+    describe('otherReasonsChapter page.depends', () => {
+      describe('otherReasonsPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.otherReasonsChapter.pages.otherReasonsPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is veteran or non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if livingSituation.NONE is TRUE and preparerType is third-party-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('otherReasonsThirdPartyVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.otherReasonsChapter.pages.otherReasonsThirdPartyVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('otherReasonsThirdPartyNonVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.otherReasonsChapter.pages.otherReasonsThirdPartyNonVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('otherReasonsHomelessPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.otherReasonsChapter.pages.otherReasonsHomelessPage;
+
+        it('returns FALSE if livingSituation.NONE is TRUE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is FALSE and preparerType is veteran or non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if livingSituation.NONE is FALSE and preparerType is third-party-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('otherReasonsHomelessThirdPartyVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.otherReasonsChapter.pages.otherReasonsHomelessThirdPartyVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is TRUE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is FALSE and preparerType is third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('otherReasonsHomelessThirdPartyNonVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.otherReasonsChapter.pages.otherReasonsHomelessThirdPartyNonVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is TRUE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is FALSE and preparerType is third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+    });
   });
 });
