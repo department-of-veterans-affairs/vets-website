@@ -2,6 +2,7 @@ import PageObject from './PageObject';
 
 export class ConfirmationPageObject extends PageObject {
   assertUrl({ isDirect = true } = {}) {
+    cy.wait('@v2:create:appointment');
     cy.url().should('include', isDirect ? '/mock1' : '/pending');
     cy.axeCheckBestPractice();
 
