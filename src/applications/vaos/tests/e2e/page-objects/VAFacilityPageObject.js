@@ -44,7 +44,7 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   assertUrl({ axCheck = true } = {}) {
-    cy.url().should('include', '/location', { timeout: 5000 });
+    cy.url().should('include', '/location', { waitForAnimations: true });
     if (axCheck) cy.axeCheckBestPractice();
 
     return this;
