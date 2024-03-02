@@ -63,7 +63,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/thirdPartyNonVeteran.json';
+import testData from '../tests/e2e/fixtures/data/veteran.json';
 
 const mockData = testData.data;
 
