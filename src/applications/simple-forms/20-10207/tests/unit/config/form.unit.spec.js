@@ -401,5 +401,433 @@ describe('formConfig', () => {
         });
       });
     });
+
+    describe('contactInformationChapter page.depends', () => {
+      describe('mailingAddressYesNoPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.mailingAddressYesNoPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if preparerType is veteran or non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if preparerType is third-party-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('mailingAddressYesNoThirdPartyVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.mailingAddressYesNoThirdPartyVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('mailingAddressYesNoThirdPartyNonVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.mailingAddressYesNoThirdPartyNonVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('veteranMailingAddressPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.veteranMailingAddressPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if mailingAddressYesNo is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: false,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and mailingAddressYesNo is TRUE and preparerType is veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if livingSituation.NONE is TRUE and mailingAddressYesNo is TRUE and preparerType is non-veteran, third-party-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('nonVeteranMailingAddressPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.nonVeteranMailingAddressPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if mailingAddressYesNo is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: false,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and mailingAddressYesNo is TRUE and preparerType is non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if livingSituation.NONE is TRUE and mailingAddressYesNo is TRUE and preparerType is veteran, third-party-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('veteranMailingAddressThirdPartyVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.veteranMailingAddressThirdPartyVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if mailingAddressYesNo is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: false,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and mailingAddressYesNo is TRUE and preparerType is third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('nonVeteranMailingAddressThirdPartyNonVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.nonVeteranMailingAddressThirdPartyNonVeteranPage;
+
+        it('returns FALSE if livingSituation.NONE is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if mailingAddressYesNo is FALSE', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: false,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if livingSituation.NONE is TRUE and mailingAddressYesNo is TRUE and preparerType is third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              mailingAddressYesNo: true,
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('veteranPhoneAndEmailPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.veteranPhoneAndEmailPage;
+
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is veteran or third-party-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if preparerType is non-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              livingSituation: { NONE: true },
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('nonVeteranPhoneAndEmailPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.contactInformationChapter.pages.nonVeteranPhoneAndEmailPage;
+
+        it('returns TRUE if preparerType is non-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if preparerType is veteran or third-party-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+    });
   });
 });
