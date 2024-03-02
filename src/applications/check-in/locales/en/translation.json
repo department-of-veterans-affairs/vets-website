@@ -316,5 +316,9 @@
   "sign-in-to-btsss": "Sign in to BTSSS to check your claim status",
   "we-cant-file-this-type": "We can’t file this type of travel reimbursement claim",
   "were-sorry-we-cant-file-this-type": "We’re sorry. We can’t file this type of travel reimbursement claim for you in this tool right now. But you can still file within 30 days of the appointment through the Beneficiary Travel Self Service System (BTSSS).",
+  "select-appointments-to-file-today": "Select the appointments you want to file for today",
+  "file-mileage-only-claim-todays-appointment_one": "File a mileage-only claim for today’s appointment",
+  "file-mileage-only-claim-todays-appointment_other": "File a mileage-only claim for today’s appointments",
+  "if-you-need-submit-receipts-other-expenses": "<0>If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail or in person.",
   "fpo-header": "Placeholder header"
 }
