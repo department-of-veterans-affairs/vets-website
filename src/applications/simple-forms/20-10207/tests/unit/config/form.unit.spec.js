@@ -1161,5 +1161,187 @@ describe('formConfig', () => {
         });
       });
     });
+
+    describe('evidenceChapter page.depends', () => {
+      describe('financialHardshipPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.evidenceChapter.pages.financialHardshipPage;
+
+        it('returns TRUE if otherReasons.FINANCIAL_HARDSHIP is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { FINANCIAL_HARDSHIP: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.FINANCIAL_HARDSHIP is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { FINANCIAL_HARDSHIP: false },
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('terminalIllnessPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.evidenceChapter.pages.terminalIllnessPage;
+
+        it('returns TRUE if otherReasons.TERMINAL_ILLNESS is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { TERMINAL_ILLNESS: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.TERMINAL_ILLNESS is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { TERMINAL_ILLNESS: false },
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('alsPage.depends', () => {
+        const { depends } = formConfig.chapters.evidenceChapter.pages.alsPage;
+
+        it('returns TRUE if otherReasons.ALS is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { ALS: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.ALS is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { ALS: false },
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('vsiPage.depends', () => {
+        const { depends } = formConfig.chapters.evidenceChapter.pages.vsiPage;
+
+        it('returns TRUE if otherReasons.VSI_SI is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { VSI_SI: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.VSI_SI is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { VSI_SI: false },
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('powConfinementPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.evidenceChapter.pages.powConfinementPage;
+
+        it('returns TRUE if otherReasons.FORMER_POW is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.FORMER_POW is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: false },
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('powConfinement2Page.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.evidenceChapter.pages.powConfinement2Page;
+
+        it('returns TRUE if otherReasons.FORMER_POW & powMultipleConfinements are TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: true },
+              powMultipleConfinements: true,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.FORMER_POW or powMultipleConfinements is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: false },
+              powMultipleConfinements: true,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: true },
+              powMultipleConfinements: false,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('powDocumentsPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.evidenceChapter.pages.powDocumentsPage;
+
+        it('returns TRUE if otherReasons.FORMER_POW is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.FORMER_POW is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { FORMER_POW: false },
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('medalAwardPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.evidenceChapter.pages.medalAwardPage;
+
+        it('returns TRUE if otherReasons.MEDAL_AWARD is TRUE', () => {
+          expect(
+            depends({
+              otherReasons: { MEDAL_AWARD: true },
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if otherReasons.MEDAL_AWARD is FALSE', () => {
+          expect(
+            depends({
+              otherReasons: { MEDAL_AWARD: false },
+            }),
+          ).to.be.false;
+        });
+      });
+    });
   });
 });
