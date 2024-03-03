@@ -10,12 +10,8 @@ import {
   updatePageTitle,
 } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
-import {
-  getNameDateAndTime,
-  makePdf,
-  getTxtContent,
-  generateTextFile,
-} from '../util/helpers';
+import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
+import { getTxtContent } from '../util/txtHelpers/downloadRecords';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
 
