@@ -1343,5 +1343,103 @@ describe('formConfig', () => {
         });
       });
     });
+
+    describe('medicalTreatmentChapter page.depends', () => {
+      describe('medicalTreatmentPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentPage;
+
+        it('returns TRUE if preparerType is veteran or non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.true;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+
+        it('returns FALSE if preparerType is third-party-veteran or third-party-non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('medicalTreatmentThirdPartyVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentThirdPartyVeteranPage;
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if preparerType is third-party-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('medicalTreatmentThirdPartyNonVeteranPage.depends', () => {
+        const {
+          depends,
+        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentThirdPartyNonVeteranPage;
+
+        it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.NON_VETERAN,
+            }),
+          ).to.be.false;
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+            }),
+          ).to.be.false;
+        });
+
+        it('returns TRUE if preparerType is third-party-non-veteran', () => {
+          expect(
+            depends({
+              preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            }),
+          ).to.be.true;
+        });
+      });
+    });
   });
 });
