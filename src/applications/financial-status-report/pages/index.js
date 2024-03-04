@@ -1,5 +1,4 @@
 import * as veteranInfo from './veteran/veteranInfo';
-import * as contactInfo from './veteran/contact';
 import contactInformation from './veteran/contactInformation';
 import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
@@ -115,7 +114,6 @@ export {
   resolutionWaiverAgreement,
   bankruptcyHistory,
   bankruptcyHistoryRecords,
-  contactInfo,
   contactInformation,
   addIssue,
   employmentHistory,
