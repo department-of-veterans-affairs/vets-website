@@ -15,7 +15,7 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
-import AdditionalEvidencePage from './AdditionalEvidencePage';
+import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/ClaimFileHeader';
 
 import { clearNotification } from '../actions';

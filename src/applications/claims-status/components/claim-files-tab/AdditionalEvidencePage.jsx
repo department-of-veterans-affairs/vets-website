@@ -8,13 +8,16 @@ import { getScrollOptions } from '@department-of-veterans-affairs/platform-utili
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
-import AddFilesForm from '../components/AddFilesForm';
-import Notification from '../components/Notification';
-import FilesOptional from '../components/FilesOptional';
-import FilesNeeded from '../components/FilesNeeded';
+import AddFilesForm from '../AddFilesForm';
+import Notification from '../Notification';
+import FilesOptional from './FilesOptional';
+import FilesNeeded from './FilesNeeded';
 
-import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
-import { setFocus, setPageFocus, setUpPage } from '../utils/page';
+import {
+  cstUseLighthouse,
+  benefitsDocumentsUseLighthouse,
+} from '../../selectors';
+import { setFocus, setPageFocus, setUpPage } from '../../utils/page';
 import {
   addFile,
   removeFile,
@@ -31,13 +34,13 @@ import {
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
-} from '../actions';
+} from '../../actions';
 import {
   getTrackedItemId,
   getTrackedItems,
   getFilesNeeded,
   getFilesOptional,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
