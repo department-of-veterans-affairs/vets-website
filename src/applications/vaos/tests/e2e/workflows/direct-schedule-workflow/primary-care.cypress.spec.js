@@ -635,7 +635,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .selectLocation(/Facility 983/i)
+          .selectLocation(/Facility 983/i, false)
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()

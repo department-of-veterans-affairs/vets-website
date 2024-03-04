@@ -73,7 +73,13 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  selectLocation(label) {
+  selectLocation(label, isVA = true) {
+    if (isVA) {
+      cy.wait(['@v2:get:facilities', '@v2:get:facilities']);
+    } else {
+      cy.wait('@v2:get:facilities');
+    }
+
     cy.findByLabelText(label)
       .as('radio')
       .focus();

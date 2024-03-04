@@ -94,7 +94,7 @@ describe('VAOS select appointment date', () => {
 
       VAFacilityPageObject.assertUrl()
         .assertHomeAddress({ address: /123 Main St/i })
-        .selectLocation(/Facility 983/i)
+        .selectLocation(/Facility 983/i, false)
         .clickNextButton();
 
       ClinicChoicePageObject.assertUrl()
@@ -153,7 +153,7 @@ describe('VAOS select appointment date', () => {
 
       VAFacilityPageObject.assertUrl()
         .assertHomeAddress({ address: /123 Main St/i })
-        .selectLocation(/Facility 983/i)
+        .selectLocation(/Facility 983/i, false)
         .clickNextButton();
 
       ClinicChoicePageObject.assertUrl()
@@ -215,7 +215,7 @@ describe('VAOS select appointment date', () => {
 
       VAFacilityPageObject.assertUrl()
         .assertHomeAddress({ address: /123 Main St/i })
-        .selectLocation(/Facility 983/i)
+        .selectLocation(/Facility 983/i, false)
         .clickNextButton();
 
       ClinicChoicePageObject.assertUrl()
@@ -274,7 +274,7 @@ describe('VAOS select appointment date', () => {
 
       VAFacilityPageObject.assertUrl()
         .assertHomeAddress({ address: /123 Main St/i })
-        .selectLocation(/Facility 983/i)
+        .selectLocation(/Facility 983/i, false)
         .clickNextButton();
 
       ClinicChoicePageObject.assertUrl()

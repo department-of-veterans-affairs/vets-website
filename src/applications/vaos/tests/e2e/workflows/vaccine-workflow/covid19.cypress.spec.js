@@ -112,7 +112,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertHomeAddress({ address: /123 Main St/i })
-          .selectLocation(/Facility 983/i)
+          .selectLocation(/Facility 983/i, false)
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
@@ -171,7 +171,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertHomeAddress({ exist: false })
-          .selectLocation(/Facility 983/i)
+          .selectLocation(/Facility 983/i, false)
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
@@ -536,7 +536,7 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       VAFacilityPageObject.assertUrl()
         .assertHomeAddress({ address: /123 Main St/i })
-        .selectLocation(/Facility 983/i)
+        .selectLocation(/Facility 983/i, false)
         .clickNextButton();
 
       ClinicChoicePageObject.assertUrl()

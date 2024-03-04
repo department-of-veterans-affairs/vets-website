@@ -114,7 +114,7 @@ describe('VAOS request schedule flow - Audiology', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .selectLocation(/Facility 983/i)
+          .selectLocation(/Facility 983/i, false)
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
