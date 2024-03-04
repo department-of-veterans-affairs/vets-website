@@ -88,6 +88,7 @@ const CheckboxGroup = ({
       <VaCheckboxGroup
         data-testid={testId}
         error={formError ? 'Select a location.' : null}
+        hint="Select all that apply"
         id="paw-checkbox"
         label={h1}
         label-header-level="1"
@@ -98,10 +99,6 @@ const CheckboxGroup = ({
         )}
         uswds
       >
-        <div className="usa-hint">
-          <br />
-          Select all that apply.
-        </div>
         {createCheckboxes()}
       </VaCheckboxGroup>
       <VaButtonPair
