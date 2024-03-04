@@ -97,7 +97,7 @@ const AlertBackgroundBox = props => {
           }}
         >
           <div>
-            <p className="vads-u-margin-y--0">
+            <p className="vads-u-margin-y--0" data-testid="alert-text">
               {alertContent}
               <span className="sr-only" aria-live="polite" aria-atomic="true">
                 {alertAriaLabel}

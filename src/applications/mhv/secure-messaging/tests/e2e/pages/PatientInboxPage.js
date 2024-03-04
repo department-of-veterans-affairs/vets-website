@@ -353,10 +353,6 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
-  verifySentSuccessMessage = () => {
-    cy.contains('Secure message was successfully sent.').should('be.visible');
-  };
-
   verifyMoveMessageWithAttachmentSuccessMessage = () => {
     cy.get('p').contains('Message conversation was successfully moved');
   };
