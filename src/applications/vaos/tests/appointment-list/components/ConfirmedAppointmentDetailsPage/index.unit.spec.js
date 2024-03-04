@@ -135,6 +135,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     const clinicResponse = new MockClinicResponse({
       id: 455,
       locationId: '983GC',
+      name: 'Some fancy clinic name',
     });
     const facilityResponse = new MockFacilityResponse({ id: '983GC' });
 
@@ -187,15 +188,15 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    // expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
     expect(screen.getByTestId('facility-telephone')).to.exist;
-    // expect(
-    //   screen.getByRole('heading', {
-    //     level: 2,
-    //     name: 'You shared these details about your concern',
-    //   }),
-    // ).to.be.ok;
-    // expect(screen.getByText(/New medical issue: I have a headache/)).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/I have a headache/)).to.be.ok;
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
