@@ -80,9 +80,9 @@ const confirmationFAQ = () => {
         <p>Mail your documents here:</p>
         <p className="va-address-block">
           Health Eligibility Center
-          <hr />
+          <br role="presentation" />
           PO Box 5207
-          <hr />
+          <br role="presentation" />
           Janesville, WI 53547-5207
         </p>
       </section>
