@@ -31,6 +31,6 @@ describe('Contact Information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('input', formDOM).length).to.equal(2);
+    expect($$('input', formDOM).length).to.equal(3);
   });
 });

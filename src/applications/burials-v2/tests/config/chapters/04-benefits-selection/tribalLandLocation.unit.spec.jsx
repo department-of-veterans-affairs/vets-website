@@ -12,11 +12,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Burial Information Part Two', () => {
+describe('Tribal Land Location', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.burialInformationPartTwo;
+  } = formConfig.chapters.benefitsSelection.pages.tribalLandLocation;
 
   it('should render', () => {
     const form = render(
@@ -31,6 +31,6 @@ describe('Burial Information Part Two', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('input', formDOM).length).to.equal(6);
+    expect($$('va-text-input', formDOM).length).to.equal(2);
   });
 });

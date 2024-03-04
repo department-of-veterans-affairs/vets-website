@@ -12,11 +12,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Burial Information Part One', () => {
+describe('Service Periods', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.burialInformationPartOne;
+  } = formConfig.chapters.militaryHistory.pages.servicePeriods;
 
   it('should render', () => {
     const form = render(
@@ -31,6 +31,7 @@ describe('Burial Information Part One', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('input', formDOM).length).to.equal(2);
+    expect($$('va-memorable-date', formDOM).length).to.equal(2);
+    expect($$('va-text-input', formDOM).length).to.equal(5);
   });
 });

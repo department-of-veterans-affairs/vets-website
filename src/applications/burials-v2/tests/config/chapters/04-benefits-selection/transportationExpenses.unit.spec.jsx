@@ -12,11 +12,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Veteran Information Part Two', () => {
+describe('Transportation Expenses', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.veteranInformationPartTwo;
+  } = formConfig.chapters.benefitsSelection.pages.transportationExpenses;
 
   it('should render', () => {
     const form = render(
@@ -31,6 +31,6 @@ describe('Veteran Information Part Two', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('input', formDOM).length).to.equal(3);
+    expect($$('va-radio-option', formDOM).length).to.equal(2);
   });
 });

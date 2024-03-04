@@ -12,11 +12,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Personal Information', () => {
+describe('Death Certificate', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInformation.pages.personalInformation;
+  } = formConfig.chapters.additionalInformation.pages.transportationReceipts;
 
   it('should render', () => {
     const form = render(
@@ -31,6 +31,7 @@ describe('Personal Information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('va-text-input', formDOM).length).to.equal(4);
+    expect($$('label.upload-button-label', formDOM).length).to.equal(1);
+    expect($$('input', formDOM).length).to.equal(1);
   });
 });

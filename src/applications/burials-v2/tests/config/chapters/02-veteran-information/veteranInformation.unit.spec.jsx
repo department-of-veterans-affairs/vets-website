@@ -12,11 +12,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Personal Information', () => {
+describe('Veteran Information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInformation.pages.personalInformation;
+  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
   it('should render', () => {
     const form = render(
@@ -31,6 +31,6 @@ describe('Personal Information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('va-text-input', formDOM).length).to.equal(4);
+    expect($$('va-text-input', formDOM).length).to.equal(5);
   });
 });

@@ -31,6 +31,6 @@ describe('Relationship to Veteran', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('input', formDOM).length).to.equal(6);
+    expect($$('va-radio-option', formDOM).length).to.equal(6);
   });
 });

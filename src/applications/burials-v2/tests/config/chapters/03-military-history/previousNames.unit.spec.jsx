@@ -12,11 +12,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Personal Information', () => {
+describe('Previous Names', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimantInformation.pages.personalInformation;
+  } = formConfig.chapters.militaryHistory.pages.previousNames;
 
   it('should render', () => {
     const form = render(
