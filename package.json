@@ -58,7 +58,8 @@
     "test:coverage-app": "node script/run-app-coverage.js",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
-    "test:unit": "node ./script/run-unit-test.js",
+    "test:unit": "node ./script/run-unit-tests-local.js",
+    "test:unit:gha": "node ./script/github-actions/run-unit-tests-gha.js",
     "test:watch": "node script/watch-tests.js",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
@@ -317,7 +318,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e97ed438ab16e131513e7df72712dc91db4e6a3"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#59bbc8ad75bbb8798fe099ce179d35ad312068a6"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

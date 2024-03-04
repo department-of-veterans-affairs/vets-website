@@ -100,7 +100,7 @@ export function hasDifferentHomeAddress(formData) {
  */
 export function teraInformationEnabled(formData) {
   const { 'view:isTeraEnabled': isTeraEnabled } = formData;
-  return notShortFormEligible(formData) && isTeraEnabled;
+  return isTeraEnabled;
 }
 
 /**
