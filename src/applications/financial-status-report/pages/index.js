@@ -1,26 +1,26 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import contactInformation from './veteran/contactInformation';
 import * as combinedDebts from './veteran/combinedDebts';
-import * as employment from './income/employment';
-import * as employmentRecords from './income/employment/records';
-import * as additionalIncomeRecords from './income/additionalIncome/records';
-import * as income from './income/currentIncome';
+// import * as employment from './income/employment';
+// import * as employmentRecords from './income/employment/records';
+// import * as additionalIncomeRecords from './income/additionalIncome/records';
+// import * as income from './income/currentIncome';
 import * as benefits from './income/benefits';
-import * as socialSecurity from './income/socialSecurity';
-import * as socialSecurityRecords from './income/socialSecurity/records';
-import * as additionalIncome from './income/additionalIncome';
+// import * as socialSecurity from './income/socialSecurity';
+// import * as socialSecurityRecords from './income/socialSecurity/records';
+// import * as additionalIncome from './income/additionalIncome';
 import * as additionalIncomeValues from './income/additionalIncome/additionalIncomeValues';
 import * as spouseInformation from './income/spouse/spouseInfo';
 import * as spouseName from './income/spouse/spouseName';
-import * as spouseSocialSecurity from './income/spouse/socialSecurity';
-import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
-import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
-import * as spouseAdditionalIncomeRecords from './income/spouse/additionalIncome/records';
+// import * as spouseSocialSecurity from './income/spouse/socialSecurity';
+// import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
+// import * as spouseAdditionalIncome from './income/spouse/additionalIncome';
+// import * as spouseAdditionalIncomeRecords from './income/spouse/additionalIncome/records';
 import * as spouseBenefits from './income/spouse/benefits';
 import * as spouseBenefitRecords from './income/spouse/benefits/records';
-import * as spouseEmployment from './income/spouse/employment';
-import * as spouseEmploymentRecords from './income/spouse/employment/records';
-import * as spouseIncome from './income/spouse/currentIncome';
+// import * as spouseEmployment from './income/spouse/employment';
+// import * as spouseEmploymentRecords from './income/spouse/employment/records';
+// import * as spouseIncome from './income/spouse/currentIncome';
 import * as spouseEmploymentQuestion from './income/spouse/employment/employmentQuestion';
 import * as spouseEmploymentHistory from './income/employmentEnhanced/spouseEmploymentHistory';
 import * as spouseGrossMonthlyIncome from './income/employmentEnhanced/spouseGrossMonthlyIncome';
@@ -71,26 +71,26 @@ import * as installmentContracts from './expenses/repayments/installmentContract
 export {
   veteranInfo,
   combinedDebts,
-  employment,
-  employmentRecords,
-  income,
+  // employment,
+  // employmentRecords,
+  // income,
   benefits,
-  socialSecurity,
-  socialSecurityRecords,
-  additionalIncome,
+  // socialSecurity,
+  // socialSecurityRecords,
+  // additionalIncome,
   spouseName,
-  additionalIncomeRecords,
+  // additionalIncomeRecords,
   additionalIncomeValues,
-  spouseAdditionalIncome,
-  spouseAdditionalIncomeRecords,
+  // spouseAdditionalIncome,
+  // spouseAdditionalIncomeRecords,
   spouseInformation,
   spouseBenefits,
   spouseBenefitRecords,
-  spouseEmployment,
-  spouseEmploymentRecords,
-  spouseIncome,
-  spouseSocialSecurity,
-  spouseSocialSecurityRecords,
+  // spouseEmployment,
+  // spouseEmploymentRecords,
+  // spouseIncome,
+  // spouseSocialSecurity,
+  // spouseSocialSecurityRecords,
   spouseEmploymentQuestion,
   spouseEmploymentHistory,
   spouseGrossMonthlyIncome,
