@@ -23,7 +23,6 @@ import { SELECTED } from '../../../shared/constants';
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 const getData = ({
-  showNod = true,
   part3 = true,
   isLoading = false,
   loggedIn = true,
@@ -34,7 +33,6 @@ const getData = ({
 } = {}) => ({
   props: {
     loggedIn,
-    showNod,
     location: { pathname: '/introduction', search: '' },
     children: <h1>Intro</h1>,
     // formData,
@@ -44,7 +42,6 @@ const getData = ({
     featureToggles: {
       loading: isLoading,
       /* eslint-disable camelcase */
-      form10182_nod: showNod,
       nod_part3_update: part3,
       /* eslint-enable camelcase */
     },
@@ -265,7 +262,7 @@ describe('FormApp', () => {
       const store = mockStore({
         ...data,
         /* eslint-disable camelcase */
-        featureToggles: { form10182_nod: true, nod_part3_update: true },
+        featureToggles: { nod_part3_update: true },
         /* eslint-enable camelcase */
       });
       render(
