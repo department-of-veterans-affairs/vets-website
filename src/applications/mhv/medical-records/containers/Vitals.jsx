@@ -24,7 +24,7 @@ const Vitals = () => {
   const user = useSelector(state => state.user.profile);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
@@ -35,11 +35,7 @@ const Vitals = () => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },

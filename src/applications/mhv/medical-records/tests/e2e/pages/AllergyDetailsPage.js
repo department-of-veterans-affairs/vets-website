@@ -69,8 +69,11 @@ class AllergyDetailsPage {
     cy.get('[data-testid="printButton-2"]').should('be.visible');
   };
 
-  verifySidenavHighlightAllergies = () => {
-    cy.get('.is-active').should('contain', 'Allergies and reactions');
+  verifyBreadcrumbs = breadcrumbsText => {
+    cy.get('[data-testid="breadcrumbs"]').should(
+      'contain',
+      `‹ ${breadcrumbsText}`,
+    );
   };
 }
 export default new AllergyDetailsPage();

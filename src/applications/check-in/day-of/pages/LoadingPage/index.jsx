@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { APP_NAMES } from '../../../utils/appConstants';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
@@ -13,7 +14,7 @@ const LoadingPage = props => {
 
   const { checkInDataError, isComplete } = useGetCheckInData({
     refreshNeeded: true,
-    isPreCheckIn: false,
+    app: APP_NAMES.CHECK_IN,
   });
 
   const { updateError } = useUpdateError();
