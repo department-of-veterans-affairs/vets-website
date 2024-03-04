@@ -12,6 +12,9 @@ const profileToggles = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,
+  profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormAlert: false,
+  profileShowDirectDepositSingleFormEduDowntime: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
 };
