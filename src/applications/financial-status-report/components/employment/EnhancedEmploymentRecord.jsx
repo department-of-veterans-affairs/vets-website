@@ -29,9 +29,9 @@ const EmploymentRecord = props => {
   const {
     personalData: {
       employmentHistory: {
-        veteran: { employmentRecords = [] },
+        veteran: { employmentRecords = [] } = {}, // Ensure a default empty array and object
         newRecord = { ...BASE_EMPLOYMENT_RECORD },
-      },
+      } = {}, // Default empty object for employmentHistory
     },
   } = data;
 

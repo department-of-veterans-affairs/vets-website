@@ -24,9 +24,9 @@ const SpouseGrossMonthlyIncomeInput = props => {
   const {
     personalData: {
       employmentHistory: {
+        spouse: { spEmploymentRecords = [] } = {}, // Ensure a default empty array and object
         newRecord = {},
-        spouse: { spEmploymentRecords = [] },
-      },
+      } = {}, // Default empty object for employmentHistory
     },
   } = formData;
 
