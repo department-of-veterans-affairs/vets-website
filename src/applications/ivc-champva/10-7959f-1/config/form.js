@@ -9,8 +9,6 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -115,35 +113,6 @@ const formConfig = {
             },
           },
         },
-        // page3: {
-        //   path: 'contact-information',
-        //   title: 'Contact Information',
-        //   uiSchema: {
-        //     address: address.uiSchema('Mailing address'),
-        //     email: {
-        //       'ui:title': 'Primary email',
-        //     },
-        //     altEmail: {
-        //       'ui:title': 'Secondary email',
-        //     },
-        //     phoneNumber: phoneUI(),
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       address: address.schema(fullSchema, true),
-        //       email: {
-        //         type: 'string',
-        //         format: 'email',
-        //       },
-        //       altEmail: {
-        //         type: 'string',
-        //         format: 'email',
-        //       },
-        //       phoneNumber: phoneSchema,
-        //     },
-        //   },
-        // },
       },
     },
   },
