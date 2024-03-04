@@ -15,7 +15,7 @@ const Error = () => {
   const selectTravelClaimData = useMemo(makeSelectTravelClaimData, []);
   const appointments = useSelector(selectTravelClaimData);
   const appointmentDateTime =
-    appointments.length > 0 ? new Date(appointments[0].startTime) : new Date();
+    appointments.length > 0 ? new Date(appointments[0].startTime) : null;
 
   let alerts = [];
   let header = '';
@@ -32,7 +32,7 @@ const Error = () => {
     </ExternalLink>
   );
 
-  switch ('no-token') {
+  switch (error) {
     case 'max-validation':
       header = t('we-cant-match-your-information');
       alerts = [
@@ -56,7 +56,7 @@ const Error = () => {
       header = t('this-link-has-expired');
       alerts = [
         {
-          type: 'info',
+          type: 'warning',
           testId: 'expired-link',
           message: (
             <>
