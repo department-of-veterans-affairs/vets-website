@@ -313,7 +313,7 @@
   "were-sorry-we-couldnt-file-your-claim": "We’re sorry. We couldn’t file your travel reimbursement claim in this tool right now. Please try again later.",
   "or-you-can-still-file-within": "Or you can still file within 30 days of the appointment.",
   "you-already-filed-a-claim": "You already filed a travel pay claim",
-  "were-sorry-you-alread-filed-a-claim": "We’re sorry. You already filed a travel pay claim for your appointment on {{date, long}}.",
+  "were-sorry-you-already-filed-a-claim": "We’re sorry. You already filed a travel pay claim for your appointment on {{date, long}}.",
   "sign-in-to-btsss": "Sign in to BTSSS to check your claim status",
   "we-cant-file-this-type": "We can’t file this type of travel reimbursement claim",
   "were-sorry-we-cant-file-this-type": "We’re sorry. We can’t file this type of travel reimbursement claim for you in this tool right now. But you can still file within 30 days of the appointment.",

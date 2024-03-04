@@ -11,13 +11,11 @@ const Error = () => {
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
 
+  // @TODO refactor using something else from redux
   const selectTravelClaimData = useMemo(makeSelectTravelClaimData, []);
   const appointments = useSelector(selectTravelClaimData);
-
-  let appointmentDateTime = new Date();
-  if (appointments.length > 0) {
-    appointmentDateTime = new Date(appointments[0].startTime);
-  }
+  const appointmentDateTime =
+    appointments.length > 0 ? new Date(appointments[0].startTime) : null;
 
   let alerts = [];
   let header = '';
@@ -28,21 +26,18 @@ const Error = () => {
       hrefLang="en"
       eventId="clicked-how-to-file-link-from-error"
       eventPrefix="nav"
+      dataTestId="find-out-link"
     >
       {t('find-out-how-to-file--link')}
     </ExternalLink>
   );
 
-  // @TODO remove this use error in switch
-  const params = new URLSearchParams(window.location.search);
-  const errorParam = params.get('error');
-
-  switch (errorParam) {
+  switch (error) {
     case 'max-validation':
       header = t('we-cant-match-your-information');
       alerts = [
         {
-          alertType: 'error',
+          type: 'error',
           testId: 'no-matching-information',
           message: (
             <>
@@ -62,7 +57,7 @@ const Error = () => {
       alerts = [
         {
           type: 'info',
-          testId: 'uuid-not-found',
+          testId: 'expired-link',
           message: (
             <>
               <p className="vads-u-margin-top--0">
@@ -80,7 +75,7 @@ const Error = () => {
         {
           type: 'error',
           testId: 'something-went-wrong',
-          alertSubheading: t('something-went-wrong-on-our-end'),
+          subHeading: t('something-went-wrong-on-our-end'),
           message: (
             <>
               <p className="vads-u-margin-top--0">
@@ -115,11 +110,14 @@ const Error = () => {
       alerts = [
         {
           type: 'warning',
-          testId: 'already-filed-a-claim',
+          testId: 'already-filed-claim',
           message: (
             <>
-              <p className="vads-u-margin-top--0">
-                {t('were-sorry-you-alread-filed-a-claim', {
+              <p
+                data-testid="were-sorry-you-already-filed-a-claim"
+                className="vads-u-margin-top--0"
+              >
+                {t('were-sorry-you-already-filed-a-claim', {
                   date: appointmentDateTime,
                 })}
               </p>
@@ -130,6 +128,7 @@ const Error = () => {
                 eventPrefix="nav"
                 target="_blank"
                 rel="noreferrer"
+                dataTestId="sign-in-btsss-link"
               >
                 {t('sign-in-to-btsss')}
               </ExternalLink>
@@ -167,25 +166,15 @@ const Error = () => {
               {alert.subHeading}
             </h2>
           )}
-          {alert.type === 'text' ? (
-            <div
-              data-testid={`${alert.testId}-text`}
-              className={index !== 0 ? 'vads-u-margin-top--2' : ''}
-            >
-              {alert.message}
-            </div>
-          ) : (
-            <va-alert
-              show-icon
-              status={alert.type}
-              data-testid={`${alert.testId}-alert`}
-              class={index !== 0 ? 'vads-u-margin-top--2' : ''}
-              uswds
-              slim
-            >
-              <div>{alert.message}</div>
-            </va-alert>
-          )}
+          <va-alert
+            show-icon
+            status={alert.type}
+            data-testid={`${alert.testId}-alert`}
+            uswds
+            slim
+          >
+            <div>{alert.message}</div>
+          </va-alert>
         </div>
       ))}
     </Wrapper>
