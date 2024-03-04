@@ -75,5 +75,9 @@ class AllergyDetailsPage {
       `‹ ${breadcrumbsText}`,
     );
   };
+
+  verifySidenavHighlightAllergies = () => {
+    cy.get('.is-active').should('contain', 'Allergies and reactions');
+  };
 }
 export default new AllergyDetailsPage();

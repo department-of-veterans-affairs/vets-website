@@ -27,7 +27,7 @@ describe('NOD board review page', () => {
       />,
     );
 
-    expect($$('input', container).length).to.equal(3);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 
   it('should allow submit', () => {
@@ -43,10 +43,14 @@ describe('NOD board review page', () => {
       />,
     );
 
-    fireEvent.click($('input[value="direct_review"]', container));
+    // fireEvent.click($('va-radio-option[value="direct_review"]', container));
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'direct_review' },
+    });
+
     fireEvent.submit($('form', container));
 
-    expect($$('.usa-input-error-message').length).to.equal(0);
+    expect($$('[error]').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -66,7 +70,7 @@ describe('NOD board review page', () => {
 
     fireEvent.submit($('form', container));
 
-    expect($$('.usa-input-error-message').length).to.equal(1);
+    expect($$('[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 });
