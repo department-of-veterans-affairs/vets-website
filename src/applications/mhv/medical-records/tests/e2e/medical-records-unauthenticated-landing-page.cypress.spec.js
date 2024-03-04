@@ -7,7 +7,7 @@ describe('Medical Records Unauthenticated Users', () => {
     // Unauthenticated users implement visibility restrictions
     site.login(false);
     site.loadPageUnauthenticated();
-    cy.url().should('contain', 'my-health/medical-records');
+    cy.url().should('contain', 'health-care/get-medical-records');
 
     // Authenticated users
     /*
