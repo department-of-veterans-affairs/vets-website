@@ -69,18 +69,16 @@ export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
     try {
-      const response = await apiRequest(`${API_URL}/address`, {
+      const response = await apiRequest(`${API_URL}/addressr`, {
         method: 'POST',
         body: JSON.stringify(mailingAddress),
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response?.ok) {
-        dispatch({
-          type: UPDATE_ADDRESS_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: UPDATE_ADDRESS_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: UPDATE_ADDRESS_FAILURE,
@@ -100,13 +98,10 @@ export const updateBankInfo = bankInfo => {
         body: JSON.stringify(bankInfo),
         headers: { 'Content-Type': 'application/json' },
       });
-
-      if (response?.ok) {
-        dispatch({
-          type: UPDATE_BANK_INFO_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: UPDATE_BANK_INFO_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: UPDATE_BANK_INFO_FAILED,
@@ -127,12 +122,10 @@ export const verifyEnrollmentAction = () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response?.ok) {
-        dispatch({
-          type: VERIFY_ENROLLMENT_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: VERIFY_ENROLLMENT_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,
