@@ -22,6 +22,17 @@ describe('App', () => {
   afterEach(() => {
     global.window.location = oldLocation;
   });
+
+  const noDowntime = {
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
+    },
+  };
+
   const initialState = {
     user: {
       login: {
@@ -35,15 +46,6 @@ describe('App', () => {
       breadcrumbs: {
         list: [],
       },
-    },
-  };
-  const noDowntime = {
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
     },
   };
   const downtime = maintenanceWindows => {
@@ -65,6 +67,7 @@ describe('App', () => {
     // expected behavior is be redirected to the home page with next in the url
     renderWithStoreAndRouter(<App />, {
       initialState: {
+        ...initialState,
         user: {
           login: {
             currentlyLoggedIn: false,
@@ -75,7 +78,7 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    expect(window.location.replace.calledOnce).to.be.true;
+    expect(window.location.replace.called).to.be.true;
   });
 
   it('feature flags are still loading', () => {
@@ -93,7 +96,10 @@ describe('App', () => {
   });
 
   it('feature flag set to false', () => {
-    const customState = { ...initialState, featureToggles: [] };
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
     customState.featureToggles[
       `${'mhv_secure_messaging_to_va_gov_release'}`
     ] = false;
@@ -110,12 +116,12 @@ describe('App', () => {
     ).to.be.null;
     expect(screen.queryByText('Messages', { selector: 'h1', exact: true })).to
       .be.null;
-    expect(window.location.replace.calledOnce).to.be.true;
+    expect(window.location.replace.called).to.be.true;
   });
 
   it('feature flag set to true', () => {
     const customState = {
-      featureToggles: [],
+      featureToggles: {},
       ...initialState,
       ...noDowntime,
     };
@@ -187,15 +193,18 @@ describe('App', () => {
       path: `/`,
     });
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
-        exact: false,
-      }),
+      screen.getByText(
+        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        {
+          exact: false,
+        },
+      ),
     );
   });
 
@@ -219,15 +228,18 @@ describe('App', () => {
       path: `/`,
     });
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
-        exact: false,
-      }),
+      screen.getByText(
+        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        {
+          exact: false,
+        },
+      ),
     );
   });
 
@@ -251,15 +263,18 @@ describe('App', () => {
       path: `/`,
     });
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
-        exact: false,
-      }),
+      screen.getByText(
+        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        {
+          exact: false,
+        },
+      ),
     );
   });
 
@@ -283,9 +298,9 @@ describe('App', () => {
       path: `/`,
     });
     const downtimeComponent = screen.queryByText(
-      'This tool is down for maintenance',
+      'Maintenance on My HealtheVet',
       {
-        selector: 'h3',
+        selector: 'h2',
         exact: true,
       },
     );
@@ -293,7 +308,7 @@ describe('App', () => {
   });
   it('redirects Basic users to /health-care/secure-messaging', async () => {
     const customState = {
-      featureToggles: [],
+      featureToggles: {},
       user: {
         login: {
           currentlyLoggedIn: true,
