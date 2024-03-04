@@ -14,9 +14,9 @@ describe('<ClaimComplete>', () => {
     const paymentsSection = $('.payments-container', container);
     expect(paymentsSection).to.exist;
 
-    const text1 =
+    const text =
       'We mailed you a decision letter. It should arrive within 10 days after the date we decided your claim. It can sometimes take longer.';
     expect(getByText('We decided your claim on September 1, 2010')).to.exist;
-    expect(getByText(text1)).to.exist;
+    expect(getByText(text)).to.exist;
   });
 });
