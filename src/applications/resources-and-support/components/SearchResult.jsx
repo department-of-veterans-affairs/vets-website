@@ -1,8 +1,6 @@
-// Node modules.
 import PropTypes from 'prop-types';
 import React from 'react';
 import { truncate } from 'lodash';
-// Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { Article } from '../prop-types';
 import { ENTITY_BUNDLES } from '../content-modeling';
@@ -52,9 +50,11 @@ export const SearchResult = ({
         aria-describedby={article.entityUrl.path}
         className="vads-u-margin-top--0 vads-u-font-size--md"
       >
-        <a onClick={onSearchResultClick} href={article.entityUrl.path}>
-          {article.title}
-        </a>
+        <va-link
+          onClick={onSearchResultClick}
+          href={article.entityUrl.path}
+          text={article.title}
+        />
       </h3>
       <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
         {truncate(article.introText, { length: 190 })}
