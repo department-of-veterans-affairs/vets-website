@@ -2,10 +2,12 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/refillablePrescriptionsList.json';
 import { dateFormat } from '../../util/helpers';
+import prescriptionsList from '../fixtures/prescriptionsList.json';
 
 describe('Refill Prescriptions Component', () => {
   const initialState = {
@@ -48,6 +50,30 @@ describe('Refill Prescriptions Component', () => {
     });
   });
 
+  it('Shows 404 page if feature toggle is disabled', async () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_display_refill_content: false,
+        },
+      },
+      [],
+      true,
+    );
+    waitFor(() => {
+      expect(screen.getByText('Sorry — we can’t find that page')).to.exist;
+    });
+  });
+
+  it('Mocks API Request', async () => {
+    mockApiRequest(prescriptionsList);
+    const screen = setup();
+    const title = await screen.findByTestId('refill-page-title');
+    expect(title).to.exist;
+  });
+
   it('Shows h1 and h2', async () => {
     const screen = setup();
     const title = await screen.findByTestId('refill-page-title');
@@ -62,7 +88,11 @@ describe('Refill Prescriptions Component', () => {
     const screen = setup();
     const button = await screen.findByTestId('request-refill-button');
     expect(button).to.exist;
-    expect(button).to.have.property('text', 'Request refills');
+    const checkbox = await screen.findByTestId(
+      'refill-prescription-checkbox-0',
+    );
+    checkbox.click();
+    expect(button).to.have.property('text', 'Request 1 refill');
     button.click();
   });
 
@@ -85,7 +115,7 @@ describe('Refill Prescriptions Component', () => {
     const lastFilledEl = await screen.findByTestId('refill-last-filled-0');
     expect(lastFilledEl).to.exist;
     expect(lastFilledEl).to.have.text(
-      `Last filled on: ${dateFormat(prescriptions[0].dispensedDate)}`,
+      `Last filled on ${dateFormat(prescriptions[0].dispensedDate)}`,
     );
   });
 
@@ -97,7 +127,7 @@ describe('Refill Prescriptions Component', () => {
       ({ prescriptionId }) => prescriptionId === 22217099,
     );
     expect(lastFilledEl).to.have.text(
-      `Last filled on: ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
+      `Last filled on ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
     );
   });
 

@@ -7,13 +7,14 @@ describe('Medications Select All Refills', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const checkboxes = 2;
+    const numberOfRefills = 2;
     site.login();
     refillPage.loadRefillPage(refillPrescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifySelectAllRefillButtonExists();
     refillPage.clickSelectAllRefillButton();
-    refillPage.verifyRequestRefillsButtonExists();
+    refillPage.verifyRequestRefillsButtonExists(numberOfRefills);
     refillPage.verifyRefillCheckBoxesClicked(checkboxes);
   });
 });

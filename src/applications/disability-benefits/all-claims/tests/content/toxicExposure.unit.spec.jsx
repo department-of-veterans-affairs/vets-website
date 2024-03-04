@@ -4,6 +4,7 @@ import {
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
+  showToxicExposurePages,
   validateTEConditions,
 } from '../../content/toxicExposure';
 import { SHOW_TOXIC_EXPOSURE } from '../../constants';
@@ -11,6 +12,109 @@ import { SHOW_TOXIC_EXPOSURE } from '../../constants';
 describe('toxicExposure', () => {
   afterEach(() => {
     window.sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
+  });
+
+  describe('showToxicExposurePages', () => {
+    it('returns false when toggle disabled and claim type is new', () => {
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': false,
+          'view:claimingNew': true,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description',
+            'view:serviceConnectedDisability': {},
+            condition: 'anemia',
+          },
+        ],
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
+    });
+
+    it('returns false when toggle disabled and claiming cfi', () => {
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': true,
+          'view:claimingNew': false,
+        },
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
+    });
+
+    it('returns false when toggle disabled and both claim types', () => {
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': true,
+          'view:claimingNew': true,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description',
+            'view:serviceConnectedDisability': {},
+            condition: 'anemia',
+          },
+        ],
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
+    });
+
+    it('returns true when toggle enabled and claiming one or more new conditions', () => {
+      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': false,
+          'view:claimingNew': true,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description',
+            'view:serviceConnectedDisability': {},
+            condition: 'anemia',
+          },
+        ],
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.true;
+    });
+
+    it('returns false when toggle enabled and claiming cfi', () => {
+      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': true,
+          'view:claimingNew': false,
+        },
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.false;
+    });
+
+    it('returns true when toggle enabled and claiming one or more new conditions and cfi', () => {
+      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': true,
+          'view:claimingNew': true,
+        },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description',
+            'view:serviceConnectedDisability': {},
+            condition: 'anemia',
+          },
+        ],
+      };
+
+      expect(showToxicExposurePages(formData)).to.be.true;
+    });
   });
 
   describe('isClaimingTECondition', () => {
