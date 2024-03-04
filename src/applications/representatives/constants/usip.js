@@ -1,10 +1,8 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-// ```
-// import manifest from 'applications/login/manifest.json';
-// export const PATH = manifest.rootUrl;
-// ```
-// => No cross app imports allowed: representatives importing from login
+// To keep isolated application status, this is hardcoded rather than cross-app
+// imported from `login/manifest.json`.
+// https://depo-platform-documentation.scrollhelp.site/developer-docs/how-to-add-your-application-to-the-allow-list
 export const PATH = '/sign-in';
 export const { BASE_URL } = environment;
 
