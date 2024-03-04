@@ -15,7 +15,6 @@ const SpouseEmploymentHistoryWidget = props => {
   const {
     goToPath,
     goForward,
-    onReviewPage,
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
@@ -38,7 +37,7 @@ const SpouseEmploymentHistoryWidget = props => {
   const navButtons = (
     <FormNavButtons goBack={handlers.onBackClick} goForward={goForward} />
   );
-  const updateButton = <button type="submit">Review update button</button>;
+
   const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
 
   return (
@@ -76,7 +75,7 @@ const SpouseEmploymentHistoryWidget = props => {
         </Link>
       </fieldset>
       {contentBeforeButtons}
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
       {contentAfterButtons}
     </form>
   );

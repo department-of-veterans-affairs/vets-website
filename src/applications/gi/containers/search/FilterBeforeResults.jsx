@@ -475,43 +475,45 @@ export function FilterBeforeResults({
     ];
 
     return (
-      <CheckboxGroup
-        class="vads-u-margin-y--4"
-        className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
-        label={
-          <>
-            <h3
-              className={
-                isProductionOfTestProdEnv() ? '' : 'school-types-label'
-              }
-              aria-level={2}
-            >
-              Community focus
-            </h3>
-            <button
+      <div className="community-focus-container">
+        <h3
+          className={isProductionOfTestProdEnv() ? '' : 'school-types-label'}
+          aria-level={2}
+        >
+          Community focus
+        </h3>
+        <div style={{ marginTop: '-10px' }}>
+          {smallScreen && <>Go to community focus details</>}
+          {!smallScreen && (
+            <JumpLink
+              label="Go to community focus details"
+              jumpToId="learn-more-about-specialized-missions-accordion-button"
+              dataTestId="go-to-comm-focus-details"
+              iconToggle={false}
+              onClick={() => jumpLinkClick()}
+              customClass="filter-before-res-jump-link"
               className={
                 isProductionOfTestProdEnv()
                   ? 'mobile-jump-link'
                   : 'mobile-jump-link labels-margin'
               }
-              onClick={() => jumpLinkClick()}
-            >
-              {smallScreen && <>Go to community focus details</>}
-              {!smallScreen && (
-                <JumpLink
-                  label="Go to community focus details"
-                  jumpToId="learn-more-about-specialized-missions-accordion-button"
-                  iconToggle={false}
-                />
-              )}
-            </button>
-          </>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        colNum="4"
-      />
+            />
+          )}
+          <CheckboxGroup
+            class="vads-u-margin-y--4"
+            className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
+            label={
+              <h3 className="visually-hidden" aria-level={2}>
+                Community focus
+              </h3>
+            }
+            onChange={onChangeCheckbox}
+            options={options}
+            row={!smallScreen}
+            colNum="4"
+          />
+        </div>
+      </div>
     );
   };
 
@@ -612,8 +614,7 @@ export function FilterBeforeResults({
             className="vads-u-margin-top--3"
           >
             <VaAccordionGi
-              onChange={e => {
-                e.preventDefault();
+              onChange={() => {
                 setSmfAccordionExpanded(!smfAccordionExpanded);
               }}
               expanded={smfAccordionExpanded}

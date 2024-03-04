@@ -11,21 +11,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
+import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
-
-const typeOfIncomeOptions = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  CIVIL_SERVICE: 'Civil Service',
-  PENSION_RETIREMENT: 'Pension or retirement income',
-  OTHER: 'Other income',
-};
-
-const receiverOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Spouse',
-  DEPENDENT: 'Dependent',
-};
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
@@ -44,6 +31,8 @@ export default {
     incomeSources: {
       'ui:options': {
         itemName: 'Income source',
+        itemAriaLabel: data =>
+          `${typeOfIncomeLabels[data.typeOfIncome]} income source`,
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
@@ -54,7 +43,7 @@ export default {
       items: {
         typeOfIncome: radioUI({
           title: 'What type of income?',
-          labels: typeOfIncomeOptions,
+          labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
@@ -67,7 +56,7 @@ export default {
         },
         receiver: radioUI({
           title: 'Who receives this income?',
-          labels: receiverOptions,
+          labels: recipientTypeLabels,
         }),
         dependentName: {
           'ui:title': 'Which dependent?',
@@ -107,9 +96,9 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
             otherTypeExplanation: { type: 'string' },
-            receiver: radioSchema(Object.keys(receiverOptions)),
+            receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName: { type: 'string' },
             payer: { type: 'string' },
             amount: { type: 'number' },

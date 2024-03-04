@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
+import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob } from '../utils/helpers';
 import formConfig from '../config/form';
@@ -17,22 +17,20 @@ const App = props => {
   const { children, location, setFormData, getTotalDisabilityRating } = props;
 
   const {
-    TOGGLE_NAMES,
-    useToggleValue,
-    useToggleLoadingValue,
-  } = useFeatureToggle();
-  const isFacilitiesApiEnabled = useToggleValue(
-    TOGGLE_NAMES.hcaUseFacilitiesApi,
+    isLoadingFeatureFlags,
+    isFacilitiesApiEnabled,
+    isSigiEnabled,
+    isTeraEnabled,
+  } = useSelector(selectFeatureToggles);
+  const { dob: veteranDob, loading: isLoadingProfile } = useSelector(
+    selectProfile,
   );
-  const isSigiEnabled = useToggleValue(TOGGLE_NAMES.hcaSigiEnabled);
-  const isLoading = useToggleLoadingValue();
-
   const { totalDisabilityRating } = useSelector(state => state.totalRating);
   const { data: formData } = useSelector(state => state.form);
-  const { dob: veteranDob } = useSelector(selectProfile);
   const loggedIn = useSelector(isLoggedIn);
   const isLOA3User = useSelector(isLOA3);
   const { veteranFullName } = formData;
+  const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
 
   // Attempt to fetch disability rating for LOA3 users
   useEffect(
@@ -60,6 +58,7 @@ const App = props => {
       const defaultViewFields = {
         'view:isLoggedIn': loggedIn,
         'view:isSigiEnabled': isSigiEnabled,
+        'view:isTeraEnabled': isTeraEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
@@ -84,6 +83,7 @@ const App = props => {
       veteranDob,
       veteranFullName,
       isSigiEnabled,
+      isTeraEnabled,
       isFacilitiesApiEnabled,
       totalDisabilityRating,
     ],
@@ -92,7 +92,7 @@ const App = props => {
   // Attach analytics events to all yes/no radio inputs
   useEffect(
     () => {
-      if (!isLoading) {
+      if (!isAppLoading) {
         const radios = document.querySelectorAll(
           'input[id$=Yes], input[id$=No]',
         );
@@ -108,13 +108,19 @@ const App = props => {
         }
       }
     },
-    [isLoading, location],
+    [isAppLoading, location],
   );
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return (
+  return isAppLoading ? (
+    <va-loading-indicator
+      message="Loading application..."
+      class="vads-u-margin-y--4"
+      set-focus
+    />
+  ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>

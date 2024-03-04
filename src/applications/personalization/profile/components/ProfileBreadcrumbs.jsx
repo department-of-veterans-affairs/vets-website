@@ -12,7 +12,6 @@ import {
   PROFILE_PATHS,
   PROFILE_BREADCRUMB_BASE,
 } from '../constants';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 export const ProfileBreadcrumbs = ({ className }) => {
   const location = useLocation();
@@ -46,17 +45,13 @@ export const ProfileBreadcrumbs = ({ className }) => {
   );
 
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseHubPage}>
-      <Toggler.Enabled>
-        <div className={className}>
-          <VaBreadcrumbs
-            uswds
-            breadcrumb-list={JSON.stringify(breadcrumbs)}
-            onRouteChange={handleRouteChange}
-          />
-        </div>
-      </Toggler.Enabled>
-    </Toggler>
+    <div className={className}>
+      <VaBreadcrumbs
+        uswds
+        breadcrumb-list={JSON.stringify(breadcrumbs)}
+        onRouteChange={handleRouteChange}
+      />
+    </div>
   );
 };
 
