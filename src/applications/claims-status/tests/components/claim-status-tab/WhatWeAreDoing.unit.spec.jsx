@@ -6,9 +6,9 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   getStatusDescription,
   getClaimStatusDescription,
-} from '../../utils/helpers';
+} from '../../../utils/helpers';
 
-import WhatWeAreDoing from '../../components/WhatWeAreDoing';
+import WhatWeAreDoing from '../../../components/claim-status-tab/WhatWeAreDoing';
 
 describe('<WhatWeAreDoing>', () => {
   it('should render a WhatWereDoing section', () => {

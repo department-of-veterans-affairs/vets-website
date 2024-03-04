@@ -4,9 +4,9 @@ import {
   getTrackedItemId,
   getTrackedItems,
   getFilesNeeded,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
-import FilesNeeded from './FilesNeeded';
+import FilesNeeded from '../FilesNeeded';
 
 function WhatYouNeedToDo({ claim, useLighthouse }) {
   const trackedItems = getTrackedItems(claim, useLighthouse);

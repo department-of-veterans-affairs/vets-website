@@ -3,8 +3,8 @@ import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
-import { buildDateFormatter, getTrackedItemId } from '../utils/helpers';
-import { ITEMS_PER_PAGE } from '../constants';
+import { buildDateFormatter, getTrackedItemId } from '../../utils/helpers';
+import { ITEMS_PER_PAGE } from '../../constants';
 
 const getOldestDocuentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
