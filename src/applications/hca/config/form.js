@@ -126,7 +126,7 @@ const formConfig = {
       saved: 'Your health care benefits application has been saved.',
     },
   },
-  version: 7,
+  version: migrations.length,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
