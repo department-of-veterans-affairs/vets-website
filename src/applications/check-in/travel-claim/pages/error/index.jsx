@@ -24,7 +24,7 @@ const Error = () => {
     <ExternalLink
       href="/health-care/how-to-file-a-va-travel-reimbursement-claim-online/"
       hrefLang="en"
-      eventId="clicked-how-to-file-link-from-error"
+      eventId="how-to-file-link-from-error-clicked"
       eventPrefix="nav"
       dataTestId="find-out-link"
     >
@@ -42,7 +42,9 @@ const Error = () => {
           message: (
             <>
               <p className="vads-u-margin-top--0">
-                {t('were-sorry-we-couldnt-match-your-information')}
+                {t(
+                  'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',
+                )}
               </p>
               <p>{t('you-can-still-file-within')}</p>
               <FindOutLink />

@@ -51,10 +51,6 @@ const TRAVEL_PAY_FORM_PAGES = Object.freeze([
     url: URLS.COMPLETE,
     order: 8,
   },
-  {
-    url: URLS.ERROR,
-    order: 9,
-  },
 ]);
 
 const createForm = () => {

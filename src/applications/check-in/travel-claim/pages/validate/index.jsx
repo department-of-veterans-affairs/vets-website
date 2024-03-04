@@ -63,7 +63,9 @@ const Validate = ({ router }) => {
     [goToNextPage, lastName, dob, dobError, setSession, token, updateError],
   );
 
-  const validateErrorMessage = t('were-sorry-we-couldnt-find-an-account');
+  const validateErrorMessage = t(
+    'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',
+  );
 
   return (
     <>
