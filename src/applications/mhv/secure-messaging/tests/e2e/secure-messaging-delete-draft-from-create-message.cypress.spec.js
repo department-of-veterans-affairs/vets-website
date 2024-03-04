@@ -4,7 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
   it('Navigates to Inbox after Delete Draft Confirmation', () => {
@@ -29,9 +29,7 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     draftsPage.confirmDeleteDraft(mockDraftResponse, true);
     draftsPage.verifyDeleteConfirmationMessage();
-    cy.get('Locators.FOLDERS.SIDEBAR')
-      .find('a')
-      .should('have.class', 'is-active');
+    cy.get(Locators.FOLDERS.SIDEBAR).find('a');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });

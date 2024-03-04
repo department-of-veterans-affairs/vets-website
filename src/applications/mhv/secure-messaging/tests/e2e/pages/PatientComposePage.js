@@ -402,14 +402,14 @@ class PatientComposePage {
       .should('contain', ' Please select a recipient.');
   };
 
-  verifyBodyErrorMessage = () => {
+  verifySubjectErrorMessage = () => {
     cy.get(Locators.MESSAGES_BODY)
       .shadow()
       .find('[id=input-error-message]')
       .should('be.visible');
   };
 
-  verifySubjectErrorMessage = () => {
+  verifyBodyErrorMessage = () => {
     cy.get(Locators.MESSAGES_BODY)
       .shadow()
       .find('[id=input-error-message]')
