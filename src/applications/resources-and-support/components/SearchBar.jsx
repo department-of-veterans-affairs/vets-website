@@ -155,6 +155,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
             <VaRadio
               class="vads-u-display--inline-block vads-u-margin-right--3 vads-u-margin-top--0"
               label="Search resources and support articles or all of VA.gov"
+              label-header-level="2"
               onVaValueChange={onValueChange}
               uswds
             >
@@ -165,7 +166,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
                   }}
                   checked={!isGlobalSearch}
                   label={RESOURCES}
-                  name={RESOURCES}
+                  name="group"
                   value={RESOURCES}
                   class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0"
                   data-e2e-id="resources-support-resource-radio"
@@ -177,7 +178,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
                   onChange={event => setGlobalSearch(event.target.checked)}
                   checked={isGlobalSearch}
                   label={GLOBAL}
-                  name={GLOBAL}
+                  name="group"
                   value={GLOBAL}
                   class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0"
                   data-e2e-id="resources-support-resource-all-va-radio"
@@ -186,11 +187,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               </div>
             </VaRadio>
           </div>
-          <label
-            className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1"
-            htmlFor="resources-and-support-query"
-            id="resources-and-support-query"
-          >
+          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom-0p5">
             Enter a keyword, phrase, or question
             {inputError && (
               <span
@@ -200,7 +197,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
                 (*Required)
               </span>
             )}
-          </label>
+          </p>
           {inputError && (
             <span
               className="usa-input-error-message vads-u-margin-bottom--0p5"
@@ -213,10 +210,8 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           )}
           <VaSearchInput
             buttonText="Search"
-            label="Search VA.gov"
+            label="Enter a keyword, phrase, or question"
             onInput={handleInputChange}
-            name="resources-and-support-query"
-            aria-labelledby="resources-and-support-query"
             onSubmit={e => handleSubmit(e)}
             ref={inputFieldRef}
             uswds
