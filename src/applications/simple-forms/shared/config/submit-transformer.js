@@ -1,4 +1,7 @@
-import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import {
+  transformForSubmit as formsSystemTransformForSubmit,
+  stringifyFormReplacer,
+} from 'platform/forms-system/src/js/helpers';
 
 const escapedCharacterReplacer = (_key, value) => {
   if (typeof value === 'string') {
@@ -12,9 +15,18 @@ const escapedCharacterReplacer = (_key, value) => {
   return value;
 };
 
-export default function transformForSubmit(formConfig, form) {
+export default function transformForSubmit(
+  formConfig,
+  form,
+  retainViewFields = false,
+) {
   const transformedData = JSON.parse(
-    formsSystemTransformForSubmit(formConfig, form),
+    formsSystemTransformForSubmit(
+      formConfig,
+      form,
+      stringifyFormReplacer,
+      retainViewFields,
+    ),
   );
 
   return JSON.stringify(
