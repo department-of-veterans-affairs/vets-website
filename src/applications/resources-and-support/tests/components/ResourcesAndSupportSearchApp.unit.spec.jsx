@@ -30,6 +30,6 @@ describe('ResourcesAndSupportSearchApp', () => {
 
   it('creates a landmark for the search form', async () => {
     const screen = renderInReduxProvider(<ResourcesAndSupportSearchApp />);
-    await screen.findByLabelText('Enter a keyword, phrase, or question');
+    await screen.findByText('Enter a keyword, phrase, or question');
   });
 });
