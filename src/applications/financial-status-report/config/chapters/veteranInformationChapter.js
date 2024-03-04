@@ -1,7 +1,6 @@
 import {
   veteranInfo,
   combinedDebts,
-  contactInfo,
   contactInformation,
   spouseInformation,
   spouseName,
@@ -59,26 +58,6 @@ export default {
         schema: combinedDebts.schema,
         depends: formData => !formData.reviewNavigation,
       },
-      contactInfo: {
-        initialData: {
-          personalData: {
-            address: {
-              street: '',
-              city: '',
-              state: '',
-              country: '',
-              postalCode: '',
-            },
-            telephoneNumber: '',
-            emailAddress: '',
-          },
-        },
-        path: 'contact-information',
-        title: 'Contact Information',
-        uiSchema: contactInfo.uiSchema,
-        schema: contactInfo.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
-      },
       currentContactInformation: {
         title: 'Contact information',
         path: 'current-contact-information',
@@ -86,7 +65,6 @@ export default {
         CustomPageReview: ContactInfoReview,
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
-        depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       editMobilePhone: {
         title: 'Edit mobile phone number',
@@ -120,15 +98,13 @@ export default {
         title: 'Spouse information',
         uiSchema: spouseInformation.uiSchema,
         schema: spouseInformation.schema,
-        depends: formData => formData['view:streamlinedWaiver'],
       },
       spouseName: {
         path: 'spouse-name',
         title: 'Spouse name',
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
-        depends: formData =>
-          formData.questions.isMarried && formData['view:streamlinedWaiver'],
+        depends: formData => formData.questions.isMarried,
       },
       spouseTransition: {
         path: 'spouse-transition',
@@ -142,8 +118,7 @@ export default {
           return (
             formData.questions.isMarried &&
             !formData.reviewNavigation &&
-            globalState.spouseChanged &&
-            formData['view:streamlinedWaiver']
+            globalState.spouseChanged
           );
         },
       },
@@ -154,7 +129,6 @@ export default {
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
         CustomPageReview: null,
-        depends: formData => formData['view:streamlinedWaiver'],
       },
       dependentAges: {
         path: 'dependent-ages',
