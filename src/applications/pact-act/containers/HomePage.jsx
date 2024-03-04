@@ -48,9 +48,10 @@ const HomePage = ({ router, setIntroPageViewed }) => {
       </p>
       <p>
         Are you the surviving family member of a Veteran?{' '}
-        <a href="/resources/the-pact-act-and-your-va-benefits/#information-for-survivors">
-          Get PACT Act information for survivors
-        </a>
+        <va-link
+          href="/resources/the-pact-act-and-your-va-benefits/#information-for-survivors"
+          text="Get PACT Act information for survivors"
+        />
       </p>
     </>
   );
