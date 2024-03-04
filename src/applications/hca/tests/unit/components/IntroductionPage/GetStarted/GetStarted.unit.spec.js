@@ -81,7 +81,7 @@ describe('hca <GetStartedContent>', () => {
   context('when the user is logged out', () => {
     const { mockStore, props } = getData({});
 
-    it('should render the correct number of login alerts', () => {
+    it('should render the correct number of login boxes', () => {
       const { container } = render(
         <Provider store={mockStore}>
           <GetStartedContent {...props} />
@@ -114,9 +114,6 @@ describe('hca <GetStartedContent>', () => {
         </Provider>,
       );
       const selector = container.querySelectorAll('va-alert');
-
-      // selector should only have 1 single <va-alert> element
-      // with text "...signed in..."
       expect(selector).to.have.lengthOf(1);
       expect(selector[0].textContent).to.contain('signed in');
     });
