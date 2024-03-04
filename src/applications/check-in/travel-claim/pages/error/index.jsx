@@ -15,7 +15,7 @@ const Error = () => {
   const selectTravelClaimData = useMemo(makeSelectTravelClaimData, []);
   const appointments = useSelector(selectTravelClaimData);
   const appointmentDateTime =
-    appointments.length > 0 ? new Date(appointments[0].startTime) : null;
+    appointments.length > 0 ? new Date(appointments[0].startTime) : new Date();
 
   let alerts = [];
   let header = '';
@@ -32,7 +32,7 @@ const Error = () => {
     </ExternalLink>
   );
 
-  switch (error) {
+  switch ('no-token') {
     case 'max-validation':
       header = t('we-cant-match-your-information');
       alerts = [
@@ -163,11 +163,6 @@ const Error = () => {
     <Wrapper pageTitle={header}>
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`} data-testid={error}>
-          {alert.subHeading && (
-            <h2 data-testid={`${alert.testId}-sub-heading`}>
-              {alert.subHeading}
-            </h2>
-          )}
           <va-alert
             show-icon
             status={alert.type}
@@ -175,6 +170,11 @@ const Error = () => {
             uswds
             slim
           >
+            {alert.subHeading && (
+              <h2 data-testid={`${alert.testId}-sub-heading`}>
+                {alert.subHeading}
+              </h2>
+            )}
             <div>{alert.message}</div>
           </va-alert>
         </div>
