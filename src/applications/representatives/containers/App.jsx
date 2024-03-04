@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
@@ -25,7 +24,7 @@ function App({ children }) {
     );
   }
 
-  if (!appEnabled && environment.isProduction()) {
+  if (!appEnabled) {
     return document.location.replace('/');
   }
 
