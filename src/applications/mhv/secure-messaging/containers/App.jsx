@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -56,7 +56,16 @@ const App = () => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  useDatadogRum(datadogRumConfig, user);
+  const userDetails = useMemo(
+    () => {
+      return {
+        loggedIn: user.login.currentlyLoggedIn,
+        accountUuid: user.profile.accountUUid,
+      };
+    },
+    [user.login.currentlyLoggedIn, user.profile.accountUUid],
+  );
+  useDatadogRum(datadogRumConfig, userDetails);
 
   if (featureTogglesLoading) {
     return (
