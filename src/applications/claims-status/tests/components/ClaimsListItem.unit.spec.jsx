@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 
-import ClaimsListItemV3 from '../../components/ClaimsListItemV3';
+import ClaimsListItem from '../../components/ClaimsListItem';
 
-describe('<ClaimsListItemV3>', () => {
+describe('<ClaimsListItem>', () => {
   it('should not show any flags', () => {
     const claim = {
       id: 1,
@@ -17,7 +17,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.queryByRole('listitem')).not.to.exist;
   });
 
@@ -29,7 +29,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText('Step 5 of 5: Closed')).to.exist;
   });
 
@@ -41,7 +41,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText(/Initial review/i)).to.exist;
   });
 
@@ -56,7 +56,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText('We sent you a development letter')).to.exist;
   });
 
@@ -71,7 +71,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.queryByText('We sent you a development letter')).to.be.null;
     expect(screen.queryByText('An item in the claim needs your attention')).to
       .be.null;
@@ -89,7 +89,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText('An item in the claim needs your attention')).to
       .exist;
   });
@@ -105,7 +105,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.queryByRole('listitem')).not.to.exist;
   });
 
@@ -117,7 +117,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const tree = shallow(<ClaimsListItemV3 claim={claim} />);
+    const tree = shallow(<ClaimsListItem claim={claim} />);
     const linkProps = tree
       .find('ClaimCardLink')
       .first()
@@ -138,7 +138,7 @@ describe('<ClaimsListItemV3>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
+    const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText(/Last updated: August 20, 2019/i)).to.exist;
     expect(screen.getByText(/Received on February 10, 2019/i)).to.exist;
   });

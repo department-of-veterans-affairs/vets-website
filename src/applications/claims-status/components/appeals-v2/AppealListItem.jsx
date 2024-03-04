@@ -1,4 +1,3 @@
-import { Link } from 'react-router';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,15 +9,17 @@ import {
   getStatusContents,
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import ClaimCard from '../ClaimCard';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
-// This component is also used by the personalization application, which will pass the external flag.
+const formatDate = buildDateFormatter('MMMM d, yyyy');
 
-export default function AppealListItem({ appeal, name, external = false }) {
+export default function AppealListItem({ appeal, name }) {
   let requestEventType;
   let isAppeal;
 
@@ -60,75 +61,43 @@ export default function AppealListItem({ appeal, name, external = false }) {
   // "Appeal updated on March 6, 2019"
   // "Disability Compensation Appeal"
 
-  let appealTitle = '';
+  let appealTitle = getTypeName(appeal);
+  let updatedOn = '';
 
-  if (isAppeal) {
-    if (programArea) {
-      appealTitle = `${programArea} `;
-    }
-    appealTitle += getTypeName(appeal);
-  } else {
-    appealTitle = getTypeName(appeal);
-    if (programArea) {
+  if (programArea) {
+    if (isAppeal) {
+      appealTitle = `${programArea} ${appealTitle}`;
+    } else {
       appealTitle += ` for ${programArea}`;
     }
   }
 
-  appealTitle += `\n updated on ${moment(updatedEventDateString).format(
-    'MMMM D, YYYY',
-  )}`;
   appealTitle = capitalizeWord(appealTitle);
+  updatedOn = formatDate(updatedEventDateString);
+
+  const ariaLabel = `View details for ${appealTitle}`;
+  const href = `appeals/${appeal.id}/status`;
 
   return (
-    <div className="claim-list-item-container">
-      <h3 className="claim-list-item-header-v2">{appealTitle}</h3>
+    <ClaimCard
+      title={appealTitle}
+      subtitle={
+        requestEvent &&
+        `Received on ${moment(requestEvent.date).format('MMMM D, YYYY')}`
+      }
+    >
       <div className="card-status">
-        {!external && (
-          <div
-            className={`status-circle ${
-              appeal.attributes.active ? 'open-claim' : 'closed-claim'
-            }`}
-          />
-        )}
-        <p>
-          <strong>Status:</strong> {getStatusContents(appeal, name).title}
-        </p>
-      </div>
-      {appeal.attributes.description && (
-        <p style={{ marginTop: 0 }}>
-          <strong>
-            {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
-            {isAppeal ? ' appeal' : ' review'}:
-          </strong>{' '}
-          {appeal.attributes.description}
-        </p>
-      )}
-      {requestEvent && (
-        <div className="card-status">
+        {appeal.attributes.description && (
           <p>
-            <strong>Received on:</strong>{' '}
-            {moment(requestEvent.date).format('MMMM D, YYYY')}
+            {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
+            {isAppeal ? ' appeal' : ' review'}: {appeal.attributes.description}
           </p>
-        </div>
-      )}
-      {!external && (
-        <Link
-          className="vads-c-action-link--blue"
-          to={`appeals/${appeal.id}/status`}
-        >
-          View details
-        </Link>
-      )}
-      {external && (
-        <Link
-          aria-label={`View details of ${appealTitle}`}
-          className="vads-c-action-link--blue"
-          href={`/track-claims/appeals/${appeal.id}/status`}
-        >
-          View details
-        </Link>
-      )}
-    </div>
+        )}
+        <p>Status: {getStatusContents(appeal, name).title}</p>
+        <p>Last updated: {updatedOn}</p>
+      </div>
+      <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
+    </ClaimCard>
   );
 }
 
@@ -153,7 +122,6 @@ AppealListItem.propTypes = {
     }),
     type: PropTypes.string,
   }),
-  external: PropTypes.bool,
   name: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
