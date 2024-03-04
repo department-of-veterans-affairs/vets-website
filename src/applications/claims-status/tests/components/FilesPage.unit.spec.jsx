@@ -7,7 +7,7 @@ import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { createStore } from 'redux';
 import { FilesPage } from '../../containers/FilesPage';
-import * as AdditionalEvidencePage from '../../containers/AdditionalEvidencePage';
+import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 
 describe('<FilesPage>', () => {
   context('cstUseClaimDetailsV2 feature flag enabled', () => {

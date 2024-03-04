@@ -6,7 +6,7 @@ import {
   getFilesNeeded,
 } from '../utils/helpers';
 
-import FilesNeeded from './FilesNeeded';
+import FilesNeeded from './claim-files-tab/FilesNeeded';
 
 function WhatYouNeedToDo({ claim, useLighthouse }) {
   const trackedItems = getTrackedItems(claim, useLighthouse);
