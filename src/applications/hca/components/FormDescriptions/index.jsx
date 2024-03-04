@@ -124,26 +124,7 @@ export const SIGIGenderDescription = (
   </>
 );
 
-/** CHAPTER 2: Military Service */
-export const ServiceDateRangeDescription = (
-  <div className="vads-u-color--gray-medium">
-    If you don’t know the exact date, enter your best guess
-  </div>
-);
-
-export const OtherToxicExposureDescription = (
-  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
-    <a
-      target="_blank"
-      rel="noreferrer"
-      href="https://www.publichealth.va.gov/exposures/index.asp"
-    >
-      Learn more about exposures on our public health website (opens in new tab)
-    </a>
-  </div>
-);
-
-/** CHAPTER 3: VA Benefits */
+/** CHAPTER 2: VA Benefits */
 export const CompensationInfoDescription = (
   <p className="vads-u-margin-bottom-4">
     VA disability compensation (pay) provides monthly payments to Veterans with
@@ -229,6 +210,26 @@ export const PensionTypeDescription = (
   </va-additional-info>
 );
 
+/** CHAPTER 3: Military Service */
+export const ServiceDateRangeDescription = (
+  <div className="vads-u-color--gray-medium">
+    If you don’t know the exact date, enter your best guess
+  </div>
+);
+
+export const OtherToxicExposureDescription = (
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+    <a
+      target="_blank"
+      rel="noreferrer"
+      href="https://www.publichealth.va.gov/exposures/index.asp"
+    >
+      Learn more about exposures on our Public Health website (opens in new tab)
+    </a>
+  </div>
+);
+
+/** CHAPTER 4: Household Information */
 export const DeductibleExpensesDescription = () => {
   const date = new Date();
   return (
