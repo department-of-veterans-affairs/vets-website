@@ -245,7 +245,7 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -327,6 +327,7 @@ jobs:
   unit-tests-stress-test:
     name: Unit Test Stability Review
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [fetch-allow-lists, unit-tests-prep]
     if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
@@ -366,7 +367,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
