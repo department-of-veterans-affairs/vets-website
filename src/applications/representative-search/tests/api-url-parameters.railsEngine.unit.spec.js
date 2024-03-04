@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { resolveParamsWithUrl, getApi, endpointOptions } from '../config';
+import {
+  resolveParamsWithUrl,
+  getApi,
+  endpointOptions,
+  formatReportBody,
+} from '../config';
 
 describe('Locator url and parameters builder', () => {
   const address = '43210';
@@ -88,6 +93,24 @@ describe('Locator url and parameters builder', () => {
     localStorage.setItem('csrfToken', '12345');
     const { apiSettings } = getApi(endpointOptions.flagReps);
     expect(apiSettings?.headers?.['X-CSRF-Token']).to.eql('12345');
+  });
+
+  it('should format report object into snake case POST request body', () => {
+    const reportObject = {
+      representativeId: 123,
+      reports: {
+        phone: '644-465-8493',
+        email: 'example@rep.com',
+        address: '123 Any Street',
+        other: 'other comment',
+      },
+    };
+
+    const formattedReportBody = JSON.stringify(formatReportBody(reportObject));
+
+    expect(formattedReportBody).to.eql(
+      '{"representative_id":123,"flags":[{"flag_type":"phone_number","flagged_value":"644-465-8493"},{"flag_type":"email","flagged_value":"example@rep.com"},{"flag_type":"address","flagged_value":"123 Any Street"},{"flag_type":"other","flagged_value":"other comment"}]}',
+    );
   });
 
   it('should exclude null params from request', () => {
