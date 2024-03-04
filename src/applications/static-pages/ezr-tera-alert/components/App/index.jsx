@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 export const App = ({ isEzrEnabled }) => {
   return isEzrEnabled ? (
     <>
-      <va-alert status="info" uswds data-testid="ezr-tera-alert-auth">
+      <va-alert status="info" uswds data-testid="ezr-tera-alert-enabled">
         <h2 slot="headline">
           Veterans enrolled in VA health care and expansion of benefits
         </h2>
@@ -41,7 +41,7 @@ export const App = ({ isEzrEnabled }) => {
     </>
   ) : (
     <>
-      <va-alert status="info" uswds data-testid="ezr-tera-alert-noauth">
+      <va-alert status="info" uswds data-testid="ezr-tera-alert">
         <h2 slot="headline">
           Veterans enrolled in VA health care and expansion of benefits
         </h2>

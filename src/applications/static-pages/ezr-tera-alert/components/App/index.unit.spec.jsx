@@ -9,7 +9,7 @@ describe('ezr submission options', () => {
     const selectors = {
       headings: wrapper.find('h2'),
       link: wrapper.find('.vads-c-action-link--green'),
-      alertNoAuth: wrapper.find('[data-testid="ezr-tera-alert-noauth"]'),
+      alertNoAuth: wrapper.find('[data-testid="ezr-tera-alert"]'),
     };
     expect(selectors.headings).to.have.lengthOf(1);
     expect(selectors.link).to.have.lengthOf(0);
@@ -22,7 +22,7 @@ describe('ezr submission options', () => {
     const selectors = {
       headings: wrapper.find('h2'),
       link: wrapper.find('.vads-c-action-link--green'),
-      alertAuth: wrapper.find('[data-testid="ezr-tera-alert-auth"]'),
+      alertAuth: wrapper.find('[data-testid="ezr-tera-alert-enabled"]'),
     };
     expect(selectors.headings).to.have.lengthOf(1);
     expect(selectors.link).to.have.lengthOf(1);
