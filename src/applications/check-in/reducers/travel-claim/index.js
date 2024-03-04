@@ -7,4 +7,11 @@ const receivedTravelDataHandler = (state, action) => {
   };
 };
 
-export { receivedTravelDataHandler };
+const setFilteredAppointmentsHandler = (state, action) => {
+  return {
+    ...state,
+    context: { ...state.context, ...action.payload },
+  };
+};
+
+export { receivedTravelDataHandler, setFilteredAppointmentsHandler };
