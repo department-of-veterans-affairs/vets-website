@@ -69,7 +69,7 @@ export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
     try {
-      const response = await apiRequest(`${API_URL}/addressr`, {
+      const response = await apiRequest(`${API_URL}/address`, {
         method: 'POST',
         body: JSON.stringify(mailingAddress),
         headers: { 'Content-Type': 'application/json' },
