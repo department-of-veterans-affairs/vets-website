@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { OverviewPage } from '../../containers/OverviewPage';
@@ -14,63 +15,23 @@ const params = { id: 1 };
 describe('<OverviewPage>', () => {
   const store = createStore(() => ({}));
 
-  context('DDL feature flag is enabled', () => {
-    const claim = {
-      attributes: {
-        open: false,
-        decisionLetterSent: true,
-      },
-    };
-
-    it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = render(
-        <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            useLighthouse
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
-
-      screen.getByText('Get your claim letters');
-    });
-
-    it('should render a link to the claim letters page when using EVSS', () => {
-      const screen = render(
-        <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
-
-      screen.getByText('Get your claim letters');
-    });
-  });
-
   context('when claim is closed', () => {
     const claim = {
       id: '1',
       attributes: {
-        supportingDocuments: [],
         claimDate: '2023-01-01',
-        closeDate: '2023-01-10',
-        decisionLetterSent: false,
-        status: 'COMPLETE',
         claimPhaseDates: {
           currentPhaseBack: false,
           phaseChangeDate: '2023-01-10',
           latestPhaseType: 'Complete',
           previousPhases: {
-            phase1CompleteDate: 'null',
+            phase7CompleteDate: '2023-01-10',
           },
         },
+        closeDate: '2023-01-10',
+        decisionLetterSent: false,
+        status: 'COMPLETE',
+        supportingDocuments: [],
       },
     };
 
@@ -79,7 +40,6 @@ describe('<OverviewPage>', () => {
         <Provider store={store}>
           <OverviewPage
             claim={claim}
-            useLighthouse
             params={params}
             clearNotification={() => {}}
           />
@@ -98,7 +58,6 @@ describe('<OverviewPage>', () => {
         <Provider store={store}>
           <OverviewPage
             claim={claim}
-            useLighthouse
             params={params}
             clearNotification={() => {}}
           />
@@ -115,20 +74,19 @@ describe('<OverviewPage>', () => {
     const claim = {
       id: '1',
       attributes: {
-        supportingDocuments: [],
         claimDate: '2023-01-01',
-        closeDate: null,
-        decisionLetterSent: true,
-        status: 'INITIAL_REVIEW',
         claimPhaseDates: {
           currentPhaseBack: false,
-          phaseChangeDate: '2015-01-01',
+          phaseChangeDate: '2023-02-08',
           latestPhaseType: 'INITIAL_REVIEW',
           previousPhases: {
             phase1CompleteDate: '2023-02-08',
-            phase2CompleteDate: '2023-02-08',
           },
         },
+        closeDate: null,
+        decisionLetterSent: true,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [],
         trackedItems: [],
       },
     };
@@ -138,7 +96,6 @@ describe('<OverviewPage>', () => {
         <Provider store={store}>
           <OverviewPage
             claim={claim}
-            useLighthouse
             params={params}
             clearNotification={() => {}}
           />
@@ -160,7 +117,6 @@ describe('<OverviewPage>', () => {
         <Provider store={store}>
           <OverviewPage
             claim={claim}
-            useLighthouse
             params={params}
             clearNotification={() => {}}
           />
@@ -177,29 +133,28 @@ describe('<OverviewPage>', () => {
     const claim = {
       id: '1',
       attributes: {
-        supportingDocuments: [],
         claimDate: '2023-01-01',
-        closeDate: null,
-        decisionLetterSent: false,
-        status: 'INITIAL_REVIEW',
         claimPhaseDates: {
           currentPhaseBack: false,
-          phaseChangeDate: '2015-01-01',
+          phaseChangeDate: '2023-02-08',
           latestPhaseType: 'INITIAL_REVIEW',
           previousPhases: {
             phase1CompleteDate: '2023-02-08',
-            phase2CompleteDate: '2023-02-08',
           },
         },
+        closeDate: null,
+        decisionLetterSent: false,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [],
         trackedItems: [],
       },
     };
+
     it('should render page with no alerts and a timeline', () => {
       const { container, getByText, queryByText } = render(
         <Provider store={store}>
           <OverviewPage
             claim={claim}
-            useLighthouse
             params={params}
             clearNotification={() => {}}
           />
@@ -215,27 +170,6 @@ describe('<OverviewPage>', () => {
         .not.to.exist;
       expect($('.claim-timeline', container)).to.exist;
     });
-  });
-
-  it('should not render timeline without a phase', () => {
-    const claim = {
-      attributes: {
-        phase: null,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
   });
 
   it('should render empty content when loading', () => {
@@ -264,7 +198,8 @@ describe('<OverviewPage>', () => {
   it('should clear alert', () => {
     const claim = {
       attributes: {
-        eventsTimeline: [],
+        claimDate: '2023-01-01',
+        closeDate: '2023-10-10',
       },
     };
     const clearNotification = sinon.spy();
@@ -288,8 +223,10 @@ describe('<OverviewPage>', () => {
 
   it('should clear notification when leaving', () => {
     const claim = {
+      id: '1',
       attributes: {
-        eventsTimeline: [],
+        claimDate: '2023-01-01',
+        closeDate: '2023-10-10',
       },
     };
     const clearNotification = sinon.spy();

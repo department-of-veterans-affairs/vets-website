@@ -6,16 +6,12 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
-// END lighthouse_migration
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
 import { DATE_FORMATS } from '../constants';
-import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
+import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
   getClaimType,
@@ -27,14 +23,6 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-// START lighthouse_migration
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return claimDate || dateFiled || null;
-};
-// END lighthouse_migration
-
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 // Using a Map instead of the typical Object because
@@ -212,16 +200,7 @@ class OverviewPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, showClaimLettersLink, useLighthouse } = this.props;
-
-    if (!useLighthouse) {
-      return (
-        <ClaimStatusPageContent
-          claim={claim}
-          showClaimLettersLink={showClaimLettersLink}
-        />
-      );
-    }
+    const { claim, showClaimLettersLink } = this.props;
 
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
@@ -263,7 +242,7 @@ class OverviewPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(getClaimDate(claim));
+      const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -273,18 +252,12 @@ class OverviewPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced, useLighthouse } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
-
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
@@ -312,7 +285,6 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 
@@ -329,7 +301,6 @@ OverviewPage.propTypes = {
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(
