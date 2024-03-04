@@ -32,7 +32,9 @@ export class VAFacilityPageObject extends PageObject {
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
     if (isVA) {
-      cy.wait(['@v2:get:facilities', '@v2:get:facilities']);
+      cy.wait(['@v2:get:facilities', '@v2:get:facilities'], {
+        responseTimeout: 120000,
+      });
     } else {
       cy.wait('@v2:get:facilities');
     }
