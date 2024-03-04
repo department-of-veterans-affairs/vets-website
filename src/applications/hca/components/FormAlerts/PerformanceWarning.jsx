@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const DowntimeWarning = () => (
+const PerformanceWarning = () => (
   <va-alert status="warning" uswds>
     <h3 slot="headline">This application may not be working right now</h3>
     <div>
@@ -41,4 +41,4 @@ const DowntimeWarning = () => (
   </va-alert>
 );
 
-export default DowntimeWarning;
+export default PerformanceWarning;
