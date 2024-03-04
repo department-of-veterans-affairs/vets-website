@@ -25,6 +25,7 @@ import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
+import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -41,6 +42,12 @@ export function FilterBeforeResults({
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
+  const {
+    isCleared,
+    setIsCleared,
+    focusOnFirstInput,
+    onKeyUp,
+  } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -220,6 +227,8 @@ export function FilterBeforeResults({
           row={!smallScreen}
           colNum="1p5"
           labelMargin="3"
+          focusOnFirstInput={focusOnFirstInput}
+          setIsCleared={setIsCleared}
         />
       </div>
     );
@@ -586,7 +595,12 @@ export function FilterBeforeResults({
                 Clear filters
               </button>
             ) : (
-              <ClearFiltersBtn testId="clear-button">
+              <ClearFiltersBtn
+                testId="clear-button"
+                isCleared={isCleared}
+                setIsCleared={setIsCleared}
+                onKeyDown={onKeyUp}
+              >
                 Clear filters
               </ClearFiltersBtn>
             )}

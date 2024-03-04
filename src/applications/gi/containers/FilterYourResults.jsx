@@ -22,6 +22,7 @@ import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
+import { useFilterBtn } from '../hooks/useFilterbtn';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -66,7 +67,7 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
   const [nameValue, setNameValue] = useState(search.query.name);
-
+  const { isCleared, setIsCleared, focusOnFirstInput } = useFilterBtn(true);
   const recordCheckboxEvent = e => {
     recordEvent({
       event: 'gibct-form-change',
@@ -213,6 +214,7 @@ export function FilterYourResults({
           }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
+          setIsCleared={setIsCleared}
         />
       </div>
     );
@@ -394,6 +396,7 @@ export function FilterYourResults({
             onChange={handleSchoolChange}
             className="expanding-header-checkbox"
             inputAriaLabelledBy={legendId}
+            focusOnFirstInput={focusOnFirstInput}
           />
           <div className="school-types expanding-group-children">
             {schools && (
@@ -503,6 +506,8 @@ export function FilterYourResults({
           buttonOnClick={() => updateResults()}
           expanded={expanded}
           onClick={onAccordionChange}
+          isCleared={isCleared}
+          setIsCleared={setIsCleared}
         >
           {search.inProgress && (
             <VaLoadingIndicator
@@ -535,7 +540,11 @@ export function FilterYourResults({
               Update results
             </button>
             {!environment.isProduction() && (
-              <ClearFiltersBtn smallScreen={smallScreen}>
+              <ClearFiltersBtn
+                smallScreen={smallScreen}
+                isCleared={isCleared}
+                setIsCleared={setIsCleared}
+              >
                 Clear filters
               </ClearFiltersBtn>
             )}
