@@ -10,7 +10,7 @@ import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
-import * as AddFilesForm from '../../../components/AddFilesForm';
+import * as AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
 
 const getRouter = () => ({ push: sinon.spy() });
 

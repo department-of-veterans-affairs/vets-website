@@ -8,7 +8,7 @@ import { getScrollOptions } from '@department-of-veterans-affairs/platform-utili
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
-import AddFilesForm from '../AddFilesForm';
+import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
