@@ -30,11 +30,11 @@ export const MailDescription = () => {
         Mail the completed form and any supporting documents to this address:
       </p>
       <p className="va-address-block">
-        VA Health Eligibility Center
+        Health Eligibility Center
         <br role="presentation" />
-        2957 Clairmont Road, Suite 200
+        PO Box 5207
         <br role="presentation" />
-        Atlanta, GA 30329
+        Janesville, WI 53547-5207
       </p>
     </>
   );
