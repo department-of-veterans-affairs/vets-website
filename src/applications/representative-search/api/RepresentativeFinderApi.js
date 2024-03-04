@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
@@ -64,17 +66,19 @@ class RepresentativeFinderApi {
 
   static reportResult(newReport) {
     const reportRequestBody = {
-      representativeId: newReport.representativeId,
+      representative_id: newReport.representative_id,
       flags: [],
     };
 
     const startTime = new Date().getTime();
 
-    for (const [flagType, flaggedValue] of Object.entries(newReport.reports)) {
-      if (flaggedValue !== null) {
+    for (const [flag_type, flagged_value] of Object.entries(
+      newReport.reports,
+    )) {
+      if (flagged_value !== null) {
         reportRequestBody.flags.push({
-          flagType,
-          flaggedValue,
+          flag_type,
+          flagged_value,
         });
       }
     }
