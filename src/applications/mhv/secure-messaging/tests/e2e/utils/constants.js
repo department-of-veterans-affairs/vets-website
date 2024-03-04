@@ -76,4 +76,5 @@ export const Alerts = {
       'If you need to contact this care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
+  OUTAGE: "We're sorry. We couldn't load this page. Try again later",
 };
