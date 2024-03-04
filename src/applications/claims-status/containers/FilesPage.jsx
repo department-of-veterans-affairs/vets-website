@@ -16,7 +16,8 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
-import ClaimFileHeader from '../components/ClaimFileHeader';
+import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
+import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
