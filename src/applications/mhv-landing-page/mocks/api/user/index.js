@@ -137,6 +137,9 @@ const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
           ...defaultUser.data.attributes.profile,
           facilities,
           first_name: name,
+        },
+        va_profile: {
+          ...defaultUser.data.attributes.va_profile,
           mhvAccountState: 'OK',
         },
       },
@@ -156,6 +159,9 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
           sign_in: {
             service_name: serviceProvider,
           },
+        },
+        va_profile: {
+          ...defaultUser.data.attributes.va_profile,
           mhvAccountState: 'OK',
         },
       },
@@ -198,6 +204,9 @@ const hasMHVAccount = {
       ...defaultUser.data.attributes,
       profile: {
         ...defaultUser.data.attributes.profile,
+      },
+      va_profile: {
+        ...defaultUser.data.attributes.va_profile,
         mhvAccountState: 'OK',
       },
     },
@@ -212,6 +221,9 @@ const noMHVAccount = {
       ...defaultUser.data.attributes,
       profile: {
         ...defaultUser.data.attributes.profile,
+      },
+      va_profile: {
+        ...defaultUser.data.attributes.va_profile,
         mhvAccountState: 'NONE',
       },
     },
@@ -227,6 +239,9 @@ const generateUserWithMHVAccountState = ({ mhvAccountState = 'OK' }) => {
         ...defaultUser.data.attributes,
         profile: {
           ...defaultUser.data.attributes.profile,
+        },
+        va_profile: {
+          ...defaultUser.data.attributes.va_profile,
           mhvAccountState,
         },
       },

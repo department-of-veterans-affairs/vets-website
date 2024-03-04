@@ -80,13 +80,11 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        if (hasMHVAccount) {
-          const folders = await getFolderList();
-          const unreadMessages = countUnreadMessages(folders);
-          setUnreadMessageCount(unreadMessages);
-        }
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+        setUnreadMessageCount(unreadMessages);
       }
-      if (enabled) {
+      if (enabled && hasMHVAccount) {
         loadMessages();
       }
     },
