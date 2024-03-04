@@ -1,4 +1,7 @@
-import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
+import {
+  fetchAndUpdateSessionExpiration as fetch,
+  apiRequest,
+} from '@department-of-veterans-affairs/platform-utilities/api';
 import { getApi, resolveParamsWithUrl, endpointOptions } from '../config';
 
 class RepresentativeFinderApi {
@@ -41,6 +44,9 @@ class RepresentativeFinderApi {
           if (!response.ok) {
             throw Error(response.statusText);
           }
+          const csrf = response.headers.get('X-CSRF-Token');
+          localStorage.setItem('csrfToken', csrf);
+
           return response.json();
         })
         .then(res => {
@@ -80,7 +86,7 @@ class RepresentativeFinderApi {
     );
 
     return new Promise((resolve, reject) => {
-      fetch(requestUrl, apiSettings)
+      apiRequest(requestUrl, apiSettings)
         .then(response => {
           if (!response.ok) {
             throw Error(response.statusText);
