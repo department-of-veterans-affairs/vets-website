@@ -31,16 +31,24 @@ export class VAFacilityPageObject extends PageObject {
    * @memberof VAFacilityPageObject
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
-    cy.get(`@v2:get:facilities.all`).then(() => {
-      if (isVA) {
+    if (isVA) {
+      cy.wait(['@v2:get:facilities', '@v2:get:facilities']);
+    } else {
+      cy.wait('@v2:get:facilities');
+    }
+
+    cy.wait('@v2:get:scheduling-configurations');
+
+    if (isVA) {
+      cy.wait('@v2:get:eligibility').then(() => {
         cy.findByText(/We found one VA facility for your .* appointment/i);
-      } else {
-        cy.findByText(
-          /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
-        );
-      }
-      cy.findByText(locationName);
-    });
+      });
+    } else {
+      cy.findByText(
+        /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
+      );
+    }
+    cy.findByText(locationName);
 
     return this;
   }
