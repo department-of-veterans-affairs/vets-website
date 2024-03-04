@@ -3,30 +3,26 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { App } from '.';
 
-describe('ezr submission options', () => {
-  it('should not render link to the online form when feature toggle is false', () => {
+describe('ezr tera alert', () => {
+  it('should not render ezr tera alert to the static page when feature toggle is false', () => {
     const wrapper = shallow(<App isEzrEnabled={false} />);
     const selectors = {
       headings: wrapper.find('h2'),
-      link: wrapper.find('.vads-c-action-link--green'),
-      alertNoAuth: wrapper.find('[data-testid="ezr-tera-alert"]'),
+      ezrAlertNotEnabled: wrapper.find('[data-testid="ezr-tera-alert"]'),
     };
     expect(selectors.headings).to.have.lengthOf(1);
-    expect(selectors.link).to.have.lengthOf(0);
-    expect(selectors.alertNoAuth).to.have.lengthOf(1);
+    expect(selectors.ezrAlertNotEnabled).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
-  it('renders link to the online form when feature toggle is true', () => {
+  it('renders ezr tera alert to the static page when feature toggle is true', () => {
     const wrapper = shallow(<App isEzrEnabled />);
     const selectors = {
       headings: wrapper.find('h2'),
-      link: wrapper.find('.vads-c-action-link--green'),
-      alertAuth: wrapper.find('[data-testid="ezr-tera-alert-enabled"]'),
+      ezrAlertEnabled: wrapper.find('[data-testid="ezr-tera-alert-enabled"]'),
     };
     expect(selectors.headings).to.have.lengthOf(1);
-    expect(selectors.link).to.have.lengthOf(1);
-    expect(selectors.alertAuth).to.have.lengthOf(1);
+    expect(selectors.ezrAlertEnabled).to.have.lengthOf(1);
     wrapper.unmount();
   });
 });
