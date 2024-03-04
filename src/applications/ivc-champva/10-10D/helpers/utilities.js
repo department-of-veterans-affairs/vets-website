@@ -31,3 +31,11 @@ export function getParts(inputStr) {
   // Remove the literal string ", Part D" and return
   return deCamelcasedStr.replace(/\b, Part\s*D\b/g, '');
 }
+
+// Turn camelCase into capitalized words ("camelCase" => "Camel Case")
+export function makeHumanReadable(inputStr) {
+  return inputStr
+    .match(/^[a-z]+|[A-Z][a-z]*/g)
+    .map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
+    .join(' ');
+}
