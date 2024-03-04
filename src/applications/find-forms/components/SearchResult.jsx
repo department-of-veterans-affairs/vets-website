@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 import * as customPropTypes from '../prop-types';
@@ -158,7 +159,9 @@ const SearchResult = ({
     },
     id,
   } = form;
-
+  const relativeFormToolUrl = formToolUrl
+    ? replaceWithStagingDomain(formToolUrl)
+    : formToolUrl;
   const linkProps = deriveLinkPropsFromFormURL(url);
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
@@ -200,13 +203,13 @@ const SearchResult = ({
       </div>
 
       {relatedTo}
-      {formToolUrl ? (
+      {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
           <a
             className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
-            href={formToolUrl}
+            href={relativeFormToolUrl}
             onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
             }
           >
             <i
