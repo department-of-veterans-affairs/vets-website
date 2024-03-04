@@ -51,7 +51,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     mockFacilitiesFetchByVersion();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
     response

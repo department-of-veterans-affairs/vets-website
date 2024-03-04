@@ -3,14 +3,16 @@ import {
   conditionsPageTitle,
   gulfWar1990PageTitle,
   isClaimingTECondition,
+  showToxicExposurePages,
 } from '../../content/toxicExposure';
-import { isClaimingNew, showToxicExposurePages } from '../../utils/index';
+import { isClaimingNew } from '../../utils/index';
 
 export const toxicExposurePages = {
   toxicExposureConditions: {
     title: conditionsPageTitle,
     path: 'toxic-exposure-conditions',
-    depends: () => isClaimingNew && showToxicExposurePages,
+    depends: formData =>
+      isClaimingNew(formData) && showToxicExposurePages(formData),
     uiSchema: toxicExposureConditions.uiSchema,
     schema: toxicExposureConditions.schema,
   },

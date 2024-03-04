@@ -2,8 +2,7 @@
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
-const printUnitTestHelp = require('./run-unit-test-help');
-const { runCommand } = require('./utils');
+const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
@@ -73,11 +72,6 @@ if (
 
 const reporterOption = options.reporter ? `--reporter ${options.reporter}` : '';
 
-if (options.help) {
-  printUnitTestHelp();
-  process.exit(0);
-}
-
 const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 const coverageReporter = options['coverage-html']
   ? '--reporter=html mocha --retries 5'
@@ -126,12 +120,3 @@ if (testsToVerify === null) {
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify}`;
   runCommand(command);
 }
-
-// const command = `LOG_LEVEL=${options[
-//   'log-level'
-// ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
-//   testsToRun} `;
-// const command = `LOG_LEVEL=${options[
-//   'log-level'
-// ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
-//   `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`} `;
