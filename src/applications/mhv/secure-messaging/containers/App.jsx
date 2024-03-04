@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
@@ -9,15 +9,21 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import {
   DowntimeNotification,
   externalServices,
+  externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import {
+  renderMHVDowntime,
+  useDatadogRum,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
+import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ isPilot }) => {
   const dispatch = useDispatch();
@@ -40,8 +46,27 @@ const App = ({ isPilot }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
+  const scheduledDowntimes = useSelector(
+    state => state.scheduledDowntime?.serviceMap || [],
+  );
+
+  const mhvSMDown = useMemo(
+    () => {
+      if (scheduledDowntimes.size > 0) {
+        return (
+          scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+        );
+      }
+      return 'downtime status: ok';
+    },
+    [scheduledDowntimes],
+  );
+
   useEffect(
     () => {
+      dispatch(getScheduledDowntime());
+
       if (user.login.currentlyLoggedIn) {
         dispatch(getAllTriageTeamRecipients());
       }
@@ -110,26 +135,34 @@ const App = ({ isPilot }) => {
       ) : (
         <div className="vads-l-grid-container">
           <SmBreadcrumbs />
-          <div
-            className="secure-messaging-container
+
+          {mhvSMDown === externalServiceStatus.down ? (
+            <>
+              <h1>Messages</h1>
+              <DowntimeNotification
+                appTitle={downtimeNotificationParams.appTitle}
+                dependencies={[
+                  externalServices.mhvPlatform,
+                  externalServices.mhvSm,
+                ]}
+                render={renderMHVDowntime}
+              />
+            </>
+          ) : (
+            <div
+              className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-          >
-            <DowntimeNotification
-              appTitle="Secure Messaging"
-              dependencies={[
-                externalServices.mhvPlatform,
-                externalServices.mhvSm,
-              ]}
             >
               <Navigation />
               <ScrollToTop />
               <Switch>
                 <AuthorizedRoutes />
               </Switch>
-            </DowntimeNotification>
-          </div>
+            </div>
+          )}
+
           <div className="bottom-container">
             <va-back-to-top />
           </div>

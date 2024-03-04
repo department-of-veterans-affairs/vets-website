@@ -98,7 +98,7 @@ export default Object.freeze({
   financialStatusReportReviewPageNavigation:
     'financial_status_report_review_page_navigation',
   findARepresentativeEnableFrontend: 'find_a_representative_enable_frontend',
-  form10182Nod: 'form10182_nod',
+  findARepresentativeEnabled: 'find_a_representative_enabled',
   form2010206: 'form2010206',
   form2110210: 'form2110210',
   form210845: 'form210845',
@@ -165,6 +165,9 @@ export default Object.freeze({
   profileHideDirectDepositCompAndPen:
     'profile_hide_direct_deposit_comp_and_pen',
   profileShowCredentialRetirementMessaging: 'profile_show_credential_retirement_messaging',
+  profileShowDirectDepositSingleForm: 'profile_show_direct_deposit_single_form',
+  profileShowDirectDepositSingleFormAlert: 'profile_show_direct_deposit_single_form_alert',
+  profileShowDirectDepositSingleFormEduDowntime: 'profile_show_direct_deposit_single_form_edu_downtime',
   profileShowEmailNotificationSettings:
     'profile_show_email_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
@@ -230,7 +233,6 @@ export default Object.freeze({
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
-  supplementalClaim: 'supplemental_claim',
   supplyReorderingSleepApneaEnabled: 'supply_reordering_sleep_apnea_enabled',
   termsOfUse: 'terms_of_use',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
@@ -272,6 +274,7 @@ export default Object.freeze({
     'va_online_scheduling_after_visit_summary',
   vaOnlineSchedulingStartSchedulingLink:
     'va_online_scheduling_start_scheduling_link',
+  vaOnlineSchedulingBookingExclusion: 'va_online_scheduling_booking_exclusion	',
   vaOnlineSchedulingPhysicalLocation: 'va_online_scheduling_physical_location',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
