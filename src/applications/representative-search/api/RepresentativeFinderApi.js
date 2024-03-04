@@ -65,28 +65,12 @@ class RepresentativeFinderApi {
   }
 
   static reportResult(newReport) {
-    const reportRequestBody = {
-      representative_id: newReport.representative_id,
-      flags: [],
-    };
-
     const startTime = new Date().getTime();
-
-    for (const [flag_type, flagged_value] of Object.entries(
-      newReport.reports,
-    )) {
-      if (flagged_value !== null) {
-        reportRequestBody.flags.push({
-          flag_type,
-          flagged_value,
-        });
-      }
-    }
 
     const { requestUrl, apiSettings } = getApi(
       endpointOptions.flagReps,
       'POST',
-      reportRequestBody,
+      newReport,
     );
 
     return new Promise((resolve, reject) => {

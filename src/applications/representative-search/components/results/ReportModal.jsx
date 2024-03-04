@@ -20,7 +20,7 @@ const ReportModal = ({
   testReportObject,
 }) => {
   const [reportObject, setReportObject] = useState({
-    phone_number: null,
+    phone: null,
     email: null,
     address: null,
     other: null,
@@ -65,7 +65,7 @@ const ReportModal = ({
         newState.email = checked ? email : null;
         break;
       case '3':
-        newState.phone_number = checked ? phone : null;
+        newState.phone = checked ? phone : null;
         break;
       case '4':
         setOtherIsBlankError(false);
@@ -80,7 +80,7 @@ const ReportModal = ({
 
   const onSubmitModal = () => {
     const formattedReportObject = {
-      representative_id: representativeId,
+      representativeId,
       reports: {},
     };
 
@@ -102,7 +102,7 @@ const ReportModal = ({
 
     submitRepresentativeReport(formattedReportObject);
     setReportObject({
-      phone_number: null,
+      phone: null,
       email: null,
       address: null,
       other: null,
