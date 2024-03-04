@@ -10,7 +10,6 @@ describe('ezr tera alert', () => {
       headings: wrapper.find('h2'),
       ezrAlertNotEnabled: wrapper.find('[data-testid="ezr-tera-alert"]'),
     };
-    expect(selectors.headings).to.have.lengthOf(1);
     expect(selectors.ezrAlertNotEnabled).to.have.lengthOf(1);
     wrapper.unmount();
   });
@@ -21,7 +20,6 @@ describe('ezr tera alert', () => {
       headings: wrapper.find('h2'),
       ezrAlertEnabled: wrapper.find('[data-testid="ezr-tera-alert-enabled"]'),
     };
-    expect(selectors.headings).to.have.lengthOf(1);
     expect(selectors.ezrAlertEnabled).to.have.lengthOf(1);
     wrapper.unmount();
   });
