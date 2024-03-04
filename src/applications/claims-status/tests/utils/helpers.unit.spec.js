@@ -688,7 +688,7 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('isClaimOpen', () => {
-    context('when status is COMPELTE', () => {
+    context('when status is COMPLETE', () => {
       const status = 'COMPLETE';
       context('when closeDate is null', () => {
         it('should return false', () => {
@@ -705,7 +705,7 @@ describe('Disability benefits helpers: ', () => {
       });
     });
 
-    context('when status is not COMPELTE', () => {
+    context('when status is not COMPLETE', () => {
       const status = 'CLAIM_RECEIVED';
       context('when closeDate is null', () => {
         it('should return true', () => {
