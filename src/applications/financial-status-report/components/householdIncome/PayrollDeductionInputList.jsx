@@ -29,9 +29,9 @@ const PayrollDeductionInputList = props => {
   const {
     personalData: {
       employmentHistory: {
-        veteran: { employmentRecords = [] } = {}, // Ensure a default empty array and object
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-      } = {}, // Default empty object for employmentHistory
+      } = {},
     },
   } = formData;
 
