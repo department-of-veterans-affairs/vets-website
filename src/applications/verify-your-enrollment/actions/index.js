@@ -74,13 +74,10 @@ export function postMailingAddress(mailingAddress) {
         body: JSON.stringify(mailingAddress),
         headers: { 'Content-Type': 'application/json' },
       });
-
-      if (response?.ok) {
-        dispatch({
-          type: UPDATE_ADDRESS_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: UPDATE_ADDRESS_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: UPDATE_ADDRESS_FAILURE,
@@ -101,12 +98,10 @@ export const updateBankInfo = bankInfo => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response?.ok) {
-        dispatch({
-          type: UPDATE_BANK_INFO_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: UPDATE_BANK_INFO_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: UPDATE_BANK_INFO_FAILED,
@@ -127,12 +122,10 @@ export const verifyEnrollmentAction = () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response?.ok) {
-        dispatch({
-          type: VERIFY_ENROLLMENT_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: VERIFY_ENROLLMENT_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,
