@@ -34,6 +34,15 @@ function transformApplicants(applicants) {
         app?.applicantMedicareCardBack,
         app?.applicantOHICardFront,
         app?.applicantOHICardBack,
+        app?.applicantBirthCertOrSocialSecCard,
+        app?.applicantSchoolCert,
+        app?.applicantAdoptionPapers,
+        app?.applicantStepMarriageCert,
+        app?.applicantMarriageCert,
+        app?.applicantMedicarePartAPartBCard,
+        app?.applicantMedicarePartDCard,
+        app?.applicantOhiCard,
+        app?.applicant107959c,
       ],
       address: app.applicantAddress ?? '',
       gender: app.applicantGender ?? '',
@@ -47,6 +56,21 @@ function transformApplicants(applicants) {
   });
 
   return applicantsPostTransform;
+}
+
+function parseCertifier(transformedData) {
+  return {
+    date: new Date().toJSON().slice(0, 10),
+    firstName: transformedData.veteransFullName.first || '',
+    lastName: transformedData.veteransFullName.last || '',
+    middleInitial: transformedData?.veteransFullName.middle || '',
+    phone_number: transformedData?.sponsorPhone || '',
+    relationship: '',
+    streetAddress: transformedData.sponsorAddress.street || '',
+    city: transformedData.sponsorAddress.city || '',
+    state: transformedData.sponsorAddress.state || '',
+    postal_code: transformedData.sponsorAddress.postal_code || '',
+  };
 }
 
 export default function transformForSubmit(formConfig, form) {
@@ -93,6 +117,10 @@ export default function transformForSubmit(formConfig, form) {
     ],
   };
 
+  // Fill in certification data with sponsor info as needed
+  if (form.data.certifierRole === 'sponsor')
+    dataPostTransform.certification = { ...parseCertifier(transformedData) };
+
   // Flatten supporting docs for all applicants to a single array
   const supDocs = [];
   dataPostTransform.applicants.forEach(app => {
@@ -105,9 +133,10 @@ export default function transformForSubmit(formConfig, form) {
     }
   });
 
-  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs.concat(
-    supDocs,
-  );
+  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs
+    .flat()
+    .concat(supDocs)
+    .filter(el => el); // remove undefineds
 
   // eslint-disable-next-line dot-notation
   dataPostTransform.veteran.address['postal_code'] =

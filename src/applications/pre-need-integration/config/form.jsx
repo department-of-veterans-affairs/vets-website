@@ -19,6 +19,8 @@ import * as sponsorDetails from './pages/sponsorDetails';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
+import * as sponsorContactInfo from './pages/sponsorContactInfo';
+import * as sponsorRace from './pages/sponsorRace';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
@@ -60,11 +62,22 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  veteranApplicantDetailsSubHeader,
+  veteranApplicantDetailsPreparerSubHeader,
+  veteranApplicantDetailsPreparerDescription,
+  nonPreparerFullMaidenNameUI,
+  preparerFullMaidenNameUI,
+  ssnDashesUI,
+  preparerSsnDashesUI,
+  nonPreparerDateOfBirthUI,
+  preparerDateOfBirthUI,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
   // applicantDetailsPreparerCityTitle,
   // applicantDetailsPreparerStateTitle,
+  applicantDemographicsSubHeader,
+  applicantDemographicsPreparerSubHeader,
   applicantDemographicsGenderTitle,
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
@@ -74,6 +87,9 @@ import {
   applicantDemographicsPreparerEthnicityTitle,
   applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
+  nonVeteranApplicantDetailsSubHeader,
+  nonVeteranApplicantDetailsDescription,
+  nonVeteranApplicantDetailsDescriptionPreparer,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -259,16 +275,20 @@ const formConfig = {
           schema: applicantRelationshipToVet.schema,
         },
         veteranApplicantDetails: {
-          title: 'Applicant details',
+          title: 'Your details',
           path: 'veteran-applicant-details',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails
-            .uiSchema
+          uiSchema: veteranApplicantDetails.uiSchema(
             // partial implementation of story resolving the address change:
             // applicantDetailsCityTitle,
             // applicantDetailsStateTitle,
-            (),
+            veteranApplicantDetailsSubHeader,
+            '',
+            nonPreparerFullMaidenNameUI,
+            ssnDashesUI,
+            nonPreparerDateOfBirthUI,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         veteranApplicantDetailsPreparer: {
@@ -276,19 +296,44 @@ const formConfig = {
           path: 'veteran-applicant-details-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails
-            .uiSchema
+          uiSchema: veteranApplicantDetails.uiSchema(
             // partial implementation of story resolving the address change:
             // applicantDetailsPreparerCityTitle,
             // applicantDetailsPreparerStateTitle,
-            (),
+            veteranApplicantDetailsPreparerSubHeader,
+            veteranApplicantDetailsPreparerDescription,
+            preparerFullMaidenNameUI,
+            preparerSsnDashesUI,
+            preparerDateOfBirthUI,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {
-          title: 'Applicant details',
+          title: 'Your details',
           path: 'nonVeteran-applicant-details',
-          depends: formData => !isVeteran(formData),
-          uiSchema: nonVeteranApplicantDetails.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isVeteran(formData),
+          uiSchema: nonVeteranApplicantDetails.uiSchema(
+            nonVeteranApplicantDetailsSubHeader,
+            nonVeteranApplicantDetailsDescription,
+            nonPreparerFullMaidenNameUI,
+            ssnDashesUI,
+            nonPreparerDateOfBirthUI,
+          ),
+          schema: nonVeteranApplicantDetails.schema,
+        },
+        nonVeteranApplicantDetailsPreparer: {
+          title: 'Applicant details',
+          path: 'nonVeteran-applicant-details-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && !isVeteran(formData),
+          uiSchema: nonVeteranApplicantDetails.uiSchema(
+            veteranApplicantDetailsPreparerSubHeader,
+            nonVeteranApplicantDetailsDescriptionPreparer,
+            preparerFullMaidenNameUI,
+            preparerSsnDashesUI,
+            preparerDateOfBirthUI,
+          ),
           schema: nonVeteranApplicantDetails.schema,
         },
         applicantMailingAddress: {
@@ -306,11 +351,12 @@ const formConfig = {
           schema: applicantContactInfo.schema,
         },
         applicantDemographics: {
-          title: 'Applicant demographics',
+          title: 'Your demographics',
           path: 'applicant-demographics',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsSubHeader,
             applicantDemographicsGenderTitle,
             applicantDemographicsMaritalStatusTitle,
           ),
@@ -322,6 +368,7 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsPreparerSubHeader,
             applicantDemographicsPreparerGenderTitle,
             applicantDemographicsPreparerMaritalStatusTitle,
           ),
@@ -332,6 +379,7 @@ const formConfig = {
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsSubHeader,
             applicantDemographicsEthnicityTitle,
             applicantDemographicsRaceTitle,
           ),
@@ -342,6 +390,7 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsPreparerSubHeader,
             applicantDemographicsPreparerEthnicityTitle,
             applicantDemographicsPreparerRaceTitle,
           ),
@@ -366,13 +415,6 @@ const formConfig = {
           uiSchema: sponsorDetails.uiSchema,
           schema: sponsorDetails.schema,
         },
-        sponsorDemographics: {
-          title: 'Sponsor demographics',
-          path: 'sponsor-demographics',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorDemographics.uiSchema,
-          schema: sponsorDemographics.schema,
-        },
         sponsorDeceased: {
           path: 'sponsor-deceased',
           depends: formData => !isVeteran(formData),
@@ -385,6 +427,27 @@ const formConfig = {
             !isVeteran(formData) && isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
+        },
+        // sponsorContactInfo is a placeholder screen for MBMS-54141
+        sponsorContactInfo: {
+          path: 'sponsor-contact-info',
+          depends: formData =>
+            !isVeteran(formData) && !isSponsorDeceased(formData),
+          uiSchema: sponsorContactInfo.uiSchema,
+          schema: sponsorContactInfo.schema,
+        },
+        sponsorDemographics: {
+          title: 'Sponsor demographics',
+          path: 'sponsor-demographics',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDemographics.uiSchema,
+          schema: sponsorDemographics.schema,
+        },
+        sponsorRace: {
+          path: 'sponsor-race',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorRace.uiSchema,
+          schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {
           title: "Sponsor's military details",

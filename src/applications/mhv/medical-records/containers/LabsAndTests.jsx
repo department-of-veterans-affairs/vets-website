@@ -20,7 +20,7 @@ const LabsAndTests = () => {
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
