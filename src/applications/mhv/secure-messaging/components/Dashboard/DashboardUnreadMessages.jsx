@@ -43,7 +43,7 @@ const DashboardUnreadMessages = props => {
   );
 
   return (
-    <va-alert status="info" visible>
+    <va-alert status="info" visible uswds>
       {unreadCountHeader}
       <div className="vads-u-margin-top--1p5">
         <Link

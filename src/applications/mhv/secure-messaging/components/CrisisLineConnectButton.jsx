@@ -36,6 +36,7 @@ const CrisisLineConnectButton = () => {
 
   return (
     <va-button
+      uswds
       secondary="true"
       text="Connect with the Veterans Crisis Line"
       onClick={e => {
