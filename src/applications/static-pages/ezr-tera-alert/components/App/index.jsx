@@ -5,14 +5,7 @@ import { connect } from 'react-redux';
 export const App = ({ isEzrEnabled }) => {
   return isEzrEnabled ? (
     <>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="info"
-        uswds
-        visible
-        class="vads-u-margin-y--5"
-        data-testid="ezr-tera-alert"
-      >
+      <va-alert status="info" uswds>
         <h2 slot="headline">
           Veterans enrolled in VA health care and expansion of benefits
         </h2>
@@ -48,14 +41,7 @@ export const App = ({ isEzrEnabled }) => {
     </>
   ) : (
     <>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="info"
-        uswds
-        visible
-        class="vads-u-margin-y--5"
-        data-testid="ezr-tera-alert"
-      >
+      <va-alert status="info" uswds>
         <h2 slot="headline">
           Veterans enrolled in VA health care and expansion of benefits
         </h2>
