@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { snakeCase } from 'lodash';
 
 const ReportModal = ({
   representativeName,
@@ -78,17 +79,15 @@ const ReportModal = ({
   };
 
   const onSubmitModal = () => {
-    const formattedReportObject = { representativeId, reports: {} };
+    const formattedReportObject = {
+      representativeId,
+      reports: {},
+    };
 
     // push non-null items to reports object
     Object.keys(reportObject).forEach(prop => {
       if (reportObject[prop] !== null) {
-        if (prop === 'phone') {
-          formattedReportObject.reports[snakeCase('phoneNumber')] =
-            reportObject.phone;
-        } else {
-          formattedReportObject.reports[prop] = reportObject[prop];
-        }
+        formattedReportObject.reports[prop] = reportObject[prop];
       }
     });
 

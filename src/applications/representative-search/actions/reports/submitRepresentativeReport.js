@@ -63,7 +63,7 @@ export const submitRepresentativeReport = newReport => {
     } catch (error) {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
-        Sentry.captureMessage('Error fetching accredited representatives');
+        Sentry.captureMessage('Error submitting representative report');
       });
 
       dispatch({

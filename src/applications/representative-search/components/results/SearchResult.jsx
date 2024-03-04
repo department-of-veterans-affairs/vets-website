@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { scrollTo } from 'platform/utilities/ui';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -24,9 +27,9 @@ const SearchResult = ({
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
-  const { contact, extension } = parsePhoneNumber(phone);
+  const prevReportCount = useRef(reports?.length || 0);
 
-  const scrollElementId = `result-${representativeId}`;
+  const { contact, extension } = parsePhoneNumber(phone);
 
   const addressExists = addressLine1 || city || stateCode || zipCode;
 
@@ -45,8 +48,19 @@ const SearchResult = ({
 
   const closeReportModal = () => {
     setReportModalIsShowing(false);
-    scrollTo(scrollElementId);
+    scrollTo(`#report-button-${representativeId}`);
+    focusElement(`#report-button-${representativeId}`);
   };
+
+  useEffect(
+    () => {
+      if (reports?.length > prevReportCount) {
+        scrollTo(`#thank-you-alert-${representativeId}`);
+        focusElement(`#thank-you-alert-${representativeId}`);
+      }
+    },
+    [reports],
+  );
 
   return (
     <div className="report-outdated-information-modal">
@@ -151,16 +165,20 @@ const SearchResult = ({
           {reports && (
             <div className="report-thank-you-alert">
               <va-alert
-                class="vads-u-margin-bottom--2"
+                class="thank-you-alert vads-u-margin-bottom--2"
                 close-btn-aria-label="Close notification"
                 disable-analytics="false"
+                tabIndex={-1}
                 full-width="false"
                 slim
                 status="info"
                 uswds
                 visible="true"
               >
-                <p className="vads-u-margin-y--0">
+                <p
+                  id={`thank-you-alert-${representativeId}`}
+                  className="vads-u-margin-y--0"
+                >
                   Thanks for reporting outdated information.
                 </p>
               </va-alert>
@@ -171,6 +189,8 @@ const SearchResult = ({
               onClick={() => {
                 setReportModalIsShowing(true);
               }}
+              tabIndex={-1}
+              id={`report-button-${representativeId}`}
               secondary
               text="Report outdated information"
               uswds
