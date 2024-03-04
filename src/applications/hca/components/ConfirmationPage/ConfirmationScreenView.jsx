@@ -28,7 +28,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
       <va-summary-box class="vads-u-margin-bottom--4" uswds>
         <h3 slot="headline">Your application information</h3>
 
-        <h4>Veteran’s name</h4>
+        <h4>For Veteran</h4>
         <p
           className="hca-veteran-fullname dd-privacy-mask"
           data-dd-action-name="Veteran name"
