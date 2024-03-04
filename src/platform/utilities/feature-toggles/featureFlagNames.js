@@ -98,6 +98,7 @@ export default Object.freeze({
   financialStatusReportReviewPageNavigation:
     'financial_status_report_review_page_navigation',
   findARepresentativeEnableFrontend: 'find_a_representative_enable_frontend',
+  findARepresentativeEnabled: 'find_a_representative_enabled',
   form2010206: 'form2010206',
   form2110210: 'form2110210',
   form210845: 'form210845',
