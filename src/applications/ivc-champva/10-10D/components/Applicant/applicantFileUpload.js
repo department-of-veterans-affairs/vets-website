@@ -1,4 +1,18 @@
+import React from 'react';
+import { Link } from 'react-router';
 import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
+
+export function customLinkUI(path = '', text = '') {
+  return {
+    'view:customLink': {
+      'ui:description': (
+        <Link aria-label={text} to={path} className="vads-c-action-link--green">
+          {text}
+        </Link>
+      ),
+    },
+  };
+}
 
 export const applicantBirthCertConfig = uploadWithInfoComponent(
   ['Birth certificate', 'Social Security card'],
