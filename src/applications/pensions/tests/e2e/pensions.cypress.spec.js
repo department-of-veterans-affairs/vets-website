@@ -144,7 +144,17 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: 'Pensions',
     dataPrefix: 'data',
-    dataDir: path.join('..', 'node_modules', 'vets-json-schema', 'dist'),
+    dataDir: path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      '..',
+      'node_modules',
+      'vets-json-schema',
+      'dist',
+    ),
     dataSets: [
       '21P-527EZ-kitchen_sink-cypress-example',
       '21P-527EZ-overflow-cypress-example',
