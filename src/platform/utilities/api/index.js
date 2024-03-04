@@ -13,7 +13,7 @@ import { checkAndUpdateSSOeSession } from '../sso';
 
 const isJson = response => {
   const contentType = response.headers.get('Content-Type');
-  return contentType?.includes('application/json');
+  return contentType && contentType.includes('application/json');
 };
 
 const retryOn = async (attempt, error, response) => {
@@ -45,7 +45,9 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 
   const originalFetch = fetch;
   // Only replace with custom fetch if not stubbed for unit testing
-  const _fetch = environment.isProduction() ? fetch : retryFetch(originalFetch);
+  const _fetch = !environment.isProduction()
+    ? retryFetch(originalFetch)
+    : fetch;
 
   const mergedSettings = {
     ...settings,
@@ -87,11 +89,9 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
 export function apiRequest(resource, optionalSettings, success, error) {
-  const apiVersion = optionalSettings?.apiVersion || 'v0';
+  const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
-  const url = resource.startsWith('/')
-    ? [baseUrl, resource].join('')
-    : resource;
+  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
 
   if (success) {
