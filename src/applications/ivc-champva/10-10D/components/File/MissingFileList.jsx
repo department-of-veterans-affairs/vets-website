@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeHumanReadable } from '../../helpers/utilities';
@@ -9,23 +10,27 @@ import { makeHumanReadable } from '../../helpers/utilities';
  * Produce either a success message or a link to upload a file
  * @param {object} file Object representing a missing file
  * @param {string} entryName String of a person's name
+ * @param {number} index entry index number (used to target list-loop element)
  * @returns JSX
  */
-function alertOrLink(file, entryName) {
+function alertOrLink(file, entryName, index) {
+  const t = `Upload ${entryName}'s ${makeHumanReadable(file.name)}`;
+  const href = file?.path
+    ? `${file?.path.replace(/:index/, index)}?fileReview=true`
+    : '';
   return (
     <>
       {file.uploaded ? (
         <VaAlert status="success" showIcon uswds>
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {entryName} {"'s "}
+            {`${entryName}'s `}
             {makeHumanReadable(file.name)} uploaded
           </p>
         </VaAlert>
       ) : (
-        <a className="vads-c-action-link--green" href="/ivc-champva/10-10D">
-          Upload {entryName} {"'s "}
-          {makeHumanReadable(file.name)}
-        </a>
+        <Link aria-label={t} to={href} className="vads-c-action-link--green">
+          {t}
+        </Link>
       )}
     </>
   );
@@ -38,9 +43,16 @@ function alertOrLink(file, entryName) {
  * nameKey: property name to access person's full name (e.g., 'applicantName')
  * title: title text to display
  * description: description text to display
+ * disableLinks: whether or not to show link to edit page
  * @returns JSX
  */
-export default function MissingFileList({ data, nameKey, title, description }) {
+export default function MissingFileList({
+  data,
+  nameKey,
+  title,
+  description,
+  disableLinks,
+}) {
   // data: an array or a single object, must have 'missingUploads' on it
   const wrapped = Array.isArray(data) ? data : [data];
   if (wrapped.length > 0 && wrapped[0].missingUploads.length === 0) return '';
@@ -48,21 +60,20 @@ export default function MissingFileList({ data, nameKey, title, description }) {
     <div>
       <h4>{title || ''}</h4>
       <p>{description || ''}</p>
-      {wrapped.map(entry => {
+      {wrapped.map((entry, idx) => {
         const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
           ''} ${entry[nameKey].last} ${entry[nameKey]?.suffix || ''}`;
+        // TODO: Make the initial "key" less stupid?
         return (
-          <div key={entry}>
+          <div key={Object.keys(entry).join('') + idx}>
             <strong>{entryName}</strong>
             <ul>
-              {entry.missingUploads?.map((file, index) => {
-                return (
-                  <div key={file.name + file.uploaded + index}>
-                    <li>{makeHumanReadable(file.name)}</li>
-                    {alertOrLink(file, entryName)}
-                  </div>
-                );
-              })}
+              {entry.missingUploads?.map((file, index) => (
+                <div key={file.name + file.uploaded + index}>
+                  <li>{makeHumanReadable(file.name)}</li>
+                  {!disableLinks ? alertOrLink(file, entryName, idx) : null}
+                </div>
+              ))}
             </ul>
           </div>
         );
@@ -74,6 +85,7 @@ export default function MissingFileList({ data, nameKey, title, description }) {
 MissingFileList.propTypes = {
   data: PropTypes.array || PropTypes.object,
   description: PropTypes.string,
+  disableLinks: PropTypes.bool,
   nameKey: PropTypes.string,
   title: PropTypes.string,
 };

@@ -3,22 +3,32 @@
  * file upload so we can check if a given applicant has uploaded that
  * particular file without having to hardcode the list of file properties.
  * @param {object} pages contains all pages in current form
- * @returns List of all applicant property names corresponding to a file upload
+ * @returns List of objects describing file upload properties in the shape:
+ *   [
+ *     {name: 'birthCert', pageUrl: 'birthcert-upload'},
+ *   ]
  */
 export function getApplicantFileKeyNames(pages) {
+  // TODO: Identify if files are required or not and add to obj
   return (
     Object.keys(pages)
       // Grab pages in the 'applicants' list and loop
       .filter(page => pages[page]?.arrayPath === 'applicants')
-      .map(page =>
-        // Descend into the page to determine if it has a file upload
-        pages[page].schema.properties.applicants.items.map(item =>
-          Object.keys(item?.properties).filter(
-            key => (item.properties[key].type === 'array' ? key : undefined),
-          ),
-        ),
-      )
-      .flat(Infinity) // List of all potential files: ['birthCert', ...]
+      .map(page => {
+        const { items } = pages[page].schema.properties.applicants;
+        const itemProps = Array.isArray(items)
+          ? items[0]?.properties // Confirmation page has different page structure
+          : items?.properties;
+        return Object.keys(itemProps).map(
+          item =>
+            // Descend into the page to determine if it has a file upload
+            itemProps[item]?.type === 'array'
+              ? { name: item, path: pages[page].path }
+              : undefined,
+        );
+      })
+      .flat(Infinity) // List of all potential files
+      .filter(el => el) // Remove undefined values
   );
 }
 
@@ -29,15 +39,20 @@ export function getApplicantFileKeyNames(pages) {
  * @returns List of all sponsor property names corresponding to a file upload
  */
 export function getSponsorFileKeyNames(pages) {
+  // See "TODO" in getApplicantFileKeyNames
   return Object.keys(pages)
     .map(page =>
-      Object.keys(pages[page].schema.properties).filter(
-        key =>
-          pages[page].schema.properties[key].type === 'array' ? key : undefined,
-      ),
+      Object.keys(pages[page].schema.properties)
+        .filter(
+          key =>
+            pages[page].schema.properties[key].type === 'array' &&
+            key !== 'applicants',
+        )
+        .map(el => {
+          return { name: el, path: undefined };
+        }),
     )
-    .flat(Infinity)
-    .filter(el => el !== 'applicants');
+    .flat(Infinity);
 }
 
 /**
@@ -52,11 +67,10 @@ export function identifyMissingUploads(pages, person, isSponsor) {
   const possibleFiles = isSponsor
     ? getSponsorFileKeyNames(pages)
     : getApplicantFileKeyNames(pages);
-
   // Filter down to just files that haven't been uploaded yet
-  return Object.keys(person).filter(
-    keyname =>
-      possibleFiles.includes(keyname) &&
-      [undefined, null].includes(person[keyname]),
+  return possibleFiles.filter(
+    file =>
+      Object.keys(person).includes(file.name) &&
+      person[file.name] === undefined,
   );
 }

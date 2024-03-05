@@ -8,7 +8,6 @@ import MissingFileList from '../components/File/MissingFileList';
 
 /**
  * TODO:
- * - Get edit links working
  * - Implement way to tell if files are required or optional
  *   - Add proper wording to top of page based on required status
  * - Create follow-on page:
@@ -23,14 +22,15 @@ const optionalDescription =
 //  'These files are required to complete your application';
 
 export function checkFlags(person, newListOfMissingFiles) {
+  // TODO: in here, add a flag that indicates if upload is required
   const personUpdated = person; // shallow, updates reflect on actual form state
   if (
     personUpdated?.missingUploads === undefined ||
     personUpdated?.missingUploads?.length === 0
   ) {
     // Track missing files and store if they get subsequently uploaded
-    const filesObj = newListOfMissingFiles.map(f => {
-      return { name: f, uploaded: false };
+    const filesObj = newListOfMissingFiles.map(file => {
+      return { ...file, uploaded: false };
     });
     personUpdated.missingUploads = filesObj;
   } else {
@@ -42,7 +42,7 @@ export function checkFlags(person, newListOfMissingFiles) {
     */
     const missingUploads = [];
     personUpdated.missingUploads.forEach(el => {
-      if (newListOfMissingFiles.includes(el.name)) {
+      if (newListOfMissingFiles.flatMap(file => file.name).includes(el.name)) {
         missingUploads.push({ ...el, uploaded: false });
       } else {
         missingUploads.push({ ...el, uploaded: true });
@@ -62,8 +62,11 @@ export default function SupportingDocumentsPage({
   // eslint-disable-next-line no-unused-vars
   const [apps, setApps] = useState(data.applicants);
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
-  const pgTmp = contentAfterButtons.props.form.pages;
-  const pages = Object.keys(pgTmp).map(pg => pgTmp[pg]);
+  const { chapters } = contentAfterButtons.props.formConfig;
+  const pages = Object.keys(chapters)
+    .map(ch => chapters?.[ch]?.pages)
+    .map(ch => Object.keys(ch).map(k => ch[k]))
+    .flat(1);
 
   // Update all applicants to identify missing uploads
   data.applicants.map(app =>

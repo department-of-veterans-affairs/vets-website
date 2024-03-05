@@ -51,6 +51,7 @@ import {
   blankSchema,
 } from '../components/Sponsor/sponsorFileUploads';
 import {
+  customLinkUI,
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
   applicantAdoptedConfig,
@@ -82,7 +83,7 @@ import AdditionalDocumentationAlert from '../components/AdditionalDocumentationA
 
 import { fileTypes, attachmentsSchema } from './attachments';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -102,6 +103,12 @@ const applicantListSchema = (requireds, propertyList) => {
     },
   };
 };
+
+const fileReviewLink = customLinkUI(
+  'supporting-files',
+  'Return to supporting files overview',
+  'fileReview',
+);
 
 const uploadUrl = `${
   environment.API_URL
@@ -131,6 +138,7 @@ const formConfig = {
   formId: '10-10D',
   dev: {
     showNavLinks: false,
+    collapsibleNavLinks: true,
   },
   saveInProgress: {
     messages: {
@@ -155,7 +163,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          // initialData: mockData.data,
+          initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -769,6 +777,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -776,6 +785,7 @@ const formConfig = {
             titleSchema,
             ...applicantBirthCertConfig.schema,
             applicantBirthCertOrSocialSecCard: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page18b: {
@@ -814,6 +824,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -821,6 +832,7 @@ const formConfig = {
             titleSchema,
             ...applicantSchoolCertConfig.schema,
             applicantSchoolCert: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page18c: {
@@ -905,6 +917,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -912,6 +925,7 @@ const formConfig = {
             titleSchema,
             ...applicantAdoptedConfig.schema,
             applicantAdoptionPapers: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page18e: {
@@ -954,6 +968,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -961,6 +976,7 @@ const formConfig = {
             titleSchema,
             ...applicantStepChildConfig.schema,
             applicantStepMarriageCert: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page18f: {
@@ -996,6 +1012,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -1003,6 +1020,7 @@ const formConfig = {
             titleSchema,
             ...applicantMarriageCertConfig.schema,
             applicantMarriageCert: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page19: {
@@ -1084,6 +1102,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -1091,6 +1110,7 @@ const formConfig = {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
             applicantMedicarePartAPartBCard: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page20b: {
@@ -1128,6 +1148,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -1135,6 +1156,7 @@ const formConfig = {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
             applicantMedicarePartDCard: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page21: {
@@ -1183,6 +1205,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -1190,6 +1213,7 @@ const formConfig = {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
             applicantOhiCard: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
         page22: {
@@ -1224,6 +1248,7 @@ const formConfig = {
                     fileUploadUrl: uploadUrl,
                   },
                 ),
+                ...fileReviewLink,
               },
             },
           },
@@ -1231,12 +1256,14 @@ const formConfig = {
             titleSchema,
             ...applicant107959cConfig.schema,
             applicant107959c: attachmentsSchema,
+            'view:customLink': blankSchema,
           }),
         },
       },
     },
     uploadFiles: {
       title: 'Upload files',
+      keepInPageOnReview: false,
       pages: {
         page23: {
           path: 'supporting-files',

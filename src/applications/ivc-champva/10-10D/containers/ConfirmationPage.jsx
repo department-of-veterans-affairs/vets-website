@@ -7,7 +7,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { identifyMissingUploads } from '../helpers/supportingDocsVerification';
-import { makeHumanReadable } from '../helpers/utilities';
+import MissingFileList from '../components/File/MissingFileList';
 
 export function ConfirmationPage(props) {
   const { form } = props;
@@ -20,23 +20,18 @@ export function ConfirmationPage(props) {
       const missing = identifyMissingUploads(form.pages, applicant, false);
       if (missing.length !== 0) {
         return {
-          name: `${applicant.applicantName.first} ${
-            applicant.applicantName.last
-          }`,
-          files: identifyMissingUploads(form.pages, applicant, false).map(f =>
-            makeHumanReadable(f),
-          ),
+          name: applicant.applicantName,
+          missingUploads: missing,
         };
       }
       return undefined;
     })
     .filter(el => el);
 
-  const sponsorMissingFiles = identifyMissingUploads(
-    form.pages,
-    data,
-    true,
-  ).map(f => makeHumanReadable(f));
+  const sponsorMissingFiles = {
+    name: veteransFullName,
+    missingUploads: identifyMissingUploads(form.pages, data, true),
+  };
 
   useEffect(() => {
     focusElement('h2');
@@ -107,7 +102,7 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      {sponsorMissingFiles || applicantsWithMissingFiles ? (
+      {sponsorMissingFiles.missingUploads || applicantsWithMissingFiles ? (
         <section>
           <h2 className="vads-u-font-size--h3">
             Do you need to send us more supporting documents?
@@ -143,33 +138,23 @@ export function ConfirmationPage(props) {
         </section>
       ) : null}
       {sponsorMissingFiles ? (
-        <section>
-          <p>
-            <strong>
-              {veteransFullName?.first} {veteransFullName?.last}:
-            </strong>
-          </p>
-          <ul>
-            {sponsorMissingFiles.map((file, idx) => (
-              <li key={`${file}-${idx}`}>{file}</li>
-            ))}
-          </ul>
-        </section>
+        <MissingFileList
+          data={sponsorMissingFiles}
+          nameKey="name"
+          title="Optional"
+          description="Lorem"
+          disableLinks
+        />
       ) : null}
-      {applicantsWithMissingFiles
-        ? applicantsWithMissingFiles.map((app, idx) => (
-            <section key={`${app.name}-${idx}`}>
-              <p>
-                <strong>{app.name}:</strong>
-              </p>
-              <ul>
-                {app.files.map(f => (
-                  <li key={`${app.name}-${idx}-${f}`}>{f}</li>
-                ))}
-              </ul>
-            </section>
-          ))
-        : null}
+      {applicantsWithMissingFiles ? (
+        <MissingFileList
+          data={applicantsWithMissingFiles}
+          nameKey="name"
+          title="Optional"
+          description="Lorem"
+          disableLinks
+        />
+      ) : null}
       <a className="vads-c-action-link--green" href="https://www.va.gov/">
         Go back to VA.gov
       </a>
