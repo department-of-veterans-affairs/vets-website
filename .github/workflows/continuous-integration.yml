@@ -258,7 +258,7 @@ jobs:
         run: |
           cd mocha/results
           ls -a
-          jq -s 'reduce .[] as $item ({}; . * $item)' test-results-${{ matrix.ci_node_index }}.json
+          jq -s 'reduce .[] as $item ({}; . * $item)' > test-results-${{ matrix.ci_node_index }}.json
           ls -a
 
       - name: Archive unit test results
