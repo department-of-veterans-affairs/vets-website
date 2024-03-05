@@ -280,7 +280,7 @@ jobs:
         with:
           name: unit-test-coverage-report-${{ matrix.ci_node_index }}
           # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
-          path: coverage/coverage-summary-${{ matrix.ci_node_index }}.json
+          path: coverage/coverage-summary.json
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
