@@ -26,15 +26,17 @@ const WarningHeadline = ({ enrollmentStatus }) => {
         HCA_ENROLLMENT_STATUSES.ineligOver65,
         HCA_ENROLLMENT_STATUSES.ineligRefusedCopay,
         HCA_ENROLLMENT_STATUSES.ineligTrainingOnly,
+        HCA_ENROLLMENT_STATUSES.ineligCHAMPVA,
       ],
     ],
     [
-      'You didn’t qualify for VA health care based on your previous application',
+      'You applied before. But you can apply again now.',
       [
-        HCA_ENROLLMENT_STATUSES.ineligCHAMPVA,
         HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
         HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
         HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+        HCA_ENROLLMENT_STATUSES.canceledDeclined,
+        HCA_ENROLLMENT_STATUSES.closed,
       ],
     ],
     [
@@ -44,10 +46,6 @@ const WarningHeadline = ({ enrollmentStatus }) => {
     [
       'Our records show that this Veteran is deceased',
       [HCA_ENROLLMENT_STATUSES.deceased],
-    ],
-    [
-      'Our records show that your application for VA health care expired',
-      [HCA_ENROLLMENT_STATUSES.closed],
     ],
     [
       'We need more information to complete our review of your VA health care application',
@@ -62,10 +60,6 @@ const WarningHeadline = ({ enrollmentStatus }) => {
         HCA_ENROLLMENT_STATUSES.pendingOther,
         HCA_ENROLLMENT_STATUSES.pendingUnverified,
       ],
-    ],
-    [
-      'Our records show you chose to cancel or decline VA health care',
-      [HCA_ENROLLMENT_STATUSES.canceledDeclined],
     ],
     [
       'We see that you aren’t a Veteran or service member',

@@ -24,7 +24,6 @@ const FAQContent = ({ enrollmentStatus }) => {
   const {
     reapplyBlock1,
     reapplyBlock2,
-    reapplyBlock3,
     reapplyBlock4,
     reapplyBlock5,
     reapplyBlock6,
@@ -40,13 +39,6 @@ const FAQContent = ({ enrollmentStatus }) => {
   // Declare content block dictionary
   const contentDictionary = [
     [faqBlock8, [HCA_ENROLLMENT_STATUSES.activeDuty]],
-    [
-      wrapContentBlocks([faqBlock5, faqBlock11, reapplyBlock4]),
-      [
-        HCA_ENROLLMENT_STATUSES.canceledDeclined,
-        HCA_ENROLLMENT_STATUSES.closed,
-      ],
-    ],
     [
       wrapContentBlocks([faqBlock1, reapplyBlock1]),
       [HCA_ENROLLMENT_STATUSES.enrolled],
@@ -107,11 +99,13 @@ const FAQContent = ({ enrollmentStatus }) => {
       ],
     ],
     [
-      wrapContentBlocks([faqBlock5, faqBlock11, reapplyBlock3]),
+      wrapContentBlocks([faqBlock5, faqBlock11, reapplyBlock4]),
       [
         HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
         HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
         HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+        HCA_ENROLLMENT_STATUSES.canceledDeclined,
+        HCA_ENROLLMENT_STATUSES.closed,
       ],
     ],
   ];
