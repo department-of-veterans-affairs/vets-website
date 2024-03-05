@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import widgetTypes from '../../widgetTypes';
 
-export default async function createNearByVetCenters(store) {
+export default async function createNearByVALocations(store) {
   const nearByVALocationsWidget = document.querySelector(
     `[data-widget-type="${widgetTypes.VA_LOCATION_NEARBY}"]`,
   );
