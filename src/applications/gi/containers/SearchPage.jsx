@@ -17,11 +17,10 @@ import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import { changeSearchTab, setError, setPageTitle } from '../actions';
+import { changeSearchTab, setError } from '../actions';
 
 export function SearchPage({
   dispatchChangeSearchTab,
-  dispatchSetPageTitle,
   search,
   preview,
   filters,
@@ -45,13 +44,6 @@ export function SearchPage({
     [TABS.location]: tab === TABS.location,
   });
   const { version } = preview;
-
-  useEffect(
-    () => {
-      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
-    },
-    [dispatchSetPageTitle],
-  );
 
   useEffect(() => {
     const checkSize = () => {
@@ -172,7 +164,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchChangeSearchTab: changeSearchTab,
-  dispatchSetPageTitle: setPageTitle,
   dispatchError: setError,
 };
 
