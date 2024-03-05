@@ -6,7 +6,8 @@ const DisabilityConfirmation = props => {
   const { goBack, goForward } = props;
 
   return (
-    <va-summary-box
+    <va-alert
+      status="info"
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
       uswds
     >
@@ -48,7 +49,7 @@ const DisabilityConfirmation = props => {
           />
         </div>
       </div>
-    </va-summary-box>
+    </va-alert>
   );
 };
 
