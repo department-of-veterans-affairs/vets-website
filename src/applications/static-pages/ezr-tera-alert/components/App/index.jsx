@@ -12,7 +12,7 @@ export const App = ({ isEzrEnabled }) => {
         <div>
           <p className="vads-u-margin-top--0">
             On <strong>March 5, 2024</strong>, we expanded health care to
-            millions more Veterans.
+            millions of Veterans.
           </p>
           <p className="vads-u-margin-top--0">
             Learn more about the PACT Act and VA health care and benefits
