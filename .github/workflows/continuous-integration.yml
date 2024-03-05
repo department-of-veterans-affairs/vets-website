@@ -256,7 +256,10 @@ jobs:
 
       - name: List and merge test results
         run: |
-          cd mocha/results
+          ls -a
+          cd mocha
+          ls -a
+          cd results
           ls -a
           jq -s 'reduce .[] as $item ({}; . * $item)' > test-results-${{ matrix.ci_node_index }}.json
           ls -a
