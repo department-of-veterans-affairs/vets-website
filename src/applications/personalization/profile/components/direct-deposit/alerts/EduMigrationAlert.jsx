@@ -38,7 +38,7 @@ export const EduMigrationAlert = ({ className }) => {
   if (
     !isAlertToggleEnabled ||
     !hasBothDirectDeposits ||
-    dismissed ||
+    (dismissed && includeExtraLinkAndDismiss) ||
     isDowntimeAlertToggleEnabled
   ) {
     return null;

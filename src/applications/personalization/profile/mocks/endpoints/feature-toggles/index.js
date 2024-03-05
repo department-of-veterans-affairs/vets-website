@@ -54,4 +54,19 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   };
 };
 
-module.exports = { generateFeatureToggles };
+const generateFeatureTogglesState = (
+  values = profileToggles,
+  allOn = false,
+) => {
+  return {
+    featureToggles: generateFeatureToggles(values, allOn).data.features.reduce(
+      (acc, cur) => {
+        acc[cur.name] = cur.value;
+        return acc;
+      },
+      { loading: false },
+    ),
+  };
+};
+
+module.exports = { generateFeatureToggles, generateFeatureTogglesState };

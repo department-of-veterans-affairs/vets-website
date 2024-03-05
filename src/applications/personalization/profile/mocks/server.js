@@ -127,10 +127,10 @@ const responses = {
 
     // Lighthouse based API endpoint for direct deposit CNP
     // happy path response / user with data
-    // return res.json(mockDisabilityCompensations.base);
+    return res.json(mockDisabilityCompensations.base);
 
     // user with no dd data but is eligible
-    return res.json(mockDisabilityCompensations.isEligible);
+    // return res.json(mockDisabilityCompensations.isEligible);
 
     // direct deposit blocked edge cases
     // return res.json(mockDisabilityCompensations.isDeceased);

@@ -14,7 +14,11 @@ export const EduMigrationDowntimeAlert = () => {
   }
   return (
     <>
-      <va-alert status="warning" uswds>
+      <va-alert
+        status="warning"
+        uswds
+        data-testid="edu-migration-downtime-alert"
+      >
         <div>
           <p className="vads-u-margin-y--0">
             We’re updating our systems for online direct deposit management.
