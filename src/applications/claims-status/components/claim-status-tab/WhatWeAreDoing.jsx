@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import {
   getStatusDescription,
   getClaimStatusDescription,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
 function WhatWeAreDoing({ claim }) {
   const { status } = claim.attributes;
