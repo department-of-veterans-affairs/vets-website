@@ -17,5 +17,11 @@ describe('ezr <ProcessDescription>', () => {
       const selector = container.querySelector('[data-testid="form-title"]');
       expect(selector).to.contain.text(content['form-title']);
     });
+
+    it('should render the alert', () => {
+      const { getByRole } = render(<ProcessDescription />);
+      const alert = getByRole('alert');
+      expect(alert).to.exist;
+    });
   });
 });
