@@ -221,8 +221,8 @@ export class SearchResults extends Component {
             <span className="vads-u-visibility--screen-reader">through</span>
             <span aria-hidden="true">&ndash;</span>
             <span>
-              {/* eslint-disable-next-line prettier/prettier */}
-              {resultsEndNumber} of {totalResults} schools for academic year {academicYear}.
+              {resultsEndNumber} of {totalResults} schools for academic year{' '}
+              {academicYear}.
             </span>
           </span>
         </h2>
