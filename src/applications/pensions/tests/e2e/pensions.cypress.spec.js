@@ -1,8 +1,10 @@
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+
 import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cypress-example.json';
 import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-example.json';
 import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
+
 import loggedInUser from '../fixtures/mocks/loggedInUser.json';
 import featuresDisabled from '../fixtures/mocks/featuresDisabled.json';
 import featuresEnabled from '../fixtures/mocks/featuresEnabled.json';
@@ -145,7 +147,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: 'Pensions',
     dataPrefix: 'data',
-    dataDir: '',
+    dataDir: 'vets-json-schema/dist',
     dataSets: [
       { title: 'kitchen-sink', data: kitchenSinkFixture },
       { title: 'overflow', data: overflowFixture },
