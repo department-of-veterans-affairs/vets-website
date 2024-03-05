@@ -28,12 +28,12 @@ describe('Dashboard', () => {
   });
 
   it('renders content when has POA permissions', () => {
-    const { container } = render(<Dashboard POApermissions />);
+    const { container } = render(<Dashboard poaPermissions />);
     expect(container.querySelector('.placeholder-container')).to.exist;
   });
 
   it('renders alert header when does not have POA permissions', () => {
-    const { getByText } = render(<Dashboard POApermissions={false} />);
+    const { getByText } = render(<Dashboard poaPermissions={false} />);
     expect(getByText('You are missing some permissions')).to.exist;
   });
 
