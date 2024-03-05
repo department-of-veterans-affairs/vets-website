@@ -32,7 +32,7 @@ export const Hub = () => {
         <h1>Profile</h1>
       </div>
 
-      <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
+      <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
 
       {hasBadAddress && (
         <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
