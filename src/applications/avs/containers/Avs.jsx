@@ -85,7 +85,7 @@ const Avs = props => {
   }
 
   return (
-    <div className="vads-l-grid-container main-content">
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 main-content">
       <RequiredLoginView
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
