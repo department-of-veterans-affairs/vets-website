@@ -62,10 +62,22 @@ const reviewed = text => {
   return text?.includes('Reviewed');
 };
 
+const receivedDateExists = (uploadDate, itemDate) => {
+  return uploadDate !== null || (uploadDate === null && itemDate !== null);
+};
+
 const docsFiledReceivedDate = itemText =>
   [
     'vads-u-margin-top--0p5',
-    itemText ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--0',
+    itemText ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--1',
+  ].join(' ');
+
+const docsFiledDocType = (uploadDate, itemDate) =>
+  [
+    'vads-u-margin-top--0p5',
+    receivedDateExists(uploadDate, itemDate)
+      ? 'vads-u-margin-bottom--0'
+      : 'vads-u-margin-bottom--1',
   ].join(' ');
 
 function DocumentsFiled({ claim }) {
@@ -139,31 +151,28 @@ function DocumentsFiled({ claim }) {
                         <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
                           {item.requestTypeText}
                         </p>
-                        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+                        <p
+                          className={docsFiledDocType(
+                            doc.uploadDate,
+                            item.date,
+                          )}
+                        >
                           {`Document type: ${doc.documentTypeLabel}`}
                         </p>
-                        {doc.uploadDate !== null && (
+                        {receivedDateExists(doc.uploadDate, item.date) && (
                           <p className={docsFiledReceivedDate(item.text)}>
                             {`Received on ${formatDate(doc.uploadDate)}`}
                           </p>
                         )}
-                        {doc.uploadDate === null &&
-                          item.date !== null && (
-                            <p className={docsFiledReceivedDate(item.text)}>
-                              {`Received on ${formatDate(item.date)}`}
-                            </p>
-                          )}
                       </div>
                     ))
                   )}
                   {item.text && (
-                    <div>
+                    <div className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                       {reviewed(item.text) && (
                         <i className="fa fa-check-circle docs-filed-icon" />
                       )}
-                      <span className="docs-filed-text vads-u-margin-top--0p5 vads-u-margin-bottom--1">
-                        {item.text}
-                      </span>
+                      <span className="docs-filed-text">{item.text}</span>
                     </div>
                   )}
                 </li>
