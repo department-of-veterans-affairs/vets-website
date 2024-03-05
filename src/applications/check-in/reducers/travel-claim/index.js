@@ -14,4 +14,16 @@ const setFilteredAppointmentsHandler = (state, action) => {
   };
 };
 
-export { receivedTravelDataHandler, setFilteredAppointmentsHandler };
+const setFacilityToFileHandler = (state, action) => {
+  const data = { ...state.form.data, ...action.payload };
+  return {
+    ...state,
+    form: { ...state.form, data },
+  };
+};
+
+export {
+  receivedTravelDataHandler,
+  setFilteredAppointmentsHandler,
+  setFacilityToFileHandler,
+};
