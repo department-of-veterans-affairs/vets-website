@@ -279,7 +279,8 @@ jobs:
         if: ${{ always() }}
         with:
           name: unit-test-coverage-report-${{ matrix.ci_node_index }}
-          path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
+          # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
+          path: coverage/coverage-summary-${{ matrix.ci_node_index }}.json
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
