@@ -34,16 +34,24 @@ export default {
       </>
     ),
     claimantFullName: fullNameUI(),
-    claimantSocialSecurityNumber: ssnUI('Social Security number'),
-    claimantDateOfBirth: dateOfBirthUI('Date of birth'),
+    claimantSocialSecurityNumber: {
+      ...ssnUI('Social Security number'),
+      'ui:required': form =>
+        form?.relationshipToVeteran !== 'executor' &&
+        form?.relationshipToVeteran !== 'funeralDirector' &&
+        form?.relationshipToVeteran !== 'otherFamily',
+    },
+    claimantDateOfBirth: {
+      ...dateOfBirthUI('Date of birth'),
+      'ui:required': form =>
+        form?.relationshipToVeteran !== 'executor' &&
+        form?.relationshipToVeteran !== 'funeralDirector' &&
+        form?.relationshipToVeteran !== 'otherFamily',
+    },
   },
   schema: {
     type: 'object',
-    required: [
-      'claimantFullName',
-      'claimantSocialSecurityNumber',
-      'claimantDateOfBirth',
-    ],
+    required: ['claimantFullName'],
     properties: {
       claimantFullName,
       claimantSocialSecurityNumber,

@@ -99,17 +99,17 @@ const formConfig = {
     claimantInformation: {
       title: 'Your Information',
       pages: {
-        personalInformation: {
-          title: 'Your information',
-          path: 'claimant-information/personal-information',
-          uiSchema: personalInformation.uiSchema,
-          schema: personalInformation.schema,
-        },
         relationshipToVeteran: {
           title: 'Your information',
           path: 'claimant-information/relationship-to-veteran',
           uiSchema: relationshipToVeteran.uiSchema,
           schema: relationshipToVeteran.schema,
+        },
+        personalInformation: {
+          title: 'Your information',
+          path: 'claimant-information/personal-information',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
         },
         mailingAddress: {
           title: 'Your information',

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import {
   currentOrPastDateUI,
-  numberUI,
+  // numberUI,
   numberSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
@@ -12,7 +12,7 @@ import {
   VaSelectField,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { formatReviewDate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { generateTitle } from '../../../utils/helpers';
+import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
 
 const { toursOfDuty } = fullSchemaBurials.properties;
@@ -60,18 +60,18 @@ export default {
   uiSchema: {
     'ui:title': generateTitle('Service periods'),
     militaryServiceNumber: {
-      // 'ui:title': 'Military Service number',
-      // 'ui:description': generateHelpText(
-      //   'Enter this only if the deceased Veteran has one',
-      // ),
-      ...numberUI({
-        title: 'Military Service number',
-        hint: 'testing hint',
-      }),
+      'ui:title': 'Military Service number',
+      'ui:description': generateHelpText(
+        'Enter this only if the deceased Veteran has one',
+      ),
+      // ...numberUI({
+      //   title: 'Military Service number',
+      //   hint: 'testing hint',
+      // }),
       'ui:webComponentField': VaTextInputField,
-      'ui:reviewWidget': form => (
+      'ui:reviewWidget': ({ value }) => (
         <span className="dd-privacy-hidden" data-dd-action-name="data value">
-          {form?.militaryServiceNumber}
+          {value}
         </span>
       ),
       'ui:options': {
