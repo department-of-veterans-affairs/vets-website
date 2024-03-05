@@ -379,6 +379,10 @@ export const FormLabels = {
   SUBJECT: 'Subject',
 };
 
+export const downtimeNotificationParams = {
+  appTitle: 'this messaging tool',
+};
+
 export const CernerTransitioningFacilities = {
   NORTH_CHICAGO: {
     facilityId: '556',
