@@ -26,7 +26,6 @@ describe('functionality of discharge wizard', () => {
       .click();
 
     cy.get('select[name="2_dischargeYear"]').select('2016');
-
     cy.get(
       `va-radio-option[label="${
         questionLabels['4_reason']['1']
