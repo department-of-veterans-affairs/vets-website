@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { questionLabels } from '../../constants';
 
 function axeTestPage() {
@@ -21,39 +22,48 @@ describe('functionality of discharge wizard', () => {
     // questions page | fill out form
     cy.get('.main .usa-button-primary').click();
 
-    cy.get('va-radio[name="1_branchOfService"] va-radio-option')
-      .first()
-      .click();
+    cy.get('va-radio-option[value="army"]').click({ waitforanimations: true });
 
-    cy.get('select[name="2_dischargeYear"]').select('2016');
+    cy.get('va-select[name="2_dischargeYear"]')
+      .shadow()
+      .find('select')
+      .select('2016', { waitforanimations: true });
 
     cy.get(
       `va-radio-option[label="${
         questionLabels['4_reason']['1']
       }"] input[type="radio"]`,
-    ).click();
+    ).click({ waitforanimations: true });
 
     cy.get(
       `va-radio-option[label="Yes, ${
         questionLabels['6_intention']['1']
       }"] input[type="radio"]`,
-    ).click();
+    ).click({ waitforanimations: true });
+
+    cy.get('va-radio-option[value="army"]').click({ waitforanimations: true });
 
     cy.get('va-radio[name="7_courtMartial"] va-radio-option')
       .first()
       .click();
 
-    cy.get('va-radio[name="8_prevApplication"] va-radio-option')
-      .first()
-      .click();
+    cy.get(
+      'va-radio[name="8_prevApplication"] va-radio-option[value="1"]',
+    ).click({
+      waitforanimations: true,
+    });
 
-    cy.get('va-radio[name="9_prevApplicationYear"] va-radio-option')
-      .first()
-      .click();
+    cy.get(
+      'va-radio[name="9_prevApplicationYear"] va-radio-option[value="1"]',
+    ).click({
+      waitforanimations: true,
+    });
 
-    cy.get('va-radio[name="12_priorService"] va-radio-option')
-      .first()
-      .click();
+    cy.get('va-radio[name="12_priorService"] va-radio-option[value="1"]').click(
+      {
+        waitforanimations: true,
+      },
+    );
 
     // a11y check after all elements are visible
     axeTestPage();
