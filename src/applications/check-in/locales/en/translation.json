@@ -320,5 +320,8 @@
   "file-mileage-only-claim-todays-appointment_one": "File a mileage-only claim for today’s appointment",
   "file-mileage-only-claim-todays-appointment_other": "File a mileage-only claim for today’s appointments",
   "if-you-need-submit-receipts-other-expenses": "<0>If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail or in person.",
+  "back": "Back",
+  "if-youre-filing-only-mileage-no-other-file-all-claims-now": "If you’re filing only mileage and no other expenses, you can file all your claims right now for today’s appointments. You’ll need to file separate claims for any appointments that you don’t select.",
+  "select-one-or-more-appointments": "Select one or more appointments",
   "fpo-header": "Placeholder header"
 }
