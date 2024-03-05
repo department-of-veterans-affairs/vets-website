@@ -12,7 +12,7 @@ const { Element } = Scroll;
 const DischargeYearQuestion = ({
   formValues,
   handleKeyDown,
-  scrollToLast,
+  // scrollToLast,
   updateField,
 }) => {
   const key = '2_dischargeYear';
@@ -55,7 +55,7 @@ const DischargeYearQuestion = ({
           value={{ value: dischargeYear }}
           onVaSelect={update => {
             updateField(key, update.detail.value);
-            scrollToLast();
+            // scrollToLast();
           }}
           uswds
         >

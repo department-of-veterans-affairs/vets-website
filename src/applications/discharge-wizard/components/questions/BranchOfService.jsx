@@ -11,7 +11,7 @@ const { Element } = Scroll;
 const BranchOfServiceQuestion = ({
   formValues,
   handleKeyDown,
-  scrollToLast,
+  // scrollToLast,
   updateField,
 }) => {
   const key = '1_branchOfService';
@@ -43,7 +43,7 @@ const BranchOfServiceQuestion = ({
         updateField(key, e.detail.value);
       }
     },
-    onMouseDown: scrollToLast,
+    // onMouseDown: scrollToLast,
     onKeyDown: handleKeyDown,
   };
 

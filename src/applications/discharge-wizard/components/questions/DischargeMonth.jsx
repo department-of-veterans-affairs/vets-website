@@ -12,7 +12,7 @@ const { Element } = Scroll;
 const DischargeMonthQuestion = ({
   formValues,
   handleKeyDown,
-  scrollToLast,
+  // scrollToLast,
   updateField,
 }) => {
   const key = '3_dischargeMonth';
@@ -50,7 +50,7 @@ const DischargeMonthQuestion = ({
           value={{ value: formValues[key] }}
           onVaSelect={update => {
             updateField(key, update.detail.value);
-            scrollToLast();
+            // scrollToLast();
           }}
           uswds
         >
