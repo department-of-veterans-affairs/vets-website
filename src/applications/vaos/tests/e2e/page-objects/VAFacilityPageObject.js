@@ -31,20 +31,10 @@ export class VAFacilityPageObject extends PageObject {
    * @memberof VAFacilityPageObject
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
-    if (isVA) {
-      cy.wait(['@v2:get:facilities', '@v2:get:facilities'], {
-        responseTimeout: 120000,
-      });
-    } else {
-      cy.wait('@v2:get:facilities');
-    }
-
-    cy.wait('@v2:get:scheduling-configurations');
+    cy.get('va-loading-indicator.hydrated').should('not.exist');
 
     if (isVA) {
-      cy.wait('@v2:get:eligibility').then(() => {
-        cy.findByText(/We found one VA facility for your .* appointment/i);
-      });
+      cy.findByText(/We found one VA facility for your .* appointment/i);
     } else {
       cy.findByText(
         /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
@@ -73,12 +63,8 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  selectLocation(label, isVA = true) {
-    if (isVA) {
-      cy.wait(['@v2:get:facilities', '@v2:get:facilities']);
-    } else {
-      cy.wait('@v2:get:facilities');
-    }
+  selectLocation(label) {
+    cy.get('va-loading-indicator.hydrated').should('not.exist');
 
     cy.findByLabelText(label)
       .as('radio')
