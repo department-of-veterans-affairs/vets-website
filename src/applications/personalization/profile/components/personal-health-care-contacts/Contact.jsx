@@ -50,7 +50,7 @@ const Contact = ({
       <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
         {title}
       </h3>
-      <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
+      <p className="vads-u-color--gray-medium vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
         {description}
       </p>
       <p>
