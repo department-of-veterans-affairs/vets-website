@@ -256,11 +256,7 @@ jobs:
 
       - name: List and merge test results
         run: |
-          ls -a
-          cd mocha
-          ls -a
-          cd results
-          ls -a
+          cd mocha/results
           jq -s 'reduce .[] as $item ({}; . * $item)' > test-results-${{ matrix.ci_node_index }}.json
           ls -a
 
@@ -274,13 +270,19 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
 
+      - name: List and merge test results
+        run: |
+          cd mocha/results
+          jq -s 'reduce .[] as $item ({}; . * $item)' > coverage-report-${{ matrix.ci_node_index }}.json
+          ls -a
+
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
           name: unit-test-coverage-report-${{ matrix.ci_node_index }}
           # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
-          path: coverage/coverage-summary.json
+          path: coverage/coverage-report-${{ matrix.ci_node_index }}.json
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -954,8 +956,8 @@ jobs:
         with:
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 #gha-test-status
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       # ------------------------
       # | Upload BigQuery Data |
