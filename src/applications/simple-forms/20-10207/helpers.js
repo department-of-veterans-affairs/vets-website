@@ -180,7 +180,7 @@ export function powConfinement2DateRangeValidation(errors, fields) {
   }
 }
 
-export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+export const statementOfTruthFullNamePath = ({ formData }) => {
   const { preparerType } = formData;
   switch (preparerType) {
     case PREPARER_TYPES.VETERAN:
