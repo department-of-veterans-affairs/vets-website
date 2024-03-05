@@ -6,7 +6,7 @@ const mockFeatureToggles = require('./featureToggles.json');
 const mockSipPut = require('./sip-put.json');
 const mockSipGet = require('./sip-get.json');
 const mockUpload = require('./upload.json');
-// const mockSubmit = require('../../../../../shared/tests/e2e/fixtures/mocks/application-submit.json');
+const mockSubmit = require('../../../../../shared/tests/e2e/fixtures/mocks/application-submit.json');
 
 const responses = {
   'GET /v0/user': mockUser,
@@ -24,7 +24,7 @@ const responses = {
   'POST /simple_forms_api/v1/simple_forms/submit_pow_documents2': mockUpload,
   'POST /simple_forms_api/v1/simple_forms/submit_medal_award_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms/submit_medal_award_documents2': mockUpload,
-  // 'POST /simple_forms_api/v1/simple_forms': mockSubmit,
+  'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 
 module.exports = responses;
