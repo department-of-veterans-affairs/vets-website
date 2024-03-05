@@ -143,7 +143,6 @@ const Error = () => {
       // no-token
       // bad-token
       // session-error
-      // btsss-service-down
       header = t('something-went-wrong-on-our-end');
       alerts = [
         {
