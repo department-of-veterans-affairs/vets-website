@@ -9,7 +9,7 @@ export default {
     'ui:description': ToxicExposureDescription,
     hasTeraResponse: {
       'ui:title':
-        'Do you want to answer questions about your military service history and toxic exposure?',
+        'Do you want to answer questions about your military service history and exposure to any toxins or other hazards?',
       'ui:widget': 'yesNo',
     },
   },

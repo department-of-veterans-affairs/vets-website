@@ -36,9 +36,25 @@ const Wrapper = props => {
 
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  const downtimeDependency =
-    app === APP_NAMES.CHECK_IN ? externalServices.cie : externalServices.pcie;
-  const appTitle = app === APP_NAMES.CHECK_IN ? 'Check in' : 'Pre-check in';
+  // @TODO we need to add a pagerduty switch and external serivce for travel-claim app
+  let downtimeDependency;
+  let appTitle;
+  switch (app) {
+    case APP_NAMES.CHECK_IN:
+      appTitle = 'check in';
+      downtimeDependency = externalServices.cie;
+      break;
+    case APP_NAMES.PRE_CHECK_IN:
+      appTitle = 'pre-check in';
+      downtimeDependency = externalServices.pcie;
+      break;
+    case APP_NAMES.TRAVEL_CLAIM:
+      appTitle = 'travel claim';
+      break;
+    default:
+      appTitle = 'appointments';
+      break;
+  }
   return (
     <>
       <div

@@ -8,7 +8,6 @@ import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
-import { medicationsUrls } from '../../util/constants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -41,7 +40,7 @@ const VaPrescription = prescription => {
             {showRefillContent && prescription?.isRefillable ? (
               <Link
                 className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3"
-                to={medicationsUrls.MEDICATIONS_REFILL}
+                to="/refill"
                 data-testid="refill-nav-link"
               >
                 {hasBeenDispensed ? 'Refill' : 'Fill'} this prescription
