@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
@@ -45,6 +45,7 @@ export function LocationSearchForm({
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
+  const inputRef = createRef();
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
@@ -88,7 +89,11 @@ export function LocationSearchForm({
   //     setError(null);
   //   }
   // };
-
+  const onApplyFilterClick = () => {
+    if (location.length === 0) {
+      inputRef.current.focus();
+    }
+  };
   const doSearch = event => {
     if (event) {
       event.preventDefault();
@@ -216,6 +221,7 @@ export function LocationSearchForm({
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
+              inputRef={inputRef}
               className="location-search"
               type="location"
               // error={error}
@@ -310,7 +316,11 @@ export function LocationSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults nameVal={location} searchType="location" />
+            <FilterBeforeResults
+              nameVal={location}
+              searchType="location"
+              onApplyFilterClick={onApplyFilterClick}
+            />
           </div>
         )}
     </div>
