@@ -11,9 +11,10 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Income and assets'),
-    'ui:description':
+    ...titleUI(
+      'Income and assets',
       'We need to know if you and your dependents have over $25,000 in assets.',
+    ),
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },

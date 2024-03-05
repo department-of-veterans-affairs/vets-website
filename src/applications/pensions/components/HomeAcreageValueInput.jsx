@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
+import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 import { isValidCurrency } from '../validation';
 
@@ -109,9 +110,7 @@ const HomeAcreageValueInput = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-            Income and assets
-          </h3>
+          <Title title="Income and assets" />
         </legend>
         <va-number-input
           currency
