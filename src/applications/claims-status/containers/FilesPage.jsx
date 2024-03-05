@@ -27,6 +27,7 @@ import {
   setDocumentTitle,
   getFilesNeeded,
   getFilesOptional,
+  isClaimOpen,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 import { DATE_FORMATS } from '../constants';
@@ -35,24 +36,6 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('INITIAL_REVIEW', 'INITIAL_REVIEW');
-  map.set(
-    'EVIDENCE_GATHERING_REVIEW_DECISION',
-    'EVIDENCE_GATHERING_REVIEW_DECISION',
-  );
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
-
-const STATUSES = getStatusMap();
 
 // START lighthouse_migration
 const getClaimDate = claim => {
@@ -107,7 +90,7 @@ class FilesPage extends React.Component {
       supportingDocuments,
       trackedItems,
     } = claim.attributes;
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const waiverSubmitted = claim.attributes.evidenceWaiverSubmitted5103;
     const showDecision =
       claim.attributes.claimPhaseDates.latestPhaseType ===
