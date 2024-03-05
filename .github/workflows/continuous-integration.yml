@@ -272,7 +272,7 @@ jobs:
 
       - name: List and merge test results
         run: |
-          cd mocha/results
+          cd coverage
           jq -s 'reduce .[] as $item ({}; . * $item)' > coverage-report-${{ matrix.ci_node_index }}.json
           ls -a
 
