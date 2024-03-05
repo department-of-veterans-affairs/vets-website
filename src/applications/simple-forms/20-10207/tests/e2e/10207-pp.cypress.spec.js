@@ -6,6 +6,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import {
   fillAddressWebComponentPattern,
   fillDateWebComponentPattern,
+  fillTextWebComponent,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
@@ -112,6 +113,31 @@ const testConfig = createTestConfig(
             selectYesNoWebComponent(
               'powMultipleConfinements',
               powMultipleConfinements,
+            );
+          });
+        });
+      },
+      'medical-treatment': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { medicalTreatments } = data;
+            const {
+              facilityName,
+              facilityAddress,
+              startDate,
+            } = medicalTreatments[0];
+            fillTextWebComponent(
+              'medicalTreatments_0_facilityName',
+              facilityName,
+            );
+            // TODO: Troubleshoot why state is not being selected
+            fillAddressWebComponentPattern(
+              'medicalTreatments_0_facilityAddress',
+              facilityAddress,
+            );
+            fillDateWebComponentPattern(
+              'medicalTreatments_0_startDate',
+              startDate,
             );
           });
         });

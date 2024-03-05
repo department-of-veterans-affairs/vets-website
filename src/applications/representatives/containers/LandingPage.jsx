@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import { SIGN_IN_URL } from '../constants';
+
 const LandingPage = () => {
   return (
     <div className="homepage-hero__wrapper homepage-hero__look-and-feel">
@@ -33,10 +35,9 @@ const LandingPage = () => {
                 <h2 className="vads-u-font-size--md vads-u-line-height--5 vads-u-color--gray vads-u-margin-top--0 vads-u-padding-right--2 vads-u-font-family--sans vads-u-font-weight--normal">
                   Create an account to start managing power of attorney.
                 </h2>
-                <va-button
-                  className="vads-u-padding-x--4 vads-u-margin-bottom--3"
-                  text="Create account"
-                />
+                <a className="usa-button usa-button-primary" href={SIGN_IN_URL}>
+                  Sign in or create an account
+                </a>
               </div>
             </div>
           </div>
