@@ -96,7 +96,7 @@ describe('Yellow Ribbon helpers', () => {
   });
 
   describe('getCurrentAcademicYear', () => {
-    xit('returns Academic Year "2023 to 2024" if the current date is before August 2024', () => {
+    it('returns Academic Year "2023 to 2024" if the current date is before August 2024', () => {
       // Date() arguments are Year, Month, Day where Month = 0 is January
       const testDate = new Date(2024, 6, 31);
       expect(getCurrentAcademicYear(testDate)).to.equal('2023 to 2024');
