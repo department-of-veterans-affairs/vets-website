@@ -405,6 +405,7 @@ const YourHealthInformation = props => {
         renderItem={renderAllergy}
         showSeparators
       />
+      {labResults(avs)}
       <ItemsBlock
         heading="My medications"
         intro={medsIntro(avs)}
@@ -428,7 +429,6 @@ const YourHealthInformation = props => {
         renderItem={renderMedication}
         showSeparators
       />
-      {labResults(avs)}
     </div>
   );
 };
