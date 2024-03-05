@@ -14,7 +14,7 @@ export default function CallToActionAlert({
 }) {
   const CustomHeaderLevel = `h${headerLevel}`;
   return (
-    <va-alert visible status={status} usdws>
+    <va-alert visible status={status} uswds>
       <CustomHeaderLevel slot="headline">{heading}</CustomHeaderLevel>
       <div>
         {alertText}
