@@ -12,6 +12,7 @@ const {
   claimantFullName,
   claimantSocialSecurityNumber,
   claimantDateOfBirth,
+  formV2,
 } = fullSchemaBurials.properties;
 
 export default {
@@ -48,6 +49,18 @@ export default {
         form?.relationshipToVeteran !== 'funeralDirector' &&
         form?.relationshipToVeteran !== 'otherFamily',
     },
+
+    // <------ Needed for version control on the backend ------>
+    // TODO: Once Burials V2 is 100% rolled out, we can remove this and remove the def from vets-json-schema
+    formV2: {
+      'ui:title': 'Form version 2',
+      'ui:widget': <div className="vads-u-display--none" />,
+      'ui:reviewField': () => <div className="vads-u-display--none" />,
+      'ui:options': {
+        classNames: 'vads-u-display--none',
+      },
+    },
+    // <-------------------------------------------------------->
   },
   schema: {
     type: 'object',
@@ -56,6 +69,7 @@ export default {
       claimantFullName,
       claimantSocialSecurityNumber,
       claimantDateOfBirth,
+      formV2,
     },
   },
 };
