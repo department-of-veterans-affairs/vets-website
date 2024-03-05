@@ -183,8 +183,7 @@ describe('hca form config helpers', () => {
   });
 
   context('when `teraInformationEnabled` executes', () => {
-    const getData = ({ enabled = false, disabilityRating = 0 }) => ({
-      'view:totalDisabilityRating': disabilityRating,
+    const getData = ({ enabled = false }) => ({
       'view:isTeraEnabled': enabled,
     });
 
@@ -196,11 +195,6 @@ describe('hca form config helpers', () => {
     it('should return `true` when feature flag is enabled', () => {
       const formData = getData({ enabled: true });
       expect(teraInformationEnabled(formData)).to.be.true;
-    });
-
-    it('should return `false` when user is short form eligible', () => {
-      const formData = getData({ disabilityRating: 80 });
-      expect(teraInformationEnabled(formData)).to.be.false;
     });
   });
 

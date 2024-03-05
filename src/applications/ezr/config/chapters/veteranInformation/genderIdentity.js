@@ -1,5 +1,4 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   radioUI,
   titleUI,
@@ -13,7 +12,6 @@ const { sigiGenders } = ezrSchema.properties;
 
 export default {
   uiSchema: {
-    ...descriptionUI(PrefillMessage, { hideOnReview: true }),
     'view:sigiGenders': {
       ...titleUI(content['vet-gender-identity-title']),
       ...descriptionUI(SigiDescription, { hideOnReview: true }),

@@ -1,5 +1,10 @@
-import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
-import { getApi, resolveParamsWithUrl } from '../config';
+/* eslint-disable camelcase */
+
+import {
+  fetchAndUpdateSessionExpiration as fetch,
+  apiRequest,
+} from '@department-of-veterans-affairs/platform-utilities/api';
+import { getApi, resolveParamsWithUrl, endpointOptions } from '../config';
 
 class RepresentativeFinderApi {
   /**
@@ -30,8 +35,8 @@ class RepresentativeFinderApi {
 
     const endpoint =
       type === 'veteran_service_officer'
-        ? '/vso_accredited_representatives'
-        : '/other_accredited_representatives';
+        ? endpointOptions.fetchVSOReps
+        : endpointOptions.fetchOtherReps;
 
     const { requestUrl, apiSettings } = getApi(endpoint);
     const startTime = new Date().getTime();
@@ -41,6 +46,9 @@ class RepresentativeFinderApi {
           if (!response.ok) {
             throw Error(response.statusText);
           }
+          const csrf = response.headers.get('X-CSRF-Token');
+          localStorage.setItem('csrfToken', csrf);
+
           return response.json();
         })
         .then(res => {
@@ -57,35 +65,21 @@ class RepresentativeFinderApi {
   }
 
   static reportResult(newReport) {
-    const reportRequestBody = {
-      representativeId: newReport.representativeId,
-      flags: [],
-    };
-
     const startTime = new Date().getTime();
 
-    for (const [flagType, flaggedValue] of Object.entries(newReport.reports)) {
-      if (flaggedValue !== null) {
-        reportRequestBody.flags.push({
-          flagType,
-          flaggedValue,
-        });
-      }
-    }
-
     const { requestUrl, apiSettings } = getApi(
-      '/flag_accredited_representatives',
+      endpointOptions.flagReps,
       'POST',
-      reportRequestBody,
+      newReport,
     );
 
     return new Promise((resolve, reject) => {
-      fetch(requestUrl, apiSettings)
+      apiRequest(requestUrl, apiSettings)
         .then(response => {
-          if (!response.ok) {
-            throw Error(response.statusText);
+          if (response.error) {
+            throw Error(response.error);
           }
-          return response.json();
+          return response;
         })
         .then(res => {
           const endTime = new Date().getTime();

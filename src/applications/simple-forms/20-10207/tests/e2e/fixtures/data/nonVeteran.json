@@ -1,31 +1,62 @@
 {
   "data": {
     "preparerType": "non-veteran",
-    "fullName": {
+    "nonVeteranFullName": {
+    "nonVeteranFullName": {
       "first": "John",
       "last": "Non-Veteran"
     },
-    "dateOfBirth": "1980-01-01",
-    "id": {
+    "nonVeteranDateOfBirth": "1980-01-01",
+    "nonVeteranId": {
+    "nonVeteranDateOfBirth": "1980-01-01",
+    "nonVeteranId": {
       "ssn": "321540988"
     },
     "livingSituation": {
       "NONE": true
     },
     "mailingAddressYesNo": true,
-    "mailingAddress": {
+    "nonVeteranMailingAddress": {
+    "nonVeteranMailingAddress": {
       "country": "USA",
       "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
     },
-    "phone": "1234567891",
+    "nonVeteranPhone": "1234567891",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
+    },
+    "nonVeteranPhone": "1234567891",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
+    },
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true,
-      "ALS": true,
-      "TERMINAL_ILLNESS": true,
-      "VSI_SI": true
-    }
+      "OVER_85": true
+    },
+    "medicalTreatments": [
+      {
+        "facilityName": "Guido’s Trailer",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2013-01-01"
+      }
+    ]
   }
 }
