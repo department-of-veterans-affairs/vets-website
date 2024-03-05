@@ -101,6 +101,8 @@ class AdditionalEvidencePage extends React.Component {
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
+    // TODO: Add logic for isOpen and then add that to the if statement here
+
     if (this.props.loading) {
       content = (
         <va-loading-indicator

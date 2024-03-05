@@ -156,13 +156,27 @@ class FilesPage extends React.Component {
             </div>
           </Toggler.Disabled>
           <Toggler.Enabled>
-            {isOpen && (
-              <>
-                <ClaimFileHeader />
-                <AdditionalEvidencePage />
-                {showDecision && <AskVAToDecide id={params.id} />}
-              </>
-            )}
+            <ClaimFileHeader />
+            <AdditionalEvidencePage />
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <DocumentsFiled claim={claim} />
+            <div className="submitted-files-list">
+              <h2 className="claim-file-border">Documents filed</h2>
+              {documentsTurnedIn.length === 0 ? (
+                <div>
+                  <p>You haven’t turned in any documents to VA.</p>
+                </div>
+              ) : null}
+
+              {documentsTurnedIn.map(
+                (item, itemIndex) =>
+                  item.status && item.id ? (
+                    <SubmittedTrackedItem item={item} key={itemIndex} />
+                  ) : (
+                    <AdditionalEvidenceItem item={item} key={itemIndex} />
+                  ),
+              )}
+            </div>
           </Toggler.Enabled>
         </Toggler>
       </div>
