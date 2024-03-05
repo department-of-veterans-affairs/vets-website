@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SectionGuideButton from './SectionGuideButton';
+import { getActiveLinksStyle } from '../util/helpers';
 
 const Navigation = props => {
   const { paths } = props;
@@ -49,20 +50,7 @@ const Navigation = props => {
   window.addEventListener('resize', checkScreenSize);
 
   const handleActiveLinksStyle = path => {
-    let relativePath;
-    if (path === '/' && location.pathname === '/') return 'is-active';
-    const pathArr = location.pathname.slice(1).split('/');
-    if (
-      pathArr.length > 1 &&
-      pathArr.length < 5 &&
-      pathArr[0] === 'labs-and-tests'
-    ) {
-      relativePath = '/labs-and-tests';
-    } else if (pathArr.length === 3)
-      relativePath = `/${pathArr[0]}/${pathArr[1]}`;
-    else relativePath = location.pathname;
-    if (path === relativePath) return 'is-active';
-    return '';
+    return getActiveLinksStyle(path, location.pathname);
   };
 
   // We no longer have dynamically opening/closing nav, but leaving this the handleSubpathsOpen
