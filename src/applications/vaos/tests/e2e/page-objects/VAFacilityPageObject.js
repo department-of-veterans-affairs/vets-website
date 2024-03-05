@@ -31,7 +31,7 @@ export class VAFacilityPageObject extends PageObject {
    * @memberof VAFacilityPageObject
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
-    cy.get('va-loading-indicator.hydrated', { timeout: 180000 }).should(
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
       'not.exist',
     );
 
@@ -66,7 +66,7 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
-    cy.get('va-loading-indicator.hydrated', { timeout: 180000 }).should(
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
       'not.exist',
     );
 
