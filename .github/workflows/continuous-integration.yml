@@ -258,7 +258,7 @@ jobs:
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-report
+          name: unit-test-report-${{ matrix.ci_node_index }}
           path: mocha/results
 
       - name: Generate coverage report by app
@@ -268,61 +268,8 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
-          name: unit-test-coverage-report
+          name: unit-test-coverage-report-${{ matrix.ci_node_index }}
           path: coverage/test-coverage-report.json
-
-      - name: Configure AWS credentials (1)
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          
-
-      - name: Get AWS IAM role
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
-          
-
-      - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
-        run: |
-          if [ -f coverage/test-coverage-report.json ]; then
-            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-          else
-            echo 'No coverage report exists as no tests were run.'
-          fi
-
-      - name: Get code coverage
-        if: ${{ always() }}
-        id: code-coverage
-        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
-
-      - name: Publish test results
-        if: ${{ always() }}
-        continue-on-error: true
-        uses: ./.github/workflows/publish-test-results
-        with:
-          check_name: 'Unit Tests Summary'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/unit-tests.xml'
-          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-          fail_on_failure: 'true'
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -1049,8 +996,16 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-report
+          pattern: unit-test-report-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
+
+      - name: Download Unit Test coverage results
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-report-*
+          path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Log directory
         run: |
@@ -1083,10 +1038,22 @@ jobs:
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
+        run: |
+          if [ -f coverage/test-coverage-report.json ]; then
+            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          else
+            echo 'No coverage report exists as no tests were run.'
+          fi
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
-
+      - name: Get code coverage
+        if: ${{ always() }}
+        id: code-coverage
+        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+      
       - name: Unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/checks-action
@@ -1096,6 +1063,17 @@ jobs:
           conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+      # - name: Publish test results
+      #   if: ${{ always() }}
+      #   continue-on-error: true
+      #   uses: ./.github/workflows/publish-test-results
+      #   with:
+      #     check_name: 'Unit Tests Summary'
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     report_paths: 'test-results/unit-tests.xml'
+      #     summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+      #     fail_on_failure: 'true'
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
