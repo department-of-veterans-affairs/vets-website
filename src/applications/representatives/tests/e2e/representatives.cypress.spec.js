@@ -24,7 +24,7 @@ describe('Representatives', () => {
   describe('when feature is toggled on', () => {
     togglePortal(true);
 
-    it('allows navigation from landing page to dashboard to poa requests', () => {
+    it('allows navigation from landing page to dashboard to POA requests', () => {
       cy.visit('/representatives');
       cy.injectAxe();
       cy.axeCheck();
