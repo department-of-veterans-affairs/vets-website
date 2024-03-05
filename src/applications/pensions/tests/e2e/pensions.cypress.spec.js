@@ -1,7 +1,8 @@
-import path from 'path';
-
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cypress-example.json';
+import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-example.json';
+import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
 import loggedInUser from '../fixtures/mocks/loggedInUser.json';
 import featuresDisabled from '../fixtures/mocks/featuresDisabled.json';
 import featuresEnabled from '../fixtures/mocks/featuresEnabled.json';
@@ -144,21 +145,11 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: 'Pensions',
     dataPrefix: 'data',
-    dataDir: path.join(
-      __dirname,
-      '..',
-      '..',
-      '..',
-      '..',
-      '..',
-      'node_modules',
-      'vets-json-schema',
-      'dist',
-    ),
+    dataDir: '',
     dataSets: [
-      '21P-527EZ-kitchen_sink-cypress-example',
-      '21P-527EZ-overflow-cypress-example',
-      '21P-527EZ-simple-cypress-example',
+      { title: 'kitchen-sink', data: kitchenSinkFixture },
+      { title: 'overflow', data: overflowFixture },
+      { title: 'simple', data: simpleFixture },
     ],
     pageHooks: pageHooks(cy),
     setupPerTest: () => {

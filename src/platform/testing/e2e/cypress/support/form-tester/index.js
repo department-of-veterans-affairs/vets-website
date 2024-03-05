@@ -605,11 +605,20 @@ const testForm = testConfig => {
 
     const extractTestData = testData => get(dataPrefix, testData, testData);
 
-    const createTestCase = testKey =>
-      testCase(testKey, () => {
+    const createTestCase = testKey => {
+      let title;
+      let data;
+      if (typeof testKey === 'object') {
+        title = testKey.title;
+        data = testKey.data;
+      } else {
+        title = testKey;
+        data = cy.fixture(`${dataDir || fixtures.data}/${testKey}`);
+      }
+      testCase(title, () => {
         beforeEach(() => {
-          cy.wrap(testKey).as('testKey');
-          cy.fixture(`${dataDir || fixtures.data}/${testKey}`)
+          cy.wrap(title).as('testKey');
+          cy.wrap(data)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);
@@ -623,6 +632,7 @@ const testForm = testConfig => {
             .then(() => processPage({ _13647Exception }));
         });
       });
+    };
 
     dataSets.forEach(createTestCase);
   });
