@@ -8,11 +8,8 @@ import moment from 'moment';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
-
-import ConfirmationPage from '../../containers/ConfirmationPage';
-import { WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
+import ConfirmationDecisionReviews from '../../components/ConfirmationDecisionReviews';
+import { SELECTED } from '../../constants';
 
 const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   user: {
@@ -23,7 +20,7 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
     },
   },
   form: {
-    formId: formConfig.formId,
+    formId: '12345',
     submission: {
       response: Date.now(),
     },
@@ -50,19 +47,34 @@ describe('Confirmation page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
 
-  it('should render the confirmation page', () => {
+  it('should render the confirmation page with children', () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews
+          pageTitle="Request a snack"
+          alertTitle="You have successfully requested a snack"
+        >
+          <div id="content">
+            <h3>After your snack</h3>
+            <p>Take a nap</p>
+          </div>
+        </ConfirmationDecisionReviews>
       </Provider>,
     );
-    expect($('va-alert[status="success"]', container)).to.exist;
+    const alert = $('va-alert[status="success"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain('successfully requested a snack');
+
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.eq(2);
+    expect($('h2', container).textContent).to.eq('Request a snack');
+    expect($('#content h3', container).textContent).to.eq('After your snack');
+    expect($('#content p', container).textContent).to.eq('Take a nap');
   });
+
   it('should render with no data', () => {
     const { container } = render(
       <Provider store={mockStore({})}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews />
       </Provider>,
     );
     expect($('va-alert[status="success"]', container)).to.exist;
@@ -71,7 +83,7 @@ describe('Confirmation page', () => {
   it('should render the user name', () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews alertTitle="test" />
       </Provider>,
     );
     expect($('.dd-privacy-hidden', container).textContent).to.contain(
@@ -81,7 +93,7 @@ describe('Confirmation page', () => {
   it('should render the user name without suffix', () => {
     const { container } = render(
       <Provider store={mockStore(getData({ suffix: '' }))}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews alertTitle="test" />
       </Provider>,
     );
     expect($('.dd-privacy-hidden', container).textContent).to.contain(
@@ -91,7 +103,7 @@ describe('Confirmation page', () => {
   it('should not render the user name', () => {
     const { container } = render(
       <Provider store={mockStore(getData({ renderName: false }))}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews />
       </Provider>,
     );
     expect($('[data-dd-action-name="Veteran full name"]', container)).to.not
@@ -103,15 +115,15 @@ describe('Confirmation page', () => {
     const date = moment(data.form.submission.response).format('MMMM D, YYYY');
     const { container } = render(
       <Provider store={mockStore(data)}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews />
       </Provider>,
     );
-    expect($('va-summary-box', container).textContent).to.contain(date);
+    expect($('va-summary-box', container).innerHTML).to.contain(date);
   });
   it('should render the selected contested issue', () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews alertTitle="test" />
       </Provider>,
     );
     const list = $('ul', container);
@@ -122,25 +134,12 @@ describe('Confirmation page', () => {
   it('should focus on H2 inside va-alert', async () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews />
       </Provider>,
     );
     const h2 = $('va-alert h2', container);
     await waitFor(() => {
       expect(document.activeElement).to.eq(h2);
-    });
-  });
-  it('should reset the wizard sessionStorage', async () => {
-    sessionStorage.setItem(WIZARD_STATUS, 'foo');
-    sessionStorage.setItem(SAVED_CLAIM_TYPE, 'bar');
-    render(
-      <Provider store={mockStore(getData())}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    await waitFor(() => {
-      expect(sessionStorage.getItem(WIZARD_STATUS)).to.be.null;
-      expect(sessionStorage.getItem(SAVED_CLAIM_TYPE)).to.be.null;
     });
   });
 
@@ -150,7 +149,7 @@ describe('Confirmation page', () => {
         profile: {},
       },
       form: {
-        formId: formConfig.formId,
+        formId: '12345',
         submission: {
           response: Date.now(),
         },
@@ -159,9 +158,10 @@ describe('Confirmation page', () => {
     });
     const { container } = render(
       <Provider store={mockStore(getEmptyData())}>
-        <ConfirmationPage />
+        <ConfirmationDecisionReviews />
       </Provider>,
     );
-    expect(container.textContent).to.contain('We’ve received your');
+    expect($('va-alert', container)).to.exist;
+    expect($('va-summary-box', container)).to.exist;
   });
 });
