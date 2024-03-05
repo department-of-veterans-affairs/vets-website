@@ -26,13 +26,8 @@ export const useFilterBtn = (afterResults = false) => {
     },
     [isCleared, afterResults],
   );
-  const onKeyUp = e => {
-    if (e.key === 'Enter') {
-      setIsCleared(true);
-    }
-  };
   const focusOnFirstInput = (id, el) => {
     inputRef.current[id] = el;
   };
-  return { focusOnFirstInput, isCleared, setIsCleared, onKeyUp };
+  return { focusOnFirstInput, isCleared, setIsCleared };
 };

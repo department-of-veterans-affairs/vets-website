@@ -42,12 +42,7 @@ export function FilterBeforeResults({
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
-  const {
-    isCleared,
-    setIsCleared,
-    focusOnFirstInput,
-    onKeyUp,
-  } = useFilterBtn();
+  const { isCleared, setIsCleared, focusOnFirstInput } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -599,7 +594,6 @@ export function FilterBeforeResults({
                 testId="clear-button"
                 isCleared={isCleared}
                 setIsCleared={setIsCleared}
-                onKeyDown={onKeyUp}
               >
                 Clear filters
               </ClearFiltersBtn>
