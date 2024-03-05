@@ -1,24 +1,22 @@
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  firstNameLastNameNoSuffixSchema,
-  firstNameLastNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { getNameAndDobPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(({ formData }) => getNameAndDobPageTitle(formData)),
-    fullName: firstNameLastNameNoSuffixUI(),
+    ...titleUI('Your name and date of birth'),
+    fullName: fullNameNoSuffixUI(),
     dateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: firstNameLastNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema,
       dateOfBirth: dateOfBirthSchema,
     },
     required: ['fullName', 'dateOfBirth'],
