@@ -1,34 +1,44 @@
 {
   "data": {
-    "preparerType": "veteran",
-    "veteranFullName": {
+    "preparerType": "third-party-veteran",
+    "thirdPartyFullName": {
+      "first": "Joe",
+      "last": "Third-Party-Veteran"
+    },
+    "thirdPartyType": "representative",
     "veteranFullName": {
       "first": "John",
+      "middle": "A",
       "last": "Veteran"
     },
     "veteranDateOfBirth": "1980-01-01",
     "veteranId": {
-    "veteranDateOfBirth": "1980-01-01",
-    "veteranId": {
-      "ssn": "321540987"
+      "ssn": "321540989",
+      "vaFileNumber": "123456789"
     },
+    "veteranInsuranceFileNumber": "987654321",
     "livingSituation": {
       "NONE": true
     },
     "mailingAddressYesNo": true,
     "veteranMailingAddress": {
-    "veteranMailingAddress": {
       "country": "USA",
       "street": "123 Any St",
+      "street2": "Apt 1",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
     },
-    "veteranPhone": "1234567890",
-    "veteranPhone": "1234567890",
+    "veteranPhone": "1234567892",
+    "veteranEmailAddress": "john.veteran@example.com",
     "otherReasons": {
-      "OVER_85": true
-      "OVER_85": true
+      "FINANCIAL_HARDSHIP": true,
+      "ALS": true,
+      "TERMINAL_ILLNESS": true,
+      "VSI_SI": true,
+      "OVER_85": true,
+      "FORMER_POW": true,
+      "MEDAL_AWARD": true
     },
     "powConfinementStartDate": "2013-01-01",
     "powConfinementEndDate": "2013-01-02",
@@ -46,6 +56,17 @@
           "postalCode": "12345"
         },
         "startDate": "2013-01-05"
+      },
+      {
+        "facilityName": "Guido’s Garage",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2013-01-06"
       }
     ]
   }
