@@ -7,20 +7,22 @@ import PermissionsPage from './containers/PermissionsPage';
 const routes = [
   {
     path: '/poa-requests',
-    component: POARequests,
+    component: App,
+    childRoutes: [{ indexRoute: { component: POARequests } }],
   },
   {
     path: '/dashboard',
-    component: Dashboard,
+    component: App,
+    childRoutes: [{ indexRoute: { component: Dashboard } }],
   },
   {
     path: '/',
-    component: App,
-    childRoutes: [{ indexRoute: { component: LandingPage } }],
+    component: LandingPage,
   },
   {
     path: '/permissions',
-    component: PermissionsPage,
+    component: App,
+    childRoutes: [{ indexRoute: { component: PermissionsPage } }],
   },
 ];
 

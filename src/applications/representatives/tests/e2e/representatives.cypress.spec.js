@@ -30,4 +30,11 @@ describe('Representatives', () => {
     cy.contains('Power of attorney requests');
     cy.get('[data-testid=poa-requests-table]').should('exist');
   });
+
+  it('renders breadcrumbs', () => {
+    cy.visit('/representatives/poa-requests');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.get('[data-testid=breadcrumbs]').should('exist');
+  });
 });

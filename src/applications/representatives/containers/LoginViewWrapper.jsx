@@ -1,15 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 // import RequiredLoginView from '~/platform/user/authorization/components/RequiredLoginView';
 
 import Sidenav from '../components/Sidenav';
+import { POABreadcrumbs } from '../common/breadcrumbs';
 
-const LoginViewWrapper = ({
-  breadcrumbs,
-  children,
-  POAPermissions = false,
-}) => {
+const LoginViewWrapper = ({ children, POAPermissions = false }) => {
   let content = null;
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
@@ -44,15 +40,12 @@ const LoginViewWrapper = ({
       </div>
     );
   }
+
   return (
     <>
       {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
       <va-breadcrumbs label="Breadcrumb">
-        {breadcrumbs?.map(({ link, label }) => (
-          <li key={link}>
-            <Link to={link}>{label}</Link>
-          </li>
-        ))}
+        <POABreadcrumbs />
       </va-breadcrumbs>
       <div className="vads-u-margin-bottom--3">
         <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">

@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link } from 'react-router';
+
 const breadcrumbPaths = {
   dashboard: [
     { link: '/', label: 'Home' },
@@ -20,5 +23,19 @@ const breadcrumbPaths = {
  * @returns {Array}
  */
 
-export const POABreadcrumbs = page =>
-  breadcrumbPaths[page] || [{ link: '/', label: 'Home' }];
+export const POABreadcrumbs = () => {
+  const page = document.location.pathname.split('/').pop();
+  const pageBreadcrumbs = breadcrumbPaths[page] || [
+    { link: '/', label: 'Home' },
+  ];
+
+  return (
+    <>
+      {pageBreadcrumbs.map(({ link, label }) => (
+        <li key={link}>
+          <Link to={link}>{label}</Link>
+        </li>
+      ))}
+    </>
+  );
+};

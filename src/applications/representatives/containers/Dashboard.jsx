@@ -7,18 +7,9 @@ import { mockPOARequests } from '../mocks/mockPOARequests';
 
 // import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-import LoginViewWrapper from './LoginViewWrapper';
-
-import { POABreadcrumbs } from '../common/breadcrumbs';
-
-const Dashboard = ({ POAPermissions = true }) => {
-  const dashboardBreadcrumbs = POABreadcrumbs('dashboard');
-
+const Dashboard = () => {
   return (
-    <LoginViewWrapper
-      breadcrumbs={dashboardBreadcrumbs}
-      POAPermissions={POAPermissions}
-    >
+    <>
       <h1>Accredited Representative Portal</h1>
       <Link
         to="/poa-requests"
@@ -46,7 +37,7 @@ const Dashboard = ({ POAPermissions = true }) => {
           </div>
         </div>
       </div>
-    </LoginViewWrapper>
+    </>
   );
 };
 
