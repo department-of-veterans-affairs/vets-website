@@ -3,10 +3,12 @@ import React from 'react';
 // import RequiredLoginView from '~/platform/user/authorization/components/RequiredLoginView';
 
 import Sidenav from '../components/Sidenav';
-import { POABreadcrumbs } from '../common/breadcrumbs';
+import { GetBreadcrumbs } from '../common/GetBreadcrumbs';
 
 const LoginViewWrapper = ({ children, POAPermissions = false }) => {
   let content = null;
+
+  const pagePathname = document.location.pathname.split('/').pop();
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!POAPermissions) {
@@ -45,7 +47,7 @@ const LoginViewWrapper = ({ children, POAPermissions = false }) => {
     <>
       {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
       <va-breadcrumbs label="Breadcrumb">
-        <POABreadcrumbs />
+        <GetBreadcrumbs page={pagePathname} />
       </va-breadcrumbs>
       <div className="vads-u-margin-bottom--3">
         <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">
