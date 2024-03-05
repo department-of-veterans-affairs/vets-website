@@ -15,7 +15,7 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 
 import BreadCrumb from '../components/BreadCrumb';
 import MoreInformation from '../components/MoreInformation';
-import TextWithLineBreaks from '../components/TextWithLineBreaks';
+import AvsPageHeader from '../components/AvsPageHeader';
 import YourAppointment from '../components/YourAppointment';
 import YourHealthInformation from '../components/YourHealthInformation';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
@@ -94,7 +94,7 @@ const Avs = props => {
         <h1>After-visit summary</h1>
         {avs.meta?.pageHeader && (
           <p>
-            <TextWithLineBreaks text={avs.meta.pageHeader} />
+            <AvsPageHeader text={avs.meta.pageHeader} />
           </p>
         )}
 
