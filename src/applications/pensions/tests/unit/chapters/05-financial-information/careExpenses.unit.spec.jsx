@@ -16,7 +16,7 @@ const { schema, uiSchema } = careExpenses;
 
 describe('Unreimbursed care expenses pension page', () => {
   const pageTitle = 'Care expenses';
-  const expectedNumberOfFields = 11;
+  const expectedNumberOfFields = 8;
   testNumberOfFields(
     formConfig,
     schema,
@@ -25,7 +25,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 3;
+  const expectedNumberOfErrors = 2;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -34,7 +34,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfWebComponentFields = 3;
+  const expectedNumberOfWebComponentFields = 6;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -43,7 +43,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 3;
+  const expectedNumberOfErrorsForWebComponents = 4;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
