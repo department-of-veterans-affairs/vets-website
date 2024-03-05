@@ -82,6 +82,18 @@ export default class PageObject {
     return this;
   }
 
+  assertUrl({ url, breadcrumb }) {
+    cy.url().should('include', url);
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .find('a')
+      .contains(breadcrumb);
+
+    cy.axeCheckBestPractice();
+
+    return this;
+  }
+
   assertWarningAlert({ text, exist = true }) {
     return this.assertAlert({ text, exist, status: 'warning' });
   }

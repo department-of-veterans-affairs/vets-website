@@ -31,6 +31,10 @@ export class VAFacilityPageObject extends PageObject {
    * @memberof VAFacilityPageObject
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
+
     if (isVA) {
       cy.findByText(/We found one VA facility for your .* appointment/i);
     } else {
@@ -62,6 +66,10 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
+
     cy.findByLabelText(label)
       .as('radio')
       .focus();
