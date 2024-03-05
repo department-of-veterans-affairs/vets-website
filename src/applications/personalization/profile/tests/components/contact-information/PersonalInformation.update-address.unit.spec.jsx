@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { waitForElementToBeRemoved } from '@testing-library/react';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
@@ -17,7 +17,6 @@ import ContactInformation from '@@profile/components/contact-information/Contact
 import {
   createBasicInitialState,
   renderWithProfileReducers,
-  wait,
 } from '../../unit-test-helpers';
 
 const ui = (
@@ -142,8 +141,9 @@ async function testAddressValidation500(addressName) {
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
-  await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  await waitFor(() => {
+    expect(view.getByTestId('edit-error-alert')).to.exist;
+  });
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -159,8 +159,9 @@ async function testTransactionCreationFails(addressName) {
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
-  await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  await waitFor(() => {
+    expect(view.getByTestId('edit-error-alert')).to.exist;
+  });
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -176,8 +177,9 @@ async function testQuickFailure(addressName) {
   expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
-  await wait(75);
-  expect(view.getByTestId('edit-error-alert')).to.exist;
+  await waitFor(() => {
+    expect(view.getByTestId('edit-error-alert')).to.exist;
+  });
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
