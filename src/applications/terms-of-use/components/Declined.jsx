@@ -36,10 +36,19 @@ export default function Declined() {
           services. If you need help or have questions, <IdentityPhone /> We’re
           here 24/7.
         </p>
+
         <p>
           Or you can change your answer and accept the terms. If you want to
-          accept the terms, sign in again. We’ll take you back to the terms of
-          use. Then you can continue using VA online services.
+          accept the terms, follow these steps:
+          <ol type="1">
+            <li> Quit your browser.</li>
+            <li> Reopen your browser Go to VA.gov and sign in again.</li>
+            <li> We’ll take you back to the terms of use.</li>
+            <li>
+              {' '}
+              Select <b>“Accept”</b> to continue using VA online services.
+            </li>
+          </ol>
         </p>
         <p className="vads-u-margin-y--2p5">
           <va-link
