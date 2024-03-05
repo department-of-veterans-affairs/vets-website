@@ -187,7 +187,7 @@ const FolderThreadListView = props => {
         ),
       );
     }
-  }, 60000);
+  }, 60000); // 1 minute
 
   const LoadingIndicator = () => {
     return (

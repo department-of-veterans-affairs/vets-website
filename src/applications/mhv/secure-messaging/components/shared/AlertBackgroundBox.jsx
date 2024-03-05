@@ -12,6 +12,8 @@
  * This component uses @prop isLandingPage @boolean to check if url location is on
  * the secure messages landing page so that if there's a service outage, a unique server
  * error message from api response content will be displayed only for that page.
+ * Additionally, A11Y reccommends that the 503 error alert content should use an h1 tag
+ * since in this case there are no other content on screen.
  */
 
 import React, { useEffect, useState, useRef } from 'react';
@@ -20,14 +22,18 @@ import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import useInterval from '../../hooks/use-interval';
 import { Alerts, Errors } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
+import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
 
 const AlertBackgroundBox = props => {
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
+  const folder = useSelector(state => state.sm.folders?.folder);
   const [activeAlert, setActiveAlert] = useState(null);
+  const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
 
   const {
@@ -67,10 +73,31 @@ const AlertBackgroundBox = props => {
 
   const location = useLocation();
   const lastPathName = formatPathName(location.pathname, 'Messages');
-  let alertContent = activeAlert?.content;
-  if (!props.isLandingPage && activeAlert?.response?.code === SERVICE_OUTAGE) {
-    alertContent = SERVER_ERROR_503;
-  }
+
+  // sets custom server error messages for the landing page and folder view pages
+  useEffect(
+    () => {
+      let content = activeAlert?.content;
+      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
+      const isErrorAlert = activeAlert?.alertType === 'error';
+      if (!props.isLandingPage && (isServiceOutage || isErrorAlert)) {
+        content = SERVER_ERROR_503;
+      }
+      setAlertContent(content);
+    },
+    [SERVER_ERROR_503, SERVICE_OUTAGE, activeAlert, props.isLandingPage],
+  );
+
+  useInterval(() => {
+    const shouldRetrieveFolders =
+      activeAlert?.response?.code === SERVICE_OUTAGE ||
+      folder?.folderId === undefined;
+
+    if (shouldRetrieveFolders) {
+      dispatch(retrieveFolder(folder?.folderId));
+      dispatch(closeAlert());
+    }
+  }, 30000); // 30 seconds
 
   const alertAriaLabel = `${alertContent}. You are in ${
     lastPathName === 'Folders' ? 'My folders' : lastPathName
@@ -97,12 +124,21 @@ const AlertBackgroundBox = props => {
           }}
         >
           <div>
-            <p className="vads-u-margin-y--0" data-testid="alert-text">
-              {alertContent}
-              <span className="sr-only" aria-live="polite" aria-atomic="true">
-                {alertAriaLabel}
-              </span>
-            </p>
+            {alertContent === SERVER_ERROR_503 ? (
+              <p className="vads-u-margin-y--0">
+                {alertContent}
+                <h1 className="sr-only" aria-live="polite" aria-atomic="true">
+                  {alertAriaLabel}
+                </h1>
+              </p>
+            ) : (
+              <p className="vads-u-margin-y--0">
+                {alertContent}
+                <span className="sr-only" aria-live="polite" aria-atomic="true">
+                  {alertAriaLabel}
+                </span>
+              </p>
+            )}
           </div>
         </VaAlert>
       )}
