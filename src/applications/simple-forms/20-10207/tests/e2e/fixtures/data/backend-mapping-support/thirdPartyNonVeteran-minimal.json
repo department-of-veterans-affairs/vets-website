@@ -17,14 +17,7 @@
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
-    "nonVeteranMailingAddress": {
-      "country": "USA",
-      "street": "124 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
+    "mailingAddressYesNo": false,
     "nonVeteranPhone": "1234567893",
     "veteranFullName": {
       "first": "John",
