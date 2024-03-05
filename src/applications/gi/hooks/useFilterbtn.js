@@ -10,7 +10,7 @@ export const useFilterBtn = (afterResults = false) => {
       if (isCleared && inputRef.current.Public && !afterResults) {
         timer = setTimeout(() => {
           inputRef.current.Public?.focus();
-        }, 1500);
+        }, 2500);
       }
       if (
         isCleared &&
@@ -20,7 +20,7 @@ export const useFilterBtn = (afterResults = false) => {
       ) {
         timer = setTimeout(() => {
           inputRef.current.Schools.focus();
-        }, 1500);
+        }, 2500);
       }
       return () => clearTimeout(timer);
     },

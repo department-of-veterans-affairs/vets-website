@@ -60,7 +60,11 @@ function ClearFiltersBtn({
           className="clear-filters-btn"
           onClick={clearAllFilters}
           data-testid={testId}
-          aria-label={isCleared ? 'All filters have been removed' : ''}
+          aria-label={
+            isCleared
+              ? 'All filters have been removed. Please select at least one filter.'
+              : ''
+          }
           onKeyDown={onKeyDown}
         >
           {' '}
