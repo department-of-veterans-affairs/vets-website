@@ -76,10 +76,10 @@ class RepresentativeFinderApi {
     return new Promise((resolve, reject) => {
       apiRequest(requestUrl, apiSettings)
         .then(response => {
-          if (!response.ok) {
-            throw Error(response.statusText);
+          if (response.error) {
+            throw Error(response.error);
           }
-          return response.json();
+          return response;
         })
         .then(res => {
           const endTime = new Date().getTime();
