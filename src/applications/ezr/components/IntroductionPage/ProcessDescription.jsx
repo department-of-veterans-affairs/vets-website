@@ -2,6 +2,7 @@ import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { LAST_YEAR } from '../../utils/constants';
 import content from '../../locales/en/content.json';
+import { TeraRedirectAlert } from '../FormAlerts/TeraRedirectAlert';
 
 const ProcessDescription = () => (
   <>
@@ -15,6 +16,8 @@ const ProcessDescription = () => (
       personal, financial, and insurance information after you’re enrolled in VA
       health care.
     </p>
+
+    <TeraRedirectAlert />
 
     <h2>What to know before you fill out this form</h2>
 
