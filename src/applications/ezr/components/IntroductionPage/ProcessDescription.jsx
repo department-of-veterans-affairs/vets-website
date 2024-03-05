@@ -42,9 +42,10 @@ const ProcessDescription = () => (
         or in person.
       </p>
       <p>Fill out a Health Benefits Update Form (VA Form 10-10EZR).</p>
-      <a href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/">
-        Get VA Form 10-10EZR to download
-      </a>
+      <va-link
+        href="/find-forms/about-form-10-10ezr/"
+        text="Get VA Form 10-10EZR to download"
+      />
       <p>Send your completed form here:</p>
       <p className="va-address-block">
         Health Eligibility Center
