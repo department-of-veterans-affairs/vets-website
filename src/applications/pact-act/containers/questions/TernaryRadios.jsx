@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { snakeCase } from 'lodash';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButtonPair,
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
   navigateForward,
@@ -10,6 +13,7 @@ import {
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
+import { applyFocus } from '../../utilities/page-setup';
 
 /**
  * Produces a set of 3 radio options
@@ -32,6 +36,7 @@ const TernaryRadios = ({
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const [headerHasFocused, setHeaderHasFocused] = useState(false);
 
   const onContinueClick = () => {
     if (!formValue) {
@@ -66,47 +71,34 @@ const TernaryRadios = ({
   const renderRadioOptions = () => {
     return responses.map((response, index) => {
       return (
-        <div key={index}>
-          <input
-            type="radio"
-            checked={formValue === response}
-            data-testid="va-radio-option"
-            id={snakeCase(`${response}_input`)}
-            name={shortName}
-            onChange={() => onValueChange(response)}
-            value={response}
-          />
-          <label
-            className="pact-act-form-label"
-            htmlFor={snakeCase(`${response}_input`)}
-          >
-            <span>{response}</span>
-          </label>
-        </div>
+        <VaRadioOption
+          key={index}
+          checked={formValue === response}
+          data-testid="va-radio-option"
+          label={response}
+          name="group"
+          value={response}
+          uswds
+        />
       );
     });
   };
 
   return (
     <>
-      <div
-        className={
-          formError
-            ? 'vads-u-margin-bottom--3 pact-act-form-question-error'
-            : 'vads-u-margin-bottom--3'
-        }
+      <VaRadio
+        data-testid={testId}
+        form-heading={h1}
+        form-heading-level={1}
+        error={formError ? 'Select a response.' : null}
+        id="paw-radio"
+        onVaValueChange={e => onValueChange(e.detail.value)}
+        onLoad={applyFocus('paw-radio', headerHasFocused, setHeaderHasFocused)}
+        use-forms-pattern="single"
+        uswds
       >
-        <h1
-          className="pact-act-form-question-header"
-          id="pact-act-form-question"
-        >
-          {h1}
-        </h1>
         {shortName === SHORT_NAME_MAP.ORANGE_2_2_2 && (
-          <div
-            className="vads-u-margin-top--1"
-            data-testid="paw-orange-2-2-2-info"
-          >
+          <div id="paw-orange-2-2-2-info" data-testid="paw-orange-2-2-2-info">
             <va-additional-info
               trigger="Learn more about C-123 airplanes"
               uswds
@@ -123,28 +115,11 @@ const TernaryRadios = ({
             </va-additional-info>
           </div>
         )}
-        {locationList ? (
-          <div id="pact-act-form-instructions">{locationList}</div>
-        ) : null}
-        <fieldset
-          aria-labelledby={
-            locationList
-              ? 'pact-act-form-question pact-act-form-instructions'
-              : 'pact-act-form-question'
-          }
-          data-testid={testId}
-        >
-          {formError && (
-            <span className="usa-error-message" role="alert">
-              <div className="pact-act-form-text-error">
-                <span className="usa-sr-only">Error</span> Select a response.
-              </div>
-            </span>
-          )}
-          {renderRadioOptions()}
-        </fieldset>
-      </div>
+        {renderRadioOptions()}
+        <div slot="form-description">{locationList}</div>
+      </VaRadio>
       <VaButtonPair
+        class="vads-u-margin-top--3"
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
