@@ -97,7 +97,7 @@ const AlertBackgroundBox = props => {
       dispatch(retrieveFolder(folder?.folderId));
       dispatch(closeAlert());
     }
-  }, 30000); // 30 seconds
+  }, 7000); // 30 seconds
 
   const alertAriaLabel = `${alertContent}. You are in ${
     lastPathName === 'Folders' ? 'My folders' : lastPathName
@@ -125,14 +125,14 @@ const AlertBackgroundBox = props => {
         >
           <div>
             {alertContent === SERVER_ERROR_503 ? (
-              <p className="vads-u-margin-y--0">
+              <p className="vads-u-margin-y--0" data-testid="alert-text">
                 {alertContent}
                 <h1 className="sr-only" aria-live="polite" aria-atomic="true">
                   {alertAriaLabel}
                 </h1>
               </p>
             ) : (
-              <p className="vads-u-margin-y--0">
+              <p className="vads-u-margin-y--0" data-testid="alert-text">
                 {alertContent}
                 <span className="sr-only" aria-live="polite" aria-atomic="true">
                   {alertAriaLabel}
