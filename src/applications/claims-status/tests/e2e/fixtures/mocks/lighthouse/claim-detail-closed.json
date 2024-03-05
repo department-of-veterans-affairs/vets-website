@@ -19,7 +19,7 @@
           "name": "tinnitus (New)"
         }
       ],
-      "decisionLetterSent": false,
+      "decisionLetterSent": true,
       "developmentLetterSent": false,
       "documentsNeeded": false,
       "endProductCode": "020",
