@@ -14,6 +14,7 @@ const initialProps = {
   state: 'MA',
   zipCode: '02113',
   primaryPhone: '617-555-1111',
+  index: 0,
 };
 
 const setup = (props = {}) => render(<Contact {...initialProps} {...props} />);
@@ -21,6 +22,7 @@ const setup = (props = {}) => render(<Contact {...initialProps} {...props} />);
 describe('Contact Component', () => {
   it('renders', () => {
     const { container } = setup();
+    expect(container.textContent).to.contain('Primary next of kin');
     expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
     expect(container.textContent).to.contain('19 N Square');
     expect(container.textContent).to.contain('Boston, MA 02113');
@@ -28,7 +30,8 @@ describe('Contact Component', () => {
   });
 
   it('renders name and phone number if addressLine1 is not present', () => {
-    const { container } = setup({ addressLine1: '' });
+    const { container } = setup({ addressLine1: '', index: 1 });
+    expect(container.textContent).to.contain('Secondary next of kin');
     expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
     expect(container.textContent).to.contain('617-555-1111');
     expect(container.textContent).not.to.contain('Boston, MA 02113');
@@ -36,6 +39,7 @@ describe('Contact Component', () => {
 
   it('renders name and phone number when contactType is an emergency contact', () => {
     const { container } = setup({ contactType: 'Emergency Contact' });
+    expect(container.textContent).to.contain('Primary emergency contact');
     expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
     expect(container.textContent).to.contain('617-555-1111');
     expect(container.textContent).not.to.contain('Boston, MA 02113');

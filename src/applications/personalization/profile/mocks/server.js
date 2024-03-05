@@ -38,6 +38,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 const contacts = require('../tests/fixtures/contacts.json');
+// const contactsSingleEc = require('../tests/fixtures/contacts-single-ec.json');
+// const contactsSingleNok = require('../tests/fixtures/contacts-single-nok.json');
 
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
