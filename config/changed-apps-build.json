@@ -61,10 +61,6 @@
       "slackGroup": "@mhv-on-va-gov-group"
     },
     {
-      "rootFolder": "mhv-inherited-proofing",
-      "slackGroup": "@vsp-identity-group"
-    },
-    {
       "rootFolder": "personalization",
       "slackGroup": "<@C053JC66YHF>, <@U026GBU02UW>",
       "continuousDeployment": false
