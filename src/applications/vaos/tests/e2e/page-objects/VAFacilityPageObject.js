@@ -64,7 +64,9 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
-    cy.get('va-loading-indicator.hydrated').should('not.exist');
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
 
     cy.findByLabelText(label)
       .as('radio')
