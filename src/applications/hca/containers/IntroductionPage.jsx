@@ -14,6 +14,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import EnrollmentStatus from '../components/IntroductionPage/EnrollmentStatus';
 import GetStartedContent from '../components/IntroductionPage/GetStarted';
 import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
+import PerformanceWarning from '../components/FormAlerts/PerformanceWarning';
 
 import {
   isLoading,
@@ -32,7 +33,7 @@ const IntroductionPage = props => {
     showLOA3Content,
     showGetStartedContent,
   } = displayConditions;
-  const { enrollmentOverrideEnabled } = features;
+  const { enrollmentOverrideEnabled, performanceAlertEnabled } = features;
 
   const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
@@ -55,6 +56,8 @@ const IntroductionPage = props => {
         appTitle="Application for VA health care"
         dependencies={[externalServices.es]}
       >
+        {performanceAlertEnabled && <PerformanceWarning />}
+
         {!showLoader &&
           !showLOA3Content && (
             <p data-testid="hca-loa1-description">
@@ -67,8 +70,9 @@ const IntroductionPage = props => {
 
         {showLoader && (
           <va-loading-indicator
-            label="Loading"
             message="Loading your application..."
+            class="vads-u-margin-y--4"
+            set-focus
           />
         )}
 
@@ -104,6 +108,7 @@ const mapStateToProps = state => ({
   features: {
     enrollmentOverrideEnabled:
       state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
+    performanceAlertEnabled: state.featureToggles.hcaPerformanceAlertEnabled,
   },
 });
 

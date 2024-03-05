@@ -30,9 +30,7 @@ describe('Representative Search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [
-          { name: 'find_a_representative_enable_frontend', value: true },
-        ],
+        features: [{ name: 'find_a_representative_enabled', value: true }],
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);
