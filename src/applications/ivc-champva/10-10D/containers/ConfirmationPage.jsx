@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { identifyMissingUploads } from '../helpers/supportingDocsVerification';
+import {
+  identifyMissingUploads,
+  getConditionalPages,
+} from '../helpers/supportingDocsVerification';
 import MissingFileList from '../components/File/MissingFileList';
 
 export function ConfirmationPage(props) {
@@ -17,7 +20,15 @@ export function ConfirmationPage(props) {
 
   const applicantsWithMissingFiles = data.applicants
     .map(applicant => {
-      const missing = identifyMissingUploads(form.pages, applicant, false);
+      const missing = identifyMissingUploads(
+        getConditionalPages(
+          form.pages,
+          { ...data, applicants: [applicant] },
+          0,
+        ),
+        applicant,
+        false,
+      );
       if (missing.length !== 0) {
         return {
           name: applicant.applicantName,
@@ -30,7 +41,11 @@ export function ConfirmationPage(props) {
 
   const sponsorMissingFiles = {
     name: veteransFullName,
-    missingUploads: identifyMissingUploads(form.pages, data, true),
+    missingUploads: identifyMissingUploads(
+      getConditionalPages(form.pages, data),
+      data,
+      true,
+    ),
   };
 
   useEffect(() => {

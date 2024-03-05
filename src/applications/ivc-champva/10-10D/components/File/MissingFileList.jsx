@@ -55,7 +55,14 @@ export default function MissingFileList({
 }) {
   // data: an array or a single object, must have 'missingUploads' on it
   const wrapped = Array.isArray(data) ? data : [data];
-  if (wrapped.length > 0 && wrapped[0].missingUploads.length === 0) return '';
+  if (
+    wrapped.length > 0 &&
+    wrapped
+      .flatMap(app => app.missingUploads)
+      .every(file => file.uploaded === true)
+  )
+    return <p>No missing uploads found</p>;
+
   return (
     <div>
       <h4>{title || ''}</h4>

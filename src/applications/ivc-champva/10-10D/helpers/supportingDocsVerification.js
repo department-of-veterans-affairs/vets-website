@@ -5,7 +5,7 @@
  * @param {object} pages contains all pages in current form
  * @returns List of objects describing file upload properties in the shape:
  *   [
- *     {name: 'birthCert', pageUrl: 'birthcert-upload'},
+ *     {name: 'birthCert', path: 'birthcert-upload'},
  *   ]
  */
 export function getApplicantFileKeyNames(pages) {
@@ -36,7 +36,10 @@ export function getApplicantFileKeyNames(pages) {
  * Dynamically get list of sponsor property names that correspond to a file
  * upload.
  * @param {object} pages contains all pages in current form
- * @returns List of all sponsor property names corresponding to a file upload
+ * @returns List of objects describing file upload properties in the shape:
+ *   [
+ *     {name: 'birthCert', path: 'birthcert-upload'},
+ *   ]
  */
 export function getSponsorFileKeyNames(pages) {
   // See "TODO" in getApplicantFileKeyNames
@@ -68,9 +71,21 @@ export function identifyMissingUploads(pages, person, isSponsor) {
     ? getSponsorFileKeyNames(pages)
     : getApplicantFileKeyNames(pages);
   // Filter down to just files that haven't been uploaded yet
-  return possibleFiles.filter(
-    file =>
-      Object.keys(person).includes(file.name) &&
-      person[file.name] === undefined,
+  return possibleFiles.filter(file => person[file.name] === undefined);
+}
+
+/**
+ * Evaluate the `depends` func of each provided page to determine
+ * its value.
+ * @param {object|list} pages A subset of pages within the form
+ * @param {object} data formData used in `depends` calculations
+ * @param {number} index Optional argument to pass to `depends` if evaluating list and loop page `depends`
+ * @returns A filtered list of pages where `depends` was true
+ */
+export function getConditionalPages(pages, data, index) {
+  const tmpPg =
+    typeof pages === 'object' ? Object.keys(pages).map(pg => pages[pg]) : pages;
+  return tmpPg.filter(
+    pg => pg.depends === undefined || pg?.depends({ ...data }, index),
   );
 }

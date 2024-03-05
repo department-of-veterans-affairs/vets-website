@@ -11,8 +11,6 @@ import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
  * @returns
  */
 export function customLinkUI(path = '', text = '', urlTrigger) {
-  // urlTrigger: if this is passed in, only show this link when
-  // that string is present in the URL.
   return {
     'view:customLink': {
       'ui:description': () => {

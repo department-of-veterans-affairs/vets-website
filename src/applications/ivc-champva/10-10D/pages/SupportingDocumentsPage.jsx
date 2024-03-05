@@ -3,7 +3,10 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-import { identifyMissingUploads } from '../helpers/supportingDocsVerification';
+import {
+  identifyMissingUploads,
+  getConditionalPages,
+} from '../helpers/supportingDocsVerification';
 import MissingFileList from '../components/File/MissingFileList';
 
 /**
@@ -12,7 +15,6 @@ import MissingFileList from '../components/File/MissingFileList';
  *   - Add proper wording to top of page based on required status
  * - Create follow-on page:
  *   - Add checkbox acknowledging if any files have to be mailed in
- * - Refactor final confirmation page to use React components from this page
  */
 
 // TODO: find this wording elsewhere and collapse vars
@@ -21,9 +23,15 @@ const optionalDescription =
 // const requiredDescription =
 //  'These files are required to complete your application';
 
-export function checkFlags(person, newListOfMissingFiles) {
+export function checkFlags(pages, person, newListOfMissingFiles) {
   // TODO: in here, add a flag that indicates if upload is required
   const personUpdated = person; // shallow, updates reflect on actual form state
+
+  // Update missingUploads to account for any changes in conditional pages
+  personUpdated.missingUploads = personUpdated?.missingUploads?.filter(el =>
+    pages.flatMap(pg => pg.path).includes(el.path),
+  );
+
   if (
     personUpdated?.missingUploads === undefined ||
     personUpdated?.missingUploads?.length === 0
@@ -48,7 +56,16 @@ export function checkFlags(person, newListOfMissingFiles) {
         missingUploads.push({ ...el, uploaded: true });
       }
     });
-    personUpdated.missingUploads = missingUploads;
+
+    // Update with any conditionally shown uploads that weren't in last list
+    const fm = personUpdated.missingUploads.flatMap(el => el.name);
+    newListOfMissingFiles.forEach(
+      el =>
+        !fm.includes(el.name)
+          ? missingUploads.push({ ...el, uploaded: false })
+          : null,
+    );
+    personUpdated.missingUploads = missingUploads; // Shallow
   }
   return personUpdated;
 }
@@ -59,25 +76,36 @@ export default function SupportingDocumentsPage({
   goBack,
   goForward,
 }) {
-  // eslint-disable-next-line no-unused-vars
-  const [apps, setApps] = useState(data.applicants);
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
   const { chapters } = contentAfterButtons.props.formConfig;
+  // Create single list of pages from multiple chapter objects
   const pages = Object.keys(chapters)
     .map(ch => chapters?.[ch]?.pages)
     .map(ch => Object.keys(ch).map(k => ch[k]))
     .flat(1);
 
-  // Update all applicants to identify missing uploads
-  data.applicants.map(app =>
-    // data.applicants will reflect changes
-    checkFlags(app, identifyMissingUploads(pages, app, false)),
+  // eslint-disable-next-line no-unused-vars
+  const [apps, setApps] = useState(
+    // Filter out any conditional pages that don't apply to this applicant
+    data.applicants.map(app => {
+      const tmpData = { ...data, applicants: [app] };
+      const conditionalPages = getConditionalPages(pages, tmpData, 0);
+
+      // data.applicants will reflect changes
+      return checkFlags(
+        conditionalPages,
+        app,
+        identifyMissingUploads(conditionalPages, app, false),
+      );
+    }),
   );
 
   // Update sponsor to identify missing uploads (not in use currently)
   // checkFlags(data, identifyMissingUploads(pages, data, true));
 
-  const filesAreMissing = apps?.[0].missingUploads.length > 0;
+  const filesAreMissing = apps
+    .flatMap(app => app.missingUploads)
+    .some(file => file.uploaded === false);
 
   return (
     <>
