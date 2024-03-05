@@ -26,17 +26,14 @@ const Footer = ({ router }) => {
   ];
 
   const selectApp = useMemo(makeSelectApp, []);
-  const { appName } = useSelector(selectApp);
+  const { app } = useSelector(selectApp);
 
-  const showTravelHelp = () => {
+  const showDayOfTravelHelp = () => {
     if (travelPages.includes(currentPage)) {
       return true;
     }
 
-    if (
-      currentPage?.includes('complete') &&
-      appName !== APP_NAMES.PRE_CHECK_IN
-    ) {
+    if (currentPage?.includes('complete') && app !== APP_NAMES.PRE_CHECK_IN) {
       return true;
     }
 
@@ -48,7 +45,7 @@ const Footer = ({ router }) => {
 
   const showTravelClaimHelp = () => {
     // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-    if (appName === APP_NAMES.TRAVEL_CLAIM) return true;
+    if (app === APP_NAMES.TRAVEL_CLAIM) return true;
 
     return false;
   };
@@ -61,7 +58,7 @@ const Footer = ({ router }) => {
       >
         {t('need-help')}
       </h2>
-      {showTravelHelp() &&
+      {showDayOfTravelHelp() &&
         !showTravelClaimHelp() && (
           <div data-testid="check-in-message">
             <HelpBlock dayOfTravel />
@@ -72,25 +69,12 @@ const Footer = ({ router }) => {
           <HelpBlock travelClaim />
         </div>
       )}
-      {!showTravelHelp() &&
+      {!showDayOfTravelHelp() &&
         !showTravelClaimHelp() && (
           <div data-testid="check-in-message">
             <HelpBlock />
           </div>
         )}
-      {currentPage === 'introduction' && (
-        <p data-testid="intro-extra-message">
-          <span className="vads-u-font-weight--bold">
-            {t(
-              'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
-            )}
-          </span>{' '}
-          call <va-telephone contact="911" />,{' '}
-          <span className="vads-u-font-weight--bold">or</span>{' '}
-          {t('call-the-veterans-crisis-hotline-at')}{' '}
-          <va-telephone contact="988" /> {t('and-select-1')}
-        </p>
-      )}
       <BackToHome />
     </footer>
   );
