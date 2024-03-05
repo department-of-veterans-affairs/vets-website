@@ -2,9 +2,12 @@
   "data": {
     "preparerType": "non-veteran",
     "nonVeteranFullName": {
+    "nonVeteranFullName": {
       "first": "John",
       "last": "Non-Veteran"
     },
+    "nonVeteranDateOfBirth": "1980-01-01",
+    "nonVeteranId": {
     "nonVeteranDateOfBirth": "1980-01-01",
     "nonVeteranId": {
       "ssn": "321540988"
@@ -14,11 +17,21 @@
     },
     "mailingAddressYesNo": true,
     "nonVeteranMailingAddress": {
+    "nonVeteranMailingAddress": {
       "country": "USA",
       "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
+    },
+    "nonVeteranPhone": "1234567891",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
     },
     "nonVeteranPhone": "1234567891",
     "veteranFullName": {

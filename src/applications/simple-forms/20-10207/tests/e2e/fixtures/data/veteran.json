@@ -2,9 +2,12 @@
   "data": {
     "preparerType": "veteran",
     "veteranFullName": {
+    "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
     "veteranDateOfBirth": "1980-01-01",
     "veteranId": {
       "ssn": "321540987"
@@ -14,6 +17,7 @@
     },
     "mailingAddressYesNo": true,
     "veteranMailingAddress": {
+    "veteranMailingAddress": {
       "country": "USA",
       "street": "123 Any St",
       "city": "Anytown",
@@ -21,7 +25,9 @@
       "postalCode": "12345"
     },
     "veteranPhone": "1234567890",
+    "veteranPhone": "1234567890",
     "otherReasons": {
+      "OVER_85": true
       "OVER_85": true
     },
     "powConfinementStartDate": "2013-01-01",
