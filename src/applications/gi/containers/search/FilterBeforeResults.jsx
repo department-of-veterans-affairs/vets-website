@@ -267,6 +267,7 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
+        setIsCleared={setIsCleared}
         className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
           <h3
@@ -311,6 +312,7 @@ export function FilterBeforeResults({
         }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
+        setIsCleared={setIsCleared}
         row={!smallScreen}
         colNum="4p5"
       />
@@ -495,6 +497,7 @@ export function FilterBeforeResults({
             }
             onChange={onChangeCheckbox}
             options={options}
+            setIsCleared={setIsCleared}
             row={!smallScreen}
             colNum="4"
           />

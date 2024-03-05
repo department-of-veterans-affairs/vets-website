@@ -275,6 +275,7 @@ export function FilterYourResults({
           <div className="vads-u-margin-left--neg0p25">About the school:</div>
         }
         onChange={onChangeCheckbox}
+        setIsCleared={setIsCleared}
         options={options}
       />
     );
@@ -368,6 +369,7 @@ export function FilterYourResults({
           </div>
         }
         onChange={onChangeCheckbox}
+        setIsCleared={setIsCleared}
         options={options}
       />
     );
