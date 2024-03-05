@@ -35,6 +35,8 @@ describe('PersonalHealthCareContacts component', () => {
     const { getByRole } = setup();
     await waitFor(() => {
       getByRole('heading', { text: 'Personal health care contacts', level: 1 });
+      getByRole('heading', { text: 'Emergency contacts', level: 2 });
+      getByRole('heading', { text: 'Next of kin contacts', level: 2 });
     });
   });
 

@@ -136,14 +136,15 @@ async function testAddressValidation500(addressName) {
 
   updateAddress(addressName);
 
-  // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
-
   // make sure that edit mode is not automatically exited
   await waitFor(() => {
     expect(view.getByTestId('edit-error-alert')).to.exist;
   });
+
+  // expect an error to be shown
+  const alert = await view.findByTestId('edit-error-alert');
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
+
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -154,14 +155,15 @@ async function testTransactionCreationFails(addressName) {
 
   updateAddress(addressName);
 
-  // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
-
   // make sure that edit mode is not automatically exited
   await waitFor(() => {
     expect(view.getByTestId('edit-error-alert')).to.exist;
   });
+
+  // expect an error to be shown
+  const alert = await view.findByTestId('edit-error-alert');
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
+
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -172,14 +174,15 @@ async function testQuickFailure(addressName) {
 
   updateAddress(addressName);
 
-  // expect an error to be shown
-  const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
-
   // make sure that edit mode is not automatically exited
   await waitFor(() => {
     expect(view.getByTestId('edit-error-alert')).to.exist;
   });
+
+  // expect an error to be shown
+  const alert = await view.findByTestId('edit-error-alert');
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
+
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }

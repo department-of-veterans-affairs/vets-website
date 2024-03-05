@@ -71,6 +71,7 @@ const Contacts = ({ data }) => {
         title="Emergency contacts"
         data={renderEmergencyContacts}
         namedAnchor="emergency-contacts"
+        level={2}
       />
 
       <ProfileInfoCard
@@ -78,6 +79,7 @@ const Contacts = ({ data }) => {
         data={renderNextOfKin}
         namedAnchor="next-of-kin-contacts"
         className="vads-u-margin-top--4"
+        level={2}
       />
     </>
   );
