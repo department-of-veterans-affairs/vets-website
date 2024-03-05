@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import PoaRequestsTable from '../components/PoaRequestsTable/PoaRequestsTable';
+import POARequestsTable from '../components/POARequestsTable/POARequestsTable';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 import LoginViewWrapper from './LoginViewWrapper';
 
@@ -13,7 +13,7 @@ const POARequests = ({ POApermissions = true }) => {
   return (
     <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
       <h1>Power of attorney requests</h1>
-      <PoaRequestsTable poaRequests={mockPOARequests} />
+      <POARequestsTable poaRequests={mockPOARequests} />
     </LoginViewWrapper>
   );
 };
