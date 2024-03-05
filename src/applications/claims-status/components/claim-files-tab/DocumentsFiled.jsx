@@ -26,7 +26,7 @@ const generateDocsFiled = docsFiled => {
   return docsFiled.map(document => {
     if (document.id && document.status) {
       return {
-        requestType: document.displayName,
+        requestTypeText: `Request type: ${document.displayName}`,
         documents: document.documents,
         text: getTrackedItemText(document),
         date: document.date,
@@ -34,7 +34,7 @@ const generateDocsFiled = docsFiled => {
       };
     }
     return {
-      requestType: 'Additional evidence',
+      requestTypeText: 'Additional evidence',
       documents: [
         {
           originalFileName: document.originalFileName,
@@ -62,13 +62,12 @@ const reviewed = text => {
   return text?.includes('Reviewed');
 };
 
-const noLongerNeeded = text => {
-  return text?.includes('No longer needed');
-};
+const docsFiledReceivedDate = itemText =>
+  [
+    'vads-u-margin-top--0p5',
+    itemText ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--0',
+  ].join(' ');
 
-const pendingReview = text => {
-  return text?.includes('Pending review');
-};
 function DocumentsFiled({ claim }) {
   const { supportingDocuments, trackedItems } = claim.attributes;
   const [currentPage, setCurrentPage] = useState(1);
@@ -119,13 +118,15 @@ function DocumentsFiled({ claim }) {
                 >
                   {item.documents.length === 0 ? (
                     <>
-                      <h4 className="vads-u-margin-y--0">Unknown file name</h4>
+                      <h4 className="vads-u-margin-y--0">File name unknown</h4>
                       <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                        {`Request type: ${item.requestType}`}
+                        {item.requestTypeText}
                       </p>
-                      <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--2">
-                        {`Received on ${formatDate(item.date)}`}
-                      </p>
+                      {item.date !== null && (
+                        <p className={docsFiledReceivedDate(item.text)}>
+                          {`Received on ${formatDate(item.date)}`}
+                        </p>
+                      )}
                     </>
                   ) : (
                     item.documents.map((doc, index) => (
@@ -133,44 +134,38 @@ function DocumentsFiled({ claim }) {
                         <h4 className="vads-u-margin-y--0">
                           {doc.originalFileName
                             ? doc.originalFileName
-                            : 'Unknown file name'}
+                            : 'File name unknown'}
                         </h4>
                         <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                          {`Request type: ${item.requestType}`}
+                          {item.requestTypeText}
                         </p>
                         <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
                           {`Document type: ${doc.documentTypeLabel}`}
                         </p>
                         {doc.uploadDate !== null && (
-                          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--2">
+                          <p className={docsFiledReceivedDate(item.text)}>
                             {`Received on ${formatDate(doc.uploadDate)}`}
                           </p>
                         )}
                         {doc.uploadDate === null &&
                           item.date !== null && (
-                            <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--2">
+                            <p className={docsFiledReceivedDate(item.text)}>
                               {`Received on ${formatDate(item.date)}`}
                             </p>
                           )}
                       </div>
                     ))
                   )}
-                  {reviewed(item.text) && (
+                  {item.text && (
                     <div>
-                      <i className="fa fa-check-circle submission-icon" />
+                      {reviewed(item.text) && (
+                        <i className="fa fa-check-circle docs-filed-icon" />
+                      )}
                       <span className="docs-filed-text vads-u-margin-top--0p5 vads-u-margin-bottom--1">
                         {item.text}
                       </span>
                     </div>
                   )}
-                  {noLongerNeeded(item.text) ||
-                    (pendingReview(item.text) && (
-                      <div>
-                        <p className=" docs-filed-text vads-u-margin-top--0p5 vads-u-margin-bottom--1">
-                          {item.text}
-                        </p>
-                      </div>
-                    ))}
                 </li>
               ))}
             </ol>
