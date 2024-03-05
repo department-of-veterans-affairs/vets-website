@@ -8,6 +8,7 @@ describe('Medical Records Unauthenticated Users', () => {
     site.login(false);
     site.loadPageUnauthenticated();
     cy.url().should('contain', 'health-care/get-medical-records');
+    cy.visit('my-health/medical-records');
 
     // Authenticated users
     /*
@@ -15,7 +16,7 @@ describe('Medical Records Unauthenticated Users', () => {
     cy.visit('my-health/medical-records/vitals');
     // Verify "Vitals" Page title Text
     VitalsDetailsPage.verifyVitalsPageText('Vitals');
-*/
+    */
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
