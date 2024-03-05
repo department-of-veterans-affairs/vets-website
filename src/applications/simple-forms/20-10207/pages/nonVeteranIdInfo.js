@@ -9,12 +9,12 @@ import { getIdentityInfoPageTitle } from '../helpers';
 export default {
   uiSchema: {
     ...titleUI(({ formData }) => getIdentityInfoPageTitle(formData)),
-    id: ssnOrVaFileNumberUI(),
+    nonVeteranId: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      id: ssnOrVaFileNumberSchema,
+      nonVeteranId: ssnOrVaFileNumberSchema,
     },
   },
 };

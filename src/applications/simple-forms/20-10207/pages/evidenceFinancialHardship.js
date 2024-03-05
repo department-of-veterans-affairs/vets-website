@@ -9,7 +9,7 @@ import { createPayload, parseResponse } from '../helpers';
 
 const uiTitle = 'Upload evidence for extreme financial hardship';
 const uiDescription =
-  'If you have documents you would like to submit as evidence of financial hardship upload them here.';
+  'If you have documents you would like to submit as evidence of financial hardship, upload them here.';
 
 /** @type {PageSchema} */
 export default {
