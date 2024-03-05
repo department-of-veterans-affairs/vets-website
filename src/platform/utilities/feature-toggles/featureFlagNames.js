@@ -99,6 +99,7 @@ export default Object.freeze({
   financialStatusReportReviewPageNavigation:
     'financial_status_report_review_page_navigation',
   findARepresentativeEnableFrontend: 'find_a_representative_enable_frontend',
+  findARepresentativeEnabled: 'find_a_representative_enabled',
   form2010206: 'form2010206',
   form2110210: 'form2110210',
   form210845: 'form210845',
@@ -164,6 +165,9 @@ export default Object.freeze({
   profileHideDirectDepositCompAndPen:
     'profile_hide_direct_deposit_comp_and_pen',
   profileShowCredentialRetirementMessaging: 'profile_show_credential_retirement_messaging',
+  profileShowDirectDepositSingleForm: 'profile_show_direct_deposit_single_form',
+  profileShowDirectDepositSingleFormAlert: 'profile_show_direct_deposit_single_form_alert',
+  profileShowDirectDepositSingleFormEduDowntime: 'profile_show_direct_deposit_single_form_edu_downtime',
   profileShowEmailNotificationSettings:
     'profile_show_email_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
