@@ -21,8 +21,8 @@ describe('remove folder error modal', () => {
 
   it('verify modal message', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-
+    cy.axeCheck(AXE_CONTEXT);
+    // cy.pause();
     PatientMessageCustomFolderPage.loadSingleFolderWithMessages(
       folderId,
       folderName,

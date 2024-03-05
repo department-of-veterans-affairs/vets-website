@@ -2,6 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
+import { Locators, Alerts } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -14,11 +15,11 @@ class FolderManagementPage {
   };
 
   deleteFolderButton = () => {
-    return cy.get('[data-testid="remove-folder-button"]');
+    return cy.get(Locators.BUTTONS.DELETE_FOLDER);
   };
 
   editFolderNameButton = () => {
-    return cy.get('[data-testid="edit-folder-button"]');
+    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
   };
 
   createFolderTextBox = () => {
@@ -155,10 +156,9 @@ class FolderManagementPage {
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
-    this.folderConfirmation().should(
-      'contain.text',
-      'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
-    );
+    this.folderConfirmation()
+      .should('be.visible')
+      .and('contain.text', Alerts.OUTAGE);
   };
 
   verifyCreateFolderSuccessMessage = () => {

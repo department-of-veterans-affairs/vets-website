@@ -42,6 +42,7 @@ export const Locators = {
     DELETE_DRAFT: '#delete-draft-button',
     CREATE_FOLDER: '[data-testid="create-new-folder"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
+    DELETE_FOLDER: '[data-testid="remove-folder-button"]',
     PRINT: '[data-testid="print-button"]',
   },
   LINKS: {
@@ -76,5 +77,5 @@ export const Alerts = {
       'If you need to contact this care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
-  OUTAGE: "We're sorry. We couldn't load this page. Try again later",
+  OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
 };
