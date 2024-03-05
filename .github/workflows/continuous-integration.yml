@@ -266,17 +266,17 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-report-${{ matrix.ci_node_index }}
-          path: mocha/results
+          path: mocha/results/test-results-${{ matrix.ci_node_index }}.json
 
       - name: Generate coverage report by app
-        run: node script/app-coverage-report.js > test-results/coverage_report.txt
+        run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
 
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
           name: unit-test-coverage-report-${{ matrix.ci_node_index }}
-          path: coverage/test-coverage-report.json
+          path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
