@@ -1023,14 +1023,14 @@ jobs:
       - name: Merge Test results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
-          jq -s 'reduce .[] as $item ({}; . unit-test-report* $item)' > test-results-${{ matrix.ci_node_index }}.json
+          jq -s 'reduce .[] as $item ({}; . unit-test-report-* $item)' > test-results-${{ matrix.ci_node_index }}.json
           ls -a
       
 
       - name: Merge coverage results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
-          jq -s 'reduce .[] as $item ({}; . unit-test-coverage* $item)' > test-results-${{ matrix.ci_node_index }}.json
+          jq -s 'reduce .[] as $item ({}; . unit-test-coverage-* $item)' > test-results-${{ matrix.ci_node_index }}.json
           ls -a
   
       - name: Log directory
