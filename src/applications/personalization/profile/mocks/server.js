@@ -153,6 +153,7 @@ const responses = {
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
+    // return res.status(200).json(bankAccounts.noAccount); // user with no account / not eligible
     return res.status(200).json(bankAccounts.anAccount);
   },
   'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {
