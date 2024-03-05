@@ -1,34 +1,58 @@
-import { generateFeatureToggles } from '../../mocks/feature-toggles';
-
 describe('Representatives', () => {
-  beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [{ name: 'representatives_portal_frontend', value: true }],
-      },
+  const togglePortal = value => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [{ name: 'representatives_portal_frontend', value }],
+        },
+      });
+    });
+  };
+
+  describe('when feature is toggled off', () => {
+    togglePortal(false);
+
+    it('gates', () => {
+      cy.visit('/representatives');
+      cy.injectAxe();
+      cy.axeCheck();
+
+      cy.location('pathname').should('equal', '/');
     });
   });
 
-  it('allows navigation from landing page to dashboard to poa requests', () => {
-    cy.visit('/representatives')
-      .injectAxe()
-      .axeCheck();
-    generateFeatureToggles();
-    cy.contains('Welcome to Representative.VA.gov');
-    cy.contains('Until sign in is added use this to see dashboard').click();
+  describe('when feature is toggled on', () => {
+    togglePortal(true);
 
-    cy.url()
-      .should('include', '/representatives/dashboard')
-      .injectAxe()
-      .axeCheck();
-    cy.contains('Accredited Representative Portal');
-    cy.contains('Manage power of attorney requests').click();
+    it('allows navigation from landing page to dashboard to poa requests', () => {
+      cy.visit('/representatives');
+      cy.injectAxe();
+      cy.axeCheck();
 
-    cy.url().should('include', '/representatives/poa-requests');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.contains('Power of attorney requests');
-    cy.get('[data-testid=poa-requests-table]').should('exist');
+      cy.contains('Welcome to Representative.VA.gov');
+      cy.contains('Until sign in is added use this to see dashboard').click();
+
+      cy.url().should('include', '/representatives/dashboard');
+      cy.axeCheck();
+
+      cy.contains('Accredited Representative Portal');
+      cy.contains('Manage power of attorney requests').click();
+
+      cy.url().should('include', '/representatives/poa-requests');
+      cy.axeCheck();
+
+      cy.contains('Power of attorney requests');
+      cy.get('[data-testid=poa-requests-table]').should('exist');
+    });
+
+    it('allows navigation from landing page to unified sign-in page', () => {
+      cy.visit('/representatives');
+      cy.injectAxe();
+      cy.axeCheck();
+
+      cy.contains('Sign in or create an account').click();
+      cy.url().should('include', '/sign-in/?application=arp&oauth=true');
+    });
   });
 
   it('renders breadcrumbs', () => {
