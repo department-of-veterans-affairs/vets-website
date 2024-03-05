@@ -20,17 +20,12 @@ const initializeDatadogRum = config => {
   }
 };
 
-const useDatadogRum = (config, userInfo) => {
+const useDatadogRum = config => {
   useEffect(
     () => {
       initializeDatadogRum(config);
-      if (userInfo?.loggedIn && environment.isStaging()) {
-        datadogRum.setUser({
-          id: userInfo.accountUuid || 'no-account-uuid-found',
-        });
-      }
     },
-    [config, userInfo],
+    [config],
   );
 };
 
