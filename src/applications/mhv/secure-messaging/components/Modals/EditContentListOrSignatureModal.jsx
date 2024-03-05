@@ -12,6 +12,7 @@ const EditContentListOrSignatureModal = props => {
 
   return (
     <VaModal
+      uswds
       id="edit-list"
       data-testid="edit-list"
       modalTitle={Prompts.Compose.EDIT_PREFERENCES_TITLE}

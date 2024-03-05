@@ -36,6 +36,7 @@ const CrisisLineConnectButton = () => {
 
   return (
     <va-button
+      class="vads-u-margin-y--1"
       uswds
       secondary="true"
       text="Connect with the Veterans Crisis Line"

@@ -224,6 +224,8 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
               or night.
               <br />
               <va-button
+                uswds
+                class="vads-u-margin-y--1"
                 secondary="true"
                 text="Connect with the Veterans Crisis Line"
                 onClick={openCrisisModal}

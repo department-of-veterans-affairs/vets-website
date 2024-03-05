@@ -65,6 +65,7 @@ export const RouteLeavingGuard = ({
     <>
       <Prompt when={when} message={handleBlockedNavigation} />
       <VaModal
+        uswds
         modalTitle={title}
         onCloseEvent={closeModal}
         status="warning"
@@ -78,11 +79,13 @@ export const RouteLeavingGuard = ({
         </p>
         {p2 && <p>{p2}</p>}
         <va-button
+          uswds
           text={confirmButtonText}
           onClick={closeModal}
           data-dd-action-name="Cancel Navigation Continue Editing Button"
         />
         <va-button
+          uswds
           secondary
           text={cancelButtonText}
           onClick={handleConfirmNavigationClick}

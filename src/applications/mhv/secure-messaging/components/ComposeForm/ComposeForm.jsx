@@ -632,6 +632,7 @@ const ComposeForm = props => {
                 !allTriageGroupsBlocked && (
                   <>
                     <VaSelect
+                      uswds
                       enable-analytics
                       id="recipient-dropdown"
                       label="To"
@@ -655,6 +656,7 @@ const ComposeForm = props => {
             : recipientsList && (
                 <>
                   <VaSelect
+                    uswds
                     enable-analytics
                     id="recipient-dropdown"
                     label="To"
