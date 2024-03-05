@@ -6,7 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import LoginViewWrapper from './LoginViewWrapper';
+import SignedInViewLayout from './SignedInViewLayout';
 
 function App({ children }) {
   const {
@@ -32,9 +32,9 @@ function App({ children }) {
   }
 
   return (
-    <LoginViewWrapper POAPermissions breadcrumbs={[]}>
+    <SignedInViewLayout POAPermissions breadcrumbs={[]}>
       {children}
-    </LoginViewWrapper>
+    </SignedInViewLayout>
   );
 }
 
