@@ -254,6 +254,13 @@ jobs:
           IS_STRESS_TEST: false
           NUM_CONTAINERS: 10
 
+      - name: List and merge test results
+        run: |
+          cd mocha/results
+          ls -a
+          jq -s 'reduce .[] as $item ({}; . * $item)' json_files/*
+          ls -a
+
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
