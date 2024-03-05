@@ -37,6 +37,7 @@ export function FilterBeforeResults({
   errorReducer,
   nameVal,
   searchType,
+  onApplyFilterClick,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -369,6 +370,7 @@ export function FilterBeforeResults({
     if (modalClose) {
       modalClose();
     }
+    onApplyFilterClick();
   };
 
   const specializedMissionAttributes = () => {
