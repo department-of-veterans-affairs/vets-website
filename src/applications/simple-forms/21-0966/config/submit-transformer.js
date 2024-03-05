@@ -2,7 +2,7 @@ import sharedTransformForSubmit from '../../shared/config/submit-transformer';
 
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
-    sharedTransformForSubmit(formConfig, form, true),
+    sharedTransformForSubmit(formConfig, form),
   );
 
   return JSON.stringify({
