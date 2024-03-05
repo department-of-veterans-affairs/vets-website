@@ -4,15 +4,13 @@
     "thirdPartyFullName": {
       "first": "Joe",
       "last": "Third-Pty-Non-Vet"
+      "last": "Third-Pty-Non-Vet"
     },
     "thirdPartyType": "power-of-attorney",
-    "nonVeteranFullName": {
     "nonVeteranFullName": {
       "first": "John",
       "last": "Non-Veteran"
     },
-    "nonVeteranDateOfBirth": "1980-01-01",
-    "nonVeteranId": {
     "nonVeteranDateOfBirth": "1980-01-01",
     "nonVeteranId": {
       "ssn": "321540990"
@@ -21,7 +19,6 @@
       "NONE": true
     },
     "mailingAddressYesNo": true,
-    "nonVeteranMailingAddress": {
     "nonVeteranMailingAddress": {
       "country": "USA",
       "street": "124 Any St",

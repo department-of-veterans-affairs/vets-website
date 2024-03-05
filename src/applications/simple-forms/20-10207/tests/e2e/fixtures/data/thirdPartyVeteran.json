@@ -4,16 +4,12 @@
     "thirdPartyFullName": {
       "first": "Joe",
       "last": "Third-Party-Veteran"
-      "last": "Third-Party-Veteran"
     },
     "thirdPartyType": "representative",
-    "veteranFullName": {
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
-    "veteranDateOfBirth": "1980-01-01",
-    "veteranId": {
     "veteranDateOfBirth": "1980-01-01",
     "veteranId": {
       "ssn": "321540989"
@@ -23,7 +19,6 @@
     },
     "mailingAddressYesNo": true,
     "veteranMailingAddress": {
-    "veteranMailingAddress": {
       "country": "USA",
       "street": "125 Any St",
       "city": "Anytown",
@@ -31,8 +26,22 @@
       "postalCode": "12345"
     },
     "veteranPhone": "1234567892",
-    "veteranPhone": "1234567892",
     "otherReasons": {
+      "OVER_85": true
+    },
+    "medicalTreatments": [
+      {
+        "facilityName": "Guido’s Trailer",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2018-01-01"
+      }
+    ]
       "OVER_85": true
     },
     "medicalTreatments": [
