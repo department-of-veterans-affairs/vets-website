@@ -17,6 +17,8 @@ import {
   UPDATE_ADDRESS_SUCCESS,
   UPDATE_ADDRESS_FAILURE,
   postMailingAddress,
+  VERIFY_ENROLLMENT_SUCCESS,
+  verifyEnrollmentAction,
 } from '../../actions';
 
 const mockData = { user: 'user' };
@@ -145,5 +147,20 @@ describe('getData, creator', () => {
       expect(dispatch.calledWith({ type: UPDATE_ADDRESS_FAILURE, errors })).to
         .be.true;
     }
+  });
+  it('dispatch VERIFY_ENROLLMENT_SUCCESS after a sucessful api request', async () => {
+    const response = {
+      status: 204,
+      data: 'verify enrollment',
+      ok: true,
+    };
+    apiRequestStub.resolves(response);
+    await verifyEnrollmentAction({ data: 'verify enrollment' })(dispatch);
+    expect(
+      dispatch.calledWith({
+        type: VERIFY_ENROLLMENT_SUCCESS,
+        response,
+      }),
+    ).to.be.true;
   });
 });
