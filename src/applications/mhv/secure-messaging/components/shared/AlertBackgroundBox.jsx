@@ -97,7 +97,7 @@ const AlertBackgroundBox = props => {
       dispatch(retrieveFolder(folder?.folderId));
       dispatch(closeAlert());
     }
-  }, 7000); // 30 seconds
+  }, 30000); // 30 seconds
 
   const alertAriaLabel = `${alertContent}. You are in ${
     lastPathName === 'Folders' ? 'My folders' : lastPathName
