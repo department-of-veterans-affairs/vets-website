@@ -118,6 +118,7 @@ if (fs.existsSync(path.join(__dirname, '../coverage/coverage-summary.json'))) {
   const coverageSummaryJson = JSON.parse(
     fs.readFileSync(path.join(__dirname, '../coverage/coverage-summary.json')),
   );
+  console.log(coverageSummaryJson);
   // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
   logCoverage(appCoverages);
