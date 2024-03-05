@@ -3,34 +3,52 @@
     "preparerType": "third-party-non-veteran",
     "thirdPartyFullName": {
       "first": "Joe",
-      "last": "Power-of-Attorney"
+      "last": "Third-Party-Non-Veteran"
     },
     "thirdPartyType": "power-of-attorney",
-    "fullName": {
+    "nonVeteranFullName": {
       "first": "John",
       "last": "Non-Veteran"
     },
-    "dateOfBirth": "1980-01-01",
-    "id": {
+    "nonVeteranDateOfBirth": "1980-01-01",
+    "nonVeteranId": {
       "ssn": "321540990"
     },
     "livingSituation": {
       "NONE": true
     },
     "mailingAddressYesNo": true,
-    "mailingAddress": {
+    "nonVeteranMailingAddress": {
       "country": "USA",
       "street": "126 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
     },
-    "phone": "1234567893",
+    "nonVeteranPhone": "1234567893",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
+    },
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true,
-      "ALS": true,
-      "TERMINAL_ILLNESS": true,
-      "VSI_SI": true
-    }
+      "OVER_85": true
+    },
+    "medicalTreatments": [
+      {
+        "facilityName": "Guido’s Trailer",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2018-01-01"
+      }
+    ]
   }
 }
