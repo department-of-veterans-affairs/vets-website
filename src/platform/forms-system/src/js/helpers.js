@@ -684,7 +684,6 @@ export function transformForSubmit(
   formConfig,
   form,
   replacer = stringifyFormReplacer,
-  retainViewFields = false,
 ) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -697,11 +696,6 @@ export function transformForSubmit(
     activePages,
     form,
   );
-
-  if (retainViewFields) {
-    return JSON.stringify(withoutInactivePages, replacer) || '{}';
-  }
-
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
