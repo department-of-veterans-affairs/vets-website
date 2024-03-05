@@ -149,7 +149,7 @@ export default {
           properties: {
             childPlaceOfBirth: { type: 'string' },
             childSocialSecurityNumber: ssnSchema,
-            'view:noSSN': { type: 'boolean', enum: [true] },
+            'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(
               Object.keys(childRelationshipOptions),
             ),
