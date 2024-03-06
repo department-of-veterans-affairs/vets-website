@@ -1022,6 +1022,9 @@ jobs:
           cd qa-standards-dashboard-data/coverage
           ls -a 
 
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+
       - name: Merge Test results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
@@ -1076,8 +1079,8 @@ jobs:
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
         run: |
-          if [ -f coverage/test-coverage-report.json ]; then
-            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
+            aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
           else
             echo 'No coverage report exists as no tests were run.'
           fi
