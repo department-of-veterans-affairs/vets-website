@@ -17,6 +17,10 @@ describe('Representatives', () => {
       cy.injectAxe();
       cy.axeCheck();
 
+      cy.get('.vads-c-action-link--white')
+        .should('exist')
+        .click();
+
       cy.location('pathname').should('equal', '/');
     });
   });
