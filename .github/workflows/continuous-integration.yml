@@ -1016,8 +1016,8 @@ jobs:
       - name: Download Unit Test coverage results
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: unit-test-report-*
-          path: qa-standards-dashboard-data/src/testing-reports/data
+          pattern: unit-test-coverage-*
+          path: qa-standards-dashboard-data/coverge
           merge-multiple: true
       
       - name: Log directory
@@ -1029,14 +1029,14 @@ jobs:
       - name: Merge Test results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
-          jq -s 'reduce .[] as $item ({}; . + $item)' unit-test-report* > test-results-${{ matrix.ci_node_index }}.json
+          jq -s 'reduce .[] as $item ({}; . * $item)' > test-results.json
           ls -a
       
 
       - name: Merge coverage results
         run: |
-          cd qa-standards-dashboard-data/src/testing-reports/data
-          jq -s 'reduce .[] as $item ({}; . + $item)' unit-test-coverage* > test-results-${{ matrix.ci_node_index }}.json
+          cd qa-standards-dashboard-data/coverage
+          jq -s 'reduce .[] as $item ({}; . * $item)' > test-coverage.json
           ls -a
   
       - name: Log directory
