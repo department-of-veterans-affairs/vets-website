@@ -10,13 +10,15 @@ import reasonForCurrentSeparation, {
 
 describe('reason for current separation page', () => {
   const pageTitle = 'reason for separation';
-  const expectedNumberOfFields = 1;
+  const formData = { reasonForCurrentSeparation: 'OTHER' };
+  const expectedNumberOfFields = 2;
   testNumberOfWebComponentFields(
     formConfig,
     reasonForCurrentSeparation.schema,
     reasonForCurrentSeparation.uiSchema,
     expectedNumberOfFields,
     pageTitle,
+    formData,
   );
 
   const expectedNumberOfErrors = 1;
@@ -26,6 +28,7 @@ describe('reason for current separation page', () => {
     reasonForCurrentSeparation.uiSchema,
     expectedNumberOfErrors,
     pageTitle,
+    formData,
   );
 
   describe('otherExplanationRequired', () => {
