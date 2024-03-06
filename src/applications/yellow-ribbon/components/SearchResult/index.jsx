@@ -1,7 +1,6 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import toLower from 'lodash/toLower';
 import startsWith from 'lodash/startsWith';
 // Relative imports.
 import { capitalize, titleCase } from '../../helpers';
@@ -92,9 +91,11 @@ export const deriveInstURLLabel = (school = {}, onSearchResultClick) => {
       onClick={onSearchResultClick(school)}
       rel="noreferrer noopener"
       target="_blank"
-      aria-label={`${school?.insturl} Opens in a new window`}
+      aria-label={`Visit ${titleCase(
+        school?.nameOfInstitution,
+      )} website opens in a new window`}
     >
-      {toLower(school?.insturl)}
+      Visit {titleCase(school?.nameOfInstitution)} website
     </a>
   );
 };
