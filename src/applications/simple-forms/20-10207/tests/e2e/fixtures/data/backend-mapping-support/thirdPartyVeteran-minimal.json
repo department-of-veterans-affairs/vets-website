@@ -17,14 +17,7 @@
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
-    "veteranMailingAddress": {
-      "country": "USA",
-      "street": "125 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
+    "mailingAddressYesNo": false,
     "veteranPhone": "1234567892",
     "otherReasons": {
       "OVER_85": true
