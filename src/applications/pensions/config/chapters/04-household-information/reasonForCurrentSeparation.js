@@ -3,6 +3,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 const reasonForCurrentSeparationOptions = {
   MEDICAL_CARE: 'One of us needs medical care in a dedicated facility',
@@ -24,6 +25,7 @@ export default {
     }),
     otherExplanation: {
       'ui:title': 'Describe the reason for your separation',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonForCurrentSeparation',
         expandUnderCondition: 'OTHER',
