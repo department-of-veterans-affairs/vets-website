@@ -570,6 +570,12 @@ const testForm = testConfig => {
     skippedTests.has?.(testKey)
       ? context.skip(testKey, callback)
       : context(testKey, callback);
+  const getTestTitle = testKey =>
+    typeof testKey === 'object' ? testKey.title : testKey;
+  const getTestData = testKey =>
+    typeof testKey === 'object'
+      ? cy.wrap(testKey.data)
+      : cy.fixture(`${dataDir || fixtures.data}/${testKey}`);
 
   testSuite(appName, () => {
     before(() => {
@@ -609,22 +615,11 @@ const testForm = testConfig => {
     const extractTestData = testData => get(dataPrefix, testData, testData);
 
     const createTestCase = testKey => {
-      let title;
-      if (typeof testKey === 'object') {
-        title = testKey.title;
-      } else {
-        title = testKey;
-      }
+      const title = getTestTitle(testKey);
       testCase(title, () => {
         beforeEach(() => {
-          let data;
-          if (typeof testKey === 'object') {
-            data = cy.wrap(testKey.data);
-          } else {
-            data = cy.fixture(`${dataDir || fixtures.data}/${testKey}`);
-          }
           cy.wrap(title).as('testKey');
-          data
+          getTestData(testKey)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);
