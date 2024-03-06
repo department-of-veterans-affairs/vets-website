@@ -17,7 +17,7 @@ const TravelQuestion = props => {
   const dispatch = useDispatch();
   const onEditClick = e => {
     e.preventDefault();
-    jumpToPage('/travel-vehicle');
+    jumpToPage('/travel-mileage');
   };
   const onCheck = e => {
     setAgree(e.detail.checked);
