@@ -1,45 +1,41 @@
 import React from 'react';
 import { expect } from 'chai';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
+import { shallow } from 'enzyme';
 
 import asyncLoader from '../../ui/asyncLoader';
 
 describe('asyncLoader', () => {
-  // it('should display loading indicator while waiting', () => {
-  //   const Component = asyncLoader(() => new Promise(f => f), 'Test loading');
+  it('should display loading indicator while waiting', () => {
+    const Component = asyncLoader(() => new Promise(f => f), 'Test loading');
 
-  //   const page = ReactTestUtils.renderIntoDocument(<Component />);
-  //   const pageDOM = findDOMNode(page);
+    const wrapper = shallow(<Component />);
 
-  //   expect(pageDOM.textContent).to.contain('va-loading-indicator');
-  // });
-
-  it('should display component returned from promise', done => {
-    const promise = Promise.resolve(() => <div>Test component</div>);
-    const Component = asyncLoader(() => promise, 'Test loading');
-
-    const page = ReactTestUtils.renderIntoDocument(<Component />);
-    // this allows setState to be called first
-    setTimeout(() => {
-      const pageDOM = findDOMNode(page);
-      expect(pageDOM.textContent).to.contain('Test component');
-      done();
-    });
+    expect(wrapper.find('va-loading-indicator')).to.exist;
+    expect(
+      wrapper.find('va-loading-indicator').props('message').message,
+    ).to.eql('Test loading');
+    wrapper.unmount();
   });
 
-  it('should unwrap default import if it exists', done => {
+  it('should display component returned from promise', () => {
+    const promise = Promise.resolve(() => <div id="test">Test component</div>);
+    const Component = asyncLoader(() => promise, 'Test loading');
+
+    const wrapper = shallow(<Component />);
+
+    expect(wrapper.find('#test')).to.exist;
+    wrapper.unmount();
+  });
+
+  it('should unwrap default import if it exists', () => {
     const promise = Promise.resolve({
-      default: () => <div>Test component</div>,
+      default: () => <div id="test-default">Test component</div>,
     });
     const Component = asyncLoader(() => promise, 'Test loading');
 
-    const page = ReactTestUtils.renderIntoDocument(<Component />);
-    // this allows setState to be called first
-    setTimeout(() => {
-      const pageDOM = findDOMNode(page);
-      expect(pageDOM.textContent).to.contain('Test component');
-      done();
-    });
+    const wrapper = shallow(<Component />);
+
+    expect(wrapper.find('#test-default')).to.exist;
+    wrapper.unmount();
   });
 });
