@@ -716,6 +716,7 @@ const ComposeForm = props => {
                 data-dd-action-name="Compose Message Subject Input Field"
                 maxlength="50"
                 uswds
+                charcount
               />
             )}
           </div>
