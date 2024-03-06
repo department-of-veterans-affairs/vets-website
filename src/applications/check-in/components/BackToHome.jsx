@@ -11,9 +11,13 @@ function BackToHome() {
   const { t } = useTranslation();
   let restartURL =
     '/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-  if (app !== 'preCheckIn') {
+  if (app === 'checkIn') {
     restartURL =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
+  }
+  if (app === 'travelClaim') {
+    restartURL =
+      '/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
   }
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 local-start-again">

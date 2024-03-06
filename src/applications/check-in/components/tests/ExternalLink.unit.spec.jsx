@@ -58,5 +58,24 @@ describe('check-in', () => {
       const link = screen.getByRole('link');
       expect(link.getAttribute('data-testid')).to.equal('test-id');
     });
+    it('renders a target and rel', () => {
+      const screen = render(
+        <CheckInProvider>
+          <ExternalLink
+            hrefLang="tl"
+            href="/"
+            dataTestId="test-id"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.getAttribute('data-testid')).to.equal('test-id');
+      expect(link.getAttribute('target')).to.equal('_blank');
+      expect(link.getAttribute('rel')).to.equal('noreferrer');
+    });
   });
 });
