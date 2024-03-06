@@ -84,6 +84,7 @@ export default {
         ),
         hoursPerWeek: numberUI({
           title: 'How many hours per week does the care provider work?',
+          width: 'sm',
           min: 1,
           max: 168,
         }),
