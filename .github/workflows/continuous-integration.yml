@@ -1005,6 +1005,8 @@ jobs:
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
       # --------------------------------------------------
+      - name: Create coverage directory
+        run: mkdir -p qa-standards-dashboard-data/coverage
 
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
