@@ -1,0 +1,42 @@
+{
+  "data": {
+    "preparerType": "non-veteran",
+    "nonVeteranFullName": {
+      "first": "John",
+      "last": "Non-Veteran"
+    },
+    "nonVeteranDateOfBirth": "1980-01-01",
+    "nonVeteranId": {
+      "ssn": "321540988"
+    },
+    "livingSituation": {
+      "NONE": true
+    },
+    "mailingAddressYesNo": false,
+    "nonVeteranPhone": "1234567891",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
+    },
+    "otherReasons": {
+      "OVER_85": true
+    },
+    "medicalTreatments": [
+      {
+        "facilityName": "Guido’s Trailer",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2013-01-01"
+      }
+    ]
+  }
+}
