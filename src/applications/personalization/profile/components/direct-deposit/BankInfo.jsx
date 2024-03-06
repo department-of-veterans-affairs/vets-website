@@ -27,13 +27,14 @@ import {
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
-import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
+import DirectDepositConnectionError from './alerts/DirectDepositConnectionError';
 
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
@@ -45,6 +46,7 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 import { ProfileInfoCard } from '../ProfileInfoCard';
+import { EduMigrationDowntimeAlert } from './alerts/EduMigrationDowntimeAlert';
 
 export const BankInfo = ({
   isLOA3,
@@ -334,8 +336,20 @@ export const BankInfo = ({
     </>
   );
 
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isAlertToggleEnabled = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleFormEduDowntime,
+  );
+
+  const shouldShowEduMigrationAlert =
+    isAlertToggleEnabled && benefitTypes.EDU === type;
+
   // Helper that determines which data to show in the top row of the table
   const getBankInfo = () => {
+    if (shouldShowEduMigrationAlert) {
+      return <EduMigrationDowntimeAlert />;
+    }
+
     if (directDepositUiState.isEditing) {
       return editingBankInfoContent;
     }
@@ -358,6 +372,10 @@ export const BankInfo = ({
     };
     if (isEligibleToSetUpDirectDeposit || isDirectDepositSetUp) {
       data.title = 'Account';
+    }
+
+    if (shouldShowEduMigrationAlert) {
+      data.title = '';
     }
     return [data];
   };
@@ -454,7 +472,7 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositIsEligible(state, true)
+      ? cnpDirectDepositIsEligible(state)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
