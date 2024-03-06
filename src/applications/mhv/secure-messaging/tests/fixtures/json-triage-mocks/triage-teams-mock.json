@@ -1,5 +1,5 @@
 {
-  "associatedTriageGroupsQty": 5,
+  "associatedTriageGroupsQty": 6,
   "associatedBlockedTriageGroupsQty": 0,
   "noAssociations": false,
   "allTriageGroupsBlocked": false,
@@ -44,6 +44,14 @@
       "blockedStatus": false,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
     }
   ],
   "mockAllowedRecipients": [
@@ -82,6 +90,14 @@
     {
       "id": 2343333,
       "name": "AnTran_TGTest",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
