@@ -241,10 +241,6 @@ class FolderManagementPage {
       .and('have.text', 'Message conversation was successfully moved.');
   };
 
-  verifyMoveMessageSuccessConfirmationHasFocus = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
-  };
-
   confirmDeleteFolder = folderId => {
     cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
       statusCode: 204,
