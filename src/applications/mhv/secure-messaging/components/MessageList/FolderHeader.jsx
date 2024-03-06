@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   BlockedTriageAlertStyles,
@@ -27,13 +26,6 @@ const FolderHeader = props => {
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
-  );
-
-  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
-      ],
   );
 
   const cernerFacilities = useMemo(
@@ -104,53 +96,36 @@ const FolderHeader = props => {
           <CernerFacilityAlert cernerFacilities={cernerFacilities} />
         )}
 
-      {mhvSecureMessagingBlockedTriageGroup1p0 ? (
-        <>
-          {folder.folderId === Folders.INBOX.id &&
-            (noAssociations || allTriageGroupsBlocked) && (
-              <BlockedTriageGroupAlert
-                alertStyle={
-                  noAssociations
-                    ? BlockedTriageAlertStyles.INFO
-                    : BlockedTriageAlertStyles.WARNING
-                }
-                blockedTriageGroupList={[]}
-                parentComponent={ParentComponent.FOLDER_HEADER}
-              />
-            )}
+      <>
+        {folder.folderId === Folders.INBOX.id &&
+          (noAssociations || allTriageGroupsBlocked) && (
+            <BlockedTriageGroupAlert
+              alertStyle={
+                noAssociations
+                  ? BlockedTriageAlertStyles.INFO
+                  : BlockedTriageAlertStyles.WARNING
+              }
+              blockedTriageGroupList={[]}
+              parentComponent={ParentComponent.FOLDER_HEADER}
+            />
+          )}
 
-          <>{handleFolderDescription()}</>
-          {folder.folderId === Folders.INBOX.id &&
-            (mhvSecureMessagingBlockedTriageGroup1p0
-              ? !noAssociations && !allTriageGroupsBlocked
-              : true) && <ComposeMessageButton />}
-          <ManageFolderButtons folder={folder} />
-          {threadCount > 0 && (
-            <SearchForm
-              folder={folder}
-              keyword=""
-              resultsCount={searchProps.searchResults?.length}
-              {...searchProps}
-              threadCount={threadCount}
-            />
+        <>{handleFolderDescription()}</>
+        {folder.folderId === Folders.INBOX.id &&
+          (!noAssociations && !allTriageGroupsBlocked) && (
+            <ComposeMessageButton />
           )}
-        </>
-      ) : (
-        <>
-          <>{handleFolderDescription()}</>
-          {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
-          <ManageFolderButtons folder={folder} />
-          {threadCount > 0 && (
-            <SearchForm
-              folder={folder}
-              keyword=""
-              resultsCount={searchProps.searchResults?.length}
-              {...searchProps}
-              threadCount={threadCount}
-            />
-          )}
-        </>
-      )}
+        <ManageFolderButtons folder={folder} />
+        {threadCount > 0 && (
+          <SearchForm
+            folder={folder}
+            keyword=""
+            resultsCount={searchProps.searchResults?.length}
+            {...searchProps}
+            threadCount={threadCount}
+          />
+        )}
+      </>
     </>
   );
 };
