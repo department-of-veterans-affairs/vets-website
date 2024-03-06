@@ -48,7 +48,7 @@ describe('NOD contact info loop', () => {
 
     // Homeless question
     cy.location('pathname').should('eq', `${NOD_BASE_URL}/homeless`);
-    cy.get('[type="radio"][value="N"]').check(checkOpt);
+    cy.get('[type="radio"][value="N"]').check({ ...checkOpt, force: true });
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
