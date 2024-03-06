@@ -19,6 +19,7 @@ const boardReview = {
         labelHeaderLevel: '3',
         labels: boardReviewLabels,
         descriptions: boardReviewDescriptions,
+        required: () => true,
         enableAnalytics: true,
         errorMessages: {
           required: boardReviewErrorMessage,

@@ -39,7 +39,7 @@ export const radioUI = ({
   title,
   description,
   errorMessages,
-  required = () => true,
+  required = () => false,
   ...uiOptions
 }) => {
   return {
