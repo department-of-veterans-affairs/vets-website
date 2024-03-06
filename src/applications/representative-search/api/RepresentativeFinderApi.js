@@ -46,6 +46,8 @@ class RepresentativeFinderApi {
           if (!response.ok) {
             throw Error(response.statusText);
           }
+          const csrf = response.headers.get('X-CSRF-Token');
+          localStorage.setItem('csrfToken', csrf);
 
           return response.json();
         })

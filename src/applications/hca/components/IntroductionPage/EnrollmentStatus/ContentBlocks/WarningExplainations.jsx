@@ -118,21 +118,6 @@ const explainBlock13 = (
   </p>
 );
 
-const explainBlock14 = (
-  <>
-    <p>
-      Our records show that we couldn’t enroll you when you applied for VA
-      health care in the past. But eligibility can change based on changes in
-      your life or income or changes in VA eligibility requirements. And as of
-      March 5, 2024, we have new options to enroll Veterans.
-    </p>
-    <p>
-      We encourage you to apply again to help us determine if we can enroll you
-      now.
-    </p>
-  </>
-);
-
 // Export blocks
 export default {
   explainBlock1,
@@ -148,5 +133,4 @@ export default {
   explainBlock11,
   explainBlock12,
   explainBlock13,
-  explainBlock14,
 };

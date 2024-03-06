@@ -244,57 +244,58 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
-
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'mhv_secure_messaging_to_va_gov_release',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggle');
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
       mockCategories,
     ).as('categories');
-
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
       mockFolders,
     ).as('folders');
-
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/messages*`,
       mockMessages,
     ).as('inboxMessages');
-
     this.loadedMessagesData = mockMessages;
-
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       this.mockInboxMessages,
     ).as('inboxMessages');
-
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
       mockInboxFolder,
     ).as('inboxFolderMetaData');
-
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       this.mockInboxMessages,
     ).as('inboxMessages');
-
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
       mockNoRecipients,
     ).as('recipients');
-
     cy.visit(Paths.UI_MAIN + Paths.INBOX);
     if (doAxeCheck) {
       cy.injectAxe();

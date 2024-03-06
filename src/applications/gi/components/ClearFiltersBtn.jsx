@@ -10,9 +10,6 @@ function ClearFiltersBtn({
   smallScreen,
   children,
   testId,
-  isCleared,
-  setIsCleared,
-  onKeyDown,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
@@ -39,7 +36,6 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
-    setIsCleared(true);
   };
 
   return (
@@ -60,12 +56,6 @@ function ClearFiltersBtn({
           className="clear-filters-btn"
           onClick={clearAllFilters}
           data-testid={testId}
-          aria-label={
-            isCleared
-              ? 'All filters have been removed. Please select at least one filter.'
-              : ''
-          }
-          onKeyDown={onKeyDown}
         >
           {' '}
           {children}

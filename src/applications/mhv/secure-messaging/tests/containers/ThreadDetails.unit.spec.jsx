@@ -289,7 +289,11 @@ describe('Thread Details container', () => {
   });
 
   it('with a reply draft message on a replied to message is LESS than 45 days', async () => {
-    const { category, subject } = replyDraftThread.threadDetails.messages[0];
+    const {
+      triageGroupName,
+      category,
+      subject,
+    } = replyDraftThread.threadDetails.messages[0];
 
     const draftMessageHistoryUpdated = [
       {
@@ -324,22 +328,9 @@ describe('Thread Details container', () => {
           ],
           messages: [...draftMessageHistoryUpdated],
         },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.associatedBlockedTriageGroupsQty,
-          noAssociations: noBlockedRecipients.noAssociations,
-          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-        },
       },
     };
     const screen = setup(state);
-
-    const { triageGroupName } = state.sm.threadDetails.drafts[0];
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
@@ -399,17 +390,6 @@ describe('Thread Details container', () => {
           drafts: [replyDraftMessage],
           messages: [replyMessage],
         },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.associatedBlockedTriageGroupsQty,
-          noAssociations: noBlockedRecipients.noAssociations,
-          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-        },
       },
     };
     const screen = setup(state);
@@ -459,23 +439,8 @@ describe('Thread Details container', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-            },
-          ],
+          drafts: [replyDraftMessage],
           messages: [replyMessage],
-        },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.associatedBlockedTriageGroupsQty,
-          noAssociations: noBlockedRecipients.noAssociations,
-          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
         },
       },
     };
@@ -505,17 +470,6 @@ describe('Thread Details container', () => {
           ],
           messages: [replyMessage],
         },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.associatedBlockedTriageGroupsQty,
-          noAssociations: noBlockedRecipients.noAssociations,
-          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-        },
       },
     };
     const screen = setup(state);
@@ -540,24 +494,8 @@ describe('Thread Details container', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-              replyToMessageId: 1234,
-            },
-          ],
+          drafts: [{ ...replyDraftMessage, replyToMessageId: 1234 }],
           messages: [replyMessage],
-        },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.associatedBlockedTriageGroupsQty,
-          noAssociations: noBlockedRecipients.noAssociations,
-          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
         },
       },
     };
@@ -612,6 +550,10 @@ describe('Thread Details container', () => {
       featureToggles: {},
     };
 
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = setup(state);
 
     const blockedTriageGroupAlert = await screen.findByTestId(
@@ -660,6 +602,10 @@ describe('Thread Details container', () => {
       },
       featureToggles: {},
     };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = setup(state);
 
@@ -711,6 +657,10 @@ describe('Thread Details container', () => {
       },
       featureToggles: {},
     };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = setup(state);
 

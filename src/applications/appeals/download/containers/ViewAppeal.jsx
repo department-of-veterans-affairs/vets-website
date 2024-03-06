@@ -74,7 +74,7 @@ const ViewAppeal = () => {
           your records.
         </p>
 
-        <va-summary-box uswds class="vads-u-margin-y--2">
+        <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Download a copy of your Board Appeal (PDF)
           </h3>
@@ -89,7 +89,7 @@ const ViewAppeal = () => {
             href="#"
             text="Download a copy of your Board Appeal (PDF)"
           />
-        </va-summary-box>
+        </div>
 
         <h3 className="vads-u-margin-top--0">
           You submitted the following information for Board Appeal

@@ -23,9 +23,9 @@ const SpousePayrollDeductionChecklist = props => {
   const {
     personalData: {
       employmentHistory: {
-        spouse: { spEmploymentRecords = [] } = {},
         newRecord = {},
-      } = {},
+        spouse: { spEmploymentRecords = [] },
+      },
     },
   } = formData;
 

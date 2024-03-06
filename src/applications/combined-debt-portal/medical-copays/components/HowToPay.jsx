@@ -28,7 +28,7 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
         </p>
         {!isOverview && (
           <p>
-            <strong>Account number: </strong>
+            <strong>Account Number: </strong>
             {acctNum}
           </p>
         )}
@@ -44,7 +44,7 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
         <p>
           If you need help making a payment online, call us at{' '}
           <va-telephone contact="8888274817" />. We’re available Monday through
-          Friday, 8:00 a.m. to 8:00 p.m. ET.
+          Friday, 8:00am - 8:00pm ET.
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 2: Pay by phone" uswds>

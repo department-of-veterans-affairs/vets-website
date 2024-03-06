@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import EmergencyNote from '../EmergencyNote';
 import {
   updatePageTitle,
@@ -40,10 +41,16 @@ const ReplyForm = props => {
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const signature = useSelector(state => state.sm.preferences.signature);
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
 
   useEffect(() => {
     const draftToEdit = drafts?.[0];
-    if (draftToEdit) {
+    if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
       const tempRecipient = {
         recipientId: draftToEdit.recipientId,
         name:
@@ -135,26 +142,32 @@ const ReplyForm = props => {
         <h1 ref={header} className="page-title">
           {messageTitle}
         </h1>
-
-        <CannotReplyAlert
-          visible={cannotReply && !showBlockedTriageGroupAlert}
-        />
-
-        {showBlockedTriageGroupAlert && (
-          <BlockedTriageGroupAlert
-            blockedTriageGroupList={blockedTriageGroupList}
-            alertStyle={BlockedTriageAlertStyles.ALERT}
-            parentComponent={ParentComponent.REPLY_FORM}
+        {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+          <CannotReplyAlert
+            visible={cannotReply && !showBlockedTriageGroupAlert}
           />
+        ) : (
+          <CannotReplyAlert visible={cannotReply} />
         )}
+
+        {mhvSecureMessagingBlockedTriageGroup1p0 &&
+          showBlockedTriageGroupAlert && (
+            <BlockedTriageGroupAlert
+              blockedTriageGroupList={blockedTriageGroupList}
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.REPLY_FORM}
+            />
+          )}
 
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
           >
-            {!cannotReply &&
-              !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
+            {mhvSecureMessagingBlockedTriageGroup1p0
+              ? !cannotReply &&
+                !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />
+              : !cannotReply && <EmergencyNote dropDownFlag />}
 
             <ReplyDrafts
               drafts={drafts}

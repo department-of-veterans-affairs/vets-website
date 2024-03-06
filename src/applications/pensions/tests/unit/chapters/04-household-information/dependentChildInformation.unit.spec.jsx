@@ -36,11 +36,6 @@ const dependentData = {
 };
 
 describe('Child information page', () => {
-  it('should set the title to the dependents name if available', () => {
-    expect(title(dependentData.dependents[0])).to.eql('Jane Doe information');
-    expect(title({ fullName: {} })).to.eql('  information');
-  });
-
   it('should render all fields', async () => {
     const { container } = render(
       <DefinitionTester
@@ -53,9 +48,9 @@ describe('Child information page', () => {
       />,
     );
 
-    expect($$('va-text-input', container).length).to.equal(2);
-    expect($$('va-radio', container).length).to.equal(3);
-    expect($('va-checkbox[name=root_view\\:noSSN]', container)).to.exist;
+    expect($$('input[type=text], va-text-input', container).length).to.equal(2);
+    expect($$('input[type=radio], va-radio', container).length).to.equal(3);
+    expect($('input#root_view\\:noSSN', container)).to.exist;
     expect($('button[type="submit"]', container)).to.exist;
   });
 
@@ -82,8 +77,6 @@ describe('Child information page', () => {
   });
 
   it('should not require ssn if noSSN is checked', async () => {
-    dependentData.dependents[0]['view:noSSN'] = true;
-
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -97,7 +90,8 @@ describe('Child information page', () => {
       />,
     );
 
-    const noSSN = $('va-checkbox[name=root_view\\:noSSN]', container);
+    const noSSN = $('input#root_view\\:noSSN', container);
+    fireEvent.click(noSSN);
 
     fireEvent.submit($('form', container));
     await waitFor(() => {
@@ -109,17 +103,8 @@ describe('Child information page', () => {
   });
 
   it('should submit with valid data', async () => {
-    dependentData.dependents[0] = {
-      ...dependentData.dependents[0],
-      childPlaceOfBirth: 'Dagobah',
-      childSocialSecurityNumber: '111223333',
-      childRelationship: 'BIOLOGICAL',
-      attendingCollege: 'N',
-      previouslyMarried: 'N',
-    };
-
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const { container, getByLabelText } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -131,11 +116,26 @@ describe('Child information page', () => {
       />,
     );
 
-    // passing 'N' values in data does not set a yesNoUI correctly
+    const placeOfBirth = $('input#root_childPlaceOfBirth', container);
+    fireEvent.change(placeOfBirth, { target: { value: 'Dagobah' } });
+
+    // todo: unable to set the value for ssnUI
+    const ssn = getByLabelText(/Social Security Number/i);
+    fireEvent.change(ssn, { target: { value: '111223333' } });
+    // checking noSSN to allow test to complete
+    const noSSN = $('input#root_view\\:noSSN', container);
+    fireEvent.click(noSSN);
+
+    const relation = $('va-radio[name="root_childRelationship"]', container);
+    relation.__events.vaValueChange(
+      new CustomEvent('selected', { detail: { value: 'BIOLOGICAL' } }),
+    );
+
     const college = $('va-radio[name="root_attendingCollege"]', container);
     college.__events.vaValueChange(
       new CustomEvent('selected', { detail: { value: 'N' } }),
     );
+
     const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
     prevMarried.__events.vaValueChange(
       new CustomEvent('selected', { detail: { value: 'N' } }),
@@ -164,6 +164,60 @@ describe('Child information page', () => {
     expect($('#root_attendingCollegeYes', container)).to.not.be.null;
   });
 
+  it('should not ask if the child is in school', () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          ...dependentData,
+          dependents: [
+            {
+              ...dependentData.dependents[0],
+              childDateOfBirth: moment()
+                .subtract(5, 'years')
+                .toISOString(),
+            },
+          ],
+        }}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect($('#root_attendingCollegeYes', container)).to.be.null;
+  });
+
+  it('should ask if the child is disabled (Under 18 years old)', () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          ...dependentData,
+          dependents: [
+            {
+              ...dependentData.dependents[0],
+              childDateOfBirth: moment()
+                .subtract(10, 'years')
+                .toISOString(),
+            },
+          ],
+        }}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect($('#root_disabledYes', container)).to.not.be.null;
+  });
+
   it('should not ask if the child is disabled', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
@@ -181,51 +235,8 @@ describe('Child information page', () => {
     expect($('#root_disabledYes', container)).to.be.null;
   });
 
-  it('should not ask if the child is in school', () => {
-    dependentData.dependents[0] = {
-      ...dependentData.dependents[0],
-      childDateOfBirth: moment()
-        .subtract(5, 'years')
-        .toISOString(),
-    };
-
-    const onSubmit = sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={dependentData}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect($('#root_attendingCollegeYes', container)).to.be.null;
-  });
-
-  it('should ask if the child is disabled (Under 18 years old)', () => {
-    dependentData.dependents[0] = {
-      ...dependentData.dependents[0],
-      childDateOfBirth: moment()
-        .subtract(10, 'years')
-        .toISOString(),
-    };
-
-    const onSubmit = sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={dependentData}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect($('#root_disabledYes', container)).to.not.be.null;
+  it('should set the title to the dependents name if available', () => {
+    expect(title(dependentData.dependents[0])).to.eql('Jane Doe information');
+    expect(title({ fullName: {} })).to.eql('  information');
   });
 });

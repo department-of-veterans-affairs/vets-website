@@ -105,7 +105,7 @@ describe('Confirmation page', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect($('va-summary-box', container).textContent).to.contain(date);
+    expect($('.inset', container).textContent).to.contain(date);
   });
   it('should render the selected contested issue', () => {
     const { container } = render(

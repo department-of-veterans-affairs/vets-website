@@ -1,15 +1,22 @@
 import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
-import claimDetail from './fixtures/mocks/lighthouse/claim-detail.json';
+
+let mockDetails = {};
+
+beforeEach(() => {
+  cy.initClaimDetailMocks(false, true, false, 8).then(data => {
+    mockDetails = data;
+  });
+});
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
     const trackClaimsPage = new TrackClaimsPage();
-    trackClaimsPage.loadPage(claimsList, claimDetail);
+    trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim(false);
-    trackClaimsPage.verifyNumberOfFiles(15);
-    trackClaimsPage.verifyClaimEvidence(4, 'Reviewed by VA');
-    trackClaimsPage.verifyClaimEvidence(5, 'Submitted');
+    trackClaimsPage.verifyNumberOfFiles(3);
+    trackClaimsPage.verifyClaimEvidence(2, 'Reviewed by VA');
+    trackClaimsPage.verifyClaimEvidence(4, 'Submitted');
     cy.expandAccordions();
     cy.axeCheck();
   });

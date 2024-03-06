@@ -9,9 +9,9 @@ describe('hca <WarningExplanation>', () => {
   const expectedOutputs = {
     [HCA_ENROLLMENT_STATUSES.activeDuty]: '',
     [HCA_ENROLLMENT_STATUSES.canceledDeclined]:
-      '<p>Our records show that we couldn’t enroll you when you applied for VA health care in the past. But eligibility can change based on changes in your life or income or changes in VA eligibility requirements. And as of March 5, 2024, we have new options to enroll Veterans.</p><p>We encourage you to apply again to help us determine if we can enroll you now.</p>',
+      '<p>At some time in the past, we offered you enrollment in VA health care, but you declined it. Or you enrolled, but later canceled your enrollment.</p>',
     [HCA_ENROLLMENT_STATUSES.closed]:
-      '<p>Our records show that we couldn’t enroll you when you applied for VA health care in the past. But eligibility can change based on changes in your life or income or changes in VA eligibility requirements. And as of March 5, 2024, we have new options to enroll Veterans.</p><p>We encourage you to apply again to help us determine if we can enroll you now.</p>',
+      '<p>We closed your application because you didn’t submit all the documents needed to complete it within a year.</p>',
     [HCA_ENROLLMENT_STATUSES.deceased]:
       '<p>We can’t accept an application for this Veteran.</p><p>If this information is incorrect, please call our enrollment case management team at <va-telephone contact="8772228387"></va-telephone>.</p>',
     [HCA_ENROLLMENT_STATUSES.enrolled]: '',
@@ -46,11 +46,11 @@ describe('hca <WarningExplanation>', () => {
     [HCA_ENROLLMENT_STATUSES.pendingUnverified]:
       '<p>We’re in the process of verifying your military service. We’ll contact you by mail if we need you to submit supporting documents (like your DD214 or other discharge papers or separation documents).</p>',
     [HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry]:
-      '<p>Our records show that we couldn’t enroll you when you applied for VA health care in the past. But eligibility can change based on changes in your life or income or changes in VA eligibility requirements. And as of March 5, 2024, we have new options to enroll Veterans.</p><p>We encourage you to apply again to help us determine if we can enroll you now.</p>',
+      '<p>Our records show that you don’t have a service-connected disability, an income that falls below our income limits based on where you live, or another special eligibility factor (like receiving a Medal of Honor or Purple Heart award). To qualify for VA health care, you need to meet at least one of these eligibility requirements in addition to serving at least 24 continuous months on active duty.</p>',
     [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]:
-      '<p>Our records show that we couldn’t enroll you when you applied for VA health care in the past. But eligibility can change based on changes in your life or income or changes in VA eligibility requirements. And as of March 5, 2024, we have new options to enroll Veterans.</p><p>We encourage you to apply again to help us determine if we can enroll you now.</p>',
+      '<p>Our records show that you don’t have a service-connected disability, an income that falls below our income limits based on where you live, or another special eligibility factor (like receiving a Medal of Honor or Purple Heart award). To qualify for VA health care, you need to meet at least one of these eligibility requirements in addition to serving at least 24 continuous months on active duty.</p>',
     [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]:
-      '<p>Our records show that we couldn’t enroll you when you applied for VA health care in the past. But eligibility can change based on changes in your life or income or changes in VA eligibility requirements. And as of March 5, 2024, we have new options to enroll Veterans.</p><p>We encourage you to apply again to help us determine if we can enroll you now.</p>',
+      '<p>Our records show that you don’t have a service-connected disability, an income that falls below our income limits based on where you live, or another special eligibility factor (like receiving a Medal of Honor or Purple Heart award). To qualify for VA health care, you need to meet at least one of these eligibility requirements in addition to serving at least 24 continuous months on active duty.</p>',
   };
 
   context('when the content is generated based on enrollment status', () => {

@@ -12,9 +12,8 @@ class TrackClaimsPage {
         body: {},
       }).as('askVA');
     }
-
     if (mock) {
-      cy.intercept('GET', `/v0/benefits_claims/189685`, mock).as(
+      cy.intercept('GET', `/v0/evss_claims_async/189685`, mock).as(
         'detailRequest',
       );
     }
@@ -119,6 +118,13 @@ class TrackClaimsPage {
     }
   }
 
+  verifyClaimedConditions(conditions) {
+    cy.get('.claim-contentions > span').should(
+      'contain',
+      conditions.join(', '),
+    );
+  }
+
   verifyCompletedSteps(step) {
     cy.get(`.list-one.section-${step > 1 ? 'complete' : 'current'}`).should(
       'exist',
@@ -171,17 +177,6 @@ class TrackClaimsPage {
     );
   }
 
-  verifyNumberOfTrackedItems(number) {
-    cy.get('.tabs li:nth-child(2) > a')
-      .click()
-      .then(() => {
-        cy.get('.file-request-list-item').should('be.visible');
-        cy.injectAxeThenAxeCheck();
-      });
-    cy.get('a.tab.tab--current').should('contain', 'Files');
-    cy.get('.file-request-list-item').should('have.length', number);
-  }
-
   verifyNumberOfFiles(number) {
     cy.get('.tabs li:nth-child(2) > a')
       .click()
@@ -190,6 +185,7 @@ class TrackClaimsPage {
         cy.injectAxeThenAxeCheck();
       });
     cy.get('a.tab.tab--current').should('contain', 'Files');
+    cy.get('.file-request-list-item').should('have.length', number);
     cy.get('.submitted-file-list-item').should('have.length', number);
   }
 
@@ -212,8 +208,13 @@ class TrackClaimsPage {
 
   verifyClaimDetails() {
     cy.get('a.tab.tab--current').should('contain', 'Details');
-    const details = ['Claim type', 'What you’ve claimed', 'Date received'];
-    for (const id of [1, 2, 3]) {
+    const details = [
+      'Claim type',
+      'What you’ve claimed',
+      'Date received',
+      'Your representative for VA claims',
+    ];
+    for (const id of [1, 2, 3, 4]) {
       cy.get(`.claim-detail-label:nth-of-type(${id})`).should(
         'contain',
         `${details[id - 1]}`,

@@ -30,9 +30,9 @@ const SpousePayrollDeductionInputList = props => {
   const {
     personalData: {
       employmentHistory: {
-        spouse: { spEmploymentRecords = [] } = {},
         newRecord = {},
-      } = {},
+        spouse: { spEmploymentRecords = [] },
+      },
     },
   } = formData;
 

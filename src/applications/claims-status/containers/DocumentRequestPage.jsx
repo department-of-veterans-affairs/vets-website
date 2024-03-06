@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
+import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
 import AddFilesFormOld from '../components/AddFilesFormOld';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -25,6 +26,7 @@ import {
   cancelUpload,
   // START lighthouse_migration
   getClaim as getClaimAction,
+  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
   setFieldsDirty,
   clearNotification,
@@ -32,7 +34,7 @@ import {
 import { scrubDescription } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
-import { benefitsDocumentsUseLighthouse } from '../selectors';
+import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 
 const scrollToError = () => {
@@ -83,7 +85,10 @@ class DocumentRequestPage extends React.Component {
   }
 
   getPageContent() {
-    const { trackedItem } = this.props;
+    const { trackedItem, useLighthouse } = this.props;
+    if (!useLighthouse) {
+      return <DocumentRequestPageContent trackedItem={trackedItem} />;
+    }
 
     return (
       <>
@@ -105,7 +110,13 @@ class DocumentRequestPage extends React.Component {
   }
 
   goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
+    // START lighthouse_migration
+    if (this.props.useLighthouse) {
+      this.props.getClaimLighthouse(this.props.claim.id);
+    } else {
+      this.props.getClaimEVSS(this.props.claim.id);
+    }
+    // END lighthouse_migration
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
@@ -212,14 +223,24 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
+  const useLighthouse = cstUseLighthouse(state, 'show');
 
+  let trackedItems = [];
   let trackedItem = null;
   if (claimDetail.detail) {
-    const { trackedItems } = claimDetail.detail.attributes;
+    const { attributes } = claimDetail.detail;
     const { trackedItemId } = ownProps.params;
-    [trackedItem] = trackedItems.filter(
-      item => item.id === parseInt(trackedItemId, 10),
-    );
+    if (useLighthouse) {
+      trackedItems = attributes.trackedItems;
+      [trackedItem] = trackedItems.filter(
+        event => event.id === parseInt(trackedItemId, 10),
+      );
+    } else {
+      trackedItems = attributes.eventsTimeline;
+      [trackedItem] = trackedItems.filter(
+        event => event.trackedItemId === parseInt(trackedItemId, 10),
+      );
+    }
   }
 
   return {
@@ -235,6 +256,7 @@ function mapStateToProps(state, ownProps) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
     // START lighthouse_migration
+    useLighthouse,
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
@@ -246,8 +268,9 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
-  getClaim: getClaimAction,
   // START lighthouse_migration
+  getClaimEVSS: getClaimEVSSAction,
+  getClaimLighthouse: getClaimAction,
   submitFilesLighthouse,
   // END lighthouse_migration
   setFieldsDirty,
@@ -271,7 +294,10 @@ DocumentRequestPage.propTypes = {
   documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration
   files: PropTypes.array,
-  getClaim: PropTypes.func,
+  // START lighthouse_migration
+  getClaimEVSS: PropTypes.func,
+  getClaimLighthouse: PropTypes.func,
+  // END lighthouse_migration
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
@@ -288,6 +314,9 @@ DocumentRequestPage.propTypes = {
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
   uploading: PropTypes.bool,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 export { DocumentRequestPage };

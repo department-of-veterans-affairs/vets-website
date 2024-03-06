@@ -28,7 +28,6 @@ export function KeywordSearch({
   dispatchError,
   errorReducer,
   type,
-  inputRef,
 }) {
   const fetchSuggestion = () => {
     onFetchAutocompleteSuggestions(inputValue, version);
@@ -72,9 +71,6 @@ export function KeywordSearch({
       } else {
         onSelection(inputValue);
       }
-    }
-    if (e.key === 'Enter' && inputRef) {
-      inputRef.current.focus();
     }
   };
 
@@ -167,7 +163,6 @@ export function KeywordSearch({
                   'aria-labelledby':
                     'search-error-message institution-search-label',
                 })}
-                ref={inputRef}
               />
               {/* eslint-disable-next-line no-nested-ternary */}
               {inputValue &&
@@ -223,7 +218,6 @@ KeywordSearch.propTypes = {
   errorReducer: PropTypes.object,
   error: PropTypes.string,
   inputValue: PropTypes.string,
-  inputRef: PropTypes.object,
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,

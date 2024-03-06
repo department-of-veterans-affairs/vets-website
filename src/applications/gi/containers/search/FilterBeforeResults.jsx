@@ -25,7 +25,6 @@ import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
-import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -38,12 +37,10 @@ export function FilterBeforeResults({
   errorReducer,
   nameVal,
   searchType,
-  onApplyFilterClick,
 }) {
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
-  const { isCleared, setIsCleared, focusOnFirstInput } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -223,8 +220,6 @@ export function FilterBeforeResults({
           row={!smallScreen}
           colNum="1p5"
           labelMargin="3"
-          focusOnFirstInput={focusOnFirstInput}
-          setIsCleared={setIsCleared}
         />
       </div>
     );
@@ -268,7 +263,6 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
-        setIsCleared={setIsCleared}
         className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
           <h3
@@ -313,7 +307,6 @@ export function FilterBeforeResults({
         }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
-        setIsCleared={setIsCleared}
         row={!smallScreen}
         colNum="4p5"
       />
@@ -376,7 +369,6 @@ export function FilterBeforeResults({
     if (modalClose) {
       modalClose();
     }
-    onApplyFilterClick();
   };
 
   const specializedMissionAttributes = () => {
@@ -499,7 +491,6 @@ export function FilterBeforeResults({
             }
             onChange={onChangeCheckbox}
             options={options}
-            setIsCleared={setIsCleared}
             row={!smallScreen}
             colNum="4"
           />
@@ -595,11 +586,7 @@ export function FilterBeforeResults({
                 Clear filters
               </button>
             ) : (
-              <ClearFiltersBtn
-                testId="clear-button"
-                isCleared={isCleared}
-                setIsCleared={setIsCleared}
-              >
+              <ClearFiltersBtn testId="clear-button">
                 Clear filters
               </ClearFiltersBtn>
             )}

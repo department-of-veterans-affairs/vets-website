@@ -9,7 +9,7 @@ import formConfig from '../../../../../config/form';
 import GetStartedContent from '../../../../../components/IntroductionPage/GetStarted';
 
 describe('hca <GetStartedContent>', () => {
-  const getData = ({ showLoginAlert = true, dispatch = () => {} }) => ({
+  const getData = ({ showLoginAlert = true }) => ({
     props: {
       route: {
         formConfig,
@@ -56,7 +56,7 @@ describe('hca <GetStartedContent>', () => {
         },
       }),
       subscribe: () => {},
-      dispatch,
+      dispatch: sinon.stub(),
     },
   });
 
@@ -130,8 +130,7 @@ describe('hca <GetStartedContent>', () => {
   });
 
   context('when user attempts to sign in', () => {
-    const dispatch = sinon.stub();
-    const { mockStore, props } = getData({ dispatch });
+    const { mockStore, props } = getData({});
 
     it('should call the `toggleLoginModal` action', () => {
       const { container } = render(
@@ -144,8 +143,8 @@ describe('hca <GetStartedContent>', () => {
       );
 
       fireEvent.click(selector);
-      expect(dispatch.called).to.be.true;
-      expect(dispatch.calledWith(toggleLoginModal(true))).to.be.true;
+      expect(mockStore.dispatch.called).to.be.true;
+      expect(mockStore.dispatch.calledWith(toggleLoginModal(true))).to.be.true;
     });
   });
 });

@@ -44,7 +44,7 @@ class Error {
   validateUuidNotFoundErrorPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'This link has expired');
+      .and('have.text', 'This link has expired.');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .should(

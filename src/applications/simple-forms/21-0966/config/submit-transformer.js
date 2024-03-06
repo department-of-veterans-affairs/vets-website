@@ -4,16 +4,21 @@ export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
+  const {
+    benefitSelectionCompensation,
+    benefitSelectionPension,
+  } = transformedData;
 
-  return JSON.stringify({
-    ...transformedData,
-    benefitSelection: {
-      compensation:
-        transformedData.benefitSelection?.compensation ||
-        !!transformedData.benefitSelectionCompensation,
-      pension:
-        transformedData.benefitSelection?.pension ||
-        !!transformedData.benefitSelectionPension,
-    },
-  });
+  if (benefitSelectionCompensation) {
+    transformedData.benefitSelection = {
+      compensation: true,
+    };
+  }
+  if (benefitSelectionPension) {
+    transformedData.benefitSelection = {
+      pension: true,
+    };
+  }
+
+  return JSON.stringify(transformedData);
 }

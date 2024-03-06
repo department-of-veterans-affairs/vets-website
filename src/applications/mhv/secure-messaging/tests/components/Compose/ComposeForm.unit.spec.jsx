@@ -192,6 +192,10 @@ describe('Compose form component', () => {
       },
     };
 
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = renderWithStoreAndRouter(
       <ComposeForm
         draft={customDraftMessage}
@@ -225,6 +229,10 @@ describe('Compose form component', () => {
         draftDetails: { customDraftMessage },
       },
     };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
     const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
@@ -521,6 +529,10 @@ describe('Compose form component', () => {
       },
     };
 
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = renderWithStoreAndRouter(
       <ComposeForm
         draft={customDraftMessage}
@@ -553,6 +565,10 @@ describe('Compose form component', () => {
         },
       },
     };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
@@ -599,6 +615,10 @@ describe('Compose form component', () => {
       },
     };
 
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = renderWithStoreAndRouter(
       <ComposeForm
         draft={customState.sm.threadDetails.drafts[0]}
@@ -640,6 +660,10 @@ describe('Compose form component', () => {
       },
     };
 
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = renderWithStoreAndRouter(
       <ComposeForm
         draft={customState.sm.threadDetails.drafts[0]}
@@ -680,6 +704,10 @@ describe('Compose form component', () => {
         },
       },
     };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
@@ -745,6 +773,10 @@ describe('Compose form component', () => {
       },
     };
 
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={customState.sm.recipients} />,
       {
@@ -782,6 +814,10 @@ describe('Compose form component', () => {
         threadDetails: {},
       },
     };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={customState.sm.recipients} />,
@@ -823,6 +859,10 @@ describe('Compose form component', () => {
         },
       },
     };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm

@@ -6,7 +6,7 @@ import Complete from './index';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 
 describe('Check-in experience', () => {
-  describe('travel-claim components', () => {
+  describe('shared components', () => {
     describe('Complete', () => {
       it('renders content', () => {
         const { getByTestId } = render(

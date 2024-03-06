@@ -13,11 +13,13 @@ const WarningExplanation = ({ enrollmentStatus }) => {
     explainBlock4,
     explainBlock5,
     explainBlock6,
+    explainBlock7,
     explainBlock8,
+    explainBlock9,
     explainBlock10,
     explainBlock11,
     explainBlock12,
-    explainBlock14,
+    explainBlock13,
   } = WarningExplainations;
 
   // Declare content block dictionary
@@ -40,7 +42,16 @@ const WarningExplanation = ({ enrollmentStatus }) => {
         HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts,
       ],
     ],
+    [
+      explainBlock7,
+      [
+        HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
+        HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+        HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+      ],
+    ],
     [explainBlock8, [HCA_ENROLLMENT_STATUSES.deceased]],
+    [explainBlock9, [HCA_ENROLLMENT_STATUSES.closed]],
     [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingMt]],
     [
       explainBlock11,
@@ -50,16 +61,7 @@ const WarningExplanation = ({ enrollmentStatus }) => {
       ],
     ],
     [explainBlock12, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
-    [
-      explainBlock14,
-      [
-        HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
-        HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
-        HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
-        HCA_ENROLLMENT_STATUSES.canceledDeclined,
-        HCA_ENROLLMENT_STATUSES.closed,
-      ],
-    ],
+    [explainBlock13, [HCA_ENROLLMENT_STATUSES.canceledDeclined]],
   ];
 
   // Reduce content dictionary to object literal

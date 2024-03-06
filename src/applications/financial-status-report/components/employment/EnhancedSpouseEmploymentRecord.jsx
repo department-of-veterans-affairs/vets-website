@@ -29,9 +29,9 @@ const EmploymentRecord = props => {
   const {
     personalData: {
       employmentHistory: {
-        spouse: { spEmploymentRecords = [] } = {},
+        spouse: { spEmploymentRecords = [] },
         newRecord = { ...BASE_EMPLOYMENT_RECORD },
-      } = {},
+      },
     },
   } = data;
 

@@ -44,7 +44,6 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createEZRSubmissionOptions from './ezr-submission-options';
-import createEZRTeraAlert from './ezr-tera-alert';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
@@ -183,7 +182,6 @@ form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
 createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
-createEZRTeraAlert(store, widgetTypes.EZR_TERA_ALERT);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(

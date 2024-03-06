@@ -15,7 +15,7 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 
 import BreadCrumb from '../components/BreadCrumb';
 import MoreInformation from '../components/MoreInformation';
-import AvsPageHeader from '../components/AvsPageHeader';
+import TextWithLineBreaks from '../components/TextWithLineBreaks';
 import YourAppointment from '../components/YourAppointment';
 import YourHealthInformation from '../components/YourHealthInformation';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
@@ -85,7 +85,7 @@ const Avs = props => {
   }
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 main-content">
+    <div className="vads-l-grid-container main-content">
       <RequiredLoginView
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
@@ -94,7 +94,7 @@ const Avs = props => {
         <h1>After-visit summary</h1>
         {avs.meta?.pageHeader && (
           <p>
-            <AvsPageHeader text={avs.meta.pageHeader} />
+            <TextWithLineBreaks text={avs.meta.pageHeader} />
           </p>
         )}
 

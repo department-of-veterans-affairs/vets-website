@@ -225,6 +225,10 @@ describe('Folder Header component', () => {
         featureToggles: {},
       };
 
+      customState.featureToggles[
+        `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+      ] = true;
+
       const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
       expect(screen.queryByTestId('compose-message-link')).to.not.exist;
       const blockedTriageGroupAlert = await screen.findByTestId(
@@ -255,6 +259,10 @@ describe('Folder Header component', () => {
         },
         featureToggles: {},
       };
+
+      customState.featureToggles[
+        `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+      ] = true;
 
       const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
       expect(

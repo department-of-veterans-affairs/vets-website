@@ -1,22 +1,72 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+
+import { selectProfile } from 'platform/user/selectors';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 
-import ConfirmationDecisionReviews from '../../shared/components/ConfirmationDecisionReviews';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
+import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
+import { getIssuesListItems } from '../../shared/utils/issues';
+import { renderFullName } from '../../shared/utils/data';
 
 export const ConfirmationPage = () => {
-  useEffect(() => {
-    // reset the wizard
-    window.sessionStorage.removeItem(WIZARD_STATUS);
-    window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
-  });
+  const alertRef = useRef(null);
+
+  const form = useSelector(state => state.form || {});
+  const name = useSelector(state => selectProfile(state)?.userFullName || {});
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        // delay focus for Safari
+        waitForRenderThenFocus('h2', alertRef.current);
+        // reset the wizard
+        window.sessionStorage.removeItem(WIZARD_STATUS);
+        window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
+      }
+    },
+    [alertRef],
+  );
+
+  const { submission, data } = form;
+  const issues = data ? getIssuesListItems(data) : [];
+  const submitDate = moment(submission?.timestamp);
 
   return (
-    <ConfirmationDecisionReviews
-      pageTitle="Request a Higher-Level Review"
-      alertTitle="We’ve received your Higher-Level Review"
-    >
+    <div>
+      <div className="print-only">
+        <img
+          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+          alt="VA logo"
+          width="300"
+        />
+        <h2>Request for Higher-Level Review</h2>
+      </div>
+      <va-alert status="success" ref={alertRef} uswds>
+        <h2 slot="headline">We’ve received your Higher-Level Review</h2>
+        <p>
+          After we’ve completed our review, we’ll mail you a decision packet
+          with the details of our decision.
+        </p>
+      </va-alert>
+      <div className="inset">
+        <h3 className="vads-u-margin-top--0">
+          Your information for this claim
+        </h3>
+        <h4>Your name</h4>
+        {renderFullName(name)}
+
+        {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
+        <IssuesSubmitted issues={issues} />
+      </div>
+
       <h2 className="vads-u-font-size--h3">
         After you request a decision review
       </h2>
@@ -54,8 +104,24 @@ export const ConfirmationPage = () => {
         <strong>Note</strong>: It may take 7 to 10 days for your Higher-Level
         Review request to appear online.
       </p>
-    </ConfirmationDecisionReviews>
+    </div>
   );
+};
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.shape({}),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.instanceOf(Date),
+    }),
+  }),
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
+  }),
 };
 
 export default ConfirmationPage;

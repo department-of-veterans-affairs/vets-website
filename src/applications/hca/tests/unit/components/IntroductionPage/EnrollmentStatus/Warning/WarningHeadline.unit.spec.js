@@ -10,15 +10,15 @@ describe('hca <WarningHeadline>', () => {
     [HCA_ENROLLMENT_STATUSES.activeDuty]:
       'Our records show that you’re an active-duty service member',
     [HCA_ENROLLMENT_STATUSES.canceledDeclined]:
-      'You applied before. But you can apply again now.',
+      'Our records show you chose to cancel or decline VA health care',
     [HCA_ENROLLMENT_STATUSES.closed]:
-      'You applied before. But you can apply again now.',
+      'Our records show that your application for VA health care expired',
     [HCA_ENROLLMENT_STATUSES.deceased]:
       'Our records show that this Veteran is deceased',
     [HCA_ENROLLMENT_STATUSES.enrolled]:
       'You’re already enrolled in VA health care',
     [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      'You didn’t qualify for VA health care based on your previous application',
     [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge]:
       'We determined that you don’t qualify for VA health care based on your past application',
     [HCA_ENROLLMENT_STATUSES.ineligCitizens]:
@@ -53,11 +53,11 @@ describe('hca <WarningHeadline>', () => {
     [HCA_ENROLLMENT_STATUSES.pendingUnverified]:
       'We’re reviewing your application',
     [HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry]:
-      'You applied before. But you can apply again now.',
+      'You didn’t qualify for VA health care based on your previous application',
     [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]:
-      'You applied before. But you can apply again now.',
+      'You didn’t qualify for VA health care based on your previous application',
     [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]:
-      'You applied before. But you can apply again now.',
+      'You didn’t qualify for VA health care based on your previous application',
   };
 
   context('when the content is generated based on enrollment status', () => {

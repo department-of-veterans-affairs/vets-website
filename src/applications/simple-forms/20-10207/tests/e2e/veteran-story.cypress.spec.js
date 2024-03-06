@@ -573,7 +573,7 @@ testSuite('PP 10207 - Veteran', () => {
 
       it('advances to Medical-treatment page if no option is selected', () => {
         continueToNextPage();
-        pagePathIsCorrect('medical-treatment');
+        pagePathIsCorrect('medical-treatment-start');
       });
     });
   });

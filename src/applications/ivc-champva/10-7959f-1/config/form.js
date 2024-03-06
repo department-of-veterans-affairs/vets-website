@@ -1,14 +1,13 @@
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
+  inlineTitleUI,
+  titleSchema,
   fullNameUI,
   fullNameSchema,
-  titleUI,
-  titleSchema,
-  dateOfBirthUI,
-  dateOfBirthSchema,
   addressUI,
   addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -55,26 +54,21 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: "Veteran's Information",
+      title: 'Applicant Information',
       pages: {
         page1: {
           path: 'veteran-information',
-          title: 'Veteran Personal Information',
+          title: 'Veteran Information',
           uiSchema: {
-            ...titleUI(
-              "Veteran's personal information",
-              'We use this information to contact you and verify other details.',
-            ),
+            fullNameTitle: inlineTitleUI('Your name'),
             fullName: fullNameUI(),
-            veteranDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
-            required: ['fullName', 'veteranDOB'],
+            required: ['fullName'],
             properties: {
-              titleSchema,
+              fullNameTitle: titleSchema,
               fullName: fullNameSchema,
-              veteranDOB: dateOfBirthSchema,
             },
           },
         },

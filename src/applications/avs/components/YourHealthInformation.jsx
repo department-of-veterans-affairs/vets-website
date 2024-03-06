@@ -19,6 +19,7 @@ import {
   filterMedicationsByType,
   getCombinedMedications,
   getMedicationsTaking,
+  getMedicationsNotTaking,
 } from '../utils/medications';
 import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
 
@@ -240,6 +241,13 @@ const getMyMedications = avs => {
   );
 };
 
+const getMyMedicationsNotTaking = avs => {
+  return filterMedicationsByType(
+    getMedicationsNotTaking(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
 const getMySupplies = avs => {
   return filterMedicationsByType(
     getCombinedMedications(avs),
@@ -397,7 +405,6 @@ const YourHealthInformation = props => {
         renderItem={renderAllergy}
         showSeparators
       />
-      {labResults(avs)}
       <ItemsBlock
         heading="My medications"
         intro={medsIntro(avs)}
@@ -413,6 +420,15 @@ const YourHealthInformation = props => {
         renderItem={renderMedication}
         showSeparators
       />
+      <ItemsBlock
+        heading="Medications you are not taking"
+        intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
+        itemType="medications-not-taking"
+        items={getMyMedicationsNotTaking(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
+      {labResults(avs)}
     </div>
   );
 };

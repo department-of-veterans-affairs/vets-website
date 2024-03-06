@@ -40,13 +40,9 @@ export const ConfirmationPageView = ({
           width="300"
         />
       </div>
-      <va-alert uswds status="success" ref={alertRef}>
+      <va-alert status="success" ref={alertRef}>
         <h2 slot="headline">{headlineText}</h2>
-        {typeof nextStepsText === 'string' ? (
-          <p>{nextStepsText}</p>
-        ) : (
-          nextStepsText
-        )}
+        <p>{nextStepsText}</p>
       </va-alert>
       <div className="inset">
         <h3 className="vads-u-margin-top--0">Your {formType} information</h3>

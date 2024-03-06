@@ -7,7 +7,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { CompensationTypeDescription } from '../components/formDescriptions';
+import { CompensationTypeDescription } from 'applications/hca/components/FormDescriptions';
 
 /** @type {PageSchema} */
 export default {

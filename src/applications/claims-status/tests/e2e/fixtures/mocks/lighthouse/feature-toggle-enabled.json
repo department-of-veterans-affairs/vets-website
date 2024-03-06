@@ -3,15 +3,7 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "cst_use_lighthouse_5103",
-        "value": true
-      },
-      {
-        "name": "cst_use_lighthouse_index",
-        "value": true
-      },
-      {
-        "name": "cst_use_lighthouse_show",
+        "name": "cst_use_lighthouse",
         "value": true
       }
     ]

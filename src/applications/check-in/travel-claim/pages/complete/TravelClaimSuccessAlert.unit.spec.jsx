@@ -11,7 +11,7 @@ import {
 } from '../travel-intro/testAppointments';
 
 describe('Check-in experience', () => {
-  describe('travel-claim', () => {
+  describe('shared components', () => {
     describe('TravelClaimSuccessAlert', () => {
       it('renders correct content if only one facility', () => {
         const { getByTestId } = render(

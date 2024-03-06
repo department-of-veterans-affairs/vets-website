@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router';
 
 import PoaRequestsWidget from '../components/PoaRequestsWidget/PoaRequestsWidget';
 import { mockPOARequests } from '../mocks/mockPOARequests';
@@ -17,6 +18,12 @@ const Dashboard = ({ POApermissions = true }) => {
   return (
     <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
       <h1>Accredited Representative Portal</h1>
+      <Link
+        to="/poa-requests"
+        className="vads-c-action-link--green vads-u-margin-bottom--2"
+      >
+        Manage power of attorney requests
+      </Link>
       <div className="placeholder-container">
         <div className="dash-container">
           <div className="vads-u-display--flex">

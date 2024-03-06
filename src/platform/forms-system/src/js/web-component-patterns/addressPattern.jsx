@@ -73,7 +73,6 @@ const USA = {
   label: 'United States',
 };
 
-// TODO: Refactor for dynamic content
 const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
     <va-additional-info trigger="Learn more about military base addresses">

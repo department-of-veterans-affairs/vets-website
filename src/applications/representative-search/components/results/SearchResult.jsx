@@ -20,7 +20,6 @@ const SearchResult = ({
   email,
   associatedOrgs,
   submitRepresentativeReport,
-  isErrorReportSubmission,
   reports,
   representativeId,
   query,
@@ -47,35 +46,20 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  const onCloseReportModal = () => {
+  const closeReportModal = () => {
     setReportModalIsShowing(false);
+    scrollTo(`#report-button-${representativeId}`);
+    focusElement(`#report-button-${representativeId}`);
   };
 
   useEffect(
     () => {
-      if (!reportModalIsShowing) {
-        // scroll and focus behavior depends on whether a report was successfully created
-        if (reports && Object.keys(reports).length > prevReportCount.current) {
-          prevReportCount.current += 1;
-          scrollTo(`#thank-you-alert-${representativeId}`);
-          focusElement(`#thank-you-alert-${representativeId}`);
-        } else {
-          scrollTo(`#report-button-${representativeId}`);
-          focusElement(`#report-button-${representativeId}`);
-        }
+      if (reports?.length > prevReportCount) {
+        scrollTo(`#thank-you-alert-${representativeId}`);
+        focusElement(`#thank-you-alert-${representativeId}`);
       }
     },
-    [reportModalIsShowing],
-  );
-
-  useEffect(
-    () => {
-      if (!isErrorReportSubmission) {
-        scrollTo(`#report-button-${representativeId}`);
-        focusElement(`#report-button-${representativeId}`);
-      }
-    },
-    [isErrorReportSubmission],
+    [reports],
   );
 
   return (
@@ -97,7 +81,7 @@ const SearchResult = ({
           phone={phone}
           email={email}
           existingReports={reports}
-          onCloseModal={onCloseReportModal}
+          onCloseModal={closeReportModal}
           submitRepresentativeReport={submitRepresentativeReport}
         />
       )}
@@ -182,7 +166,6 @@ const SearchResult = ({
             <div className="report-thank-you-alert">
               <va-alert
                 class="thank-you-alert vads-u-margin-bottom--2"
-                id={`thank-you-alert-${representativeId}`}
                 close-btn-aria-label="Close notification"
                 disable-analytics="false"
                 tabIndex={-1}
@@ -192,7 +175,10 @@ const SearchResult = ({
                 uswds
                 visible="true"
               >
-                <p className="vads-u-margin-y--0">
+                <p
+                  id={`thank-you-alert-${representativeId}`}
+                  className="vads-u-margin-y--0"
+                >
                   Thanks for reporting outdated information.
                 </p>
               </va-alert>

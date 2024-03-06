@@ -324,7 +324,6 @@ const SearchPage = props => {
           searchResults={searchResults}
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
-          isErrorReportSubmission={props.isErrorReportSubmission}
         />
       );
     };

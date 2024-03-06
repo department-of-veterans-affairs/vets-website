@@ -12,8 +12,6 @@ export default function SearchAccordion({
   onClick,
   headerClass,
   ariaDescribedBy,
-  isCleared,
-  setIsCleared,
 }) {
   const [isExpanded, setExpanded] = useState(expanded || false);
   const [id] = useState(`${createId(button)}-accordion`);
@@ -86,9 +84,7 @@ export default function SearchAccordion({
             {buttonLabel}
           </button>
           {!isProductionOfTestProdEnv() && (
-            <ClearFiltersBtn isCleared={isCleared} setIsCleared={setIsCleared}>
-              Clear filters
-            </ClearFiltersBtn>
+            <ClearFiltersBtn>Clear filters</ClearFiltersBtn>
           )}
         </div>
       )}

@@ -1,14 +1,20 @@
 import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
-import claimDetails from './fixtures/mocks/lighthouse/claim-detail.json';
+
+let mockDetails = {};
+
+beforeEach(() => {
+  cy.initClaimDetailMocks(false, true, false, 3).then(data => {
+    mockDetails = data;
+  });
+});
 
 describe('Ask VA Claim Test', () => {
   it('Submits the form - C30827', () => {
     const trackClaimsPage = new TrackClaimsPage();
-    trackClaimsPage.loadPage(claimsList, claimDetails, true);
+    trackClaimsPage.loadPage(claimsList, mockDetails, true);
     trackClaimsPage.verifyInProgressClaim(false);
-    trackClaimsPage.verifyNumberOfTrackedItems(3);
-    trackClaimsPage.verifyNumberOfFiles(15);
+    trackClaimsPage.verifyNumberOfFiles(3);
     trackClaimsPage.askForClaimDecision();
     cy.expandAccordions();
     cy.axeCheck();

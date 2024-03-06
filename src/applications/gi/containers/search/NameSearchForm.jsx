@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
@@ -38,7 +38,7 @@ export function NameSearchForm({
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const history = useHistory();
-  const inputRef = createRef();
+
   const doSearch = value => {
     const searchName = value || search.query.name;
     dispatchFetchSearchByNameResults(searchName, 1, filters, version);
@@ -85,11 +85,6 @@ export function NameSearchForm({
     },
     [search.loadFromUrl],
   );
-  const onApplyFilterClick = () => {
-    if (name.length === 0) {
-      inputRef.current.focus();
-    }
-  };
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -125,7 +120,6 @@ export function NameSearchForm({
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
-              inputRef={inputRef}
               className="name-search"
               inputValue={name}
               label="School, employer, or training provider"
@@ -159,11 +153,7 @@ export function NameSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeResult && (
           <div>
-            <FilterBeforeResults
-              nameVal={name}
-              searchType="name"
-              onApplyFilterClick={onApplyFilterClick}
-            />
+            <FilterBeforeResults nameVal={name} searchType="name" />
           </div>
         )}
     </div>

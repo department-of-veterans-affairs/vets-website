@@ -63,47 +63,115 @@ describe('hca <EnrollmentStatusFAQ>', () => {
     },
   });
 
-  it(`should render FAQ content when the component renders`, () => {
-    const { mockStore, props } = getData({});
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatusFAQ {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('h3');
-    expect(container).to.not.be.empty;
-    expect(selector).to.exist;
-  });
-
-  it('should render the `get started` content when `showReapplyContent` is `true`', () => {
-    const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDuty,
-      showReapplyContent: true,
+  context('when the component renders', () => {
+    it(`should render FAQ content`, () => {
+      const { mockStore, props } = getData({});
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('h3');
+      expect(container).to.not.be.empty;
+      expect(selector).to.exist;
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatusFAQ {...props} />
-      </Provider>,
-    );
-    const selectors = {
-      processList: container.querySelector('va-process-list'),
-      sipInfo: container.querySelector('.hca-sip-intro'),
-      ombInfo: container.querySelector('va-omb-info'),
-    };
-
-    expect(selectors.processList).to.exist;
-    expect(selectors.sipInfo).to.exist;
-    expect(selectors.ombInfo).to.exist;
   });
 
-  it('should not render the `get started` content when `showReapplyContent` is `false`', () => {
-    const { mockStore, props } = getData({});
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatusFAQ {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('.hca-sip-intro');
-    expect(selector).to.not.exist;
+  context('when user is permitted to apply to benefits', () => {
+    it('should render the `apply` link', () => {
+      const { mockStore, props } = getData({
+        enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDuty,
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('.va-button-link');
+      expect(selector).to.exist;
+      expect(selector).to.contain.text('Apply for VA health care');
+    });
+
+    it('should render the `get started` content when `showReapplyContent` is true', () => {
+      const { mockStore, props } = getData({
+        enrollmentStatus: HCA_ENROLLMENT_STATUSES.activeDuty,
+        showReapplyContent: true,
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selectors = {
+        processList: container.querySelector('va-process-list'),
+        sipInfo: container.querySelector('.hca-sip-intro'),
+        ombInfo: container.querySelector('va-omb-info'),
+      };
+
+      expect(selectors.processList).to.exist;
+      expect(selectors.sipInfo).to.exist;
+      expect(selectors.ombInfo).to.exist;
+    });
+  });
+
+  context('when is permitted to reapply for benefits', () => {
+    it('should render the `reapply` link', () => {
+      const { mockStore, props } = getData({
+        enrollmentStatus: HCA_ENROLLMENT_STATUSES.pendingUnverified,
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('.va-button-link');
+      expect(selector).to.exist;
+      expect(selector).to.contain.text('Reapply for VA health care');
+    });
+
+    it('should render the `get started` content when `showReapplyContent` is true', () => {
+      const { mockStore, props } = getData({
+        enrollmentStatus: HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime,
+        showReapplyContent: true,
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selectors = {
+        processList: container.querySelector('va-process-list'),
+        sipInfo: container.querySelector('.hca-sip-intro'),
+        ombInfo: container.querySelector('va-omb-info'),
+      };
+
+      expect(selectors.processList).to.exist;
+      expect(selectors.sipInfo).to.exist;
+      expect(selectors.ombInfo).to.exist;
+    });
+  });
+
+  context('when user is not permitted to apply/reapply for benefits', () => {
+    it('should not render the `reapply` link', () => {
+      const { mockStore, props } = getData({});
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('.va-button-link');
+      expect(selector).to.not.exist;
+    });
+
+    it('should not render the `get started` content', () => {
+      const { mockStore, props } = getData({ showReapplyContent: true });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatusFAQ {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('.hca-sip-intro');
+      expect(selector).to.not.exist;
+    });
   });
 });
