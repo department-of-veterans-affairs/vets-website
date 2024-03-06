@@ -78,6 +78,10 @@ export default class PageObject {
   }
 
   assertText({ text, exist = true } = {}) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
+
     cy.findByText(text).should(exist ? 'exist' : 'not.exist');
     return this;
   }

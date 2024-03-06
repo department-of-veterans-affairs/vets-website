@@ -111,6 +111,8 @@ describe('VAOS select appointment date', () => {
         .clickNextButton();
 
       DateTimeSelectPageObject.assertUrl()
+        // advance to next month if secondDate lands on following month
+        .compareDatesClickNextMonth(firstDate, secondDate)
         .selectDate(secondDate)
         .assertDateSelected(secondDate);
 
@@ -202,7 +204,10 @@ describe('VAOS select appointment date', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
-      TypeOfCarePageObject.assertUrl()
+      TypeOfCarePageObject.assertUrl({
+        url: '/type-of-care',
+        breadcrumb: 'Choose the type of care you need',
+      })
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();

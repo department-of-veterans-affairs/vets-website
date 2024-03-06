@@ -51,6 +51,17 @@ export class DateTimeSelectPageObject extends PageObject {
     return this;
   }
 
+  compareDatesClickNextMonth(firstDate, secondDate) {
+    if (firstDate.month() < secondDate.month()) {
+      cy.contains('button', 'Next')
+        .as('button')
+        .should('not.be.disabled')
+        .focus();
+      cy.get('@button').click();
+    }
+    return this;
+  }
+
   clickPreviousMonth() {
     return this;
   }

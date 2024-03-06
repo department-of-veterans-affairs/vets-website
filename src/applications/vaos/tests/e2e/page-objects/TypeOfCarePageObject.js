@@ -17,10 +17,13 @@ export class TypeOfCarePageObject extends PageObject {
   }
 
   assertUrl() {
-    return super.assertUrl({
-      url: '/type-of-care',
-      breadcrumb: 'Choose the type of care you need',
-    });
+    return super.assertUrl(
+      {
+        url: '/type-of-care',
+        breadcrumb: 'Choose the type of care you need',
+      },
+      { timeout: 10000 },
+    );
   }
 
   selectTypeOfCare(label) {
