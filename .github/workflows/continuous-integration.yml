@@ -1019,7 +1019,10 @@ jobs:
           pattern: unit-test-report-*
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
-        
+      
+      - name: Log directory
+        run: ls -a
+            
       - name: Merge Test results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
