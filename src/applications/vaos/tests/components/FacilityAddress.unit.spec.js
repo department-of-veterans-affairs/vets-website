@@ -1,10 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { stateNames } from '../../components/State';
 
 import FacilityAddress from '../../components/FacilityAddress';
 
+const initialState = {};
 const facility = {
   id: '377c',
   name: 'Marine Corp Air Station Miramar Pre-Discharge Claims Intake Site',
@@ -22,11 +23,20 @@ const facility = {
   hoursOfOperation: [],
 };
 
+const location = {
+  clinicName: 'Friendly name',
+  clinicPhysicalLocation: 'Physical location',
+};
+
 describe('VAOS Component: FacilityAddress', () => {
   it('should render address for va facility', () => {
     const { address } = facility;
-    const screen = render(<FacilityAddress facility={facility} />);
-
+    const screen = renderWithStoreAndRouter(
+      <FacilityAddress facility={facility} clinicName={location.clinicName} />,
+      {
+        initialState,
+      },
+    );
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
     expect(screen.baseElement).to.contain.text(
       `${address.city}, ${stateNames[address.state]}${address.state} ${
@@ -36,12 +46,17 @@ describe('VAOS Component: FacilityAddress', () => {
     expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.queryByText('Directions')).not.to.exist;
+    expect(screen.queryByText(/Friendly name/)).to.exist;
+    expect(screen.queryByText(/Physical location/)).not.to.exist;
   });
 
   it('should show directions link if showDirectionsLink === true', () => {
     const { address } = facility;
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <FacilityAddress facility={facility} showDirectionsLink />,
+      {
+        initialState,
+      },
     );
 
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
@@ -66,8 +81,11 @@ describe('VAOS Component: FacilityAddress', () => {
         },
       ],
     };
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <FacilityAddress facility={facilityWithCovidLine} showCovidPhone />,
+      {
+        initialState,
+      },
     );
 
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
@@ -78,6 +96,33 @@ describe('VAOS Component: FacilityAddress', () => {
     );
     expect(screen.getByTestId('facility-telephone')).to.exist;
 
-    expect(screen.queryByText('Directions')).not.to.exist;
+    expect(screen.queryByText('Directions')).to.be.null;
+  });
+
+  it('should render clinic physical location when vaOnlineSchedulingPhysicalLocation is on', () => {
+    const { address } = facility;
+    const screen = renderWithStoreAndRouter(
+      <FacilityAddress
+        facility={facility}
+        clinicName={location.clinicName}
+        clinicPhysicalLocation={location.clinicPhysicalLocation}
+      />,
+      {
+        initialState: {
+          ...initialState,
+          featureToggles: {
+            vaOnlineSchedulingPhysicalLocation: true,
+          },
+        },
+      },
+    );
+    expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${address.city}, ${stateNames[address.state]}${address.state} ${
+        address.postalCode
+      }`,
+    );
+    expect(screen.queryByText(/Friendly name/)).to.exist;
+    expect(screen.queryByText(/Physical location/)).to.exist;
   });
 });
