@@ -31,6 +31,9 @@ export class VAFacilityPageObject extends PageObject {
    * @memberof VAFacilityPageObject
    */
   assertSingleLocation({ locationName, isVA = true } = {}) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
     if (isVA) {
       cy.findByText(/We found one VA facility for your .* appointment/i);
     } else {
@@ -44,7 +47,8 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   assertUrl({ axCheck = true } = {}) {
-    cy.url().should('include', '/location', { timeout: 5000 });
+    cy.url().should('include', '/location', { timeout: 10000 });
+
     if (axCheck) cy.axeCheckBestPractice();
 
     return this;
@@ -62,6 +66,9 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
     cy.findByLabelText(label)
       .as('radio')
       .focus();

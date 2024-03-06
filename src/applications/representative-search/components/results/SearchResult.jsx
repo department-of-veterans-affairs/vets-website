@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { scrollTo } from 'platform/utilities/ui';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -17,6 +20,7 @@ const SearchResult = ({
   email,
   associatedOrgs,
   submitRepresentativeReport,
+  isErrorReportSubmission,
   reports,
   representativeId,
   query,
@@ -24,9 +28,12 @@ const SearchResult = ({
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
-  const { contact, extension } = parsePhoneNumber(phone);
+  const reportsAreInitialized = useRef(true);
+  const submissionErrorsAreInitialized = useRef(true);
 
-  const scrollElementId = `result-${representativeId}`;
+  const prevReportCount = useRef(reports?.length || 0);
+
+  const { contact, extension } = parsePhoneNumber(phone);
 
   const addressExists = addressLine1 || city || stateCode || zipCode;
 
@@ -43,10 +50,40 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  const closeReportModal = () => {
+  const onCloseReportModal = () => {
     setReportModalIsShowing(false);
-    scrollTo(scrollElementId);
   };
+
+  useEffect(
+    () => {
+      if (!reportModalIsShowing && !reportsAreInitialized) {
+        // scroll and focus behavior depends on whether a report was successfully created
+        if (reports && Object.keys(reports).length > prevReportCount.current) {
+          prevReportCount.current += 1;
+          scrollTo(`#thank-you-alert-${representativeId}`);
+          focusElement(`#thank-you-alert-${representativeId}`);
+        } else {
+          scrollTo(`#report-button-${representativeId}`);
+          focusElement(`#report-button-${representativeId}`);
+        }
+      } else {
+        reportsAreInitialized.current = false;
+      }
+    },
+    [reportModalIsShowing, isErrorReportSubmission],
+  );
+
+  useEffect(
+    () => {
+      if (!isErrorReportSubmission && !submissionErrorsAreInitialized) {
+        scrollTo(`#report-button-${representativeId}`);
+        focusElement(`#report-button-${representativeId}`);
+      } else {
+        submissionErrorsAreInitialized.current = false;
+      }
+    },
+    [isErrorReportSubmission],
+  );
 
   return (
     <div className="report-outdated-information-modal">
@@ -67,7 +104,7 @@ const SearchResult = ({
           phone={phone}
           email={email}
           existingReports={reports}
-          onCloseModal={closeReportModal}
+          onCloseModal={onCloseReportModal}
           submitRepresentativeReport={submitRepresentativeReport}
         />
       )}
@@ -151,9 +188,11 @@ const SearchResult = ({
           {reports && (
             <div className="report-thank-you-alert">
               <va-alert
-                class="vads-u-margin-bottom--2"
+                class="thank-you-alert vads-u-margin-bottom--2"
+                id={`thank-you-alert-${representativeId}`}
                 close-btn-aria-label="Close notification"
                 disable-analytics="false"
+                tabIndex={-1}
                 full-width="false"
                 slim
                 status="info"
@@ -171,6 +210,8 @@ const SearchResult = ({
               onClick={() => {
                 setReportModalIsShowing(true);
               }}
+              tabIndex={-1}
+              id={`report-button-${representativeId}`}
               secondary
               text="Report outdated information"
               uswds
