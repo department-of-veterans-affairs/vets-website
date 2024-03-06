@@ -6,7 +6,8 @@ const NoHealthAlert = () => {
       status="warning"
       visible
       data-testid="no-health-message"
-      uswds="false"
+      role="alert"
+      uswds
     >
       <h2 slot="headline">You don’t have access to My HealtheVet</h2>
       <div>
