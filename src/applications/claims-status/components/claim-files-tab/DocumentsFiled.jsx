@@ -66,10 +66,10 @@ const receivedDateExists = (uploadDate, itemDate) => {
   return uploadDate !== null || (uploadDate === null && itemDate !== null);
 };
 
-const docsFiledReceivedDate = itemText =>
+const docsFiledReceivedDate = documentsLength =>
   [
     'vads-u-margin-top--0p5',
-    itemText ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--1',
+    documentsLength > 1 ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--1',
   ].join(' ');
 
 const docsFiledDocType = (uploadDate, itemDate) =>
@@ -135,7 +135,7 @@ function DocumentsFiled({ claim }) {
                         {item.requestTypeText}
                       </p>
                       {item.date !== null && (
-                        <p className={docsFiledReceivedDate(item.text)}>
+                        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
                           {`Received on ${formatDate(item.date)}`}
                         </p>
                       )}
@@ -160,13 +160,21 @@ function DocumentsFiled({ claim }) {
                           {`Document type: ${doc.documentTypeLabel}`}
                         </p>
                         {doc.uploadDate !== null && (
-                          <p className={docsFiledReceivedDate(item.text)}>
+                          <p
+                            className={docsFiledReceivedDate(
+                              item.documents.length,
+                            )}
+                          >
                             {`Received on ${formatDate(doc.uploadDate)}`}
                           </p>
                         )}
                         {doc.uploadDate === null &&
                           item.date !== null && (
-                            <p className={docsFiledReceivedDate(item.text)}>
+                            <p
+                              className={docsFiledReceivedDate(
+                                item.documents.length,
+                              )}
+                            >
                               {`Received on ${formatDate(item.date)}`}
                             </p>
                           )}
