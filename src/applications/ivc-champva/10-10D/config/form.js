@@ -89,6 +89,17 @@ import {
 
 import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
+import {
+  AppBirthCertReviewField,
+  AppSchoolDocReviewField,
+  AppAdoptionDocReviewField,
+  AppStepDocReviewField,
+  AppMarriageDocReviewField,
+  AppMedicareABDocReviewField,
+  AppMedicareDDocReviewField,
+  AppOhiDocReviewField,
+  App107959cDocReviewField,
+} from '../components/File/FileViewField';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -758,7 +769,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppBirthCertReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -813,7 +824,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppSchoolDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -915,7 +926,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppAdoptionDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -973,7 +984,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppStepDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1028,7 +1039,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppMarriageDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1125,7 +1136,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppMedicareABDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1182,7 +1193,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppMedicareDDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1248,7 +1259,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: AppOhiDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1290,7 +1301,7 @@ const formConfig = {
           path: 'applicant-information/:index/10-7959c-upload',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} 10-7959C upload`,
+          title: item => `${applicantWording(item)} 10-7959c upload`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1300,7 +1311,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: null,
+          CustomPageReview: App107959cDocReviewField,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {

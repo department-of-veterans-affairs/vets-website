@@ -30,7 +30,7 @@ export const attachmentsSchema = {
 };
 
 export const fileWithMetadataSchema = possibleFiles => {
-  const enu = Object.keys(possibleFiles || []);
+  const enu = possibleFiles || [];
 
   return {
     type: 'array',
