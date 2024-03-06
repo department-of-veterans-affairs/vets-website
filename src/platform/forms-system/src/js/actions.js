@@ -232,7 +232,6 @@ export function uploadFile(
 
     if (file.size > maxSize) {
       const fileSizeText = uiOptions?.maxSizeText || displayFileSize(maxSize);
-      // eslint-disable-next-line sonarjs/no-all-duplicated-branches
       const fileTooBigErrorMessage = enableShortWorkflow
         ? 'We couldn\u2019t upload your file because it\u2019s too big. ' +
           `Please make sure the file is ${fileSizeText} or less and try again.`
