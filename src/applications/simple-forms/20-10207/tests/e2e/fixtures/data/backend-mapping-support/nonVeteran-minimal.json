@@ -1,31 +1,19 @@
 {
   "data": {
-    "preparerType": "third-party-non-veteran",
-    "thirdPartyFullName": {
-      "first": "Joe",
-      "last": "Third-Pty-Non-Vet"
-    },
-    "thirdPartyType": "power-of-attorney",
+    "preparerType": "non-veteran",
     "nonVeteranFullName": {
       "first": "John",
       "last": "Non-Veteran"
     },
     "nonVeteranDateOfBirth": "1980-01-01",
     "nonVeteranId": {
-      "ssn": "321540990"
+      "ssn": "321540988"
     },
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
-    "nonVeteranMailingAddress": {
-      "country": "USA",
-      "street": "124 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
-    "nonVeteranPhone": "1234567893",
+    "mailingAddressYesNo": false,
+    "nonVeteranPhone": "1234567891",
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"
@@ -47,7 +35,7 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "startDate": "2018-01-01"
+        "startDate": "2013-01-01"
       }
     ]
   }
