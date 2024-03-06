@@ -111,7 +111,7 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
-  [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
+  [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representatives`,
 };
 
 export const GA = {
