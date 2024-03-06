@@ -254,7 +254,7 @@ export function uploadFile(
         ? 'We couldn\u2019t upload your file because it\u2019s too small. ' +
           `Please make sure the file is ${fileSizeText} or more and try again.`
         : 'We couldn\u2019t upload your file because it\u2019s too small. ' +
-          `Please delete this file. Try uploading a file that\u2019s ${fileSizeText} or more.`;
+          `Try uploading a file that\u2019s ${fileSizeText} or more.`;
 
       onChange({
         name: file.name,
