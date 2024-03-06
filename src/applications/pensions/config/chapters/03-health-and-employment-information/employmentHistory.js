@@ -5,9 +5,10 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  numberUI,
+  numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { validateWorkHours } from '../../../helpers';
 
 export const EmployerView = ({ formData }) => (
   <ListItemView title={formData.jobTitle} />
@@ -66,14 +67,12 @@ const generateEmployersSchemas = (
             'ui:title': jobTypeFieldLabel,
             'ui:webComponentField': VaTextInputField,
           },
-          jobHoursWeek: {
-            'ui:title': jobHoursWeekFieldLabel,
-            'ui:options': {
-              widgetClassNames: 'form-select-medium vads-u-margin-y--2',
-              classNames: 'vads-u-margin-y--2p5',
-            },
-            'ui:validations': [validateWorkHours],
-          },
+          jobHoursWeek: numberUI({
+            title: jobHoursWeekFieldLabel,
+            width: 'sm',
+            min: 1,
+            max: 168,
+          }),
           jobTitle: {
             'ui:title': jobTitleFieldLabel,
             'ui:webComponentField': VaTextInputField,
@@ -96,9 +95,7 @@ const generateEmployersSchemas = (
               jobType: {
                 type: 'string',
               },
-              jobHoursWeek: {
-                type: 'number',
-              },
+              jobHoursWeek: numberSchema,
               jobTitle: {
                 type: 'string',
               },
