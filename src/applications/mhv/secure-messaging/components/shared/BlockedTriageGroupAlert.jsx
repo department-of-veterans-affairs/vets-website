@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { datadogRum } from '@datadog/browser-rum';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   BlockedTriageAlertStyles,
   BlockedTriageAlertText,
@@ -27,9 +28,7 @@ const BlockedTriageGroupAlert = props => {
     alertMessage.NO_ASSOCIATIONS,
   );
 
-  const ehrDataByVhaId = useSelector(
-    state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
-  );
+  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
