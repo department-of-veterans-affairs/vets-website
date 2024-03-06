@@ -7,7 +7,6 @@ import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 import {
   cnpDirectDepositBankInfo,
-  isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from './util';
@@ -59,16 +58,9 @@ export const eduDirectDepositLoadError = state => {
 export const cnpDirectDepositAddressInformation = state =>
   cnpDirectDepositInformation(state)?.paymentAddress;
 
-export const cnpDirectDepositIsEligible = (
-  state,
-  useLighthouseFormat = false,
-) => {
-  if (useLighthouseFormat) {
-    return !!cnpDirectDepositInformation(state)?.controlInformation
-      ?.canUpdateDirectDeposit;
-  }
-  return isEligibleForCNPDirectDeposit(cnpDirectDepositInformation(state));
-};
+export const cnpDirectDepositIsEligible = state =>
+  !!cnpDirectDepositInformation(state)?.controlInformation
+    ?.canUpdateDirectDeposit;
 
 export const cnpDirectDepositIsBlocked = state => {
   const controlInfo = cnpDirectDepositInformation(state)?.controlInformation;
