@@ -74,10 +74,8 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
   transformForSubmit,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
@@ -142,8 +140,21 @@ const formConfig = {
     personalInformationChapter: {
       title: ({ formData }) => getPersonalInformationChapterTitle(formData),
       pages: {
-        nameAndDateOfBirthPage: {
-          path: 'name-and-date-of-birth',
+        veteranNameAndDateOfBirthPageA: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'veteran-name-and-date-of-birth-a',
+          title: 'Name and date of birth',
+          uiSchema: vetNameAndDobPg.uiSchema,
+          schema: vetNameAndDobPg.schema,
+          pageClass: 'veteran-name-and-date-of-birth',
+        },
+        nonVeteranNameAndDateOfBirthPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'non-veteran-name-and-date-of-birth',
           title: 'Name and date of birth',
           uiSchema: nonVetNameAndDobPg.uiSchema,
           schema: nonVetNameAndDobPg.schema,
