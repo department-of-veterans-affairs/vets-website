@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
+import { makeSelectApp } from '../selectors';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
@@ -21,16 +23,19 @@ const BackButton = props => {
   const currentPage = getCurrentPageFromRouter();
   const previousPage = getPreviousPageFromRouter();
 
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
   const handleClick = useCallback(
     e => {
       e.preventDefault();
       recordEvent({
-        event: createAnalyticsSlug('back-button-clicked', 'nav'),
+        event: createAnalyticsSlug('back-button-clicked', 'nav', app),
         fromPage: currentPage,
       });
       action();
     },
-    [currentPage, action],
+    [app, currentPage, action],
   );
 
   if (previousPage && previousPage === URLS.LOADING) {

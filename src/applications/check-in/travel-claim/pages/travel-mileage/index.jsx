@@ -2,11 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
-
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { createAnalyticsSlug } from '../../../utils/analytics';
 import { setFacilityToFile } from '../../../actions/travel-claim';
 import { hasMultipleFacilities } from '../../../utils/appointment';
 import { makeSelectCurrentContext, makeSelectForm } from '../../../selectors';
+import { APP_NAMES } from '../../../utils/appConstants';
 import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
 
@@ -59,6 +63,13 @@ const TravelMileage = props => {
   const continueClick = useCallback(
     () => {
       if (selectedFacilities.length) {
+        recordEvent({
+          event: createAnalyticsSlug(
+            'continue-from-travel-mileage-clicked',
+            'nav',
+            APP_NAMES.TRAVEL_CLAIM,
+          ),
+        });
         dispatch(setFacilityToFile({ facilitiesToFile: selectedFacilities }));
         goToNextPage();
       } else {
