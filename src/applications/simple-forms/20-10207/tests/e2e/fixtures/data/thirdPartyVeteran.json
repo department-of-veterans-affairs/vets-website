@@ -42,20 +42,5 @@
         "startDate": "2018-01-01"
       }
     ]
-      "OVER_85": true
-    },
-    "medicalTreatments": [
-      {
-        "facilityName": "Guido’s Trailer",
-        "facilityAddress": {
-          "country": "USA",
-          "street": "123 Any St",
-          "city": "Anytown",
-          "state": "CA",
-          "postalCode": "12345"
-        },
-        "startDate": "2018-01-01"
-      }
-    ]
   }
 }

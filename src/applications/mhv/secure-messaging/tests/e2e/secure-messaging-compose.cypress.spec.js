@@ -34,7 +34,7 @@ testSuite('Secure Messaging Compose', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it.skip('verify subject field max size', () => {
+  it('verify subject field max size', () => {
     const charsLimit = 50;
     const normalText = 'Qwerty1234';
     const maxText = 'Qwerty1234Qwerty1234Qwerty1234Qwerty1234Qwerty1234';
