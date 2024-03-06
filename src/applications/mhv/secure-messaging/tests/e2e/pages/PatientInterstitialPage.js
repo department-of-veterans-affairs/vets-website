@@ -1,6 +1,8 @@
+import { Locators } from '../utils/constants';
+
 class PatientInterstitialPage {
   getContinueButton = () => {
-    return cy.get('[data-testid="continue-button"]');
+    return cy.get(Locators.BUTTONS.CONTINUE);
   };
 
   CheckFocusOnVcl = () => {

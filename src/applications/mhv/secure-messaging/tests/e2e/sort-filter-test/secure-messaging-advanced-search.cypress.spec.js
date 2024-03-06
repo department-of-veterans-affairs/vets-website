@@ -80,7 +80,7 @@ describe(manifest.appName, () => {
       landingPage.submitSearchButton();
     });
     it('Check all draft messages contain the searched category', () => {
-      cy.get('[data-testid="message-list-item"]')
+      cy.get(Locators.MESSAGES)
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
@@ -93,7 +93,7 @@ describe(manifest.appName, () => {
       });
     });
     it('Check the search message label', () => {
-      cy.get('[data-testid="search-message-folder-input-label"]')
+      cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
@@ -122,7 +122,7 @@ describe(manifest.appName, () => {
         '/my_health/v1/messaging/folders/-1/threads?**',
         particularFolderResponse,
       );
-      cy.get('[data-testid="sent-sidebar"]').click();
+      cy.get(Locators.FOLDERS.SENT).click();
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',
@@ -133,7 +133,7 @@ describe(manifest.appName, () => {
       landingPage.submitSearchButton();
     });
     it('Check all sent messages contain the searched category', () => {
-      cy.get('[data-testid="message-list-item"]')
+      cy.get(Locators.MESSAGES)
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
@@ -175,7 +175,7 @@ describe(manifest.appName, () => {
         '/my_health/v1/messaging/folders/-3/threads?**',
         particularFolderResponse,
       );
-      cy.get('[data-testid="trash-sidebar"]').click();
+      cy.get(Locators.FOLDERS.TRASH).click();
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',
@@ -186,7 +186,7 @@ describe(manifest.appName, () => {
       landingPage.submitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
-      cy.get('[data-testid="message-list-item"]')
+      cy.get(Locators.MESSAGES)
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
@@ -199,7 +199,7 @@ describe(manifest.appName, () => {
       });
     });
     it('Check the search message label', () => {
-      cy.get('[data-testid="search-message-folder-input-label"]')
+      cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
@@ -232,7 +232,7 @@ describe(manifest.appName, () => {
       landingPage.submitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
-      cy.get('[data-testid="message-list-item"]')
+      cy.get(Locators.MESSAGES)
         .should('contain', 'COVID')
         .and('have.length', mockSearchCustomMessages.data.length);
       cy.injectAxe();
@@ -248,7 +248,7 @@ describe(manifest.appName, () => {
       });
     });
     it('Check the search results label', () => {
-      cy.get('[data-testid="search-message-folder-input-label"]')
+      cy.get(Locators.MESSAGES)
         .should('contain', '2')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
