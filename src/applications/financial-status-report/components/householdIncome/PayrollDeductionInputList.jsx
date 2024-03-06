@@ -29,9 +29,9 @@ const PayrollDeductionInputList = props => {
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
