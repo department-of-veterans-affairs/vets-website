@@ -1255,7 +1255,7 @@ const formConfig = {
 
                   // Return true if isNo is false OR noDuplicates is not false
                   return (
-                    !isNo || noDuplicates || !formData?.toeDupContactInfoCall
+                    !formData?.toeDupContactInfoCall || (!isNo || noDuplicates)
                   );
                 },
               },
@@ -1299,10 +1299,8 @@ const formConfig = {
 
                   // Return true if isYes is false, noDuplicates is true, or mobilePhone is undefined
                   return (
-                    !isYes ||
-                    noDuplicates ||
-                    !mobilePhone ||
-                    !formData?.toeDupContactInfoCall
+                    !formData?.toeDupContactInfoCall ||
+                    (!isYes || noDuplicates || !mobilePhone)
                   );
                 },
               },
