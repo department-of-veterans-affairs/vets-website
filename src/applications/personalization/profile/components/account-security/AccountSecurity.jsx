@@ -26,7 +26,7 @@ class AccountSecurity extends Component {
         <Headline>Account security</Headline>
         <DowntimeNotification
           render={handleDowntimeForSection('account security')}
-          dependencies={[externalServices.emis, externalServices.mvi]}
+          dependencies={[externalServices.mvi]}
         >
           <AccountSecurityContent />
         </DowntimeNotification>
