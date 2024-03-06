@@ -60,6 +60,4 @@ export default function BurialsEntry({ location, children }) {
 BurialsEntry.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
-  // profile: PropTypes.object.isRequired,
-  // toggleFeatures: PropTypes.object.isRequired,
 };

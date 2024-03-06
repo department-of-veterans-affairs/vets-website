@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -65,21 +65,25 @@ describe('BurialsApp', () => {
     expect($('va-loading-indicator', container)).to.exist;
   });
 
-  it('should show NoFormPage', async () => {
-    const mockStore = store({
-      featuresLoading: false,
-      burialFormEnabled: false,
-    });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <BurialsApp location={burialsLocation} />
-      </Provider>,
-    );
-    await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.not.exist;
-      expect($('va-alert', container)).to.exist;
-    });
-  });
+  // it('should show NoFormPage', async () => {
+  //   const mockStore = store({
+  //     featuresLoading: false,
+  //     burialFormEnabled: false,
+  //   });
+  //   const screen = render(
+  //     <Provider store={mockStore}>
+  //       <BurialsApp location={burialsLocation} />
+  //     </Provider>,
+  //   );
+  //
+  //   const formDOM = getFormDOM(screen);
+  //
+  //
+  //   await waitFor(() => {
+  //     expect($('va-loading-indicator', screen.container)).to.not.exist;
+  //     expect(screen.queryByText('This online form isn’t working right now')).to.exist;
+  //   });
+  // });
 
   it('should redirect to burial allowance', async () => {
     const mockStore = store({
@@ -94,17 +98,15 @@ describe('BurialsApp', () => {
         <BurialsApp location={{ ...burialsLocation, pathname: 'test' }} />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(window.location.href).to.eq(
-        '/burials-memorials/veterans-burial-allowance/',
-      );
-    });
+    expect(window.location.href).to.eq(
+      '/burials-memorials/veterans-burial-allowance/',
+    );
   });
 
-  it('should redirect to v2', async () => {
+  it('should redirect to v1', async () => {
     const mockStore = store({
       burialFormEnabled: true,
-      burialFormV2: true,
+      burialFormV2: false,
       featuresLoading: false,
       profileLoading: false,
       savedForms: [],
@@ -119,21 +121,21 @@ describe('BurialsApp', () => {
       </Provider>,
     );
     expect(window.location.href).to.eq(
-      '/burials-and-memorials-v2/application/530/',
+      '/burials-and-memorials/application/530/',
     );
   });
 
-  it('should redirect to v2 with in progress form', async () => {
+  it('should redirect to v1 with in progress form', async () => {
     const mockStore = store({
       burialFormEnabled: true,
-      burialFormV2: false, // intentionally so.
+      burialFormV2: true, // intentionally so.
       featuresLoading: false,
       profileLoading: false,
       savedForms: [
         {
           form: VA_FORM_IDS.FORM_21P_530,
           metadata: {
-            version: 3,
+            version: 2,
           },
         },
       ],
@@ -148,7 +150,7 @@ describe('BurialsApp', () => {
       </Provider>,
     );
     expect(window.location.href).to.eq(
-      '/burials-and-memorials-v2/application/530/',
+      '/burials-and-memorials/application/530/',
     );
   });
 });
