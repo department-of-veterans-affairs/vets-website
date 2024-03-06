@@ -610,18 +610,21 @@ const testForm = testConfig => {
 
     const createTestCase = testKey => {
       let title;
-      let data;
       if (typeof testKey === 'object') {
         title = testKey.title;
-        data = testKey.data;
       } else {
         title = testKey;
-        data = cy.fixture(`${dataDir || fixtures.data}/${testKey}`);
       }
       testCase(title, () => {
         beforeEach(() => {
+          let data;
+          if (typeof testKey === 'object') {
+            data = cy.wrap(testKey.data);
+          } else {
+            data = cy.fixture(`${dataDir || fixtures.data}/${testKey}`);
+          }
           cy.wrap(title).as('testKey');
-          cy.wrap(data)
+          data
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);
