@@ -48,6 +48,7 @@ const ResultsList = props => {
                 representative={result}
                 representativeId={result.id}
                 submitRepresentativeReport={props.submitRepresentativeReport}
+                isErrorReportSubmission={props.isErrorReportSubmission}
                 query={query}
                 index={index}
               />

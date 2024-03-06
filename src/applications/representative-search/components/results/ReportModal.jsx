@@ -78,7 +78,7 @@ const ReportModal = ({
     setReportObject(newState);
   };
 
-  const onSubmitModal = () => {
+  const onSubmitModal = async () => {
     const formattedReportObject = {
       representativeId,
       reports: {},
@@ -100,7 +100,8 @@ const ReportModal = ({
       return;
     }
 
-    submitRepresentativeReport(formattedReportObject);
+    await submitRepresentativeReport(formattedReportObject);
+
     setReportObject({
       phone: null,
       email: null,
@@ -126,6 +127,7 @@ const ReportModal = ({
         {handleOtherInputChangeTestId ? (
           <>
             <button
+              label="unit test button"
               id="handle-checkbox-change-test-button"
               type="button"
               onClick={() =>
@@ -136,6 +138,7 @@ const ReportModal = ({
             />
             <button
               id="handle-other-input-change-test-button"
+              label="unit test button"
               type="button"
               onClick={() =>
                 handleOtherInputChange({
@@ -152,10 +155,12 @@ const ReportModal = ({
           <>
             <button
               id="set-report-object-button"
+              label="unit test button"
               type="button"
               onClick={() => setReportObject({ ...testReportObject })}
             />
             <button
+              label="unit test button"
               id="submit-modal-test-button"
               type="button"
               onClick={() => onSubmitModal()}
@@ -256,9 +261,11 @@ ReportModal.propTypes = {
     other: PropTypes.string,
     phone: PropTypes.string,
   }),
+  handleOtherInputChangeTestId: PropTypes.func,
   phone: PropTypes.string,
   representativeId: PropTypes.string,
   representativeName: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  testReportObject: PropTypes.object,
   onCloseModal: PropTypes.func,
 };
