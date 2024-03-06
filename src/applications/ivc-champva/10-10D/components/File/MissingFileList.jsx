@@ -75,10 +75,11 @@ export default function MissingFileList({
             <strong>{entryName}</strong>
             <ul>
               {entry.missingUploads?.map((file, index) => (
-                <div key={file.name + file.uploaded + index}>
-                  <li>{makeHumanReadable(file.name)}</li>
+                <li key={file.name + file.uploaded + index}>
+                  {makeHumanReadable(file.name)}
+                  <br />
                   {!disableLinks ? alertOrLink(file, entryName, idx) : null}
-                </div>
+                </li>
               ))}
             </ul>
           </div>
