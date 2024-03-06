@@ -10,7 +10,7 @@ export const App = ({ isEzrEnabled }) => {
           Veterans enrolled in VA health care and expansion of benefits
         </h2>
         <div>
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin-top--2">
             On <strong>March 5, 2024</strong>, we expanded health care to
             millions of Veterans.
           </p>
@@ -18,13 +18,13 @@ export const App = ({ isEzrEnabled }) => {
             href="/resources/the-pact-act-and-your-va-benefits/"
             text=" Learn more about the PACT Act and VA health care and benefits"
           />
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin-top--2">
             Veterans who are enrolled in VA health care can now answer more
             questions about their military service history. We’ll use this
             information to determine if you may have had exposure to any toxins
             or other hazards. And we’ll determine if we’ll place you in a higher
             priority group. This may affect how much (if anything) you’ll have
-            to pay toward the cost of your care
+            to pay toward the cost of your care.
           </p>
           <p className="vads-u-margin-top--0">
             These questions are only available on our PDF form at this time. If
@@ -41,15 +41,15 @@ export const App = ({ isEzrEnabled }) => {
           Veterans enrolled in VA health care and expansion of benefits
         </h2>
         <div>
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin-top--2">
             On <strong>March 5, 2024</strong>, we expanded health care to
-            millions more Veterans.
+            millions of Veterans.
           </p>
           <va-link
             href="/resources/the-pact-act-and-your-va-benefits/"
             text=" Learn more about the PACT Act and VA health care and benefits"
           />
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin-top--2">
             Veterans who are enrolled in VA health care can now provide more
             information about their military service history.
           </p>
