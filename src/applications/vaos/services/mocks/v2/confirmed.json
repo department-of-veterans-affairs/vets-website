@@ -653,7 +653,7 @@
             "value": "983:11663"
           }
         ],
-        "kind": "clinic",
+        "kind": "phone",
         "status": "booked",
         "serviceType": "primaryCare",
         "serviceTypes": [
