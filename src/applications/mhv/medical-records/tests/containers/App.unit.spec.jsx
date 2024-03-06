@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
-// import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import App from '../../containers/App';
@@ -49,8 +49,12 @@ describe('App', () => {
         currentlyLoggedIn: true,
       },
       profile: {
-        // services: [backendServices.HEALTH_RECORDS],
+        services: [backendServices.MEDICAL_RECORDS],
       },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_to_va_gov_release: true,
     },
     mr: {
       breadcrumbs: {
@@ -58,6 +62,7 @@ describe('App', () => {
       },
     },
   };
+
   const noDowntime = {
     scheduledDowntime: {
       globalDowntime: null,
@@ -67,6 +72,7 @@ describe('App', () => {
       dismissedDowntimeWarnings: [],
     },
   };
+
   const downtime = maintenanceWindows => {
     return createServiceMap(
       maintenanceWindows.map(maintenanceWindow => {
@@ -81,6 +87,7 @@ describe('App', () => {
       }),
     );
   };
+
   describe('App-level feature flag functionality', () => {
     it('feature flags are still loading', () => {
       const screen = renderWithStoreAndRouter(
@@ -89,10 +96,12 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               loading: true,
+              // eslint-disable-next-line camelcase
+              mhv_medical_records_to_va_gov_release: undefined,
             },
-            ...initialState,
           },
           path: `/`,
           reducers: reducer,
@@ -108,11 +117,11 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               // eslint-disable-next-line camelcase
               mhv_medical_records_to_va_gov_release: false,
             },
-            ...initialState,
           },
           path: `/`,
           reducers: reducer,
@@ -138,10 +147,6 @@ describe('App', () => {
         </App>,
         {
           initialState: {
-            featureToggles: {
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_to_va_gov_release: true,
-            },
             ...initialState,
             ...noDowntime,
           },
@@ -165,10 +170,7 @@ describe('App', () => {
     it('renders the global downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: true,
             isReady: true,
@@ -176,7 +178,6 @@ describe('App', () => {
             serviceMap: downtime(['global']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -197,10 +198,7 @@ describe('App', () => {
     it('renders the downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: null,
             isReady: true,
@@ -208,7 +206,6 @@ describe('App', () => {
             serviceMap: downtime(['mhv_mr']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -232,10 +229,7 @@ describe('App', () => {
     it('renders the downtime notification for multiple services', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: null,
             isReady: true,
@@ -243,7 +237,6 @@ describe('App', () => {
             serviceMap: downtime(['mhv_mr', 'mhv_platform']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -267,10 +260,7 @@ describe('App', () => {
     it('does NOT render the downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medical_records_to_va_gov_release: true,
-          },
+          ...initialState,
           scheduledDowntime: {
             globalDowntime: null,
             isReady: true,
@@ -278,7 +268,6 @@ describe('App', () => {
             serviceMap: downtime(['mhv_meds']),
             dismissedDowntimeWarnings: [],
           },
-          ...initialState,
         },
         reducers: reducer,
         path: `/`,
@@ -297,10 +286,7 @@ describe('App', () => {
   it('renders breadcrumbs when downtime and at the landing page', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medical_records_to_va_gov_release: true,
-        },
+        ...initialState,
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -308,7 +294,6 @@ describe('App', () => {
           serviceMap: downtime(['mhv_mr']),
           dismissedDowntimeWarnings: [],
         },
-        ...initialState,
       },
       reducers: reducer,
       path: `/`,
@@ -319,10 +304,7 @@ describe('App', () => {
   it('does not render breadcrumbs when downtime and not at the landing page', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medical_records_to_va_gov_release: true,
-        },
+        ...initialState,
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -330,7 +312,6 @@ describe('App', () => {
           serviceMap: downtime(['mhv_mr']),
           dismissedDowntimeWarnings: [],
         },
-        ...initialState,
       },
       reducers: reducer,
       path: `/vaccines`,
@@ -346,11 +327,11 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               // eslint-disable-next-line camelcase
               mhv_medical_records_display_sidenav: false,
             },
-            ...initialState,
           },
           path: `/`,
           reducers: reducer,
@@ -366,11 +347,11 @@ describe('App', () => {
         </App>,
         {
           initialState: {
+            ...initialState,
             featureToggles: {
               // eslint-disable-next-line camelcase
               mhv_medical_records_display_sidenav: true,
             },
-            ...initialState,
             ...noDowntime,
           },
           reducers: reducer,
@@ -378,6 +359,35 @@ describe('App', () => {
         },
       );
       expect(screen.queryByTestId('mhv-mr-navigation'));
+    });
+  });
+
+  describe('Service-based redirection', async () => {
+    it('redirects Basic users to /health-care/get-medical-records', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          ...initialState.user,
+          profile: {
+            services: [],
+          },
+        },
+      };
+      renderWithStoreAndRouter(<App />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `/`,
+      });
+      expect(window.location.replace.called).to.be.true;
+    });
+
+    it('does not redirect Premium users', async () => {
+      renderWithStoreAndRouter(<App />, {
+        initialState,
+        reducers: reducer,
+        path: `/`,
+      });
+      expect(window.location.replace.called).to.be.false;
     });
   });
 });
