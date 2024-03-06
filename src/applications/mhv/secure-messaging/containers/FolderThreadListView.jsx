@@ -6,7 +6,6 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -50,14 +49,9 @@ const FolderThreadListView = props => {
   const location = useLocation();
   const params = useParams();
 
-  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
-      ],
+  const { noAssociations, allTriageGroupsBlocked } = useSelector(
+    state => state.sm.recipients,
   );
-
-  const { allTriageGroupsBlocked } = useSelector(state => state.sm.recipients);
 
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
@@ -208,17 +202,13 @@ const FolderThreadListView = props => {
       if (threadList?.length === 0) {
         return (
           <>
-            {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+            {!noAssociations &&
               !allTriageGroupsBlocked && (
                 <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
                   Showing 0 of 0 conversations
                 </div>
-              )
-            ) : (
-              <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-                Showing 0 of 0 conversations
-              </div>
-            )}
+              )}
+
             <div className="vads-u-margin-top--3">
               <va-alert
                 background-only="true"
