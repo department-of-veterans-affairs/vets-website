@@ -88,7 +88,6 @@ export default Object.freeze({
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
-  fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   financialStatusReportDebtsApiModule:
     'financial_status_report_debts_api_module',
   financialStatusReportStreamlinedWaiver:
