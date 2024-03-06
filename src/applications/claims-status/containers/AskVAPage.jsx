@@ -7,9 +7,8 @@ import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
   submitRequest as submitRequestAction,
-  getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
+  getClaim as getClaimAction,
 } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -34,13 +33,7 @@ class AskVAPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
-      // START lighthouse_migration
-      if (this.props.useLighthouseShow) {
-        props.getClaimLighthouse(this.props.params.id);
-      } else {
-        props.getClaimEVSS(this.props.params.id);
-      }
-      // END lighthouse_migration
+      props.getClaim(this.props.params.id);
       this.goToStatusPage();
     }
   }
@@ -154,7 +147,6 @@ function mapStateToProps(state) {
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     // START lighthouse_migration
     useLighthouse5103: cstUseLighthouse(state, '5103'),
-    useLighthouseShow: cstUseLighthouse(state, 'show'),
     // END lighthouse_migration
   };
 }
@@ -163,9 +155,8 @@ const mapDispatchToProps = {
   // START lighthouse_migration
   submit5103: submit5103Action,
   submitRequest: submitRequestAction,
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
   // END lighthouse_migration
+  getClaim: getClaimAction,
 };
 
 export default withRouter(
@@ -178,10 +169,7 @@ export default withRouter(
 AskVAPage.propTypes = {
   decisionRequestError: PropTypes.string,
   decisionRequested: PropTypes.bool,
-  // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
-  // END lighthouse_migration
+  getClaim: PropTypes.func,
   loadingDecisionRequest: PropTypes.bool,
   params: PropTypes.object,
   router: PropTypes.object,
@@ -189,7 +177,6 @@ AskVAPage.propTypes = {
   submit5103: PropTypes.func,
   submitRequest: PropTypes.func,
   useLighthouse5103: PropTypes.bool,
-  useLighthouseShow: PropTypes.bool,
   // END lighthouse_migration
 };
 
