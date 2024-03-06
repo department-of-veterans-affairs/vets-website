@@ -77,5 +77,21 @@ describe('check-in', () => {
       expect(link.getAttribute('target')).to.equal('_blank');
       expect(link.getAttribute('rel')).to.equal('noreferrer');
     });
+    it('renders className', () => {
+      const screen = render(
+        <CheckInProvider>
+          <ExternalLink
+            hrefLang="tl"
+            href="/"
+            dataTestId="test-id"
+            className="vads-c-action-link--blue"
+          >
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.getAttribute('class')).to.equal('vads-c-action-link--blue');
+    });
   });
 });
