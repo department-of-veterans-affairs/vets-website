@@ -4,7 +4,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
@@ -52,13 +51,6 @@ const MessageThreadHeader = props => {
   ] = useState(false);
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
-  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
-      ],
-  );
-
   const messages = useSelector(state => state.sm.threadDetails.messages);
 
   const handleReplyButton = useCallback(
@@ -69,7 +61,7 @@ const MessageThreadHeader = props => {
   );
 
   useEffect(() => {
-    if (mhvSecureMessagingBlockedTriageGroup1p0 && message) {
+    if (message) {
       const tempRecipient = {
         recipientId,
         name:
@@ -144,33 +136,25 @@ const MessageThreadHeader = props => {
         >
           {categoryLabel}: {subject}
         </h1>
-        {mhvSecureMessagingBlockedTriageGroup1p0 ? (
-          <CannotReplyAlert
-            visible={cannotReply && !showBlockedTriageGroupAlert}
-          />
-        ) : (
-          <CannotReplyAlert visible={cannotReply} />
-        )}
+
+        <CannotReplyAlert
+          visible={cannotReply && !showBlockedTriageGroupAlert}
+        />
       </header>
 
-      {mhvSecureMessagingBlockedTriageGroup1p0 &&
-        (showBlockedTriageGroupAlert && (
-          <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-            <BlockedTriageGroupAlert
-              blockedTriageGroupList={blockedTriageGroupList}
-              alertStyle={BlockedTriageAlertStyles.ALERT}
-              parentComponent={ParentComponent.MESSAGE_THREAD}
-            />
-          </div>
-        ))}
+      {showBlockedTriageGroupAlert && (
+        <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+          <BlockedTriageGroupAlert
+            blockedTriageGroupList={blockedTriageGroupList}
+            alertStyle={BlockedTriageAlertStyles.ALERT}
+            parentComponent={ParentComponent.MESSAGE_THREAD}
+          />
+        </div>
+      )}
 
       <MessageActionButtons
         threadId={threadId}
-        hideReplyButton={
-          cannotReply ||
-          (mhvSecureMessagingBlockedTriageGroup1p0 &&
-            showBlockedTriageGroupAlert)
-        }
+        hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
         handleReplyButton={handleReplyButton}
         isCreateNewModalVisible={isCreateNewModalVisible}
         setIsCreateNewModalVisible={setIsCreateNewModalVisible}

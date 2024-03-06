@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { validateField, getImageUri, dateFormat } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
+import { selectRefillContentFlag } from '../../util/selectors';
 
 const VaPrescription = prescription => {
+  const showRefillContent = useSelector(selectRefillContentFlag);
   const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
@@ -15,6 +19,9 @@ const VaPrescription = prescription => {
     id: prescription?.prescriptionId,
   });
 
+  const hasBeenDispensed =
+    prescription?.dispensedDate ||
+    prescription?.rxRfRecords?.[0]?.[1].find(record => record.dispensedDate);
   const shippedOn = prescription?.trackingList?.[0]?.[1];
   const content = () => {
     if (prescription) {
@@ -30,7 +37,17 @@ const VaPrescription = prescription => {
             )}
             <h2 className="vads-u-margin-y--2">About your prescription</h2>
             {prescription && <ExtraDetails {...prescription} />}
-            <FillRefillButton {...prescription} />
+            {showRefillContent && prescription?.isRefillable ? (
+              <Link
+                className="vads-u-display--block vads-c-action-link--green vads-u-margin-top--3 vads-u-margin-bottom--3"
+                to="/refill"
+                data-testid="refill-nav-link"
+              >
+                {hasBeenDispensed ? 'Refill' : 'Fill'} this prescription
+              </Link>
+            ) : (
+              <FillRefillButton {...prescription} />
+            )}
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
