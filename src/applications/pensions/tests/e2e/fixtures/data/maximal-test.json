@@ -56,7 +56,7 @@
     "currentEmployers": [
       {
         "jobType": "Customer service",
-        "jobHoursWeek": 20,
+        "jobHoursWeek": "20",
         "jobTitle": "Manager"
       }
     ],
