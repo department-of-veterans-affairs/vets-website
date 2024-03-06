@@ -16,6 +16,8 @@ import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
 import nonVetNameAndDobPg from '../pages/nonVeteranNameAndDateOfBirth';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import nonVetIdInfoPg from '../pages/nonVeteranIdInfo';
+// import nameAndDobPg from '../pages/nameAndDateofBirth';
+// import idInfoPg from '../pages/idInfo';
 import livingSituationPg from '../pages/livingSituation';
 import livingSituationThirdPartyVetPg from '../pages/livingSituationThirdPartyVeteran';
 import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPartyNonVeteran';
@@ -56,6 +58,7 @@ import {
   getContactInfoChapterTitle,
   statementOfTruthFullNamePath,
 } from '../helpers';
+import transformForSubmit from './submit-transformer';
 
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
@@ -71,8 +74,12 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submitUrl: '/v0/api',
+  transformForSubmit,
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   dev: {
+    collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
   },
   trackingPrefix: 'pp-10207-',
@@ -80,14 +87,15 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '20-10207',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your priority processing request application (20-10207) is in progress.',
-    //   expired: 'Your saved priority processing request application (20-10207) has expired. If you want to apply for priority processing request, please start a new application.',
-    //   saved: 'Your priority processing request application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your priority processing request (20-10207) is in progress.',
+      expired:
+        'Your saved priority processing request (20-10207) has expired. If you want priority processing, please start a new request.',
+      saved: 'Your priority processing request has been saved.',
+    },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for priority processing request.',
     noAuth:
@@ -134,36 +142,8 @@ const formConfig = {
     personalInformationChapter: {
       title: ({ formData }) => getPersonalInformationChapterTitle(formData),
       pages: {
-        // TODO: Refactor for non-veteran story
-        // nameAndDateOfBirthPage: {
-        //   path: 'name-and-date-of-birth',
-        //   title: 'Name and date of birth',
-        //   uiSchema: nameAndDobPg.uiSchema,
-        //   schema: nameAndDobPg.schema,
-        //   pageClass: 'name-and-date-of-birth',
-        // },
-        // identificationInformationPage: {
-        //   path: 'identification-information',
-        //   title: 'Identification information',
-        //   uiSchema: idInfoPg.uiSchema,
-        //   schema: idInfoPg.schema,
-        //   pageClass: 'identification-information',
-        // },
-        veteranNameAndDateOfBirthPageA: {
-          depends: formData =>
-            formData.preparerType === PREPARER_TYPES.VETERAN ||
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
-          path: 'veteran-name-and-date-of-birth-a',
-          title: 'Name and date of birth',
-          uiSchema: vetNameAndDobPg.uiSchema,
-          schema: vetNameAndDobPg.schema,
-          pageClass: 'veteran-name-and-date-of-birth',
-        },
-        nonVeteranNameAndDateOfBirthPage: {
-          depends: formData =>
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-          path: 'non-veteran-name-and-date-of-birth',
+        nameAndDateOfBirthPage: {
+          path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
           uiSchema: nonVetNameAndDobPg.uiSchema,
           schema: nonVetNameAndDobPg.schema,
