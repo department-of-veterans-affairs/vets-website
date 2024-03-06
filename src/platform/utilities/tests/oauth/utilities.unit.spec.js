@@ -480,18 +480,21 @@ describe('OAuth - Utilities', () => {
       expect(localStorage.getItem('hasSession')).to.be.null;
       teardownSpy.restore();
     });
-    it('should teardown profile after a certain duration', async () => {
+
+    it('should teardown profile after a certain duration', () => {
       localStorage.setItem('hasSession', true);
       const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
-      await oAuthUtils.logoutEvent('logingov', {
-        shouldWait: true,
-        duration: 300,
-      });
+      oAuthUtils
+        .logoutEvent('logingov', {
+          shouldWait: true,
+          duration: 300,
+        })
+        .then(() => {
+          expect(teardownSpy.called).to.be.true;
+          expect(localStorage.getItem('hasSession')).to.be.null;
 
-      expect(teardownSpy.called).to.be.true;
-      expect(localStorage.getItem('hasSession')).to.be.null;
-
-      teardownSpy.restore();
+          teardownSpy.restore();
+        });
     });
   });
 });

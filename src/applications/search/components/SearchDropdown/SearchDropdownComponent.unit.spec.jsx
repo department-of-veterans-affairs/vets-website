@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-// Relative imports.
+import { render } from '@testing-library/react';
+
 import SearchDropdownComponent from './SearchDropdownComponent';
 
 describe('Search Dropdown Component <SearchDropdownComponent/>', () => {
   it('renders what we expect', () => {
     const fetchSuggestions = sinon.spy();
-    const wrapper = mount(
+    render(
       <SearchDropdownComponent
         buttonText="Search"
         className="dropdown"
@@ -18,6 +18,5 @@ describe('Search Dropdown Component <SearchDropdownComponent/>', () => {
     );
 
     expect(fetchSuggestions.called).to.be.true;
-    wrapper.unmount();
   });
 });
