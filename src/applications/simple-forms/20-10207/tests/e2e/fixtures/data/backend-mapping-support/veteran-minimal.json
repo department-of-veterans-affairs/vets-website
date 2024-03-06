@@ -1,31 +1,19 @@
 {
   "data": {
-    "preparerType": "third-party-veteran",
-    "thirdPartyFullName": {
-      "first": "Joe",
-      "last": "Third-Party-Veteran"
-    },
-    "thirdPartyType": "representative",
+    "preparerType": "veteran",
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
     "veteranDateOfBirth": "1980-01-01",
     "veteranId": {
-      "ssn": "321540989"
+      "ssn": "321540987"
     },
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
-    "veteranMailingAddress": {
-      "country": "USA",
-      "street": "125 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
-    "veteranPhone": "1234567892",
+    "mailingAddressYesNo": false,
+    "veteranPhone": "1234567890",
     "otherReasons": {
       "OVER_85": true
     },
@@ -39,7 +27,7 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "startDate": "2018-01-01"
+        "startDate": "2013-01-05"
       }
     ]
   }
