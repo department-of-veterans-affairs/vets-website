@@ -1021,8 +1021,11 @@ jobs:
           merge-multiple: true
       
       - name: Log directory
-        run: ls -a
-            
+        run: |
+          ls -a
+          cd qa-standards-dashboard-data/src/testing-reports/data
+          ls -a
+
       - name: Merge Test results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
