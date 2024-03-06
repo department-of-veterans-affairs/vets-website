@@ -1,8 +1,6 @@
-import {
-  emailUI as emailOldUI,
-  ssnUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import phoneOldUI from 'platform/forms-system/src/js/definitions/phone';
+import emailOldUI from 'platform/forms-system/src/js/definitions/email';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
   ssnUI as ssnNewUI,
   ssnSchema as ssnNewSchema,
@@ -19,15 +17,9 @@ import {
 export default {
   uiSchema: {
     ...titleUI('RJSF'),
-    emailOld: {
-      ...emailOldUI(),
-      'ui:title': 'TextWidget - emailUI',
-    },
+    emailOld: emailOldUI('TextWidget - emailUI'),
     phoneOld: phoneOldUI('TextWidget - phoneUI'),
-    ssnOld: {
-      ...ssnUI(),
-      'ui:title': 'TextWidget - ssnUI',
-    },
+    ssnOld: ssnUI('TextWidget - ssnUI'),
     'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3TextEmailNew: emailUI({
       description:

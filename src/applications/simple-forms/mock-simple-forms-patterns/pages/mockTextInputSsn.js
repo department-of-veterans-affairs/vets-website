@@ -5,16 +5,13 @@ import {
   inlineTitleUI,
   inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('RJSF'),
-    ssn: {
-      ...ssnUI(),
-      'ui:title': 'Social security number',
-    },
+    ssn: ssnUI('Social security number'),
     vaFileNumber: {
       'ui:title': 'VA file number',
       'ui:errorMessages': {

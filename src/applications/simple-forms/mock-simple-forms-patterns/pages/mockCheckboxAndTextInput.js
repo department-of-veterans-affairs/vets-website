@@ -6,9 +6,9 @@ import {
   ssnSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
 /** @type {PageSchema} */
 export default {
@@ -28,13 +28,7 @@ export default {
         required: 'Checkbox required error',
       },
     },
-    rjsfCheckSsn: {
-      ...ssnUI('Social security number'),
-      'ui:title': 'Social security number',
-      'ui:errorMessages': {
-        required: 'Please enter a Social Security number',
-      },
-    },
+    rjsfCheckSsn: ssnUI('Social security number'),
     rjsfCheckboxWithBackground: {
       'ui:title': '',
       'ui:description': (
