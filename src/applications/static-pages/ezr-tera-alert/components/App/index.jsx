@@ -14,22 +14,16 @@ export const App = ({ isEzrEnabled }) => {
             On <strong>March 5, 2024</strong>, we expanded health care to
             millions of Veterans.
           </p>
-          <p className="vads-u-margin-top--0">
+          <a href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/">
             Learn more about the PACT Act and VA health care and benefits
-            <a
-              className="vads-c-action-link--green"
-              href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
-            >
-              https://www.va.gov/resources/the-pact-act-and-your-va-benefits/
-            </a>
-          </p>
+          </a>
           <p className="vads-u-margin-top--0">
             Veterans who are enrolled in VA health care can now answer more
             questions about their military service history. We’ll use this
             information to determine if you may have had exposure to any toxins
             or other hazards. And we’ll determine if we’ll place you in a higher
             priority group. This may affect how much (if anything) you’ll have
-            to pay towards the cost of your care
+            to pay toward the cost of your care
           </p>
           <p className="vads-u-margin-top--0">
             These questions are only available on our PDF form at this time. If
@@ -67,7 +61,7 @@ export const App = ({ isEzrEnabled }) => {
             We’ll use this information to determine if you may have had exposure
             to any toxins or other hazards. And we’ll also determine if we’ll
             place you in a higher priority group. This may affect how much (if
-            anything) you’ll have to pay towards the cost of your care.
+            anything) you’ll have to pay toward the cost of your care.
           </p>
         </div>
       </va-alert>
