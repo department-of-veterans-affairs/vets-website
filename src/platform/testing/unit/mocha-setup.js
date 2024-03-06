@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Global set up code for the Mocha unit testing environment
  *
@@ -144,7 +145,6 @@ function setupJSDom() {
     writable: true,
   });
 }
-/* eslint-disable no-console */
 
 setupJSDom();
 const checkAllowList = testContext => {
@@ -152,7 +152,6 @@ const checkAllowList = testContext => {
     testContext.currentTest.file.indexOf('src'),
   );
   if (DISALLOWED_SPECS.indexOf(file) > -1 && file.includes('src')) {
-    /* eslint-disable-next-line no-console */
     console.log('Test skipped due to flakiness: ', file);
     testContext.skip();
   }
@@ -172,16 +171,15 @@ function flushPromises() {
 
 export const mochaHooks = {
   beforeEach() {
-    setupJSDom();
-    resetFetch();
-    cleanupStorage();
-    if (isStressTest == 'false') {
-      checkAllowList(this);
+    // ensure we dont run setupJSDom for /scripts/ directory
+    if (this.currentTest.file.includes('src')) {
+      setupJSDom();
+      resetFetch();
+      cleanupStorage();
+      if (isStressTest == 'false') {
+        checkAllowList(this);
+      }
     }
-    console.log(
-      'running: ',
-      this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
-    );
   },
   afterEach() {
     cleanupStorage();

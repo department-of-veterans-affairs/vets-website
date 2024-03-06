@@ -12,5 +12,5 @@
   ],
   "reporter": "progress",
   "timeout": 10000,
-  "slow": 0
+  "slow": 75
 }
