@@ -159,11 +159,17 @@ function DocumentsFiled({ claim }) {
                         >
                           {`Document type: ${doc.documentTypeLabel}`}
                         </p>
-                        {receivedDateExists(doc.uploadDate, item.date) && (
+                        {doc.uploadDate !== null && (
                           <p className={docsFiledReceivedDate(item.text)}>
                             {`Received on ${formatDate(doc.uploadDate)}`}
                           </p>
                         )}
+                        {doc.uploadDate === null &&
+                          item.date !== null && (
+                            <p className={docsFiledReceivedDate(item.text)}>
+                              {`Received on ${formatDate(item.date)}`}
+                            </p>
+                          )}
                       </div>
                     ))
                   )}
