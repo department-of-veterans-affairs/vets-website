@@ -3,17 +3,20 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 const ProcessTimeline = () => (
   <>
-    <h2 className="vads-u-font-size--h3">Follow these steps to get started</h2>
+    <h2 data-testid="hca-timeline-heading">
+      What to know before you fill out this form
+    </h2>
+
     <va-process-list uswds>
       <va-process-list-item header="Check your eligibility">
-        <p>
+        <p className="vads-u-margin-top--2">
           Make sure you meet our eligibility requirements for enrollment before
           you apply.
         </p>
         <p>
           <strong>Note:</strong> We can help connect you with mental health
-          care—no matter your discharge status, service history, or eligibility
-          for VA health care.{' '}
+          care&mdash;no matter your discharge status, service history, or
+          eligibility for VA health care.{' '}
           <va-link
             href="/health-care/health-needs-conditions/mental-health/"
             text="Find out how to get mental health care"
@@ -73,85 +76,51 @@ const ProcessTimeline = () => (
       </va-process-list-item>
 
       <va-process-list-item header="Gather your information">
-        <p>Here’s what you’ll need to apply:</p>
+        <p className="vads-u-font-weight--bold vads-u-margin-top--2">
+          Here’s what you’ll need to apply:
+        </p>
         <ul>
           <li>
-            <strong>Social Security numbers</strong> for you, your spouse, and
-            your qualified dependents.
+            <strong>Social Security numbers</strong> for you, your spouse (if
+            you’re married), and any dependents you may have.
           </li>
           <li>
-            <strong>Your military discharge information</strong> If you sign in
-            to apply, we may be able to fill in this information for you. If you
-            don’t sign in to apply, we’ll ask you to upload a copy of your DD214
-            or other separation documents.
-          </li>
-          <li>
-            <strong>Insurance cards</strong> for all health insurance companies
-            that cover you. This includes any coverage that you get through a
-            spouse or significant other. This also includes Medicare, private
-            insurance, or insurance from your employer.
+            <strong>Insurance card information</strong> for all health insurance
+            companies that cover you. This includes any coverage that you get
+            through a spouse or significant other. This also includes Medicare,
+            private insurance, or insurance from your employer.
           </li>
         </ul>
 
-        <p>We’ll also ask you for this optional information:</p>
+        <p>You can also provide this information:</p>
         <ul>
           <li>
-            <strong>Last year’s gross household income</strong> for you, your
-            spouse, and your dependents. This includes income from a job and any
-            other sources. Gross household income is your income before taxes
-            and any other deductions.
+            <strong>Your military service history information</strong> and
+            details about exposure to toxins or hazards.
           </li>
           <li>
-            <strong>Your deductible expenses for last year</strong> These
-            include certain health care and education costs. These expenses will
-            lower the amount of money we count as your income.
+            <strong>A copy of your DD214 or other separation documents.</strong>{' '}
+            If you sign in to apply, we may be able to fill in your military
+            service information for you. If you don’t sign in to apply, you can
+            upload a copy of your DD214 or other separation documents.
+          </li>
+          <li>
+            <strong>Income information</strong> for you, your spouse, or any
+            dependents you may have. This includes income from a job and any
+            other sources.
+          </li>
+          <li>
+            <strong>Deductible expenses</strong> (expenses that you can subtract
+            from your income) for you and your spouse. These expenses will lower
+            the amount of money we count as income.
           </li>
         </ul>
-
-        <va-additional-info trigger="Why does VA need this information?" uswds>
-          <p>When you apply, we review this information:</p>
-          <ul>
-            <li>Your service history</li>
-            <li>Your VA disability rating</li>
-            <li>
-              Your income level (and the income level of your spouse or other
-              qualified dependents)
-            </li>
-            <li>
-              Your eligibility for Medicaid, VA disability compensation, and VA
-              pension benefits
-            </li>
-          </ul>
-          <p>We use this information to help us decide these 3 things:</p>
-          <ul>
-            <li>
-              What types of VA health care benefits you’re eligible for,{' '}
-              <strong>and</strong>
-            </li>
-            <li>
-              How soon we can enroll you in VA health care, <strong>and</strong>
-            </li>
-            <li>
-              How much (if anything) you’ll have to pay toward the cost of your
-              care
-            </li>
-          </ul>
-          <p>
-            We give Veterans with service-connected disabilities the highest
-            priority.
-          </p>
-          <p>
-            <strong>Note:</strong> We ask about other health insurance for
-            billing only. Having other health insurance doesn’t affect your
-            eligibility for VA health care.
-          </p>
-        </va-additional-info>
       </va-process-list-item>
 
       <va-process-list-item header="Start your application">
-        <p>
+        <p className="vads-u-margin-top--2">
           We’ll take you through each step of the process. It should take about
-          30 minutes.
+          35 minutes.
         </p>
         <va-additional-info trigger="What happens after I apply?" uswds>
           <p>

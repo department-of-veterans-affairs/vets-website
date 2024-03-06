@@ -11,12 +11,11 @@ import {
   THIRD_PARTY_TYPE_VETERAN_LABELS,
   ADDITIONAL_INFO_THIRD_PARTY_TYPE,
 } from '../config/constants';
-import { getIdentityInfoPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(({ formData }) => getIdentityInfoPageTitle(formData)),
+    ...titleUI('Your name'),
     thirdPartyFullName: firstNameLastNameNoSuffixUI(),
     thirdPartyType: radioUI({
       title: 'How are you representing the Veteran?',
