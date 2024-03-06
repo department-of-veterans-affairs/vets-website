@@ -78,7 +78,7 @@ const ReportModal = ({
     setReportObject(newState);
   };
 
-  const onSubmitModal = () => {
+  const onSubmitModal = async () => {
     const formattedReportObject = {
       representativeId,
       reports: {},
@@ -100,7 +100,8 @@ const ReportModal = ({
       return;
     }
 
-    submitRepresentativeReport(formattedReportObject);
+    await submitRepresentativeReport(formattedReportObject);
+
     setReportObject({
       phone: null,
       email: null,
