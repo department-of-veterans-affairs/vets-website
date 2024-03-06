@@ -573,7 +573,10 @@ const testForm = testConfig => {
 
   testSuite(appName, () => {
     before(() => {
-      if (!dataDir && !fixtures.data) {
+      if (
+        typeof dataDir === 'undefined' &&
+        typeof fixtures.data === 'undefined'
+      ) {
         throw new Error('Required data directory is undefined.');
       }
 

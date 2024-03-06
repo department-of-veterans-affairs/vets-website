@@ -145,7 +145,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: 'Pensions',
     dataPrefix: 'data',
-    dataDir: '',
+    dataDir: null,
     dataSets: [
       { title: 'kitchen-sink', data: kitchenSinkFixture },
       { title: 'overflow', data: overflowFixture },
