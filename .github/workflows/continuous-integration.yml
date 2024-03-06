@@ -1021,31 +1021,32 @@ jobs:
           pattern: unit-test-coverage-*
           path: qa-standards-dashboard-data/coverge
           merge-multiple: true
-      
-      - name: Log directory
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/data
-          ls -a
 
       - name: Merge Test results
         run: |
           cd qa-standards-dashboard-data/src/testing-reports/data
           jq -s 'reduce .[] as $item ({}; . * $item)' > test-results.json
           ls -a
-      
 
       - name: Merge coverage results
         run: |
           cd qa-standards-dashboard-data/coverage
           jq -s 'reduce .[] as $item ({}; . * $item)' > test-coverage.json
           ls -a
-  
-      - name: Log directory
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/data
-          ls -a
+
+      - name: Archive unit test results
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-report-merged
+          path: mocha/results/test-results.json
+      
+      - name: Archive unit test coverage
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-coverage-merged
+          path: mocha/results/test-coverage.json
 
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
