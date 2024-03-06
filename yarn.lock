@@ -2781,13 +2781,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^37.0.0":
-  version "37.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-37.0.0.tgz#b36cce43dc1d53b0f0fd55c496b5ddded5035e69"
-  integrity sha512-Y1fJhicBlTM5AAaQfWOByAJKt0LOJ9wY7wBqZ6co5H/+rbkty5/Ur5ISmS8112ammyAb/OYKkN6VmKx8ucHw7w==
+"@department-of-veterans-affairs/component-library@^37.2.0":
+  version "37.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-37.2.0.tgz#add7b948c667142993a6a7bd9a15536922e6903a"
+  integrity sha512-llbj+6zRzEEH28X+RzyF8gDoDLV5zaFFrotPwHxUDguCvB7C6RgfwpmB9uhJgTiDKA/1QjKaoG855gP51pGldA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
-    "@department-of-veterans-affairs/web-components" "5.0.0"
+    "@department-of-veterans-affairs/web-components" "5.1.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2800,10 +2800,10 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
-"@department-of-veterans-affairs/css-library@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.3.1.tgz#25440d997771bbf9d89a46e4a43c1bf674e6a015"
-  integrity sha512-sG4pmxwI4L05vhNGlwMtai6YMEXcWUwACeXffgbg/Jt5GCCyD1lSW81PW7JSirvzV3wKKte86xlsfz4mpLPPXQ==
+"@department-of-veterans-affairs/css-library@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.5.0.tgz#d0a59e0c05be72bb3f6fc617b23ce08835d2999b"
+  integrity sha512-QYpEUJqhPvlbQ6UJEXz6j9ETMXVz1lueyuM69si1LUGtTnFr21ZNMTOn9d+f0HA/v57dESj2Udwv6xyeNdEXZw==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
@@ -2874,12 +2874,12 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-5.0.0.tgz#81628780cef1e647dfd3f87d1473058b8cee481d"
-  integrity sha512-OHeCxd89lgzjCmF/G5RIvWjH81X0aq7XfoSx54RR1jl7pNbAZkm9oWxCD6adG4YGqrtmr2GArMvS17bO+lRRsg==
+"@department-of-veterans-affairs/web-components@5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-5.1.1.tgz#acaee4c89e83f6fd80896142c4daffb39e43f7d3"
+  integrity sha512-ZmUPCeM2gTHaDnSf62TrIZXmzEnXUQQF1WEy043wMuSNjS1Ry3UYupS6khPfukb16j8UzI00SmVoNfixiuDI+g==
   dependencies:
-    "@department-of-veterans-affairs/css-library" "^0.3.1"
+    "@department-of-veterans-affairs/css-library" "^0.5.0"
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
