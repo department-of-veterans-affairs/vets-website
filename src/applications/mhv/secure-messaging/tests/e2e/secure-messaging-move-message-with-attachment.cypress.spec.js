@@ -4,7 +4,7 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
 import mockMessages from './fixtures/messages-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Move Message with Attachment', () => {
   it('can move with attachment', () => {
@@ -35,14 +35,14 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    cy.get('[data-testid="move-button-text"]').click({ force: true });
-    cy.get('[data-testid="move-to-modal"]')
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
+    cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
       })
       .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
       .click();
-    cy.get('[data-testid="move-to-modal"]')
+    cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('va-button[text="Confirm"]')
       .click();
     cy.wait('@moveMessagewithAttachment');

@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 import mockFolders from './fixtures/generalResponses/folders.json';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('remove folder error modal', () => {
   const folderPage = new FolderManagementPage();
@@ -29,7 +29,7 @@ describe('remove folder error modal', () => {
     );
     folderPage.deleteFolderButton().click();
 
-    cy.get('[data-testid="error-folder-not-empty"] p').should(
+    cy.get(Locators.FOLDERS.NOT_EMP_FOLDER).should(
       'include.text',
       "can't remove a folder with messages",
     );
@@ -40,7 +40,7 @@ describe('remove folder error modal', () => {
       .should('be.visible')
       .click();
 
-    cy.get('h1')
+    cy.get(Locators.HEADER)
       .should('be.visible')
       .and('have.text', folderName);
   });

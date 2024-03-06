@@ -30,9 +30,13 @@ export const Locators = {
   DROPDOWN: '#sort-order-dropdown',
   SELECT: '#select',
   HEADER: 'h1',
+  NO_MESS: '[data-testid=alert-no-messages] p',
+  FOLDER_MANE: '[data-testid="folder-name"]',
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',
   THREADS: '[data-testid="thread-list-item"]',
+  MES_COUNT: '[data-testid="message-count"]',
+
   FOLDERS: {
     INBOX: '[data-testid="inbox-sidebar"] > a',
     DRAFTS: '[data-testid="drafts-sidebar"]',
@@ -40,6 +44,7 @@ export const Locators = {
     TRASH: '[data-testid="trash-sidebar"]',
     CUSTOM: '[data-testid="my-folders-sidebar"]',
     SIDEBAR: '[data-testid=my-folders-sidebar]',
+    NOT_EMP_FOLDER: '[data-testid="error-folder-not-empty"] p',
   },
   BUTTONS: {
     REPLY: '[data-testid="reply-button-body"]',
@@ -47,6 +52,7 @@ export const Locators = {
     BUTTON_MOVE: 'button:contains("Move")',
     BUTTON_TRASH: 'button:contains("Trash")',
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
+    MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="Send-Button"]',
     SAVE_DRAFT: '#save-draft-button',
@@ -59,12 +65,16 @@ export const Locators = {
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CATEGORY_RADIO_BUTTON: '[data-testid="compose-category-radio-button"]',
     CREAT_FOLDER_BUTTON: '[data-testid="create-folder-button"]',
+    PREFER_BUTTON: '[data-testid="edit-preferences-button"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
-    //  CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    PREFER_LINK: '[data-testid="edit-preferences-link"]',
+    CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    MOVE_MODAL: '[data-testid="move-to-modal"]',
+    NO_MESS: '[data-testid=alert-no-messages] p',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
     DRAFT_MESSAGE: '@draft_message',

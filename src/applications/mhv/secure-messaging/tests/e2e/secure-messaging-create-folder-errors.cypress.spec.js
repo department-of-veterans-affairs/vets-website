@@ -48,7 +48,7 @@ describe('create folder errors check', () => {
       waitForAnimations: true,
       force: true,
     });
-    cy.get('[data-testid="folder-name"]')
+    cy.get(Locators.FOLDER_MANE)
       .shadow()
       .find('#input-error-message')
       .should('contain', 'Folder name cannot be blank');
