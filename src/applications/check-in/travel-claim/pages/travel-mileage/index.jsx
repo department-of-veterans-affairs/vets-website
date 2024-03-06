@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setFacilityToFile } from '../../../actions/travel-claim';
 import { hasMultipleFacilities } from '../../../utils/appointment';
-import { makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectCurrentContext, makeSelectForm } from '../../../selectors';
 import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
 
@@ -24,9 +24,12 @@ const TravelMileage = props => {
   } = useFormRouting(router);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { eligibleToFile } = useSelector(selectCurrentContext);
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+  const { facilitiesToFile } = data;
 
   const multipleFacilities = hasMultipleFacilities(eligibleToFile);
-  const appointmentsByFacility = {};
+  let appointmentsByFacility;
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [error, setError] = useState(false);
 
@@ -42,12 +45,20 @@ const TravelMileage = props => {
           },
         ]);
       }
+      if (facilitiesToFile && facilitiesToFile.length) {
+        setSelectedFacilities(facilitiesToFile);
+      }
     },
-    [eligibleToFile, multipleFacilities, setSelectedFacilities],
+    [
+      eligibleToFile,
+      facilitiesToFile,
+      multipleFacilities,
+      setSelectedFacilities,
+    ],
   );
   const continueClick = useCallback(
     () => {
-      if (selectedFacilities) {
+      if (selectedFacilities.length) {
         dispatch(setFacilityToFile({ facilitiesToFile: selectedFacilities }));
         goToNextPage();
       } else {
@@ -56,10 +67,10 @@ const TravelMileage = props => {
     },
     [dispatch, goToNextPage, selectedFacilities, setError],
   );
-  // move all this to a useEffect and manage selected values in state
   const onCheck = useCallback(
     e => {
       const stationNo = e.target.value;
+      const { checked } = e.detail;
       const appointments = appointmentsByFacility[stationNo];
       const firstAppointment = appointments[0];
       const value = {
@@ -67,7 +78,15 @@ const TravelMileage = props => {
         startTime: firstAppointment.startTime,
         multipleAppointments: appointments.length > 1,
       };
-      setSelectedFacilities([...selectedFacilities, value]);
+      let newFacilities;
+      if (checked) {
+        newFacilities = [...selectedFacilities, value];
+      } else {
+        newFacilities = selectedFacilities.filter(
+          fac => fac.stationNo !== value.stationNo,
+        );
+      }
+      setSelectedFacilities(newFacilities);
     },
     [appointmentsByFacility, selectedFacilities],
   );
@@ -97,6 +116,7 @@ const TravelMileage = props => {
     </div>
   );
   if (multipleFacilities) {
+    appointmentsByFacility = {};
     eligibleToFile.forEach(appointment => {
       if (appointment.stationNo in appointmentsByFacility) {
         appointmentsByFacility[appointment.stationNo].push(appointment);
@@ -107,14 +127,14 @@ const TravelMileage = props => {
     header = t('select-appointments-to-file-today');
     body = (
       <>
-        {/* <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p> */}
+        <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p>
         <va-checkbox-group
           error={error ? t('select-one-or-more-appointments') : ''}
           uswds
           class="vads-u-margin-top--0 vads-u-margin-bottom--4"
-          label={t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}
+          label="test label"
         >
-          {Object.keys(appointmentsByFacility).map((facility, index) => (
+          {Object.keys(appointmentsByFacility).map(facility => (
             <VaCheckbox
               key={facility}
               uswds
@@ -125,7 +145,9 @@ const TravelMileage = props => {
                 appointment => ` ${formatAppointment(appointment)}`,
               )}
               onVaChange={onCheck}
-              class={index === 0 ? 'vads-u-margin-top--4' : ''}
+              checked={selectedFacilities.some(
+                fac => fac.stationNo === facility,
+              )}
             />
           ))}
         </va-checkbox-group>
@@ -168,7 +190,7 @@ const TravelMileage = props => {
             secondary
             onClick={goToPreviousPage}
             data-testid="continue-button"
-            class="vads-u-margin-top--2"
+            class="vads-u-margin-top--2 small-screen:vads-u-order--first"
             value="back"
             back
           />
