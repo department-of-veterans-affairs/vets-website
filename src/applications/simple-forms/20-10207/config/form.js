@@ -16,6 +16,8 @@ import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
 import nonVetNameAndDobPg from '../pages/nonVeteranNameAndDateOfBirth';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import nonVetIdInfoPg from '../pages/nonVeteranIdInfo';
+// import nameAndDobPg from '../pages/nameAndDateofBirth';
+// import idInfoPg from '../pages/idInfo';
 import livingSituationPg from '../pages/livingSituation';
 import livingSituationThirdPartyVetPg from '../pages/livingSituationThirdPartyVeteran';
 import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPartyNonVeteran';
