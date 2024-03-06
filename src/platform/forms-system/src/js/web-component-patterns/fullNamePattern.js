@@ -91,7 +91,7 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
  * @returns {UISchemaOptions} uiSchema
  */
 const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
-  return {
+  const uiSchema = {
     'ui:validations': [validateEmpty],
     first: {
       'ui:title': formatTitle ? formatTitle('first name') : 'First name',
@@ -120,6 +120,9 @@ const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       },
     },
   };
+  delete uiSchema.middle;
+
+  return uiSchema;
 };
 
 /**
@@ -160,7 +163,7 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
  * @returns {UISchemaOptions} uiSchema
  */
 const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
-  const uiSchema = {
+  return {
     ...fullNameNoSuffixUI(formatTitle, uiOptions),
     suffix: {
       'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
@@ -173,9 +176,6 @@ const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
       },
     },
   };
-  delete uiSchema.middle;
-
-  return uiSchema;
 };
 
 /**
@@ -212,7 +212,7 @@ const fullNameSchema = commonDefinitions.fullName;
  * @returns `commonDefinitions.fullName` minus `middle`
  */
 const firstNameLastNameDef = { ...commonDefinitions.fullName };
-delete firstNameLastNameDef.middle;
+delete firstNameLastNameDef.properties.middle;
 const firstNameLastNameSchema = firstNameLastNameDef;
 
 /**
@@ -224,7 +224,7 @@ const fullNameNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
  * @returns `commonDefinitions.fullNameNoSuffix` minus `middle`
  */
 const firstNameLastNameNoSuffixDef = { ...commonDefinitions.fullNameNoSuffix };
-delete firstNameLastNameNoSuffixDef.middle;
+delete firstNameLastNameNoSuffixDef.properties.middle;
 const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
 
 /**
