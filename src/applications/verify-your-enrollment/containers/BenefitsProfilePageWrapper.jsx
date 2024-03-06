@@ -4,8 +4,6 @@ import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificat
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
 import BenefitsProfileStatement from '../components/BenefitsProfileStatement';
-import RemainingBenefits from '../components/RemainingBenefits';
-import BenefitsExpirationDate from '../components/BenefitsExpirationDate';
 import PayeeInformationWrapper from './PayeeInformationWrapper';
 import PendingDocuments from '../components/PendingDocuments';
 import PageLink from '../components/PageLink';
@@ -15,6 +13,7 @@ import {
 } from '../constants';
 import { useData } from '../hooks/useData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
+import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 
 const BenefitsProfileWrapper = ({ children }) => {
   useScrollToTop();
@@ -43,6 +42,11 @@ const BenefitsProfileWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <BenefitsProfileStatement />
+            <CurrentBenefitsStatus
+              updated="12/04/2023"
+              remainingBenefits="33 Months, 0 Days"
+              expirationDate={date}
+            />
             <PayeeInformationWrapper
               loading={loading}
               applicantChapter={applicantChapter}
@@ -63,12 +67,12 @@ const BenefitsProfileWrapper = ({ children }) => {
               loading={loading}
               pendingDocuments={pendingDocuments}
             />
-            <RemainingBenefits />
-            <BenefitsExpirationDate date={date} loading={loading} />
             <PageLink
               linkText="See your enrollment verifications"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
+              color="green"
+              margin="2"
             />
             {children}
           </div>

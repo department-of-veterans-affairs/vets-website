@@ -12,10 +12,14 @@ import {
 } from '../constants';
 import { getMockData } from '../selectors/mockData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
+import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
+import { useData } from '../hooks/useData';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
   const mockData = useSelector(getMockData);
+  const { date } = useData();
+
   return (
     <>
       <div name="topScrollElement" />
@@ -29,10 +33,19 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <MGIBEnrollmentStatement />
             <PeriodsToVerify />
-            <PageLink
-              linkText="Manage your benefits profile"
-              relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
-              URL={BENEFITS_PROFILE_URL}
+            <CurrentBenefitsStatus
+              updated="12/04/2023"
+              remainingBenefits="33 Months, 0 Days"
+              expirationDate={date}
+              link={() => (
+                <PageLink
+                  linkText="Manage your benefits profile"
+                  relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
+                  URL={BENEFITS_PROFILE_URL}
+                  color="blue"
+                  margin="0"
+                />
+              )}
             />
             <PreviousEnrollmentVerifications enrollmentData={mockData} />
             {children}
