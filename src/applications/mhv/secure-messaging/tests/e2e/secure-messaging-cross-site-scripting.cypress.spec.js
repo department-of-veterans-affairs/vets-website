@@ -25,7 +25,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     composePage
       .getCategory(requestBody.category)
       .first()
-      .click();
+      .click({ force: true });
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
     composePage
       .getMessageBodyField()

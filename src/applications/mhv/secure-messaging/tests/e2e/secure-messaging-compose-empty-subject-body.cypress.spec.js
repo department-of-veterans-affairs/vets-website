@@ -11,11 +11,11 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // triageTeams with preferredTeam = true will appear in a recipients dropdown only
     composePage
       .getCategory('COVID')
       .first()
-      .click();
+      .click({ force: true });
     composePage.attachMessageFromFile('test_image.jpg');
   });
   it('empty message subject error', () => {
