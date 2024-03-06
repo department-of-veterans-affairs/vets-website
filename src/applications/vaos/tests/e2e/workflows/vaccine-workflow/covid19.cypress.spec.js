@@ -35,23 +35,6 @@ describe('VAOS covid-19 vaccine flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    const response = new MockAppointmentResponse({
-      id: 'mock1',
-      localStartTime: moment(),
-      status: 'booked',
-      serviceType: 'covid',
-    });
-    mockAppointmentGetApi({
-      response: {
-        ...response,
-        attributes: {
-          ...response.attributes,
-          clinic: '308',
-          locationId: '983',
-        },
-      },
-    });
-    mockAppointmentCreateApi({ response });
     mockAppointmentsGetApi({ response: [] });
     mockFacilityApi({ id: '983' });
     mockFeatureToggles();
@@ -60,6 +43,24 @@ describe('VAOS covid-19 vaccine flow', () => {
 
   describe('When more than one facility supports online scheduling', () => {
     beforeEach(() => {
+      const response = new MockAppointmentResponse({
+        id: 'mock1',
+        localStartTime: moment(),
+        status: 'booked',
+        serviceType: 'covid',
+      });
+      mockAppointmentCreateApi({ response });
+      mockAppointmentGetApi({
+        response: {
+          ...response,
+          attributes: {
+            ...response.attributes,
+            clinic: '308',
+            locationId: '983',
+          },
+        },
+      });
+
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
@@ -202,6 +203,24 @@ describe('VAOS covid-19 vaccine flow', () => {
 
   describe('When one facility supports online scheduling', () => {
     beforeEach(() => {
+      const response = new MockAppointmentResponse({
+        id: 'mock1',
+        localStartTime: moment(),
+        status: 'booked',
+        serviceType: 'covid',
+      });
+      mockAppointmentCreateApi({ response });
+      mockAppointmentGetApi({
+        response: {
+          ...response,
+          attributes: {
+            ...response.attributes,
+            clinic: '308',
+            locationId: '983',
+          },
+        },
+      });
+
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',

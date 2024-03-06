@@ -39,25 +39,25 @@ const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
 describe('VAOS direct schedule flow - Primary care', () => {
-  beforeEach(() => {
-    vaosSetup();
-
-    const response = new MockAppointmentResponse({
-      id: 'mock1',
-      localStartTime: moment(),
-      status: APPOINTMENT_STATUS.booked,
-      serviceType: 'primaryCare',
-    });
-    mockAppointmentGetApi({
-      response,
-    });
-    mockAppointmentCreateApi({ response });
-    mockAppointmentsGetApi({ response: [] });
-    mockFeatureToggles();
-    mockVamcEhrApi();
-  });
-
   describe('When veteran is not CC eligible', () => {
+    beforeEach(() => {
+      vaosSetup();
+
+      const response = new MockAppointmentResponse({
+        id: 'mock1',
+        localStartTime: moment(),
+        status: APPOINTMENT_STATUS.booked,
+        serviceType: 'primaryCare',
+      });
+      mockAppointmentGetApi({
+        response,
+      });
+      mockAppointmentCreateApi({ response });
+      mockAppointmentsGetApi({ response: [] });
+      mockFeatureToggles();
+      mockVamcEhrApi();
+    });
+
     describe('And one facility supports online scheduling', () => {
       beforeEach(() => {
         const mockEligibilityResponse = new MockEligibilityResponse({
@@ -581,6 +581,24 @@ describe('VAOS direct schedule flow - Primary care', () => {
   });
 
   describe('When veteran is CC eligible', () => {
+    beforeEach(() => {
+      vaosSetup();
+
+      const response = new MockAppointmentResponse({
+        id: 'mock1',
+        localStartTime: moment(),
+        status: APPOINTMENT_STATUS.booked,
+        serviceType: 'primaryCare',
+      });
+      mockAppointmentGetApi({
+        response,
+      });
+      mockAppointmentCreateApi({ response });
+      mockAppointmentsGetApi({ response: [] });
+      mockFeatureToggles();
+      mockVamcEhrApi();
+    });
+
     describe('And more than one facility supports online scheduling', () => {
       beforeEach(() => {
         const mockEligibilityResponse = new MockEligibilityResponse({
