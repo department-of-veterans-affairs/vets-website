@@ -13,7 +13,7 @@ const initializeDatadogRum = config => {
 };
 
 const setRumUser = user => {
-  if (user.loggedIn) {
+  if (user.loggedIn && environment.isStaging()) {
     datadogRum.setUser({
       id: user.accountUuid || 'no-account-uuid-found',
     });

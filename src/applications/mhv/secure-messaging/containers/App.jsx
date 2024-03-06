@@ -84,11 +84,11 @@ const App = () => {
   const userDetails = useMemo(
     () => {
       return {
-        loggedIn: user.login.currentlyLoggedIn,
-        accountUuid: user.profile.accountUUid,
+        loggedIn: user?.login?.currentlyLoggedIn,
+        accountUuid: user?.profile?.accountUUid,
       };
     },
-    [user.login.currentlyLoggedIn, user.profile.accountUUid],
+    [user],
   );
   useDatadogRum(datadogRumConfig, userDetails);
 
