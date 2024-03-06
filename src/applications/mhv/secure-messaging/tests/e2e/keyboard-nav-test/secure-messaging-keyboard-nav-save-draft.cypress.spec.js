@@ -18,7 +18,7 @@ describe('Check confirmation message after save draft', () => {
     composePage
       .getCategory(requestBody.category)
       .first()
-      .click();
+      .click({ force: true });
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()
