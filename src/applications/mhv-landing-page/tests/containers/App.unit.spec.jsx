@@ -46,15 +46,15 @@ const setup = ({ initialState = stateFn() } = {}) =>
 describe(`${appName} -- <App /> container`, () => {
   it('renders', () => {
     const { getByRole } = setup();
-    getByRole('heading', { text: 'My HealtheVet', level: 1 });
+    getByRole('heading', { name: 'My HealtheVet', level: 1 });
   });
 
   // TODO: THIS TEST IS NOT COMPATIBLE WITH WEB COMPONENTS
   // it('prompts to log in when logged out', () => {
   //   const initialState = stateFn({ currentlyLoggedIn: false });
   //   const { getByRole } = setup({ initialState });
-  //   // // getByRole('heading', { text: 'Sign in', level: 1 });
-  //   getByRole('progressbar', { text: 'Redirecting to login...' });
+  //   // // getByRole('heading', { name: 'Sign in', level: 1 });
+  //   getByRole('progressbar', { name: 'Redirecting to login...' });
   // });
 
   describe('renders a loading indicator when', () => {
@@ -94,7 +94,9 @@ describe(`${appName} -- <App /> container`, () => {
         expect(replace.calledOnce).to.be.true;
       });
     });
+  });
 
+  describe('renders landing page when', () => {
     it('signed in with DS Logon', async () => {
       const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
       const { getByTestId } = setup({ initialState });
