@@ -107,6 +107,22 @@ const formConfig = {
             },
           },
         },
+        page4: {
+          path: 'mailing-address',
+          title: "Veteran's mailing address",
+          uiSchema: {
+            ...titleUI("Veteran's mailing address"),
+            mailingAddress: addressUI(),
+          },
+          schema: {
+            type: 'object',
+            required: 'mailingAddress',
+            properties: {
+              titleSchema,
+              mailingAddress: addressSchema(),
+            },
+          },
+        },
       },
     },
   },
