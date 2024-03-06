@@ -29,14 +29,23 @@ const AccountSummary = ({
         </strong>
       </p>
       <h3 className="vads-u-margin-top--2">Balance Activity</h3>
-      <ul className="balance-activity">
-        <li data-testid="account-summary-previous">
+      <ul className="no-bullets vads-u-padding-x--0">
+        <li
+          data-testid="account-summary-previous"
+          clasName="vads-u-margin-bottom--0p5"
+        >
           {`Previous balance: ${currency(previousBalance)}`}
         </li>
-        <li data-testid="account-summary-credits">
+        <li
+          data-testid="account-summary-credits"
+          className="vads-u-margin-bottom--0p5"
+        >
           {`Payments received: ${currency(Math.abs(paymentsReceived))}`}
         </li>
-        <li data-testid="account-summary-new-charges">
+        <li
+          data-testid="account-summary-new-charges"
+          className="vads-u-margin-bottom--0"
+        >
           {`New charges: ${currency(newCharges)}`}
         </li>
       </ul>
