@@ -1046,7 +1046,7 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-coverage-merged
-          path: coverage
+          path: qa-standards-dashboard-data/coverage
 
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
