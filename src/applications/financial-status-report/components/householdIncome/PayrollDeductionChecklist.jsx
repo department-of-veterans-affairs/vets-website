@@ -22,9 +22,9 @@ const PayrollDeductionChecklist = props => {
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
