@@ -88,7 +88,7 @@ describe('focusRadioH3', () => {
           </va-radio>
         ) : (
           <div className="nav-header">
-            <h2>test 2</h2>
+            <h2 id="nav-form-header">test 2</h2>
           </div>
         )}
       </div>,
@@ -109,7 +109,7 @@ describe('focusRadioH3', () => {
 
     await focusRadioH3();
     await waitFor(() => {
-      const target = $('h2', container);
+      const target = $('#nav-form-header', container);
       expect(document.activeElement).to.eq(target);
     });
   });

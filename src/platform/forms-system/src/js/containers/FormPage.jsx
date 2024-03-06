@@ -5,12 +5,7 @@ import { withRouter } from 'react-router';
 import classNames from 'classnames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import {
-  isReactComponent,
-  focusElement,
-  customScrollAndFocus,
-  defaultFocusSelector,
-} from 'platform/utilities/ui';
+import { isReactComponent, customScrollAndFocus } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -23,22 +18,25 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
-import { stringifyUrlParams } from '../helpers';
+import { handleFormNavFocus, stringifyUrlParams } from '../helpers';
 
-function focusForm(route, index) {
+async function focusForm(route, index) {
+  const { formConfig, pageConfig } = route;
   // Check main toggle to enable custom focus
-  if (route.formConfig?.useCustomScrollAndFocus) {
-    customScrollAndFocus(route.pageConfig?.scrollAndFocusTarget, index);
+  if (formConfig?.useCustomScrollAndFocus) {
+    customScrollAndFocus(pageConfig?.scrollAndFocusTarget, index);
   } else {
-    focusElement(defaultFocusSelector);
+    handleFormNavFocus(pageConfig, formConfig, index);
   }
 }
-
 class FormPage extends React.Component {
   componentDidMount() {
     this.prePopulateArrayData();
     if (!this.props.blockScrollOnMount) {
-      focusForm(this.props.route, this.props?.params?.index);
+      focusForm(this.props.route, this.props?.params?.index).catch(error => {
+        // eslint-disable-next-line no-console
+        console.error('Error focusing on form:', error);
+      });
     }
   }
 
@@ -49,7 +47,10 @@ class FormPage extends React.Component {
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       this.prePopulateArrayData();
-      focusForm(this.props.route, this.props?.params?.index);
+      focusForm(this.props.route, this.props?.params?.index).catch(error => {
+        // eslint-disable-next-line no-console
+        console.error('Error focusing on form:', error);
+      });
     }
   }
 
