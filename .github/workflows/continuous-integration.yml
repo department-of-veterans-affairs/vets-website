@@ -254,27 +254,15 @@ jobs:
           IS_STRESS_TEST: false
           NUM_CONTAINERS: 10
 
-      - name: List and merge test results
-        run: |
-          cd mocha/results
-          jq -s 'reduce .[] as $item ({}; . * $item)' > test-results-${{ matrix.ci_node_index }}.json
-          ls -a
-
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-report-${{ matrix.ci_node_index }}
-          path: mocha/results/test-results-${{ matrix.ci_node_index }}.json
+          path: mocha/results
 
-      - name: Generate coverage report by app
-        run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
-
-      - name: List and merge test results
-        run: |
-          cd coverage
-          jq -s 'reduce .[] as $item ({}; . * $item)' > coverage-report-${{ matrix.ci_node_index }}.json
-          ls -a
+      # - name: Generate coverage report by app
+      #   run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
 
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
@@ -282,7 +270,7 @@ jobs:
         with:
           name: unit-test-coverage-report-${{ matrix.ci_node_index }}
           # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
-          path: coverage/coverage-report-${{ matrix.ci_node_index }}.json
+          path: coverage
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -1021,6 +1009,18 @@ jobs:
           pattern: unit-test-coverage-*
           path: qa-standards-dashboard-data/coverge
           merge-multiple: true
+
+      - name: Log directories
+        run: |
+          ls -a
+          cd qa-standards-dashboard-data/src/testing-reports/data
+          ls -a
+
+      - name: Log directories
+        run: |
+          ls -a
+          cd qa-standards-dashboard-data/coverage
+          ls -a 
 
       - name: Merge Test results
         run: |
