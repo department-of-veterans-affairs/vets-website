@@ -83,6 +83,10 @@ export default class PageObject {
   }
 
   assertUrl({ url, breadcrumb }) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
+      'not.exist',
+    );
+
     cy.url().should('include', url);
     cy.get('va-breadcrumbs')
       .shadow()
