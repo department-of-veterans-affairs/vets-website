@@ -268,7 +268,7 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
-          name: unit-test-coverage-report-${{ matrix.ci_node_index }}
+          name: unit-test-coverage-${{ matrix.ci_node_index }}
           # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
           path: coverage
 
@@ -1007,7 +1007,7 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-coverage-*
-          path: qa-standards-dashboard-data/coverge
+          path: qa-standards-dashboard-data/coverage
           merge-multiple: true
 
       - name: Log directories
