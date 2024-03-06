@@ -184,7 +184,7 @@ class PatientMessageCustomFolderPage {
 
   createCustomFolder = folderName => {
     mockFolders.data.push(createdFolderResponse.data);
-    cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get('[name="folder-name"]')
       .shadow()
       .find('[name="folder-name"]')

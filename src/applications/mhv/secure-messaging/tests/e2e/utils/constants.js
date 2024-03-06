@@ -51,7 +51,6 @@ export const Locators = {
     SEND: '[data-testid="Send-Button"]',
     SAVE_DRAFT: '#save-draft-button',
     DELETE_DRAFT: '#delete-draft-button',
-    CREATE_FOLDER_BUTTON: '[data-testid="create-folder-button"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
     PRINT: '[data-testid="print-button"]',
     BUTTON_SORT: '[data-testid="sort-button"]',
@@ -59,12 +58,14 @@ export const Locators = {
     REMOVE_ATTACHMENT: '.remove-attachment-button',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CATEGORY_RADIO_BUTTON: '[data-testid="compose-category-radio-button"]',
+    CREAT_FOLDER_BUTTON: '[data-testid="create-folder-button"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
-    CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    //  CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
     DRAFT_MESSAGE: '@draft_message',
     MAIN_CONTENT: '.va-alert',

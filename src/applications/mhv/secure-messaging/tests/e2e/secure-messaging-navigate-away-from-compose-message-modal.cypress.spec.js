@@ -29,7 +29,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
     composePage.verifyExpectedPageOpened('Inbox');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
+    cy.get(Locators.ALERTS.CREATE_NEW_MESSAGE).should('be.visible');
   });
 
   it('Navigate Away From `Start a new message` To Draft', () => {

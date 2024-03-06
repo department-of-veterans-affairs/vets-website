@@ -44,7 +44,7 @@ describe('create folder errors check', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.loadFoldersList();
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
-    cy.get(Locators.BUTTONS.CREATE_FOLDER_BUTTON).click({
+    cy.get(Locators.BUTTONS.CREAT_FOLDER_BUTTON).click({
       waitForAnimations: true,
       force: true,
     });
