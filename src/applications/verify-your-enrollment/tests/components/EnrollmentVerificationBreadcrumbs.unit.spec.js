@@ -35,9 +35,9 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     expect(breadcrumbs.at(0).text()).to.equal('Home');
     expect(breadcrumbs.at(1).text()).to.equal('Education and training');
     expect(breadcrumbs.at(2).text()).to.equal(
-      'GI Bill® enrollment verifications',
+      'Montgomery GI Bill® Enrollment Verifications',
     );
-    expect(breadcrumbs.at(3).text()).to.equal('Benefits profile');
+    expect(breadcrumbs.at(3).text()).to.equal('Your Benefits Profile');
 
     wrapper.unmount();
 
@@ -45,7 +45,7 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     delete window.location;
     window.location = location;
   });
-  it('does not include "Benefits profile" breadcrumb for other pages', () => {
+  it('does not include "Your Benefits profile" breadcrumb for other pages', () => {
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
       value: {

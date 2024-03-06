@@ -14,7 +14,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
       Education and training
     </a>,
     <a href={BASE_URL} key="enrollment-verification-page">
-      GI Bill® enrollment verifications
+      Montgomery GI Bill® Enrollment Verifications
     </a>,
   ];
 
@@ -27,7 +27,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
   if ([BENEFITS_PROFILE_URL_SEGMENT].includes(page)) {
     breadcrumbs.push(
       <a href={BENEFITS_PROFILE_URL} key="BenefitsProfilePage">
-        Benefits profile
+        Your Benefits Profile
       </a>,
     );
   }
