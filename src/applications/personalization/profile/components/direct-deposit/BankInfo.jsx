@@ -388,7 +388,11 @@ export const BankInfo = ({
   }
 
   if (directDepositServerError) {
-    return <DirectDepositConnectionError benefitType={type} />;
+    return (
+      <div className={type === benefitTypes.EDU && 'vads-u-margin-top--4'}>
+        <DirectDepositConnectionError benefitType={type} />
+      </div>
+    );
   }
 
   return (

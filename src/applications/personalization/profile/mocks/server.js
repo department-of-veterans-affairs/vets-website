@@ -73,7 +73,7 @@ const responses = {
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
             profileShowDirectDepositSingleForm: false,
-            profileShowDirectDepositSingleFormAlert: true,
+            profileShowDirectDepositSingleFormAlert: false,
             profileShowDirectDepositSingleFormEduDowntime: false,
           }),
         ),
