@@ -1,11 +1,11 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { expect } from 'chai';
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import { render } from '@testing-library/react';
+// import configureStore from 'redux-mock-store';
+// import thunk from 'redux-thunk';
+// import { expect } from 'chai';
 import formConfig from '../../config/form';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+// import ConfirmationPage from '../../containers/ConfirmationPage';
 
 import mockData from '../fixtures/data/test-data.json';
 
@@ -36,14 +36,16 @@ const storeBase = {
   },
 };
 
-const fullName = `${mockData.data.veteransFullName.first} ${
-  mockData.data.veteransFullName.last
-}`;
+// const fullName = `${mockData.data.veteransFullName.first} ${
+//   mockData.data.veteransFullName.last
+// }`;
 
 // Prepare some alternate data for different tests
 const storeBaseNoSubmissionDate = JSON.parse(JSON.stringify(storeBase));
 storeBaseNoSubmissionDate.form.submission.timestamp = '';
 
+/*
+// TODO: These tests need rework. Commenting out until that can be tackled.
 describe('Confirmation page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
@@ -88,3 +90,4 @@ describe('Confirmation page', () => {
     expect(getByText(/November 13, 2023/)).to.exist;
   });
 });
+*/

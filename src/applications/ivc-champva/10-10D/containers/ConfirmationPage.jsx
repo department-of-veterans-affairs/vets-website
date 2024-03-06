@@ -12,6 +12,48 @@ import {
 } from '../helpers/supportingDocsVerification';
 import MissingFileList from '../components/File/MissingFileList';
 
+export const mailInfo = (
+  <>
+    Mail your files to:
+    <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
+      <p className="vads-u-padding-x--10px vads-u-margin-left--1">
+        VHA Office of Community Care
+        <br />
+        CHAMPVA Eligibility
+        <br />
+        P.O. Box 469028
+        <br />
+        Denver, CO 80246-9028
+        <br />
+        UnitedStates of America
+      </p>
+    </address>
+    Or fax your documents here:
+    <br />
+    VHA Office of Community Care CHAMPVA Eligibility, 303-331-7809
+  </>
+);
+
+export const missingFileMessage = (
+  <section>
+    <h2 className="vads-u-font-size--h3">
+      Do you need to send us more supporting documents?
+    </h2>
+    You can mail or fax us copies of these supporting documents for the sponsor
+    and applicants.
+    <br />
+    <br />
+    Write the applicant’s name and confirmation number on each page of the
+    document.
+    <br />
+    <br />
+    {mailInfo}
+    <br />
+    <br />
+    These are the documents you’ll need to submit by mail:
+  </section>
+);
+
 export function ConfirmationPage(props) {
   const { form } = props;
   const { submission, data } = form;
@@ -117,47 +159,14 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      {sponsorMissingFiles.missingUploads || applicantsWithMissingFiles ? (
-        <section>
-          <h2 className="vads-u-font-size--h3">
-            Do you need to send us more supporting documents?
-          </h2>
-          You can mail or fax us copies of these supporting documents for the
-          sponsor and applicants.
-          <br />
-          <br />
-          Write the applicant's name and confirmation number on each page of the
-          document.
-          <br />
-          <br />
-          Mail your documents here:
-          <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
-            <p className="vads-u-padding-x--10px vads-u-margin-left--1">
-              VHA Office of Community Care
-              <br />
-              CHAMPVA Eligibility
-              <br />
-              P.O. Box 469028
-              <br />
-              Denver, CO 80246-9028
-              <br />
-              UnitedStates of America
-            </p>
-          </address>
-          Or fax your documents here:
-          <br />
-          VHA Office of Community Care CHAMPVA Eligibility, 303-331-7809
-          <br />
-          <br />
-          These are the documents you'll need to submit by mail:
-        </section>
-      ) : null}
+      {sponsorMissingFiles.missingUploads || applicantsWithMissingFiles
+        ? { missingFileMessage }
+        : null}
       {sponsorMissingFiles ? (
         <MissingFileList
           data={sponsorMissingFiles}
           nameKey="name"
           title="Optional"
-          description="Lorem"
           disableLinks
         />
       ) : null}
@@ -166,7 +175,6 @@ export function ConfirmationPage(props) {
           data={applicantsWithMissingFiles}
           nameKey="name"
           title="Optional"
-          description="Lorem"
           disableLinks
         />
       ) : null}

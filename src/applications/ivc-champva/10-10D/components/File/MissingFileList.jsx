@@ -6,6 +6,21 @@ import { makeHumanReadable } from '../../helpers/utilities';
 
 // TODO: update makeHumanReadable() to improve file names
 
+// List of required files - not enforced by the form because we want
+// users to be able to opt into mailing these documents.
+export const requiredFiles = [
+  'applicantStepMarriageCert',
+  'applicantAdoptionPapers',
+  'applicantSchoolCert',
+  'applicantMedicarePartAPartBCard',
+  'applicantMedicarePartACard', // TODO: make form page for this
+  'applicantMedicarePartBCard', // TODO: make form page for this
+  'applicantMedicarePartDCard',
+  'over65IneligibleCert', // TODO: make form page for this
+  'applicantOhiCard',
+  'applicant107959c',
+];
+
 /**
  * Produce either a success message or a link to upload a file
  * @param {object} file Object representing a missing file
@@ -44,6 +59,7 @@ function alertOrLink(file, entryName, index) {
  * title: title text to display
  * description: description text to display
  * disableLinks: whether or not to show link to edit page
+ * subset: which classification of files to show: 'required', 'optional', 'all'
  * @returns JSX
  */
 export default function MissingFileList({
@@ -52,7 +68,17 @@ export default function MissingFileList({
   title,
   description,
   disableLinks,
+  subset,
 }) {
+  const inSubset = file => {
+    if (subset === 'required') {
+      return file.required === true;
+    }
+    if (subset === 'optional') {
+      return file.required === false;
+    }
+    return true; // Show all if subset is other
+  };
   // data: an array or a single object, must have 'missingUploads' on it
   const wrapped = Array.isArray(data) ? data : [data];
   if (
@@ -74,13 +100,15 @@ export default function MissingFileList({
           <div key={Object.keys(entry).join('') + idx}>
             <strong>{entryName}</strong>
             <ul>
-              {entry.missingUploads?.map((file, index) => (
-                <li key={file.name + file.uploaded + index}>
-                  {makeHumanReadable(file.name)}
-                  <br />
-                  {!disableLinks ? alertOrLink(file, entryName, idx) : null}
-                </li>
-              ))}
+              {entry.missingUploads?.map((file, index) => {
+                return inSubset(file) ? (
+                  <li key={file.name + file.uploaded + index}>
+                    {makeHumanReadable(file.name)}
+                    <br />
+                    {!disableLinks ? alertOrLink(file, entryName, idx) : null}
+                  </li>
+                ) : null;
+              })}
             </ul>
           </div>
         );
@@ -94,5 +122,6 @@ MissingFileList.propTypes = {
   description: PropTypes.string,
   disableLinks: PropTypes.bool,
   nameKey: PropTypes.string,
+  subset: PropTypes.string,
   title: PropTypes.string,
 };

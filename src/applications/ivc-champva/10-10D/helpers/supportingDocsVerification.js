@@ -1,3 +1,4 @@
+import { requiredFiles } from '../components/File/MissingFileList';
 /**
  * Dynamically get list of applicant property names that correspond to a
  * file upload so we can check if a given applicant has uploaded that
@@ -5,11 +6,10 @@
  * @param {object} pages contains all pages in current form
  * @returns List of objects describing file upload properties in the shape:
  *   [
- *     {name: 'birthCert', path: 'birthcert-upload'},
+ *     {name: 'birthCert', path: 'birthcert-upload', required: boolean},
  *   ]
  */
 export function getApplicantFileKeyNames(pages) {
-  // TODO: Identify if files are required or not and add to obj
   return (
     Object.keys(pages)
       // Grab pages in the 'applicants' list and loop
@@ -23,7 +23,11 @@ export function getApplicantFileKeyNames(pages) {
           item =>
             // Descend into the page to determine if it has a file upload
             itemProps[item]?.type === 'array'
-              ? { name: item, path: pages[page].path }
+              ? {
+                  name: item,
+                  path: pages[page].path,
+                  required: requiredFiles.includes(item),
+                }
               : undefined,
         );
       })
@@ -38,11 +42,10 @@ export function getApplicantFileKeyNames(pages) {
  * @param {object} pages contains all pages in current form
  * @returns List of objects describing file upload properties in the shape:
  *   [
- *     {name: 'birthCert', path: 'birthcert-upload'},
+ *     {name: 'birthCert', path: 'birthcert-upload', required: boolean},
  *   ]
  */
 export function getSponsorFileKeyNames(pages) {
-  // See "TODO" in getApplicantFileKeyNames
   return Object.keys(pages)
     .map(page =>
       Object.keys(pages[page].schema.properties)
@@ -52,7 +55,11 @@ export function getSponsorFileKeyNames(pages) {
             key !== 'applicants',
         )
         .map(el => {
-          return { name: el, path: undefined };
+          return {
+            name: el,
+            path: undefined,
+            required: requiredFiles.includes(el),
+          };
         }),
     )
     .flat(Infinity);

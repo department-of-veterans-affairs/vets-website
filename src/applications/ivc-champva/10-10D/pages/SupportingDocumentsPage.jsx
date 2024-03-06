@@ -9,19 +9,10 @@ import {
 } from '../helpers/supportingDocsVerification';
 import MissingFileList from '../components/File/MissingFileList';
 
-/**
- * TODO:
- * - Implement way to tell if files are required or optional
- *   - Add proper wording to top of page based on required status
- * - Create follow-on page:
- *   - Add checkbox acknowledging if any files have to be mailed in
- */
-
-// TODO: find this wording elsewhere and collapse vars
-const optionalDescription =
+export const optionalDescription =
   'These files are not required to complete your application, but may prevent delays in your processing time.';
-// const requiredDescription =
-//  'These files are required to complete your application';
+export const requiredDescription =
+  'These files are required to complete your application';
 
 export function checkFlags(pages, person, newListOfMissingFiles) {
   // TODO: in here, add a flag that indicates if upload is required

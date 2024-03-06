@@ -100,6 +100,10 @@ import {
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
+import {
+  MissingFileConsentPage,
+  hasReq,
+} from '../pages/MissingFileConsentPage';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -1359,6 +1363,30 @@ const formConfig = {
           path: 'supporting-files',
           title: 'Upload your supporting files',
           CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
+        },
+        page24: {
+          path: 'consent-to-mail',
+          title: 'Upload your supporting files',
+          depends: formData => {
+            try {
+              return (
+                hasReq(formData.applicants, false, true) ||
+                hasReq(formData.applicants, false, false) ||
+                hasReq(formData, true, true) ||
+                hasReq(formData, true, false)
+              );
+            } catch {
+              return false;
+            }
+          },
+          CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {
             'ui:options': {
