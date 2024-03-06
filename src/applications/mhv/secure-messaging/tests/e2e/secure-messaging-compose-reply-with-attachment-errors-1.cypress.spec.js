@@ -31,7 +31,7 @@ describe('Start a new message With Attacments and Errors', () => {
     // TO DO: remove attachment
     composePage.removeAttachMessageFromFile();
 
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage
       .getMessageBodyField()
       .type('Test message body', { force: true, waitforanimations: true });

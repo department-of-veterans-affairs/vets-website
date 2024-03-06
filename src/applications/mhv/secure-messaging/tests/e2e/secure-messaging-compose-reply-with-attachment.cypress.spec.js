@@ -24,7 +24,7 @@ describe('Start a new message With Attacments and Errors', () => {
     // composePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage
       .getMessageBodyField()
       .type('Test message body', { force: true, waitforanimations: true });

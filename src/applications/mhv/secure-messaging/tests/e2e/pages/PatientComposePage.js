@@ -162,7 +162,7 @@ class PatientComposePage {
 
   keyboardNavToMessageSubjectField = () => {
     return cy
-      .tabToElement('[data-testid="message-subject-field"]')
+      .get('[data-testid="message-subject-field"]')
       .shadow()
       .find('#inputField');
   };

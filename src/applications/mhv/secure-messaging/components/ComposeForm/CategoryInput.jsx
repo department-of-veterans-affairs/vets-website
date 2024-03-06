@@ -33,7 +33,7 @@ const CategoryInput = props => {
           data-testid="compose-message-categories"
           label="Category"
           className=" fieldset-input message-category"
-          error={categoryError}
+          {...categoryError && { error: categoryError }}
           onVaValueChange={categoryChangeHandler}
         >
           {categories?.map((item, i) => (

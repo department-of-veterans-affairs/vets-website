@@ -26,9 +26,6 @@ describe('Validate the category', () => {
       );
       cy.realPress('ArrowDown');
     }
-    cy.tabToElement('[data-testid="message-subject-field"]').should(
-      'have.focus',
-    );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

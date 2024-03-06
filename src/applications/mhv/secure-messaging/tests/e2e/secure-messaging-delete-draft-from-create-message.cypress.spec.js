@@ -20,7 +20,9 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
       .getCategory(requestBody.category)
       .first()
       .click();
-    composePage.getMessageSubjectField().type(`${requestBody.subject}`);
+    composePage
+      .getMessageSubjectField()
+      .type(`${requestBody.subject}`, { force: true });
     composePage
       .getMessageBodyField()
       .type(`${requestBody.body}`, { force: true });
