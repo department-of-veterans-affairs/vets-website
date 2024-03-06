@@ -1,35 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router';
 import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
-
-/**
- * Link component that can be used in formconfig to conditionally
- * display a routable link.
- * @param {string} path Location to navigate to
- * @param {string} text Visible text inside link
- * @param {string} urlTrigger optional queryparameter to conditionally show link
- * @returns
- */
-export function customLinkUI(path = '', text = '', urlTrigger) {
-  return {
-    'view:customLink': {
-      'ui:description': () => {
-        const urlParams = new URLSearchParams(window?.location?.search);
-        let link = (
-          <Link
-            aria-label={text}
-            to={path}
-            className="vads-c-action-link--green"
-          >
-            {text}
-          </Link>
-        );
-        if (urlTrigger && urlParams.get(urlTrigger) !== 'true') link = <></>;
-        return link;
-      },
-    },
-  };
-}
 
 const marriagePapers = [
   'Marriage certificate',
