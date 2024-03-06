@@ -9,7 +9,7 @@ describe('hca <ProcessTimeline>', () => {
     it('should render title & `va-process-list` component', () => {
       const { container } = render(<ProcessTimeline />);
       const selectors = {
-        title: container.querySelector('h2'),
+        title: container.querySelector('[data-testid="hca-timeline-heading"]'),
         list: container.querySelector('va-process-list'),
       };
       expect(selectors.list).to.exist;
