@@ -100,14 +100,16 @@ const ReportModal = ({
       return;
     }
 
-    await submitRepresentativeReport(formattedReportObject);
-
-    setReportObject({
-      phone: null,
-      email: null,
-      address: null,
-      other: null,
-    });
+    try {
+      await submitRepresentativeReport(formattedReportObject);
+    } catch {
+      setReportObject({
+        phone: null,
+        email: null,
+        address: null,
+        other: null,
+      });
+    }
 
     onCloseModal();
   };
