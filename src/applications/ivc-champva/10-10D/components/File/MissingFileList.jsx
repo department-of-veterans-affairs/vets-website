@@ -70,7 +70,6 @@ export default function MissingFileList({
       {wrapped.map((entry, idx) => {
         const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
           ''} ${entry[nameKey].last} ${entry[nameKey]?.suffix || ''}`;
-        // TODO: Make the initial "key" less stupid?
         return (
           <div key={Object.keys(entry).join('') + idx}>
             <strong>{entryName}</strong>

@@ -51,7 +51,6 @@ import {
   blankSchema,
 } from '../components/Sponsor/sponsorFileUploads';
 import {
-  customLinkUI,
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
   applicantAdoptedConfig,
@@ -61,6 +60,7 @@ import {
   applicantOhiCardsConfig,
   applicant107959cConfig,
   applicantMarriageCertConfig,
+  acceptableFiles,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -81,9 +81,14 @@ import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
 
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
-import { fileTypes, attachmentsSchema } from './attachments';
+import {
+  fileTypes,
+  attachmentsSchema,
+  fileWithMetadataSchema,
+} from './attachments';
 
 import mockData from '../tests/fixtures/data/test-data.json';
+import FileFieldCustom from '../components/File/FileUpload';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -103,12 +108,6 @@ const applicantListSchema = (requireds, propertyList) => {
     },
   };
 };
-
-const fileReviewLink = customLinkUI(
-  'supporting-files',
-  'Return to supporting files overview',
-  'fileReview',
-);
 
 const uploadUrl = `${
   environment.API_URL
@@ -758,6 +757,9 @@ const formConfig = {
                 ?.relationshipToVeteran === 'child'
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -770,22 +772,27 @@ const formConfig = {
                     } ${formData?.applicantName?.last}`,
                 ),
                 ...applicantBirthCertConfig.uiSchema,
-                applicantBirthCertOrSocialSecCard: fileUploadUI(
-                  "Upload the applicant's birth certificate",
-                  {
+                applicantBirthCertOrSocialSecCard: {
+                  ...fileUploadUI("Upload the applicant's birth certificate", {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
-                  },
-                ),
-                ...fileReviewLink,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
+                  }),
+                },
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantBirthCertConfig.schema,
-            applicantBirthCertOrSocialSecCard: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantBirthCertOrSocialSecCard: {
+              ...fileWithMetadataSchema(acceptableFiles.birthCert),
+            },
           }),
         },
         page18b: {
@@ -805,6 +812,9 @@ const formConfig = {
               )
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -822,17 +832,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantSchoolCertConfig.schema,
-            applicantSchoolCert: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantSchoolCert: {
+              ...fileWithMetadataSchema(acceptableFiles.schoolCert),
+            },
           }),
         },
         page18c: {
@@ -898,6 +914,9 @@ const formConfig = {
               ) === 'adoption'
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -915,17 +934,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantAdoptedConfig.schema,
-            applicantAdoptionPapers: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantAdoptionPapers: {
+              ...fileWithMetadataSchema(acceptableFiles.adoptionCert),
+            },
           }),
         },
         page18e: {
@@ -947,6 +972,9 @@ const formConfig = {
               ) === 'step'
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -966,17 +994,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantStepChildConfig.schema,
-            applicantStepMarriageCert: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantStepMarriageCert: {
+              ...fileWithMetadataSchema(acceptableFiles.stepCert),
+            },
           }),
         },
         page18f: {
@@ -993,6 +1027,9 @@ const formConfig = {
               ) === 'spouse'
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1010,17 +1047,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantMarriageCert: {
+              ...fileWithMetadataSchema(acceptableFiles.spouseCert),
+            },
           }),
         },
         page19: {
@@ -1081,6 +1124,9 @@ const formConfig = {
               )
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1100,17 +1146,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantMedicarePartAPartBCard: {
+              ...fileWithMetadataSchema(acceptableFiles.medicareABCert),
+            },
           }),
         },
         page20b: {
@@ -1129,6 +1181,9 @@ const formConfig = {
               )?.includes('partD')
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1146,17 +1201,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantMedicarePartDCard: {
+              ...fileWithMetadataSchema(acceptableFiles.medicareDCert),
+            },
           }),
         },
         page21: {
@@ -1186,6 +1247,9 @@ const formConfig = {
               get('applicantHasOhi', formData?.applicants?.[index]) === 'yes'
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1203,17 +1267,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicantOhiCard: {
+              ...fileWithMetadataSchema(acceptableFiles.healthInsCert),
+            },
           }),
         },
         page22: {
@@ -1229,6 +1299,9 @@ const formConfig = {
                 'enrolled'
             );
           },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -1246,17 +1319,23 @@ const formConfig = {
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
                   },
                 ),
-                ...fileReviewLink,
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicant107959cConfig.schema,
-            applicant107959c: attachmentsSchema,
-            'view:customLink': blankSchema,
+            applicant107959c: {
+              ...fileWithMetadataSchema(acceptableFiles.va7959cCert),
+            },
           }),
         },
       },
