@@ -48,7 +48,10 @@ const ResultsList = props => {
                 representative={result}
                 representativeId={result.id}
                 submitRepresentativeReport={props.submitRepresentativeReport}
-                isErrorReportSubmission={props.isErrorReportSubmission}
+                initializeRepresentativeReport={
+                  props.initializeRepresentativeReport
+                }
+                reportSubmissionStatus={props.reportSubmissionStatus}
                 query={query}
                 index={index}
               />
@@ -71,6 +74,7 @@ ResultsList.propTypes = {
   searchResults: PropTypes.array,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

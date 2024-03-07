@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
 import {
-  REPORT_STARTED,
+  REPORT_SUBMITTED,
   REPORT_FAILED,
   REPORT_COMPLETE,
 } from '../../utils/actionTypes';
@@ -17,7 +17,7 @@ export const submitRepresentativeReport = newReport => {
   return async dispatch => {
     try {
       dispatch({
-        type: REPORT_STARTED,
+        type: REPORT_SUBMITTED,
         payload: {
           reportSubmissionInProgress: true,
         },
