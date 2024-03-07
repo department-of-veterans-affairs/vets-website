@@ -5,7 +5,7 @@ import AdditionalEvidenceItem from './AdditionalEvidenceItem';
 import AskVAToDecide from '../AskVAToDecide';
 import RequestedFilesInfo from '../RequestedFilesInfo';
 import SubmittedTrackedItem from './SubmittedTrackedItem';
-import AdditionalEvidencePage from '../../containers/AdditionalEvidencePage';
+import AdditionalEvidencePage from '../claim-files-tab/AdditionalEvidencePage';
 
 import { getFilesNeeded, getFilesOptional } from '../../utils/helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
