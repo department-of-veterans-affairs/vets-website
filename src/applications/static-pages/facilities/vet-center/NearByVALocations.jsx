@@ -55,32 +55,33 @@ const NearbyLocations = props => {
       const mapboxResponse = await getFeaturesFromAddress(addressQuery);
       const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
 
-      if (coordinates) {
-        setOriginalCoordinates(coordinates);
-        const boundingBox = calculateBoundingBox(
-          coordinates[1],
-          coordinates[0],
-          NEARBY_VA_LOCATIONS_RADIUS_MILES,
-        );
-        dispatch(
-          multiTypeQuery(
-            'Health',
-            genQuery(boundingBox, coordinates, 'health', true),
-          ),
-        );
-        dispatch(
-          multiTypeQuery(
-            'Cemetery',
-            genQuery(boundingBox, coordinates, 'cemetery', false),
-          ),
-        );
-        dispatch(
-          multiTypeQuery(
-            'VetCenter',
-            genQuery(boundingBox, coordinates, 'vet_center', true),
-          ),
-        );
+      if (!coordinates) {
+        return;
       }
+      setOriginalCoordinates(coordinates);
+      const boundingBox = calculateBoundingBox(
+        coordinates[1],
+        coordinates[0],
+        NEARBY_VA_LOCATIONS_RADIUS_MILES,
+      );
+      dispatch(
+        multiTypeQuery(
+          'Health',
+          genQuery(boundingBox, coordinates, 'health', true),
+        ),
+      );
+      dispatch(
+        multiTypeQuery(
+          'Cemetery',
+          genQuery(boundingBox, coordinates, 'cemetery', false),
+        ),
+      );
+      dispatch(
+        multiTypeQuery(
+          'VetCenter',
+          genQuery(boundingBox, coordinates, 'vet_center', true),
+        ),
+      );
     },
     [props, dispatch],
   );
@@ -157,23 +158,29 @@ const NearbyLocations = props => {
   );
 
   const normalizeFetchedFacilities = vcs => {
-    return vcs
-      .map(vc => normalizeFetchedFacilityProperties(vc))
-      .sort((a, b) => a.distance - b.distance)
-      .reduce(
-        (acc, vaf) => {
-          if (vaf.source === 'Health' && acc[0] === null) {
-            acc[0] = vaf;
-          } else if (vaf.source === 'VetCenter' && acc[1] === null) {
-            acc[1] = vaf;
-          } else if (vaf.source === 'Cemetery' && acc[2] === null) {
-            acc[2] = vaf;
-          }
-          return acc;
-        },
-        [null, null, null],
-      )
-      .filter(v => v);
+    return (
+      vcs
+        .map(vc => normalizeFetchedFacilityProperties(vc))
+        .sort((a, b) => a.distance - b.distance)
+        // pulls out one of each Health, VetCenter, and Cemetery facilityType from the multidata that has been
+        // joined together in order to process distances in one array.
+        .reduce(
+          (acc, vaf) => {
+            if (vaf.source === 'Health' && acc[0] === null) {
+              acc[0] = vaf;
+            } else if (vaf.source === 'VetCenter' && acc[1] === null) {
+              acc[1] = vaf;
+            } else if (vaf.source === 'Cemetery' && acc[2] === null) {
+              acc[2] = vaf;
+            }
+            return acc;
+          },
+          [null, null, null],
+        )
+        // Since it may be that one of the requests to the API returned data with an empty list (i.e. no Cemetery within 120 miles)
+        // the above array of 3 elements may have a null since the array uses index for the type of facility and the order matters.
+        .filter(v => v)
+    );
   };
 
   const renderNearbyFacilitiesContainer = sortedVaLocations => {

@@ -5,22 +5,23 @@ import VAFacilityTitle from './VAFacilityTitle';
 import VAFacilityPhone from './VAFacilityPhone';
 
 function VAFacilityInfoSection(props) {
+  const { vaFacility, mainPhone } = props;
   return (
     <>
-      <VAFacilityTitle vaFacility={props.vaFacility} />
-      <VAFacilityAddress vaFacility={props.vaFacility} />
+      <VAFacilityTitle vaFacility={vaFacility} />
+      <VAFacilityAddress vaFacility={vaFacility} />
       <VAFacilityPhone
         phoneTitle="Main number"
         phoneNumber={
-          props.vaFacility.entityBundle === 'vet_center_cap'
-            ? props.mainPhone
-            : props.vaFacility.fieldPhoneNumber
+          vaFacility.entityBundle === 'vet_center_cap'
+            ? mainPhone
+            : vaFacility.fieldPhoneNumber
         }
       />
       {/* Won't display if number doesn't exist */}
       <VAFacilityPhone
         phoneTitle="Mental health"
-        phoneNumber={props.vaFacility.fieldPhoneMentalHealth}
+        phoneNumber={vaFacility.fieldPhoneMentalHealth}
       />
     </>
   );

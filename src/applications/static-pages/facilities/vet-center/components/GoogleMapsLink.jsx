@@ -28,9 +28,4 @@ GoogleMapsLink.propTypes = {
   title: PropTypes.string,
 };
 
-GoogleMapsLink.propTypes = {
-  addressDirections: PropTypes.string,
-  title: PropTypes.string,
-};
-
 export default GoogleMapsLink;
