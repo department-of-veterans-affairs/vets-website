@@ -31,7 +31,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
 
   return (
     <va-alert
-      uswds="false"
+      uswds
       background-only
       show-icon
       status={alertClass}
