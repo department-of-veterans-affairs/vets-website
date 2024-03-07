@@ -99,7 +99,7 @@
       "slackGroup": "@benefits-app-builds"
     },
     {
-      "rootFolder": "representatives",
+      "rootFolder": "accredited-representative-portal",
       "slackGroup": "@arfeng"
     }
   ]
