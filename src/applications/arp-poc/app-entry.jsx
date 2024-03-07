@@ -1,5 +1,4 @@
 import 'platform/polyfills';
-import './sass/arp-poc.scss';
 
 import startApp from 'platform/startup';
 
