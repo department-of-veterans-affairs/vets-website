@@ -32,7 +32,7 @@ describe('POARequests page', () => {
     });
 
     it('renders table with mockPOARequests', () => {
-      const { getByTestId } = render(<POARequests />);
+      const { getByTestId } = render(<POARequests POAPermissions />);
       mockPOARequests.forEach(poaRequest => {
         expect(getByTestId(`${poaRequest.id}-claimant`)).to.contain.text(
           poaRequest.name,

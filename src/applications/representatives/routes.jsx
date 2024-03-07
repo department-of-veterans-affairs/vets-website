@@ -24,6 +24,10 @@ const routes = [
     component: App,
     childRoutes: [{ indexRoute: { component: PermissionsPage } }],
   },
+  {
+    path: '/permissions',
+    component: PermissionsPage,
+  },
 ];
 
 export default routes;
