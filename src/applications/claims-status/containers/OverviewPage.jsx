@@ -5,13 +5,10 @@ import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import { clearNotification } from '../actions';
-import ClaimComplete from '../components/ClaimComplete';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
 import { DATE_FORMATS } from '../constants';
-import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
   getClaimType,
@@ -19,7 +16,6 @@ import {
   getStatusMap,
   getTrackedItemDate,
   getUserPhase,
-  isClaimOpen,
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
@@ -186,40 +182,22 @@ class OverviewPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, showClaimLettersLink } = this.props;
+    const { claim } = this.props;
 
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
 
-    const {
-      claimPhaseDates,
-      closeDate,
-      decisionLetterSent,
-      status,
-    } = attributes;
-
-    const isOpen = isClaimOpen(status, closeDate);
+    const { claimPhaseDates } = attributes;
 
     return (
-      <div>
+      <div className="overview-container">
         <ClaimOverviewHeader />
-        {decisionLetterSent && !isOpen ? (
-          <ClaimsDecision
-            completedDate={closeDate}
-            showClaimLettersLink={showClaimLettersLink}
-          />
-        ) : null}
-        {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={closeDate} />
-        ) : null}
-        {status && isOpen ? (
-          <ClaimTimeline
-            id={claim.id}
-            phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-            currentPhaseBack={claimPhaseDates.currentPhaseBack}
-            events={generateEventTimeline(claim)}
-          />
-        ) : null}
+        <ClaimTimeline
+          id={claim.id}
+          phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+          currentPhaseBack={claimPhaseDates.currentPhaseBack}
+          events={generateEventTimeline(claim)}
+        />
       </div>
     );
   }
@@ -269,7 +247,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
-    showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
   };
 }
