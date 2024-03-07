@@ -113,13 +113,20 @@ const TravelMileage = props => {
     count: eligibleToFile.length,
   });
   let body = (
-    <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-padding-y--1 vads-u-margin-y--2 vads-u-border-color--gray-light">
+    <div
+      className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-padding-y--1 vads-u-margin-y--2 vads-u-border-color--gray-light"
+      data-testid="single-fac-context"
+    >
       <span className="vads-u-font-weight--bold">
         {eligibleToFile[0].facility}
       </span>
       <div className="vads-u-margin-y--1">
         {eligibleToFile.map(appointment => (
-          <p className="vads-u-margin--0" key={appointment.appointmentIen}>
+          <p
+            className="vads-u-margin--0"
+            key={appointment.appointmentIen}
+            data-testid={`appointment-list-item-${appointment.appointmentIen}`}
+          >
             {formatAppointment(appointment)}
           </p>
         ))}
@@ -137,9 +144,10 @@ const TravelMileage = props => {
     });
     header = t('select-appointments-to-file-today');
     body = (
-      <>
+      <div data-testid="multi-fac-context">
         <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p>
         <va-checkbox-group
+          data-testid="checkbox-group"
           error={error ? t('select-one-or-more-appointments') : ''}
           uswds
           class="vads-u-margin-top--0 vads-u-margin-bottom--4"
@@ -147,6 +155,7 @@ const TravelMileage = props => {
         >
           {Object.keys(appointmentsByFacility).map(facility => (
             <VaCheckbox
+              data-testid={`checkbox-${facility}`}
               key={facility}
               uswds
               tile
@@ -162,7 +171,7 @@ const TravelMileage = props => {
             />
           ))}
         </va-checkbox-group>
-      </>
+      </div>
     );
   }
   return (
@@ -173,38 +182,41 @@ const TravelMileage = props => {
         prevUrl={getPreviousPageFromRouter()}
       />
       <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
-        {body}
-        <va-additional-info
-          trigger={t('if-you-have-other-expenses-to-claim')}
-          uswds
-        >
-          <Trans
-            i18nKey="if-you-need-submit-receipts-other-expenses"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
-        </va-additional-info>
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
-          <va-button
+        {/* Setting state value here for testing purposes. Could not mock hook with our test setup. */}
+        <div data-testid={JSON.stringify(selectedFacilities)}>
+          {body}
+          <va-additional-info
+            trigger={t('if-you-have-other-expenses-to-claim')}
             uswds
-            big
-            onClick={continueClick}
-            continue
-            data-testid="continue-button"
-            class="vads-u-margin-top--2"
-            value="continue"
-          />
-          <va-button
-            uswds
-            big
-            secondary
-            onClick={goToPreviousPage}
-            data-testid="continue-button"
-            class="vads-u-margin-top--2 small-screen:vads-u-order--first"
-            value="back"
-            back
-          />
+          >
+            <Trans
+              i18nKey="if-you-need-submit-receipts-other-expenses"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+              ]}
+            />
+          </va-additional-info>
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+            <va-button
+              uswds
+              big
+              onClick={continueClick}
+              continue
+              data-testid="continue-button"
+              class="vads-u-margin-top--2"
+              value="continue"
+            />
+            <va-button
+              uswds
+              big
+              secondary
+              onClick={goToPreviousPage}
+              data-testid="back-button"
+              class="vads-u-margin-top--2 small-screen:vads-u-order--first"
+              value="back"
+              back
+            />
+          </div>
         </div>
       </Wrapper>
     </>

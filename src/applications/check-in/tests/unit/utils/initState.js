@@ -37,6 +37,7 @@ const createStore = ({
   seeStaffMessage = null,
   eligibleToFile = null,
   alreadyFiled = null,
+  facilitiesToFile = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -59,6 +60,7 @@ const createStore = ({
           'travel-mileage': travelMileage,
           'travel-vehicle': travelVehicle,
           'travel-review': travelReview,
+          facilitiesToFile,
         },
       },
       appointments,
