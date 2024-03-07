@@ -82,7 +82,7 @@ module.exports = {
       },
     },
     meta: {
-      errors: [],
+      errors: null,
     },
   },
   'GET /v0/in_progress_forms/22-1990EZ': {

@@ -55,7 +55,7 @@ module.exports = {
       },
     },
     meta: {
-      errors: [],
+      errors: null,
     },
   },
   'GET /meb_api/v0/claim_status?latest=true': {
