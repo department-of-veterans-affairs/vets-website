@@ -20,7 +20,6 @@ const SearchResult = ({
   email,
   associatedOrgs,
   submitRepresentativeReport,
-  isErrorReportSubmission,
   reports,
   representativeId,
   query,
@@ -29,7 +28,6 @@ const SearchResult = ({
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
   const reportsAreInitialized = useRef(true);
-  const submissionErrorsAreInitialized = useRef(true);
 
   const prevReportCount = useRef(reports?.length || 0);
 
@@ -50,7 +48,10 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  const onCloseReportModal = () => {
+  const onCloseReportModal = action => {
+    if (action === 'Cancel' && reports) {
+      prevReportCount.current = Object.keys(reports).length;
+    }
     setReportModalIsShowing(false);
   };
 
@@ -73,18 +74,6 @@ const SearchResult = ({
     [reportModalIsShowing],
   );
 
-  useEffect(
-    () => {
-      if (!isErrorReportSubmission && !submissionErrorsAreInitialized.current) {
-        scrollTo(`#report-button-${representativeId}`);
-        focusElement(`#report-button-${representativeId}`);
-      } else {
-        submissionErrorsAreInitialized.current = false;
-      }
-    },
-    [isErrorReportSubmission],
-  );
-
   return (
     <div className="report-outdated-information-modal">
       {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
@@ -104,7 +93,7 @@ const SearchResult = ({
           phone={phone}
           email={email}
           existingReports={reports}
-          onCloseModal={onCloseReportModal}
+          onCloseReportModal={onCloseReportModal}
           submitRepresentativeReport={submitRepresentativeReport}
         />
       )}

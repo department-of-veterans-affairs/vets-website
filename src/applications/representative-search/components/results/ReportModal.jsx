@@ -14,7 +14,7 @@ const ReportModal = ({
   phone,
   email,
   existingReports,
-  onCloseModal,
+  onCloseReportModal,
   submitRepresentativeReport,
   handleOtherInputChangeTestId,
   testReportObject,
@@ -111,15 +111,15 @@ const ReportModal = ({
       });
     }
 
-    onCloseModal();
+    onCloseReportModal('Submit');
   };
 
   return (
     <>
       <VaModal
-        onCloseEvent={onCloseModal}
+        onCloseEvent={() => onCloseReportModal('Cancel')}
         onPrimaryButtonClick={onSubmitModal}
-        onSecondaryButtonClick={onCloseModal}
+        onSecondaryButtonClick={() => onCloseReportModal('Cancel')}
         primaryButtonText="Submit"
         secondaryButtonText="Cancel"
         visible
@@ -269,5 +269,5 @@ ReportModal.propTypes = {
   representativeName: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   testReportObject: PropTypes.object,
-  onCloseModal: PropTypes.func,
+  onCloseReportModal: PropTypes.func,
 };
