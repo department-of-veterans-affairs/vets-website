@@ -1934,7 +1934,7 @@
         "id": "09aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
-        "localStartTime": "2024-06-08T09:00:00.000-06:00",
+        "localStartTime": "2024-06-08T17:00:00.000-06:00",
         "minutesDuration": 30,
         "patientIcn": null,
         "patientInstruction": "Video Visit Preparation",
