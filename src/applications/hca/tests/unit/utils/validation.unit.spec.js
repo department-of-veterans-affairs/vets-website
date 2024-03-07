@@ -105,9 +105,10 @@ describe('hca `validateGulfWarDates` form validation', () => {
     spy = () => {},
     startDate = '1990-09-XX',
     endDate = '1991-01-XX',
+    fieldName = 'gulfWarEndDate',
   }) => ({
     errors: {
-      gulfWarEndDate: {
+      [fieldName]: {
         addError: spy,
       },
     },
@@ -139,6 +140,33 @@ describe('hca `validateGulfWarDates` form validation', () => {
       expect(spy.called).to.be.true;
     });
   });
+
+  context('when only a month is provided to the end date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      endDate: 'XXXX-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateGulfWarDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  context('when only a month is provided to the start date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      fieldName: 'gulfWarStartDate',
+      startDate: 'XXXX-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateGulfWarDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
 });
 
 describe('hca `validateExposureDates` form validation', () => {
@@ -146,9 +174,10 @@ describe('hca `validateExposureDates` form validation', () => {
     spy = () => {},
     startDate = '1990-09-XX',
     endDate = '1991-01-XX',
+    fieldName = 'toxicExposureEndDate',
   }) => ({
     errors: {
-      toxicExposureEndDate: {
+      [fieldName]: {
         addError: spy,
       },
     },
@@ -172,6 +201,33 @@ describe('hca `validateExposureDates` form validation', () => {
     const spy = sinon.spy();
     const { errors, fieldData } = getData({
       endDate: '1989-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateExposureDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  context('when only a month is provided to the end date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      endDate: 'XXXX-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateExposureDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  context('when only a month is provided to the start date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      fieldName: 'toxicExposureStartDate',
+      startDate: 'XXXX-09-XX',
       spy,
     });
 
