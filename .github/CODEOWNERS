@@ -220,7 +220,7 @@ src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of
 src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appointments-page  @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Accredited Representative Facing (ARF)
-src/applications/representatives @department-of-veterans-affairs/benefits-accredited-rep-facing
+src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing
 
 # Other
 
