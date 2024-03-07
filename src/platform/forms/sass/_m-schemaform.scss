@@ -506,9 +506,10 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin: -1em -1.2em 5rem;
+  margin-bottom: 5rem;
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
+    margin: -1em -1.2em 0 -1.2em;
     background-color: var(--color-secondary-lightest);
     &:before {
       display: block;
@@ -546,14 +547,6 @@ va-accordion-item[data-unviewed-pages="true"] {
 .form-review-panel .accordion-header > button.usa-button-unstyled {
   padding: 2.5rem 4.5rem 2.5rem 2.5rem;
   line-height: 2.2rem;
-}
-
-#content .panel.saved-success-container {
-  background-color: $color-green-lightest;
-}
-
-.saved-success-icon {
-  margin: 0 0.5em 0 0;
 }
 
 .usa-alert-no-color {

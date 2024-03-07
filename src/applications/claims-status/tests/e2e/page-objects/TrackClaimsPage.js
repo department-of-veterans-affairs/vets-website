@@ -12,8 +12,9 @@ class TrackClaimsPage {
         body: {},
       }).as('askVA');
     }
+
     if (mock) {
-      cy.intercept('GET', `/v0/evss_claims_async/189685`, mock).as(
+      cy.intercept('GET', `/v0/benefits_claims/189685`, mock).as(
         'detailRequest',
       );
     }
@@ -29,7 +30,7 @@ class TrackClaimsPage {
     );
 
     if (claimsList.data.length) {
-      cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
+      cy.get('.claim-list-item', { timeout: Timeouts.slow }).should(
         'be.visible',
       );
     } else {
@@ -67,11 +68,13 @@ class TrackClaimsPage {
       'contain',
       'Check your claim, decision review, or appeal status',
     );
-    cy.get('.claim-list-item-header-v2')
+    cy.get('.claim-list-item-header')
       .first()
-      .should('contain', `Claim for disability compensation`)
-      .and('contain', 'updated on October 31, 2016');
-    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+      .should('contain', `Claim for disability compensation`);
+    cy.get('.card-status')
+      .first()
+      .should('contain', `Last updated: October 31, 2016`);
+    cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
         cy.url().should('contain', '/your-claims/189685/status');
@@ -79,7 +82,7 @@ class TrackClaimsPage {
   }
 
   verifyReadyClaim() {
-    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+    cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -99,7 +102,7 @@ class TrackClaimsPage {
   }
 
   verifyInProgressClaim(inProgress = true) {
-    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+    cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -114,13 +117,6 @@ class TrackClaimsPage {
     if (inProgress) {
       cy.get('.process-step.last div').should('be.empty');
     }
-  }
-
-  verifyClaimedConditions(conditions) {
-    cy.get('.claim-contentions > span').should(
-      'contain',
-      conditions.join(', '),
-    );
   }
 
   verifyCompletedSteps(step) {
@@ -175,7 +171,7 @@ class TrackClaimsPage {
     );
   }
 
-  verifyNumberOfFiles(number) {
+  verifyNumberOfTrackedItems(number) {
     cy.get('.tabs li:nth-child(2) > a')
       .click()
       .then(() => {
@@ -184,6 +180,16 @@ class TrackClaimsPage {
       });
     cy.get('a.tab.tab--current').should('contain', 'Files');
     cy.get('.file-request-list-item').should('have.length', number);
+  }
+
+  verifyNumberOfFiles(number) {
+    cy.get('.tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        cy.get('.file-request-list-item').should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+    cy.get('a.tab.tab--current').should('contain', 'Files');
     cy.get('.submitted-file-list-item').should('have.length', number);
   }
 
@@ -206,13 +212,8 @@ class TrackClaimsPage {
 
   verifyClaimDetails() {
     cy.get('a.tab.tab--current').should('contain', 'Details');
-    const details = [
-      'Claim type',
-      'What you’ve claimed',
-      'Date received',
-      'Your representative for VA claims',
-    ];
-    for (const id of [1, 2, 3, 4]) {
+    const details = ['Claim type', 'What you’ve claimed', 'Date received'];
+    for (const id of [1, 2, 3]) {
       cy.get(`.claim-detail-label:nth-of-type(${id})`).should(
         'contain',
         `${details[id - 1]}`,
@@ -229,10 +230,10 @@ class TrackClaimsPage {
     cy.get('.claims-alert-status a')
       .click()
       .then(() => {
-        cy.get('.usa-button-secondary');
+        cy.get('.button-secondary');
         cy.axeCheck();
       });
-    cy.get('.main .usa-button-primary').click({ force: true });
+    cy.get('.main .button-primary').click({ force: true });
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
@@ -240,7 +241,7 @@ class TrackClaimsPage {
       .first()
       .check()
       .then(() => {
-        cy.get('.main .usa-button-primary').click();
+        cy.get('.main .button-primary').click();
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
@@ -256,10 +257,12 @@ class TrackClaimsPage {
         cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('[data-cy="submit-files-button"]')
+    cy.get('.submit-files-button')
+      .shadow()
+      .find('button')
       .should('contain', 'Submit Files for Review')
       .click();
-    cy.get('[data-cy="submit-files-button"]')
+    cy.get('.submit-files-button')
       .click()
       .then(() => {
         cy.get('va-file-input')

@@ -19,8 +19,8 @@ import {
   filterMedicationsByType,
   getCombinedMedications,
   getMedicationsTaking,
-  getMedicationsNotTaking,
 } from '../utils/medications';
+import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
 
 import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
@@ -240,13 +240,6 @@ const getMyMedications = avs => {
   );
 };
 
-const getMyMedicationsNotTaking = avs => {
-  return filterMedicationsByType(
-    getMedicationsNotTaking(avs),
-    MEDICATION_TYPES.DRUG,
-  );
-};
-
 const getMySupplies = avs => {
   return filterMedicationsByType(
     getCombinedMedications(avs),
@@ -298,6 +291,9 @@ const renderFieldWithBreak = (field, prefix = '') => {
 };
 
 const renderVaMedication = medication => {
+  const facilityPhone = normalizePhoneNumber(medication.facilityPhone);
+  const phoneNotClickable = !numberIsClickable(facilityPhone);
+
   return (
     <>
       <p>
@@ -313,7 +309,8 @@ const renderVaMedication = medication => {
           <>
             Main phone: [
             <va-telephone
-              contact={medication.facilityPhone.replace(/\D/g, '')}
+              contact={facilityPhone}
+              not-clickable={phoneNotClickable}
             />
             ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
           </>
@@ -400,6 +397,7 @@ const YourHealthInformation = props => {
         renderItem={renderAllergy}
         showSeparators
       />
+      {labResults(avs)}
       <ItemsBlock
         heading="My medications"
         intro={medsIntro(avs)}
@@ -415,15 +413,6 @@ const YourHealthInformation = props => {
         renderItem={renderMedication}
         showSeparators
       />
-      <ItemsBlock
-        heading="Medications you are not taking"
-        intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
-        itemType="medications-not-taking"
-        items={getMyMedicationsNotTaking(avs)}
-        renderItem={renderMedication}
-        showSeparators
-      />
-      {labResults(avs)}
     </div>
   );
 };

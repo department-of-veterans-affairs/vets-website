@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -7,10 +8,9 @@ import { RequestNursingHomeInformationAlert } from '../../../components/FormAler
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Medicaid application status',
+    ...titleUI('Medicaid application status'),
     medicaidStatus: yesNoUI({
       title: 'Have you applied for Medicaid?',
-      uswds: true,
     }),
     'view:warningAlert': {
       'ui:description': RequestNursingHomeInformationAlert,

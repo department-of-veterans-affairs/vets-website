@@ -99,3 +99,8 @@ export const selectFeatureAfterVisitSummary = state =>
 
 export const selectFeatureStartSchedulingLink = state =>
   toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
+
+export const selectFeaturePhysicalLocation = state =>
+  toggleValues(state).vaOnlineSchedulingPhysicalLocation;
+export const selectFeatureBookingExclusion = state =>
+  toggleValues(state).vaOnlineSchedulingBookingExclusion;

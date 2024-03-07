@@ -31,7 +31,21 @@ export const ConfirmationPage = props => {
   const { form } = props;
   const { submission, data } = form;
 
-  const { statementOfTruthSignature } = data;
+  const formData = {
+    ...data,
+    benefitSelection: {
+      [veteranBenefits.COMPENSATION]:
+        data.benefitSelection?.[veteranBenefits.COMPENSATION] ||
+        data.benefitSelectionCompensation,
+      [veteranBenefits.PENSION]:
+        data.benefitSelection?.[veteranBenefits.PENSION] ||
+        data.benefitSelectionPension,
+      [survivingDependentBenefits.SURVIVOR]:
+        data.benefitSelection?.[survivingDependentBenefits.SURVIVOR],
+    },
+  };
+
+  const { statementOfTruthSignature } = formData;
   const confirmationNumber = submission.response?.confirmationNumber;
   const submitDate = submission.timestamp;
 
@@ -49,15 +63,15 @@ export const ConfirmationPage = props => {
       </div>
       <va-alert
         close-btn-aria-label="Close notification"
-        status={confirmationPageAlertStatus(data)}
+        status={confirmationPageAlertStatus(formData)}
         visible
       >
-        <h2 slot="headline">{confirmationPageAlertHeadline(data)}</h2>
+        <h2 slot="headline">{confirmationPageAlertHeadline(formData)}</h2>
         <p className="vads-u-margin-bottom--0">
-          {confirmationPageAlertParagraph(data)}
+          {confirmationPageAlertParagraph(formData)}
         </p>
       </va-alert>
-      {!confirmationPageFormBypassed(data) && (
+      {!confirmationPageFormBypassed(formData) && (
         <div className="inset">
           <h3 className="vads-u-margin-top--1" slot="headline">
             Your submission information
@@ -95,10 +109,10 @@ export const ConfirmationPage = props => {
           <va-button onClick={window.print} text="Print this page" />
         </div>
       )}
-      {!confirmationPageFormBypassed(data) && (
+      {!confirmationPageFormBypassed(formData) && (
         <>
-          {hasActiveCompensationITF({ formData: data }) &&
-            data.benefitSelection[veteranBenefits.PENSION] && (
+          {hasActiveCompensationITF({ formData }) &&
+            formData.benefitSelection[veteranBenefits.PENSION] && (
               <div>
                 <h2>
                   You’ve already submitted an intent to file for disability
@@ -108,12 +122,18 @@ export const ConfirmationPage = props => {
                   Our records show that you already have an intent to file for
                   disability compensation. Your intent to file for disability
                   compensation expires on{' '}
-                  {data['view:activeCompensationITF'].expirationDate}.
+                  {format(
+                    new Date(
+                      formData['view:activeCompensationITF'].expirationDate,
+                    ),
+                    'MMMM d, yyyy',
+                  )}
+                  .
                 </p>
               </div>
             )}
-          {hasActivePensionITF({ formData: data }) &&
-            data.benefitSelection[veteranBenefits.COMPENSATION] && (
+          {hasActivePensionITF({ formData }) &&
+            formData.benefitSelection[veteranBenefits.COMPENSATION] && (
               <div>
                 <h2>
                   You’ve already submitted an intent to file for pension claims
@@ -121,7 +141,12 @@ export const ConfirmationPage = props => {
                 <p>
                   Our records show that you already have an intent to file for
                   pension claims. Your intent to file for pension claims expires
-                  on {data['view:activePensionITF'].expirationDate}.
+                  on{' '}
+                  {format(
+                    new Date(formData['view:activePensionITF'].expirationDate),
+                    'MMMM d, yyyy',
+                  )}
+                  .
                 </p>
               </div>
             )}
@@ -129,10 +154,10 @@ export const ConfirmationPage = props => {
       )}
       <div>
         <h2>What are my next steps?</h2>
-        {confirmationPageNextStepsParagraph(data) ? (
+        {confirmationPageNextStepsParagraph(formData) ? (
           <>
             <p>You should complete and file your claims as soon as possible.</p>
-            <p>{confirmationPageNextStepsParagraph(data)}</p>
+            <p>{confirmationPageNextStepsParagraph(formData)}</p>
           </>
         ) : (
           <p>
@@ -144,8 +169,8 @@ export const ConfirmationPage = props => {
           </p>
         )}
       </div>
-      {(hasActiveCompensationITF({ formData: data }) ||
-        data.benefitSelection[veteranBenefits.COMPENSATION]) && (
+      {(hasActiveCompensationITF({ formData }) ||
+        formData.benefitSelection[veteranBenefits.COMPENSATION]) && (
         <div>
           <a
             className="vads-c-action-link--blue vads-u-margin-y--2"
@@ -155,8 +180,8 @@ export const ConfirmationPage = props => {
           </a>
         </div>
       )}
-      {(hasActivePensionITF({ formData: data }) ||
-        data.benefitSelection[veteranBenefits.PENSION]) && (
+      {(hasActivePensionITF({ formData }) ||
+        formData.benefitSelection[veteranBenefits.PENSION]) && (
         <div>
           <a
             className="vads-c-action-link--blue vads-u-margin-y--2"
@@ -166,7 +191,7 @@ export const ConfirmationPage = props => {
           </a>
         </div>
       )}
-      {data.benefitSelection[survivingDependentBenefits.SURVIVOR] && (
+      {formData.benefitSelection[survivingDependentBenefits.SURVIVOR] && (
         <div>
           <a
             className="vads-c-action-link--blue vads-u-margin-y--2"
@@ -176,7 +201,7 @@ export const ConfirmationPage = props => {
           </a>
         </div>
       )}
-      {!confirmationPageFormBypassed(data) && (
+      {!confirmationPageFormBypassed(formData) && (
         <a className="vads-c-action-link--green vads-u-margin-y--2" href="/">
           Go back to VA.gov
         </a>

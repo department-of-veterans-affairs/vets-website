@@ -26,9 +26,15 @@ describe('Get care summaries and notes list action', () => {
     const mockData = notes;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getCareSummariesAndNotesList()(dispatch).then(() => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
-    });
+    return getCareSummariesAndNotesList()(dispatch)
+      .then(() => {
+        throw new Error(
+          'Expected getCareSummariesAndNotesList() to throw an error.',
+        );
+      })
+      .catch(() => {
+        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+      });
   });
 });
 

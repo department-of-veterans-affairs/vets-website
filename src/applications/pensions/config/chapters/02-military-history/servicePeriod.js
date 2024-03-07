@@ -9,17 +9,20 @@ import {
   serviceNumberUI,
   checkboxGroupUI,
   checkboxGroupSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
+
 import { serviceBranchLabels } from '../../../labels';
-import { wartimeWarning, servedDuringWartime } from '../../../helpers';
+import { WartimeWarningAlert } from '../../../components/FormAlerts';
+import { servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Service period',
+    ...titleUI('Service period'),
     serviceBranch: checkboxGroupUI({
       title: 'Branch of service',
       labels: serviceBranchLabels,
@@ -50,7 +53,7 @@ export default {
       );
 
       return {
-        'ui:description': wartimeWarning,
+        'ui:description': WartimeWarningAlert,
         'ui:options': {
           hideIf: hideWartimeWarning,
         },
