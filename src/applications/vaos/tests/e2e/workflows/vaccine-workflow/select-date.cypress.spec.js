@@ -182,6 +182,7 @@ describe('VAOS select appointment date', () => {
         .clone()
         .endOf('month')
         .date();
+
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
@@ -228,14 +229,13 @@ describe('VAOS select appointment date', () => {
 
       DateTimeSelectPageObject.assertUrl()
         // Account for 1st call returning 2 months of slots
-        // if endOfMonthDate then 1st call returns 1 month of slots
-        .clickNextMonth()
         .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
         .assertCallCount({
           alias: '@v2:get:slots',
           count: todayDate < endOfMonthDate ? 2 : 3,
         });
+
       // Assert
       cy.axeCheckBestPractice();
     });

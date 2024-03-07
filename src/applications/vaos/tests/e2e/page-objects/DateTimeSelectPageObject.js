@@ -34,11 +34,19 @@ export class DateTimeSelectPageObject extends PageObject {
   }
 
   clickNextMonth() {
+    const todayDate = moment().date();
+    const endOfMonthDate = moment()
+      .clone()
+      .endOf('month')
+      .date();
+
     cy.contains('button', 'Next')
       .as('button')
       .should('not.be.disabled')
       .focus();
     cy.get('@button').click();
+
+    if (todayDate <= endOfMonthDate) cy.get('@button').click();
 
     return this;
   }
