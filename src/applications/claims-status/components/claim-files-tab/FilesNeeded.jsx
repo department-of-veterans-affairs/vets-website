@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
-import { getTrackedItemId, truncateDescription } from '../utils/helpers';
-import DueDate from './DueDate';
+import { getTrackedItemId, truncateDescription } from '../../utils/helpers';
+import DueDate from '../DueDate';
 
 function FilesNeeded({ id, item }) {
   return (
