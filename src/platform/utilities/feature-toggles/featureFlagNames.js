@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  accreditedRepresentativePortalFrontend: 'accredited_representative_portal_frontend',
   authExpVbaDowntimeMessage: 'auth_exp_vba_downtime_message',
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
@@ -183,7 +184,6 @@ export default Object.freeze({
   ratedDisabilitiesDetectDiscrepancies:
     'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
-  representativesPortalFrontend: 'representatives_portal_frontend',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
