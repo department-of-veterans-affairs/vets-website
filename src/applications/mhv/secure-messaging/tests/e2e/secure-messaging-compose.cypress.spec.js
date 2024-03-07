@@ -4,10 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
-// Skip in CI due to flakiness
-const testSuite = Cypress.env('CI') ? describe.skip : describe;
-
-testSuite('Secure Messaging Compose', () => {
+describe('Secure Messaging Compose', () => {
   const landingPage = new PatientInboxPage();
   const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
