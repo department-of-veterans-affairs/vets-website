@@ -56,7 +56,7 @@ const SearchResult = ({
 
   useEffect(
     () => {
-      if (!reportModalIsShowing && !reportsAreInitialized) {
+      if (!reportModalIsShowing && !reportsAreInitialized.current) {
         // scroll and focus behavior depends on whether a report was successfully created
         if (reports && Object.keys(reports).length > prevReportCount.current) {
           prevReportCount.current += 1;
@@ -70,12 +70,12 @@ const SearchResult = ({
         reportsAreInitialized.current = false;
       }
     },
-    [reportModalIsShowing, isErrorReportSubmission],
+    [reportModalIsShowing],
   );
 
   useEffect(
     () => {
-      if (!isErrorReportSubmission && !submissionErrorsAreInitialized) {
+      if (!isErrorReportSubmission && !submissionErrorsAreInitialized.current) {
         scrollTo(`#report-button-${representativeId}`);
         focusElement(`#report-button-${representativeId}`);
       } else {
