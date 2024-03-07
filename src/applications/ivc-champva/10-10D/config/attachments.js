@@ -37,7 +37,7 @@ export const fileWithMetadataSchema = possibleFiles => {
     minItems: 1,
     items: {
       type: 'object',
-      required: ['attachmentId'],
+      required: ['attachmentId', 'name'],
       properties: {
         name: {
           type: 'string',

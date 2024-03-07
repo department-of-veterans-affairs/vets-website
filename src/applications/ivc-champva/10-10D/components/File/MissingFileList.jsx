@@ -9,6 +9,7 @@ import { makeHumanReadable } from '../../helpers/utilities';
 // List of required files - not enforced by the form because we want
 // users to be able to opt into mailing these documents.
 export const requiredFiles = [
+  'sponsorCasualtyReport',
   'applicantStepMarriageCert',
   'applicantAdoptionPapers',
   'applicantSchoolCert',
@@ -94,6 +95,8 @@ export default function MissingFileList({
       <h4>{title || ''}</h4>
       <p>{description || ''}</p>
       {wrapped.map((entry, idx) => {
+        if (entry?.missingUploads.filter(f => inSubset(f)).length === 0)
+          return <></>;
         const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
           ''} ${entry[nameKey].last} ${entry[nameKey]?.suffix || ''}`;
         return (
