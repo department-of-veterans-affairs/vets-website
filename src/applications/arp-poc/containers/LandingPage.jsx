@@ -6,17 +6,24 @@ import { selectUser } from '../selectors/user';
 import { SIGN_IN_URL } from '../constants';
 
 export default function LandingPage() {
-  const user = useSelector(selectUser);
-
   return (
     <>
       <div>Landing page</div>
-
-      {user ? (
-        <Link to="/dashboard">Dashboard</Link>
-      ) : (
-        <a href={SIGN_IN_URL}>Sign in or create an account</a>
-      )}
+      <UserAction />
     </>
   );
+}
+
+function UserAction() {
+  const { isLoading, profile } = useSelector(selectUser);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!profile) {
+    return <a href={SIGN_IN_URL}>Sign in or create an account</a>;
+  }
+
+  return <Link to="/dashboard">Dashboard</Link>;
 }
