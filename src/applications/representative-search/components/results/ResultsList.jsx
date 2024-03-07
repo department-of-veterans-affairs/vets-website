@@ -67,14 +67,15 @@ ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
   inProgress: PropTypes.bool,
+  initializeRepresentativeReport: PropTypes.func,
   pagination: PropTypes.object,
   query: PropTypes.object,
+  reportSubmissionStatus: PropTypes.string,
   representativeTypeName: PropTypes.string,
   searchError: PropTypes.object,
   searchResults: PropTypes.array,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
-  initializeRepresentativeReport: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

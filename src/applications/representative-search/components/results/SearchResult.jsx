@@ -210,9 +210,11 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
+  initializeRepresentativeReport: PropTypes.func,
   officer: PropTypes.string,
   phone: PropTypes.string,
   query: PropTypes.object,
+  reportSubmissionStatus: PropTypes.string,
   reports: PropTypes.shape({
     phone: PropTypes.string,
     email: PropTypes.string,
@@ -220,9 +222,9 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
+  setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
-  initializeRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,
 };
