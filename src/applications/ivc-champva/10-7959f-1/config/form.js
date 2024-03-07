@@ -1,13 +1,18 @@
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
-  inlineTitleUI,
-  titleSchema,
   fullNameUI,
   fullNameSchema,
+  titleUI,
+  titleSchema,
+  dateOfBirthUI,
+  dateOfBirthSchema,
   addressUI,
   addressSchema,
-  titleUI,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -54,21 +59,26 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: "Veteran's Information",
       pages: {
         page1: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran Personal Information',
           uiSchema: {
-            fullNameTitle: inlineTitleUI('Your name'),
+            ...titleUI(
+              "Veteran's personal information",
+              'We use this information to contact you and verify other details.',
+            ),
             fullName: fullNameUI(),
+            veteranDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['fullName', 'veteranDOB'],
             properties: {
-              fullNameTitle: titleSchema,
+              titleSchema,
               fullName: fullNameSchema,
+              veteranDOB: dateOfBirthSchema,
             },
           },
         },
@@ -104,6 +114,39 @@ const formConfig = {
             properties: {
               titleSchema,
               physicalAddress: addressSchema(),
+            },
+          },
+        },
+        page4: {
+          path: 'mailing-address',
+          title: "Veteran's mailing address",
+          uiSchema: {
+            ...titleUI("Veteran's mailing address"),
+            mailingAddress: addressUI(),
+          },
+          schema: {
+            type: 'object',
+            required: 'mailingAddress',
+            properties: {
+              titleSchema,
+              mailingAddress: addressSchema(),
+            },
+          },
+        },
+        page5: {
+          path: 'contact-info',
+          title: "Veteran's contact information",
+          uiSchema: {
+            ...titleUI("Veteran's contact information"),
+            phoneNumber: phoneUI(),
+            emailAddress: emailUI(),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              phoneNumber: phoneSchema,
+              emailAddress: emailSchema,
             },
           },
         },

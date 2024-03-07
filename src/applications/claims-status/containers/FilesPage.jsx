@@ -15,8 +15,9 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
-import AdditionalEvidencePage from './AdditionalEvidencePage';
-import ClaimFileHeader from '../components/ClaimFileHeader';
+import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
+import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
+import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
@@ -26,6 +27,7 @@ import {
   setDocumentTitle,
   getFilesNeeded,
   getFilesOptional,
+  isClaimOpen,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 import { DATE_FORMATS } from '../constants';
@@ -34,24 +36,6 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('INITIAL_REVIEW', 'INITIAL_REVIEW');
-  map.set(
-    'EVIDENCE_GATHERING_REVIEW_DECISION',
-    'EVIDENCE_GATHERING_REVIEW_DECISION',
-  );
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
-
-const STATUSES = getStatusMap();
 
 // START lighthouse_migration
 const getClaimDate = claim => {
@@ -106,7 +90,7 @@ class FilesPage extends React.Component {
       supportingDocuments,
       trackedItems,
     } = claim.attributes;
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const waiverSubmitted = claim.attributes.evidenceWaiverSubmitted5103;
     const showDecision =
       claim.attributes.claimPhaseDates.latestPhaseType ===
@@ -126,39 +110,41 @@ class FilesPage extends React.Component {
 
     return (
       <div>
-        {isOpen && (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            {isOpen && (
               <RequestedFilesInfo
                 id={claim.id}
                 filesNeeded={filesNeeded}
                 optionalFiles={optionalFiles}
               />
-            </Toggler.Disabled>
-            <Toggler.Enabled>
-              <ClaimFileHeader />
-              <AdditionalEvidencePage />
-            </Toggler.Enabled>
-          </Toggler>
-        )}
-        {showDecision && <AskVAToDecide id={params.id} />}
-        <div className="submitted-files-list">
-          <h2 className="claim-file-border">Documents filed</h2>
-          {documentsTurnedIn.length === 0 ? (
-            <div>
-              <p>You haven’t turned in any documents to VA.</p>
-            </div>
-          ) : null}
+            )}
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <div className="submitted-files-list">
+              <h2 className="claim-file-border">Documents filed</h2>
+              {documentsTurnedIn.length === 0 ? (
+                <div>
+                  <p>You haven’t turned in any documents to VA.</p>
+                </div>
+              ) : null}
 
-          {documentsTurnedIn.map(
-            (item, itemIndex) =>
-              item.status && item.id ? (
-                <SubmittedTrackedItem item={item} key={itemIndex} />
-              ) : (
-                <AdditionalEvidenceItem item={item} key={itemIndex} />
-              ),
-          )}
-        </div>
+              {documentsTurnedIn.map(
+                (item, itemIndex) =>
+                  item.status && item.id ? (
+                    <SubmittedTrackedItem item={item} key={itemIndex} />
+                  ) : (
+                    <AdditionalEvidenceItem item={item} key={itemIndex} />
+                  ),
+              )}
+            </div>
+          </Toggler.Disabled>
+          <Toggler.Enabled>
+            <ClaimFileHeader />
+            <AdditionalEvidencePage />
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <DocumentsFiled claim={claim} />
+          </Toggler.Enabled>
+        </Toggler>
       </div>
     );
   }
