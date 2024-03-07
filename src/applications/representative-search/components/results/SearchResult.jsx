@@ -139,6 +139,7 @@ const SearchResult = ({
                   tabIndex="0"
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={`${address} (opens in a new tab)`}
                 >
                   {addressLine1}{' '}
                   {addressLine2 ? (
