@@ -111,15 +111,15 @@ const ReportModal = ({
       });
     }
 
-    onCloseReportModal('Submit');
+    onCloseReportModal();
   };
 
   return (
     <>
       <VaModal
-        onCloseEvent={() => onCloseReportModal('Cancel')}
+        onCloseEvent={onCloseReportModal}
         onPrimaryButtonClick={onSubmitModal}
-        onSecondaryButtonClick={() => onCloseReportModal('Cancel')}
+        onSecondaryButtonClick={onCloseReportModal}
         primaryButtonText="Submit"
         secondaryButtonText="Cancel"
         visible

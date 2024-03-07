@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   focusElement,
@@ -20,16 +20,14 @@ const SearchResult = ({
   email,
   associatedOrgs,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
+  reportSubmissionStatus,
   reports,
   representativeId,
   query,
   setReportModalTester,
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
-
-  const reportsAreInitialized = useRef(true);
-
-  const prevReportCount = useRef(reports?.length || 0);
 
   const { contact, extension } = parsePhoneNumber(phone);
 
@@ -48,28 +46,20 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  const onCloseReportModal = action => {
-    if (action === 'Cancel' && reports) {
-      prevReportCount.current = Object.keys(reports).length;
-    }
+  const onCloseReportModal = () => {
     setReportModalIsShowing(false);
   };
 
   useEffect(
     () => {
-      if (!reportModalIsShowing && !reportsAreInitialized.current) {
-        // scroll and focus behavior depends on whether a report was successfully created
-        if (reports && Object.keys(reports).length > prevReportCount.current) {
-          prevReportCount.current += 1;
-          scrollTo(`#thank-you-alert-${representativeId}`);
-          focusElement(`#thank-you-alert-${representativeId}`);
-        } else {
-          scrollTo(`#report-button-${representativeId}`);
-          focusElement(`#report-button-${representativeId}`);
-        }
-      } else {
-        reportsAreInitialized.current = false;
+      if (reportSubmissionStatus === 'SUCCESS') {
+        scrollTo(`#thank-you-alert-${representativeId}`);
+        focusElement(`#thank-you-alert-${representativeId}`);
+      } else if (reportSubmissionStatus === 'CANCELLED') {
+        scrollTo(`#report-button-${representativeId}`);
+        focusElement(`#report-button-${representativeId}`);
       }
+      initializeRepresentativeReport();
     },
     [reportModalIsShowing],
   );
@@ -232,6 +222,7 @@ SearchResult.propTypes = {
   representativeId: PropTypes.string,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,
 };
