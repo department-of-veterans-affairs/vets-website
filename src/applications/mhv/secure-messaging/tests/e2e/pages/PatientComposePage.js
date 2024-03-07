@@ -281,13 +281,13 @@ class PatientComposePage {
       cy.get(Locators.FOLDERS.INBOX).click();
     }
     if (menuOption === 'Drafts') {
-      cy.get(Locators.FOLDERS.DRAFT).click();
+      cy.get(Locators.FOLDERS.DRAFTS).click();
     }
     if (menuOption === 'Sent') {
       cy.get(Locators.FOLDERS.SENT).click();
     }
     if (menuOption === 'Trash') {
-      cy.get(Locators.FOLDERS.Trash).click();
+      cy.get(Locators.FOLDERS.TRASH).click();
     }
     if (menuOption === 'My folders') {
       cy.get(Locators.FOLDERS.SIDEBAR).click();
