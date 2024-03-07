@@ -1035,18 +1035,6 @@ jobs:
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
 
-      - name: Merge Test results
-        run: |
-          cd qa-standards-dashboard-data/src/testing-reports/data
-          jq -s 'reduce .[] as $item ({}; . * $item)' > test-results.json
-          ls -a
-
-      - name: Merge coverage results
-        run: |
-          cd qa-standards-dashboard-data/coverage
-          jq -s 'reduce .[] as $item ({}; . * $item)' > test-coverage.json
-          ls -a
-
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
