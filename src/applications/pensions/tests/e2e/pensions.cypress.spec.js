@@ -29,6 +29,18 @@ const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 
 export const setup = ({ authenticated, isEnabled = true } = {}) => {
   const features = isEnabled ? featuresEnabled : featuresDisabled;
+
+  Cypress.on('window:before:load', window => {
+    const win = window;
+    const original = win.addEventListener;
+    win.addEventListener = function addEventListener(...args) {
+      if (args && args[0] === 'beforeunload') {
+        return null;
+      }
+      return original.apply(this, args);
+    };
+  });
+
   cy.intercept('GET', '/v0/feature_toggles*', features);
 
   cy.get('@testData').then(testData => {
