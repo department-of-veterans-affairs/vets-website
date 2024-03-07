@@ -20,9 +20,10 @@ export default {
     burialExpenseResponsibility: {
       ...yesNoUI({
         title: 'Are you responsible for the Veteran’s burial expenses?',
-        classNames: 'vads-u-margin-bottom--2',
       }),
-      // 'ui:required': form => form?.relationshipToVeteran,
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--2',
+      },
     },
   },
   schema: {

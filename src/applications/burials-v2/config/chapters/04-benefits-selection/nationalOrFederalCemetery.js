@@ -5,11 +5,16 @@ import { generateTitle } from '../../../utils/helpers';
 export default {
   uiSchema: {
     'ui:title': generateTitle('Cemetery location'),
-    nationalOrFederal: yesNoUI({
-      title:
-        'Was the Veteran buried in a VA national cemetery or another federal cemetery?',
-      classNames: 'vads-u-margin-bottom--2',
-    }),
+    nationalOrFederal: {
+      ...yesNoUI({
+        title:
+          'Was the Veteran buried in a VA national cemetery or another federal cemetery?',
+        classNames: 'vads-u-margin-bottom--2',
+      }),
+      'ui:options': {
+        classNames: 'vads-u-margin-top--0',
+      },
+    },
     name: {
       'ui:title': 'Name of cemetery',
       'ui:required': form => form?.nationalOrFederal,

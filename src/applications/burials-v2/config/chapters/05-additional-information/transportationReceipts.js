@@ -38,9 +38,11 @@ export default {
         fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
         confirmRemove: true,
         uswds: true,
-        classNames: 'vads-u-font-size--md',
       }),
       'ui:required': form => form?.transportationExpenses,
+      'ui:options': {
+        classNames: 'vads-u-font-size--md',
+      },
     },
   },
   schema: {

@@ -54,6 +54,7 @@ export default {
         serviceBranch: {
           'ui:title': 'Branch of service',
           'ui:webComponentField': VaTextInputField,
+          'ui:required': () => true,
           'ui:options': {
             widgetClassNames: 'form-select-medium',
             uswds: true,

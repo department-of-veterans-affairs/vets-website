@@ -19,8 +19,8 @@ export default {
         title:
           'Did the federal government, state government, or the Veteran’s employer pay any of the burial costs?',
         errorMessages: 'Select yes or no',
-        classNames: 'vads-u-margin-bottom--2',
       }),
+      'ui:options': { classNames: 'vads-u-margin-bottom--2' },
     },
     amountGovtContribution: {
       ...numberUI({

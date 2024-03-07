@@ -75,6 +75,8 @@ const IntroductionPage = ({ route }) => {
             href="/burials-memorials/veterans-burial-allowance"
             rel="noopener noreferrer"
             target="_blank"
+            aria-label="Learn more about requesting military service records (opens on new
+              tab)"
           >
             Learn more about requesting military service records (opens on new
             tab)
@@ -86,10 +88,16 @@ const IntroductionPage = ({ route }) => {
             An accredited representative, like a Veterans Service Officer (VSO),
             can help you fill out your application.
           </p>
-          <va-link
+          <a
             href="/disability/get-help-filing-claim/"
-            text="Learn more about getting help from an accredited representative (opens on new tab)"
-          />
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Learn more about getting help from an accredited representative
+            (opens on new tab)"
+          >
+            Learn more about getting help from an accredited representative
+            (opens on new tab)
+          </a>
         </va-process-list-item>
         <va-process-list-item header="Apply">
           <p>

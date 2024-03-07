@@ -11,6 +11,7 @@ import {
   VaTextInputField,
   VaSelectField,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+
 import { formatReviewDate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
@@ -64,26 +65,20 @@ export default {
       'ui:description': generateHelpText(
         'Enter this only if the deceased Veteran has one',
       ),
-      // ...numberUI({
-      //   title: 'Military Service number',
-      //   hint: 'testing hint',
-      // }),
       'ui:webComponentField': VaTextInputField,
-      'ui:reviewWidget': ({ value }) => (
-        <span className="dd-privacy-hidden" data-dd-action-name="data value">
-          {value}
-        </span>
-      ),
+      // 'ui:reviewField': () => <span />,
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
         uswds: true,
+        forceDivWrapper: true,
+        useDlWrap: true,
       },
     },
     toursOfDuty: {
       'ui:options': {
         itemName: 'Service period',
         viewField: ServicePeriodView,
-        hideTitle: true,
+        // hideTitle: true,
         uswds: true,
         classNames: 'vads-u-margin--0',
         reviewTitle: 'Service periods',

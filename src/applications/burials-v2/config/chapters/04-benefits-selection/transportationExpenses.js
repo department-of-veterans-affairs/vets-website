@@ -7,11 +7,15 @@ const { transportationExpenses } = fullSchemaBurials.properties;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Transportation allowance'),
-    transportationExpenses: yesNoUI({
-      title:
-        'Are you responsible for the for the transportation of the Veteran’s remains to the final resting place?',
-      classNames: 'vads-u-margin-bottom--2',
-    }),
+    transportationExpenses: {
+      ...yesNoUI({
+        title:
+          'Are you responsible for the for the transportation of the Veteran’s remains to the final resting place?',
+      }),
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--2',
+      },
+    },
   },
   schema: {
     type: 'object',
