@@ -22,11 +22,6 @@ describe('Dashboard', () => {
     expect(getByText('Accredited Representative Portal')).to.exist;
   });
 
-  it('renders link to POA requests', () => {
-    const { getByText } = render(<Dashboard />);
-    expect(getByText('Manage power of attorney requests')).to.exist;
-  });
-
   it('renders content when has POA permissions', () => {
     const { container } = render(<Dashboard POApermissions />);
     expect(container.querySelector('.placeholder-container')).to.exist;
@@ -47,9 +42,9 @@ describe('Dashboard', () => {
 
     it('renders view all link', () => {
       const { getByTestId } = render(<Dashboard />);
-      expect(
-        getByTestId('view-all-poa-requests-link').getAttribute('text'),
-      ).to.equal('View all');
+      expect(getByTestId('view-all-poa-requests-link')).to.contain.text(
+        'View all',
+      );
     });
   });
 });

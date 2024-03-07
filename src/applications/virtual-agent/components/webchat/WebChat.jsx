@@ -105,12 +105,15 @@ const WebChat = ({
     }
   }
 
+  const directlineDomain = process.env.USE_LOCAL_DIRECTLINE
+    ? 'http://localhost:3002/v3/directline'
+    : 'https://northamerica.directline.botframework.com/v3/directline';
+
   directLine = useMemo(
     () =>
       createDirectLine({
         token: directLineToken,
-        domain:
-          'https://northamerica.directline.botframework.com/v3/directline',
+        domain: directlineDomain,
         conversationId,
         watermark: '',
       }),

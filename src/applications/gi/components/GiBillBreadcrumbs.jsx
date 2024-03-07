@@ -1,13 +1,14 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useRouteMatch, Link } from 'react-router-dom';
-import { useQueryParams } from '../utils/helpers';
+import { giDocumentTitle, useQueryParams } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
   const profileMatch = useRouteMatch('/institution/:facilityCode');
   const compareMatch = useRouteMatch('/compare');
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
+  const crumbLiEnding = giDocumentTitle();
 
   const root = version
     ? {
@@ -23,7 +24,7 @@ const GiBillBreadcrumbs = () => {
       Education and training
     </a>,
     <Link to={root} key="main">
-      GI Bill® Comparison Tool
+      {crumbLiEnding}
     </Link>,
   ];
 

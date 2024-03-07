@@ -360,3 +360,45 @@ export const validateSearchTerm = (
 
   return !empty;
 };
+
+export const currentTab = () => {
+  const url = new URL(window.location);
+  const { searchParams } = url;
+  return searchParams.get('search');
+};
+
+export const isSearchInstitutionPage = () => {
+  const { pathname } = window.location;
+  const globalRegex = new RegExp(
+    '/education/gi-bill-comparison-tool/institution/',
+    'g',
+  );
+  return globalRegex.test(pathname);
+};
+
+export const isSearchByNamePage = () => {
+  return (
+    (currentTab() === 'name' || currentTab() === null) &&
+    !isSearchInstitutionPage()
+  );
+};
+
+export const isSearchByLocationPage = () => {
+  return currentTab() === 'location';
+};
+
+export const giDocumentTitle = () => {
+  let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const searchByName = isSearchByNamePage();
+  const searchByLocationPage = isSearchByLocationPage();
+  if (searchByName) {
+    crumbLiEnding += '(Search By Name)';
+  } else if (searchByLocationPage) {
+    crumbLiEnding += '(Search By Location)';
+  }
+  return crumbLiEnding;
+};
+
+export const setDocumentTitle = () => {
+  document.title = `${giDocumentTitle()} | Veterans Affairs`;
+};
