@@ -196,7 +196,9 @@ describe('VAOS upcoming appointment flow', () => {
     it('should display upcoming appointments list', () => {
       // Arrange
       const response = [
-        MockAppointmentResponse.createVAResponses({ localStartTime: moment() }),
+        MockAppointmentResponse.createVAResponses({
+          localStartTime: moment(),
+        }),
         MockAppointmentResponse.createCCResponses({
           localStartTime: moment()
             .clone()
@@ -630,7 +632,10 @@ describe('VAOS upcoming appointment flow', () => {
           .clone()
           .add(1, 'day'),
       });
-      responses[0].setLocationId('983').setClinicId(1);
+      responses[0]
+        .setLocationId('983')
+        .setClinicId(1)
+        .setPhysicalLocation('Room 1');
       mockAppointmentsGetApi({
         response: responses,
       });
@@ -661,7 +666,8 @@ describe('VAOS upcoming appointment flow', () => {
           text: /Type of care/,
         })
         .assertHeading({ name: /VA appointment/i, level: 2 })
-        .assertText({ text: /Clinic 1/i });
+        .assertText({ text: /Clinic 1/i })
+        .assertText({ text: /Room 1/i });
 
       cy.axeCheckBestPractice();
     });
@@ -849,7 +855,10 @@ describe('VAOS upcoming appointment flow', () => {
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: moment(),
       });
-      responses[0].setLocationId('983').setClinicId(1);
+      responses[0]
+        .setLocationId('983')
+        .setClinicId(1)
+        .setPhysicalLocation('Room 1');
       mockAppointmentsGetApi({
         response: responses,
       });
@@ -880,6 +889,9 @@ describe('VAOS upcoming appointment flow', () => {
         })
         .assertText({
           text: /You must join this video meeting from the VA location listed below./i,
+        })
+        .assertText({
+          text: /Room 1/i,
         })
         .assertJoinAppointment({ exist: false })
         .assertDirections()
@@ -976,56 +988,15 @@ describe('VAOS upcoming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should display appointment details for VA video appointment', () => {
-      // Arrange
-      const responses = MockAppointmentResponse.createClinicResponses({
-        localStartTime: moment(),
-      });
-      responses[0].setLocationId('983').setClinicId(1);
-      mockAppointmentsGetApi({
-        response: responses,
-      });
-      mockClinicsApi({
-        locationId: '983',
-        response: MockClinicResponse.createResponses({
-          locationId: '983',
-        }),
-      });
-      mockFacilityApi({
-        id: '983',
-        response: new MockFacilityResponse({
-          id: '983',
-        }),
-      });
-
-      // Act
-      cy.login(new MockUser());
-
-      AppointmentListPageObject.visit()
-        .assertAppointmentList({ numberOfAppointments: 1 })
-        .selectListItem();
-
-      // Assert
-      AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at VA location/,
-        })
-        .assertText({
-          text: /You must join this video meeting from the VA location listed below/i,
-        })
-        .assertJoinAppointment({ exist: false })
-        .assertAddToCalendar()
-        .assertPrint();
-
-      cy.axeCheckBestPractice();
-    });
-
     it('should display appointment details for store forward video appointment', () => {
       // Arrange
       const responses = MockAppointmentResponse.createStoreForwardResponses({
         localStartTime: moment(),
       });
-      responses[0].setLocationId('983').setClinicId(1);
+      responses[0]
+        .setLocationId('983')
+        .setClinicId(1)
+        .setPhysicalLocation('Room 1');
       mockAppointmentsGetApi({
         response: responses,
       });
@@ -1057,6 +1028,10 @@ describe('VAOS upcoming appointment flow', () => {
         .assertText({
           text: /You must join this video meeting from the VA location listed below./i,
         })
+        .assertText({
+          text: /Room 1/i,
+        })
+
         .assertJoinAppointment({ exist: false })
         .assertDirections()
         .assertAddToCalendar()
