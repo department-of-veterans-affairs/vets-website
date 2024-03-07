@@ -14,6 +14,16 @@ export const optionalDescription =
 export const requiredDescription =
   'These files are required to complete your application';
 
+// Return a boolean if there are any missing uploads where 'required'
+// matches expectedVal
+export function hasReq(data, isSponsor, expectedVal) {
+  return isSponsor
+    ? data.missingUploads.some(file => file.required === expectedVal)
+    : data.some(el =>
+        el.missingUploads.some(file => file.required === expectedVal),
+      );
+}
+
 export function checkFlags(pages, person, newListOfMissingFiles) {
   // TODO: in here, add a flag that indicates if upload is required
   const personUpdated = person; // shallow, updates reflect on actual form state
@@ -91,24 +101,77 @@ export default function SupportingDocumentsPage({
     }),
   );
 
-  // Update sponsor to identify missing uploads (not in use currently)
-  // checkFlags(data, identifyMissingUploads(pages, data, true));
+  // Update sponsor to identify missing uploads
+  const sponsorMiss = {
+    name: data.veteransFullName,
+    missingUploads: checkFlags(
+      pages,
+      data,
+      identifyMissingUploads(getConditionalPages(pages, data), data, true),
+    ).missingUploads,
+  };
 
-  const filesAreMissing = apps
-    .flatMap(app => app.missingUploads)
-    .some(file => file.uploaded === false);
+  const filesAreMissing =
+    apps
+      .flatMap(app => app.missingUploads)
+      .some(file => file.uploaded === false) ||
+    sponsorMiss.missingUploads.length > 0;
 
   return (
     <>
-      {/* TODO: conditional logic here based on required or optional */}
       {titleUI('Upload your supporting files')['ui:title']}
       {filesAreMissing ? (
-        <MissingFileList
-          data={apps}
-          nameKey="applicantName"
-          title="Optional"
-          description={optionalDescription}
-        />
+        <>
+          <p>
+            <i>
+              Any required supporting files that are not uploaded will need to
+              be mailed in before your application is considered complete
+            </i>
+          </p>
+          <p>
+            If you choose not to upload your files, we'll provide instructions
+            on how to send them to us by mail or fax.
+          </p>
+          <p>Uploading may result in a faster processing time.</p>
+
+          {hasReq(sponsorMiss, true, true) ? (
+            <MissingFileList
+              data={sponsorMiss}
+              nameKey="name"
+              title="Required"
+              subset="required"
+              description={requiredDescription}
+            />
+          ) : null}
+
+          {hasReq(sponsorMiss, true, false) ? (
+            <MissingFileList
+              data={sponsorMiss}
+              nameKey="name"
+              title="Optional"
+              subset="optional"
+              description={optionalDescription}
+            />
+          ) : null}
+          {hasReq(apps, false, true) ? (
+            <MissingFileList
+              data={apps}
+              nameKey="applicantName"
+              title="Required"
+              subset="required"
+              description={requiredDescription}
+            />
+          ) : null}
+          {hasReq(apps, false, false) ? (
+            <MissingFileList
+              data={apps}
+              nameKey="applicantName"
+              title="Optional"
+              subset="optional"
+              description={optionalDescription}
+            />
+          ) : null}
+        </>
       ) : (
         <>
           <VaAlert status="success" uswds>

@@ -16,17 +16,8 @@ import { mailInfo } from '../containers/ConfirmationPage';
 import {
   optionalDescription,
   requiredDescription,
+  hasReq,
 } from './SupportingDocumentsPage';
-
-// Return a boolean if there are any missing uploads where 'required'
-// matches expectedVal
-export function hasReq(data, isSponsor, expectedVal) {
-  return isSponsor
-    ? data.missingUploads.some(file => file.required === expectedVal)
-    : data.some(el =>
-        el.missingUploads.some(file => file.required === expectedVal),
-      );
-}
 
 export function MissingFileConsentPage(props) {
   const { data } = props;
@@ -165,7 +156,7 @@ export function MissingFileConsentPage(props) {
       ) : null}
       {sponsorMissingFiles.missingUploads || applicantsWithMissingFiles ? (
         <>
-          {mailInfo()}
+          {mailInfo}
           Your application will be considered complete upon submission
         </>
       ) : null}
