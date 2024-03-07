@@ -684,21 +684,21 @@ jobs:
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-video-artifacts
+          name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-screenshot-artifacts
+          name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-mochawesome-test-results
+          name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
 
@@ -1337,15 +1337,17 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-mochawesome-test-results
+          pattern: cypress-mochawesome-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-video-artifacts
+          pattern: cypress-mochawesome-test-results-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Create Cypress E2E Mochawesome report
         run: yarn cypress-mochawesome-to-bigquery
