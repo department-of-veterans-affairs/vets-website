@@ -1,61 +1,128 @@
-import React, { mapStateToProps } from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+/* eslint-disable camelcase */
+import React from 'react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
-import {
-  DOWNTIME_BANNER_CONFIG,
-  AUTH_DEPENDENCIES,
-} from 'platform/user/authentication/constants';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import DowntimeBanners from '../../../authentication/components/DowntimeBanner';
 
-const generateState = ({ serviceId = 'mvi', serviceDown = false }) => ({
-  externalServiceStatuses: {
-    loading: false,
-    shouldGetBackendStatuses: false,
-    statuses: AUTH_DEPENDENCIES.map(deps => ({
-      service: deps.toUpperCase(),
-      serviceId: deps,
-      status: serviceId === deps && serviceDown ? 'inactive' : 'active',
-    })),
-  },
-});
+const mockStore = configureStore([thunk]);
 
-describe.skip('DowntimeBanner', () => {
-  it.skip('should not display banner if statuses are active', () => {
-    const screen = renderInReduxProvider(<DowntimeBanners />, {
-      initialState: generateState({ serviceId: 'mvi', serviceDown: false }),
+describe('DowntimeBanners', () => {
+  it('does not render component when page is loading', () => {
+    const store = mockStore({
+      externalServiceStatuses: {
+        loading: true,
+      },
     });
 
-    expect(
-      screen.queryByText(
-        /You may have trouble signing in or using some tools or services/i,
-      ),
-    ).to.be.null;
+    const { container } = render(
+      <Provider store={store}>
+        <DowntimeBanners />
+      </Provider>,
+    );
+
+    expect(container.querySelector('.downtime-notification')).to.be.null;
   });
 
-  AUTH_DEPENDENCIES.forEach(csp => {
-    it.skip(`should display ${csp} banner when status is inactive`, () => {
-      const screen = renderInReduxProvider(<DowntimeBanners />, {
-        initialState: generateState({ serviceId: csp, serviceDown: true }),
-      });
-
-      const { headline } = DOWNTIME_BANNER_CONFIG[csp];
-
-      expect(screen.queryByText(headline)).to.not.be.null;
+  it('renders component with down status', () => {
+    const store = mockStore({
+      externalServiceStatuses: {
+        loading: false,
+        statuses: [{ service: 'mvi', serviceId: 'mvi', status: 'down' }],
+        maintenanceWindows: [],
+      },
     });
-  });
-});
 
-describe.skip('mapStateToProps', () => {
-  describe.skip('externalServiceStatuses', () => {
-    it.skip('should display props', () => {
-      expect(
-        mapStateToProps({
-          externalServiceStatuses: {
-            shouldGetBackendStatuses: true,
-            statuses: null,
+    const { container } = render(
+      <Provider store={store}>
+        <DowntimeBanners />
+      </Provider>,
+    );
+
+    expect(container.querySelector('.downtime-notification')).to.exist;
+    expect(container.querySelector('.form-warning-banner')).to.exist;
+  });
+
+  it('renders component with maintenance status', () => {
+    const store = mockStore({
+      externalServiceStatuses: {
+        loading: false,
+        statuses: [],
+        maintenanceWindows: [
+          {
+            external_service: 'mvi',
+            start_time: new Date(),
+            end_time: new Date(),
           },
-        }).shouldGetBackendStatuses,
-      ).to.be.true;
+        ],
+      },
     });
+
+    const { container } = render(
+      <Provider store={store}>
+        <DowntimeBanners />
+      </Provider>,
+    );
+
+    // Add assertions
+    expect(container.querySelector('.downtime-notification')).to.exist;
+    expect(container.querySelector('.form-warning-banner')).to.exist;
+  });
+
+  it('renders component with multiple statuses', () => {
+    const store = mockStore({
+      externalServiceStatuses: {
+        loading: false,
+        statuses: [
+          { service: 'mvi', serviceId: 'mvi', status: 'down' },
+          { service: 'other', serviceId: 'other', status: 'down' },
+        ],
+        maintenanceWindows: [],
+      },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <DowntimeBanners />
+      </Provider>,
+    );
+
+    expect(container.querySelector('.downtime-notification')).to.exist;
+    expect(container.querySelectorAll('.form-warning-banner')).to.have.lengthOf(
+      2,
+    );
+  });
+
+  it('renders component with multiple statuses & windows ', () => {
+    const st = new Date();
+    const store = mockStore({
+      externalServiceStatuses: {
+        loading: false,
+        statuses: [
+          { service: 'mvi', serviceId: 'mvi', status: 'down' },
+          { service: 'idme', serviceId: 'idme', status: 'down' },
+        ],
+        maintenanceWindows: [
+          {
+            external_service: 'logingov',
+            start_time: new Date(),
+            end_time: st.getTime() + 60 * 60 * 1000,
+          },
+        ],
+      },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <DowntimeBanners />
+      </Provider>,
+    );
+
+    expect(container.querySelector('.downtime-notification')).to.exist;
+    expect(container.querySelectorAll('.form-warning-banner')).to.have.lengthOf(
+      3,
+    );
   });
 });

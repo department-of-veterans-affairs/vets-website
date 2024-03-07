@@ -54,7 +54,6 @@ export default function DowntimeBanners() {
           startTime: window.start_time,
           endTime: window.end_time,
         }));
-
       return [...formattedStatus];
     };
 
@@ -63,9 +62,10 @@ export default function DowntimeBanners() {
       : null;
   }
 
-  bannerStatus = [downStatus, maintenanceStatus].filter(
-    status => status !== null,
-  );
+  const notNullCombined = (...arrays) =>
+    [].concat(...arrays.filter(Array.isArray));
+
+  bannerStatus = notNullCombined(downStatus, maintenanceStatus);
 
   return (
     !loading && (
