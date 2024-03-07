@@ -64,7 +64,7 @@ const Contact = ({
               <br />
             </React.Fragment>
           ))}
-        {primaryPhone}
+        <va-telephone contact={primaryPhone} not-clickable />
       </p>
     </div>
   );
