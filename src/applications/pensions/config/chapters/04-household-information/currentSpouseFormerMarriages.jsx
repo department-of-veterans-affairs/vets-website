@@ -10,6 +10,7 @@ import {
   fullNameSchema,
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
@@ -52,7 +53,7 @@ SpouseMarriageView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': SpouseMarriageTitle,
+    ...titleUI(SpouseMarriageTitle),
     'view:contactWarning': {
       'ui:description': ContactWarningAlert,
       'ui:options': {
