@@ -46,14 +46,6 @@ describe(`${appName} -- <App /> container`, () => {
     getByRole('heading', { name: 'My HealtheVet', level: 1 });
   });
 
-  // TODO: THIS TEST IS NOT COMPATIBLE WITH WEB COMPONENTS
-  // it('prompts to log in when logged out', () => {
-  //   const initialState = stateFn({ currentlyLoggedIn: false });
-  //   const { getByRole } = setup({ initialState });
-  //   // // getByRole('heading', { name: 'Sign in', level: 1 });
-  //   getByRole('progressbar', { name: 'Redirecting to login...' });
-  // });
-
   describe('renders a loading indicator when', () => {
     it('featureToggles is loading', () => {
       const initialState = stateFn({ featureTogglesLoading: true });
