@@ -305,5 +305,12 @@
   "you-can-submit-your-claim-now-in-this-tool": "You can submit your claim now in this tool or choose to file later.",
   "if-you-choose-to-file-later": "If you choose to file later, you can text <0>travel</0> to 54804 until the end of today. Or you can file within 30 days through the Beneficiary Travel Self-Service System (BTSSS).",
   "file-claim": "File claim",
-  "back": "Back"
+  "back": "Back",
+  "i-have-incurred-a-cost-in-relation": "I have incurred a cost in relation to the travel claim.",
+  "i-have-neither-obtained-transportion-at-government-expense": "I have neither obtained transportation at Government expense nor through the use of Government request, tickets, or tokens, and have not used any Government-owned convenience or incurred any expenses which may be presented as charges against the Department of Veterans Affairs for transportation, meals, or lodgings in connection with my authorized travel that is not herein claimed.",
+  "i-have-not-received-other-transportion-resources": "I have not received other transportation resources at no-cost to me.",
+  "i-am-the-only-person-claiming-for-the-travel-listed": "I am the only person claiming for the travel listed.",
+  "i-have-not-previously-received-payment": "I have not previously received payment for the transportation claimed.",
+  "finish-reviewing-your-travel-claim": "Finish reviewing your travel claim",
+  "by-submitting-this-claim": "By submitting this claim, you agree to the <0>beneficiary travel agreement</0>."
 }

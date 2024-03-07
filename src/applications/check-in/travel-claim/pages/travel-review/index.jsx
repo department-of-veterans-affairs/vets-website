@@ -20,6 +20,10 @@ const TravelQuestion = props => {
     e.preventDefault();
     jumpToPage('/travel-vehicle');
   };
+  const agreementLink = e => {
+    e.preventDefault();
+    jumpToPage('/travel-agreement');
+  };
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
@@ -84,22 +88,20 @@ const TravelQuestion = props => {
           uswds
         >
           <div slot="description">
-            <p>{t('by-submitting-claim')}</p>
-            <va-additional-info
-              uswds
-              trigger={t('beneficiary-travel-agreement')}
-              class="vads-u-margin-bottom--3"
-            >
-              <span className="vads-u-font-weight--bold">
-                {t('please-review')}
-              </span>
-              <ul>
-                <Trans
-                  i18nKey="certify-statements"
-                  components={[<li key="list-item" />]}
-                />
-              </ul>
-            </va-additional-info>
+            <p>
+              <Trans
+                i18nKey="by-submitting-this-claim"
+                components={[
+                  <a
+                    data-testid="travel-agreement-link"
+                    key="link"
+                    aria-label={t('beneficiary-travel-agreement')}
+                    href="travel-agreement"
+                    onClick={e => agreementLink(e)}
+                  />,
+                ]}
+              />
+            </p>
           </div>
         </VaCheckbox>
       </div>
