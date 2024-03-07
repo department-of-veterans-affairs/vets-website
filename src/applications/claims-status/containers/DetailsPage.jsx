@@ -3,15 +3,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import DetailsPageContent from '../components/evss/DetailsPageContent';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { DATE_FORMATS } from '../constants';
-import { cstUseLighthouse } from '../selectors';
-// END lighthouse_migration
 import {
   buildDateFormatter,
   getClaimType,
@@ -71,10 +66,7 @@ class DetailsPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, useLighthouse } = this.props;
-    if (!useLighthouse) {
-      return <DetailsPageContent claim={claim} />;
-    }
+    const { claim } = this.props;
 
     const { claimDate, claimType, contentions } = claim.attributes || {};
     const hasContentions = contentions && contentions.length;
@@ -113,18 +105,12 @@ class DetailsPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, synced, useLighthouse } = this.props;
+    const { claim, loading, synced } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
-
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
@@ -146,7 +132,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 
@@ -155,7 +140,6 @@ DetailsPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(DetailsPage);
