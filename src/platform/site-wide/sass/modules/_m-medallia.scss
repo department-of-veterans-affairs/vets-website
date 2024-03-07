@@ -398,4 +398,45 @@ button:not([disabled]):focus {
 ._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3vIIqCsHxivLQpx8AfcIkO:after {
   background-color: #005ea2 !important;
 }
- 
+
+/* rating scale*/
+._2tHW0cyET9DNu6CMvxGOlL {
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  display: flex;
+  justify-content: space-between;
+  color: #323a45 !important;
+}
+
+._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN:focus, ._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN:hover {
+  outline: 2px solid #face00 !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0 !important;
+}
+
+._1_7PScJ_jiqe-TBSrlCh24 ._3_foUkwcSeMY2vBraukrvR:hover{
+  outline: 2px solid #face00 !important;
+  border-color: transparent;
+}
+
+._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN {
+  background-color: #0071bc;
+}
+
+/* Rating Label */
+.ratingMinLabel, .ratingMaxLabel {
+  text-align: left;
+  width: 75px;
+}
+
+.ratingMaxLabel {
+  padding-left: 45px !important;   
+  padding-right: 20px !important;
+  text-align: right !important;
+  width: 80px !important;
+}
+
+.ratingMinLabel {
+  padding-right: 25px;
+}
