@@ -1,41 +1,49 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import asyncLoader from '../../ui/asyncLoader';
 
 describe('asyncLoader', () => {
-  it('should display loading indicator while waiting', () => {
-    const Component = asyncLoader(() => new Promise(f => f), 'Test loading');
+  it('should display loading indicator while waiting', async () => {
+    const content = 'Test loading content';
+    const Component = asyncLoader(() => new Promise(f => f), content);
 
-    const wrapper = shallow(<Component />);
+    const { container } = render(<Component />);
 
-    expect(wrapper.find('va-loading-indicator')).to.exist;
-    expect(
-      wrapper.find('va-loading-indicator').props('message').message,
-    ).to.eql('Test loading');
-    wrapper.unmount();
+    await waitFor(() => {
+      const loading = $('va-loading-indicator', container);
+      expect(loading).to.exist;
+      expect(loading.getAttribute('message')).to.eql(content);
+    });
   });
 
-  it('should display component returned from promise', () => {
+  it('should display component returned from promise', async () => {
     const promise = Promise.resolve(() => <div id="test">Test component</div>);
     const Component = asyncLoader(() => promise, 'Test loading');
 
-    const wrapper = shallow(<Component />);
+    const { container } = render(<Component />);
 
-    expect(wrapper.find('#test')).to.exist;
-    wrapper.unmount();
+    await waitFor(() => {
+      const component = $('#test', container);
+      expect(component).to.exist;
+      expect(component.textContent).to.eql('Test component');
+    });
   });
 
-  it('should unwrap default import if it exists', () => {
+  it('should unwrap default import if it exists', async () => {
     const promise = Promise.resolve({
-      default: () => <div id="test-default">Test component</div>,
+      default: () => <div id="test-default">Test component default</div>,
     });
     const Component = asyncLoader(() => promise, 'Test loading');
 
-    const wrapper = shallow(<Component />);
+    const { container } = render(<Component />);
 
-    expect(wrapper.find('#test-default')).to.exist;
-    wrapper.unmount();
+    await waitFor(() => {
+      const component = $('#test-default', container);
+      expect(component).to.exist;
+      expect(component.textContent).to.eql('Test component default');
+    });
   });
 });
