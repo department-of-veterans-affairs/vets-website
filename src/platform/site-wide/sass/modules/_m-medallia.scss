@@ -313,3 +313,89 @@
   line-height: 1.5 !important;
   margin-bottom: 0.5em !important
 }
+
+/*** form main body ***/
+
+.Bd0kav7yJm1LMydxzQxl, 
+.kZ-XEf4gwEwGXI371wgSZ, 
+._1wOydBgObqX6N_H4ZxO4E5, 
+._3qavF1mE7wQGkoUgHE1D75, 
+._2x6S50Ozibu2fOMgF5qDzt, 
+._2x6S50Ozibu2fOMgF5qDzt > p,
+.smallSurvey input {
+  font-family: "Source Sans Pro", sans-serif !important;
+  color: #3d4551 !important;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Specific Styles for question h2s*/
+._3qavF1mE7wQGkoUgHE1D75 {
+    display: inline-block;
+    font-weight: bold !important;
+    margin-bottom: 5px;
+    text-align: left !important;
+}
+
+/* empty header & close button */
+._1SPV2GZjz0ekDKiu5qBJ16 {
+    padding: 8px 0px !important; 
+    display: flex;
+    justify-content: flex-end;
+}
+
+._1wOydBgObqX6N_H4ZxO4E5, ._1BI5B2xY6xMD9hHPCMgWgM {
+  padding-bottom: 0 !important;
+}
+
+/* div above each component*/
+._1BI5B2xY6xMD9hHPCMgWgM {
+    margin-bottom: 25px !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+
+/* textbox, text area */
+._3VgxUzppbTclqye69HSxig, ._3LJt9oCN0ZNp9W7qDxV4Pb {
+  border-radius: 0px !important; 
+}
+
+/* muli options*/
+._2BCbSBZTAy3NNEkchW4JAl {
+  border: none !important;
+}
+
+/* Base styles for interactive elements */
+._2BCbSBZTAy3NNEkchW4JAl, .d2_RCwrIYw0j7I65dMyHx {
+  cursor: pointer !important; 
+  position: relative; 
+}
+
+/* Hover styles */
+._2BCbSBZTAy3NNEkchW4JAl:hover, .d2_RCwrIYw0j7I65dMyHx:hover,
+._2BCbSBZTAy3NNEkchW4JAl:focus, .d2_RCwrIYw0j7I65dMyHx { 
+  z-index: 1;
+  box-shadow: 0 0 0 0 !important;
+  outline: 2px solid #face00 !important;
+  outline-offset: 2px;
+}
+
+/* Enhanced focus styles for various form elements */
+.smallSurvey input:not([disabled]):focus, 
+select:not([disabled]):focus, 
+textarea:not([disabled]):focus, 
+button:not([disabled]):focus {
+  outline: 2px solid #face00 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #005ea2 !important;
+}
+/* coloring input checkboxes*/
+._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3gm0DTvejOVCp2Ui6X30hr:before {
+  background-color: #005ea2;
+  box-shadow: 0 0 0 2px  #ffffff, 0 0 0 4px #005ea2;
+}
+
+._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3vIIqCsHxivLQpx8AfcIkO:after {
+  background-color: #005ea2 !important;
+}
+ 
