@@ -19,8 +19,12 @@ import {
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
-import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { setFocus } from '../utils/page';
+import {
+  displayFileSize,
+  DOC_TYPES,
+  getTopPosition,
+} from '../../utils/helpers';
+import { setFocus } from '../../utils/page';
 import {
   validateIfDirty,
   isNotBlank,
@@ -33,9 +37,9 @@ import {
   FILE_TYPES,
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_MB,
-} from '../utils/validations';
-import UploadStatus from './UploadStatus';
-import mailMessage from './MailMessage';
+} from '../../utils/validations';
+import UploadStatus from '../UploadStatus';
+import mailMessage from '../MailMessage';
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });

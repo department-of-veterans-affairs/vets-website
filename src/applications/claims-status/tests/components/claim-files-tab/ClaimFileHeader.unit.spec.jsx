@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import ClaimFileHeader from '../../components/ClaimFileHeader';
+import ClaimFileHeader from '../../../components/claim-files-tab/ClaimFileHeader';
 
 describe('<ClaimFileHeader>', () => {
   it('should render a ClaimFileHeader section', () => {

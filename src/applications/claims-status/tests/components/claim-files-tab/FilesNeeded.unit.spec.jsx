@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { render } from '@testing-library/react';
-import FilesNeeded from '../../components/FilesNeeded';
+import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 
 describe('<FilesNeededOld>', () => {
   it('should render va-alert with item data', () => {
