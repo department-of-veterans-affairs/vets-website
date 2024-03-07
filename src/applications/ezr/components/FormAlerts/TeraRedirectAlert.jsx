@@ -25,7 +25,7 @@ export const TeraRedirectAlert = () => (
         information to determine if you may have had exposure to any toxins or
         other hazards. And we’ll determine if we’ll place you in a higher
         priority group. This may affect how much (if anything) you’ll have to
-        pay towards the cost of your care.
+        pay toward the cost of your care.
       </p>
       <p>
         These questions are only available on your PDF form at this time. If you

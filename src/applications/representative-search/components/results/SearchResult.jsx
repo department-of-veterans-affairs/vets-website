@@ -28,6 +28,9 @@ const SearchResult = ({
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
+  const reportsAreInitialized = useRef(true);
+  const submissionErrorsAreInitialized = useRef(true);
+
   const prevReportCount = useRef(reports?.length || 0);
 
   const { contact, extension } = parsePhoneNumber(phone);
@@ -53,7 +56,7 @@ const SearchResult = ({
 
   useEffect(
     () => {
-      if (!reportModalIsShowing) {
+      if (!reportModalIsShowing && !reportsAreInitialized.current) {
         // scroll and focus behavior depends on whether a report was successfully created
         if (reports && Object.keys(reports).length > prevReportCount.current) {
           prevReportCount.current += 1;
@@ -63,6 +66,8 @@ const SearchResult = ({
           scrollTo(`#report-button-${representativeId}`);
           focusElement(`#report-button-${representativeId}`);
         }
+      } else {
+        reportsAreInitialized.current = false;
       }
     },
     [reportModalIsShowing],
@@ -70,9 +75,11 @@ const SearchResult = ({
 
   useEffect(
     () => {
-      if (!isErrorReportSubmission) {
+      if (!isErrorReportSubmission && !submissionErrorsAreInitialized.current) {
         scrollTo(`#report-button-${representativeId}`);
         focusElement(`#report-button-${representativeId}`);
+      } else {
+        submissionErrorsAreInitialized.current = false;
       }
     },
     [isErrorReportSubmission],

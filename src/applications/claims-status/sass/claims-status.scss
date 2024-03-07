@@ -610,18 +610,6 @@ h1:focus {
   padding-left: 1em;
 }
 
-.submitted-file-list-item:nth-child(1) {
-  background-color: $color-red;
-}
-
-.submitted-file-list-item:nth-child(4) {
-  background-color: $color-gold;
-}
-
-.submitted-file-list-item:nth-child(6) {
-  background-color: $color-blue;
-}
-
 // Slimmed version of .claim-timeline with appeals-specific stuff
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
@@ -937,6 +925,15 @@ ol.va-list-horizontal {
 
 .submission-icon {
   margin-right: 6px;
+}
+
+.docs-filed-text {
+  font-weight: bold;
+}
+
+.docs-filed-icon {
+  margin-right: 6px;
+  color: $color-green;
 }
 
 .submission-description {
