@@ -14,13 +14,13 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 
-import AddFilesForm from '../../components/AddFilesForm';
+import AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
 import {
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_BYTES,
   MAX_PDF_SIZE_MB,
-} from '../../utils/validations';
+} from '../../../utils/validations';
 
 // NOTE: Trying to extract the web components that use React bindings with skin-deep is
 // a nightmare. Normally you can use something like the name of the component
