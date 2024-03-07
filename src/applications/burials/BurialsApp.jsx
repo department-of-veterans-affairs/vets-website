@@ -27,21 +27,12 @@ export default function BurialsEntry({ location, children }) {
     return <NoFormPage />;
   }
 
-  const metadataVersion2017 = 2;
-  const metadataVersion2024 = 3;
-
-  const hasV1Form = profile?.savedForms?.some(form => {
-    return (
-      form?.form === VA_FORM_IDS?.FORM_21P_530 &&
-      form?.metadata?.version === metadataVersion2017
-    );
-  });
-  const hasV2Form = profile?.savedForms?.some(form => {
-    return (
-      form.form === VA_FORM_IDS.FORM_21P_530 &&
-      form.metadata.version === metadataVersion2024
-    );
-  });
+  const hasV1Form = profile.savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_21P_530,
+  );
+  const hasV2Form = profile.savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_21P_530V2,
+  );
 
   const shouldUseV2 = hasV2Form || (burialFormV2 && !hasV1Form);
   if (shouldUseV2) {

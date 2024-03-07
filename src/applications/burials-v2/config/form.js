@@ -41,7 +41,6 @@ import deathCertificate from './chapters/05-additional-information/deathCertific
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 
 import { submit } from '../utils/helpers';
-import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 const {
@@ -61,7 +60,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  formId: VA_FORM_IDS.FORM_21P_530,
+  formId: VA_FORM_IDS.FORM_21P_530V2,
   saveInProgress: {
     messages: {
       inProgress: 'Your burial benefits application (21-530) is in progress.',
@@ -70,8 +69,8 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 3,
-  migrations,
+  version: 1,
+  migrations: [],
   prefillEnabled: true,
   downtime: {
     dependencies: [externalServices.icmhs],

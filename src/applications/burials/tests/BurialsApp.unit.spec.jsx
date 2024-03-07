@@ -126,15 +126,12 @@ describe('BurialsApp', () => {
   it('should redirect to v2 with in progress form', async () => {
     const mockStore = store({
       burialFormEnabled: true,
-      burialFormV2: false, // intentionally so.
+      burialFormV2: false, // intentionally false.
       featuresLoading: false,
       profileLoading: false,
       savedForms: [
         {
-          form: VA_FORM_IDS.FORM_21P_530,
-          metadata: {
-            version: 3,
-          },
+          form: VA_FORM_IDS.FORM_21P_530V2,
         },
       ],
     });
