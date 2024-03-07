@@ -1,0 +1,7 @@
+{
+  "appName": "ARP POC",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "arp-poc",
+  "rootUrl": "/arp-poc",
+  "productId": "13153241-8e13-4c32-8c4a-07b2aa47fa30"
+}
