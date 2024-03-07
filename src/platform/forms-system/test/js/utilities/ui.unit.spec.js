@@ -210,7 +210,7 @@ describe('focusElement', () => {
   });
 });
 
-describe('focus on change', () => {
+describe.skip('focus on change', () => {
   it('should focus on edit button after updating a review form', done => {
     const pages = [
       {

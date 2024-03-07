@@ -101,9 +101,7 @@ const runUnitTests = ({
       ? `--recursive ${allUnitTests}`
       : `--recursive '${unitTestPath}'`.replace(/,/g, ' ');
 
-  // --exit forces Mocha to exit for lingering ongoing processes
-  // read more: https://mochajs.org/#-exit
-  const commandToRun = `${command} ${testsToRun} --exit`;
+  const commandToRun = `${command} ${testsToRun}`;
   runCommand(commandToRun);
 };
 

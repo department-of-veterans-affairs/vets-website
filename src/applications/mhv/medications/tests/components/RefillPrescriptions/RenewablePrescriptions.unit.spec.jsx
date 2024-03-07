@@ -86,7 +86,6 @@ describe('Renew Prescriptions Component', () => {
   it('Shows the correct "last filled on" date (w/rxRfRecords) for renew', async () => {
     const screen = setup();
     const lastFilledEl = await screen.findByTestId(`renew-last-filled-0`);
-    screen.debug();
     expect(lastFilledEl).to.exist;
     const rx = prescriptions.find(
       ({ prescriptionId }) => prescriptionId === 22217089,

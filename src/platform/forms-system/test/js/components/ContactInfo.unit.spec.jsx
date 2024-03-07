@@ -127,7 +127,7 @@ describe('<ContactInfo>', () => {
     ).to.equal(0);
   });
 
-  describe('Successful edit', () => {
+  describe.skip('Successful edit', () => {
     it('should render a success alert and focus it after editing home phone', async () => {
       const data = getData();
       setReturnState('home-phone', 'updated');

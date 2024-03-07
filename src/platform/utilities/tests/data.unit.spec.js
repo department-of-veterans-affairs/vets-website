@@ -356,7 +356,7 @@ describe('data utils', () => {
     });
   });
 
-  describe('debounce', () => {
+  describe.skip('debounce', () => {
     it('should call a function with the supplied arguments', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(0, spy);

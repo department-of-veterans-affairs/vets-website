@@ -185,4 +185,14 @@ export const mochaHooks = {
     cleanupStorage();
     flushPromises();
   },
+  after() {
+    /**
+     * Seems like timers `setTimeout` & `setInterval` could be impacting JSDOM from garbage collection
+     * Using the `.close()` method on the shuts down the JSDOM window
+     * Optionally - there is also `--exit` for mocha for long running processes we can visit in the future
+     * Reference: https://github.com/jsdom/jsdom?tab=readme-ov-file#closing-down-a-jsdom
+     */
+    global?.window?.close();
+    window?.close();
+  },
 };

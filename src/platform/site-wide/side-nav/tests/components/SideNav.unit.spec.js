@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
-import SideNav from '../../components/SideNav';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import SideNav from '../../components/SideNav';
 
 describe('<SideNav>', () => {
   const firstID = uniqueId('sidenav_');
@@ -48,5 +48,7 @@ describe('<SideNav>', () => {
     wrapper.unmount();
   });
 
-  it('should pass axe check', () => axeCheck(<SideNav {...defaultProps} />));
+  // this will be skipped until axeCheck can be rewritten TODO: @asg5704
+  it.skip('should pass axe check', () =>
+    axeCheck(<SideNav {...defaultProps} />));
 });

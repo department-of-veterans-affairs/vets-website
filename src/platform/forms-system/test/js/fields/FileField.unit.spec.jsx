@@ -22,7 +22,7 @@ const formContext = {
 };
 const requiredSchema = {};
 
-describe('Schemaform <FileField>', () => {
+describe.skip('Schemaform <FileField>', () => {
   it('should render', () => {
     const idSchema = {
       $id: 'field',

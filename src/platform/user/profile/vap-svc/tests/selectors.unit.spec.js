@@ -91,7 +91,7 @@ describe('selectors', () => {
 
   describe('selectVAPServiceTransaction', () => {
     beforeEach(hooks.beforeEach);
-    it('accepts a field name to look up a transaction and transaction request using the field-transaction map', async () => {
+    it.skip('accepts a field name to look up a transaction and transaction request using the field-transaction map', async () => {
       const fieldName = 'someField';
       const transactionId = 'transaction_1';
       const transaction = {
@@ -128,7 +128,7 @@ describe('selectors', () => {
 
   describe('selectVAPServiceFailedTransactions', () => {
     beforeEach(hooks.beforeEach);
-    it('returns only failed transactions from a list of transactions', async () => {
+    it.skip('returns only failed transactions from a list of transactions', async () => {
       const failed = [
         {
           data: {

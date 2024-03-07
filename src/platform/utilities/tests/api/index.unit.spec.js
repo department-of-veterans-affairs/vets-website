@@ -183,11 +183,11 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
+        rest.get(`${environment.API_URL}/v0/status`, (req, res, ctx) =>
           res(ctx.status(404), ctx.json({})),
         ),
       );
-      await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
+      await fetchAndUpdateSessionExpiration(environment.BASE_URL);
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
       expect(checkAndUpdateSSOSessionMock.callCount).to.equal(0);
     });

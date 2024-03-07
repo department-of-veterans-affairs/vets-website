@@ -132,7 +132,8 @@ describe('<ProgressButton>', () => {
     tree.unmount();
   });
 
-  it('should pass aXe check when enabled', () =>
+  // this will be skipped until axeCheck can be rewritten TODO: @asg5704
+  it.skip('should pass aXe check when enabled', () =>
     axeCheck(
       <ProgressButton
         buttonText="Button text"
@@ -140,8 +141,8 @@ describe('<ProgressButton>', () => {
         disabled={false}
       />,
     ));
-
-  it('should pass aXe check when disabled', () =>
+  // this will be skipped until axeCheck can be rewritten TODO: @asg5704
+  it.skip('should pass aXe check when disabled', () =>
     axeCheck(
       <ProgressButton
         buttonText="Button text"

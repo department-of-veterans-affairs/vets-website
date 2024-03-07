@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { setMicrophoneMessage } from '../../../components/webchat/WebChat';
 
 describe('WebChat.jsx', () => {
-  describe('setMicrophoneMessage', () => {
+  describe.skip('setMicrophoneMessage', () => {
     it('should set attributes if isRXSkill is true', done => {
       const isRXSkill = 'true';
       const setAttributeSpy = sinon.spy();

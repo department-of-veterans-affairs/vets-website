@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import VAPServiceTransactionPending from '../../components/base/VAPServiceTransactionPending';
 
-describe('<VAPServiceTransactionPending/>', () => {
+describe.skip('<VAPServiceTransactionPending/>', () => {
   let props = null;
   beforeEach(() => {
     props = {

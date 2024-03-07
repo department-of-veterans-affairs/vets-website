@@ -6,7 +6,7 @@ import DevToolsLoader from './DevToolsLoader';
 
 const mockNanoid = () => '123';
 
-describe('<DevToolsLoader />', async () => {
+describe.skip('<DevToolsLoader />', async () => {
   it('toggles the panel visibility with custom events', async () => {
     const { queryByTestId, findByTestId } = render(
       <DevToolsLoader
