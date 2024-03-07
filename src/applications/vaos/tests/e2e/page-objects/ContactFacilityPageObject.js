@@ -13,7 +13,9 @@ export class ContactFacilityPageObject extends PageObject {
 
   assertUrl() {
     cy.url().should('include', 'contact-facility');
-    cy.wait('@v2:get:facilities');
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
+      'not.exist',
+    );
 
     cy.axeCheckBestPractice();
 
