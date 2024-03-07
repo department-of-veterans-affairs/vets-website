@@ -1012,35 +1012,6 @@ jobs:
           pattern: unit-test-report-*
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
-
-      - name: Download Unit Test coverage results
-        uses: ./.github/workflows/download-artifact
-        with:
-          pattern: unit-test-coverage-*
-          path: qa-standards-dashboard-data/coverage
-          merge-multiple: true
-
-      - name: Log directories
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/data
-          ls -a
-
-      - name: Log directories
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/coverage
-          ls -a 
-
-      - name: Generate coverage report by app
-        run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
-
-      - name: Archive coverage txt
-        if: ${{ always() }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-coverage-txt
-          path: qa-standards-dashboard-data/coverage/coverage_report.txt
       
       - name: Archive unit test coverage
         if: ${{ always() }}
@@ -1057,12 +1028,6 @@ jobs:
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
 
-      - name: Log directories
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/
-          ls -a
-
       - name: Upload Test Results to BigQuery
         continue-on-error: true
         run: yarn upload-unit-test-results
@@ -1074,21 +1039,7 @@ jobs:
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
-      # - name: Upload coverage report to S3
-      #   if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
-      #   run: |
-      #     if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
-      #       aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-      #     else
-      #       echo 'No coverage report exists as no tests were run.'
-      #     fi
-      # -------------------------
-      # | Unit Tests Summary |
-      # -------------------------
-      # - name: Get code coverage
-      #   if: ${{ always() }}
-      #   id: code-coverage
-      #   run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+
       
       - name: Unit test results
         if: ${{ always() }}
@@ -1100,16 +1051,7 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-      # - name: Publish test results
-      #   if: ${{ always() }}
-      #   continue-on-error: true
-      #   uses: ./.github/workflows/publish-test-results
-      #   with:
-      #     check_name: 'Unit Tests Summary'
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     report_paths: 'test-results/unit-tests.xml'
-      #     summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-      #     fail_on_failure: 'true'
+
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
@@ -1268,16 +1210,60 @@ jobs:
       # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
-
-      - name: Download Unit Test Coverage Report
+      - name: Download Unit Test coverage results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-coverage-report
-          path: qa-standards-dashboard-data/src/testing-reports/data
+          pattern: unit-test-coverage-*
+          path: qa-standards-dashboard-data/coverage
+          merge-multiple: true
+
+      # - name: Download Unit Test Coverage Report
+      #   uses: ./.github/workflows/download-artifact
+      #   with:
+      #     name: unit-test-coverage-report
+      #     path: qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+
+      - name: Archive coverage txt
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-coverage-txt
+          path: qa-standards-dashboard-data/coverage/coverage_report.txt
 
       - name: Process Coverage Report and post results to BigQuery
         run: yarn unit-coverage-to-bigquery
         working-directory: qa-standards-dashboard-data
+
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
+        run: |
+          if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
+            aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          else
+            echo 'No coverage report exists as no tests were run.'
+          fi
+      
+      # -------------------------
+      # | Unit Tests Summary |
+      # -------------------------
+      - name: Get code coverage
+        if: ${{ always() }}
+        id: code-coverage
+        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+
+      - name: Publish test results
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: ./.github/workflows/publish-test-results
+        with:
+          check_name: 'Unit Tests Summary'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/unit-tests.xml'
+          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+          fail_on_failure: 'true'
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
