@@ -6,7 +6,6 @@ import {
 
 const initialState = {
   isLoading: true,
-  error: null,
   profile: null,
 };
 
@@ -16,19 +15,16 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
-        error: null,
       };
     case FETCH_USER_SUCCESS:
       return {
-        ...state,
         isLoading: false,
         profile: action.payload,
       };
     case FETCH_USER_FAILURE:
       return {
-        ...state,
         isLoading: false,
-        error: action.payload,
+        profile: null,
       };
     default:
       return state;
