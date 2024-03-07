@@ -35,6 +35,7 @@ describe('check-in', () => {
               'travel-question': 'yes',
               'travel-address': 'yes',
               'travel-mileage': 'yes',
+              'travel-review': 'yes',
               'travel-vehicle': 'yes',
             },
             pages: [],
@@ -53,7 +54,7 @@ describe('check-in', () => {
     afterEach(() => {
       sandbox.restore();
     });
-    it.skip('Loads test component with hook', () => {
+    it('Loads test component with hook', () => {
       const screen = render(
         <Provider store={store}>
           <TestComponent />
