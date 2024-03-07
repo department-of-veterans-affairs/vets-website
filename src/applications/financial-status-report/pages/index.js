@@ -35,7 +35,6 @@ import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
 import * as bankruptcyHistory from './bankruptcy';
-import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
 import * as addIssue from './income/employmentEnhanced/addIssue';
 import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
@@ -85,7 +84,6 @@ export {
   resolutionComment,
   resolutionWaiverAgreement,
   bankruptcyHistory,
-  bankruptcyHistoryRecords,
   contactInformation,
   addIssue,
   employmentHistory,
