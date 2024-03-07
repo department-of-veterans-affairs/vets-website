@@ -77,7 +77,9 @@ import ApplicantMedicareStatusContinuedPage, {
 import ApplicantOhiStatusPage, {
   ApplicantOhiStatusReviewPage,
 } from '../pages/ApplicantOhiStatusPage';
-import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
+import SupportingDocumentsPage, {
+  hasReq,
+} from '../pages/SupportingDocumentsPage';
 
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
@@ -89,7 +91,7 @@ import {
 
 import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
-import {
+import FileViewField, {
   AppBirthCertReviewField,
   AppSchoolDocReviewField,
   AppAdoptionDocReviewField,
@@ -100,10 +102,7 @@ import {
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
-import {
-  MissingFileConsentPage,
-  hasReq,
-} from '../pages/MissingFileConsentPage';
+import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -414,6 +413,12 @@ const formConfig = {
           depends: formData =>
             get('sponsorIsDeceased', formData) &&
             get('sponsorDeathConditions', formData),
+          CustomPage: FileFieldCustom,
+          CustomPageReview: props =>
+            FileViewField(
+              props?.data.sponsorCasualtyReport || [],
+              `${sponsorWording(props?.data)} casualty report`,
+            ),
           uiSchema: {
             ...titleUI(
               'Required supporting file upload',
@@ -499,6 +504,12 @@ const formConfig = {
         page12: {
           path: 'sponsor-information/disability',
           title: 'Sponsor disability rating',
+          CustomPage: FileFieldCustom,
+          CustomPageReview: props =>
+            FileViewField(
+              props?.data.sponsorCasualtyReport || [],
+              `${sponsorWording(props?.data)} disability rating`,
+            ),
           uiSchema: {
             ...titleUI(
               'Optional supporting file upload',
@@ -527,6 +538,12 @@ const formConfig = {
         page12a: {
           path: 'sponsor-information/discharge-papers',
           title: 'Sponsor discharge papers',
+          CustomPage: FileFieldCustom,
+          CustomPageReview: props =>
+            FileViewField(
+              props?.data.sponsorCasualtyReport || [],
+              `${sponsorWording(props?.data)} discharge papers`,
+            ),
           uiSchema: {
             ...titleUI(
               'Optional supporting file upload',

@@ -57,7 +57,7 @@ export function getSponsorFileKeyNames(pages) {
         .map(el => {
           return {
             name: el,
-            path: undefined,
+            path: pages[page].path,
             required: requiredFiles.includes(el),
           };
         }),
