@@ -281,6 +281,7 @@ const responses = {
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
   // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
+  // 'GET /v0/profile/contacts': (_req, res) => res.status(500).json(genericErrors.error500), // simulate error
   'GET /v0/profile/contacts': contacts,
 };
 

@@ -40,7 +40,8 @@ const PersonalHealthCareContacts = ({
       </h1>
 
       {error && <LoadFail />}
-      {!error && loading ? <Loading /> : <Contacts data={data} />}
+      {!error && loading && <Loading />}
+      {!error && !loading && <Contacts data={data} />}
     </div>
   );
 };
