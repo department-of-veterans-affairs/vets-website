@@ -5,6 +5,7 @@ import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -37,7 +38,7 @@ CareExpenseView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add an unreimbursed care expense',
+    ...titleUI('Add an unreimbursed care expense'),
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',

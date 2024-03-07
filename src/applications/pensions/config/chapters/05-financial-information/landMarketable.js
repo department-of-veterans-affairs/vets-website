@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -19,7 +20,7 @@ const LandMarketableDescription = () => (
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Income and assets',
+    ...titleUI('Income and assets'),
     'ui:description': LandMarketableDescription,
     landMarketable: yesNoUI({
       title: 'Is the additional land marketable?',
