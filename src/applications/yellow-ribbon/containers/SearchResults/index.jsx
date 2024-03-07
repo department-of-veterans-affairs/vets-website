@@ -1,3 +1,6 @@
+/* eslint-disable react/sort-prop-types */
+/* eslint-disable react/static-property-placement */
+/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 // Dependencies.
 import React, { Component } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,6 +15,7 @@ import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
+import { getCurrentAcademicYear } from '../../helpers';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -47,6 +51,7 @@ export class SearchResults extends Component {
   }
 
   onPageSelect = page => {
+    // eslint-disable-next-line react/prop-types
     const { fetchResults, perPage } = this.props;
 
     // Derive the current name params.
@@ -200,9 +205,9 @@ export class SearchResults extends Component {
       );
     }
 
-    // Derive values for "Displayed x-x out of x results."
     const resultsStartNumber = deriveResultsStartNumber();
     const resultsEndNumber = deriveResultsEndNumber();
+    const academicYear = getCurrentAcademicYear();
 
     return (
       <>
@@ -212,11 +217,12 @@ export class SearchResults extends Component {
           tabIndex="-1"
         >
           <span role="text">
-            <span>Displaying {resultsStartNumber}</span>
+            <span>Showing {resultsStartNumber}</span>
             <span className="vads-u-visibility--screen-reader">through</span>
             <span aria-hidden="true">&ndash;</span>
             <span>
-              {resultsEndNumber} of {totalResults} results
+              {resultsEndNumber} of {totalResults} schools for academic year{' '}
+              {academicYear}.
             </span>
           </span>
         </h2>
