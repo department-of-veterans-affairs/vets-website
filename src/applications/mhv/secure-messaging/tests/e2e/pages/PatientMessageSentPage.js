@@ -4,6 +4,7 @@ import mockThreadResponse from '../fixtures/sentResponse/sent-thread-response.js
 import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-message-response.json';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import { Locators } from '../utils/constants';
 
 class PatientMessageSentPage {
   loadMessages = (mockMessagesResponse = mockSentMessages) => {
@@ -17,7 +18,7 @@ class PatientMessageSentPage {
       '/my_health/v1/messaging/folders/-1/threads**',
       mockMessagesResponse,
     ).as('sentFolderMessages');
-    cy.get('[data-testid="sent-sidebar"]').click();
+    cy.get(Locators.FOLDERS.SENT).click();
     cy.wait('@sentFolder');
     cy.wait('@sentFolderMessages');
   };
@@ -39,7 +40,7 @@ class PatientMessageSentPage {
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
-    cy.get('[data-testid="thread-list-item"]')
+    cy.get(Locators.THREADS)
       .first()
       .click();
   };
@@ -57,7 +58,7 @@ class PatientMessageSentPage {
       '/my_health/v1/messaging/folders/-1/search',
       sentSearchResponse,
     );
-    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
   clearFilter = () => {
@@ -67,7 +68,7 @@ class PatientMessageSentPage {
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('#select')
       .select(`${text}`, { force: true });
@@ -76,14 +77,14 @@ class PatientMessageSentPage {
       '/my_health/v1/messaging/folders/-1/threads**',
       sortedResponse,
     );
-    cy.get('[data-testid="sort-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
   };
 
   verifySorting = () => {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('[data-testid="received-date"]')
+      .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(JSON.stringify(listBefore));
@@ -91,7 +92,7 @@ class PatientMessageSentPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('[data-testid="received-date"]')
+          .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(JSON.stringify(listAfter));
@@ -102,23 +103,23 @@ class PatientMessageSentPage {
   };
 
   verifyFolderHeader = text => {
-    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+    cy.get(Locators.DATE_RECEIVED).should('have.text', `${text}`);
   };
 
   verifyResponseBodyLength = (responseData = mockSentMessages) => {
-    cy.get('[data-testid="thread-list-item"]').should(
+    cy.get(Locators.THREADS).should(
       'have.length',
       `${responseData.data.length}`,
     );
   };
 
   verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
-    cy.get('[data-testid="message-list-item"]').should(
+    cy.get(Locators.THREADS).should(
       'have.length',
       `${responseData.data.length}`,
     );
 
-    cy.get('[data-testid="highlighted-text"]').each(element => {
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
       cy.wrap(element)
         .invoke('text')
         .then(text => {

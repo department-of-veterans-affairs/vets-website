@@ -363,7 +363,7 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-    cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
     cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
@@ -377,7 +377,7 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-    cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
     cy.wait('@signature');
   };
 
@@ -391,8 +391,8 @@ class PatientInboxPage {
   navigatePrintCancelButton = () => {
     cy.tabToElement('[class="usa-button-secondary"]');
     cy.realPress(['Enter']);
-    cy.get('[data-testid="radio-print-one-message"]').should('be.visible');
-    cy.get('[data-testid="print-modal-popup"]')
+    cy.get(Locators.BUTTONS.PRINT_ONE_MESS).should('be.visible');
+    cy.get(Locators.ALERTS.MODAL_POPUP)
       .shadow()
       .find('button')
       .contains('Cancel')
@@ -402,10 +402,10 @@ class PatientInboxPage {
   navigateTrash = () => {
     cy.tabToElement(':nth-child(2) > .usa-button-secondary');
     cy.realPress(['Enter']);
-    cy.get('[data-testid="delete-message-confirm-note"] p')
+    cy.get(Locators.DELET_MES_CONFIRM)
       .contains('Messages in the trash folder')
       .should('be.visible');
-    cy.get('[data-testid="delete-message-modal"]')
+    cy.get(Locators.ALERTS.DELET_MES_MODAL)
       .shadow()
       .find('button')
       .contains('Cancel')
@@ -413,7 +413,7 @@ class PatientInboxPage {
   };
 
   navigateReply = () => {
-    cy.tabToElement('[data-testid="reply-button-body"]');
+    cy.tabToElement(Locators.BUTTONS.REPLY);
     cy.realPress(['Enter']);
   };
 
@@ -460,10 +460,10 @@ class PatientInboxPage {
       .shadow()
       .find('#select')
       .select(1, { force: true });
-    cy.get('[data-testid="compose-category-radio-button"]')
+    cy.get(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
       .first()
       .click();
-    cy.get('[data-testid="message-subject-field"]')
+    cy.get(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
       .type('testSubject', { force: true });
@@ -477,7 +477,7 @@ class PatientInboxPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('[data-testid="received-date"]')
+      .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
@@ -485,7 +485,7 @@ class PatientInboxPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('[data-testid="received-date"]')
+          .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting${JSON.stringify(listAfter)}`);
@@ -496,7 +496,7 @@ class PatientInboxPage {
   };
 
   verifySignature = () => {
-    cy.get('[data-testid="message-body-field"]')
+    cy.get(Locators.MESSAGES_BODY)
       .should('have.attr', 'value')
       .and('not.be.empty');
   };
@@ -519,12 +519,12 @@ class PatientInboxPage {
   };
 
   verifyFilterResults = (filterValue, responseData) => {
-    cy.get('[data-testid="message-list-item"]').should(
+    cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
     );
 
-    cy.get('[data-testid="highlighted-text"]').each(element => {
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
       cy.wrap(element)
         .invoke('text')
         .then(text => {
@@ -546,7 +546,7 @@ class PatientInboxPage {
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('#select')
       .select(`${text}`, { force: true });
@@ -555,11 +555,11 @@ class PatientInboxPage {
       '/my_health/v1/messaging/folders/0/threads**',
       sortedResponse,
     );
-    cy.get('[data-testid="sort-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
   };
 
   getInboxHeader = text => {
-    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
   verifyCernerFacilityNames(user, ehrData) {
@@ -601,19 +601,17 @@ class PatientInboxPage {
         }
         cy.log(`name = ${facilityName}`);
         if (cernerCount === 0) {
-          cy.get('[data-testid="cerner-facilities-alert"]').should(
-            'not.be.visible',
-          );
+          cy.get(Locators.ALERTS.CERNER_ALERT).should('not.be.visible');
         } else if (cernerCount === 1) {
-          cy.get('[data-testid="cerner-facilities-alert"]')
+          cy.get(Locators.ALERTS.CERNER_ALERT)
             .shadow()
-            .get('[data-testid="single-cerner-facility-text"]')
+            .get(Locators.CERNER_TEXT)
             .contains(facilityName);
           break;
         } else if (cernerCount > 1) {
-          cy.get('[data-testid="cerner-facilities-alert"]')
+          cy.get(Locators.ALERTS.CERNER_ALERT)
             .shadow()
-            .get('[data-testid="cerner-facility"]')
+            .get(Locators.CERNER)
             .eq(cernerIndex)
             .contains(facilityName);
         }

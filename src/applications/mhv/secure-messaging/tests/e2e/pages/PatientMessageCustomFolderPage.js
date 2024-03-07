@@ -144,7 +144,7 @@ class PatientMessageCustomFolderPage {
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
   ) => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('#select')
       .select(`${text}`);
@@ -153,14 +153,14 @@ class PatientMessageCustomFolderPage {
       `/my_health/v1/messaging/folders/${folderId}/threads**`,
       sortedResponse,
     );
-    cy.get('[data-testid="sort-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
   };
 
   verifySorting = () => {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('[data-testid="received-date"]')
+      .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting: ${listBefore.join(',')}`);
@@ -168,7 +168,7 @@ class PatientMessageCustomFolderPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('[data-testid="received-date"]')
+          .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting: ${listAfter.join(',')}`);
@@ -179,7 +179,7 @@ class PatientMessageCustomFolderPage {
   };
 
   VerifyFilterBtnExist = () => {
-    cy.get('[data-testid="filter-messages-button"]').contains('Filter');
+    cy.get(Locators.BUTTONS.FILTER).contains('Filter');
   };
 
   createCustomFolder = folderName => {

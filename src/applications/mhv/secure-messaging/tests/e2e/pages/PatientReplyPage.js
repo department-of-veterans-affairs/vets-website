@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
+import { Locators } from '../utils/constants';
 
 class PatientReplyPage {
   sendReplyMessage = messageId => {
@@ -9,7 +10,7 @@ class PatientReplyPage {
       `/my_health/v1/messaging/messages/${messageId}/reply`,
       mockMessage,
     ).as('replyMessage');
-    cy.get('[data-testid="Send-Button"]').click();
+    cy.get(Locators.BUTTONS.SEND).click();
     cy.wait('@replyMessage');
   };
 
@@ -21,7 +22,7 @@ class PatientReplyPage {
       }/reply`,
       mockReplyMessage,
     ).as('replyMessage');
-    cy.get('[data-testid="Send-Button"]').click();
+    cy.get(Locators.BUTTONS.SEND).click();
   };
 
   saveReplyDraft = (repliedToMessage, replyMessageBody) => {
@@ -38,7 +39,7 @@ class PatientReplyPage {
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get('[data-testid="Save-Draft-Button"]').click({
+    cy.get(Locators.BUTTONS.SAVE_DRAFT_BUTTON).click({
       waitForAnimations: true,
     });
     cy.wait('@replyDraftMessage').then(xhr => {
@@ -85,7 +86,7 @@ class PatientReplyPage {
       mockMessage,
     ).as('replyDraftMessage');
 
-    cy.get('[data-testid="Send-Button"]').click();
+    cy.get(Locators.BUTTONS.SEND).click();
     cy.wait('@replyDraftMessage').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -102,7 +103,7 @@ class PatientReplyPage {
 
   getMessageBodyField = () => {
     return cy
-      .get('[data-testid="message-body-field"]')
+      .get(Locators.MESSAGES_BODY)
       .shadow()
       .find('[name="reply-message-body"]');
   };
@@ -122,7 +123,7 @@ class PatientReplyPage {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {
       cy.log('message index = 0');
-      cy.get('[data-testid="message-date"]')
+      cy.get(Locators.MES_DATE)
         .eq(messageIndex)
         .should(
           'have.text',
@@ -132,7 +133,7 @@ class PatientReplyPage {
           )}`,
         );
     } else {
-      cy.get('[data-testid="message-date"]')
+      cy.get(Locators.MES_DATE)
         .eq(messageIndex)
         .should(
           'have.text',
@@ -145,7 +146,7 @@ class PatientReplyPage {
   };
 
   verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
-    cy.get('[data-testid="reply-form"]')
+    cy.get(Locators.REPLY_FORM)
       .find('h1')
       .should('have.text', "We can't save this message yet");
 
@@ -154,13 +155,13 @@ class PatientReplyPage {
   };
 
   verifyContnueButtonMessageDisplay = () => {
-    cy.get('[data-testid="reply-form"]')
+    cy.get(Locators.REPLY_FORM)
       .find('va-button')
       .should('have.attr', 'text', 'Continue editing');
   };
 
   verifyDeleteButtonMessageDisplay = () => {
-    cy.get('[data-testid="reply-form"]')
+    cy.get(Locators.REPLY_FORM)
       .find('va-button[secondary]')
       .should('have.attr', 'text', 'Delete draft');
   };
