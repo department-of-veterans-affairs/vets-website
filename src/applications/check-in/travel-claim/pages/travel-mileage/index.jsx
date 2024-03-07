@@ -151,7 +151,6 @@ const TravelMileage = props => {
           error={error ? t('select-one-or-more-appointments') : ''}
           uswds
           class="vads-u-margin-top--0 vads-u-margin-bottom--4"
-          label="test label"
         >
           {Object.keys(appointmentsByFacility).map(facility => (
             <VaCheckbox
