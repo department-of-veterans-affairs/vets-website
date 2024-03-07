@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import CrisisPanel from 'platform/site-wide/va-footer/components/CrisisPanel';
+import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -8,7 +9,6 @@ import {
   getLastSentMessage,
   navigateToFolderByFolderId,
   navigateToFoldersPage,
-  openCrisisModal,
   setCaretToPos,
   titleCase,
 } from '../../util/helpers';

@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DefaultFolders as Folders,
   Paths,
@@ -142,16 +141,6 @@ export const getLastSentMessage = messages => {
   );
 };
 
-// Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
-export const openCrisisModal = () => {
-  const modal = document.querySelector('#modal-crisisline');
-  modal.setAttribute(
-    'class',
-    `${modal.getAttribute('class')} va-overlay--open`,
-  );
-  focusElement(document.querySelector('a[href="tel:988"]'));
-};
-
 export const handleHeader = (folderId, folder) => {
   switch (folderId) {
     case Folders.INBOX.id: // Inbox
@@ -165,10 +154,6 @@ export const handleHeader = (folderId, folder) => {
     default:
       return folder.name;
   }
-};
-
-export const updatePageTitle = newTitle => {
-  document.title = newTitle;
 };
 
 export const updateMessageInThread = (thread, response) => {

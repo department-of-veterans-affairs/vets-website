@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import PropTypes from 'prop-types';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessageThread } from '../actions/messages';
@@ -12,7 +13,7 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
-import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
+import { navigateToFolderByFolderId } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 
 const ThreadDetails = props => {

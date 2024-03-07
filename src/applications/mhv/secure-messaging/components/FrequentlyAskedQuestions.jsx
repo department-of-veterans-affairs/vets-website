@@ -1,8 +1,8 @@
 import React from 'react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { useSelector } from 'react-redux';
+import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 import FeedbackEmail from './shared/FeedbackEmail';
-import { openCrisisModal } from '../util/helpers';
 import CrisisLineConnectButton from './CrisisLineConnectButton';
 
 const FrequentlyAskedQuestions = ({ prefLink }) => {
