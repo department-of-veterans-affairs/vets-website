@@ -86,15 +86,9 @@ export function SearchPage({
         'tab-text': `Search by ${tabName}`,
       });
       if (isSearchByNamePage()) {
-        // eslint-disable-next-line no-console
-        console.log(`----------isSearchByNamePage`);
         dispatchChangeSearchTab(TABS.name);
-        // tabChange(TABS.name);
       } else if (isSearchByLocationPage()) {
-        // eslint-disable-next-line no-console
-        console.log(`----------isSearchByNamePage`);
         dispatchChangeSearchTab(TABS.location);
-        // tabChange(TABS.location);
       }
     });
   };
