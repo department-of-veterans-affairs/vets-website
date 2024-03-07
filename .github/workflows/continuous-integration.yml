@@ -1032,8 +1032,8 @@ jobs:
           cd qa-standards-dashboard-data/coverage
           ls -a 
 
-      # - name: Generate coverage report by app
-      #   run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
 
       - name: Archive unit test results
         if: ${{ always() }}
