@@ -13,14 +13,15 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   return (
     <>
       {showLoginAlert ? (
-        <va-alert status="info" background-only>
-          <h2 className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--2">
+        <va-alert status="info" uswds>
+          <h2 slot="headline" className="vads-u-font-size--h3">
             Have you applied for VA health care before?
           </h2>
           <va-button
             text="Sign in to check your application status"
             onClick={() => toggleLoginModal(true, 'hcainfo')}
             data-testid="hca-login-alert-button"
+            uswds
           />
         </va-alert>
       ) : (
@@ -31,13 +32,24 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           downtime={formConfig.downtime}
           pageList={pageList}
           startText="Start the health care application"
-        />
+        >
+          <p>
+            You should know that we updated our online form.{' '}
+            <strong>If you started applying online before March 5, 2024</strong>
+            , we have some new questions for you to answer. And you may need to
+            provide certain information again.
+          </p>
+          <p>
+            Select <strong>Continue your application</strong> to use our updated
+            form, or come back later to finish your application.
+          </p>
+        </SaveInProgressIntro>
       )}
 
       <ProcessTimeline />
 
       {showLoginAlert ? (
-        <va-alert status="info" class="vads-u-margin-bottom--5">
+        <va-alert status="info" class="vads-u-margin-bottom--5" uswds>
           <h2 slot="headline">Save time and save your work in progress</h2>
           <p>Here’s how signing in now helps you:</p>
           <ul>

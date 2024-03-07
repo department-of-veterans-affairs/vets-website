@@ -33,9 +33,7 @@ describe('PeriodsToVerify', () => {
       },
     );
 
-    const verifyEnrollmentButton = screen.getByRole('button', {
-      name: 'Verify enrollment',
-    });
+    const verifyEnrollmentButton = screen.getByTestId('Verify enrollment');
     fireEvent.click(verifyEnrollmentButton);
     await waitFor(() => {
       const successMessage = screen.getByText(

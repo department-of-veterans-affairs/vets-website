@@ -1,20 +1,19 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
-  inlineTitleUI,
-  titleSchema,
   fullNameUI,
   fullNameSchema,
+  titleUI,
+  titleSchema,
+  dateOfBirthUI,
+  dateOfBirthSchema,
+  addressUI,
+  addressSchema,
   phoneUI,
   phoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../10-7959F-1-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
 
 import manifest from '../manifest.json';
 
@@ -60,66 +59,94 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: "Veteran's Information",
       pages: {
         page1: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran Personal Information',
           uiSchema: {
-            fullNameTitle: inlineTitleUI('Your name'),
+            ...titleUI(
+              "Veteran's personal information",
+              'We use this information to contact you and verify other details.',
+            ),
             fullName: fullNameUI(),
+            veteranDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['fullName', 'veteranDOB'],
             properties: {
-              fullNameTitle: titleSchema,
+              titleSchema,
               fullName: fullNameSchema,
+              veteranDOB: dateOfBirthSchema,
             },
           },
         },
         page2: {
-          path: 'sponsor-information/ssn',
-          title: 'Sponsor SSN and VA file number',
+          path: 'veteran-information/ssn',
+          title: 'Veteran SSN and VA file number',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor SSN or VA file number'),
+            ...titleUI(
+              `Veteran's identification information`,
+              `You must enter either a Social Security number of VA File number`,
+            ),
             ssn: ssnOrVaFileNumberUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
               ssn: ssnOrVaFileNumberSchema,
             },
           },
         },
         page3: {
-          path: 'contact-information',
-          title: 'Contact Information',
+          path: 'physical-address',
+          title: 'Physical Address',
           uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
+            ...titleUI("Veteran's home address (residence)"),
+            physicalAddress: addressUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['physicalAddress'],
+            properties: {
+              titleSchema,
+              physicalAddress: addressSchema(),
             },
-            altEmail: {
-              'ui:title': 'Secondary email',
+          },
+        },
+        page4: {
+          path: 'mailing-address',
+          title: "Veteran's mailing address",
+          uiSchema: {
+            ...titleUI("Veteran's mailing address"),
+            mailingAddress: addressUI(),
+          },
+          schema: {
+            type: 'object',
+            required: 'mailingAddress',
+            properties: {
+              titleSchema,
+              mailingAddress: addressSchema(),
             },
+          },
+        },
+        page5: {
+          path: 'contact-info',
+          title: "Veteran's contact information",
+          uiSchema: {
+            ...titleUI("Veteran's contact information"),
             phoneNumber: phoneUI(),
+            emailAddress: emailUI(),
           },
           schema: {
             type: 'object',
             properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
+              titleSchema,
               phoneNumber: phoneSchema,
+              emailAddress: emailSchema,
             },
           },
         },
