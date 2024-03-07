@@ -14,6 +14,8 @@ import { getMockData } from '../selectors/mockData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import { useData } from '../hooks/useData';
+import MoreInfoCard from '../components/MoreInfoCard';
+import NeedHelp from '../components/NeedHelp';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
@@ -48,6 +50,8 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
               )}
             />
             <PreviousEnrollmentVerifications enrollmentData={mockData} />
+            <MoreInfoCard marginTop="7" />
+            <NeedHelp />
             {children}
           </div>
         </div>
