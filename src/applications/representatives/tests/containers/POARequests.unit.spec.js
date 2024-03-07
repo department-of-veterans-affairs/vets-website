@@ -15,7 +15,6 @@ describe('POARequests page', () => {
 
     const breadcrumbs = container.querySelector('va-breadcrumbs');
     expect(within(breadcrumbs).getByText('Home')).to.exist;
-    expect(within(breadcrumbs).getByText('Dashboard')).to.exist;
     expect(within(breadcrumbs).getByText('POA requests')).to.exist;
   });
 
@@ -25,12 +24,12 @@ describe('POARequests page', () => {
   });
 
   it('renders content when has POA permissions', () => {
-    const { getByText } = render(<POARequests POApermissions />);
+    const { getByText } = render(<POARequests POAPermissions />);
     expect(getByText('Power of attorney requests')).to.exist;
   });
 
   it('renders alert header when does not have POA permissions', () => {
-    const { getByText } = render(<POARequests POApermissions={false} />);
+    const { getByText } = render(<POARequests POAPermissions={false} />);
     expect(getByText('You are missing some permissions')).to.exist;
   });
 
@@ -46,7 +45,7 @@ describe('POARequests page', () => {
     });
 
     it('renders table with mockPOARequests', () => {
-      const { getByTestId } = render(<POARequests />);
+      const { getByTestId } = render(<POARequests POAPermissions />);
       mockPOARequests.forEach(poaRequest => {
         expect(getByTestId(`${poaRequest.id}-claimant`)).to.contain.text(
           poaRequest.name,
