@@ -63,7 +63,6 @@ const MedicationsListSort = props => {
         ) : (
           <VaButton
             uswds
-            type="button"
             className="va-button"
             data-testid="sort-button"
             text="Sort"
