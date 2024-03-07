@@ -6,11 +6,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
+import { selectRefillContentFlag } from '../../util/selectors';
 
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
   const history = useHistory();
+  const showRefillContent = useSelector(selectRefillContentFlag);
   const [sortListOption, setSortListOption] = useState(value);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
@@ -38,24 +41,45 @@ const MedicationsListSort = props => {
         </VaSelect>
       </div>
       <div className="sort-button">
-        <VaButton
-          uswds
-          type="button"
-          className="va-button"
-          data-testid="sort-button"
-          text="Sort"
-          onClick={() => {
-            if (sortListOption) {
-              sortRxList(sortListOption);
-              history.push(`/?page=1`);
-              waitForRenderThenFocus(
-                "[data-testid='page-total-info']",
-                document,
-                500,
-              );
-            }
-          }}
-        />
+        {showRefillContent ? (
+          <VaButton
+            uswds
+            className="va-button"
+            secondary
+            data-testid="sort-button"
+            text="Sort"
+            onClick={() => {
+              if (sortListOption) {
+                sortRxList(sortListOption);
+                history.push(`/?page=1`);
+                waitForRenderThenFocus(
+                  "[data-testid='page-total-info']",
+                  document,
+                  500,
+                );
+              }
+            }}
+          />
+        ) : (
+          <VaButton
+            uswds
+            type="button"
+            className="va-button"
+            data-testid="sort-button"
+            text="Sort"
+            onClick={() => {
+              if (sortListOption) {
+                sortRxList(sortListOption);
+                history.push(`/?page=1`);
+                waitForRenderThenFocus(
+                  "[data-testid='page-total-info']",
+                  document,
+                  500,
+                );
+              }
+            }}
+          />
+        )}
       </div>
     </div>
   );
