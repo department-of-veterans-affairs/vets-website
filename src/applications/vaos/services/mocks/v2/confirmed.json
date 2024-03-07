@@ -653,7 +653,7 @@
             "value": "983:11663"
           }
         ],
-        "kind": "clinic",
+        "kind": "phone",
         "status": "booked",
         "serviceType": "primaryCare",
         "serviceTypes": [
@@ -681,12 +681,12 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "455",
-        "start": "2023-10-19T15:00:00Z",
+        "start": "2024-10-19T15:00:00Z",
         "end": "2023-10-19T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303139313530303A323032333130313931363030",
-          "start": "2023-10-19T15:00:00Z",
+          "start": "2024-10-19T15:00:00Z",
           "end": "2023-10-19T16:00:00Z"
         },
         "created": "2023-11-01T00:00:00Z",
@@ -702,7 +702,7 @@
           "eCheckinAllowed": false,
           "clinic": {}
         },
-        "localStartTime": "2023-10-19T09:00:00.000-06:00",
+        "localStartTime": "2024-10-19T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988639578151",
         "serviceName": "CHY PC CASSIDY",
         "physicalLocation": "ARROWHEAD WING, 2ND FLOOR",
@@ -1506,10 +1506,11 @@
           ]
         },
         "description": "Upcoming Home telehealth ADHOC appointment with instructions",
-        "end": "2022-01-23T20:00:00Z",
+        "end": "2024-09-23T20:00:00Z",
         "id": "02aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
+        "localStartTime": "2024-09-22T09:00:00.000-06:00",
         "minutesDuration": 30,
         "patientIcn": null,
         "patientInstruction": "Video Visit Preparation contains extraneous stuff",
@@ -1529,6 +1530,7 @@
             }
           }
         ],
+        "physicalLocation" : "should not display",
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reasonCode": {
@@ -1543,7 +1545,6 @@
         "slot": null,
         "start": "2024-09-22T12:00:00Z",
         "created": "2024-09-22T20:33:54Z",
-        "localStartTime": "2024-09-21T09:00:00.000-06:00",
         "avsPath": null,
         "status": "booked",
         "extension": {
@@ -1683,6 +1684,7 @@
             "practiceName": null
           }
         ],
+        "physicalLocation" : "should not display",
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reasonCode": {},
@@ -1764,6 +1766,7 @@
         "id": "10aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
+        "localStartTime": "2023-12-22T18:00:00.000-06:00",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [
@@ -1788,7 +1791,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-12-27T18:19:34",
+        "start": "2023-12-27T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -1927,10 +1930,11 @@
           ]
         },
         "description": "upcoming at home telehealth appointment",
-        "end": "2023-06-08T17:30:00Z",
+        "end": "2024-06-08T17:30:00Z",
         "id": "09aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
+        "localStartTime": "2024-06-08T17:00:00.000-06:00",
         "minutesDuration": 30,
         "patientIcn": null,
         "patientInstruction": "Video Visit Preparation",
@@ -1956,7 +1960,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2023-06-08T17:30:00Z",
+        "start": "2024-06-08T17:30:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
