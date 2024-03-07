@@ -9,6 +9,10 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -126,6 +130,23 @@ const formConfig = {
             properties: {
               titleSchema,
               mailingAddress: addressSchema(),
+            },
+          },
+        },
+        page5: {
+          path: 'contact-info',
+          title: "Veteran's contact information",
+          uiSchema: {
+            ...titleUI("Veteran's contact information"),
+            phoneNumber: phoneUI(),
+            emailAddress: emailUI(),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              phoneNumber: phoneSchema,
+              emailAddress: emailSchema,
             },
           },
         },
