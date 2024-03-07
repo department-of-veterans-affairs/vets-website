@@ -319,12 +319,6 @@ export const generateHelpText = text => {
   );
 };
 
-export const validateWorkHours = (errors, fieldData) => {
-  if (fieldData > 168) {
-    errors.addError('Enter a number less than 169');
-  }
-};
-
 /**
  * Formats a full name from the given first, middle, last, and suffix
  *
