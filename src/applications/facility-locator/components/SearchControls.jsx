@@ -373,7 +373,7 @@ const SearchControls = props => {
   return (
     <div className="search-controls-container clearfix">
       <VaModal
-        uswds={false}
+        uswds
         modalTitle={
           currentQuery.geocodeError === 1
             ? 'We need to use your location'
