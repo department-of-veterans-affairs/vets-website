@@ -11,7 +11,12 @@ import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
-import { isSmallScreen, setDocumentTitle } from '../utils/helpers';
+import {
+  isSearchByLocationPage,
+  isSearchByNamePage,
+  isSmallScreen,
+  setDocumentTitle,
+} from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
@@ -45,6 +50,55 @@ export function SearchPage({
   });
   const { version } = preview;
 
+  const tabChange = selectedTab => {
+    recordEvent({
+      event: 'nav-tab-click',
+      'tab-text': `Search by ${selectedTab}`,
+    });
+    dispatchChangeSearchTab(selectedTab);
+    updateUrlParams(history, selectedTab, search.query, filters, version);
+  };
+
+  const initializeTab = newTab => {
+    if (isSearchByNamePage() && newTab !== TABS.name) {
+      dispatchChangeSearchTab(TABS.name);
+    } else if (isSearchByLocationPage() && newTab !== TABS.location) {
+      dispatchChangeSearchTab(TABS.location);
+    }
+  };
+
+  const deriveTabName = () => {
+    if (isSearchByNamePage()) {
+      return TABS.name.toUpperCase();
+    }
+    if (isSearchByLocationPage()) {
+      return TABS.location.toUpperCase();
+    }
+    return 'Not-Yet-Implemented-deriveTabName';
+  };
+
+  const handleBrowserButtonClick = () => {
+    const tabName = deriveTabName();
+    window.addEventListener('popstate', e => {
+      e.preventDefault();
+      recordEvent({
+        event: 'back-button-click',
+        'tab-text': `Search by ${tabName}`,
+      });
+      if (isSearchByNamePage()) {
+        // eslint-disable-next-line no-console
+        console.log(`----------isSearchByNamePage`);
+        dispatchChangeSearchTab(TABS.name);
+        // tabChange(TABS.name);
+      } else if (isSearchByLocationPage()) {
+        // eslint-disable-next-line no-console
+        console.log(`----------isSearchByNamePage`);
+        dispatchChangeSearchTab(TABS.location);
+        // tabChange(TABS.location);
+      }
+    });
+  };
+
   useEffect(() => {
     setDocumentTitle();
     const checkSize = () => {
@@ -58,6 +112,9 @@ export function SearchPage({
       updateUrlParams(history, search.tab, search.query, filters, version);
     }
 
+    initializeTab(search.tab);
+    handleBrowserButtonClick();
+
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
@@ -66,15 +123,6 @@ export function SearchPage({
     [TABS.location]: (
       <LocationSearchResults smallScreen={smallScreen} landscape={landscape} />
     ),
-  };
-
-  const tabChange = selectedTab => {
-    recordEvent({
-      event: 'nav-tab-click',
-      'tab-text': `Search by ${selectedTab}`,
-    });
-    dispatchChangeSearchTab(selectedTab);
-    updateUrlParams(history, selectedTab, search.query, filters, version);
   };
 
   const accordionChange = (selectedAccordion, expanded) => {

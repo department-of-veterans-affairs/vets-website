@@ -11,7 +11,11 @@ import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import { SMALL_SCREEN_WIDTH, filterKeys } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  PREVIOUS_URL_PUSHED_TO_HISTORY,
+  filterKeys,
+} from '../constants';
 
 /**
  * Snake-cases field names
@@ -401,4 +405,14 @@ export const giDocumentTitle = () => {
 
 export const setDocumentTitle = () => {
   document.title = `${giDocumentTitle()} | Veterans Affairs`;
+};
+
+export const managePushHistory = (history, url) => {
+  const previousUrl = window.sessionStorage.getItem(
+    PREVIOUS_URL_PUSHED_TO_HISTORY,
+  );
+  if (url !== previousUrl) {
+    window.sessionStorage.setItem(PREVIOUS_URL_PUSHED_TO_HISTORY, url);
+    history.push(url);
+  }
 };
