@@ -18,6 +18,9 @@ const Sidenav = () => {
           <li>
             <Link to="/poa-requests">POA requests</Link>
           </li>
+          <li>
+            <Link to="/permissions">Permissions</Link>
+          </li>
         </ul>
       </div>
     </nav>

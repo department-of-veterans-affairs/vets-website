@@ -8,14 +8,16 @@ import { mockPOARequests } from '../mocks/mockPOARequests';
 
 import LoginViewWrapper from './LoginViewWrapper';
 
-const Dashboard = ({ POApermissions = true }) => {
-  const breadcrumbs = [
-    { link: '/', label: 'Home' },
-    { link: '/dashboard', label: 'Dashboard' },
-  ];
+import { POABreadcrumbs } from '../common/breadcrumbs';
+
+const Dashboard = ({ POAPermissions = true }) => {
+  const dashboardBreadcrumbs = POABreadcrumbs('dashboard');
 
   return (
-    <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
+    <LoginViewWrapper
+      breadcrumbs={dashboardBreadcrumbs}
+      POAPermissions={POAPermissions}
+    >
       <h1>Accredited Representative Portal</h1>
       <div className="placeholder-container">
         <div className="dash-container">
@@ -42,7 +44,7 @@ const Dashboard = ({ POApermissions = true }) => {
 };
 
 Dashboard.propTypes = {
-  POApermissions: PropTypes.bool,
+  POAPermissions: PropTypes.bool,
 };
 
 export default Dashboard;
