@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 import { validateWhiteSpace } from 'platform/forms/validations';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
@@ -91,7 +93,7 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
  * @returns {UISchemaOptions} uiSchema
  */
 const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
-  const uiSchema = {
+  return {
     'ui:validations': [validateEmpty],
     first: {
       'ui:title': formatTitle ? formatTitle('first name') : 'First name',
@@ -120,9 +122,6 @@ const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       },
     },
   };
-  delete uiSchema.middle;
-
-  return uiSchema;
 };
 
 /**
@@ -164,7 +163,7 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
  */
 const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
   return {
-    ...fullNameNoSuffixUI(formatTitle, uiOptions),
+    ...firstNameLastNameNoSuffixUI(formatTitle, uiOptions),
     suffix: {
       'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
       'ui:autocomplete': 'honorific-suffix',
@@ -211,7 +210,7 @@ const fullNameSchema = commonDefinitions.fullName;
 /**
  * @returns `commonDefinitions.fullName` minus `middle`
  */
-const firstNameLastNameDef = { ...commonDefinitions.fullName };
+const firstNameLastNameDef = cloneDeep(commonDefinitions.fullName);
 delete firstNameLastNameDef.properties.middle;
 const firstNameLastNameSchema = firstNameLastNameDef;
 
@@ -223,7 +222,9 @@ const fullNameNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
 /**
  * @returns `commonDefinitions.fullNameNoSuffix` minus `middle`
  */
-const firstNameLastNameNoSuffixDef = { ...commonDefinitions.fullNameNoSuffix };
+const firstNameLastNameNoSuffixDef = cloneDeep(
+  commonDefinitions.fullNameNoSuffix,
+);
 delete firstNameLastNameNoSuffixDef.properties.middle;
 const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
 
