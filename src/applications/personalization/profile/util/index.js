@@ -151,17 +151,9 @@ export const eduDirectDepositAccountNumber = apiData => {
   return apiData?.accountNumber;
 };
 
-const cnpDirectDepositAddressInfo = apiData => {
-  return apiData?.paymentAddress;
-};
-
 export const isEligibleForCNPDirectDeposit = apiData => {
-  const addressData = cnpDirectDepositAddressInfo(apiData) ?? {};
-  return !!(
-    addressData.addressOne &&
-    addressData.city &&
-    addressData.stateCode
-  );
+  const controlInfo = apiData?.controlInformation;
+  return !!controlInfo?.canUpdateDirectDeposit;
 };
 
 export const isSignedUpForCNPDirectDeposit = apiData =>
