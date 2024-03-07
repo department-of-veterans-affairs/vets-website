@@ -6,7 +6,6 @@ import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
 import BenefitsProfileStatement from '../components/BenefitsProfileStatement';
 import PayeeInformationWrapper from './PayeeInformationWrapper';
 import PendingDocuments from '../components/PendingDocuments';
-import PageLink from '../components/PageLink';
 import {
   VERIFICATION_RELATIVE_URL,
   VERIFICATION_PROFILE_URL,
@@ -14,12 +13,18 @@ import {
 import { useData } from '../hooks/useData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
+import MoreInfoCard from '../components/MoreInfoCard';
+import NeedHelp from '../components/NeedHelp';
+import Loader from '../components/Loader';
 
 const BenefitsProfileWrapper = ({ children }) => {
   useScrollToTop();
   const {
     loading,
-    date,
+    expirationDate,
+    updated,
+    month,
+    day,
     addressLine2,
     addressLine3,
     addressLine4,
@@ -42,11 +47,15 @@ const BenefitsProfileWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <BenefitsProfileStatement />
-            <CurrentBenefitsStatus
-              updated="12/04/2023"
-              remainingBenefits="33 Months, 0 Days"
-              expirationDate={date}
-            />
+            {loading ? (
+              <Loader />
+            ) : (
+              <CurrentBenefitsStatus
+                updated={updated}
+                remainingBenefits={`${month} Months, ${day} Days`}
+                expirationDate={expirationDate}
+              />
+            )}
             <PayeeInformationWrapper
               loading={loading}
               applicantChapter={applicantChapter}
@@ -67,14 +76,16 @@ const BenefitsProfileWrapper = ({ children }) => {
               loading={loading}
               pendingDocuments={pendingDocuments}
             />
-            <PageLink
-              linkText="See your enrollment verifications"
+            {children}
+            <MoreInfoCard
+              marginTop="7"
+              linkText="Mongomery GI Bill Enrollment Verification"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
-              color="green"
-              margin="2"
+              className="vads-u-font-family--sans vads-u-font-weight--bold"
+              linkDescription="Verify your enrollment and view past verifications for the Montgomery GI Bill."
             />
-            {children}
+            <NeedHelp />
           </div>
         </div>
         <va-back-to-top />

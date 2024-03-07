@@ -16,11 +16,12 @@ import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import { useData } from '../hooks/useData';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
+import Loader from '../components/Loader';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
   const mockData = useSelector(getMockData);
-  const { date } = useData();
+  const { expirationDate, updated, month, day, loading } = useData();
 
   return (
     <>
@@ -35,22 +36,33 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <MGIBEnrollmentStatement />
             <PeriodsToVerify />
-            <CurrentBenefitsStatus
-              updated="12/04/2023"
-              remainingBenefits="33 Months, 0 Days"
-              expirationDate={date}
-              link={() => (
-                <PageLink
-                  linkText="Manage your benefits profile"
-                  relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
-                  URL={BENEFITS_PROFILE_URL}
-                  color="blue"
-                  margin="0"
-                />
-              )}
-            />
+            {loading ? (
+              <Loader />
+            ) : (
+              <CurrentBenefitsStatus
+                updated={updated}
+                remainingBenefits={`${month} Months, ${day} Days`}
+                expirationDate={expirationDate}
+                link={() => (
+                  <PageLink
+                    linkText="Manage your benefits profile"
+                    relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
+                    URL={BENEFITS_PROFILE_URL}
+                    margin="0"
+                    className="vads-c-action-link--blue"
+                  />
+                )}
+              />
+            )}
             <PreviousEnrollmentVerifications enrollmentData={mockData} />
-            <MoreInfoCard marginTop="7" />
+            <MoreInfoCard
+              marginTop="7"
+              linkText="Manage your benefits profile"
+              relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
+              URL={BENEFITS_PROFILE_URL}
+              className="vads-u-font-family--sans vads-u-font-weight--bold"
+              linkDescription="Update your contact and direct deposit information for the Montgomery GI Bill."
+            />
             <NeedHelp />
             {children}
           </div>
