@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-
+import sinon from 'sinon';
+import * as redux from 'react-redux';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import contacts from '@@profile/tests/fixtures/contacts.json';
 import reducers from '@@profile/reducers';
 import PersonalHealthCareContacts from './PersonalHealthCareContacts';
@@ -20,15 +20,28 @@ const stateFn = ({
   },
 });
 
+const props = {
+  fetchProfileContacts: () => {},
+};
+
 const setup = ({ initialState = stateFn() } = {}) =>
-  renderInReduxProvider(<PersonalHealthCareContacts />, {
+  renderInReduxProvider(<PersonalHealthCareContacts {...props} />, {
     initialState,
     reducers,
   });
 
+let useDispatchStub;
+let dispatchSpy;
+
 describe('PersonalHealthCareContacts component', () => {
   beforeEach(() => {
-    mockFetch();
+    useDispatchStub = sinon.stub(redux, 'useDispatch');
+    dispatchSpy = sinon.spy();
+    useDispatchStub.returns(dispatchSpy);
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore();
   });
 
   it('renders', async () => {
