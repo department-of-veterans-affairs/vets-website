@@ -38,6 +38,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 const contacts = require('../tests/fixtures/contacts.json');
+// const contactsSingleEc = require('../tests/fixtures/contacts-single-ec.json');
+// const contactsSingleNok = require('../tests/fixtures/contacts-single-nok.json');
 
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
@@ -63,12 +65,16 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
             profileHideDirectDepositCompAndPen: false,
+            profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
+            profileShowDirectDepositSingleForm: false,
+            profileShowDirectDepositSingleFormAlert: true,
+            profileShowDirectDepositSingleFormEduDowntime: false,
           }),
         ),
       secondsOfDelay,
@@ -77,10 +83,13 @@ const responses = {
   'GET /v0/user': (_req, res) => {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user (success)
-    // return res.json(user.loa1User); // user with loa1
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    // return res.json(user.loa1User); // LOA1 user w/id.me
+    // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
+    // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
-    // return res.json(user.loa3User); // user with loa3
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
@@ -122,7 +131,10 @@ const responses = {
     // happy path response / user with data
     return res.json(mockDisabilityCompensations.base);
 
-    // edge cases
+    // user with no dd data but is eligible
+    // return res.json(mockDisabilityCompensations.isEligible);
+
+    // direct deposit blocked edge cases
     // return res.json(mockDisabilityCompensations.isDeceased);
     // return res.json(mockDisabilityCompensations.isFiduciary);
     // return res.json(mockDisabilityCompensations.isNotCompetent);
@@ -141,6 +153,7 @@ const responses = {
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
+    // return res.status(200).json(bankAccounts.noAccount); // user with no account / not eligible
     return res.status(200).json(bankAccounts.anAccount);
   },
   'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {
@@ -215,7 +228,7 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    // uncomment this to simlulate multiple status calls
+    // uncomment this to simulate multiple status calls
     // aka long latency on getting update to go through
     // if (retries < 2) {
     //   retries += 1;

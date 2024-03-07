@@ -184,122 +184,122 @@
       }
     },
     {
-          "id": "192308",
+      "id": "1923055",
+      "type": "appointments",
+      "attributes": {
+        "id": "192308",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333131363637"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:11667"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "SERVICE CONNECTED",
+                "display": "SERVICE CONNECTED"
+              }
+            ],
+            "text": "SERVICE CONNECTED"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "1049",
+        "start": "2023-10-23T15:00:00Z",
+        "end": "2023-10-23T16:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323331303133313530303A323032333130313331363030",
+          "start": "2023-10-13T15:00:00Z",
+          "end": "2023-10-13T16:00:00Z"
+        },
+        "created": "2023-11-01T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "CHECKED OUT"
+          ],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": true
+        },
+        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "avsPath": "Error retrieving AVS link",
+        "serviceName": "CHY MENTAL HEALTH ONE",
+        "friendlyName": "CHY MENTAL HEALTH ONE",
+        "location": {
+          "id": "983",
           "type": "appointments",
           "attributes": {
-              "id": "192308",
-              "identifier": [
-                  {
-                      "system": "Appointment/",
-                      "value": "413938333131363637"
-                  },
-                  {
-                      "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
-                      "value": "983:11667"
-                  }
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+                "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
               ],
-              "kind": "clinic",
-              "status": "booked",
-              "serviceCategory": [
-                  {
-                      "coding": [
-                          {
-                              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
-                              "code": "SERVICE CONNECTED",
-                              "display": "SERVICE CONNECTED"
-                          }
-                      ],
-                      "text": "SERVICE CONNECTED"
-                  }
-              ],
-              "patientIcn": "1012845331V153043",
-              "locationId": "983",
-              "clinic": "1049",
-              "start": "2023-10-13T15:00:00Z",
-              "end": "2023-10-13T16:00:00Z",
-              "minutesDuration": 60,
-              "slot": {
-                  "id": "3230323331303133313530303A323032333130313331363030",
-                  "start": "2023-10-13T15:00:00Z",
-                  "end": "2023-10-13T16:00:00Z"
-              },
-              "created": "2023-11-01T00:00:00Z",
-              "cancellable": true,
-              "extension": {
-                  "ccLocation": {
-                      "address": {}
-                  },
-                  "vistaStatus": [
-                      "CHECKED OUT"
-                  ],
-                  "preCheckinAllowed": false,
-                  "eCheckinAllowed": true
-              },
-              "localStartTime": "2023-10-13T09:00:00.000-06:00",
-              "avsPath": "Error retrieving AVS link",
-              "serviceName": "CHY MENTAL HEALTH ONE",
-              "friendlyName": "CHY MENTAL HEALTH ONE",
-              "location": {
-                  "id": "983",
-                  "type": "appointments",
-                  "attributes": {
-                      "id": "983",
-                      "vistaSite": "983",
-                      "vastParent": "983",
-                      "type": "va_facilities",
-                      "name": "Cheyenne VA Medical Center",
-                      "classification": "VA Medical Center (VAMC)",
-                      "timezone": {
-                          "timeZoneId": "America/Denver"
-                      },
-                      "lat": 39.744507,
-                      "long": -104.830956,
-                      "website": "https://www.denver.va.gov/locations/directions.asp",
-                      "phone": {
-                          "main": "307-778-7550",
-                          "fax": "307-778-7381",
-                          "pharmacy": "866-420-6337",
-                          "afterHours": "307-778-7550",
-                          "patientAdvocate": "307-778-7550 x7517",
-                          "mentalHealthClinic": "307-778-7349",
-                          "enrollmentCoordinator": "307-778-7550 x7579"
-                      },
-                      "physicalAddress": {
-                          "type": "physical",
-                          "line": [
-                              "2360 East Pershing Boulevard"
-                          ],
-                          "city": "Cheyenne",
-                          "state": "WY",
-                          "postalCode": "82001-5356"
-                      },
-                      "mobile": false,
-                      "healthService": [
-                          "Audiology",
-                          "Cardiology",
-                          "DentalServices",
-                          "EmergencyCare",
-                          "Gastroenterology",
-                          "Gynecology",
-                          "MentalHealthCare",
-                          "Nutrition",
-                          "Ophthalmology",
-                          "Optometry",
-                          "Orthopedics",
-                          "Podiatry",
-                          "PrimaryCare",
-                          "SpecialtyCare",
-                          "UrgentCare",
-                          "Urology",
-                          "WomensHealth"
-                      ],
-                      "operatingStatus": {
-                          "code": "NORMAL"
-                      }
-                  }
-              }
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
           }
-  },
+        }
+      }
+    },
     {
       "id": "115069",
       "type": "appointments",
@@ -409,469 +409,470 @@
       "id": "176889",
       "type": "appointments",
       "attributes": {
-          "id": "176889",
-          "identifier": [
-              {
-                  "system": "Appointment/",
-                  "value": "413938333131363637"
-              },
-              {
-                  "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
-                  "value": "983:11667"
-              }
+        "id": "176889",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333131363637"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:11667"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceCategory": [
+          {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+              "code": "SERVICE CONNECTED",
+              "display": "SERVICE CONNECTED"
+            }
           ],
-          "kind": "clinic",
-          "status": "booked",
-          "serviceCategory": [
-              {
-                  "coding": [
-                      {
-                          "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
-                          "code": "SERVICE CONNECTED",
-                          "display": "SERVICE CONNECTED"
-                      }
-                  ],
-                  "text": "SERVICE CONNECTED"
-              }
-          ],
-          "patientIcn": "1012845331V153043",
-          "locationId": "983",
-          "clinic": "1049",
-          "start": "2023-10-13T15:00:00Z",
-          "end": "2023-10-13T16:00:00Z",
-          "minutesDuration": 60,
-          "slot": {
-              "id": "3230323331303133313530303A323032333130313331363030",
-              "start": "2023-10-13T15:00:00Z",
-              "end": "2023-10-13T16:00:00Z"
-          },
-          "created": "2023-11-01T00:00:00Z",
-          "cancellable": true,
-          "extension": {
-              "ccLocation": {
-                  "address": {}
-              },
-              "vistaStatus": [
-                  "CHECKED OUT"
-              ],
-              "preCheckinAllowed": false,
-              "eCheckinAllowed": true
-          },
-          "localStartTime": "2023-10-13T09:00:00.000-06:00",
-          "avsPath": null,
-          "serviceName": "CHY MENTAL HEALTH ONE",
-          "friendlyName": "CHY MENTAL HEALTH ONE",
-          "location": {
-              "id": "983",
-              "type": "appointments",
-              "attributes": {
-                  "id": "983",
-                  "vistaSite": "983",
-                  "vastParent": "983",
-                  "type": "va_facilities",
-                  "name": "Cheyenne VA Medical Center",
-                  "classification": "VA Medical Center (VAMC)",
-                  "timezone": {
-                      "timeZoneId": "America/Denver"
-                  },
-                  "lat": 39.744507,
-                  "long": -104.830956,
-                  "website": "https://www.denver.va.gov/locations/directions.asp",
-                  "phone": {
-                      "main": "307-778-7550",
-                      "fax": "307-778-7381",
-                      "pharmacy": "866-420-6337",
-                      "afterHours": "307-778-7550",
-                      "patientAdvocate": "307-778-7550 x7517",
-                      "mentalHealthClinic": "307-778-7349",
-                      "enrollmentCoordinator": "307-778-7550 x7579"
-                  },
-                  "physicalAddress": {
-                      "type": "physical",
-                      "line": [
-                          "2360 East Pershing Boulevard"
-                      ],
-                      "city": "Cheyenne",
-                      "state": "WY",
-                      "postalCode": "82001-5356"
-                  },
-                  "mobile": false,
-                  "healthService": [
-                      "Audiology",
-                      "Cardiology",
-                      "DentalServices",
-                      "EmergencyCare",
-                      "Gastroenterology",
-                      "Gynecology",
-                      "MentalHealthCare",
-                      "Nutrition",
-                      "Ophthalmology",
-                      "Optometry",
-                      "Orthopedics",
-                      "Podiatry",
-                      "PrimaryCare",
-                      "SpecialtyCare",
-                      "UrgentCare",
-                      "Urology",
-                      "WomensHealth"
-                  ],
-                  "operatingStatus": {
-                      "code": "NORMAL"
-                  }
-              }
+          "text": "SERVICE CONNECTED"
           }
-      }
-},
-{
-  "id": "567678",
-  "type": "appointments",
-  "attributes": {
-      "id": "567678",
-      "identifier": [
-          {
-              "system": "Appointment/",
-              "value": "413938333131363637"
-          },
-          {
-              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
-              "value": "983:11667"
-          }
-      ],
-      "kind": "clinic",
-      "status": "booked",
-      "serviceCategory": [
-          {
-              "coding": [
-                  {
-                      "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
-                      "code": "SERVICE CONNECTED",
-                      "display": "SERVICE CONNECTED"
-                  }
-              ],
-              "text": "SERVICE CONNECTED"
-          }
-      ],
-      "patientIcn": "1012845331V153043",
-      "locationId": "983",
-      "clinic": "1049",
-      "start": "2023-10-13T15:00:00Z",
-      "end": "2023-10-13T16:00:00Z",
-      "minutesDuration": 60,
-      "slot": {
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "1049",
+        "start": "2023-10-13T15:00:00Z",
+        "end": "2023-10-13T16:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
           "id": "3230323331303133313530303A323032333130313331363030",
           "start": "2023-10-13T15:00:00Z",
           "end": "2023-10-13T16:00:00Z"
-      },
-      "created": "2023-11-01T00:00:00Z",
-      "cancellable": true,
-      "extension": {
+        },
+        "created": "2023-11-01T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "CHECKED OUT"
+          ],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": true
+        },
+        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "avsPath": null,
+        "serviceName": "CHY MENTAL HEALTH ONE",
+        "friendlyName": "CHY MENTAL HEALTH ONE",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+                "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                  "2360 East Pershing Boulevard"
+              ],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "567678",
+      "type": "appointments",
+      "attributes": {
+        "id": "567678",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333131363637"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:11667"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "SERVICE CONNECTED",
+                "display": "SERVICE CONNECTED"
+              }
+            ],
+            "text": "SERVICE CONNECTED"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "1049",
+        "start": "2023-10-13T15:00:00Z",
+        "end": "2023-10-13T16:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323331303133313530303A323032333130313331363030",
+          "start": "2023-10-13T15:00:00Z",
+          "end": "2023-10-13T16:00:00Z"
+        },
+        "created": "2023-11-01T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "CHECKED OUT"
+          ],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": true
+        },
+        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "serviceName": "CHY MENTAL HEALTH ONE",
+        "friendlyName": "CHY MENTAL HEALTH ONE",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+                "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
+              ],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+            "code": "NORMAL"
+            }
+          }
+        }
+      }
+    }, 
+    {
+      "id": "193059",
+      "type": "appointments",
+      "attributes": {
+        "id": "193059",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333131363633"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:11663"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "primaryCare",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "primaryCare"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "983",
+        "clinic": "455",
+        "start": "2023-10-19T15:00:00Z",
+        "end": "2023-10-19T16:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323331303139313530303A323032333130313931363030",
+          "start": "2023-10-19T15:00:00Z",
+          "end": "2023-10-19T16:00:00Z"
+        },
+        "created": "2023-11-01T00:00:00Z",
+        "cancellable": true,
+        "extension": {
           "ccLocation": {
               "address": {}
           },
           "vistaStatus": [
-              "CHECKED OUT"
+              "ACT REQ/CHECKED OUT"
           ],
           "preCheckinAllowed": false,
-          "eCheckinAllowed": true
-      },
-      "localStartTime": "2023-10-13T09:00:00.000-06:00",
-      "serviceName": "CHY MENTAL HEALTH ONE",
-      "friendlyName": "CHY MENTAL HEALTH ONE",
-      "location": {
+          "eCheckinAllowed": false,
+          "clinic": {}
+        },
+        "localStartTime": "2023-10-19T09:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988639578151",
+        "serviceName": "CHY PC CASSIDY",
+        "physicalLocation": "ARROWHEAD WING, 2ND FLOOR",
+        "friendlyName": "CHY PC CASSIDY",
+        "location": {
           "id": "983",
           "type": "appointments",
           "attributes": {
-              "id": "983",
-              "vistaSite": "983",
-              "vastParent": "983",
-              "type": "va_facilities",
-              "name": "Cheyenne VA Medical Center",
-              "classification": "VA Medical Center (VAMC)",
-              "timezone": {
-                  "timeZoneId": "America/Denver"
-              },
-              "lat": 39.744507,
-              "long": -104.830956,
-              "website": "https://www.denver.va.gov/locations/directions.asp",
-              "phone": {
-                  "main": "307-778-7550",
-                  "fax": "307-778-7381",
-                  "pharmacy": "866-420-6337",
-                  "afterHours": "307-778-7550",
-                  "patientAdvocate": "307-778-7550 x7517",
-                  "mentalHealthClinic": "307-778-7349",
-                  "enrollmentCoordinator": "307-778-7550 x7579"
-              },
-              "physicalAddress": {
-                  "type": "physical",
-                  "line": [
-                      "2360 East Pershing Boulevard"
-                  ],
-                  "city": "Cheyenne",
-                  "state": "WY",
-                  "postalCode": "82001-5356"
-              },
-              "mobile": false,
-              "healthService": [
-                  "Audiology",
-                  "Cardiology",
-                  "DentalServices",
-                  "EmergencyCare",
-                  "Gastroenterology",
-                  "Gynecology",
-                  "MentalHealthCare",
-                  "Nutrition",
-                  "Ophthalmology",
-                  "Optometry",
-                  "Orthopedics",
-                  "Podiatry",
-                  "PrimaryCare",
-                  "SpecialtyCare",
-                  "UrgentCare",
-                  "Urology",
-                  "WomensHealth"
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "2360 East Pershing Boulevard"
               ],
-              "operatingStatus": {
-                  "code": "NORMAL"
-              }
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
           }
-      }
-  }
-},
-{
-      "id": "193059",
-      "type": "appointments",
-      "attributes": {
-          "id": "193059",
-          "identifier": [
-              {
-                  "system": "Appointment/",
-                  "value": "413938333131363633"
-              },
-              {
-                  "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
-                  "value": "983:11663"
-              }
-          ],
-          "kind": "clinic",
-          "status": "booked",
-          "serviceType": "primaryCare",
-          "serviceTypes": [
-              {
-                  "coding": [
-                      {
-                          "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
-                          "code": "primaryCare"
-                      }
-                  ]
-              }
-          ],
-          "serviceCategory": [
-              {
-                  "coding": [
-                      {
-                          "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
-                          "code": "REGULAR",
-                          "display": "REGULAR"
-                      }
-                  ],
-                  "text": "REGULAR"
-              }
-          ],
-          "patientIcn": "1012845331V153043",
-          "locationId": "983",
-          "clinic": "455",
-          "start": "2023-10-19T15:00:00Z",
-          "end": "2023-10-19T16:00:00Z",
-          "minutesDuration": 60,
-          "slot": {
-              "id": "3230323331303139313530303A323032333130313931363030",
-              "start": "2023-10-19T15:00:00Z",
-              "end": "2023-10-19T16:00:00Z"
-          },
-          "created": "2023-11-01T00:00:00Z",
-          "cancellable": true,
-          "extension": {
-              "ccLocation": {
-                  "address": {}
-              },
-              "vistaStatus": [
-                  "ACT REQ/CHECKED OUT"
-              ],
-              "preCheckinAllowed": false,
-              "eCheckinAllowed": false,
-              "clinic": {}
-          },
-          "localStartTime": "2023-10-19T09:00:00.000-06:00",
-          "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988639578151",
-          "serviceName": "CHY PC CASSIDY",
-          "friendlyName": "CHY PC CASSIDY",
-          "location": {
-              "id": "983",
-              "type": "appointments",
-              "attributes": {
-                  "id": "983",
-                  "vistaSite": "983",
-                  "vastParent": "983",
-                  "type": "va_facilities",
-                  "name": "Cheyenne VA Medical Center",
-                  "classification": "VA Medical Center (VAMC)",
-                  "timezone": {
-                      "timeZoneId": "America/Denver"
-                  },
-                  "lat": 39.744507,
-                  "long": -104.830956,
-                  "website": "https://www.denver.va.gov/locations/directions.asp",
-                  "phone": {
-                      "main": "307-778-7550",
-                      "fax": "307-778-7381",
-                      "pharmacy": "866-420-6337",
-                      "afterHours": "307-778-7550",
-                      "patientAdvocate": "307-778-7550 x7517",
-                      "mentalHealthClinic": "307-778-7349",
-                      "enrollmentCoordinator": "307-778-7550 x7579"
-                  },
-                  "physicalAddress": {
-                      "type": "physical",
-                      "line": [
-                          "2360 East Pershing Boulevard"
-                      ],
-                      "city": "Cheyenne",
-                      "state": "WY",
-                      "postalCode": "82001-5356"
-                  },
-                  "mobile": false,
-                  "healthService": [
-                      "Audiology",
-                      "Cardiology",
-                      "DentalServices",
-                      "EmergencyCare",
-                      "Gastroenterology",
-                      "Gynecology",
-                      "MentalHealthCare",
-                      "Nutrition",
-                      "Ophthalmology",
-                      "Optometry",
-                      "Orthopedics",
-                      "Podiatry",
-                      "PrimaryCare",
-                      "SpecialtyCare",
-                      "UrgentCare",
-                      "Urology",
-                      "WomensHealth"
-                  ],
-                  "operatingStatus": {
-                      "code": "NORMAL"
-                  }
-              }
-          }
-      }
-},
-{
-  "id": "115069",
-  "type": "appointments",
-  "attributes": {
-    "id": "115069",
-    "identifier": [
-      {
-        "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
-        "value": "524669||4||1"
-      },
-      {
-        "system": "http://hl7.org/fhir/sid/us-npi",
-        "value": "1679635460"
-      }
-    ],
-    "kind": "cc",
-    "status": "booked",
-    "description": "Eye Care Examination SEOC 1.3.10 PRCT",
-    "patientIcn": "1013124304V115761",
-    "locationId": "984",
-    "practitioners": [
-      {
-        "name": {
-          "family": "BERMEL",
-          "given": [
-            "MICHAEL"
-          ]
         }
       }
-    ],
-    "start": "2022-12-22T12:00:00Z",
-    "created": "2022-12-22T20:33:54Z",
-    "cancellable": true,
-    "extension": {
-      "ccLocation": {
-        "address": {
-          "line": [
-            "10640 MAIN ST ; STE 100"
-          ],
-          "city": "FAIRFAX",
-          "state": "VA",
-          "postalCode": "22030",
-          "text": "10640 MAIN ST ; STE 100\nFAIRFAX VA 22030"
-        },
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "703-691-2020"
-          }
-        ]
-      },
-      "hsrmTaskId": "",
-      "hsrmConsultId": "984_644056",
-      "ccTreatingSpecialty": "Podiatrist"
-    },
-    "location": {
-      "id": "984",
+    },          
+    {
+      "id": "115069",
       "type": "appointments",
       "attributes": {
-        "id": "984",
-        "vistaSite": "984",
-        "vastParent": "984",
-        "type": "va_health_facility",
-        "name": "Dayton VA Medical Center",
-        "classification": "VA Medical Center (VAMC)",
-        "timezone": {
-          "timeZoneId": "America/New_York"
+        "id": "115069",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "description": "Eye Care Examination SEOC 1.3.10 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "BERMEL",
+              "given": [
+                "MICHAEL"
+              ]
+            }
+          }
+        ],
+        "start": "2022-12-22T12:00:00Z",
+        "created": "2022-12-22T20:33:54Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "10640 MAIN ST ; STE 100"
+              ],
+              "city": "FAIRFAX",
+              "state": "VA",
+              "postalCode": "22030",
+              "text": "10640 MAIN ST ; STE 100\nFAIRFAX VA 22030"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "703-691-2020"
+              }
+            ]
+          },
+          "hsrmTaskId": "",
+          "hsrmConsultId": "984_644056",
+          "ccTreatingSpecialty": "Podiatrist"
         },
-        "lat": 39.74935,
-        "long": -84.2532,
-        "website": "https://www.dayton.va.gov/locations/directions.asp",
-        "phone": {
-          "main": "937-268-6511"
-        },
-        "physicalAddress": {
-          "type": "physical",
-          "line": [
-            "4100 West Third Street"
-          ],
-          "city": "Dayton",
-          "state": "OH",
-          "postalCode": "45428-9000"
-        },
-        "healthService": [
-          "Audiology",
-          "Cardiology",
-          "DentalServices",
-          "Dermatology",
-          "Gastroenterology",
-          "Gynecology",
-          "MentalHealthCare",
-          "Nutrition",
-          "Ophthalmology",
-          "Optometry",
-          "Orthopedics",
-          "Podiatry",
-          "PrimaryCare",
-          "SpecialtyCare",
-          "Urology",
-          "WomensHealth"
-        ]
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
       }
-    }
-  }
-},
+    },
     {
       "id": "180402",
       "type": "apfrepointments",
@@ -1703,7 +1704,7 @@
       }
     },
     {
-      "id": "05aa456vvs",
+      "id": "05aa456vvc",
       "type": "Appointment",
       "attributes": {
         "cancelationReason": null,
@@ -1718,10 +1719,12 @@
           ]
         },
         "description": "Upcoming VA location telehealth appointment",
-        "end": "2022-12-22T18:30:34",
-        "id": "05aa456vvs",
+        "end": "2024-07-22T14:00:00Z",
+        "id": "05aa456vvc",
         "kind": "telehealth",
         "locationId": "983",
+        "localStartTime": "2024-07-22T09:00:00.000-06:00",
+        "physicalLocation": "PHYSICAL LOCATION TESTING",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
@@ -1731,7 +1734,8 @@
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
-        "start": "2022-12-22T18:10:34",
+        "created": "2024-07-22T13:00:00Z",
+        "start": "2024-07-22T13:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",

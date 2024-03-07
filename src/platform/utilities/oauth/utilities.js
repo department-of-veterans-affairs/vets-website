@@ -14,6 +14,7 @@ import { externalApplicationsConfig } from 'platform/user/authentication/usip-co
 import {
   ALL_STATE_AND_VERIFIERS,
   API_SIGN_IN_SERVICE_URL,
+  APPROVED_OAUTH_APPS,
   CLIENT_IDS,
   COOKIES,
   OAUTH_ALLOWED_PARAMS,
@@ -98,7 +99,9 @@ export async function createOAuthRequest({
   acr,
 }) {
   const isDefaultOAuth =
-    !application || [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
+    APPROVED_OAUTH_APPS.includes(application) ||
+    !application ||
+    [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
   const isMobileOAuth =
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,

@@ -11,7 +11,7 @@ import { useGetCheckInData } from '../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../hooks/useUpdateError';
 
 const ReloadWrapper = props => {
-  const { children, router, isPreCheckIn } = props;
+  const { children, router, app } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const ReloadWrapper = props => {
     setProgressState,
     getCurrentToken,
     getPermissions,
-  } = useStorage(isPreCheckIn);
+  } = useStorage(app);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
@@ -32,7 +32,7 @@ const ReloadWrapper = props => {
       appointmentsOnly: true,
       reload: true,
       router,
-      isPreCheckIn,
+      app,
     },
   );
   const [refreshData, setRefreshData] = useState(true);
@@ -100,8 +100,8 @@ const ReloadWrapper = props => {
 };
 
 ReloadWrapper.propTypes = {
+  app: PropTypes.string.isRequired,
   children: PropTypes.node,
-  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 

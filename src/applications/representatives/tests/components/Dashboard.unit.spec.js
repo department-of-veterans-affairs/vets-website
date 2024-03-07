@@ -22,11 +22,6 @@ describe('Dashboard', () => {
     expect(getByText('Accredited Representative Portal')).to.exist;
   });
 
-  it('renders link to POA requests', () => {
-    const { getByText } = render(<Dashboard />);
-    expect(getByText('Manage power of attorney requests')).to.exist;
-  });
-
   it('renders content when has POA permissions', () => {
     const { container } = render(<Dashboard POApermissions />);
     expect(container.querySelector('.placeholder-container')).to.exist;
@@ -35,5 +30,21 @@ describe('Dashboard', () => {
   it('renders alert header when does not have POA permissions', () => {
     const { getByText } = render(<Dashboard POApermissions={false} />);
     expect(getByText('You are missing some permissions')).to.exist;
+  });
+
+  describe('Pending POA requests', () => {
+    it('renders table headers', () => {
+      const { getByText } = render(<Dashboard />);
+      expect(getByText('Claimant')).to.exist;
+      expect(getByText('Submitted')).to.exist;
+      expect(getByText('Accept/ decline')).to.exist;
+    });
+
+    it('renders view all link', () => {
+      const { getByTestId } = render(<Dashboard />);
+      expect(getByTestId('view-all-poa-requests-link')).to.contain.text(
+        'View all',
+      );
+    });
   });
 });
