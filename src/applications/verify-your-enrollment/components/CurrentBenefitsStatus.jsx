@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Paragraph from './ui/Paragraph';
+import { Paragraph } from '../constants';
 
 const CurrentBenefitsStatus = ({
   updated,

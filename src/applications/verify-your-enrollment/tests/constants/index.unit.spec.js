@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import Paragraph from '../../../components/ui/Paragraph';
+import { Paragraph } from '../../constants';
 
 describe('when <Paragraph/> renders', () => {
   it('Should render without crashing', () => {
