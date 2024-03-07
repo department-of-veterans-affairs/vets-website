@@ -1,9 +1,9 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
-const { noRapidProcessing } = fullSchemaPensions.properties;
+import {
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const fullyDevelopedClaimsLinkText =
   'Learn more about fully developed claims (opens in new tab)';
@@ -51,19 +51,15 @@ export const NoFDCWarning = (
 export default {
   uiSchema: {
     ...titleUI('Faster claim processing', Description),
-    noRapidProcessing: {
-      'ui:title':
-        'Do you want to use the Fully Developed Claims program to apply?',
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        yesNoReverse: true,
-        labels: {
-          Y:
-            'Yes. I’ve uploaded all my supporting documents for my pension application.',
-          N: 'No. I have other supporting documents to submit later.',
-        },
+    noRapidProcessing: yesNoUI({
+      title: 'Do you want to use the Fully Developed Claims program to apply?',
+      yesNoReverse: true,
+      labels: {
+        Y:
+          'Yes. I’ve uploaded all my supporting documents for my pension application.',
+        N: 'No. I have other supporting documents to submit later.',
       },
-    },
+    }),
     fdcWarning: {
       'ui:description': FdcWarning,
       'ui:options': {
@@ -83,7 +79,7 @@ export default {
     type: 'object',
     required: ['noRapidProcessing'],
     properties: {
-      noRapidProcessing,
+      noRapidProcessing: yesNoSchema,
       fdcWarning: {
         type: 'object',
         properties: {},
