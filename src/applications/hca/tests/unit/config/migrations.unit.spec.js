@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import formConfig from '../../../config/form';
 
-describe('HCA migrations', () => {
+describe('hca migrations', () => {
   const { migrations } = formConfig;
 
-  describe('when first migration runs', () => {
+  context('when v1 migration runs', () => {
     it('should remove hispanic property and add in view: object', () => {
       const data = {
         formData: {
@@ -39,7 +39,7 @@ describe('HCA migrations', () => {
     });
   });
 
-  describe('when second migration runs', () => {
+  context('when v2 migration runs', () => {
     const migration = migrations[1];
 
     it('should convert report children field', () => {
@@ -94,7 +94,7 @@ describe('HCA migrations', () => {
     });
   });
 
-  describe('when third migration runs', () => {
+  context('when v3 migration runs', () => {
     const migration = migrations[2];
 
     it('should update url when it matches', () => {
@@ -128,7 +128,7 @@ describe('HCA migrations', () => {
     });
   });
 
-  describe('when fourth migration runs', () => {
+  context('when v4 migration runs', () => {
     const migration = migrations[3];
 
     it('should leave data alone if not set', () => {
@@ -257,7 +257,7 @@ describe('HCA migrations', () => {
     });
   });
 
-  describe('when fifth migration runs', () => {
+  context('when v5 migration runs', () => {
     const migration = migrations[4];
 
     it('should unset required fields that are blank strings', () => {
@@ -290,7 +290,7 @@ describe('HCA migrations', () => {
     });
   });
 
-  describe('when sixth migration runs', () => {
+  context('when v6 migration runs', () => {
     const migration = migrations[5];
 
     it('should unset insurance fields that are blank strings', () => {
@@ -314,20 +314,27 @@ describe('HCA migrations', () => {
     });
   });
 
-  describe('when deventh migration runs', () => {
+  context('when v7 migration runs', () => {
     const migration = migrations[6];
 
-    it('should set household-information-v2 url to household-information', () => {
-      const data = {
-        formData: {},
-        metadata: {
-          returnUrl: 'household-information-v2/spouse-contact-information',
-        },
-      };
+    it('should update any `household-information` return URLs to remove the `v2` reference', () => {
+      const returnUrl = '/household-information-v2/spouse-contact-information';
+      const desiredUrl = '/household-information/spouse-contact-information';
+      const data = { formData: {}, metadata: { returnUrl } };
       const { metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal(
-        'household-information/spouse-contact-information',
-      );
+      expect(metadata.returnUrl).to.eq(desiredUrl);
+    });
+  });
+
+  context('when v8 migration runs', () => {
+    const migration = migrations[7];
+
+    it('should update the return URL to the person information URL', () => {
+      const returnUrl = '/household-information/spouse-contact-information';
+      const desiredUrl = '/veteran-information/personal-information';
+      const data = { formData: {}, metadata: { returnUrl } };
+      const { metadata } = migration(data);
+      expect(metadata.returnUrl).to.eq(desiredUrl);
     });
   });
 });

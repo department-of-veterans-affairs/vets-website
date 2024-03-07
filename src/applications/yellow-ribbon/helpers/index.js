@@ -62,3 +62,15 @@ export const updateQueryParams = (
   // Update the URL with the new query params.
   history.replaceState({}, '', `${location.pathname}?${queryParams}`);
 };
+
+// Function to change the academic year automatically each year on August 1st.
+export const getCurrentAcademicYear = (now = new Date()) => {
+  const year = now.getFullYear();
+  const month = now.getMonth(); // January is 0. So August is 7;
+
+  if (month >= 7) {
+    return `${year} to ${year + 1}`;
+  }
+
+  return `${year - 1} to ${year}`;
+};

@@ -20,6 +20,7 @@ import TravelVehiclePage from './pages/travel-vehicle';
 import TravelAddressPage from './pages/travel-address';
 import TravelReviewPage from './pages/travel-review';
 import Complete from './pages/complete';
+import Error from './pages/error';
 
 const routes = [
   {
@@ -93,6 +94,13 @@ const routes = [
     },
     reloadable: true,
   },
+  {
+    path: URLS.ERROR,
+    component: Error,
+    permissions: {
+      requireAuthorization: false,
+    },
+  },
 ];
 
 const createRoutesWithStore = () => {
@@ -100,8 +108,6 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => {
         const options = {
-          // @TODO Refactor out this isPreCheckIn concept, will be important when we get to session work
-          isPreCheckIn: false,
           appName: APP_NAMES.TRAVEL_CLAIM,
         };
         let Component = props => (

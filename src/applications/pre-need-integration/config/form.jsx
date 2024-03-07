@@ -87,6 +87,9 @@ import {
   applicantDemographicsPreparerEthnicityTitle,
   applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
+  nonVeteranApplicantDetailsSubHeader,
+  nonVeteranApplicantDetailsDescription,
+  nonVeteranApplicantDetailsDescriptionPreparer,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -306,10 +309,31 @@ const formConfig = {
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {
-          title: 'Applicant details',
+          title: 'Your details',
           path: 'nonVeteran-applicant-details',
-          depends: formData => !isVeteran(formData),
-          uiSchema: nonVeteranApplicantDetails.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isVeteran(formData),
+          uiSchema: nonVeteranApplicantDetails.uiSchema(
+            nonVeteranApplicantDetailsSubHeader,
+            nonVeteranApplicantDetailsDescription,
+            nonPreparerFullMaidenNameUI,
+            ssnDashesUI,
+            nonPreparerDateOfBirthUI,
+          ),
+          schema: nonVeteranApplicantDetails.schema,
+        },
+        nonVeteranApplicantDetailsPreparer: {
+          title: 'Applicant details',
+          path: 'nonVeteran-applicant-details-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && !isVeteran(formData),
+          uiSchema: nonVeteranApplicantDetails.uiSchema(
+            veteranApplicantDetailsPreparerSubHeader,
+            nonVeteranApplicantDetailsDescriptionPreparer,
+            preparerFullMaidenNameUI,
+            preparerSsnDashesUI,
+            preparerDateOfBirthUI,
+          ),
           schema: nonVeteranApplicantDetails.schema,
         },
         applicantMailingAddress: {
