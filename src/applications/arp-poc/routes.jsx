@@ -1,7 +1,12 @@
 import React from 'react';
-import { Route } from 'react-router';
-import App from './containers/App.jsx';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 
-const routes = <Route path="/" component={App} />;
+import App from './containers/App';
+
+const routes = (
+  <Routes>
+    <Route path="/" element={<App />} />
+  </Routes>
+);
 
 export default routes;
