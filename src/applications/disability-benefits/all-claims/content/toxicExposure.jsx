@@ -1,17 +1,7 @@
 import React from 'react';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import {
-  capitalizeEachWord,
-  formTitle,
-  isClaimingNew,
-  sippableId,
-} from '../utils';
-import {
-  GULF_WAR_1990_LOCATIONS,
-  NULL_CONDITION_STRING,
-  SHOW_TOXIC_EXPOSURE,
-} from '../constants';
+import { capitalizeEachWord, isClaimingNew, sippableId } from '../utils';
+import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic Exposure';
@@ -60,7 +50,10 @@ export function dateRangePageDescription(currentPage, totalPages, location) {
   return (
     <>
       <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">
-        {currentPage} of {totalPages}: {location}
+        {currentPage !== 0 &&
+          totalPages !== 0 &&
+          `${currentPage} of ${totalPages}: `}
+        {location}
       </h4>
       <p>
         Enter any date range you served in this location. You don’t need to have
@@ -194,83 +187,44 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
- * Make the uiSchema and schema for each gulf war 1990 page
- * @param {string} location - location name
- * @returns an object with uiSchema and schema
+ * Given the key for checkbox options, find the index within the selected items
+ * In this example, key='bahrain' would give index of 1, and key='airspace' would give index 3
+ * gulfWar1990: {
+ *   bahrain: true,
+ *   egypt: false,
+ *   airspace: true,
+ * }
+ *
+ * @param {string} key - the id for the checkbox option
+ * @param {string} objectName - name of the object to look at in the form data
+ * @param {object} formData - full formData for the form
+ * @returns {number} - index of the key within the list of selected items
  */
-function makeGulfWar1990LocationPageItems(location) {
-  return {
-    uiSchema: {
-      'ui:title': formTitle(gulfWar1990PageTitle),
-      'ui:description': dateRangePageDescription(1, 3, location),
-      gulfWar1990Locations: {
-        [location]: {
-          startDate: {
-            ...currentOrPastDateUI('Service start date (approximate)'),
-            'ui:options': {
-              // monthYear: true,
-            },
-          },
-          endDate: {
-            ...currentOrPastDateUI('Service end date (approximate)'),
-            'ui:options': {
-              // monthYear: true,
-            },
-          },
-        },
-      },
-      'view:gulfWar1990AdditionalInfo': {
-        'ui:description': gulfWar1990LocationsAdditionalInfo,
-      },
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        gulfWar1990Locations: {
-          type: 'object',
-          properties: {
-            [location]: {
-              type: 'object',
-              properties: {
-                startDate: {
-                  type: 'string',
-                  format: 'date',
-                },
-                endDate: {
-                  type: 'string',
-                  format: 'date',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  };
+export function getKeyIndex(key, objectName, { formData }) {
+  if (!formData[objectName]) return 0;
+
+  let index = 0;
+  const properties = Object.keys(formData[objectName]);
+  for (let i = 0; i < properties.length; i += 1) {
+    if (formData[objectName][properties[i]] === true) {
+      index += 1;
+      if (key === properties[i]) {
+        return index;
+      }
+    }
+  }
+  return 0;
 }
 
 /**
- * Make the page configuration for each Gulf War 1990 location page
- *
- * @returns an object with page configs for each location page
+ * Given an object storing checkbox values, get a count of how many values are true
+ * @param {string} objectName - name of the object to look at in the form data
+ * @param {object} formData - full formData for the form
+ * @returns {number} count of checkboxes with a value of true
  */
-export function makeGulfWar1990LocationPages() {
-  const gulfWar1990LocationPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
-    location => {
-      const pageName = `gulfWar1990Locations-${location}`;
-      const page = makeGulfWar1990LocationPageItems(location);
-      return {
-        [pageName]: {
-          title: gulfWar1990PageTitle,
-          path: `gulfWar1990Locations-${location}`,
-          uiSchema: page.uiSchema,
-          schema: page.schema,
-          depends: formData =>
-            formData?.gulfWar1990 && formData?.gulfWar1990?.[location],
-        },
-      };
-    },
-  );
+export function getSelectedCount(objectName, { formData } = {}) {
+  if (!formData[objectName]) return 0;
 
-  return Object.assign({}, ...gulfWar1990LocationPagesList);
+  return Object.values(formData[objectName]).filter(value => value === true)
+    .length;
 }
