@@ -41,44 +41,24 @@ const MedicationsListSort = props => {
         </VaSelect>
       </div>
       <div className="sort-button">
-        {showRefillContent ? (
-          <VaButton
-            uswds
-            className="va-button"
-            secondary
-            data-testid="sort-button"
-            text="Sort"
-            onClick={() => {
-              if (sortListOption) {
-                sortRxList(sortListOption);
-                history.push(`/?page=1`);
-                waitForRenderThenFocus(
-                  "[data-testid='page-total-info']",
-                  document,
-                  500,
-                );
-              }
-            }}
-          />
-        ) : (
-          <VaButton
-            uswds
-            className="va-button"
-            data-testid="sort-button"
-            text="Sort"
-            onClick={() => {
-              if (sortListOption) {
-                sortRxList(sortListOption);
-                history.push(`/?page=1`);
-                waitForRenderThenFocus(
-                  "[data-testid='page-total-info']",
-                  document,
-                  500,
-                );
-              }
-            }}
-          />
-        )}
+        <VaButton
+          uswds
+          className="va-button"
+          secondary={showRefillContent}
+          data-testid="sort-button"
+          text="Sort"
+          onClick={() => {
+            if (sortListOption) {
+              sortRxList(sortListOption);
+              history.push(`/?page=1`);
+              waitForRenderThenFocus(
+                "[data-testid='page-total-info']",
+                document,
+                500,
+              );
+            }
+          }}
+        />
       </div>
     </div>
   );
