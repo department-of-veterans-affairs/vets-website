@@ -1,5 +1,3 @@
-const initialState = {};
+import user from './user';
 
-export default function reducer(state = initialState) {
-  return state;
-}
+export default { user };
