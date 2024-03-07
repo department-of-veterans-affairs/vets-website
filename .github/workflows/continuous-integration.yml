@@ -1032,8 +1032,8 @@ jobs:
           cd qa-standards-dashboard-data/coverage
           ls -a 
 
-      - name: Generate coverage report by app
-        run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+      # - name: Generate coverage report by app
+      #   run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
 
       - name: Merge Test results
         run: |
@@ -1086,21 +1086,21 @@ jobs:
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
-      - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
-        run: |
-          if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
-            aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-          else
-            echo 'No coverage report exists as no tests were run.'
-          fi
+      # - name: Upload coverage report to S3
+      #   if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
+      #   run: |
+      #     if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
+      #       aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+      #     else
+      #       echo 'No coverage report exists as no tests were run.'
+      #     fi
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
-      - name: Get code coverage
-        if: ${{ always() }}
-        id: code-coverage
-        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+      # - name: Get code coverage
+      #   if: ${{ always() }}
+      #   id: code-coverage
+      #   run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
       
       - name: Unit test results
         if: ${{ always() }}
