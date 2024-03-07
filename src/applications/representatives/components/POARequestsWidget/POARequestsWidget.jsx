@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 const POARequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
-    <va-link
-      class="view-all-link vads-u-margin-bottom--neg4"
+    <Link
+      className="view-all-link vads-u-margin-bottom--neg4"
       data-testid="view-all-poa-requests-link"
-      href="/representatives/poa-requests"
-      text="View all"
-    />
+      to="/poa-requests"
+    >
+      View all
+    </Link>
     <va-table sort-column={1} table-title="POA requests">
       <va-table-row slot="headers">
         <span>Claimant</span>
@@ -19,10 +21,7 @@ const POARequestsWidget = ({ poaRequests }) => (
         return (
           <va-table-row key={request.id}>
             <span>
-              <va-link
-                href={`/poa-requests/${request.id}`}
-                text={request.name}
-              />
+              <Link to={`/poa-requests/${request.id}`}>{request.name}</Link>
             </span>
             <span>{request.date}</span>
             <span />

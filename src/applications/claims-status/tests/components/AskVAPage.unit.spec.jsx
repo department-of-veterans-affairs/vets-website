@@ -92,7 +92,7 @@ describe('<AskVAPage>', () => {
   it('should update claims and redirect after success', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
-    const getClaimEVSS = sinon.spy();
+    const getClaim = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
@@ -103,9 +103,9 @@ describe('<AskVAPage>', () => {
     );
     tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       decisionRequested: true,
-      getClaimEVSS,
+      getClaim,
     });
-    expect(getClaimEVSS.calledWith(1)).to.be.true;
+    expect(getClaim.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1')).to.be.true;
   });
 
@@ -118,54 +118,6 @@ describe('<AskVAPage>', () => {
       params,
       router: getRouter(),
     };
-
-    it('calls getClaimLighthouse when enabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouseShow = true;
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <AskVAPage {...props} />
-        </Provider>,
-      );
-
-      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
-      // which requires rerendering
-      rerender(
-        <Provider store={store}>
-          <AskVAPage {...props} decisionRequested />
-        </Provider>,
-      );
-
-      expect(props.getClaimEVSS.called).to.be.false;
-      expect(props.getClaimLighthouse.called).to.be.true;
-    });
-
-    it('calls getClaimEVSS when disabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouseShow = false;
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <AskVAPage {...props} />
-        </Provider>,
-      );
-
-      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
-      // which requires rerendering
-      rerender(
-        <Provider store={store}>
-          <AskVAPage {...props} decisionRequested />
-        </Provider>,
-      );
-
-      expect(props.getClaimEVSS.called).to.be.true;
-      expect(props.getClaimLighthouse.called).to.be.false;
-    });
 
     // Disabling this test because it is not compatible with the va-checkbox web component yet.
     it.skip('calls submitRequest when disabled', () => {

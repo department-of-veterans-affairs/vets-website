@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 
 import POARequestsWidget from '../components/POARequestsWidget/POARequestsWidget';
 import { mockPOARequests } from '../mocks/mockPOARequests';
@@ -9,21 +8,17 @@ import { mockPOARequests } from '../mocks/mockPOARequests';
 
 import LoginViewWrapper from './LoginViewWrapper';
 
-const Dashboard = ({ poaPermissions = true }) => {
-  const breadcrumbs = [
-    { link: '/', label: 'Home' },
-    { link: '/dashboard', label: 'Dashboard' },
-  ];
+import { POABreadcrumbs } from '../common/breadcrumbs';
+
+const Dashboard = ({ POAPermissions = true }) => {
+  const dashboardBreadcrumbs = POABreadcrumbs('dashboard');
 
   return (
-    <LoginViewWrapper breadcrumbs={breadcrumbs} poaPermissions={poaPermissions}>
+    <LoginViewWrapper
+      breadcrumbs={dashboardBreadcrumbs}
+      POAPermissions={POAPermissions}
+    >
       <h1>Accredited Representative Portal</h1>
-      <Link
-        to="/poa-requests"
-        className="vads-c-action-link--green vads-u-margin-bottom--2"
-      >
-        Manage power of attorney requests
-      </Link>
       <div className="placeholder-container">
         <div className="dash-container">
           <div className="vads-u-display--flex">
@@ -49,7 +44,7 @@ const Dashboard = ({ poaPermissions = true }) => {
 };
 
 Dashboard.propTypes = {
-  poaPermissions: PropTypes.bool,
+  POAPermissions: PropTypes.bool,
 };
 
 export default Dashboard;
