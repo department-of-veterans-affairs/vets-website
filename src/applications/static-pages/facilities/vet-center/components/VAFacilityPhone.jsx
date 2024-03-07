@@ -11,6 +11,8 @@ export const processPhoneNumber = phoneNumber => {
       .map(c => c.replace(/-/g, '').trim())
       .filter(c => c);
     [phone, ext] = tempPhone;
+  } else {
+    phone = phone.replace(/-/g, '');
   }
   return { phone, ext };
 };

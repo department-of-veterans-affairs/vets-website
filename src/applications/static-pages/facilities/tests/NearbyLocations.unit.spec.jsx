@@ -441,7 +441,7 @@ describe('VAFacilityInfoSection', () => {
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '216-391-0264',
+      contact: '2163910264',
       extension: '',
     });
 
@@ -457,7 +457,7 @@ describe('VAFacilityPhone', () => {
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '301-000-0000',
+      contact: '3010000000',
       extension: '',
     });
     wrapper.unmount();
@@ -468,7 +468,7 @@ describe('VAFacilityPhone', () => {
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '301-000-0000',
+      contact: '3010000000',
       extension: '',
     });
     wrapper.unmount();
@@ -479,50 +479,33 @@ describe('processPhoneNumber', () => {
     const phoneNumber = '800-827-1000';
     const phoneNumberNoDashes = '8008271000';
     const extension = '123';
-    const temp1 = phoneNumber;
-    const temp2 = `${phoneNumber}x${extension}`;
-    const temp3 = `${phoneNumber} ext ${extension}`;
-    const temp4 = `${phoneNumber} ext. ${extension}`;
-    const temp5 = `${phoneNumber} extension ${extension}`;
-    const temp6 = `${phoneNumber} x. ${extension}`;
-    const temp7 = `${phoneNumber}, x${extension}`;
-    const temp8 = `${phoneNumber}, ext${extension}`;
-    const temp9 = `${phoneNumber}, ext. ${extension}`;
-    expect(processPhoneNumber(temp1)).to.deep.equal({
-      phone: phoneNumber, // doesn't replace dashes
-      ext: '',
-    });
-    expect(processPhoneNumber(temp2)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp3)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp4)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp5)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp6)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp7)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp8)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
-    expect(processPhoneNumber(temp9)).to.deep.equal({
-      phone: phoneNumberNoDashes,
-      ext: extension,
-    });
+    const phoneConditions = [
+      '',
+      'x',
+      ' ext ',
+      ' ext. ',
+      ' extension ',
+      ' x. ',
+      ', x',
+      ', ext',
+      ', ext.',
+      ', ext. ',
+    ]
+      // For all cases except the first, concatenate the phoneNumber, extension separator, and extension
+      .map((e, i) => (i === 0 ? phoneNumber : phoneNumber + e + extension));
+    for (let i = 0; i < phoneConditions.length; i += 1) {
+      const processed = processPhoneNumber(phoneConditions[i]);
+      if (i === 0) {
+        expect(processed).to.deep.equal({
+          phone: phoneNumberNoDashes,
+          ext: '',
+        });
+      } else {
+        expect(processed).to.deep.equal({
+          phone: phoneNumberNoDashes,
+          ext: extension,
+        });
+      }
+    }
   });
 });
