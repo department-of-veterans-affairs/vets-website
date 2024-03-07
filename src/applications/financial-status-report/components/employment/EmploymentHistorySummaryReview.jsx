@@ -77,9 +77,9 @@ const renderWorkDates = (job, index, isSpouse) => {
 
 const EmploymentHistorySummaryReview = ({ data, name }) => {
   const { employmentRecords = [] } =
-    data?.personalData?.employmentHistory?.veteran ?? [];
+    data?.personalData?.employmentHistory?.veteran ?? {};
   const { spEmploymentRecords = [] } =
-    data?.personalData?.employmentHistory?.spouse ?? [];
+    data?.personalData?.employmentHistory?.spouse ?? {};
 
   const isSpouse = name.toLowerCase().includes('spouse');
 
