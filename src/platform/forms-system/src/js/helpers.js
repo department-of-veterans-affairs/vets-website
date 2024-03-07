@@ -698,11 +698,11 @@ export function omitRequired(schema) {
  * @param form
  * @param [options] {{
  *  allowPartialAddress?: boolean,
- * } | (key, val) => any} Options for the transform, or you can pass a function here of the replacer
+ * } | (key, val) => any | any[] } An object of options for the transform, or a JSON.stringify replacer argument
  */
 export function transformForSubmit(formConfig, form, options) {
   const replacer =
-    typeof options === 'function'
+    typeof options === 'function' || Array.isArray(options)
       ? options
       : createStringifyFormReplacer(options);
   const expandedPages = expandArrayPages(
