@@ -54,7 +54,7 @@ export const fileWithMetadataSchema = possibleFiles => {
         attachmentId: {
           type: 'string',
           enum: [...enu],
-          enumNames: possibleFiles,
+          enumNames: enu,
         },
       },
     },

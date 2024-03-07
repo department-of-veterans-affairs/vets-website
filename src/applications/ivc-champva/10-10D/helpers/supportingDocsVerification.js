@@ -1,4 +1,19 @@
-import { requiredFiles } from '../components/File/MissingFileList';
+/* List of required files - not enforced by the form because we want
+users to be able to opt into mailing these documents. */
+const requiredFiles = [
+  'sponsorCasualtyReport',
+  'applicantStepMarriageCert',
+  'applicantAdoptionPapers',
+  'applicantSchoolCert',
+  'applicantMedicarePartAPartBCard',
+  'applicantMedicarePartACard', // TODO: make form page for this
+  'applicantMedicarePartBCard', // TODO: make form page for this
+  'applicantMedicarePartDCard',
+  'over65IneligibleCert', // TODO: make form page for this
+  'applicantOhiCard',
+  'applicant107959c',
+];
+
 /**
  * Dynamically get list of applicant property names that correspond to a
  * file upload so we can check if a given applicant has uploaded that

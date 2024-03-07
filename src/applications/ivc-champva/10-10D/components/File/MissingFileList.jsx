@@ -6,22 +6,6 @@ import { makeHumanReadable } from '../../helpers/utilities';
 
 // TODO: update makeHumanReadable() to improve file names
 
-// List of required files - not enforced by the form because we want
-// users to be able to opt into mailing these documents.
-export const requiredFiles = [
-  'sponsorCasualtyReport',
-  'applicantStepMarriageCert',
-  'applicantAdoptionPapers',
-  'applicantSchoolCert',
-  'applicantMedicarePartAPartBCard',
-  'applicantMedicarePartACard', // TODO: make form page for this
-  'applicantMedicarePartBCard', // TODO: make form page for this
-  'applicantMedicarePartDCard',
-  'over65IneligibleCert', // TODO: make form page for this
-  'applicantOhiCard',
-  'applicant107959c',
-];
-
 /**
  * Produce either a success message or a link to upload a file
  * @param {object} file Object representing a missing file
@@ -121,7 +105,7 @@ export default function MissingFileList({
 }
 
 MissingFileList.propTypes = {
-  data: PropTypes.array || PropTypes.object,
+  data: PropTypes.any,
   description: PropTypes.string,
   disableLinks: PropTypes.bool,
   nameKey: PropTypes.string,

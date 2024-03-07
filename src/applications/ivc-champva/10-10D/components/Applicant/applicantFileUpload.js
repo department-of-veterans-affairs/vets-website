@@ -1,33 +1,7 @@
-import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
-
-const marriagePapers = [
-  'Marriage certificate',
-  'Civil union papers',
-  'Affidavit of common law marriage',
-];
-
-export const acceptableFiles = {
-  birthCert: ['Birth certificate', 'Social Security card'],
-  schoolCert: ['School enrollment certification form', 'Enrollment letter'],
-  spouseCert: marriagePapers,
-  stepCert: marriagePapers,
-  adoptionCert: ['Court ordered adoption papers'],
-  helplessCert: ['VBA decision rating certificate of award'],
-  medicareABCert: [
-    'Front of Medicare Parts A or B card',
-    'Back of Medicare Parts A or B card',
-  ],
-  medicareDCert: [
-    'Front of Medicare Part D card',
-    'Back of Medicare Part D card',
-  ],
-  ssIneligible: ['Letter from the SSA'],
-  healthInsCert: [
-    'Front of health insurance card',
-    'Back of health insurance card',
-  ],
-  va7959cCert: ['VA form 10-7959c'],
-};
+import {
+  uploadWithInfoComponent,
+  acceptableFiles,
+} from '../Sponsor/sponsorFileUploads';
 
 export const applicantBirthCertConfig = uploadWithInfoComponent(
   acceptableFiles.birthCert,

@@ -49,6 +49,7 @@ import {
   sponsorDisabilityRatingConfig,
   sponsorDischargePapersConfig,
   blankSchema,
+  acceptableFiles,
 } from '../components/Sponsor/sponsorFileUploads';
 import {
   applicantBirthCertConfig,
@@ -60,7 +61,6 @@ import {
   applicantOhiCardsConfig,
   applicant107959cConfig,
   applicantMarriageCertConfig,
-  acceptableFiles,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -83,11 +83,7 @@ import SupportingDocumentsPage, {
 
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
-import {
-  fileTypes,
-  attachmentsSchema,
-  fileWithMetadataSchema,
-} from './attachments';
+import { fileTypes, fileWithMetadataSchema } from './attachments';
 
 import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
@@ -428,19 +424,28 @@ const formConfig = {
                 } ${formData.veteransFullName.last}`,
             ),
             ...sponsorCasualtyReportConfig.uiSchema,
-            sponsorCasualtyReport: {
-              ...fileUploadUI("Upload Sponsor's casualty report", {
+            sponsorCasualtyReport: fileUploadUI(
+              "Upload Sponsor's casualty report",
+              {
                 fileTypes,
                 fileUploadUrl: uploadUrl,
-              }),
-            },
+                attachmentSchema: {
+                  'ui:title': 'Document type',
+                },
+                attachmentName: {
+                  'ui:title': 'Document name',
+                },
+              },
+            ),
           },
           schema: {
             type: 'object',
             properties: {
               titleSchema,
               ...sponsorCasualtyReportConfig.schema,
-              sponsorCasualtyReport: attachmentsSchema,
+              sponsorCasualtyReport: fileWithMetadataSchema(
+                acceptableFiles.casualtyCert,
+              ),
             },
           },
         },
@@ -507,7 +512,7 @@ const formConfig = {
           CustomPage: FileFieldCustom,
           CustomPageReview: props =>
             FileViewField(
-              props?.data.sponsorCasualtyReport || [],
+              props?.data.sponsorDisabilityRating || [],
               `${sponsorWording(props?.data)} disability rating`,
             ),
           uiSchema: {
@@ -519,19 +524,28 @@ const formConfig = {
                 } ${formData.veteransFullName.last}`,
             ),
             ...sponsorDisabilityRatingConfig.uiSchema,
-            sponsorDisabilityRating: {
-              ...fileUploadUI("Upload Sponsor's disability rating", {
+            sponsorDisabilityRating: fileUploadUI(
+              "Upload Sponsor's disability rating",
+              {
                 fileTypes,
                 fileUploadUrl: uploadUrl,
-              }),
-            },
+                attachmentSchema: {
+                  'ui:title': 'Document type',
+                },
+                attachmentName: {
+                  'ui:title': 'Document name',
+                },
+              },
+            ),
           },
           schema: {
             type: 'object',
             properties: {
               titleSchema,
               ...sponsorDisabilityRatingConfig.schema,
-              sponsorDisabilityRating: attachmentsSchema,
+              sponsorDisabilityRating: fileWithMetadataSchema(
+                acceptableFiles.disabilityCert,
+              ),
             },
           },
         },
@@ -541,7 +555,7 @@ const formConfig = {
           CustomPage: FileFieldCustom,
           CustomPageReview: props =>
             FileViewField(
-              props?.data.sponsorCasualtyReport || [],
+              props?.data.sponsorDischargePapers || [],
               `${sponsorWording(props?.data)} discharge papers`,
             ),
           uiSchema: {
@@ -553,19 +567,28 @@ const formConfig = {
                 } ${formData.veteransFullName.last}`,
             ),
             ...sponsorDischargePapersConfig.uiSchema,
-            sponsorDischargePapers: {
-              ...fileUploadUI("Upload Sponsor's discharge papers", {
+            sponsorDischargePapers: fileUploadUI(
+              "Upload Sponsor's discharge papers",
+              {
                 fileTypes,
                 fileUploadUrl: uploadUrl,
-              }),
-            },
+                attachmentSchema: {
+                  'ui:title': 'Document type',
+                },
+                attachmentName: {
+                  'ui:title': 'Document name',
+                },
+              },
+            ),
           },
           schema: {
             type: 'object',
             properties: {
               titleSchema,
               ...sponsorDischargePapersConfig.schema,
-              sponsorDischargePapers: attachmentsSchema,
+              sponsorDischargePapers: fileWithMetadataSchema(
+                acceptableFiles.dischargeCert,
+              ),
             },
           },
         },
@@ -797,15 +820,16 @@ const formConfig = {
               'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
-                  'Required supporting file upload',
+                  'Optional supporting file upload',
                   ({ formData }) =>
                     `Upload a birth certificate for ${
                       formData?.applicantName?.first
                     } ${formData?.applicantName?.last}`,
                 ),
                 ...applicantBirthCertConfig.uiSchema,
-                applicantBirthCertOrSocialSecCard: {
-                  ...fileUploadUI("Upload the applicant's birth certificate", {
+                applicantBirthCertOrSocialSecCard: fileUploadUI(
+                  "Upload the applicant's birth certificate",
+                  {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
                     attachmentSchema: {
@@ -814,17 +838,17 @@ const formConfig = {
                     attachmentName: {
                       'ui:title': 'Document name',
                     },
-                  }),
-                },
+                  },
+                ),
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantBirthCertConfig.schema,
-            applicantBirthCertOrSocialSecCard: {
-              ...fileWithMetadataSchema(acceptableFiles.birthCert),
-            },
+            applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
+              acceptableFiles.birthCert,
+            ),
           }),
         },
         page18b: {
@@ -878,9 +902,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantSchoolCertConfig.schema,
-            applicantSchoolCert: {
-              ...fileWithMetadataSchema(acceptableFiles.schoolCert),
-            },
+            applicantSchoolCert: fileWithMetadataSchema(
+              acceptableFiles.schoolCert,
+            ),
           }),
         },
         page18c: {
@@ -980,9 +1004,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantAdoptedConfig.schema,
-            applicantAdoptionPapers: {
-              ...fileWithMetadataSchema(acceptableFiles.adoptionCert),
-            },
+            applicantAdoptionPapers: fileWithMetadataSchema(
+              acceptableFiles.adoptionCert,
+            ),
           }),
         },
         page18e: {
@@ -1040,9 +1064,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantStepChildConfig.schema,
-            applicantStepMarriageCert: {
-              ...fileWithMetadataSchema(acceptableFiles.stepCert),
-            },
+            applicantStepMarriageCert: fileWithMetadataSchema(
+              acceptableFiles.stepCert,
+            ),
           }),
         },
         page18f: {
@@ -1093,9 +1117,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: {
-              ...fileWithMetadataSchema(acceptableFiles.spouseCert),
-            },
+            applicantMarriageCert: fileWithMetadataSchema(
+              acceptableFiles.spouseCert,
+            ),
           }),
         },
         page19: {
@@ -1192,9 +1216,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: {
-              ...fileWithMetadataSchema(acceptableFiles.medicareABCert),
-            },
+            applicantMedicarePartAPartBCard: fileWithMetadataSchema(
+              acceptableFiles.medicareABCert,
+            ),
           }),
         },
         page20b: {
@@ -1247,9 +1271,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: {
-              ...fileWithMetadataSchema(acceptableFiles.medicareDCert),
-            },
+            applicantMedicarePartDCard: fileWithMetadataSchema(
+              acceptableFiles.medicareDCert,
+            ),
           }),
         },
         page21: {
@@ -1313,9 +1337,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: {
-              ...fileWithMetadataSchema(acceptableFiles.healthInsCert),
-            },
+            applicantOhiCard: fileWithMetadataSchema(
+              acceptableFiles.healthInsCert,
+            ),
           }),
         },
         page22: {
@@ -1365,9 +1389,9 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicant107959cConfig.schema,
-            applicant107959c: {
-              ...fileWithMetadataSchema(acceptableFiles.va7959cCert),
-            },
+            applicant107959c: fileWithMetadataSchema(
+              acceptableFiles.va7959cCert,
+            ),
           }),
         },
       },

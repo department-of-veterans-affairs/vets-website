@@ -159,9 +159,9 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      {sponsorMissingFiles.missingUploads || applicantsWithMissingFiles
-        ? { missingFileMessage }
-        : null}
+      {sponsorMissingFiles.missingUploads || applicantsWithMissingFiles ? (
+        <>{missingFileMessage}</>
+      ) : null}
       {sponsorMissingFiles ? (
         <MissingFileList
           data={sponsorMissingFiles}
