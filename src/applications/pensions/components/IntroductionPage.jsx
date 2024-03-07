@@ -117,9 +117,10 @@ class IntroductionPage extends React.Component {
         <p>
           An accredited representative, like a Veterans Service Officer (VSO),
           can help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          <va-link
+            href="https://www.va.gov/disability/get-help-filing-claim/"
+            text="Get help filing your claim"
+          />
         </p>
         <va-omb-info
           res-burden={30}
