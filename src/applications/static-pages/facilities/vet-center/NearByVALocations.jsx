@@ -126,7 +126,7 @@ const NearbyLocations = props => {
           convertMetersToMiles(distance[0]),
         );
 
-        const facilityCoordinatesWithDistances = [...facilityCoordinates].map(
+        const facilityCoordinatesWithDistances = facilityCoordinates.map(
           (center, index) => ({
             ...center,
             distance: nearbyDistances[index],
