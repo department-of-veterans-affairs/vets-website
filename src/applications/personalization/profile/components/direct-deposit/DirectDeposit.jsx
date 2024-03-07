@@ -37,6 +37,7 @@ import DirectDepositWrapper from './DirectDepositWrapper';
 import TemporaryOutageCnp from './alerts/TemporaryOutageCnp';
 
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+import { EduMigrationAlert } from './alerts/EduMigrationAlert';
 
 const DirectDeposit = ({
   cnpUiState,
@@ -155,12 +156,15 @@ const DirectDeposit = ({
             {hideDirectDepositCompAndPen ? (
               <TemporaryOutageCnp />
             ) : (
-              <BankInfo
-                type={benefitTypes.CNP}
-                setFormIsDirty={setCnpFormIsDirty}
-                setViewingPayments={setViewingPayments}
-                showSuccessMessage={showCNPSuccessMessage}
-              />
+              <>
+                <EduMigrationAlert />
+                <BankInfo
+                  type={benefitTypes.CNP}
+                  setFormIsDirty={setCnpFormIsDirty}
+                  setViewingPayments={setViewingPayments}
+                  showSuccessMessage={showCNPSuccessMessage}
+                />
+              </>
             )}
           </DowntimeNotification>
         ) : (
