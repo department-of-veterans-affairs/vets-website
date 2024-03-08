@@ -8,9 +8,9 @@ import {
   getPreparerString,
   getPersonalInformationChapterTitle,
   getNameAndDobPageTitle,
+  getNameAndDobPageDescription,
   getIdentityInfoPageTitle,
   getVeteranIdentityInfoPageTitle,
-  getVeteranNameAndDobPageTitle,
   getLivingSituationChapterTitle,
   validateLivingSituation,
   getContactInfoChapterTitle,
@@ -129,30 +129,30 @@ describe('getNameAndDobPageTitle()', () => {
   });
 });
 
-describe('getVeteranNameAndDobPageTitle()', () => {
-  const titleEnding = 'name and date of birth';
-
-  it('returns correct page-title for preparerType', () => {
+describe('getNameAndDobPageDescription()', () => {
+  it('returns correct page-description for preparerType', () => {
     expect(
-      getVeteranNameAndDobPageTitle({
+      getNameAndDobPageDescription({
         preparerType: PREPARER_TYPES.VETERAN,
       }),
-    ).to.equal(`Your ${titleEnding}`);
+    ).to.equal('Please provide your information as the Veteran.');
     expect(
-      getVeteranNameAndDobPageTitle({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
-      }),
-    ).to.equal(`Veteran’s ${titleEnding}`);
-    expect(
-      getVeteranNameAndDobPageTitle({
+      getNameAndDobPageDescription({
         preparerType: PREPARER_TYPES.NON_VETERAN,
       }),
-    ).to.equal(`Veteran’s ${titleEnding}`);
+    ).to.equal('Please provide your information as the person with the claim.');
     expect(
-      getVeteranNameAndDobPageTitle({
+      getNameAndDobPageDescription({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      }),
+    ).to.equal('Please provide the Veteran’s information.');
+    expect(
+      getNameAndDobPageDescription({
         preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
       }),
-    ).to.equal(`Veteran’s ${titleEnding}`);
+    ).to.equal(
+      'Please provide information on the person with the claim (also called the claimant).',
+    );
   });
 });
 
