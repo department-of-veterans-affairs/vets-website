@@ -7,6 +7,25 @@ const createClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
   return {
     data: [
       {
+        id: '333333',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-10-18',
+          claimPhaseDates: {
+            phaseChangeDate: formattedDaysAgo,
+          },
+          claimType: 'Compensation',
+          closeDate: open ? null : '2023-10-31',
+          decisionLetterSent: false,
+          developmentLetterSent: false,
+          documentsNeeded: true,
+          endProductCode: '404',
+          evidenceWaiverSubmitted5103: false,
+          lighthouseId: 266374,
+          status: open ? 'EVIDENCE_GATHERING_REVIEW_DECISION' : 'COMPLETE',
+        },
+      },
+      {
         id: '266374',
         type: 'claim',
         attributes: {
