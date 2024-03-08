@@ -26,7 +26,7 @@ const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
-  [...STATUSES.keys()].indexOf(latestStatus) + 1;
+  [...STATUSES.keys()].indexOf(latestStatus.toUpperCase()) + 1;
 
 const isEventOrPrimaryPhase = event => {
   if (event.type === 'phase_entered') {
@@ -183,7 +183,6 @@ class OverviewPage extends React.Component {
 
   getPageContent() {
     const { claim } = this.props;
-
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
 
