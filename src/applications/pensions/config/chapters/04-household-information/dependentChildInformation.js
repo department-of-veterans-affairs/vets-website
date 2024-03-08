@@ -1,4 +1,3 @@
-import get from 'platform/utilities/data/get';
 import merge from 'lodash/merge';
 import moment from 'moment';
 
@@ -7,20 +6,25 @@ import {
   radioUI,
   ssnSchema,
   ssnUI,
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import {
+  VaCheckboxField,
+  VaTextInputField,
+} from 'platform/forms-system/src/js/web-component-fields';
+
+import get from 'platform/utilities/data/get';
+
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
-import { dependentSeriouslyDisabledDescription } from '../../../helpers';
+import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
 } from '../../../components/FormAlerts';
-
-const { dependents } = fullSchemaPensions.properties;
 
 const childRelationshipOptions = {
   BIOLOGICAL: "They're my biological child",
@@ -53,9 +57,10 @@ export default {
   uiSchema: {
     dependents: {
       items: {
-        'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
+        ...titleUI(createHouseholdMemberTitle('fullName', 'information')),
         childPlaceOfBirth: {
           'ui:title': 'Place of birth (city and state or foreign country)',
+          'ui:webComponentField': VaTextInputField,
         },
         childSocialSecurityNumber: merge({}, ssnUI(), {
           'ui:required': (formData, index) =>
@@ -63,6 +68,7 @@ export default {
         }),
         'view:noSSN': {
           'ui:title': "Doesn't have a Social Security number",
+          'ui:webComponentField': VaCheckboxField,
         },
         childRelationship: radioUI({
           title: "What's your relationship?",
@@ -93,7 +99,7 @@ export default {
         // unable to use yesNoUI, because description is not being respected
         disabled: {
           'ui:title': 'Is your child seriously disabled?',
-          'ui:description': dependentSeriouslyDisabledDescription,
+          'ui:description': DependentSeriouslyDisabledDescription,
           'ui:required': (formData, index) =>
             isEligibleForDisabilitySupport(
               get(['dependents', index, 'childDateOfBirth'], formData),
@@ -142,7 +148,7 @@ export default {
             'previouslyMarried',
           ],
           properties: {
-            childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
+            childPlaceOfBirth: { type: 'string' },
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(

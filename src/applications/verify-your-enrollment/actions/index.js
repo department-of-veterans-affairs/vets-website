@@ -15,6 +15,9 @@ export const UPDATE_ADDRESS_FAILURE = 'UPDATE_ADDRESS_FAILURE';
 export const UPDATE_BANK_INFO = 'UPDATE_BANK_INFO';
 export const UPDATE_BANK_INFO_SUCCESS = 'UPDATE_BANK_INFO_SUCCESS';
 export const UPDATE_BANK_INFO_FAILED = 'UPDATE_BANK_INFO_FAILED';
+export const VERIFY_ENROLLMENT = 'VERIFY_ENROLLMENT';
+export const VERIFY_ENROLLMENT_SUCCESS = 'VERIFY_ENROLLMENT_SUCCESS';
+export const VERIFY_ENROLLMENT_FAILURE = 'VERIFY_ENROLLMENT_FAILURE';
 
 const API_URL = `${environment.API_URL}/vye/v1`;
 // Action Creators
@@ -71,13 +74,10 @@ export function postMailingAddress(mailingAddress) {
         body: JSON.stringify(mailingAddress),
         headers: { 'Content-Type': 'application/json' },
       });
-
-      if (response?.ok) {
-        dispatch({
-          type: UPDATE_ADDRESS_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: UPDATE_ADDRESS_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: UPDATE_ADDRESS_FAILURE,
@@ -98,15 +98,37 @@ export const updateBankInfo = bankInfo => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response?.ok) {
-        dispatch({
-          type: UPDATE_BANK_INFO_SUCCESS,
-          response,
-        });
-      }
+      dispatch({
+        type: UPDATE_BANK_INFO_SUCCESS,
+        response,
+      });
     } catch (error) {
       dispatch({
         type: UPDATE_BANK_INFO_FAILED,
+        errors: error,
+      });
+      throw error;
+    }
+  };
+};
+
+export const verifyEnrollmentAction = () => {
+  return async dispatch => {
+    dispatch({ type: VERIFY_ENROLLMENT });
+    try {
+      const response = await apiRequest(`${API_URL}/verify`, {
+        method: 'POST',
+        // body: JSON.stringify(bankInfo),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      dispatch({
+        type: VERIFY_ENROLLMENT_SUCCESS,
+        response,
+      });
+    } catch (error) {
+      dispatch({
+        type: VERIFY_ENROLLMENT_FAILURE,
         errors: error,
       });
       throw error;

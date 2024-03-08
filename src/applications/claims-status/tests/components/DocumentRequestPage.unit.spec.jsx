@@ -4,10 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { render } from '@testing-library/react';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
+
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
 
 const claim = {
@@ -16,10 +15,6 @@ const claim = {
 };
 
 const params = { id: 1 };
-
-const store = createStore(() => ({
-  featureToggles: {},
-}));
 
 const getRouter = () => ({
   push: sinon.spy(),
@@ -37,7 +32,7 @@ describe('<DocumentRequestPage>', () => {
 
   it('should render upload error alert', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
     };
     const message = {
       title: 'Test',
@@ -57,7 +52,7 @@ describe('<DocumentRequestPage>', () => {
 
   it('should clear upload error when leaving', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
     };
     const message = {
       title: 'test',
@@ -82,7 +77,7 @@ describe('<DocumentRequestPage>', () => {
 
   it('should not clear notification after completed upload', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
     };
     const message = {
       title: 'test',
@@ -108,7 +103,7 @@ describe('<DocumentRequestPage>', () => {
 
   it('should render due date info', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
       suspenseDate: '2010-05-10',
     };
 
@@ -119,18 +114,19 @@ describe('<DocumentRequestPage>', () => {
         trackedItem={trackedItem}
       />,
     );
-    const content = tree.dive(['DocumentRequestPageContent']);
-    expect(content.subTree('DueDateOld')).not.to.be.false;
-    expect(content.subTree('DueDateOld').props.date).to.eql(
+
+    expect(tree.subTree('DueDateOld')).not.to.be.false;
+    expect(tree.subTree('DueDateOld').props.date).to.eql(
       trackedItem.suspenseDate,
     );
   });
 
   it('should render optional upload alert', () => {
     const trackedItem = {
-      type: 'still_need_from_others_list',
+      status: 'NEEDED_FROM_OTHERS',
       suspenseDate: '2010-05-10',
     };
+
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
         params={params}
@@ -138,13 +134,13 @@ describe('<DocumentRequestPage>', () => {
         trackedItem={trackedItem}
       />,
     );
-    const content = tree.dive(['DocumentRequestPageContent']);
-    expect(content.subTree('.optional-upload')).not.to.be.false;
+
+    expect(tree.subTree('.optional-upload')).not.to.be.false;
   });
 
   it('should handle submit files', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
       suspenseDate: '2010-05-10',
     };
     const onSubmit = sinon.spy();
@@ -162,7 +158,7 @@ describe('<DocumentRequestPage>', () => {
 
   it('should reset uploads and set title on mount', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
       displayName: 'Testing',
     };
     const resetUploads = sinon.spy();
@@ -188,14 +184,14 @@ describe('<DocumentRequestPage>', () => {
 
   it('should set details and go to files page if complete', () => {
     const trackedItem = {
-      type: 'still_need_from_you_list',
+      status: 'NEEDED_FROM_YOU',
       displayName: 'Testing',
     };
     const router = getRouter();
     const parameters = {
       id: 339,
     };
-    const getClaimEVSS = sinon.spy();
+    const getClaim = sinon.spy();
     const resetUploads = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -207,7 +203,7 @@ describe('<DocumentRequestPage>', () => {
         trackedItem={trackedItem}
         router={router}
         params={parameters}
-        getClaimEVSS={getClaimEVSS}
+        getClaim={getClaim}
         resetUploads={resetUploads}
       />,
     );
@@ -215,71 +211,7 @@ describe('<DocumentRequestPage>', () => {
     tree
       .getMountedInstance()
       .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
-    expect(getClaimEVSS.calledWith(1)).to.be.true;
+    expect(getClaim.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });
-
-  // START lighthouse_migration
-  context('cst_use_lighthouse feature toggle', () => {
-    const trackedItem = {
-      type: 'still_need_from_you_list',
-      displayName: 'Testing',
-    };
-
-    const props = {
-      claim,
-      clearNotification: () => {},
-      files: [],
-      params,
-      resetUploads: () => {},
-      router: getRouter(),
-      trackedItem,
-      uploadField: { value: null, dirty: false },
-    };
-
-    it('calls getClaimLighthouse when enabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = true;
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <DocumentRequestPage {...props} />
-        </Provider>,
-      );
-
-      rerender(
-        <Provider store={store}>
-          <DocumentRequestPage {...props} uploadComplete />
-        </Provider>,
-      );
-
-      expect(props.getClaimEVSS.called).to.be.false;
-      expect(props.getClaimLighthouse.called).to.be.true;
-    });
-
-    it('calls getClaimEVSS when disabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = false;
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <DocumentRequestPage {...props} />
-        </Provider>,
-      );
-
-      rerender(
-        <Provider store={store}>
-          <DocumentRequestPage {...props} uploadComplete />
-        </Provider>,
-      );
-
-      expect(props.getClaimEVSS.called).to.be.true;
-      expect(props.getClaimLighthouse.called).to.be.false;
-    });
-  });
-  // END lighthouse_migration
 });

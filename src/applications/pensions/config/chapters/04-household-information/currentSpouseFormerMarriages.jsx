@@ -10,7 +10,9 @@ import {
   fullNameSchema,
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 import {
   ContactWarningAlert,
@@ -51,7 +53,7 @@ SpouseMarriageView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': SpouseMarriageTitle,
+    ...titleUI(SpouseMarriageTitle),
     'view:contactWarning': {
       'ui:description': ContactWarningAlert,
       'ui:options': {
@@ -66,7 +68,7 @@ export default {
     },
     spouseMarriages: {
       'ui:options': {
-        itemName: 'Former marriage of the spouse',
+        itemName: 'Former marriage of spouse',
         itemAriaLabel: data =>
           data.spouseFullName &&
           `${formatFullName(data.spouseFullName)} former marriage of spouse`,
@@ -86,6 +88,7 @@ export default {
         }),
         otherExplanation: {
           'ui:title': 'Please specify',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'reasonForSeparation',
             expandUnderCondition: 'OTHER',
@@ -101,11 +104,18 @@ export default {
           'ui:validations': [validateAfterMarriageDates],
         },
         locationOfMarriage: {
-          'ui:title': 'Place of marriage (city and state or foreign country)',
+          'ui:title': 'Place of marriage',
+          'ui:options': {
+            hint: 'City and state or foreign country',
+          },
+          'ui:webComponentField': VaTextInputField,
         },
         locationOfSeparation: {
-          'ui:title':
-            'Place of marriage termination (city and state or foreign country)',
+          'ui:title': 'Place of marriage termination',
+          'ui:options': {
+            hint: 'City and state or foreign country',
+          },
+          'ui:webComponentField': VaTextInputField,
         },
       },
     },
@@ -135,7 +145,7 @@ export default {
             dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,
             locationOfMarriage: marriageProperties.locationOfMarriage,
-            locationOfSeparation: { type: 'string' },
+            locationOfSeparation: marriageProperties.locationOfSeparation,
           },
         },
       },

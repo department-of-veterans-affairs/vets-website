@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useDispatch, useSelector } from 'react-redux';
-import { translateDateIntoMonthDayYearFormat } from '../helpers';
+import {
+  getCurrentDateFormatted,
+  remainingBenefits,
+  translateDateIntoMonthDayYearFormat,
+} from '../helpers';
 import { fetchPersonalInfo, getData } from '../actions';
 
 export const useData = () => {
@@ -17,14 +20,20 @@ export const useData = () => {
     },
     [dispatch],
   );
-  const userInfo =
-    environment.API_URL !== 'http://localhost:3000'
-      ? data && data['vye::UserInfo']
-      : personalInfo && personalInfo['vye::UserInfo'];
-  const date = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
+  const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
+
+  const userInfo = isUserLoggedIn
+    ? personalInfo && personalInfo['vye::UserInfo']
+    : data && data['vye::UserInfo'];
+  const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
+  const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
+  const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
     loading: loading || isLoading,
-    date,
+    expirationDate,
+    updated,
+    day,
+    month,
     ...userInfo,
   };
 };
