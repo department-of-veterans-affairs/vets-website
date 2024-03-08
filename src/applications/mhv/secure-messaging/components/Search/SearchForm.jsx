@@ -7,7 +7,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
 import { ErrorMessages, Paths } from '../../util/constants';
-import { DateRangeValues } from '../../util/inputContants';
+import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
@@ -73,6 +73,8 @@ const SearchForm = props => {
     let fromDateTime;
     let toDateTime;
 
+    const queryRange = DateRangeOptions.find(item => dateRange === item.value);
+
     if (
       dateRange === DateRangeValues.LAST3 ||
       dateRange === DateRangeValues.LAST6 ||
@@ -99,6 +101,7 @@ const SearchForm = props => {
           category,
           fromDate: relativeFromDate || fromDateTime,
           toDate: relativeToDate || toDateTime,
+          queryRange,
         },
         searchTerm.toLowerCase(),
       ),
@@ -118,6 +121,13 @@ const SearchForm = props => {
   };
 
   const queryItem = (key, value) => {
+    if (key?.label) {
+      return (
+        <li>
+          "<strong>{`${key.label}`}</strong>, <strong>{value}</strong>"
+        </li>
+      );
+    }
     return (
       <li>
         {key && `${key}: `}"<strong>{value}</strong>"
@@ -126,9 +136,16 @@ const SearchForm = props => {
   };
 
   const dateRangeDisplay = () => {
+    const queryRangeText =
+      query.queryRange.value === DateRangeValues.LAST3 ||
+      query.queryRange.value === DateRangeValues.LAST6 ||
+      query.queryRange.value === DateRangeValues.LAST12
+        ? query.queryRange
+        : null;
+
     if (query.fromDate && query.toDate) {
       return queryItem(
-        null,
+        queryRangeText,
         `${moment.utc(query.fromDate).format('MMMM Do YYYY')} to ${moment
           .utc(query.toDate)
           .format('MMMM Do YYYY')}`,
