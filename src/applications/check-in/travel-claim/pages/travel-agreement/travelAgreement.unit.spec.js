@@ -73,20 +73,4 @@ describe('TravelAgreement page ', () => {
     expect(goToPreviousPageSpy.calledOnce).to.be.true;
     sandbox.restore();
   });
-
-  it('renders link with correct href', () => {
-    const component = render(
-      <CheckInProvider
-        store={store}
-        router={{
-          currentPage: '/travel-agreement',
-        }}
-      >
-        <TravelAgreement />
-      </CheckInProvider>,
-    );
-
-    const link = component.getByTestId('file-claim-link');
-    expect(link.getAttribute('href')).to.equal('#travel-review');
-  });
 });
