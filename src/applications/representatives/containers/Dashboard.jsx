@@ -4,8 +4,6 @@ import React from 'react';
 import POARequestsWidget from '../components/POARequestsWidget/POARequestsWidget';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 
-// import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-
 const Dashboard = () => {
   return (
     <>

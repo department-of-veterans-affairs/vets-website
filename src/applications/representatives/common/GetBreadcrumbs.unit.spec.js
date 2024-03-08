@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
-import { GetBreadcrumbs } from './GetBreadcrumbs';
+import GetBreadcrumbs from './GetBreadcrumbs';
 
 describe('breadcrumbs', () => {
   it('returns an array of breadcrumbs for the dashboard', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export const GetBreadcrumbs = ({ page }) => {
+const GetBreadcrumbs = ({ page }) => {
   const breadcrumbPaths = {
     dashboard: [
       { link: '/', label: 'Home' },
@@ -19,12 +19,14 @@ export const GetBreadcrumbs = ({ page }) => {
   };
 
   return (
-    <>
+    <va-breadcrumbs home-veterans-affairs={false}>
       {breadcrumbPaths[page].map(({ link, label }) => (
         <li key={link}>
           <Link to={link}>{label}</Link>
         </li>
       ))}
-    </>
+    </va-breadcrumbs>
   );
 };
+
+export default GetBreadcrumbs;

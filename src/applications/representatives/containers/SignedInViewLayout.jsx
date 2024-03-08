@@ -3,9 +3,9 @@ import React from 'react';
 // import RequiredLoginView from '~/platform/user/authorization/components/RequiredLoginView';
 
 import Sidenav from '../components/Sidenav';
-import { GetBreadcrumbs } from '../common/GetBreadcrumbs';
+import GetBreadcrumbs from '../common/GetBreadcrumbs';
 
-const LoginViewWrapper = ({ children, poaPermissions = true }) => {
+const SignedInViewLayout = ({ children, poaPermissions = true }) => {
   let content = null;
 
   const pagePathname = document.location.pathname.split('/').pop();
@@ -46,11 +46,9 @@ const LoginViewWrapper = ({ children, poaPermissions = true }) => {
   return (
     <>
       {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
-      <va-breadcrumbs label="Breadcrumb">
-        <GetBreadcrumbs page={pagePathname} />
-      </va-breadcrumbs>
       <div className="vads-u-margin-bottom--3">
         <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <GetBreadcrumbs page={pagePathname} />
           {content}
         </main>
       </div>
@@ -59,16 +57,9 @@ const LoginViewWrapper = ({ children, poaPermissions = true }) => {
   );
 };
 
-LoginViewWrapper.propTypes = {
-  breadcrumbs: PropTypes.arrayOf(
-    PropTypes.shape({
-      link: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+SignedInViewLayout.propTypes = {
   children: PropTypes.node.isRequired,
   poaPermissions: PropTypes.bool,
-  user: PropTypes.object,
 };
 
-export default LoginViewWrapper;
+export default SignedInViewLayout;
