@@ -25,7 +25,7 @@ export const mailInfo = (
         <br />
         Denver, CO 80246-9028
         <br />
-        UnitedStates of America
+        United States of America
       </p>
     </address>
     Or fax your documents here:
