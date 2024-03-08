@@ -1,3 +1,4 @@
+import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
@@ -99,25 +100,37 @@ const formConfig = {
       title: 'Your Information',
       pages: {
         relationshipToVeteran: {
-          title: 'Your information',
+          title: 'Relationship to Veteran',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Relationship to Veteran</h4>
+          ),
           path: 'claimant-information/relationship-to-veteran',
           uiSchema: relationshipToVeteran.uiSchema,
           schema: relationshipToVeteran.schema,
         },
         personalInformation: {
-          title: 'Your information',
+          title: 'Personal information',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Personal Information</h4>
+          ),
           path: 'claimant-information/personal-information',
           uiSchema: personalInformation.uiSchema,
           schema: personalInformation.schema,
         },
         mailingAddress: {
-          title: 'Your information',
+          title: 'Mailing address',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Mailing address</h4>
+          ),
           path: 'claimant-information/mailing-address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
         contactInformation: {
-          title: 'Your information',
+          title: 'Contact information',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Contact information</h4>
+          ),
           path: 'claimant-information/contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
@@ -129,6 +142,11 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Deceased Veteran information',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">
+              Deceased Veteran information
+            </h4>
+          ),
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
@@ -136,11 +154,17 @@ const formConfig = {
         burialInformation: {
           title: 'Burial dates',
           path: 'veteran-information/burial',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Burial dates</h4>
+          ),
           uiSchema: burialInformation.uiSchema,
           schema: burialInformation.schema,
         },
         locationOfDeath: {
           title: 'Veteran death location',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Veteran death location</h4>
+          ),
           path: 'veteran-information/location-of-death',
           uiSchema: locationOfDeath.uiSchema,
           schema: locationOfDeath.schema,
@@ -151,13 +175,21 @@ const formConfig = {
       title: 'Military history',
       pages: {
         separationDocuments: {
-          title: 'Separation Documents',
+          title: 'DD214 or other separation documents',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">
+              DD214 or other separation documents
+            </h4>
+          ),
           path: 'military-history/separation-documents',
           uiSchema: separationDocuments.uiSchema,
           schema: separationDocuments.schema,
         },
         uploadDD214: {
-          title: 'Separation Documents',
+          title: 'Veteran’s DD214',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Veteran’s DD214</h4>
+          ),
           path: 'military-history/separation-documents/upload',
           depends: form => get('view:separationDocuments', form),
           uiSchema: uploadDD214.uiSchema,
@@ -165,19 +197,26 @@ const formConfig = {
         },
         servicePeriods: {
           title: 'Service periods',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Service periods</h4>
+          ),
           path: 'military-history/service-periods',
           depends: form => !get('view:separationDocuments', form),
           uiSchema: servicePeriods.uiSchema,
           schema: servicePeriods.schema,
         },
         previousNamesQuestion: {
-          title: 'Previous names',
+          title: 'Veteran’s previous names',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Veteran’s previous names</h4>
+          ),
           path: 'military-history/previous-names',
           uiSchema: previousNamesQuestion.uiSchema,
           schema: previousNamesQuestion.schema,
         },
         previousNames: {
-          title: 'Previous names',
+          title: 'Veteran’s previous names',
+          reviewTitle: ' ',
           path: 'military-history/previous-names/add',
           depends: form => get('view:servedUnderOtherNames', form),
           uiSchema: previousNames.uiSchema,
@@ -190,12 +229,18 @@ const formConfig = {
       pages: {
         benefitsSelection: {
           title: 'Benefits selection',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Benefits selection</h4>
+          ),
           path: 'benefits/selection',
           uiSchema: benefitsSelection.uiSchema,
           schema: benefitsSelection.schema,
         },
         burialAllowancePartOne: {
           title: 'Burial allowance',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Burial allowance</h4>
+          ),
           path: 'benefits/burial-allowance/additional-information',
           depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: burialAllowancePartOne.uiSchema,
@@ -204,12 +249,16 @@ const formConfig = {
         burialAllowancePartTwo: {
           title: 'Burial allowance',
           path: 'benefits/burial-allowance/allowance-and-expense',
+          reviewTitle: ' ',
           depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: burialAllowancePartTwo.uiSchema,
           schema: burialAllowancePartTwo.schema,
         },
         finalRestingPlace: {
           title: 'Final resting place',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Final resting place</h4>
+          ),
           path: 'benefits/final-resting-place',
           depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: finalRestingPlace.uiSchema,
@@ -217,6 +266,9 @@ const formConfig = {
         },
         nationalOrFederalCemetery: {
           title: 'Cemetery location',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Cemetery location</h4>
+          ),
           path: 'benefits/cemetery-type',
           depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: nationalOrFederalCemetery.uiSchema,
@@ -224,6 +276,7 @@ const formConfig = {
         },
         cemeteryLocationQuestion: {
           title: 'Cemetery location',
+          reviewTitle: ' ',
           path: 'benefits/cemetery-location',
           depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: cemeteryLocationQuestion.uiSchema,
@@ -231,6 +284,7 @@ const formConfig = {
         },
         cemeteryLocation: {
           title: 'Cemetery location',
+          reviewTitle: ' ',
           path: 'benefits/cemetery-location/add',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) &&
@@ -240,6 +294,7 @@ const formConfig = {
         },
         tribalLandLocation: {
           title: 'Cemetery location',
+          reviewTitle: ' ',
           path: 'benefits/cemetery-location/tribal-land/add',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) &&
@@ -249,6 +304,11 @@ const formConfig = {
         },
         plotAllowancePartOne: {
           title: 'Plot or interment allowance',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">
+              Plot or interment allowance
+            </h4>
+          ),
           path: 'benefits/plot-allowance/contributions',
           depends: form => get('view:claimedBenefits.plotAllowance', form),
           uiSchema: plotAllowancePartOne.uiSchema,
@@ -256,6 +316,7 @@ const formConfig = {
         },
         plotAllowancePartTwo: {
           title: 'Plot or interment allowance',
+          reviewTitle: ' ',
           path: 'benefits/plot-allowance/expense-responsibility',
           depends: form => get('view:claimedBenefits.plotAllowance', form),
           uiSchema: plotAllowancePartTwo.uiSchema,
@@ -263,6 +324,9 @@ const formConfig = {
         },
         transportationExpenses: {
           title: 'Transportation allowance',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Transportation allowance</h4>
+          ),
           path: 'benefits/transportation-allowance',
           depends: form => get('view:claimedBenefits.transportation', form),
           uiSchema: transportationExpenses.uiSchema,
@@ -275,12 +339,18 @@ const formConfig = {
       pages: {
         deathCertificate: {
           title: 'Death certificate',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Death certificate</h4>
+          ),
           path: 'additional-information/death-certificate',
           uiSchema: deathCertificate.uiSchema,
           schema: deathCertificate.schema,
         },
         transportationReceipts: {
           title: 'Transportation Receipts',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Transportation Receipts</h4>
+          ),
           path: 'additional-information/transportation-receipts',
           depends: form => get('transportationExpenses', form),
           uiSchema: transportationReceipts.uiSchema,

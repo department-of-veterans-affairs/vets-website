@@ -12,15 +12,17 @@ export const relationshipToVeteranUI = options => {
   const person = personTitle ?? 'Veteran';
 
   return {
-    relationshipToVeteran: radioUI({
-      title: `Whats your relationship to the ${person}?`,
-      labels: relationshipLabels,
-      errorMessages: {
-        required: `Select your relationship to the ${person}`,
-      },
-      labelHeaderLevel: '',
-      classNames: 'vads-u-margin-bottom--2',
-    }),
+    relationshipToVeteran: {
+      ...radioUI({
+        title: `Whats your relationship to the ${person}?`,
+        labels: relationshipLabels,
+        errorMessages: {
+          required: `Select your relationship to the ${person}`,
+        },
+        labelHeaderLevel: '',
+        classNames: 'vads-u-margin-bottom--2',
+      }),
+    },
   };
 };
 

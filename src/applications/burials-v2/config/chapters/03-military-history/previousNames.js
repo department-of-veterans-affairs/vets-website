@@ -38,7 +38,7 @@ export default {
     'ui:title': generateTitle('Veteran’s previous name'),
     previousNames: {
       'ui:options': {
-        itemName: 'Service period',
+        itemName: 'Previous name',
         viewField: PreviousNamesView,
         hideTitle: true,
         uswds: true,
