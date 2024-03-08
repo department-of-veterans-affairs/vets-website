@@ -2,11 +2,17 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { expect } from 'chai';
 import * as redux from 'react-redux';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import contacts from '@@profile/tests/fixtures/contacts.json';
 import reducers from '@@profile/reducers';
 import PersonalHealthCareContacts from './PersonalHealthCareContacts';
+
+let dispatchSpy;
+let props;
+let fetchProfileContactsSpy;
+let useDispatchStub;
 
 const stateFn = ({
   loading = false,
@@ -20,24 +26,22 @@ const stateFn = ({
   },
 });
 
-const props = {
-  fetchProfileContacts: () => {},
-};
-
 const setup = ({ initialState = stateFn() } = {}) =>
   renderInReduxProvider(<PersonalHealthCareContacts {...props} />, {
     initialState,
     reducers,
   });
 
-let useDispatchStub;
-let dispatchSpy;
-
 describe('PersonalHealthCareContacts component', () => {
   beforeEach(() => {
     useDispatchStub = sinon.stub(redux, 'useDispatch');
     dispatchSpy = sinon.spy();
     useDispatchStub.returns(dispatchSpy);
+
+    fetchProfileContactsSpy = sinon.spy();
+    props = {
+      fetchProfileContacts: fetchProfileContactsSpy,
+    };
   });
 
   afterEach(() => {
@@ -51,6 +55,15 @@ describe('PersonalHealthCareContacts component', () => {
       getByRole('heading', { name: 'Emergency contacts', level: 2 });
       getByRole('heading', { name: 'Next of kin contacts', level: 2 });
     });
+  });
+
+  it('calls dispatch(fetchProfileContacts()) once', async () => {
+    const { getByRole } = setup();
+    await waitFor(() => {
+      getByRole('heading', { name: 'Personal health care contacts', level: 1 });
+    });
+    expect(dispatchSpy.calledOnce, 'dispatch called').to.be.true;
+    expect(dispatchSpy.calledWithExactly(fetchProfileContactsSpy())).to.be.true;
   });
 
   it('displays help desk contact information', async () => {
