@@ -49,16 +49,16 @@ export function validateGulfWarDates(
     format: 'Enter a date that includes a month and year',
   };
 
-  if (!isValidDateRange(fromDate, toDate)) {
-    errors.gulfWarEndDate.addError(messages.range);
-  }
-
   if (fromDate.month.value && !fromDate.year.value) {
     errors.gulfWarStartDate.addError(messages.format);
   }
 
   if (toDate.month.value && !toDate.year.value) {
     errors.gulfWarEndDate.addError(messages.format);
+  }
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.gulfWarEndDate.addError(messages.range);
   }
 }
 
@@ -73,16 +73,16 @@ export function validateExposureDates(
     format: 'Enter a date that includes a month and year',
   };
 
-  if (!isValidDateRange(fromDate, toDate)) {
-    errors.toxicExposureEndDate.addError(messages.range);
-  }
-
   if (fromDate.month.value && !fromDate.year.value) {
     errors.toxicExposureStartDate.addError(messages.format);
   }
 
   if (toDate.month && !toDate.year) {
     errors.toxicExposureEndDate.addError(messages.format);
+  }
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.toxicExposureEndDate.addError(messages.range);
   }
 }
 
