@@ -8,6 +8,7 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
 import { createSelector } from 'reselect';
+import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -142,13 +143,6 @@ export function submit(form, formConfig) {
     });
 }
 
-export const employmentDescription = (
-  <p className="pension-employment-desc">
-    Please tell us about all of your employment, including self-employment,{' '}
-    <strong>from one year before you became disabled</strong> to the present.
-  </p>
-);
-
 export function isMarried(form = {}) {
   return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
@@ -196,7 +190,7 @@ export function createSpouseLabelSelector(nameTemplate) {
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
-export const directDepositWarning = (
+export const DirectDepositWarning = (
   <div className="pension-dd-warning">
     <div>
       <p>
@@ -263,35 +257,14 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const dependentsMinItem = (
+export const DependentsMinItem = (
   <span>
     If you are claiming child dependents,{' '}
     <strong>you must add at least one</strong> here.
   </span>
 );
 
-export const expectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that you expect to receive
-    in the next 12 months
-  </span>
-);
-
-export const spouseExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your spouse expects
-    to receive in the next 12 months
-  </span>
-);
-
-export const dependentExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your dependent
-    expects to receive in the next 12 months
-  </span>
-);
-
-export const dependentSeriouslyDisabledDescription = (
+export const DependentSeriouslyDisabledDescription = (
   <div className="vads-u-padding-y--1">
     <va-additional-info trigger="What do we mean by seriously disabled?">
       <span>
@@ -304,16 +277,18 @@ export const dependentSeriouslyDisabledDescription = (
 );
 
 export const IncomeSourceDescription = (
-  <div>
+  <>
     <p>
       We want to know more about the gross monthly income you, your spouse, and
       your dependents receive.
     </p>
     <p>List the sources of income for you, your spouse, and your dependents.</p>
-  </div>
+  </>
 );
 
-export const generateHelpText = text => {
+export const MarriageTitle = title => <Title title={title} />;
+
+export const HelpText = text => {
   return (
     <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
   );

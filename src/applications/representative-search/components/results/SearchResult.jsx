@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   focusElement,
@@ -20,18 +20,14 @@ const SearchResult = ({
   email,
   associatedOrgs,
   submitRepresentativeReport,
-  isErrorReportSubmission,
+  initializeRepresentativeReport,
+  reportSubmissionStatus,
   reports,
   representativeId,
   query,
   setReportModalTester,
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
-
-  const reportsAreInitialized = useRef(true);
-  const submissionErrorsAreInitialized = useRef(true);
-
-  const prevReportCount = useRef(reports?.length || 0);
 
   const { contact, extension } = parsePhoneNumber(phone);
 
@@ -56,33 +52,16 @@ const SearchResult = ({
 
   useEffect(
     () => {
-      if (!reportModalIsShowing && !reportsAreInitialized) {
-        // scroll and focus behavior depends on whether a report was successfully created
-        if (reports && Object.keys(reports).length > prevReportCount.current) {
-          prevReportCount.current += 1;
-          scrollTo(`#thank-you-alert-${representativeId}`);
-          focusElement(`#thank-you-alert-${representativeId}`);
-        } else {
-          scrollTo(`#report-button-${representativeId}`);
-          focusElement(`#report-button-${representativeId}`);
-        }
-      } else {
-        reportsAreInitialized.current = false;
-      }
-    },
-    [reportModalIsShowing, isErrorReportSubmission],
-  );
-
-  useEffect(
-    () => {
-      if (!isErrorReportSubmission && !submissionErrorsAreInitialized) {
+      if (reportSubmissionStatus === 'SUCCESS') {
+        scrollTo(`#thank-you-alert-${representativeId}`);
+        focusElement(`#thank-you-alert-${representativeId}`);
+      } else if (reportSubmissionStatus === 'CANCELLED') {
         scrollTo(`#report-button-${representativeId}`);
         focusElement(`#report-button-${representativeId}`);
-      } else {
-        submissionErrorsAreInitialized.current = false;
       }
+      initializeRepresentativeReport();
     },
-    [isErrorReportSubmission],
+    [reportModalIsShowing],
   );
 
   return (
@@ -104,7 +83,7 @@ const SearchResult = ({
           phone={phone}
           email={email}
           existingReports={reports}
-          onCloseModal={onCloseReportModal}
+          onCloseReportModal={onCloseReportModal}
           submitRepresentativeReport={submitRepresentativeReport}
         />
       )}
@@ -231,9 +210,11 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
+  initializeRepresentativeReport: PropTypes.func,
   officer: PropTypes.string,
   phone: PropTypes.string,
   query: PropTypes.object,
+  reportSubmissionStatus: PropTypes.string,
   reports: PropTypes.shape({
     phone: PropTypes.string,
     email: PropTypes.string,
@@ -241,6 +222,7 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
+  setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,

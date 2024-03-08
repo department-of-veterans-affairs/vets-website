@@ -7,7 +7,7 @@ import {
   // SEARCH_FAILED,
   // REPORT_FAILED,
   CLEAR_SEARCH_RESULTS,
-  REPORT_STARTED,
+  REPORT_SUBMITTED,
   REPORT_ITEMS_UPDATED,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
@@ -15,6 +15,8 @@ import { SearchResultReducer } from '../../reducers/searchResult';
 const INITIAL_STATE = {
   searchResults: [],
   reportedResults: [],
+  reportSubmissionInProgress: false,
+  reportSubmissionStatus: 'INITIAL',
   pagination: {},
 };
 
@@ -58,7 +60,7 @@ describe('representatives reducer', () => {
     const state = SearchResultReducer(
       { ...INITIAL_STATE, reportSubmissionInProgress: false },
       {
-        type: REPORT_STARTED,
+        type: REPORT_SUBMITTED,
       },
     );
 
