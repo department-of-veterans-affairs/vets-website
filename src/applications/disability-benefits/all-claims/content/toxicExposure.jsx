@@ -46,14 +46,28 @@ export const gulfWar1990LocationsAdditionalInfo = (
   </va-additional-info>
 );
 
-export function dateRangePageDescription(currentPage, totalPages, location) {
+/**
+ * Create the markup for page description. If there are item counts, it will display
+ * something like '1 of 3: Location'. If there are no counts yet, the prefix will
+ * be dropped to only display Location.
+ *
+ * @param {number} currentItem - Current item being viewed
+ * @param {number} totalItems - Total items for this location
+ * @param {string} locationName - Display name of the location
+ * @returns level 4 heading description
+ */
+export function dateRangePageDescription(
+  currentItem,
+  totalItems,
+  locationName,
+) {
   return (
     <>
       <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">
-        {currentPage !== 0 &&
-          totalPages !== 0 &&
-          `${currentPage} of ${totalPages}: `}
-        {location}
+        {currentItem > 0 &&
+          totalItems > 0 &&
+          `${currentItem} of ${totalItems}: `}
+        {locationName}
       </h4>
       <p>
         Enter any date range you served in this location. You don’t need to have
@@ -70,9 +84,12 @@ export function dateRangePageDescription(currentPage, totalPages, location) {
  * aspects have ready access to the store.
  * @returns true if the toggle is enabled and Veteran is claiming at least one new condition, false otherwise
  */
-export const showToxicExposurePages = formData =>
-  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
-  formData?.newDisabilities?.length > 0;
+export function showToxicExposurePages(formData) {
+  return (
+    window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
+    formData?.newDisabilities?.length > 0
+  );
+}
 
 /**
  * Checks if
@@ -82,15 +99,18 @@ export const showToxicExposurePages = formData =>
  * @param {*} formData
  * @returns true if at least one condition is claimed for toxic exposure, false otherwise
  */
-export const isClaimingTECondition = formData =>
-  showToxicExposurePages &&
-  isClaimingNew(formData) &&
-  formData.toxicExposureConditions &&
-  Object.keys(formData.toxicExposureConditions).some(
-    condition =>
-      condition !== 'none' &&
-      formData.toxicExposureConditions[condition] === true,
+export function isClaimingTECondition(formData) {
+  return (
+    showToxicExposurePages &&
+    isClaimingNew(formData) &&
+    formData.toxicExposureConditions &&
+    Object.keys(formData.toxicExposureConditions).some(
+      condition =>
+        condition !== 'none' &&
+        formData.toxicExposureConditions[condition] === true,
+    )
   );
+}
 
 /**
  * Builds the Schema based on user entered condition names
@@ -115,7 +135,7 @@ export const isClaimingTECondition = formData =>
  * @param {object} formData - Full formData for the form
  * @returns {object} Object with id's for each condition
  */
-export const makeTEConditionsSchema = formData => {
+export function makeTEConditionsSchema(formData) {
   const options = (formData?.newDisabilities || []).map(disability =>
     sippableId(disability.condition),
   );
@@ -123,7 +143,7 @@ export const makeTEConditionsSchema = formData => {
   options.push('none');
 
   return checkboxGroupSchema(options);
-};
+}
 
 /**
  * Builds the UI Schema based on user entered condition names.
@@ -143,7 +163,7 @@ export const makeTEConditionsSchema = formData => {
  * @param {*} formData - Full formData for the form
  * @returns {object} Object with id and title for each condition
  */
-export const makeTEConditionsUISchema = formData => {
+export function makeTEConditionsUISchema(formData) {
   const { newDisabilities = [] } = formData;
   const options = {};
 
@@ -165,7 +185,7 @@ export const makeTEConditionsUISchema = formData => {
   };
 
   return options;
-};
+}
 
 /**
  * Validates selected Toxic Exposure conditions. If the 'none' checkbox is selected along with a new condition
@@ -187,8 +207,10 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
- * Given the key for checkbox options, find the index within the selected items
- * In this example, key='bahrain' would give index of 1, and key='airspace' would give index 3
+ * Given the key for a selected checkbox option, find the index within the selected items. In this
+ * example, there are two selected locations. The key='bahrain' would give index of 1, and
+ * key='airspace' would give index 2.
+ *
  * gulfWar1990: {
  *   bahrain: true,
  *   egypt: false,
@@ -198,7 +220,7 @@ export function validateTEConditions(errors, formData) {
  * @param {string} key - the id for the checkbox option
  * @param {string} objectName - name of the object to look at in the form data
  * @param {object} formData - full formData for the form
- * @returns {number} - index of the key within the list of selected items
+ * @returns {number} - index of the key within the list of selected items if found, 0 otherwise
  */
 export function getKeyIndex(key, objectName, { formData }) {
   if (!formData[objectName]) return 0;
@@ -217,14 +239,34 @@ export function getKeyIndex(key, objectName, { formData }) {
 }
 
 /**
- * Given an object storing checkbox values, get a count of how many values are true
+ * Given an object storing checkbox values, get a count of how many values have been selected
+ * by the Veteran
+ *
  * @param {string} objectName - name of the object to look at in the form data
  * @param {object} formData - full formData for the form
  * @returns {number} count of checkboxes with a value of true
  */
 export function getSelectedCount(objectName, { formData } = {}) {
-  if (!formData[objectName]) return 0;
+  if (!formData || !formData[objectName]) return 0;
 
   return Object.values(formData[objectName]).filter(value => value === true)
     .length;
+}
+
+/**
+ * Checks if a specific location dates page should display. It should display if all
+ * the following is true
+ * 1. toggle is enabled and claiming a new disability
+ * 2. gulfWar1990 checkbox location data is present with a true value
+ *
+ * @param {object} formData - full form data
+ * @param {string} locationId - unique id for the location
+ * @returns {boolean} true if the page should display, false otherwise
+ */
+export function showGulfWar1990LocationDatesPage(formData, locationId) {
+  return (
+    showToxicExposurePages(formData) &&
+    formData?.gulfWar1990 &&
+    formData?.gulfWar1990?.[locationId] === true
+  );
 }

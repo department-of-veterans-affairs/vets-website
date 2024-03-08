@@ -6,7 +6,7 @@ import {
   getSelectedCount,
   gulfWar1990LocationsAdditionalInfo,
   gulfWar1990PageTitle,
-  showToxicExposurePages,
+  showGulfWar1990LocationDatesPage,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../constants';
 
@@ -97,9 +97,7 @@ export function makePages() {
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
           depends: formData =>
-            showToxicExposurePages(formData) &&
-            formData?.gulfWar1990 &&
-            formData?.gulfWar1990?.[locationId],
+            showGulfWar1990LocationDatesPage(formData, locationId),
         },
       };
     },
