@@ -326,7 +326,7 @@ jobs:
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-stress-test-results-${{ matrix.ci_node_index }}
+          name: unit-test-stress-test-results-${{ matrix.runs }}
           path: mocha/results
 
   update-unit-test-allow-list:
