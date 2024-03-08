@@ -30,14 +30,14 @@ describe('<TabNav>', () => {
   });
 
   context('cstUseClaimDetailsV2 feature toggle true', () => {
-    it('should render four tabs', () => {
+    it('should render three tabs', () => {
       const screen = render(
         <Provider store={getStore(true)}>
           <TabNav id={1} />
         </Provider>,
       );
 
-      expect(screen.getAllByRole('listitem').length).to.equal(4);
+      expect(screen.getAllByRole('listitem').length).to.equal(3);
     });
   });
 });

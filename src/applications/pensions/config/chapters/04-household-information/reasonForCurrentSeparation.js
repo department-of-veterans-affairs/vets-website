@@ -2,7 +2,9 @@ import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 const reasonForCurrentSeparationOptions = {
   MEDICAL_CARE: 'One of us needs medical care in a dedicated facility',
@@ -17,13 +19,14 @@ export const otherExplanationRequired = form =>
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Reason for separation',
+    ...titleUI('Reason for separation'),
     reasonForCurrentSeparation: radioUI({
       title: 'What’s the reason you’re separated from your spouse?',
       labels: reasonForCurrentSeparationOptions,
     }),
     otherExplanation: {
       'ui:title': 'Describe the reason for your separation',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonForCurrentSeparation',
         expandUnderCondition: 'OTHER',

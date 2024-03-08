@@ -1,23 +1,22 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import Wrapper from '../../../components/layout/Wrapper';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { hasMultipleFacilities } from '../../../utils/appointment';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { makeSelectTravelClaimData } from '../../../selectors';
 import TravelEligibilityAddtionalInfo from '../../../components/TravelEligibilityAdditionalInfo';
 
-// Appointments will come from redux this is temp
-import { singleFacility } from './testAppointments';
-
 const TravelIntro = props => {
-  const { router, appointments = singleFacility } = props;
+  const { router } = props;
   const { t } = useTranslation();
-
+  const selectTravelClaimData = useMemo(makeSelectTravelClaimData, []);
+  const appointments = useSelector(selectTravelClaimData);
   const { jumpToPage } = useFormRouting(router);
-  // @TODO logic need to figure out if we should go to multi-facility page or single
 
   const nextPage = hasMultipleFacilities(appointments)
     ? 'select-appointment'
@@ -42,12 +41,7 @@ const TravelIntro = props => {
         classNames="travel-page"
       >
         <p className="vads-u-margin-bottom--0">
-          <Trans
-            i18nKey="you-can-use-this-tool-file-claim"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
+          {t('you-can-use-this-tool-file-claim')}
         </p>
         <va-process-list uswds>
           <va-process-list-item>
@@ -81,27 +75,28 @@ const TravelIntro = props => {
               {t('file-mileage-only-claim')}
             </a>
             <p>
-              {t(
-                'if-claiming-other-expenses-file-online-or-mail-email-fax-in-person',
-              )}
+              {t('if-claiming-other-expenses-file-online-or-mail-or-in-person')}
             </p>
             <a
-              className="vads-c-action-link--green"
+              className="vads-c-action-link--blue"
               href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
             >
               {t('learn-how-file-claims-other-expenses')}
             </a>
           </va-process-list-item>
         </va-process-list>
-        <va-featured-content class="vads-u-margin-bottom--1" uswds>
-          <h2 className="vads-u-font-family--sans vads-u-margin-top--0">
+        <va-summary-box class="vads-u-margin-bottom--1" uswds>
+          <h2
+            className="vads-u-font-family--sans vads-u-margin-top--0"
+            slot="headline"
+          >
             {t('set-up-direct-deposit')}
           </h2>
           <p>{t('set-up-direct-deposit-to-receive-travel-reimbursement')}</p>
           <a href="https://www.va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/">
             {t('set-up-direct-deposit')}
           </a>
-        </va-featured-content>
+        </va-summary-box>
       </Wrapper>
     </>
   );

@@ -584,7 +584,6 @@ h1:focus {
     padding: inherit;
     z-index: inherit;
     text-align: left;
-    padding: 1rem;
   }
 
   .section-current > .section-header {
@@ -926,6 +925,15 @@ ol.va-list-horizontal {
 
 .submission-icon {
   margin-right: 6px;
+}
+
+.docs-filed-text {
+  font-weight: bold;
+}
+
+.docs-filed-icon {
+  margin-right: 6px;
+  color: $color-green;
 }
 
 .submission-description {
@@ -1491,7 +1499,7 @@ $marker-text-width: 9rem;
 }
 
 .tab-content {
-  border-top: 1px solid $color-gray-lighter;
+  border-top: 1px solid $color-gray-light;
 }
 
 .tab-panel:focus {

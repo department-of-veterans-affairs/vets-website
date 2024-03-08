@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { snakeCase } from 'lodash';
 
 const ReportModal = ({
   representativeName,
@@ -77,18 +78,16 @@ const ReportModal = ({
     setReportObject(newState);
   };
 
-  const onSubmitModal = () => {
-    const formattedReportObject = { representativeId, reports: {} };
+  const onSubmitModal = async () => {
+    const formattedReportObject = {
+      representativeId,
+      reports: {},
+    };
 
     // push non-null items to reports object
     Object.keys(reportObject).forEach(prop => {
       if (reportObject[prop] !== null) {
-        if (prop === 'phone') {
-          formattedReportObject.reports[snakeCase('phoneNumber')] =
-            reportObject.phone;
-        } else {
-          formattedReportObject.reports[prop] = reportObject[prop];
-        }
+        formattedReportObject.reports[prop] = reportObject[prop];
       }
     });
 
@@ -101,13 +100,16 @@ const ReportModal = ({
       return;
     }
 
-    submitRepresentativeReport(formattedReportObject);
-    setReportObject({
-      phone: null,
-      email: null,
-      address: null,
-      other: null,
-    });
+    try {
+      await submitRepresentativeReport(formattedReportObject);
+    } catch {
+      setReportObject({
+        phone: null,
+        email: null,
+        address: null,
+        other: null,
+      });
+    }
 
     onCloseModal();
   };
@@ -125,24 +127,42 @@ const ReportModal = ({
       >
         {/* These buttons trigger methods for unit testing - temporary workaround for shadow root issues with va checkboxes */}
         {handleOtherInputChangeTestId ? (
-          <button
-            id="test-button"
-            type="button"
-            onClick={() =>
-              handleCheckboxChange({
-                target: { id: handleOtherInputChangeTestId, checked: 'true' },
-              })
-            }
-          />
+          <>
+            <button
+              label="unit test button"
+              id="handle-checkbox-change-test-button"
+              type="button"
+              onClick={() =>
+                handleCheckboxChange({
+                  target: { id: handleOtherInputChangeTestId, checked: 'true' },
+                })
+              }
+            />
+            <button
+              id="handle-other-input-change-test-button"
+              label="unit test button"
+              type="button"
+              onClick={() =>
+                handleOtherInputChange({
+                  target: {
+                    id: handleOtherInputChangeTestId,
+                    value: 'test comment',
+                  },
+                })
+              }
+            />
+          </>
         ) : null}
         {testReportObject ? (
           <>
             <button
               id="set-report-object-button"
+              label="unit test button"
               type="button"
               onClick={() => setReportObject({ ...testReportObject })}
             />
             <button
+              label="unit test button"
               id="submit-modal-test-button"
               type="button"
               onClick={() => onSubmitModal()}
@@ -213,13 +233,12 @@ const ReportModal = ({
                 !otherIsBlankError ? 'form-expanding-group-open' : null
               } form-expanding-group-inner-enter-done`}
             >
-              <va-text-input
+              <va-textarea
                 hint={null}
-                required
-                error={otherIsBlankError ? 'This field is required' : null}
                 label="Describe the other information we need to update"
+                error={otherIsBlankError ? 'This field is required' : null}
                 value={reportObject.other}
-                name="my-input"
+                name="Other comment input"
                 maxlength={250}
                 onInput={e => handleOtherInputChange(e)}
                 uswds
@@ -244,9 +263,11 @@ ReportModal.propTypes = {
     other: PropTypes.string,
     phone: PropTypes.string,
   }),
+  handleOtherInputChangeTestId: PropTypes.func,
   phone: PropTypes.string,
   representativeId: PropTypes.string,
   representativeName: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  testReportObject: PropTypes.object,
   onCloseModal: PropTypes.func,
 };

@@ -35,6 +35,7 @@ export default function VaRadioField(props) {
     Array.isArray(props.childrenProps.schema.enum) &&
     optionsList(props.childrenProps.schema);
   const labels = props.uiOptions?.labels || {};
+  const descriptions = props.uiOptions.descriptions || {};
 
   const selectedValue =
     props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;
@@ -56,6 +57,7 @@ export default function VaRadioField(props) {
             value={option.value}
             checked={selectedValue === option.value}
             label={labels[option.value] || option.label}
+            description={descriptions[option.value]}
             uswds={mappedProps?.uswds}
             tile={props.uiOptions?.tile}
           />

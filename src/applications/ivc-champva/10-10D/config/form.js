@@ -35,7 +35,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
-import { getAgeInYears, isInRange } from '../helpers/utilities';
+import { getAgeInYears, isInRange, getParts } from '../helpers/utilities';
 import {
   sponsorWording,
   applicantWording,
@@ -55,6 +55,11 @@ import {
   applicantSchoolCertConfig,
   applicantAdoptedConfig,
   applicantStepChildConfig,
+  applicantMedicarePartAPartBCardsConfig,
+  applicantMedicarePartDCardsConfig,
+  applicantOhiCardsConfig,
+  applicant107959cConfig,
+  applicantMarriageCertConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -75,6 +80,8 @@ import ApplicantOhiStatusPage, {
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
 import { fileTypes, attachmentsSchema } from './attachments';
+
+// import mockData from '../tests/fixtures/data/test-data.json';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -102,9 +109,9 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submit: () =>
+  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -145,13 +152,14 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
+          // initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
             ...titleUI('Your relationship to this form'),
             certifierRole: radioUI({
               title: 'Which of these best describes you?',
-              required: true,
+              required: () => true,
               labels: {
                 applicant: "I'm an applicant applying for CHAMPVA benefits",
                 sponsor:
@@ -607,6 +615,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} mailing address`,
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 'view:description': {
                   'ui:description':
@@ -648,6 +657,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} contact information`,
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 'ui:options': {
                   updateSchema: formData => {
@@ -678,8 +688,8 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} gender`,
           uiSchema: {
-            'ui:title': 'Applicant Gender',
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 'ui:options': {
                   updateSchema: formData => {
@@ -693,7 +703,7 @@ const formConfig = {
                 },
                 applicantGender: radioUI({
                   title: 'Gender',
-                  required: true,
+                  required: () => true,
                   labels: { male: 'Male', female: 'Female' },
                 }),
               },
@@ -730,13 +740,16 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} birth certificate`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child'
+            );
+          },
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -750,9 +763,7 @@ const formConfig = {
                   "Upload the applicant's birth certificate",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -769,23 +780,21 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} school documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child' &&
-            // Calculate the current app's age and check if it's between
-            // 18-23. Did this isInRange method bc can't store temp age value
-            // and didn't want to calculate age twice to do comparison
-            isInRange(
-              getAgeInYears(
-                get('applicantDOB', formData?.applicants?.[`${index || 0}`]),
-              ),
-              18,
-              23,
-            ),
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child' &&
+              isInRange(
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                18,
+                23,
+              )
+            );
+          },
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -799,9 +808,7 @@ const formConfig = {
                   "Upload the applicant's school certification",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -818,13 +825,18 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child'
+            );
+          },
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   ({ formData }) =>
@@ -833,7 +845,7 @@ const formConfig = {
                 'ui:description': AdditionalDocumentationAlert(),
                 applicantRelationshipOrigin: radioUI({
                   title: 'Question regarding blood relation status',
-                  required: true,
+                  required: () => true,
                   labels: {
                     blood: 'Blood',
                     adoption: 'Adoption',
@@ -858,17 +870,22 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} adoption documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child' &&
-            get(
-              'applicantRelationshipOrigin',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'adoption',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child' &&
+              get(
+                'applicantRelationshipOrigin',
+                formData?.applicants?.[index],
+              ) === 'adoption'
+            );
+          },
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -882,9 +899,7 @@ const formConfig = {
                   "Upload the applicant's adoption papers",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -902,17 +917,22 @@ const formConfig = {
           showPagePerItem: true,
           title: item =>
             `${applicantWording(item)} parental marriage documents`,
-          depends: (formData, index) =>
-            get(
-              'applicantRelationshipToSponsor',
-              formData?.applicants?.[`${index || 0}`],
-            )?.relationshipToVeteran === 'child' &&
-            get(
-              'applicantRelationshipOrigin',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'step',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child' &&
+              get(
+                'applicantRelationshipOrigin',
+                formData?.applicants?.[index],
+              ) === 'step'
+            );
+          },
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
                   'Required supporting file upload',
@@ -928,9 +948,7 @@ const formConfig = {
                   "Upload marriage certificate between applicant's parent and the sponsor",
                   {
                     fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileUploadUrl: uploadUrl,
                   },
                 ),
               },
@@ -940,6 +958,48 @@ const formConfig = {
             titleSchema,
             ...applicantStepChildConfig.schema,
             applicantStepMarriageCert: attachmentsSchema,
+          }),
+        },
+        page18f: {
+          path: 'applicant-information/:index/spouse',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse'
+            );
+          },
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload a marriage certificate showing the marriage between the sponsor and ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
+                ),
+                ...applicantMarriageCertConfig.uiSchema,
+                applicantMarriageCert: fileUploadUI(
+                  "Upload the applicant's marriage certificate",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMarriageCertConfig.schema,
+            applicantMarriageCert: attachmentsSchema,
           }),
         },
         page19: {
@@ -964,11 +1024,13 @@ const formConfig = {
           showPagePerItem: true,
           title: item =>
             `${applicantWording(item)} Medicare status (continued)`,
-          depends: (formData, index) =>
-            get(
-              'applicantMedicareStatus',
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled',
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+              'enrolled'
+            );
+          },
           CustomPage: ApplicantMedicareStatusContinuedPage,
           CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
           schema: applicantListSchema([], {
@@ -979,6 +1041,98 @@ const formConfig = {
               items: {},
             },
           },
+        },
+        page20a: {
+          path: 'applicant-information/:index/medicare-ab-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} medicare card (parts A/B)`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+                'enrolled' &&
+              ['partA', 'partB'].some(part =>
+                get(
+                  'applicantMedicarePart',
+                  formData?.applicants?.[index],
+                )?.includes(part),
+              )
+            );
+          },
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s copy of Medicare ${getParts(
+                      formData?.applicantMedicarePart,
+                    )} card(s).`,
+                ),
+                ...applicantMedicarePartAPartBCardsConfig.uiSchema,
+                applicantMedicarePartAPartBCard: fileUploadUI(
+                  "Upload the applicant's copy of Medicare Parts A or B card(s)",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMedicarePartAPartBCardsConfig.schema,
+            applicantMedicarePartAPartBCard: attachmentsSchema,
+          }),
+        },
+        page20b: {
+          path: 'applicant-information/:index/medicare-d-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} medicare card (part D)`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+                'enrolled' &&
+              get(
+                'applicantMedicarePart',
+                formData?.applicants?.[index],
+              )?.includes('partD')
+            );
+          },
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s copy of Medicare Part D card.`,
+                ),
+                ...applicantMedicarePartDCardsConfig.uiSchema,
+                applicantMedicarePartDCard: fileUploadUI(
+                  "Upload the applicant's copy of Medicare Part D",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMedicarePartDCardsConfig.schema,
+            applicantMedicarePartDCard: attachmentsSchema,
+          }),
         },
         page21: {
           path: 'applicant-information/:index/ohi',
@@ -995,6 +1149,86 @@ const formConfig = {
               items: {},
             },
           },
+        },
+        page21a: {
+          path: 'applicant-information/:index/ohi-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} other health insurance`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes'
+            );
+          },
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s copy of health insurance card.`,
+                ),
+                ...applicantOhiCardsConfig.uiSchema,
+                applicantOhiCard: fileUploadUI(
+                  "Upload the applicant's copy of health insurance card",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantOhiCardsConfig.schema,
+            applicantOhiCard: attachmentsSchema,
+          }),
+        },
+        page22: {
+          path: 'applicant-information/:index/10-7959c-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} 10-7959C upload`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
+              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
+                'enrolled'
+            );
+          },
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload ${formData?.applicantName?.first} ${
+                      formData?.applicantName?.last
+                    }'s VA form 10-7959c.`,
+                ),
+                ...applicant107959cConfig.uiSchema,
+                applicant107959c: fileUploadUI(
+                  "Upload the applicant's VA form 10-7959c",
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicant107959cConfig.schema,
+            applicant107959c: attachmentsSchema,
+          }),
         },
       },
     },

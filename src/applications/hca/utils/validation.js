@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import {
   convertToDateField,
   validateCurrentOrPastDate,
@@ -38,6 +37,55 @@ export function validateServiceDates(
     }
   }
 }
+
+export function validateGulfWarDates(
+  errors,
+  { gulfWarStartDate, gulfWarEndDate },
+) {
+  const fromDate = convertToDateField(gulfWarStartDate);
+  const toDate = convertToDateField(gulfWarEndDate);
+  const messages = {
+    range: 'Service end date must be after the service start date',
+    format: 'Enter a date that includes a month and year',
+  };
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.gulfWarEndDate.addError(messages.range);
+  }
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.gulfWarStartDate.addError(messages.format);
+  }
+
+  if (toDate.month.value && !toDate.year.value) {
+    errors.gulfWarEndDate.addError(messages.format);
+  }
+}
+
+export function validateExposureDates(
+  errors,
+  { toxicExposureStartDate, toxicExposureEndDate },
+) {
+  const fromDate = convertToDateField(toxicExposureStartDate);
+  const toDate = convertToDateField(toxicExposureEndDate);
+  const messages = {
+    range: 'Exposure end date must be after the exposure start date',
+    format: 'Enter a date that includes a month and year',
+  };
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.toxicExposureEndDate.addError(messages.range);
+  }
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.toxicExposureStartDate.addError(messages.format);
+  }
+
+  if (toDate.month && !toDate.year) {
+    errors.toxicExposureEndDate.addError(messages.format);
+  }
+}
+
 export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
   const dependentDate = moment(fieldData);
   const birthDate = moment(dateOfBirth);

@@ -10,6 +10,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -28,9 +29,21 @@ import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
-export const applicantDetailsSubHeader = (
+export const veteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
+  </div>
+);
+
+export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export const nonVeteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
   </div>
 );
 
@@ -57,9 +70,9 @@ export const currentlyBuriedPersonsTitle = (
 export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescriptionNotProd">
     <p>
-      We’ll now ask you questions about the sponsor’s passing. We understand
-      that the questions may be difficult to answer, but your answers will help
-      us determine eligibility for your application.
+      We’ll ask you questions about your sponsor’s death. We understand that the
+      questions may be difficult to answer, but your answers will help us
+      determine eligibility for your application.
     </p>
   </div>
 );
@@ -67,6 +80,14 @@ export const sponsorDeceasedDescription = (
 export const sponsorDetailsSubHeader = (
   <div className="sponsorDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+  </div>
+);
+
+export const sponsorDetailsGuidingText = (
+  <div>
+    <p>
+      Provide the details for the Veteran or service member you’re connected to.
+    </p>
   </div>
 );
 
@@ -79,9 +100,8 @@ export const sponsorDemographicsSubHeader = (
 export const sponsorDemographicsDescription = (
   <div className="sponsorDemographicsDescription">
     <p>
-      We require some basic details about the applicant’s sponsor as part of the
-      application. Please know we need to gather the data for statistical
-      purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
@@ -94,7 +114,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
+    <p>When did the sponsor die?</p>
   </div>
 );
 
@@ -106,6 +126,12 @@ export const sponsorMilitaryDetailsSubHeader = (
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsPreparerSubHeader = (
+  <div className="applicantDemographicsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
   </div>
 );
@@ -113,8 +139,8 @@ export const applicantDemographicsSubHeader = (
 export const applicantDemographicsDescription = (
   <div className="applicantDemographicsDescription">
     <p>
-      We require some basic details as part of your application. Please know we
-      need to gather the data for statistical purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
@@ -166,34 +192,14 @@ export const applicantInformationDescription = (
   </va-additional-info>
 );
 
-export const applicantDetailsDescription = (
-  <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
-    <p>
-      If you’re filling out the form on behalf of someone else, you’ll need to
-      provide their details below. As the preparer, we’ll ask for your own
-      details later.
-    </p>
-  </va-additional-info>
-);
+export const veteranApplicantDetailsPreparerDescription =
+  'Provide the details for the person you’re filling out the application for (called the applicant).';
 
-export const sponsorDetailsDescription = (
-  <va-additional-info trigger="What is a sponsor?">
-    <ul>
-      <>
-        <li>
-          You’re considered the sponsor if you’re the service member or Veteran
-          sponsoring the applicant’s benefits. We’ll ask you to provide your
-          details.
-        </li>
-        <li>
-          If you’re not the sponsor, you’ll still need to provide the details
-          for the service member or Veteran who is sponsoring the applicant’s
-          benefits.
-        </li>
-      </>
-    </ul>
-  </va-additional-info>
-);
+export const nonVeteranApplicantDetailsDescription =
+  "Since you're applying for eligibility determination, first we'll ask for your details. Then we'll ask for the details for the Veteran or service member you’re connected to.";
+
+export const nonVeteranApplicantDetailsDescriptionPreparer =
+  'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
 // do not render with a prod flag
 export const applicantContactInfoDescriptionVet = (
@@ -622,18 +628,36 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = !environment.isProduction()
-  ? merge({}, fullNameUI, {
-      first: { 'ui:title': 'First name' },
-      middle: { 'ui:title': 'Middle name' },
-      last: { 'ui:title': 'Last name' },
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    })
-  : merge({}, fullNameUI, {
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    });
+export const fullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'First name' },
+  middle: { 'ui:title': 'Middle name' },
+  last: { 'ui:title': 'Last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
+
+export const nonPreparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
+  first: { 'ui:title': 'Your first name' },
+  middle: { 'ui:title': 'Your middle name' },
+  last: { 'ui:title': 'Your last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+});
+
+export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
+  first: { 'ui:title': 'Applicant’s first name' },
+  middle: { 'ui:title': 'Applicant’s middle name' },
+  last: { 'ui:title': 'Applicant’s last name' },
+  maiden: { 'ui:title': 'Applicant’s maiden name' },
+  suffix: { 'ui:title': 'Applicant’s suffix' },
+});
+
+export const nonPreparerDateOfBirthUI = currentOrPastDateUI(
+  'Your date of birth',
+);
+
+export const preparerDateOfBirthUI = currentOrPastDateUI(
+  'Applicant’s date of birth',
+);
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -668,6 +692,10 @@ class SSNWidget extends React.Component {
 
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
+
+export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
+  'ui:title': 'Applicant’s Social Security number',
+});
 
 export const veteranUI = {
   militaryServiceNumber: {

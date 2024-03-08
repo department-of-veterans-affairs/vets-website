@@ -5,6 +5,7 @@ import {
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
+  arpWebOAuthOptions,
 } from './constants';
 
 export default {
@@ -84,5 +85,30 @@ export default {
     requiresVerification: true,
     oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],
+  },
+  [EXTERNAL_APPS.ARP]: {
+    allowedSignInProviders: {
+      idme: true,
+      logingov: true,
+    },
+    allowedSignUpProviders: {
+      idme: true,
+      logingov: true,
+    },
+    isMobile: false,
+    queryParams: {
+      allowOAuth: true,
+      allowPostLogin: true,
+      allowRedirect: false,
+    },
+    oAuthOptions: {
+      ...arpWebOAuthOptions,
+      // TODO: refactor `CLIENT_IDS` to vary by environment. This is the value
+      // for the ARP frontend in staging.
+      clientId: 'ce6db4d7974daf061dccdd21ba9add14',
+    },
+    OAuthEnabled: true,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
   },
 };

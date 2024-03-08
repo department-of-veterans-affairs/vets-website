@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 import * as customPropTypes from '../prop-types';
@@ -135,7 +136,6 @@ const deriveRelatedTo = ({
 const SearchResult = ({
   form,
   formMetaInfo,
-  showPDFInfoVersionOne,
   toggleModalState,
   setPrevFocusedLink,
 }) => {
@@ -159,7 +159,9 @@ const SearchResult = ({
     },
     id,
   } = form;
-
+  const relativeFormToolUrl = formToolUrl
+    ? replaceWithStagingDomain(formToolUrl)
+    : formToolUrl;
   const linkProps = deriveLinkPropsFromFormURL(url);
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
@@ -176,17 +178,13 @@ const SearchResult = ({
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
 
-    if (showPDFInfoVersionOne) {
-      recordEvent({
-        event: 'int-modal-click',
-        'modal-status': 'opened',
-        'modal-title': 'Download this PDF and open it in Acrobat Reader',
-      });
+    recordEvent({
+      event: 'int-modal-click',
+      'modal-status': 'opened',
+      'modal-title': 'Download this PDF and open it in Acrobat Reader',
+    });
 
-      toggleModalState(formName, url, pdfLabel);
-    } else {
-      recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
-    }
+    toggleModalState(formName, url, pdfLabel);
   };
 
   return (
@@ -205,13 +203,13 @@ const SearchResult = ({
       </div>
 
       {relatedTo}
-      {formToolUrl ? (
+      {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
           <a
             className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
-            href={formToolUrl}
+            href={relativeFormToolUrl}
             onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
             }
           >
             <i
@@ -229,19 +227,18 @@ const SearchResult = ({
         </div>
       ) : null}
       <div className="vads-u-margin-y--0">
-        <a
-          className="find-forms-max-content vads-u-text-decoration--none"
+        <button
+          className="find-forms-max-content vads-u-text-decoration--none va-button-link"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
           rel="noreferrer noopener"
-          href={showPDFInfoVersionOne ? null : url}
           tabIndex="0"
           onKeyDown={event => {
-            if (event.keyCode === 13) {
+            if (event === 13) {
               pdfDownloadHandler();
             }
           }}
-          onClick={() => pdfDownloadHandler()}
+          onClick={pdfDownloadHandler}
           {...linkProps}
         >
           <i
@@ -253,7 +250,7 @@ const SearchResult = ({
           <span lang={language} className="vads-u-text-decoration--underline">
             {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>
-        </a>
+        </button>
       </div>
     </li>
   );
@@ -263,7 +260,6 @@ SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
   setPrevFocusedLink: PropTypes.func,
-  showPDFInfoVersionOne: PropTypes.bool,
   toggleModalState: PropTypes.func,
 };
 

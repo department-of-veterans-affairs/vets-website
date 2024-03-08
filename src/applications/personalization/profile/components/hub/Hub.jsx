@@ -12,6 +12,7 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
+import { EduMigrationAlert } from '../direct-deposit/alerts/EduMigrationAlert';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
@@ -28,11 +29,13 @@ export const Hub = () => {
 
       {/* ROW */}
       <div className="vads-l-row">
-        <h1 className="vads-u-padding-bottom--3">Profile</h1>
+        <h1>Profile</h1>
       </div>
 
+      <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
+
       {hasBadAddress && (
-        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4" />
+        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
       )}
 
       {/* ROW */}
@@ -81,7 +84,7 @@ export const Hub = () => {
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
-              className="medium-screen--line-break-at-50-characters"
+              className="medium-screen--line-break-at-40-characters"
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
             />
