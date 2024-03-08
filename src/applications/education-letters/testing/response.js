@@ -55,16 +55,7 @@ module.exports = {
       },
     },
     meta: {
-      errors: [
-        {
-          externalService: 'EMIS',
-          startTime: '2022-01-10T19:57:56Z',
-          endTime: null,
-          description:
-            'EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED',
-          status: 401,
-        },
-      ],
+      errors: null,
     },
   },
   'GET /meb_api/v0/claim_status?latest=true': {
