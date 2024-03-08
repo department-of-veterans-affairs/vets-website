@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "amount": "31.10",
+      "description": "Travel claim Perf750JG Apptmt at Cheyenne VA Medical Center",
+      "status": "Submitted for payment",
+      "claimNumber": "TC0820000010877",
+      "submitDate": "2023-12-22T05:23:58.000Z",
+      "lastUpdatedDate": "02/15/2024"
+    },
+    {
+      "amount": "100.63",
+      "description": "Travel claim Perf850JG Apptmt at Denver VA Medical Center",
+      "status": "Submitted for payment",
+      "claimNumber": "TC0820000010878",
+      "submitDate": "2024-01-15T17:23:36.000Z",
+      "lastUpdatedDate": "02/22/2024"
+    },
+    {
+      "amount": "23.44",
+      "description": "Travel claim Perf750JG Apptmt at Cheyenne VA Medical Center",
+      "status": "Submitted for payment",
+      "claimNumber": "TC0820000010879",
+      "submitDate": "2024-01-28T18:22:34.000Z",
+      "lastUpdatedDate": "02/27/2024"
+    }
+  ]
+}

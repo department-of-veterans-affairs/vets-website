@@ -4,7 +4,7 @@ import './sass/travel-pay.scss';
 import startApp from '@department-of-veterans-affairs/platform-startup/index';
 
 import routes from './routes';
-import reducer from './reducers';
+import reducer from './redux/reducer';
 import manifest from './manifest.json';
 
 startApp({
