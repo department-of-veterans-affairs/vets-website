@@ -4,20 +4,20 @@ import { capitalize } from 'lodash';
 
 // modeled after VA Profile's Health Benefit AssociatedPersonBio
 
-// const CONTACT_TYPES = [
-//   'Emergency Contact',
-//   'Other emergency contact',
-//   'Primary Next of Kin',
-//   'Other Next of Kin',
-// ];
+const CONTACT_TYPES = [
+  'Emergency Contact',
+  'Other emergency contact',
+  'Primary Next of Kin',
+  'Other Next of Kin',
+];
 
 const DESCRIPTIONS = {
-  'Emergency Contact': 'The person we’ll contact first in an emergency.',
-  'Other emergency contact':
+  [CONTACT_TYPES[0]]: 'The person we’ll contact first in an emergency.',
+  [CONTACT_TYPES[1]]:
     'The person we’ll if your primary contact isn’t available.',
-  'Primary Next of Kin':
+  [CONTACT_TYPES[2]]:
     'The person you want to represent your health care wishes if needed.',
-  'Other Next of Kin':
+  [CONTACT_TYPES[3]]:
     'The person you want to represent your health care wishes if needed.',
 };
 
@@ -101,7 +101,7 @@ Contact.propTypes = {
   addressLine3: PropTypes.string,
   // alternatePhone: PropTypes.string,
   city: PropTypes.string,
-  contactType: PropTypes.string,
+  contactType: PropTypes.oneOf(CONTACT_TYPES),
   // country: PropTypes.string,
   // county: PropTypes.string,
   familyName: PropTypes.string,
