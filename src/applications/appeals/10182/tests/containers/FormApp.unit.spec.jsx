@@ -16,9 +16,9 @@ import {
   SHOW_PART3,
   SHOW_PART3_REDIRECT,
 } from '../../constants';
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
-import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 import { SELECTED } from '../../../shared/constants';
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
