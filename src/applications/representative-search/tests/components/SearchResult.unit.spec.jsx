@@ -81,6 +81,27 @@ describe('SearchResults', () => {
 
     wrapper.unmount();
   });
+  it('sets the aria-label on the address link', () => {
+    const wrapper = shallow(
+      <SearchResult
+        addressLine1="123 test place"
+        city="Columbus"
+        stateCode="CA"
+        zipCode="43210"
+      />,
+    );
+
+    const expectedAriaLabel =
+      '123 test place, Columbus, CA, 43210 (opens in new tab)';
+    const addressLink = wrapper.find('.address-link');
+
+    expect(
+      addressLink.prop('aria-label'),
+      'Aria label is set correctly',
+    ).to.equal(expectedAriaLabel);
+
+    wrapper.unmount();
+  });
 
   it('displays the "Thanks for reporting outdated information." message when reports are present', () => {
     const { queryByText } = render(
