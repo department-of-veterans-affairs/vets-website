@@ -2,11 +2,13 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import { formTitle } from '../../utils';
 import {
   dateRangePageDescription,
+  endDateApproximate,
   getKeyIndex,
   getSelectedCount,
   gulfWar1990LocationsAdditionalInfo,
   gulfWar1990PageTitle,
   showGulfWar1990LocationDatesPage,
+  startDateApproximate,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../constants';
 
@@ -15,7 +17,7 @@ import { GULF_WAR_1990_LOCATIONS } from '../../constants';
  * @param {string} locationId - unique id for the location
  * @returns {object} uiSchema object
  */
-export function makeUiSchema(locationId) {
+function makeUiSchema(locationId) {
   return {
     'ui:title': formTitle(gulfWar1990PageTitle),
     'ui:description': formData =>
@@ -27,13 +29,13 @@ export function makeUiSchema(locationId) {
     gulfWar1990Locations: {
       [locationId]: {
         startDate: {
-          ...currentOrPastDateUI('Service start date (approximate)'),
+          ...currentOrPastDateUI(startDateApproximate),
           'ui:options': {
             // monthYear: true,
           },
         },
         endDate: {
-          ...currentOrPastDateUI('Service end date (approximate)'),
+          ...currentOrPastDateUI(endDateApproximate),
           'ui:options': {
             // monthYear: true,
           },
@@ -51,7 +53,7 @@ export function makeUiSchema(locationId) {
  * @param {string} locationId - unique id for the location
  * @returns {object} - schema object
  */
-export function makeSchema(locationId) {
+function makeSchema(locationId) {
   return {
     type: 'object',
     properties: {
@@ -82,7 +84,23 @@ export function makeSchema(locationId) {
 }
 
 /**
- * Make all the page configurations for each Gulf War 1990 location + dates page
+ * Make all the page configurations for each Gulf War 1990 location + dates page. Example
+ * {
+ *    'gulfWar1990Locations-afghanistan': {
+ *      title: 'Service after August 2, 1990',
+ *      path: 'gulfWar1990Locations-afghanistan',
+ *      uiSchema: {
+ *        'ui:title': [Object],
+ *        'ui:description': [Function: uiDescription],
+ *         gulfWar1990Locations: [Object],
+ *        'view:gulfWar1990AdditionalInfo': [Object]
+ *      },
+ *      schema: { type: 'object', properties: [Object] },
+ *      depends: [Function: depends]
+ *    },
+ *    'gulfWar1990Locations-bahrain': {
+ *      ... // continue for the rest of the 17 locations
+ * }
  *
  * @returns an object with a page object for each location + dates page
  */

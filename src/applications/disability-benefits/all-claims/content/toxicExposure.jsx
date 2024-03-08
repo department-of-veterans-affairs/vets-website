@@ -46,6 +46,11 @@ export const gulfWar1990LocationsAdditionalInfo = (
   </va-additional-info>
 );
 
+export const dateHelp =
+  'Enter any date range you served in this location. You don’t need to have exact dates.';
+export const startDateApproximate = 'Service start date (approximate)';
+export const endDateApproximate = 'Service end date (approximate)';
+
 /**
  * Create the markup for page description. If there are item counts, it will display
  * something like '1 of 3: Location'. If there are no counts yet, the prefix will
@@ -69,10 +74,7 @@ export function dateRangePageDescription(
           `${currentItem} of ${totalItems}: `}
         {locationName}
       </h4>
-      <p>
-        Enter any date range you served in this location. You don’t need to have
-        exact dates.
-      </p>
+      <p>{dateHelp}</p>
     </>
   );
 }
