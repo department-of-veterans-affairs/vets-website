@@ -27,6 +27,7 @@ import {
   geolocateUser,
   geocodeUserAddress,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
@@ -324,6 +325,8 @@ const SearchPage = props => {
           searchResults={searchResults}
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
+          initializeRepresentativeReport={props.initializeRepresentativeReport}
+          reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
     };
@@ -448,6 +451,7 @@ SearchPage.propTypes = {
     totalEntries: PropTypes.number,
   }),
   reportedResults: PropTypes.array,
+  reportSubmissionStatus: PropTypes.string,
   results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
@@ -455,6 +459,7 @@ SearchPage.propTypes = {
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
@@ -467,6 +472,7 @@ const mapStateToProps = state => ({
   isErrorReportSubmission: state.errors.isErrorReportSubmission,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
+  reportSubmissionStatus: state.searchResult.reportSubmissionStatus,
   selectedResult: state.searchResult.selectedResult,
   reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
@@ -482,6 +488,7 @@ const mapDispatchToProps = {
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };

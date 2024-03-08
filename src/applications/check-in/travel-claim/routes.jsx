@@ -21,6 +21,7 @@ import TravelAddressPage from './pages/travel-address';
 import TravelReviewPage from './pages/travel-review';
 import TravelAgreement from './pages/travel-agreement';
 import Complete from './pages/complete';
+import Error from './pages/error';
 
 const routes = [
   {
@@ -101,6 +102,13 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
+  },
+  {
+    path: URLS.ERROR,
+    component: Error,
+    permissions: {
+      requireAuthorization: false,
+    },
   },
 ];
 

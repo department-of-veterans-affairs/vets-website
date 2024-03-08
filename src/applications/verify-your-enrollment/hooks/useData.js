@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { translateDateIntoMonthDayYearFormat } from '../helpers';
+import {
+  getCurrentDateFormatted,
+  remainingBenefits,
+  translateDateIntoMonthDayYearFormat,
+} from '../helpers';
 import { fetchPersonalInfo, getData } from '../actions';
 
 export const useData = () => {
@@ -21,10 +25,15 @@ export const useData = () => {
   const userInfo = isUserLoggedIn
     ? personalInfo && personalInfo['vye::UserInfo']
     : data && data['vye::UserInfo'];
-  const date = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
+  const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
+  const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
+  const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
     loading: loading || isLoading,
-    date,
+    expirationDate,
+    updated,
+    day,
+    month,
     ...userInfo,
   };
 };

@@ -44,11 +44,21 @@ export function validateGulfWarDates(
 ) {
   const fromDate = convertToDateField(gulfWarStartDate);
   const toDate = convertToDateField(gulfWarEndDate);
+  const messages = {
+    range: 'Service end date must be after the service start date',
+    format: 'Enter a date that includes a month and year',
+  };
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.gulfWarStartDate.addError(messages.format);
+  }
+
+  if (toDate.month.value && !toDate.year.value) {
+    errors.gulfWarEndDate.addError(messages.format);
+  }
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.gulfWarEndDate.addError(
-      'Service end date must be after the service start date',
-    );
+    errors.gulfWarEndDate.addError(messages.range);
   }
 }
 
@@ -58,11 +68,21 @@ export function validateExposureDates(
 ) {
   const fromDate = convertToDateField(toxicExposureStartDate);
   const toDate = convertToDateField(toxicExposureEndDate);
+  const messages = {
+    range: 'Exposure end date must be after the exposure start date',
+    format: 'Enter a date that includes a month and year',
+  };
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.toxicExposureStartDate.addError(messages.format);
+  }
+
+  if (toDate.month && !toDate.year) {
+    errors.toxicExposureEndDate.addError(messages.format);
+  }
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.toxicExposureEndDate.addError(
-      'Exposure end date must be after the exposure start date',
-    );
+    errors.toxicExposureEndDate.addError(messages.range);
   }
 }
 
