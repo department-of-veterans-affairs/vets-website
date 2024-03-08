@@ -5,7 +5,7 @@ import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
 
 const isActionable = status => status === 'Pending';
 
-const PoaRequestsTable = ({ poaRequests }) => {
+const POARequestsTable = ({ poaRequests }) => {
   return (
     <va-table data-testid="poa-requests-table" sort-column={1}>
       <va-table-row slot="headers">
@@ -45,7 +45,7 @@ const PoaRequestsTable = ({ poaRequests }) => {
   );
 };
 
-PoaRequestsTable.propTypes = {
+POARequestsTable.propTypes = {
   poaRequests: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -57,4 +57,4 @@ PoaRequestsTable.propTypes = {
   ).isRequired,
 };
 
-export default PoaRequestsTable;
+export default POARequestsTable;

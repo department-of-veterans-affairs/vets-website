@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -6,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Current employment',
+    ...titleUI('Current employment'),
     currentEmployment: yesNoUI({
       title: 'Are you currently employed?',
       classNames: 'vads-u-margin-bottom--2',

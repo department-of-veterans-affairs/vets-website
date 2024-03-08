@@ -48,7 +48,10 @@ const ResultsList = props => {
                 representative={result}
                 representativeId={result.id}
                 submitRepresentativeReport={props.submitRepresentativeReport}
-                isErrorReportSubmission={props.isErrorReportSubmission}
+                initializeRepresentativeReport={
+                  props.initializeRepresentativeReport
+                }
+                reportSubmissionStatus={props.reportSubmissionStatus}
                 query={query}
                 index={index}
               />
@@ -64,8 +67,10 @@ ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
   inProgress: PropTypes.bool,
+  initializeRepresentativeReport: PropTypes.func,
   pagination: PropTypes.object,
   query: PropTypes.object,
+  reportSubmissionStatus: PropTypes.string,
   representativeTypeName: PropTypes.string,
   searchError: PropTypes.object,
   searchResults: PropTypes.array,
