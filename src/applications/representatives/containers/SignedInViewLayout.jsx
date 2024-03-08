@@ -5,7 +5,7 @@ import React from 'react';
 import Sidenav from '../components/Sidenav';
 import { GetBreadcrumbs } from '../common/GetBreadcrumbs';
 
-const LoginViewWrapper = ({ children, poaPermissions = false }) => {
+const LoginViewWrapper = ({ children, poaPermissions = true }) => {
   let content = null;
 
   const pagePathname = document.location.pathname.split('/').pop();
