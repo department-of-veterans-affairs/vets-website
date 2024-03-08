@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,9 +11,10 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Income and assets',
-    'ui:description':
+    ...titleUI(
+      'Income and assets',
       'We need to know if you and your dependents have over $25,000 in assets.',
+    ),
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },

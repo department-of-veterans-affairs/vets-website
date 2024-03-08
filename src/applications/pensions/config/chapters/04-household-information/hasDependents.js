@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -6,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Dependent children',
+    ...titleUI('Dependent children'),
     'view:hasDependents': yesNoUI({
       title: 'Do you have any dependent children?',
     }),
