@@ -3,7 +3,7 @@ import React from 'react';
 // import RequiredLoginView from '~/platform/user/authorization/components/RequiredLoginView';
 
 import Sidenav from '../components/Sidenav';
-import GetBreadcrumbs from '../common/GetBreadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs';
 
 const SignedInViewLayout = ({ children, poaPermissions = true }) => {
   let content = null;
@@ -48,7 +48,7 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
       {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
       <div className="vads-u-margin-bottom--3">
         <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <GetBreadcrumbs page={pagePathname} />
+          {pagePathname && <Breadcrumbs page={pagePathname} />}
           {content}
         </main>
       </div>
