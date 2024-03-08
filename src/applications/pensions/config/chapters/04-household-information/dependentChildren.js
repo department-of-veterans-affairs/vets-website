@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ListItemView from '../../../components/ListItemView';
-import { dependentsMinItem, formatFullName } from '../../../helpers';
+import { DependentsMinItem, formatFullName } from '../../../helpers';
 
 const { dependents } = fullSchemaPensions.properties;
 
@@ -23,7 +24,7 @@ DependentNameView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Dependent children',
+    ...titleUI('Dependent children'),
     dependents: {
       'ui:options': {
         itemName: 'Dependent',
@@ -36,7 +37,7 @@ export default {
         useDlWrap: true,
       },
       'ui:errorMessages': {
-        minItems: dependentsMinItem,
+        minItems: DependentsMinItem,
       },
       items: {
         fullName: merge({}, fullNameUI, {
