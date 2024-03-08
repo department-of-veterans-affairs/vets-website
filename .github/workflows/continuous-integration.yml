@@ -258,71 +258,19 @@ jobs:
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-report
+          name: unit-test-report-${{ matrix.ci_node_index }}
           path: mocha/results
 
-      - name: Generate coverage report by app
-        run: node script/app-coverage-report.js > test-results/coverage_report.txt
+      # - name: Generate coverage report by app
+      #   run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
 
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
-          name: unit-test-coverage-report
-          path: coverage/test-coverage-report.json
-
-      - name: Configure AWS credentials (1)
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          
-
-      - name: Get AWS IAM role
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
-          
-
-      - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
-        run: |
-          if [ -f coverage/test-coverage-report.json ]; then
-            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-          else
-            echo 'No coverage report exists as no tests were run.'
-          fi
-
-      - name: Get code coverage
-        if: ${{ always() }}
-        id: code-coverage
-        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
-
-      - name: Publish test results
-        if: ${{ always() }}
-        continue-on-error: true
-        uses: ./.github/workflows/publish-test-results
-        with:
-          check_name: 'Unit Tests Summary'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/unit-tests.xml'
-          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-          fail_on_failure: 'true'
+          name: unit-test-coverage-${{ matrix.ci_node_index }}
+          # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
+          path: coverage
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
@@ -378,7 +326,7 @@ jobs:
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-stress-test-results
+          name: unit-test-stress-test-results-${{ matrix.runs }}
           path: mocha/results
 
   update-unit-test-allow-list:
@@ -435,8 +383,9 @@ jobs:
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -736,21 +685,21 @@ jobs:
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-video-artifacts
+          name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-screenshot-artifacts
+          name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-mochawesome-test-results
+          name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
 
@@ -836,14 +785,14 @@ jobs:
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-stress-test-videos
+          name: cypress-stress-test-videos-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-stress-test-results
+          name: cypress-stress-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
 
@@ -908,8 +857,9 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-results
+          pattern: cypress-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Copy test results to mochawesome directory
         run: cp -r qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
@@ -918,8 +868,9 @@ jobs:
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-videos
+          pattern: cypress-stress-test-videos-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Download E2E Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -996,8 +947,8 @@ jobs:
         with:
           attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
           channel_id: C026PD47Z19 #gha-test-status
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1045,18 +996,22 @@ jobs:
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
       # --------------------------------------------------
+      - name: Create coverage directory
+        run: mkdir -p qa-standards-dashboard-data/coverage
 
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-report
+          pattern: unit-test-report-*
           path: qa-standards-dashboard-data/src/testing-reports/data
-
-      - name: Log directory
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/data
-          ls -a
+          merge-multiple: true
+      
+      - name: Archive unit test coverage
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-coverage-merged
+          path: qa-standards-dashboard-data/coverage
 
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
@@ -1065,12 +1020,6 @@ jobs:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
-
-      - name: Log directories
-        run: |
-          ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/
-          ls -a
 
       - name: Upload Test Results to BigQuery
         continue-on-error: true
@@ -1083,10 +1032,8 @@ jobs:
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
-      # -------------------------
-      # | Unit Tests Summary |
-      # -------------------------
 
+      
       - name: Unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/checks-action
@@ -1096,6 +1043,8 @@ jobs:
           conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
@@ -1167,8 +1116,9 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
@@ -1195,75 +1145,128 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-  testing-reports-unit-tests-coverage:
-    name: Testing Reports - Unit Tests Coverage
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
-    continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # testing-reports-unit-tests-coverage:
+  #   name: Testing Reports - Unit Tests Coverage
+  #   runs-on: ubuntu-latest
+  #   needs: [testing-reports-prep, unit-tests]
+  #   if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+  #   continue-on-error: true
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
+  #     # ------------------------
+  #     # | Upload BigQuery Data |
+  #     # ------------------------
 
-      - name: Configure AWS credentials
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
+  #     - name: Configure AWS credentials
+  #       uses: ./.github/workflows/configure-aws-credentials
+  #       with:
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws_region: us-gov-west-1
           
 
-      - name: Get va-vsp-bot token
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  #     - name: Get va-vsp-bot token
+  #       uses: ./.github/workflows/inject-secrets
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
 
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+  #     - name: Get AWS IAM role
+  #       uses: ./.github/workflows/inject-secrets
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+  #     - name: Configure AWS Credentials (2)
+  #       uses: ./.github/workflows/configure-aws-credentials
+  #       with:
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws_region: us-gov-west-1
+  #         role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role_duration: 900
+  #         session_name: vsp-frontendteam-githubaction
           
 
-      # --------------------------------------
-      # | Publish Unit Test Coverage Report       |
-      # -------------------------------------
+  #     # --------------------------------------
+  #     # | Publish Unit Test Coverage Report       |
+  #     # -------------------------------------
+  #     - name: Download Unit Test coverage results
+  #       uses: ./.github/workflows/download-artifact
+  #       with:
+  #         pattern: unit-test-coverage-*
+  #         path: qa-standards-dashboard-data/coverage
+  #         merge-multiple: true
 
-      - name: Download Unit Test Coverage Report
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: unit-test-coverage-report
-          path: qa-standards-dashboard-data/src/testing-reports/data
+  #     # - name: Download Unit Test Coverage Report
+  #     #   uses: ./.github/workflows/download-artifact
+  #     #   with:
+  #     #     name: unit-test-coverage-report
+  #     #     path: qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Process Coverage Report and post results to BigQuery
-        run: yarn unit-coverage-to-bigquery
-        working-directory: qa-standards-dashboard-data
+  #     - name: Generate coverage report by app
+  #       run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+
+  #     - name: Archive coverage txt
+  #       if: ${{ always() }}
+  #       uses: ./.github/workflows/upload-artifact
+  #       with:
+  #         name: unit-test-coverage-txt
+  #         path: qa-standards-dashboard-data/coverage/coverage_report.txt
+
+  #     - name: Process Coverage Report and post results to BigQuery
+  #       run: yarn unit-coverage-to-bigquery
+  #       working-directory: qa-standards-dashboard-data
+
+  #     - name: Upload coverage report to S3
+  #       if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
+  #       run: |
+  #         if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
+  #           aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+  #         else
+  #           echo 'No coverage report exists as no tests were run.'
+  #         fi
+      
+  #     # -------------------------
+  #     # | Unit Tests Summary |
+  #     # -------------------------
+  #     - name: Get code coverage
+  #       if: ${{ always() }}
+  #       id: code-coverage
+  #       run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+
+  #     - name: Publish test results
+  #       if: ${{ always() }}
+  #       continue-on-error: true
+  #       uses: ./.github/workflows/publish-test-results
+  #       with:
+  #         check_name: 'Unit Tests Summary'
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         report_paths: 'test-results/unit-tests.xml'
+  #         summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+  #         fail_on_failure: 'true'
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
@@ -1338,15 +1341,17 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-mochawesome-test-results
+          pattern: cypress-mochawesome-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-video-artifacts
+          pattern: cypress-mochawesome-test-results-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Create Cypress E2E Mochawesome report
         run: yarn cypress-mochawesome-to-bigquery
@@ -1459,15 +1464,17 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-results
+          pattern: cypress-stress-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-videos
+          pattern: cypress-stress-test-videos-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Create Cypress E2E Mochawesome report
         run: yarn cypress-mochawesome-to-bigquery

@@ -7,7 +7,6 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
-import '../sass/debt-letters.scss';
 import HistoryTable from '../components/HistoryTable';
 import { getCurrentDebt } from '../utils/page';
 import { setPageFocus } from '../../combined/utils/helpers';
