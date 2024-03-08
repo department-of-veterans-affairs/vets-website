@@ -3,7 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 class PatientKeywordSearchPage {
   newMessageIndex = 0;
@@ -76,7 +76,7 @@ class PatientKeywordSearchPage {
   };
 
   typeSearchInputFieldText = text => {
-    cy.get('[data-testid="search-keyword-text-input"]')
+    cy.get(Locators.ALERTS.TEXT_INPUT)
       .shadow()
       .find('[id="inputField"]')
       .focus()
@@ -92,7 +92,7 @@ class PatientKeywordSearchPage {
   // This method verifies the highlighted text in the messages returned after clicking the search button.
 
   verifySelectedFolder = () => {
-    cy.get('#select-search-folder-dropdown')
+    cy.get(Locators.ALERTS.SEARCH_DROPDOWN)
       .shadow()
       .find('select')
       .should('be.selected');
@@ -100,7 +100,7 @@ class PatientKeywordSearchPage {
   // This method selects the folder from the drop down menu.
 
   selectFolder = name => {
-    cy.get('#select-search-folder-dropdown')
+    cy.get(Locators.ALERTS.SEARCH_DROPDOWN)
       .shadow()
       .find('select')
       .focus()

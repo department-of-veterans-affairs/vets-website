@@ -1,13 +1,19 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import { AXE_CONTEXT } from './utils/constants';
+import mockDraftMessage from '../fixtures/message-draft-response.json';
+import PatientComposePage from './pages/PatientComposePage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import { AXE_CONTEXT, Paths, Locators } from './utils/constants';
 
 describe('Secure Messaging Compose with No Provider', () => {
   it('can not send message', () => {
+    const composePage = new PatientComposePage();
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
 
     cy.get('[data-testid="blocked-triage-group-alert"]>h2').should(
       'contain',
@@ -26,6 +32,11 @@ describe('Secure Messaging Compose with No Provider', () => {
 
     cy.get('[data-testid="compose-message-link"]').should('not.exist');
 
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
+    cy.get(Locators.BUTTONS.SEND)
+      .contains('Send')
+      .click();
+    composePage.verifySelectRecipientErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });

@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockInboxNoMessages from './fixtures/empty-thread-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Inbox No Messages', () => {
   it('inbox no messages', () => {
@@ -15,7 +15,7 @@ describe('Secure Messaging Inbox No Messages', () => {
       .its('response')
       .should('have.property', 'statusCode', 200);
 
-    cy.get('[data-testid=alert-no-messages] p')
+    cy.get(Locators.NO_MESS)
       .should('have.text', 'There are no messages in this folder.')
       .should('be.visible');
     cy.injectAxe();

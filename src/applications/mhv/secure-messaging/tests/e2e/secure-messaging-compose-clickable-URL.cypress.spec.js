@@ -3,7 +3,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import requestBody from './fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Compose with Clickable URL', () => {
   it('search for clickable URL', () => {
@@ -18,7 +18,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       ...requestBody,
       body: 'https://www.va.gov/',
     };
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient(requestBodyUpdated.recipientId);
     composePage

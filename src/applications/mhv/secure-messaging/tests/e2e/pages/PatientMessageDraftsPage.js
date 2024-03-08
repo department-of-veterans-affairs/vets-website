@@ -221,8 +221,8 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get('[data-testid="delete-draft-button"]').should('be.visible');
-    cy.get('[data-testid="delete-draft-button"]').click({
+    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).should('be.visible');
+    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).click({
       force: true,
       waitForAnimations: true,
     });
@@ -268,14 +268,14 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
     if (isNewDraftText) {
-      cy.get('[data-testid="delete-draft-modal"]')
+      cy.get(Locators.ALERTS.DRAFT_MODAL)
         .find('va-button[text="Yes, delete this draft"]', { force: true })
         .contains('Yes, delete this draft')
         .click({ force: true });
       // Wait needs to be added back in before closing PR
       // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
     } else {
-      cy.get('[data-testid="delete-draft-modal"]')
+      cy.get(Locators.ALERTS.DRAFT_MODAL)
         .find('va-button[text="Delete draft"]', { force: true })
         .contains('Delete draft')
         .click({ force: true });
@@ -294,7 +294,7 @@ class PatientMessageDraftsPage {
 
   // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should(
+    cy.get(Locators.ALERTS.NOTIFICATION).should(
       'have.text',
       Alerts.Message.DELETE_DRAFT_SUCCESS,
     );
@@ -308,7 +308,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyDeleteConfirmationHasFocus = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+    cy.get(Locators.ALERTS.NOTIFICATION).should('have.focus');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -334,7 +334,7 @@ class PatientMessageDraftsPage {
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 
-    cy.get('[data-testid="delete-draft-modal"]');
+    cy.get(Locators.ALERTS.DRAFT_MODAL);
     cy.realPress(['Tab']);
     cy.realPress(['Enter']);
     cy.wait('@deletedDraftResponse', { requestTimeout: 10000 })
@@ -344,14 +344,14 @@ class PatientMessageDraftsPage {
 
   getMessageSubjectField = () => {
     return cy
-      .get('[data-testid="message-subject-field"]')
+      .get(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('[name="message-subject"]');
   };
 
   getMessageBodyField = () => {
     return cy
-      .get('[data-testid="message-body-field"]')
+      .get(Locators.MESSAGES_BODY)
       .shadow()
       .find('[name="compose-message-body"]');
   };
@@ -367,24 +367,24 @@ class PatientMessageDraftsPage {
   };
 
   submitSearchButton = () => {
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get(Locators.BUTTONS.FILTER).click();
   };
 
   selectRecipientName = recipientName => {
-    cy.get('[data-testid="compose-recipient-select"]')
+    cy.get(Locators.ALERTS.RECIP_SELECT)
       .shadow()
       .find('select')
       .select(recipientName);
   };
 
   selectCategory = (category = 'COVID') => {
-    cy.get('[data-testid="compose-category-radio-button"]')
+    cy.get(Locators.BUTTONS.CATEG_RADIO_BUTT)
       .contains(category)
       .click();
   };
 
   addMessageSubject = subject => {
-    cy.get('[data-testid="message-subject-field"]')
+    cy.get(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
       .type(subject);
@@ -437,21 +437,21 @@ class PatientMessageDraftsPage {
       '/my_health/v1/messaging/folders/-2/search',
       sentSearchResponse,
     );
-    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
   clearFilter = () => {
     this.inputFilterData('any');
     this.filterMessages();
-    cy.get('[text="Clear Filters"]').click({ force: true });
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
   verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
-    cy.get('[data-testid="message-list-item"]').should(
+    cy.get(Locators.MESS_LIST).should(
       'have.length',
       `${responseData.data.length}`,
     );
-    cy.get('[data-testid="highlighted-text"]').each(element => {
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
       cy.wrap(element)
         .invoke('text')
         .then(text => {
@@ -462,7 +462,7 @@ class PatientMessageDraftsPage {
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('#select')
       .select(`${text}`, { force: true });
@@ -471,7 +471,7 @@ class PatientMessageDraftsPage {
       '/my_health/v1/messaging/folders/-2/threads**',
       sortedResponse,
     );
-    cy.get('[data-testid="sort-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
   };
 
   verifyFilterFieldCleared = () => {
@@ -484,16 +484,16 @@ class PatientMessageDraftsPage {
   verifySorting = () => {
     let listBefore;
     let listAfter;
-    cy.get('.thread-list-item')
-      .find('[data-testid="received-date"]')
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
-        cy.get('.thread-list-item')
-          .find('[data-testid="received-date"]')
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting${JSON.stringify(listAfter)}`);
@@ -514,7 +514,7 @@ class PatientMessageDraftsPage {
       '/my_health/v1/messaging/folders/-2/threads**',
       mockMessagesResponse,
     ).as('draftFolderMessages');
-    cy.get('[data-testid="drafts-sidebar"]').click();
+    cy.get(Locators.FOLDERS.DRAFTS).click();
     cy.wait('@draftFolder');
     cy.wait('@draftFolderMessages');
   };

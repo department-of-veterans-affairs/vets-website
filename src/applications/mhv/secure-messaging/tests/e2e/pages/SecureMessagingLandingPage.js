@@ -3,6 +3,7 @@ import mockUser from '../fixtures/generalResponses/user.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import { Locators } from '../utils/constants';
 
 class SecureMessagingLandingPage {
   loadMainPage = (
@@ -40,31 +41,31 @@ class SecureMessagingLandingPage {
   };
 
   verifyHeader = (text = 'Messages') => {
-    cy.get('h1')
+    cy.get(Locators.HEADER)
       .should('be.visible')
       .and('have.text', `${text}`);
   };
 
   verifyUnreadMessagesNote = (text = 'unread messages in your inbox') => {
-    cy.get('[data-testid="unread-messages"]')
+    cy.get(Locators.ALERTS.UNREAD_MESS)
       .should('be.visible')
       .and('include.text', `${text}`);
   };
 
   verifyWelcomeMessage = (text = 'What to know as you try out this tool') => {
-    cy.get('.welcome-message')
+    cy.get(Locators.ALERTS.WELCOME_MESSAGE)
       .should('be.visible')
       .and('contain.text', `${text}`);
   };
 
   verifyFaqMessage = (text = 'Questions about this messaging tool') => {
-    cy.get('.secure-messaging-faq')
+    cy.get(Locators.ALERTS.ACC_ITEM)
       .should('be.visible')
       .and('contain.text', `${text}`);
   };
 
   verifyFaqAccordions = () => {
-    cy.get('[data-testid="faq-accordion-item"]').each(el => {
+    cy.get(Locators.ALERTS.ACC_ITEM).each(el => {
       cy.wrap(el)
         .should('be.visible')
         .click({ waitForAnimations: true });
