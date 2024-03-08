@@ -8,6 +8,22 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+$font-size: 16.96px;
+
+// Override currency widget styles to match v3 web components
+// until there is a currency pattern web component replacement
+.schemaform-currency-input-v3 {
+  margin-top: 24px;
+  label {
+    font-size: $font-size;
+  }
+  input {
+    width: 100%;
+    max-width: 480px;
+    font-size: $font-size;
+  }
+}
+
 // a11y - Change gray box to white box with gray border.
 // Needed because when using a web component which
 // has a gray color hint text, the hint text compared to
