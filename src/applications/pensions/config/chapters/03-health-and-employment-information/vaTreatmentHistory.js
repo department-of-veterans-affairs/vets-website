@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -6,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Treatment from a VA medical center',
+    ...titleUI('Treatment from a VA medical center'),
     vaTreatmentHistory: yesNoUI({
       title: 'Have you received treatment from a VA medical center?',
       classNames: 'vads-u-margin-bottom--2',

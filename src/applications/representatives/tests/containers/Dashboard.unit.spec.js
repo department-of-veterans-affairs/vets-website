@@ -6,11 +6,11 @@ import Dashboard from '../../containers/Dashboard';
 
 describe('Dashboard', () => {
   it('renders', () => {
-    render(<Dashboard POAPermissions />);
+    render(<Dashboard poaPermissions />);
   });
 
   it('renders header', () => {
-    const { getByText } = render(<Dashboard POAPermissions />);
+    const { getByText } = render(<Dashboard poaPermissions />);
     expect(getByText('Accredited Representative Portal')).to.exist;
   });
 
@@ -21,7 +21,7 @@ describe('Dashboard', () => {
 
   describe('Pending POA requests', () => {
     it('renders table headers', () => {
-      const { getByText } = render(<Dashboard POAPermissions />);
+      const { getByText } = render(<Dashboard poaPermissions />);
       expect(getByText('Claimant')).to.exist;
       expect(getByText('Submitted')).to.exist;
       expect(getByText('Accept/ decline')).to.exist;

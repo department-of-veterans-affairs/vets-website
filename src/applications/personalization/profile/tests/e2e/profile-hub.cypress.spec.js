@@ -44,9 +44,7 @@ describe('Profile - Hub page', () => {
     cy.findByText('Review your mailing address').should('exist');
 
     // link text for the bad address indicator alert
-    cy.findByText(
-      'Go to your contact information to review your address',
-    ).should('exist');
+    cy.findByText('Review the mailing address in your profile').should('exist');
 
     cy.url().should('not.include', 'personal-information');
 

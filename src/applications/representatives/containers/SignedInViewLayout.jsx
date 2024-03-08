@@ -5,13 +5,13 @@ import React from 'react';
 import Sidenav from '../components/Sidenav';
 import { GetBreadcrumbs } from '../common/GetBreadcrumbs';
 
-const LoginViewWrapper = ({ children, POAPermissions = false }) => {
+const LoginViewWrapper = ({ children, poaPermissions = false }) => {
   let content = null;
 
   const pagePathname = document.location.pathname.split('/').pop();
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
-  if (!POAPermissions) {
+  if (!poaPermissions) {
     content = (
       <va-alert
         close-btn-aria-label="Close insufficient permission alert"
@@ -30,7 +30,7 @@ const LoginViewWrapper = ({ children, POAPermissions = false }) => {
     );
   }
 
-  if (POAPermissions) {
+  if (poaPermissions) {
     content = (
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3">
@@ -67,7 +67,7 @@ LoginViewWrapper.propTypes = {
     }),
   ).isRequired,
   children: PropTypes.node.isRequired,
-  POAPermissions: PropTypes.bool,
+  poaPermissions: PropTypes.bool,
   user: PropTypes.object,
 };
 
