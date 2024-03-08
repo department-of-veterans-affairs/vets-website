@@ -1,23 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-// import RequiredLoginView from '~/platform/user/authorization/components/RequiredLoginView';
 
 import Sidenav from '../components/Sidenav';
-import GetBreadcrumbs from '../common/GetBreadcrumbs';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 
 const SignedInViewLayout = ({ children, poaPermissions = true }) => {
   let content = null;
 
-  const pagePathname = document.location.pathname.split('/').pop();
+  const { pathname } = document.location;
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
     content = (
-      <va-alert
-        close-btn-aria-label="Close insufficient permission alert"
-        status="info"
-        visible
-      >
+      <va-alert status="info" visible>
         <h2 slot="headline">You are missing some permissions</h2>
         <div>
           <p className="vads-u-margin-y--0">
@@ -45,14 +40,12 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
 
   return (
     <>
-      {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
       <div className="vads-u-margin-bottom--3">
-        <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <GetBreadcrumbs page={pagePathname} />
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <Breadcrumbs pathname={pathname} />
           {content}
-        </main>
+        </div>
       </div>
-      {/* </RequiredLoginView> */}
     </>
   );
 };
