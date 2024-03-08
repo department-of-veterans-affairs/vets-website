@@ -1,96 +1,125 @@
 {
-  "data": {
-    "firmName": "Home",
-    "officialPosition": "Important",
-    "claimantAddress": {
-      "street": "123 Main St",
-      "street2": "Apt. 13",
-      "city": "Small Town",
-      "country": "USA",
-      "state": "IA",
-      "postalCode": "12121"
+  "finalRestingPlace": {
+    "location": "other",
+    "other": "Other location test"
+  },
+  "previousNames": [
+    {
+      "first": "Tommy",
+      "last": "Bahama",
+      "serviceBranch": "Air Force",
+      "suffix": "Sr.",
+      "middle": "Middle"
     },
-    "claimantEmail": "name@mail.com",
-    "claimantPhone": "1234567890",
-    "placeOfRemains": "Some place",
-    "federalCemetery": false,
-    "stateCemetery": true,
-    "govtContributions": true,
-    "amountGovtContribution": 9,
-    "burialAllowanceRequested": "vaMC",
-    "burialCost": 10,
-    "benefitsUnclaimedRemains": false,
-    "view:claimedBenefits": {
-      "burialAllowance": true,
-      "plotAllowance": true,
-      "transportation": true,
-      "amountIncurred": 7
-    },
-    "view:serveUnderOtherNames": true,
-    "previousNames": [
-      {
-        "first": "Jophes",
-        "middle": "Emdun",
-        "last": "Deo",
-        "suffix": "Sr."
+    {
+      "first": "Tom",
+      "last": "Ford",
+      "serviceBranch": "Coast Guard"
+    }
+  ],
+  "militaryServiceNumber": "1234567",
+  "toursOfDuty": [
+    {
+      "serviceBranch": "Air Force",
+      "dateRange": {
+        "from": "2005-07-19",
+        "to": "2009-04-02"
       },
-      {
-        "first": "Jsph",
-        "middle": "Dmnd",
-        "last": "D",
-        "suffix": "Sr."
-      }
-    ],
-    "toursOfDuty": [
-      {
-        "dateRange": {
-          "from": "1984-05-16",
-          "to": "1990-04-04"
-        },
-        "serviceBranch": "Army",
-        "rank": "Corporal",
-        "serviceNumber": "7",
-        "placeOfEntry": "Over here",
-        "placeOfSeparation": "Over there"
+      "placeOfEntry": "Los Angeles, CA",
+      "placeOfSeparation": "Dallas, TX",
+      "rank": "Sergeant",
+      "unit": "Unit test AF"
+    },
+    {
+      "serviceBranch": "Coast Guard",
+      "dateRange": {
+        "from": "2011-03-05",
+        "to": "2016-04-15"
       },
-      {
-        "dateRange": {
-          "from": "1994-06-08",
-          "to": "1997-03-20"
-        },
-        "serviceBranch": "Navy",
-        "rank": "Seven",
-        "serviceNumber": "7",
-        "placeOfEntry": "Over there",
-        "placeOfSeparation": "Over here"
-      }
-    ],
-    "deathDate": "2017-06-25",
-    "burialDate": "2017-06-26",
-    "locationOfDeath": {
-      "location": "vaMedicalCenter"
-    },
-    "veteranFullName": {
-      "first": "Donald",
-      "middle": "Edmund",
-      "last": "Doe",
-      "suffix": "Sr."
-    },
-    "veteranSocialSecurityNumber": "123123123",
-    "vaFileNumber": "12345678",
-    "veteranDateOfBirth": "1960-01-01",
-    "placeOfBirth": "Some place",
-    "claimantFullName": {
-      "first": "John",
-      "middle": "A",
-      "last": "Doe",
-      "suffix": "Jr."
-    },
-    "relationship": {
-      "type": "other",
-      "other": "Uncle",
-      "view:isEntity": true
-    },
-    "privacyAgreementAccepted": true
-  }
+      "placeOfEntry": "Dallas, TX",
+      "placeOfSeparation": "San Francisco, CA",
+      "rank": "Chief",
+      "unit": "Unit test CG"
+    }
+  ],
+  "locationOfDeath": {
+    "location": "stateVeteransHome",
+    "stateVeteransHome": {
+      "facilityName": "CA State facility",
+      "facilityLocation": "Modesto, CA"
+    }
+  },
+  "veteranFullName": {
+    "first": "Tom",
+    "middle": "Middle",
+    "last": "Riddle",
+    "suffix": "Sr."
+  },
+  "veteranSocialSecurityNumber": "333444555",
+  "vaFileNumber": "123456789",
+  "veteranDateOfBirth": "1991-11-16",
+  "claimantAddress": {
+    "country": "US",
+    "street": "123 Fake St.",
+    "street2": "Apt 1033",
+    "city": "Fakesville",
+    "state": "CA",
+    "postalCode": "12345"
+  },
+  "claimantFullName": {
+    "first": "Tom",
+    "middle": "Marvolo",
+    "last": "Riddle",
+    "suffix": "Jr."
+  },
+  "claimantSocialSecurityNumber": "333445556",
+  "claimantDateOfBirth": "1991-01-21",
+  "formV2": true,
+  "transportationReceipts": [
+    {
+      "name": "Screenshot from 2024-03-08 11-21-30.png",
+      "size": 52846,
+      "confirmationCode": "4d67edab-8b96-4a77-bc6d-a7b74183c2ed",
+      "isEncrypted": false
+    }
+  ],
+  "deathCertificate": [
+    {
+      "name": "Screenshot from 2024-03-08 11-25-36.png",
+      "size": 43620,
+      "confirmationCode": "bb5d8c08-58d8-4921-a6c1-3566e0d1a29f",
+      "isEncrypted": false
+    }
+  ],
+  "transportationExpenses": true,
+  "plotExpenseResponsibility": true,
+  "govtContributions": true,
+  "amountGovtContribution": "7890",
+  "tribalLandLocation": {
+    "name": "Test tribal location",
+    "zip": "12345"
+  },
+  "cemetaryLocationQuestion": "tribalLand",
+  "nationalOrFederal": true,
+  "name": "Test location",
+  "previouslyReceivedAllowance": true,
+  "burialExpenseResponsibility": true,
+  "burialAllowanceRequested": {
+    "service": true,
+    "nonService": true
+  },
+  "unclaimedRemains": true,
+  "confirmation": {
+    "checkBox": true
+  },
+  "deathDate": "2023-03-19",
+  "burialDate": "2023-04-01",
+  "claimantEmail": "nope@nope.org",
+  "claimantPhone": "9008675309",
+  "claimantIntPhone": "9008675309",
+  "relationshipToVeteran": "spouse",
+  "burialAllowance": true,
+  "plotAllowance": true,
+  "transportation": true,
+  "privacyAgreementAccepted": true
 }
