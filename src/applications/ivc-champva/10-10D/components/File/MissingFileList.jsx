@@ -70,9 +70,10 @@ export default function MissingFileList({
     wrapped.length > 0 &&
     wrapped
       .flatMap(app => app.missingUploads)
-      .every(file => file.uploaded === true)
+      .every(file => file.uploaded === true) &&
+    disableLinks
   )
-    return <p>No missing uploads found</p>;
+    return <></>;
 
   return (
     <div>
