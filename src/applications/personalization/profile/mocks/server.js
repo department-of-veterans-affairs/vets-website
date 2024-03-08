@@ -72,6 +72,9 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
+            profileShowDirectDepositSingleForm: false,
+            profileShowDirectDepositSingleFormAlert: true,
+            profileShowDirectDepositSingleFormEduDowntime: false,
           }),
         ),
       secondsOfDelay,
@@ -101,23 +104,8 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // three different scenarios for testing downtime banner
     // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
     // but couldn't be directly imported due to export default vs module.exports
-
-    // return res.json(
-    //   maintenanceWindows.createDowntimeApproachingNotification([
-    //     maintenanceWindows.SERVICES.EMIS,
-    //   ]),
-    // );
-
-    // return res.json(
-    //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.MVI,
-    //     maintenanceWindows.SERVICES.EMIS,
-    //   ]),
-    // );
-
     return res.json(maintenanceWindows.noDowntime);
   },
 
@@ -128,7 +116,10 @@ const responses = {
     // happy path response / user with data
     return res.json(mockDisabilityCompensations.base);
 
-    // edge cases
+    // user with no dd data but is eligible
+    // return res.json(mockDisabilityCompensations.isEligible);
+
+    // direct deposit blocked edge cases
     // return res.json(mockDisabilityCompensations.isDeceased);
     // return res.json(mockDisabilityCompensations.isFiduciary);
     // return res.json(mockDisabilityCompensations.isNotCompetent);
@@ -147,6 +138,7 @@ const responses = {
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
+    // return res.status(200).json(bankAccounts.noAccount); // user with no account / not eligible
     return res.status(200).json(bankAccounts.anAccount);
   },
   'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {

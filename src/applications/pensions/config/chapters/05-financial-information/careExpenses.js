@@ -7,6 +7,7 @@ import {
   radioSchema,
   numberUI,
   numberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   VaTextInputField,
@@ -42,7 +43,7 @@ CareExpenseView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add an unreimbursed care expense',
+    ...titleUI('Add an unreimbursed care expense'),
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',

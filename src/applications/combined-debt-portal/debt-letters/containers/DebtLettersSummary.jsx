@@ -11,7 +11,6 @@ import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import DebtCardsList from '../components/DebtCardsList';
 import OnThisPageLinks from '../components/OnThisPageLinks';
-import '../sass/debt-letters.scss';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';

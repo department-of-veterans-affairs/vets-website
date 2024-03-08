@@ -217,6 +217,11 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setPhysicalLocation(room) {
+    this.attributes.physicalLocation = room;
+    return this;
+  }
+
   setContact({ phone, email }) {
     this.attributes.contact = {
       telecom: [

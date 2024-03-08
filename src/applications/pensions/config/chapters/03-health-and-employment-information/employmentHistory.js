@@ -7,6 +7,7 @@ import {
   currentOrPastDateSchema,
   numberUI,
   numberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 
@@ -46,7 +47,7 @@ const generateEmployersSchemas = (
 ) => {
   return {
     uiSchema: {
-      'ui:title': employersTitle,
+      ...titleUI(employersTitle),
       [employersKey]: {
         'ui:title': employerMessage,
         'ui:options': {

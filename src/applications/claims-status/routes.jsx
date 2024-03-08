@@ -45,11 +45,13 @@ const routes = (
       <IndexRedirect to="status" />
       <Route component={ClaimStatusPage} path="status" />,
       <Route component={FilesPage} path="files" />,
-      <Route component={DetailsPage} path="details" />,
       <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
         <Toggler.Enabled>
           <Route component={OverviewPage} path="overview" />,
         </Toggler.Enabled>
+        <Toggler.Disabled>
+          <Route component={DetailsPage} path="details" />,
+        </Toggler.Disabled>
       </Toggler>
       <Route component={AskVAPage} path="ask-va-to-decide" />,
       <Route
