@@ -50,6 +50,7 @@ const Wrapper = props => {
       break;
     case APP_NAMES.TRAVEL_CLAIM:
       appTitle = 'travel claim';
+      downtimeDependency = externalServices.tc;
       break;
     default:
       appTitle = 'appointments';
