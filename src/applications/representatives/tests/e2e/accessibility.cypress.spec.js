@@ -19,7 +19,7 @@ describe('Accessibility', () => {
     cy.axeCheck();
   });
 
-  it('has accessible poa requests page', () => {
+  it('has accessible POA requests page', () => {
     cy.visit('/representatives/poa-requests');
     cy.injectAxe();
     cy.axeCheck();
