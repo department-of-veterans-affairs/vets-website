@@ -159,7 +159,7 @@ const formConfig = {
             ...titleUI('Your relationship to this form'),
             certifierRole: radioUI({
               title: 'Which of these best describes you?',
-              required: true,
+              required: () => true,
               labels: {
                 applicant: "I'm an applicant applying for CHAMPVA benefits",
                 sponsor:
@@ -703,7 +703,7 @@ const formConfig = {
                 },
                 applicantGender: radioUI({
                   title: 'Gender',
-                  required: true,
+                  required: () => true,
                   labels: { male: 'Male', female: 'Female' },
                 }),
               },
@@ -845,7 +845,7 @@ const formConfig = {
                 'ui:description': AdditionalDocumentationAlert(),
                 applicantRelationshipOrigin: radioUI({
                   title: 'Question regarding blood relation status',
-                  required: true,
+                  required: () => true,
                   labels: {
                     blood: 'Blood',
                     adoption: 'Adoption',
