@@ -383,8 +383,9 @@ jobs:
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -856,8 +857,9 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-results
+          pattern: cypress-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Copy test results to mochawesome directory
         run: cp -r qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
@@ -866,8 +868,9 @@ jobs:
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-videos
+          pattern: cypress-stress-test-videos-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Download E2E Test Stability Allow List
         uses: ./.github/workflows/download-artifact
