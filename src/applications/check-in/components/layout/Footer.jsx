@@ -43,12 +43,7 @@ const Footer = ({ router }) => {
     );
   };
 
-  const showTravelClaimHelp = () => {
-    // eslint-disable-next-line sonarjs/prefer-single-boolean-return
-    if (app === APP_NAMES.TRAVEL_CLAIM) return true;
-
-    return false;
-  };
+  const showTravelClaimHelp = app === APP_NAMES.TRAVEL_CLAIM;
 
   return (
     <footer>
@@ -59,18 +54,18 @@ const Footer = ({ router }) => {
         {t('need-help')}
       </h2>
       {showDayOfTravelHelp() &&
-        !showTravelClaimHelp() && (
+        !showTravelClaimHelp && (
           <div data-testid="check-in-message">
             <HelpBlock dayOfTravel />
           </div>
         )}
-      {showTravelClaimHelp() && (
+      {showTravelClaimHelp && (
         <div data-testid="check-in-message">
           <HelpBlock travelClaim />
         </div>
       )}
       {!showDayOfTravelHelp() &&
-        !showTravelClaimHelp() && (
+        !showTravelClaimHelp && (
           <div data-testid="check-in-message">
             <HelpBlock />
           </div>
