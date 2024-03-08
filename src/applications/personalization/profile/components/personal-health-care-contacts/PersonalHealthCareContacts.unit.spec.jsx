@@ -58,12 +58,12 @@ describe('PersonalHealthCareContacts component', () => {
   });
 
   it('calls dispatch(fetchProfileContacts()) once', async () => {
-    const { getByRole } = setup();
+    setup();
     await waitFor(() => {
-      getByRole('heading', { name: 'Personal health care contacts', level: 1 });
+      expect(dispatchSpy.calledOnce, 'dispatch called').to.be.true;
+      expect(dispatchSpy.calledWithExactly(fetchProfileContactsSpy())).to.be
+        .true;
     });
-    expect(dispatchSpy.calledOnce, 'dispatch called').to.be.true;
-    expect(dispatchSpy.calledWithExactly(fetchProfileContactsSpy())).to.be.true;
   });
 
   it('displays help desk contact information', async () => {
