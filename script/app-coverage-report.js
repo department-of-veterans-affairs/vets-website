@@ -96,11 +96,11 @@ const generateCoverage = (rootDir, coverageSummary) => {
 const logCoverage = coverageResults => {
   // convert coverageResults JSON object to prettified string
   const data = JSON.stringify(coverageResults, null, 4);
-
+  console.log(data);
   // write coverageResults string to file
   const outputFile = path.join(
     __dirname,
-    '../coverage/test-coverage-report.json',
+    '../qa-standards-dashboard-data/coverage/test-coverage-report.json',
   );
   fs.writeFile(outputFile, data, err => {
     if (err) {
@@ -114,14 +114,28 @@ const logCoverage = coverageResults => {
 const applicationDir = path.join(__dirname, '../src/applications/');
 
 // Check if coverage-summary.json exists before generating coverage
-if (fs.existsSync(path.join(__dirname, '../coverage/coverage-summary.json'))) {
+if (
+  fs.existsSync(
+    path.join(
+      __dirname,
+      '../qa-standards-dashboard-data/coverage/coverage-summary.json',
+    ),
+  )
+) {
   const coverageSummaryJson = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../coverage/coverage-summary.json')),
+    fs.readFileSync(
+      path.join(
+        __dirname,
+        '../qa-standards-dashboard-data/coverage/coverage-summary.json',
+      ),
+    ),
   );
   // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
   logCoverage(appCoverages);
   printCoverage(appCoverages);
 } else {
-  console.log('./coverage/coverage-summary.json not found.');
+  console.log(
+    './qa-standards-dashboard-data/coverage/coverage-summary.json not found.',
+  );
 }
