@@ -57,12 +57,12 @@ describe('PersonalHealthCareContacts component', () => {
     });
   });
 
-  it('calls dispatch(fetchProfileContacts()) once', async () => {
+  it('calls dispatch(fetchProfileContacts()) once on render', async () => {
     setup();
     await waitFor(() => {
-      expect(dispatchSpy.calledOnce, 'dispatch called').to.be.true;
       expect(dispatchSpy.calledWithExactly(fetchProfileContactsSpy())).to.be
         .true;
+      expect(dispatchSpy.calledOnce).to.be.true;
     });
   });
 
