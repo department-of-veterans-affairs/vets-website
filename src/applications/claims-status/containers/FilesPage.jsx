@@ -15,8 +15,9 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
-import AdditionalEvidencePage from './AdditionalEvidencePage';
-import ClaimFileHeader from '../components/ClaimFileHeader';
+import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
+import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
+import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
@@ -109,39 +110,41 @@ class FilesPage extends React.Component {
 
     return (
       <div>
-        {isOpen && (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            {isOpen && (
               <RequestedFilesInfo
                 id={claim.id}
                 filesNeeded={filesNeeded}
                 optionalFiles={optionalFiles}
               />
-            </Toggler.Disabled>
-            <Toggler.Enabled>
-              <ClaimFileHeader />
-              <AdditionalEvidencePage />
-            </Toggler.Enabled>
-          </Toggler>
-        )}
-        {showDecision && <AskVAToDecide id={params.id} />}
-        <div className="submitted-files-list">
-          <h2 className="claim-file-border">Documents filed</h2>
-          {documentsTurnedIn.length === 0 ? (
-            <div>
-              <p>You haven’t turned in any documents to VA.</p>
-            </div>
-          ) : null}
+            )}
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <div className="submitted-files-list">
+              <h2 className="claim-file-border">Documents filed</h2>
+              {documentsTurnedIn.length === 0 ? (
+                <div>
+                  <p>You haven’t turned in any documents to VA.</p>
+                </div>
+              ) : null}
 
-          {documentsTurnedIn.map(
-            (item, itemIndex) =>
-              item.status && item.id ? (
-                <SubmittedTrackedItem item={item} key={itemIndex} />
-              ) : (
-                <AdditionalEvidenceItem item={item} key={itemIndex} />
-              ),
-          )}
-        </div>
+              {documentsTurnedIn.map(
+                (item, itemIndex) =>
+                  item.status && item.id ? (
+                    <SubmittedTrackedItem item={item} key={itemIndex} />
+                  ) : (
+                    <AdditionalEvidenceItem item={item} key={itemIndex} />
+                  ),
+              )}
+            </div>
+          </Toggler.Disabled>
+          <Toggler.Enabled>
+            <ClaimFileHeader isOpen={isOpen} />
+            <AdditionalEvidencePage />
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <DocumentsFiled claim={claim} />
+          </Toggler.Enabled>
+        </Toggler>
       </div>
     );
   }

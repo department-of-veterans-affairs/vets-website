@@ -8,6 +8,7 @@ import {
   validateGulfWarDates,
   validateExposureDates,
   validateCurrency,
+  validatePolicyNumber,
 } from '../../../utils/validation';
 
 describe('hca `validateServiceDates` form validation', () => {
@@ -105,9 +106,10 @@ describe('hca `validateGulfWarDates` form validation', () => {
     spy = () => {},
     startDate = '1990-09-XX',
     endDate = '1991-01-XX',
+    fieldName = 'gulfWarEndDate',
   }) => ({
     errors: {
-      gulfWarEndDate: {
+      [fieldName]: {
         addError: spy,
       },
     },
@@ -139,6 +141,33 @@ describe('hca `validateGulfWarDates` form validation', () => {
       expect(spy.called).to.be.true;
     });
   });
+
+  context('when only a month is provided to the end date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      endDate: 'XXXX-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateGulfWarDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  context('when only a month is provided to the start date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      fieldName: 'gulfWarStartDate',
+      startDate: 'XXXX-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateGulfWarDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
 });
 
 describe('hca `validateExposureDates` form validation', () => {
@@ -146,9 +175,10 @@ describe('hca `validateExposureDates` form validation', () => {
     spy = () => {},
     startDate = '1990-09-XX',
     endDate = '1991-01-XX',
+    fieldName = 'toxicExposureEndDate',
   }) => ({
     errors: {
-      toxicExposureEndDate: {
+      [fieldName]: {
         addError: spy,
       },
     },
@@ -172,6 +202,33 @@ describe('hca `validateExposureDates` form validation', () => {
     const spy = sinon.spy();
     const { errors, fieldData } = getData({
       endDate: '1989-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateExposureDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  context('when only a month is provided to the end date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      endDate: 'XXXX-09-XX',
+      spy,
+    });
+
+    it('should set error message ', () => {
+      validateExposureDates(errors, fieldData);
+      expect(spy.called).to.be.true;
+    });
+  });
+
+  context('when only a month is provided to the start date', () => {
+    const spy = sinon.spy();
+    const { errors, fieldData } = getData({
+      fieldName: 'toxicExposureStartDate',
+      startDate: 'XXXX-09-XX',
       spy,
     });
 
@@ -269,6 +326,57 @@ describe('hca `validateCurrency` form validation', () => {
     it('should not set error message', () => {
       validateCurrency(errors, '$234,234');
       expect(spy.called).to.be.false;
+    });
+  });
+});
+
+describe('hca `validatePolicyNumber` form validation', () => {
+  const getData = ({
+    policySpy = () => {},
+    groupSpy = () => {},
+    policyNumber = '',
+    groupCode = '',
+  }) => ({
+    errors: {
+      insurancePolicyNumber: {
+        addError: policySpy,
+      },
+      insuranceGroupCode: {
+        addError: groupSpy,
+      },
+    },
+    fieldData: {
+      insurancePolicyNumber: policyNumber,
+      insuranceGroupCode: groupCode,
+    },
+  });
+
+  context('when form data is valid', () => {
+    const policySpy = sinon.spy();
+    const groupSpy = sinon.spy();
+    const policyNumber = '1234567890';
+    const { errors, fieldData } = getData({
+      policySpy,
+      groupSpy,
+      policyNumber,
+    });
+
+    it('should not set error message', () => {
+      validatePolicyNumber(errors, fieldData);
+      expect(policySpy.called).to.be.false;
+      expect(groupSpy.called).to.be.false;
+    });
+  });
+
+  context('when form data is missing', () => {
+    const policySpy = sinon.spy();
+    const groupSpy = sinon.spy();
+    const { errors, fieldData } = getData({ policySpy, groupSpy });
+
+    it('should set error message ', () => {
+      validatePolicyNumber(errors, fieldData);
+      expect(policySpy.called).to.be.true;
+      expect(groupSpy.called).to.be.true;
     });
   });
 });

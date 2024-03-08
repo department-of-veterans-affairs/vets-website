@@ -128,6 +128,7 @@ export default Object.freeze({
   mhvLandingPagePersonalization: 'mhv_landing_page_personalization',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
   mhvSecureMessagingToPhase1: 'mhv_secure_messaging_to_phase_1',
+  mhvSecureMessagingCernerPilot: 'mhv_secure_messaging_cerner_pilot',
   mhvSecureMessagingBlockedTriageGroup1p0:
     'mhv_secure_messaging_blocked_triage_group_1_0',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',

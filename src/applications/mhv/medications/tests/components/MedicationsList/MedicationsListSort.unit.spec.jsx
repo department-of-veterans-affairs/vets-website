@@ -7,7 +7,7 @@ import { rxListSortingOptions } from '../../../util/constants';
 
 describe('Medicaitons List Sort component', () => {
   const sortRxList = () => {};
-  const setup = () => {
+  const setup = (initialState = {}) => {
     return renderWithStoreAndRouter(
       <MedicationsListSort
         value={Object.keys(rxListSortingOptions)[0]}
@@ -15,6 +15,7 @@ describe('Medicaitons List Sort component', () => {
       />,
       {
         path: '/',
+        state: initialState,
       },
     );
   };
@@ -35,7 +36,19 @@ describe('Medicaitons List Sort component', () => {
   it('has a sort button', () => {
     const screen = setup();
     const sortButton = screen.getByTestId('sort-button');
-    fireEvent.click(screen.getByTestId('sort-button'));
+    fireEvent.click(sortButton);
+    expect(sortButton).to.have.property('text', 'Sort');
+  });
+  it('has a sort button even with refill flag being true', () => {
+    const initialState = {
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_content: true,
+      },
+    };
+    const screen = setup(initialState);
+    const sortButton = screen.getByTestId('sort-button');
+    fireEvent.click(sortButton);
     expect(sortButton).to.have.property('text', 'Sort');
   });
 });
