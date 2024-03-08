@@ -92,9 +92,10 @@ describe('SearchResults', () => {
     );
 
     const expectedAriaLabel =
-      '123 test place, Columbus, CA, 43210 (opens in new tab)';
-    const addressLink = wrapper.find('.address-link');
+      '123 test place Columbus, CA 43210 (opens in a new tab)';
+    const addressLink = wrapper.find('.address-link a');
 
+    expect(addressLink.exists(), 'Address link exists').to.be.true;
     expect(
       addressLink.prop('aria-label'),
       'Aria label is set correctly',
