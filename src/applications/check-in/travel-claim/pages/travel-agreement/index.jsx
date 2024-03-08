@@ -1,10 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation';
 
 const TravelAgreement = props => {
   const { router } = props;
@@ -34,15 +36,15 @@ const TravelAgreement = props => {
           <li>{t('i-am-the-only-person-claiming-for-the-travel-listed')}</li>
           <li>{t('i-have-not-previously-received-payment')}</li>
         </ul>
-        <a
-          data-testid="file-claim-link"
-          href="#travel-review"
-          onKeyDown={() => goToPreviousPage()}
-          onClick={() => goToPreviousPage()}
-          className="vads-u-font-weight--bold"
+        <Link
+          onClick={goToPreviousPage}
+          to={URLS.TRAVEL_REVIEW}
+          data-testid="finish-reviewing-your-claim-link"
+          className="vad-u-font-weight-bold"
         >
+          <i aria-hidden="true" className="vads-u-font-weight-bold" />
           {t('finish-reviewing-your-travel-claim')}
-        </a>
+        </Link>
       </Wrapper>
     </>
   );
