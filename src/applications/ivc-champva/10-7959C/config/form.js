@@ -14,7 +14,7 @@ import {
   yesNoSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  inlineTitleUI,
+  titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -23,7 +23,6 @@ import get from 'platform/utilities/data/get';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import CoverageField from '../components/coverages/CoverageField';
-import CoverageDetailLargeField from '../components/coverages/CoverageDetailLargeField';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -76,11 +75,13 @@ const formConfig = {
           path: 'beneficiary-name',
           title: 'Beneficiary Name',
           uiSchema: {
+            ...titleUI('Beneficiary name'),
             beneficiaryFullName: fullNameNoSuffixUI(),
           },
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               beneficiaryFullName: fullNameNoSuffixSchema,
             },
           },
@@ -89,11 +90,13 @@ const formConfig = {
           path: 'beneficiary-ssn',
           title: 'Beneficiary SSN',
           uiSchema: {
+            ...titleUI('Beneficiary SSN'),
             beneficiarySSN: ssnUI(),
           },
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               beneficiarySSN: ssnSchema,
             },
           },
@@ -102,6 +105,7 @@ const formConfig = {
           path: 'beneficiary-address',
           title: 'Beneficiary Address',
           uiSchema: {
+            ...titleUI('Beneficiary Address'),
             beneficiaryAddress: addressUI(),
             beneficiaryNewAddress: checkboxGroupUI({
               title: 'Address Information',
@@ -114,6 +118,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               beneficiaryAddress: addressSchema({
                 omit: [
                   'isMilitary',
@@ -131,6 +136,7 @@ const formConfig = {
           path: 'beneficiary-gender',
           title: 'Beneficiary Gender',
           uiSchema: {
+            ...titleUI('Beneficiary Gender'),
             beneficiaryGender: radioUI({
               title: 'Gender',
               required: true,
@@ -143,6 +149,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               beneficiaryGender: radioSchema(['male', 'female']),
             },
           },
@@ -156,6 +163,7 @@ const formConfig = {
           path: 'medicare-part-a',
           title: 'Medicare Part A Information',
           uiSchema: {
+            ...titleUI('Medicare Part A Information'),
             hasMedicarePartA: yesNoUI({
               title: 'Do you have Medicare Part A?',
             }),
@@ -178,6 +186,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               hasMedicarePartA: yesNoSchema,
               partAEffectiveDate: currentOrPastDateSchema,
               partACarrierName: {
@@ -190,6 +199,7 @@ const formConfig = {
           path: 'medicare-part-b',
           title: 'Medicare Part B Information',
           uiSchema: {
+            ...titleUI('Medicare Part B Information'),
             hasMedicarePartB: yesNoUI({
               title: 'Do you have Medicare Part B?',
             }),
@@ -212,6 +222,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               hasMedicarePartB: yesNoSchema,
               partBEffectiveDate: currentOrPastDateSchema,
               partBCarrierName: {
@@ -224,6 +235,7 @@ const formConfig = {
           path: 'medicare-part-d',
           title: 'Medicare Part D Information',
           uiSchema: {
+            ...titleUI('Medicare Part D Information'),
             hasMedicarePartD: yesNoUI({
               title: 'Do you have Medicare Part D?',
             }),
@@ -250,6 +262,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              titleSchema,
               hasMedicarePartD: yesNoSchema,
               partDEffectiveDate: currentOrPastDateSchema,
               partDCarrierName: {
@@ -289,7 +302,6 @@ const formConfig = {
     chapter3: {
       title: 'Other Health Insurance',
       pages: {
-        // Conditional - go here if they DON'T have OHI
         // TODO: is pt D required to get to this state?
         page9: {
           path: 'other-health-insurance',
@@ -298,9 +310,10 @@ const formConfig = {
           arrayPath: 'coverages',
           depends: form => get('hasOtherHealthInsurance', form),
           uiSchema: {
-            'ui:title': 'Other Coverages',
-            'ui:description':
+            ...titleUI(
+              'Other Coverages',
               'Provide all periods of OHI coverage since becoming CHAMPVA eligible and attach a copy of any active health insurance cards (front and back).',
+            ),
             coverages: {
               'ui:options': {
                 viewField: CoverageField,
@@ -324,12 +337,13 @@ const formConfig = {
               coverages: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
+                  required: ['nameOfInsurance'],
                   properties: {
+                    titleSchema,
                     nameOfInsurance: { type: 'string' },
-                    // TODO: add more details about coverage
-                    // incl. the ability to upload ID card
                   },
                 },
               },
@@ -338,11 +352,10 @@ const formConfig = {
         },
         page10: {
           path: 'other-health-insurance/:index/effective-date',
-          depends: form => get('hasOtherHealthInsurance', form),
           arrayPath: 'coverages',
           showPagePerItem: true,
-          // This only shows on the review page
           title: 'OHI Effective Date',
+          depends: form => get('hasOtherHealthInsurance', form),
           uiSchema: {
             'ui:description': 'Provide date OHI coverage became effective.',
             coverages: {
@@ -352,9 +365,10 @@ const formConfig = {
                 viewField: CoverageField,
               },
               items: {
-                // This title is what allows custom headers on loop pages
-                'ui:title': CoverageDetailLargeField,
-                coverageInfoTitle: inlineTitleUI('Coverage Effective Date'),
+                ...titleUI(
+                  ({ formData }) =>
+                    `${formData.nameOfInsurance} coverage effective date`,
+                ),
                 ohiEffectiveDate: {
                   ...currentOrPastDateUI(),
                   'ui:required': () => true,
@@ -371,7 +385,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    coverageInfoTitle: titleSchema,
+                    titleSchema,
                     ohiEffectiveDate: { type: 'string' },
                   },
                 },
@@ -394,19 +408,15 @@ const formConfig = {
                 viewField: CoverageField,
               },
               items: {
-                // This title is what allows custom headers on loop pages
-                'ui:title': CoverageDetailLargeField,
-                coverageFrontInfoTitle: inlineTitleUI(
-                  'Upload insurance card (Front)',
+                ...titleUI(
+                  ({ formData }) =>
+                    `${formData.nameOfInsurance} insurance card`,
                 ),
-                attachmentFront: fileUploadUI('', {
+                attachmentFront: fileUploadUI('Upload insurance card (Front)', {
                   fileTypes,
                   fileUploadUrl: uploadUrl,
                 }),
-                coverageBackInfoTitle: inlineTitleUI(
-                  'Upload insurance card (Back)',
-                ),
-                attachmentBack: fileUploadUI('', {
+                attachmentBack: fileUploadUI('Upload insurance card (Back)', {
                   fileTypes,
                   fileUploadUrl: uploadUrl,
                 }),
@@ -422,9 +432,8 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    coverageFrontInfoTitle: titleSchema,
+                    titleSchema,
                     attachmentFront: attachmentsSchema,
-                    coverageBackInfoTitle: titleSchema,
                     attachmentBack: attachmentsSchema,
                   },
                 },
