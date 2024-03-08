@@ -285,14 +285,12 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
-    mhvTransition: false,
     mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
     useSignInService: signInServiceEnabled(state),
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
-    canTransferMHVAccount: false,
     ...state.navigation,
   };
 };
