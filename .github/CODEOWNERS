@@ -92,10 +92,8 @@ src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va
 # VSA Debt
 
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/manage-va-debt @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/medical-copays-cta @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/burial-how-do-i-apply-widget @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
