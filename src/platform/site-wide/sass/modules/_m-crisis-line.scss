@@ -4,7 +4,7 @@
   background-color: $color-red-dark;
 
   @include media($small-desktop-screen) {
-    max-width: 97.5rem;
+    max-width: 62.5rem;
     background-color: transparent;
   }
 }
