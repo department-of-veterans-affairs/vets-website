@@ -11,9 +11,6 @@ const TravelAgreement = props => {
   const { t } = useTranslation();
 
   const { goToPreviousPage } = useFormRouting(router);
-  const finishReview = () => {
-    goToPreviousPage();
-  };
 
   return (
     <>
@@ -40,8 +37,8 @@ const TravelAgreement = props => {
         <a
           data-testid="file-claim-link"
           href="#travel-review"
-          onKeyDown={finishReview}
-          onClick={finishReview}
+          onKeyDown={() => goToPreviousPage()}
+          onClick={() => goToPreviousPage()}
           className="vads-u-font-weight--bold"
         >
           {t('finish-reviewing-your-travel-claim')}
