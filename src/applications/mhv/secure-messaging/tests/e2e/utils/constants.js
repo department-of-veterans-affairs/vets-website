@@ -22,6 +22,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
   FROM: '[data-testid="from"]',
   MESS_ID: '[data-testid="message-id"]',
@@ -81,6 +82,7 @@ export const Locators = {
     SAVE_DRAFT_BUTTON: '[data-testid="Save-Draft-Button"]',
     SAVE_DRAFT: '#save-draft-button',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
+    CREATE_FOLDER: '[data-testid="create-new-folder"]',
     DELETE_DRAFT: '#delete-draft-button',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
     PRINT: '[data-testid="print-button"]',
@@ -99,6 +101,8 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    CLOSE_NOTIFICATION: '.va-alert',
+    REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
     THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     SEARCH_DROPDOWN: '#select-search-folder-dropdown',
