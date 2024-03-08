@@ -5,10 +5,6 @@ export const boardReviewErrorMessage =
 
 export const boardReviewTitle = 'Select a Board review option:';
 
-// export const boardReviewTitle = (
-//   <h3 className="vads-u-display--inline">{title}</h3>
-// );
-
 /* eslint-disable camelcase */
 export const boardReviewLabels = {
   direct_review: 'Request a direct review',

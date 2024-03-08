@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import RemainingBenefits from '../../components/RemainingBenefits';
+import MoreInfoCard from '../../components/MoreInfoCard';
 
-describe('when <RemainingBenefits/> renders', () => {
+describe('when <MoreInfoCard/> renders', () => {
   it('Should render without crashing', () => {
-    const wrapper = shallow(<RemainingBenefits />);
+    const wrapper = shallow(<MoreInfoCard />);
     expect(wrapper.exists()).to.be.ok;
     wrapper.unmount();
   });

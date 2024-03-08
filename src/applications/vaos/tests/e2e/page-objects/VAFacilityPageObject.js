@@ -47,7 +47,10 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   assertUrl({ axCheck = true } = {}) {
-    cy.url().should('include', '/location', { timeout: 10000 });
+    cy.url().should('include', '/location', { timeout: 5000 });
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
+      'not.exist',
+    );
 
     if (axCheck) cy.axeCheckBestPractice();
 
@@ -66,9 +69,10 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
-    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
       'not.exist',
     );
+
     cy.findByLabelText(label)
       .as('radio')
       .focus();

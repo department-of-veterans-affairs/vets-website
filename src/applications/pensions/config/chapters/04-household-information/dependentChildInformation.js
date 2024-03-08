@@ -6,6 +6,7 @@ import {
   radioUI,
   ssnSchema,
   ssnUI,
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -19,7 +20,7 @@ import get from 'platform/utilities/data/get';
 
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
-import { dependentSeriouslyDisabledDescription } from '../../../helpers';
+import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
@@ -56,7 +57,7 @@ export default {
   uiSchema: {
     dependents: {
       items: {
-        'ui:title': createHouseholdMemberTitle('fullName', 'Information'),
+        ...titleUI(createHouseholdMemberTitle('fullName', 'information')),
         childPlaceOfBirth: {
           'ui:title': 'Place of birth (city and state or foreign country)',
           'ui:webComponentField': VaTextInputField,
@@ -98,7 +99,7 @@ export default {
         // unable to use yesNoUI, because description is not being respected
         disabled: {
           'ui:title': 'Is your child seriously disabled?',
-          'ui:description': dependentSeriouslyDisabledDescription,
+          'ui:description': DependentSeriouslyDisabledDescription,
           'ui:required': (formData, index) =>
             isEligibleForDisabilitySupport(
               get(['dependents', index, 'childDateOfBirth'], formData),
