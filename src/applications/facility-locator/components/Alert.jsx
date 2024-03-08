@@ -24,7 +24,7 @@ const Alert = ({ title, description, displayType }) => {
       small-screen-header:vads-u-width--full      
       `}
     >
-      <div className="usa-alert-body">
+      <div className="usa-alertt-body">
         <h4 className="usa-alert-heading">{title}</h4>
         <div className="usa-alert-text">{description}</div>
       </div>
