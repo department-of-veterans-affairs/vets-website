@@ -89,7 +89,8 @@ export default function MissingFileList({
             <strong>{entryName}</strong>
             <ul>
               {entry.missingUploads?.map((file, index) => {
-                return inSubset(file) ? (
+                return inSubset(file) &&
+                  (disableLinks ? file.uploaded === false : true) ? (
                   <li key={file.name + file.uploaded + index}>
                     {makeHumanReadable(file.name)}
                     <br />

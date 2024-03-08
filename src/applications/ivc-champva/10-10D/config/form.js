@@ -77,9 +77,8 @@ import ApplicantMedicareStatusContinuedPage, {
 import ApplicantOhiStatusPage, {
   ApplicantOhiStatusReviewPage,
 } from '../pages/ApplicantOhiStatusPage';
-import SupportingDocumentsPage, {
-  hasReq,
-} from '../pages/SupportingDocumentsPage';
+import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
+import { hasReq } from '../components/File/MissingFileOverview';
 
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
@@ -1418,10 +1417,10 @@ const formConfig = {
           depends: formData => {
             try {
               return (
-                hasReq(formData.applicants, false, true) ||
-                hasReq(formData.applicants, false, false) ||
-                hasReq(formData, true, true) ||
-                hasReq(formData, true, false)
+                hasReq(formData.applicants, true) ||
+                hasReq(formData.applicants, false) ||
+                hasReq(formData, true) ||
+                hasReq(formData, false)
               );
             } catch {
               return false;
