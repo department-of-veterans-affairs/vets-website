@@ -1,7 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
 
 // modeled after VA Profile's Health Benefit AssociatedPersonBio
+
+// const CONTACT_TYPES = [
+//   'Emergency Contact',
+//   'Other emergency contact',
+//   'Primary Next of Kin',
+//   'Other Next of Kin',
+// ];
+
+const DESCRIPTIONS = {
+  'Emergency Contact': 'The person we’ll contact first in an emergency.',
+  'Other emergency contact':
+    'The person we’ll if your primary contact isn’t available.',
+  'Primary Next of Kin':
+    'The person you want to represent your health care wishes if needed.',
+  'Other Next of Kin':
+    'The person you want to represent your health care wishes if needed.',
+};
 
 const Contact = ({
   contactType,
@@ -26,6 +44,7 @@ const Contact = ({
   // alternatePhone,
   testId,
   index,
+  numberOfContacts,
 }) => {
   const names = [prefix, givenName, middleName, familyName, suffix];
   const name = names.filter(el => !!el).join(' ');
@@ -38,18 +57,24 @@ const Contact = ({
     addressLine3,
     addressLine4,
   ].filter(line => !!line);
+
   const isNextOfKin = contactType.match(/next of kin/i);
-  let title = index === 0 ? 'Primary' : 'Secondary';
-  title = `${title} ${isNextOfKin ? 'next of kin' : 'emergency contact'}`;
-  const description = isNextOfKin
-    ? 'The person you want to represent your health care wishes if needed.'
-    : 'The person we’ll contact in an emergency.';
+  const baseContactType = contactType.replace(/^(primary\s+|other\s+)/i, '');
+  let title = '';
+  if (numberOfContacts > 1) {
+    title = index === 0 ? 'Primary ' : 'Secondary ';
+  }
+  title = capitalize(`${title}${baseContactType}`);
+
+  const description = DESCRIPTIONS[contactType];
 
   return (
     <div data-testid={testId}>
-      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-        {title}
-      </h3>
+      {numberOfContacts > 1 && (
+        <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
+          {title}
+        </h3>
+      )}
       <p className="vads-u-color--gray-medium vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
         {description}
       </p>
@@ -83,6 +108,7 @@ Contact.propTypes = {
   givenName: PropTypes.string,
   index: PropTypes.number,
   middleName: PropTypes.string,
+  numberOfContacts: PropTypes.number,
   // postalCode: PropTypes.string,
   prefix: PropTypes.string,
   primaryPhone: PropTypes.string,
