@@ -84,6 +84,33 @@ class RadiologyDetailsPage {
       );
     // href="https://mhv-syst.myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports"
   };
+
+  verifyRadiologyReason = reason => {
+    cy.get('[data-testid="radiology-reason"]').should('be.visible');
+    cy.get('[data-testid="radiology-reason"]').contains(reason);
+  };
+
+  verifyRadiologyClinicalHistory = clinicalHistory => {
+    cy.get('[data-testid="radiology-clinical-history"]').should('be.visible');
+    cy.get('[data-testid="radiology-clinical-history"]').contains(
+      clinicalHistory,
+    );
+  };
+
+  verifyRadiologyOrderedBy = orderedBy => {
+    cy.get('[data-testid="radiology-ordered-by"]').should('be.visible');
+    cy.get('[data-testid="radiology-ordered-by"]').contains(orderedBy);
+  };
+
+  verifyRadiologyImagingLocation = location => {
+    cy.get('[data-testid="radiology-imaging-location"]').should('be.visible');
+    cy.get('[data-testid="radiology-imaging-location"]').contains(location);
+  };
+
+  verifyRadiologyImagingProvider = provider => {
+    cy.get('[data-testid="radiology-imaging-provider"]').should('be.visible');
+    cy.get('[data-testid="radiology-imaging-provider"]').contains(provider);
+  };
 }
 
 export default new RadiologyDetailsPage();

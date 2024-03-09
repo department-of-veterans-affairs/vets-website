@@ -111,23 +111,23 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Reason for test
         </h3>
-        <p>{record.reason}</p>
+        <p data-testid="radiology-reason">{record.reason}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Clinical history
         </h3>
-        <p>{record.clinicalHistory}</p>
+        <p data-testid="radiology-clinical-history">{record.clinicalHistory}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="radiology-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging location
         </h3>
-        <p>{record.imagingLocation}</p>
+        <p data-testid="radiology-imaging-location">{record.imagingLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging provider
         </h3>
-        <p>{record.imagingProvider}</p>
+        <p data-testid="radiology-imaging-provider">{record.imagingProvider}</p>
       </div>
 
       <div className="test-results-container">
