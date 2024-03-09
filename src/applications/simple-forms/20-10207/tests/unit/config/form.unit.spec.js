@@ -3,18 +3,118 @@ import formConfig from '../../../config/form';
 import { PREPARER_TYPES } from '../../../config/constants';
 
 describe('formConfig', () => {
-  it('should be an object', () => {
+  const mockFormDataVet = { preparerType: PREPARER_TYPES.VETERAN };
+  const mockFormDataNonVet = { preparerType: PREPARER_TYPES.NON_VETERAN };
+  const mockFormData3rdPtyVet = {
+    preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+  };
+  const mockFormData3rdPtyNonVet = {
+    preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+  };
+
+  it('is an object', () => {
     expect(formConfig).to.be.an('object');
   });
 
-  it('should have a rootUrl property', () => {
+  it('has a rootUrl property', () => {
     expect(formConfig).to.have.property('rootUrl');
     expect(formConfig.rootUrl).to.be.a('string');
   });
 
   describe('chapters', () => {
-    it('should be an object', () => {
+    it('is an object', () => {
       expect(formConfig.chapters).to.be.an('object');
+    });
+
+    describe('Dynamic chapter-titles', () => {
+      describe('Personal-information chapter-title', () => {
+        const titleFunction =
+          formConfig.chapters.personalInformationChapter.title;
+        const titleEnding = 'personal information';
+
+        it('returns correct chapter-title for preparerType veteran', () => {
+          expect(titleFunction({ formData: mockFormDataVet })).to.equal(
+            `Your ${titleEnding}`,
+          );
+        });
+
+        it('returns correct chapter-title for preparerType non-veteran', () => {
+          expect(titleFunction({ formData: mockFormDataNonVet })).to.equal(
+            `Your ${titleEnding}`,
+          );
+        });
+
+        it('returns correct chapter-title for preparerType third-party-veteran', () => {
+          expect(titleFunction({ formData: mockFormData3rdPtyVet })).to.equal(
+            `Veteran’s ${titleEnding}`,
+          );
+        });
+
+        it('returns correct chapter-title for preparerType third-party-non-veteran', () => {
+          expect(
+            titleFunction({ formData: mockFormData3rdPtyNonVet }),
+          ).to.equal(`Claimant’s ${titleEnding}`);
+        });
+      });
+
+      describe('Living-situation chapter-title', () => {
+        const titleFunction = formConfig.chapters.livingSituationChapter.title;
+        const titleEnding = 'living situation';
+
+        it('returns correct chapter-title for preparerType veteran', () => {
+          expect(titleFunction({ formData: mockFormDataVet })).to.equal(
+            `Your ${titleEnding}`,
+          );
+        });
+
+        it('returns correct chapter-title for preparerType non-veteran', () => {
+          expect(titleFunction({ formData: mockFormDataNonVet })).to.equal(
+            `Your ${titleEnding}`,
+          );
+        });
+
+        it('returns correct chapter-title for preparerType third-party-veteran', () => {
+          expect(titleFunction({ formData: mockFormData3rdPtyVet })).to.equal(
+            `Veteran’s ${titleEnding}`,
+          );
+        });
+
+        it('returns correct chapter-title for preparerType third-party-non-veteran', () => {
+          expect(
+            titleFunction({ formData: mockFormData3rdPtyNonVet }),
+          ).to.equal(`Claimant’s ${titleEnding}`);
+        });
+      });
+
+      describe('Contact-info chapter-title', () => {
+        const titleFunction =
+          formConfig.chapters.contactInformationChapter.title;
+        const titleEnding = 'contact information';
+
+        it('returns correct Contact-info chapter-title for preparerType veteran', () => {
+          expect(titleFunction({ formData: mockFormDataVet })).to.equal(
+            `Your ${titleEnding}`,
+          );
+        });
+
+        it('returns correct Contact-info chapter-title for preparerType non-veteran', () => {
+          expect(titleFunction({ formData: mockFormDataNonVet })).to.equal(
+            `Your ${titleEnding}`,
+          );
+        });
+
+        it('returns correct Contact-info chapter-title for preparerType third-party-veteran', () => {
+          expect(titleFunction({ formData: mockFormData3rdPtyVet })).to.equal(
+            `Veteran’s ${titleEnding}`,
+          );
+        });
+
+        it('returns correct Contact-info chapter-title for preparerType third-party-non-veteran', () => {
+          expect(
+            titleFunction({ formData: mockFormData3rdPtyNonVet }),
+          ).to.equal(`Claimant’s ${titleEnding}`);
+        });
+      });
     });
   });
 
@@ -1440,6 +1540,25 @@ describe('formConfig', () => {
           ).to.be.true;
         });
       });
+    });
+  });
+
+  describe('statementOfTruth fullNamePaths', () => {
+    const pathFn = formConfig.preSubmitInfo.statementOfTruth.fullNamePath;
+    it('returns veteranFullName path for preparerType veteran', () => {
+      expect(pathFn(mockFormDataVet)).to.equal('veteranFullName');
+    });
+
+    it('returns preparerFullName path for preparerType non-veteran', () => {
+      expect(pathFn(mockFormDataNonVet)).to.equal('nonVeteranFullName');
+    });
+
+    it('returns thirdPartyFullName path for preparerType third-party-veteran', () => {
+      expect(pathFn(mockFormData3rdPtyVet)).to.equal('thirdPartyFullName');
+    });
+
+    it('returns thirdPartyFullName path for preparerType third-party-non-veteran', () => {
+      expect(pathFn(mockFormData3rdPtyNonVet)).to.equal('thirdPartyFullName');
     });
   });
 });
