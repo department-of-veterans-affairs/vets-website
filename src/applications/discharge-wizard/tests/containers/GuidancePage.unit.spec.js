@@ -74,19 +74,19 @@ describe('Discharge Wizard <GuidancePage />', () => {
         router={reactRouterStub}
       />,
     );
-    expect(tree.find('.usa-button-primary.usa-button')).to.have.lengthOf(1);
+    expect(tree.find('va-link[text*="Download Form"]')).to.have.lengthOf(1);
     tree.unmount();
   });
 
-  it('should have 1 button for the vet to print the', () => {
+  it('should have 1 button for the vet to print the page', () => {
     const tree = mount(
       <GuidancePage
         formValues={formValuesAllQuestionsListed}
         router={reactRouterStub}
       />,
     );
-    const content = tree.text();
-    expect(content).to.contain('Print this page');
+    const content = tree.find('va-button[text="Print this page"]');
+    expect(content).to.not.be.null;
     tree.unmount();
   });
 });

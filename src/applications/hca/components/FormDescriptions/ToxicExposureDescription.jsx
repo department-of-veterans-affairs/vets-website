@@ -21,7 +21,7 @@ const ToxicExposureDescription = (
       </li>
       <li>
         By working with chemicals, pesticides, lead, asbestos, certain paints,
-        nuclear weapons, x-rays, or other toxins during active duty training or
+        nuclear weapons, x-rays, or other toxins during training or active duty
         service
       </li>
     </ul>

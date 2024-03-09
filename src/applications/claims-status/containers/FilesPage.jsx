@@ -139,7 +139,7 @@ class FilesPage extends React.Component {
             </div>
           </Toggler.Disabled>
           <Toggler.Enabled>
-            <ClaimFileHeader />
+            <ClaimFileHeader isOpen={isOpen} />
             <AdditionalEvidencePage />
             {showDecision && <AskVAToDecide id={params.id} />}
             <DocumentsFiled claim={claim} />

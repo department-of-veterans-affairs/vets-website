@@ -64,9 +64,9 @@ The test config has settings or properties that are summarized by this typedef:
     test data. For example, if the test data looks like
     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
 
-@property {string} dataDir - Path to test data directory.
+@property {string|null} dataDir - Path to test data directory. Use null if dataSets are being passed as objects.
 
-@property {string[]} dataSets - Test data file paths relative to dataDir.
+@property {string[]|{ title: string; data: Object}[]} dataSets - Test data file paths relative to dataDir for string. Test title and data object data sets for objects.
     A test is generated for each data set and uses that data to fill out fields.
 
 @property {Object.<function>} [pageHooks] - Functions (hooks) that override
