@@ -39,6 +39,7 @@ export const renderPhoneNumber = (
         contact={contact}
         extension={extension}
         aria-describedby={phoneNumberId}
+        message-aria-describedby={title}
       >
         {formattedPhoneNumber}
       </va-telephone>

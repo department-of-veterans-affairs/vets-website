@@ -10,9 +10,17 @@ export default function VABenefitsCall() {
       </p>
       <p className="p1">
         <strong>To get help with benefits</strong>, call{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> toll-free. We’re here
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have hearing{' '}
-        loss, call TTY: <va-telephone contact="711" />.
+        <va-telephone
+          contact={CONTACTS.VA_BENEFITS}
+          message-aria-describedby="Get help with VA benefits"
+        />{' '}
+        toll-free. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        If you have hearing loss, call TTY:{' '}
+        <va-telephone
+          contact="711"
+          message-aria-describedby="Get help with VA benefits (TTY number)"
+        />
+        .
       </p>
     </div>
   );
