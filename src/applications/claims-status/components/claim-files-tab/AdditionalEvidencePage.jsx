@@ -40,6 +40,7 @@ import {
   getTrackedItems,
   getFilesNeeded,
   getFilesOptional,
+  isClaimOpen,
 } from '../../utils/helpers';
 
 const scrollToError = () => {
@@ -101,7 +102,10 @@ class AdditionalEvidencePage extends React.Component {
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
-    // TODO: Add logic for isOpen and then add that to the if statement here
+    const isOpen = isClaimOpen(
+      this.props.claim.attributes.status,
+      this.props.claim.attributes.closeDate,
+    );
 
     if (this.props.loading) {
       content = (
@@ -127,49 +131,58 @@ class AdditionalEvidencePage extends React.Component {
             </>
           )}
           <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
-          {this.props.filesNeeded.map(item => (
-            <FilesNeeded
-              key={getTrackedItemId(item)}
-              id={this.props.claim.id}
-              item={item}
-            />
-          ))}
-          {this.props.filesOptional.map(item => (
-            <FilesOptional
-              key={getTrackedItemId(item)}
-              id={this.props.claim.id}
-              item={item}
-            />
-          ))}
-          <AddFilesForm
-            field={this.props.uploadField}
-            progress={this.props.progress}
-            uploading={this.props.uploading}
-            files={this.props.files}
-            backUrl={this.props.lastPage || filesPath}
-            onSubmit={() => {
-              // START lighthouse_migration
-              if (this.props.documentsUseLighthouse) {
-                this.props.submitFilesLighthouse(
-                  this.props.claim.id,
-                  null,
-                  this.props.files,
-                );
-              } else {
-                this.props.submitFiles(
-                  this.props.claim.id,
-                  null,
-                  this.props.files,
-                );
-              }
-              // END lighthouse_migration
-            }}
-            onAddFile={this.props.addFile}
-            onRemoveFile={this.props.removeFile}
-            onFieldChange={this.props.updateField}
-            onCancel={this.props.cancelUpload}
-            onDirtyFields={this.props.setFieldsDirty}
-          />
+          {isOpen ? (
+            <>
+              {this.props.filesNeeded.map(item => (
+                <FilesNeeded
+                  key={getTrackedItemId(item)}
+                  id={this.props.claim.id}
+                  item={item}
+                />
+              ))}
+              {this.props.filesOptional.map(item => (
+                <FilesOptional
+                  key={getTrackedItemId(item)}
+                  id={this.props.claim.id}
+                  item={item}
+                />
+              ))}
+              <AddFilesForm
+                field={this.props.uploadField}
+                progress={this.props.progress}
+                uploading={this.props.uploading}
+                files={this.props.files}
+                backUrl={this.props.lastPage || filesPath}
+                onSubmit={() => {
+                  // START lighthouse_migration
+                  if (this.props.documentsUseLighthouse) {
+                    this.props.submitFilesLighthouse(
+                      this.props.claim.id,
+                      null,
+                      this.props.files,
+                    );
+                  } else {
+                    this.props.submitFiles(
+                      this.props.claim.id,
+                      null,
+                      this.props.files,
+                    );
+                  }
+                  // END lighthouse_migration
+                }}
+                onAddFile={this.props.addFile}
+                onRemoveFile={this.props.removeFile}
+                onFieldChange={this.props.updateField}
+                onCancel={this.props.cancelUpload}
+                onDirtyFields={this.props.setFieldsDirty}
+              />
+            </>
+          ) : (
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+              The claim is closed so you can no longer submit any additional
+              evidence.
+            </p>
+          )}
         </div>
       );
     }
