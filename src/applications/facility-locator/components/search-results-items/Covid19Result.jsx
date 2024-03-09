@@ -81,6 +81,7 @@ const Covid19Result = ({
             <va-telephone
               className="vads-u-margin-left--0p25"
               contact={phone.main}
+              message-aria-describedby="Main Number"
             />
           </div>
         )}
