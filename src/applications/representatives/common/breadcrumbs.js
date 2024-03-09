@@ -20,5 +20,5 @@ const breadcrumbPaths = {
  * @returns {Array}
  */
 
-export const POABreadcrumbs = page =>
+export const poaBreadcrumbs = page =>
   breadcrumbPaths[page] || [{ link: '/', label: 'Home' }];

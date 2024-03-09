@@ -19,7 +19,7 @@ describe('functionality of discharge wizard', () => {
     axeTestPage();
 
     // questions page | fill out form
-    cy.get('.main .usa-button-primary').click();
+    cy.get('.main .vads-c-action-link--green').click();
 
     cy.get('va-radio[name="1_branchOfService"] va-radio-option')
       .first()
@@ -57,12 +57,14 @@ describe('functionality of discharge wizard', () => {
     // a11y check after all elements are visible
     axeTestPage();
 
-    cy.get('.main .usa-button-primary').click();
+    cy.get('.main .vads-c-action-link--green').click();
 
     // a11y check on results page
     axeTestPage();
 
     // open Form download
-    cy.get('.main .usa-button-primary').click();
+    cy.get('.main va-link[download="true"]')
+      .first()
+      .click();
   });
 });

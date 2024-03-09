@@ -7,10 +7,10 @@ import MedicationsListCard from '../../../components/MedicationsList/Medications
 import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
-  const setup = (rx = prescriptionsListItem) => {
+  const setup = (rx = prescriptionsListItem, initialState = {}) => {
     return renderWithStoreAndRouter(<MedicationsListCard rx={rx} />, {
       path: '/',
-      state: {},
+      state: initialState,
       reducers,
     });
   };
@@ -54,5 +54,19 @@ describe('Medication card component', () => {
     );
     fireEvent.click(medicationName);
     expect(screen);
+  });
+  it('fill/refill button no longer appears when refill flag is true', () => {
+    const initialState = {
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_content: true,
+      },
+    };
+    const screen = setup({
+      prescriptionsListItem,
+      initialState,
+    });
+    const medicationName = screen.queryByTestId('refill-request-button');
+    expect(medicationName).to.be.null;
   });
 });

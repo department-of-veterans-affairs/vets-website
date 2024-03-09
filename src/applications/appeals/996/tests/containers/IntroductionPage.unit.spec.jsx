@@ -9,8 +9,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
 
 const getData = ({
   loggedIn = true,
