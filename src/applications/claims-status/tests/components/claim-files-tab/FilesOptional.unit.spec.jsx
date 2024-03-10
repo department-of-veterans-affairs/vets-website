@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { expect } from 'chai';
 
-import FilesOptional from '../../components/FilesOptional';
+import FilesOptional from '../../../components/claim-files-tab/FilesOptional';
 
 describe('<FilesOptional>', () => {
   it('should render alert with item data', () => {
