@@ -62,7 +62,7 @@ function validateLength(errors, email) {
 
   if (email && email?.length > MAX_LENGTH) {
     errors.addError(
-      `We do not support email addresses that exceeds ${MAX_LENGTH} characters`,
+      `We don’t support email addresses that exceeds ${MAX_LENGTH} characters`,
     );
   }
 }
@@ -148,8 +148,8 @@ export default function ContactInfoPage({ changeCrumb }) {
       ...phoneConfig,
       'ui:errorMessages': {
         ...phoneConfig['ui:errorMessages'],
-        pattern:
-          'Please enter a valid 10-digit phone number (with or without dashes)',
+        required: 'Enter a phone number',
+        pattern: 'Enter a valid 10-digit phone number (with or without dashes)',
       },
     },
     bestTimeToCall: {
@@ -186,7 +186,8 @@ export default function ContactInfoPage({ changeCrumb }) {
     email: {
       'ui:title': 'Your email address',
       'ui:errorMessages': {
-        required: 'Please enter an email address',
+        format: 'Enter a valid email address',
+        required: 'Enter an email address',
       },
       'ui:validations': [validateLength],
     },
