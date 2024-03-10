@@ -6,7 +6,7 @@ on:
       release_wait:
         description: Minutes to wait before creating release
         required: false
-        default: 5
+        default: '5'
       commit_sha:
         description: Deploy specific commit
         required: false
