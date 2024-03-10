@@ -90,7 +90,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     const alerts = await screen.findAllByRole('alert');
-    expect(alerts[0]).to.contain.text('Please provide a response');
+    expect(alerts[0]).to.contain.text('Select a reason for your appointment');
   });
 
   it('should show error msg when enter all spaces for VA medical request', async () => {

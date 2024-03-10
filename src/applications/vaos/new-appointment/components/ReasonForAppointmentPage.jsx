@@ -71,6 +71,9 @@ const uiSchema = {
     reasonForAppointment: {
       'ui:widget': 'radio',
       'ui:title': 'Let us know why you’re making this appointment.',
+      'ui:errorMessages': {
+        required: 'Select a reason for your appointment',
+      },
     },
     reasonAdditionalInfo: {
       'ui:widget': TextareaWidget,
@@ -78,6 +81,10 @@ const uiSchema = {
         rows: 5,
       },
       'ui:validations': [validComment],
+      'ui:errorMessages': {
+        required:
+          'Provide more details about why you are requesting this appointment',
+      },
     },
   },
   cc: {
