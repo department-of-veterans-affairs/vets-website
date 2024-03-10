@@ -193,20 +193,11 @@ const NearbyLocations = props => {
     const useSorted = filteredByDistance.length === 0;
 
     return (
-      <>
-        <h2 className="vads-u-line-height--1 vads-u-margin-bottom--3">
-          Other nearby VA locations
-        </h2>
-        <div>
-          {(useSorted ? sortedVaLocations : filteredByDistance).map(vf => (
-            <VAFacility
-              key={vf.id}
-              vaFacility={vf}
-              mainPhone={props.mainPhone}
-            />
-          ))}
-        </div>
-      </>
+      <div>
+        {(useSorted ? sortedVaLocations : filteredByDistance).map(vf => (
+          <VAFacility key={vf.id} vaFacility={vf} mainPhone={props.mainPhone} />
+        ))}
+      </div>
     );
   };
 
@@ -220,7 +211,11 @@ const NearbyLocations = props => {
     const normalizedFetchedFacilities = normalizeFetchedFacilities(joined);
     return renderNearbyFacilitiesContainer(normalizedFetchedFacilities);
   }
-  return null;
+  return (
+    <div>
+      <p>No nearby VA locations found.</p>
+    </div>
+  );
 };
 
 NearbyLocations.propTypes = {

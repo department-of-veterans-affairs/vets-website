@@ -315,7 +315,6 @@ describe('NearbyVetCenters', () => {
       // wait for useEffect
       setTimeout(() => {
         wrapper.update();
-        expect(wrapper.find('h2').text()).to.equal('Other nearby Vet Centers');
         expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
         expect(wrapper.find('VetCenterInfoSection')).to.exist;
         expect(wrapper.find('ExpandableOperatingStatus')).to.exist;
@@ -347,7 +346,11 @@ describe('NearbyVALocations', () => {
     const state = {
       facility: {
         multiLoading: { Health: false, VetCenter: false, Cemetery: false },
-        multidata: { Health: {}, VetCenter: {}, Cemetery: {} },
+        multidata: {
+          Health: { data: [] },
+          VetCenter: { data: [] },
+          Cemetery: { data: [] },
+        },
       },
     };
     const fakeStore = createFakeStore(state);
@@ -360,11 +363,15 @@ describe('NearbyVALocations', () => {
     wrapper.unmount();
   });
 
-  it('should not render header with no vet centers', () => {
+  it('should render text for no data found', () => {
     const state = {
       facility: {
         multiLoading: { Health: false, VetCenter: false, Cemetery: false },
-        multidata: { Health: {}, VetCenter: {}, Cemetery: {} },
+        multidata: {
+          Health: { data: [] },
+          VetCenter: { data: [] },
+          Cemetery: { data: [] },
+        },
       },
       featureToggles: { loading: false },
     };
@@ -374,7 +381,7 @@ describe('NearbyVALocations', () => {
         <NearByVALocations />
       </Provider>,
     );
-    expect(wrapper.find('h2').exists()).to.be.false;
+    expect(wrapper.find('p').text()).to.equal('No nearby VA locations found.');
     wrapper.unmount();
   });
 
@@ -416,7 +423,6 @@ describe('NearbyVALocations', () => {
       // wait for useEffect
       setTimeout(() => {
         wrapper.update();
-        expect(wrapper.find('h2').text()).to.equal('Other nearby VA locations');
         expect(
           wrapper
             .find('h3')
