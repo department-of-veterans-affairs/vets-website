@@ -20,7 +20,7 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
-    cy.wait('@message')
+    cy.wait(Locators.INFO.MESSAGE)
       .its('request.body')
       .then(request => {
         if (mockRequest) {
@@ -43,7 +43,7 @@ class PatientComposePage {
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
-    // cy.wait('@message');
+    // cy.wait(Locators.INFO.MESSAGE);
   };
 
   verifySendMessageConfirmationMessageText = () => {
@@ -326,7 +326,10 @@ class PatientComposePage {
     // cy.get('[data-testid=compose-category-radio-button]')
     //   .should('have.value', 'OTHER')
     //   .and('have.attr', 'checked');
-    cy.get('#message-subject').should('have.value', this.messageSubjectText);
+    cy.get(Locators.FIELDS.MESS_SUBJECT).should(
+      'have.value',
+      this.messageSubjectText,
+    );
     cy.get('#compose-message-body').should(
       'have.value',
       `\n\n\nName\nTitleTest${this.messageBodyText}`,

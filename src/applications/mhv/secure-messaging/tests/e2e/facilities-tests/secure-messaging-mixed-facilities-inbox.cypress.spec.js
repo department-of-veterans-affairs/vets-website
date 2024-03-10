@@ -4,7 +4,7 @@ import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Secure Messaging Inbox Cerner', () => {
   it('verify cerner facilities displays in alert banner', () => {
@@ -22,7 +22,7 @@ describe('Secure Messaging Inbox Cerner', () => {
       facility => facility.isCerner,
     );
 
-    cy.get('[data-testid="cerner-facilities-alert"]').should('be.visible');
+    cy.get(Locators.ALERTS.CERNER_ALERT).should('be.visible');
 
     cy.contains('h2', 'Make sure you’re in the right health portal').should(
       'be.visible',

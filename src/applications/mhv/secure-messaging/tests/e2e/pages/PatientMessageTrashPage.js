@@ -46,7 +46,7 @@ class PatientMessageTrashPage {
   };
 
   inputFilterData = text => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
@@ -64,7 +64,7 @@ class PatientMessageTrashPage {
   clearFilter = () => {
     this.inputFilterData('any');
     this.filterMessages();
-    cy.get('[text="Clear Filters"]').click({ force: true });
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
@@ -83,7 +83,7 @@ class PatientMessageTrashPage {
   verifySorting = () => {
     let listBefore;
     let listAfter;
-    cy.get('.thread-list-item')
+    cy.get(Locators.THREAD_LIST)
       .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
@@ -91,7 +91,7 @@ class PatientMessageTrashPage {
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
-        cy.get('.thread-list-item')
+        cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
@@ -131,7 +131,7 @@ class PatientMessageTrashPage {
   };
 
   verifyFilterFieldCleared = () => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .should('be.empty');

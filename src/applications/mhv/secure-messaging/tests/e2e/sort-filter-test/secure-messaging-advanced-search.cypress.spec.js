@@ -40,7 +40,7 @@ describe(manifest.appName, () => {
       });
     });
     it('Check the search message label', () => {
-      cy.get('[data-testid="search-message-folder-input-label"]')
+      cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
@@ -69,7 +69,7 @@ describe(manifest.appName, () => {
         '/my_health/v1/messaging/folders/-2/threads?**',
         particularFolderResponse,
       );
-      cy.get('[data-testid="drafts-sidebar"]').click();
+      cy.get(Locators.FOLDERS.DRAFTS).click();
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',
@@ -146,7 +146,7 @@ describe(manifest.appName, () => {
       });
     });
     it('Check the search message label', () => {
-      cy.get('[data-testid="search-message-folder-input-label"]')
+      cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
@@ -248,7 +248,7 @@ describe(manifest.appName, () => {
       });
     });
     it('Check the search results label', () => {
-      cy.get(Locators.MESSAGES)
+      cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '2')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();

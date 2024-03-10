@@ -159,7 +159,7 @@ class PatientMessageCustomFolderPage {
   verifySorting = () => {
     let listBefore;
     let listAfter;
-    cy.get('.thread-list-item')
+    cy.get(Locators.THREAD_LIST)
       .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
@@ -167,7 +167,7 @@ class PatientMessageCustomFolderPage {
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
-        cy.get('.thread-list-item')
+        cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);

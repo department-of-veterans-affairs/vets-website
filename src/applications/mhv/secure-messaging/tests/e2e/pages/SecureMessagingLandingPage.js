@@ -59,7 +59,7 @@ class SecureMessagingLandingPage {
   };
 
   verifyFaqMessage = (text = 'Questions about this messaging tool') => {
-    cy.get(Locators.ALERTS.ACC_ITEM)
+    cy.get(Locators.MESSAGE_FAQ)
       .should('be.visible')
       .and('contain.text', `${text}`);
   };

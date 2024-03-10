@@ -2,7 +2,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import requestBody from './fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Cross Site Scripting', () => {
   const landingPage = new PatientInboxPage();
@@ -33,7 +33,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     composePage.sendMessage(requestBodyUpdated);
 
     // this assertion already added to composePage.sendMessage method. Check if it still needed
-    cy.get('@message')
+    cy.get(Locators.INFO.MESSAGE)
       .its('request.body')
       .should('contain', {
         category: `${requestBodyUpdated.category}`,

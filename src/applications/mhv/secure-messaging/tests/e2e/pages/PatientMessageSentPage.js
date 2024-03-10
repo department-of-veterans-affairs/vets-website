@@ -46,7 +46,7 @@ class PatientMessageSentPage {
   };
 
   inputFilterData = text => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
@@ -64,7 +64,7 @@ class PatientMessageSentPage {
   clearFilter = () => {
     this.inputFilterData('any');
     this.filterMessages();
-    cy.get('[text="Clear Filters"]').click({ force: true });
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
@@ -83,7 +83,7 @@ class PatientMessageSentPage {
   verifySorting = () => {
     let listBefore;
     let listAfter;
-    cy.get('.thread-list-item')
+    cy.get(Locators.THREAD_LIST)
       .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
@@ -91,7 +91,7 @@ class PatientMessageSentPage {
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
-        cy.get('.thread-list-item')
+        cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
@@ -103,7 +103,7 @@ class PatientMessageSentPage {
   };
 
   verifyFolderHeader = text => {
-    cy.get(Locators.DATE_RECEIVED).should('have.text', `${text}`);
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
   verifyResponseBodyLength = (responseData = mockSentMessages) => {
@@ -114,7 +114,7 @@ class PatientMessageSentPage {
   };
 
   verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
-    cy.get(Locators.THREADS).should(
+    cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
     );
@@ -130,7 +130,7 @@ class PatientMessageSentPage {
   };
 
   verifyFilterFieldCleared = () => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .should('be.empty');

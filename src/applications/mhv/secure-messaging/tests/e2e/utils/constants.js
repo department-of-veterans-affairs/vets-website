@@ -22,6 +22,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  MESSAGE_FAQ: '.secure-messaging-faq',
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
   FROM: '[data-testid="from"]',
@@ -39,6 +40,7 @@ export const Locators = {
   DELET_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
   SELECT: '#select',
   HEADER: 'h1',
+  HEADLING: 'h1[slot="headline"]',
   KEYWORD_SEARCH: '[data-testid="keyword-search-input"]',
   NO_MESS: '[data-testid=alert-no-messages] p',
   FOLDER_MANE: '[data-testid="folder-name"]',
@@ -49,8 +51,10 @@ export const Locators = {
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
   CLEAR_FILTERS: '[text="Clear Filters"]',
-
+  FILTER_INPUT: '#filter-input',
+  ADDITIONAL_FILTER: '#additional-filter-accordion',
   FOLDERS: {
+    FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
     FOLDER_HEADER: '[data-testid="folder-header"]',
     INBOX: '[data-testid="inbox-sidebar"] > a',
@@ -101,6 +105,8 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
+    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -140,14 +146,19 @@ export const Locators = {
     DELETE_MESSAGE: '[data-testid=delete-message-modal]',
     ERROR_MESSAGE: '[data-testid="file-input-error-message"]',
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
+    VA_ALERT_WARNING: 'va-alert[status="warning"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
     SUBJECT: '#inputField',
     MESSAGE: '#textarea',
+    MESS_SUBJECT: '#message-subject',
+    VISIBLE_P: '[visible=""] > p',
+    CATEGORY_DROPDOWN: '#category-dropdown',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
+    MESSAGE: '@message',
   },
 };
 

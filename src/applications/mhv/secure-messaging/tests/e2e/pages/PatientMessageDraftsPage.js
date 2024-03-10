@@ -40,7 +40,7 @@ class PatientMessageDraftsPage {
       '/my_health/v1/messaging/folders/-2/threads**',
       this.mockDraftMessages,
     ).as('draftsResponse');
-    cy.get('[data-testid="drafts-sidebar"]').click();
+    cy.get(Locators.FOLDERS.DRAFTS).click();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -357,11 +357,11 @@ class PatientMessageDraftsPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#additional-filter-accordion').click();
+    cy.get(Locators.ADDITIONAL_FILTER).click();
   };
 
   selectAdvancedSearchCategory = () => {
-    cy.get('#category-dropdown')
+    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
       .find('#select')
       .select('COVID');
   };
@@ -425,7 +425,7 @@ class PatientMessageDraftsPage {
   };
 
   inputFilterData = text => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
@@ -475,7 +475,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyFilterFieldCleared = () => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .should('be.empty');

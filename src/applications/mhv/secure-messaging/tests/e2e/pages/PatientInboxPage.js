@@ -147,7 +147,7 @@ class PatientInboxPage {
       }"]`,
     );
     cy.realPress(['Enter']);
-    cy.wait('@message');
+    cy.wait(Locators.INFO.MESSAGE);
     cy.wait('@full-thread');
   };
 
@@ -436,7 +436,7 @@ class PatientInboxPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#additional-filter-accordion')
+    cy.get(Locators.ADDITIONAL_FILTER)
       .shadow()
       .contains('Add filters')
       .click({
@@ -446,13 +446,13 @@ class PatientInboxPage {
   };
 
   selectAdvancedSearchCategory = text => {
-    cy.get('#category-dropdown')
+    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
       .find('#select')
       .select(text, { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
-    cy.get('#category-dropdown')
+    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
       .find('#select')
       .select('Medication');
   };
@@ -485,7 +485,7 @@ class PatientInboxPage {
   verifySorting = () => {
     let listBefore;
     let listAfter;
-    cy.get('.thread-list-item')
+    cy.get(Locators.THREAD_LIST)
       .find(Locators.DATE_RECEIVED)
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
@@ -493,7 +493,7 @@ class PatientInboxPage {
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
-        cy.get('.thread-list-item')
+        cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
@@ -511,7 +511,7 @@ class PatientInboxPage {
   };
 
   inputFilterData = text => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
@@ -544,11 +544,11 @@ class PatientInboxPage {
   };
 
   clearFilter = () => {
-    cy.get('[text="Clear Filters"]').click({ force: true });
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
   verifyFilterFieldCleared = () => {
-    cy.get('#filter-input')
+    cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .should('be.empty');

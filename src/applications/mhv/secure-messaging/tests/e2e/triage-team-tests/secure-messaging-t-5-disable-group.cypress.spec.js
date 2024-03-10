@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
@@ -28,11 +28,11 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   it('verify alert on landing page', () => {
     SecureMessagingLandingPage.loadMainPage(mockRecipients, mockTestUser);
 
-    cy.get('h1[slot="headline"]').should(
+    cy.get(Locators.HEADLING).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
     );
-    cy.get('va-alert[status="warning"]')
+    cy.get(Locators.ALERTS.VA_ALERT_WARNING)
       .find('a')
       .should('be.visible')
       .and('have.attr', 'href', '/find-locations');
@@ -50,15 +50,15 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   it('verify alert on inbox page', () => {
     landingPage.loadInboxMessages();
 
-    cy.get('h1[slot="headline"]').should(
+    cy.get(Locators.HEADLING).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
     );
-    cy.get('va-alert[status="warning"]')
+    cy.get(Locators.ALERTS.VA_ALERT_WARNING)
       .find('a')
       .should('be.visible')
       .and('have.attr', 'href', '/find-locations');
-    cy.get('[data-testid="cerner-facilities-alert"]')
+    cy.get(Locators.ALERTS.CERNER_ALERT)
       .should('be.visible')
       .and('contain.text', 'Make sure you’re in the right health portal');
 
