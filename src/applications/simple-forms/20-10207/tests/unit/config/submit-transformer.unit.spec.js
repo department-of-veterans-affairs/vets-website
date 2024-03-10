@@ -4,8 +4,8 @@ import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submit-transformer';
 import fixtureVet from '../../e2e/fixtures/data/veteran.json';
 import fixtureNonVet from '../../e2e/fixtures/data/nonVeteran.json';
-// import fixture3rdPtyVet from '../../e2e/fixtures/data/thirdPartyVeteran.json';
-// import fixture3rdPtyNonVet from '../../e2e/fixtures/data/thirdPartyNonVeteran.json';
+import fixture3rdPtyVet from '../../e2e/fixtures/data/thirdPartyVeteran.json';
+import fixture3rdPtyNonVet from '../../e2e/fixtures/data/thirdPartyNonVeteran.json';
 
 formConfig.chapters.preparerTypeChapter.pages.preparerTypePage.initialData = undefined;
 
@@ -56,6 +56,76 @@ describe('transformForSubmit', () => {
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
+      );
+      expect(transformedResult).to.deep.equal(transformedData);
+    });
+  });
+
+  describe('third-party data removal', () => {
+    const thirdPartyData = {
+      thirdPartyFullName: {
+        first: 'Joe',
+        last: 'Third-Party',
+      },
+      thirdPartyType: 'representative',
+    };
+
+    it('removes third-party data for veteran preparerType', () => {
+      const data = {
+        data: {
+          ...fixtureVet.data,
+          ...thirdPartyData,
+        },
+      };
+      const transformedData = {
+        ...fixtureVet.data,
+        formNumber: '20-10207',
+      };
+
+      const transformedResult = JSON.parse(
+        transformForSubmit(formConfig, data),
+      );
+      expect(transformedResult).to.deep.equal(transformedData);
+    });
+
+    it('removes third-party data for non-veteran preparerType', () => {
+      const data = {
+        data: {
+          ...fixtureNonVet.data,
+          ...thirdPartyData,
+        },
+      };
+      const transformedData = {
+        ...fixtureNonVet.data,
+        formNumber: '20-10207',
+      };
+
+      const transformedResult = JSON.parse(
+        transformForSubmit(formConfig, data),
+      );
+      expect(transformedResult).to.deep.equal(transformedData);
+    });
+
+    it('retains third-party data for third-party-veteran preparerType', () => {
+      const transformedData = {
+        ...fixture3rdPtyVet.data,
+        formNumber: '20-10207',
+      };
+
+      const transformedResult = JSON.parse(
+        transformForSubmit(formConfig, fixture3rdPtyVet),
+      );
+      expect(transformedResult).to.deep.equal(transformedData);
+    });
+
+    it('retains third-party data for third-party-non-veteran preparerType', () => {
+      const transformedData = {
+        ...fixture3rdPtyNonVet.data,
+        formNumber: '20-10207',
+      };
+
+      const transformedResult = JSON.parse(
+        transformForSubmit(formConfig, fixture3rdPtyNonVet),
       );
       expect(transformedResult).to.deep.equal(transformedData);
     });
@@ -118,6 +188,26 @@ describe('transformForSubmit', () => {
     });
   });
 
+  describe('otherHousingRisks removal', () => {
+    it('removes otherHousingRisks data when livingSituation.OTHER_RISK is not selected', () => {
+      const data = {
+        data: {
+          ...fixtureVet.data,
+          otherHousingRisks: 'Other housing risks data',
+        },
+      };
+      const transformedData = {
+        ...fixtureVet.data,
+        formNumber: '20-10207',
+      };
+
+      const transformedResult = JSON.parse(
+        transformForSubmit(formConfig, data),
+      );
+      expect(transformedResult).to.deep.equal(transformedData);
+    });
+  });
+
   describe('unneeded other-reasons evidence removal', () => {
     const unneededEvidence = {
       alsDocuments: [
@@ -163,14 +253,25 @@ describe('transformForSubmit', () => {
     };
 
     it('removes unneeded evidence data', () => {
+      const otherReasonsOver85 = {
+        ALS: false,
+        FINANCIAL_HARDSHIP: false,
+        FORMER_POW: false,
+        MEDAL_AWARD: false,
+        OVER_85: true,
+        TERMINAL_ILLNESS: false,
+        VSI_SI: false,
+      };
       const data = {
         data: {
           ...fixtureVet.data,
+          otherReasons: otherReasonsOver85,
           ...unneededEvidence,
         },
       };
       const transformedData = {
         ...fixtureVet.data,
+        otherReasons: otherReasonsOver85,
         formNumber: '20-10207',
       };
 
