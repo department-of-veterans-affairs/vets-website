@@ -105,7 +105,7 @@ export default function VARequest({ changeCrumb }) {
         renderOptions={props => <DateTimeRequestOptions {...props} />}
         renderSelectedLabel={getSelectedLabel}
         required
-        requiredMessage="Please select at least one preferred date for your appointment. You can select up to three dates."
+        requiredMessage="Select at least 1 preferred timeframe for your appointment."
         showValidation={submitted && !userSelectedSlot(selectedDates)}
       />
       <FormButtons
