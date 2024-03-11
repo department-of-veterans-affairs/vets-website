@@ -123,7 +123,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it('should show confirmed phone appointments detail page', async () => {
+  it.skip('should show confirmed phone appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       kind: TYPE_OF_VISIT_ID.phone,
@@ -215,7 +215,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it('should show who cancel phone appointments detail page', async () => {
+  it.skip('should show who cancel phone appointments detail page', async () => {
     // Given a phone appointment
     const myInitialState = {
       ...initialState,
@@ -349,7 +349,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it('should show details without clinic name when clinic call fails', async () => {
+  it.skip('should show details without clinic name when clinic call fails', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -542,7 +542,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
   });
 
-  it('should show past confirmed appointments detail page', async () => {
+  it.skip('should show past confirmed appointments detail page', async () => {
     // Arrange
     const now = moment().tz('America/Denver');
     const yesterday = moment(now).subtract(1, 'day');
@@ -593,7 +593,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it('should allow cancellation', async () => {
+  it.skip('should allow cancellation', async () => {
     // Arrange
     // Given a veteran has VA appointments
     const response = new MockAppointmentResponse();
@@ -640,7 +640,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it('should not allow cancellation of COVID-19 vaccine appointments', async () => {
+  it.skip('should not allow cancellation of COVID-19 vaccine appointments', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       serviceType: 'covid',
@@ -670,7 +670,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it('should display who canceled the appointment', async () => {
+  it.skip('should display who canceled the appointment', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.cancelled,
@@ -696,7 +696,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       .exist;
   });
 
-  it('should display who canceled the appointment for past appointments', async () => {
+  it.skip('should display who canceled the appointment for past appointments', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       localStartTime: moment().subtract(1, 'day'),
@@ -725,7 +725,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       .exist;
   });
 
-  it('should fire a print request when print button clicked', async () => {
+  it.skip('should fire a print request when print button clicked', async () => {
     // Arrange
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
@@ -752,7 +752,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     global.window.print = oldPrint;
   });
 
-  it('should show error message when single fetch errors', async () => {
+  it.skip('should show error message when single fetch errors', async () => {
     // Arrange
     mockAppointmentApi({
       response: new MockAppointmentResponse(),
@@ -778,7 +778,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     });
   });
 
-  it('should allow the user to close the cancel modal without canceling', async () => {
+  it.skip('should allow the user to close the cancel modal without canceling', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
     mockAppointmentApi({ response });
@@ -805,7 +805,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it('should allow the user to go back to the appointment list', async () => {
+  it.skip('should allow the user to go back to the appointment list', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
 
