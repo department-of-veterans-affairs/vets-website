@@ -54,8 +54,8 @@ export const getAppData = state => ({
   mebExclusionPeriodEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
   ],
-  mebAutoPopulateRelinquishmentD: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentD
+  mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
   ],
   user: state.user || {},
 });
