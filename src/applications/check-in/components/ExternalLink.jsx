@@ -13,6 +13,8 @@ function ExternalLink({
   eventId = null,
   eventPrefix = '',
   dataTestId = 'external-link',
+  target = null,
+  rel = null,
 }) {
   const { t, i18n } = useTranslation();
 
@@ -28,7 +30,7 @@ function ExternalLink({
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <a
-      {...{ href, hrefLang }}
+      {...{ href, hrefLang, target, rel }}
       onClick={eventId ? handleClick : null}
       data-testid={dataTestId}
     >
@@ -47,6 +49,8 @@ ExternalLink.propTypes = {
   eventPrefix: PropTypes.string,
   href: PropTypes.string,
   hrefLang: PropTypes.string,
+  rel: PropTypes.string,
+  target: PropTypes.string,
 };
 
 export default ExternalLink;

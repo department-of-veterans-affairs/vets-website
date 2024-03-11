@@ -1,6 +1,7 @@
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const radioOptions = {
@@ -12,7 +13,7 @@ const radioOptions = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Current spouse’s marital history',
+    ...titleUI('Current spouse’s marital history'),
     currentSpouseMaritalHistory: radioUI({
       title: 'Has your spouse been married before?',
       labels: radioOptions,

@@ -100,6 +100,7 @@ const App = props => {
           radio.onclick = e => {
             const label = e.target.nextElementSibling.innerText;
             recordEvent({
+              event: 'hca-yesno-option-click',
               'hca-radio-label': label,
               'hca-radio-clicked': e.target,
               'hca-radio-value-selected': e.target.value,

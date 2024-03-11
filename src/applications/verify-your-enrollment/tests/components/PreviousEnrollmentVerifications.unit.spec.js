@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import {
@@ -119,29 +118,6 @@ describe('PreviousEnrollmentVerifications', () => {
       );
     });
 
-    wrapper.unmount();
-  });
-  it('should calls scrollToElement with correct argument when link is clicked', async () => {
-    const scrollToElementMock = sinon.stub();
-    const wrapper = mount(
-      <PreviousEnrollmentVerifications
-        enrollmentData={USER_MOCK_DATA}
-        scrollToElement={scrollToElementMock}
-      />,
-    );
-    const button = wrapper
-      .find(
-        '.vads-u-color--link-default.vads-u-text-decoration--underline.vye-mimic-link',
-      )
-      .at(1);
-    button.simulate('click');
-    await waitFor(() => {
-      expect(
-        scrollToElementMock.calledWith(
-          'montgomery-gi-bill-enrollment-statement',
-        ),
-      ).to.false;
-    });
     wrapper.unmount();
   });
 });

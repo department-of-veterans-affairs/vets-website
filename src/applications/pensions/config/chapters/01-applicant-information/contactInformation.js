@@ -3,13 +3,14 @@ import {
   emailUI,
   phoneSchema,
   phoneUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Email address and phone number',
+    ...titleUI('Email address and phone number'),
     email: emailUI('Email'),
     phone: phoneUI('Telephone number'),
     mobilePhone: phoneUI('Mobile number'),
