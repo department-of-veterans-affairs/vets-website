@@ -3,7 +3,7 @@ import React from 'react';
 // Relative imports.
 import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
-import { CURRENT_SCHOOL_YEAR } from '../../constants';
+import { getCurrentAcademicYear } from '../../helpers';
 
 export const FindYellowRibbonPage = () => (
   <>
@@ -44,7 +44,7 @@ export const FindYellowRibbonPage = () => (
 
         <p>
           You may search for schools participating in the current academic year,{' '}
-          {CURRENT_SCHOOL_YEAR}.
+          {getCurrentAcademicYear()}.
         </p>
       </div>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
@@ -7,13 +8,12 @@ const { noRapidProcessing } = fullSchemaPensions.properties;
 const fullyDevelopedClaimsLinkText =
   'Learn more about fully developed claims (opens in new tab)';
 const Description = (
-  <div className="vads-u-margin-bottom--1">
+  <>
     <p>
       If you’ve uploaded all your supporting documents, you may be able to get a
       faster decision on your claim. We call this the Fully Developed Claims
       (FDC) program.
     </p>
-
     <a
       rel="noopener noreferrer"
       target="_blank"
@@ -22,7 +22,7 @@ const Description = (
     >
       {fullyDevelopedClaimsLinkText}
     </a>
-  </div>
+  </>
 );
 
 export const FdcWarning = (
@@ -50,8 +50,7 @@ export const NoFDCWarning = (
 
 export default {
   uiSchema: {
-    'ui:title': 'Faster claim processing',
-    'ui:description': Description,
+    ...titleUI('Faster claim processing', Description),
     noRapidProcessing: {
       'ui:title':
         'Do you want to use the Fully Developed Claims program to apply?',

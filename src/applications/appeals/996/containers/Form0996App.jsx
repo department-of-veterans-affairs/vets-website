@@ -17,11 +17,9 @@ import {
 import forcedMigrations from '../migrations/forceMigrations';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {

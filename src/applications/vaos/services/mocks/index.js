@@ -219,6 +219,9 @@ const responses = {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
     } = req.body;
+    const selectedClinic = clinicsV2.data.filter(
+      clinic => clinic.id === req.body.clinic,
+    );
     const providerNpi = practitioners[0]?.identifier[0].value;
     const selectedTime = appointmentSlotsV2.data
       .filter(slot => slot.id === req.body.slot?.id)
@@ -233,6 +236,8 @@ const responses = {
         ...req.body,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+        physicalLocation:
+          selectedClinic[0]?.attributes.physicalLocation || null,
       },
     };
     currentMockId += 1;
