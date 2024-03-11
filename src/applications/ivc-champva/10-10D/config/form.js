@@ -1,4 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
@@ -100,6 +101,7 @@ import FileViewField, {
 import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
 
 // Used to condense some repetitive schema boilerplate
+const maxApplicants = 3;
 const applicantListSchema = (requireds, propertyList) => {
   return {
     type: 'object',
@@ -107,7 +109,7 @@ const applicantListSchema = (requireds, propertyList) => {
       applicants: {
         type: 'array',
         minItems: 1,
-        maxItems: 25,
+        maxItems: maxApplicants,
         items: {
           type: 'object',
           required: requireds,
@@ -601,15 +603,24 @@ const formConfig = {
           arrayPath: 'applicants',
           title: 'Applicants',
           uiSchema: {
-            ...titleUI(
-              'Applicant name and date of birth',
-              'Please tell us the names of the applicants that you want to enroll in CHAMPVA. You can only add up to 3 applicants at a time. If you have more than 3 applicants then you will need to submit a separate form for each applicant.',
-            ),
+            ...titleUI('Applicant name and date of birth', () => (
+              <>
+                {`Enter your information and the information for any other 
+              applicants you want to enroll in CHAMPVA benefits.`}
+                <br />
+                <br />
+                {`You can add up to ${maxApplicants} applicants in a single application. If you 
+              need to add more than ${maxApplicants} applicants, you'll need to submit a 
+              separate application for them.`}
+              </>
+            )),
             applicants: {
               'ui:options': {
                 viewField: ApplicantField,
                 keepInPageOnReview: true,
                 useDlWrap: false,
+                itemName: 'Applicant',
+                addAnotherLabel: 'Add another applicant',
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
