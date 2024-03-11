@@ -10,6 +10,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingToPhase1],
   );
+  const isPilot = useSelector(state => state.sm.app.isPilot);
 
   return mhvSecureMessagingToPhase1 ? (
     <div className="secure-messaging-faq">
@@ -161,6 +162,12 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             Learn how to dispute your VA copay charges
           </a>
         </va-accordion-item>
+        {isPilot && (
+          <va-accordion-item data-testid="faq-accordion-item">
+            <h3 slot="headline">What is Secure Messaging Pilot?</h3>
+            <p>TBD</p>
+          </va-accordion-item>
+        )}
       </va-accordion>
     </div>
   ) : (
