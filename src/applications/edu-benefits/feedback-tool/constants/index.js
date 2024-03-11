@@ -26,19 +26,19 @@ export const complaintList = [
   },
   {
     content: [
-      {
-        type: 'link',
-        value: 'Consumer',
-        href: 'https://www.consumerfinance.gov/complaint/',
-        target: '_blank',
-      },
+      //   {
+      //     type: 'link',
+      //     value: 'Consumer',
+      //     href: 'https://www.consumerfinance.gov/complaint/',
+      //     target: '_blank',
+      //   },
       {
         type: 'text',
         value: 'Private student loans – ',
       },
       {
         type: 'link',
-        value: 'Financial Protection Bureau',
+        value: 'Consumer Financial Protection Bureau',
         href: 'https://www.consumerfinance.gov/complaint/',
         target: '_blank',
       },
