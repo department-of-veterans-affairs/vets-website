@@ -187,7 +187,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               </div>
             </VaRadio>
           </div>
-          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom-0p5">
+          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
             Enter a keyword, phrase, or question
             {inputError && (
               <span

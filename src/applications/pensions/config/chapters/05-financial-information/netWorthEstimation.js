@@ -1,4 +1,5 @@
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   AssetInformationAlert,
   TotalNetWorthOverTwentyFiveThousandAlert,
@@ -11,9 +12,10 @@ export const hideIfUnder25000 = formData =>
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Income and assets',
-    'ui:description':
+    ...titleUI(
+      'Income and assets',
       'We need to know if you and your dependents have over $25,000 in assets.',
+    ),
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },
