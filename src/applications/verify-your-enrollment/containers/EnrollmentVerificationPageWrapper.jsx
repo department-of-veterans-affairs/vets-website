@@ -9,6 +9,8 @@ import PageLink from '../components/PageLink';
 import {
   BENEFITS_PROFILE_RELATIVE_URL,
   BENEFITS_PROFILE_URL,
+  VERIFICATION_REVIEW_RELATIVE_URL,
+  VERIFICATION_REVIEW_URL,
 } from '../constants';
 import { getMockData } from '../selectors/mockData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
@@ -35,7 +37,17 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <MGIBEnrollmentStatement />
-            <PeriodsToVerify />
+            <PeriodsToVerify
+              link={() => (
+                <PageLink
+                  linkText="Start enrollment verification"
+                  relativeURL={VERIFICATION_REVIEW_RELATIVE_URL}
+                  URL={VERIFICATION_REVIEW_URL}
+                  margin="0"
+                  className="vads-c-action-link--blue"
+                />
+              )}
+            />
             {loading ? (
               <Loader />
             ) : (

@@ -15,6 +15,7 @@ const PeriodsToVerify = ({
   dispatchUpdatePendingVerifications,
   dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
+  link,
 }) => {
   const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
@@ -70,6 +71,7 @@ const PeriodsToVerify = ({
     dispatchUpdateVerifications(newVerifiedIDS);
     dispatchVerifyEnrollmentAction();
   };
+
   useEffect(
     () => {
       setUserEnrollmentData(enrollmentData);
@@ -125,9 +127,10 @@ const PeriodsToVerify = ({
             {getPeriodsToVerify()}
             <va-button
               onClick={handleVerification}
-              text="Verify enrollment"
+              text="Start enrollment verification"
               data-testid="Verify enrollment"
             />
+            {link && <>{link()}</>}
           </div>
         </va-alert>
       )}
@@ -168,6 +171,7 @@ PeriodsToVerify.propTypes = {
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
   enrollmentData: PropTypes.object,
+  link: PropTypes.func,
 };
 export default connect(
   mapStateToProps,
