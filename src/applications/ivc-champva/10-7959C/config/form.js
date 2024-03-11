@@ -95,6 +95,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['beneficiarySSN'],
             properties: {
               titleSchema,
               beneficiarySSN: ssnSchema,
@@ -109,7 +110,7 @@ const formConfig = {
             beneficiaryAddress: addressUI(),
             beneficiaryNewAddress: checkboxGroupUI({
               title: 'Address Information',
-              required: false,
+              required: () => false,
               labels: {
                 addressIsNew: 'Check if this is a new address',
               },
@@ -139,7 +140,6 @@ const formConfig = {
             ...titleUI('Beneficiary Gender'),
             beneficiaryGender: radioUI({
               title: 'Gender',
-              required: true,
               labels: {
                 male: 'Male',
                 female: 'Female',
@@ -148,6 +148,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['beneficiaryGender'],
             properties: {
               titleSchema,
               beneficiaryGender: radioSchema(['male', 'female']),
@@ -185,6 +186,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['hasMedicarePartA'],
             properties: {
               titleSchema,
               hasMedicarePartA: yesNoSchema,
@@ -221,6 +223,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['hasMedicarePartB'],
             properties: {
               titleSchema,
               hasMedicarePartB: yesNoSchema,
@@ -255,12 +258,13 @@ const formConfig = {
               'ui:required': formData => formData.hasMedicarePartD,
             },
             hasOtherHealthInsurance: yesNoUI({
-              required: true,
+              required: () => true,
               title: 'Do you have health insurance other than MEDICARE?',
             }),
           },
           schema: {
             type: 'object',
+            required: ['hasMedicarePartD', 'hasOtherHealthInsurance'],
             properties: {
               titleSchema,
               hasMedicarePartD: yesNoSchema,
@@ -280,17 +284,16 @@ const formConfig = {
             get('hasMedicarePartA', form) || get('hasMedicarePartB', form),
           uiSchema: {
             medicareProvidesPharmacy: yesNoUI({
-              required: true,
               title: 'Does your Medicare coverage provide pharmacy benefits?',
             }),
             hasMedicareAdvantagePlan: yesNoUI({
-              required: true,
               title:
                 'Did you choose a Medicare Advantage Plan for your Medicare Coverage?',
             }),
           },
           schema: {
             type: 'object',
+            required: ['medicareProvidesPharmacy', 'hasMedicareAdvantagePlan'],
             properties: {
               medicareProvidesPharmacy: yesNoSchema,
               hasMedicareAdvantagePlan: yesNoSchema,
