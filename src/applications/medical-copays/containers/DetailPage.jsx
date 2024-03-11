@@ -33,19 +33,19 @@ const DetailPage = ({ match }) => {
     mcpHTMLStatementToggle(state),
   );
 
-  useEffect(
-    () => {
-      if (!isCurrentBalance) {
-        setAlert('past-due-balance');
-      }
-      scrollToTop();
-    },
-    [isCurrentBalance],
-  );
+  useEffect(() => {
+    if (!isCurrentBalance) {
+      setAlert('past-due-balance');
+    }
+    scrollToTop();
+  }, [isCurrentBalance]);
 
   return (
     <>
-      <va-breadcrumbs uswds="false" className="vads-u-font-family--sans no-wrap">
+      <va-breadcrumbs
+        uswds="false"
+        className="vads-u-font-family--sans no-wrap"
+      >
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
