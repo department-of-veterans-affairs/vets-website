@@ -2,6 +2,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import set from 'platform/utilities/data/set';
 
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -12,7 +13,7 @@ const { powDateRange } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'P. O. W. Status',
+    ...titleUI('Prisoner of war status'),
     powStatus: yesNoUI({
       title: 'Have you ever been a prisoner of war?',
       classNames: 'vads-u-margin-bottom--2',

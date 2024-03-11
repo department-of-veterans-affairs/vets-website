@@ -25,7 +25,7 @@ const CareSummariesDetails = () => {
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
   const { summaryId } = useParams();
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {

@@ -68,4 +68,28 @@ describe('Medicaitons List component', () => {
       rxListSortingOptions.alphabeticallyByStatus.LABEL.toLowerCase(),
     );
   });
+  it('shows "Showing 0-0" when an empty list is passed', () => {
+    const screen = (state = initialState, sortOption = 'lastFilledFirst') => {
+      return renderWithStoreAndRouter(
+        <MedicationsList
+          rxList={[]}
+          pagination={pagination}
+          setCurrentPage={setCurrentPage}
+          selectedSortOption={sortOption}
+        />,
+        {
+          initialState: {
+            ...state,
+            rx: {
+              prescriptions: { prescriptionDetails: { prescriptionId: 123 } },
+            },
+          },
+          reducers: reducer,
+          path: '/',
+        },
+      );
+    };
+    const numToNums = screen().getByTestId('page-total-info');
+    expect(numToNums).to.contain.text('Showing 0 - 0');
+  });
 });

@@ -26,14 +26,13 @@ const DependentsReviewPage = ({ data, editPage }) => {
               <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 Your Dependents
               </h4>
-              <button
-                type="button"
+              <va-button
+                text="Edit"
+                label="Edit your dependents"
                 onClick={editPage}
-                className="edit-btn primary-outline"
-                aria-label="Edit your dependents"
-              >
-                Edit
-              </button>
+                secondary
+                uswds
+              />
             </div>
             <dl className="review">{reviewRows}</dl>
           </>

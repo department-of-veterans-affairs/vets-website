@@ -10,7 +10,7 @@ export const getVaccinesList = () => async dispatch => {
 
     dispatch({ type: Actions.Vaccines.GET_LIST, response });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
@@ -25,7 +25,7 @@ export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
       Actions.Vaccines.GET,
     );
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 

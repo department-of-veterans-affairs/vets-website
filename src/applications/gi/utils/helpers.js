@@ -232,27 +232,10 @@ export const boolYesNo = field => {
   return field ? 'Yes' : 'No';
 };
 
-export const getMobileOperatingSystem = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-  // Windows Phone must come first because its UA also contains "Android"
-  if (/windows phone/i.test(userAgent)) {
-    return 'Windows Phone';
-  }
-
-  if (/android/i.test(userAgent)) {
-    return 'Android';
-  }
-
-  // iOS detection from: http://stackoverflow.com/a/9039885/177710
-  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    return 'iOS';
-  }
-
-  return 'unknown';
+export const isSmallScreen = () => {
+  const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
+  return matchMedia('(max-width: 480px)').matches && browserZoomLevel <= 150;
 };
-
-export const isSmallScreen = () => getMobileOperatingSystem() !== 'unknown';
 
 export const scrollToFocusedElement = () => {
   const compareDrawerHeight = document.getElementById('compare-drawer')
@@ -376,4 +359,46 @@ export const validateSearchTerm = (
   }
 
   return !empty;
+};
+
+export const currentTab = () => {
+  const url = new URL(window.location);
+  const { searchParams } = url;
+  return searchParams.get('search');
+};
+
+export const isSearchInstitutionPage = () => {
+  const { pathname } = window.location;
+  const globalRegex = new RegExp(
+    '/education/gi-bill-comparison-tool/institution/',
+    'g',
+  );
+  return globalRegex.test(pathname);
+};
+
+export const isSearchByNamePage = () => {
+  return (
+    (currentTab() === 'name' || currentTab() === null) &&
+    !isSearchInstitutionPage()
+  );
+};
+
+export const isSearchByLocationPage = () => {
+  return currentTab() === 'location';
+};
+
+export const giDocumentTitle = () => {
+  let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const searchByName = isSearchByNamePage();
+  const searchByLocationPage = isSearchByLocationPage();
+  if (searchByName) {
+    crumbLiEnding += '(Search By Name)';
+  } else if (searchByLocationPage) {
+    crumbLiEnding += '(Search By Location)';
+  }
+  return crumbLiEnding;
+};
+
+export const setDocumentTitle = () => {
+  document.title = `${giDocumentTitle()} | Veterans Affairs`;
 };

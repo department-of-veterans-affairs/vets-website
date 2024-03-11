@@ -1,16 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useLocation,
   useHistory,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
   externalServices,
+  externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
@@ -26,6 +30,8 @@ import { resetPagination } from '../actions/pagination';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
+  const userServices = user.profile.services;
+
   const { featureTogglesLoading, appEnabled } = useSelector(
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
@@ -44,6 +50,36 @@ const App = ({ children }) => {
   const [paths, setPaths] = useState([]);
   const location = useLocation();
   const measuredRef = useRef();
+  const atLandingPage = location.pathname === '/';
+
+  const scheduledDowntimes = useSelector(
+    state => state.scheduledDowntime?.serviceMap || [],
+  );
+  const globalDowntime = useSelector(
+    state => state.scheduledDowntime?.globalDowntime,
+  );
+
+  const mhvMrDown = useMemo(
+    () => {
+      if (scheduledDowntimes.size > 0) {
+        return (
+          scheduledDowntimes?.get(externalServices.mhvMr)?.status ||
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
+          scheduledDowntimes?.get(externalServices.global)?.status ||
+          globalDowntime
+        );
+      }
+      return 'downtime status: ok';
+    },
+    [scheduledDowntimes, globalDowntime],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getScheduledDowntime());
+    },
+    [dispatch],
+  );
 
   const datadogRumConfig = {
     applicationId: '04496177-4c70-4caf-9d1e-de7087d1d296',
@@ -171,43 +207,73 @@ const App = ({ children }) => {
       </div>
     );
   }
+
   // If the user is not whitelisted or feature flag is disabled, redirect them.
   if (!appEnabled) {
     window.location.replace('/health-care/get-medical-records');
     return <></>;
   }
+
+  const isMissingRequiredService = (loggedIn, services) => {
+    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
+      window.location.replace('/health-care/get-medical-records');
+      return true;
+    }
+    return false;
+  };
+
   return (
-    <RequiredLoginView user={user}>
-      <div
-        ref={measuredRef}
-        className="vads-l-grid-container vads-u-padding-left--2"
-      >
-        <MrBreadcrumbs />
-        <DowntimeNotification
-          appTitle="Medical Records"
-          dependencies={[externalServices.mhvPlatform, externalServices.mhvMr]}
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.MEDICAL_RECORDS]}
+    >
+      {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
+        <div
+          ref={measuredRef}
+          className="vads-l-grid-container vads-u-padding-left--2"
         >
-          <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-            {showSideNav && (
-              <>
-                <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                <div className="vads-u-margin-right--4" />
-              </>
-            )}
-            <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
-              <div className="vads-l-row">
-                <div className="vads-l-col">{children}</div>
-                {!showSideNav && (
-                  <div className="medium-screen:vads-l-col--4 no-print" />
+          {mhvMrDown === externalServiceStatus.down ? (
+            <>
+              {atLandingPage && <MrBreadcrumbs />}
+              <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
+                Medical records
+              </h1>
+              <DowntimeNotification
+                appTitle="Medical records"
+                dependencies={[
+                  externalServices.mhvMr,
+                  externalServices.mhvPlatform,
+                  externalServices.global,
+                ]}
+                render={renderMHVDowntime}
+              />
+            </>
+          ) : (
+            <>
+              <MrBreadcrumbs />
+              <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                {showSideNav && (
+                  <>
+                    <Navigation paths={paths} data-testid="mhv-mr-navigation" />
+                    <div className="vads-u-margin-right--4" />
+                  </>
                 )}
+                <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
+                  <div className="vads-l-row">
+                    <div className="vads-l-col">{children}</div>
+                    {!showSideNav && (
+                      <div className="medium-screen:vads-l-col--4 no-print" />
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </DowntimeNotification>
-        <va-back-to-top hidden={isHidden} />
-        <ScrollToTop />
-        <PhrRefresh />
-      </div>
+            </>
+          )}
+          <va-back-to-top hidden={isHidden} />
+          <ScrollToTop />
+          <PhrRefresh />
+        </div>
+      )}
     </RequiredLoginView>
   );
 };

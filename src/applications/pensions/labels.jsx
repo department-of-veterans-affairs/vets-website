@@ -33,3 +33,11 @@ export const serviceBranchLabels = {
   usphs: 'USPHS',
   noaa: 'NOAA',
 };
+
+export const typeOfIncomeLabels = {
+  SOCIAL_SECURITY: 'Social Security',
+  INTEREST_DIVIDEND: 'Interest or dividend income',
+  CIVIL_SERVICE: 'Civil Service',
+  PENSION_RETIREMENT: 'Pension or retirement income',
+  OTHER: 'Other income',
+};

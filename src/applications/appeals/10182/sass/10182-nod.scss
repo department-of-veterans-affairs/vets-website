@@ -193,7 +193,7 @@ article[data-location="review-and-submit"] {
     font-weight: normal;
   }
   dd {
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
@@ -206,4 +206,8 @@ article[data-location="review-and-submit"] {
 /* contestable issues widget - copy uswds v3 style */
 .widget-checkbox-wrap label:before {
   box-shadow: rgb(27, 27, 27) 0px 0px 0px 2px;
+}
+
+.rjsf-object-field:empty {
+  display: none;
 }

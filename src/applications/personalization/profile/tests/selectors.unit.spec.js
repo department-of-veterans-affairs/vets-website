@@ -97,32 +97,25 @@ describe('profile selectors', () => {
 
   describe('cnpDirectDepositIsEligible selector', () => {
     let state;
+
     beforeEach(() => {
       state = {
         vaProfile: {
           cnpPaymentInformation: {
-            paymentAddress: {
-              addressOne: '123 Main',
-              city: 'San Francisco',
-              stateCode: 'CA',
+            controlInformation: {
+              canUpdateDirectDeposit: true,
             },
           },
         },
       };
     });
-    it('returns `true` if there is a street, city, and state set on the payment info payment address', () => {
+
+    it('returns `true` if control info canUpdateDirectDeposit is true', () => {
       expect(selectors.cnpDirectDepositIsEligible(state)).to.be.true;
     });
-    it('returns `false` if the street address is missing', () => {
-      state.vaProfile.cnpPaymentInformation.paymentAddress.addressOne = '';
-      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
-    });
-    it('returns `false` if the city is missing', () => {
-      state.vaProfile.cnpPaymentInformation.paymentAddress.city = '';
-      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
-    });
-    it('returns `false` if the state is missing', () => {
-      state.vaProfile.cnpPaymentInformation.paymentAddress.stateCode = '';
+
+    it('returns `false` if control info canUpdateDirectDeposit is false', () => {
+      state.vaProfile.cnpPaymentInformation.controlInformation.canUpdateDirectDeposit = false;
       expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
 
@@ -135,29 +128,6 @@ describe('profile selectors', () => {
         },
       };
       expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
-    });
-
-    describe('when useLighthouseFormat is true', () => {
-      beforeEach(() => {
-        state = {
-          vaProfile: {
-            cnpPaymentInformation: {
-              controlInformation: {
-                canUpdateDirectDeposit: true,
-              },
-            },
-          },
-        };
-      });
-
-      it('returns `true` if control info canUpdateDirectDeposit is true', () => {
-        expect(selectors.cnpDirectDepositIsEligible(state, true)).to.be.true;
-      });
-
-      it('returns `false` if control info canUpdateDirectDeposit is false', () => {
-        state.vaProfile.cnpPaymentInformation.controlInformation.canUpdateDirectDeposit = false;
-        expect(selectors.cnpDirectDepositIsEligible(state, true)).to.be.false;
-      });
     });
   });
 

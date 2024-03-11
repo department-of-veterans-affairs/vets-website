@@ -130,3 +130,10 @@ export const getPendingDocumentDescription = docType => {
   const documentExplanation = TIMS_DOCUMENTS?.[docType]?.explanation;
   return { documentDisplayName, documentExplanation };
 };
+export const remainingBenefits = remEnt => {
+  const month = parseInt(remEnt?.slice(0, 2), 10);
+  const rest = parseFloat(`0.${remEnt?.slice(2)}`);
+  const day = Math.round(rest * 30);
+
+  return { month, day };
+};

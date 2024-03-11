@@ -1,5 +1,3 @@
-import React from 'react';
-
 import moment from 'moment';
 
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -28,24 +26,59 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
-export function getNameAndDobPageTitle(formData) {
-  const preparerString = getPreparerString(formData.preparerType);
+export function getFullNameLabels(label) {
+  if (label === 'middle name') {
+    return 'Middle initial';
+  }
 
-  return (
-    <h3 className="vads-u-margin-y--0">
-      {preparerString} name and date of birth
-    </h3>
-  );
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+export function getNameAndDobPageTitle(formData) {
+  const { preparerType } = formData;
+  const titleEnding = 'name and date of birth';
+  switch (preparerType) {
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return `Veteran’s ${titleEnding}`;
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return `Claimant’s ${titleEnding}`;
+    default:
+      return 'Your name and date of birth';
+  }
+}
+
+export function getNameAndDobPageDescription(formData) {
+  const { preparerType } = formData;
+  switch (preparerType) {
+    case PREPARER_TYPES.NON_VETERAN:
+      return 'Please provide your information as the person with the claim.';
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return 'Please provide the Veteran’s information.';
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return 'Please provide information on the person with the claim (also called the claimant).';
+    default:
+      return 'Please provide your information as the Veteran.';
+  }
 }
 
 export function getIdentityInfoPageTitle(formData) {
-  const preparerString = getPreparerString(formData.preparerType);
+  const { preparerType } = formData;
+  const titleEnding = 'identification information';
+  switch (preparerType) {
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return `Veteran’s ${titleEnding}`;
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return `Claimant’s ${titleEnding}`;
+    default:
+      return `Your ${titleEnding}`;
+  }
+}
 
-  return (
-    <h3 className="vads-u-margin-y--0">
-      {preparerString} identification information
-    </h3>
-  );
+export function getVeteranIdentityInfoPageTitle(formData) {
+  const titleEnding = 'identification information';
+  return formData.preparerType === PREPARER_TYPES.VETERAN
+    ? `Your ${titleEnding}`
+    : `Veteran’s ${titleEnding}`;
 }
 
 export function getLivingSituationChapterTitle(formData) {
@@ -77,6 +110,21 @@ export function validateLivingSituation(errors, fields) {
       `If none of these situations apply to ${preparerString}, unselect the other options you selected`,
     );
   }
+}
+
+export function getContactInfoChapterTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} contact information`;
+}
+
+export function getMailindAddressPageTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} mailing address`;
+}
+
+export function getPhoneAndEmailPageTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} phone and email address`;
 }
 
 export function createPayload(file, formId, password) {
@@ -146,3 +194,27 @@ export function powConfinement2DateRangeValidation(errors, fields) {
     );
   }
 }
+
+export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+  const { preparerType } = formData;
+  switch (preparerType) {
+    case PREPARER_TYPES.VETERAN:
+      return 'veteranFullName';
+    case PREPARER_TYPES.NON_VETERAN:
+      return 'nonVeteranFullName';
+    default:
+      return 'thirdPartyFullName';
+  }
+};
+
+export const getSubmitterName = formData => {
+  const { preparerType } = formData;
+  switch (preparerType) {
+    case PREPARER_TYPES.VETERAN:
+      return formData.veteranFullName;
+    case PREPARER_TYPES.NON_VETERAN:
+      return formData.nonVeteranFullName;
+    default:
+      return formData.thirdPartyFullName;
+  }
+};

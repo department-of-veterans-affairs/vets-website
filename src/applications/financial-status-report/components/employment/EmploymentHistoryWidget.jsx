@@ -16,7 +16,6 @@ const EmploymentHistoryWidget = props => {
   const {
     goToPath,
     goForward,
-    onReviewPage,
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
@@ -40,7 +39,6 @@ const EmploymentHistoryWidget = props => {
   const navButtons = (
     <FormNavButtons goBack={handlers.onBackClick} goForward={goForward} />
   );
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={handlers.onSubmit}>
@@ -73,7 +71,7 @@ const EmploymentHistoryWidget = props => {
         </Link>
       </fieldset>
       {contentBeforeButtons}
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
       {contentAfterButtons}{' '}
     </form>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { bvaAddressAndFax } from './evidenceIntro';
 import {
   SUPPORTED_UPLOAD_TYPES,
   MAX_FILE_SIZE_MB,
@@ -37,4 +38,15 @@ export const EvidenceUploadDescription = (
       </em>
     </p>
   </div>
+);
+
+export const evidenceNote = (
+  <va-additional-info
+    trigger="How can I submit evidence that I can’t upload?"
+    uswds
+  >
+    You have 90 days to submit evidence after the form is submitted. You can
+    submit more evidence by mailing it to this address:
+    {bvaAddressAndFax}
+  </va-additional-info>
 );

@@ -13,6 +13,8 @@ const CheckboxGroup = ({
   colNum = null,
   labelMargin = '1p5',
   className,
+  focusOnFirstInput,
+  setIsCleared,
 }) => {
   const inputId = _.uniqueId('checkbox-group-');
 
@@ -33,12 +35,18 @@ const CheckboxGroup = ({
         <div key={index} className={`${checkBoxStyleCol} ${className}`}>
           <input
             checked={checked}
+            ref={e => focusOnFirstInput && focusOnFirstInput(optionLabel, e)}
             id={`${inputId}-${index}`}
             name={name}
             data-testid={dataTestId}
             type="checkbox"
             onFocus={() => onFocus(`${inputId}-${index}`)}
-            onChange={onChange}
+            onChange={e => {
+              onChange(e);
+              if (setIsCleared) {
+                setIsCleared(false);
+              }
+            }}
             aria-labelledby={`${inputId}-legend ${createId(
               name,
             )}-${index}-label`}

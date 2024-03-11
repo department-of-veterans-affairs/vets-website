@@ -26,7 +26,7 @@ const handlers = {
 
 export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
   const heading = 'Review your mailing address';
-  const linkText = 'Go to your contact information to review your address';
+  const linkText = 'Review the mailing address in your profile';
   const pageName = useProfileRouteMetaData().name;
 
   return (
@@ -52,7 +52,7 @@ export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
       </p>
 
       <Link
-        to="contact-information/#mailing-address"
+        to="/profile/contact-information/#mailing-address"
         onClick={handlers.recordLinkClick(linkText, pageName)}
       >
         {linkText}
