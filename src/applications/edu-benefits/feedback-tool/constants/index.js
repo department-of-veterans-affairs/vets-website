@@ -98,7 +98,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '8884424551',
+        value: '1-888-442-4551',
+        number: '888-GIBILL-1 (888-442-4551)',
       },
     ],
   },
@@ -110,8 +111,9 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '9187815678',
+        value: '+1-918-781-5678',
         international: true,
+        number: '+1-918-781-5678',
       },
     ],
   },
@@ -123,7 +125,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '8008271000',
+        value: '1-800-827-1000',
+        number: '800-827-1000',
       },
     ],
   },
@@ -135,7 +138,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '8006982411',
+        value: '1-800-698-2411',
+        number: '800-698-2411',
       },
     ],
   },
@@ -147,8 +151,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '711',
-        tty: true,
+        value: '1+711',
+        number: 'TTY: 711',
       },
     ],
   },
