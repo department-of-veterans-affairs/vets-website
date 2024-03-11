@@ -5,7 +5,7 @@ import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockFeatureToggles from '../fixtures/generalResponses/featureToggles.json';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 
 describe('Verify Thread - Blocked from particular Triage Group', () => {
   const landingPage = new PatientInboxPage();
@@ -34,10 +34,6 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       mockTestUser,
     );
 
-    cy.wait('@Recipients');
-    // cy.wait('@generalMessages');
-    cy.get('h1').should('be.visible');
-    cy.reload({ force: true });
     cy.get(Locators.HEADLINE).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
@@ -57,7 +53,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
     });
   });
 
-  it.skip('verify alert on inbox page', () => {
+  it('verify alert on inbox page', () => {
     landingPage.loadInboxMessages();
 
     cy.get(Locators.HEADLINE).should(
