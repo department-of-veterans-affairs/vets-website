@@ -343,7 +343,7 @@ export const App = ({
 
   return (
     <>
-      <va-breadcrumbs uswds="false">
+      <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
         <a href="/education/apply-for-benefits-form-22-1990">

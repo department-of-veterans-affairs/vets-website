@@ -112,7 +112,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
 
   return (
     <>
-      <VaBreadcrumbs uswds="false" label="Breadcrumb">
+      <VaBreadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
