@@ -3,7 +3,9 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { expect } from 'chai';
+import { mount } from 'enzyme';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import { makePages } from '../../../pages/toxicExposure/gulfWar1990LocationDates';
 import {
   dateHelp,
@@ -72,7 +74,38 @@ describe('gulfWar1990LocationDates', () => {
     });
 
     it(`should submit with dates for ${locationId}`, () => {
-      // TODO
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          schema={schemas[`gulfWar1990Locations-${locationId}`]?.schema}
+          uiSchema={schemas[`gulfWar1990Locations-${locationId}`]?.uiSchema}
+          data={formData}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      const startMonthId = `#root_gulfWar1990Locations_${locationId}_startDateMonth`;
+      changeDropdown(form, startMonthId, 5);
+      const startYear = form.find(
+        `#root_gulfWar1990Locations_${locationId}_startDateYear`,
+      );
+      startYear.simulate('change', {
+        target: { value: '2020' },
+      });
+
+      const endMonthId = `#root_gulfWar1990Locations_${locationId}_endDateMonth`;
+      changeDropdown(form, endMonthId, 2);
+      const year = form.find(
+        `#root_gulfWar1990Locations_${locationId}_endDateYear`,
+      );
+      year.simulate('change', {
+        target: { value: '2024' },
+      });
+
+      form.find('form').simulate('submit');
+      expect(onSubmit.calledOnce).to.be.true;
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      form.unmount();
     });
   });
 });

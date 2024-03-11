@@ -31,13 +31,13 @@ function makeUiSchema(locationId) {
         startDate: {
           ...currentOrPastDateUI(startDateApproximate),
           'ui:options': {
-            // monthYear: true,
+            monthYear: true,
           },
         },
         endDate: {
           ...currentOrPastDateUI(endDateApproximate),
           'ui:options': {
-            // monthYear: true,
+            monthYear: true,
           },
         },
       },
@@ -65,11 +65,11 @@ function makeSchema(locationId) {
             properties: {
               startDate: {
                 type: 'string',
-                format: 'date',
+                format: 'monthYear',
               },
               endDate: {
                 type: 'string',
-                format: 'date',
+                format: 'monthYear',
               },
             },
           },
