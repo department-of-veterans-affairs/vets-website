@@ -57,7 +57,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <VaBreadcrumbs uswds="false" label="Breadcrumb">
+      <VaBreadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
