@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import HelpBlock from '../HelpBlock';
 
@@ -14,6 +15,12 @@ describe('<HelpBlock />', () => {
     },
   };
 
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   it('renders correctly without the travel block when travel prop is false or undefined', () => {
     const component = render(
       <CheckInProvider
