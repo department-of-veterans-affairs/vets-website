@@ -10,7 +10,7 @@ const togglePortal = value => {
   });
 };
 
-describe('Representatives', () => {
+describe('Representative', () => {
   describe('feature toggling in production', () => {
     // During CI, the environment is production, so we can test our global
     // feature toggling behavior there. But when running this test locally, the
@@ -26,7 +26,7 @@ describe('Representatives', () => {
       togglePortal(false);
 
       it('does redirect to root', () => {
-        cy.visit('/representatives');
+        cy.visit('/representative');
         cy.injectAxe();
         cy.axeCheck();
 
@@ -41,15 +41,15 @@ describe('Representatives', () => {
   togglePortal(true);
 
   it('does not redirect to root', () => {
-    cy.visit('/representatives');
+    cy.visit('/representative');
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.location('pathname').should('equal', '/representatives/');
+    cy.location('pathname').should('equal', '/representative/');
   });
 
   it('allows navigation from landing page to unified sign-in page', () => {
-    cy.visit('/representatives');
+    cy.visit('/representative');
     cy.injectAxe();
     cy.axeCheck();
 
@@ -58,20 +58,20 @@ describe('Representatives', () => {
   });
 
   it('allows navigation from landing page to dashboard to poa requests', () => {
-    cy.visit('/representatives');
+    cy.visit('/representative');
     cy.injectAxe();
     cy.axeCheck();
 
     cy.contains('Welcome to Representative.VA.gov');
     cy.contains('Until sign in is added use this to see dashboard').click();
 
-    cy.url().should('include', '/representatives/dashboard');
+    cy.url().should('include', '/representative/dashboard');
     cy.axeCheck();
 
     cy.contains('Accredited Representative Portal');
     cy.contains('View all').click();
 
-    cy.url().should('include', '/representatives/poa-requests');
+    cy.url().should('include', '/representative/poa-requests');
     cy.axeCheck();
 
     cy.contains('Power of attorney requests');
