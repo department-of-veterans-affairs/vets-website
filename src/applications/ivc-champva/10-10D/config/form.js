@@ -5,6 +5,8 @@ import {
   fullNameUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -36,7 +38,12 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
-import { getAgeInYears, isInRange, getParts } from '../helpers/utilities';
+import {
+  getAgeInYears,
+  isInRange,
+  getParts,
+  onReviewPage,
+} from '../helpers/utilities';
 import {
   sponsorWording,
   applicantWording,
@@ -640,6 +647,47 @@ const formConfig = {
             applicantDOB: dateOfBirthSchema,
           }),
         },
+        page13a: {
+          path: 'applicant-information/:index/start',
+          arrayPath: 'applicants',
+          title: item => `${applicantWording(item)} name and date of birth`,
+          showPagePerItem: true,
+          depends: () => !onReviewPage(),
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+              items: {
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} name and date of birth`,
+                          `Next we'll ask more questions about ${applicantWording(
+                            formData,
+                            context,
+                            false,
+                            false,
+                          )}. This includes social security number, mailing address, 
+                          contact information, relationship to sponsor, and health 
+                          insurance information.`,
+                        )['ui:title'],
+                    };
+                  },
+                },
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'view:description': blankSchema,
+          }),
+        },
         page14: {
           path: 'applicant-information/:index/ssn-dob',
           arrayPath: 'applicants',
@@ -660,7 +708,7 @@ const formConfig = {
                   'ui:description':
                     'You must enter either a VA file number or Social Security number',
                 },
-                applicantSSN: ssnOrVaFileNumberUI(),
+                applicantSSN: ssnOrVaFileNumberNoHintUI(),
                 // Dynamic title (uses "your" if certifierRole is applicant and
                 // this is applicant[0])
                 'ui:options': {
@@ -682,7 +730,7 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'view:description': blankSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnOrVaFileNumberNoHintSchema,
           }),
         },
         page15: {
