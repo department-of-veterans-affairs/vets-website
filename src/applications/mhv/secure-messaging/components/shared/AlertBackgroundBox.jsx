@@ -99,8 +99,10 @@ const AlertBackgroundBox = props => {
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
       activeAlert,
+      foldersViewPage,
       location.pathname,
       props.isLandingPage,
+      threadViewPage,
     ],
   );
 
@@ -113,7 +115,7 @@ const AlertBackgroundBox = props => {
       dispatch(retrieveFolder(folder?.folderId));
       dispatch(closeAlert());
     }
-  }, 30000); // 30 seconds
+  }, 60000); // 1 minute
 
   const alertAriaLabel = `${alertContent}. You are in ${(lastPathName ===
     'Folders' &&
