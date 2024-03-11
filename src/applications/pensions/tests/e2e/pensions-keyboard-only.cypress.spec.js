@@ -1,0 +1,70 @@
+import formConfig from '../../config/form';
+import simpleTestData from './fixtures/data/simple-test.json';
+import maximalTestData from './fixtures/data/maximal-test.json';
+import overflowTestData from './fixtures/data/overflow-test.json';
+import cypressSetup from './cypress.setup';
+import {
+  keyboardTestArrayPages,
+  keyboardTestPage,
+  startForm,
+  fillReviewPage,
+} from './helpers/keyboard-only-helpers';
+
+const testForm = data => {
+  const { chapters } = formConfig;
+  startForm();
+
+  let pathsVisited = [];
+  Object.values(chapters).forEach(chapter => {
+    Object.values(chapter.pages).forEach(page => {
+      if (pathsVisited.includes(page.path)) return;
+      if (page.path.includes(':index')) {
+        pathsVisited = pathsVisited.concat(
+          keyboardTestArrayPages(page, chapter, data),
+        );
+      } else {
+        pathsVisited = pathsVisited.concat(keyboardTestPage(page, data));
+      }
+    });
+  });
+
+  fillReviewPage(data);
+
+  cy.url().should('include', '/confirmation');
+};
+
+describe('Higher-Level Review keyboard only navigation', () => {
+  it('keyboard navigates through a simple form', () => {
+    cy.wrap(simpleTestData.data).as('testData');
+    cypressSetup(cy);
+
+    cy.get('@testData').then(data => {
+      cy.visit('/pension/application/527EZ/introduction');
+      cy.injectAxeThenAxeCheck();
+
+      testForm(data);
+    });
+  });
+  it('keyboard navigates through a maximal form', () => {
+    cy.wrap(maximalTestData.data).as('testData');
+    cypressSetup(cy);
+
+    cy.get('@testData').then(data => {
+      cy.visit('/pension/application/527EZ/introduction');
+      cy.injectAxeThenAxeCheck();
+
+      testForm(data);
+    });
+  });
+  it('keyboard navigates through an overflow form', () => {
+    cy.wrap(overflowTestData.data).as('testData');
+    cypressSetup(cy);
+
+    cy.get('@testData').then(data => {
+      cy.visit('/pension/application/527EZ/introduction');
+      cy.injectAxeThenAxeCheck();
+
+      testForm(data);
+    });
+  });
+});
