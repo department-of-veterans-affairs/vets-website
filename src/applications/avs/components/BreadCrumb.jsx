@@ -8,13 +8,11 @@ const goBack = e => {
 
 const isPastAppointmentLink = url => {
   const { pathname } = new URL(url);
-  console.log(pathname);
   return pathname.match(/^\/my-health\/appointments\/past\/[0-9]+$/);
 };
 
 const BreadCrumb = () => {
   const { referrer } = document;
-  console.log(referrer);
   if (referrer && isPastAppointmentLink(referrer)) {
     return (
       <div className="avs-breadcrumb vads-u-padding-top--1p5 vads-u-padding-bottom--3">
