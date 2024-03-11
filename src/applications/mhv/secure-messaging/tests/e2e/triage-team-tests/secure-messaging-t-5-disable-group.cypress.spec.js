@@ -1,10 +1,11 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import mockRecipients from '../fixtures/recipients-response.json';
+import mockFeatureToggles from '../fixtures/generalResponses/featureToggles.json';
 
 describe('Verify Thread - Blocked from particular Triage Group', () => {
   const landingPage = new PatientInboxPage();

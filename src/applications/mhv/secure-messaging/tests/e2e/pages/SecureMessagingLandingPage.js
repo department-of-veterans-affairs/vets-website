@@ -3,8 +3,7 @@ import mockUser from '../fixtures/generalResponses/user.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import { Locators } from '../utils/constants';
-
+import { Locators, Paths } from '../utils/constants';
 
 class SecureMessagingLandingPage {
   loadMainPage = (
