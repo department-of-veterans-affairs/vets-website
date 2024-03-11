@@ -9,12 +9,12 @@ const CLAIM_STATUS = {
   MANUAL_REVIEW: 'In Manual Review',
   ON_HOLD: 'On Hold',
   APPEALED: 'Appealed',
-  // Closed as a bunch of variants.
+  // Closed has a bunch of variants.
   // TBD if we need to be more specific.
   CLOSED: 'Closed',
 };
 
-export default function AppointmentsTable() {
+export default function TravelClaimsTable() {
   return (
     <va-table table-title="Travel claims">
       <va-table-row slot="headers">

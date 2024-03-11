@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import PropTypes from 'prop-types';
-import AppointmentsTable from '../components/AppointmentsTable';
+import AppointmentsTable from '../components/TravelClaimsTable';
 import Alert from '../components/Alert';
 import BreadCrumbs from '../components/Breadcrumbs';
 import { getTravelClaims } from '../redux/actions';
