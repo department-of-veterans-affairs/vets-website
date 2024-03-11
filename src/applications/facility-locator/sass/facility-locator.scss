@@ -252,6 +252,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       input,
       textarea,
       select,
+      va-select,
       .input-container {
         max-width: none;
         margin-bottom: 24px;
@@ -264,6 +265,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
+      va-select,
       .input-container {
         padding: 0;
       }
@@ -274,7 +276,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin-top: 0;
 
         @media (min-width: $small-desktop-screen) {
-          margin-top: 27px;
+          margin-top: auto;
           min-width: 67px;
           width: auto;
         }
