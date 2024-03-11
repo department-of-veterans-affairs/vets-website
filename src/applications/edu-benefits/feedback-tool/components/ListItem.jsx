@@ -1,4 +1,7 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import PageLink from './PageLink';
 
 const ListItem = ({ item, className }) => {
@@ -24,7 +27,7 @@ const ListItem = ({ item, className }) => {
         if (ele.type === 'phone') {
           return (
             <Fragment key={index}>
-              <va-telephone contact="" />
+              <a href={`tel:${ele.value}`}>{ele.number}</a>
             </Fragment>
           );
         }
@@ -37,5 +40,8 @@ const ListItem = ({ item, className }) => {
     </li>
   );
 };
-
+ListItem.propTypes = {
+  className: PropTypes.object,
+  item: PropTypes.object,
+};
 export default ListItem;
