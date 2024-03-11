@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -22,7 +19,6 @@ import {
   selectVaccinesFlag,
   selectNotesFlag,
 } from '../util/selectors';
-import { resetPagination } from '../actions/pagination';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
@@ -30,9 +26,6 @@ const App = ({ children }) => {
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
-
-  const history = useHistory();
-  const dispatch = useDispatch();
 
   // Individual feature flags
   const showSideNav = useSelector(selectSidenavFlag);
@@ -62,36 +55,27 @@ const App = ({ children }) => {
 
   useEffect(
     () => {
-      return () => {
-        dispatch(resetPagination(history.location.pathname));
-      };
-    },
-    [dispatch, history.location.pathname],
-  );
-
-  useEffect(
-    () => {
       const navPaths = [
         {
           path: '/',
           label: 'Medical records',
           datatestid: 'about-va-medical-records-sidebar',
           subpaths: [
-            // {
-            //   path: '/labs-and-tests',
-            //   label: 'Lab and test results',
-            //   datatestid: 'labs-and-tests-sidebar',
-            // },
-            // {
-            //   path: '/conditions',
-            //   label: 'Health conditions',
-            //   datatestid: 'health-conditions-sidebar',
-            // },
-            // {
-            //   path: '/vitals',
-            //   label: 'Vitals',
-            //   datatestid: 'vitals-sidebar',
-            // },
+            {
+              path: '/labs-and-tests',
+              label: 'Lab and test results',
+              datatestid: 'labs-and-tests-sidebar',
+            },
+            {
+              path: '/conditions',
+              label: 'Health conditions',
+              datatestid: 'health-conditions-sidebar',
+            },
+            {
+              path: '/vitals',
+              label: 'Vitals',
+              datatestid: 'vitals-sidebar',
+            },
             // {
             //   path: '/download-all',
             //   label: 'Download all medical records',
