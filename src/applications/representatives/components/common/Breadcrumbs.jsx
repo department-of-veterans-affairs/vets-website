@@ -47,7 +47,7 @@ const Breadcrumbs = ({ pathname }) => {
   });
 
   return (
-    <va-breadcrumbs uswds="false" home-veterans-affairs={false}>
+    <va-breadcrumbs home-veterans-affairs={false}>
       {breadcrumbs.map(({ link, label }) => (
         <li key={label}>
           <Link to={link}>{label}</Link>

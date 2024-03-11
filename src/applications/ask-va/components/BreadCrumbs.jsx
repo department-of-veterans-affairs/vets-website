@@ -17,7 +17,7 @@ const BreadCrumbs = ({ currentLocation }) => {
   const breadcrumbLinks = breadcrumbsDictionary[adjustedLocation];
 
   return (
-    <va-breadcrumbs label="Breadcrumbs" uswds="false">
+    <va-breadcrumbs label="Breadcrumbs">
       {breadcrumbLinks.map(link => (
         <a href={link.href} key={link.key}>
           {link.title}
