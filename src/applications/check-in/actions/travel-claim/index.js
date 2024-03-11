@@ -15,3 +15,12 @@ export const setFilteredAppointments = payload => {
     payload,
   };
 };
+
+export const SET_FACILITY_TO_FILE = 'SET_FACILITY_TO_FILE';
+
+export const setFacilityToFile = facility => {
+  return {
+    type: SET_FACILITY_TO_FILE,
+    payload: facility,
+  };
+};
