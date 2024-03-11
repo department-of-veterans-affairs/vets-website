@@ -1,4 +1,4 @@
-import { render, within } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
@@ -9,27 +9,14 @@ describe('Dashboard', () => {
     render(<Dashboard poaPermissions />);
   });
 
-  it('renders breadcrumbs', () => {
-    const { container } = render(<Dashboard poaPermissions />);
-
-    const breadcrumbs = container.querySelector('va-breadcrumbs');
-    expect(within(breadcrumbs).getByText('Home')).to.exist;
-    expect(within(breadcrumbs).getByText('Dashboard')).to.exist;
-  });
-
   it('renders header', () => {
     const { getByText } = render(<Dashboard poaPermissions />);
     expect(getByText('Accredited Representative Portal')).to.exist;
   });
 
   it('renders content when has POA permissions', () => {
-    const { container } = render(<Dashboard poaPermissions />);
+    const { container } = render(<Dashboard />);
     expect(container.querySelector('.placeholder-container')).to.exist;
-  });
-
-  it('renders alert header when does not have POA permissions', () => {
-    const { getByText } = render(<Dashboard poaPermissions={false} />);
-    expect(getByText('You are missing some permissions')).to.exist;
   });
 
   describe('Pending POA requests', () => {

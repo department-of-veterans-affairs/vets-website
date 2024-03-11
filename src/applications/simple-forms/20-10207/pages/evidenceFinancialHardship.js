@@ -34,7 +34,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_financial_hardship_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,
