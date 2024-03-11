@@ -28,3 +28,35 @@ export const attachmentsSchema = {
     },
   },
 };
+
+export const fileWithMetadataSchema = possibleFiles => {
+  const enu = possibleFiles || [];
+
+  return {
+    type: 'array',
+    minItems: 1,
+    items: {
+      type: 'object',
+      required: ['attachmentId', 'name'],
+      properties: {
+        name: {
+          type: 'string',
+        },
+        size: {
+          type: 'integer',
+        },
+        errorMessage: {
+          type: 'string',
+        },
+        confirmationCode: {
+          type: 'string',
+        },
+        attachmentId: {
+          type: 'string',
+          enum: [...enu],
+          enumNames: enu,
+        },
+      },
+    },
+  };
+};

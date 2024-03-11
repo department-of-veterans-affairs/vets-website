@@ -6,37 +6,79 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { identifyMissingUploads } from '../helpers/supportingDocsVerification';
-import { makeHumanReadable } from '../helpers/utilities';
+import MissingFileOverview, {
+  mailInfo,
+} from '../components/File/MissingFileOverview';
+
+export const missingFileMessage = (
+  <section>
+    <h2 className="vads-u-font-size--h3">
+      Do you need to send us more supporting documents?
+    </h2>
+    You can mail or fax us copies of these supporting documents for the sponsor
+    and applicants.
+    <br />
+    <br />
+    Write the applicant’s name and confirmation number on each page of the
+    document.
+    <br />
+    <br />
+    {mailInfo}
+    <br />
+    <br />
+    These are the documents you’ll need to submit by mail:
+  </section>
+);
+
+const heading = (
+  <>
+    <VaAlert uswds status="success">
+      <h2>You’ve submitted the CHAMPVA benefits enrollment form</h2>
+    </VaAlert>
+  </>
+);
+
+const requiredWarningHeading = (
+  <>
+    <VaAlert uswds status="warning">
+      <h2>
+        You’ve submitted the CHAMPVA benefits enrollment form but your
+        application is not complete yet
+      </h2>
+    </VaAlert>
+    <p>
+      We need to receive your required supporting files before we consider the
+      application complete. You can submit these documents via mail or fax.
+    </p>
+    <h2>Your next steps</h2>
+  </>
+);
+
+const optionalWarningHeading = (
+  <>
+    {heading}
+    <p>
+      Your application is considered complete. There are optional files
+      remaining that may speed up your application process if you submit these
+      documents via mail or fax.
+    </p>
+  </>
+);
 
 export function ConfirmationPage(props) {
   const { form } = props;
   const { submission, data } = form;
   const submitDate = new Date(submission?.timestamp);
-  const { veteransFullName } = data;
 
-  const applicantsWithMissingFiles = data.applicants
-    .map(applicant => {
-      const missing = identifyMissingUploads(form.pages, applicant, false);
-      if (missing.length !== 0) {
-        return {
-          name: `${applicant.applicantName.first} ${
-            applicant.applicantName.last
-          }`,
-          files: identifyMissingUploads(form.pages, applicant, false).map(f =>
-            makeHumanReadable(f),
-          ),
-        };
-      }
-      return undefined;
-    })
-    .filter(el => el);
-
-  const sponsorMissingFiles = identifyMissingUploads(
-    form.pages,
-    data,
-    true,
-  ).map(f => makeHumanReadable(f));
+  const OverviewComp = MissingFileOverview({
+    data: form.data,
+    disableLinks: true,
+    heading,
+    optionalWarningHeading: <>{optionalWarningHeading}</>,
+    requiredWarningHeading: <>{requiredWarningHeading}</>,
+    showMail: true,
+    allPages: form.pages,
+  });
 
   useEffect(() => {
     focusElement('h2');
@@ -53,12 +95,10 @@ export function ConfirmationPage(props) {
         />
         <h2>Application for CHAMPVA benefits</h2>
       </div>
-      <VaAlert uswds status="success">
-        <h2>You've submitted the CHAMPVA benefits enrollment form</h2>
-      </VaAlert>
-      <h2 className="vads-u-font-size--h3">
-        Your application has been submitted
-      </h2>
+
+      {OverviewComp}
+
+      <h2 className="vads-u-font-size--h3">What to expect next</h2>
       <p>
         We'll contact you by mail or phone if we have questions or need more
         information about this application.
@@ -107,69 +147,6 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      {sponsorMissingFiles || applicantsWithMissingFiles ? (
-        <section>
-          <h2 className="vads-u-font-size--h3">
-            Do you need to send us more supporting documents?
-          </h2>
-          You can mail or fax us copies of these supporting documents for the
-          sponsor and applicants.
-          <br />
-          <br />
-          Write the applicant's name and confirmation number on each page of the
-          document.
-          <br />
-          <br />
-          Mail your documents here:
-          <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
-            <p className="vads-u-padding-x--10px vads-u-margin-left--1">
-              VHA Office of Community Care
-              <br />
-              CHAMPVA Eligibility
-              <br />
-              P.O. Box 469028
-              <br />
-              Denver, CO 80246-9028
-              <br />
-              UnitedStates of America
-            </p>
-          </address>
-          Or fax your documents here:
-          <br />
-          VHA Office of Community Care CHAMPVA Eligibility, 303-331-7809
-          <br />
-          <br />
-          These are the documents you'll need to submit by mail:
-        </section>
-      ) : null}
-      {sponsorMissingFiles ? (
-        <section>
-          <p>
-            <strong>
-              {veteransFullName?.first} {veteransFullName?.last}:
-            </strong>
-          </p>
-          <ul>
-            {sponsorMissingFiles.map((file, idx) => (
-              <li key={`${file}-${idx}`}>{file}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-      {applicantsWithMissingFiles
-        ? applicantsWithMissingFiles.map((app, idx) => (
-            <section key={`${app.name}-${idx}`}>
-              <p>
-                <strong>{app.name}:</strong>
-              </p>
-              <ul>
-                {app.files.map(f => (
-                  <li key={`${app.name}-${idx}-${f}`}>{f}</li>
-                ))}
-              </ul>
-            </section>
-          ))
-        : null}
       <a className="vads-c-action-link--green" href="https://www.va.gov/">
         Go back to VA.gov
       </a>
