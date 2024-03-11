@@ -44,7 +44,8 @@ export class ConfirmationPage extends React.Component {
             <p>
               <strong>Who submitted this form</strong>
               <br />
-              <span>Test A. Tester</span>
+              {data.statementOfTruthSignature}
+              <br />
             </p>
           ) : null}
 
@@ -81,6 +82,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
+      statementOfTruthSignature: PropTypes.string,
       fullName: {
         first: PropTypes.string,
         middle: PropTypes.string,
