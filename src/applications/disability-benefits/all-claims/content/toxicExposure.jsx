@@ -81,21 +81,26 @@ export function dateRangePageDescription(
 
 /* ---------- utils ---------- */
 /**
- * Checks if the toxic exposure pages should be displayed. Note: toggle is currently read
- * from the redux store by Form526EZApp and stored in sessions storage since not all form
- * aspects have ready access to the store.
- * @returns true if the toggle is enabled and Veteran is claiming at least one new condition, false otherwise
+ * Checks if the toxic exposure pages should be displayed using the following criteria
+ *  1. toggle is enabled
+ *  2. the claim has a claim type of new
+ *  3. claiming at least one new disability
+ *
+ * Note: toggle is currently read from the redux store by Form526EZApp and stored in sessions storage since
+ * not all form aspects have ready access to the store.
+ * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
   return (
     window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
+    isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );
 }
 
 /**
  * Checks if
- * 1. at least one new condition is being claimed
+ * 1. TE pages should be showing at all
  * 2. at least one checkbox on the TE conditions page is selected that is not 'none'
  *
  * @param {*} formData
@@ -103,8 +108,7 @@ export function showToxicExposurePages(formData) {
  */
 export function isClaimingTECondition(formData) {
   return (
-    showToxicExposurePages &&
-    isClaimingNew(formData) &&
+    showToxicExposurePages(formData) &&
     formData.toxicExposureConditions &&
     Object.keys(formData.toxicExposureConditions).some(
       condition =>

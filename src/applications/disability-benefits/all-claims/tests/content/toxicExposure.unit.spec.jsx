@@ -130,6 +130,20 @@ describe('toxicExposure', () => {
           'view:claimingIncrease': false,
           'view:claimingNew': true,
         },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description',
+            'view:serviceConnectedDisability': {},
+            condition: 'Tinnitus',
+          },
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description2',
+            'view:serviceConnectedDisability': {},
+            condition: 'Anemia',
+          },
+        ],
         toxicExposureConditions: {
           tinnitus: true,
           anemia: false,

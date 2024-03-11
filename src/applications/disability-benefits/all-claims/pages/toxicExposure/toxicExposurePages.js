@@ -9,14 +9,12 @@ import {
   isClaimingTECondition,
   showToxicExposurePages,
 } from '../../content/toxicExposure';
-import { isClaimingNew } from '../../utils/index';
 
 export const toxicExposurePages = {
   toxicExposureConditions: {
     title: conditionsPageTitle,
     path: 'toxic-exposure-conditions',
-    depends: formData =>
-      isClaimingNew(formData) && showToxicExposurePages(formData),
+    depends: formData => showToxicExposurePages(formData),
     uiSchema: toxicExposureConditions.uiSchema,
     schema: toxicExposureConditions.schema,
   },
