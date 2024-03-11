@@ -53,7 +53,7 @@ const resolveLandingPageLinks = (
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
     {
-      href: '/health-care/schedule-view-va-appointments/',
+      href: '/my-health/appointments',
       text: 'Schedule and manage appointments',
       toggle: null,
     },

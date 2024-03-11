@@ -5,6 +5,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 import { validateWorkHours } from '../../../helpers';
@@ -45,7 +46,7 @@ const generateEmployersSchemas = (
 ) => {
   return {
     uiSchema: {
-      'ui:title': employersTitle,
+      ...titleUI(employersTitle),
       [employersKey]: {
         'ui:title': employerMessage,
         'ui:options': {
