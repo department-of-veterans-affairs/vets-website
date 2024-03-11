@@ -12,9 +12,22 @@ const escapedCharacterReplacer = (_key, value) => {
   return value;
 };
 
-export default function transformForSubmit(formConfig, form) {
+/**
+ * Example:
+ * ```
+ * transformForSubmit(formConfig, form);
+ * transformForSubmit(formConfig, form, {
+ *   allowPartialAddress: true,
+ * });
+ * ```
+ *
+ * @param formConfig
+ * @param form
+ * @param [options]
+ */
+export default function transformForSubmit(formConfig, form, options) {
   const transformedData = JSON.parse(
-    formsSystemTransformForSubmit(formConfig, form),
+    formsSystemTransformForSubmit(formConfig, form, options),
   );
 
   return JSON.stringify(
