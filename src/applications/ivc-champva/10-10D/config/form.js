@@ -603,10 +603,13 @@ const formConfig = {
           arrayPath: 'applicants',
           title: 'Applicants',
           uiSchema: {
-            ...titleUI('Applicant name and date of birth', () => (
+            ...titleUI('Applicant name and date of birth', ({ formData }) => (
               <>
-                {`Enter your information and the information for any other 
-              applicants you want to enroll in CHAMPVA benefits.`}
+                {`Enter ${
+                  formData.certifierRole === 'applicant'
+                    ? 'your information and the information for any other'
+                    : 'the information for any'
+                } applicants you want to enroll in CHAMPVA benefits.`}
                 <br />
                 <br />
                 {`You can add up to ${maxApplicants} applicants in a single application. If you 
@@ -620,7 +623,6 @@ const formConfig = {
                 keepInPageOnReview: true,
                 useDlWrap: false,
                 itemName: 'Applicant',
-                addAnotherLabel: 'Add another applicant',
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
