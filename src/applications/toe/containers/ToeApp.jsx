@@ -31,83 +31,101 @@ function ToeApp({
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
-  useEffect(() => {
-    if (!user?.login?.currentlyLoggedIn) {
-      return;
-    }
-    if (!fetchedUserInfo) {
-      setFetchedUserInfo(true);
-      getPersonalInformation();
-    }
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
+      if (!fetchedUserInfo) {
+        setFetchedUserInfo(true);
+        getPersonalInformation();
+      }
 
-    if (
-      !sponsors?.loadedFromSavedState &&
-      isArray(sponsorsSavedState?.sponsors)
-    ) {
-      setFormData(mapFormSponsors(formData, sponsorsSavedState));
-    } else if (sponsorsInitial && !sponsors) {
-      setFormData(mapFormSponsors(formData, sponsorsInitial));
-    }
-  }, [
-    fetchedUserInfo,
-    formData,
-    getPersonalInformation,
-    user?.login?.currentlyLoggedIn,
-    setFormData,
-    sponsors,
-    sponsorsInitial,
-    sponsorsSavedState,
-  ]);
+      if (
+        !sponsors?.loadedFromSavedState &&
+        isArray(sponsorsSavedState?.sponsors)
+      ) {
+        setFormData(mapFormSponsors(formData, sponsorsSavedState));
+      } else if (sponsorsInitial && !sponsors) {
+        setFormData(mapFormSponsors(formData, sponsorsInitial));
+      }
+    },
+    [
+      fetchedUserInfo,
+      formData,
+      getPersonalInformation,
+      user?.login?.currentlyLoggedIn,
+      setFormData,
+      sponsors,
+      sponsorsInitial,
+      sponsorsSavedState,
+    ],
+  );
 
-  useEffect(() => {
-    if (isLOA3 !== formData.isLOA3) {
-      setFormData({
-        ...formData,
-        isLOA3, // ES6 Syntax
-      });
-    }
-  }, [formData, setFormData, isLOA3]);
+  useEffect(
+    () => {
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
+    },
+    [formData, setFormData, isLOA3],
+  );
 
-  useEffect(() => {
-    if (showMebEnhancements !== formData.showMebEnhancements) {
-      setFormData({
-        ...formData,
-        showMebEnhancements,
-      });
-    }
-  }, [formData, setFormData, showMebEnhancements]);
+  useEffect(
+    () => {
+      if (showMebEnhancements !== formData.showMebEnhancements) {
+        setFormData({
+          ...formData,
+          showMebEnhancements,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements],
+  );
 
-  useEffect(() => {
-    if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-      setFormData({
-        ...formData,
-        showMebEnhancements06,
-      });
-    }
-  }, [formData, setFormData, showMebEnhancements06]);
+  useEffect(
+    () => {
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
+        setFormData({
+          ...formData,
+          showMebEnhancements06,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements06],
+  );
 
-  useEffect(() => {
-    if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-      setFormData({
-        ...formData,
-        showMebEnhancements08,
-      });
-    }
-  }, [formData, setFormData, showMebEnhancements08]);
+  useEffect(
+    () => {
+      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+        setFormData({
+          ...formData,
+          showMebEnhancements08,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements08],
+  );
 
-  useEffect(() => {
-    if (!user?.login?.currentlyLoggedIn) {
-      return;
-    }
-    if (!fetchedDirectDeposit) {
-      setFetchedDirectDeposit(true);
-      getDirectDeposit();
-    }
-  }, [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn]);
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+  );
 
   return (
     <>
-      <va-breadcrumbs uswds="false">
+      <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
         <a href="/education/survivor-dependent-benefits/transferred-benefits/">
@@ -158,4 +176,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToeApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ToeApp);
