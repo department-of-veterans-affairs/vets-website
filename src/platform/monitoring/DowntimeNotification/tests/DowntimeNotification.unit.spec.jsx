@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -20,10 +21,11 @@ const defaultProps = {
 
 const getComponent = (props, store) =>
   shallow(
-    <DowntimeNotification {...defaultProps} {...props}>
-      <span>{innerText}</span>
-    </DowntimeNotification>,
-    { context: { store } },
+    <Provider store={store}>
+      <DowntimeNotification {...defaultProps} {...props}>
+        <span>{innerText}</span>
+      </DowntimeNotification>
+    </Provider>,
   );
 
 describe('<DowntimeNotification/>', () => {
