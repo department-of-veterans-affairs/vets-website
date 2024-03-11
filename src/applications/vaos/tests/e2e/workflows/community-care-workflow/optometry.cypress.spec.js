@@ -110,11 +110,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType('Office visit')
+            .selectVisitType('In person')
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -165,11 +168,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType(/Office visit/i)
+            .selectVisitType(/In person/i)
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -239,11 +245,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType('Office visit')
+            .selectVisitType('In person')
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -294,11 +303,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType(/Office visit/i)
+            .selectVisitType(/In person/i)
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
