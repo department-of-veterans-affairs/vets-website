@@ -4,20 +4,9 @@ import React from 'react';
 import POARequestsWidget from '../components/POARequestsWidget/POARequestsWidget';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 
-// import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-
-import LoginViewWrapper from './LoginViewWrapper';
-
-import { poaBreadcrumbs } from '../common/breadcrumbs';
-
-const Dashboard = ({ poaPermissions = true }) => {
-  const dashboardBreadcrumbs = poaBreadcrumbs('dashboard');
-
+const Dashboard = () => {
   return (
-    <LoginViewWrapper
-      breadcrumbs={dashboardBreadcrumbs}
-      poaPermissions={poaPermissions}
-    >
+    <>
       <h1>Accredited Representative Portal</h1>
       <div className="placeholder-container">
         <div className="dash-container">
@@ -39,7 +28,7 @@ const Dashboard = ({ poaPermissions = true }) => {
           </div>
         </div>
       </div>
-    </LoginViewWrapper>
+    </>
   );
 };
 
