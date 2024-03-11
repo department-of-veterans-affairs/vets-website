@@ -10,7 +10,7 @@ const togglePortal = value => {
   });
 };
 
-describe('Representative', () => {
+describe('Accredited Representative Portal', () => {
   describe('feature toggling in production', () => {
     // During CI, the environment is production, so we can test our global
     // feature toggling behavior there. But when running this test locally, the
@@ -62,7 +62,7 @@ describe('Representative', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.contains('Welcome to Representative.VA.gov');
+    cy.contains('Welcome to the Accredited Representative Portal');
     cy.contains('Until sign in is added use this to see dashboard').click();
 
     cy.url().should('include', '/representative/dashboard');
