@@ -11,11 +11,10 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
-  fullNameUI,
-  fullNameSchema,
   titleUI,
   yesNoUI,
   yesNoSchema,
@@ -533,7 +532,20 @@ const formConfig = {
                     };
                   },
                 },
-                spouseFullName: fullNameUI(title => `Spouse’s ${title}`),
+                spouseFullName: merge({}, fullNameUI, {
+                  first: {
+                    'ui:title': 'Spouse’s first name',
+                  },
+                  last: {
+                    'ui:title': 'Spouse’s last name',
+                  },
+                  middle: {
+                    'ui:title': 'Spouse’s middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Spouse’s suffix',
+                  },
+                }),
                 'view:currentMarriage': {
                   'ui:options': {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
@@ -639,7 +651,7 @@ const formConfig = {
                   type: 'object',
                   required: ['spouseFullName'],
                   properties: {
-                    spouseFullName: fullNameSchema,
+                    spouseFullName: marriageProperties.spouseFullName,
                     'view:currentMarriage': {
                       type: 'object',
                       properties: {

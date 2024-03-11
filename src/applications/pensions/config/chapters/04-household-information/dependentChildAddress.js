@@ -22,8 +22,8 @@ export default {
           {},
           {
             'ui:title': 'Who do they live with?',
-            ...fullNameUI(),
           },
+          fullNameUI(),
         ),
         monthlyPayment: merge(
           {},
