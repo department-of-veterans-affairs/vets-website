@@ -133,12 +133,12 @@ const DowntimeNotification = ({
 };
 
 DowntimeNotification.propTypes = {
-  appTitle: PropTypes.string,
+  appTitle: PropTypes.string.isRequired,
   children: PropTypes.node,
   content: PropTypes.node,
   dependencies: PropTypes.arrayOf(
     PropTypes.oneOf(Object.values(externalServices)),
-  ).isRequired,
+  ),
   loadingIndicator: PropTypes.node,
   render: PropTypes.func,
 };
