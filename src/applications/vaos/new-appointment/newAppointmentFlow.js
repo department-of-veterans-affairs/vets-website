@@ -297,7 +297,7 @@ const flow = {
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    label: 'Choose a type of appointment',
+    label: 'How do you want to attend this appointment?',
     next: 'contactInfo',
   },
   appointmentTime: {
