@@ -8,14 +8,13 @@ describe('<DetailsPage>', () => {
   it('should render contention list', () => {
     const claim = {
       attributes: {
-        contentionList: ['Condition 1', 'Condition 2'],
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
 
     const tree = SkinDeep.shallowRender(<DetailsPage claim={claim} />);
-    const content = tree.dive(['DetailsPageContent']);
 
-    expect(content.subTree('.claim-detail-list').text()).to.contain(
+    expect(tree.subTree('.claim-detail-list').text()).to.contain(
       'Condition 1Condition 2',
     );
   });
@@ -23,15 +22,12 @@ describe('<DetailsPage>', () => {
   it('should render not available with an empty contention list', () => {
     const claim = {
       attributes: {
-        contentionList: [],
+        contentions: [],
       },
     };
 
     const tree = SkinDeep.shallowRender(<DetailsPage claim={claim} />);
-    const content = tree.dive(['DetailsPageContent']);
 
-    expect(content.subTree('.claim-details').text()).to.contain(
-      'Not Available',
-    );
+    expect(tree.subTree('.claim-details').text()).to.contain('Not Available');
   });
 });

@@ -12,7 +12,7 @@ export const EligibilityLink = ({ typeIsCNP, recordEventImpl }) => {
     <a
       target="_blank"
       rel="noopener noreferrer"
-      href={`https://www.va.gov/${benefitTypeShort}/eligibility/`}
+      href={`/${benefitTypeShort}/eligibility/`}
       onClick={() => {
         recordEventImpl({
           event: 'profile-navigation',

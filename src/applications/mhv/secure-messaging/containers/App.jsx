@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -20,9 +21,11 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
+import manifest from '../manifest.json';
+import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams } from '../util/constants';
 
-const App = () => {
+const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
@@ -37,6 +40,10 @@ const App = () => {
       };
     },
     state => state.featureToggles,
+  );
+  const cernerPilotSmFeatureFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
   const scheduledDowntimes = useSelector(
@@ -65,6 +72,15 @@ const App = () => {
       }
     },
     [user.login.currentlyLoggedIn, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isPilot) {
+        dispatch({ type: Actions.App.IS_PILOT });
+      }
+    },
+    [isPilot, dispatch],
   );
 
   const datadogRumConfig = {
@@ -98,6 +114,14 @@ const App = () => {
   /* if the user is not whitelisted or feature flag is disabled, redirect to the SM info page */
   if (!appEnabled) {
     window.location.replace('/health-care/secure-messaging');
+    return <></>;
+  }
+
+  // Feature flag maintains whitelist for cerner integration pilot environment.
+  // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
+  // redirect to the SM main experience landing page
+  if (isPilot && !cernerPilotSmFeatureFlag) {
+    window.location.replace(manifest.rootUrl);
     return <></>;
   }
   return (
@@ -146,6 +170,10 @@ const App = () => {
       )}
     </RequiredLoginView>
   );
+};
+
+App.propTypes = {
+  isPilot: PropTypes.bool,
 };
 
 export default App;

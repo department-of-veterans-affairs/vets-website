@@ -20,6 +20,7 @@ const Checkbox = ({
   inputAriaLabel,
   screenReaderOnly,
   showArialLabelledBy,
+  focusOnFirstInput,
 }) => {
   const inputId = _.uniqueId('errorable-checkbox-');
   const hasErrors = !!errorMessage;
@@ -40,6 +41,7 @@ const Checkbox = ({
     >
       <input
         aria-describedby={errorSpanId}
+        ref={e => focusOnFirstInput && focusOnFirstInput(label, e)}
         checked={checked}
         id={id || inputId}
         name={createId(name)}

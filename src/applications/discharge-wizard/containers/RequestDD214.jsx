@@ -41,9 +41,10 @@ const RequestDD214 = ({ router }) => {
             <div>
               <h4>
                 Download and fill out{' '}
-                <a href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf">
-                  DoD Form 149
-                </a>
+                <va-link
+                  href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"
+                  text="DoD Form 149"
+                />
               </h4>
               <ul>
                 <li>
