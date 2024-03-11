@@ -2,6 +2,7 @@ export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
   UI_MAIN: '/my-health/secure-messages',
+  UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
   INBOX: '/inbox/',
@@ -26,6 +27,7 @@ export const Locators = {
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',
   THREADS: '[data-testid="thread-list-item"]',
+  ACCORDIONS: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     INBOX: '[data-testid="inbox-sidebar"]',
     DRAFTS: '[data-testid="drafts-sidebar"]',
@@ -51,6 +53,14 @@ export const Locators = {
   ALERTS: {
     SAVE_DRAFT: '#messagetext',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+  },
+  FIELDS: {
+    RECIPIENT: '#select',
+    SUBJECT: '#inputField',
+    MESSAGE: '#textarea',
+  },
+  INFO: {
+    SUBJECT_LIMIT: '#charcount-message',
   },
 };
 

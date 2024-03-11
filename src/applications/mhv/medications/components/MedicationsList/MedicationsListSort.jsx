@@ -6,11 +6,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
+import { selectRefillContentFlag } from '../../util/selectors';
 
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
   const history = useHistory();
+  const showRefillContent = useSelector(selectRefillContentFlag);
   const [sortListOption, setSortListOption] = useState(value);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
@@ -40,14 +43,14 @@ const MedicationsListSort = props => {
       <div className="sort-button">
         <VaButton
           uswds
-          type="button"
           className="va-button"
+          secondary={showRefillContent}
           data-testid="sort-button"
           text="Sort"
           onClick={() => {
             if (sortListOption) {
               sortRxList(sortListOption);
-              history.push(`/1`);
+              history.push(`/?page=1`);
               waitForRenderThenFocus(
                 "[data-testid='page-total-info']",
                 document,

@@ -14,10 +14,9 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import {
-  getInsuranceAriaLabel,
-  isShortFormEligible,
-} from '../../../utils/helpers';
+import { validatePolicyNumber } from '../../../utils/validation';
+import { getInsuranceAriaLabel } from '../../../utils/helpers';
+import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { providers, isCoveredByHealthInsurance } = fullSchemaHca.properties;
@@ -28,7 +27,7 @@ export default {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: formData => !isShortFormEligible(formData),
+        hideIf: notShortFormEligible,
       },
     },
     'view:healthInsuranceDescription': {
@@ -46,21 +45,27 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderViewField,
-        itemAriaLabel: formData => getInsuranceAriaLabel(formData),
+        itemAriaLabel: getInsuranceAriaLabel,
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
         'ui:options': {
-          itemAriaLabel: formData => getInsuranceAriaLabel(formData),
+          itemAriaLabel: getInsuranceAriaLabel,
         },
         insuranceName: {
           'ui:title': 'Name of insurance provider',
+          'ui:errorMessages': {
+            pattern: 'Enter the insurance provider name',
+          },
         },
         insurancePolicyHolderName: {
           'ui:title':
             'Name of policyholder (the person whose name the policy is in)',
+          'ui:errorMessages': {
+            pattern: 'Enter the policyholder\u2019s name',
+          },
         },
         'view:policyOrGroupDesc': {
           'ui:description': PolicyOrGroupDescription,
@@ -72,6 +77,9 @@ export default {
           'ui:title': 'Policy Number',
           'ui:description': PolicyNumberDescription,
           'ui:reviewField': CustomReviewField,
+          'ui:errorMessages': {
+            pattern: 'Enter a valid policy number',
+          },
         },
         'view:or': {
           'ui:description': PolicyOrDescription,
@@ -80,19 +88,11 @@ export default {
           'ui:title': 'Group Code',
           'ui:description': GroupCodeDescription,
           'ui:reviewField': CustomReviewField,
-        },
-        'ui:validations': [
-          (errors, field) => {
-            if (!field.insurancePolicyNumber && !field.insuranceGroupCode) {
-              errors.insuranceGroupCode.addError(
-                'Group code (either this or the policy number is required)',
-              );
-              errors.insurancePolicyNumber.addError(
-                'Policy number (either this or the group code is required)',
-              );
-            }
+          'ui:errorMessages': {
+            pattern: 'Enter a valid group code',
           },
-        ],
+        },
+        'ui:validations': [validatePolicyNumber],
         'ui:order': [
           'insuranceName',
           'insurancePolicyHolderName',

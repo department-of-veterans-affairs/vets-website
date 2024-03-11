@@ -7,7 +7,6 @@ import {
   translateDateIntoMonthDayYearFormat,
   formatCurrency,
   translateDatePeriod,
-  scrollToElement,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
 
@@ -147,18 +146,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                     status="info"
                     visible="true"
                   >
-                    <p className="vads-u-margin-y--0">
-                      Please{' '}
-                      <va-link
-                        onClick={() =>
-                          scrollToElement(
-                            'montgomery-gi-bill-enrollment-statement',
-                          )
-                        }
-                        className="vads-u-color--link-default vads-u-text-decoration--underline vye-mimic-link"
-                        text="verify your enrollment"
-                      />
-                      for this month.
+                    <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+                      This month has not yet been verified.
                     </p>
                   </va-alert>
                 </>

@@ -27,6 +27,7 @@ import {
   geolocateUser,
   geocodeUserAddress,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
@@ -241,17 +242,15 @@ const SearchPage = props => {
     ];
     return (
       <>
-        <div className="row vads-u-padding-left--4">
-          <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
-        </div>
+        <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
       </>
     );
   };
 
   const renderSearchSection = () => {
     return (
-      <div className="row usa-width-three-fourths search-section">
-        <div className="title-section vads-u-padding-y--1">
+      <div className="row search-section">
+        <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
           <p>
             An accredited attorney, claims agent, or Veterans Service Officer
@@ -326,6 +325,8 @@ const SearchPage = props => {
           searchResults={searchResults}
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
+          initializeRepresentativeReport={props.initializeRepresentativeReport}
+          reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
     };
@@ -336,7 +337,7 @@ const SearchPage = props => {
       props.currentQuery.searchCounter > 0
     ) {
       return (
-        <div className="row usa-width-three-fourths results-section">
+        <div className="row results-section">
           <div className="loading-indicator-container">
             <va-loading-indicator
               label="Searching"
@@ -349,7 +350,7 @@ const SearchPage = props => {
     }
 
     return (
-      <div className="row usa-width-three-fourths results-section">
+      <div className="row results-section">
         <VaModal
           modalTitle="Were sorry, something went wrong"
           message="Please try again soon."
@@ -384,14 +385,15 @@ const SearchPage = props => {
 
   return (
     <>
-      {renderBreadcrumbs()}
-
-      <div className="usa-grid use-grid-full ">
-        <div className="vads-u-margin-right--3">
-          {renderSearchSection()}
-          {renderResultsSection()}
+      <div className="usa-grid usa-grid-full">
+        <div className="usa-width-three-fourths">
+          <nav className="va-nav-breadcrumbs">{renderBreadcrumbs()}</nav>
+          <article className="usa-content">
+            {renderSearchSection()}
+            {renderResultsSection()}
+            <GetFormHelp />
+          </article>
         </div>
-        <GetFormHelp />
       </div>
     </>
   );
@@ -449,6 +451,7 @@ SearchPage.propTypes = {
     totalEntries: PropTypes.number,
   }),
   reportedResults: PropTypes.array,
+  reportSubmissionStatus: PropTypes.string,
   results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
@@ -456,6 +459,7 @@ SearchPage.propTypes = {
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
@@ -468,6 +472,7 @@ const mapStateToProps = state => ({
   isErrorReportSubmission: state.errors.isErrorReportSubmission,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
+  reportSubmissionStatus: state.searchResult.reportSubmissionStatus,
   selectedResult: state.searchResult.selectedResult,
   reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
@@ -483,6 +488,7 @@ const mapDispatchToProps = {
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };

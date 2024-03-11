@@ -1,21 +1,51 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { selectEmergencyContact, selectNextOfKin } from '@@profile/selectors';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 
 import Contact from './Contact';
+import HelpDeskContact from './HelpDeskContact';
+import Instructions from './Instructions';
 
-const HelpDeskContact = () => (
-  <>
-    <va-telephone data-testid="va-800-number" contact={CONTACTS.HELP_DESK} /> (
-    <va-telephone data-testid="va-711-number" contact={CONTACTS['711']} tty />)
-  </>
-);
+const Contacts = ({ data }) => {
+  const ecs = data.filter(el => el.id.match(/emergency contact/i));
+  const noks = data.filter(el => el.id.match(/next of kin/i));
 
-const Contacts = () => {
-  const emergencyContact = useSelector(selectEmergencyContact);
-  const nextOfKin = useSelector(selectNextOfKin);
+  const renderEmergencyContacts =
+    ecs && ecs.length ? (
+      ecs.map((ec, i) => ({
+        value: (
+          <>
+            <Contact
+              testId={`phcc-emergency-contact-${i}`}
+              key={ec.id}
+              index={i}
+              {...ec.attributes}
+            />
+          </>
+        ),
+      }))
+    ) : (
+      <Instructions testId="phcc-no-ecs" />
+    );
+
+  const renderNextOfKin =
+    noks && noks.length ? (
+      noks.map((nok, i) => ({
+        value: (
+          <>
+            <Contact
+              testId={`phcc-next-of-kin-${i}`}
+              key={nok.id}
+              index={i}
+              {...nok.attributes}
+            />
+          </>
+        ),
+      }))
+    ) : (
+      <Instructions testId="phcc-no-nok" />
+    );
 
   return (
     <>
@@ -30,57 +60,33 @@ const Contacts = () => {
           <ul className="vads-u-margin-y--0">
             <li>Ask a staff member at your next appointment, or</li>
             <li>
-              Call us at <HelpDeskContact />. We’re here 24/7.
+              Call us at <HelpDeskContact testId="help-desk" />. We’re here
+              24/7.
             </li>
           </ul>
         </va-additional-info>
       </div>
 
-      <section className="profile-info-card">
-        <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border--1px">
-          <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-            Medical emergency contact
-          </h2>
-          <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            The person we’ll contact in an emergency.
-          </p>
-          {emergencyContact && (
-            <Contact
-              testId="phcc-emergency-contact"
-              key={emergencyContact.id}
-              {...emergencyContact.attributes}
-            />
-          )}
-          {!emergencyContact && (
-            <div>
-              To add an emergency contact, call us at <HelpDeskContact />.
-            </div>
-          )}
-        </div>
+      <ProfileInfoCard
+        title="Emergency contacts"
+        data={renderEmergencyContacts}
+        namedAnchor="emergency-contacts"
+        level={2}
+      />
 
-        <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border-left--1px vads-u-border-right--1px vads-u-border-bottom--1px">
-          <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-            Next of kin contact
-          </h2>
-          <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            The person you want to represent your health care wishes if needed.
-          </p>
-          {nextOfKin && (
-            <Contact
-              testId="phcc-next-of-kin"
-              key={nextOfKin.id}
-              {...nextOfKin.attributes}
-            />
-          )}
-          {!nextOfKin && (
-            <div>
-              To add a next of kin, call us at <HelpDeskContact />.
-            </div>
-          )}
-        </div>
-      </section>
+      <ProfileInfoCard
+        title="Next of kin contacts"
+        data={renderNextOfKin}
+        namedAnchor="next-of-kin-contacts"
+        className="vads-u-margin-top--4"
+        level={2}
+      />
     </>
   );
+};
+
+Contacts.propTypes = {
+  data: PropTypes.array,
 };
 
 export default Contacts;

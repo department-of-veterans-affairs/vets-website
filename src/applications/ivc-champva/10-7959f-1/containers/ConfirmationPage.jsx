@@ -14,7 +14,7 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { form } = this.props;
-    const { submission, formId, data } = form;
+    const { submission, data } = form;
 
     const submitDate = new Date(submission?.timestamp);
 
@@ -28,23 +28,25 @@ export class ConfirmationPage extends React.Component {
             alt="VA logo"
             width="300"
           />
-          <h2>Application for Mock Form</h2>
+          <h2>
+            Register for the Foreign Medical Program (FMP) with Form 10-7959f-1
+          </h2>
         </div>
         <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
+          You've submitted your registration for FMP (VA Form 10-7959f-1)
         </h2>
         <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Foreign Medical Program (FMP) Registration Form Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
+            Your submission information
           </h3>
           {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
+            <p>
+              <strong>Who submitted this form</strong>
+              <br />
+              {data.statementOfTruthSignature}
+              <br />
+            </p>
           ) : null}
 
           {isValid(submitDate) ? (
@@ -54,14 +56,24 @@ export class ConfirmationPage extends React.Component {
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
             </p>
           ) : null}
+          <p className="screen-only">
+            You can print this confirmation page for your records.
+          </p>
+
           <va-button
             type="button"
+            text="Print this page"
             className="usa-button screen-only"
             onClick={window.print}
-          >
-            Print this for your records
-          </va-button>
+          />
         </div>
+        <h2>What happpens now?</h2>
+        <p>
+          If you're eligible to register for RMP, we'll send you a benefits
+          authorization letter. This letter will list your service-connected
+          conditions that we'll cover. Then you can file FMP claims for care
+          related to the covered conditions.{' '}
+        </p>
       </div>
     );
   }
@@ -70,6 +82,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
+      statementOfTruthSignature: PropTypes.string,
       fullName: {
         first: PropTypes.string,
         middle: PropTypes.string,

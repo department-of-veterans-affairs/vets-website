@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal', 'minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
-
+    skip: true, // leaving in until we finish deprecating the legacy pages
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.login(mockUser);
@@ -159,7 +159,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('textarea')
             .type('Some Resolution Comments . . .');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'bankruptcy-history': ({ afterHook }) => {

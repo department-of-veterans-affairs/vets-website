@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import ClaimPhase from './ClaimPhase';
 import PhaseBackWarning from './PhaseBackWarning';
-import CompleteDetails from './CompleteDetails';
 import { getUserPhase } from '../utils/helpers';
 
 const LAST_EVIDENCE_GATHERING_PHASE = 6;
@@ -63,9 +62,7 @@ export default function ClaimTimeline({ currentPhaseBack, id, events, phase }) {
           current={userPhase}
           activity={activityByPhase}
           id={id}
-        >
-          {userPhase === 5 && <CompleteDetails />}
-        </ClaimPhase>
+        />
       </ol>
     </>
   );

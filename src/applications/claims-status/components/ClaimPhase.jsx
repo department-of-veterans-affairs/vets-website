@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import { getUserPhaseDescription } from '../utils/helpers';
 
@@ -14,8 +14,6 @@ const stepClasses = {
   4: 'four',
   5: 'five last',
 };
-
-const COMPLETE_PHASE = 5;
 
 function getClasses(phase, current) {
   const processClass = 'process-step';
@@ -131,18 +129,15 @@ export default class ClaimPhase extends React.Component {
           </ol>
           {hasMoreActivity ? (
             <>
-              <h5 className="vads-u-margin-top--2p5">
+              <h5 className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
                 {`Past updates (${activityList.length - 1})`}
               </h5>
-              <button
-                type="button"
-                className="claim-older-updates usa-button-secondary"
-                aria-controls={`older-updates-${phase}`}
-                aria-expanded={showOlder}
+              <va-button
+                secondary
+                text={`${showOlder ? 'Hide' : 'Show'} past updates`}
                 onClick={this.showOlderActivity}
-              >
-                {`${showOlder ? 'Hide' : 'Show'} past updates`}
-              </button>
+                uswds
+              />
             </>
           ) : null}
           {showOlder && hasMoreActivity ? (
@@ -184,52 +179,16 @@ export default class ClaimPhase extends React.Component {
 
   render() {
     const { children, current, phase } = this.props;
-    const { open } = this.state;
-    const expandCollapseIcon =
-      phase <= current ? (
-        <i
-          aria-hidden="true"
-          className={
-            open
-              ? 'fa fa-minus claim-timeline-icon'
-              : 'fa fa-plus claim-timeline-icon'
-          }
-        />
-      ) : null;
-
-    const handler = {
-      getDescriptionClick: e => {
-        e.preventDefault();
-        this.expandCollapse();
-      },
-    };
-
     const titleText = getUserPhaseDescription(phase);
-    const title =
-      current < phase ? (
-        <div className="section-header-title">{titleText}</div>
-      ) : (
-        <button
-          type="button"
-          className="section-header-button"
-          aria-expanded={open}
-          onClick={handler.getDescriptionClick}
-        >
-          {expandCollapseIcon}
-          {titleText}
-        </button>
-      );
+    const title = <div className="section-header-title">{titleText}</div>;
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li className={`${getClasses(phase, current)}`}>
         <h4 className="section-header vads-u-font-size--h4">{title}</h4>
-        {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
-          <div>
-            {children}
-            {this.displayActivity()}
-          </div>
-        ) : null}
+        <div>
+          {children}
+          {this.displayActivity()}
+        </div>
       </li>
     );
   }

@@ -1,17 +1,22 @@
-import { expect } from 'chai';
+/* eslint-disable camelcase */
 
+import { expect } from 'chai';
 import {
   FETCH_REPRESENTATIVES,
   SORT_TYPE_UPDATED,
   // SEARCH_FAILED,
   // REPORT_FAILED,
   CLEAR_SEARCH_RESULTS,
+  REPORT_SUBMITTED,
+  REPORT_ITEMS_UPDATED,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
   searchResults: [],
   reportedResults: [],
+  reportSubmissionInProgress: false,
+  reportSubmissionStatus: 'INITIAL',
   pagination: {},
 };
 
@@ -51,43 +56,36 @@ describe('representatives reducer', () => {
 
     expect(state).to.eql(INITIAL_STATE);
   });
+  it('should handle starting report', () => {
+    const state = SearchResultReducer(
+      { ...INITIAL_STATE, reportSubmissionInProgress: false },
+      {
+        type: REPORT_SUBMITTED,
+      },
+    );
 
-  // it('should return error if error present', () => {
-  //   const action = { error: 404 };
-  //   const state = SearchResultReducer(INITIAL_STATE, {
-  //     type: SEARCH_FAILED,
-  //     error: 404,
-  //   });
+    expect(state.reportSubmissionInProgress).to.eql(true);
+  });
+  it('should handle new report items', () => {
+    const reports = {
+      flags: [
+        {
+          flag_type: 'email',
+          flag_value: 'example@rep.com',
+        },
+      ],
+    };
 
-  //   expect(state.error).to.eql(action.error);
-  // });
+    const state = SearchResultReducer(
+      { ...INITIAL_STATE },
+      {
+        type: REPORT_ITEMS_UPDATED,
+        payload: reports,
+      },
+    );
 
-  // it('should set report error to true if error present', () => {
-  //   const state = SearchResultReducer(INITIAL_STATE, {
-  //     type: REPORT_FAILED,
-  //     error: 404,
-  //   });
-
-  //   expect(state.isErrorReportBadData).to.eql(true);
-  // });
-
-  // it('should clear error after a successful search', () => {
-  //   const state = SearchResultReducer(
-  //     { ...INITIAL_STATE, error: true },
-  //     {
-  //       type: FETCH_REPRESENTATIVES,
-  //       payload: {
-  //         data: [{ name: 'selectedResult1' }, { name: 'selectedResult2' }],
-  //         meta: {
-  //           pagination: {
-  //             currentPage: 1,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   );
-  //   expect(state.error).to.be.null;
-  // });
+    expect(state.reportedResults).to.eql(reports);
+  });
 
   it('should handle fetching state to build a search query object', () => {
     const state = SearchResultReducer(INITIAL_STATE, {

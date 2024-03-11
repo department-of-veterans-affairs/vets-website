@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
@@ -22,6 +22,7 @@ import {
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
+  medicationsUrls,
 } from '../util/constants';
 import PrintDownload, {
   DOWNLOAD_FORMAT,
@@ -38,11 +39,11 @@ import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { reportGeneratedBy } from '../../shared/util/constants';
 import usePrintTitle from '../components/shared/usePrintTitle';
+import { selectRefillContentFlag } from '../util/selectors';
 
 const Prescriptions = () => {
-  const location = useLocation();
+  const { search } = useLocation();
   const history = useHistory();
-  const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
@@ -61,6 +62,7 @@ const Prescriptions = () => {
   const prescriptionsFullList = useSelector(
     state => state.rx.prescriptions?.prescriptionsFullList,
   );
+  const showRefillContent = useSelector(selectRefillContentFlag);
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -68,6 +70,14 @@ const Prescriptions = () => {
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
+
+  const page = useMemo(
+    () => {
+      const query = new URLSearchParams(search);
+      return Number(query.get('page'));
+    },
+    [search],
+  );
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     setLoading(newIsLoading);
@@ -105,13 +115,13 @@ const Prescriptions = () => {
             },
           ],
           {
-            url: '/my-health/medications',
+            url: `/my-health/medications/?page=${page}`,
             label: 'Medications',
           },
         ),
       );
     },
-    [dispatch],
+    [dispatch, page],
   );
 
   useEffect(
@@ -119,7 +129,10 @@ const Prescriptions = () => {
       if (!paginatedPrescriptionsList) {
         updateLoadingStatus(true, 'Loading your medications...');
       }
-      if (!page) history.replace('/1');
+      if (Number.isNaN(page) || page < 1) {
+        history.replace('/?page=1');
+        return;
+      }
       const sortOption = selectedSortOption ?? defaultSelectedSortOption;
       dispatch(
         getPrescriptionsPaginatedSortedList(
@@ -132,7 +145,7 @@ const Prescriptions = () => {
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption],
+    [dispatch, page, selectedSortOption],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -351,6 +364,25 @@ const Prescriptions = () => {
             Refill and track your VA prescriptions. And review all medications
             in your VA medical records.
           </div>
+          <br />
+          <br />
+          {showRefillContent && (
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+              <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                Refill your prescriptions
+              </h2>
+              <p className="vads-u-margin-y--3">
+                Find a list of prescriptions you can refill online.
+              </p>
+              <a
+                className="vads-c-action-link--green vads-u-margin--0"
+                href={medicationsUrls.MEDICATIONS_REFILL}
+                data-testid="prescriptions-nav-link-to-refill"
+              >
+                Refill prescriptions
+              </a>
+            </div>
+          )}
           <Alert
             isAlertVisible={isAlertVisible}
             paginatedPrescriptionsList={paginatedPrescriptionsList}

@@ -10,12 +10,18 @@ import {
   fullNameSchema,
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
-import { contactWarning, contactWarningMulti } from '../../../helpers';
-
+import {
+  ContactWarningAlert,
+  ContactWarningMultiAlert,
+} from '../../../components/FormAlerts';
+import { formatFullName } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
+import { separationTypeLabels } from '../../../labels';
 
 import {
   validateAfterMarriageDates,
@@ -25,12 +31,6 @@ import {
 const { marriages } = fullSchemaPensions.definitions;
 
 const marriageProperties = marriages.items.properties;
-
-const separationOptions = {
-  DEATH: 'Death',
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
-};
 
 const hasMultipleMarriages = form => {
   const spouseMarriagesLength = get(['spouseMarriages', 'length'], form)
@@ -43,9 +43,7 @@ export const otherExplanationRequired = (form, index) =>
   get(['spouseMarriages', index, 'reasonForSeparation'], form) === 'OTHER';
 
 const SpouseMarriageView = ({ formData }) => (
-  <ListItemView
-    title={`${formData.spouseFullName.first} ${formData.spouseFullName.last}`}
-  />
+  <ListItemView title={formatFullName(formData.spouseFullName)} />
 );
 
 SpouseMarriageView.propTypes = {
@@ -55,22 +53,25 @@ SpouseMarriageView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': SpouseMarriageTitle,
+    ...titleUI(SpouseMarriageTitle),
     'view:contactWarning': {
-      'ui:description': contactWarning,
+      'ui:description': ContactWarningAlert,
       'ui:options': {
         hideIf: form => hasMultipleMarriages(form),
       },
     },
     'view:contactWarningMulti': {
-      'ui:description': contactWarningMulti,
+      'ui:description': ContactWarningMultiAlert,
       'ui:options': {
         hideIf: form => !hasMultipleMarriages(form),
       },
     },
     spouseMarriages: {
       'ui:options': {
-        itemName: 'Former marriage of the spouse',
+        itemName: 'Former marriage of spouse',
+        itemAriaLabel: data =>
+          data.spouseFullName &&
+          `${formatFullName(data.spouseFullName)} former marriage of spouse`,
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
         keepInPageOnReview: true,
@@ -82,11 +83,12 @@ export default {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
         reasonForSeparation: radioUI({
           title: 'How did the marriage end?',
-          labels: separationOptions,
+          labels: separationTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         otherExplanation: {
           'ui:title': 'Please specify',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'reasonForSeparation',
             expandUnderCondition: 'OTHER',
@@ -102,16 +104,20 @@ export default {
           'ui:validations': [validateAfterMarriageDates],
         },
         locationOfMarriage: {
-          'ui:title': 'Place of marriage (city and state or foreign country)',
+          'ui:title': 'Place of marriage',
+          'ui:options': {
+            hint: 'City and state or foreign country',
+          },
+          'ui:webComponentField': VaTextInputField,
         },
         locationOfSeparation: {
-          'ui:title':
-            'Place of marriage termination (city and state or foreign country)',
+          'ui:title': 'Place of marriage termination',
+          'ui:options': {
+            hint: 'City and state or foreign country',
+          },
+          'ui:webComponentField': VaTextInputField,
         },
       },
-    },
-    'view:contactWarningI': {
-      'ui:description': contactWarning,
     },
   },
   schema: {
@@ -134,12 +140,12 @@ export default {
           ],
           properties: {
             spouseFullName: fullNameSchema,
-            reasonForSeparation: radioSchema(Object.keys(separationOptions)),
+            reasonForSeparation: radioSchema(Object.keys(separationTypeLabels)),
             otherExplanation: marriageProperties.otherExplanation,
             dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,
             locationOfMarriage: marriageProperties.locationOfMarriage,
-            locationOfSeparation: { type: 'string' },
+            locationOfSeparation: marriageProperties.locationOfSeparation,
           },
         },
       },

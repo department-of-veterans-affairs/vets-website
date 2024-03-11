@@ -8,6 +8,7 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
 import { createSelector } from 'reselect';
+import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -142,15 +143,8 @@ export function submit(form, formConfig) {
     });
 }
 
-export const employmentDescription = (
-  <p className="pension-employment-desc">
-    Please tell us about all of your employment, including self-employment,{' '}
-    <strong>from one year before you became disabled</strong> to the present.
-  </p>
-);
-
 export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
+  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
 
 export function getMarriageTitle(index) {
@@ -196,7 +190,7 @@ export function createSpouseLabelSelector(nameTemplate) {
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
-export const directDepositWarning = (
+export const DirectDepositWarning = (
   <div className="pension-dd-warning">
     <div>
       <p>
@@ -240,29 +234,6 @@ export const directDepositWarning = (
   </div>
 );
 
-export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <div className="usa-alert-text">
-      <p>
-        <strong>Note:</strong> You have indicated that you did not serve during
-        an{' '}
-        <a
-          href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {' '}
-          eligible wartime period
-        </a>
-        . Find out if you still qualify.{' '}
-        <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility
-        </a>
-      </p>
-    </div>
-  </div>
-);
-
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
   ['1917-04-06', '1918-11-11'], // World War I (April 6, 1917 - November 11, 1918)
@@ -286,57 +257,14 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        You’ll need to provide all private medical records for your child’s
-        disability.
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your child won’t qualify as a dependent unless they’re in school or
-        disabled.
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentsMinItem = (
+export const DependentsMinItem = (
   <span>
     If you are claiming child dependents,{' '}
     <strong>you must add at least one</strong> here.
   </span>
 );
 
-export const expectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that you expect to receive
-    in the next 12 months
-  </span>
-);
-
-export const spouseExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your spouse expects
-    to receive in the next 12 months
-  </span>
-);
-
-export const dependentExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your dependent
-    expects to receive in the next 12 months
-  </span>
-);
-
-export const dependentSeriouslyDisabledDescription = (
+export const DependentSeriouslyDisabledDescription = (
   <div className="vads-u-padding-y--1">
     <va-additional-info trigger="What do we mean by seriously disabled?">
       <span>
@@ -348,40 +276,19 @@ export const dependentSeriouslyDisabledDescription = (
   </div>
 );
 
-export const contactWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We usually don’t need to contact a former spouse of a Veteran’s spouse.
-        In very rare cases where we need information from this person, we’ll
-        contact you first.
-      </div>
-    </div>
-  </div>
-);
-
-export const contactWarningMulti = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact any of the people listed here without contacting you
-        first.
-      </div>
-    </div>
-  </div>
-);
-
 export const IncomeSourceDescription = (
-  <div>
+  <>
     <p>
       We want to know more about the gross monthly income you, your spouse, and
       your dependents receive.
     </p>
     <p>List the sources of income for you, your spouse, and your dependents.</p>
-  </div>
+  </>
 );
 
-export const generateHelpText = text => {
+export const MarriageTitle = title => <Title title={title} />;
+
+export const HelpText = text => {
   return (
     <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
   );

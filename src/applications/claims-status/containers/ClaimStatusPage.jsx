@@ -15,9 +15,13 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
+import WhatYouNeedToDo from '../components/claim-status-tab/WhatYouNeedToDo';
 import ClaimStatusHeader from '../components/ClaimStatusHeader';
-import WhatWeAreDoing from '../components/WhatWeAreDoing';
+import WhatWeAreDoing from '../components/claim-status-tab/WhatWeAreDoing';
+import RecentActivity from '../components/claim-status-tab/RecentActivity';
+import NextSteps from '../components/claim-status-tab/NextSteps';
+import Payments from '../components/claim-status-tab/Payments';
+import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -25,8 +29,10 @@ import {
   buildDateFormatter,
   getClaimType,
   getItemDate,
+  getStatusMap,
   getTrackedItemDate,
   getUserPhase,
+  isClaimOpen,
   itemsNeedingAttentionFromVet,
   setDocumentTitle,
 } from '../utils/helpers';
@@ -42,22 +48,6 @@ const getClaimDate = claim => {
 // END lighthouse_migration
 
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
-  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
-  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
-  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
-  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
 
 const STATUSES = getStatusMap();
 
@@ -239,8 +229,7 @@ class ClaimStatusPage extends React.Component {
       documentsNeeded,
       status,
     } = attributes;
-
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
@@ -250,37 +239,47 @@ class ClaimStatusPage extends React.Component {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
             <ClaimStatusHeader claim={claim} />
-            <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
-            <WhatWeAreDoing claim={claim} />
+            {isOpen ? (
+              <>
+                <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
+                <WhatWeAreDoing claim={claim} />
+              </>
+            ) : (
+              <>
+                <ClosedClaimAlert
+                  closeDate={closeDate}
+                  decisionLetterSent={decisionLetterSent}
+                />
+                <Payments />
+                <NextSteps />
+              </>
+            )}
+            <RecentActivity claim={claim} />
           </Toggler.Enabled>
-          {showDocsNeeded && (
-            <Toggler.Disabled>
+          <Toggler.Disabled>
+            {showDocsNeeded && (
               <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            </Toggler.Disabled>
-          )}
-        </Toggler>
-
-        {decisionLetterSent && !isOpen ? (
-          <ClaimsDecision
-            completedDate={closeDate}
-            showClaimLettersLink={showClaimLettersLink}
-          />
-        ) : null}
-        {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={closeDate} />
-        ) : null}
-        {status && isOpen ? (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
-              <ClaimTimeline
-                id={claim.id}
-                phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-                currentPhaseBack={claimPhaseDates.currentPhaseBack}
-                events={generateEventTimeline(claim)}
+            )}
+            {status &&
+              isOpen && (
+                <ClaimTimeline
+                  id={claim.id}
+                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                  currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                  events={generateEventTimeline(claim)}
+                />
+              )}
+            {decisionLetterSent && !isOpen ? (
+              <ClaimsDecision
+                completedDate={closeDate}
+                showClaimLettersLink={showClaimLettersLink}
               />
-            </Toggler.Disabled>
-          </Toggler>
-        ) : null}
+            ) : null}
+            {!decisionLetterSent && !isOpen ? (
+              <ClaimComplete completedDate={closeDate} />
+            ) : null}
+          </Toggler.Disabled>
+        </Toggler>
       </div>
     );
   }

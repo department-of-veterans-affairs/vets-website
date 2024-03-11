@@ -23,15 +23,12 @@
     div {
       align-items: center;
       display: flex;
+
       label {
         margin-top: 0;
         width: 75px;
       }
     }
-  }
-
-  .find-forms-max-content {
-    width: max-content;
   }
 
   .find-forms-alert-message {
@@ -40,6 +37,7 @@
       font-style: normal;
       font-weight: 900;
     }
+
     i::before {
       content: "\F05A";
       display: flex;

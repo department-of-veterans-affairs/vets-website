@@ -10,13 +10,11 @@ const InvalidFormDownload = ({ downloadUrl }) => {
   const mailto = `mailto:VaFormsManagers@va.gov?subject=${subject}&body=${body}`;
 
   return (
-    <va-alert status="error" uswds={false}>
+    <va-alert status="error" uswds>
       <h3 slot="headline">This form link isn’t working</h3>
-      <div className="usa-alert-text vads-u-font-size--base">
-        We’re sorry, but the form you’re trying to download appears to have an
-        invalid link. Please <a href={mailto}>email the forms managers</a> for
-        help with this form.
-      </div>
+      We’re sorry, but the form you’re trying to download appears to have an
+      invalid link. Please <a href={mailto}>email the forms managers</a> for
+      help with this form.
     </va-alert>
   );
 };

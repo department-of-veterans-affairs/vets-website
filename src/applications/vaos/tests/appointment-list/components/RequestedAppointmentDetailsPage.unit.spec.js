@@ -20,7 +20,7 @@ import {
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
 
-describe('VAOS <RequestedAppointmentDetailsPage>', () => {
+describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   const testDate = getTestDate();
 
   const initialState = {
@@ -29,6 +29,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingBookingExclusion: false,
     },
   };
 
