@@ -20,6 +20,7 @@ export const Paths = {
   CATEGORIES: '/categories',
   RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
+  FIND_LOCATIONS: '/find-locations/',
 };
 
 export const Locators = {
