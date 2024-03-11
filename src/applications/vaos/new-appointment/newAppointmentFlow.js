@@ -5,6 +5,7 @@ import {
 } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
+  getFlowType,
   getFormData,
   getNewAppointment,
   getTypeOfCare,
@@ -326,6 +327,7 @@ const flow = {
  */
 export default function getNewAppointmentFlow(state) {
   const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+  const flowType = getFlowType(state);
 
   return {
     ...flow,
@@ -367,6 +369,10 @@ export default function getNewAppointmentFlow(state) {
     },
     contactInfo: {
       ...flow.contactInfo,
+      label:
+        FLOW_TYPES.DIRECT === flowType
+          ? 'Confirm your contact information'
+          : 'How should we contact you?',
       url: featureBreadcrumbUrlUpdate
         ? 'contact-information'
         : '/new-appointment/contact-info',
