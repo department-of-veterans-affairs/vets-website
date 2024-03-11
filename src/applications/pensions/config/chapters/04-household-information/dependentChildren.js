@@ -1,22 +1,35 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms/definitions/fullName';
-
-import { dependentsMinItem } from '../../../helpers';
-import DependentField from '../../../components/DependentField';
+import ListItemView from '../../../components/ListItemView';
+import { DependentsMinItem, formatFullName } from '../../../helpers';
 
 const { dependents } = fullSchemaPensions.properties;
+
+const DependentNameView = ({ formData }) => (
+  <ListItemView title={formatFullName(formData.fullName)} />
+);
+
+DependentNameView.propTypes = {
+  formData: PropTypes.shape({
+    fullName: PropTypes.object,
+  }),
+};
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Dependent children',
+    ...titleUI('Dependent children'),
     dependents: {
       'ui:options': {
         itemName: 'Dependent',
-        viewField: DependentField,
+        itemAriaLabel: data => data.fullName && formatFullName(data.fullName),
+        viewField: DependentNameView,
         reviewTitle: 'Dependent children',
         keepInPageOnReview: true,
         customTitle: ' ',
@@ -24,7 +37,7 @@ export default {
         useDlWrap: true,
       },
       'ui:errorMessages': {
-        minItems: dependentsMinItem,
+        minItems: DependentsMinItem,
       },
       items: {
         fullName: merge({}, fullNameUI, {

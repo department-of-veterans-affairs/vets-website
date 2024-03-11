@@ -14,6 +14,9 @@ const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 const docTypeToDescription = {
   27: 'Board Of Appeals Decision Letter',
+  704: '5103 Notice',
+  706: '5103 Notice',
+  858: '5103 Notice',
   184: 'Notification Letter',
 };
 

@@ -92,11 +92,13 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
   TRAVEL_MILEAGE: 'travel-mileage',
   TRAVEL_REVIEW: 'travel-review',
+  TRAVEL_SELECT: 'select-appointment',
   APPOINTMENT_DETAILS: 'appointment-details',
 });
 

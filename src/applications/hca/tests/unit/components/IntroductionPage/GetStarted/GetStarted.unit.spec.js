@@ -9,7 +9,7 @@ import formConfig from '../../../../../config/form';
 import GetStartedContent from '../../../../../components/IntroductionPage/GetStarted';
 
 describe('hca <GetStartedContent>', () => {
-  const getData = ({ showLoginAlert = true }) => ({
+  const getData = ({ showLoginAlert = true, dispatch = () => {} }) => ({
     props: {
       route: {
         formConfig,
@@ -56,7 +56,7 @@ describe('hca <GetStartedContent>', () => {
         },
       }),
       subscribe: () => {},
-      dispatch: sinon.stub(),
+      dispatch,
     },
   });
 
@@ -81,7 +81,7 @@ describe('hca <GetStartedContent>', () => {
   context('when the user is logged out', () => {
     const { mockStore, props } = getData({});
 
-    it('should render the correct number of login alerts', () => {
+    it('should render the correct number of login boxes', () => {
       const { container } = render(
         <Provider store={mockStore}>
           <GetStartedContent {...props} />
@@ -114,9 +114,6 @@ describe('hca <GetStartedContent>', () => {
         </Provider>,
       );
       const selector = container.querySelectorAll('va-alert');
-
-      // selector should only have 1 single <va-alert> element
-      // with text "...signed in..."
       expect(selector).to.have.lengthOf(1);
       expect(selector[0].textContent).to.contain('signed in');
     });
@@ -133,7 +130,8 @@ describe('hca <GetStartedContent>', () => {
   });
 
   context('when user attempts to sign in', () => {
-    const { mockStore, props } = getData({});
+    const dispatch = sinon.stub();
+    const { mockStore, props } = getData({ dispatch });
 
     it('should call the `toggleLoginModal` action', () => {
       const { container } = render(
@@ -146,8 +144,8 @@ describe('hca <GetStartedContent>', () => {
       );
 
       fireEvent.click(selector);
-      expect(mockStore.dispatch.called).to.be.true;
-      expect(mockStore.dispatch.calledWith(toggleLoginModal(true))).to.be.true;
+      expect(dispatch.called).to.be.true;
+      expect(dispatch.calledWith(toggleLoginModal(true))).to.be.true;
     });
   });
 });

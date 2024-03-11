@@ -25,31 +25,47 @@ const Contact = ({
   primaryPhone,
   // alternatePhone,
   testId,
+  index,
 }) => {
   const names = [prefix, givenName, middleName, familyName, suffix];
   const name = names.filter(el => !!el).join(' ');
-  const addressLine4 = `${city}, ${state} ${zipCode}`;
+  const addressLine4 = [city, ', ', state, ' ', zipCode]
+    .filter(el => !!el)
+    .join('');
   const addressLines = [
     addressLine1,
     addressLine2,
     addressLine3,
     addressLine4,
   ].filter(line => !!line);
-  const showAddress = contactType.match(/next of kin/i);
+  const isNextOfKin = contactType.match(/next of kin/i);
+  let title = index === 0 ? 'Primary' : 'Secondary';
+  title = `${title} ${isNextOfKin ? 'next of kin' : 'emergency contact'}`;
+  const description = isNextOfKin
+    ? 'The person you want to represent your health care wishes if needed.'
+    : 'The person we’ll contact in an emergency.';
 
   return (
     <div data-testid={testId}>
-      {name}
-      <br />
-      {showAddress &&
-        addressLines.length >= 2 &&
-        addressLines.map((line, i) => (
-          <React.Fragment key={i}>
-            {line}
-            <br />
-          </React.Fragment>
-        ))}
-      {primaryPhone}
+      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
+        {title}
+      </h3>
+      <p className="vads-u-color--gray-medium vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
+        {description}
+      </p>
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--1">
+        {name}
+        <br />
+        {isNextOfKin &&
+          addressLines.length >= 2 &&
+          addressLines.map((line, i) => (
+            <React.Fragment key={i}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+        <va-telephone contact={primaryPhone} not-clickable />
+      </p>
     </div>
   );
 };
@@ -65,6 +81,7 @@ Contact.propTypes = {
   // county: PropTypes.string,
   familyName: PropTypes.string,
   givenName: PropTypes.string,
+  index: PropTypes.number,
   middleName: PropTypes.string,
   // postalCode: PropTypes.string,
   prefix: PropTypes.string,

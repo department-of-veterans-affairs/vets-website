@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from 'platform/monitoring/record-event';
 
-const AuthenticatedShortFormAlert = ({ formData }) => {
-  const disabilityRating = formData['view:totalDisabilityRating'];
+const AuthenticatedShortFormAlert = () => {
+  const { data: formData } = useSelector(state => state.form);
+  const { 'view:totalDisabilityRating': disabilityRating } = formData;
 
   // use logging to compare number of short forms started vs completed
   useEffect(() => {
@@ -18,7 +18,7 @@ const AuthenticatedShortFormAlert = ({ formData }) => {
   }, []);
 
   return (
-    <va-alert class="vads-u-margin-y--5" status="info">
+    <va-alert status="info" class="vads-u-margin-y--5" uswds>
       <h3 slot="headline">You can fill out a shorter application</h3>
       <p>
         Our records show that you have a{' '}
@@ -26,9 +26,7 @@ const AuthenticatedShortFormAlert = ({ formData }) => {
           VA service-connected disability rating of {disabilityRating}
           %.
         </strong>{' '}
-        This means that you meet one of our eligibility criteria. And we don’t
-        need to ask you questions about other criteria like income and military
-        service.
+        This means that you meet one of our eligibility criteria.
       </p>
       <va-additional-info trigger="What if I don’t think my rating information is correct here?">
         Call us at <va-telephone contact={CONTACTS['222_VETS']} />. We’re here
@@ -40,12 +38,4 @@ const AuthenticatedShortFormAlert = ({ formData }) => {
   );
 };
 
-AuthenticatedShortFormAlert.propTypes = {
-  formData: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-  formData: state.form.data,
-});
-
-export default connect(mapStateToProps)(AuthenticatedShortFormAlert);
+export default AuthenticatedShortFormAlert;

@@ -5,10 +5,9 @@ import { Provider } from 'react-redux';
 import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { content } from '../../content/extensionRequest';
 import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../../constants';
 
 const {
@@ -43,7 +42,7 @@ describe('extension request page', () => {
       </Provider>,
     );
 
-    expect($$('input', container).length).to.eq(2);
+    expect($('va-radio', container)).to.exist;
   });
 
   it('should render v2 redirect alert', () => {
@@ -103,32 +102,6 @@ describe('extension request page', () => {
     expect(container.innerHTML).to.contain('value="Y" checked');
     expect($('.usa-input-error', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
-  });
-
-  it('should capture google analytics', () => {
-    global.window.dataLayer = [];
-    const { container } = render(
-      <Provider store={mockStore()}>
-        <DefinitionTester
-          definitions={{}}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
-          onSubmit={() => {}}
-        />
-      </Provider>,
-    );
-
-    fireEvent.click($('input[value="Y"]', container));
-
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'int-radio-button-option-click',
-      'radio-button-label': content.label,
-      'radio-button-optionLabel': 'Yes',
-      'radio-button-required': false,
-    });
   });
 
   it('should not change redirect form data', () => {

@@ -15,79 +15,103 @@ const initialState = {
   careSummariesAndNotesDetails: undefined,
 };
 
-const extractName = record => {
-  if (
-    record.content &&
-    record.content.length > 0 &&
-    record.content[0].attachment &&
-    record.content[0].attachment.title
-  ) {
-    return record.content[0].attachment.title;
+export const getTitle = record => {
+  const contentItem = record.content?.find(item => item.attachment);
+  if (contentItem?.attachment?.title) {
+    return contentItem.attachment.title;
   }
-  return (
-    isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
-  );
-};
-
-const extractType = record => {
-  return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
-};
-
-const extractAuthenticator = record => {
-  return extractContainedResource(record, record.authenticator?.reference)
-    ?.name[0].text;
-};
-
-const extractAuthor = record => {
-  return extractContainedResource(
-    record,
-    isArrayAndHasItems(record.author) && record.author[0].reference,
-  )?.name[0].text;
-};
-
-const extractLocation = record => {
-  return (
-    record.content?.period?.location ||
-    (isArrayAndHasItems(record.contained) &&
-      record.contained.find(item => item.resourceType === 'Location')?.name)
-  );
-};
-
-const extractNote = record => {
-  return (
-    isArrayAndHasItems(record.content) &&
-    typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64')
-      .toString('utf-8')
-      .replace(/\r\n|\r/g, '\n') // Standardize line endings
-  );
-};
-
-export const getDateSigned = record => {
-  const ext = record.authenticator.extension;
-  if (isArrayAndHasItems(ext) && ext[0].valueDateTime) {
-    return formatDateLong(ext[0].valueDateTime);
+  if (isArrayAndHasItems(record.type?.coding)) {
+    const codingItem = record.type.coding.find(item => item.display);
+    return codingItem?.display ?? null;
   }
   return null;
 };
 
+export const getType = record => {
+  if (isArrayAndHasItems(record.type?.coding)) {
+    const codingItem = record.type?.coding.find(item => item.code);
+    return codingItem?.code ?? null;
+  }
+  return null;
+};
+
+export const extractAuthenticator = record => {
+  const authenticator = extractContainedResource(
+    record,
+    record.authenticator?.reference,
+  );
+  const name = authenticator?.name?.find(item => item.text);
+  return name?.text ?? null;
+};
+
+export const extractAuthor = record => {
+  if (isArrayAndHasItems(record.author)) {
+    const authorRef = record.author.find(item => item.reference);
+    const author = extractContainedResource(record, authorRef?.reference);
+    const name = author?.name?.find(item => item.text);
+    return name?.text ?? null;
+  }
+  return null;
+};
+
+export const extractLocation = record => {
+  if (isArrayAndHasItems(record?.context?.related)) {
+    const reference = record.context?.related?.find(item => item.reference)
+      ?.reference;
+    if (reference) {
+      const resource = extractContainedResource(record, reference);
+      return resource?.name ?? null;
+    }
+  }
+  return null;
+};
+
+export const getNote = record => {
+  if (isArrayAndHasItems(record.content)) {
+    const contentItem = record.content.find(item => item.attachment);
+    if (contentItem && typeof contentItem.attachment?.data === 'string') {
+      return Buffer.from(contentItem.attachment.data, 'base64')
+        .toString('utf-8')
+        .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+    }
+  }
+  return null;
+};
+
+export const getDateSigned = record => {
+  if (isArrayAndHasItems(record.authenticator?.extension)) {
+    const ext = record.authenticator.extension.find(e => e.valueDateTime);
+    if (ext) {
+      const formattedDate = formatDateLong(ext.valueDateTime);
+      return formattedDate !== 'Invalid date' ? formattedDate : null;
+    }
+  }
+  return null;
+};
+
+export const getAttending = noteSummary => {
+  return (
+    noteSummary
+      ?.split('ATTENDING:')[1]
+      ?.split('\n')[0]
+      ?.trim() || null
+  );
+};
+
 const convertAdmissionAndDischargeDetails = record => {
-  const summary = extractNote(record) || EMPTY_FIELD;
+  const summary = getNote(record);
 
   return {
     id: record.id,
-    name: extractName(record),
-    type: extractType(record),
+    name: getTitle(record),
+    type: getType(record),
     admissionDate: record.context?.period?.start
-      ? formatDateLong(record.context?.period?.start)
+      ? formatDateLong(record.context.period.start)
       : EMPTY_FIELD,
     dischargeDate: record.context?.period?.end
-      ? formatDateLong(record.context?.period?.end)
+      ? formatDateLong(record.context.period.end)
       : EMPTY_FIELD,
-    admittedBy: summary
-      .split('ATTENDING:')[1]
-      .split('\n')[0]
-      .trim(),
+    admittedBy: getAttending(summary) || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
@@ -96,15 +120,15 @@ const convertAdmissionAndDischargeDetails = record => {
 
 const convertProgressNote = record => {
   return {
-    id: record.id,
-    name: extractName(record),
-    type: extractType(record),
+    id: record.id || null,
+    name: getTitle(record) || EMPTY_FIELD,
+    type: getType(record),
     date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     dateSigned: getDateSigned(record) || EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
     coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
-    note: extractNote(record) || EMPTY_FIELD,
+    note: getNote(record) || EMPTY_FIELD,
   };
 };
 
@@ -138,7 +162,7 @@ const notesAndSummariesConverterMap = {
 };
 
 /**
- * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
+ * @param {Object} record - A FHIR DocumentReference object
  * @returns the appropriate frontend object for display
  */
 export const convertCareSummariesAndNotesRecord = record => {

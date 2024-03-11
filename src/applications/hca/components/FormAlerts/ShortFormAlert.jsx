@@ -8,8 +8,7 @@ const ShortFormAlert = () => (
     data-testid="hca-short-form-alert"
   >
     Your service-connected disability rating is 50% or higher. This is one of
-    our eligibility criteria. This means that we don’t have to ask you questions
-    about other criteria like income and military service.
+    our eligibility criteria.
   </va-alert-expandable>
 );
 

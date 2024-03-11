@@ -55,7 +55,7 @@ function VAFacilityPage({
 
   const pageTitle = singleValidVALocation
     ? 'Your appointment location'
-    : 'Choose a location';
+    : 'Choose a VA location';
 
   useEffect(() => {
     if (featureBreadcrumbUrlUpdate) {

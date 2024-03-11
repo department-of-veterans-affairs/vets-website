@@ -123,9 +123,11 @@ const flow = {
   },
   vaccineFlow: {
     url: '/new-covid-19-vaccine-appointment',
+    label: 'COVID-19 vaccine appointment',
   },
   typeOfCare: {
     url: '/new-appointment',
+    label: 'Choose the type of care you need',
     async next(state, dispatch) {
       if (isCovidVaccine(state)) {
         recordEvent({
@@ -166,6 +168,7 @@ const flow = {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
+    label: 'Choose where you want to receive your care',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -181,10 +184,12 @@ const flow = {
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
+    label: 'Choose the type of sleep care you need',
     next: VA_FACILITY_V2_KEY,
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
+    label: 'Choose the type of eye care you need',
     async next(state, dispatch) {
       const data = getFormData(state);
 
@@ -203,6 +208,7 @@ const flow = {
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
+    label: 'Choose the type of audiology care you need',
     next(state, dispatch) {
       dispatch(startRequestAppointmentFlow(true));
       return 'ccRequestDateTime';
@@ -210,14 +216,17 @@ const flow = {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
+    label: 'Request a preferred provider',
     next: 'ccLanguage',
   },
   ccLanguage: {
     url: '/new-appointment/community-care-language',
+    label: 'Choose a preferred language',
     next: 'reasonForAppointment',
   },
   ccClosestCity: {
     url: '/new-appointment/choose-closest-city',
+    label: 'What’s the closest city to you?',
     next: 'ccPreferences',
   },
   vaFacility: {
@@ -226,13 +235,16 @@ const flow = {
   },
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
+    label: 'Choose a VA location',
     next: vaFacilityNext,
   },
   scheduleCerner: {
     url: '/new-appointment/how-to-schedule',
+    label: 'How to schedule',
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
+    label: 'Choose a VA clinic',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -246,14 +258,17 @@ const flow = {
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
+    label: 'When do you want to schedule this appointment?',
     next: 'selectDateTime',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
+    label: 'Choose a date and time',
     next: 'reasonForAppointment',
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
+    label: 'Choose an appointment day and time',
     next(state) {
       const supportedSites = selectCommunityCareSupportedSites(state);
       if (isCCFacility(state) && supportedSites.length > 1) {
@@ -268,6 +283,7 @@ const flow = {
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
+    label: 'Choose a reason for this appointment',
     next(state) {
       if (
         isCCFacility(state) ||
@@ -281,6 +297,7 @@ const flow = {
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
+    label: 'Choose a type of appointment',
     next: 'contactInfo',
   },
   appointmentTime: {
@@ -289,10 +306,12 @@ const flow = {
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
+    label: 'Confirm your contact information',
     next: 'review',
   },
   review: {
     url: '/new-appointment/review',
+    label: 'Review your appointment details',
   },
 };
 
@@ -397,10 +416,10 @@ export default function getNewAppointmentFlow(state) {
         ? 'date-time'
         : '/new-appointment/select-date',
     },
-    typeOfAppointment: {
-      ...flow.typeOfAppointment,
-      url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
-    },
+    // typeOfAppointment: {
+    //   ...flow.typeOfAppointment,
+    //   url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
+    // },
     typeOfCare: {
       ...flow.typeOfCare,
       url: featureBreadcrumbUrlUpdate
@@ -458,4 +477,27 @@ export default function getNewAppointmentFlow(state) {
         : '/new-appointment/choose-visit-type',
     },
   };
+}
+
+/* Function to get label from the flow
+ * The URL displayed in the browser address bar is compared to the 
+ * flow URL
+ *
+ * @export
+ * @param {object} state 
+ * @param {string} location - the pathname
+ * @returns {string} the label string
+ */
+
+export function getUrlLabel(state, location) {
+  const _flow = getNewAppointmentFlow(state);
+  const home = '/';
+  const results = Object.values(_flow).filter(
+    value => location.pathname.endsWith(value.url) && value.url !== home,
+  );
+
+  if (results && results.length) {
+    return results[0].label;
+  }
+  return null;
 }

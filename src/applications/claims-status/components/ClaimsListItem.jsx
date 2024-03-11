@@ -1,26 +1,35 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
-import { getClaimType, getStatusDescription } from '../utils/helpers';
+import { DATE_FORMATS } from '../constants';
+import {
+  getClaimType,
+  buildDateFormatter,
+  getStatusDescription,
+} from '../utils/helpers';
+import ClaimCard from './ClaimCard';
 
-const formatDate = date => moment(date).format('MMMM D, YYYY');
+const formatDate = date => buildDateFormatter(DATE_FORMATS.LONG_DATE)(date);
 
 const getTitle = claim => {
-  const claimType = getClaimType(claim).toLowerCase();
+  return `Claim for ${getClaimType(claim).toLowerCase()}`;
+};
+
+const getLastUpdated = claim => {
   const updatedOn = formatDate(
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
-  return `Claim for ${claimType}\n updated on ${updatedOn}`;
+  return `Last updated: ${updatedOn}`;
 };
 
-const isClaimComplete = claim => {
+const showPreDecisionCommunications = claim => {
   const { decisionLetterSent, status } = claim.attributes;
 
-  return decisionLetterSent || status === 'COMPLETE';
+  return !decisionLetterSent && status !== 'COMPLETE';
 };
+
+const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 
 const CommunicationsItem = ({ children, icon }) => {
   return (
@@ -34,6 +43,11 @@ const CommunicationsItem = ({ children, icon }) => {
   );
 };
 
+CommunicationsItem.propTypes = {
+  children: PropTypes.node.isRequired,
+  icon: PropTypes.string.isRequired,
+};
+
 export default function ClaimsListItem({ claim }) {
   const {
     claimDate,
@@ -43,26 +57,22 @@ export default function ClaimsListItem({ claim }) {
     status,
   } = claim.attributes;
   const inProgress = !isClaimComplete(claim);
+  const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = getStatusDescription(status);
+  const showAlert = showPrecomms && documentsNeeded;
+
+  const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
+  const href = `your-claims/${claim.id}/status`;
 
   return (
-    <div className="claim-list-item-container">
-      <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
-      {humanStatus && (
-        <div className="card-status">
-          <div
-            className={`status-circle ${
-              status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
-            }`}
-          />
-          <p>
-            <strong>Status:</strong> {humanStatus}
-          </p>
-        </div>
-      )}
+    <ClaimCard
+      title={getTitle(claim)}
+      label={inProgress ? 'In Progress' : null}
+      subtitle={`Received on ${formattedReceiptDate}`}
+    >
       <ul className="communications">
-        {inProgress && developmentLetterSent ? (
+        {showPrecomms && developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
             We sent you a development letter
           </CommunicationsItem>
@@ -72,25 +82,18 @@ export default function ClaimsListItem({ claim }) {
             You have a decision letter ready
           </CommunicationsItem>
         )}
-        {inProgress && documentsNeeded ? (
-          <CommunicationsItem icon="exclamation-triangle">
-            Items need attention
-          </CommunicationsItem>
-        ) : null}
       </ul>
       <div className="card-status">
-        <p>
-          <strong>Received on:</strong> {formattedReceiptDate}
-        </p>
+        {humanStatus && <p>{humanStatus}</p>}
+        <p>{getLastUpdated(claim)}</p>
       </div>
-      <Link
-        aria-label={`View details of claim received ${formattedReceiptDate}`}
-        className="vads-c-action-link--blue"
-        to={`your-claims/${claim.id}/status`}
-      >
-        View details
-      </Link>
-    </div>
+      {showAlert && (
+        <va-alert status="warning" slim uswds>
+          An item in the claim needs your attention
+        </va-alert>
+      )}
+      <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
+    </ClaimCard>
   );
 }
 

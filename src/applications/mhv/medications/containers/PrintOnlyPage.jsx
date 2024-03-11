@@ -6,7 +6,10 @@ const PrintOnlyPage = props => {
   const { children, title, preface, subtitle } = props;
   return (
     <div className="print-only landing-page">
-      <div className="vads-u-padding--1 vads-u-border--1px vads-u-border-color--black print-only-crisis-line-header">
+      <div
+        data-testid="crisis-line-print-only"
+        className="vads-u-padding--1 vads-u-border--1px vads-u-border-color--black print-only-crisis-line-header"
+      >
         If you’re ever in crisis and need to talk to someone right away, call
         the Veterans Crisis line at <strong>988</strong>. Then select 1.
       </div>
@@ -17,7 +20,7 @@ const PrintOnlyPage = props => {
         {title}
       </h1>
       <div className="print-only vads-u-margin-top--neg1 vads-l-col--12 medium-screen:vads-l-col--6">
-        <p>{preface}</p>
+        <p data-testid="print-only-preface">{preface}</p>
       </div>
       {subtitle && (
         <h2 className="print-only vads-u-margin-top--neg0p5 ">{subtitle}</h2>
@@ -28,7 +31,7 @@ const PrintOnlyPage = props => {
 };
 
 PrintOnlyPage.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
   preface: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,

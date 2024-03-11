@@ -5,6 +5,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
@@ -74,6 +75,11 @@ const SearchControls = props => {
     geolocateUser();
   };
 
+  const handleCloseLocationModal = () => {
+    clearError(ErrorTypes.geocodeError);
+    focusElement(`#street-city-state-zip`);
+  };
+
   return (
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
       <VaModal
@@ -82,7 +88,7 @@ const SearchControls = props => {
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onCloseEvent={() => clearError(ErrorTypes.geocodeError)}
+        onCloseEvent={handleCloseLocationModal}
         status="warning"
         visible={geocodeError > 0}
         uswds
@@ -266,6 +272,7 @@ const SearchControls = props => {
 
         <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">
           <va-button
+            big
             onClick={e => {
               e.preventDefault();
               onSubmit();

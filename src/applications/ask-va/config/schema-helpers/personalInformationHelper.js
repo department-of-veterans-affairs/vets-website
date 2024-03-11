@@ -1,8 +1,8 @@
-import React from 'react';
 import { mapValues } from 'lodash';
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import React from 'react';
 
 export const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
@@ -206,6 +206,106 @@ export const personalInformationUiSchemas = {
   dob: {
     ...currentOrPastDateUI('Date of birth'),
     'ui:required': () => true,
+  },
+  pronouns: {
+    'ui:title': pronounInfo,
+    'ui:required': () => true,
+    'ui:validations': [validateGroup],
+    'ui:options': {
+      showFieldLabel: true,
+    },
+    ...createUiTitlePropertiesFromOptions(pronounsLabels),
+    pronounsNotListedText: {
+      'ui:title':
+        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+    },
+  },
+  genderIdentity: {
+    'ui:title': 'Gender identity',
+    'ui:description': genderInfo,
+    genderIdentity: {
+      'ui:widget': 'radio',
+      'ui:title': `Select a gender identity`,
+      'ui:required': () => true,
+      'ui:options': {
+        labels: genderLabels,
+        enumOptions: genderOptions,
+      },
+    },
+  },
+};
+
+export const personalInformationAboutYourselfUiSchemas = {
+  first: {
+    'ui:title': 'First name',
+    'ui:autocomplete': 'given-name',
+    'ui:required': () => true,
+    'ui:errorMessages': {
+      required: 'Please enter a first name',
+    },
+  },
+  middle: {
+    'ui:title': 'Middle name',
+    'ui:autocomplete': 'additional-name',
+  },
+  last: {
+    'ui:title': 'Last name',
+    'ui:autocomplete': 'family-name',
+    'ui:required': () => true,
+    'ui:errorMessages': {
+      required: 'Please enter a last name',
+    },
+  },
+  suffix: {
+    'ui:title': 'Suffix',
+    'ui:autocomplete': 'honorific-suffix',
+    'ui:options': {
+      widgetClassNames: 'form-select-medium',
+      hideEmptyValueInReview: true,
+    },
+  },
+  preferredName: {
+    'ui:title': `Preferred name`,
+    'ui:errorMessages': {
+      pattern: 'This field accepts alphabetic characters only',
+    },
+  },
+  socialOrServiceNum: {
+    'ui:title': ssnServiceInfo,
+    'ui:required': () => true,
+    'ui:validations': [validateGroup],
+    'ui:options': {
+      showFieldLabel: true,
+      hideIf: formData =>
+        formData.questionAbout === 'SOMEONE_ELSE' &&
+        formData.personalRelationship === 'WORK',
+    },
+    ssn: merge(ssnUI, { 'ui:options': { widgetClassNames: null } }),
+    serviceNumber: {
+      'ui:title': 'Service number',
+      'ui:errorMessages': {
+        pattern:
+          'Veteran service number must start with 0, 1, or 2 letters followed by 5 to 8 digits',
+      },
+      'ui:options': {
+        replaceSchema: () => {
+          return {
+            type: 'string',
+            pattern: '^[a-zA-Z]{0,2}\\d{5,8}$',
+            maxLength: 8,
+          };
+        },
+      },
+    },
+  },
+  dob: {
+    ...currentOrPastDateUI('Date of birth'),
+    'ui:required': () => true,
+    'ui:options': {
+      hideIf: formData =>
+        formData.questionAbout === 'SOMEONE_ELSE' &&
+        formData.personalRelationship === 'WORK',
+    },
   },
   pronouns: {
     'ui:title': pronounInfo,

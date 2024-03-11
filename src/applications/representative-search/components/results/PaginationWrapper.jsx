@@ -8,7 +8,7 @@ const PaginationWrapper = ({ handlePageSelect, currentPage, totalPages }) => {
     if (window.innerWidth > 415) {
       paginationLength = 7;
     } else {
-      paginationLength = 5;
+      paginationLength = 4;
     }
     return (
       <div className="pagination-container">

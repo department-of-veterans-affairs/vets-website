@@ -1,22 +1,23 @@
-// Node modules.
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-// Relative imports.
+import classNames from 'classnames';
+import {
+  VaRadio,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import URLSearchParams from 'url-search-params';
 import resourcesSettings from '../manifest.json';
 
 const searchUrl = getAppUrl('search');
 
-export default function SearchBar({
-  onInputChange,
-  onSearch,
-  useDefaultFormSearch,
-  userInput,
-}) {
+function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const GLOBAL = 'All VA.gov';
+  const RESOURCES = 'Resources and Support';
 
   const inputFieldRef = useRef(null);
 
@@ -45,8 +46,36 @@ export default function SearchBar({
     onInputChange(onlySpaces(input) ? input.trim() : input);
   };
 
+  const onSearch = () => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('query', userInput);
+
+    const URL = isGlobalSearch
+      ? `${searchUrl}/`
+      : `${resourcesSettings.rootUrl}/`;
+    const newUrl = `${URL}?${queryParams}`;
+
+    history.replaceState({}, '', newUrl);
+    window.location.href = newUrl;
+  };
+
   const handleSubmit = event => {
-    // First, check input state is valid and set error status.
+    if (!event.target.value) {
+      setInputError(true);
+      return;
+    }
+
+    setInputError(false);
+
+    if (setSearchData) {
+      setSearchData();
+    }
+
+    // Don't run a search if the new value is the same as what's in the input already
+    if (previousValue === userInput && !isGlobalSearch) {
+      return;
+    }
+
     const inputState = isInputValid(userInput);
     setInputError(!inputState);
 
@@ -57,7 +86,6 @@ export default function SearchBar({
       return;
     }
 
-    // Second, check if a global search, record event and return early
     if (isGlobalSearch) {
       recordEvent({
         event: 'view_search_results',
@@ -65,26 +93,24 @@ export default function SearchBar({
         'search-query': userInput,
         'search-results-total-count': undefined,
         'search-results-total-pages': undefined,
-        'search-selection': 'All VA.gov',
+        'search-selection': GLOBAL,
         'search-typeahead-enabled': false,
-        'search-location': 'Resources And Support',
+        'search-location': RESOURCES,
         'sitewide-search-app-used': false, // this is not the sitewide search app
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
         'type-ahead-options-list': undefined,
         'type-ahead-options-count': undefined,
       });
-      return;
     }
 
-    // Third, check if we are not on the /resources/search page and exit early to let the form submit manually
-    if (useDefaultFormSearch) {
-      return;
-    }
-
-    // Fourth, we are at /resources/search so handle the search
     event.preventDefault();
+
     onSearch();
+  };
+
+  const onValueChange = ({ detail }) => {
+    setGlobalSearch(detail.value === GLOBAL);
   };
 
   return (
@@ -114,135 +140,94 @@ export default function SearchBar({
             aria-hidden="true"
           />
         </button>
-        {/* Search form */}
-        <form
-          action={
-            isGlobalSearch ? `${searchUrl}/` : `${resourcesSettings.rootUrl}/`
-          }
-          className={`${
-            expanded ? 'va-border-bottom-radius--5px' : 'vads-u-display--none'
-          } vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex`}
+        <div
+          className={classNames(
+            'vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-top-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex',
+            { 'va-border-bottom-radius--5px': expanded },
+            { 'vads-u-display--none': !expanded },
+            { 'usa-input-error vads-u-margin--0': inputError },
+          )}
           data-testid="resources-support-search"
           id="resources-support-search"
-          method="get"
-          data-e2e-id="resources-support-search-form"
-          onSubmit={handleSubmit}
+          data-e2e-id="resources-support-error-body"
         >
-          <div
-            role="search"
-            className={`${
-              inputError ? 'usa-input-error vads-u-margin--0' : ''
-            }`}
-            data-e2e-id="resources-support-error-body"
-            aria-label="Search resources and support articles or all of VA.gov"
-          >
-            <fieldset className="fieldset-input vads-u-margin--0">
-              <legend>
-                <h2 className="vads-u-font-size--base vads-u-font-family--serif vads-u-margin--0">
-                  Search resources and support articles or all of VA.gov
-                </h2>
-              </legend>
-              <label
-                className="vads-u-visibility--screen-reader"
-                htmlFor="website-section"
-              >
-                Website section to search
-              </label>
-              <div className="form-radio-buttons vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--block">
-                <div className="radio-button vads-u-display--inline-block vads-u-margin-right--3">
-                  <input
-                    checked={!isGlobalSearch}
-                    id="search-within-resources-and-support"
-                    onChange={event => {
-                      setGlobalSearch(!event.target.checked);
-                    }}
-                    type="radio"
-                    value="/resources/search"
-                    className="vads-u-color--gray-dark"
-                    data-e2e-id="resources-support-resource-radio"
-                  />
-                  <label htmlFor="search-within-resources-and-support">
-                    <span className="vads-u-visibility--screen-reader">
-                      Search within
-                    </span>{' '}
-                    Resources and support
-                  </label>
-                </div>
-                <div className="radio-button vads-u-display--inline-block">
-                  <input
-                    checked={isGlobalSearch}
-                    id="search-all-of-va-dot-gov"
-                    onChange={event => setGlobalSearch(event.target.checked)}
-                    type="radio"
-                    className="vads-u-color--gray-dark"
-                    data-e2e-id="resources-support-resource-all-va-radio"
-                  />
-                  <label htmlFor="search-all-of-va-dot-gov">
-                    <span className="vads-u-visibility--screen-reader">
-                      Search
-                    </span>{' '}
-                    All VA.gov
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-            <label
-              className="vads-u-margin-top--1"
-              htmlFor="resources-and-support-query"
+          <div className="rs-form-radio-buttons vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-display--block">
+            <VaRadio
+              class="vads-u-display--inline-block vads-u-margin-right--3 vads-u-margin-top--0"
+              label="Search resources and support articles or all of VA.gov"
+              label-header-level="2"
+              onVaValueChange={onValueChange}
+              uswds
             >
-              Enter a keyword, phrase, or question
-              {inputError && (
-                <span
-                  className="form-required-span"
-                  data-e2e-id="resources-support-required"
-                >
-                  (*Required)
-                </span>
-              )}
-            </label>
-            {inputError && (
-              <span
-                className="usa-input-error-message vads-u-margin-bottom--0p5"
-                role="alert"
-                data-e2e-id="resources-support-error-message"
-              >
-                <span className="sr-only">Error</span>
-                Please fill in a keyword, phrase, or question.
-              </span>
-            )}
-            <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-              <div className="vads-u-flex--1 vads-u-width--auto">
-                <input
-                  className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0 vads-u-color--gray-dark"
-                  id="resources-and-support-query"
-                  name="query"
-                  onChange={handleInputChange}
-                  ref={inputFieldRef}
-                  type="text"
-                  value={userInput}
-                  data-e2e-id="resources-support-input"
+              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block vads-u-margin-right--2 small-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+                <va-radio-option
+                  onChange={event => {
+                    setGlobalSearch(!event.target.checked);
+                  }}
+                  checked={!isGlobalSearch}
+                  label={RESOURCES}
+                  name="group"
+                  value={RESOURCES}
+                  class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0"
+                  data-e2e-id="resources-support-resource-radio"
+                  uswds
                 />
               </div>
-              <div className="vads-u-flex--auto vads-u-width--full vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-width--auto">
-                <button
-                  className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen-va-border-left-radius--0"
-                  type="submit"
-                  data-e2e-id="resources-support-search-button"
-                >
-                  <i className="fa fa-search" aria-hidden="true" /> Search
-                </button>
+              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block">
+                <va-radio-option
+                  onChange={event => setGlobalSearch(event.target.checked)}
+                  checked={isGlobalSearch}
+                  label={GLOBAL}
+                  name="group"
+                  value={GLOBAL}
+                  class="vads-u-color--gray-dark medium-screen:vads-u-margin-top--0"
+                  data-e2e-id="resources-support-resource-all-va-radio"
+                  uswds
+                />
               </div>
-            </div>
+            </VaRadio>
           </div>
-        </form>
+          <p className="small-screen:vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 vads-u-margin-bottom--0p5">
+            Enter a keyword, phrase, or question
+            {inputError && (
+              <span
+                className="form-required-span"
+                data-e2e-id="resources-support-required"
+              >
+                (*Required)
+              </span>
+            )}
+          </p>
+          {inputError && (
+            <span
+              className="usa-input-error-message vads-u-margin-bottom--0p5"
+              role="alert"
+              data-e2e-id="resources-support-error-message"
+            >
+              <span className="sr-only">Error</span>
+              Please fill in a keyword, phrase, or question.
+            </span>
+          )}
+          <VaSearchInput
+            buttonText="Search"
+            label="Enter a keyword, phrase, or question"
+            onInput={handleInputChange}
+            onSubmit={e => handleSubmit(e)}
+            ref={inputFieldRef}
+            uswds
+            value={userInput}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 SearchBar.propTypes = {
-  userInput: PropTypes.string.isRequired,
-  onInputChange: PropTypes.func.isRequired,
-  useDefaultFormSearch: PropTypes.bool,
-  onSearch: PropTypes.func,
+  previousValue: PropTypes.string,
+  userInput: PropTypes.string,
+  onInputChange: PropTypes.func,
+  setSearchData: PropTypes.func,
 };
+
+export default SearchBar;

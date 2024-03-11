@@ -4,7 +4,7 @@ import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import PrintLink from '../PrintLink';
 
-describe('Print link component', () => {
+describe('VAOS Component: PrintLink', () => {
   const initialState = {
     featureToggles: {},
   };

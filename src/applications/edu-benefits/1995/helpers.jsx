@@ -1,10 +1,17 @@
 import environment from 'platform/utilities/environment';
 
-export const isProductionOfTestProdEnv = () => {
+export const isProductionOfTestProdEnv = automatedTest => {
   return (
     environment.isProduction() ||
+    automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
+};
+
+export const directDepositMethod = (formData, automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? formData.bankAccountChange
+    : formData.bankAccountChangeUpdate;
 };
 
 export const buildSubmitEventData = formData => {
@@ -44,9 +51,7 @@ export const buildSubmitEventData = formData => {
     'dependent-parent': yesNoOrUndefined(
       formData.serviceBefore1977?.parentDependent,
     ),
-    'direct-deposit-method': environment.isProduction()
-      ? formData.bankAccountChange
-      : formData.bankAccountChangeUpdate,
+    'direct-deposit-method': directDepositMethod(formData),
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
 };

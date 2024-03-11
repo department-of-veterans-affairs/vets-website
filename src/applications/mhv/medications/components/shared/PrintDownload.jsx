@@ -21,7 +21,7 @@ const PrintDownload = props => {
     'fas fa-angle-down vads-u-color--primary vads-u-margin-left--0p5';
   if (menuOpen) {
     toggleMenuButtonClasses +=
-      'toggle-menu-button-open vads-u-justify-content--space-between';
+      ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
     menuIconClasses =
       'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
@@ -114,7 +114,7 @@ const PrintDownload = props => {
           <span>Print or download</span>
           <i className={menuIconClasses} aria-hidden="true" />
         </button>
-        <ul className={menuOptionsClasses}>
+        <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
               className="vads-u-padding-x--2"

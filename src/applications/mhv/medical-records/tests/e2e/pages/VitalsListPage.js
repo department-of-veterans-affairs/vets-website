@@ -1,4 +1,4 @@
-// import defaultVitals from '../fixtures/Vitals.json';
+import defaultVitals from '../../fixtures/vitals.json';
 
 class VitalsListPage {
   /*
@@ -18,6 +18,43 @@ class VitalsListPage {
     });
   }
   */
+
+  goToVitals = (vitals = defaultVitals, waitForVitals = false) => {
+    // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
+    // cy.wait('@session');
+    cy.intercept('GET', '/my_health/v1/medical_records/vitals', vitals).as(
+      'vitalsList',
+    );
+    cy.visit('my-health/medical-records/vitals');
+    if (waitForVitals) {
+      cy.wait('@vitalsList');
+    }
+  };
+
+  clickLinkByRecordListItemIndex = (index = 0) => {
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(index)
+      .click();
+  };
+
+  verifyVitalOnListPage = (index, name, measurement, date, location) => {
+    cy.get('[data-testid="vital-li-display-name"]')
+      .eq(index)
+      .contains(name);
+    cy.get('[data-testid="vital-li-measurement"]')
+      .eq(index)
+      .contains(measurement);
+    cy.get('[data-testid="vital-li-date"]')
+      .eq(index)
+      .contains(date);
+    cy.get('[data-testid="vital-li-location"]')
+      .eq(index)
+      .contains(location);
+    cy.get('[data-testid="vital-li-review-over-time"]')
+      .eq(index)
+      .contains(`Review ${name} over time`, { matchCase: false });
+  };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')

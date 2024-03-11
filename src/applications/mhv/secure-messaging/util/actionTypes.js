@@ -8,6 +8,9 @@ export const Actions = {
     GET_LIST: 'SM_ALL_RECIPIENTS_GET_LIST',
     GET_LIST_ERROR: 'SM_ALL_RECIPIENTS_GET_LIST_ERROR',
   },
+  App: {
+    IS_PILOT: 'SM_APP_IS_PILOT',
+  },
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
   },

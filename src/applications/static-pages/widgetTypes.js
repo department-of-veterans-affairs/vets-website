@@ -18,6 +18,7 @@ export default {
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
+  EZR_TERA_ALERT: 'ezr-tera-alert',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',

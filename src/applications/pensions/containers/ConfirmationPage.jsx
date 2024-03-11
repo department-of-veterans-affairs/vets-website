@@ -3,7 +3,6 @@ import { utcToZonedTime, format } from 'date-fns-tz';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 import { scrollToTop, formatFullName } from '../helpers';
 
 const centralTz = 'America/Chicago';
@@ -20,11 +19,6 @@ class ConfirmationPage extends React.Component {
     } = this.props;
     const response = submission?.response ?? {};
     const fullName = formatFullName(data?.veteranFullName ?? {});
-    const regionalOffice = response?.regionalOffice || [];
-
-    const pmcName = regionalOffice?.length
-      ? regionalOffice[0].replace('Attention:', '').trim()
-      : null;
 
     const zonedDate = utcToZonedTime(submission?.timestamp, centralTz);
     const submittedAt = format(zonedDate, 'LLL d, yyyy h:mm a zzz', {
@@ -32,78 +26,130 @@ class ConfirmationPage extends React.Component {
     });
 
     return (
-      <div>
-        <h3 className="confirmation-page-title">Claim submitted</h3>
-        <p>
-          We process claims in the order we receive them. Please print this page
-          for your records.
-        </p>
-        <p>We may contact you for more information or documents.</p>
-        <div className="inset">
-          <h4>
-            Veterans Pension Benefit Claim{' '}
-            <span className="additional">(Form 21P-527EZ)</span>
-          </h4>
-          <span>for {fullName}</span>
+      <div className="vads-u-margin-bottom--9">
+        <h2>Your Veterans Pension application</h2>
 
-          <ul className="claim-list">
-            <li>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{submittedAt}</span>
-            </li>
-            {response?.confirmationNumber && (
-              <li>
-                <strong>Confirmation number</strong>
-                <br />
-                <span>{response?.confirmationNumber}</span>
-              </li>
-            )}
-            <li>
-              <strong>Pension Management Center</strong>
-              <br />
-              {pmcName && <span>{pmcName}</span>}
-              <br />
-              <span>
-                Phone: <va-telephone international contact="8008271000" />,
-                Monday &#8211; &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
-              </span>
-              <br />
-              <span>Fax: 844-655-1604</span>
-            </li>
-            <li>
-              <span>
-                If you have several documents to send in, you can mail them to:
-              </span>
-              <address className="schemaform-address-view">
-                {regionalOffice?.map((line, index) => (
-                  <p key={index}>{line}</p>
-                ))}
-              </address>
-            </li>
-            <li>
-              <strong>Note:</strong> If you choose to mail in your supporting
-              documents, you don't have to send in a paper copy of VA Form
-              21P-527EZ with the documents.
-            </li>
-          </ul>
-        </div>
-        <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">
-            If you have questions, <CallVBACenter />
-            <br />
-            Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET. <br />
-            Please have your Social Security number or VA file number ready.
+        <va-alert uswds status="success">
+          <h3>Thank you for submitting your Veterans Pension application.</h3>
+          <p className="vads-u-margin-y--0">
+            We've received your Veterans Pension application (VA Form
+            21P-527EZ). After we complete our review, we'll mail you a decision
+            letter with the details of our decision.
           </p>
-        </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go Back to VA.gov</button>
-            </a>
+        </va-alert>
+
+        <br />
+
+        <va-summary-box uswds>
+          <h3 slot="headline" className="vads-u-margin-top--0">
+            Your information for this application
+          </h3>
+
+          <h4>Your name</h4>
+          <span>{fullName}</span>
+
+          <h4>Date you submitted your application</h4>
+          <span>{submittedAt}</span>
+
+          {response?.confirmationNumber && (
+            <div id="pension_527ez_submission_confirmation">
+              <h4>Confirmation number</h4>
+              <span>{response?.confirmationNumber}</span>
+            </div>
+          )}
+
+          <va-button
+            uswds
+            class="screen-only vads-u-margin-top--2"
+            text="Print this page for your records"
+            onClick={() => {
+              window.print();
+            }}
+          />
+        </va-summary-box>
+
+        <section>
+          <h3>If you need to submit supporting documents</h3>
+          <span>You can submit supporting documents in one of 2 ways:</span>
+
+          <h4>Submit your documents online through AccessVA</h4>
+          <div>
+            <p>
+              You can use the QuickSubmit tool through AccessVA to submit your
+              documents online.
+            </p>
+            <va-link
+              href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+              text="Go to AccessVA to use QuickSubmit"
+            />
           </div>
-        </div>
+
+          <h4>Mail copies of your documents</h4>
+          <div>
+            <p>
+              Don’t mail us a printed copy of your pension application. We
+              already have your application. If you need to submit supporting
+              documents, you can mail copies of your documents to us at this
+              address:
+            </p>
+            <p className="va-address-block">
+              Department of Veterans Affairs
+              <br />
+              Pension Intake Center
+              <br />
+              PO Box 5365
+              <br />
+              Janesville, WI 53547-5365
+            </p>
+            <p>
+              <strong>Note:</strong> Don't send us your original documents. We
+              can't return them. Mail us copies of your documents only.
+            </p>
+            <p>
+              If we asked you to complete and submit additional forms, be sure
+              to make copies of the forms for your records before you mail them
+              to us.
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h3>What to expect next</h3>
+          <p>
+            You don't need to do anything while you wait for a decision unless
+            we send you a letter to ask you for more information. If we send you
+            a request for more information, you’ll need to respond within 30
+            days of our request. If you don't respond within 30 days, we may
+            decide your claim with the evidence that's available to us.
+          </p>
+          <p>
+            If you’ve opted to receive VA emails or texts, we’ll send you
+            updates about the status of your application.
+          </p>
+          <p>
+            You can also{' '}
+            <va-link
+              href="https://www.va.gov/claim-or-appeal-status"
+              text="check the status of your pension claim online."
+            />
+          </p>
+          <p>
+            <strong>Note:</strong> It may take 7 to 10 days after you apply for
+            your pension claim to appear online.
+          </p>
+        </section>
+
+        <section>
+          <h3>How to contact us if you have questions</h3>
+          <p>
+            You can ask us a question{' '}
+            <va-link href="https://ask.va.gov/" text="online through Ask VA." />
+          </p>
+          <p>
+            Or call us at <va-telephone contact="8008271000" international />{' '}
+            <va-telephone contact="711" tty />
+          </p>
+        </section>
       </div>
     );
   }

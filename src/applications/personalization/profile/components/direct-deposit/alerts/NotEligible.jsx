@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import recordEvent from '~/platform/monitoring/record-event';
+import { EligibilityLink } from '../EligibilityLink';
 
 const NotEligible = props => {
   const { benefitType, typeIsCNP } = props;
   const headerText = typeIsCNP
     ? 'Our records show that you don’t receive VA disability compensation or pension payments.'
     : 'Our records show that you don’t receive VA education benefit payments or haven’t set up direct deposit payments.';
-  const primaryLinkText = typeIsCNP
-    ? 'Learn more about disability eligibility'
-    : 'Learn more about GI Bill and other education benefit eligibility';
+
   const contactMessage = typeIsCNP
     ? 'If you think this is an error'
     : 'If you want to set up direct deposit payments, or you think this is an error';
@@ -27,20 +25,7 @@ const NotEligible = props => {
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.va.gov/${benefitType}/eligibility/`}
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': `${benefitType}-benefits`,
-            });
-          }}
-        >
-          {primaryLinkText}
-        </a>
+        <EligibilityLink typeIsCNP={typeIsCNP} />
       </p>
       {typeIsCNP && (
         <p className="vads-u-margin-bottom--0">

@@ -43,12 +43,6 @@ const DischargeYearQuestion = ({
     </option>,
   );
 
-  yearOptions.unshift(
-    <option key="-1" value="">
-      {' '}
-    </option>,
-  );
-
   return (
     <div className="vads-u-margin-top--6">
       <fieldset className="fieldset-input dischargeYear" key={key}>
@@ -63,7 +57,7 @@ const DischargeYearQuestion = ({
             updateField(key, update.detail.value);
             scrollToLast();
           }}
-          uswds={false}
+          uswds
         >
           {yearOptions}
         </VaSelect>

@@ -159,7 +159,7 @@ export function ApplicantMedicareStatusPage({
 ApplicantMedicareStatusReviewPage.propTypes = {
   data: PropTypes.object,
   editPage: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.number,
   props: PropTypes.object,
   title: PropTypes.func,
 };

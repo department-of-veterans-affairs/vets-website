@@ -6,6 +6,10 @@ import { externalServiceStatus } from '@department-of-veterans-affairs/platform-
 
 import MHVDowntime from '../../containers/MHVDowntime';
 
+/*
+ * NOTE: Tests will run in various timezones, so look for formatting rather than exact datetimes
+ */
+
 describe('MHVDowntime', () => {
   it('renders MHVDown when a service is down', () => {
     const now = new Date();
@@ -21,11 +25,11 @@ describe('MHVDowntime', () => {
       ...mockServiceProps,
     };
     const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
-    getByRole('heading', { level: 3, name: 'Maintenance on My HealtheVet' });
+    getByRole('heading', { level: 2, name: 'Maintenance on My HealtheVet' });
     getByText(/some of our health tools/i);
   });
 
-  it('renders MHVDowntimeApproaching when a service is going down within an hour', () => {
+  it('renders MHVDowntimeApproaching and children when a service is going down within an hour', () => {
     // Create a starting datetime 30 minutes into the future, though `status` is what really controls what renders
     const soon = new Date(Date.now());
     soon.setMinutes(soon.getMinutes() + 30);
@@ -38,14 +42,16 @@ describe('MHVDowntime', () => {
     };
     const mockProps = {
       status: externalServiceStatus.downtimeApproaching,
+      children: <p>Child content lives here.</p>,
       ...mockServiceProps,
     };
     const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
     getByRole('heading', {
-      level: 3,
+      level: 2,
       name: 'Upcoming maintenance on My HealtheVet',
     });
     getByText(/you may have trouble using some of our health tools/i);
+    getByText(/child content lives here/i);
   });
 
   it('renders child content when no matching services are down', () => {
@@ -99,7 +105,7 @@ describe('MHVDowntime', () => {
     getByText(
       /During this time, you may have trouble using some of our health tools/i,
     );
-    getByText('July 4, 2019 at 9:00 a.m. ET');
+    getByText(/July 4, 2019 at \d:\d{2} (a|p)\.m\. [A-Z]{1,2}T/);
     expect(queryByText('July 5, 2019 at 3:00 a.m. ET')).to.be.null;
   });
 
@@ -119,6 +125,6 @@ describe('MHVDowntime', () => {
     getByText(
       /During this time, you may have trouble using some of our health tools/i,
     );
-    getByText('July 7, 2019 at 9:00 a.m. ET');
+    getByText(/July 7, 2019 at \d:\d{2} (a|p)\.m\. [A-Z]{1,2}T/);
   });
 });

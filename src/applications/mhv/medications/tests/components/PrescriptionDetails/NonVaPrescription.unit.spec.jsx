@@ -6,8 +6,8 @@ import NonVaPrescription from '../../../components/PrescriptionDetails/NonVaPres
 
 describe('nonVaPrescription details container', () => {
   const prescription = nonVaRxDetailsResponse.data.attributes;
-  const setup = () => {
-    return renderWithStoreAndRouter(<NonVaPrescription {...prescription} />, {
+  const setup = (rx = prescription) => {
+    return renderWithStoreAndRouter(<NonVaPrescription {...rx} />, {
       initialState: {},
       reducers: {},
       path: '/prescriptions/1234567891',
@@ -24,5 +24,10 @@ describe('nonVaPrescription details container', () => {
     const { dispStatus } = nonVaRxDetailsResponse.data.attributes;
     const status = screen.getAllByText(dispStatus);
     expect(status).to.exist;
+  });
+
+  it('displays prescription disclaimer', () => {
+    const screen = setup({ ...prescription, disclaimer: 'test disclaimer' });
+    expect(screen.findByText('test disclaimer')).to.exist;
   });
 });

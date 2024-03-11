@@ -163,7 +163,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -176,7 +179,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'monetary-asset-checklist': ({ afterHook }) => {
@@ -233,8 +239,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.findAllByText(/Continue/i, { selector: 'button' })
-            .first()
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
             .click({ waitForAnimations: true });
         });
       },
@@ -305,7 +312,10 @@ const testConfig = createTestConfig(
             .eq(1)
             .should('contain', 'Collectibles')
             .and('contain', '$1,500.00');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'utility-bill-checklist': ({ afterHook }) => {
@@ -379,8 +389,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Continue/i, { selector: 'button' })
-            .first()
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
             .click();
           // cy.get('.usa-button-primary').click();
         });
@@ -442,10 +453,9 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Continue/i, {
-            selector: 'button',
-          })
-            .first()
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
             .click();
           // cy.get('.usa-button-primary').click();
         });
@@ -500,7 +510,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('textarea')
             .type('Some Resolution Comments . . .');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'bankruptcy-history': ({ afterHook }) => {
@@ -535,7 +548,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('ABC123');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'review-and-submit': ({ afterHook }) => {

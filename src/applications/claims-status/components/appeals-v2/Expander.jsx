@@ -22,19 +22,15 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
   const alert = expanded && missingEvents ? missingEventsAlert : null;
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <li className={`past-events-expander process-step ${cssClass}`}>
-      {/* Giving this a margin top to help center the text to the li bullet */}
-      <button
-        type="button"
-        className="va-button-link"
+      <va-button
+        secondary
+        class="view-events-button"
+        text={title}
         onClick={onToggle}
-        aria-expanded={expanded}
-        aria-controls="appeal-timeline"
-      >
-        <h2 className="vads-u-font-size--h3">{title}</h2>
-      </button>
-      <div className="appeal-event-date">{dateRange}</div>
+        uswds
+      />
+      <div className="appeal-event-date vads-u-margin-top--1">{dateRange}</div>
       {alert}
       {separator}
     </li>

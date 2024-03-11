@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { trapFocus } from '@department-of-veterans-affairs/mhv/exports';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
 import { DefaultFolders, Paths } from '../util/constants';
-import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
   const [isMobile, setIsMobile] = useState(true);

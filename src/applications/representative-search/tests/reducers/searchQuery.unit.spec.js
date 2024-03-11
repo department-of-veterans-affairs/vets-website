@@ -7,8 +7,9 @@ import {
   CLEAR_SEARCH_TEXT,
   FETCH_REPRESENTATIVES,
   GEOLOCATE_USER,
-  // GEOCODE_FAILED,
+  GEOCODE_FAILED,
   GEOCODE_COMPLETE,
+  SEARCH_COMPLETE,
   // CLEAR_GEOCODE_ERROR,
 } from '../../utils/actionTypes';
 import {
@@ -25,6 +26,13 @@ describe('search query reducer', () => {
 
     expect(state.error).to.eql(false);
     expect(state.inProgress).to.eql(true);
+  });
+  it('should increment search counter', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: SEARCH_COMPLETE,
+    });
+
+    expect(state.searchCounter).to.eql(INITIAL_STATE.searchCounter + 1);
   });
 
   it('should handle fetching list of representatives', () => {
@@ -45,24 +53,6 @@ describe('search query reducer', () => {
     expect(state.inProgress).to.eql(false);
     expect(state.searchWithInputInProgress).to.eql(false);
   });
-
-  // it('should handle search query updated', () => {
-  //   const state = SearchQueryReducer(
-  //     {
-  //       ...INITIAL_STATE,
-  //       isErrorFetchRepresentatives: true,
-  //     },
-  //     {
-  //       type: SEARCH_QUERY_UPDATED,
-  //       payload: {
-  //         attribute: true,
-  //       },
-  //     },
-  //   );
-
-  //   expect(state.isErrorFetchRepresentatives).to.eql(false);
-  //   expect(state.attribute).to.eql(true);
-  // });
 
   it('should handle geocode started', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
@@ -98,6 +88,15 @@ describe('search query reducer', () => {
   it('should handle geocode complete', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: GEOCODE_COMPLETE,
+    });
+
+    expect(state.geocodeInProgress).to.eql(false);
+    expect(state.geolocationInProgress).to.eql(false);
+  });
+
+  it('should handle geocode failure', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: GEOCODE_FAILED,
     });
 
     expect(state.geocodeInProgress).to.eql(false);
@@ -153,15 +152,6 @@ describe('search query reducer', () => {
       expect(state.representativeTypeChanged).to.eql(true);
     });
   });
-
-  // it('should return error if error present', () => {
-  //   const state = SearchQueryReducer(INITIAL_STATE, {
-  //     type: SEARCH_FAILED,
-  //     error: 404,
-  //   });
-
-  //   expect(state.error).to.eql(true);
-  // });
 
   it('should invalidate form when clearing search text', () => {
     const state = SearchQueryReducer(

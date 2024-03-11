@@ -11,17 +11,16 @@ import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
-import { isSmallScreen } from '../utils/helpers';
+import { isSmallScreen, setDocumentTitle } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import { changeSearchTab, setError, setPageTitle } from '../actions';
+import { changeSearchTab, setError } from '../actions';
 
 export function SearchPage({
   dispatchChangeSearchTab,
-  dispatchSetPageTitle,
   search,
   preview,
   filters,
@@ -46,14 +45,8 @@ export function SearchPage({
   });
   const { version } = preview;
 
-  useEffect(
-    () => {
-      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
-    },
-    [dispatchSetPageTitle],
-  );
-
   useEffect(() => {
+    setDocumentTitle();
     const checkSize = () => {
       setSmallScreen(isSmallScreen());
       setLandscape(isLandscape());
@@ -172,7 +165,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchChangeSearchTab: changeSearchTab,
-  dispatchSetPageTitle: setPageTitle,
   dispatchError: setError,
 };
 

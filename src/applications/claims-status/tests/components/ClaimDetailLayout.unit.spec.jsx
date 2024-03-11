@@ -117,7 +117,7 @@ describe('<ClaimDetailLayout>', () => {
     expect(within(tabList).getAllByRole('listitem').length).to.equal(3);
   });
 
-  it('should render 4 tabs when toggle true', () => {
+  it('should render 3 tabs when toggle true', () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
@@ -133,7 +133,7 @@ describe('<ClaimDetailLayout>', () => {
     );
 
     const tabList = $('.tabs', container);
-    expect(within(tabList).getAllByRole('listitem').length).to.equal(4);
+    expect(within(tabList).getAllByRole('listitem').length).to.equal(3);
   });
 
   it('should render normal info', () => {

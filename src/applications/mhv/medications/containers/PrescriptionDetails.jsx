@@ -82,7 +82,7 @@ const PrescriptionDetails = () => {
               label: 'About medications',
             },
             {
-              url: '/my-health/medications/1',
+              url: '/my-health/medications/?page=1',
               label: 'Medications',
             },
           ],
@@ -109,7 +109,7 @@ const PrescriptionDetails = () => {
     [prescription],
   );
 
-  const baseTitle = `${prescription?.prescriptionName} | Veterans Affairs`;
+  const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
@@ -404,21 +404,26 @@ const PrescriptionDetails = () => {
           </div>
           <PrintOnlyPage
             title="Medication details"
-            preface="This is a single medication record from your VA medical records. When you download a medication record, we
-        also include a list of allergies and reactions in your VA medical records."
+            preface={
+              prescription
+                ? 'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.'
+                : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+            }
           >
-            <>
-              <PrescriptionPrintOnly
-                hideLineBreak
-                rx={prescription}
-                refillHistory={!nonVaPrescription ? refillHistory : []}
-                isDetailsRx
-              />
-              <AllergiesPrintOnly
-                allergies={allergies}
-                allergiesError={allergiesError}
-              />
-            </>
+            {prescription && (
+              <>
+                <PrescriptionPrintOnly
+                  hideLineBreak
+                  rx={prescription}
+                  refillHistory={!nonVaPrescription ? refillHistory : []}
+                  isDetailsRx
+                />
+                <AllergiesPrintOnly
+                  allergies={allergies}
+                  allergiesError={allergiesError}
+                />
+              </>
+            )}
           </PrintOnlyPage>
         </>
       );

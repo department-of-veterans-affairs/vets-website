@@ -4,17 +4,19 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import {
   expiredMessage,
   inProgressMessage as getInProgressMessage,
-} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
-import recordEvent from 'platform/monitoring/record-event';
+} from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+import recordEvent from '~/platform/monitoring/record-event';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import DowntimeNotification, {
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
+} from '~/platform/monitoring/DowntimeNotification';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -199,15 +201,13 @@ class SaveInProgressIntro extends React.Component {
         unauthStartText,
       } = this.props;
       const unauthStartButton = (
-        <button
-          className="usa-button-primary"
+        <VaButton
           onClick={this.openLoginModal}
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedby}
-          type="button"
-        >
-          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        </button>
+          label={ariaLabel}
+          // aria-describedby={ariaDescribedby}
+          uswds
+          text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        />
       );
       alert = buttonOnly ? (
         <>
@@ -295,6 +295,7 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
+              {/* button that looks like a link - needs design review */}
               <button
                 className="va-button-link"
                 onClick={this.openLoginModal}
@@ -421,17 +422,19 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
+      appAction: PropTypes.string,
+      appContinuing: PropTypes.string,
     }),
   }),
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
-  displayNonVeteranMessaging: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,

@@ -5,60 +5,28 @@ import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import { clearNotification } from '../actions';
-import ClaimComplete from '../components/ClaimComplete';
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
-// END lighthouse_migration
-import ClaimsDecision from '../components/ClaimsDecision';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
-import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { DATE_FORMATS } from '../constants';
-import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
   getClaimType,
   getItemDate,
+  getStatusMap,
   getTrackedItemDate,
   getUserPhase,
-  itemsNeedingAttentionFromVet,
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-// START lighthouse_migration
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return claimDate || dateFiled || null;
-};
-// END lighthouse_migration
-
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
-  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
-  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
-  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
-  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
 
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
-  [...STATUSES.keys()].indexOf(latestStatus) + 1;
+  [...STATUSES.keys()].indexOf(latestStatus.toUpperCase()) + 1;
 
 const isEventOrPrimaryPhase = event => {
   if (event.type === 'phase_entered') {
@@ -214,56 +182,21 @@ class OverviewPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, showClaimLettersLink, useLighthouse } = this.props;
-
-    if (!useLighthouse) {
-      return (
-        <ClaimStatusPageContent
-          claim={claim}
-          showClaimLettersLink={showClaimLettersLink}
-        />
-      );
-    }
-
+    const { claim } = this.props;
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
 
-    const {
-      claimPhaseDates,
-      closeDate,
-      decisionLetterSent,
-      documentsNeeded,
-      status,
-    } = attributes;
-
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
-    const showDocsNeeded =
-      !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
+    const { claimPhaseDates } = attributes;
 
     return (
-      <div>
+      <div className="overview-container">
         <ClaimOverviewHeader />
-        {showDocsNeeded ? (
-          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-        ) : null}
-        {decisionLetterSent && !isOpen ? (
-          <ClaimsDecision
-            completedDate={closeDate}
-            showClaimLettersLink={showClaimLettersLink}
-          />
-        ) : null}
-        {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={closeDate} />
-        ) : null}
-        {status && isOpen ? (
-          <ClaimTimeline
-            id={claim.id}
-            phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-            currentPhaseBack={claimPhaseDates.currentPhaseBack}
-            events={generateEventTimeline(claim)}
-          />
-        ) : null}
+        <ClaimTimeline
+          id={claim.id}
+          phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+          currentPhaseBack={claimPhaseDates.currentPhaseBack}
+          events={generateEventTimeline(claim)}
+        />
       </div>
     );
   }
@@ -272,7 +205,7 @@ class OverviewPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(getClaimDate(claim));
+      const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -282,18 +215,12 @@ class OverviewPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced, useLighthouse } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
-
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
@@ -319,9 +246,7 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
-    showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 
@@ -338,7 +263,6 @@ OverviewPage.propTypes = {
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(
