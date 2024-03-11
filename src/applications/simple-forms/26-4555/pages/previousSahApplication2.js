@@ -34,7 +34,7 @@ export default {
       ),
       [previousSahApplicationFields.previousSahApplicationAddress]: {
         city: selectUI(
-          'VA regional office city connected with your past application',
+          'Select the city of the VA regional office connected with your past application (if you know it)',
         ),
       },
     },
