@@ -36,7 +36,7 @@ const TravelClaimSuccessAlert = props => {
             date: format(new Date(), 'MMMM dd, yyyy'),
             claims: facilities.length,
             appointments: appointmentCount,
-          })} ${formatList(facilities, t('and'))} ${t(
+          })} ${formatList([...facilities], t('and'))} ${t(
             'well-send-you-a-text-to-let-you-know',
             {
               count: facilities.length,
