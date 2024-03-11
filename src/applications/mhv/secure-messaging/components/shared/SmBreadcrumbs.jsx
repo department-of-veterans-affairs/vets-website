@@ -26,84 +26,98 @@ const SmBreadcrumbs = () => {
     }
   }
 
-  const [locationBasePath, locationChildPath] = useMemo(() => {
-    const pathElements = location.pathname.split('/');
-    if (pathElements[0] === '') pathElements.shift();
-    return pathElements;
-  }, [location]);
+  const [locationBasePath, locationChildPath] = useMemo(
+    () => {
+      const pathElements = location.pathname.split('/');
+      if (pathElements[0] === '') pathElements.shift();
+      return pathElements;
+    },
+    [location],
+  );
 
-  useEffect(() => {
-    checkScreenSize();
-  }, [isMobile]);
+  useEffect(
+    () => {
+      checkScreenSize();
+    },
+    [isMobile],
+  );
 
-  useEffect(() => {
-    if (
-      `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
-      parseInt(locationChildPath, 10) < 1
-    ) {
-      navigateToFolderByFolderId(locationChildPath, history);
-    }
-  }, [locationBasePath, locationChildPath, history]);
+  useEffect(
+    () => {
+      if (
+        `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
+        parseInt(locationChildPath, 10) < 1
+      ) {
+        navigateToFolderByFolderId(locationChildPath, history);
+      }
+    },
+    [locationBasePath, locationChildPath, history],
+  );
 
   window.addEventListener('resize', checkScreenSize);
 
-  useEffect(() => {
-    if (!locationBasePath) {
-      dispatch(setBreadcrumbs({}, location));
-      return;
-    }
+  useEffect(
+    () => {
+      if (!locationBasePath) {
+        dispatch(setBreadcrumbs({}, location));
+        return;
+      }
 
-    const path = `/${locationBasePath}/`;
+      const path = `/${locationBasePath}/`;
 
-    if (
-      [
-        Constants.Paths.INBOX,
-        Constants.Paths.SENT,
-        Constants.Paths.DELETED,
-        Constants.Paths.DRAFTS,
-      ].includes(path) ||
-      (path === Constants.Paths.FOLDERS && !locationChildPath)
-    ) {
-      dispatch(setBreadcrumbs(Constants.Breadcrumbs.MESSAGES, location));
-    } else if (path === Constants.Paths.FOLDERS && locationChildPath) {
-      dispatch(setBreadcrumbs(Constants.Breadcrumbs.FOLDERS, location));
-    } else if (path === Constants.Paths.COMPOSE) {
-      dispatch(setBreadcrumbs(Constants.Breadcrumbs.INBOX, location));
-    } else if (
-      path ===
+      if (
+        [
+          Constants.Paths.INBOX,
+          Constants.Paths.SENT,
+          Constants.Paths.DELETED,
+          Constants.Paths.DRAFTS,
+        ].includes(path) ||
+        (path === Constants.Paths.FOLDERS && !locationChildPath)
+      ) {
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.MESSAGES, location));
+      } else if (path === Constants.Paths.FOLDERS && locationChildPath) {
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.FOLDERS, location));
+      } else if (path === Constants.Paths.COMPOSE) {
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.INBOX, location));
+      } else if (
+        path ===
         (Constants.Paths.MESSAGE_THREAD ||
           Constants.Paths.REPLY ||
           Constants.Paths.COMPOSE) &&
-      activeFolder
-    ) {
-      dispatch(
-        setBreadcrumbs(
-          {
-            path: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
-            label: `Back to ${
-              activeFolder.folderId < 1
-                ? activeFolder.name.toLowerCase()
-                : activeFolder.name
-            }`,
-          },
-          location,
-        ),
-      );
-    }
-  }, [
-    activeFolder,
-    dispatch,
-    location,
-    locationBasePath,
-    locationChildPath,
-    messageDetails?.subject,
-  ]);
+        activeFolder
+      ) {
+        dispatch(
+          setBreadcrumbs(
+            {
+              path: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
+              label: `Back to ${activeFolder.folderId < 1
+                  ? activeFolder.name.toLowerCase()
+                  : activeFolder.name
+                }`,
+            },
+            location,
+          ),
+        );
+      }
+    },
+    [
+      activeFolder,
+      dispatch,
+      location,
+      locationBasePath,
+      locationChildPath,
+      messageDetails?.subject,
+    ],
+  );
 
-  useEffect(() => {
-    if (messageDetails && !activeFolder) {
-      dispatch(retrieveFolder(messageDetails?.threadFolderId));
-    }
-  }, [messageDetails, activeFolder, dispatch]);
+  useEffect(
+    () => {
+      if (messageDetails && !activeFolder) {
+        dispatch(retrieveFolder(messageDetails?.threadFolderId));
+      }
+    },
+    [messageDetails, activeFolder, dispatch],
+  );
 
   const breadcrumbSize = () => {
     if (isMobile) {
@@ -114,15 +128,10 @@ const SmBreadcrumbs = () => {
 
   return (
     <div
-      className={`breadcrumbs vads-1-row ${
-        !crumbs?.label ? 'breadcrumbs--hidden' : ''
-      }`}
+      className={`breadcrumbs vads-1-row ${!crumbs?.label ? 'breadcrumbs--hidden' : ''
+        }`}
     >
-      <va-breadcrumbs
-        uswds="false"
-        label="Breadcrumb"
-        home-veterans-affairs={false}
-      >
+      <va-breadcrumbs uswds="false" label="Breadcrumb" home-veterans-affairs={false}>
         {crumbs && (
           <ul className={breadcrumbSize()}>
             <li>
