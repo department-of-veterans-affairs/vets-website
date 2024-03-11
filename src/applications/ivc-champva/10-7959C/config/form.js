@@ -258,7 +258,6 @@ const formConfig = {
               'ui:required': formData => formData.hasMedicarePartD,
             },
             hasOtherHealthInsurance: yesNoUI({
-              required: () => true,
               title: 'Do you have health insurance other than MEDICARE?',
             }),
           },
