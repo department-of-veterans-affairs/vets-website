@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import PageLink from './PageLink';
 
 const ListItem = ({ item, className }) => {
@@ -37,5 +38,8 @@ const ListItem = ({ item, className }) => {
     </li>
   );
 };
-
+ListItem.propTypes = {
+  className: PropTypes.object,
+  item: PropTypes.object,
+};
 export default ListItem;
