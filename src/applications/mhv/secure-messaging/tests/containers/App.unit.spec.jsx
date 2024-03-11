@@ -200,7 +200,7 @@ describe('App', () => {
     );
     expect(
       screen.getByText(
-        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        'We’re working on this secure messaging tool right now. The maintenance will last 48 hours.',
         {
           exact: false,
         },
@@ -235,7 +235,7 @@ describe('App', () => {
     );
     expect(
       screen.getByText(
-        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        'We’re working on this secure messaging tool right now. The maintenance will last 48 hours.',
         {
           exact: false,
         },
@@ -270,7 +270,7 @@ describe('App', () => {
     );
     expect(
       screen.getByText(
-        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        'We’re working on this secure messaging tool right now. The maintenance will last 48 hours.',
         {
           exact: false,
         },
