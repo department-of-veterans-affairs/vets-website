@@ -107,7 +107,7 @@ function ToeApp({
 
   return (
     <>
-      <va-breadcrumbs>
+      <va-breadcrumbs uswds="false">
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
         <a href="/education/survivor-dependent-benefits/transferred-benefits/">
