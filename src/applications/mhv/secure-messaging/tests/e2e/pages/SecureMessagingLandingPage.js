@@ -5,13 +5,16 @@ import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.js
 import mockRecipients from '../fixtures/recipients-response.json';
 import { Locators } from '../utils/constants';
 
+
 class SecureMessagingLandingPage {
   loadMainPage = (
+    featureToggles = mockFeatureToggles,
+    url = Paths.UI_MAIN,
     recipients = mockRecipients,
     user = mockUser,
     messages = mockGeneralMessages,
   ) => {
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
       'featureToggles',
     );
     cy.intercept('GET', '/my_health/v1/messaging/allrecipients', recipients).as(
@@ -29,7 +32,7 @@ class SecureMessagingLandingPage {
       messages,
     ).as('generalMessages');
 
-    cy.visit('my-health/secure-messages/', {
+    cy.visit(url, {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },

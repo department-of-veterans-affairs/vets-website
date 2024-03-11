@@ -26,7 +26,12 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   });
 
   it('verify alert on landing page', () => {
-    SecureMessagingLandingPage.loadMainPage(mockRecipients, mockTestUser);
+    SecureMessagingLandingPage.loadMainPage(
+      mockFeatureToggles,
+      Paths.UI_MAIN,
+      mockRecipients,
+      mockTestUser,
+    );
 
     cy.get(Locators.HEADLING).should(
       'have.text',

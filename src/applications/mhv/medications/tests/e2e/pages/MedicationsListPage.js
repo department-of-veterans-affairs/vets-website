@@ -260,17 +260,16 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveRefillsLeft = () => {
     cy.get(
-      `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
-    ).should('exist');
+      `[data-testid="rx-card-info"] > #card-header-${
+        activeRxRefills.data.id
+      } > [data-testid="medications-history-details-link"]`,
+    );
     cy.get(
       '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
-    )
-
-      // cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)')
-      .should(
-        'contain',
-        `${activeRxRefills.data.attributes.refillRemaining} refills left`,
-      );
+    ).should(
+      'contain',
+      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
+    );
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {

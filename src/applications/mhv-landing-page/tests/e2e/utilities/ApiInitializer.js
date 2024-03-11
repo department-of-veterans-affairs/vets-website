@@ -72,6 +72,12 @@ class ApiInitializer {
         userData.generateUserWithFacilities({ facilities }),
       );
     },
+    withMHVAccountState: mhvAccountState => {
+      const userDataWithMHVAccountState = userData.generateUserWithMHVAccountState(
+        mhvAccountState,
+      );
+      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState);
+    },
   };
 }
 

@@ -2,6 +2,7 @@ export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
   UI_MAIN: '/my-health/secure-messages',
+  UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
   INBOX: '/inbox/',
@@ -53,6 +54,7 @@ export const Locators = {
   CLEAR_FILTERS: '[text="Clear Filters"]',
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
+  ACCORDIONS: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',

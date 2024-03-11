@@ -1,8 +1,5 @@
-// Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// Relative imports
 import { board } from '../../helpers';
 
 const renderMedicalRecordInfo = formValues => {
@@ -35,14 +32,13 @@ const renderMedicalRecordInfo = formValues => {
         <ul>
           <li>
             You can request your <strong>VA medical records</strong> by
-            submitting VA Form 10-5345 to your local VA Medical Center.{' '}
-            <a
+            submitting VA Form 10-5345 to your local VA Medical Center.
+            <br />
+            <va-link
               download
-              rel="noopener noreferrer"
-              href="https://www.va.gov/vaforms/medical/pdf/VHA%20Form%2010-5345%20Fill-revision.pdf"
-            >
-              Download VA Form 10-5345.
-            </a>
+              text="Download VA Form 10-5345"
+              href="https://www.va.gov/find-forms/about-form-10-5345/"
+            />
           </li>
           <li>{requestQuestion}</li>
           <li>
@@ -120,64 +116,60 @@ const StepOne = ({ formValues }) => {
   }
 
   return (
-    <li className="list-group-item">
-      <div>
-        <h4>Add supporting information</h4>
-        <p>
-          To improve your chances of success, also include as many of the below
-          documents as you can.
-        </p>
-        <ul>
-          <li>
-            <strong>Military Record</strong>: In most cases, your records will
-            be important to the Board’s decision. The Board may not have easy
-            access to your military records, especially if you served many years
-            ago, so we strongly recommend you submit any relevant documents
-            yourself.{' '}
-            {boardToSubmit.abbr !== 'DRB' ? (
-              <span>
-                Note that the {boardToSubmit.abbr} is required to help you
-                collect evidence if you can demonstrate you made a reasonable
-                attempt to get your records but you didn’t succeed.
-              </span>
-            ) : null}{' '}
-            {militaryRecordInfo}{' '}
-            {specificTypeInstruction && (
-              <p>
-                Remember, you should try to prove that {specificTypeInstruction}
-                . Submit any documents from this record that help support your
-                case for a discharge upgrade.
-              </p>
-            )}
-          </li>
-          {renderMedicalRecordInfo(formValues)}
-          <li>
-            <strong>“Buddy Statements” or Other References From Service</strong>
-            : On top of military records, you can attach statements from friends
-            or colleagues you knew while in the service, or other individuals
-            with direct knowledge of your time in the military. The content of
-            the letter is more important than who it comes from, as long as the
-            writer’s opinion is credible and they know you well. The writer
-            should state how they learned about the facts or opinions they’re
-            writing about. The letters may include statements about your
-            achievements in the military, positive relationships you formed in
-            the military, why your discharge may be unjust or incorrect, and
-            your good deeds during that time.
-          </li>
-          <li>
-            <strong>Testaments of Achievements Since Service</strong>: You may
-            decide to add information about what you have achieved in your life
-            since your discharge, particularly if your discharge involved any
-            issues related to drugs, alcohol, or bad behavior. This can be in
-            the form of a letter from an employer or community leader, evidence
-            of successful drug treatment, or copies of certificates and degrees.
-            The DoD will soon release more specific information about
-            achievements since service, but, for now, add any achievements you
-            would like to call out.
-          </li>
-        </ul>
-      </div>
-    </li>
+    <va-process-list-item header="Add supporting information">
+      <p>
+        To improve your chances of success, also include as many of the below
+        documents as you can.
+      </p>
+      <ul>
+        <li>
+          <strong>Military Record</strong>: In most cases, your records will be
+          important to the Board’s decision. The Board may not have easy access
+          to your military records, especially if you served many years ago, so
+          we strongly recommend you submit any relevant documents yourself.{' '}
+          {boardToSubmit.abbr !== 'DRB' ? (
+            <span>
+              Note that the {boardToSubmit.abbr} is required to help you collect
+              evidence if you can demonstrate you made a reasonable attempt to
+              get your records but you didn’t succeed.
+            </span>
+          ) : null}{' '}
+          {militaryRecordInfo}{' '}
+          {specificTypeInstruction && (
+            <p>
+              Remember, you should try to prove that {specificTypeInstruction}.
+              Submit any documents from this record that help support your case
+              for a discharge upgrade.
+            </p>
+          )}
+        </li>
+        {renderMedicalRecordInfo(formValues)}
+        <li>
+          <strong>“Buddy Statements” or Other References From Service</strong>:
+          On top of military records, you can attach statements from friends or
+          colleagues you knew while in the service, or other individuals with
+          direct knowledge of your time in the military. The content of the
+          letter is more important than who it comes from, as long as the
+          writer’s opinion is credible and they know you well. The writer should
+          state how they learned about the facts or opinions they’re writing
+          about. The letters may include statements about your achievements in
+          the military, positive relationships you formed in the military, why
+          your discharge may be unjust or incorrect, and your good deeds during
+          that time.
+        </li>
+        <li>
+          <strong>Testaments of Achievements Since Service</strong>: You may
+          decide to add information about what you have achieved in your life
+          since your discharge, particularly if your discharge involved any
+          issues related to drugs, alcohol, or bad behavior. This can be in the
+          form of a letter from an employer or community leader, evidence of
+          successful drug treatment, or copies of certificates and degrees. The
+          DoD will soon release more specific information about achievements
+          since service, but, for now, add any achievements you would like to
+          call out.
+        </li>
+      </ul>
+    </va-process-list-item>
   );
 };
 
