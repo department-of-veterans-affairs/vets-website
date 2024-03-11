@@ -4,15 +4,28 @@ description: Download Artifact
 inputs:
   name:
     description: Artifact name you wish to download
-    required: true
+    required: false
+    default: ''
   path:
     description: Path to download artifact to
     required: true
+  merge-multiple:
+    description: Combine multiple artifacts into one directory
+    required: false
+    default: false
+  pattern:
+    description: allow fetching by pattern in place of a name
+    required: false
+    default: ''
+
+    # note that even though name and pattern are both set to false, that is an OR situation where one or the other is required. Absence of both will result in an error.
 
 runs:
   using: composite
   steps:
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.name }}
         path: ${{ inputs.path }}
+        merge-multiple: ${{ inputs.merge-multiple }}
+        pattern: ${{ inputs.pattern }}

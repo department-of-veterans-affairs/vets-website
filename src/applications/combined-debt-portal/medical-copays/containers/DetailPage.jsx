@@ -15,7 +15,6 @@ import {
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
-import '../sass/medical-copays.scss';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;

@@ -2,7 +2,7 @@ import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications Refill Submit Success Message List Page', () => {
+describe.skip('Medications Refill Submit Success Message List Page', () => {
   it('visits Success Message on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();

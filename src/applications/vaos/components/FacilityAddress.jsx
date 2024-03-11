@@ -17,6 +17,7 @@ export default function FacilityAddress({
   showPhone = true,
   level = 4,
   showCovidPhone,
+  isPhone,
 }) {
   const featurePhysicalLocation = useSelector(state =>
     selectFeaturePhysicalLocation(state),
@@ -67,6 +68,7 @@ export default function FacilityAddress({
           </>
         )}
         {!!clinicPhysicalLocation &&
+          !isPhone &&
           featurePhysicalLocation && (
             <>
               <br />
@@ -92,6 +94,7 @@ FacilityAddress.propTypes = {
   facility: PropTypes.object.isRequired,
   clinicName: PropTypes.string,
   clinicPhysicalLocation: PropTypes.string,
+  isPhone: PropTypes.bool,
   level: PropTypes.number,
   name: PropTypes.string,
   showCovidPhone: PropTypes.bool,

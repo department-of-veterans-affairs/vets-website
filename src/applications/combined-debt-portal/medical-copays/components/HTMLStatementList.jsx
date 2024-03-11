@@ -25,14 +25,15 @@ const HTMLStatementList = ({ selectedId }) => {
         Review your charges and download your mailed statements from the past 6
         months for this facility.
       </p>
-
-      {sortedFacilityCopays.map(statement => (
-        <HTMLStatementLink
-          id={statement.id}
-          statementDate={statement.pSStatementDateOutput}
-          key={statement.id}
-        />
-      ))}
+      <ul className="no-bullets vads-u-x--0">
+        {sortedFacilityCopays.map(statement => (
+          <HTMLStatementLink
+            id={statement.id}
+            statementDate={statement.pSStatementDateOutput}
+            key={statement.id}
+          />
+        ))}
+      </ul>
     </section>
   );
 };
