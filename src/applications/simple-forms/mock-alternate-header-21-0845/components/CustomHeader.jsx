@@ -77,7 +77,7 @@ const CustomHeader = ({ formData, formConfig, currentLocation }) => {
     // With this custom header, breadcrumbs should not appear on the form pages.
     // However we still want to show them on the introduction page and review page.
     // Static breadcrumbs from content-build cannot be used with this custom header
-    <va-breadcrumbs label="Breadcrumb">
+    <va-breadcrumbs uswds="false" label="Breadcrumb">
       <a href="/">Home</a>
       <a href="/authorization-to-disclose-alternate/">
         Authorize VA to release your information to a third-party source

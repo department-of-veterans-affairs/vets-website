@@ -10,7 +10,7 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
 
   return (
     <>
-      <va-breadcrumbs>
+      <va-breadcrumbs uswds="false">
         <a href="/">Home</a>
         <a href="/education/">Education and training</a>
         {renderBreadCrumbs()}
@@ -29,9 +29,9 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
 };
 
 Layout.propTypes = {
-  clsName: PropTypes.string,
-  children: PropTypes.object,
   breadCrumbs: PropTypes.object,
+  children: PropTypes.object,
+  clsName: PropTypes.string,
 };
 
 export default Layout;
