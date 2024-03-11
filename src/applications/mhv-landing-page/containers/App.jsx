@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
@@ -14,7 +13,6 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
-  isLoggedIn,
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
@@ -29,7 +27,6 @@ const App = () => {
   const enabled = useSelector(isLandingPageEnabledForUser);
   const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
-  const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
   const userHasHealthData = useSelector(hasHealthData);
@@ -75,8 +72,6 @@ const App = () => {
   const loading =
     vamcEhrData.loading || featureToggles.loading || profile.loading;
 
-  const redirecting = signedIn && !loading && !enabled;
-
   useEffect(
     () => {
       async function loadMessages() {
@@ -91,18 +86,7 @@ const App = () => {
     [enabled, hasMHVAccount],
   );
 
-  useEffect(
-    () => {
-      const redirect = () => {
-        const redirectUrl = mhvUrl(ssoe, 'home');
-        window.location.replace(redirectUrl);
-      };
-      if (redirecting) redirect();
-    },
-    [ssoe, redirecting],
-  );
-
-  if (loading || redirecting)
+  if (loading)
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
