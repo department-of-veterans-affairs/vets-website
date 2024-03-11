@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 const MultipleFacilityBody = props => {
   const {
     error,
-    formatAppointment,
     appointmentsByFacility,
     selectedFacilities,
     setSelectedFacilities,
@@ -38,15 +37,28 @@ const MultipleFacilityBody = props => {
     },
     [appointmentsByFacility, selectedFacilities, setSelectedFacilities],
   );
+  const getAppointmentsLabel = facility => {
+    const apptCount = appointmentsByFacility[facility].length;
+    const appointments = appointmentsByFacility[facility].map(
+      appointment =>
+        appointment.clinicStopCodeName
+          ? ` ${appointment.clinicStopCodeName}`
+          : ` ${t('VA-appointment')}`,
+    );
+    return `${apptCount} ${t('appointments', {
+      count: apptCount,
+    })}: ${appointments}`;
+  };
 
   return (
     <div data-testid="multi-fac-context">
       <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p>
       <va-checkbox-group
         data-testid="checkbox-group"
-        error={error ? t('select-one-or-more-appointments') : ''}
+        error={error ? t('select-at-least-one-appointment') : ''}
         uswds
         class="vads-u-margin-top--0 vads-u-margin-bottom--4"
+        label={t('select-one-or-more-appointments')}
       >
         {Object.keys(appointmentsByFacility).map(facility => (
           <VaCheckbox
@@ -56,9 +68,7 @@ const MultipleFacilityBody = props => {
             tile
             value={facility}
             label={appointmentsByFacility[facility][0].facility}
-            checkbox-description={appointmentsByFacility[facility].map(
-              appointment => ` ${formatAppointment(appointment)}`,
-            )}
+            checkbox-description={getAppointmentsLabel(facility)}
             onVaChange={onCheck}
             checked={selectedFacilities.some(fac => fac.stationNo === facility)}
           />
@@ -71,7 +81,6 @@ const MultipleFacilityBody = props => {
 MultipleFacilityBody.propTypes = {
   appointmentsByFacility: PropTypes.object.isRequired,
   error: PropTypes.bool.isRequired,
-  formatAppointment: PropTypes.func.isRequired,
   selectedFacilities: PropTypes.array.isRequired,
   setSelectedFacilities: PropTypes.func.isRequired,
 };

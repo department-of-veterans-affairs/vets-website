@@ -322,7 +322,6 @@
   "back": "Back",
   "if-youre-filing-only-mileage-no-other-file-all-claims-now": "If you’re filing only mileage and no other expenses, you can file all your claims right now for today’s appointments. You’ll need to file separate claims for any appointments that you don’t select.",
   "select-one-or-more-appointments": "Select one or more appointments",
-  "fpo-header": "Placeholder header",
   "if-you-traveled-by-bus-train-taxi-or-other-authorized--help-text": "<0>If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, fax, email, or in person.",
   "if-you-traveled-from-a-different-address-you--helptext": "<0>If you traveled from a different address, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, fax, email, or in person.",
   "you-can-submit-your-claim-now-in-this-tool": "You can submit your claim now in this tool or choose to file later.",
@@ -330,5 +329,6 @@
   "file-claim": "File claim",
   "finish-reviewing-your-travel-claim": "Finish reviewing your travel claim",
   "by-submitting-this-claim": "By submitting this claim, you agree to the <0>beneficiary travel agreement</0>.",
-  "review-your-claim-information-now-to-file": "Review your claim information now to file your travel pay claim."
+  "review-your-claim-information-now-to-file": "Review your claim information now to file your travel pay claim.",
+  "select-at-least-one-appointment": "Select at least one appointment"
 }
