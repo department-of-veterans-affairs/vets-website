@@ -7,6 +7,9 @@ import fullName from '../../fixtures/full-name-success.json';
 import personalInformation from '../../fixtures/personal-information-success-enhanced.json';
 import serviceHistory from '../../fixtures/service-history-success.json';
 
+const beforeNow = moment()
+  .subtract(1, 'minute')
+  .toISOString();
 const withinHour = moment()
   .add(1, 'hour')
   .subtract(1, 'minute')
@@ -31,7 +34,7 @@ context('downtime notification cases for Account Security', () => {
           id: '139',
           type: 'maintenance_windows',
           attributes: {
-            externalService: 'evss',
+            externalService: 'mvi',
             description: 'My description',
             startTime: withinHour,
             endTime,
@@ -44,5 +47,32 @@ context('downtime notification cases for Account Security', () => {
     cy.get('#downtime-approaching-modal').should('exist');
 
     cy.injectAxeThenAxeCheck();
+  });
+
+  it('should show downtime active banner, and not show the page content', () => {
+    cy.intercept('GET', '/v0/maintenance_windows', {
+      data: [
+        {
+          id: '139',
+          type: 'maintenance_windows',
+          attributes: {
+            externalService: 'mvi',
+            description: 'My description',
+            startTime: beforeNow,
+            endTime,
+          },
+        },
+      ],
+    });
+    cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
+
+    cy.injectAxeThenAxeCheck();
+
+    cy.findByText(
+      'We can’t show your account security information right now.',
+    ).should('exist');
+
+    cy.findByText('Sign in information').should('not.exist');
+    cy.findByText('Account setup').should('not.exist');
   });
 });
