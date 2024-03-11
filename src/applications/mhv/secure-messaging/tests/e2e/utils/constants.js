@@ -98,6 +98,7 @@ export const Locators = {
     CREAT_FOLDER_BUTTON: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER_BUTTON: '[data-testid="remove-folder-button"]',
     PREFER_BUTTON: '[data-testid="edit-preferences-button"]',
+    CATEGORY_RADIO_BUTTON: '[data-testid="compose-category-radio-button"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
