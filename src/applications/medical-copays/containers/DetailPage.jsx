@@ -45,7 +45,7 @@ const DetailPage = ({ match }) => {
 
   return (
     <>
-      <va-breadcrumbs uswds="false" className="vads-u-font-family--sans no-wrap">
+      <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>

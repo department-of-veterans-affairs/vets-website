@@ -10,7 +10,7 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
 
   return (
     <>
-      <va-breadcrumbs uswds="false">
+      <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education/">Education and training</a>
         {renderBreadCrumbs()}

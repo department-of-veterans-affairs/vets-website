@@ -81,19 +81,20 @@ const SmBreadcrumbs = () => {
         dispatch(setBreadcrumbs(Constants.Breadcrumbs.INBOX, location));
       } else if (
         path ===
-        (Constants.Paths.MESSAGE_THREAD ||
-          Constants.Paths.REPLY ||
-          Constants.Paths.COMPOSE) &&
+          (Constants.Paths.MESSAGE_THREAD ||
+            Constants.Paths.REPLY ||
+            Constants.Paths.COMPOSE) &&
         activeFolder
       ) {
         dispatch(
           setBreadcrumbs(
             {
               path: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
-              label: `Back to ${activeFolder.folderId < 1
+              label: `Back to ${
+                activeFolder.folderId < 1
                   ? activeFolder.name.toLowerCase()
                   : activeFolder.name
-                }`,
+              }`,
             },
             location,
           ),
@@ -128,10 +129,11 @@ const SmBreadcrumbs = () => {
 
   return (
     <div
-      className={`breadcrumbs vads-1-row ${!crumbs?.label ? 'breadcrumbs--hidden' : ''
-        }`}
+      className={`breadcrumbs vads-1-row ${
+        !crumbs?.label ? 'breadcrumbs--hidden' : ''
+      }`}
     >
-      <va-breadcrumbs uswds="false" label="Breadcrumb" home-veterans-affairs={false}>
+      <va-breadcrumbs label="Breadcrumb" home-veterans-affairs={false}>
         {crumbs && (
           <ul className={breadcrumbSize()}>
             <li>
