@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function MHVDown({
-  appTitle = 'some of our health tools',
+  appTitle = 'our health tools',
   endString,
   startString,
   timeInterval,

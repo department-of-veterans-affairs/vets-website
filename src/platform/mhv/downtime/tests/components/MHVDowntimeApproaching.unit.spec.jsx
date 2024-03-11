@@ -30,7 +30,7 @@ describe('MHVDowntimeApproaching', () => {
     };
 
     const { getByText } = render(<MHVDowntimeApproaching {...props} />);
-    getByText(/you won’t be able to use some of our health tools/i);
+    getByText(/you won’t be able to use our health tools/i);
     getByText(startString);
     getByText(endString);
   });
