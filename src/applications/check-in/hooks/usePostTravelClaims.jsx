@@ -5,7 +5,7 @@ import { useStorage } from './useStorage';
 import { makeSelectForm, makeSelectCurrentContext } from '../selectors';
 import { APP_NAMES } from '../utils/appConstants';
 
-const usePostTravelClaim = () => {
+const usePostTravelClaims = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsCopmlete] = useState(false);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
@@ -63,8 +63,7 @@ const usePostTravelClaim = () => {
   return {
     travelPayClaimError,
     isLoading,
-    isComplete,
   };
 };
 
-export { usePostTravelClaim };
+export { usePostTravelClaims };

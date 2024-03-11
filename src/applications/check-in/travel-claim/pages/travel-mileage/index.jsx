@@ -46,6 +46,7 @@ const TravelMileage = props => {
             stationNo: firstAppointment.stationNo,
             startTime: firstAppointment.startTime,
             multipleAppointments: eligibleToFile.length > 1,
+            facility: firstAppointment.facility,
           },
         ]);
       }

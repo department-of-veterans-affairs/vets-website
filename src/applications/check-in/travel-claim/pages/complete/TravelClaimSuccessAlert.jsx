@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
 import { getUniqueFacilies } from '../../../utils/appointment';
 import { formatList } from '../../../utils/formatters';
 
 const TravelClaimSuccessAlert = props => {
-  // @TODO refactor this once we have worked out where to derive facilities and times for claims from
-  const { appointments } = props;
-  const facilities = getUniqueFacilies(appointments);
-
+  const { claims } = props;
+  const facilities = getUniqueFacilies(claims);
   const { t } = useTranslation();
 
+  let appointmentCount = claims.length;
+
+  if (claims.length === 1) {
+    appointmentCount = claims[0].multipleAppointments ? 2 : 1;
+  }
   return (
     <div className="vads-u-margin-y--4">
       <va-alert
@@ -29,8 +33,9 @@ const TravelClaimSuccessAlert = props => {
           }-claim-submitted`}
         >
           {`${t('this-claim-is-for-your-appointment', {
-            date: new Date('2024-02-23T11:12:11'),
-            count: facilities.length,
+            date: format(new Date(), 'MMMM dd, yyyy'),
+            claims: facilities.length,
+            appointments: appointmentCount,
           })} ${formatList(facilities, t('and'))} ${t(
             'well-send-you-a-text-to-let-you-know',
             {
@@ -45,7 +50,7 @@ const TravelClaimSuccessAlert = props => {
 };
 
 TravelClaimSuccessAlert.propTypes = {
-  appointments: PropTypes.array,
+  claims: PropTypes.array,
 };
 
 export default TravelClaimSuccessAlert;

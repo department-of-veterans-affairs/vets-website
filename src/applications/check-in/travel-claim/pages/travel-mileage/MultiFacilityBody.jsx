@@ -24,6 +24,7 @@ const MultipleFacilityBody = props => {
         stationNo: firstAppointment.stationNo,
         startTime: firstAppointment.startTime,
         multipleAppointments: appointments.length > 1,
+        facility: firstAppointment.facility,
       };
       let newFacilities;
       if (checked) {
