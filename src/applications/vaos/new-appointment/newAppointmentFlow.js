@@ -268,7 +268,7 @@ const flow = {
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
-    label: 'Choose an appointment day and time',
+    label: 'When would you like an appointment?',
     next(state) {
       const supportedSites = selectCommunityCareSupportedSites(state);
       if (isCCFacility(state) && supportedSites.length > 1) {
