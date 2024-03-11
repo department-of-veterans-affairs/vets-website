@@ -59,20 +59,18 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       data-testid={`balance-card-${id}`}
     >
       <h3
-        aria-describedby={`copay-balance-${id}`}
-        className="card-balance vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
         data-testid={`amount-${id}`}
       >
         {currency(amount)}
+        <span
+          data-testid={`facility-city-${id}`}
+          className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal"
+        >
+          Copay balance for {facility} - {city}
+        </span>
       </h3>
-      <h4
-        id={`copay-balance-${id}`}
-        className="vads-u-margin-top--0  vads-u-margin-bottom--1p5 vads-u-font-weight--normal"
-        data-testid={`facility-city-${id}`}
-      >
-        {facility} - {city}
-      </h4>
-      <div className="card-content vads-u-margin-top--0  vads-u-margin-bottom--1p5">
+      <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-top--0  vads-u-margin-bottom--1p5">
         <span className="sr-only">Alert</span>
         <i
           aria-hidden="true"

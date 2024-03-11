@@ -1,8 +1,5 @@
-// Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// Relative imports
 import AlertMessage from '../AlertMessage';
 import { board, formData } from '../../helpers';
 
@@ -155,50 +152,48 @@ const StepOne = ({ formValues }) => {
   );
 
   const form = formData(formValues);
+  const header = `Download and fill out DoD Form ${form.num}`;
+
   return (
-    <li className="list-group-item">
-      <div>
-        <h4>Download and fill out DoD Form {form.num}</h4>
-        <p>Important tips for completing Form {form.num}:</p>
-        {formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
-        <a
-          target="_blank"
-          href={form.link}
-          rel="noopener noreferrer external"
-          className="usa-button-primary usa-button"
-        >
-          Download Form {form.num}
-        </a>
-        <AlertMessage
-          content={
-            <div>
-              <h4 className="usa-alert-heading">
-                Need help preparing your application?
-              </h4>
-              <p>
-                The process of preparing a discharge upgrade or correction
-                application can be a lot of work and can take a long time.
-                Although many Veterans are successful on their own, you may want
-                to consider finding someone to advocate for you in this process.
-                Try a Veterans Service Organization (VSO), search online for a
-                lawyer who may provide services for low or no cost, or ask other
-                Veterans for recommendations.{' '}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://www.benefits.va.gov/vso/varo.asp"
-                >
-                  Find a VSO near you
-                </a>
-                .
-              </p>
-            </div>
-          }
-          isVisible
-          status="warning"
-        />
-      </div>
-    </li>
+    <va-process-list-item header={header}>
+      <p>Important tips for completing Form {form.num}:</p>
+      {formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
+      <va-link
+        class="vads-u-display--block vads-u-margin-bottom--1"
+        download
+        filetype="PDF"
+        href={form.link}
+        text={`Download Form ${form.num}`}
+      />
+      <AlertMessage
+        content={
+          <>
+            <h4 className="usa-alert-heading">
+              Need help preparing your application?
+            </h4>
+            <p>
+              The process of preparing a discharge upgrade or correction
+              application can be a lot of work and can take a long time.
+              Although many Veterans are successful on their own, you may want
+              to consider finding someone to advocate for you in this process.
+              Try a Veterans Service Organization (VSO), search online for a
+              lawyer who may provide services for low or no cost, or ask other
+              Veterans for recommendations.{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.benefits.va.gov/vso/varo.asp"
+              >
+                Find a VSO near you
+              </a>
+              .
+            </p>
+          </>
+        }
+        isVisible
+        status="warning"
+      />
+    </va-process-list-item>
   );
 };
 

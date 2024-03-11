@@ -20,7 +20,7 @@ runs:
   steps:
     - name: Unit test results
       if: ${{ always() }}
-      uses: LouisBrunner/checks-action@v1.1.1
+      uses: LouisBrunner/checks-action@v2.0.0
       with:
         token: ${{ inputs.token }}
         name: ${{ inputs.name }}

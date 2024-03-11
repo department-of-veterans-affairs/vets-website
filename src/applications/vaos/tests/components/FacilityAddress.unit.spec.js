@@ -5,7 +5,6 @@ import { stateNames } from '../../components/State';
 
 import FacilityAddress from '../../components/FacilityAddress';
 
-const initialState = {};
 const facility = {
   id: '377c',
   name: 'Marine Corp Air Station Miramar Pre-Discharge Claims Intake Site',
@@ -29,6 +28,8 @@ const location = {
 };
 
 describe('VAOS Component: FacilityAddress', () => {
+  const initialState = {};
+
   it('should render address for va facility', () => {
     const { address } = facility;
     const screen = renderWithStoreAndRouter(
@@ -98,22 +99,26 @@ describe('VAOS Component: FacilityAddress', () => {
 
     expect(screen.queryByText('Directions')).to.be.null;
   });
+});
 
-  it('should render clinic physical location when vaOnlineSchedulingPhysicalLocation is on', () => {
+describe('VAOS Component: FacilityAddress when vaOnlineSchedulingPhysicalLocation is on', () => {
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingPhysicalLocation: true,
+    },
+  };
+
+  it('should display clinic physical location for in person VA appointment', () => {
     const { address } = facility;
     const screen = renderWithStoreAndRouter(
       <FacilityAddress
         facility={facility}
         clinicName={location.clinicName}
         clinicPhysicalLocation={location.clinicPhysicalLocation}
+        isPhone={false}
       />,
       {
-        initialState: {
-          ...initialState,
-          featureToggles: {
-            vaOnlineSchedulingPhysicalLocation: true,
-          },
-        },
+        initialState,
       },
     );
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
@@ -124,5 +129,28 @@ describe('VAOS Component: FacilityAddress', () => {
     );
     expect(screen.queryByText(/Friendly name/)).to.exist;
     expect(screen.queryByText(/Physical location/)).to.exist;
+  });
+
+  it('should not display clinic physical location for in VA phone appointment', () => {
+    const { address } = facility;
+    const screen = renderWithStoreAndRouter(
+      <FacilityAddress
+        facility={facility}
+        clinicName={location.clinicName}
+        clinicPhysicalLocation={location.clinicPhysicalLocation}
+        isPhone
+      />,
+      {
+        initialState,
+      },
+    );
+    expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
+    expect(screen.baseElement).to.contain.text(
+      `${address.city}, ${stateNames[address.state]}${address.state} ${
+        address.postalCode
+      }`,
+    );
+    expect(screen.queryByText(/Friendly name/)).to.exist;
+    expect(screen.queryByText(/Physical location/)).not.to.exist;
   });
 });

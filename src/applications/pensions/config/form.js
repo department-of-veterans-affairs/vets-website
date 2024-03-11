@@ -17,6 +17,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -24,11 +25,12 @@ import {
 import {
   getDependentChildTitle,
   getMarriageTitleWithCurrent,
-  directDepositWarning,
+  DirectDepositWarning,
   isMarried,
+  MarriageTitle,
   submit,
   createSpouseLabelSelector,
-  generateHelpText,
+  HelpText,
   isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
@@ -308,7 +310,7 @@ const formConfig = {
   // showReviewErrors: true,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
-  useCustomScrollAndFocus: true,
+  useCustomScrollAndFocus: false,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -392,6 +394,7 @@ const formConfig = {
         socialSecurityDisability: {
           title: 'Social Security disability',
           path: 'medical/history/social-security-disability',
+          depends: formData => !formData.isOver65,
           uiSchema: socialSecurityDisability.uiSchema,
           schema: socialSecurityDisability.schema,
         },
@@ -493,7 +496,7 @@ const formConfig = {
           depends: isMarried,
           uiSchema: {
             marriages: {
-              'ui:title': 'How many times have you been married?',
+              ...titleUI('How many times have you been married?'),
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:options': {
@@ -525,9 +528,13 @@ const formConfig = {
             marriages: {
               items: {
                 'ui:options': {
-                  updateSchema: (form, schema, uiSchema, index) => ({
-                    title: getMarriageTitleWithCurrent(form, index),
-                  }),
+                  updateSchema: (form, schema, uiSchema, index) => {
+                    return {
+                      title: MarriageTitle(
+                        getMarriageTitleWithCurrent(form, index),
+                      ),
+                    };
+                  },
                 },
                 spouseFullName: merge({}, fullNameUI, {
                   first: {
@@ -567,7 +574,7 @@ const formConfig = {
                   },
                   otherExplanation: {
                     'ui:title': 'Please specify',
-                    'ui:description': generateHelpText(
+                    'ui:description': HelpText(
                       'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
                     ),
                     'ui:required': (form, index) =>
@@ -683,7 +690,9 @@ const formConfig = {
           path: 'household/spouse-info',
           depends: isMarried,
           uiSchema: {
-            'ui:title': 'Spouse information',
+            ...titleUI(
+              createHouseholdMemberTitle('spouseFullName', 'information'),
+            ),
             spouseDateOfBirth: merge({}, currentOrPastDateUI(''), {
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
@@ -835,6 +844,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
+                ...titleUI(createHouseholdMemberTitle('fullName', 'household')),
                 childInHousehold: yesNoUI({
                   title: 'Does your child live with you?',
                 }),
@@ -868,7 +878,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
-                'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
+                ...titleUI(createHouseholdMemberTitle('fullName', 'address')),
                 childAddress: address.uiSchema(
                   '',
                   false,
@@ -1019,7 +1029,7 @@ const formConfig = {
           path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Direct deposit',
+            ...titleUI('Direct deposit'),
             'view:noDirectDeposit': {
               'ui:title': 'I don’t want to use direct deposit',
             },
@@ -1047,7 +1057,7 @@ const formConfig = {
               },
             }),
             'view:stopWarning': {
-              'ui:description': directDepositWarning,
+              'ui:description': DirectDepositWarning,
               'ui:options': {
                 hideIf: usingDirectDeposit,
               },

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import ListItemView from '../../../components/ListItemView';
 
@@ -32,7 +33,7 @@ const generateMedicalCentersSchemas = (
 ) => {
   return {
     uiSchema: {
-      'ui:title': medicalCentersTitle,
+      ...titleUI(medicalCentersTitle),
       [medicalCentersKey]: {
         'ui:title': medicalCenterMessage,
         'ui:options': {
