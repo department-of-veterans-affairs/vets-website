@@ -14,7 +14,7 @@ const CONTACT_TYPES = [
 const DESCRIPTIONS = {
   [CONTACT_TYPES[0]]: 'The person we’ll contact first in an emergency.',
   [CONTACT_TYPES[1]]:
-    'The person we’ll if your primary contact isn’t available.',
+    'The person we’ll contact if your primary contact isn’t available.',
   [CONTACT_TYPES[2]]:
     'The person you want to represent your health care wishes if needed.',
   [CONTACT_TYPES[3]]:
@@ -59,12 +59,10 @@ const Contact = ({
   ].filter(line => !!line);
 
   const isNextOfKin = contactType.match(/next of kin/i);
+
   const baseContactType = contactType.replace(/^(primary\s+|other\s+)/i, '');
-  let title = '';
-  if (numberOfContacts > 1) {
-    title = index === 0 ? 'Primary ' : 'Secondary ';
-  }
-  title = capitalize(`${title}${baseContactType}`);
+  const ordinal = index === 0 ? 'Primary ' : 'Secondary ';
+  const title = capitalize(`${ordinal}${baseContactType}`);
 
   const description = DESCRIPTIONS[contactType];
 
