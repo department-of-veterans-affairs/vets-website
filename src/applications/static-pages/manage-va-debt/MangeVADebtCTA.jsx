@@ -6,7 +6,7 @@ const fsrUrl = getAppUrl('request-debt-help-form-5655');
 
 const ManageVADebtCTA = () => (
   <>
-    <va-breadcrumbs uswds="false">
+    <va-breadcrumbs>
       <a href="/">Home</a>
       <a href="/manage-va-debt">Manage your VA debt</a>
     </va-breadcrumbs>
