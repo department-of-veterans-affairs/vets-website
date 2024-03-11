@@ -66,12 +66,19 @@ export default {
         'Enter this only if the deceased Veteran has one',
       ),
       'ui:webComponentField': VaTextInputField,
-      // 'ui:reviewField': () => <span />,
+      'ui:reviewField': ({ children }) => {
+        return (
+          <dl className="review">
+            <div className="review-row">
+              <dt>Military Service number</dt>
+              <dd>{children}</dd>
+            </div>
+          </dl>
+        );
+      },
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
         uswds: true,
-        forceDivWrapper: true,
-        useDlWrap: true,
       },
     },
     toursOfDuty: {
