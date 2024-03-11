@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   healthServices,
   benefitsServices,
@@ -59,6 +62,14 @@ const SearchControls = props => {
 
     const option = target.value.trim();
     const serviceType = option === 'All' ? null : option;
+    onChange({ serviceType });
+  };
+
+  const handleServiceTypeChangeVAComponent = e => {
+    const selectedItem = e.detail.value;
+    setSelectedServiceType(selectedItem);
+
+    const serviceType = selectedItem === 'All' ? null : selectedItem;
     onChange({ serviceType });
   };
 
@@ -242,25 +253,18 @@ const SearchControls = props => {
           'usa-input-error': showError,
         })}
       >
-        <label htmlFor="facility-type-dropdown">
-          Facility type <span className="form-required-span">(*Required)</span>
-        </label>
-        {showError && (
-          <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span>
-            Please choose a facility type.
-          </span>
-        )}
-        <select
+        <VaSelect
+          uswds
+          required
           id="facility-type-dropdown"
-          aria-label="Choose a facility type"
+          label="Facility Type"
           value={facilityType || ''}
           className="bor-rad"
-          onChange={handleFacilityTypeChange}
-          style={{ fontWeight: 'bold' }}
+          onVaSelect={e => handleFacilityTypeChange(e)}
+          error={showError ? 'Please choose a facility type.' : null}
         >
           {options}
-        </select>
+        </VaSelect>
       </div>
     );
   };
@@ -314,17 +318,17 @@ const SearchControls = props => {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">Service type</label>
-        <select
+        <VaSelect
+          uswds
+          required
           id="service-type-dropdown"
-          disabled={disabled || !facilityType}
+          label="Service Type"
           value={serviceType || ''}
           className="bor-rad"
-          onChange={handleServiceTypeChange}
-          style={{ fontWeight: 'bold' }}
+          onVaSelect={e => handleServiceTypeChangeVAComponent(e)}
         >
           {options}
-        </select>
+        </VaSelect>
       </span>
     );
   };
