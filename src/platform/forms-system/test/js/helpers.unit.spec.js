@@ -441,6 +441,7 @@ describe('Schemaform helpers:', () => {
         anotherField: 'testing3',
       });
     });
+
     it('should remove empty addresses', () => {
       const formConfig = {
         chapters: {
@@ -463,6 +464,34 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address).to.be.undefined;
     });
+
+    it('should not remove empty addresses if allowPartialAddress is true', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            },
+          },
+        },
+      };
+      const formData = {
+        data: {
+          address: {
+            country: 'testing',
+          },
+        },
+      };
+
+      const output = JSON.parse(
+        transformForSubmit(formConfig, formData, {
+          allowPartialAddress: true,
+        }),
+      );
+
+      expect(output.address.country).to.eql('testing');
+    });
+
     it('should remove empty objects', () => {
       const formConfig = {
         chapters: {

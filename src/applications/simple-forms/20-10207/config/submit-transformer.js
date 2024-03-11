@@ -82,7 +82,7 @@ export default function transformForSubmit(formConfig, form) {
   ) {
     const { street, street2, city } = transformedData.veteranMailingAddress;
     transformedData.veteranMailingAddress.street = street.slice(0, 30);
-    transformedData.veteranMailingAddress.street2 = street2.slice(0, 5);
+    transformedData.veteranMailingAddress.street2 = street2?.slice(0, 5);
     transformedData.veteranMailingAddress.city = city.slice(0, 20);
   }
   if (
@@ -91,7 +91,7 @@ export default function transformForSubmit(formConfig, form) {
   ) {
     const { street, street2, city } = transformedData.nonVeteranMailingAddress;
     transformedData.nonVeteranMailingAddress.street = street.slice(0, 30);
-    transformedData.nonVeteranMailingAddress.street2 = street2.slice(0, 5);
+    transformedData.nonVeteranMailingAddress.street2 = street2?.slice(0, 5);
     transformedData.nonVeteranMailingAddress.city = city.slice(0, 20);
   }
 
