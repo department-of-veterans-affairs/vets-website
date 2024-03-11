@@ -16,7 +16,7 @@ import {
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 
 const showLoading = (message, label) => (
-  <va-loading-indicator message={message} label={label} />
+  <va-loading-indicator set-focus message={message} label={label} />
 );
 
 const ITFWrapper = ({
