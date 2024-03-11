@@ -41,7 +41,7 @@ export const Locators = {
   DELET_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
   SELECT: '#select',
   HEADER: 'h1',
-  HEADLING: 'h1[slot="headline"]',
+  HEADLINE: 'h1[slot="headline"]',
   KEYWORD_SEARCH: '[data-testid="keyword-search-input"]',
   NO_MESS: '[data-testid=alert-no-messages] p',
   FOLDER_MANE: '[data-testid="folder-name"]',

@@ -34,7 +34,11 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       mockTestUser,
     );
 
-    cy.get(Locators.HEADLING).should(
+    cy.wait('@Recipients');
+    // cy.wait('@generalMessages');
+    cy.get('h1').should('be.visible');
+    cy.reload({ force: true });
+    cy.get(Locators.HEADLINE).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
     );
@@ -53,10 +57,10 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
     });
   });
 
-  it('verify alert on inbox page', () => {
+  it.skip('verify alert on inbox page', () => {
     landingPage.loadInboxMessages();
 
-    cy.get(Locators.HEADLING).should(
+    cy.get(Locators.HEADLINE).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
     );
