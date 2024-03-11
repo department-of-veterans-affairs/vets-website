@@ -6,8 +6,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import SignedInViewLayout from './SignedInViewLayout';
-
 function App({ children }) {
   const {
     useToggleValue,
@@ -31,11 +29,7 @@ function App({ children }) {
     return document.location.replace('/');
   }
 
-  return (
-    <SignedInViewLayout POAPermissions breadcrumbs={[]}>
-      {children}
-    </SignedInViewLayout>
-  );
+  return children;
 }
 
 App.propTypes = {

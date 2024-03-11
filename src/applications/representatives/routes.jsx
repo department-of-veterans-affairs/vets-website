@@ -3,26 +3,34 @@ import Dashboard from './containers/Dashboard';
 import LandingPage from './containers/LandingPage';
 import POARequests from './containers/POARequests';
 import PermissionsPage from './containers/PermissionsPage';
+import SignedInViewLayout from './containers/SignedInViewLayout';
 
 const routes = [
   {
-    path: '/poa-requests',
     component: App,
-    childRoutes: [{ indexRoute: { component: POARequests } }],
-  },
-  {
-    path: '/dashboard',
-    component: App,
-    childRoutes: [{ indexRoute: { component: Dashboard } }],
-  },
-  {
-    path: '/',
-    component: LandingPage,
-  },
-  {
-    path: '/permissions',
-    component: App,
-    childRoutes: [{ indexRoute: { component: PermissionsPage } }],
+    childRoutes: [
+      {
+        path: '/',
+        component: LandingPage,
+      },
+      {
+        component: SignedInViewLayout,
+        childRoutes: [
+          {
+            path: '/dashboard',
+            component: Dashboard,
+          },
+          {
+            path: '/poa-requests',
+            component: POARequests,
+          },
+          {
+            path: '/permissions',
+            component: PermissionsPage,
+          },
+        ],
+      },
+    ],
   },
   {
     path: '/permissions',

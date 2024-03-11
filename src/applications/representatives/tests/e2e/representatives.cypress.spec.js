@@ -23,14 +23,10 @@ describe('Representatives', () => {
     describe('when feature is toggled off', () => {
       togglePortal(false);
 
-      it('gates', () => {
+      it('does redirect to root', () => {
         cy.visit('/representatives');
         cy.injectAxe();
         cy.axeCheck();
-
-        cy.get('.vads-c-action-link--white')
-          .should('exist')
-          .click();
 
         cy.location('pathname').should('equal', '/');
       });
@@ -40,45 +36,43 @@ describe('Representatives', () => {
   // In CI, the feature toggle applies so we need to toggle it on to test
   // behavior past the guard. On localhost, the feature toggle doesn't apply so
   // toggling the feature on is redundant.
-  describe('when feature is toggled on', () => {
-    togglePortal(true);
+  togglePortal(true);
 
-    it('does not redirect to root', () => {
-      cy.visit('/representatives');
-      cy.injectAxe();
-      cy.axeCheck();
+  it('does not redirect to root', () => {
+    cy.visit('/representatives');
+    cy.injectAxe();
+    cy.axeCheck();
 
-      cy.location('pathname').should('equal', '/representatives/');
-    });
+    cy.location('pathname').should('equal', '/representatives/');
+  });
 
-    it('allows navigation from landing page to unified sign-in page', () => {
-      cy.visit('/representatives');
-      cy.injectAxe();
-      cy.axeCheck();
+  it('allows navigation from landing page to unified sign-in page', () => {
+    cy.visit('/representatives');
+    cy.injectAxe();
+    cy.axeCheck();
 
-      cy.contains('Sign in or create an account').click();
-      cy.url().should('include', '/sign-in/?application=arp&oauth=true');
-    });
+    cy.contains('Sign in or create an account').click();
+    cy.url().should('include', '/sign-in/?application=arp&oauth=true');
+  });
 
-    it('allows navigation from landing page to dashboard to poa requests', () => {
-      cy.visit('/representatives');
-      cy.injectAxe();
-      cy.axeCheck();
+  it('allows navigation from landing page to dashboard to poa requests', () => {
+    cy.visit('/representatives');
+    cy.injectAxe();
+    cy.axeCheck();
 
-      cy.contains('Welcome to Representative.VA.gov');
-      cy.contains('Until sign in is added use this to see dashboard').click();
+    cy.contains('Welcome to Representative.VA.gov');
+    cy.contains('Until sign in is added use this to see dashboard').click();
 
-      cy.url().should('include', '/representatives/dashboard');
-      cy.axeCheck();
+    cy.url().should('include', '/representatives/dashboard');
+    cy.axeCheck();
 
-      cy.contains('Accredited Representative Portal');
-      cy.contains('View all').click();
+    cy.contains('Accredited Representative Portal');
+    cy.contains('View all').click();
 
-      cy.url().should('include', '/representatives/poa-requests');
-      cy.axeCheck();
+    cy.url().should('include', '/representatives/poa-requests');
+    cy.axeCheck();
 
-      cy.contains('Power of attorney requests');
-      cy.get('[data-testid=poa-requests-table]').should('exist');
-    });
+    cy.contains('Power of attorney requests');
+    cy.get('[data-testid=poa-requests-table]').should('exist');
   });
 });

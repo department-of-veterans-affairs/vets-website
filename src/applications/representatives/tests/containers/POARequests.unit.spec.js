@@ -20,6 +20,11 @@ describe('POARequests page', () => {
     expect(getByText('Power of attorney requests')).to.exist;
   });
 
+  it('renders alert header when does not have POA permissions', () => {
+    const { getByText } = render(<POARequests poaPermissions={false} />);
+    expect(getByText('You are missing some permissions')).to.exist;
+  });
+
   describe('POA requests table', () => {
     it('renders table headers', () => {
       const { getByTestId, getByText } = render(<POARequests />);
