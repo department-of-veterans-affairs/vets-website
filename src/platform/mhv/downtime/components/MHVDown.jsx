@@ -12,8 +12,8 @@ function MHVDown({
       <va-alert class="vads-u-margin-bottom--4" status="error" uswds visible>
         <h2 slot="headline">Maintenance on My HealtheVet</h2>
         <p>
-          We&#x2019;re working on this {appTitle} tool right now. The
-          maintenance will last {timeInterval}.
+          We&#x2019;re working on {appTitle} right now. The maintenance will
+          last {timeInterval}.
         </p>
         {startString && (
           <p>

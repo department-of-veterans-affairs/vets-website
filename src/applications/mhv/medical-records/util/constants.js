@@ -216,5 +216,5 @@ export const loadStates = {
 };
 
 export const downtimeNotificationParams = {
-  appTitle: 'medical records',
+  appTitle: 'this medical records tool',
 };
