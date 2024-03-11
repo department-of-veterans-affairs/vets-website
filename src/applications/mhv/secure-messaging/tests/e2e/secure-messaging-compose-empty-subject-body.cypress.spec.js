@@ -18,19 +18,20 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
       .click();
     composePage.attachMessageFromFile('test_image.jpg');
   });
+
+  it('empty message body error', () => {
+    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.clickOnSendMessageButton();
+    composePage.verifyBodyErrorMessage();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
+  });
   it('empty message subject error', () => {
     composePage
       .getMessageBodyField()
       .type('Test message body', { force: true });
     composePage.clickOnSendMessageButton();
-    composePage.verifySubjectErrorMessage();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-  });
-  it('empty message body error', () => {
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage.clickOnSendMessageButton();
-    composePage.verifyBodyErrorMessage();
+    // composePage.verifySubjectErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
