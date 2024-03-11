@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Paths } from '../utils/constants';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
@@ -26,7 +27,12 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   });
 
   it('verify alert on landing page', () => {
-    SecureMessagingLandingPage.loadMainPage(mockRecipients, mockTestUser);
+    SecureMessagingLandingPage.loadMainPage(
+      mockFeatureToggles,
+      Paths.UI_MAIN,
+      mockRecipients,
+      mockTestUser,
+    );
 
     cy.get('h1[slot="headline"]').should(
       'have.text',

@@ -391,6 +391,7 @@ const formConfig = {
         socialSecurityDisability: {
           title: 'Social Security disability',
           path: 'medical/history/social-security-disability',
+          depends: formData => !formData.isOver65,
           uiSchema: socialSecurityDisability.uiSchema,
           schema: socialSecurityDisability.schema,
         },

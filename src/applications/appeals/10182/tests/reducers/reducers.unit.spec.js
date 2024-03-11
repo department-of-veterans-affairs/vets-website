@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
+import reducers from '../../reducers';
+
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../actions';
-
-import reducers from '../../reducers';
+} from '../../../shared/actions';
 
 describe('contestableIssues reducer', () => {
   const { contestableIssues } = reducers;
