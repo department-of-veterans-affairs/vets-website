@@ -283,7 +283,7 @@ const flow = {
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
-    label: 'Choose a reason for this appointment',
+    label: 'What’s the reason for this appointment?',
     next(state) {
       if (
         isCCFacility(state) ||

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { validateWhiteSpace } from 'platform/forms/validations';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
@@ -113,7 +113,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     : initialSchema.default;
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
-    : 'Choose a reason for this appointment';
+    : 'What’s the reason for this appointment?';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
 
   useEffect(() => {

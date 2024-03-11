@@ -45,7 +45,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
     expect(screen.baseElement).to.contain.text(
-      'Let us know why you’re making this appointment',
+      'What’s the reason for this appointment?',
     );
 
     expect(
