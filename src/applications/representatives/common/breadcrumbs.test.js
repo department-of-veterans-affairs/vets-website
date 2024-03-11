@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { POAbreadcrumbs } from './breadcrumbs';
+import { poaBreadcrumbs } from './breadcrumbs';
 
 describe('breadcrumbs', () => {
   it('returns an array of breadcrumbs for the dashboard', () => {
-    const breadcrumbs = POAbreadcrumbs('dashboard');
+    const breadcrumbs = poaBreadcrumbs('dashboard');
     expect(breadcrumbs).to.deep.equal([
       { link: '/', label: 'Home' },
       { link: '/dashboard', label: 'Dashboard' },
@@ -11,7 +11,7 @@ describe('breadcrumbs', () => {
   });
 
   it('returns an array of breadcrumbs for the permissions page', () => {
-    const breadcrumbs = POAbreadcrumbs('permissions');
+    const breadcrumbs = poaBreadcrumbs('permissions');
     expect(breadcrumbs).to.deep.equal([
       { link: '/', label: 'Home' },
       { link: '/permissions', label: 'Permissions' },
@@ -19,7 +19,7 @@ describe('breadcrumbs', () => {
   });
 
   it('returns an array of breadcrumbs for the poa-requests page', () => {
-    const breadcrumbs = POAbreadcrumbs('poa-requests');
+    const breadcrumbs = poaBreadcrumbs('poa-requests');
     expect(breadcrumbs).to.deep.equal([
       { link: '/', label: 'Home' },
       { link: '/poa-requests', label: 'POA requests' },
@@ -27,7 +27,7 @@ describe('breadcrumbs', () => {
   });
 
   it('returns an array of breadcrumbs for the default page', () => {
-    const breadcrumbs = POAbreadcrumbs('default');
+    const breadcrumbs = poaBreadcrumbs('default');
     expect(breadcrumbs).to.deep.equal([{ link: '/', label: 'Home' }]);
   });
 });

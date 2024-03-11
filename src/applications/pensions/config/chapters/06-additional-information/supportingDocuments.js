@@ -1,4 +1,5 @@
 import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
@@ -160,7 +161,7 @@ function Description({ formData }) {
 
 export default {
   uiSchema: {
-    'ui:title': 'Supporting documents',
+    ...titleUI('Supporting documents'),
     'ui:description': Description,
   },
   schema: {
