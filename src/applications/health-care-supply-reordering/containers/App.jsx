@@ -63,7 +63,7 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <va-breadcrumbs uswds="false" class="va-nav-breadcrumbs">
+          <va-breadcrumbs class="va-nav-breadcrumbs">
             <a href="/">Home</a>
             {/* this will get updated when this route is added */}
             <a href="/health-care">Health care</a>
@@ -77,11 +77,13 @@ class App extends Component {
             Loading your information...
           </va-loading-indicator>
         )}
-        {isError && !pending && isLoggedIn && (
-          <div className="row vads-u-margin-bottom--3">
-            <ErrorMessage />
-          </div>
-        )}
+        {isError &&
+          !pending &&
+          isLoggedIn && (
+            <div className="row vads-u-margin-bottom--3">
+              <ErrorMessage />
+            </div>
+          )}
         {showMainContent && (
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             {children}
@@ -103,4 +105,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ fetchFormStatus }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
