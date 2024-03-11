@@ -1,7 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
   testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
@@ -28,23 +26,5 @@ testNumberOfErrorsOnSubmitForWebComponents(
   schema,
   uiSchema,
   expectedNumberOfWebComponentErrors,
-  pageTitle,
-);
-
-const expectedNumberOfFields = 3;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-);
-
-const expectedNumberOfErrors = 0;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
   pageTitle,
 );

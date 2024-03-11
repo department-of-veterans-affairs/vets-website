@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
@@ -14,7 +15,11 @@ describe('Verify thread - No association at all', () => {
   });
 
   it('landing page view', () => {
-    secureMessagingLandingPage.loadMainPage(mockNoRecipients);
+    secureMessagingLandingPage.loadMainPage(
+      mockFeatureToggles,
+      Paths.UI_MAIN,
+      mockNoRecipients,
+    );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
