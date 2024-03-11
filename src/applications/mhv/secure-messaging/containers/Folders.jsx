@@ -121,7 +121,7 @@ const Folders = () => {
   return (
     <div className="folders-container">
       <AlertBackgroundBox closeable />
-      {folders?.length > 0 ? content() : <></>}
+      {folders?.length > 0 && content()}
     </div>
   );
 };

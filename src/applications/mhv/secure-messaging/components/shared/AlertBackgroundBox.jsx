@@ -74,18 +74,34 @@ const AlertBackgroundBox = props => {
   const location = useLocation();
   const lastPathName = formatPathName(location.pathname, 'Messages');
 
+  // these props check if the current page is the folder view page or thread view page
+  const foldersViewPage = /folders\/\d+/.test(location.pathname);
+  const threadViewPage = /thread\/\d+/.test(location.pathname);
+
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
     () => {
-      let content = activeAlert?.content;
       const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
       const isErrorAlert = activeAlert?.alertType === 'error';
-      if (!props.isLandingPage && (isServiceOutage || isErrorAlert)) {
+      let content = activeAlert?.content;
+
+      if (
+        !props.isLandingPage &&
+        !foldersViewPage &&
+        !threadViewPage &&
+        (isServiceOutage || isErrorAlert)
+      ) {
         content = SERVER_ERROR_503;
       }
       setAlertContent(content);
     },
-    [SERVER_ERROR_503, SERVICE_OUTAGE, activeAlert, props.isLandingPage],
+    [
+      SERVER_ERROR_503,
+      SERVICE_OUTAGE,
+      activeAlert,
+      location.pathname,
+      props.isLandingPage,
+    ],
   );
 
   useInterval(() => {
@@ -99,9 +115,11 @@ const AlertBackgroundBox = props => {
     }
   }, 30000); // 30 seconds
 
-  const alertAriaLabel = `${alertContent}. You are in ${
-    lastPathName === 'Folders' ? 'My folders' : lastPathName
-  }.`;
+  const alertAriaLabel = `${alertContent}. You are in ${(lastPathName ===
+    'Folders' &&
+    'My Folders') ||
+    (foldersViewPage && 'a custom folder view page') ||
+    lastPathName}.`;
 
   return (
     <>
