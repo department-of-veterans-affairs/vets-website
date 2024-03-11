@@ -12,7 +12,7 @@ import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
-import { pageTitles } from '../util/constants';
+import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
 import { selectVaccinesFlag, selectNotesFlag } from '../util/selectors';
 
@@ -46,7 +46,7 @@ const LandingPage = () => {
         </h1>
 
         <DowntimeNotification
-          appTitle="Medical records"
+          appTitle={downtimeNotificationParams.appTitle}
           dependencies={[
             externalServices.mhvMr,
             externalServices.mhvPlatform,

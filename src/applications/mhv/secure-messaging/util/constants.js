@@ -380,7 +380,7 @@ export const FormLabels = {
 };
 
 export const downtimeNotificationParams = {
-  appTitle: 'this messaging tool',
+  appTitle: 'secure messaging',
 };
 
 export const CernerTransitioningFacilities = {

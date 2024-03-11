@@ -214,3 +214,7 @@ export const loadStates = {
   FETCHING: 'fetching',
   FETCHED: 'fetched',
 };
+
+export const downtimeNotificationParams = {
+  appTitle: 'medical records',
+};

@@ -27,6 +27,7 @@ import {
   selectNotesFlag,
 } from '../util/selectors';
 import { resetPagination } from '../actions/pagination';
+import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
@@ -239,7 +240,7 @@ const App = ({ children }) => {
                 Medical records
               </h1>
               <DowntimeNotification
-                appTitle="Medical records"
+                appTitle={downtimeNotificationParams.appTitle}
                 dependencies={[
                   externalServices.mhvMr,
                   externalServices.mhvPlatform,

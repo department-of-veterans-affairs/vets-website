@@ -13,8 +13,8 @@ function MHVDowntimeApproaching({
         <h2 slot="headline">Upcoming maintenance on My HealtheVet</h2>
         <p>
           We&#x2019;ll be working on My HealtheVet soon. The maintenance will
-          last {timeInterval}. During this time, you may have trouble using{' '}
-          {appTitle}.
+          last {timeInterval}. During this time, won't be able to use this{' '}
+          {appTitle} tool.
         </p>
         {startString && (
           <p>
