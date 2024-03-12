@@ -1376,10 +1376,15 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
               },
+              hideIf: formData =>
+                !formData?.['view:serviceHistory']?.[
+                  formFields.serviceHistoryIncorrect
+                ],
               incorrectServiceHistoryInputs: {
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
-                  true,
+                    true &&
+                  formData?.showMebServiceHistoryCategorizeDisagreement,
                 'ui:errorMessages': {
                   required: 'Please check at least one of the options below',
                 },
