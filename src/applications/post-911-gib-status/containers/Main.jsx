@@ -12,7 +12,7 @@ import {
 
 export class Main extends React.Component {
   componentDidMount() {
-    this.props.getEnrollmentData();
+    this.props.getEnrollmentData(this.props.apiVersion);
   }
 
   render() {

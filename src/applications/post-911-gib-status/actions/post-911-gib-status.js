@@ -14,11 +14,11 @@ import {
   SET_SERVICE_UPTIME_REMAINING,
 } from '../utils/constants';
 
-export function getEnrollmentData() {
+export function getEnrollmentData(apiVersion) {
   return dispatch =>
     apiRequest(
       '/post911_gi_bill_status',
-      null,
+      apiVersion,
       response => {
         recordEvent({ event: 'post911-status-success' });
         return dispatch({

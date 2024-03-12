@@ -7,6 +7,7 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import Main from './Main';
 
@@ -37,6 +38,12 @@ function AppContent({ children, isDataAvailable }) {
 }
 
 function Post911GIBStatusApp({ user, children }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(
+    TOGGLE_NAMES.benefitsEducationUseLighthouse,
+  );
+  const apiVersion = toggleValue ? { apiVersion: 'v1' } : null;
+
   return (
     <RequiredLoginView
       verify
@@ -48,7 +55,7 @@ function Post911GIBStatusApp({ user, children }) {
         dependencies={[externalServices.evss]}
       >
         <AppContent>
-          <Main>{children}</Main>
+          <Main apiVersion={apiVersion}>{children}</Main>
         </AppContent>
       </DowntimeNotification>
     </RequiredLoginView>
