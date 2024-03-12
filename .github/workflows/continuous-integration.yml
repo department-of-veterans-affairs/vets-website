@@ -1266,7 +1266,7 @@ jobs:
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
-        
+
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
@@ -1281,7 +1281,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-          fail_on_failure: 'true'
+          fail_on_failures: 'true'
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
