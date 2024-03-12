@@ -235,8 +235,8 @@ export function uploadFile(
       const fileTooBigErrorMessage = enableShortWorkflow
         ? 'We couldn\u2019t upload your file because it\u2019s too big. ' +
           `Please make sure the file is ${fileSizeText} or less and try again.`
-        : 'We couldn\u2019t upload your file because it\u2019s too big. ' +
-          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or less.`;
+        : 'We couldn\u2019t upload your file because it\u2019s too large. ' +
+          `File size must be less than ${fileSizeText}.`;
 
       onChange({
         name: file.name,
@@ -254,7 +254,7 @@ export function uploadFile(
         ? 'We couldn\u2019t upload your file because it\u2019s too small. ' +
           `Please make sure the file is ${fileSizeText} or more and try again.`
         : 'We couldn\u2019t upload your file because it\u2019s too small. ' +
-          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or more.`;
+          `Try uploading a file that\u2019s ${fileSizeText} or more.`;
 
       onChange({
         name: file.name,
