@@ -52,7 +52,7 @@ const TravelClaimSuccessAlert = props => {
 };
 
 TravelClaimSuccessAlert.propTypes = {
-  claims: PropTypes.array,
+  claims: PropTypes.array.isRequired,
 };
 
 export default TravelClaimSuccessAlert;
