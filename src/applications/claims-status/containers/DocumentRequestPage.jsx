@@ -9,7 +9,7 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import AddFilesFormOld from '../components/AddFilesFormOld';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import DueDateOld from '../components/DueDateOld';
 import Notification from '../components/Notification';
@@ -200,7 +200,7 @@ class DocumentRequestPage extends React.Component {
               {content}
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-              <AskVAQuestions />
+              <NeedHelp />
             </div>
           </div>
         </div>

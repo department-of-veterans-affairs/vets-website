@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
 
@@ -88,7 +88,7 @@ class ClaimEstimationPage extends React.Component {
             </p>
           </div>
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            <AskVAQuestions />
+            <NeedHelp />
           </div>
         </div>
       </div>

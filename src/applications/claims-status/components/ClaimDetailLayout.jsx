@@ -10,7 +10,7 @@ import {
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
-import AskVAQuestions from './AskVAQuestions';
+import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
@@ -147,8 +147,8 @@ export default function ClaimDetailLayout(props) {
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             {bodyContent}
           </div>
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            <AskVAQuestions />
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <NeedHelp />
           </div>
         </div>
       </div>
