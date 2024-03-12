@@ -79,6 +79,7 @@ export default function DetailsVA({ appointment, facilityData }) {
         facilityName={facility?.name}
         facilityId={locationId}
         clinicFriendlyName={appointment.location?.clinicName}
+        clinicPhysicalLocation={appointment.location?.clinicPhysicalLocation}
         showCovidPhone={isCovid}
         isPhone={isPhoneAppointment}
       />
@@ -113,6 +114,7 @@ DetailsVA.propTypes = {
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
       clinicName: PropTypes.string.isRequired,
+      clinicPhysicalLocation: PropTypes.string,
     }),
   }),
   facilityData: PropTypes.shape({
@@ -143,6 +145,7 @@ DetailsVA.defaultProps = {
       clinicId: '',
       stationId: '',
       clinicName: '',
+      clinicPhysicalLocation: '',
     },
   },
   facilityData: {

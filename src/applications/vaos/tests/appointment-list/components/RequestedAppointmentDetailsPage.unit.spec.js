@@ -29,6 +29,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingBookingExclusion: false,
     },
   };
 

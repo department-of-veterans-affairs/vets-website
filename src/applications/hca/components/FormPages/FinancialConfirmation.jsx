@@ -7,11 +7,11 @@ const DisabilityConfirmation = props => {
 
   return (
     <va-alert
-      class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
       status="info"
-      background-only
+      class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
+      uswds
     >
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+      <h3 slot="headline">
         Confirm that you don’t want to provide your household financial
         information
       </h3>

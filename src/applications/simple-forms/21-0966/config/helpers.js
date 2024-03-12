@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
+import { format } from 'date-fns';
 import {
   preparerIdentifications,
   veteranBenefits,
@@ -69,6 +70,9 @@ export const statementOfTruthFullNamePath = ({ formData } = {}) => {
     return 'thirdPartyPreparerFullName';
   }
   if (preparerIsVeteran({ formData })) {
+    if (hasVeteranPrefill({ formData })) {
+      return 'view:veteranPrefillStore.fullName';
+    }
     return 'veteranFullName';
   }
   return 'survivingDependentFullName';
@@ -176,14 +180,16 @@ export const confirmationPageAlertParagraph = formData => {
       return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
     }
     if (hasActiveCompensationITF({ formData })) {
-      return `Our records show that you already have an intent to file for disability compensation and it will expire on ${
-        formData['view:activeCompensationITF'].expirationDate
-      }.`;
+      return `Our records show that you already have an intent to file for disability compensation and it will expire on ${format(
+        new Date(formData['view:activeCompensationITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}.`;
     }
     if (hasActivePensionITF({ formData })) {
-      return `Our records show that you already have an intent to file for pension claims and it will expire on ${
-        formData['view:activePensionITF'].expirationDate
-      }.`;
+      return `Our records show that you already have an intent to file for pension claims and it will expire on ${format(
+        new Date(formData['view:activePensionITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}.`;
     }
   }
 
@@ -195,22 +201,26 @@ export const confirmationPageNextStepsParagraph = formData => {
     hasActiveCompensationITF({ formData }) &&
     hasActivePensionITF({ formData })
   ) {
-    return `Your intent to file for disability compensation expires on ${
-      formData['view:activeCompensationITF'].expirationDate
-    } and your intent to file for pension claims expires on ${
-      formData['view:activePensionITF'].expirationDate
-    }. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+    return `Your intent to file for disability compensation expires on ${format(
+      new Date(formData['view:activeCompensationITF'].expirationDate),
+      'MMMM d, yyyy',
+    )} and your intent to file for pension claims expires on ${format(
+      new Date(formData['view:activePensionITF'].expirationDate),
+      'MMMM d, yyyy',
+    )}. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
   }
   if (confirmationPageFormBypassed(formData)) {
     if (hasActiveCompensationITF({ formData })) {
-      return `Your intent to file for disability compensation expires on ${
-        formData['view:activeCompensationITF'].expirationDate
-      }. If you complete and file your claim before that date and we approve your claim, you may be able to get retroactive payments. Retroactive payments are payments for the time between when we processed your intent to file and when we approved your claim.`;
+      return `Your intent to file for disability compensation expires on ${format(
+        new Date(formData['view:activeCompensationITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}. If you complete and file your claim before that date and we approve your claim, you may be able to get retroactive payments. Retroactive payments are payments for the time between when we processed your intent to file and when we approved your claim.`;
     }
     if (hasActivePensionITF({ formData })) {
-      return `Your intent to file for pension claims expires on ${
-        formData['view:activePensionITF'].expirationDate
-      }. If you complete and file your claim before that date and we approve your claim, you may be able to get retroactive payments. Retroactive payments are payments for the time between when we processed your intent to file and when we approved your claim.`;
+      return `Your intent to file for pension claims expires on ${format(
+        new Date(formData['view:activePensionITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}. If you complete and file your claim before that date and we approve your claim, you may be able to get retroactive payments. Retroactive payments are payments for the time between when we processed your intent to file and when we approved your claim.`;
     }
   }
   if (

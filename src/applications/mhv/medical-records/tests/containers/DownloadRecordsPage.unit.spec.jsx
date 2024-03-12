@@ -34,4 +34,9 @@ describe('DownloadRecordsPage', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-pdf'));
     expect(screen).to.exist;
   });
+
+  it('should download a txt', () => {
+    fireEvent.click(screen.getByTestId('download-blue-button-txt'));
+    expect(screen).to.exist;
+  });
 });

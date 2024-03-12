@@ -2,6 +2,14 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 
 const { data: testData } = maxTestData;
 
+export const acceptPrivacyAgreement = () => {
+  cy.get('va-checkbox[name="privacyAgreementAccepted"]')
+    .scrollIntoView()
+    .shadow()
+    .find('label')
+    .click();
+};
+
 export const goToNextPage = pagePath => {
   // Clicks Continue button, and optionally checks destination path.
   cy.findAllByText(/continue|confirm/i, { selector: 'button' })
@@ -287,11 +295,8 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .next('dd')
     .should('have.text', 'Yes (50% or higher rating)');
 
-  cy.get('[name="privacyAgreementAccepted"]')
-    .scrollIntoView()
-    .shadow()
-    .find('[type="checkbox"]')
-    .check();
+  acceptPrivacyAgreement();
+
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {
     // check submitted vaCompensationType value.

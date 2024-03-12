@@ -4,6 +4,7 @@ import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -11,16 +12,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
+import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
-import { recipientTypeLabels } from '../../../labels';
-
-const typeOfIncomeOptions = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  CIVIL_SERVICE: 'Civil Service',
-  PENSION_RETIREMENT: 'Pension or retirement income',
-  OTHER: 'Other income',
-};
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
@@ -31,14 +24,15 @@ export const dependentNameRequired = (form, index) =>
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Gross monthly income',
-    'ui:description': IncomeSourceDescription,
+    ...titleUI('Gross monthly income', IncomeSourceDescription),
     'view:informationAlert': {
       'ui:description': IncomeInformationAlert,
     },
     incomeSources: {
       'ui:options': {
         itemName: 'Income source',
+        itemAriaLabel: data =>
+          `${typeOfIncomeLabels[data.typeOfIncome]} income source`,
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
@@ -49,7 +43,7 @@ export default {
       items: {
         typeOfIncome: radioUI({
           title: 'What type of income?',
-          labels: typeOfIncomeOptions,
+          labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
@@ -102,7 +96,7 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
             otherTypeExplanation: { type: 'string' },
             receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName: { type: 'string' },

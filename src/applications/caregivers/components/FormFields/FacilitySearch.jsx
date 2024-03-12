@@ -60,10 +60,15 @@ const FacilitySearch = props => {
             onInput={handleInputChange}
             error={error}
             required
+            uswds
           />
-          <button className="search-btn" onClick={handleClick}>
+          <va-button
+            onClick={handleClick}
+            data-testid="caregivers-search-btn"
+            uswds
+          >
             Search
-          </button>
+          </va-button>
         </label>
       </div>
 
@@ -88,9 +93,9 @@ const FacilitySearch = props => {
 
 FacilitySearch.propTypes = {
   formContext: PropTypes.object,
-  onChange: PropTypes.func,
   plannedClinic: PropTypes.string,
   value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default FacilitySearch;

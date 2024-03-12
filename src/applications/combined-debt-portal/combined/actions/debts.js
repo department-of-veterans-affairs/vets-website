@@ -18,7 +18,6 @@ import { apiRequest } from '~/platform/utilities/api';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import recordEvent from '~/platform/monitoring/record-event';
 import { debtMockResponse } from '../utils/mocks/mockResponses';
-import { debtLettersShowLettersVBMS } from '../utils/helpers';
 
 const fetchDebtsInitiated = () => ({ type: DEBTS_FETCH_INITIATED });
 const fetchDebtLettersInitiated = () => ({
@@ -89,7 +88,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     return dispatch(fetchDebtLettersVBMSFailure());
   }
 };
-export const fetchDebtLetters = async dispatch => {
+export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
     const options = {
@@ -130,7 +129,7 @@ export const fetchDebtLetters = async dispatch => {
       });
     }
     // if a veteran has dependent debt do NOT fetch debt letters
-    if (!hasDependentDebts && debtLettersShowLettersVBMS) {
+    if (!hasDependentDebts && debtLettersActive) {
       dispatch(fetchDebtLettersVBMS());
     }
     return dispatch(

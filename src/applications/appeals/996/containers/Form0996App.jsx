@@ -17,11 +17,9 @@ import {
 import forcedMigrations from '../migrations/forceMigrations';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
@@ -132,7 +130,10 @@ export const Form0996App = ({
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <va-loading-indicator message="Please wait while we restart the application for you." />
+        <va-loading-indicator
+          set-focus
+          message="Please wait while we restart the application for you."
+        />
       </h1>
     );
   } else if (

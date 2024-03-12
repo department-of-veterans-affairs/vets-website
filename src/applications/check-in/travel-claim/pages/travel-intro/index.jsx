@@ -5,35 +5,34 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import Wrapper from '../../../components/layout/Wrapper';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { hasMultipleFacilities } from '../../../utils/appointment';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import TravelEligibilityAddtionalInfo from '../../../components/TravelEligibilityAdditionalInfo';
-
-// Appointments will come from redux this is temp
-import { singleFacility } from './testAppointments';
+import { APP_NAMES } from '../../../utils/appConstants';
+import ExternalLink from '../../../components/ExternalLink';
 
 const TravelIntro = props => {
-  const { router, appointments = singleFacility } = props;
+  const { router } = props;
   const { t } = useTranslation();
 
-  const { jumpToPage } = useFormRouting(router);
+  const { goToNextPage } = useFormRouting(router);
 
-  const nextPage = hasMultipleFacilities(appointments)
-    ? 'select-appointment'
-    : 'travel-mileage';
   const fileClaimClick = useCallback(
     e => {
       if (e?.key && e.key !== ' ') {
         return;
       }
       recordEvent({
-        event: createAnalyticsSlug('file-travel-clicked', 'nav'),
+        event: createAnalyticsSlug(
+          'file-a-mileage-only-claim--link-clicked',
+          'nav',
+          APP_NAMES.TRAVEL_CLAIM,
+        ),
       });
       e.preventDefault();
-      jumpToPage(nextPage);
+      goToNextPage();
     },
-    [jumpToPage, nextPage],
+    [goToNextPage],
   );
+
   return (
     <>
       <Wrapper
@@ -51,12 +50,20 @@ const TravelIntro = props => {
             <p className="vads-u-margin-top--0">
               {t('if-youre-eligible-for-travel-reimbursement-you-can-file')}
             </p>
-            <va-additional-info
-              trigger={t('travel-reimbursement-eligibility')}
-              uswds
+            <ExternalLink
+              href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+              target="_blank"
+              rel="noreferrer"
+              eventId="travel-reimbursement-eligibility--link-clicked"
+              hrefLang="en"
+              eventPrefix="nav"
             >
-              <TravelEligibilityAddtionalInfo />
-            </va-additional-info>
+              {t('travel-reimbursement-eligibility')}
+              <i
+                aria-hidden="true"
+                className="fas fa-external-link-alt vads-u-margin-left--1"
+              />
+            </ExternalLink>
           </va-process-list-item>
           <va-process-list-item>
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
@@ -77,31 +84,40 @@ const TravelIntro = props => {
             <p>
               {t('if-claiming-other-expenses-file-online-or-mail-or-in-person')}
             </p>
-            <a
-              className="vads-c-action-link--blue"
+            <ExternalLink
               href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+              eventId="learn-how-to-file-claims-for-other-expenses--link-clicked"
+              className="vads-c-action-link--blue"
+              hrefLang="en"
+              eventPrefix="nav"
             >
               {t('learn-how-file-claims-other-expenses')}
-            </a>
+            </ExternalLink>
           </va-process-list-item>
         </va-process-list>
-        <va-featured-content class="vads-u-margin-bottom--1" uswds>
-          <h2 className="vads-u-font-family--sans vads-u-margin-top--0">
+        <va-summary-box class="vads-u-margin-bottom--1" uswds>
+          <h2
+            className="vads-u-font-family--sans vads-u-margin-top--0"
+            slot="headline"
+          >
             {t('set-up-direct-deposit')}
           </h2>
           <p>{t('set-up-direct-deposit-to-receive-travel-reimbursement')}</p>
-          <a href="https://www.va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/">
+          <ExternalLink
+            href="https://www.va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
+            eventId="set-up-direct-desposit--link-clicked"
+            hrefLang="en"
+            eventPrefix="nav"
+          >
             {t('set-up-direct-deposit')}
-          </a>
-        </va-featured-content>
+          </ExternalLink>
+        </va-summary-box>
       </Wrapper>
     </>
   );
 };
 
 TravelIntro.propTypes = {
-  // temp prop remove after data fetch in place
-  appointments: PropTypes.array,
   router: PropTypes.object,
 };
 

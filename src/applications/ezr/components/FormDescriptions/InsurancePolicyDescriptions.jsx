@@ -14,7 +14,7 @@ export const PolicyOrGroupDescription = (
 );
 
 export const TricarePolicyDescription = (
-  <va-additional-info trigger="I have TRICARE. What’s my policy number?">
+  <va-additional-info trigger="I have TRICARE. What’s my policy number?" uswds>
     <div>
       <p className="vads-u-margin-top--0">
         You can use your Department of Defense benefits number (DBN) or your
