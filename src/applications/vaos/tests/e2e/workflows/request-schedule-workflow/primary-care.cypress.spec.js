@@ -95,10 +95,12 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl()
+            .assertHeading({ name: /When would you like an appointment/i })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
             .typeAdditionalText({
               label: /Add any details you.d like to share with your provider/,
@@ -107,19 +109,20 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
+            .assertHeading({
+              name: /How do you want to attend this appointment/i,
+            })
             .selectVisitType('In person')
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
-            .assertHeading({ name: /Review your appointment details/ })
-            .assertText({
-              text: /Please review the information before submitting your request/i,
-            })
+            .assertHeading({ name: /Review and submit your request/ })
             .clickRequestButton();
 
           ConfirmationPageObject.assertUrl({ isDirect: false });
@@ -149,10 +152,12 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl()
+            .assertHeading({ name: /When would you like an appointment/i })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
             .typeAdditionalText({
               label: /Add any details you.d like to share with your provider/,
@@ -161,10 +166,14 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
+            .assertHeading({
+              name: /How do you want to attend this appointment/i,
+            })
             .selectVisitType(/In person/i)
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
@@ -222,10 +231,12 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl()
+            .assertHeading({ name: /When would you like an appointment/i })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
             .typeAdditionalText({
               label: /Add any details you.d like to share with your provider/,
@@ -234,19 +245,20 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
+            .assertHeading({
+              name: /How do you want to attend this appointment/i,
+            })
             .selectVisitType('In person')
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
-            .assertHeading({ name: /Review your appointment details/ })
-            .assertText({
-              text: /Please review the information before submitting your request/i,
-            })
+            .assertHeading({ name: /Review and submit your request/ })
             .clickRequestButton();
 
           ConfirmationPageObject.assertUrl({ isDirect: false });
@@ -276,10 +288,12 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl()
+            .assertHeading({ name: /When would you like an appointment/i })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
             .typeAdditionalText({
               label: /Add any details you.d like to share with your provider/,
@@ -288,10 +302,14 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
+            .assertHeading({
+              name: /How do you want to attend this appointment/i,
+            })
             .selectVisitType(/In person/i)
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
@@ -354,10 +372,12 @@ describe('VAOS request schedule flow - Primary care', () => {
           .clickNextButton();
 
         DateTimeRequestPageObject.assertUrl()
+          .assertHeading({ name: /When would you like an appointment/i })
           .selectFirstAvailableDate()
           .clickNextButton();
 
         ReasonForAppointmentPageObject.assertUrl()
+          .assertHeading({ name: /What.s the reason for this appointment/i })
           .selectReasonForAppointment()
           .typeAdditionalText({
             label: /Add any details you.d like to share with your provider/,
@@ -366,19 +386,20 @@ describe('VAOS request schedule flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfVisitPageObject.assertUrl()
+          .assertHeading({
+            name: /How do you want to attend this appointment/i,
+          })
           .selectVisitType('In person')
           .clickNextButton();
 
         ContactInfoPageObject.assertUrl()
+          .assertHeading({ name: /How should we contact you/i })
           .typeEmailAddress('veteran@va.gov')
           .typePhoneNumber('5555555555')
           .clickNextButton();
 
         ReviewPageObject.assertUrl()
-          .assertHeading({ name: /Review your appointment details/ })
-          .assertText({
-            text: /Please review the information before submitting your request/i,
-          })
+          .assertHeading({ name: /Review and submit your request/ })
           .clickRequestButton();
 
         ConfirmationPageObject.assertUrl({ isDirect: false });

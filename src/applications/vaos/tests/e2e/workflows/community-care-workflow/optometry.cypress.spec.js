@@ -126,10 +126,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
-            .assertHeading({ name: /Review your appointment details/ })
-            .assertText({
-              text: /Please review the information before submitting your request/i,
-            })
+            .assertHeading({ name: /Review and submit your request/ })
             .clickRequestButton();
 
           ConfirmationPageObject.assertUrl({ isDirect: false });
@@ -261,10 +258,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
-            .assertHeading({ name: /Review your appointment details/ })
-            .assertText({
-              text: /Please review the information before submitting your request/i,
-            })
+            .assertHeading({ name: /Review and submit your request/ })
             .clickRequestButton();
 
           ConfirmationPageObject.assertUrl({ isDirect: false });
@@ -398,10 +392,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
           .clickNextButton();
 
         ReviewPageObject.assertUrl()
-          .assertHeading({ name: /Review your appointment details/ })
-          .assertText({
-            text: /Please review the information before submitting your request/i,
-          })
+          .assertHeading({ name: /Review and submit your request/ })
           .clickRequestButton();
 
         ConfirmationPageObject.assertUrl({ isDirect: false });
