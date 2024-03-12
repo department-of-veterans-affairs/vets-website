@@ -33,7 +33,7 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           Follow the steps below to apply for beneficiary travel claim.
         </h2>
-        <va-process-list>
+        <va-process-list uswds="false">
           <li>
             <h3>Prepare</h3>
             <h4>To fill out this application, you’ll need your:</h4>
