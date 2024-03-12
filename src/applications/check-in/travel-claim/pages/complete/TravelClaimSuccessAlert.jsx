@@ -30,7 +30,9 @@ const TravelClaimSuccessAlert = props => {
           className="vads-u-margin-top--0"
           data-testid={`travel-pay-${
             facilities.length > 1 ? 'multi' : 'single'
-          }-claim-submitted`}
+          }-claim-${
+            appointmentCount > 1 ? 'multi' : 'single'
+          }-appointment-submitted`}
         >
           {`${t('this-claim-is-for-your-appointment', {
             date: format(new Date(), 'MMMM dd, yyyy'),
