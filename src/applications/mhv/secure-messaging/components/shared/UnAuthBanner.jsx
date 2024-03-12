@@ -9,6 +9,7 @@ const UnAuthBanner = () => {
   };
   return (
     <va-alert
+      uswds
       background-only
       close-btn-aria-label="Close notification"
       status="continue"
@@ -25,6 +26,7 @@ const UnAuthBanner = () => {
           accounts, you can create a free account now.
         </p>
         <va-button
+          uswds
           onClick={handleSignIn}
           primary-alternate
           text="Sign in or create account"

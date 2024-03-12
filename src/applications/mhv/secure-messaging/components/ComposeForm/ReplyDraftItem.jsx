@@ -399,6 +399,7 @@ const ReplyDraftItem = props => {
     <>
       {saveError && (
         <VaModal
+          uswds
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
           onCloseEvent={() => setSaveError(null)}
@@ -467,6 +468,7 @@ const ReplyDraftItem = props => {
             </section>
           ) : (
             <va-textarea
+              uswds
               ref={textareaRef}
               data-dd-privacy="mask"
               label="Message"
@@ -526,6 +528,7 @@ const ReplyDraftItem = props => {
             {draft.body}
           </p>
           <va-button
+            uswds
             secondary
             text={`Edit draft ${draftsequence}`}
             id="edit-draft-button"

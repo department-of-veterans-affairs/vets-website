@@ -560,6 +560,7 @@ const ComposeForm = props => {
       <form className="compose-form" id="sm-compose-form">
         {saveError && (
           <VaModal
+            uswds
             modalTitle={saveError.title}
             onCloseEvent={() => {
               setSaveError(null);
@@ -573,6 +574,7 @@ const ComposeForm = props => {
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
             <va-button
+              uswds
               text="Continue editing"
               onClick={() => setSaveError(null)}
             />
@@ -620,6 +622,7 @@ const ComposeForm = props => {
             !allTriageGroupsBlocked && (
               <>
                 <VaSelect
+                  uswds
                   enable-analytics
                   id="recipient-dropdown"
                   label="To"
@@ -665,6 +668,7 @@ const ComposeForm = props => {
               <ViewOnlyDraftSection title={FormLabels.SUBJECT} body={subject} />
             ) : (
               <va-text-input
+                uswds
                 label={FormLabels.SUBJECT}
                 required
                 type="text"
@@ -678,8 +682,6 @@ const ComposeForm = props => {
                 data-dd-privacy="mask"
                 data-dd-action-name="Compose Message Subject Input Field"
                 maxlength="50"
-                uswds
-                charcount
               />
             )}
           </div>
@@ -691,6 +693,7 @@ const ComposeForm = props => {
               />
             ) : (
               <va-textarea
+                uswds
                 label={FormLabels.MESSAGE}
                 required
                 id="compose-message-body"

@@ -38,6 +38,7 @@ const AlertBox = () => {
     alertVisible &&
     activeAlert && (
       <VaAlert
+        uswds
         key={null}
         status={activeAlert.alertType}
         visible

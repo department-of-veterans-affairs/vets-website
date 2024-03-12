@@ -4,6 +4,7 @@ import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-libr
 const HowToAttachFiles = () => {
   return (
     <VaAdditionalInfo
+      uswds
       trigger="What to know about attaching files"
       disable-analytics={false}
       disable-border={false}

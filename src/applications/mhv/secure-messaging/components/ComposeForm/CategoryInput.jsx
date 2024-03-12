@@ -28,6 +28,7 @@ const CategoryInput = props => {
 
       {categories?.length > 0 && (
         <VaRadio
+          uswds
           required
           enable-analytics
           data-testid="compose-message-categories"
@@ -38,6 +39,7 @@ const CategoryInput = props => {
         >
           {categories?.map((item, i) => (
             <VaRadioOption
+              uswds
               data-dd-privacy="mask"
               data-testid="compose-category-radio-button"
               data-dd-action-name="Compose Category Radio Button"

@@ -221,6 +221,7 @@ const SearchForm = props => {
           <div className="filter-input-box-container">
             <div className="filter-text-input">
               <va-text-input
+                uswds
                 ref={filterInputRef}
                 id="filter-input"
                 label={filterLabelBody}
@@ -240,8 +241,9 @@ const SearchForm = props => {
         </>
         {!location.pathname.includes(Paths.DRAFTS) && (
           <va-additional-info
+            uswds
             trigger="What's a message ID?"
-            class="message-id-info"
+            class="message-id-info vads-u-margin-y--1p5"
           >
             A message ID is a number we assign to each message. If you sign up
             for email notifications, we’ll send you an email each time you get a
@@ -266,6 +268,7 @@ const SearchForm = props => {
         )}
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <va-button
+            uswds
             text="Filter"
             primary
             class="filter-button vads-u-margin-left--0"
@@ -277,6 +280,7 @@ const SearchForm = props => {
           />
           {resultsCount !== undefined && (
             <va-button
+              uswds
               text="Clear Filters"
               secondary
               class="clear-filter-button"

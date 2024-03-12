@@ -23,6 +23,7 @@ const DraftSavedInfo = () => {
   if (saveError) {
     return (
       <va-alert
+        uswds
         background-only
         class="last-save-time"
         full-width="false"
@@ -40,6 +41,7 @@ const DraftSavedInfo = () => {
     return (
       <>
         <va-alert
+          uswds
           aria-live="polite"
           background-only
           class="last-save-time"

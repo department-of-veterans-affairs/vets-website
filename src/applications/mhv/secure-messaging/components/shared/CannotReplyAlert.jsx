@@ -9,7 +9,7 @@ const CannotReplyAlert = props => {
   return (
     <>
       {visible && (
-        <VaAlert status="info" class="vads-u-margin-y--4">
+        <VaAlert uswds status="info" class="vads-u-margin-y--4">
           <h2 slot="headline" data-testid="expired-alert-message">
             {Alerts.Message.CANNOT_REPLY_INFO_HEADER}
           </h2>

@@ -3,6 +3,7 @@ import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-libr
 
 const BeforeMessageAddlInfo = () => (
   <VaAdditionalInfo
+    uswds
     trigger="Before you send a message"
     disable-analytics={false}
     disable-border={false}

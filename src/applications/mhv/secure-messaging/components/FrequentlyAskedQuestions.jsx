@@ -174,7 +174,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
     <div className="secure-messaging-faq">
       <h2 className="vads-u-margin-top--1">Questions about using messages</h2>
 
-      <va-accordion open-single>
+      <va-accordion uswds open-single>
         <va-accordion-item uswds data-testid="faq-accordion-item">
           <h3 slot="headline">Who can I communicate with in messages?</h3>
           <p>

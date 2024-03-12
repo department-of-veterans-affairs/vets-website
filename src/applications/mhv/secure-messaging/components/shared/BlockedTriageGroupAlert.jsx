@@ -158,6 +158,7 @@ const BlockedTriageGroupAlert = props => {
     </va-alert-expandable>
   ) : (
     <va-alert
+      uswds
       close-btn-aria-label="Close notification"
       status={alertStyle}
       visible

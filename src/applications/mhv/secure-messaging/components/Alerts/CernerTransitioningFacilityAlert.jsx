@@ -73,7 +73,7 @@ const CernerTransitioningFacilityAlert = () => {
     () => {
       return (
         isTranstioningFacility && (
-          <va-alert status="warning" class="vads-u-margin-y--2">
+          <va-alert status="warning" class="vads-u-margin-y--2" uswds>
             <h1 slot="headline">
               Your health facility is moving to My VA Health
             </h1>
@@ -105,7 +105,7 @@ const CernerTransitioningFacilityAlert = () => {
     () => {
       return (
         isTranstioningFacility && (
-          <va-alert status="warning" class="vads-u-margin-y--2">
+          <va-alert status="warning" class="vads-u-margin-y--2" uswds>
             <h1 slot="headline">
               You can’t send messages to some of your care teams right now
             </h1>

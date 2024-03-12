@@ -75,7 +75,7 @@ const Folders = () => {
     }
     if (folders === null || folders === false) {
       return (
-        <va-alert status="error" visible class="vads-u-margin-y--9">
+        <va-alert uswds status="error" visible class="vads-u-margin-y--9">
           <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
           <p>
             You can’t view your secure message because something went wrong on
@@ -102,6 +102,7 @@ const Folders = () => {
           text="Create new folder"
           data-testid="create-new-folder"
           data-dd-action-name="Create New Folder Button"
+          uswds
         />
         {folderCount > 0 && (
           <>

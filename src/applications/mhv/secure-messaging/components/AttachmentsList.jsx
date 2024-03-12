@@ -123,6 +123,7 @@ const AttachmentsList = props => {
       {attachFileSuccess &&
         attachments.length > 0 && (
           <VaAlert
+            uswds
             aria-live="polite"
             aria-label="file successfully attached"
             ref={attachFileAlertRef}
@@ -135,7 +136,12 @@ const AttachmentsList = props => {
             status="success"
             onCloseEvent={handleSuccessAlertClose}
           >
-            <p className="vads-u-margin-bottom--0">File attached</p>
+            <h3
+              slot="headline"
+              className="vads-u-margin-bottom--0 vads-u-font-size--base vads-font-family-sans-serif"
+            >
+              File attached
+            </h3>
             <button
               className="close-success-alert-button vads-u-padding--0p5"
               id="close-success-alert-button"

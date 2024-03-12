@@ -38,6 +38,7 @@ const MessageThread = props => {
             } in this conversation`}
         </h2>
         <VaAccordion
+          uswds
           ref={accordionRef}
           data-testid="thread-expand-all"
           bordered

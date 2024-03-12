@@ -30,7 +30,7 @@ import { threadSortingOptions } from '../../util/constants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 5;
+const MAX_PAGE_LIST_LENGTH = 7;
 const {
   SENT_DATE_ASCENDING,
   SENT_DATE_DESCENDING,
@@ -178,7 +178,7 @@ const MessageList = props => {
       <div
         role="status"
         ref={displayingNumberOfMesssagesRef}
-        className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+        className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-background-color--gray-light-alt vads-u-padding-left--1"
       >
         {`Showing ${displayNums.from} to ${
           displayNums.to
@@ -215,8 +215,9 @@ const MessageList = props => {
             onPageSelect={e => onPageChange(e.detail.page)}
             page={page}
             pages={paginatedMessages.current.length}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            max-page-list-length={MAX_PAGE_LIST_LENGTH}
             showLastPage
+            uswds
           />
         )}
     </div>

@@ -211,6 +211,7 @@ const FolderThreadListView = props => {
 
             <div className="vads-u-margin-top--3">
               <va-alert
+                uswds
                 background-only="true"
                 status="info"
                 className="vads-u-margin-bottom--1 va-alert"
@@ -227,7 +228,7 @@ const FolderThreadListView = props => {
 
       if (error) {
         return (
-          <va-alert status="error" visible>
+          <va-alert uswds status="error" visible>
             <h2 slot="headline">
               We’re sorry. Something went wrong on our end
             </h2>

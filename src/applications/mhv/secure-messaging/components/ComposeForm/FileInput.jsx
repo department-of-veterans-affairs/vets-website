@@ -139,6 +139,7 @@ const FileInput = props => {
           />
 
           <va-button
+            uswds
             onClick={useFileInput}
             secondary
             text={

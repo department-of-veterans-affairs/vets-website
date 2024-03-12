@@ -6,6 +6,7 @@ import { Prompts } from '../../util/constants';
 const DeleteMessageModal = props => {
   return (
     <VaModal
+      uswds
       id="delete-message-modal"
       modalTitle={Prompts.Message.DELETE_MESSAGE_CONFIRM}
       onCloseEvent={props.onClose}
@@ -18,10 +19,7 @@ const DeleteMessageModal = props => {
       data-testid="delete-message-modal"
       data-dd-action-name="Delete Message Modal Closed"
     >
-      <div
-        className="modal-body vads-u-padding-bottom--1p5"
-        data-testid="delete-message-confirm-note"
-      >
+      <div className="modal-body" data-testid="delete-message-confirm-note">
         <p>{Prompts.Message.DELETE_MESSAGE_CONFIRM_NOTE}</p>
       </div>
     </VaModal>

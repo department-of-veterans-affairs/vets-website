@@ -6,6 +6,7 @@ import { Prompts } from '../../util/constants';
 const RemoveAttachmentModal = props => {
   return (
     <VaModal
+      uswds
       id="remove-attachment-modal"
       data-testid="remove-attachment-modal"
       data-dd-action-name="Remove Attachment Modal Closed"
@@ -25,12 +26,14 @@ const RemoveAttachmentModal = props => {
         small-screen:vads-u-flex-direction--row"
       >
         <va-button
+          uswds
           data-testid="confirm-remove-attachment-button"
           text="Remove"
           onClick={props.onDelete}
           data-dd-action-name="Confirm Remove Attachment Button"
         />
         <va-button
+          uswds
           data-testid="cancel-remove-attachment-button"
           secondary
           text="Cancel"

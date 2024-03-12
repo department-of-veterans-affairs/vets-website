@@ -21,6 +21,7 @@ const ComposeFormActionButtons = ({
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {!cannotReply && (
         <va-button
+          uswds
           text="Send"
           label="Send"
           id="send-button"
