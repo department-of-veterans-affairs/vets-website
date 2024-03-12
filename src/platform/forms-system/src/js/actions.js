@@ -232,11 +232,9 @@ export function uploadFile(
 
     if (file.size > maxSize) {
       const fileSizeText = uiOptions?.maxSizeText || displayFileSize(maxSize);
-      const fileTooBigErrorMessage = enableShortWorkflow
-        ? 'We couldn\u2019t upload your file because it\u2019s too big. ' +
-          `Please make sure the file is ${fileSizeText} or less and try again.`
-        : 'We couldn\u2019t upload your file because it\u2019s too large. ' +
-          `File size must be less than ${fileSizeText}.`;
+      const fileTooBigErrorMessage =
+        'We couldn\u2019t upload your file because it\u2019s too large. ' +
+        `File size must be less than ${fileSizeText}.`;
 
       onChange({
         name: file.name,
@@ -250,11 +248,9 @@ export function uploadFile(
     if (file.size < uiOptions.minSize) {
       const fileSizeText =
         uiOptions?.minSizeText || displayFileSize(uiOptions.minSize);
-      const fileTooSmallErrorMessage = enableShortWorkflow
-        ? 'We couldn\u2019t upload your file because it\u2019s too small. ' +
-          `Please make sure the file is ${fileSizeText} or more and try again.`
-        : 'We couldn\u2019t upload your file because it\u2019s too small. ' +
-          `Try uploading a file that\u2019s ${fileSizeText} or more.`;
+      const fileTooSmallErrorMessage =
+        'We couldn\u2019t upload your file because it\u2019s too small. ' +
+        `Try uploading a file that\u2019s ${fileSizeText} or more.`;
 
       onChange({
         name: file.name,
