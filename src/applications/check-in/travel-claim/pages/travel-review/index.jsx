@@ -1,44 +1,49 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { recordAnswer } from '../../../actions/universal';
+import { makeSelectVeteranAddress } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
 
 const TravelQuestion = props => {
   const { router } = props;
   const { t } = useTranslation();
-  const { jumpToPage, goToNextPage } = useFormRouting(router);
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
-  const dispatch = useDispatch();
+  const selectVeteranAddress = useMemo(makeSelectVeteranAddress, []);
+  const address = useSelector(selectVeteranAddress);
   const onEditClick = e => {
     e.preventDefault();
     jumpToPage('/travel-mileage');
+  };
+  const agreementLink = e => {
+    e.preventDefault();
+    jumpToPage('/travel-agreement');
   };
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
   const validation = () => {
     if (agree) {
-      dispatch(recordAnswer({ 'travel-question': 'yes' }));
       goToNextPage();
     } else {
       setError(true);
     }
   };
-  const fileLater = () => {
-    dispatch(recordAnswer({ 'travel-question': 'no' }));
-    goToNextPage();
-  };
+
   const bodyText = (
     <>
-      <p>{t('review-body-text')}</p>
+      <p>{t('you-can-submit-your-claim-now-in-this-tool')}</p>
+      <Trans
+        i18nKey="if-you-choose-to-file-later"
+        components={[<span key="bold" className="vads-u-font-weight--bold" />]}
+      />
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
-        <h2>{t('claim-informaiton')}</h2>
+        <h2 className="vads-u-margin-top--2p5">{t('claim-informaiton')}</h2>
         <a
           className="vads-u-margin-left--auto"
           href="travel-vehicle"
@@ -58,9 +63,7 @@ const TravelQuestion = props => {
         <dt className="vads-u-margin-top--2p5">
           {t('where-you-traveled-from')}
         </dt>
-        <dd className="vads-u-margin-top--0p5">
-          {/* <AddressBlock address={demographics.homeAddress} /> */}
-        </dd>
+        <dd className="vads-u-margin-top--0p5">{address}</dd>
       </dl>
       <div
         className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-bottom--4 vads-u-font-family--sans"
@@ -85,22 +88,20 @@ const TravelQuestion = props => {
           uswds
         >
           <div slot="description">
-            <p>{t('by-submitting-claim')}</p>
-            <va-additional-info
-              uswds
-              trigger={t('beneficiary-travel-agreement')}
-              class="vads-u-margin-bottom--3"
-            >
-              <span className="vads-u-font-weight--bold">
-                {t('please-review')}
-              </span>
-              <ul>
-                <Trans
-                  i18nKey="certify-statements"
-                  components={[<li key="list-item" />]}
-                />
-              </ul>
-            </va-additional-info>
+            <p>
+              <Trans
+                i18nKey="by-submitting-this-claim"
+                components={[
+                  <a
+                    data-testid="travel-agreement-link"
+                    key="link"
+                    aria-label={t('beneficiary-travel-agreement')}
+                    href="travel-agreement"
+                    onClick={e => agreementLink(e)}
+                  />,
+                ]}
+              />
+            </p>
           </div>
         </VaCheckbox>
       </div>
@@ -113,10 +114,10 @@ const TravelQuestion = props => {
       bodyText={bodyText}
       pageType="travel-review"
       router={router}
-      yesButtonText={t('agree-to-these-terms')}
+      yesButtonText={t('file-claim')}
       yesFunction={validation}
-      noButtonText={t('file-later')}
-      noFunction={fileLater}
+      noButtonText={t('back')}
+      noFunction={() => goToPreviousPage()}
     />
   );
 };
