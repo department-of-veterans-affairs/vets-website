@@ -18,7 +18,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         {module === APP_TYPES.DEBT && (
           <span data-testid="other-va-debt-body">
             &nbsp;VA benefit debt. You can&nbsp;
-            <a href="/manage-va-debt/your-debt">
+            <a href="/manage-va-debt/summary/debt-balances">
               check the details of your current debt
             </a>
             <span>
