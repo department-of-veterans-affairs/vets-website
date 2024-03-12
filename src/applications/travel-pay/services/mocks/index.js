@@ -1,4 +1,3 @@
-// see src/applications/vaos/services/mocks/index.js
 const delay = require('mocker-api/lib/delay');
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
