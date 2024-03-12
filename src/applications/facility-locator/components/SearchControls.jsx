@@ -249,9 +249,14 @@ const SearchControls = props => {
 
     return (
       <div
-        className={classNames('input-clear', 'vads-u-margin--0', {
-          'usa-input-error': showError,
-        })}
+        className={classNames(
+          'input-clear',
+          'vads-u-margin--0',
+          `facility-type-dropdown-val-${facilityType || 'none'}`,
+          {
+            'usa-input-error': showError,
+          },
+        )}
       >
         <VaSelect
           uswds
