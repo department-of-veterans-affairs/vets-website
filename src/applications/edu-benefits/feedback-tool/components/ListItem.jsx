@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PageLink from './PageLink';
 
 const ListItem = ({ item, className }) => {
@@ -24,11 +26,7 @@ const ListItem = ({ item, className }) => {
         if (ele.type === 'phone') {
           return (
             <Fragment key={index}>
-              <va-telephone
-                contact={ele.value}
-                tty={ele.tty}
-                international={ele.international}
-              />
+              <VaLink text={ele.number} href={`tel:${ele.value}`} />
             </Fragment>
           );
         }
@@ -40,6 +38,10 @@ const ListItem = ({ item, className }) => {
       })}
     </li>
   );
+};
+ListItem.propTypes = {
+  className: PropTypes.object,
+  item: PropTypes.object,
 };
 
 export default ListItem;
