@@ -17,14 +17,16 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  renderMHVDowntime,
+  updatePageTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { retrieveFolder } from '../actions/folders';
 import {
   DefaultFolders as Folder,
   PageTitles,
   downtimeNotificationParams,
 } from '../util/constants';
-import { updatePageTitle } from '../util/helpers';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
