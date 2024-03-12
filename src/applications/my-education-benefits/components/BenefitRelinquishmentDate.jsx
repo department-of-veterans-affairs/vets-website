@@ -7,10 +7,14 @@ import DateWidget from 'platform/forms-system/src/js/widgets/DateWidget';
 const BenefitRelinquishmentDate = props => {
   const { formData, setFormData } = props;
   useEffect(() => {
-    setFormData({
-      ...formData,
-      benefitEffectiveDate: moment(new Date()).format('YYYY-MM-DD'),
-    });
+    if (formData?.mebAutoPopulateRelinquishmentDate) {
+      setFormData({
+        ...formData,
+        benefitEffectiveDate: moment(new Date())
+          .subtract(1, 'y')
+          .format('YYYY-MM-DD'),
+      });
+    }
   }, []);
 
   function handleChange(event) {
@@ -25,12 +29,7 @@ const BenefitRelinquishmentDate = props => {
       <DateWidget
         {...props}
         onChange={handleChange}
-        value={
-          formData.benefitEffectiveDate ||
-          moment(new Date())
-            .subtract(1, 'y')
-            .format('YYYY-MM-DD')
-        }
+        value={formData.benefitEffectiveDate}
       />
       <br />
       <br />

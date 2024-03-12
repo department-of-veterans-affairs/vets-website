@@ -206,12 +206,6 @@ function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function BenefitRelinquishmentDateUI(formData) {
-  if (formData?.mebAutoPopulateRelinquishmentDate) {
-    return BenefitRelinquishmentDate;
-  }
-}
-
 function phoneUISchema(category) {
   const schema = {
     'ui:options': {
@@ -1601,7 +1595,7 @@ const formConfig = {
                 hideIf: notGivingUpBenefitSelected,
                 expandUnder: [formFields.viewBenefitSelection],
               },
-              'ui:widget': formData => BenefitRelinquishmentDateUI(formData),
+              'ui:widget': BenefitRelinquishmentDate,
               'ui:required': givingUpBenefitSelected,
               'ui:reviewField': DateReviewField,
               'ui:validations': [validateEffectiveDate],
