@@ -25,7 +25,7 @@ const ListItem = ({ item, className }) => {
         if (ele.type === 'phone') {
           return (
             <Fragment key={index}>
-              <va-telephone contact="" />
+              <va-telephone className="usa-link" contact="" />
             </Fragment>
           );
         }
