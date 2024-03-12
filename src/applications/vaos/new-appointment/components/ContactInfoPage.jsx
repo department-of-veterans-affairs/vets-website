@@ -235,7 +235,7 @@ export default function ContactInfoPage({ changeCrumb }) {
           {FLOW_TYPES.REQUEST === flowType && (
             <va-additional-info
               trigger="How to update your information in your VA.gov profile"
-              class="vads-u-margin-y--2"
+              class="vads-u-margin-y--4"
               data-testid="additional-info"
             >
               <div>
