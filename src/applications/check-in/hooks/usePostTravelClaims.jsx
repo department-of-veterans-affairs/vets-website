@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { differenceInCalendarDays, parseISO } from 'date-fns';
 import { api } from '../api';
 import { useStorage } from './useStorage';
 import { makeSelectForm, makeSelectCurrentContext } from '../selectors';
@@ -18,17 +19,22 @@ const usePostTravelClaims = () => {
     APP_NAMES.TRAVEL_CLAIM,
     true,
   );
-  const sentTravelClaims = getTravelPaySent(window);
+  const travelPaySent = getTravelPaySent(window);
 
   const faciltiesToPost = facilitiesToFile.filter(
-    facility => !(facility.stationNo in sentTravelClaims),
+    facility =>
+      !(facility.stationNo in travelPaySent) ||
+      differenceInCalendarDays(
+        Date.now(),
+        parseISO(travelPaySent[facility.stationNo]),
+      ),
   );
   useEffect(
     () => {
       const markTravelPayClaimSent = facilities => {
         facilities.forEach(facility => {
-          sentTravelClaims[facility.stationNo] = new Date();
-          setTravelPaySent(window, sentTravelClaims);
+          travelPaySent[facility.stationNo] = new Date();
+          setTravelPaySent(window, travelPaySent);
         });
       };
       if (isLoading && !isComplete) {
@@ -52,11 +58,11 @@ const usePostTravelClaims = () => {
     },
     [
       isLoading,
-      sentTravelClaims,
       setTravelPaySent,
       uuid,
       isComplete,
       faciltiesToPost,
+      travelPaySent,
     ],
   );
 

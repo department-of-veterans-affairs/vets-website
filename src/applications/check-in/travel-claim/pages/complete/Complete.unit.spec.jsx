@@ -20,7 +20,7 @@ describe('Check-in experience', () => {
         facilitiesToFile: [
           {
             stationNo: '500',
-            startTime: '2021-08-19T13:56:31',
+            startTime: '2024-03-12T10:18:02.422Z',
             multipleAppointments: false,
           },
         ],
@@ -79,7 +79,7 @@ describe('Check-in experience', () => {
         );
         expect(updateErrorSpy.calledOnce).to.be.true;
       });
-      it('does not call API on reload', () => {
+      it('does not call API on reload or already filed', () => {
         sandbox.stub(useStorageModule, 'useStorage').returns({
           getTravelPaySent: () => ({ 500: '2024-03-12T15:18:02.422Z' }),
         });
@@ -90,6 +90,18 @@ describe('Check-in experience', () => {
           </CheckInProvider>,
         );
         sandbox.assert.notCalled(v2.postTravelPayClaims);
+      });
+      it('does call API if station filed before today', () => {
+        sandbox.stub(useStorageModule, 'useStorage').returns({
+          getTravelPaySent: () => ({ 500: '2024-03-10T15:18:02.422Z' }),
+        });
+        sandbox.stub(v2, 'postTravelPayClaims').resolves({});
+        render(
+          <CheckInProvider store={store}>
+            <Complete />
+          </CheckInProvider>,
+        );
+        sandbox.assert.calledOnce(v2.postTravelPayClaims);
       });
     });
   });
