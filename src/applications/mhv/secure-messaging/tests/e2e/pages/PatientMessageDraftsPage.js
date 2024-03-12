@@ -464,7 +464,7 @@ class PatientMessageDraftsPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find(Locators.SELECT)
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',

@@ -146,7 +146,7 @@ class PatientMessageCustomFolderPage {
   ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('#options')
       .select(`${text}`);
     cy.intercept(
       'GET',

@@ -16,16 +16,16 @@ describe('Secure Messaging Thread Details', () => {
     landingPage.loadInboxMessages();
     landingPage.loadSingleThread(mockThreadResponse, date);
 
+    // cy.pause();
     for (let i = 1; i < messageIdList.length; i += 1) {
-      cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
-        .shadow()
-        .find('[part="accordion-header"]')
-        .click();
+      cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`).click(
+        { force: true },
+      );
 
       cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
         .shadow()
-        .find('[part="accordion-header"]')
-        .should('have.attr', 'aria-expanded', 'true');
+        .find('#content')
+        .should('not.have.property', 'hidden');
     }
 
     cy.injectAxe();

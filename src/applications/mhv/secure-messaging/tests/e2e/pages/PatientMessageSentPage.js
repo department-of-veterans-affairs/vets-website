@@ -70,7 +70,7 @@ class PatientMessageSentPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('#options')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',

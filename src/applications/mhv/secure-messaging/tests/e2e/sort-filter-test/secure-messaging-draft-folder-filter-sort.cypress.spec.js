@@ -38,6 +38,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     draftsPage.inputFilterData('Last 3 Months');
     draftsPage.filterMessages();
   });
+
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {

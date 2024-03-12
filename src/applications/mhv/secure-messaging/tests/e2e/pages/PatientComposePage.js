@@ -57,11 +57,11 @@ class PatientComposePage {
     cy.focused().should('contain.text', 'Secure message was successfully sent');
   };
 
-  selectRecipient = (recipient = 1) => {
+  selectRecipient = (recipient = '***TG 100_SLC4%') => {
     cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
-      .find('[id="select"]')
+      .find('#options')
       .select(recipient, { force: true });
   };
 
@@ -302,10 +302,7 @@ class PatientComposePage {
   };
 
   verifyAlertModal = () => {
-    cy.get(`[modaltitle="We can't save this message yet"]`)
-      .shadow()
-      .find('[class="va-modal-inner va-modal-alert"]')
-      .should('contain', "We can't save this message yet");
+    cy.get(`#heading`).should('contain', "We can't save this message yet");
   };
 
   clickOnContinueEditingButton = () => {

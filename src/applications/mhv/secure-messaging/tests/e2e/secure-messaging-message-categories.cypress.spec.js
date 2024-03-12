@@ -18,9 +18,10 @@ describe('Secure Messaging Compose Categories', () => {
     for (let i = 0; i < listOfCategories.length; i += 1) {
       landingPage.loadInboxMessages();
       landingPage.navigateToComposePage();
+
       composePage.selectRecipient();
 
-      composePage.getCategory(listOfCategories[i]).click();
+      composePage.getCategory(listOfCategories[i]).click({ force: true });
 
       composePage.enterDataToMessageSubject();
       composePage.enterDataToMessageBody();

@@ -447,7 +447,7 @@ class PatientInboxPage {
 
   selectAdvancedSearchCategory = text => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('#select')
+      .find(Locators.SELECT)
       .select(text, { force: true });
   };
 
@@ -467,7 +467,7 @@ class PatientInboxPage {
   composeMessage = () => {
     cy.get('#recipient-dropdown')
       .shadow()
-      .find('#select')
+      .find('#options')
       .select(1, { force: true });
     cy.get(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
       .first()
@@ -478,7 +478,7 @@ class PatientInboxPage {
       .type('testSubject', { force: true });
     cy.get('#compose-message-body')
       .shadow()
-      .find('#textarea')
+      .find('#input-type-textarea')
       .type('testMessage', { force: true });
   };
 
@@ -557,7 +557,7 @@ class PatientInboxPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('#options')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
