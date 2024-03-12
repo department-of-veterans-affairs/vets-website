@@ -22,7 +22,6 @@ describe('hca <FormFooter>', () => {
           isUserInMVI: true,
           hasServerError: false,
           noESRRecordFound: true,
-          showReapplyContent: false,
           isLoadingApplicationStatus: false,
         },
         form: {
