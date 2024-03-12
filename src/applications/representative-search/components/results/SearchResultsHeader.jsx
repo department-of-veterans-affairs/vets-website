@@ -138,7 +138,7 @@ export const SearchResultsHeader = props => {
           )}
           <>
             sorted by &quot;
-            <b>{sortOptions[selectedSortType]}</b>
+            <b>{sortOptions[sortType]}</b>
             &quot;
           </>
         </p>
