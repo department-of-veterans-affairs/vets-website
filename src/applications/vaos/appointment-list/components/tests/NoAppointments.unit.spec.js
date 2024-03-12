@@ -16,7 +16,6 @@ describe('VAOS Component: NoAppointments', () => {
       <NoAppointments
         showScheduleButton
         showAdditionalRequestDescription={false}
-        description="appointment"
       />,
       { initialState },
     );
@@ -24,7 +23,7 @@ describe('VAOS Component: NoAppointments', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: 'You don’t have any appointment',
+        name: 'You don’t have any appointments',
       }),
     ).to.exist;
 
@@ -41,18 +40,14 @@ describe('VAOS Component: NoAppointments', () => {
   });
   it('should display additional detail', async () => {
     const screen = renderWithStoreAndRouter(
-      <NoAppointments
-        showScheduleButton
-        showAdditionalRequestDescription
-        description="appointment"
-      />,
+      <NoAppointments showScheduleButton showAdditionalRequestDescription />,
       { initialState },
     );
     // Assert
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: 'You don’t have any appointment',
+        name: 'You don’t have any appointments',
       }),
     ).to.exist;
 
@@ -73,7 +68,6 @@ describe('VAOS Component: NoAppointments', () => {
       <NoAppointments
         showScheduleButton={false}
         showAdditionalRequestDescription
-        description="appointment"
       />,
       { initialState },
     );
@@ -81,7 +75,7 @@ describe('VAOS Component: NoAppointments', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: 'You don’t have any appointment',
+        name: 'You don’t have any appointments',
       }),
     ).to.exist;
 
