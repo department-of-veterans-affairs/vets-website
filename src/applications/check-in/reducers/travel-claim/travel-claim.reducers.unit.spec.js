@@ -3,10 +3,12 @@ import { expect } from 'chai';
 import {
   receivedTravelDataHandler,
   setFilteredAppointmentsHandler,
+  setFacilityToFileHandler,
 } from './index';
 import {
   receivedTravelData,
   setFilteredAppointments,
+  setFacilityToFile,
 } from '../../actions/travel-claim';
 
 import appReducer from '../index';
@@ -34,6 +36,15 @@ describe('check in', () => {
       eligibleToFile: [
         {
           stationNo: '444',
+        },
+      ],
+    };
+    const facilityToFile = {
+      facilitiesToFile: [
+        {
+          stationNo: '555',
+          startTime: '2021-08-19T13:56:31',
+          multipleAppointments: true,
         },
       ],
     };
@@ -94,6 +105,35 @@ describe('check in', () => {
           const state = appReducer.checkInData(undefined, action);
           expect(state.context.alreadyFiled[0].stationNo).to.equal('555');
           expect(state.context.eligibleToFile[0].stationNo).to.equal('444');
+        });
+      });
+    });
+    describe('setFacilityToFile', () => {
+      it('should create basic structure', () => {
+        const action = setFacilityToFile(facilityToFile);
+        const state = setFacilityToFileHandler({ form: {} }, action);
+        expect(state.form.data.facilitiesToFile).to.be.an('array');
+      });
+      it('should set the correct values', () => {
+        const action = setFacilityToFile(facilityToFile);
+        const state = setFacilityToFileHandler({ form: {} }, action);
+        expect(state.form.data.facilitiesToFile[0].stationNo).to.equal('555');
+        expect(state.form.data.facilitiesToFile[0].startTime).to.equal(
+          '2021-08-19T13:56:31',
+        );
+        expect(state.form.data.facilitiesToFile[0].multipleAppointments).to.be
+          .true;
+      });
+      describe('reducer is called;', () => {
+        it('finds the correct handler', () => {
+          const action = setFacilityToFile(facilityToFile);
+          const state = appReducer.checkInData(undefined, action);
+          expect(state.form.data.facilitiesToFile[0].stationNo).to.equal('555');
+          expect(state.form.data.facilitiesToFile[0].startTime).to.equal(
+            '2021-08-19T13:56:31',
+          );
+          expect(state.form.data.facilitiesToFile[0].multipleAppointments).to.be
+            .true;
         });
       });
     });

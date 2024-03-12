@@ -9,8 +9,8 @@ const GetFormHelp = () => (
       Friday, 8:00 a.m. to 9:00 p.m ET.{' '}
     </p>
     <p className="u-vads-margin-bottom--0">
-      If you have hearing loss, call TTY:{' '}
-      <va-telephone contact={CONTACTS[711]} />.
+      If you have hearing loss, call{' '}
+      <va-telephone contact={CONTACTS[711]} tty />.
     </p>
   </>
 );
