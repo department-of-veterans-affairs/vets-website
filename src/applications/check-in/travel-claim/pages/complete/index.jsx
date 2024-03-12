@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { usePostTravelClaims } from '../../../hooks/usePostTravelClaims';
-import { setError } from '../../../actions/universal';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 import { makeSelectForm } from '../../../selectors';
 import Wrapper from '../../../components/layout/Wrapper';
 import ExternalLink from '../../../components/ExternalLink';
@@ -11,22 +11,25 @@ import TravelClaimSuccessAlert from './TravelClaimSuccessAlert';
 const Complete = () => {
   const { t } = useTranslation();
   const selectForm = useMemo(makeSelectForm, []);
+  const { updateError } = useUpdateError();
   const { data } = useSelector(selectForm);
   const { facilitiesToFile } = data;
-  const dispatch = useDispatch();
   const { isLoading, travelPayClaimError } = usePostTravelClaims();
 
   useEffect(
     () => {
       if (travelPayClaimError) {
-        dispatch(setError('completing-travel-submission'));
+        updateError('completing-travel-submission');
       }
     },
-    [dispatch, travelPayClaimError],
+    [travelPayClaimError, updateError],
   );
   if (isLoading) {
     return (
-      <va-loading-indicator data-testid="loading-indicator" message="doin it" />
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('loading')}
+      />
     );
   }
   return (
