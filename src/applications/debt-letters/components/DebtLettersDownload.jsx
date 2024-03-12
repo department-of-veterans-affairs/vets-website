@@ -24,14 +24,28 @@ const DebtLettersDownload = ({
   return (
     <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
       <div className="vads-u-font-family--sans">
-        <VaBreadcrumbs uswds="false" label="Breadcrumb">
-          <a href="/">Home</a>
-          <a href="/manage-va-debt">Manage your VA debt</a>
-          <a href="/manage-va-debt/your-debt">Your debt</a>
-          <a href="/manage-va-debt/your-debt/debt-letters">
-            Download debt letters
-          </a>
-        </VaBreadcrumbs>
+        <VaBreadcrumbs
+          label="Breadcrumb"
+          breadcrumbList={[
+            {
+              href: '/',
+              label: 'VA.gov home',
+            },
+            {
+              href: '/manage-va-debt',
+              label: 'Manage your VA debt',
+            },
+            {
+              href: '/manage-va-debt/your-debt',
+              label: 'Your VA debt',
+            },
+            {
+              href: '/manage-va-debt/your-debt/debt-letters',
+              label: 'Download debt letters',
+            },
+          ]}
+          uswds
+        />
       </div>
       <div className="large-screen:vads-l-col--8">
         <h1
