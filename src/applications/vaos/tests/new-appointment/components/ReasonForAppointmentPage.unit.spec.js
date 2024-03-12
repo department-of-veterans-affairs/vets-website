@@ -70,7 +70,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       .to.equal('250');
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
+      'What’s the reason for this appointment?',
     );
 
     expect(
@@ -169,7 +169,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(textBox.value).to.equal('   ');
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
+      'What’s the reason for this appointment?',
     );
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -217,7 +217,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(textBox.value).to.equal('test');
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
+      'What’s the reason for this appointment?',
     );
 
     fireEvent.click(screen.getByText(/Continue/));
