@@ -44,6 +44,9 @@ const AlertBackgroundBox = props => {
     Code: { SERVICE_OUTAGE },
   } = Errors;
 
+  const location = useLocation();
+  const SrOnlyTag = alertContent === SERVER_ERROR_503 ? 'h1' : 'span';
+
   useEffect(
     () => {
       if (alertList?.length) {
@@ -71,7 +74,6 @@ const AlertBackgroundBox = props => {
     dispatch(focusOutAlert());
   };
 
-  const location = useLocation();
   const lastPathName = formatPathName(location.pathname, 'Messages');
 
   // these props check if the current page is the folder view page or thread view page
@@ -127,6 +129,7 @@ const AlertBackgroundBox = props => {
     <>
       {activeAlert && (
         <VaAlert
+          uswds
           ref={alertRef}
           background-only
           closeable={props.closeable}
@@ -144,21 +147,16 @@ const AlertBackgroundBox = props => {
           }}
         >
           <div>
-            {alertContent === SERVER_ERROR_503 ? (
-              <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent}
-                <h1 className="sr-only" aria-live="polite" aria-atomic="true">
-                  {alertAriaLabel}
-                </h1>
-              </p>
-            ) : (
-              <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent}
-                <span className="sr-only" aria-live="polite" aria-atomic="true">
-                  {alertAriaLabel}
-                </span>
-              </p>
-            )}
+            <p className="vads-u-margin-y--0" data-testid="alert-text">
+              {alertContent}
+              <SrOnlyTag
+                className="sr-only"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {alertAriaLabel}
+              </SrOnlyTag>
+            </p>
           </div>
         </VaAlert>
       )}
