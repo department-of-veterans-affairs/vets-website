@@ -1402,6 +1402,8 @@ const formConfig = {
                 'ui:options': {
                   showFieldLabel: true,
                   forceDivWrapper: true,
+                  hideIf: formData =>
+                    !formData?.showMebServiceHistoryCategorizeDisagreement,
                 },
                 servicePeriodMissingForActiveDuty: {
                   'ui:title':
