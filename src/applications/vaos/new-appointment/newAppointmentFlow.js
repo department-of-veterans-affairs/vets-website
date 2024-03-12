@@ -408,6 +408,10 @@ export default function getNewAppointmentFlow(state) {
     },
     review: {
       ...flow.review,
+      label:
+        FLOW_TYPES.DIRECT === flowType
+          ? 'Review your appointment details'
+          : 'Review and submit your request',
       url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
     },
     scheduleCerner: {
@@ -485,16 +489,16 @@ export default function getNewAppointmentFlow(state) {
   };
 }
 
-/* Function to get label from the flow
- * The URL displayed in the browser address bar is compared to the 
+/**
+ * Function to get label from the flow
+ * The URL displayed in the browser address bar is compared to the
  * flow URL
  *
  * @export
- * @param {object} state 
+ * @param {object} state
  * @param {string} location - the pathname
  * @returns {string} the label string
  */
-
 export function getUrlLabel(state, location) {
   const _flow = getNewAppointmentFlow(state);
   const home = '/';
