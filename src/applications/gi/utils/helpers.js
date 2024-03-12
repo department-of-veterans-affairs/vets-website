@@ -269,7 +269,7 @@ export const specializedMissionDefinitions = [
     key: `${SMFKey}-HBCU`,
     title: 'Historically Black Colleges and Universities',
     definition:
-      'Historically Black Colleges and Universities (HBCU’s) are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
+      'Historically Black Colleges and Universities (HBCUs) are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
   },
   {
     key: `${SMFKey}-MENONLY`,
