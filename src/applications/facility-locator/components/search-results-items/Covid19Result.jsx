@@ -87,9 +87,12 @@ const Covid19Result = ({
         )}
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
-            <a href={infoURL} target="_blank" rel="noreferrer">
-              COVID-19 info at this location
-            </a>
+            <va-link
+              href={infoURL}
+              target="_blank"
+              rel="noreferrer"
+              text="COVID-19 info at this location"
+            />
           </span>
         )}
       </>
