@@ -21,6 +21,8 @@ export const Paths = {
   RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
   FIND_LOCATIONS: '/find-locations/',
+  HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
+  THREAD: '/thread',
 };
 
 export const Locators = {
