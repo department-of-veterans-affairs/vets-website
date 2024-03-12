@@ -32,35 +32,35 @@ describe('<FilesPage>', () => {
     });
 
     context('when claim is open', () => {
-      it('should render files page, showing additional evidence section without alerts, and docs filed section when using lighthouse', () => {
+      it('should render files page, showing additional evidence section without alerts, and docs filed section', () => {
         const claim = {
           id: '1',
+          type: 'claim',
           attributes: {
-            supportingDocuments: [],
             claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
             closeDate: null,
             documentsNeeded: false,
             decisionLetterSent: false,
             status: 'INITIAL_REVIEW',
-            claimPhaseDates: {
-              currentPhaseBack: false,
-              phaseChangeDate: '2015-01-01',
-              latestPhaseType: 'INITIAL_REVIEW',
-              previousPhases: {
-                phase1CompleteDate: '2023-02-08',
-                phase2CompleteDate: '2023-02-08',
-              },
-            },
+            supportingDocuments: [],
             trackedItems: [],
           },
         };
+
         const { container, getByTestId } = render(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
-              useLighthouse
             />
             ,
           </Provider>,
@@ -77,22 +77,22 @@ describe('<FilesPage>', () => {
       it('should render files page, showing additional evidence section with alerts, and docs filed section when using lighthouse', () => {
         const claim = {
           id: '1',
+          type: 'claim',
           attributes: {
-            supportingDocuments: [],
             claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
             closeDate: null,
             documentsNeeded: false,
             decisionLetterSent: false,
             status: 'INITIAL_REVIEW',
-            claimPhaseDates: {
-              currentPhaseBack: false,
-              phaseChangeDate: '2015-01-01',
-              latestPhaseType: 'INITIAL_REVIEW',
-              previousPhases: {
-                phase1CompleteDate: '2023-02-08',
-                phase2CompleteDate: '2023-02-08',
-              },
-            },
+            supportingDocuments: [],
             trackedItems: [
               {
                 id: 1,
@@ -111,7 +111,6 @@ describe('<FilesPage>', () => {
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
-              useLighthouse
             />
             ,
           </Provider>,
@@ -124,112 +123,38 @@ describe('<FilesPage>', () => {
         expect($('.documents-filed-container', container)).to.exist;
         expect($('.claims-requested-files-container', container)).to.not.exist;
       });
-
-      it('should render files page with an EvidenceAlerts section without alerts when using evss', () => {
-        const claim = {
-          id: '1',
-          attributes: {
-            open: true,
-            phase: 3,
-            dateFiled: '2023-01-01',
-            documentsNeeded: true,
-            decisionLetterSent: false,
-            eventsTimeline: [],
-          },
-        };
-        const { container, getByTestId } = render(
-          <Provider store={getStore()}>
-            <FilesPage
-              claim={claim}
-              message={{ title: 'Test', body: 'Body' }}
-              clearNotification={() => {}}
-              params={{ id: '1' }}
-            />
-            ,
-          </Provider>,
-        );
-        const filesPage = $('#tabPanelFiles', container);
-
-        expect(filesPage).to.exist;
-        expect($('.claim-file-header-container', container)).to.not.exist;
-        expect(getByTestId('additional-evidence-page')).to.exist;
-        expect($('.documents-filed-container', container)).to.not.exist;
-        expect($('.claims-requested-files-container', container)).to.not.exist;
-      });
-
-      it('should render files page with an EvidenceAlerts section with alerts when using evss', () => {
-        const claim = {
-          id: '1',
-          attributes: {
-            open: true,
-            phase: 3,
-            dateFiled: '2023-01-01',
-            documentsNeeded: true,
-            decisionLetterSent: false,
-            eventsTimeline: [
-              {
-                trackedItemId: 1,
-                type: 'still_need_from_you_list',
-                status: 'NEEDED',
-                displayName: 'Test',
-                description: 'Test',
-                suspenseDate: '2024-02-01',
-                date: '2023-01-01',
-              },
-            ],
-          },
-        };
-        const { container, getByTestId } = render(
-          <Provider store={getStore()}>
-            <FilesPage
-              claim={claim}
-              message={{ title: 'Test', body: 'Body' }}
-              clearNotification={() => {}}
-              params={{ id: '1' }}
-            />
-            ,
-          </Provider>,
-        );
-        const filesPage = $('#tabPanelFiles', container);
-
-        expect(filesPage).to.exist;
-        expect($('.claim-file-header-container', container)).to.not.exist;
-        expect(getByTestId('additional-evidence-page')).to.exist;
-        expect($('.documents-filed-container', container)).to.not.exist;
-        expect($('.claims-requested-files-container', container)).not.to.exist;
-      });
     });
 
     context('when claim is closed', () => {
-      it('should render files page, showing additional evidence section, and docs filed section when using lighthouse', () => {
+      it('should render files page, showing additional evidence section, and docs filed section', () => {
         const claim = {
           id: '1',
+          type: 'claim',
           attributes: {
-            supportingDocuments: [],
             claimDate: '2023-01-01',
-            closeDate: '2023-01-31',
-            documentsNeeded: false,
-            decisionLetterSent: false,
-            status: 'COMPLETE',
             claimPhaseDates: {
               currentPhaseBack: false,
               phaseChangeDate: '2023-01-31',
               latestPhaseType: 'Complete',
               previousPhases: {
-                phase1CompleteDate: '2023-02-08',
-                phase2CompleteDate: '2023-02-08',
+                phase7CompleteDate: '2023-02-08',
               },
             },
+            closeDate: '2023-01-31',
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            status: 'COMPLETE',
+            supportingDocuments: [],
             trackedItems: [],
           },
         };
+
         const { container, getByTestId } = render(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
               message={{ title: 'Test', body: 'Body' }}
               clearNotification={() => {}}
-              useLighthouse
             />
             ,
           </Provider>,
@@ -269,176 +194,5 @@ describe('<FilesPage>', () => {
       />,
     );
     expect(tree.props.children).to.be.null;
-  });
-
-  it('should hide requested files when closed', () => {
-    const claim = {
-      attributes: {
-        open: false,
-        eventsTimeline: [],
-      },
-    };
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-
-    expect(tree.subTree('RequestedFilesInfo')).to.be.false;
-  });
-
-  it('should show requested files when open', () => {
-    const claim = {
-      attributes: {
-        open: true,
-        eventsTimeline: [],
-      },
-    };
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.subTree('RequestedFilesInfo')).not.to.be.false;
-  });
-
-  it('should render ask va to decide component', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        phase: 3,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        waiverSubmitted: false,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage params={{ id: 2 }} claim={claim} />,
-    );
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('AskVAToDecide')).not.to.be.empty;
-  });
-
-  it('should display turned in docs', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [
-          {
-            type: 'received_from_you_list',
-            documents: [
-              {
-                filename: 'Filename',
-              },
-            ],
-            trackedItemId: 2,
-            status: 'ACCEPTED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('SubmittedTrackedItem').length).to.equal(1);
-  });
-
-  it('should display additional evidence docs', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [
-          {
-            filename: 'Filename',
-            fileType: 'Testing',
-            type: 'other_documents_list',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
-  });
-
-  it('should show never received docs as tracked items', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [
-          {
-            type: 'never_received_from_you_list',
-            documents: [
-              {
-                filename: 'Filename',
-              },
-            ],
-            trackedItemId: 2,
-            status: 'ACCEPTED',
-          },
-          {
-            type: 'never_received_from_others_list',
-            documents: [
-              {
-                filename: 'Filename',
-              },
-            ],
-            trackedItemId: 3,
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('SubmittedTrackedItem').length).to.equal(2);
-    expect(content.everySubTree('AdditionalEvidenceItem')).to.be.empty;
-  });
-
-  it('should clear alert', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.subTree('ClaimDetailLayout').props.clearNotification();
-    expect(clearNotification.called).to.be.true;
-  });
-
-  it('should clear notification when leaving', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.true;
   });
 });
