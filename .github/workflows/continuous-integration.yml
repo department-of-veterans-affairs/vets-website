@@ -267,7 +267,6 @@ jobs:
         run: |
           cd coverage
           mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
-          ls -a
         
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
@@ -1239,7 +1238,7 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         with:
           name: merged-unit-test-coverage
-          path: qa-standards-dashboard-data/coverage/merged-coverage-report.json  
+          path: merged-coverage-report.json  
 
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
