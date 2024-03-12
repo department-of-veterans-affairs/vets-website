@@ -6,12 +6,12 @@ on:
       release_wait:
         description: Minutes to wait before creating release
         required: false
-        default: 5
+        default: '5'
       commit_sha:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 20 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds

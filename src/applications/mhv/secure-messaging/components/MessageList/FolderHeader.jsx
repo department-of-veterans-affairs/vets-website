@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
   PageTitles,
   ParentComponent,
 } from '../../util/constants';
-import { handleHeader, updatePageTitle } from '../../util/helpers';
+import { handleHeader } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';

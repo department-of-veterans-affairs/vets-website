@@ -4,6 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
@@ -14,10 +15,7 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import {
-  updatePageTitle,
-  updateTriageGroupRecipientStatus,
-} from '../util/helpers';
+import { updateTriageGroupRecipientStatus } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
