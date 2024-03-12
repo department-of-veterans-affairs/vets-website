@@ -830,8 +830,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5B.`,
           });
           done();
         },
@@ -864,8 +864,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'pdf',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5B.`,
           });
           done();
         },
@@ -899,7 +899,7 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or more.`,
+              `Try uploading a file that\u2019s 5B or more.`,
           });
           done();
         },
