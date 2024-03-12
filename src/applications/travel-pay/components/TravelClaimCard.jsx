@@ -55,8 +55,8 @@ TravelClaimCard.propTypes = {
   appointmentName: PropTypes.string,
   claimName: PropTypes.string,
   claimNumber: PropTypes.string,
-  createdOn: PropTypes.string,
   claimStatus: PropTypes.string,
+  createdOn: PropTypes.string,
   id: PropTypes.string,
   modifiedOn: PropTypes.string,
 };
