@@ -189,7 +189,6 @@ const NameTag = ({
       aria-label={ariaLabel}
       className={classes.wrapper}
       data-testid="name-tag"
-      role="banner"
     >
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
