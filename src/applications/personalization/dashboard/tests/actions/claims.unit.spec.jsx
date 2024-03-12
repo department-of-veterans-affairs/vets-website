@@ -29,17 +29,10 @@ import {
 describe('/actions/claims', () => {
   describe('getAppealsV2', () => {
     let dispatchSpy;
-    let oldDataLayer;
     beforeEach(() => {
       mockFetch();
-      oldDataLayer = global.window.dataLayer;
-      global.window.dataLayer = [];
       dispatchSpy = sinon.spy();
     });
-    afterEach(() => {
-      global.window.dataLayer = oldDataLayer;
-    });
-
     it('should dispatch FETCH_APPEALS_PENDING action', () => {
       getAppealsV2()(dispatchSpy);
       expect(dispatchSpy.firstCall.args[0].type).to.equal(
