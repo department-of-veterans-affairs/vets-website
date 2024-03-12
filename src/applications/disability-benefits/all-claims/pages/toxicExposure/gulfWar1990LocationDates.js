@@ -88,7 +88,7 @@ function makeSchema(locationId) {
  * {
  *    'gulfWar1990Locations-afghanistan': {
  *      title: 'Service after August 2, 1990',
- *      path: 'gulfWar1990Locations-afghanistan',
+ *      path: 'gulf-war-1990-location-afghanistan',
  *      uiSchema: {
  *        'ui:title': [Object],
  *        'ui:description': [Function: uiDescription],
