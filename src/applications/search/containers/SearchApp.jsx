@@ -414,59 +414,39 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    // Maintenance window: Tuesdays & Thursdays, 3-6 PM EST.
     function isWithinMaintenanceWindow() {
-      const estTime = moment().tz('America/New_York');
-      const hours = estTime.hours();
-      const minutes = estTime.minutes();
-      const time = hours + minutes / 60;
-      const dayOfWeek = estTime.day();
+      // Define maintenance window: Tuesday and Thursday, 3 PM to 6 PM Eastern Time
+      const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
+      const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
+      const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
 
-      // Check if today is Tuesday (2) or Thursday (4), and if time is between 3-6pm EST
-      const isTuesdayOrThursday = dayOfWeek === 2 || dayOfWeek === 4;
-      const isTimeBetween3And6 = time >= 15 && time < 18;
+      // Get the current time in New York timezone
+      const now = moment().tz('America/New_York');
 
-      return isTuesdayOrThursday && isTimeBetween3And6;
+      // Check if now is within the maintenance window
+      return (
+        maintenanceDays.includes(now.day()) &&
+        now.hour() >= maintenanceStartHour &&
+        now.hour() < maintenanceEndHour
+      );
     }
 
-    // New function to calculate and return the start and end times of the maintenance window
-    function calculateMaintenanceTimes() {
-      const now = moment().tz('America/New_York');
-      const start = now.clone();
-      const dayOfWeek = start.day();
+    // Maintenance window: Tuesdays & Thursdays, 3-6 PM EST.
+    function calculateCurrentMaintenanceWindow() {
+      const maintenanceStartHour = 15; // 3 PM in 24-hour format
+      const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
 
-      // Adjust to next Tuesday or Thursday if not currently within the maintenance window
-      if (dayOfWeek > 4 || dayOfWeek === 0) {
-        // Sunday or Friday to Saturday
-        start.day(2); // Set to next Tuesday
-      } else if (
-        dayOfWeek === 1 ||
-        (dayOfWeek === 3 && now.hour() >= 18) ||
-        (dayOfWeek === 2 && now.hour() >= 18)
-      ) {
-        // Monday, or Wednesday/Thursday past 6 PM
-        start.day(4); // Set to next Thursday
-      }
+      // Assuming current time is within a maintenance window,
+      // set the start time to the beginning of the current maintenance window.
+      const start = moment()
+        .tz('America/New_York')
+        .hour(maintenanceStartHour)
+        .minute(0)
+        .second(0)
+        .millisecond(0);
 
-      // If it's currently Tuesday or Thursday, but past 6 PM, set to the next occurrence of that day
-      if ((dayOfWeek === 2 || dayOfWeek === 4) && now.hour() >= 18) {
-        start.add(1, 'weeks');
-      }
-
-      // Set the start time to 3 PM on the target day
-      start
-        .hours(15)
-        .minutes(0)
-        .seconds(0);
-
-      // The end time is always 3 hours after the start time
-      const end = start.clone().add(3, 'hours');
-
-      // Ensure the dates are set correctly if we've crossed over to the next week
-      if (start < now) {
-        start.add(7, 'days');
-        end.add(7, 'days');
-      }
+      // Calculate the end time of the maintenance window
+      const end = start.clone().add(maintenanceDurationHours, 'hours');
 
       return {
         start: start.format('ddd MMM D YYYY HH:mm:ss [GMT]ZZ'),
@@ -474,9 +454,14 @@ class SearchApp extends React.Component {
       };
     }
 
-    // Then, update your rendering logic
-    if (isWithinMaintenanceWindow() && hasErrors && !loading) {
-      const { start, end } = calculateMaintenanceTimes();
+    if (
+      isWithinMaintenanceWindow() &&
+      results &&
+      results.length === 0 &&
+      !hasErrors &&
+      !loading
+    ) {
+      const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
       return (
         <div className="columns vads-u-margin-bottom--4">
           <va-maintenance-banner
@@ -497,11 +482,7 @@ class SearchApp extends React.Component {
       );
     }
 
-    // 4 & 5. Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
-    // We can keep using this error message in an error alert:
-
-    // Your search didn’t go through
-    // We’re sorry. Something went wrong on our end, and your search didn’t go through. Please try again.
+    // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
     if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
       let errorMessage;
 
