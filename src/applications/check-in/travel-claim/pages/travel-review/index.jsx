@@ -18,7 +18,7 @@ const TravelQuestion = props => {
   const address = useSelector(selectVeteranAddress);
   const onEditClick = e => {
     e.preventDefault();
-    jumpToPage('/travel-vehicle');
+    jumpToPage('/travel-mileage');
   };
   const agreementLink = e => {
     e.preventDefault();

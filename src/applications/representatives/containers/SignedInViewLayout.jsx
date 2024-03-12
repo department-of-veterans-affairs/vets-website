@@ -1,25 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
-// import RequiredLoginView from '~/platform/user/authorization/components/RequiredLoginView';
 
 import Sidenav from '../components/Sidenav';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 
-const LoginViewWrapper = ({
-  breadcrumbs,
-  children,
-  poaPermissions = false,
-}) => {
+const SignedInViewLayout = ({ children, poaPermissions = true }) => {
   let content = null;
+
+  const { pathname } = document.location;
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
     content = (
-      <va-alert
-        close-btn-aria-label="Close insufficient permission alert"
-        status="info"
-        visible
-      >
+      <va-alert status="info" visible>
         <h2 slot="headline">You are missing some permissions</h2>
         <div>
           <p className="vads-u-margin-y--0">
@@ -44,36 +37,22 @@ const LoginViewWrapper = ({
       </div>
     );
   }
+
   return (
     <>
-      {/* <RequiredLoginView verify serviceRequired={[]} user={user}> */}
-      <va-breadcrumbs label="Breadcrumb">
-        {breadcrumbs?.map(({ link, label }) => (
-          <li key={link}>
-            <Link to={link}>{label}</Link>
-          </li>
-        ))}
-      </va-breadcrumbs>
       <div className="vads-u-margin-bottom--3">
-        <main className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <Breadcrumbs pathname={pathname} />
           {content}
-        </main>
+        </div>
       </div>
-      {/* </RequiredLoginView> */}
     </>
   );
 };
 
-LoginViewWrapper.propTypes = {
-  breadcrumbs: PropTypes.arrayOf(
-    PropTypes.shape({
-      link: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+SignedInViewLayout.propTypes = {
   children: PropTypes.node.isRequired,
   poaPermissions: PropTypes.bool,
-  user: PropTypes.object,
 };
 
-export default LoginViewWrapper;
+export default SignedInViewLayout;
