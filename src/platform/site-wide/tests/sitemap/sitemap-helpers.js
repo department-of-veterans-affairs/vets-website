@@ -6,7 +6,7 @@ const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 const DOMAIN_REGEX = /http[s]?:\/\/(.*?)\//;
 
-const pagesWithRedirects = ['/manage-va-debt/summary/debt-balances'];
+const pagesWithRedirects = ['/manage-va-debt/your-debt/'];
 
 const shouldIgnore = url => {
   const parsedUrl = new URL(url);
