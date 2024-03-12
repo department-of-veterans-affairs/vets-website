@@ -24,12 +24,18 @@ const BenefitRelinquishmentDate = props => {
     });
   }
 
+  const initialValue = formData?.mebAutoPopulateRelinquishmentDate
+    ? moment(new Date())
+        .subtract(1, 'y')
+        .format('YYYY-MM-DD')
+    : formData?.benefitEffectiveDate;
+
   return (
     <>
       <DateWidget
         {...props}
         onChange={handleChange}
-        value={formData.benefitEffectiveDate}
+        value={formData.benefitEffectiveDate || initialValue}
       />
       <br />
       <br />
