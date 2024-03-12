@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+
+import moment from 'moment-timezone';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -412,6 +414,94 @@ class SearchApp extends React.Component {
       </div>
     );
 
+    // Maintenance window: Tuesdays & Thursdays, 3-6 PM EST.
+    function isWithinMaintenanceWindow() {
+      const estTime = moment().tz('America/New_York');
+      const hours = estTime.hours();
+      const minutes = estTime.minutes();
+      const time = hours + minutes / 60;
+      const dayOfWeek = estTime.day();
+
+      // Check if today is Tuesday (2) or Thursday (4), and if time is between 3-6pm EST
+      const isTuesdayOrThursday = dayOfWeek === 2 || dayOfWeek === 4;
+      const isTimeBetween3And6 = time >= 15 && time < 18;
+
+      return isTuesdayOrThursday && isTimeBetween3And6;
+    }
+
+    // New function to calculate and return the start and end times of the maintenance window
+    function calculateMaintenanceTimes() {
+      const now = moment().tz('America/New_York');
+      const start = now.clone();
+      const dayOfWeek = start.day();
+
+      // Adjust to next Tuesday or Thursday if not currently within the maintenance window
+      if (dayOfWeek > 4 || dayOfWeek === 0) {
+        // Sunday or Friday to Saturday
+        start.day(2); // Set to next Tuesday
+      } else if (
+        dayOfWeek === 1 ||
+        (dayOfWeek === 3 && now.hour() >= 18) ||
+        (dayOfWeek === 2 && now.hour() >= 18)
+      ) {
+        // Monday, or Wednesday/Thursday past 6 PM
+        start.day(4); // Set to next Thursday
+      }
+
+      // If it's currently Tuesday or Thursday, but past 6 PM, set to the next occurrence of that day
+      if ((dayOfWeek === 2 || dayOfWeek === 4) && now.hour() >= 18) {
+        start.add(1, 'weeks');
+      }
+
+      // Set the start time to 3 PM on the target day
+      start
+        .hours(15)
+        .minutes(0)
+        .seconds(0);
+
+      // The end time is always 3 hours after the start time
+      const end = start.clone().add(3, 'hours');
+
+      // Ensure the dates are set correctly if we've crossed over to the next week
+      if (start < now) {
+        start.add(7, 'days');
+        end.add(7, 'days');
+      }
+
+      return {
+        start: start.format('ddd MMM D YYYY HH:mm:ss [GMT]ZZ'),
+        end: end.format('ddd MMM D YYYY HH:mm:ss [GMT]ZZ'),
+      };
+    }
+
+    // Then, update your rendering logic
+    if (isWithinMaintenanceWindow() && hasErrors && !loading) {
+      const { start, end } = calculateMaintenanceTimes();
+      return (
+        <div className="columns vads-u-margin-bottom--4">
+          <va-maintenance-banner
+            banner-id="search-gov-maintenance-banner"
+            maintenance-title="Search.gov Maintenance"
+            maintenance-start-date-time={start}
+            maintenance-end-date-time={end}
+            isError
+          >
+            <div slot="maintenance-content">
+              We’re working on Search VA.gov right now. If you have trouble
+              using the search tool, check back after we’re finished. Thank you
+              for your patience.
+            </div>
+          </va-maintenance-banner>
+          {searchInput}
+        </div>
+      );
+    }
+
+    // 4 & 5. Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
+    // We can keep using this error message in an error alert:
+
+    // Your search didn’t go through
+    // We’re sorry. Something went wrong on our end, and your search didn’t go through. Please try again.
     if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
       let errorMessage;
 
