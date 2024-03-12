@@ -107,11 +107,11 @@ function makeSchema(locationId) {
 export function makePages() {
   const gulfWar1990LocationPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
     locationId => {
-      const pageName = `gulfWar1990Locations-${locationId}`;
+      const pageName = `gulf-war-1990-location-${locationId}`;
       return {
         [pageName]: {
           title: gulfWar1990PageTitle,
-          path: `gulfWar1990Locations-${locationId}`,
+          path: pageName,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
           depends: formData =>

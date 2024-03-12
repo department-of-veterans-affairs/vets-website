@@ -34,8 +34,8 @@ describe('gulfWar1990LocationDates', () => {
     it(`should render for ${locationId}`, () => {
       const { getByText } = render(
         <DefinitionTester
-          schema={schemas[`gulfWar1990Locations-${locationId}`]?.schema}
-          uiSchema={schemas[`gulfWar1990Locations-${locationId}`]?.uiSchema}
+          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
           data={formData}
         />,
       );
@@ -62,8 +62,8 @@ describe('gulfWar1990LocationDates', () => {
       const onSubmit = sinon.spy();
       const { getByText } = render(
         <DefinitionTester
-          schema={schemas[`gulfWar1990Locations-${locationId}`]?.schema}
-          uiSchema={schemas[`gulfWar1990Locations-${locationId}`]?.uiSchema}
+          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
           data={formData}
           onSubmit={onSubmit}
         />,
@@ -77,8 +77,8 @@ describe('gulfWar1990LocationDates', () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester
-          schema={schemas[`gulfWar1990Locations-${locationId}`]?.schema}
-          uiSchema={schemas[`gulfWar1990Locations-${locationId}`]?.uiSchema}
+          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
           data={formData}
           onSubmit={onSubmit}
         />,
