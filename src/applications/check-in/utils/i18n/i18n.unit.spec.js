@@ -1,12 +1,14 @@
 import { enUS as en, es } from 'date-fns/locale';
+import { format as formatDate, zonedTimeToUtc } from 'date-fns-tz';
 import { expect } from 'chai';
 import { dateFormatInterpolators } from './i18n';
 
 const locales = { en, es };
+const languageCodes = Object.keys(locales);
 
 // Generate tests for date formatting interpolators
 describe('Date formatting interpolators', () => {
-  const expectedDates = {
+  const expectedDateStrings = {
     en: {
       long: 'March 12, 2024',
       longAtTime: 'March 12, 2024 at 10:38 a.m.',
@@ -18,7 +20,7 @@ describe('Date formatting interpolators', () => {
     },
     es: {
       long: '12 de marzo de 2024',
-      longAtTime: '12 de marzo de 2024 a las 10:38:00 GMT-4',
+      longAtTime: '12 de marzo de 2024 a las 10:38:00 ',
       mdY: '12/3/2024',
       time: '10:38 a.m.',
       day: 'martes',
@@ -26,17 +28,30 @@ describe('Date formatting interpolators', () => {
       dayOfWeek: 'martes',
     },
   };
-  ['en', 'es'].forEach(lng => {
+  languageCodes.forEach(lng => {
     Object.entries(dateFormatInterpolators).forEach(
       ([format, interpolator]) => {
         if (format === 'default') {
           return;
         }
-        it(`should format a date with the ${format} interpolator in ${lng}`, () => {
-          const date = new Date('2024-03-12T10:38:00');
+        let expected = expectedDateStrings[lng][format];
+        it(`should format a date with the "${format}" format in "${lng}"`, () => {
+          const now = new Date();
+          // March 12, 2024 at 10:38:00 AM EDT
+          const dateString = '2024-03-12T10:38:00.000';
+          const correctedDateString = `${dateString}${formatDate(
+            now,
+            'XXX',
+            process.env.TZ,
+          )}`;
+          const date = new Date(correctedDateString);
+          const utcDate = zonedTimeToUtc(date, process.env.TZ);
           const locale = locales[lng];
-          const result = interpolator(date, format, lng, locale);
-          expect(result).to.equal(expectedDates[lng][format]);
+          const actual = interpolator(utcDate, format, lng, locale);
+          if (format === 'longAtTime' && lng === 'es') {
+            expected = `${expected}${formatDate(now, 'O', process.env.TZ)}`;
+          }
+          expect(actual).to.equal(expected);
         });
       },
     );
