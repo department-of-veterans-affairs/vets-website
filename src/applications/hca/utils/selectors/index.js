@@ -69,8 +69,3 @@ export const isLoggedOut = state =>
 export const shouldShowGetStartedContent = state =>
   !isLoading(state) &&
   (!isLoggedIn(state) || noESRRecordFound(state) || hasServerError(state));
-
-export const shouldHideFormFooter = state =>
-  !isLoading(state) &&
-  (isUserLOA1(state) ||
-    (isUserLOA3(state) && !shouldShowReapplyContent(state)));
