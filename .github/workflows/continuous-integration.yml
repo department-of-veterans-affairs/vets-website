@@ -1222,8 +1222,8 @@ jobs:
 
       - name: Merge all coverage reports
         run: |
-          cd qa-standards-dashboard-data/coverage
-          find . -name "*.json" -exec node ../../script/github-actions/merge-unit-test-coverage.js {} +
+          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
+          
       
       - name: Archive merged coverage report
         uses: ./.github/workflows/upload-artifact
