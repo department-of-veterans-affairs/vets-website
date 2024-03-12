@@ -9,6 +9,10 @@
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
+      "rootFolder": "caregivers",
+      "slackGroup": "@1010-fe-dev"
+    },
+    {
       "rootFolder": "check-in",
       "slackGroup": "@check-in-fe"
     },
@@ -43,6 +47,10 @@
       "rootFolder": "gi",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "hca",
+      "slackGroup": "@1010-fe-dev"
     },
     {
       "rootFolder": "health-care-supply-reordering",

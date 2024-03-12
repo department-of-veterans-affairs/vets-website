@@ -5,6 +5,10 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import EducationModalContent from 'platform/forms/components/OMBInfoModalContent/EducationModalContent';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
+import Table from '../components/Table';
+import PageLink from '../components/PageLink';
+import Lists from '../components/Lists';
+import { complaintList, prepareList } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -19,9 +23,34 @@ class IntroductionPage extends React.Component {
           If you have an issue or complaint about a school or training facility
           that’s eligible to receive GI Bill benefits, you can submit feedback
           to VA. You can submit feedback to us if your school isn’t following
-          the Principles of Excellence guidelines or if you have any other
-          concerns or issues you’d like to raise with us.
+          the{' '}
+          <PageLink
+            text="Principles of Excellence"
+            href="https://benefits.va.gov/gibill/principles_of_excellence.asp"
+            target="_blank"
+          />{' '}
+          guidelines or if you have any other concerns or issues you’d like to
+          raise with us. Your feedback tells us about practices that may pose
+          risks to students.
         </p>
+        <p>VA will review the following types of complaints:</p>
+        <Table />
+        <p>
+          Questions about your eligibility and payments under the GI Bill should
+          be directed to the <br />
+          <PageLink
+            text="&quot;Ask Va&quot;"
+            href="https://ask.va.gov/"
+            target="_blank"
+          />{' '}
+          section of our website.
+        </p>
+        <p>
+          If you are not using VA education benefits please submit your
+          complaint with the appropriate agency:
+        </p>
+        <Lists items={complaintList} />
+
         <p>
           You can choose to submit your feedback anonymously or on behalf of
           someone else. We share all information with the school, but if you
@@ -46,19 +75,7 @@ class IntroductionPage extends React.Component {
               <div>
                 <h6>To fill out this form, you’ll need to:</h6>
               </div>
-              <ul>
-                <li>Provide your school’s name and address.</li>
-                <li>Tell us the education benefits you’re using.</li>
-                <li>
-                  Give us your feedback. Please provide as much detail as
-                  possible so we understand your issue or complaint.
-                </li>
-                <li>Let us know how you think we could resolve your issue.</li>
-                <li>
-                  Provide your email address if you want us to get in touch with
-                  you directly.
-                </li>
-              </ul>
+              <Lists items={prepareList} />
             </li>
             <li className="process-step list-two">
               <div>
@@ -71,13 +88,10 @@ class IntroductionPage extends React.Component {
                 <h5>VA Review</h5>
               </div>
               <p>
-                We’ll review your feedback and pass it along to your school for
-                their review. Feedback that isn’t related to VA education
-                benefits may be sent to another agency for review.
-              </p>
-              <p>
-                We’ll get back to you within 45 days to let you know how we’re
-                handling your feedback.
+                We’ll review your feedback and send it to your school for their
+                review and to provide a response to your feedback. Feedback that
+                isn’t related to VA education benefits may be forwarded to
+                another agency for review.
               </p>
             </li>
             <li className="process-step list-four">
@@ -85,21 +99,12 @@ class IntroductionPage extends React.Component {
                 <h5>VA Processing</h5>
               </div>
               <p>
-                After we get the school’s response to your feedback, we’ll send
-                it to you and ask if you think their response resolves your
-                issue. In some cases, your school may also get in touch with you
-                directly about your feedback.
+                When the school provides a response to your feedback it will be
+                reviewed and sent to you.
               </p>
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          startText="Submit Your Feedback"
-        />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           {environment.isProduction() ? (
             <va-omb-info

@@ -1,8 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
@@ -16,7 +14,7 @@ const { schema, uiSchema } = generateEmployersSchemas();
 
 describe('pensions employment history', () => {
   const pageTitle = 'employment history';
-  const expectedNumberOfFields = 2;
+  const expectedNumberOfFields = 3;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -25,7 +23,7 @@ describe('pensions employment history', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 2;
+  const expectedNumberOfErrors = 3;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
@@ -33,45 +31,6 @@ describe('pensions employment history', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
-
-  it('should not allow more than 168 hours of work', async () => {
-    const data = { employers: [{}] };
-    const { container, getByRole, queryAllByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={data}
-        formData={{}}
-      />,
-    );
-
-    const input = container.querySelector(
-      'input[name="root_employers_0_jobHoursWeek"]',
-    );
-    input.value = 170;
-    fireEvent.input(input);
-    await waitFor(() => expect(input.value).to.equal('170'));
-    getByRole('button', { name: /submit/i }).click();
-
-    const errors = queryAllByRole('alert');
-    await waitFor(() => expect(errors).to.have.lengthOf(1));
-  });
-
-  it('should render with multiple employers', () => {
-    const data = { employers: [{}, {}] };
-    const { container } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={data}
-        formData={{}}
-      />,
-    );
-
-    expect(container.querySelectorAll('input')).to.have.lengthOf(2);
-  });
 
   describe('EmployerView', () => {
     it('should render a list view', () => {

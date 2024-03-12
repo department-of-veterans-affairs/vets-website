@@ -1,6 +1,38 @@
 import React from 'react';
 import { fileTypes, maxSize } from '../../config/attachments';
 
+const marriagePapers = [
+  'Marriage certificate',
+  'Civil union papers',
+  'Affidavit of common law marriage',
+];
+
+export const acceptableFiles = {
+  casualtyCert: ['Casualty report', 'Death certificate'],
+  dischargeCert: ['DD214'],
+  disabilityCert: ['VBA rating decision'],
+  birthCert: ['Birth certificate', 'Social Security card'],
+  schoolCert: ['School enrollment certification form', 'Enrollment letter'],
+  spouseCert: marriagePapers,
+  stepCert: marriagePapers,
+  adoptionCert: ['Court ordered adoption papers'],
+  helplessCert: ['VBA decision rating certificate of award'],
+  medicareABCert: [
+    'Front of Medicare Parts A or B card',
+    'Back of Medicare Parts A or B card',
+  ],
+  medicareDCert: [
+    'Front of Medicare Part D card',
+    'Back of Medicare Part D card',
+  ],
+  ssIneligible: ['Letter from the SSA'],
+  healthInsCert: [
+    'Front of health insurance card',
+    'Back of health insurance card',
+  ],
+  va7959cCert: ['VA form 10-7959c'],
+};
+
 export const blankSchema = { type: 'object', properties: {} };
 
 export function acceptableFileList(list) {
@@ -131,19 +163,19 @@ export function uploadWithInfoComponent(
 }
 
 export const sponsorDisabilityRatingConfig = uploadWithInfoComponent(
-  ['VBA rating decision'],
+  acceptableFiles.disabilityCert,
   'disability rating',
   true,
 );
 
 export const sponsorDischargePapersConfig = uploadWithInfoComponent(
-  ['DD214'],
+  acceptableFiles.dischargeCert,
   'discharge papers',
   true,
 );
 
 export const sponsorCasualtyReportConfig = uploadWithInfoComponent(
-  ['Casualty report', 'Death certificate'],
+  acceptableFiles.casualtyCert,
   'casualty report',
   false,
 );
