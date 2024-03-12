@@ -66,17 +66,10 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
           <a
             href={pdfUrl}
             className="usa-button vads-u-margin-top--2"
+            download
             role="button"
             rel="noreferrer noopener"
-            onClick={() => {
-              recordEvent({
-                event: 'int-modal-click',
-                'modal-status': 'open',
-                'modal-title':
-                  'Download this PDF and open it in Acrobat Reader',
-                'modal-primaryButton-text': `Download VA Form ${pdfSelected}`,
-              });
-            }}
+            target="_blank"
           >
             Download VA Form {pdfSelected}
           </a>
