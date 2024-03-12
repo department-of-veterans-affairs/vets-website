@@ -74,7 +74,7 @@ describe('Discharge Wizard <GuidancePage />', () => {
         router={reactRouterStub}
       />,
     );
-    expect(tree.find('va-link[text*="Download Form"]')).to.have.lengthOf(1);
+    expect(tree.find('.step-1-download')).to.have.lengthOf(1);
     tree.unmount();
   });
 
