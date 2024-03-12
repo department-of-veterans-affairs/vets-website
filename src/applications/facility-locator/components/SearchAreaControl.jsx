@@ -7,9 +7,17 @@ const SearchAreaControl = ({
   handleSearchArea,
   query,
 }) => {
-  const containerClass = isMobile
-    ? 'mapboxgl-ctrl-bottom-center'
-    : 'mapboxgl-ctrl-top-center';
+  const containerClass = () => {
+    const mobileClass = isMobile
+      ? 'mapboxgl-ctrl-bottom-center'
+      : 'mapboxgl-ctrl-top-center';
+    const radiusClass =
+      query?.currentRadius > MAX_SEARCH_AREA
+        ? 'mapboxgl-zoomed-out'
+        : 'mapboxgl-zoomed-in';
+
+    return `${mobileClass} ${radiusClass}`;
+  };
 
   const buttonClass = `usa-button${!isEnabled ? ' fl-disabled' : ''}`;
 
@@ -27,7 +35,7 @@ const SearchAreaControl = ({
   };
 
   return (
-    <div id="search-area-control-container" className={containerClass}>
+    <div id="search-area-control-container" className={containerClass()}>
       <va-button
         uswds
         id="search-area-control"

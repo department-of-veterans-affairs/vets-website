@@ -18,7 +18,12 @@ describe('CCProviderResult', () => {
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
     expect(wrapper.find('.facility-result h3').text()).to.equal('BADEA, LUANA');
-    expect(wrapper.find('.facility-result a').length).to.equal(0);
+    expect(
+      wrapper
+        .find('.facility-result va-link')
+        .shadow()
+        .get('a').length,
+    ).to.equal(0);
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
 
     wrapper.unmount();
