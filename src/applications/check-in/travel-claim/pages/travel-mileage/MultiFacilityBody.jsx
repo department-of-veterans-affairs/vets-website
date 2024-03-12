@@ -58,7 +58,7 @@ const MultipleFacilityBody = props => {
         error={error ? t('select-at-least-one-appointment') : ''}
         uswds
         class="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        label={t('select-one-or-more-appointments')}
+        label={t('select-the-appointments-you-want')}
       >
         {Object.keys(appointmentsByFacility).map(facility => (
           <VaCheckbox
