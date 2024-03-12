@@ -1,37 +1,24 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  // selectUser,
-  // isProfileLoading,
-  isLoggedIn,
-} from '@department-of-veterans-affairs/platform-user/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import PropTypes from 'prop-types';
-import AppointmentsTable from '../components/TravelClaimsTable';
-import Alert from '../components/Alert';
 import BreadCrumbs from '../components/Breadcrumbs';
+import TravelClaimCard from '../components/TravelClaimCard';
 import { getTravelClaims } from '../redux/actions';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
 
-  // TODO: check feature flag. Something like this:
-  // const isLoadingFlags = useSelector(state => selectLoadingFeatureFlags(state));
-  // const profileLoading = useSelector(state => isProfileLoading(state));
-  // const isPlatformLoading = isLoadingFlags || profileLoading;
-
+  // TODO: utilize user info for authenticated requests
+  // and validating logged in status
   // const user = useSelector(selectUser);
-  // console.log(user); // eslint-disable-line no-console
 
-  const { isLoading /* isError, travelClaims, error */ } = useSelector(
-    state => state.travelPay,
-  );
-
+  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
   useEffect(
     () => {
       if (userLoggedIn) {
-        console.log('in useEffect'); // eslint-disable-line no-console
         dispatch(getTravelClaims());
       }
     },
@@ -42,11 +29,10 @@ export default function App({ children }) {
     <div className="vads-l-grid-container vads-u-padding-y--2">
       <BreadCrumbs />
       <h1 tabIndex="-1" data-testid="header">
-        Beneficiary Travel Self Service
+        Check your travel reimbursement claim status
       </h1>
       <p className="va-introtext">Lead text</p>
       <p>Body text</p>
-      <Alert />
       <br />
 
       <main>
@@ -56,7 +42,7 @@ export default function App({ children }) {
             message="Loading Travel Claims..."
           />
         ) : (
-          <AppointmentsTable />
+          travelClaims.map(travelClaim => TravelClaimCard(travelClaim))
         )}
       </main>
 

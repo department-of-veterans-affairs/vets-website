@@ -1,4 +1,4 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/travel-pay.scss';
 
 import startApp from '@department-of-veterans-affairs/platform-startup/index';
