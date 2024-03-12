@@ -89,6 +89,8 @@ export const setupI18n = () => {
   return i18n;
 };
 
+setupI18n();
+
 /**
  * Cleans up i18n setup to avoid interference between tests.
  */
