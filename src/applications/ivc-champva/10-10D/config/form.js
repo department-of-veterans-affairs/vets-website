@@ -650,7 +650,7 @@ const formConfig = {
         page13a: {
           path: 'applicant-information/:index/start',
           arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} name and date of birth`,
+          title: item => `${applicantWording(item)} information`,
           showPagePerItem: true,
           depends: () => !onReviewPage(),
           uiSchema: {
@@ -664,10 +664,7 @@ const formConfig = {
                     return {
                       title: context =>
                         titleUI(
-                          `${applicantWording(
-                            formData,
-                            context,
-                          )} name and date of birth`,
+                          `${applicantWording(formData, context)} information`,
                           `Next we'll ask more questions about ${applicantWording(
                             formData,
                             context,
