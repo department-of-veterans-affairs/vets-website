@@ -1,12 +1,49 @@
-// Below is placeholder code which will be updated in MBMS-54141
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
+
+import { merge, pick } from 'lodash';
+
+import fullNameUI from 'platform/forms/definitions/fullName';
+import {
+  veteranUI,
+  ssnDashesUI,
+  sponsorDetailsGuidingText,
+} from '../../utils/helpers';
+
+const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
+  'ui:title': 'PLACEHOLDER',
   application: {
-    applicant: {
-      placeholder: {
-        'ui:title': 'PLACEHOLDER',
+    veteran: merge({}, veteranUI, {
+      'view:sponsorDetailsDescription': {
+        'ui:description': sponsorDetailsGuidingText,
+        'ui:options': {
+          displayEmptyObjectOnReview: true,
+        },
       },
-    },
+      currentName: merge({}, fullNameUI, {
+        first: {
+          'ui:title': 'Sponsor’s first name',
+        },
+        last: {
+          'ui:title': 'Sponsor’s last name',
+        },
+        middle: {
+          'ui:title': 'Sponsor’s middle name',
+        },
+        suffix: {
+          'ui:title': 'Sponsor’s suffix',
+        },
+        maiden: {
+          'ui:title': 'Sponsor’s maiden name',
+        },
+        'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+      }),
+      ssn: {
+        ...ssnDashesUI,
+        'ui:title': 'Sponsor’s Social Security number',
+      },
+    }),
   },
 };
 
@@ -16,13 +53,19 @@ export const schema = {
     application: {
       type: 'object',
       properties: {
-        applicant: {
+        veteran: {
           type: 'object',
-          properties: {
-            placeholder: {
-              type: 'string',
+          required: ['ssn'],
+          properties: merge(
+            {},
+            {
+              'view:sponsorDetailsDescription': {
+                type: 'object',
+                properties: {},
+              },
             },
-          },
+            pick(veteran.properties, ['currentName', 'ssn']),
+          ),
         },
       },
     },

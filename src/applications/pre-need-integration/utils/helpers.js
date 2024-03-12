@@ -450,6 +450,10 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
+export function isApplicantTheSponsor(item) {
+  return get('application.applicant.isSponsor', item) === 'yes';
+}
+
 export function isSponsorDeceased(item) {
   return get('application.veteran.isDeceased', item) === 'yes';
 }
