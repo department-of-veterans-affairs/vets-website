@@ -7,7 +7,7 @@ import { APP_NAMES } from '../utils/appConstants';
 
 const usePostTravelClaims = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isComplete, setIsCopmlete] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
@@ -47,7 +47,7 @@ const usePostTravelClaims = () => {
         .finally(() => {
           markTravelPayClaimSent(faciltiesToPost);
           setIsLoading(false);
-          setIsCopmlete(true);
+          setIsComplete(true);
         });
     },
     [
