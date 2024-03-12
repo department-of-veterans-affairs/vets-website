@@ -7,7 +7,7 @@ describe('Diary Codes', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/debts', mockDebts);
-    cy.visit('/manage-va-debt/your-debt/');
+    cy.visit('/manage-va-debt/your-debt');
     cy.injectAxe();
   });
 

@@ -18,7 +18,7 @@ describe('Debt Letters', () => {
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
-    cy.visit('/manage-va-debt/your-debt/');
+    cy.visit('/manage-va-debt/your-debt');
     cy.wait(['@features', '@debts']);
   });
 
