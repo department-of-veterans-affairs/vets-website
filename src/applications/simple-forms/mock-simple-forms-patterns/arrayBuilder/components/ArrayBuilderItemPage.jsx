@@ -53,7 +53,7 @@ export default function ArrayBuilderItemPage({
       onSubmit: props.onSubmit,
     });
 
-    if (isEdit && !schema) {
+    if (props.onReviewPage || (isEdit && !schema)) {
       return null;
     }
 
