@@ -14,7 +14,6 @@ import Validate from './pages/validate';
 import Landing from './pages/landing';
 import LoadingPage from './pages/LoadingPage';
 import TravelIntro from './pages/travel-intro';
-import SelectAppointment from './pages/select-appointment';
 import TravelMileage from './pages/travel-mileage';
 import TravelVehiclePage from './pages/travel-vehicle';
 import TravelAddressPage from './pages/travel-address';
@@ -41,14 +40,6 @@ const routes = [
   {
     path: URLS.TRAVEL_INTRO,
     component: TravelIntro,
-    permissions: {
-      requireAuthorization: true,
-    },
-    reloadable: true,
-  },
-  {
-    path: URLS.TRAVEL_SELECT,
-    component: SelectAppointment,
     permissions: {
       requireAuthorization: true,
     },

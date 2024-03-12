@@ -97,7 +97,16 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  useDatadogRum(datadogRumConfig);
+  const userDetails = useMemo(
+    () => {
+      return {
+        loggedIn: user?.login?.currentlyLoggedIn,
+        accountUuid: user?.profile?.accountUUid,
+      };
+    },
+    [user],
+  );
+  useDatadogRum(datadogRumConfig, userDetails);
 
   if (featureTogglesLoading) {
     return (
