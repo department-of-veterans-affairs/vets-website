@@ -83,7 +83,7 @@ class AskVAPage extends React.Component {
           </div>
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--4">
               <h1>Ask for your claim decision</h1>
               <p className="first-of-type">
