@@ -1,6 +1,7 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
+import { Locators } from '../utils/constants';
 
 describe('Secure Messaging Inbox Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -88,6 +89,6 @@ describe('Verify sorting feature with only one filter result', () => {
     landingPage.filterMessages(mockSingleFilterResult);
     landingPage.verifyFilterResults('draft', mockSingleFilterResult);
 
-    cy.get('#sort-order-dropdown').should('not.exist');
+    cy.get(Locators.DROPDOWN).should('not.exist');
   });
 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { openCrisisModal } from '../util/helpers';
+import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 
 const CrisisLineConnectButton = () => {
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
