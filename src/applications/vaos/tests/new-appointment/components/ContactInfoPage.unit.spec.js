@@ -211,7 +211,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     expect(screen.history.push.called).to.be.false;
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'We do not support email addresses that exceeds 50 characters',
+      'We don’t support email addresses that exceeds 50 characters',
     );
   });
 });
