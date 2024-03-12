@@ -263,7 +263,12 @@ jobs:
 
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
-
+      - name: Rename Coverage Summary file
+        run: |
+          cd coverage
+          mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
+          ls -a
+        
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
