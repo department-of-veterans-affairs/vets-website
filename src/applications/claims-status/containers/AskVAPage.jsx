@@ -82,7 +82,7 @@ class AskVAPage extends React.Component {
             </ClaimsBreadcrumbs>
           </div>
         </div>
-        <div className="vads-l-row vads-u-margin-x--neg1p5">
+        <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--4">
               <h1>Ask for your claim decision</h1>
@@ -129,7 +129,9 @@ class AskVAPage extends React.Component {
                 />
               ) : null}
             </div>
-            <NeedHelp />
+            <div className="vads-u-padding-x--2p5">
+              <NeedHelp />
+            </div>
           </div>
         </div>
       </div>
