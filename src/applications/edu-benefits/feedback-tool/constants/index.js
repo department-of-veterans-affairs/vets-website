@@ -106,7 +106,6 @@ export const getHelpList = [
       {
         type: 'phone',
         value: '+1-918-781-5678',
-        international: true,
         number: '+1-918-781-5678',
       },
     ],
@@ -118,6 +117,7 @@ export const getHelpList = [
         value: 'VA benefits hotline: ',
       },
       {
+        type: 'phone',
         value: '1-800-827-1000',
         number: '800-827-1000',
       },
