@@ -3,7 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 
 class PatientKeywordSearchPage {
   newMessageIndex = 0;
@@ -25,25 +25,23 @@ class PatientKeywordSearchPage {
         ],
       },
     }).as('featureToggle');
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
+      'categories',
+    );
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/categories',
-      mockCategories,
-    ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders?page*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}?page*`,
       mockFolders,
     ).as('folders');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/messages*`,
       mockMessages,
     ).as('inboxMessages');
     this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
       mockInboxFolder,
     ).as('inboxFolderMetaData');
     cy.intercept(

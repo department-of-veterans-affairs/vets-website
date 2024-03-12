@@ -2,7 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
-import { Locators } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -44,13 +44,13 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}*`,
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}*`,
       folderData,
     ).as('customFolderID');
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads*`,
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads*`,
       folderMessages,
     ).as('customFolderMessages');
 
@@ -247,13 +247,13 @@ class FolderManagementPage {
   };
 
   confirmDeleteFolder = folderId => {
-    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
+    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}`, {
       statusCode: 204,
     }).as('deleteFolder');
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders?page=1&per_page=999&useCache=false',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}?page=1&per_page=999&useCache=false`,
       mockFolders,
     ).as('updatedFoldersList');
 

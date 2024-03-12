@@ -22,12 +22,12 @@ class SecureMessagingLandingPage {
     cy.intercept('GET', '/v0/user', user).as('user');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
       mockGeneralFolder,
     ).as('generalFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/messages*`,
       messages,
     ).as('generalMessages');
 

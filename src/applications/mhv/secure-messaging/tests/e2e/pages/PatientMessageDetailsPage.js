@@ -2,7 +2,7 @@ import mockMessage from '../fixtures/message-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
-import { Locators } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
@@ -69,11 +69,11 @@ class PatientMessageDetailsPage {
       )}`,
     );
     if (getFoldersStatus === 200) {
-      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
         'folders',
       );
     } else {
-      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, {
         statusCode: 400,
         body: {
           alertType: 'error',
@@ -130,7 +130,7 @@ class PatientMessageDetailsPage {
       .should('be.visible')
       .click({ force: true });
 
-    cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
+    cy.location('pathname', { timeout: 5000 }).should('include', Paths.THREAD);
     cy.wait('@full-thread');
   };
 

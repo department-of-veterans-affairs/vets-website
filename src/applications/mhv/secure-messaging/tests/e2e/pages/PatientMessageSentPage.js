@@ -4,18 +4,18 @@ import mockThreadResponse from '../fixtures/sentResponse/sent-thread-response.js
 import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-message-response.json';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
-import { Locators } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientMessageSentPage {
   loadMessages = (mockMessagesResponse = mockSentMessages) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1*`,
       mockSentFolderMetaResponse,
     ).as('sentFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`,
       mockMessagesResponse,
     ).as('sentFolderMessages');
     cy.get(Locators.FOLDERS.SENT).click();
@@ -55,7 +55,7 @@ class PatientMessageSentPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-1/search',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/search`,
       sentSearchResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -74,7 +74,7 @@ class PatientMessageSentPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`,
       sortedResponse,
     );
     cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });

@@ -21,8 +21,18 @@ export const Paths = {
   RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
   FIND_LOCATIONS: '/find-locations/',
+  FIND_LOCATION: '/find-locations',
   HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
   THREAD: '/thread',
+  INTERCEPT: {
+    MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
+    MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
+    MESSAGE_FOLDER: '/my_health/v1/messaging/folders*',
+    MESSAGE_FOLDERS: '/my_health/v1/messaging/folders',
+    MESSAGE_FOLDER_THREAD: '/my_health/v1/messaging/folders/0/threads?*',
+    MESSAGE_FOLDER_MESS: '/my_health/v1/messaging//folders/0/messages*',
+    MESSAGE_DRAFTS: '/my_health/v1/messaging/message_drafts',
+  },
 };
 
 export const Locators = {

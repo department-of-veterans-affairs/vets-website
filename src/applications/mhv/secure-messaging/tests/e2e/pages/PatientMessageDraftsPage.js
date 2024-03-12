@@ -32,12 +32,12 @@ class PatientMessageDraftsPage {
     cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       this.mockDraftMessages,
     ).as('draftsResponse');
     cy.get(Locators.FOLDERS.DRAFTS).click();
@@ -408,11 +408,9 @@ class PatientMessageDraftsPage {
   };
 
   saveDraftByKeyboard = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/message_drafts',
-      mockDraftResponse,
-    ).as('draft_message');
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGE_DRAFTS, mockDraftResponse).as(
+      'draft_message',
+    );
     cy.tabToElement('#save-draft-button');
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
@@ -434,7 +432,7 @@ class PatientMessageDraftsPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-2/search',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
       sentSearchResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -468,7 +466,7 @@ class PatientMessageDraftsPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       sortedResponse,
     );
     cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
@@ -506,12 +504,12 @@ class PatientMessageDraftsPage {
   loadMessages = (mockMessagesResponse = mockDraftMessages) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
       mockDraftFolderMetaResponse,
     ).as('draftFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       mockMessagesResponse,
     ).as('draftFolderMessages');
     cy.get(Locators.FOLDERS.DRAFTS).click();
