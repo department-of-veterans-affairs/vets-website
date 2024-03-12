@@ -1219,6 +1219,11 @@ jobs:
           pattern: unit-test-coverage-*
           path: qa-standards-dashboard-data/coverage
           merge-multiple: true
+      
+      - name: List files
+        run: |
+          cd qa-standards-dashboard-data/coverage
+          ls -a
 
       - name: Merge all coverage reports
         run: |
