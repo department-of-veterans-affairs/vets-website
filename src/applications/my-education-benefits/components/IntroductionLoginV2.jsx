@@ -20,7 +20,6 @@ function IntroductionLoginV2({
   showHideLoginModal,
   user,
   showMeb1990EZMaintenanceAlert,
-  showMebEnhancements06, // Add showMebEnhancements06 as a prop
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
   const apiCallsComplete =
@@ -30,9 +29,8 @@ function IntroductionLoginV2({
   };
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
-  const headlineText = showMebEnhancements06
-    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.'
-    : 'Save time-and save your work in progress-by signing in before starting your application.';
+  const headlineText =
+    'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.';
 
   // If showMebEnhancements09 is false and the user is not logged in or the API calls have not completed, then show the loading indicator
   const shouldShowLoadingIndicator =
@@ -182,7 +180,6 @@ IntroductionLoginV2.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };

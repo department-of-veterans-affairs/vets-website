@@ -12,7 +12,6 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -56,19 +55,12 @@ import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
-  isValidGivenName,
-  isValidLastName,
   isValidPhoneField,
-  nameErrorMessage,
   validateAccountNumber,
   validateEmail,
   validateRoutingNumber,
 } from '../utils/validation';
-import {
-  formFields,
-  SPONSOR_RELATIONSHIP,
-  YOUR_PROFILE_URL,
-} from '../constants';
+import { formFields, SPONSOR_RELATIONSHIP } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
 
 const { fullName, date, email } = commonDefinitions;
@@ -126,107 +118,12 @@ const formConfig = {
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    We have this personal information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits,{' '}
-                    <a href={YOUR_PROFILE_URL}>
-                      update your information on your profile
-                    </a>
-                    .
-                  </p>
-                </>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-            },
             'view:applicantInformation': {
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
-              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-            },
-            [formFields.viewUserFullName]: {
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-              [formFields.userFullName]: {
-                'ui:options': {
-                  hideIf: formData => formData.showMebEnhancements06,
-                },
-                'ui:required': formData => !formData?.showMebEnhancements06,
-                ...fullNameUI,
-                first: {
-                  ...fullNameUI.first,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your first name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage(20));
-                      }
-                    },
-                  ],
-                },
-                middle: {
-                  ...fullNameUI.middle,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your middle name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage(20));
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage(26));
-                      }
-                    },
-                  ],
-                },
-              },
-            },
-            [formFields.dateOfBirth]: {
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-              'ui:required': formData => !formData?.showMebEnhancements06,
-              ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
@@ -243,38 +140,6 @@ const formConfig = {
                   </>
                 </va-alert>
               ),
-              'ui:options': {
-                hideIf: formData => {
-                  if (!formData || !formData[formFields.dateOfBirth]) {
-                    return true;
-                  }
-
-                  const dateParts =
-                    formData && formData[formFields.dateOfBirth].split('-');
-
-                  if (!dateParts || dateParts.length !== 3) {
-                    return true;
-                  }
-                  const birthday = new Date(
-                    dateParts[0],
-                    dateParts[1] - 1,
-                    dateParts[2],
-                  );
-                  const today18YearsAgo = new Date(
-                    new Date(
-                      new Date().setFullYear(new Date().getFullYear() - 18),
-                    ).setHours(0, 0, 0, 0),
-                  );
-
-                  return (
-                    !isValidCurrentOrPastDate(
-                      dateParts[2],
-                      dateParts[1],
-                      dateParts[0],
-                    ) || birthday.getTime() <= today18YearsAgo.getTime()
-                  );
-                },
-              },
             },
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
@@ -282,8 +147,6 @@ const formConfig = {
                 hideIf: formData =>
                   hideUnder18Field(formData, formFields.dateOfBirth),
               },
-              'ui:required': formData =>
-                !hideUnder18Field(formData, formFields.dateOfBirth),
               'ui:validations': [
                 (errors, field) =>
                   addWhitespaceOnlyError(
@@ -301,31 +164,12 @@ const formConfig = {
             type: 'object',
             required: [formFields.dateOfBirth],
             properties: {
-              'view:subHeadings': {
+              'view:applicantInformation': {
                 type: 'object',
                 properties: {},
-              },
-              [formFields.viewUserFullName]: {
-                type: 'object',
-                properties: {
-                  [formFields.userFullName]: {
-                    ...fullName,
-                    properties: {
-                      ...fullName.properties,
-                      middle: {
-                        ...fullName.properties.middle,
-                        maxLength: 30,
-                      },
-                    },
-                  },
-                },
               },
               [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
-                type: 'object',
-                properties: {},
-              },
-              'view:applicantInformation': {
                 type: 'object',
                 properties: {},
               },

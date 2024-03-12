@@ -24,7 +24,6 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
-  showMebEnhancements06,
   showMebEnhancements08,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
@@ -71,18 +70,6 @@ function ToeApp({
       }
     },
     [formData, setFormData, isLOA3],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
   );
 
   useEffect(
@@ -137,7 +124,6 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,

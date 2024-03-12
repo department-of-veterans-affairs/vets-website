@@ -38,7 +38,6 @@ export const App = ({
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showDgiDirectDeposit1990EZ,
-  showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
@@ -237,13 +236,6 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-
       if (showMebEnhancements08 !== formData.showMebEnhancements08) {
         setFormData({
           ...formData,
@@ -288,7 +280,6 @@ export const App = ({
       setFormData,
       showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
-      showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
@@ -374,7 +365,6 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
