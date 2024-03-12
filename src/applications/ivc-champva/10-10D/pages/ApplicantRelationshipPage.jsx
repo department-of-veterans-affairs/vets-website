@@ -220,6 +220,7 @@ export default function ApplicantRelationshipPage({
           label={`What's ${
             useFirstPerson ? `your` : `${applicant}'s`
           } relationship to the ${personTitle}?`}
+          hint="Depending on your response, you may need to submit additional documents with this application."
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
