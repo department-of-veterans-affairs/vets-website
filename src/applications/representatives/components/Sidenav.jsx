@@ -3,10 +3,7 @@ import { Link } from 'react-router';
 
 const Sidenav = () => {
   return (
-    <nav
-      className="va-sidebarnav vads-u-width--full"
-      id="va-detailpage-sidebar"
-    >
+    <nav className="va-sidebarnav vads-u-width--full">
       <div>
         <div className="left-side-nav-title">
           <h4>Navigation</h4>
