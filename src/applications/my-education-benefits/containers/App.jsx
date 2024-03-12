@@ -45,6 +45,7 @@ export const App = ({
   showMebEnhancements08,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
+  mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -270,6 +271,16 @@ export const App = ({
         setFormData({
           ...formData,
           showMebEnhancements08,
+        });
+      }
+
+      if (
+        mebAutoPopulateRelinquishmentDate !==
+        formData.mebAutoPopulateRelinquishmentDate
+      ) {
+        setFormData({
+          ...formData,
+          mebAutoPopulateRelinquishmentDate,
         });
       }
 
