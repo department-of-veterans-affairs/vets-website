@@ -35,10 +35,6 @@ const reapplyBlock2 = (
       eligibility. If you’d like to talk about your options, please{' '}
       {callOurTeam}.
     </p>
-    <p>
-      We only recommend applying again if you’ve already worked with our
-      enrollment case management team, and they’ve advised you to reapply.
-    </p>
   </section>
 );
 
@@ -50,10 +46,6 @@ const reapplyBlock3 = (
       make you eligible for VA health care now—like receiving a VA rating for a
       service-connected disability or experiencing a decrease in your income. If
       you’d like to talk about your options, please {callOurTeam}.
-    </p>
-    <p>
-      We only recommend applying again if you’ve already worked with our
-      enrollment case management team, and they’ve advised you to reapply.
     </p>
   </section>
 );
@@ -77,10 +69,6 @@ const reapplyBlock5 = (
       providing the information we need to complete our review, please{' '}
       {callOurTeam}.
     </p>
-    <p>
-      We only recommend applying again if you’ve already worked with our
-      enrollment case management team, and they’ve advised you to reapply.
-    </p>
   </section>
 );
 
@@ -91,10 +79,6 @@ const reapplyBlock6 = (
       No. We’re in the process of reviewing your current application, and
       submitting a new application won’t affect our decision. If you’d like to
       talk about your current application, please {callOurTeam}.
-    </p>
-    <p>
-      We only recommend applying again if you’ve already worked with our
-      enrollment case management team, and they’ve advised you to reapply.
     </p>
   </section>
 );
