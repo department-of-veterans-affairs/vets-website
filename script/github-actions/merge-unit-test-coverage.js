@@ -10,7 +10,7 @@ const merged = {
   },
   // You may need to initialize more structure here based on the actual content of your files
 };
-
+console.log(process.argv);
 process.argv.slice(2).forEach(file => {
   try {
     const content = fs.readFileSync(file);
