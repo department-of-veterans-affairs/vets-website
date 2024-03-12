@@ -13,7 +13,7 @@ describe('Pre-need sponsor contact info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.sponsorInformation.pages.sponsorBirthInfo;
+  } = formConfig.chapters.sponsorInformation.pages.sponsorInfo;
 
   it('should render', () => {
     const form = mount(
@@ -24,8 +24,8 @@ describe('Pre-need sponsor contact info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -41,6 +41,8 @@ describe('Pre-need sponsor contact info', () => {
       />,
     );
 
+    fillData(form, 'input#root_application_veteran_currentName_first', 'test');
+    fillData(form, 'input#root_application_veteran_currentName_last', 'test2');
     fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');

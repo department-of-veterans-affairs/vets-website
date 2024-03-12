@@ -2,7 +2,6 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 
 import { merge, pick } from 'lodash';
 
-import fullNameUI from 'platform/forms/definitions/fullName';
 import {
   veteranUI,
   ssnDashesUI,
@@ -21,24 +20,6 @@ export const uiSchema = {
           displayEmptyObjectOnReview: true,
         },
       },
-      currentName: merge({}, fullNameUI, {
-        first: {
-          'ui:title': 'Sponsor’s first name',
-        },
-        last: {
-          'ui:title': 'Sponsor’s last name',
-        },
-        middle: {
-          'ui:title': 'Sponsor’s middle name',
-        },
-        suffix: {
-          'ui:title': 'Sponsor’s suffix',
-        },
-        maiden: {
-          'ui:title': 'Sponsor’s maiden name',
-        },
-        'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-      }),
       ssn: {
         ...ssnDashesUI,
         'ui:title': 'Sponsor’s Social Security number',
@@ -64,7 +45,7 @@ export const schema = {
                 properties: {},
               },
             },
-            pick(veteran.properties, ['currentName', 'ssn']),
+            pick(veteran.properties, ['ssn']),
           ),
         },
       },

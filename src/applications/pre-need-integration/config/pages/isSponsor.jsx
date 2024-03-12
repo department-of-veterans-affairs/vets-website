@@ -1,6 +1,8 @@
 export const uiSchema = {
   application: {
+    'ui:title': ' ',
     applicant: {
+      'ui:title': ' ',
       isSponsor: {
         'ui:title': 'Are you the applicant’s sponsor?',
         'ui:widget': 'radio',

@@ -24,8 +24,7 @@ describe('Pre-need sponsor contact info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).to.equal(1);
     form.unmount();
   });
 
@@ -42,7 +41,7 @@ describe('Pre-need sponsor contact info', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -58,8 +57,6 @@ describe('Pre-need sponsor contact info', () => {
       />,
     );
 
-    fillData(form, 'input#root_application_veteran_currentName_first', 'test');
-    fillData(form, 'input#root_application_veteran_currentName_last', 'test2');
     fillData(form, 'input#root_application_veteran_ssn', '234443344');
 
     form.find('form').simulate('submit');

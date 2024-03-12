@@ -77,6 +77,12 @@ export const sponsorDeceasedDescription = (
   </div>
 );
 
+export const isSponsorSubHeader = (
+  <div className="isSponsorSubHeader">
+    <p>Are you the applicant’s sponsor?</p>
+  </div>
+);
+
 export const sponsorDetailsSubHeader = (
   <div className="sponsorDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Sponsor details</h3>
