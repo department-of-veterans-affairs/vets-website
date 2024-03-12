@@ -6,6 +6,7 @@ import DateWidget from 'platform/forms-system/src/js/widgets/DateWidget';
 
 const BenefitRelinquishmentDate = props => {
   const { formData, setFormData } = props;
+
   useEffect(() => {
     if (formData?.mebAutoPopulateRelinquishmentDate) {
       setFormData({

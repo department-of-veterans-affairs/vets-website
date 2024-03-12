@@ -331,6 +331,7 @@ export const App = ({
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
+      mebAutoPopulateRelinquishmentDate,
     ],
   );
 
@@ -417,6 +418,7 @@ App.propTypes = {
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
