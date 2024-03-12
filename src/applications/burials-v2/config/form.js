@@ -28,6 +28,7 @@ import previousNames from './chapters/03-military-history/previousNames';
 
 import benefitsSelection from './chapters/04-benefits-selection/benefitsSelection';
 import burialAllowancePartOne from './chapters/04-benefits-selection/burialAllowancePartOne';
+import burialAllowanceConfirmation from './chapters/04-benefits-selection/burialAllowanceConfirmation';
 import burialAllowancePartTwo from './chapters/04-benefits-selection/burialAllowancePartTwo';
 import finalRestingPlace from './chapters/04-benefits-selection/finalRestingPlace';
 import nationalOrFederalCemetery from './chapters/04-benefits-selection/nationalOrFederalCemetery';
@@ -245,6 +246,14 @@ const formConfig = {
           depends: form => get('view:claimedBenefits.burialAllowance', form),
           uiSchema: burialAllowancePartOne.uiSchema,
           schema: burialAllowancePartOne.schema,
+        },
+        burialAllowanceConfirmation: {
+          title: 'Burial allowance',
+          reviewTitle: ' ',
+          path: 'benefits/burial-allowance/statement-of-truth',
+          depends: form => get('burialAllowanceRequested.unclaimed', form),
+          uiSchema: burialAllowanceConfirmation.uiSchema,
+          schema: burialAllowanceConfirmation.schema,
         },
         burialAllowancePartTwo: {
           title: 'Burial allowance',
