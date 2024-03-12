@@ -27,18 +27,12 @@ export const complaintList = [
   {
     content: [
       {
-        type: 'link',
-        value: 'Consumer',
-        href: 'https://www.consumerfinance.gov/complaint/',
-        target: '_blank',
-      },
-      {
         type: 'text',
         value: 'Private student loans – ',
       },
       {
         type: 'link',
-        value: 'Financial Protection Bureau',
+        value: 'Consumer Financial Protection Bureau',
         href: 'https://www.consumerfinance.gov/complaint/',
         target: '_blank',
       },
@@ -98,7 +92,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '8884424551',
+        value: '1-888-442-4551',
+        number: '888-GIBILL-1 (888-442-4551)',
       },
     ],
   },
@@ -110,8 +105,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '9187815678',
-        international: true,
+        value: '+1-918-781-5678',
+        number: '+1-918-781-5678',
       },
     ],
   },
@@ -123,7 +118,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '8008271000',
+        value: '1-800-827-1000',
+        number: '800-827-1000',
       },
     ],
   },
@@ -135,7 +131,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '8006982411',
+        value: '1-800-698-2411',
+        number: '800-698-2411',
       },
     ],
   },
@@ -147,8 +144,8 @@ export const getHelpList = [
       },
       {
         type: 'phone',
-        value: '711',
-        tty: true,
+        value: '1+711',
+        number: 'TTY: 711',
       },
     ],
   },
