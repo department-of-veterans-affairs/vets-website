@@ -62,4 +62,6 @@ export default {
   cie: 'cie',
   // Pre-check-in
   pcie: 'pcie',
+  // Travel claim
+  tc: 'tc',
 };

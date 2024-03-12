@@ -19,6 +19,7 @@ const boardReview = {
         labelHeaderLevel: '3',
         labels: boardReviewLabels,
         descriptions: boardReviewDescriptions,
+        required: () => true,
         enableAnalytics: true,
         errorMessages: {
           required: boardReviewErrorMessage,
@@ -26,18 +27,6 @@ const boardReview = {
       }),
       'ui:reviewField': BoardReviewReviewField,
     },
-    // boardReviewOption: {
-    //   'ui:title': boardReviewTitle,
-    //   'ui:reviewField': BoardReviewReviewField,
-    //   'ui:widget': 'radio',
-    //   'ui:options': {
-    //     labels: boardReviewContent,
-    //     enableAnalytics: true,
-    //   },
-    //   'ui:errorMessages': {
-    //     required: boardReviewErrorMessage,
-    //   },
-    // },
   },
 
   schema: {

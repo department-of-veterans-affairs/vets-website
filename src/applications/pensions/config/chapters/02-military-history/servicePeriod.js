@@ -9,6 +9,7 @@ import {
   serviceNumberUI,
   checkboxGroupUI,
   checkboxGroupSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
@@ -21,7 +22,7 @@ import { validateServiceBirthDates } from '../../../validation';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Service period',
+    ...titleUI('Service period'),
     serviceBranch: checkboxGroupUI({
       title: 'Branch of service',
       labels: serviceBranchLabels,
