@@ -7,6 +7,7 @@ import {
   fullNameSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { dependentIsOutsideHousehold } from '../../form';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 /** @type {PageSchema} */
@@ -34,7 +35,7 @@ export default {
             'ui:options': {
               classNames: 'schemaform-currency-input-v3',
             },
-            'ui:required': () => true,
+            'ui:required': dependentIsOutsideHousehold,
           },
         ),
       },
