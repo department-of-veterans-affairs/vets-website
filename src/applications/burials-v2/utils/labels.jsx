@@ -20,6 +20,8 @@ export const locationOfDeathLabels = {
 export const allowanceLabels = {
   nonService: 'Non-service-connected death',
   service: 'Service-connected death',
+  unclaimed:
+    'I’m claiming a burial allowance for the unclaimed remains of a Veteran',
 };
 
 export const benefitsLabels = {

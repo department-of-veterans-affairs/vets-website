@@ -5,7 +5,6 @@ import {
   ssnUI,
   dateOfBirthUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import ApplicantDescription from '../../../components/ApplicantDescription';
 import { generateTitle } from '../../../utils/helpers';
 
 const {
@@ -18,7 +17,7 @@ const {
 export default {
   uiSchema: {
     'ui:title': generateTitle('Personal information'),
-    'ui:description': formContext => (
+    'ui:description': () => (
       <>
         <va-alert
           close-btn-aria-label="Close notification"
@@ -31,7 +30,6 @@ export default {
             need to correct anything, you can edit the form fields below.
           </p>
         </va-alert>
-        <ApplicantDescription formContext={formContext} />
       </>
     ),
     claimantFullName: fullNameUI(),

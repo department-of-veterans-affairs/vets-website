@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  yesNoUI,
-  yesNoSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
@@ -25,18 +23,9 @@ export default {
         classNames: 'vads-u-margin-top--0 vads-u-margin-bottom--2',
       },
     },
-    unclaimedRemains: {
-      ...yesNoUI({
-        title:
-          'Are you claiming a burial allowance for unclaimed remains of a Veteran?',
-      }),
-      'ui:options': {
-        classNames: 'vads-u-margin-bottom--2',
-      },
-    },
     'view:allowanceStatement': {
       'ui:options': {
-        hideIf: form => !get('unclaimedRemains', form),
+        hideIf: form => !get('burialAllowanceRequested.unclaimed', form),
       },
       'ui:description': (
         <>
@@ -63,8 +52,8 @@ export default {
       confirmation: {
         ...checkboxGroupUI({
           title: ' ',
-          required: form => get('unclaimedRemains', form),
-          hideIf: form => !get('unclaimedRemains', form),
+          required: form => get('burialAllowanceRequested.unclaimed', form),
+          hideIf: form => !get('burialAllowanceRequested.unclaimed', form),
           errorMessages: {
             required: confError,
             atLeaseOne: confError,
@@ -81,12 +70,11 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['burialAllowanceRequested', 'unclaimedRemains'],
+    required: ['burialAllowanceRequested'],
     properties: {
       burialAllowanceRequested: {
-        ...checkboxGroupSchema(['service', 'nonService']),
+        ...checkboxGroupSchema(['service', 'nonService', 'unclaimed']),
       },
-      unclaimedRemains: yesNoSchema,
       'view:allowanceStatement': {
         type: 'object',
         properties: {

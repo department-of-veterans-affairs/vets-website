@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import format from 'date-fns-tz/format';
 import {
   currentOrPastDateUI,
-  // numberUI,
   numberSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
@@ -12,11 +12,16 @@ import {
   VaSelectField,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 
-import { formatReviewDate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
+import ReviewRowView from '../../../components/ReviewRowView';
 
 const { toursOfDuty } = fullSchemaBurials.properties;
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return format(date, 'LLLL d, yyyy');
+}
 
 export function dateRangeUI(
   from = 'From',
@@ -36,11 +41,9 @@ export function dateRangeUI(
 
 export function ServicePeriodView({ formData }) {
   const from = formData?.dateRange?.from
-    ? formatReviewDate(formData?.dateRange?.from)
+    ? formatDate(formData?.dateRange?.from)
     : '';
-  const to = formData?.dateRange?.to
-    ? formatReviewDate(formData?.dateRange?.to)
-    : '';
+  const to = formData?.dateRange?.to ? formatDate(formData?.dateRange?.to) : '';
 
   return (
     <>
@@ -60,22 +63,16 @@ ServicePeriodView.propTypes = {
 export default {
   uiSchema: {
     'ui:title': generateTitle('Service periods'),
+    'ui:options': {
+      pageClass: 'service-period-view',
+    },
     militaryServiceNumber: {
       'ui:title': 'Military Service number',
       'ui:description': generateHelpText(
         'Enter this only if the deceased Veteran has one',
       ),
       'ui:webComponentField': VaTextInputField,
-      'ui:reviewField': ({ children }) => {
-        return (
-          <dl className="review">
-            <div className="review-row">
-              <dt>Military Service number</dt>
-              <dd>{children}</dd>
-            </div>
-          </dl>
-        );
-      },
+      'ui:reviewField': ReviewRowView,
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
         uswds: true,
@@ -85,7 +82,6 @@ export default {
       'ui:options': {
         itemName: 'Service period',
         viewField: ServicePeriodView,
-        // hideTitle: true,
         uswds: true,
         classNames: 'vads-u-margin--0',
         reviewTitle: 'Service periods',
@@ -117,10 +113,14 @@ export default {
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             uswds: true,
+            width: 'lg',
           },
         },
         placeOfEntry: {
           'ui:title': 'Place of entry',
+          'ui:description': generateHelpText(
+            'Enter the city and state or name of the military base',
+          ),
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             uswds: true,
@@ -128,6 +128,9 @@ export default {
         },
         placeOfSeparation: {
           'ui:title': 'Place of separation',
+          'ui:description': generateHelpText(
+            'Enter the city and state or name of the military base',
+          ),
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             uswds: true,

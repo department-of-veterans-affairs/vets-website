@@ -9,7 +9,7 @@ const { locationOfDeath } = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Burial information'),
+    'ui:title': generateTitle('Veteran death location'),
     locationOfDeath: {
       location: {
         ...radioUI({

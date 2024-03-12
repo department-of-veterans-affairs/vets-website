@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { fullNameUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import ListItemView from '../../../components/ListItemView';
-import { generateTitle } from '../../../utils/helpers';
+import { generateHelpText, generateTitle } from '../../../utils/helpers';
 
 const { previousNames } = fullSchemaBurials.properties;
 
@@ -36,6 +36,7 @@ PreviousNamesView.propTypes = {
 export default {
   uiSchema: {
     'ui:title': generateTitle('Veteran’s previous name'),
+    'ui:options': { pageClass: 'previous-names-view' },
     previousNames: {
       'ui:options': {
         itemName: 'Previous name',
@@ -50,13 +51,15 @@ export default {
         useDlWrap: true,
       },
       items: {
-        ...fullNameUI(title => `Veteran’s ${title}`),
+        ...fullNameUI(title => `Previous ${title}`),
         serviceBranch: {
           'ui:title': 'Branch of service',
+          'ui:description': generateHelpText(
+            'Enter any branch of service the deceased Veteran served in while using this name',
+          ),
           'ui:webComponentField': VaTextInputField,
           'ui:required': () => true,
           'ui:options': {
-            widgetClassNames: 'form-select-medium',
             uswds: true,
           },
         },
