@@ -40,7 +40,7 @@ describe('remove folder error modal', () => {
       .should('be.visible')
       .click();
 
-    cy.get(Locators.HEADER)
+    cy.get(Locators.FOLDERS.FOLDER_HEADER)
       .should('be.visible')
       .and('have.text', folderName);
   });
