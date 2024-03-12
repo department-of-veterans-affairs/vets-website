@@ -5,6 +5,15 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -24,23 +33,12 @@ import {
   makePdf,
   processList,
 } from '../util/helpers';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../shared/util/constants';
 import {
   generateVaccinesIntro,
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;

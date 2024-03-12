@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -12,18 +18,14 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import {
-  generatePdfScaffold,
-  updatePageTitle,
-} from '../../../shared/util/helpers';
+
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine } from '../../../shared/util/constants';
+
 import {
   generateLabsIntro,
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;

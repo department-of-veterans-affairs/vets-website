@@ -4,6 +4,15 @@ import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  usePrintTitle,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -12,23 +21,12 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../../shared/util/constants';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../../shared/util/helpers';
 import { pageTitles, EMPTY_FIELD } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateNotesIntro,
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
