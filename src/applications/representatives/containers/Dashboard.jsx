@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PoaRequestsWidget from '../components/PoaRequestsWidget/PoaRequestsWidget';
+import POARequestsWidget from '../components/POARequestsWidget/POARequestsWidget';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 
-// import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-
-import LoginViewWrapper from './LoginViewWrapper';
-
-const Dashboard = ({ POApermissions = true }) => {
-  const breadcrumbs = [
-    { link: '/', label: 'Home' },
-    { link: '/dashboard', label: 'Dashboard' },
-  ];
-
+const Dashboard = () => {
   return (
-    <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
+    <>
       <h1>Accredited Representative Portal</h1>
       <div className="placeholder-container">
         <div className="dash-container">
@@ -26,7 +17,7 @@ const Dashboard = ({ POApermissions = true }) => {
               </div>
               <div className="vads-u-display--flex vads-u-flex-direction--row">
                 <div className="vads-l-col--9">
-                  <PoaRequestsWidget poaRequests={mockPOARequests} />
+                  <POARequestsWidget poaRequests={mockPOARequests} />
                 </div>
                 <div className="vads-l-col--3 vads-u-padding-left--2">
                   <div className="primary dash-box vads-u-background-color--white vads-u-margin-bottom--2 rounded-corners" />
@@ -37,12 +28,12 @@ const Dashboard = ({ POApermissions = true }) => {
           </div>
         </div>
       </div>
-    </LoginViewWrapper>
+    </>
   );
 };
 
 Dashboard.propTypes = {
-  POApermissions: PropTypes.bool,
+  poaPermissions: PropTypes.bool,
 };
 
 export default Dashboard;

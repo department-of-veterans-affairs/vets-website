@@ -15,6 +15,7 @@ const initialProps = {
   zipCode: '02113',
   primaryPhone: '617-555-1111',
   index: 0,
+  numberOfContacts: 2,
 };
 
 const setup = (props = {}) => render(<Contact {...initialProps} {...props} />);
@@ -26,14 +27,16 @@ describe('Contact Component', () => {
     expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
     expect(container.textContent).to.contain('19 N Square');
     expect(container.textContent).to.contain('Boston, MA 02113');
-    expect(container.textContent).to.contain('617-555-1111');
+    const telephone = container.querySelector('va-telephone');
+    expect(telephone).to.have.attr('contact', '617-555-1111');
   });
 
   it('renders name and phone number if addressLine1 is not present', () => {
     const { container } = setup({ addressLine1: '', index: 1 });
     expect(container.textContent).to.contain('Secondary next of kin');
     expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
-    expect(container.textContent).to.contain('617-555-1111');
+    const telephone = container.querySelector('va-telephone');
+    expect(telephone).to.have.attr('contact', '617-555-1111');
     expect(container.textContent).not.to.contain('Boston, MA 02113');
   });
 
@@ -41,7 +44,20 @@ describe('Contact Component', () => {
     const { container } = setup({ contactType: 'Emergency Contact' });
     expect(container.textContent).to.contain('Primary emergency contact');
     expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
-    expect(container.textContent).to.contain('617-555-1111');
+    const telephone = container.querySelector('va-telephone');
+    expect(telephone).to.have.attr('contact', '617-555-1111');
+    expect(container.textContent).not.to.contain('Boston, MA 02113');
+  });
+
+  it('omits the title if only one contact exists', () => {
+    const { container } = setup({
+      contactType: 'Emergency Contact',
+      numberOfContacts: 1,
+    });
+    expect(container.textContent).not.to.contain('Emergency contact');
+    expect(container.textContent).to.contain('Mrs. Rachel Walker Revere');
+    const telephone = container.querySelector('va-telephone');
+    expect(telephone).to.have.attr('contact', '617-555-1111');
     expect(container.textContent).not.to.contain('Boston, MA 02113');
   });
 });

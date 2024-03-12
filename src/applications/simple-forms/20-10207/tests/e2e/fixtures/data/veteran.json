@@ -24,11 +24,11 @@
     "otherReasons": {
       "OVER_85": true
     },
-    "powConfinementStartDate": "2018-01-01",
-    "powConfinementEndDate": "2018-02-03",
+    "powConfinementStartDate": "2013-01-01",
+    "powConfinementEndDate": "2013-01-02",
     "powMultipleConfinements": true,
-    "powConfinement2StartDate": "2018-11-01",
-    "powConfinement2EndDate": "2018-11-12",
+    "powConfinement2StartDate": "2013-01-03",
+    "powConfinement2EndDate": "2013-01-04",
     "medicalTreatments": [
       {
         "facilityName": "Guido’s Trailer",
@@ -39,7 +39,7 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "startDate": "2018-01-01"
+        "startDate": "2013-01-05"
       }
     ]
   }

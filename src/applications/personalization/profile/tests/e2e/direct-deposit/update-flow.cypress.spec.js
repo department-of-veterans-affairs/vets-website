@@ -77,6 +77,10 @@ describe('Direct Deposit', () => {
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
     cy.injectAxe();
   });
+  afterEach(() => {
+    cy.injectAxeThenAxeCheck();
+    cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
+  });
   describe('for CNP', () => {
     it('should allow bank info updates, and show error', () => {
       cy.axeCheck();
@@ -129,6 +133,64 @@ describe('Direct Deposit', () => {
       saveSuccessAlertRemoved();
       cy.axeCheck();
     });
+
+    it('should allow a user to cancel unsaved changes and be shown a confirmation modal', () => {
+      cy.axeCheck();
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.get('#disability-compensation-and-pension-benefits').should(
+        'be.focused',
+      );
+      fillInBankInfoForm('CNP');
+      exitBankInfoForm('CNP');
+      cy.get('va-modal').should('exist');
+      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(
+        /disability compensation and pension direct deposit information/i,
+      );
+      cy.get('va-modal')
+        .contains(/cancel/i)
+        .click();
+      cy.get('va-modal').should('not.exist');
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).should('exist');
+      cy.axeCheck();
+    });
+
+    it('should allow a user to cancel unsaved changes and be shown a confirmation modal, but decide to continue editing and not discard unsaved changes', () => {
+      cy.axeCheck();
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.get('#disability-compensation-and-pension-benefits').should(
+        'be.focused',
+      );
+      fillInBankInfoForm('CNP');
+      exitBankInfoForm('CNP');
+      cy.get('va-modal').should('exist');
+      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(
+        /disability compensation and pension direct deposit information/i,
+      );
+      cy.get('va-modal')
+        .contains(/back to editing/i)
+        .click();
+      cy.get('va-modal').should('not.exist');
+      cy.findByRole('button', {
+        name: /save/i,
+      }).should('exist');
+      cy.axeCheck();
+    });
   });
   describe('for EDU', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
@@ -170,6 +232,56 @@ describe('Direct Deposit', () => {
       }).should('exist');
       saveSuccessAlertShown();
       saveSuccessAlertRemoved();
+      cy.axeCheck();
+    });
+
+    it('should allow a user to cancel unsaved changes and be shown a confirmation modal', () => {
+      cy.axeCheck();
+      cy.findByRole('button', {
+        name: /edit.*education.*bank information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.get('#education-benefits').should('be.focused');
+      fillInBankInfoForm('EDU');
+      exitBankInfoForm('EDU');
+      cy.get('va-modal').should('exist');
+      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(/education direct deposit information/i);
+      cy.get('va-modal')
+        .contains(/cancel/i)
+        .click();
+      cy.get('va-modal').should('not.exist');
+      cy.findByRole('button', {
+        name: /edit.*education.*bank information/i,
+      }).should('exist');
+      cy.axeCheck();
+    });
+
+    it('should allow a user to cancel unsaved changes and be shown a confirmation modal, but decide to continue editing and not discard unsaved changes', () => {
+      cy.axeCheck();
+      cy.findByRole('button', {
+        name: /edit.*education.*bank information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.get('#education-benefits').should('be.focused');
+      fillInBankInfoForm('EDU');
+      exitBankInfoForm('EDU');
+      cy.get('va-modal').should('exist');
+      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(/education direct deposit information/i);
+      cy.get('va-modal')
+        .contains(/back to editing/i)
+        .click();
+      cy.get('va-modal').should('not.exist');
+      cy.findByRole('button', {
+        name: /save/i,
+      }).should('exist');
       cy.axeCheck();
     });
   });

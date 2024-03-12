@@ -14,12 +14,13 @@ import Validate from './pages/validate';
 import Landing from './pages/landing';
 import LoadingPage from './pages/LoadingPage';
 import TravelIntro from './pages/travel-intro';
-import SelectAppointment from './pages/select-appointment';
 import TravelMileage from './pages/travel-mileage';
 import TravelVehiclePage from './pages/travel-vehicle';
 import TravelAddressPage from './pages/travel-address';
 import TravelReviewPage from './pages/travel-review';
+import TravelAgreement from './pages/travel-agreement';
 import Complete from './pages/complete';
+import Error from './pages/error';
 
 const routes = [
   {
@@ -46,16 +47,16 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.TRAVEL_SELECT,
-    component: SelectAppointment,
+    path: URLS.TRAVEL_MILEAGE,
+    component: TravelMileage,
     permissions: {
       requireAuthorization: true,
     },
     reloadable: true,
   },
   {
-    path: URLS.TRAVEL_MILEAGE,
-    component: TravelMileage,
+    path: URLS.TRAVEL_AGREEMENT,
+    component: TravelAgreement,
     permissions: {
       requireAuthorization: true,
     },
@@ -92,6 +93,13 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
+  },
+  {
+    path: URLS.ERROR,
+    component: Error,
+    permissions: {
+      requireAuthorization: false,
+    },
   },
 ];
 

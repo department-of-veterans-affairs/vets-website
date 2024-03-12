@@ -38,7 +38,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
       waitForAnimations: true,
     });
     cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
-    cy.get('#select').should(
+    cy.get(Locators.SELECT).should(
       'not.contain',
       mockRecipients.data[0].attributes.name,
     );

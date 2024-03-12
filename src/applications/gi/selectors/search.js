@@ -2,6 +2,7 @@ import _ from 'lodash';
 import appendQuery from 'append-query';
 import { INITIAL_STATE } from '../reducers/search';
 import { buildSearchFilters } from './filters';
+import { setDocumentTitle } from '../utils/helpers';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
@@ -46,6 +47,5 @@ export const updateUrlParams = (
   });
 
   history.push(url);
-
-  document.title = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
+  setDocumentTitle();
 };

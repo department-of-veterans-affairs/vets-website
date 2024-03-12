@@ -1,11 +1,12 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const description = (
-  <section>
+  <>
     <p>
       We want to know if you, your spouse, or your dependents pay medical or
       certain other expenses that aren’t reimbursed.
@@ -33,14 +34,13 @@ export const description = (
         </li>
       </ul>
     </p>
-  </section>
+  </>
 );
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Medical expenses and other unreimbursed expenses',
-    'ui:description': description,
+    ...titleUI('Medical expenses and other unreimbursed expenses', description),
     hasMedicalExpenses: yesNoUI({
       title:
         "Do you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
