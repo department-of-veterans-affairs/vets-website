@@ -56,9 +56,11 @@ export default function NoAppointments({
             </p>
           )}
           <div className="vaos-hide-for-print">
-            <a href="/" onClick={handleClick(history, dispatch, typeOfCare)}>
-              Schedule an appointment
-            </a>
+            <va-link
+              onClick={handleClick(history, dispatch, typeOfCare)}
+              text="Schedule an appointment"
+              data-testid="schedule-appointment-link"
+            />
           </div>
         </>
       )}

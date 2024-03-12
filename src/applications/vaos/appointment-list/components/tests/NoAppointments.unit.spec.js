@@ -29,13 +29,9 @@ describe('VAOS Component: NoAppointments', () => {
 
     expect(screen.queryByText(/You can schedule an appointment online now/)).to
       .to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    userEvent.click(screen.queryByTestId('schedule-appointment-link'));
 
-    const schedule = screen.queryByRole('link', {
-      name: /schedule an appointment/i,
-    });
-    expect(schedule).to.exist;
-
-    userEvent.click(schedule);
     expect(screen.history.push.called).to.be.true;
   });
   it('should display additional detail', async () => {
@@ -54,13 +50,9 @@ describe('VAOS Component: NoAppointments', () => {
     expect(
       screen.queryByText(/If you request an appointment it will show here/),
     ).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    userEvent.click(screen.queryByTestId('schedule-appointment-link'));
 
-    const schedule = screen.queryByRole('link', {
-      name: /schedule an appointment/i,
-    });
-    expect(schedule).to.exist;
-
-    userEvent.click(schedule);
     expect(screen.history.push.called).to.be.true;
   });
   it('should not display schedule an appointment link', async () => {
@@ -78,10 +70,6 @@ describe('VAOS Component: NoAppointments', () => {
         name: 'You don’t have any appointments',
       }),
     ).to.exist;
-
-    const schedule = screen.queryByRole('link', {
-      name: /schedule an appointment/i,
-    });
-    expect(schedule).to.be.null;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.be.null;
   });
 });
