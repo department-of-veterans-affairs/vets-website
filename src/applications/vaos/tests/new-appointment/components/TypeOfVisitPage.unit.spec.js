@@ -43,7 +43,7 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(await screen.findByText('Select an option')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
   });
 
