@@ -2,7 +2,8 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
-import { Locators, Paths } from '../utils/constants';
+import { Locators, Alerts, Paths } from '../utils/constants';
+
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -15,7 +16,7 @@ class FolderManagementPage {
   };
 
   deleteFolderButton = () => {
-    return cy.get(Locators.BUTTONS.REMOVE_FOLDER_BUTTON);
+    return cy.get(Locators.BUTTONS.DELETE_FOLDER);
   };
 
   editFolderNameButton = () => {
@@ -141,12 +142,12 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get('[class="vads-u-margin-y--0"]');
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder was successfully removed.',
     );
   };
@@ -156,15 +157,14 @@ class FolderManagementPage {
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
-    this.folderConfirmation().should(
-      'have.text',
-      'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
-    );
+    this.folderConfirmation()
+      .should('be.visible')
+      .and('contain.text', Alerts.OUTAGE);
   };
 
   verifyCreateFolderSuccessMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder was successfully created.',
     );
   };
@@ -237,9 +237,9 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.CLOSE_NOTIFICATION)
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('have.text', 'Message conversation was successfully moved.');
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {

@@ -45,8 +45,8 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get(Locators.ALERTS.MAIN_CONTENT).should(
-      'have.text',
+    cy.get('[data-testid="alert-text"]').should(
+      'contain.text',
       'Secure message was successfully sent.',
     );
   };
@@ -388,8 +388,8 @@ class PatientComposePage {
   };
 
   verifyDeleteDraftSuccessfulMessage = () => {
-    cy.get(Locators.ALERTS.MAIN_CONTENT).should(
-      'have.text',
+    cy.get('[data-testid="alert-text"]').should(
+      'contain.text',
       'Message conversation was successfully moved to Trash.',
     );
   };

@@ -6,7 +6,6 @@ import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-t
 import { Paths, Locators } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
-import mockFolderWithMessages from '../fixtures/customResponse/folder-messages-response .json';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -70,7 +69,7 @@ class PatientMessageCustomFolderPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-      mockFolderWithMessages,
+      mockSingleThreadResponse,
     ).as('singleFolderThread');
 
     cy.contains(folderName).click({ waitForAnimations: true });

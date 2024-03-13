@@ -40,11 +40,11 @@ describe('<HelpBlock />', () => {
         store={initState}
         router={{ currentPage: 'contact-information' }}
       >
-        <HelpBlock travel />
+        <HelpBlock travelClaim />
       </CheckInProvider>,
     );
 
-    expect(component.getByTestId('for-help-using-this-tool')).to.exist;
+    expect(component.queryByTestId('for-help-using-this-tool')).to.not.exist;
     expect(component.getByTestId('if-you-have-questions')).to.exist;
     expect(component.getByTestId('for-questions-about-filing')).to.exist;
     expect(component.getByTestId('if-yourre-in-crisis')).to.exist;

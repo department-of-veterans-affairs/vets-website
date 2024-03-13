@@ -1,9 +1,9 @@
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 // pages
 import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
@@ -25,7 +25,10 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
-import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
+import {
+  arrayMultiPageBuilderSummary,
+  SummaryCards,
+} from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
@@ -33,6 +36,8 @@ import {
   onNavBackKeepUrlParams,
   onNavForwardKeepUrlParams,
   onNavBackRemoveAddingItem,
+  createArrayBuilderItemAddPath,
+  createArrayBuilderUpdatedPath,
 } from '../arrayBuilder/helpers';
 
 const chapterSelectInitialData = {
@@ -61,7 +66,7 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
-    collapsibleNavLinks: false,
+    collapsibleNavLinks: true,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
@@ -292,14 +297,17 @@ const formConfig = {
         multiPageBuilderStart: {
           title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
           path: 'array-multiple-page-builder-summary',
+          CustomPageReview: () => SummaryCards,
           uiSchema: arrayMultiPageBuilderSummary.uiSchema,
           schema: arrayMultiPageBuilderSummary.schema,
           onNavForward: ({ formData, goPath }) => {
             if (formData.hasEmployment) {
               const index = formData.employers ? formData.employers.length : 0;
-              goPath(
-                `/array-multiple-page-builder-item-page-1/${index}?add=true`,
-              );
+              const path = createArrayBuilderItemAddPath({
+                basePath: '/array-multiple-page-builder-item-page-1',
+                index,
+              });
+              goPath(path);
             } else {
               goPath('/review-and-submit');
             }
@@ -316,6 +324,7 @@ const formConfig = {
           schema: arrayMultiPageBuilderItemPage1.schema,
           CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
           customPageUsesPagePerItemData: true,
+          CustomPageReview: () => null,
           onNavBack: onNavBackRemoveAddingItem({
             arrayPath: 'employers',
             summaryPathUrl: '/array-multiple-page-builder-summary',
@@ -334,6 +343,7 @@ const formConfig = {
           allowPathWithNoItems: true,
           arrayPath: 'employers',
           CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          CustomPageReview: () => null,
           customPageUsesPagePerItemData: true,
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
@@ -341,8 +351,20 @@ const formConfig = {
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
-          onNavForward: ({ goPath }) => {
-            goPath('/array-multiple-page-builder-summary');
+          onNavForward: ({ goPath, urlParams, pathname }) => {
+            let path = '/array-multiple-page-builder-summary';
+            if (urlParams?.edit) {
+              const index = getUrlPathIndex(pathname);
+              const basePath = urlParams?.review
+                ? '/review-and-submit'
+                : '/array-multiple-page-builder-summary';
+              path = createArrayBuilderUpdatedPath({
+                basePath,
+                index,
+                nounSingular: 'employer',
+              });
+            }
+            goPath(path);
           },
         },
       },

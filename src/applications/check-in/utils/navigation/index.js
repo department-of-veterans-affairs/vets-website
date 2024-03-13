@@ -55,6 +55,7 @@ const updateFormPages = (
   });
 
   const travelPayPages = [
+    URLS.TRAVEL_AGREEMENT,
     URLS.TRAVEL_QUESTION,
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,
@@ -92,6 +93,7 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  TRAVEL_AGREEMENT: 'travel-agreement',
   TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
