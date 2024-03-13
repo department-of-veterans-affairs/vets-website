@@ -1237,12 +1237,16 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
       
+      
       - name: Archive coverage txt
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-coverage-txt
           path: qa-standards-dashboard-data/coverage/coverage_report.txt
+      
+      - name: Copy coverage json to qa-standards-dashboard-data test data directory
+        run: cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Process Coverage Report and post results to BigQuery
         run: yarn unit-coverage-to-bigquery
