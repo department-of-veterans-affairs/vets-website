@@ -126,7 +126,7 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.applicants.forEach(app => {
     if (app.applicant_supporting_documents.length > 0) {
       app.applicant_supporting_documents.forEach(doc => {
-        if (doc !== undefined) {
+        if (doc !== undefined && doc !== null) {
           supDocs.push(...doc);
         }
       });

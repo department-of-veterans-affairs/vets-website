@@ -32,9 +32,6 @@ export const hasServerError = state =>
 export const noESRRecordFound = state =>
   selectEnrollmentStatus(state).noESRRecordFound;
 
-export const shouldShowReapplyContent = state =>
-  selectEnrollmentStatus(state).showReapplyContent;
-
 export const hasApplicationInESR = state => {
   const status = selectEnrollmentStatus(state).enrollmentStatus;
   return nonActiveInESRStatuses.has(status) === false;

@@ -1,8 +1,9 @@
 // Schema for use with fileUploadUI
 
 // Images + pdf
-export const fileTypes = ['bmp', 'heic', 'jpeg', 'jpg', 'pdf', 'png'];
-export const maxSize = '1.0MB'; // Arbitrary - TODO: update in future.
+export const fileTypes = ['jpeg', 'jpg', 'png', 'pdf'];
+export const maxSize = '20MB'; // This appears to be the current limit
+export const minSize = '1.0KB';
 
 export const attachmentsSchema = {
   type: 'array',

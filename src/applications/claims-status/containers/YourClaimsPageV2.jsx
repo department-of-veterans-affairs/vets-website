@@ -16,7 +16,7 @@ import {
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
 import AppealsUnavailable from '../components/AppealsUnavailable';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsListItem from '../components/ClaimsListItem';
@@ -263,7 +263,7 @@ class YourClaimsPageV2 extends React.Component {
               information, contact your Veterans Service Organization or
               representative.
             </p>
-            <AskVAQuestions />
+            <NeedHelp />
           </div>
         </article>
       </>
