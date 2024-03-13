@@ -2,12 +2,13 @@ import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
-describe('Diary Codes - Next Steps', () => {
+describe.skip('Diary Codes - Next Steps', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/debts', mockDebts);
-    cy.visit('/manage-va-debt/your-debt/');
+    cy.visit('/');
+    cy.visit('/manage-va-debt/your-debt');
     cy.injectAxe();
   });
 

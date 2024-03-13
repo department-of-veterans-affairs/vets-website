@@ -37,7 +37,7 @@ const AlertView = ({ pathname, alertType, error, cdpToggle, hasDebts }) => {
 
   return (
     <>
-      <VaBreadcrumbs label="Breadcrumb">
+      <VaBreadcrumbs uswds="false" label="Breadcrumb">
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
