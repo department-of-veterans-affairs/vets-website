@@ -58,13 +58,13 @@ function addItemPage2() {
 function summaryEditItem1() {
   cy.axeCheck();
   cy.get('va-card').should('have.length', 2);
-  cy.get('va-card[name="employers_0"] [data-action="edit"]').click();
+  cy.get('va-card[name="employer_0"] [data-action="edit"]').click();
 }
 
 function summaryEditItem2() {
   cy.axeCheck();
   cy.get('va-card').should('have.length', 2);
-  cy.get('va-card[name="employers_1"] [data-action="edit"]').click();
+  cy.get('va-card[name="employer_1"] [data-action="edit"]').click();
 }
 
 function editItemPage1() {
@@ -111,7 +111,7 @@ function cancelItemPage1() {
 
 function removeItem1() {
   cy.get('va-card').should('have.length', 2);
-  cy.get('va-card[name="employers_0"] [data-action="remove"]').click();
+  cy.get('va-card[name="employer_0"] [data-action="remove"]').click();
   cy.axeCheck();
   cy.get('va-modal[status="warning"]')
     .shadow()

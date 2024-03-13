@@ -6,6 +6,7 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -26,7 +27,7 @@ import {
 } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase, updatePageTitle } from '../util/helpers';
+import { convertPathNameToTitleCase } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
