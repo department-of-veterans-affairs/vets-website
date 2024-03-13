@@ -43,7 +43,7 @@ class SecureMessagingLandingPage {
   };
 
   verifyHeader = (text = 'Messages') => {
-    cy.get(Locators.HEADER)
+    cy.get('h1')
       .should('be.visible')
       .and('have.text', `${text}`);
   };

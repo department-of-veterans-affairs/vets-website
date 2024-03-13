@@ -40,7 +40,7 @@ export const Locators = {
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
   DELET_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
   SELECT: '#options',
-  HEADER: 'h2',
+  HEADER: 'h1',
   HEADLINE: 'h1[slot="headline"]',
   KEYWORD_SEARCH: '[data-testid="keyword-search-input"]',
   NO_MESS: '[data-testid=alert-no-messages] p',
