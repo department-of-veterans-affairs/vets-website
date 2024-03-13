@@ -21,12 +21,7 @@ function generateOptions({ data, pagePerItemIndex }) {
   const useFirstPerson =
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
 
-  // Set up grammatically appropriate articles
-  const relativeBeingVerb = `${`${
-    !useFirstPerson
-      ? `${applicant} ${data.sponsorIsDeceased ? 'was' : 'is'}`
-      : `${data.sponsorIsDeceased ? 'I was' : 'I’m'}`
-  }`}`;
+  const relative = `${useFirstPerson ? 'I' : applicant}`;
 
   const relativePossessive = `${`${
     useFirstPerson ? 'your' : `${applicant}’s`
@@ -35,21 +30,19 @@ function generateOptions({ data, pagePerItemIndex }) {
   // Create dynamic radio labels based on above phrasing
   const options = [
     {
-      label: `${relativeBeingVerb} the ${personTitle}'s spouse`,
+      label: `${relative} was married to the ${personTitle} at any time`,
       value: 'spouse',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}'s child`,
+      label: `${relative} ${
+        useFirstPerson ? 'am' : 'is'
+      } the ${personTitle}’s surviving child (including adopted children and stepchildren)`,
       value: 'child',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}'s caretaker`,
-      value: 'caretaker',
-    },
-    {
       label: `${
-        applicant && !useFirstPerson ? `${applicant} doesn’t` : 'We don’t'
-      } have a relationship that’s listed here`,
+        useFirstPerson ? 'Our' : `${applicant}’s`
+      } relationship is not listed here`,
       value: 'other',
     },
   ];
@@ -58,7 +51,6 @@ function generateOptions({ data, pagePerItemIndex }) {
     options,
     useFirstPerson,
     relativePossessive,
-    relativeBeingVerb,
     applicant,
     personTitle,
     keyname,
@@ -107,7 +99,7 @@ export function ApplicantRelationshipReviewPage(props) {
         {other ? (
           <div className="review-row">
             <dt>
-              Since {useFirstPerson ? 'your' : `${applicant}'s `} relationship
+              Since {useFirstPerson ? 'your' : `${applicant}’s `} relationship
               with the {personTitle} was not listed, please describe it here
             </dt>
             <dd>{other}</dd>
@@ -209,7 +201,7 @@ export default function ApplicantRelationshipPage({
       {
         titleUI(
           `${
-            useFirstPerson ? `Your` : `${applicant}'s`
+            useFirstPerson ? `Your` : `${applicant}’s`
           } relationship to the ${personTitle}`,
         )['ui:title']
       }
@@ -217,8 +209,8 @@ export default function ApplicantRelationshipPage({
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
           class="vads-u-margin-y--2"
-          label={`What's ${
-            useFirstPerson ? `your` : `${applicant}'s`
+          label={`What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
+            useFirstPerson ? `your` : `${applicant}’s`
           } relationship to the ${personTitle}?`}
           required
           error={checkError}
