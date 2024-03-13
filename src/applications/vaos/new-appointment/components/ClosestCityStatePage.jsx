@@ -22,11 +22,14 @@ const uiSchema = {
     'ui:title':
       'Choose a city that is near you. This ensures that we send your community care request to your closest VA health system.',
     'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'Select a city',
+    },
   },
 };
 
 const pageKey = 'ccClosestCity';
-const pageTitle = 'What’s the closest city to you?';
+const pageTitle = 'What’s the nearest city to you?';
 
 export default function ClosestCityStatePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -81,6 +84,17 @@ export default function ClosestCityStatePage({ changeCrumb }) {
           onChange={newData => setData(newData)}
           data={data}
         >
+          <va-additional-info
+            trigger="Why we’re asking this"
+            class="vads-u-margin-y--4"
+            data-testid="additional-info"
+          >
+            <div>
+              We'll send your request to the VA medical center nearest to the
+              city you select. The medical center staff will help schedule your
+              community care appointment.{' '}
+            </div>
+          </va-additional-info>
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey, data))
