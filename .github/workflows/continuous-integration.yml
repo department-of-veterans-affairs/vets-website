@@ -1264,7 +1264,7 @@ jobs:
           name: Unit Test Coverage Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary": "<https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/>",}
+            {"summary":"<https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/>"}
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
