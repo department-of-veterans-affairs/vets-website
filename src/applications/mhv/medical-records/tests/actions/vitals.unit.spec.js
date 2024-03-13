@@ -16,7 +16,12 @@ describe('Get vitals action', () => {
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
     return getVitals()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vitals.GET_LIST);
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vitals.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Vitals.GET_LIST,
+      );
     });
   });
 

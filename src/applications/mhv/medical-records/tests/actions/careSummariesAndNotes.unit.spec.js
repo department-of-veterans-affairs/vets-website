@@ -17,6 +17,9 @@ describe('Get care summaries and notes list action', () => {
     const dispatch = sinon.spy();
     return getCareSummariesAndNotesList()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET_LIST,
       );
     });
@@ -33,7 +36,7 @@ describe('Get care summaries and notes list action', () => {
         );
       })
       .catch(() => {
-        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
       });
   });
 });
