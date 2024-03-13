@@ -219,7 +219,6 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
-  enableShortWorkflow,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -278,11 +277,9 @@ export function uploadFile(
         '',
       );
 
-      const fileTypeErrorMessage = enableShortWorkflow
-        ? 'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
-          `of file. Please make sure the file is a ${allowedTypes} file and try again.`
-        : 'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
-          `of file. Please delete the file. Then try again with a ${allowedTypes} file.`;
+      const fileTypeErrorMessage =
+        'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
+        `of file. Please make sure the file is a ${allowedTypes} file and try again.`;
 
       onChange({
         name: file.name,
@@ -346,9 +343,7 @@ export function uploadFile(
     });
 
     req.addEventListener('error', () => {
-      const errorMessage = enableShortWorkflow
-        ? FILE_UPLOAD_NETWORK_ERROR_MESSAGE
-        : 'We\u2019re sorry. We had a connection problem. Please delete the file and try again.';
+      const errorMessage = FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
 
       if (password) {
         onChange({
