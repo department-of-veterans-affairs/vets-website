@@ -106,7 +106,6 @@ const FileField = props => {
   const attachmentIdRequired = schema.additionalItems.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
-  const uswds = uiOptions.uswds || null;
 
   const content = {
     upload: uiOptions.buttonText || 'Upload',
@@ -418,7 +417,7 @@ const FileField = props => {
         onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
         onSecondaryButtonClick={closeRemoveModal}
         visible={showRemoveModal}
-        uswds={uswds}
+        uswds
       >
         <p>
           {removeIndex !== null
@@ -532,7 +531,7 @@ const FileField = props => {
                       }}
                       label={content.cancelLabel(file.name)}
                       text={content.cancel}
-                      uswds={uswds}
+                      uswds
                     />
                   </div>
                 )}
@@ -605,7 +604,7 @@ const FileField = props => {
                     index={index}
                     onSubmitPassword={onSubmitPassword}
                     passwordLabel={content.passwordLabel(file.name)}
-                    uswds={uswds}
+                    uswds
                   />
                 )}
                 {!formContext.reviewMode &&
@@ -626,7 +625,7 @@ const FileField = props => {
                               : content.newFile
                           }
                           text={retryButtonText}
-                          uswds={uswds}
+                          uswds
                         />
                       )}
                       <va-button
@@ -637,7 +636,7 @@ const FileField = props => {
                         }}
                         label={content.deleteLabel(file.name)}
                         text={deleteButtonText}
-                        uswds={uswds}
+                        uswds
                       />
                     </div>
                   )}
@@ -666,7 +665,7 @@ const FileField = props => {
                   onClick={() => fileInputRef?.current?.click()}
                   label={`${uploadText} ${titleString || ''}`}
                   text={uploadText}
-                  uswds={uswds}
+                  uswds
                 />
               </label>
             )}
