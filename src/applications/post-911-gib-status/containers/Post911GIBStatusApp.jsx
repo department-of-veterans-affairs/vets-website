@@ -48,7 +48,7 @@ function Post911GIBStatusApp({ user, children }) {
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.benefitsEducationUseLighthouse,
   );
-  const apiVersion = toggleValue ? { apiVersion: 'v1' } : null;
+  const apiVersion = { apiVersion: toggleValue ? 'v1' : 'v0' };
 
   return (
     <RequiredLoginView
