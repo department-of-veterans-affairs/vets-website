@@ -87,7 +87,7 @@ class ClaimEstimationPage extends React.Component {
               If you have questions, <CallVBACenter />
             </p>
           </div>
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <NeedHelp />
           </div>
         </div>
