@@ -9,6 +9,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   .form-radio-buttons {
     position: relative;
+
     input {
       top: -15px;
     }
@@ -36,10 +37,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     p {
       margin-top: 0;
     }
-  }
-
-  .accordion-container {
-    margin-bottom: 3em;
   }
 
   hr {
@@ -91,13 +88,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
   }
 
-  .airForce-portal-link {
-    width: max-content;
-    i:hover {
-      color: $color-green-darker !important;
-    }
-  }
-
   .answers {
     border-bottom: 1px solid $color-gray-light;
   }
@@ -118,7 +108,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
   va-select::part(label) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
-    serif;
+      serif;
     font-size: 1.7rem;
     font-weight: bold;
   }

@@ -13,6 +13,7 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 import { hasHealthData } from './hasHealthData';
+import { selectHasMHVAccountState } from './hasMHVAccountState';
 import {
   selectGreetingName,
   selectPersonalInformation,
@@ -36,4 +37,5 @@ export {
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
+  selectHasMHVAccountState,
 };

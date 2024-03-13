@@ -26,6 +26,14 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
+export function getFullNameLabels(label) {
+  if (label === 'middle name') {
+    return 'Middle initial';
+  }
+
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
 export function getNameAndDobPageTitle(formData) {
   const { preparerType } = formData;
   const titleEnding = 'name and date of birth';
@@ -39,11 +47,18 @@ export function getNameAndDobPageTitle(formData) {
   }
 }
 
-export function getVeteranNameAndDobPageTitle(formData) {
-  const titleEnding = 'name and date of birth';
-  return formData.preparerType === PREPARER_TYPES.VETERAN
-    ? `Your ${titleEnding}`
-    : `Veteran’s ${titleEnding}`;
+export function getNameAndDobPageDescription(formData) {
+  const { preparerType } = formData;
+  switch (preparerType) {
+    case PREPARER_TYPES.NON_VETERAN:
+      return 'Please provide your information as the person with the claim.';
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return 'Please provide the Veteran’s information.';
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return 'Please provide information on the person with the claim (also called the claimant).';
+    default:
+      return 'Please provide your information as the Veteran.';
+  }
 }
 
 export function getIdentityInfoPageTitle(formData) {

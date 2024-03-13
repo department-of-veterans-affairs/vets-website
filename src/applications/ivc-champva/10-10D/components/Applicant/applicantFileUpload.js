@@ -1,55 +1,58 @@
-import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
+import {
+  uploadWithInfoComponent,
+  acceptableFiles,
+} from '../Sponsor/sponsorFileUploads';
 
 export const applicantBirthCertConfig = uploadWithInfoComponent(
-  ['Birth certificate', 'Social Security card'],
+  acceptableFiles.birthCert,
   'birth certificates',
   false,
 );
 
 export const applicantSchoolCertConfig = uploadWithInfoComponent(
-  ['School certification'],
+  acceptableFiles.schoolCert,
   'school certifications',
   false,
 );
 
 export const applicantAdoptedConfig = uploadWithInfoComponent(
-  ['Court ordered adoption papers'],
+  acceptableFiles.adoptionCert,
   'adoption papers',
   false,
 );
 
 export const applicantStepChildConfig = uploadWithInfoComponent(
-  ['Marriage certificate'],
+  acceptableFiles.stepCert,
   'marriage certificates',
   false,
 );
 
 export const applicantMedicarePartAPartBCardsConfig = uploadWithInfoComponent(
-  ['Front of Medicare Parts A or B card', 'Back of Medicare Parts A or B card'],
+  acceptableFiles.medicareABCert,
   'copy of Medicare Parts A or B card',
   false,
 );
 
 export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
-  ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
+  acceptableFiles.medicareDCert,
   'copy of Medicare Part D card',
   false,
 );
 
 export const applicantOhiCardsConfig = uploadWithInfoComponent(
-  ['Front of health insurance card', 'Back of health insurance card'],
+  acceptableFiles.healthInsCert,
   'copy of other health insurance card',
   false,
 );
 
 export const applicant107959cConfig = uploadWithInfoComponent(
-  ['PDF of VA Form 10-7959c'],
+  acceptableFiles.va7959cCert,
   'VA Form 10-7959c',
   false,
 );
 
 export const applicantMarriageCertConfig = uploadWithInfoComponent(
-  ['Marriage certificate', 'Civil union papers'],
+  acceptableFiles.spouseCert,
   'marriage certificates',
   false,
 );
