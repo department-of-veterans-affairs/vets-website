@@ -27,6 +27,7 @@ import { URLS } from '../utils/navigation';
 import { APP_NAMES } from '../utils/appConstants';
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
+import ArrivedAtFacility from './pages/ArrivedAtFacility';
 
 const routes = [
   {
@@ -155,6 +156,15 @@ const routes = [
   {
     path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
     component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: URLS.ARRIVED,
+    component: ArrivedAtFacility,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,

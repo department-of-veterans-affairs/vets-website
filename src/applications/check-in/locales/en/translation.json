@@ -327,5 +327,7 @@
   "file-claim": "File claim",
   "finish-reviewing-your-travel-claim": "Finish reviewing your travel claim",
   "by-submitting-this-claim": "By submitting this claim, you agree to the <0>beneficiary travel agreement</0>.",
-  "review-your-claim-information-now-to-file": "Review your claim information now to file your travel pay claim."
+  "review-your-claim-information-now-to-file": "Review your claim information now to file your travel pay claim.",
+  "we-ask-this-question-because-staff-can-call-you": "We ask this question because staff can call you back anytime after you complete check-in. If you’re more than 5-10 minutes away after completing check-in, see a staff member when you arrive.",
+  "have-you-arrived-at-your-va-health-facility": "Have you arrived at your VA health facility?"
 }
