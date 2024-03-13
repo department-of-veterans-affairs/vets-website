@@ -25,11 +25,7 @@ describe('Secure Messaging Compose Categories', () => {
       composePage.enterDataToMessageSubject();
       composePage.enterDataToMessageBody();
       composePage.sendMessage();
-      landingPage.verifySentSuccessMessage();
-
-      cy.get('va-alert')
-        .find('div > p')
-        .should('have.text', 'Secure message was successfully sent.');
+      composePage.verifySendMessageConfirmationMessageText();
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
