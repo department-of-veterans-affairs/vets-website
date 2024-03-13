@@ -1,14 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import LocationOperationStatus from '../../../components/search-results-items/common/LocationOperationStatus';
 
 describe('facility-locator', () => {
   describe('LocationOperationStatus', () => {
-    it('check in button passes axeCheck', () => {
+    it('check in button passes axeCheck', async () => {
       const operatingStatus = { code: 'CLOSED' };
-      axeCheck(<LocationOperationStatus operatingStatus={operatingStatus} />);
+      const component = renderComponentForA11y(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      await expect(component).to.be.accessible();
     });
 
     it('should render nothing operation status for  NORMAL', () => {

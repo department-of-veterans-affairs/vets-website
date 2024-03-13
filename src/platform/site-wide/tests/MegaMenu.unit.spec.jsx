@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import { mount } from 'enzyme';
 
 import MegaMenu from '../mega-menu/components/MegaMenu.jsx';
@@ -244,10 +244,8 @@ describe('<MegaMenu>', () => {
     ).to.equal('Menu Item 1');
   });
 
-  it('should pass axe check when open', () => {
-    megaMenu.unmount();
-
-    return axeCheck(
+  it('should pass axe check when open', async () => {
+    const component = renderComponentForA11y(
       <MegaMenu
         data={data}
         toggleDropDown={title => {
@@ -261,5 +259,6 @@ describe('<MegaMenu>', () => {
         }}
       />,
     );
+    await expect(component).to.be.accessible();
   });
 });

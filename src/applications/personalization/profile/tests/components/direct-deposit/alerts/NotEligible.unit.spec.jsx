@@ -1,5 +1,5 @@
 import React from 'react';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -7,8 +7,12 @@ import NotEligible from '../../../../components/direct-deposit/alerts/NotEligibl
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('NotEligible', () => {
-    it('passes axeCheck', () => {
-      axeCheck(<NotEligible typeIsCNP benefitType="benefit-type" />);
+    it('passes axeCheck', async () => {
+      await expect(
+        renderComponentForA11y(
+          <NotEligible typeIsCNP benefitType="benefit-type" />,
+        ),
+      ).to.be.accessible();
     });
     it('renders disability message for CNP', () => {
       const { getByText } = render(

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { axeCheck } from '~/platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import FormAlert from '../../../../components/alerts/bad-address/FormAlert';
 import ProfileAlert from '../../../../components/alerts/bad-address/ProfileAlert';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
@@ -8,12 +8,12 @@ import { PROFILE_PATHS } from '~/applications/personalization/profile/constants'
 
 describe('authenticated experience -- profile -- bad address alert', () => {
   describe('ProfileAlert', () => {
-    it('passes axeCheck', () => {
+    it('passes axeCheck', async () => {
       const { container } = renderWithStoreAndRouter(<ProfileAlert />, {
         path: PROFILE_PATHS.PROFILE_ROOT,
       });
-
-      return axeCheck(<container />);
+      const component = renderComponentForA11y(container, { isWrapped: true });
+      await expect(component).to.be.accessible();
     });
     it('has accessibility considerations including alert role and aria-live', async () => {
       const { findByRole } = renderWithStoreAndRouter(<ProfileAlert />, {
@@ -25,8 +25,9 @@ describe('authenticated experience -- profile -- bad address alert', () => {
     });
   });
   describe('FormAlert', () => {
-    it('passes axeCheck', () => {
-      axeCheck(<FormAlert />);
+    it('passes axeCheck', async () => {
+      const component = renderComponentForA11y(<FormAlert />);
+      await expect(component).to.be.accessible();
     });
   });
 });

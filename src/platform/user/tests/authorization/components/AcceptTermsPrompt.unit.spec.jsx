@@ -5,8 +5,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import AcceptTermsPrompt from '../../../authorization/components/AcceptTermsPrompt';
-import { axeCheck } from '../../helpers';
 
 const defaultProps = {
   terms: {
@@ -68,18 +68,27 @@ describe('<AcceptTermsPrompt>', () => {
     expect(submitButton.className).to.eq('usa-button submit-button');
   });
 
-  it('passes aXe check when Submit button is disabled', () => {
-    axeCheck(<AcceptTermsPrompt {...defaultProps} />);
+  it('passes aXe check when Submit button is disabled', async () => {
+    /* note: This component should never be rendered */
+    await expect(
+      renderComponentForA11y(<AcceptTermsPrompt {...defaultProps} />),
+    ).to.be.accessible();
   });
 
-  it('passes aXe check when Submit button is enabled', () => {
-    const acceptTermsPrompt = <AcceptTermsPrompt {...defaultProps} />;
-    const acceptTermsPromptState = {
+  it('passes aXe check when Submit button is enabled', async () => {
+    /* note: This component should never be rendered */
+    const acceptTermsPrompt = ReactTestUtils.renderIntoDocument(
+      <AcceptTermsPrompt {...defaultProps} />,
+    );
+
+    acceptTermsPrompt.setState({
       yesSelected: true,
       scrolledToBottom: true,
-    };
+    });
 
-    axeCheck(acceptTermsPrompt, acceptTermsPromptState);
+    await expect(
+      renderComponentForA11y(<AcceptTermsPrompt {...defaultProps} />),
+    ).to.be.accessible();
   });
 
   it('should render the correct default h level', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { axeCheck } from '../../config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import ExpandingGroup from '../../../src/js/components/ExpandingGroup.jsx';
 
 describe('<ExpandingGroup>', () => {
@@ -36,19 +36,25 @@ describe('<ExpandingGroup>', () => {
     wrapper.unmount();
   });
 
-  it('passes aXe check when only first child is rendered', () =>
-    axeCheck(
-      <ExpandingGroup open={false}>
-        <first />
-        <second />
-      </ExpandingGroup>,
-    ));
+  it('passes aXe check when only first child is rendered', async () => {
+    await expect(
+      renderComponentForA11y(
+        <ExpandingGroup open={false}>
+          <first />
+          <second />
+        </ExpandingGroup>,
+      ),
+    ).to.be.accessible();
+  });
 
-  it('passes aXe check when both children are rendered', () =>
-    axeCheck(
-      <ExpandingGroup open>
-        <first />
-        <second />
-      </ExpandingGroup>,
-    ));
+  it('passes aXe check when both children are rendered', async () => {
+    await expect(
+      renderComponentForA11y(
+        <ExpandingGroup open>
+          <first />
+          <second />
+        </ExpandingGroup>,
+      ),
+    ).to.be.accessible();
+  });
 });
