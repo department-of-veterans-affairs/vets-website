@@ -1,9 +1,12 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -35,7 +38,12 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
-import { getAgeInYears, isInRange, getParts } from '../helpers/utilities';
+import {
+  getAgeInYears,
+  isInRange,
+  getParts,
+  onReviewPage,
+} from '../helpers/utilities';
 import {
   sponsorWording,
   applicantWording,
@@ -101,6 +109,7 @@ import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
 import ApplicantRelOriginPage from '../pages/ApplicantRelOriginPage';
 
 // Used to condense some repetitive schema boilerplate
+const maxApplicants = 3;
 const applicantListSchema = (requireds, propertyList) => {
   return {
     type: 'object',
@@ -108,7 +117,7 @@ const applicantListSchema = (requireds, propertyList) => {
       applicants: {
         type: 'array',
         minItems: 1,
-        maxItems: 25,
+        maxItems: maxApplicants,
         items: {
           type: 'object',
           required: requireds,
@@ -602,15 +611,26 @@ const formConfig = {
           arrayPath: 'applicants',
           title: 'Applicants',
           uiSchema: {
-            ...titleUI(
-              'Applicant name and date of birth',
-              'Please tell us the names of the applicants that you want to enroll in CHAMPVA. You can only add up to 3 applicants at a time. If you have more than 3 applicants then you will need to submit a separate form for each applicant.',
-            ),
+            ...titleUI('Applicant name and date of birth', ({ formData }) => (
+              <>
+                {`Enter ${
+                  formData.certifierRole === 'applicant'
+                    ? 'your information and the information for any other'
+                    : 'the information for any'
+                } applicants you want to enroll in CHAMPVA benefits.`}
+                <br />
+                <br />
+                {`You can add up to ${maxApplicants} applicants in a single application. If you 
+              need to add more than ${maxApplicants} applicants, you'll need to submit a 
+              separate application for them.`}
+              </>
+            )),
             applicants: {
               'ui:options': {
                 viewField: ApplicantField,
                 keepInPageOnReview: true,
                 useDlWrap: false,
+                itemName: 'Applicant',
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
@@ -626,6 +646,44 @@ const formConfig = {
             titleSchema,
             applicantName: fullNameSchema,
             applicantDOB: dateOfBirthSchema,
+          }),
+        },
+        page13a: {
+          path: 'applicant-information/:index/start',
+          arrayPath: 'applicants',
+          title: item => `${applicantWording(item)} information`,
+          showPagePerItem: true,
+          depends: () => !onReviewPage(),
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+              items: {
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(formData, context)} information`,
+                          `Next we'll ask more questions about ${applicantWording(
+                            formData,
+                            context,
+                            false,
+                            false,
+                          )}. This includes social security number, mailing address, 
+                          contact information, relationship to sponsor, and health 
+                          insurance information.`,
+                        )['ui:title'],
+                    };
+                  },
+                },
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'view:description': blankSchema,
           }),
         },
         page14: {
@@ -648,7 +706,7 @@ const formConfig = {
                   'ui:description':
                     'You must enter either a VA file number or Social Security number',
                 },
-                applicantSSN: ssnOrVaFileNumberUI(),
+                applicantSSN: ssnOrVaFileNumberNoHintUI(),
                 // Dynamic title (uses "your" if certifierRole is applicant and
                 // this is applicant[0])
                 'ui:options': {
@@ -670,7 +728,7 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'view:description': blankSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnOrVaFileNumberNoHintSchema,
           }),
         },
         page15: {
@@ -686,6 +744,7 @@ const formConfig = {
                   'ui:description':
                     'We’ll send any important information about your application to this address.',
                 },
+                ...homelessInfo.uiSchema,
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -712,6 +771,7 @@ const formConfig = {
           },
           schema: applicantListSchema([], {
             'view:description': blankSchema,
+            ...homelessInfo.schema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -737,12 +797,14 @@ const formConfig = {
                     };
                   },
                 },
+                ...noPhoneInfo.uiSchema,
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
             },
           },
           schema: applicantListSchema([], {
+            ...noPhoneInfo.schema,
             applicantEmailAddress: emailSchema,
             applicantPhone: phoneSchema,
           }),

@@ -8,8 +8,10 @@ export const homelessInfo = {
   uiSchema: {
     'view:homelessInfo': {
       'ui:description': (
-        <va-alert status="info" visible uswds>
-          <h3 slot="headline">Resources available</h3>
+        <va-additional-info
+          trigger="If you don’t have an address"
+          class="vads-u-margin-bottom--4"
+        >
           <p>
             If you don’t currently have a mailing address or are experiencing
             homelessness you can use{' '}
@@ -26,7 +28,7 @@ export const homelessInfo = {
             Center for Homeless Veterans at{' '}
             <VaTelephone contact={CONTACTS['4AID_VET']} /> for assistance.
           </p>
-        </va-alert>
+        </va-additional-info>
       ),
     },
   },
@@ -37,13 +39,15 @@ export const noPhoneInfo = {
   uiSchema: {
     'view:noPhoneInfo': {
       'ui:description': (
-        <va-alert status="info" visible uswds>
-          <h3 slot="headline">Resources available</h3>
+        <va-additional-info
+          trigger="If you don’t have a phone number"
+          class="vads-u-margin-bottom--4"
+        >
           <p>
-            If you don’t currently have a phone number, here is a suggestion and
-            a link to a resource <VaTelephone contact={CONTACTS['4AID_VET']} />.
+            If you don’t currently have a phone number, please enter a phone
+            number of someone who you have contact with.
           </p>
-        </va-alert>
+        </va-additional-info>
       ),
     },
   },
