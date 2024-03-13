@@ -253,7 +253,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
           NUM_CONTAINERS: 10
-
+      
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
@@ -1227,16 +1227,9 @@ jobs:
       - name: Merge all coverage reports
         run: |
           node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
-          
-      - name: Archive merged coverage report
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: merged-unit-test-coverage
-          path: test-coverage-report.json
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
-      
       
       - name: Archive coverage txt
         if: ${{ always() }}
@@ -1244,13 +1237,6 @@ jobs:
         with:
           name: unit-test-coverage-txt
           path: qa-standards-dashboard-data/coverage/coverage_report.txt
-      
-      - name: Copy coverage json to qa-standards-dashboard-data test data directory
-        run: cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data/test-coverage-report.json
-
-      - name: Process Coverage Report and post results to BigQuery
-        run: yarn unit-coverage-to-bigquery
-        working-directory: qa-standards-dashboard-data
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
@@ -1270,15 +1256,15 @@ jobs:
         id: code-coverage
         run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
 
-      - name: Publish test results
+      - name: Publish Unit Test Coverage Results
         if: ${{ always() }}
-        continue-on-error: true
-        uses: ./.github/workflows/publish-test-results
+        uses: ./.github/workflows/checks-action
         with:
-          check_name: 'Unit Tests Summary'
           token: ${{ secrets.GITHUB_TOKEN }}
-          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-          fail_on_failures: 'true'
+          name: Unit Test Coverage Summary
+          conclusion: ${{ needs.unit-tests-stress-test.result }}
+          output: |
+            {"summary": "https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/"å}
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
