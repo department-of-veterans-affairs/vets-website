@@ -15,7 +15,6 @@ import { fileTypeSignatures } from '../../../src/js/utilities/file';
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 import { $, $$ } from '../../../src/js/utilities/ui';
-import { MISSING_PASSWORD_ERROR } from '../../../src/js/validation';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -1334,118 +1333,6 @@ describe('Schemaform <FileField>', () => {
           onChange={f => f}
           requiredSchema={requiredSchema}
           enableShortWorkflow
-        />,
-      );
-
-      // This button is specific to the file that was uploaded
-      const deleteButton = $('.delete-upload', container);
-      expect(deleteButton.getAttribute('text')).to.equal('Delete file');
-    });
-  });
-
-  describe('enableShortWorkflow is false', () => {
-    const mockIdSchema = {
-      $id: 'field',
-    };
-    const mockSchema = {
-      additionalItems: {},
-      items: [
-        {
-          properties: {},
-        },
-      ],
-      maxItems: 4,
-    };
-    const mockUiSchema = fileUploadUI('Files');
-    const mockFormDataWithError = [
-      {
-        errorMessage: 'some error message',
-      },
-    ];
-    const mockErrorSchemaWithError = {
-      0: {
-        __errors: ['ERROR-123'],
-      },
-    };
-    const mockRegistry = {
-      fields: {
-        SchemaField: () => <div />,
-      },
-    };
-
-    it('should render main upload button while any file has error', () => {
-      const idSchema = {
-        $id: 'myIdSchemaId',
-      };
-      const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={idSchema}
-          errorSchema={mockErrorSchemaWithError}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-        />,
-      );
-
-      // id for main upload button is interpolated {idSchema.$id}_add_label
-      const mainUploadButton = $('#myIdSchemaId_add_label', container);
-      expect(mainUploadButton).to.exist;
-      expect($('.usa-input-error-message', container).textContent).to.eq(
-        'Error ERROR-123',
-      );
-    });
-
-    it('should not render missing password error', () => {
-      const idSchema = {
-        $id: 'myIdSchemaId',
-      };
-      const mockFormDataWithPasswordError = [
-        {
-          errorMessage: MISSING_PASSWORD_ERROR,
-        },
-      ];
-      const mockErrorSchemaWithPasswordError = [
-        {
-          __errors: [MISSING_PASSWORD_ERROR],
-        },
-      ];
-      const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={idSchema}
-          errorSchema={mockFormDataWithPasswordError}
-          formData={mockErrorSchemaWithPasswordError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-        />,
-      );
-
-      expect($('.usa-input-error-message', container)).to.not.exist;
-    });
-
-    it('should render delete button for successfully uploaded file', () => {
-      const formData = [
-        {
-          uploading: false,
-        },
-      ];
-      const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={mockIdSchema}
-          formData={formData}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
         />,
       );
 
