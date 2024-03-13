@@ -93,12 +93,14 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
+          .assertHeading({ name: /Which provider do you prefer/i })
           .expandAccordian()
           .assertHomeAddress()
-          .selectProvider()
+          .selectProvider({ label: /Primary care providers/i })
           .clickNextButton();
 
         PreferredLanguagePageObject.assertUrl()
+          .assertHeading({ name: /What language do you prefer/i })
           .selectLanguage('english')
           .clickNextButton();
 
@@ -144,12 +146,14 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
+          .assertHeading({ name: /Which provider do you prefer/i })
           .expandAccordian()
           .assertHomeAddress({ exist: false })
-          .selectProvider()
+          .selectProvider({ label: /Primary care providers/i })
           .clickNextButton();
 
         PreferredLanguagePageObject.assertUrl()
+          .assertHeading({ name: /What language do you prefer/i })
           .selectLanguage('english')
           .clickNextButton();
 
@@ -213,16 +217,19 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
+          .assertHeading({ name: /What.s the nearest city to you/i })
           .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
+          .assertHeading({ name: /Which provider do you prefer/i })
           .expandAccordian()
           .assertHomeAddress()
-          .selectProvider()
+          .selectProvider({ label: /Primary care providers/i })
           .clickNextButton();
 
         PreferredLanguagePageObject.assertUrl()
+          .assertHeading({ name: /What language do you prefer/i })
           .selectLanguage('english')
           .clickNextButton();
 
@@ -268,16 +275,19 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
+          .assertHeading({ name: /What.s the nearest city to you/i })
           .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
+          .assertHeading({ name: /Which provider do you prefer/i })
           .expandAccordian()
           .assertHomeAddress({ exist: false })
-          .selectProvider()
+          .selectProvider({ label: /Primary care providers/i })
           .clickNextButton();
 
         PreferredLanguagePageObject.assertUrl()
+          .assertHeading({ name: /What language do you prefer/i })
           .selectLanguage('english')
           .clickNextButton();
 
@@ -341,10 +351,12 @@ describe('VAOS community care flow - Primary care', () => {
         .clickNextButton();
 
       ClosestCityStatePageObject.assertUrl()
+        .assertHeading({ name: /What.s the nearest city to you/i })
         .selectFacility({ label: /City 983/i })
         .clickNextButton();
 
       CommunityCarePreferencesPageObject.assertUrl()
+        .assertHeading({ name: /Which provider do you prefer/i })
         .expandAccordian()
         .assertInfoAlert();
 
@@ -403,10 +415,12 @@ describe('VAOS community care flow - Primary care', () => {
         .clickNextButton();
 
       ClosestCityStatePageObject.assertUrl()
+        .assertHeading({ name: /What.s the nearest city to you/i })
         .selectFacility({ label: /City 983/i })
         .clickNextButton();
 
       CommunityCarePreferencesPageObject.assertUrl()
+        .assertHeading({ name: /Which provider do you prefer/i })
         .expandAccordian()
         .selectCurrentLocation()
         .assertWarningAlert({
