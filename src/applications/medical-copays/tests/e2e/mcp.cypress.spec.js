@@ -16,7 +16,7 @@ describe('Medical Copays', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances');
+    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
   });
