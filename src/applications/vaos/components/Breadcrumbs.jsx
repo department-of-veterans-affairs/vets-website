@@ -58,7 +58,8 @@ export default function VAOSBreadcrumbs({ children }) {
       },
     ];
     if (
-      window.location.pathname === (`${manifest.rootUrl}/` || manifest.rootUrl)
+      window.location.pathname === `${manifest.rootUrl}/` ||
+      window.location.pathname === manifest.rootUrl
     ) {
       return BREADCRUMB_BASE;
     }
