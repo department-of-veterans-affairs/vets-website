@@ -17,8 +17,6 @@ const codeCoverageData = codeCoverageReport.replace(regex, ',').split(',');
 let codeCoverageHTML = '<table> \n <thead> \n <tr> \n'; // html format
 
 codeCoverageData.forEach((data, index) => {
-  /* eslint-disable-next-line no-console */
-  console.log(data);
   if (data === '') {
     // ignore empty data
     codeCoverageHTML += '';
