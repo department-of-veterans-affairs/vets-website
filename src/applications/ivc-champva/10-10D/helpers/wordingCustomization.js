@@ -6,7 +6,12 @@ export function sponsorWording(formData) {
 
 // Produce a string that is either an applicant's name or
 // "your" depending on additional context provided.
-export function applicantWording(formData, context) {
+export function applicantWording(
+  formData,
+  context,
+  isPosessive = true,
+  cap = true,
+) {
   let retVal = '';
   if (context) {
     // If we have additional context that means we have to dig for applicant
@@ -16,12 +21,17 @@ export function applicantWording(formData, context) {
       formData?.applicants[idx]?.applicantName?.last
     }`;
 
-    retVal = idx === 0 && isApplicant ? 'Your ' : `${name}'s `;
+    const Y = cap ? 'Y' : 'y';
+
+    retVal =
+      idx === 0 && isApplicant
+        ? `${Y}ou${isPosessive ? 'r ' : ''}`
+        : `${name}${isPosessive ? '’s' : ''}`;
   } else {
     // No context means we're directly accessing an applicant object
     retVal = `${`${formData?.applicantName?.first || ''} ${
       formData?.applicantName?.last
-    }` || 'Applicant'}'s `;
+    }` || 'Applicant'}${isPosessive ? '’s' : ''}`;
   }
   return retVal;
 }
