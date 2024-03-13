@@ -287,7 +287,7 @@
   "learn-how-file-claims-other-expenses": "Learn how to file claims for other expenses",
   "set-up-direct-deposit": "Set up direct deposit",
   "set-up-direct-deposit-to-receive-travel-reimbursement": "You have to set up direct deposit to receive travel reimbursement. If you’ve already done this, no additional steps are needed.",
-  "file-a-travel-reimbursement-claim-if-youre-eligible": "File a travel reimbursement claim if you’re eligible for health care travel reimbursement. First, we need your last name and date of birth to make sure it’s you.",
+  "first-need-last-name-date-birth": "First, we need your last name and date of birth to make sure it’s you.",
   "were-processing-your-travel-claim_one": "We’re processing your travel reimbursement claim",
   "were-processing-your-travel-claim_other": "We’re processing your travel reimbursement claims",
   "this-claim-is-for-your-appointment": "$t(this-claim-is-for-your-appointment-claims, {\"count\": {{claims}} }) for your $t(this-claim-is-for-your-appointment-appointments, {\"count\": {{appointments}} }) on {{date, long}} at",
