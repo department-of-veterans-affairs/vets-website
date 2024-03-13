@@ -13,10 +13,10 @@ class SecureMessagingLandingPage {
     user = mockUser,
     messages = mockGeneralMessages,
   ) => {
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
+    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, featureToggles).as(
       'featureToggles',
     );
-    cy.intercept('GET', '/my_health/v1/messaging/allrecipients', recipients).as(
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS, recipients).as(
       'Recipients',
     );
     cy.intercept('GET', '/v0/user', user).as('user');

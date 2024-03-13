@@ -134,7 +134,7 @@ class PatientMessageDraftsPage {
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
@@ -142,7 +142,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockParentMessageDetails.data.attributes.messageId
       }/thread?full_body=true`,
       this.currentThread,
@@ -194,14 +194,14 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockResponse.data[0].attributes.messageId
       }`,
       { data: mockResponse.data[0] },
     ).as('firstDraft');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockResponse.data[1].attributes.messageId
       }`,
       { data: mockResponse.data[1] },
@@ -209,7 +209,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockResponse.data[2].attributes.messageId
       }`,
       { data: mockResponse.data[2] },
@@ -262,9 +262,7 @@ class PatientMessageDraftsPage {
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
     if (isNewDraftText) {
@@ -284,7 +282,7 @@ class PatientMessageDraftsPage {
   };
 
   deleteDraftMessage = (mockResponse, messageId) => {
-    cy.intercept('DELETE', `/my_health/v1/messaging/messages/${messageId}`, {
+    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGES}/${messageId}`, {
       data: mockResponse,
     }).as('deletedDraftResponse');
 
@@ -314,9 +312,7 @@ class PatientMessageDraftsPage {
   confirmDeleteDraftWithEnterKey = draftMessage => {
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
@@ -328,9 +324,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 

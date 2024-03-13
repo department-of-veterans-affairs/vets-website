@@ -121,7 +121,7 @@ class FolderManagementPage {
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
@@ -129,7 +129,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockParentMessageDetails.data.attributes.messageId
       }/thread`,
       this.currentThread,
@@ -176,14 +176,14 @@ class FolderManagementPage {
   selectFolderFromModal = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageResponse.data.at(1).attributes.messageId
       }`,
       mockMessageResponse,
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageResponse.data.at(2).attributes.messageId
       }`,
       mockMessageResponse,

@@ -12,11 +12,9 @@ class PatientComposePage {
   messageBodyText = 'testBody';
 
   sendMessage = mockRequest => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockDraftMessage).as(
+      'message',
+    );
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
@@ -125,11 +123,9 @@ class PatientComposePage {
 
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockDraftMessage).as(
+      'message',
+    );
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click();
@@ -137,7 +133,7 @@ class PatientComposePage {
 
   //* Refactor*  make parameterize mockDraftMessage
   sendDraft = draftMessage => {
-    cy.intercept('POST', '/my_health/v1/messaging/messages', draftMessage).as(
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, draftMessage).as(
       'draft_message',
     );
     cy.get(Locators.BUTTONS.SEND).click();
@@ -365,14 +361,14 @@ class PatientComposePage {
   clickTrashButton = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageResponse.data.attributes.messageId
       }`,
       mockMessageResponse,
     ).as('mockMessageResponse');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockThreadResponse.data.at(2).attributes.messageId
       }`,
       mockThreadResponse,

@@ -7,7 +7,7 @@ import { Locators, Paths } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
+    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
       'featureToggle',
     );
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(

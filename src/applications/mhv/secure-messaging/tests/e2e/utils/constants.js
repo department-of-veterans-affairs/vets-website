@@ -32,6 +32,13 @@ export const Paths = {
     MESSAGE_FOLDER_THREAD: '/my_health/v1/messaging/folders/0/threads?*',
     MESSAGE_FOLDER_MESS: '/my_health/v1/messaging//folders/0/messages*',
     MESSAGE_DRAFTS: '/my_health/v1/messaging/message_drafts',
+    MESSAGE_FOLDERS_SEARCH: '/my_health/v1/messaging/folders/*/search',
+    MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
+    FEATURE_TOGGLES: '/v0/feature_toggles?*',
+    MESSAGE_THREADS: '/my_health/v1/messaging/threads/',
+    MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
+    MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
+    MESSAGES: '/my_health/v1/messaging/messages',
   },
 };
 

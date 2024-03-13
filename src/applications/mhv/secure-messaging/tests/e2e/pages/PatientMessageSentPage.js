@@ -26,7 +26,7 @@ class PatientMessageSentPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }/thread`,
       mockThreadResponse,
@@ -34,7 +34,7 @@ class PatientMessageSentPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }`,
       mockSingleMessageResponse,

@@ -14,7 +14,7 @@ class PatientKeywordSearchPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
-    cy.intercept('GET', '/v0/feature_toggles?*', {
+    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, {
       data: {
         type: 'feature_toggles',
         features: [
@@ -46,7 +46,7 @@ class PatientKeywordSearchPage {
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
+      `${Paths.INTERCEPT.MESSAGE_RECIPIENT}?useCache=false`,
       mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/', {
