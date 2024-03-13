@@ -41,7 +41,7 @@ describe('MHV Secure Messaging Pilot environment routes', () => {
     ...noDowntime,
   };
 
-  it.skip('should redirect to the SM info page if the user is not whitelisted or the feature flag is disabled', () => {
+  it('should redirect to the SM info page if the user is not whitelisted or the feature flag is disabled', () => {
     const customState = { ...initialState };
     customState.featureToggles[
       `${'mhv_secure_messaging_cerner_pilot'}`

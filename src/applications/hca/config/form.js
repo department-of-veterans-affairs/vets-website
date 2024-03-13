@@ -1,12 +1,10 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 // platform imports
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
-import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-// internal imports
+// HCA internal app imports
 import { prefillTransformer, transform } from '../utils/helpers';
 import {
   isLoggedOut,
@@ -42,6 +40,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import PreSubmitNotice from '../components/PreSubmitNotice';
+import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 
 // chapter 1 Veteran Information

@@ -4,11 +4,15 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import formConfig from '../../../../../config/form';
-import { HCA_ENROLLMENT_STATUSES } from '../../../../../utils/constants';
 import EnrollmentStatus from '../../../../../components/IntroductionPage/EnrollmentStatus';
 
 describe('hca <EnrollmentStatus>', () => {
-  const getData = ({ enrollmentStatus = null }) => ({
+  const getData = ({
+    applicationDate = null,
+    enrollmentDate = null,
+    preferredFacility = null,
+    enrollmentStatus = null,
+  }) => ({
     props: {
       route: {
         formConfig,
@@ -18,10 +22,11 @@ describe('hca <EnrollmentStatus>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
+          applicationDate,
+          enrollmentDate,
+          preferredFacility,
           enrollmentStatus,
-          applicationDate: null,
-          enrollmentDate: null,
-          preferredFacility: null,
+          showReapplyContent: false,
           isUserInMVI: true,
           loginRequired: false,
           noESRRecordFound: false,
@@ -61,78 +66,55 @@ describe('hca <EnrollmentStatus>', () => {
     },
   });
 
-  it('should not render any content when enrollment status has not been fetched', () => {
+  context('when enrollment status has not been fetched', () => {
     const { mockStore, props } = getData({});
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    expect(container).to.be.empty;
-  });
 
-  it('should render FAQ content when enrollment status has been fetched', () => {
-    const { mockStore, props } = getData({ enrollmentStatus: 'enrolled' });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelectorAll('.hca-enrollment-faq');
-    expect(selector).to.have.length;
-  });
-
-  it('should render `va-alert` with status of `continue` when enrollment status is `enrolled`', () => {
-    const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+    it('should not render any components', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatus {...props} />
+        </Provider>,
+      );
+      expect(container).to.be.empty;
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('status', 'continue');
   });
 
-  it('should render `va-alert` with status of `warning` when enrollment status is not `enrolled`', () => {
+  context('when enrollment status has been fetched', () => {
     const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.closed,
+      applicationDate: '2019-04-24T00:00:00.000-06:00',
+      enrollmentDate: '2019-04-30T00:00:00.000-06:00',
+      enrollmentStatus: 'enrolled',
+      preferredFacility: '463 - CHEY6',
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('status', 'warning');
-  });
 
-  it('should not render `Start` button when enrollment status is not in the allow list', () => {
-    const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+    it('should render `va-alert` with correct title', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatus {...props} />
+        </Provider>,
+      );
+      const selectors = {
+        alert: container.querySelector('va-alert'),
+        headline: container.querySelector(
+          '[data-testid="hca-enrollment-alert-heading"]',
+        ),
+      };
+      expect(selectors.alert).to.exist;
+      expect(selectors.alert).to.have.attr('status', 'warning');
+      expect(selectors.headline).to.contain.text(
+        'You’re already enrolled in VA health care',
+      );
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('[href="#start"]');
-    expect(selector).to.not.exist;
-  });
 
-  it('should render `Start` button when enrollment status is in the allow list', () => {
-    const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+    it('should render FAQ content', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <EnrollmentStatus {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('h3');
+      expect(container).to.not.be.empty;
+      expect(selector).to.exist;
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('[href="#start"]');
-    expect(selector).to.exist;
   });
 });

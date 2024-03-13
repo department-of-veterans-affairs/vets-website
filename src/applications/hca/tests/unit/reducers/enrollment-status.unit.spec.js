@@ -24,6 +24,7 @@ describe('hca EnrollmentStatus reducer', () => {
       expect(reducedState.isUserInMVI).to.be.false;
       expect(reducedState.loginRequired).to.be.false;
       expect(reducedState.noESRRecordFound).to.be.false;
+      expect(reducedState.showReapplyContent).to.be.false;
       expect(reducedState.hasServerError).to.be.false;
       expect(reducedState.isLoadingApplicationStatus).to.be.false;
       expect(reducedState.isLoadingDismissedNotification).to.be.false;
@@ -42,6 +43,7 @@ describe('hca EnrollmentStatus reducer', () => {
       expect(reducedState.isUserInMVI).to.be.false;
       expect(reducedState.loginRequired).to.be.false;
       expect(reducedState.noESRRecordFound).to.be.false;
+      expect(reducedState.showReapplyContent).to.be.false;
       expect(reducedState.hasServerError).to.be.false;
       expect(reducedState.isLoadingApplicationStatus).to.be.false;
       expect(reducedState.isLoadingDismissedNotification).to.be.false;
@@ -210,6 +212,7 @@ describe('hca EnrollmentStatus reducer', () => {
       expect(reducedState.isUserInMVI).to.be.false;
       expect(reducedState.loginRequired).to.be.false;
       expect(reducedState.noESRRecordFound).to.be.false;
+      expect(reducedState.showReapplyContent).to.be.false;
     });
 
     it('should reset loading and error values', () => {
@@ -280,6 +283,17 @@ describe('hca EnrollmentStatus reducer', () => {
       };
       reducedState = reducer(state, action);
       expect(reducedState.isLoadingDismissedNotification).to.be.false;
+    });
+  });
+
+  describe('when `SHOW_HCA_REAPPLY_CONTENT` executes', () => {
+    const { SHOW_HCA_REAPPLY_CONTENT } = ENROLLMENT_STATUS_ACTIONS;
+    it('should set `showReapplyContent` to `true`', () => {
+      action = {
+        type: SHOW_HCA_REAPPLY_CONTENT,
+      };
+      reducedState = reducer(state, action);
+      expect(reducedState.showReapplyContent).to.be.true;
     });
   });
 });

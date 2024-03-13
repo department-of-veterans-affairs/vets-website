@@ -16,6 +16,7 @@ const initialState = {
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
+  showReapplyContent: false,
 };
 
 function hcaEnrollmentStatus(state = initialState, action) {
@@ -29,6 +30,7 @@ function hcaEnrollmentStatus(state = initialState, action) {
     FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
     FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
     SET_DISMISSED_HCA_NOTIFICATION,
+    SHOW_HCA_REAPPLY_CONTENT,
   } = ENROLLMENT_STATUS_ACTIONS;
 
   const actionMap = {
@@ -100,6 +102,7 @@ function hcaEnrollmentStatus(state = initialState, action) {
       ...state,
       dismissedNotificationDate: data,
     }),
+    [SHOW_HCA_REAPPLY_CONTENT]: () => ({ ...state, showReapplyContent: true }),
   };
 
   return actionMap[type] ? actionMap[type]() : state;

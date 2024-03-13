@@ -20,6 +20,7 @@ describe('hca <GetStartedContent>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
+          showReapplyContent: false,
           isUserInMVI: true,
           loginRequired: false,
           noESRRecordFound: true,

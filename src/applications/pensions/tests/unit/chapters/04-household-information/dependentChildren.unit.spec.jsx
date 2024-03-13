@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
 } from '../pageTests.spec';
 import careExpenses from '../../../../config/chapters/04-household-information/dependentChildren';
 
@@ -10,8 +10,8 @@ const { schema, uiSchema } = careExpenses;
 
 describe('Add dependent children page', () => {
   const pageTitle = 'Add dependent children';
-  const expectedNumberOfFields = 5;
-  testNumberOfWebComponentFields(
+  const expectedNumberOfFields = 7;
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -20,7 +20,7 @@ describe('Add dependent children page', () => {
   );
 
   const expectedNumberOfErrors = 3;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
     uiSchema,

@@ -1,12 +1,10 @@
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import { createLiteralMap } from '../../../../utils/helpers';
 import WarningExplainations from '../ContentBlocks/WarningExplainations';
 
-const WarningExplanation = () => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
-
+const WarningExplanation = ({ enrollmentStatus }) => {
   // Declare content blocks for use
   const {
     explainBlock1,
@@ -15,11 +13,11 @@ const WarningExplanation = () => {
     explainBlock4,
     explainBlock5,
     explainBlock6,
-    explainBlock7,
     explainBlock8,
-    explainBlock9,
     explainBlock10,
     explainBlock11,
+    explainBlock12,
+    explainBlock14,
   } = WarningExplainations;
 
   // Declare content block dictionary
@@ -42,18 +40,18 @@ const WarningExplanation = () => {
         HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts,
       ],
     ],
-    [explainBlock7, [HCA_ENROLLMENT_STATUSES.deceased]],
-    [explainBlock8, [HCA_ENROLLMENT_STATUSES.pendingMt]],
+    [explainBlock8, [HCA_ENROLLMENT_STATUSES.deceased]],
+    [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingMt]],
     [
-      explainBlock9,
+      explainBlock11,
       [
         HCA_ENROLLMENT_STATUSES.pendingOther,
         HCA_ENROLLMENT_STATUSES.pendingUnverified,
       ],
     ],
-    [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
+    [explainBlock12, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
     [
-      explainBlock11,
+      explainBlock14,
       [
         HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
         HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
@@ -69,6 +67,10 @@ const WarningExplanation = () => {
 
   // Render based on enrollment status
   return contentMap[enrollmentStatus] || null;
+};
+
+WarningExplanation.propTypes = {
+  enrollmentStatus: PropTypes.string,
 };
 
 export default WarningExplanation;

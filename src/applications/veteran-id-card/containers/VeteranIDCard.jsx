@@ -41,9 +41,9 @@ class VeteranIDCard extends React.Component {
           recordEvent({ event: 'vic-authenticated-ratelimited' });
           this.renderEmailCapture = true;
           if (userProfile.veteranStatus?.status === 'NOT_FOUND') {
-            recordEvent({ events: 'vic-lookup-failed' });
+            recordEvent({ events: 'vic-emis-lookup-failed' });
           } else if (userProfile.veteranStatus?.status === 'SERVER_ERROR') {
-            recordEvent({ events: 'vic-error' });
+            recordEvent({ events: 'vic-emis-error' });
           }
         } else {
           recordEvent({ event: 'vic-authenticated' });

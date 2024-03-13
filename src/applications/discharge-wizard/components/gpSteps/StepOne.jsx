@@ -158,14 +158,13 @@ const StepOne = ({ formValues }) => {
     <va-process-list-item header={header}>
       <p>Important tips for completing Form {form.num}:</p>
       {formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
-      {/* Intentionally not using <va-link> per Platform Analytics team */}
-      <a
-        className="vads-u-display--block vads-u-margin-bottom--1 step-1-download"
+      <va-link
+        class="vads-u-display--block vads-u-margin-bottom--1"
         download
+        filetype="PDF"
         href={form.link}
-      >
-        Download Form {form.num}
-      </a>
+        text={`Download Form ${form.num}`}
+      />
       <AlertMessage
         content={
           <>

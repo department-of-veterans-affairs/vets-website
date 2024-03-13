@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      { "name": "debt_letters_show_letters", "value": true },
+      { 
+        "name": "combined_debt_portal_access", 
+        "value": true 
+      }]
+  }
+}

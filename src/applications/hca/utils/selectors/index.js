@@ -32,6 +32,9 @@ export const hasServerError = state =>
 export const noESRRecordFound = state =>
   selectEnrollmentStatus(state).noESRRecordFound;
 
+export const shouldShowReapplyContent = state =>
+  selectEnrollmentStatus(state).showReapplyContent;
+
 export const hasApplicationInESR = state => {
   const status = selectEnrollmentStatus(state).enrollmentStatus;
   return nonActiveInESRStatuses.has(status) === false;
@@ -66,3 +69,8 @@ export const isLoggedOut = state =>
 export const shouldShowGetStartedContent = state =>
   !isLoading(state) &&
   (!isLoggedIn(state) || noESRRecordFound(state) || hasServerError(state));
+
+export const shouldHideFormFooter = state =>
+  !isLoading(state) &&
+  (isUserLOA1(state) ||
+    (isUserLOA3(state) && !shouldShowReapplyContent(state)));

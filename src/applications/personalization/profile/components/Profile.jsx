@@ -238,6 +238,7 @@ class Profile extends Component {
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
           dependencies={[
+            externalServices.emis,
             externalServices.evss,
             externalServices.mvi,
             externalServices.vaProfile,

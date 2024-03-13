@@ -14,6 +14,8 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   titleUI,
   yesNoUI,
@@ -50,7 +52,6 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
-import dependentChildAddress from './chapters/04-household-information/dependentChildAddress';
 import hasDependents from './chapters/04-household-information/hasDependents';
 import dependentChildren from './chapters/04-household-information/dependentChildren';
 import documentUpload from './chapters/06-additional-information/documentUpload';
@@ -97,6 +98,7 @@ const {
   spouseVaFileNumber,
   liveWithSpouse,
   spouseIsVeteran,
+  dependents,
 } = fullSchemaPensions.properties;
 
 const {
@@ -112,6 +114,8 @@ const {
   centralMailVaFile,
   bankAccount,
 } = fullSchemaPensions.definitions;
+
+const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
@@ -854,8 +858,67 @@ const formConfig = {
           depends: dependentIsOutsideHousehold,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          schema: dependentChildAddress.schema,
-          uiSchema: dependentChildAddress.uiSchema,
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    childAddress: dependents.items.properties.childAddress,
+                    personWhoLivesWithChild:
+                      dependents.items.properties.personWhoLivesWithChild,
+                    monthlyPayment: dependents.items.properties.monthlyPayment,
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                ...titleUI(createHouseholdMemberTitle('fullName', 'address')),
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  dependentIsOutsideHousehold,
+                ),
+                personWhoLivesWithChild: merge({}, fullNameUI, {
+                  'ui:title': 'Who do they live with?',
+                  first: {
+                    'ui:title': 'First name',
+                  },
+                  last: {
+                    'ui:title': 'Last name',
+                  },
+                  middle: {
+                    'ui:title': 'Middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Suffix',
+                  },
+                  'ui:options': {
+                    updateSchema: (form, _UISchema, _schema, index) => {
+                      if (dependentIsOutsideHousehold(form, index)) {
+                        return fullName;
+                      }
+                      return nonRequiredFullName;
+                    },
+                  },
+                }),
+                monthlyPayment: merge(
+                  {},
+                  currencyUI(
+                    "How much do you contribute per month to your child's support?",
+                  ),
+                  {
+                    'ui:required': dependentIsOutsideHousehold,
+                  },
+                ),
+              },
+            },
+          },
         },
       },
     },

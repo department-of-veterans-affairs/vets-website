@@ -1,22 +1,18 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import { createLiteralMap } from '../../../../utils/helpers';
-import content from '../../../../locales/en/content.json';
 
-const WarningHeadline = () => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
-
+const WarningHeadline = ({ enrollmentStatus }) => {
   // Declare enrollment status content dictionary
   const contentDictionary = [
     [
-      content['enrollment-alert-title--enrolled'],
+      'You’re already enrolled in VA health care',
       [HCA_ENROLLMENT_STATUSES.enrolled],
     ],
     [
-      content['enrollment-alert-title--inelig'],
+      'We determined that you don’t qualify for VA health care based on your past application',
       [
         HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge,
         HCA_ENROLLMENT_STATUSES.ineligCitizens,
@@ -34,7 +30,7 @@ const WarningHeadline = () => {
       ],
     ],
     [
-      content['enrollment-alert-title--reapply'],
+      'You applied before. But you can apply again now.',
       [
         HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
         HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
@@ -44,29 +40,29 @@ const WarningHeadline = () => {
       ],
     ],
     [
-      content['enrollment-alert-title--active-duty'],
+      'Our records show that you’re an active-duty service member',
       [HCA_ENROLLMENT_STATUSES.activeDuty],
     ],
     [
-      content['enrollment-alert-title--deceased'],
+      'Our records show that this Veteran is deceased',
       [HCA_ENROLLMENT_STATUSES.deceased],
     ],
     [
-      content['enrollment-alert-title--more-info'],
+      'We need more information to complete our review of your VA health care application',
       [
         HCA_ENROLLMENT_STATUSES.pendingMt,
         HCA_ENROLLMENT_STATUSES.pendingPurpleHeart,
       ],
     ],
     [
-      content['enrollment-alert-title--review'],
+      'We’re reviewing your application',
       [
         HCA_ENROLLMENT_STATUSES.pendingOther,
         HCA_ENROLLMENT_STATUSES.pendingUnverified,
       ],
     ],
     [
-      content['enrollment-alert-title--non-military'],
+      'We see that you aren’t a Veteran or service member',
       [HCA_ENROLLMENT_STATUSES.nonMilitary],
     ],
   ];
@@ -80,6 +76,10 @@ const WarningHeadline = () => {
       {contentMap[enrollmentStatus]}
     </h2>
   );
+};
+
+WarningHeadline.propTypes = {
+  enrollmentStatus: PropTypes.string,
 };
 
 export default WarningHeadline;

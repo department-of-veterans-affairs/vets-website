@@ -1,20 +1,18 @@
 import React from 'react';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
-import { isValidDateString } from '~/platform/utilities/date';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors';
-import content from '../../../../locales/en/content.json';
 
-const WarningStatus = () => {
+const WarningStatus = props => {
   const {
     enrollmentStatus,
     applicationDate,
     enrollmentDate,
     preferredFacility,
-  } = useSelector(selectEnrollmentStatus);
+  } = props;
 
   // Derive medical facility name from facility ID
   const facilityName = getMedicalCenterNameByID(preferredFacility);
@@ -39,7 +37,7 @@ const WarningStatus = () => {
     <ul className="hca-list-style-none">
       {isValidDateString(applicationDate) && (
         <li>
-          <strong>{content['enrollment-alert-application-date-label']}</strong>{' '}
+          <strong>You applied on:</strong>{' '}
           {moment(applicationDate).format('MMMM D, YYYY')}
         </li>
       )}
@@ -48,14 +46,14 @@ const WarningStatus = () => {
         <>
           {isValidDateString(enrollmentDate) && (
             <li>
-              <strong>{content['enrollment-alert-enrolled-date-label']}</strong>{' '}
+              <strong>We enrolled you on:</strong>{' '}
               {moment(enrollmentDate).format('MMMM D, YYYY')}
             </li>
           )}
 
           {!!facilityName && (
             <li>
-              <strong>{content['enrollment-alert-facility-label']}</strong>{' '}
+              <strong>Your preferred VA medical center is:</strong>{' '}
               {facilityName}
             </li>
           )}
@@ -63,6 +61,13 @@ const WarningStatus = () => {
       )}
     </ul>
   ) : null;
+};
+
+WarningStatus.propTypes = {
+  applicationDate: PropTypes.string,
+  enrollmentDate: PropTypes.string,
+  enrollmentStatus: PropTypes.string,
+  preferredFacility: PropTypes.string,
 };
 
 export default WarningStatus;

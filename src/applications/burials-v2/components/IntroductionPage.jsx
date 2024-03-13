@@ -26,7 +26,7 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h4">
           Follow the steps below to apply for burial benefits.
         </h2>
-        <va-process-list uswds="false">
+        <va-process-list>
           <li>
             <h3>Prepare</h3>
             <a
