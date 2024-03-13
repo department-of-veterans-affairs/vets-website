@@ -1,6 +1,17 @@
 // import defaultRadiology from '../fixtures/Radiology.json';
 
 class RadiologyDetailsPage {
+  verifyTitle = recordName => {
+    cy.get('[data-testid="radiology-record-name"]').should('be.visible');
+    cy.get('[data-testid="radiology-record-name"]').contains(recordName);
+  };
+
+  verifyDate = date => {
+    // In need of future revision:
+    // See moment function in verifyVaccineDate() in VaccineDetailsPage.js
+    cy.get('[data-testid="header-time"]').contains(date);
+  };
+
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
     cy.get('[data-testid="printButton-0"]').should('be.visible');
@@ -110,6 +121,11 @@ class RadiologyDetailsPage {
   verifyRadiologyImagingProvider = provider => {
     cy.get('[data-testid="radiology-imaging-provider"]').should('be.visible');
     cy.get('[data-testid="radiology-imaging-provider"]').contains(provider);
+  };
+
+  verifyRadiologyResults = results => {
+    cy.get('[data-testid="radiology-record-results"]').should('be.visible');
+    cy.get('[data-testid="radiology-record-results"]').contains(results);
   };
 }
 
