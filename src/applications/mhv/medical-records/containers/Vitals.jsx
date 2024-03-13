@@ -11,6 +11,7 @@ import {
   pageTitles,
   ALERT_TYPE_ERROR,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -18,20 +19,28 @@ import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
 import usePrintTitle from '../../shared/hooks/usePrintTitle';
+import useListRefresh from '../hooks/useListRefresh';
 
 const Vitals = () => {
+  const listState = useSelector(state => state.mr.vitals.listState);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
+  const refresh = useSelector(state => state.mr.refresh);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
-
-  useEffect(
-    () => {
-      dispatch(getVitals());
-    },
-    [dispatch],
+  const vatalsCurrentAsOf = useSelector(
+    state => state.mr.vitals.listCurrentAsOf,
   );
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: vatalsCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getVitals,
+    dispatch,
+  });
 
   useEffect(
     () => {
