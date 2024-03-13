@@ -27,6 +27,9 @@ class ValidateVeteran {
     preCheckIn: (language = 'en') => {
       this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
+    travelClaim: () => {
+      cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
+    },
   };
 
   validateVeteran = (
