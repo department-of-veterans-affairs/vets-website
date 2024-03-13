@@ -669,6 +669,7 @@ const ComposeForm = props => {
             ) : (
               <va-text-input
                 uswds
+                charcount
                 label={FormLabels.SUBJECT}
                 required
                 type="text"
