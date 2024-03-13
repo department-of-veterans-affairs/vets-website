@@ -64,7 +64,7 @@ export default function ReviewPage({ changeCrumb }) {
       {isDirectSchedule && (
         <ReviewDirectScheduleInfo
           data={data}
-          facility={facility}
+          facility={facilityDetails}
           systemId={systemId}
           clinic={clinic}
           pageTitle={pageTitle}
@@ -73,7 +73,7 @@ export default function ReviewPage({ changeCrumb }) {
       {!isDirectSchedule && (
         <ReviewRequestInfo
           data={data}
-          facility={facility}
+          facility={facilityDetails}
           vaCityState={vaCityState}
           pageTitle={pageTitle}
         />
