@@ -288,7 +288,7 @@ class PatientMessageDetailsPage {
       .should('be.visible');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
       .shadow()
-      .find('h1')
+      .find('h2')
       .contains('Are you sure you want to move this message to the trash?')
       .should('be.visible');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)

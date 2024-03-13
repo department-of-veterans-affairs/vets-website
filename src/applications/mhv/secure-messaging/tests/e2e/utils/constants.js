@@ -158,7 +158,7 @@ export const Locators = {
     MESSAGE: '#textarea',
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
-    CATEGORY_DROPDOWN: '#category-dropdown',
+    CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',

@@ -359,7 +359,7 @@ class PatientMessageDraftsPage {
 
   selectAdvancedSearchCategory = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('#select')
+      .find('select')
       .select('COVID');
   };
 
@@ -461,7 +461,7 @@ class PatientMessageDraftsPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('select')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
