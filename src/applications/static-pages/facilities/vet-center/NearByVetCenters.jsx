@@ -168,7 +168,6 @@ const NearByVetCenters = props => {
 
       centerDistance = vetCenterDistance.distance;
     }
-
     return {
       id: vc.id,
       entityBundle: vc.attributes.facilityType,
