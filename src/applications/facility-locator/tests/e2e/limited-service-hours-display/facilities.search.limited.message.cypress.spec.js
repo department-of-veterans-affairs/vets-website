@@ -13,7 +13,10 @@ describe('Facility VA search', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.get('#street-city-state-zip').type('30310');
-    cy.get('#facility-type-dropdown').select('Vet Centers');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Vet Centers');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       'near "Atlanta, Georgia 30310"',
