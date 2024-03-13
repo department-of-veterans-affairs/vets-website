@@ -19,7 +19,10 @@ describe('Accessibility', () => {
     cy.axeCheck();
 
     // Verify Use My Location is first in tab order
-    cy.get('#facility-search-controls').trigger('mousedown');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .trigger('mousedown');
     cy.tab();
     cy.get('button.use-my-location-link').focused();
     cy.tab();
@@ -29,17 +32,32 @@ describe('Accessibility', () => {
     // Tab
     cy.get('#street-city-state-zip').tab();
     // Verify focused on facility dropdown
-    cy.get('#facility-type-dropdown').focused();
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .focused();
 
     // Select facility option
-    cy.get('#facility-type-dropdown').select(LOCATION_TYPE_HEALTH);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(LOCATION_TYPE_HEALTH);
 
     // Tab
-    cy.get('#facility-type-dropdown').tab();
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .tab();
     // Verify focused on service dropdown
-    cy.get('#service-type-dropdown').focused();
+    cy.get('#service-type-dropdown')
+      .shadow()
+      .find('select')
+      .focused();
     // Tab
-    cy.get('#facility-type-dropdown').tab();
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .tab();
     cy.get('#facility-search').focused();
   });
 });

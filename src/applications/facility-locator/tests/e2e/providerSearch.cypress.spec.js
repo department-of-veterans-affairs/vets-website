@@ -43,9 +43,10 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(
-      'Community providers (in VA’s network)',
-    );
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Community providers (in VA’s network)');
 
     // Wait for services to be saved to state and input field to not be disabled
     cy.get('#service-type-ahead-input')
@@ -64,9 +65,10 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(
-      'Community providers (in VA’s network)',
-    );
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Community providers (in VA’s network)');
 
     cy.get('#service-type-ahead-input').type('djf');
     cy.get('#could-not-find-service-prompt').should('exist');
@@ -77,7 +79,10 @@ describe('Provider search', () => {
     cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('Dentist');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
@@ -99,7 +104,10 @@ describe('Provider search', () => {
     cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
@@ -119,8 +127,14 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select('Urgent care');
-    cy.get('#service-type-dropdown').select(NON_VA_URGENT_CARE);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Urgent care');
+    cy.get('#service-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(NON_VA_URGENT_CARE);
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       `Results for "Urgent care", "${NON_VA_URGENT_CARE}" near "Austin, Texas"`,
@@ -138,10 +152,14 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin');
-    cy.get('#facility-type-dropdown').select('Emergency care');
-    cy.get('#service-type-dropdown').select(
-      'In-network community emergency care',
-    );
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Emergency care');
+    cy.get('#service-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('In-network community emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       'Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"',
