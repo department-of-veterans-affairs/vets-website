@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/constants/backendServices';
-import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/authorization/components/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import Main from './Main';
 
