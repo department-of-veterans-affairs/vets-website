@@ -1,9 +1,19 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { EMPTY_FIELD } from '../util/constants';
+import { EMPTY_FIELD, loadStates } from '../util/constants';
 import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
 
 const initialState = {
+  /**
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+
   /**
    * The list of vaccines returned from the api
    * @type {array}
@@ -114,6 +124,8 @@ export const vaccineReducer = (state = initialState, action) => {
       const vaccineList = action.response.entry;
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         vaccinesList:
           vaccineList
             ?.map(record => {
@@ -127,6 +139,12 @@ export const vaccineReducer = (state = initialState, action) => {
       return {
         ...state,
         vaccineDetails: undefined,
+      };
+    }
+    case Actions.Vaccines.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:

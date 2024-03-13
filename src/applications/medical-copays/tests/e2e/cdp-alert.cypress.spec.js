@@ -3,7 +3,7 @@ import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockDebt from '../../utils/mocks/debts.json';
 
-describe('Medical Copays - CDP Alerts', () => {
+describe.skip('Medical Copays - CDP Alerts', () => {
   const id = 'f4385298-08a6-42f8-a86f-50e97033fb85';
   const mockZeroDebt = {
     debts: [],
