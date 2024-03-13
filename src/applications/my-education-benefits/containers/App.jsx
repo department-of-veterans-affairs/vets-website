@@ -38,7 +38,6 @@ export const App = ({
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showDgiDirectDeposit1990EZ,
-  showMebEnhancements08,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
   email,
@@ -202,8 +201,7 @@ export const App = ({
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
         !formData?.duplicateEmail &&
-        !formData?.duplicatePhone &&
-        formData?.showMebEnhancements08
+        !formData?.duplicatePhone
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -233,13 +231,6 @@ export const App = ({
         setFormData({
           ...formData,
           duplicatePhone,
-        });
-      }
-
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
         });
       }
 
@@ -280,7 +271,6 @@ export const App = ({
       setFormData,
       showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
-      showMebEnhancements08,
       showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
@@ -365,7 +355,6 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
-  showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
