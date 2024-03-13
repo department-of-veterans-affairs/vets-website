@@ -305,7 +305,7 @@ describe('Schemaform actions:', () => {
       requests = [];
     });
 
-    it('should reject if file is too big', done => {
+    it('should reject if file is too large', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -323,8 +323,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please make sure the file is 5B or less and try again.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5B.`,
           });
           done();
         },
@@ -360,8 +360,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'pdf',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please make sure the file is 5B or less and try again.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5B.`,
           });
           done();
         },
@@ -398,8 +398,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please make sure the file is 5 Bytes or less and try again.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5 Bytes.`,
           });
           done();
         },
@@ -437,7 +437,7 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please make sure the file is 5 Bytes or more and try again.`,
+              `Try uploading a file that\u2019s 5 Bytes or more.`,
           });
           done();
         },
@@ -474,7 +474,7 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please make sure the file is 5B or more and try again.`,
+              `Try uploading a file that\u2019s 5B or more.`,
           });
           done();
         },
@@ -812,7 +812,7 @@ describe('Schemaform actions:', () => {
       requests = [];
     });
 
-    it('should reject if file is too big', done => {
+    it('should reject if file is too large', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -846,7 +846,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
     });
 
-    it('should reject if PDF file is too big', done => {
+    it('should reject if PDF file is too large', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
