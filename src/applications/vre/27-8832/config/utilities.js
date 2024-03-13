@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import fullSchema from 'vets-json-schema/dist/27-8832-schema.json';
 
 const {
   claimantInformation,

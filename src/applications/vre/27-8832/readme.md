@@ -2,14 +2,14 @@
 
 ### Context
 
-CH36 is also called form 25-8832
+CH36 is also called form 27-8832
 
-The program is called Chapter 36 or Personalized Career Planning and Guidance (PCPG) and the form to apply for those benefits is 25-8832. The form was recently renumbered from 28-8832 to 25-8832
+The program is called Chapter 36 or Personalized Career Planning and Guidance (PCPG) and the form to apply for those benefits is 27-8832. The form was recently renumbered from 27-8832 to 27-8832
 
 ### Async and Error Handling for CH36
 
 - short_name = 'education_career_counseling_claim'
-- FORM = '28-8832'
+- FORM = '27-8832'
 
 - Create SavedClaim::EducationCareerCounselingClaim
 

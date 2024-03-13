@@ -74,7 +74,7 @@ const octokitResponses = {
         parent_product: '',
         last_updated: '',
         product_root_url:
-          'www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832',
+          'www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-27-8832',
         github_repository: 'vets-website',
         path_to_code:
           'script/github-actions/daily-product-scan/tests/mocks/applications/app-2/app-2a',
@@ -138,7 +138,7 @@ const octokitResponses = {
         has_contract_tests: 'TRUE',
         testrail_project_id: '',
         package_dependencies:
-          'react,react-redux,moment,lodash/merge,vets-json-schema/dist/28-8832-schema.json,@department-of-veterans-affairs/react-components/RadioButtons',
+          'react,react-redux,moment,lodash/merge,vets-json-schema/dist/27-8832-schema.json,@department-of-veterans-affairs/react-components/RadioButtons',
         loa: '',
         cross_product_dependencies: '/src/applications/static-pages/wizard',
         endpoints_provided: '',
@@ -222,9 +222,9 @@ const octokitResponses = {
         parent_product: '',
         last_updated: '',
         product_root_url:
-          'www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832',
+          'www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-27-8832',
         github_repository: 'vets-website',
-        path_to_code: 'src/applications/vre/28-88328832',
+        path_to_code: 'src/applications/vre/27-88328832',
         github_product_label: 'CH36',
         github_team_label: 'vsa-ebenefits-frontend',
         contract_name: '',
@@ -245,7 +245,7 @@ const octokitResponses = {
         has_contract_tests: 'TRUE',
         testrail_project_id: '',
         package_dependencies:
-          'react,react-redux,moment,lodash/merge,vets-json-schema/dist/28-8832-schema.json,chai,enzyme,sinon,path,@department-of-veterans-affairs/react-components/RadioButtons',
+          'react,react-redux,moment,lodash/merge,vets-json-schema/dist/27-8832-schema.json,chai,enzyme,sinon,path,@department-of-veterans-affairs/react-components/RadioButtons',
         loa: '',
         cross_product_dependencies: 'src/applications/static-pages/wizard',
         endpoints_provided: '',

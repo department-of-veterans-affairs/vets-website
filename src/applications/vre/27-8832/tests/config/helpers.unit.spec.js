@@ -9,7 +9,7 @@ import {
 import config from '../../config/form';
 import { veteranFormData, dependentFormData } from '../fixtures/formData';
 
-describe('25-8832 - helpers', () => {
+describe('27-8832 - helpers', () => {
   describe('isDependent', () => {
     it('should return appropriate boolean value', () => {
       expect(isDependent({ status: 'isChild' })).to.be.true;

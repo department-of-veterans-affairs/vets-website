@@ -25,7 +25,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <p>
-          Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
+          Equal to VA Form 27-8832 (Education/Vocational Counseling Application)
         </p>
         <h2
           id="thank-you-message"
@@ -36,7 +36,7 @@ export class ConfirmationPage extends React.Component {
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Personalized Career Planning and Guidance application{' '}
-            <span className="additional">(VA Form 28-8832)</span>
+            <span className="additional">(VA Form 27-8832)</span>
           </h3>
           {name.first &&
             name.last && (

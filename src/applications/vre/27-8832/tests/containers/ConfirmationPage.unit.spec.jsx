@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-describe('Chapter 36 (25-8832) - ConfirmationPage', () => {
+describe('Chapter 36 (27-8832) - ConfirmationPage', () => {
   const generateStore = ({ currentlyLoggedIn = false } = {}) => ({
     getState: () => ({
       form: {

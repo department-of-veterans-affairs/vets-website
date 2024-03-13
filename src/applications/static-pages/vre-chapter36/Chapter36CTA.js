@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
-const vreUrl = getAppUrl('28-8832-planning-and-career-guidance');
+const vreUrl = getAppUrl('27-8832-planning-and-career-guidance');
 
 const EDUCATION_CAREER_COUNSELING_PATH = 'education-and-career-counseling';
 

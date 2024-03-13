@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/28-8832-schema.json';
+import fullSchema from 'vets-json-schema/dist/27-8832-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -23,7 +23,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_career_counseling_claims`,
-  trackingPrefix: 'careers-employment-28-8832--',
+  trackingPrefix: 'careers-employment-27-8832--',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
@@ -60,7 +60,7 @@ const formConfig = {
       'Sign in again to continue your application for Planning and career guidance.',
   },
   title:
-    'Apply for Personalized Career Planning and Guidance with VA Form 25-8832',
+    'Apply for Personalized Career Planning and Guidance with VA Form 27-8832',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {
