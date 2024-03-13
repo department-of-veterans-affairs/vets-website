@@ -278,14 +278,24 @@ const PrescriptionDetails = () => {
         } else {
           setPdfTxtGenerateStatus({
             status: PDF_TXT_GENERATE_STATUS.NotStarted,
+            format: 'print',
           });
-          setTimeout(() => {
-            window.print();
-          }, 500);
         }
       }
     },
     [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
+  );
+  useEffect(
+    () => {
+      if (
+        allergies &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
+        pdfTxtGenerateStatus.format === 'print'
+      ) {
+        window.print();
+      }
+    },
+    [allergies, pdfTxtGenerateStatus],
   );
 
   useEffect(

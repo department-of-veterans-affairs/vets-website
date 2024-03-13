@@ -311,12 +311,6 @@ const Prescriptions = () => {
           );
         } else {
           updateLoadingStatus(false, '');
-          setPdfTxtGenerateStatus({
-            status: PDF_TXT_GENERATE_STATUS.NotStarted,
-          });
-          setTimeout(() => {
-            window.print();
-          }, 500);
         }
       } else if (
         prescriptionsFullList?.length &&
@@ -335,6 +329,23 @@ const Prescriptions = () => {
       generatePDF,
       generateTXT,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !isLoading &&
+        loadingMessage === '' &&
+        pdfTxtGenerateStatus.format === 'print' &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+      ) {
+        setPdfTxtGenerateStatus({
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
+        });
+        window.print();
+      }
+    },
+    [isLoading, loadingMessage, pdfTxtGenerateStatus],
   );
 
   const handleFullListDownload = async format => {
