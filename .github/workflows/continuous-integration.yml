@@ -1246,7 +1246,7 @@ jobs:
           path: qa-standards-dashboard-data/coverage/coverage_report.txt
       
       - name: Copy coverage json to qa-standards-dashboard-data test data directory
-        run: cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data
+        run: cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data/test-coverage-report.json
 
       - name: Process Coverage Report and post results to BigQuery
         run: yarn unit-coverage-to-bigquery
