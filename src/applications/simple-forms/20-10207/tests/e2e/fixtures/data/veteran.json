@@ -24,11 +24,6 @@
     "otherReasons": {
       "OVER_85": true
     },
-    "powConfinementStartDate": "2013-01-01",
-    "powConfinementEndDate": "2013-01-02",
-    "powMultipleConfinements": true,
-    "powConfinement2StartDate": "2013-01-03",
-    "powConfinement2EndDate": "2013-01-04",
     "medicalTreatments": [
       {
         "facilityName": "Guido’s Trailer",
