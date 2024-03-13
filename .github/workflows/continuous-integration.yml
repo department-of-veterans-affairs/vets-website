@@ -1262,7 +1262,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Unit Test Coverage Summary
-          conclusion: ${{ needs.unit-tests-stress-test.result }}
+          conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary": "https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/"å}
 
