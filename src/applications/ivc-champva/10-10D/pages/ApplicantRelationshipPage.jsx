@@ -15,7 +15,7 @@ const keyname = 'applicantRelationshipToSponsor';
 function generateOptions({ data, pagePerItemIndex }) {
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
-  const applicant = applicantWording(currentListItem).slice(0, -3); // remove 's_
+  const applicant = applicantWording(currentListItem, undefined, false);
 
   // Determine what tense/person the phrasing should be in
   const useFirstPerson =
@@ -24,9 +24,12 @@ function generateOptions({ data, pagePerItemIndex }) {
   const relative = `${useFirstPerson ? 'I' : applicant}`;
   const beingVerbPresent = useFirstPerson ? 'am' : 'is';
 
-  const relativePossessive = `${`${
-    useFirstPerson ? 'your' : `${applicant}’s`
-  }`}`;
+  const relativePossessive = applicantWording(
+    currentListItem,
+    undefined,
+    true,
+    false,
+  );
 
   const marriedDeceased = `${relative} was married to the ${personTitle} at any time`;
   const marriedLiving = `${relative} ${beingVerbPresent} the ${personTitle}’s spouse`;
@@ -222,6 +225,7 @@ export default function ApplicantRelationshipPage({
           label={`What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
             useFirstPerson ? `your` : `${applicant}’s`
           } relationship to the ${personTitle}?`}
+          hint="Depending on your response, you may need to submit additional documents with this application."
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}

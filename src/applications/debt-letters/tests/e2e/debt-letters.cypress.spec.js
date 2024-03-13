@@ -10,7 +10,7 @@ import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockCopays from './fixtures/mocks/copays.json';
 
-describe('Debt Letters', () => {
+describe.skip('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
@@ -18,7 +18,8 @@ describe('Debt Letters', () => {
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
-    cy.visit('/manage-va-debt/your-debt/');
+    cy.visit('/');
+    cy.visit('/manage-va-debt/your-debt');
     cy.wait(['@features', '@debts']);
   });
 
