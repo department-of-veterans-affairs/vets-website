@@ -10,9 +10,10 @@ import PropTypes from 'prop-types';
 
 import { applicantWording } from '../helpers/wordingCustomization';
 
-const keyname = 'applicantRelationshipToSponsor';
+const KEYNAME = 'applicantRelationshipToSponsor';
 
 function generateOptions({ data, pagePerItemIndex }) {
+  const keyname = data.keyname || KEYNAME;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
   const applicant = applicantWording(currentListItem).slice(0, -3); // remove 's_
@@ -74,14 +75,16 @@ const relationshipStructure = {
 
 export function ApplicantRelationshipReviewPage(props) {
   const { data } = props || {};
+  const genOps = props.genOp || generateOptions;
   const {
     currentListItem,
     options,
     description,
     useFirstPerson,
     applicant,
+    keyname,
     personTitle,
-  } = generateOptions(props);
+  } = genOps(props);
   const other = currentListItem?.[keyname]?.otherRelationshipToVeteran;
   return data ? (
     <div className="form-review-panel-page">
@@ -120,9 +123,11 @@ export function ApplicantRelationshipReviewPage(props) {
 
 export default function ApplicantRelationshipPage({
   data,
+  genOp,
   setFormData,
   goBack,
   goForward,
+  keyname = KEYNAME,
   pagePerItemIndex,
   updatePage,
   onReviewPage,
@@ -136,13 +141,14 @@ export default function ApplicantRelationshipPage({
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
+  const genOps = genOp || generateOptions;
   const {
     options,
     relativePossessive,
     useFirstPerson,
     applicant,
     personTitle,
-  } = generateOptions({
+  } = genOps({
     data,
     pagePerItemIndex,
   });
@@ -271,13 +277,17 @@ export default function ApplicantRelationshipPage({
 ApplicantRelationshipReviewPage.propTypes = {
   data: PropTypes.object,
   editPage: PropTypes.func,
+  genOp: PropTypes.func,
+  keyname: PropTypes.string,
   title: PropTypes.func,
 };
 
 ApplicantRelationshipPage.propTypes = {
   data: PropTypes.object,
+  genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  keyname: PropTypes.string,
   pagePerItemIndex: PropTypes.string || PropTypes.number,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,

@@ -98,6 +98,7 @@ import FileViewField, {
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
 import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
+import ApplicantRelOriginPage from '../pages/ApplicantRelOriginPage';
 
 // Used to condense some repetitive schema boilerplate
 const applicantListSchema = (requireds, propertyList) => {
@@ -145,7 +146,7 @@ const formConfig = {
   },
   formId: '10-10D',
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
     collapsibleNavLinks: true,
   },
   saveInProgress: {
@@ -799,6 +800,57 @@ const formConfig = {
             },
           },
         },
+        page18c: {
+          path: 'applicant-information/:index/child-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} relationship to sponsor`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child'
+            );
+          },
+          // CustomPage: ApplicantRelOriginPage,
+          // CustomPageReview: null,
+          // if sponsor deceased
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} relationship to sponsor`,
+                ),
+                'ui:description': AdditionalDocumentationAlert(),
+                applicantRelationshipOrigin: relationshipToVeteranUI({
+                  personTitle: 'sponsor',
+                  relativeTitle: 'relative',
+                  customLabels: {
+                    blood: 'Blood',
+                    adoption: 'Adoption',
+                    step: 'Stepchild',
+                  },
+                  prependRelative: true,
+                }),
+              },
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'ui:description': blankSchema,
+            applicantRelationshipOrigin: customRelationshipSchema([
+              'blood',
+              'adoption',
+              'step',
+            ]),
+          }),
+        },
         page18a: {
           path: 'applicant-information/:index/child-documents',
           arrayPath: 'applicants',
@@ -904,51 +956,6 @@ const formConfig = {
             applicantSchoolCert: fileWithMetadataSchema(
               acceptableFiles.schoolCert,
             ),
-          }),
-        },
-        page18c: {
-          path: 'applicant-information/:index/child-info',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'child'
-            );
-          },
-          uiSchema: {
-            applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} relationship to sponsor`,
-                ),
-                'ui:description': AdditionalDocumentationAlert(),
-                applicantRelationshipOrigin: radioUI({
-                  title: 'Question regarding blood relation status',
-                  required: () => true,
-                  labels: {
-                    blood: 'Blood',
-                    adoption: 'Adoption',
-                    step: 'Stepchild',
-                  },
-                }),
-              },
-            },
-          },
-          schema: applicantListSchema([], {
-            titleSchema,
-            'ui:description': blankSchema,
-            applicantRelationshipOrigin: radioSchema([
-              'blood',
-              'adoption',
-              'step',
-            ]),
           }),
         },
         page18d: {
