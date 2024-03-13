@@ -20,6 +20,7 @@ export default {
         Y: 'Yes',
         N: 'No',
       },
+      required: () => true,
       errorMessages: {
         required: errorMessages.requiredYesNo,
       },
