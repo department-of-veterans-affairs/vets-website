@@ -275,6 +275,13 @@ const PrescriptionDetails = () => {
           generatePDF(buildAllergiesPDFList(allergies));
         } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
           generateTXT(buildAllergiesTXT(allergies));
+        } else {
+          setPdfTxtGenerateStatus({
+            status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          });
+          setTimeout(() => {
+            window.print();
+          }, 500);
         }
       }
     },
@@ -349,6 +356,9 @@ const PrescriptionDetails = () => {
       generatePDF();
     } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
       generateTXT(buildAllergiesTXT());
+    } else {
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted });
+      window.print();
     }
     dispatch(clearAllergiesError());
   };

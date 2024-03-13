@@ -296,6 +296,7 @@ const Prescriptions = () => {
       if (
         prescriptionsFullList?.length &&
         allergies &&
+        !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
         if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
@@ -308,11 +309,26 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
+        } else {
+          updateLoadingStatus(false, '');
+          setPdfTxtGenerateStatus({
+            status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          });
+          setTimeout(() => {
+            window.print();
+          }, 500);
         }
+      } else if (
+        prescriptionsFullList?.length &&
+        allergiesError &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+      ) {
+        updateLoadingStatus(false, '');
       }
     },
     [
       allergies,
+      allergiesError,
       prescriptionsFullList,
       pdfTxtGenerateStatus.status,
       pdfTxtGenerateStatus.format,
@@ -346,6 +362,8 @@ const Prescriptions = () => {
         buildPrescriptionsTXT(prescriptionsFullList),
         buildAllergiesTXT(),
       );
+    } else {
+      window.print();
     }
     dispatch(clearAllergiesError());
   };
@@ -392,7 +410,12 @@ const Prescriptions = () => {
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
             onCancelButtonClick={handleModalClose}
-            visible={Boolean(prescriptionsFullList?.length && allergiesError)}
+            visible={Boolean(
+              prescriptionsFullList?.length &&
+                pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.InProgress &&
+                allergiesError,
+            )}
           />
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">
