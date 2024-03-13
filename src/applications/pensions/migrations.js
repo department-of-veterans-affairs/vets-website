@@ -209,6 +209,9 @@ export default [
       if (transformedExpense.recipients === 'CHILD') {
         transformedExpense.recipients = 'DEPENDENT';
       }
+      if (transformedExpense.hoursPerWeek) {
+        transformedExpense.hoursPerWeek = transformedExpense.hoursPerWeek.toString();
+      }
       return transformedExpense;
     }
 

@@ -33,7 +33,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         },
       });
 
-      cy.get('[class="alert-expandable-title"]')
+      cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
         .should('be.visible')
         .and('include.text', Alerts.BLOCKED.HEADER);
     });
@@ -152,7 +152,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         waitForAnimations: true,
       });
       cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
-      cy.get('#select').should(
+      cy.get(Locators.SELECT).should(
         'not.contain',
         mockBlockedRecipients.data[3].attributes.name,
       );
