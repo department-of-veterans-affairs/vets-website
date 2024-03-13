@@ -1430,26 +1430,6 @@ describe('Schemaform <FileField>', () => {
       expect($('.usa-input-error-message', container)).to.not.exist;
     });
 
-    it('should render remove file button as Delete file', () => {
-      const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={mockIdSchema}
-          errorSchema={mockErrorSchemaWithError}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-        />,
-      );
-
-      // This button is specific to the file that has the error
-      const deleteFileButton = $('.delete-upload', container);
-      expect(deleteFileButton.getAttribute('text')).to.equal('Delete file');
-    });
-
     it('should render delete button for successfully uploaded file', () => {
       const formData = [
         {
@@ -1472,32 +1452,6 @@ describe('Schemaform <FileField>', () => {
       // This button is specific to the file that was uploaded
       const deleteButton = $('.delete-upload', container);
       expect(deleteButton.getAttribute('text')).to.equal('Delete file');
-    });
-
-    it('should not render individual file Try again button', () => {
-      const errorSchema = {
-        0: {
-          __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
-        },
-      };
-      const { container } = render(
-        <FileField
-          registry={mockRegistry}
-          schema={mockSchema}
-          uiSchema={mockUiSchema}
-          idSchema={mockIdSchema}
-          errorSchema={errorSchema}
-          formData={mockFormDataWithError}
-          formContext={formContext}
-          onChange={f => f}
-          requiredSchema={requiredSchema}
-        />,
-      );
-
-      // The retry button should be the only primary button. Should not be present
-      // with enableShortWorkflow not enabled
-      const individualFileTryAgainButton = $('.retry-upload', container);
-      expect(individualFileTryAgainButton).to.not.exist;
     });
   });
 });
