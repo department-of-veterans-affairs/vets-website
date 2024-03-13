@@ -22,21 +22,31 @@ function generateOptions({ data, pagePerItemIndex }) {
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
 
   const relative = `${useFirstPerson ? 'I' : applicant}`;
+  const beingVerbPresent = useFirstPerson ? 'am' : 'is';
 
   const relativePossessive = `${`${
     useFirstPerson ? 'your' : `${applicant}’s`
   }`}`;
 
+  const marriedDeceased = `${relative} was married to the ${personTitle} at any time`;
+  const marriedLiving = `${relative} ${beingVerbPresent} the ${personTitle}’s spouse`;
+  const marriedLivingDivorced = `${relative} was the ${personTitle}’s spouse, but ${beingVerbPresent} no longer married to the ${personTitle}`;
+
+  const marriageOptions = [];
+  if (data.sponsorIsDeceased) {
+    marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
+  } else {
+    marriageOptions.push({ label: marriedLiving, value: 'spouse' });
+    marriageOptions.push({ label: marriedLivingDivorced, value: 'spouse' });
+  }
+
   // Create dynamic radio labels based on above phrasing
   const options = [
+    ...marriageOptions,
     {
-      label: `${relative} was married to the ${personTitle} at any time`,
-      value: 'spouse',
-    },
-    {
-      label: `${relative} ${
-        useFirstPerson ? 'am' : 'is'
-      } the ${personTitle}’s surviving child (including adopted children and stepchildren)`,
+      label: `${relative} ${beingVerbPresent} the ${personTitle}’s ${
+        data.sponsorIsDeceased ? 'surviving' : ''
+      } child (including adopted children and stepchildren)`,
       value: 'child',
     },
     {
