@@ -11,7 +11,11 @@ import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import { SMALL_SCREEN_WIDTH, filterKeys } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  PREVIOUS_URL_PUSHED_TO_HISTORY,
+  filterKeys,
+} from '../constants';
 
 /**
  * Snake-cases field names
@@ -269,7 +273,7 @@ export const specializedMissionDefinitions = [
     key: `${SMFKey}-HBCU`,
     title: 'Historically Black Colleges and Universities',
     definition:
-      'Historically Black Colleges and Universities (HBCU’s) are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
+      'Historically Black Colleges and Universities (HBCUs) are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
   },
   {
     key: `${SMFKey}-MENONLY`,
@@ -401,4 +405,14 @@ export const giDocumentTitle = () => {
 
 export const setDocumentTitle = () => {
   document.title = `${giDocumentTitle()} | Veterans Affairs`;
+};
+
+export const managePushHistory = (history, url) => {
+  const previousUrl = window.sessionStorage.getItem(
+    PREVIOUS_URL_PUSHED_TO_HISTORY,
+  );
+  if (url !== previousUrl) {
+    window.sessionStorage.setItem(PREVIOUS_URL_PUSHED_TO_HISTORY, url);
+    history.push(url);
+  }
 };

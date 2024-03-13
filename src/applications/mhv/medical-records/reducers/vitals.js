@@ -5,6 +5,7 @@ import {
   EMPTY_FIELD,
   vitalUnitCodes,
   vitalUnitDisplayText,
+  loadStates,
 } from '../util/constants';
 import {
   isArrayAndHasItems,
@@ -14,6 +15,16 @@ import {
 } from '../util/helpers';
 
 const initialState = {
+  /**
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+
   /**
    * The list of vaccines returned from the api
    * @type {array}
@@ -88,6 +99,8 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         vitalsList:
           action.response.entry?.map(vital => {
             return convertVital(vital.resource);
@@ -98,6 +111,12 @@ export const vitalReducer = (state = initialState, action) => {
       return {
         ...state,
         vitalDetails: undefined,
+      };
+    }
+    case Actions.Vitals.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:

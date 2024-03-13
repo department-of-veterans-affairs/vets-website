@@ -39,3 +39,10 @@ export function makeHumanReadable(inputStr) {
     .map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
     .join(' ');
 }
+
+// Helper to detect if we're on review page when we don't have access
+// to form context. Necessary because list and loop pages don't seem
+// to respect 'hideOnReview' or 'keepInPageOnReview'
+export function onReviewPage() {
+  return window.location.href.includes('review-and-submit');
+}

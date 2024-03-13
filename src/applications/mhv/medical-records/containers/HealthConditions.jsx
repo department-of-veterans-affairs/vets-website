@@ -9,23 +9,32 @@ import {
   pageTitles,
   ALERT_TYPE_ERROR,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 
 const HealthConditions = () => {
+  const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
-
-  useEffect(
-    () => {
-      dispatch(getConditionsList());
-    },
-    [dispatch],
+  const refresh = useSelector(state => state.mr.refresh);
+  const conditionsCurrentAsOf = useSelector(
+    state => state.mr.conditions.listCurrentAsOf,
   );
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: conditionsCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getConditionsList,
+    dispatch,
+  });
 
   useEffect(
     () => {
