@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -67,9 +69,11 @@ const SearchResult = ({
   return (
     <div className="report-outdated-information-modal">
       {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+
       {setReportModalTester ? (
         <button
           id="open-modal-test-button"
+          label="open-modal-test-button"
           type="button"
           onClick={() => setReportModalIsShowing(true)}
         />
@@ -194,6 +198,7 @@ const SearchResult = ({
               id={`report-button-${representativeId}`}
               secondary
               text="Report outdated information"
+              label={`Report outdated information for ${officer}`}
               uswds
             />
           </div>
