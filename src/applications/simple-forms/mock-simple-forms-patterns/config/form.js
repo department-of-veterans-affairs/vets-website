@@ -25,7 +25,10 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
-import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
+import {
+  arrayMultiPageBuilderSummary,
+  SummaryCards,
+} from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
@@ -34,7 +37,7 @@ import {
   onNavForwardKeepUrlParams,
   onNavBackRemoveAddingItem,
   createArrayBuilderItemAddPath,
-  createArrayBuilderSummaryUpdatedPath,
+  createArrayBuilderUpdatedPath,
 } from '../arrayBuilder/helpers';
 
 const chapterSelectInitialData = {
@@ -294,6 +297,7 @@ const formConfig = {
         multiPageBuilderStart: {
           title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
           path: 'array-multiple-page-builder-summary',
+          CustomPageReview: () => SummaryCards,
           uiSchema: arrayMultiPageBuilderSummary.uiSchema,
           schema: arrayMultiPageBuilderSummary.schema,
           onNavForward: ({ formData, goPath }) => {
@@ -351,8 +355,11 @@ const formConfig = {
             let path = '/array-multiple-page-builder-summary';
             if (urlParams?.edit) {
               const index = getUrlPathIndex(pathname);
-              path = createArrayBuilderSummaryUpdatedPath({
-                basePath: '/array-multiple-page-builder-summary',
+              const basePath = urlParams?.review
+                ? '/review-and-submit'
+                : '/array-multiple-page-builder-summary';
+              path = createArrayBuilderUpdatedPath({
+                basePath,
                 index,
                 nounSingular: 'employer',
               });

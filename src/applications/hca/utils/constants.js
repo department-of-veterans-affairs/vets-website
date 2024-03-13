@@ -1,11 +1,10 @@
-// declare alert types for enrollment status helpers
-export const DASHBOARD_ALERT_TYPES = Object.freeze({
-  closed: 'closed', // Black, exclamation mark
-  decision: 'decision', // Red, exclamation mark
-  enrolled: 'enrolled', // Green, checkmark
-  inProgress: 'in-progress', // Blue, pause (TBD)
-  update: 'update', // Gold, exclamation
-});
+import { getAppUrl } from '~/platform/utilities/registry-helpers';
+
+export const APP_URLS = {
+  dischargeWizard: getAppUrl('discharge-upgrade-instructions'),
+  ezr: getAppUrl('ezr'),
+  facilities: getAppUrl('facilities'),
+};
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
@@ -46,7 +45,6 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
   RESET_ENROLLMENT_STATUS: 'RESET_ENROLLMENT_STATUS',
   SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
-  SHOW_HCA_REAPPLY_CONTENT: 'SHOW_HCA_REAPPLY_CONTENT',
 };
 
 // declare enrollment status strings

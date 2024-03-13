@@ -224,6 +224,41 @@ const v2 = {
       ...json,
     };
   },
+  postTravelPayClaims: async (claims, uuid) => {
+    const url = '/check_in/v0/travel_claims/';
+    const headers = { 'Content-Type': 'application/json' };
+
+    const posts = claims.map(claim => {
+      const travelClaimData = {
+        travelClaims: {
+          uuid,
+          appointmentDate: claim.startTime,
+        },
+      };
+      const body = JSON.stringify(travelClaimData);
+
+      return {
+        headers,
+        body,
+        method: 'POST',
+        mode: 'cors',
+      };
+    });
+    const json = await Promise.all(
+      posts.map(post =>
+        makeApiCallWithSentry(
+          apiRequest(`${environment.API_URL}${url}`, post),
+          'travel-claim-submit-travel-pay-claim',
+          uuid,
+          true,
+        ),
+      ),
+    );
+
+    return {
+      ...json,
+    };
+  },
 };
 
 export { v2 };
