@@ -13,6 +13,7 @@ function ClearFiltersBtn({
   isCleared,
   setIsCleared,
   onKeyDown,
+  onClearClick,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
@@ -40,6 +41,7 @@ function ClearFiltersBtn({
       specialMissionTRIBAL: false,
     });
     setIsCleared(true);
+    onClearClick(true);
   };
 
   return (

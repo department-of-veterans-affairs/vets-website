@@ -33,7 +33,8 @@ export function NameSearchForm({
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
-  // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  const [setIsCleared] = useState(false);
+
   const { showFiltersBeforeResult } = filterBeforeResultsReducer;
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
@@ -102,6 +103,7 @@ export function NameSearchForm({
       dispatchShowFiltersBeforeResult();
       doSearch(name);
     }
+    onApplyFilterClick();
   };
 
   const doAutocompleteSuggestionsSearch = value => {
@@ -118,7 +120,9 @@ export function NameSearchForm({
     setName(value);
     dispatchUpdateAutocompleteName(value);
   };
-
+  const onClearClick = val => {
+    setIsCleared(val);
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -158,8 +162,9 @@ export function NameSearchForm({
       {!smallScreen &&
         !environment.isProduction() &&
         showFiltersBeforeResult && (
-          <div>
+          <div style={{ backgroundColor: 'pink' }}>
             <FilterBeforeResults
+              onClearClick={onClearClick}
               nameVal={name}
               searchType="name"
               onApplyFilterClick={onApplyFilterClick}

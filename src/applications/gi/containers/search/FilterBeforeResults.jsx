@@ -39,6 +39,7 @@ export function FilterBeforeResults({
   nameVal,
   searchType,
   onApplyFilterClick,
+  onClearClick,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -599,6 +600,7 @@ export function FilterBeforeResults({
                 testId="clear-button"
                 isCleared={isCleared}
                 setIsCleared={setIsCleared}
+                onClearClick={onClearClick}
               >
                 Clear filters
               </ClearFiltersBtn>
