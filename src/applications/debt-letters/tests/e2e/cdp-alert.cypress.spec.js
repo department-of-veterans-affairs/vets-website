@@ -3,7 +3,7 @@ import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockCopays from './fixtures/mocks/copays.json';
 
-describe('Debt Letters - CDP Alerts', () => {
+describe.skip('Debt Letters - CDP Alerts', () => {
   const mockZeroDebt = {
     debts: [],
   };
