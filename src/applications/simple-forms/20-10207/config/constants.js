@@ -524,3 +524,10 @@ export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
     <p />
   </>,
 );
+
+export const workInProgressContent = {
+  description:
+    'We’re rolling out Request Priority Processing (VA Form 20-10207) in stages. It’s not quite ready yet. Please check back again soon.',
+  redirectLink: '/',
+  redirectText: 'Return to VA home page',
+};
