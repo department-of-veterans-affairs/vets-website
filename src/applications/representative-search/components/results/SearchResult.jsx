@@ -106,7 +106,9 @@ const SearchResult = ({
                   className="vads-u-font-family--serif vads-u-margin-top--2p5"
                   id={`result-${representativeId}`}
                 >
-                  <h3>{officer}</h3>
+                  <h3 aria-describedby={`representative-${representativeId}`}>
+                    {officer}
+                  </h3>
                 </div>
                 {associatedOrgs?.length === 1 && (
                   <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
