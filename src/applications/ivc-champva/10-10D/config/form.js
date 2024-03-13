@@ -743,6 +743,7 @@ const formConfig = {
                   'ui:description':
                     'We’ll send any important information about your application to this address.',
                 },
+                ...homelessInfo.uiSchema,
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -769,6 +770,7 @@ const formConfig = {
           },
           schema: applicantListSchema([], {
             'view:description': blankSchema,
+            ...homelessInfo.schema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -794,12 +796,14 @@ const formConfig = {
                     };
                   },
                 },
+                ...noPhoneInfo.uiSchema,
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
             },
           },
           schema: applicantListSchema([], {
+            ...noPhoneInfo.schema,
             applicantEmailAddress: emailSchema,
             applicantPhone: phoneSchema,
           }),
