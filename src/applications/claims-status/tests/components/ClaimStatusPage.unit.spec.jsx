@@ -14,16 +14,29 @@ const params = { id: 1 };
 describe('<ClaimStatusPage>', () => {
   it('should render page with no alerts and a timeline', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
-        open: true,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+        supportingDocuments: [],
+        trackedItems: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
           },
         ],
       },
@@ -32,10 +45,9 @@ describe('<ClaimStatusPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage claim={claim} params={params} />,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('NeedFilesFromYou')).to.be.false;
-    expect(content.subTree('ClaimsDecision')).to.be.false;
-    expect(content.subTree('ClaimsTimeline')).not.to.be.false;
+    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
+    expect(tree.subTree('ClaimsDecision')).to.be.false;
+    expect(tree.subTree('ClaimsTimeline')).not.to.be.false;
   });
 
   it('should not render a timeline when closed', () => {

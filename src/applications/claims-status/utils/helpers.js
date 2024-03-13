@@ -130,7 +130,7 @@ export const getTrackedItemDate = item => {
 };
 // END lighthouse_migration
 
-export function getTrackedItems(claim, useLighthouse = true) {
+export function getTrackedItems(claim) {
   // claimAttributes are different between lighthouse and evss
   // Therefore we have to filter them differntly
   if (useLighthouse) {
