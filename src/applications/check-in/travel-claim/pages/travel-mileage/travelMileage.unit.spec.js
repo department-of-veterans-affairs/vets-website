@@ -53,7 +53,7 @@ describe('travel-mileage', () => {
         {
           stationNo: '500',
           startTime: '2021-08-19T13:56:31',
-          multipleAppointments: false,
+          appointmentCount: 1,
         },
       ];
       const component = render(
@@ -100,7 +100,7 @@ describe('travel-mileage', () => {
           {
             stationNo: '500',
             startTime: '2021-08-19T13:56:31',
-            multipleAppointments: false,
+            appoinmentCount: 1,
           },
         ],
       };
@@ -108,7 +108,7 @@ describe('travel-mileage', () => {
         {
           stationNo: '500',
           startTime: '2021-08-19T13:56:31',
-          multipleAppointments: false,
+          appoinmentCount: 1,
         },
       ];
       const component = render(
