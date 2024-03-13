@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DefaultFolders as Folders,
   Paths,
@@ -24,6 +23,32 @@ export const handleRemoveAttachmentModalId = file => {
     : `remove-attachment-modal-${file.id}`;
 };
 ///
+
+// Only use with window.location.pathname **DO NOT USE WITH useLocation() hooks**
+export const getLastPathName = pathname => {
+  const paths = pathname.split('/').filter(Boolean);
+  return (
+    paths[paths.length - 1].charAt(0).toUpperCase() +
+    paths[paths.length - 1].slice(1)
+  );
+};
+
+// Only use with useLocation() hook **Can add custom string name for landing page**
+export const formatPathName = (pathname, string) => {
+  // Split the pathname into parts
+  const parts = pathname.split('/').filter(Boolean);
+
+  // If the pathname is "/", return string
+  if (parts.length === 0) {
+    return string;
+  }
+
+  // Get the last part of the pathname
+  const lastPart = parts[parts.length - 1];
+
+  // Capitalize the first letter and return
+  return lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
+};
 
 export const folderPathByFolderId = folderId => {
   let path = '';
@@ -142,16 +167,6 @@ export const getLastSentMessage = messages => {
   );
 };
 
-// Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
-export const openCrisisModal = () => {
-  const modal = document.querySelector('#modal-crisisline');
-  modal.setAttribute(
-    'class',
-    `${modal.getAttribute('class')} va-overlay--open`,
-  );
-  focusElement(document.querySelector('a[href="tel:988"]'));
-};
-
 export const handleHeader = (folderId, folder) => {
   switch (folderId) {
     case Folders.INBOX.id: // Inbox
@@ -165,10 +180,6 @@ export const handleHeader = (folderId, folder) => {
     default:
       return folder.name;
   }
-};
-
-export const updatePageTitle = newTitle => {
-  document.title = newTitle;
 };
 
 export const updateMessageInThread = (thread, response) => {

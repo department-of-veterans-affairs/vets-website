@@ -3,6 +3,7 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import { Locators } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -64,7 +65,7 @@ class FolderLoadPage {
   };
 
   getFolderHeader = text => {
-    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
   verifyBackToMessagesButton = () => {
@@ -78,17 +79,17 @@ class FolderLoadPage {
     cy.contains('Back to messages')
       .should('be.visible')
       .click({ force: true });
-    cy.get('h1').should('contain', 'Messages');
+    cy.get(Locators.HEADER).should('contain', 'Messages');
   };
 
   navigateToLastPage = index => {
-    cy.get('.usa-pagination__list li')
+    cy.get(Locators.ALERTS.PAGIN_LIST)
       .eq(index)
       .click();
   };
 
   verifyPaginationElements = () => {
-    cy.get('.usa-pagination__list li').each(el => {
+    cy.get(Locators.ALERTS.PAGIN_LIST).each(el => {
       cy.wrap(el).should('be.visible');
     });
   };
