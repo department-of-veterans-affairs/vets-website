@@ -148,7 +148,7 @@ button.va-crisis-line {
     }
   }
   &-close.va-modal-close {
-    font-size: 4rem;
+    font-size: 2.5rem;
     color: $color-link-default;
     padding-top: 0.1rem;
     &:hover {
@@ -160,5 +160,5 @@ button.va-crisis-line {
 
 .va-modal-large .va-crisis-panel.va-modal-inner {
   width: 90vw;
-  max-width: 75rem;
+  max-width: 47rem;
 }
