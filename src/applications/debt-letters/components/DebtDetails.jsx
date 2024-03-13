@@ -57,12 +57,28 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <VaBreadcrumbs label="Breadcrumb">
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/your-debt">Your VA debt</a>
-        <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
-      </VaBreadcrumbs>
+      <VaBreadcrumbs
+        label="Breadcrumb"
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'VA.gov home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/your-debt',
+            label: 'Your VA debt',
+          },
+          {
+            href: '/manage-va-debt/your-debt/debt-detail',
+            label: 'Details',
+          },
+        ]}
+        uswds
+      />
       <h1
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
