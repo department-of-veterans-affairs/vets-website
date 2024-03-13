@@ -79,7 +79,7 @@ class FolderLoadPage {
     cy.contains('Back to messages')
       .should('be.visible')
       .click({ force: true });
-    cy.get(Locators.HEADER).should('contain', 'Messages');
+    cy.get('h1').should('contain', 'Messages');
   };
 
   navigateToLastPage = index => {
