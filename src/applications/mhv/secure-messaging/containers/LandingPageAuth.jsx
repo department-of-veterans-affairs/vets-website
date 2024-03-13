@@ -38,7 +38,6 @@ const LandingPageAuth = () => {
   const fullState = useSelector(state => state);
   const inbox = useSelector(state => state.sm.folders?.folder);
   const [prefLink, setPrefLink] = useState('');
-  const [isLandingPage, setIsLandingPage] = useState(false);
 
   useEffect(
     () => {
@@ -59,16 +58,9 @@ const LandingPageAuth = () => {
     updatePageTitle(PageTitles.DEFAULT_PAGE_TITLE_TAG);
   }, []);
 
-  useEffect(() => {
-    const h1 = document.querySelector('h1');
-    if (h1 && h1.textContent === 'Messages') {
-      setIsLandingPage(true);
-    }
-  }, []);
-
   return (
     <div className="dashboard">
-      <AlertBackgroundBox isLandingPage={isLandingPage} />
+      <AlertBackgroundBox />
       <h1>Messages</h1>
 
       <DowntimeNotification

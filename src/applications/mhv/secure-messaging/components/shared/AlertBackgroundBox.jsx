@@ -9,7 +9,7 @@
 /**
  * Added accessibility fix to ensure that the alert content and the current location are
  * announced to the user in a way that's accessible to screen readers.
- * This component uses @prop isLandingPage @boolean to check if url location is on
+ * This component uses @prop lastPathName to check if url location is on
  * the secure messages landing page so that if there's a service outage, a unique server
  * error message from api response content will be displayed only for that page.
  * Additionally, A11Y reccommends that the 503 error alert content should use an h1 tag
@@ -88,7 +88,7 @@ const AlertBackgroundBox = props => {
       let content = activeAlert?.content;
 
       if (
-        !props.isLandingPage &&
+        lastPathName !== 'Messages' &&
         !foldersViewPage &&
         !threadViewPage &&
         (isServiceOutage || isErrorAlert)
@@ -102,8 +102,8 @@ const AlertBackgroundBox = props => {
       SERVICE_OUTAGE,
       activeAlert,
       foldersViewPage,
+      lastPathName,
       location.pathname,
-      props.isLandingPage,
       threadViewPage,
     ],
   );
@@ -166,7 +166,6 @@ const AlertBackgroundBox = props => {
 
 AlertBackgroundBox.propTypes = {
   closeable: PropTypes.bool,
-  isLandingPage: PropTypes.bool,
   noIcon: PropTypes.bool,
 };
 
