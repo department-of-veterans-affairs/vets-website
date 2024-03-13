@@ -444,7 +444,9 @@ const formConfig = {
         sponsorContactInfo: {
           path: 'sponsor-contact-info',
           depends: formData =>
-            !isVeteran(formData) && !isSponsorDeceased(formData),
+            !isVeteran(formData) &&
+            !isApplicantTheSponsor(formData) &&
+            !isSponsorDeceased(formData),
           uiSchema: sponsorContactInfo.uiSchema,
           schema: sponsorContactInfo.schema,
         },
