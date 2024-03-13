@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import { GA_PREFIX } from '../../../utils/constants';
 import RemoveProviderModal from './RemoveProviderModal';
@@ -33,7 +33,7 @@ export default function SelectedProvider({
             className="fas fa-plus vads-u-padding-right--0p5"
             aria-hidden="true"
           />
-          Choose a provider
+          Find a provider
         </button>
       )}
       {providerSelected && (
@@ -42,7 +42,7 @@ export default function SelectedProvider({
             id="providerPostSelectionHeader"
             className="vads-u-font-size--h3 vads-u-margin-top--0"
           >
-            Selected provider
+            Preferred provider
           </h2>
           <span className="vads-u-display--block">{formData.name}</span>
           <span className="vads-u-display--block">

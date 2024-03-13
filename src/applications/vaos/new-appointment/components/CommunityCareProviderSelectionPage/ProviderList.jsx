@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   FETCH_STATUS,
   FACILITY_SORT_METHODS,
@@ -93,7 +93,7 @@ export default function ProviderList({
         id="providerSelectionHeader"
         className="vads-u-font-size--h3 vads-u-margin-top--0"
       >
-        Choose a provider
+        {typeOfCareName} providers
       </h2>
       <ProviderSortVariant
         currentlyShownProvidersList={currentlyShownProvidersList}
@@ -174,7 +174,7 @@ export default function ProviderList({
                           });
                         }}
                       >
-                        Choose provider
+                        Select provider
                       </button>
                     )}
                   </div>
