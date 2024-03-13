@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
@@ -40,6 +44,11 @@ describe('Medicaitons Landing page container', () => {
   let screen = null;
   beforeEach(() => {
     screen = setup();
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
   });
 
   it('renders without errors', () => {
