@@ -199,11 +199,11 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
         We’ll use this information only to prioritize your request.
       </p>
       <p>
-        Note: If you need help because of domestic violence, call the National
-        Domestic Violence hotline <va-telephone contact="8007997233" /> (TTY:{' '}
-        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
-        are there to help 24 hours a day, 7 days a week. All conversations are
-        private and confidential.
+        <b>Note:</b> If you need help because of domestic violence, call the
+        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
+        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
+        Staff are there to help 24 hours a day, 7 days a week. All conversations
+        are private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -222,10 +222,12 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_VET = Object.freeze(
         any details. We’ll use this information only to prioritize the request.
       </p>
       <p>
-        Note: If the Veteran needs help because of domestic violence, call the
-        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
-        (TTY: ) or text "START" to 88788. Staff are there to help 24 hours a
-        day, 7 days a week. All conversations are private and confidential.
+        <b>Note:</b> If the Veteran needs help because of domestic violence,
+        call the National Domestic Violence hotline{' '}
+        <va-telephone contact="8007997233" /> (TTY:{' '}
+        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
+        are there to help 24 hours a day, 7 days a week. All conversations are
+        private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -244,11 +246,12 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze
         any details. We’ll use this information only to prioritize the request.
       </p>
       <p>
-        Note: If the claimant needs help because of domestic violence, call the
-        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
-        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
-        Staff are there to help 24 hours a day, 7 days a week. All conversations
-        are private and confidential.
+        <b>Note:</b> If the claimant needs help because of domestic violence,
+        call the National Domestic Violence hotline{' '}
+        <va-telephone contact="8007997233" /> (TTY:{' '}
+        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
+        are there to help 24 hours a day, 7 days a week. All conversations are
+        private and confidential.
       </p>
     </div>
   </va-additional-info>,
