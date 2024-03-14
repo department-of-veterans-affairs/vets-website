@@ -102,6 +102,7 @@ export function NameSearchForm({
       dispatchShowFiltersBeforeResult();
       doSearch(name);
     }
+    onApplyFilterClick();
   };
 
   const doAutocompleteSuggestionsSearch = value => {
