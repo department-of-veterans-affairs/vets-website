@@ -26,7 +26,6 @@ const {
   FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
   FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
   SET_DISMISSED_HCA_NOTIFICATION,
-  SHOW_HCA_REAPPLY_CONTENT,
 } = ENROLLMENT_STATUS_ACTIONS;
 
 /**
@@ -290,12 +289,4 @@ export function fetchTotalDisabilityRating() {
       });
     }
   };
-}
-
-/**
- * Declare action type to determine if users can be shown content on how to reapply for benefits
- * @returns {Object} - object containing the constant string to use in a fetch action
- */
-export function showReapplyContent() {
-  return { type: SHOW_HCA_REAPPLY_CONTENT };
 }

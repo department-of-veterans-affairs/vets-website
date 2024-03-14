@@ -1,5 +1,5 @@
 import React from 'react';
-import { fileTypes, maxSize } from '../../config/attachments';
+import { fileTypes, maxSize, minSize } from '../../config/attachments';
 
 const marriagePapers = [
   'Marriage certificate',
@@ -75,15 +75,23 @@ export const fileUploadBlurb = {
         <ul>
           <li>
             You can upload your files as one of these file types:{' '}
-            {fileTypes.join(', ')}
+            {fileTypes.join(', .')}
           </li>
           <li>
-            Upload one or more files that add up to no more than {maxSize}{' '}
-            total.
+            Upload one or more files that add up to at least {minSize} but no
+            more than {maxSize} total.
           </li>
           <li>
             If you don’t have a digital copy of a file, you can scan or take a
             photo of it and then upload the image from your computer or phone.
+          </li>
+          <li>
+            If you don’t want to upload your supporting files now, you’ll have
+            the option to upload again at the end of this application.
+          </li>
+          <li>
+            If you don’t upload your supporting files, we’ll provide you
+            instructions for how to mail or fax in your file(s).
           </li>
         </ul>
       </>

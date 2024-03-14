@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { createArrayBuilderItemEditPath, parseQueryParams } from '../helpers';
+import { createArrayBuilderItemEditPath } from '../helpers';
 
 const DEFAULT_TEXT = {
   title: props => `Review your ${props.nounPlural}`,
@@ -35,17 +35,18 @@ const DEFAULT_TEXT = {
   getItemName: itemData => itemData?.name,
 };
 
-const EditLink = ({ to }) => (
+const EditLink = ({ to, itemName }) => (
   <Link to={to} data-action="edit">
     Edit
     <i
       aria-hidden="true"
       className="fa fa-chevron-right vads-u-margin-left--1"
     />
+    <span className="sr-only">{itemName}</span>
   </Link>
 );
 
-const RemoveButton = ({ onClick }) => (
+const RemoveButton = ({ onClick, itemName }) => (
   <button
     type="button"
     className="va-button-link vads-u-color--secondary-dark vads-u-font-weight--bold vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
@@ -57,6 +58,7 @@ const RemoveButton = ({ onClick }) => (
       className="fa fa-trash vads-u-margin-right--1 vads-u-font-size--md"
     />
     Remove
+    <span className="sr-only">{itemName}</span>
   </button>
 );
 
@@ -81,6 +83,12 @@ const IncompleteLabel = () => (
     <span className="usa-label">INCOMPLETE</span>
   </div>
 );
+
+function getUpdatedItemIndexFromPath() {
+  const urlParams = new URLSearchParams(window.location?.search);
+  const updatedValue = urlParams.get('updated');
+  return updatedValue?.split('-')?.pop();
+}
 
 /**
  * Usage:
@@ -115,10 +123,10 @@ const ArrayBuilderCards = ({
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
-  const params = parseQueryParams();
-  const updatedItemData = params.updated
-    ? arrayData?.[params.updated.split('-')?.pop()]
-    : null;
+  const isReview = window.location?.pathname?.includes('review-and-submit');
+  const updateItemIndex = getUpdatedItemIndexFromPath();
+  const updatedItemData =
+    updateItemIndex != null ? arrayData?.[updateItemIndex] : null;
 
   const textProps = {
     getItemName: textOverrides?.getItemName || (itemData => itemData?.name),
@@ -174,16 +182,7 @@ const ArrayBuilderCards = ({
   const Card = ({ index, children }) => (
     <div className="vads-u-margin-bottom--2">
       <va-card uswds name={`${nounSingular}_${index}`}>
-        <div>{children}</div>
-        <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between vads-u-font-weight--bold">
-          <EditLink
-            to={createArrayBuilderItemEditPath({
-              basePath: editItemBasePathUrl,
-              index,
-            })}
-          />
-          <RemoveButton onClick={() => showRemoveConfirmationModal(index)} />
-        </span>
+        {children}
       </va-card>
     </div>
   );
@@ -193,6 +192,7 @@ const ArrayBuilderCards = ({
   };
 
   const Heading = `h${titleHeaderLevel}`;
+  const CardHeading = `h${Number(titleHeaderLevel) + 1}`;
 
   return (
     <div>
@@ -200,24 +200,43 @@ const ArrayBuilderCards = ({
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column">
         {updatedItemData && <SuccessAlert>{text.itemUpdated}</SuccessAlert>}
         {arrayData?.length && (
-          <div className="vads-u-margin-top--4">
-            {arrayData.map((itemData, index) => (
-              <div key={index}>
-                <Card index={index}>
-                  {isIncomplete(itemData) && <IncompleteLabel />}
-                  <div className="vads-u-font-weight--bold">
-                    {textProps.getItemName(itemData)}
-                  </div>
-                  {cardDescription(itemData)}
-                  {isIncomplete(itemData) && (
-                    <MissingInformationAlert>
-                      {text.itemMissingInformation}
-                    </MissingInformationAlert>
-                  )}
-                </Card>
-              </div>
-            ))}
-          </div>
+          <ul className="vads-u-margin-top--4 vads-u-padding--0">
+            {arrayData.map((itemData, index) => {
+              const itemName = textProps.getItemName(itemData);
+              return (
+                <li key={index} style={{ listStyleType: 'none' }}>
+                  <Card index={index}>
+                    <div>
+                      {isIncomplete(itemData) && <IncompleteLabel />}
+                      <CardHeading className="vads-u-margin-top--0">
+                        {itemName}
+                      </CardHeading>
+                      {cardDescription(itemData)}
+                      {isIncomplete(itemData) && (
+                        <MissingInformationAlert>
+                          {text.itemMissingInformation}
+                        </MissingInformationAlert>
+                      )}
+                    </div>
+                    <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between vads-u-font-weight--bold">
+                      <EditLink
+                        to={createArrayBuilderItemEditPath({
+                          basePath: editItemBasePathUrl,
+                          index,
+                          isReview,
+                        })}
+                        itemName={itemName}
+                      />
+                      <RemoveButton
+                        onClick={() => showRemoveConfirmationModal(index)}
+                        itemName={itemName}
+                      />
+                    </span>
+                  </Card>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
       <VaModal

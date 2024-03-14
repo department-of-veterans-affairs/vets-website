@@ -418,7 +418,11 @@ describe('careSummariesAndNotesReducer', () => {
       {},
       { type: Actions.CareSummariesAndNotes.GET_LIST, response },
     );
-    expect(newState).to.deep.equal({ careSummariesAndNotesList: [] });
+    expect(newState).to.deep.equal({
+      listCurrentAsOf: null,
+      listState: 'fetched',
+      careSummariesAndNotesList: [],
+    });
   });
 
   it('creates an empty list if "entry" is not present', () => {
@@ -429,6 +433,10 @@ describe('careSummariesAndNotesReducer', () => {
       {},
       { type: Actions.CareSummariesAndNotes.GET_LIST, response },
     );
-    expect(newState).to.deep.equal({ careSummariesAndNotesList: [] });
+    expect(newState).to.deep.equal({
+      listCurrentAsOf: null,
+      listState: 'fetched',
+      careSummariesAndNotesList: [],
+    });
   });
 });
