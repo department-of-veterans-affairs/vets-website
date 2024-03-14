@@ -117,7 +117,7 @@ class SaveInProgressIntro extends React.Component {
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
           const H = `h${this.props.headingLevel}`;
-          const continueMsg = (
+          const ContinueMsg = (
             <p>
               You can continue {appAction} now
               {appContinuing && ` ${appContinuing}`}, or come back later to
@@ -136,7 +136,7 @@ class SaveInProgressIntro extends React.Component {
               </div>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
-                  {this.props.continueMsg || continueMsg}
+                  {this.props.continueMsg || ContinueMsg}
                   <p>
                     Your {appType}{' '}
                     <span className="expires">
