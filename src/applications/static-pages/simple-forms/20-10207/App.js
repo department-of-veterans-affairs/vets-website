@@ -14,12 +14,10 @@ const App = ({ formEnabled }) => {
     return (
       <>
         <p>You can submit this form online or by mail.</p>
-        <a
-          className="vads-c-action-link--blue"
+        <va-link
           href="/supporting-forms-for-claims/request-priority-processing-form-20-10207"
-        >
-          Submit a request online for priority processing for an existing claim
-        </a>
+          text="Submit a request online for priority processing for an existing claim"
+        />
       </>
     );
   }
