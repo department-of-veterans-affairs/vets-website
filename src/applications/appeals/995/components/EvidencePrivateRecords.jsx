@@ -394,7 +394,6 @@ const EvidencePrivateRecords = ({
           error={showError('country')}
           uswds
         >
-          <option value=""> </option>
           {countries.map(country => (
             <option key={country.value} value={country.value}>
               {country.label}
@@ -449,7 +448,6 @@ const EvidencePrivateRecords = ({
             error={showError('state')}
             uswds
           >
-            <option value=""> </option>
             {hasStates.map(state => (
               <option key={state.value} value={state.value}>
                 {state.label}

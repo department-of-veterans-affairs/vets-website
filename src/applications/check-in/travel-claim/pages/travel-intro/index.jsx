@@ -52,17 +52,11 @@ const TravelIntro = props => {
             </p>
             <ExternalLink
               href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
-              target="_blank"
-              rel="noreferrer"
               eventId="travel-reimbursement-eligibility--link-clicked"
               hrefLang="en"
               eventPrefix="nav"
             >
               {t('travel-reimbursement-eligibility')}
-              <i
-                aria-hidden="true"
-                className="fas fa-external-link-alt vads-u-margin-left--1"
-              />
             </ExternalLink>
           </va-process-list-item>
           <va-process-list-item>
@@ -87,7 +81,6 @@ const TravelIntro = props => {
             <ExternalLink
               href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
               eventId="learn-how-to-file-claims-for-other-expenses--link-clicked"
-              className="vads-c-action-link--blue"
               hrefLang="en"
               eventPrefix="nav"
             >
