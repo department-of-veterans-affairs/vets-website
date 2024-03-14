@@ -6,11 +6,15 @@ import YesNoField from '../web-component-fields/YesNoField';
  * ```js
  * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')
  * hasHealthInsurance: yesNoUI({
- *    title: 'Do you have health insurance coverage?'
- *    labels: {
- *      Y: 'Yes, I have health insurance',
- *      N: 'No, I do not have health insurance',
- *    },
+ *   title: 'Do you have health insurance coverage?'
+ *   labels: {
+ *     Y: 'Yes, I have health insurance',
+ *     N: 'No, I do not have health insurance',
+ *   },
+ *   required: () => true,
+ *   errorMessages: {
+ *     required: 'Make a selection',
+ *   },
  * })
  * ```
  *
@@ -21,6 +25,7 @@ import YesNoField from '../web-component-fields/YesNoField';
  *   description?: UISchemaOptions['ui:description'],
  *   labels?: {Y?: string, N?: string},
  *   tile?: boolean,
+ *   required?: UISchemaOptions['ui:required'],
  *   yesNoReverse?: boolean,
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
@@ -36,6 +41,7 @@ export const yesNoUI = options => {
     description,
     yesNoReverse,
     errorMessages,
+    required,
     ...uiOptions
   } = typeof options === 'object' ? options : { title: options };
 
@@ -45,6 +51,7 @@ export const yesNoUI = options => {
     'ui:widget': 'yesNo', // This is required for the review page to render the field properly
     'ui:webComponentField': YesNoField,
     'ui:errorMessages': errorMessages,
+    'ui:required': required,
     'ui:options': {
       labels: {
         Y: labels?.Y || 'Yes',
