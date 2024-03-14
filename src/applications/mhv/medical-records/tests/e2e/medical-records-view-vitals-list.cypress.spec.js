@@ -18,7 +18,6 @@ describe('Medical Records View Vitals', () => {
       'Blood pressure',
       '130/70',
       'October', //  27, 2023, 7:00 a.m. PDT
-      'ADTP BURNETT',
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -26,7 +25,6 @@ describe('Medical Records View Vitals', () => {
       'Heart rate',
       '70 beats per minute',
       'October',
-      'ADTP BURNETT',
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -34,7 +32,6 @@ describe('Medical Records View Vitals', () => {
       'Breathing rate',
       '15 breaths per minute',
       'October',
-      'ADTP BURNETT',
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -42,32 +39,13 @@ describe('Medical Records View Vitals', () => {
       'Blood oxygen level (pulse oximetry)',
       '98%',
       'October',
-      'ADTP BURNETT',
     );
 
-    VitalsListPage.verifyVitalOnListPage(
-      4,
-      'Temperature',
-      '99 °F',
-      'October',
-      'ADTP BURNETT',
-    );
+    VitalsListPage.verifyVitalOnListPage(4, 'Temperature', '99 °F', 'October');
 
-    VitalsListPage.verifyVitalOnListPage(
-      5,
-      'Weight',
-      '185 pounds',
-      'October',
-      'ADTP BURNETT',
-    );
+    VitalsListPage.verifyVitalOnListPage(5, 'Weight', '185 pounds', 'October');
 
-    VitalsListPage.verifyVitalOnListPage(
-      6,
-      'Height',
-      '70 inches',
-      'October',
-      'ADTP BURNETT',
-    );
+    VitalsListPage.verifyVitalOnListPage(6, 'Height', '70 inches', 'October');
 
     // Axe check
     cy.injectAxe();
