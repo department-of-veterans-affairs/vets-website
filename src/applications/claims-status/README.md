@@ -9,11 +9,15 @@ This tool allows va users to check the status of thier VA claim, decision review
 1. Open up the project in **VSCode** or in a **terminal instance** by cding into the vets-api project.
 2. Once in the vets-api project use the following commands:
 
-  ```code block
-  // If you just did a git pull or this is your first time running the project run this command
-  bundle install
+   - If you just did a git pull or this is your first time running the project run this command
 
-  // Run vets-api locally
+  ```code block
+  bundle install
+  ```
+
+   - Run vets-api locally
+  
+  ```code block
   foreman start -m all=1,clamd=0,freshclam=0
   ```
 
