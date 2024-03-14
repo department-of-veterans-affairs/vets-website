@@ -90,7 +90,7 @@ describe('arrayBuilderChapter required options tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include(
-        'arrayBuilderChapter must include `options.nounSingular` property',
+        'arrayBuilderChapter must include `options.noun` property',
       );
     }
   });
@@ -100,8 +100,7 @@ describe('arrayBuilderChapter required options tests', () => {
       arrayBuilderChapter(pageBuilder => ({
         options: {
           arrayPath: 'employers',
-          nounSingular: 'employer',
-          nounPlural: 'employers',
+          noun: 'employer',
           nextChapterPath: '/next-chapter',
         },
         summaryPage: pageBuilder.summaryPage({
@@ -127,8 +126,7 @@ describe('arrayBuilderChapter required options tests', () => {
       arrayBuilderChapter(pageBuilder => ({
         options: {
           arrayPath: 'employers',
-          nounSingular: 'employer',
-          nounPlural: 'employers',
+          noun: 'employer',
           nextChapterPath: '/next-chapter',
         },
         summaryPage: pageBuilder.summaryPage({

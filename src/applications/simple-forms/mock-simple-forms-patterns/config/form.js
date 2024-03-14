@@ -286,8 +286,7 @@ const formConfig = {
       title: 'Array Multi-Page Builder (WIP)',
       options: {
         arrayPath: 'employers',
-        nounSingular: 'employer',
-        nounPlural: 'employers',
+        noun: 'employer',
         nextChapterPath: '/review-and-submit',
         isIncompleteItem: item =>
           !item?.name ||

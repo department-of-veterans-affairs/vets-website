@@ -1,6 +1,7 @@
 import React from 'react';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
+import pluralize from 'platform/utilities/text/pluralize';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -22,8 +23,7 @@ import ArrayBuilderCards from './ArrayBuilderCards';
 
 /**
  * @typedef {Object} ArrayBuilderOptions
- * @property {string} nounSingular e.g. `employer`
- * @property {string} nounPlural e.g. `employers`
+ * @property {string} noun e.g. `employer`
  * @property {string} arrayPath e.g. `employers`
  * @property {string} nextChapterPath e.g. `/next-chapter`
  * @property {string} [reviewPath] e.g. `/review-and-submit`
@@ -110,8 +110,7 @@ function determineYesNoField(uiSchema) {
  *   title: 'Employment history',
  *   options: {
  *     arrayPath: 'employers',
- *     nounSingular: 'employer',
- *     nounPlural: 'employers',
+ *     noun: 'employer',
  *     nextChapterPath: '/next-chapter',
  *   }
  *   summaryPage: pageBuilder.summaryPage({
@@ -193,23 +192,19 @@ export default function arrayBuilderChapter(configFunction) {
     throwErrorNoOptions();
   }
 
-  const requiredChapterOpts = [
-    'arrayPath',
-    'nounSingular',
-    'nounPlural',
-    'arrayPath',
-    'nextChapterPath',
-  ];
+  const requiredChapterOpts = ['arrayPath', 'noun', 'nextChapterPath'];
   verifyRequiredOptions('chapter', requiredChapterOpts, options);
 
   const {
-    nounSingular,
-    nounPlural,
+    noun,
     arrayPath,
     nextChapterPath,
     reviewPath = '/review-and-submit',
     isIncompleteItem = item => !item?.name, // TODO: update this to use user param
   } = options;
+
+  const nounSingular = noun;
+  const nounPlural = pluralize(noun);
 
   const CustomPageItem = ArrayBuilderItemPage({
     arrayPath,
