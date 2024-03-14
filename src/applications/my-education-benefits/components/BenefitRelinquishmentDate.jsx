@@ -10,14 +10,12 @@ const BenefitRelinquishmentDate = props => {
 
   useEffect(
     () => {
-      if (
-        formData?.mebAutoPopulateRelinquishmentDate &&
-        formData?.benefitEffectiveDate &&
-        !isDateChecked
-      ) {
+      if (formData?.mebAutoPopulateRelinquishmentDate && !isDateChecked) {
         const aYearAgo = moment(new Date()).subtract(1, 'y');
-
-        if (formData?.benefitEffectiveDate.isBefore(aYearAgo)) {
+        if (
+          formData?.benefitEffectiveDate?.isBefore(aYearAgo) ||
+          !formData?.benefitEffectiveDate
+        ) {
           setFormData({
             ...formData,
             benefitEffectiveDate: moment(new Date())
@@ -29,7 +27,7 @@ const BenefitRelinquishmentDate = props => {
         }
       }
     },
-    [isDateChecked],
+    [isDateChecked, formData?.benefitEffectiveDate],
   );
 
   function handleChange(event) {
@@ -50,7 +48,7 @@ const BenefitRelinquishmentDate = props => {
       <DateWidget
         {...props}
         onChange={handleChange}
-        value={formData.benefitEffectiveDate || initialValue}
+        value={formData?.benefitEffectiveDate || initialValue}
       />
       <br />
       <br />
