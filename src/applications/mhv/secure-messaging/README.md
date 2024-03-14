@@ -1,9 +1,11 @@
 # Secure-Messaging application
 
-## Quick start to get running locally
+## Quick start to get running locally - Setup
 Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
   - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
   - run `yarn install`
+
+## Quick start to get running locally - Run
   - turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/mhv/secure-messaging/api/mocks/index.js`
   - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=secure-messaging`
   - Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`

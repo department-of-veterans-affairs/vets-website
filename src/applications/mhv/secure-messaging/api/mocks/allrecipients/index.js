@@ -7,12 +7,26 @@ const allRecipients = {
       attributes: {
         triageTeamId: 1013155,
         name: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-        display: {
-          name: 'Test',
-          facility: 'Portland',
-          type: 'Pharmacy',
+        structured: {
+          visn: '11223344',
+          facility: 'MHV',
+          location: 'Portland, OR',
+          careCategories: ['A', 'B'],
+          group: 'TestGroup',
         },
         stationNumber: '989',
+        blockedStatus: false,
+        preferredTeam: true,
+        relationshipType: 'PATIENT',
+      },
+    },
+    {
+      id: '2710520',
+      type: 'triage_teams_test',
+      attributes: {
+        triageTeamId: 2710520,
+        name: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST _ OLD',
+        stationNumber: '110',
         blockedStatus: false,
         preferredTeam: true,
         relationshipType: 'PATIENT',
