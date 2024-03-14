@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 chai.use(chaiAsPromised);
 
