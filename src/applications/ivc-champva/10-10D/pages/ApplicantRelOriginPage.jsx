@@ -1,27 +1,73 @@
-import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
-import {
-  relationshipToVeteranUI,
-  customRelationshipSchema,
-} from '../components/CustomRelationshipPattern';
-import { applicantWording } from '../helpers/wordingCustomization';
-import ApplicantField from '../components/Applicant/ApplicantField';
-import {
-  titleUI,
-  titleSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import ApplicantRelationshipPage from './ApplicantRelationshipPage';
+import ApplicantRelationshipPage, {
+  ApplicantRelationshipReviewPage,
+  appRelBoilerplate,
+} from './ApplicantRelationshipPage';
+
+const KEYNAME = 'applicantRelationshipOrigin';
 
 function generateOptions({ data, pagePerItemIndex }) {
-  const { keyname } = data;
-  const currentListItem = data?.applicants?.[pagePerItemIndex];
-  const personTitle = 'Sponsor';
-  const applicant = applicantWording(currentListItem); // todo: use new args
+  const {
+    currentListItem,
+    personTitle,
+    applicant,
+    useFirstPerson,
+    relativeBeingVerb,
+    relativePossessive,
+  } = appRelBoilerplate({ data, pagePerItemIndex });
+
+  const customTitle = `${
+    useFirstPerson ? `Your` : `${applicant}’s`
+  } relationship to the ${personTitle} (continued)`;
+
+  // Create dynamic radio labels based on above phrasing
+  const options = [
+    {
+      label: `${relativeBeingVerb} a biological child of the ${personTitle}`,
+      value: 'blood',
+    },
+    {
+      label: `${relativeBeingVerb} a stepchild of the ${personTitle}`,
+      value: 'step',
+    },
+    {
+      label: `${relativeBeingVerb} an adopted child of the ${personTitle}`,
+      value: 'adoption',
+    },
+    {
+      label: `${
+        applicant && !useFirstPerson ? `${applicant} doesn’t` : 'We don’t'
+      } have a relationship that’s listed here`,
+      value: 'other',
+    },
+  ];
+
+  return {
+    options,
+    useFirstPerson,
+    relativePossessive,
+    relativeBeingVerb,
+    applicant,
+    personTitle,
+    keyname: KEYNAME,
+    currentListItem,
+    customTitle,
+    description: customTitle,
+  };
 }
 
-export default function ApplicantRelOriginPage(props) {
-  // TODO:
-  // - [X] Add a prop to applicantrelationshippage === generateOptions()
-  // - [X] Update applicantrelationshippage to take prop that === keyname (applicantRelationshipOrigin)
-  const newProps = { ...props, keyname: 'applicantRelationshipOrigin' };
+export function ApplicantRelOriginPage(props) {
+  const newProps = {
+    ...props,
+    keyname: KEYNAME,
+    genOp: generateOptions,
+  };
   return ApplicantRelationshipPage(newProps);
+}
+export function ApplicationRelOriginReviewPage(props) {
+  const newProps = {
+    ...props,
+    keyname: KEYNAME,
+    genOp: generateOptions,
+  };
+  return ApplicantRelationshipReviewPage(newProps);
 }

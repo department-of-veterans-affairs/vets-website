@@ -12,8 +12,8 @@ import { applicantWording } from '../helpers/wordingCustomization';
 
 const KEYNAME = 'applicantRelationshipToSponsor';
 
-function generateOptions({ data, pagePerItemIndex }) {
-  const keyname = data.keyname || KEYNAME;
+export function appRelBoilerplate({ data, pagePerItemIndex }) {
+  const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
   const applicant = applicantWording(currentListItem, undefined, false);
@@ -35,6 +35,28 @@ function generateOptions({ data, pagePerItemIndex }) {
     true,
     false,
   );
+
+  return {
+    keyname,
+    currentListItem,
+    personTitle,
+    applicant,
+    useFirstPerson,
+    relativeBeingVerb,
+    relativePossessive,
+  };
+}
+
+function generateOptions({ data, pagePerItemIndex }) {
+  const {
+    keyname,
+    currentListItem,
+    personTitle,
+    applicant,
+    useFirstPerson,
+    relativeBeingVerb,
+    relativePossessive,
+  } = appRelBoilerplate({ data, pagePerItemIndex });
 
   // Create dynamic radio labels based on above phrasing
   const options = [
@@ -77,7 +99,7 @@ const relationshipStructure = {
 };
 
 export function ApplicantRelationshipReviewPage(props) {
-  const { data } = props || {};
+  const { data, keyname = KEYNAME } = props || {};
   const genOps = props.genOp || generateOptions;
   const {
     currentListItem,
@@ -85,7 +107,6 @@ export function ApplicantRelationshipReviewPage(props) {
     description,
     useFirstPerson,
     applicant,
-    keyname,
     personTitle,
   } = genOps(props);
   const other = currentListItem?.[keyname]?.otherRelationshipToVeteran;
@@ -151,6 +172,7 @@ export default function ApplicantRelationshipPage({
     useFirstPerson,
     applicant,
     personTitle,
+    customTitle,
   } = genOps({
     data,
     pagePerItemIndex,
@@ -217,9 +239,10 @@ export default function ApplicantRelationshipPage({
     <>
       {
         titleUI(
-          `${
-            useFirstPerson ? `Your` : `${applicant}’s`
-          } relationship to the ${personTitle}`,
+          customTitle ||
+            `${
+              useFirstPerson ? `Your` : `${applicant}’s`
+            } relationship to the ${personTitle}`,
         )['ui:title']
       }
 

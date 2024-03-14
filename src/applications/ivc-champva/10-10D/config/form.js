@@ -88,11 +88,9 @@ import ApplicantOhiStatusPage, {
 import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
 import { hasReq } from '../components/File/MissingFileOverview';
 
-import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
-
 import { fileTypes, fileWithMetadataSchema } from './attachments';
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
@@ -106,7 +104,10 @@ import FileViewField, {
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
 import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
-import ApplicantRelOriginPage from '../pages/ApplicantRelOriginPage';
+import {
+  ApplicantRelOriginPage,
+  ApplicationRelOriginReviewPage,
+} from '../pages/ApplicantRelOriginPage';
 
 // Used to condense some repetitive schema boilerplate
 const maxApplicants = 3;
@@ -155,7 +156,7 @@ const formConfig = {
   },
   formId: '10-10D',
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
     collapsibleNavLinks: true,
   },
   saveInProgress: {
@@ -181,7 +182,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -866,7 +867,8 @@ const formConfig = {
           path: 'applicant-information/:index/child-info',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
+          title: item =>
+            `${applicantWording(item)} relationship to sponsor (continued)`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -876,28 +878,11 @@ const formConfig = {
               ) === 'child'
             );
           },
-          // CustomPage: ApplicantRelOriginPage,
-          // CustomPageReview: null,
-          // if sponsor deceased
+          CustomPage: ApplicantRelOriginPage,
+          CustomPageReview: ApplicationRelOriginReviewPage,
           uiSchema: {
             applicants: {
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} relationship to sponsor`,
-                ),
-                'ui:description': AdditionalDocumentationAlert(),
-                applicantRelationshipOrigin: relationshipToVeteranUI({
-                  personTitle: 'sponsor',
-                  relativeTitle: 'relative',
-                  customLabels: {
-                    blood: 'Blood',
-                    adoption: 'Adoption',
-                    step: 'Stepchild',
-                  },
-                  prependRelative: true,
-                }),
-              },
+              items: {},
               'ui:options': {
                 viewField: ApplicantField,
               },
@@ -1033,7 +1018,7 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
-                'applicantRelationshipOrigin',
+                'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'adoption'
             );
@@ -1091,7 +1076,7 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
-                'applicantRelationshipOrigin',
+                'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'step'
             );
