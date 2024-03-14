@@ -15,7 +15,7 @@ const initializeDatadogRum = config => {
 const setRumUser = user => {
   if (user.loggedIn) {
     datadogRum.setUser({
-      id: user.accountUuid || 'no-account-uuid-found',
+      id: user.id || 'no-id-found',
     });
   }
 };
@@ -37,6 +37,7 @@ const useDatadogRum = config => {
   );
 };
 
+// REMINDER: Also be conscience of PII and Datadog
 const useDatadogRumUser = user => {
   useEffect(
     () => {
@@ -46,9 +47,7 @@ const useDatadogRumUser = user => {
         // Only run if DD is configured.
         window.DD_RUM?.getInitConfiguration() &&
         // Not during unit tests
-        !window.Mocha &&
-        // only in staging until testing is validated
-        environment.isStaging()
+        !window.Mocha
       ) {
         setRumUser(user);
       }

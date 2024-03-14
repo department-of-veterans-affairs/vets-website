@@ -14,7 +14,6 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
-  useDatadogRumUser,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
@@ -98,17 +97,7 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
-    () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUuid,
-      };
-    },
-    [user?.login?.currentlyLoggedIn, user?.profile?.accountUuid],
-  );
   useDatadogRum(datadogRumConfig);
-  useDatadogRumUser(userDetails);
   if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
