@@ -13,6 +13,7 @@ import idInfoThirdPartyNonVetPg from '../pages/idInfoThirdPartyNonVeteran';
 // import nameAndDobPg from '../pages/nameAndDateofBirth';
 // import idInfoPg from '../pages/idInfo';
 import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
+import vetNameAndDobPgB from '../pages/veteranNameAndDateofBirthB';
 import nonVetNameAndDobPg from '../pages/nonVeteranNameAndDateOfBirth';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import nonVetIdInfoPg from '../pages/nonVeteranIdInfo';
@@ -355,8 +356,8 @@ const formConfig = {
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'veteran-name-and-date-of-birth-b',
           title: 'Veteran’s name and date of birth',
-          uiSchema: vetNameAndDobPg.uiSchema,
-          schema: vetNameAndDobPg.schema,
+          uiSchema: vetNameAndDobPgB.uiSchema,
+          schema: vetNameAndDobPgB.schema,
           pageClass: 'veteran-name-and-date-of-birth',
         },
         veteranIdentificationInformationPageB: {
