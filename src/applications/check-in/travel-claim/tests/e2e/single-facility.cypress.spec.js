@@ -14,14 +14,17 @@ describe('Single Facility Travel Claim', () => {
       initializeFeatureToggle,
       initializeSessionGet,
       initializeSessionPost,
-      initializeCheckInDataGetOH,
+      initializeBtsssPost,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
-    initializeCheckInDataGetOH.withSuccess(sharedData.get.defaultUUID);
+    initializeBtsssPost.withSuccess();
   });
   it('should successfully file a travel claim for a patient with a single appointment', () => {
+    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
+      sharedData.get.defaultUUID,
+    );
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
     cy.injectAxeThenAxeCheck();
@@ -56,7 +59,54 @@ describe('Single Facility Travel Claim', () => {
     TravelPages.attemptToGoToNextPage();
 
     TravelComplete.validatePageLoaded();
+    TravelComplete.validateContent('single-claim-single-appointment');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Complete');
+    cy.createScreenshots(
+      'Travel-claim--single-claim-single-appointment--Complete',
+    );
+  });
+  it('should successfully file a travel claim for a patient with multiple appointments', () => {
+    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
+      sharedData.get.multiApptSingleFacilityUUID,
+    );
+    cy.visitTravelClaimWithUUID();
+    ValidateVeteran.validatePage.travelClaim();
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--Validate');
+    ValidateVeteran.validateVeteran();
+    ValidateVeteran.attemptToGoToNextPage();
+
+    TravelIntro.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--Intro');
+    TravelIntro.attemptToGoToNextPage();
+
+    TravelMileage.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--Mileage');
+    TravelMileage.attemptToGoToNextPage();
+
+    TravelPages.validatePageLoaded('vehicle');
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--Vehicle');
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageLoaded('address');
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--Address');
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageLoaded('review');
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--Review');
+    TravelPages.acceptTerms();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelComplete.validatePageLoaded();
+    TravelComplete.validateContent('single-claim-multiple-appointments');
+    cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Travel-claim--single-claim-multiple-appointments--Complete',
+    );
   });
 });

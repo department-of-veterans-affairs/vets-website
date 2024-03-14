@@ -375,4 +375,6 @@ module.exports = {
   mockDemographics,
   createMockFailedResponse,
   createMockNotFoundResponse,
+  multiApptSingleFacilityUUID,
+  multiApptMultiFacilityUUID,
 };
