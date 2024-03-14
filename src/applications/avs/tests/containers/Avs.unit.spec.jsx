@@ -1,7 +1,8 @@
 import React from 'react';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
@@ -37,15 +38,12 @@ describe('Avs container', () => {
       },
     },
   };
-  const props = {
-    params: {
-      id: '9A7AF40B2BC2471EA116891839113252',
-    },
-  };
+  const id = '9A7AF40B2BC2471EA116891839113252';
+  const props = {};
 
   it('user is not logged in', () => {
     // expected behavior is be redirected to the home page with next in the url
-    renderWithStoreAndRouter(<Avs {...props} />, {
+    const screen = renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
       initialState,
     });
 
@@ -54,7 +52,7 @@ describe('Avs container', () => {
   });
 
   it('feature flags are still loading', () => {
-    const screen = renderWithStoreAndRouter(<Avs {...props} />, {
+    const screen = renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
       initialState: {
         ...initialState,
         featureToggles: {
@@ -71,14 +69,16 @@ describe('Avs container', () => {
   });
 
   it('feature flag set to false', () => {
-    renderWithStoreAndRouter(<Avs {...props} />, { initialState });
+    renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
+      initialState
+    });
     expect(window.location.replace.called).to.be.true;
     expect(window.location.replace.firstCall.args[0]).to.eq('/');
   });
 
   it('feature flag set to true', async () => {
     mockApiRequest(mockAvs);
-    const screen = renderWithStoreAndRouter(<Avs {...props} />, {
+    const screen = renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
       initialState: {
         ...initialState,
         featureToggles: {
@@ -101,13 +101,45 @@ describe('Avs container', () => {
     });
   });
 
+  it('User is redirected when visiting base path', async () => {
+    renderInReduxProvider(
+      <MemoryRouter initialEntries={['/']}>
+        <Route path={'/'}>
+          <Avs {...props} />
+        </Route>
+      </MemoryRouter>, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          avs_enabled: true,
+          loading: false,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
+        },
+      },
+    });
+
+    expect(window.location.replace.called).to.be.true;
+    expect(window.location.replace.firstCall.args[0]).to.eq('/my-health/medical-records/summaries-and-notes/');
+  });
+
   it('API request fails', async () => {
     mockApiRequest({}, false);
-    const screen = renderWithStoreAndRouter(
-      <ErrorBoundary>
-        <Avs {...props} />
-      </ErrorBoundary>,
-      {
+    const screen = renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/${id}`]}>
+        <Route path={'/:id'}>
+          <ErrorBoundary>
+            <Avs {...props} />
+          </ErrorBoundary>
+        </Route>
+      </MemoryRouter>, {
         initialState: {
           ...initialState,
           featureToggles: {
