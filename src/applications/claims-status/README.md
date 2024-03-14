@@ -11,15 +11,15 @@ This tool allows va users to check the status of thier VA claim, decision review
 
    - If you just did a git pull or this is your first time running the project run this command
 
-  ```code block
-  bundle install
-  ```
+    ```code block
+    bundle install
+    ```
 
    - Run vets-api locally
   
-  ```code block
-  foreman start -m all=1,clamd=0,freshclam=0
-  ```
+    ```code block
+    foreman start -m all=1,clamd=0,freshclam=0
+    ```
 
 ### Run vets-website locally
 
@@ -31,13 +31,17 @@ This tool allows va users to check the status of thier VA claim, decision review
 
 3. Once in the vets-website project use the following commands:
 
-  ```code block
-  // If you just did a git pull or this is your first time running the project run this command
-  yarn install
+   - If you just did a git pull or this is your first time running the project run this command
 
-  // Run vets-website locally
-  yarn watch --env entry=auth,claims-status,static-pages,login-page,terms-of-use,verify
-  ```
+    ```code block
+    yarn install
+    ```
+
+   - Run vets-website locally
+  
+    ```code block
+    yarn watch --env entry=auth,claims-status,static-pages,login-page,terms-of-use,verify
+    ```
 
 ### How to login into localhost and view the claim status tool
 
