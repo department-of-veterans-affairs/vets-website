@@ -15,7 +15,7 @@ const keyname = 'applicantRelationshipToSponsor';
 function generateOptions({ data, pagePerItemIndex }) {
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
-  const applicant = applicantWording(currentListItem).slice(0, -3); // remove 's_
+  const applicant = applicantWording(currentListItem, undefined, false);
 
   // Determine what tense/person the phrasing should be in
   const useFirstPerson =
@@ -28,9 +28,12 @@ function generateOptions({ data, pagePerItemIndex }) {
       : `${data.sponsorIsDeceased ? 'I was' : 'I’m'}`
   }`}`;
 
-  const relativePossessive = `${`${
-    useFirstPerson ? 'your' : `${applicant}’s`
-  }`}`;
+  const relativePossessive = applicantWording(
+    currentListItem,
+    undefined,
+    true,
+    false,
+  );
 
   // Create dynamic radio labels based on above phrasing
   const options = [
@@ -209,7 +212,7 @@ export default function ApplicantRelationshipPage({
       {
         titleUI(
           `${
-            useFirstPerson ? `Your` : `${applicant}'s`
+            useFirstPerson ? `Your` : `${applicant}’s`
           } relationship to the ${personTitle}`,
         )['ui:title']
       }
@@ -218,8 +221,9 @@ export default function ApplicantRelationshipPage({
         <VaRadio
           class="vads-u-margin-y--2"
           label={`What's ${
-            useFirstPerson ? `your` : `${applicant}'s`
+            useFirstPerson ? `your` : `${applicant}’s`
           } relationship to the ${personTitle}?`}
+          hint="Depending on your response, you may need to submit additional documents with this application."
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
