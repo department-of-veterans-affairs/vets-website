@@ -289,7 +289,7 @@ jobs:
           NUM_CONTAINERS: 10
       
       - name: Archive unit test results
-        if: ${{ always() }}
+        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-report-${{ matrix.ci_node_index }}
@@ -298,13 +298,14 @@ jobs:
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
       - name: Rename Coverage Summary file
+        if: ${{ env.NO_APPS_TO_RUN == 'false' }}
         run: |
           cd coverage
           mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
         
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
-        if: ${{ always() }}
+        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         with:
           name: unit-test-coverage-${{ matrix.ci_node_index }}
           # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
