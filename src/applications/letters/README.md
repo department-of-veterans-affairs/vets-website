@@ -55,22 +55,17 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 > Replace the User Name with your AWS user name ex: Jim.Frank
 > Replace the MFA Code with the 6 digit code that you see on your MFA app for AWS
 
-    ```code block
-    source ./issue_mfa.sh <User Name> <MFA Code>
-    ```
+  ```source ./issue_mfa.sh <User Name> <MFA Code>```
 
-   - Get a list of the current forward proxy instances in staging
+  - Get a list of the current forward proxy instances in staging
 
 > [!TIP]
 > The private ip addresses will be used below and **q key** with the **enter key** lets you exit
+> EX:
+> | Instance ID | Private Ip | Name |
+> | i-00c543a63d6753411 | 10.247.35.112 | dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg |
 
-    ```code block
-    ./ssm.sh fwdproxy staging
-    ```
-
-      EX:
-      | Instance ID | Private Ip | Name |
-      | i-00c543a63d6753411 | 10.247.35.112 | dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg |
+  ```./ssm.sh fwdproxy staging```
 
    - Create the ssh tunnel
 
@@ -78,16 +73,13 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 > In the IP Address replace the . with -
 > EX:10.247.35.112 => 10-247-35-112
 
-    ```code block
-      ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
-    ```
+  ```ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal```
 
-    > [!TIP]
-    > When it asks you "Are you sure you want to continue connecting?" type yes
-
-    > [!TIP]
-    > If you have issues with the above command then run the socks command
-    > ```vtk socks on```
+> [!TIP]
+> When it asks you "Are you sure you want to continue connecting?" type yes
+> [!TIP]
+> If you have issues with the above command then run the socks command
+> ```vtk socks on```
 
 ### Run vets-api locally
 
