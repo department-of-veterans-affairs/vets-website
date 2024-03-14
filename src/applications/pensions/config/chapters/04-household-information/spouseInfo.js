@@ -1,7 +1,9 @@
 import merge from 'lodash/merge';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
+  ssnSchema,
   ssnUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -12,8 +14,6 @@ import { createSpouseLabelSelector } from '../../../helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 const {
-  spouseDateOfBirth,
-  spouseSocialSecurityNumber,
   spouseVaFileNumber,
   liveWithSpouse,
   spouseIsVeteran,
@@ -23,7 +23,7 @@ const {
 export default {
   uiSchema: {
     ...titleUI(createHouseholdMemberTitle('spouseFullName', 'information')),
-    spouseDateOfBirth: merge({}, currentOrPastDateUI(''), {
+    spouseDateOfBirth: merge({}, currentOrPastDateUI, {
       'ui:options': {
         updateSchema: createSpouseLabelSelector(
           spouseName =>
@@ -82,8 +82,8 @@ export default {
       'view:liveWithSpouse',
     ],
     properties: {
-      spouseDateOfBirth,
-      spouseSocialSecurityNumber,
+      spouseDateOfBirth: currentOrPastDateSchema,
+      spouseSocialSecurityNumber: ssnSchema,
       spouseIsVeteran,
       spouseVaFileNumber,
       'view:liveWithSpouse': liveWithSpouse,
