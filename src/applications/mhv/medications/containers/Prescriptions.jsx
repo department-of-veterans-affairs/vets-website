@@ -440,7 +440,6 @@ const Prescriptions = () => {
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">
               <PrintDownload
-                // print={handleFullListPrint}
                 download={handleFullListDownload}
                 isSuccess={
                   pdfTxtGenerateStatus.status ===
