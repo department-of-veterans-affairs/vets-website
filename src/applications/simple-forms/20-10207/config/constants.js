@@ -309,7 +309,7 @@ export const OTHER_REASONS_3RD_PTY_NON_VET = Object.freeze({
 });
 
 export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -331,11 +331,11 @@ export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
       </ul>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -370,11 +370,11 @@ export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
       </a>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const ALS_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -409,11 +409,11 @@ export const ALS_DESCRIPTION = Object.freeze(
       </a>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const VSI_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -449,7 +449,7 @@ export const VSI_DESCRIPTION = Object.freeze(
       </a>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const POW_MULTIPLE_CONFINEMENTS_LABELS = Object.freeze({
@@ -463,7 +463,7 @@ export const POW_MULTIPLE_CONFINEMENTS_LABELS_3RD_PTY_VET = Object.freeze({
 });
 
 export const POW_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -493,11 +493,11 @@ export const POW_DESCRIPTION = Object.freeze(
       </ul>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -522,5 +522,5 @@ export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
       </ul>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );

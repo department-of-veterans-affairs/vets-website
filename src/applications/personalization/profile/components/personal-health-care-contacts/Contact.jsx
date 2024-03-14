@@ -12,7 +12,7 @@ const CONTACT_TYPES = [
 ];
 
 const DESCRIPTIONS = {
-  [CONTACT_TYPES[0]]: 'The person we’ll contact first in an emergency.',
+  [CONTACT_TYPES[0]]: 'The person we’ll contact in an emergency.',
   [CONTACT_TYPES[1]]:
     'The person we’ll contact if your primary contact isn’t available.',
   [CONTACT_TYPES[2]]:
