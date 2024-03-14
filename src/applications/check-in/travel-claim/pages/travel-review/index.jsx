@@ -21,7 +21,7 @@ const TravelReview = props => {
   const address = useSelector(selectVeteranAddress);
   const onEditClick = e => {
     e.preventDefault();
-    jumpToPage('/travel-mileage');
+    jumpToPage('/travel-pay');
   };
   const agreementLink = e => {
     e.preventDefault();
