@@ -1,6 +1,6 @@
 import {
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
+  dateOfBirthSchema,
+  dateOfBirthUI,
   ssnSchema,
   ssnUI,
   titleUI,
@@ -17,7 +17,7 @@ import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 export default {
   uiSchema: {
     ...titleUI(createHouseholdMemberTitle('spouseFullName', 'information')),
-    spouseDateOfBirth: currentOrPastDateUI({
+    spouseDateOfBirth: dateOfBirthUI({
       title: 'Date of birth',
       updateSchema: createSpouseLabelSelector(
         spouseName => `${spouseName.first} ${spouseName.last}’s date of birth`,
@@ -62,7 +62,7 @@ export default {
       'view:liveWithSpouse',
     ],
     properties: {
-      spouseDateOfBirth: currentOrPastDateSchema,
+      spouseDateOfBirth: dateOfBirthSchema,
       spouseSocialSecurityNumber: ssnSchema,
       spouseIsVeteran: yesNoSchema,
       spouseVaFileNumber: vaFileNumberSchema,
