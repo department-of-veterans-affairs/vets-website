@@ -1,8 +1,11 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import {
+  mockApiRequest,
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';

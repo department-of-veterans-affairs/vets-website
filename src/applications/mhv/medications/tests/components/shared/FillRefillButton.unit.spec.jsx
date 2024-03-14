@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../../reducers';
 import FillRefillButton from '../../../components/shared/FillRefillButton';
 

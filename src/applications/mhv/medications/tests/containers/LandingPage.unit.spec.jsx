@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import LandingPage from '../../containers/LandingPage';
