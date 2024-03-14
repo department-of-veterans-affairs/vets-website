@@ -91,6 +91,8 @@ const splitUnitTests = splitArray(
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
   : splitUnitTests[matrixStep];
+console.log('splitUnitTests:', splitUnitTests[matrixStep]);
+console.log('appsToRun: ', appsToRun);
 if (testsToVerify === null) {
   for (const dir of appsToRun) {
     const updatedPath = options['app-folder']
