@@ -20,6 +20,7 @@ const PeriodsToVerify = ({
   const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
+  const [justVerified, setJustVerified] = useState(false);
 
   const getPeriodsToVerify = () => {
     return pendingEnrollments
@@ -70,6 +71,7 @@ const PeriodsToVerify = ({
     });
     dispatchUpdateVerifications(newVerifiedIDS);
     dispatchVerifyEnrollmentAction();
+    setJustVerified(true);
   };
   useEffect(
     () => {
@@ -109,7 +111,7 @@ const PeriodsToVerify = ({
   return (
     <div id="verifications-pending-alert">
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length > 0 ? (
+        .length > 0 && (
         <va-alert
           close-btn-aria-label="Close notification"
           // class="vads-u-margin-bottom--4"
@@ -131,11 +133,6 @@ const PeriodsToVerify = ({
             />
           </div>
         </va-alert>
-      ) : (
-        <Alert
-          status="success"
-          message="You're up-to-date with your monthly enrollment verification. You'll be able to verify your enrollment next month."
-        />
       )}
       {/* 
                 will need to update logic here/ currently this would not work in prod
@@ -143,11 +140,20 @@ const PeriodsToVerify = ({
                 enrollments even if the user didn't just verify
             */}
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 && (
-        <div>
-          <VerifiedSuccessStatement />
-        </div>
-      )}
+        .length === 0 &&
+        justVerified && (
+          <div>
+            <VerifiedSuccessStatement />
+          </div>
+        )}
+      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
+        .length === 0 &&
+        !justVerified && (
+          <Alert
+            status="success"
+            message="You're up-to-date with your monthly enrollment verification. You'll be able to verify your enrollment next month."
+          />
+        )}
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
         .length === undefined && (
         <div className="vads-u-margin-top--2">
