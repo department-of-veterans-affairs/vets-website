@@ -177,7 +177,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();
@@ -232,7 +232,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();
@@ -312,7 +312,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();
@@ -371,7 +371,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();

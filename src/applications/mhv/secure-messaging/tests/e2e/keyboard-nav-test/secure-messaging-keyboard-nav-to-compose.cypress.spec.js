@@ -10,7 +10,7 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     patientInboxPage.loadInboxMessages();
   });
   it('Keyboard Nav from Welcome Page to Compose', () => {
-    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
