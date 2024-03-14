@@ -26,6 +26,10 @@ function generateOptions({ data, pagePerItemIndex }) {
     useFirstPerson ? `Your` : `${applicant}’s`
   } marriage to the ${personTitle}`;
 
+  const description = `What was ${
+    useFirstPerson ? `your` : `${applicant}’s`
+  } marriage status to the ${personTitle}?`;
+
   const options = [
     {
       label: `${relative} was married to the ${personTitle} at the time of their death and did not remarry`,
@@ -58,7 +62,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     currentListItem,
     customTitle,
-    description: customTitle,
+    description,
   };
 }
 
