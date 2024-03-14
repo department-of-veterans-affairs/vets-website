@@ -7590,6 +7590,11 @@ debug@4, debug@4.3.4, debug@^4.0.0, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, de
     ms "2.1.2"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+debug@^3.1.0, debug@^3.2.7:
+=======
+>>>>>>> 75d2ae7330 (rebase from main)
 debug@4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
@@ -7598,9 +7603,13 @@ debug@4.3.3:
     ms "2.1.2"
 
 debug@^3.1.0, debug@^3.1.1, debug@^3.2.7:
+<<<<<<< HEAD
 =======
 debug@^3.1.0, debug@^3.2.7:
 >>>>>>> 9b51aebd0b (Support/upgrade esbuild (#28260))
+=======
+>>>>>>> 17071a84ec (Bump @babel/traverse from 7.17.3 to 7.23.2)
+>>>>>>> 75d2ae7330 (rebase from main)
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
