@@ -3,7 +3,7 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Assertions, Locators, Paths } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -71,7 +71,7 @@ class FolderLoadPage {
     cy.contains('Back to messages')
       .should('be.visible')
       .click({ force: true });
-    cy.get(Locators.HEADER).should('contain', 'Messages');
+    cy.get(Locators.HEADER).should('contain', Assertions.MESSAGES);
   };
 
   navigateToLastPage = index => {

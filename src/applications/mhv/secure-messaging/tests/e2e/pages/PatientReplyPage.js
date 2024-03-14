@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Assertions, Locators, Paths } from '../utils/constants';
 
 class PatientReplyPage {
   sendReplyMessage = messageId => {
@@ -109,7 +109,7 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('[data-testid="alert-text"]').should(
+    cy.get(Locators.ALERTS.ALERT_TEXT).should(
       'contain.text',
       'Secure message was successfully sent.',
     );
@@ -148,7 +148,7 @@ class PatientReplyPage {
   verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
     cy.get(Locators.REPLY_FORM)
       .find('h1')
-      .should('have.text', "We can't save this message yet");
+      .should('have.text', Assertions.CANT_SAVE_MESSAGE_YET);
 
     cy.contains('Continue editing').should('be.visible');
     cy.contains('Delete draft').should('be.visible');
@@ -157,7 +157,7 @@ class PatientReplyPage {
   verifyContnueButtonMessageDisplay = () => {
     cy.get(Locators.REPLY_FORM)
       .find('va-button')
-      .should('have.attr', 'text', 'Continue editing');
+      .should('have.attr', 'text', Assertions.CONTINUE_EDITING);
   };
 
   verifyDeleteButtonMessageDisplay = () => {

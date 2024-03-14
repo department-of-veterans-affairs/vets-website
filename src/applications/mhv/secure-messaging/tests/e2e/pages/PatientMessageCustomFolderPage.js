@@ -3,7 +3,7 @@ import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-
 import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
-import { Paths, Locators } from '../utils/constants';
+import { Paths, Locators, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 
@@ -240,6 +240,17 @@ class PatientMessageCustomFolderPage {
       .should('be.visible')
       .click();
   };
-}
 
+  VerifyFolderSuccesefullyRenamed = () => {
+    cy.get(Locators.ALERTS.ALERT_TEXT)
+      .should('be.visible')
+      .and('contain.text', Assertions.FOLDER_RENAMED_SUCCESS);
+  };
+
+  VerifySaveText = () => {
+    cy.get('[text="Save"]')
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+  };
+}
 export default new PatientMessageCustomFolderPage();

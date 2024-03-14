@@ -2,7 +2,7 @@ import mockMessage from '../fixtures/message-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
-import { Locators, Paths } from '../utils/constants';
+import { Assertions, Locators, Paths } from '../utils/constants';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
@@ -283,7 +283,7 @@ class PatientMessageDetailsPage {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
+    cy.get(Locators.DELET_MES_CONFIRM, { timeout: 8000 })
       .contains('Messages in the trash folder')
       .should('be.visible');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
@@ -333,7 +333,7 @@ class PatientMessageDetailsPage {
       }`,
       mockMessageDetails,
     ).as('reply-message');
-    cy.get('[data-testid=reply-button-text]').click();
+    cy.get(Locators.BUTTONS.REPLY_BUTTON_TEXT).click();
   };
 
   verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
@@ -390,7 +390,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageIDDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-id"]')
+    cy.get(Locators.MESS_ID)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -399,7 +399,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MES_DATE)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -483,7 +483,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MES_DATE)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -495,7 +495,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageId = messageDetails => {
-    cy.get('[data-testid="message-id"]').should(
+    cy.get(Locators.MESS_ID).should(
       'contain',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
     );
@@ -503,11 +503,11 @@ class PatientMessageDetailsPage {
 
   // temporary changed to 'contain', 'REPLY'
   ReplyToMessageBody = testMessageBody => {
-    cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
+    cy.get(Locators.MESS_BODY).should('contain', testMessageBody);
   };
 
   verifyDeleteMessageConfirmationMessageHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+    cy.focused().should('contain.text', Assertions.DRAFT_DELETED_SUCCESS);
   };
 }
 export default PatientMessageDetailsPage;
