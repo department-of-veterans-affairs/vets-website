@@ -17,6 +17,9 @@ describe('Get labs and tests action', () => {
     const dispatch = sinon.spy();
     return getLabsAndTestsList()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.LabsAndTests.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
         Actions.LabsAndTests.GET_LIST,
       );
     });

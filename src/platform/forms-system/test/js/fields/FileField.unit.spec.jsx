@@ -1297,6 +1297,7 @@ describe('Schemaform <FileField>', () => {
     });
 
     it('should render remove file button as cancel', () => {
+      const onChangeSpy = sinon.spy();
       const { container } = render(
         <FileField
           registry={mockRegistry}
@@ -1306,7 +1307,7 @@ describe('Schemaform <FileField>', () => {
           errorSchema={mockErrorSchemaWithError}
           formData={mockFormDataWithError}
           formContext={formContext}
-          onChange={f => f}
+          onChange={onChangeSpy}
           requiredSchema={requiredSchema}
           enableShortWorkflow
         />,
@@ -1315,6 +1316,11 @@ describe('Schemaform <FileField>', () => {
       // This button is specific to the file that has the error
       const cancelButton = $('.delete-upload', container);
       expect(cancelButton.getAttribute('text')).to.equal('Cancel');
+      fireEvent.click(cancelButton);
+      // clicking cancel should remove errored upload without showing delete
+      // modal
+      expect(onChangeSpy.called).to.be.true;
+      expect($('va-modal[visible="false"]', container)).to.exist;
     });
 
     it('should render delete button for successfully uploaded file', () => {
