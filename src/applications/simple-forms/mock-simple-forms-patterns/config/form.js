@@ -282,7 +282,7 @@ const formConfig = {
         },
       },
     },
-    arrayMuliPageBuilder: arrayBuilderChapter(pages => ({
+    arrayMultiPageBuilder: arrayBuilderChapter(pages => ({
       title: 'Array Multi-Page Builder (WIP)',
       options: {
         arrayPath: 'employers',
