@@ -127,7 +127,6 @@ const TravelReview = props => {
   return (
     <TravelPage
       header={t('review-your-travel-claim')}
-      eyebrow={t('check-in')}
       bodyText={bodyText}
       pageType="travel-review"
       router={router}
