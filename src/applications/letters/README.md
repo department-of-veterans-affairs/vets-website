@@ -61,6 +61,7 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
 > [!TIP]
 > The private ip addresses will be used below and **q key** with the **enter key** lets you exit
+>
 > EX:
 > | Instance ID | Private Ip | Name |
 > | i-00c543a63d6753411 | 10.247.35.112 | dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg |
