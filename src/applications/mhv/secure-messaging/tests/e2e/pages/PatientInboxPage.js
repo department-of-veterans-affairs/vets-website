@@ -557,7 +557,7 @@ class PatientInboxPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
       sortedResponse,
     );
     cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
