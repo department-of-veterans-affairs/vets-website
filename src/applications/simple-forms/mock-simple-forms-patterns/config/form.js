@@ -282,7 +282,7 @@ const formConfig = {
         },
       },
     },
-    arrayMultiPageBuilder: arrayBuilderChapter(pages => ({
+    arrayMultiPageBuilder: arrayBuilderChapter(pageBuilder => ({
       title: 'Array Multi-Page Builder (WIP)',
       options: {
         arrayPath: 'employers',
@@ -297,21 +297,21 @@ const formConfig = {
           !item?.address?.postalCode,
       },
       pages: {
-        multiPageBuilderStart: pages.summaryPage({
+        multiPageBuilderStart: pageBuilder.summaryPage({
           title: 'Array with multiple page builder summary',
           path: 'array-multiple-page-builder-summary',
           uiSchema: arrayMultiPageBuilderSummary.uiSchema,
           schema: arrayMultiPageBuilderSummary.schema,
           depends: includeChapter('arrayMultiPageBuilder'),
         }),
-        multiPageBuilderStepOne: pages.itemFirstPage({
+        multiPageBuilderStepOne: pageBuilder.itemFirstPage({
           title: 'Multiple Page Item Title',
           path: 'array-multiple-page-builder-item-page-1/:index',
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
           depends: includeChapter('arrayMultiPageBuilder'),
         }),
-        multiPageBuilderStepTwo: pages.itemLastPage({
+        multiPageBuilderStepTwo: pageBuilder.itemLastPage({
           title: 'Multiple Page Item Title',
           path: 'array-multiple-page-builder-item-page-2/:index',
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,

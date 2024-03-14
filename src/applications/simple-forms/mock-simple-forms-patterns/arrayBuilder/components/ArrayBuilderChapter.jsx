@@ -43,8 +43,8 @@ function getBasePath(path) {
 
 function throwErrorPage(pageType, option) {
   throw new Error(
-    `arrayBuilderChapter \`pages.${pageType}()\` must include \`${option}\` property like this: ` +
-      `\`arrayBuilderChapter(pages => ({ examplePage: pages.${pageType}({ ${option}: ... }) }))\``,
+    `arrayBuilderChapter \`pageBuilder.${pageType}()\` must include \`${option}\` property like this: ` +
+      `\`arrayBuilderChapter(pageBuilder => ({ examplePage: pageBuilder.${pageType}({ ${option}: ... }) }))\``,
   );
 }
 
@@ -56,20 +56,20 @@ function throwErrorChapter(option) {
 
 function throwErrorNoConfigFunction() {
   throw new Error(
-    'arrayBuilderChapter must include a config function like this `arrayBuilderChapter(pages => { ... })`',
+    'arrayBuilderChapter must include a config function like this `arrayBuilderChapter(pageBuilder => { ... })`',
   );
 }
 
 function throwErrorNoOptions() {
   throw new Error(
     'arrayBuilderChapter must include an `options` property like this: ' +
-      '`arrayBuilderChapter(pages => ({ options: { ... } }))`',
+      '`arrayBuilderChapter(pageBuilder => ({ options: { ... } }))`',
   );
 }
 
 function throwMissingYesNoField() {
   throw new Error(
-    "arrayBuilderChapter `pages.summaryPage()` must include a `uiSchema` that has a property with a `'ui:webComponentField': YesNoField`",
+    "arrayBuilderChapter `pageBuilder.summaryPage()` must include a `uiSchema` that has a property with a `'ui:webComponentField': YesNoField`",
   );
 }
 
@@ -106,7 +106,7 @@ function determineYesNoField(uiSchema) {
  *
  * Example:
  * ```
- * chapterName: arrayBuilderChapter(pages => {
+ * chapterName: arrayBuilderChapter(pageBuilder => {
  *   title: 'Employment history',
  *   options: {
  *     arrayPath: 'employers',
@@ -114,19 +114,19 @@ function determineYesNoField(uiSchema) {
  *     nounPlural: 'employers',
  *     nextChapterPath: '/next-chapter',
  *   }
- *   summaryPage: pages.summaryPage({
+ *   summaryPage: pageBuilder.summaryPage({
  *     title: 'Employment history',
  *     path: '/summary',
  *     uiSchema: ...,
  *     schema: ...
  *   }),
- *   itemFirstPage: pages.itemFirstPage({
+ *   itemFirstPage: pageBuilder.itemFirstPage({
  *     title: 'Name and address of employer or unit',
  *     path: '/employer',
  *     uiSchema: ...,
  *     schema: ...
  *   }),
- *   itemLastPage: pages.itemLastPage({
+ *   itemLastPage: pageBuilder.itemLastPage({
  *     title: 'Name and address of employer or unit',
  *     path: '/employer',
  *     uiSchema: ...,
@@ -135,7 +135,7 @@ function determineYesNoField(uiSchema) {
  * }
  * ```
  *
- * @param {(pages: ArrayBuilderPages) => ArrayBuilderConfig} configFunction
+ * @param {(pageBuilder: ArrayBuilderPages) => ArrayBuilderConfig} configFunction
  * @returns {FormConfigChapter}
  */
 export default function arrayBuilderChapter(configFunction) {
@@ -152,7 +152,7 @@ export default function arrayBuilderChapter(configFunction) {
    *   [key: string]: (config: FormConfigPage) => FormConfigPage,
    * }}
    */
-  const pages = {
+  const pageBuilder = {
     summaryPage: pageConfig => {
       summaryPath = pageConfig.path;
       try {
@@ -188,7 +188,7 @@ export default function arrayBuilderChapter(configFunction) {
   };
 
   // run configFunction once to get initial options
-  const { options } = configFunction(pages);
+  const { options } = configFunction(pageBuilder);
   if (!options) {
     throwErrorNoOptions();
   }
@@ -303,7 +303,7 @@ export default function arrayBuilderChapter(configFunction) {
     }
   };
 
-  pages.summaryPage = pageConfig => {
+  pageBuilder.summaryPage = pageConfig => {
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredOptions('summaryPage', requiredOpts, pageConfig);
 
@@ -318,7 +318,7 @@ export default function arrayBuilderChapter(configFunction) {
     };
   };
 
-  pages.itemFirstPage = pageConfig => {
+  pageBuilder.itemFirstPage = pageConfig => {
     const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredOptions('itemFirstPage', requiredOpts, pageConfig);
@@ -332,7 +332,7 @@ export default function arrayBuilderChapter(configFunction) {
     };
   };
 
-  pages.itemMiddlePage = pageConfig => {
+  pageBuilder.itemMiddlePage = pageConfig => {
     const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredOptions('itemMiddlePage', requiredOpts, pageConfig);
@@ -346,7 +346,7 @@ export default function arrayBuilderChapter(configFunction) {
     };
   };
 
-  pages.itemSinglePage = pageConfig => {
+  pageBuilder.itemSinglePage = pageConfig => {
     const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredOptions('itemSinglePage', requiredOpts, pageConfig);
@@ -360,7 +360,7 @@ export default function arrayBuilderChapter(configFunction) {
     };
   };
 
-  pages.itemLastPage = pageConfig => {
+  pageBuilder.itemLastPage = pageConfig => {
     const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredOptions('itemLastPage', requiredOpts, pageConfig);
@@ -374,5 +374,5 @@ export default function arrayBuilderChapter(configFunction) {
     };
   };
 
-  return configFunction(pages);
+  return configFunction(pageBuilder);
 }
