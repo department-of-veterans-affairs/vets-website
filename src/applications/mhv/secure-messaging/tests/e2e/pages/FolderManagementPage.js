@@ -2,7 +2,8 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
-import { Locators, Alerts, Paths, Assertions } from '../utils/constants';
+import mockMessageWithAttachment from '../fixtures/message-response-withattachments.json';
+import { Locators } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -187,14 +188,14 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
     cy.get(Locators.ALERTS.MOVE_MODAL)
 
-      .find('[class = "form-radio-buttons hydrated"]', {
+      .find('.form-radio-buttons', {
         includeShadowDom: true,
       })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
-      .click();
+      .find('#radiobutton-Deletedinput', { includeShadowDom: true })
+      .click({ force: true });
   };
 
   moveCustomFolderMessageToDifferentFolder = () => {
@@ -229,10 +230,28 @@ class FolderManagementPage {
       {},
     );
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
-    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+    cy.get(`#radiobutton-${folderName}input`)
       .should('exist')
-      .click();
-    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
+      .click({ force: true });
+    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click({ force: true });
+  };
+
+  moveMessageWithAttachment = (
+    folderId = this.foldersSelectors.folderId[0],
+    folderName = this.foldersSelectors.folderName[0],
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `my_health/v1/messaging/threads/${
+        mockCustomResponse.data.attributes.threadId
+      }/move?folder_id=${folderId}`,
+      mockMessageWithAttachment,
+    ).as('moveMessageWithAttachment');
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
+    cy.get(`#radiobutton-${folderName}input`)
+      .should('exist')
+      .click({ force: true });
+    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click({ force: true });
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
