@@ -69,7 +69,7 @@ export default function ProviderSelectionField({
 }
 
 ProviderSelectionField.propTypes = {
-  formData: PropTypes.object,
-  idSchema: PropTypes.object,
-  onChange: PropTypes.object,
+  formData: PropTypes.object.isRequired,
+  idSchema: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
