@@ -16,7 +16,7 @@ describe('<WhatYouNeedToDo>', () => {
         },
       };
       const { container, getByText } = render(
-        <WhatYouNeedToDo claim={claim} useLighthouse />,
+        <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />,
       );
       const expectedText =
         "There's nothing we need from you right now. We'll let you know when there's an update.";
