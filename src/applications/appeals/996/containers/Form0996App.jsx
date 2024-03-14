@@ -130,7 +130,10 @@ export const Form0996App = ({
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <va-loading-indicator message="Please wait while we restart the application for you." />
+        <va-loading-indicator
+          set-focus
+          message="Please wait while we restart the application for you."
+        />
       </h1>
     );
   } else if (

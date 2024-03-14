@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
@@ -44,7 +44,7 @@ describe('Start a new message With Attacments and Errors', () => {
     composePage.attachMessageFromFile('test_image.gif');
     composePage.verifyExpectedAttachmentsCount(4);
     // logic has changed here. After attaching 4th file, Attach File button becomes hidden
-    cy.get('[data-testid="attach-file-input"]').should('not.exist');
+    cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
     // composePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );

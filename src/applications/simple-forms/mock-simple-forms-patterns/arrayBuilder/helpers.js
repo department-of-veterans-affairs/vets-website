@@ -51,3 +51,42 @@ export function onNavForwardKeepUrlParams({ goNextPath, urlParams }) {
 export function onNavBackKeepUrlParams({ goPreviousPath, urlParams }) {
   goPreviousPath(urlParams);
 }
+
+/**
+ * Creates a path with a `add` query param
+ * @param {Object} props
+ * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string | number} props.index
+ * @returns {string} e.g. `/path-summary/0?add=true`
+ */
+export function createArrayBuilderItemAddPath({ basePath, index }) {
+  return `${basePath}/${index}?add=true`;
+}
+
+/**
+ * Creates a path with a `edit` query param
+ * @param {Object} props
+ * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string | number} props.index
+ * @param {boolean} [props.isReview] if coming from the review page
+ * @returns {string} e.g. `/path-summary/0?edit=true`
+ */
+export function createArrayBuilderItemEditPath({ basePath, index, isReview }) {
+  return `${basePath}/${index}?edit=true${isReview ? '&review=true' : ''}`;
+}
+
+/**
+ * Creates a path with a `updated` query param
+ * @param {Object} props
+ * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.nounSingular e.g. `employer`
+ * @param {string | number} props.index
+ * @returns {string} e.g. `/path-summary?updated=employer-0`
+ */
+export function createArrayBuilderUpdatedPath({
+  basePath,
+  nounSingular,
+  index,
+}) {
+  return `${basePath}?updated=${nounSingular}-${index}`;
+}

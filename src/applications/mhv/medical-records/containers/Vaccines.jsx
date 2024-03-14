@@ -14,6 +14,7 @@ import {
   ALERT_TYPE_ERROR,
   pageTitles,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -30,6 +31,7 @@ import {
   formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import {
   crisisLineHeader,
@@ -45,8 +47,13 @@ import usePrintTitle from '../../shared/hooks/usePrintTitle';
 const Vaccines = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const listState = useSelector(state => state.mr.vaccines.listState);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
+  const refresh = useSelector(state => state.mr.refresh);
+  const vaccinesCurrentAsOf = useSelector(
+    state => state.mr.vaccines.listCurrentAsOf,
+  );
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -55,12 +62,14 @@ const Vaccines = props => {
   );
   const activeAlert = useAlerts(dispatch);
 
-  useEffect(
-    () => {
-      dispatch(getVaccinesList());
-    },
-    [dispatch],
-  );
+  useListRefresh({
+    listState,
+    listCurrentAsOf: vaccinesCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getVaccinesList,
+    dispatch,
+  });
 
   useEffect(
     () => {
