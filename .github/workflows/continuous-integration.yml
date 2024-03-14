@@ -153,7 +153,7 @@ jobs:
       unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
-      cypress-tests: ${{ steps.tests.outputs.selected }}
+      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
       cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
