@@ -1,4 +1,4 @@
-# Claim Status Tool
+# Letters
 
 To receive some benefits, Veterans need a letter proving their status. This service allows VA users to access and download their VA Benefit Summary Letter (sometimes called a VA award letter) and other benefit letters and documents online.
 
@@ -51,9 +51,9 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
    - Generate temporary credentials for AWS.
 
-    > [!TIP]
-    > Replace the User Name with your AWS user name ex: Jim.Frank
-    > Replace the MFA Code with the 6 digit code that you see on your MFA app for AWS
+> [!TIP]
+> Replace the User Name with your AWS user name ex: Jim.Frank
+> Replace the MFA Code with the 6 digit code that you see on your MFA app for AWS
 
     ```code block
     source ./issue_mfa.sh <User Name> <MFA Code>
@@ -61,8 +61,8 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
    - Get a list of the current forward proxy instances in staging
 
-    > [!TIP]
-    > The private ip addresses will be used below and **q key** with the **enter key** lets you exit
+> [!TIP]
+> The private ip addresses will be used below and **q key** with the **enter key** lets you exit
 
     ```code block
     ./ssm.sh fwdproxy staging
@@ -74,9 +74,9 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
    - Create the ssh tunnel
 
-    > [!TIP]
-    > In the IP Address replace the . with -
-    > EX:10.247.35.112 => 10-247-35-112
+> [!TIP]
+> In the IP Address replace the . with -
+> EX:10.247.35.112 => 10-247-35-112
 
     ```code block
       ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
