@@ -98,28 +98,29 @@ console.log('matrix step: ', matrixStep);
 console.log('splitUnitTests:', splitUnitTests[matrixStep]);
 console.log('appsToRun: ', appsToRun);
 if (testsToVerify === null) {
-  for (const dir of appsToRun) {
-    const updatedPath = options['app-folder']
-      ? options.path.map(p => `'${p}'`).join(' ')
-      : options.path[0].replace(
-          `/${specDirs}/`,
-          `/${JSON.parse(dir).join('/')}/`,
-        );
-    const testsToRun = options['app-folder']
-      ? `--recursive ${updatedPath}`
-      : `--recursive ${glob.sync(updatedPath)}`;
-    const command = `LOG_LEVEL=${options[
-      'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
-      /,/g,
-      ' ',
-    )} `;
-    if (testsToRun !== '') {
-      runCommand(command);
-    } else {
-      console.log('This app has no tests to run');
+  if (appsToRun.length && appsToRun.length > 0)
+    for (const dir of appsToRun) {
+      const updatedPath = options['app-folder']
+        ? options.path.map(p => `'${p}'`).join(' ')
+        : options.path[0].replace(
+            `/${specDirs}/`,
+            `/${JSON.parse(dir).join('/')}/`,
+          );
+      const testsToRun = options['app-folder']
+        ? `--recursive ${updatedPath}`
+        : `--recursive ${glob.sync(updatedPath)}`;
+      const command = `LOG_LEVEL=${options[
+        'log-level'
+      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+        /,/g,
+        ' ',
+      )} `;
+      if (testsToRun !== '') {
+        runCommand(command);
+      } else {
+        console.log('This app has no tests to run');
+      }
     }
-  }
 } else {
   const command = `LOG_LEVEL=${options[
     'log-level'
