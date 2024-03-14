@@ -12,7 +12,7 @@ describe('applicantWording helper', () => {
       applicantWording({
         applicantName: { first: 'firstname', last: 'lastname' },
       }),
-    ).to.equal("firstname lastname's ");
+    ).to.equal('firstname lastname’s');
   });
 });
 
