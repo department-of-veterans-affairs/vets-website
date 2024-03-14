@@ -65,7 +65,10 @@ function generateOptions({ data, pagePerItemIndex }) {
     marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
   } else {
     marriageOptions.push({ label: marriedLiving, value: 'spouse' });
-    marriageOptions.push({ label: marriedLivingDivorced, value: 'spouse' });
+    marriageOptions.push({
+      label: marriedLivingDivorced,
+      value: 'spouseSeparated',
+    });
   }
 
   // Create dynamic radio labels based on above phrasing
