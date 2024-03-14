@@ -16,6 +16,7 @@ import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
 import { URLS } from '../../../utils/navigation';
 import TravelWarningAlert from '../../TravelWarningAlert';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const ConfirmablePage = ({
   header,
@@ -50,8 +51,11 @@ const ConfirmablePage = ({
   const onYesClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `yes-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
+        `yes-to-${pageType}${
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
+        }-clicked`,
         'nav',
+        app,
       ),
     });
     yesAction();
@@ -60,8 +64,11 @@ const ConfirmablePage = ({
   const onNoClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `no-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
+        `no-to-${pageType}${
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
+        }-clicked`,
         'nav',
+        app,
       ),
     });
     noAction();

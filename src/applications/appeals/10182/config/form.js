@@ -199,6 +199,7 @@ const formConfig = {
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceIntro: {
           title: 'Additional evidence',
@@ -220,6 +221,7 @@ const formConfig = {
           depends: needsHearingType,
           uiSchema: hearingType.uiSchema,
           schema: hearingType.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },
