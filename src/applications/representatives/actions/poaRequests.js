@@ -8,8 +8,9 @@ const settings = {
 };
 
 const handlePOARequest = async (veteranId, action) => {
+  console.log(process.env.API_HOST);
   try {
-    const resource = `/poa_requests/${veteranId}/${action}`;
+    const resource = `/accredited_representatives/http://${process.env.API_HOST}:3000/V0/accept`;
     const response = await apiRequest(resource, settings);
 
     if (!response.ok) {
