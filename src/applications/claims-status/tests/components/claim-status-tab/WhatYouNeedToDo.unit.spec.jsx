@@ -8,7 +8,7 @@ import WhatYouNeedToDo from '../../../components/claim-status-tab/WhatYouNeedToD
 describe('<WhatYouNeedToDo>', () => {
   context('when useLighthouse true', () => {
     const useLighthouse = true;
-    it('should render no-documents description when there are no flies needed', () => {
+    it('should render no-documents description when there are no files needed', () => {
       const claim = {
         attributes: {
           open: false,
@@ -16,7 +16,7 @@ describe('<WhatYouNeedToDo>', () => {
         },
       };
       const { container, getByText } = render(
-        <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />,
+        <WhatYouNeedToDo claim={claim} useLighthouse />,
       );
       const expectedText =
         "There's nothing we need from you right now. We'll let you know when there's an update.";
