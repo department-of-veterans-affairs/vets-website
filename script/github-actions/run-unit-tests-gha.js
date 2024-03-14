@@ -91,6 +91,10 @@ const splitUnitTests = splitArray(
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
   : splitUnitTests[matrixStep];
+console.log('dirs length: ', allUnitTestDirs.length);
+console.log('num containers: ', numContainers);
+console.log('divided: ', allUnitTestDirs.length / numContainers);
+console.log('matrix step: ', matrixStep);
 console.log('splitUnitTests:', splitUnitTests[matrixStep]);
 console.log('appsToRun: ', appsToRun);
 if (testsToVerify === null) {
