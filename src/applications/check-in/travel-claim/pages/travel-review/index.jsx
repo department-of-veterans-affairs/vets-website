@@ -45,6 +45,7 @@ const TravelReview = props => {
       })} ${facility.facility}`;
     }),
     t('and'),
+    false,
   );
 
   const bodyText = (
