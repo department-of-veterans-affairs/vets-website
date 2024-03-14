@@ -88,11 +88,9 @@ import ApplicantOhiStatusPage, {
 import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
 import { hasReq } from '../components/File/MissingFileOverview';
 
-import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
-
 import { fileTypes, fileWithMetadataSchema } from './attachments';
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
@@ -106,6 +104,10 @@ import FileViewField, {
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
 import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
+import {
+  ApplicantRelOriginPage,
+  ApplicationRelOriginReviewPage,
+} from '../pages/ApplicantRelOriginPage';
 
 // Used to condense some repetitive schema boilerplate
 const maxApplicants = 3;
@@ -180,7 +182,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -861,6 +863,41 @@ const formConfig = {
             },
           },
         },
+        page18c: {
+          path: 'applicant-information/:index/child-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} relationship to sponsor (continued)`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child'
+            );
+          },
+          CustomPage: ApplicantRelOriginPage,
+          CustomPageReview: ApplicationRelOriginReviewPage,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'ui:description': blankSchema,
+            applicantRelationshipOrigin: customRelationshipSchema([
+              'blood',
+              'adoption',
+              'step',
+            ]),
+          }),
+        },
         page18a: {
           path: 'applicant-information/:index/child-documents',
           arrayPath: 'applicants',
@@ -968,51 +1005,6 @@ const formConfig = {
             ),
           }),
         },
-        page18c: {
-          path: 'applicant-information/:index/child-info',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'child'
-            );
-          },
-          uiSchema: {
-            applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} relationship to sponsor`,
-                ),
-                'ui:description': AdditionalDocumentationAlert(),
-                applicantRelationshipOrigin: radioUI({
-                  title: 'Question regarding blood relation status',
-                  required: () => true,
-                  labels: {
-                    blood: 'Blood',
-                    adoption: 'Adoption',
-                    step: 'Stepchild',
-                  },
-                }),
-              },
-            },
-          },
-          schema: applicantListSchema([], {
-            titleSchema,
-            'ui:description': blankSchema,
-            applicantRelationshipOrigin: radioSchema([
-              'blood',
-              'adoption',
-              'step',
-            ]),
-          }),
-        },
         page18d: {
           path: 'applicant-information/:index/adoption-documents',
           arrayPath: 'applicants',
@@ -1026,7 +1018,7 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
-                'applicantRelationshipOrigin',
+                'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'adoption'
             );
@@ -1084,7 +1076,7 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
-                'applicantRelationshipOrigin',
+                'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'step'
             );
