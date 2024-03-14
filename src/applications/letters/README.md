@@ -36,38 +36,58 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
 4. In a terminal do the following:
 
-  ```code block
-  // Go into devops/utilities
-  cd devops/utilities
+   - Go into devops/utilities
 
-  // If you havent added jq or awscli then brew install them
-  brew install jq
-  brew install awscli
+    ```code block
+    cd devops/utilities
+    ```
 
-  // Generate temporary credentials for AWS 
-  // Replace the User Name with your AWS user name ex: Jim.Frank
-  // Replace the MFA Code with the 6 digit code that you see on your MFA app for // AWS
-  source ./issue_mfa.sh <User Name> <MFA Code>
+   - If you havent added jq or awscli then brew install them
 
-  //Get a list of the current forward proxy instances in staging
-  // NOTE: The private ip addresses will be used below and q key with the enter key  // lets you exit
+    ```code block
+    brew install jq
+    brew install awscli
+    ```
 
-  // EX: 
-  // Instance ID		Private Ip	Name
-  // i-00c543a63d6753411	10.247.35.112	dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg
+   - Generate temporary credentials for AWS.
 
-  ./ssm.sh fwdproxy staging
+    > [!TIP]
+    > Replace the User Name with your AWS user name ex: Jim.Frank
+    > Replace the MFA Code with the 6 digit code that you see on your MFA app for AWS
 
-  // This command will create the ssh tunnel
-  // Note: In the IP Address replace the . with -
-  // EX:10.247.35.112 => 10-247-35-112
-  ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
-  // When it asks you "Are you sure you want to continue connecting?" type yes
+    ```code block
+    source ./issue_mfa.sh <User Name> <MFA Code>
+    ```
 
-  // If you have issues with the above command then run the socks command
-  vtk socks on
+   - Get a list of the current forward proxy instances in staging
 
-  ```
+    > [!TIP]
+    > The private ip addresses will be used below and **q key** with the **enter key** lets you exit
+
+    ```code block
+    ./ssm.sh fwdproxy staging
+    ```
+
+      EX:
+      | Instance ID | Private Ip | Name |
+      | i-00c543a63d6753411 | 10.247.35.112 | dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg |
+
+   - Create the ssh tunnel
+
+    > [!TIP]
+    > In the IP Address replace the . with -
+    > EX:10.247.35.112 => 10-247-35-112
+
+    ```code block
+      ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
+    ```
+
+    > [!TIP]
+    > When it asks you "Are you sure you want to continue connecting?" type yes
+
+    > [!TIP]
+    > If you have issues with the above command then run the socks command
+    > ```vtk socks on```
 
 ### Run vets-api locally
 
