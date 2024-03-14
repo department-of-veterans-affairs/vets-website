@@ -86,8 +86,17 @@ import ApplicantOhiStatusPage, {
   ApplicantOhiStatusReviewPage,
 } from '../pages/ApplicantOhiStatusPage';
 import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
-import { hasReq } from '../components/File/MissingFileOverview';
+import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
+import {
+  ApplicantRelOriginPage,
+  ApplicantRelOriginReviewPage,
+} from '../pages/ApplicantRelOriginPage';
+import {
+  ApplicantSponsorMarriageDetailsPage,
+  ApplicantSponsorMarriageDetailsReviewPage,
+} from '../pages/ApplicantSponsorMarriageDetailsPage';
 
+import { hasReq } from '../components/File/MissingFileOverview';
 import { fileTypes, fileWithMetadataSchema } from './attachments';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
@@ -103,11 +112,6 @@ import FileViewField, {
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
-import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
-import {
-  ApplicantRelOriginPage,
-  ApplicationRelOriginReviewPage,
-} from '../pages/ApplicantRelOriginPage';
 
 // Used to condense some repetitive schema boilerplate
 const maxApplicants = 3;
@@ -879,7 +883,7 @@ const formConfig = {
             );
           },
           CustomPage: ApplicantRelOriginPage,
-          CustomPageReview: ApplicationRelOriginReviewPage,
+          CustomPageReview: ApplicantRelOriginReviewPage,
           uiSchema: {
             applicants: {
               items: {},
@@ -1122,6 +1126,39 @@ const formConfig = {
             ),
           }),
         },
+        page18f1: {
+          path: 'applicant-information/:index/marriage-details',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              ['spouse', 'spouseSeparated'].includes(
+                get(
+                  'applicantRelationshipToSponsor.relationshipToVeteran',
+                  formData?.applicants?.[index],
+                ),
+              ) && get('sponsorIsDeceased', formData)
+            );
+          },
+          CustomPage: ApplicantSponsorMarriageDetailsPage,
+          CustomPageReview: ApplicantSponsorMarriageDetailsReviewPage,
+          schema: applicantListSchema([], {
+            applicantSponsorMarriageDetails: {
+              type: 'object',
+              properties: {
+                relationshipToVeteran: { type: 'string' },
+                otherRelationshipToVeteran: { type: 'string' },
+              },
+            },
+          }),
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
+        },
         page18f: {
           path: 'applicant-information/:index/spouse',
           arrayPath: 'applicants',
@@ -1133,7 +1170,18 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse'
+              ) === 'spouse' &&
+              ((get('sponsorIsDeceased', formData) &&
+                [
+                  'marriedTillDeathNoRemarriage',
+                  'marriedTillDeathRemarriedAfter55',
+                ].includes(
+                  get(
+                    'applicantSponsorMarriageDetails.relationshipToVeteran',
+                    formData?.applicants?.[index],
+                  ),
+                )) ||
+                !get('sponsorIsDeceased', formData))
             );
           },
           CustomPage: FileFieldCustom,
