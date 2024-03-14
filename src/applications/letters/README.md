@@ -34,30 +34,30 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
 3. If you dont already have Docker installed make sure to download [Docker](https://www.docker.com/get-started/) and run it
 
-4. In a terminal do the following:
+4. In a Terminal instance go into devops/utilities
 
-   - Go into devops/utilities
+  ```code block
+  cd devops/utilities
+  ```
 
-    ```code block
-    cd devops/utilities
-    ```
+5. If you havent added jq or awscli then brew install them
 
-   - If you havent added jq or awscli then brew install them
+  ```code block
+  brew install jq
+  brew install awscli
+  ```
 
-    ```code block
-    brew install jq
-    brew install awscli
-    ```
-
-   - Generate temporary credentials for AWS.
+5. Generate temporary credentials for AWS.
 
 > [!TIP]
 > Replace the User Name with your AWS user name ex: Jim.Frank
 > Replace the MFA Code with the 6 digit code that you see on your MFA app for AWS
 
-  ```source ./issue_mfa.sh <User Name> <MFA Code>```
+  ```code block
+  source ./issue_mfa.sh <User Name> <MFA Code>
+  ```
 
-  - Get a list of the current forward proxy instances in staging
+6. Get a list of the current forward proxy instances in staging
 
 > [!TIP]
 > The private ip addresses will be used below and **q key** with the **enter key** lets you exit
@@ -65,19 +65,24 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 > | Instance ID | Private Ip | Name |
 > | i-00c543a63d6753411 | 10.247.35.112 | dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg |
 
-  ```./ssm.sh fwdproxy staging```
+  ```code block
+  ./ssm.sh fwdproxy staging
+  ```
 
-   - Create the ssh tunnel
+7. Create the ssh tunnel
 
 > [!TIP]
 > In the IP Address replace the . with -
 > EX:10.247.35.112 => 10-247-35-112
 
-  ```ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal```
+  ```code block
+  ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
+  ```
 
 > [!TIP]
 > When it asks you "Are you sure you want to continue connecting?" type yes
-> [!TIP]
+
+> [!NOTE]
 > If you have issues with the above command then run the socks command
 > ```vtk socks on```
 
