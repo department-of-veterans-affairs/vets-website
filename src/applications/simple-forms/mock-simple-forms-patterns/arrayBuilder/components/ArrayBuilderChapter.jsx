@@ -165,23 +165,23 @@ export default function arrayBuilderChapter(configFunction) {
       }
     },
     itemFirstPage: pageConfig => {
-      if (!pageConfig.path.endsWith('/:index')) {
+      if (!pageConfig?.path.endsWith('/:index')) {
         throwIncorrectItemPath();
       }
       itemFirstPagePath = getBasePath(pageConfig.path);
     },
     itemMiddlePage: pageConfig => {
-      if (!pageConfig.path.endsWith('/:index')) {
+      if (!pageConfig?.path.endsWith('/:index')) {
         throwIncorrectItemPath();
       }
     },
     itemLastPage: pageConfig => {
-      if (!pageConfig.path.endsWith('/:index')) {
+      if (!pageConfig?.path.endsWith('/:index')) {
         throwIncorrectItemPath();
       }
     },
     itemSinglePage: pageConfig => {
-      if (!pageConfig.path.endsWith('/:index')) {
+      if (!pageConfig?.path.endsWith('/:index')) {
         throwIncorrectItemPath();
       }
     },

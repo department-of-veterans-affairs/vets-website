@@ -18,7 +18,6 @@ describe('arrayBuilderChapter required options tests', () => {
     } catch (e) {
       expect(e.message).to.equal(msg);
     }
-    // expect(mockForm.pages.childrenInformation).to.deep.eq({});
   });
 
   it('should throw an error if uiSchema is not defined with YesNoField', () => {
