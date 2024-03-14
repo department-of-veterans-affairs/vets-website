@@ -106,7 +106,6 @@ const FileField = props => {
   const attachmentIdRequired = schema.additionalItems.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
-  const uswds = uiOptions.uswds || null;
 
   const content = {
     upload: uiOptions.buttonText || 'Upload',
@@ -418,7 +417,7 @@ const FileField = props => {
         onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
         onSecondaryButtonClick={closeRemoveModal}
         visible={showRemoveModal}
-        uswds={uswds}
+        uswds
       >
         <p>
           {removeIndex !== null
@@ -534,7 +533,7 @@ const FileField = props => {
                       }}
                       label={content.cancelLabel(file.name)}
                       text={content.cancel}
-                      uswds={uswds}
+                      uswds
                     />
                   </div>
                 )}
@@ -607,7 +606,6 @@ const FileField = props => {
                     index={index}
                     onSubmitPassword={onSubmitPassword}
                     passwordLabel={content.passwordLabel(file.name)}
-                    uswds={uswds}
                   />
                 )}
                 {!formContext.reviewMode &&
@@ -629,18 +627,26 @@ const FileField = props => {
                                 : content.newFile
                             }
                             text={retryButtonText}
-                            uswds={uswds}
+                            uswds
                           />
                         )}
                       <va-button
                         secondary
                         class="delete-upload vads-u-width--auto"
                         onClick={() => {
-                          openRemoveModal(index);
+                          if (hasVisibleError) {
+                            // Cancelling with error should not show the remove
+                            // file modal
+                            removeFile(index);
+                          } else {
+                            openRemoveModal(index);
+                          }
                         }}
-                        label={content.deleteLabel(file.name)}
+                        label={content[
+                          hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                        ](file.name)}
                         text={deleteButtonText}
-                        uswds={uswds}
+                        uswds
                       />
                     </div>
                   )}
@@ -656,6 +662,7 @@ const FileField = props => {
           {(maxItems === null || files.length < maxItems) &&
             // Prevent additional upload if any upload has error state
             checkUploadVisibility() && (
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               <label
                 id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
@@ -669,7 +676,7 @@ const FileField = props => {
                   onClick={() => fileInputRef?.current?.click()}
                   label={`${uploadText} ${titleString || ''}`}
                   text={uploadText}
-                  uswds={uswds}
+                  uswds
                 />
               </label>
             )}
