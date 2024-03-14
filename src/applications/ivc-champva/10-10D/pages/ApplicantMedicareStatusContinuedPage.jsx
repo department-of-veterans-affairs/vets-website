@@ -11,7 +11,9 @@ const keyname = 'applicantMedicarePart';
 function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
     data?.applicants?.[pagePerItemIndex],
-  ).slice(0, -3); // remove 's_
+    undefined,
+    false,
+  );
 
   // Determine what tense/person the phrasing should be in
   const useFirstPerson =

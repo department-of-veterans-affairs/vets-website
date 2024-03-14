@@ -13,7 +13,7 @@ const TravelClaimSuccessAlert = props => {
   let appointmentCount = claims.length;
 
   if (claims.length === 1) {
-    appointmentCount = claims[0].multipleAppointments ? 2 : 1;
+    appointmentCount = claims[0].appointmentCount;
   }
   return (
     <div className="vads-u-margin-y--4">
