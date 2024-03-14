@@ -37,6 +37,7 @@ const InterstitialPage = props => {
         </p>
 
         <va-button
+          uswds
           data-testid="continue-button"
           onClick={acknowledge}
           text={continueButtonText}
