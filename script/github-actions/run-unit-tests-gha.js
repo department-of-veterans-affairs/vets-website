@@ -2,6 +2,7 @@
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
+const core = require('@actions/core');
 const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
@@ -98,7 +99,8 @@ console.log('matrix step: ', matrixStep);
 console.log('splitUnitTests:', splitUnitTests[matrixStep]);
 console.log('appsToRun: ', appsToRun);
 if (testsToVerify === null) {
-  if (appsToRun && appsToRun.length > 0)
+  if (appsToRun && appsToRun.length > 0) {
+    core.exportVariable('NO_APPS_TO_RUN', false);
     for (const dir of appsToRun) {
       const updatedPath = options['app-folder']
         ? options.path.map(p => `'${p}'`).join(' ')
@@ -121,6 +123,9 @@ if (testsToVerify === null) {
         console.log('This app has no tests to run');
       }
     }
+  } else {
+    core.exportVariable('NO_APPS_TO_RUN', true);
+  }
 } else {
   const command = `LOG_LEVEL=${options[
     'log-level'
