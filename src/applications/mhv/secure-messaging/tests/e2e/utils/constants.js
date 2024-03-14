@@ -23,6 +23,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  MESS_BODY: '[data-testid="message-body"]',
   MESSAGE_FAQ: '.secure-messaging-faq',
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
@@ -73,6 +74,7 @@ export const Locators = {
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
+    REPLY_BUTTON_TEXT: '[data-testid=reply-button-text]',
     CONTINUE: '[data-testid="continue-button"]',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
@@ -109,6 +111,7 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    ALERT_TEXT: '[data-testid="alert-text"]',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
     CLOSE_NOTIFICATION: '.va-alert',
@@ -181,4 +184,18 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+};
+
+export const Assertions = {
+  MESSAGES: 'Messages',
+  FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',
+  MESSAGE_CONVERSATION_SUCCESS: 'Message conversation was successfully moved.',
+  MESSAGE_CONVERSATION_SUCCESS_TRASH:
+    'Message conversation was successfully moved to Trash.',
+  SELECT_RECIPIENT: ' Please select a recipient.',
+  DRAFT_DELETED_SUCCESS: 'Draft was successfully deleted.',
+  CANT_SAVE_MESSAGE_YET: "We can't save this message yet",
+  CONTINUE_EDITING: 'Continue editing',
+  DRAFT: 'Draft',
+  EDITED: 'edited',
 };
