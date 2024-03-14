@@ -195,7 +195,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -250,7 +250,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

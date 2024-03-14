@@ -27,6 +27,14 @@ export default function CommunityCareSection({ data, facility, vaCityState }) {
             !data.reasonForAppointment && !data.reasonAdditionalInfo,
         })}
       />
+      <ReasonForAppointmentSection data={data} />
+      <hr
+        aria-hidden="true"
+        className={classNames('vads-u-margin-y--2', {
+          'vads-u-display--none':
+            !data.reasonForAppointment && !data.reasonAdditionalInfo,
+        })}
+      />
       <ContactDetailSection data={data} />
     </>
   );

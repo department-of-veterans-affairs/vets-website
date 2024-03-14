@@ -67,7 +67,7 @@ const Landing = props => {
         if (token && !sessionCallMade) {
           setSessionCallMade(true);
           api.v2
-            .getSession({ token, checkInType })
+            .getSession({ token, checkInType, facilityType: 'oh' })
             .then(session => {
               // if successful, dispatch session data  into redux and current window
 

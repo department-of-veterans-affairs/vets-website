@@ -9,11 +9,11 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
+import { getFormData, getNewAppointment } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
-import { getFlowType, getFormData } from '../redux/selectors';
 
 function getFormTitle(flowType, facilityType) {
-  if (FLOW_TYPES.DIRECT === flowType) {
+  if (!flowType || FLOW_TYPES.DIRECT === flowType) {
     return 'New appointment';
   }
 
@@ -22,9 +22,10 @@ function getFormTitle(flowType, facilityType) {
 
   return 'Request an appointment';
 }
+
 export default function FormLayout({ children, pageTitle }) {
   const location = useLocation();
-  const flowType = useSelector(getFlowType);
+  const { flowType } = useSelector(getNewAppointment);
   const { facilityType } = useSelector(getFormData);
 
   return (

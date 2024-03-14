@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
+import classNames from 'classnames';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -12,8 +13,6 @@ import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
-
-const pageTitle = 'Review your appointment details';
 
 export default function ReviewPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -34,6 +33,11 @@ export default function ReviewPage({ changeCrumb }) {
     vaCityState,
   } = useSelector(selectReviewPage, shallowEqual);
   const history = useHistory();
+  const pageTitle =
+    FLOW_TYPES.DIRECT === flowType
+      ? 'Review your appointment details'
+      : 'Review and submit your request';
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -87,9 +91,12 @@ export default function ReviewPage({ changeCrumb }) {
           isLoading={submitStatus === FETCH_STATUS.loading}
           loadingText="Submission in progress"
           onClick={() => dispatch(submitAppointmentOrRequest(history))}
-          className="usa-button usa-button-primary"
+          className={classNames('usa-button', 'usa-button-primary', {
+            'vads-u-margin-top--5': FLOW_TYPES.REQUEST === flowType,
+            'vads-u-width--auto': FLOW_TYPES.REQUEST === flowType,
+          })}
         >
-          {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
+          {isDirectSchedule ? 'Confirm appointment' : 'Submit request'}
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
