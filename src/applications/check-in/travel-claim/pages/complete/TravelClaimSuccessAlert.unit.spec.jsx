@@ -12,13 +12,13 @@ describe('Check-in experience', () => {
         {
           stationNo: '622',
           startTime: '2024-03-12T19:53:22.881Z',
-          multipleAppointments: false,
+          appointmentCount: 1,
           facility: 'VA Facility 3',
         },
         {
           stationNo: '530',
           startTime: '2024-03-12T15:53:22.881Z',
-          multipleAppointments: true,
+          appointmentCount: 2,
           facility: 'Example Veterans Hospital',
         },
       ];
@@ -26,14 +26,15 @@ describe('Check-in experience', () => {
         {
           stationNo: '622',
           startTime: '2024-03-12T18:28:22.404Z',
-          multipleAppointments: false,
+          appointmentCount: 1,
+          facility: 'VA Facility 2',
         },
       ];
       const singleFacilityTwoAppointments = [
         {
           stationNo: '500',
           startTime: '2024-03-12T17:55:31.785Z',
-          multipleAppointments: true,
+          appointmentCount: 2,
           facility: 'VA Facility 2',
         },
       ];

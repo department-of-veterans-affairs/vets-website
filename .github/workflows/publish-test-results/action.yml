@@ -10,7 +10,8 @@ inputs:
     required: true
   report_paths:
     description: Path of where the report exists that is being summarized
-    required: true
+    required: false
+    default: ''
   summary:
     description: Summary text that accompanies the report resutls
     required: true
