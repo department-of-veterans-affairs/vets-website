@@ -1323,4 +1323,10 @@
     "src": "/gibill/resources/benefits_resources/rate_tables.asp",
     "dest": "/education/benefit-rates/"
   }
+  ,
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vso/index.asp",
+    "dest": "/get-help-from-accredited-representative/"
+  }
 ]
