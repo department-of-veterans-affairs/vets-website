@@ -66,7 +66,7 @@ export function ApplicantRelOriginPage(props) {
   };
   return ApplicantRelationshipPage(newProps);
 }
-export function ApplicationRelOriginReviewPage(props) {
+export function ApplicantRelOriginReviewPage(props) {
   const newProps = {
     ...props,
     keyname: KEYNAME,
