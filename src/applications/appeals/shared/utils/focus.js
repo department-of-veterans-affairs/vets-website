@@ -1,6 +1,7 @@
 import {
   defaultFocusSelector,
   focusElement,
+  focusByOrder,
   scrollTo,
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
@@ -42,7 +43,7 @@ export const focusRadioH3 = () => {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
-    focusElement(defaultFocusSelector);
+    focusByOrder(['#main h3', defaultFocusSelector]);
   }
 };
 

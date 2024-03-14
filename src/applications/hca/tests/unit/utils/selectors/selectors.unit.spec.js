@@ -13,7 +13,6 @@ const basicEnrollmentStatusState = {
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
-  showReapplyContent: false,
 };
 const loggedOutUserState = {
   login: {
@@ -151,19 +150,6 @@ describe('hca top-level selectors', () => {
       state.hcaEnrollmentStatus.noESRRecordFound = true;
       noESRRecordFound = selectors.noESRRecordFound(state);
       expect(noESRRecordFound).to.be.true;
-    });
-  });
-
-  describe('when `shouldShowReapplyContent` executes', () => {
-    it('should return the correct part of the enrollment status state', () => {
-      const state = {
-        hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
-      };
-      let showReapplyContent = selectors.shouldShowReapplyContent(state);
-      expect(showReapplyContent).to.be.false;
-      state.hcaEnrollmentStatus.showReapplyContent = true;
-      showReapplyContent = selectors.shouldShowReapplyContent(state);
-      expect(showReapplyContent).to.be.true;
     });
   });
 
