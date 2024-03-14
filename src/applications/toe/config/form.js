@@ -10,7 +10,6 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -60,10 +59,10 @@ import {
   validateEmail,
   validateRoutingNumber,
 } from '../utils/validation';
-import { formFields, SPONSOR_RELATIONSHIP } from '../constants';
+import { formFields } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
 
-const { fullName, date, email } = commonDefinitions;
+const { date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
@@ -246,157 +245,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-            },
-          },
-        },
-        sponsorInformation: {
-          title: 'Enter your sponsor’s information',
-          path: 'sponsor-information',
-          depends: formData =>
-            formData.showMebEnhancements08
-              ? false
-              : !formData.sponsors?.sponsors?.length ||
-                formData.sponsors?.someoneNotListed,
-          uiSchema: {
-            'view:noSponsorWarning': {
-              'ui:description': (
-                <va-alert
-                  class="vads-u-margin-bottom--5"
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">
-                    We don’t have any sponsor information on file
-                  </h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor’s information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => formData.sponsors?.sponsors?.length,
-              },
-            },
-            'view:sponsorNotOnFileWarning': {
-              'ui:description': (
-                <va-alert
-                  class="vads-u-margin-bottom--5"
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">Your selected sponsor isn’t on file</h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor’s information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => !formData.sponsors?.sponsors?.length,
-              },
-            },
-            'view:enterYourSponsorsInformationHeading': {
-              'ui:description': (
-                <h3 className="vads-u-margin-bottom--3">
-                  Enter your sponsor’s information
-                </h3>
-              ),
-            },
-            [formFields.relationshipToServiceMember]: {
-              'ui:title':
-                'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
-              'ui:widget': 'radio',
-            },
-            'view:yourSponsorsInformationHeading': {
-              'ui:description': <h4>Your sponsor’s information</h4>,
-            },
-            [formFields.sponsorFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:validations': [
-                  (errors, field) =>
-                    addWhitespaceOnlyError(
-                      field,
-                      errors,
-                      'Please enter a first name',
-                    ),
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:validations': [
-                  (errors, field) =>
-                    addWhitespaceOnlyError(
-                      field,
-                      errors,
-                      'Please enter a last name',
-                    ),
-                ],
-              },
-            },
-            [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Date of birth'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              formFields.relationshipToServiceMember,
-              formFields.sponsorDateOfBirth,
-            ],
-            properties: {
-              'view:noSponsorWarning': {
-                type: 'object',
-                properties: {},
-              },
-              'view:sponsorNotOnFileWarning': {
-                type: 'object',
-                properties: {},
-              },
-              'view:enterYourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.relationshipToServiceMember]: {
-                type: 'string',
-                enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
-              },
-              'view:yourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.sponsorFullName]: {
-                ...fullName,
-                required: ['first', 'last'],
-                properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
-                  },
-                },
-              },
-              [formFields.sponsorDateOfBirth]: date,
             },
           },
         },

@@ -24,7 +24,6 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
-  showMebEnhancements08,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -74,18 +73,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements08],
-  );
-
-  useEffect(
-    () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
@@ -124,7 +111,6 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,

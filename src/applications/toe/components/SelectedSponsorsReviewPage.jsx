@@ -1,44 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { SPONSOR_NOT_LISTED_LABEL } from '../constants';
 import { getAppData } from '../selectors';
 
-function SelectedSponsorsReviewPage({
-  data,
-  editPage,
-  title,
-  showMebEnhancements08,
-}) {
+function SelectedSponsorsReviewPage({ data, editPage, title }) {
   const selectedSponsors = data?.sponsors?.sponsors?.flatMap(
     (sponsor, index) =>
       sponsor.selected ? [`Sponsor ${index + 1}: ${sponsor.name}`] : [],
   );
-  if (!showMebEnhancements08 && data?.sponsors?.someoneNotListed) {
-    selectedSponsors.push(SPONSOR_NOT_LISTED_LABEL);
-  }
+
   return (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {title}
         </h4>
-        <button
+        <va-button
           aria-label={`Edit ${title}`}
           className="edit-btn primary-outline"
           onClick={editPage}
           type="button"
         >
           Edit
-        </button>
+        </va-button>
       </div>
       <dl className="review">
         <div className="review-row">
           <dt>Which sponsor's benefit would you like to use?</dt>
           <dd>
             <ul className="toe-review-page_selected-sponsors vads-u-margin--0 vads-u-padding--0">
-              {selectedSponsors.map(sponsor => (
-                <li className="vads-u-margin--0" key={sponsor}>
+              {selectedSponsors.map((sponsor, index) => (
+                <li className="vads-u-margin--0" key={`sponsor-${index}`}>
                   {sponsor}
                 </li>
               ))}
@@ -64,7 +56,6 @@ SelectedSponsorsReviewPage.propTypes = {
       ),
     }),
   }),
-  showMebEnhancements08: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

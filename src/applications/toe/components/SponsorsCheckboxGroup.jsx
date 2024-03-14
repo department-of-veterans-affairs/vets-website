@@ -22,11 +22,9 @@ function SponsorCheckboxGroup({
   formData,
   loadingMessage = 'Loading your sponsors...',
   setFormData,
-  showMebEnhancements08,
   sponsors,
 }) {
   const [dirty, setDirty] = useState(false);
-
   const onValueChange = event => {
     const {
       target: { id, checked },
@@ -37,23 +35,18 @@ function SponsorCheckboxGroup({
       id,
       checked,
     );
-
     setDirty(true);
     setFormData(mapFormSponsors(formData, _sponsors));
   };
-
   if (!fetchedSponsorsComplete) {
     return <va-loading-indicator message={loadingMessage} />;
   }
   if (!sponsors?.sponsors.length) {
     return <></>;
   }
-
   const { anySelectedOptions, options } = mapSponsorsToCheckboxOptions(
     sponsors,
-    showMebEnhancements08,
   );
-
   return (
     <VaCheckboxGroup
       label="Which sponsor's benefits would you like to use?"
@@ -74,14 +67,13 @@ function SponsorCheckboxGroup({
 }
 
 SponsorCheckboxGroup.propTypes = {
+  setFormData: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   fetchedSponsorsComplete: PropTypes.bool,
   firstSponsor: PropTypes.object,
   formContext: PropTypes.object,
   formData: PropTypes.object,
   loadingMessage: PropTypes.string,
-  setFormData: PropTypes.func.isRequired,
-  showMebEnhancements08: PropTypes.bool.isRequired,
   sponsors: PropTypes.object,
 };
 SponsorCheckboxGroup.defaultProps = {

@@ -13,6 +13,5 @@ export const getAppData = state => ({
   savedForms: state?.user?.profile?.savedForms,
   showMeb1990EMaintenanceAlert:
     state.featureToggles.showMeb1990EMaintenanceAlert,
-  showMebEnhancements08: state.featureToggles.showMebEnhancements08,
   user: state.user || {},
 });
