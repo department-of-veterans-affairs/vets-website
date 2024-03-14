@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      unit-tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
+      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
       cypress-tests: ${{ steps.tests.outputs.selected }}
@@ -316,10 +316,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
     env:
-      TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.tests-to-stress-test }}
+      TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 
     strategy:
@@ -685,7 +685,7 @@ jobs:
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.tests-to-stress-test != '[]' &&
+      needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' &&
       github.ref != 'refs/heads/main'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
@@ -780,7 +780,7 @@ jobs:
         stress-test-cypress-tests,
         fetch-allow-lists,
       ]
-    if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
