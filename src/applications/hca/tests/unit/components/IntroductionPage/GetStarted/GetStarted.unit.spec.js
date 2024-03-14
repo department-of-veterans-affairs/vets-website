@@ -9,7 +9,7 @@ import formConfig from '../../../../../config/form';
 import GetStartedContent from '../../../../../components/IntroductionPage/GetStarted';
 
 describe('hca <GetStartedContent>', () => {
-  const getData = ({ showLoginAlert = true }) => ({
+  const getData = ({ showLoginAlert = true, dispatch = () => {} }) => ({
     props: {
       route: {
         formConfig,
@@ -20,7 +20,6 @@ describe('hca <GetStartedContent>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          showReapplyContent: false,
           isUserInMVI: true,
           loginRequired: false,
           noESRRecordFound: true,
@@ -56,7 +55,7 @@ describe('hca <GetStartedContent>', () => {
         },
       }),
       subscribe: () => {},
-      dispatch: sinon.stub(),
+      dispatch,
     },
   });
 
@@ -130,7 +129,8 @@ describe('hca <GetStartedContent>', () => {
   });
 
   context('when user attempts to sign in', () => {
-    const { mockStore, props } = getData({});
+    const dispatch = sinon.stub();
+    const { mockStore, props } = getData({ dispatch });
 
     it('should call the `toggleLoginModal` action', () => {
       const { container } = render(
@@ -143,8 +143,8 @@ describe('hca <GetStartedContent>', () => {
       );
 
       fireEvent.click(selector);
-      expect(mockStore.dispatch.called).to.be.true;
-      expect(mockStore.dispatch.calledWith(toggleLoginModal(true))).to.be.true;
+      expect(dispatch.called).to.be.true;
+      expect(dispatch.calledWith(toggleLoginModal(true))).to.be.true;
     });
   });
 });

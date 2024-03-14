@@ -2,23 +2,24 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
+import { Locators, Alerts } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
 
   createANewFolderButton = () => {
     return cy
-      .get('[text="Create new folder"]')
+      .get(Locators.ALERTS.CREAT_NEW_TEXT_FOLD)
       .shadow()
       .find('[type="button"]');
   };
 
   deleteFolderButton = () => {
-    return cy.get('[data-testid="remove-folder-button"]');
+    return cy.get(Locators.BUTTONS.DELETE_FOLDER);
   };
 
   editFolderNameButton = () => {
-    return cy.get('[data-testid="edit-folder-button"]');
+    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
   };
 
   createFolderTextBox = () => {
@@ -140,12 +141,12 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get('[class="vads-u-margin-y--0"]');
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder was successfully removed.',
     );
   };
@@ -155,15 +156,14 @@ class FolderManagementPage {
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
-    this.folderConfirmation().should(
-      'have.text',
-      'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
-    );
+    this.folderConfirmation()
+      .should('be.visible')
+      .and('contain.text', Alerts.OUTAGE);
   };
 
   verifyCreateFolderSuccessMessage = () => {
     this.folderConfirmation().should(
-      'have.text',
+      'contain.text',
       'Folder was successfully created.',
     );
   };
@@ -187,8 +187,8 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
-    cy.get('[data-testid="move-button-text"]').click();
-    cy.get('[data-testid = "move-to-modal"')
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.get(Locators.ALERTS.MOVE_MODAL)
 
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
@@ -205,8 +205,8 @@ class FolderManagementPage {
       }/move?folder_id=-3`,
       mockCustomResponse,
     ).as('moveMockCustomResponse');
-    cy.get('[data-testid="move-to-modal"]')
-      .find('va-button[text="Confirm"]')
+    cy.get(Locators.ALERTS.MOVE_MODAL)
+      .find(Locators.BUTTONS.TEXT_CONFIRM)
       .click();
     // cy.wait('@mockCustomResponse');
   };
@@ -228,21 +228,21 @@ class FolderManagementPage {
       }/move?folder_id=${folderId}`,
       {},
     );
-    cy.get('[data-testid="move-button-text"]').click({ force: true });
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
     cy.get(`[data-testid="radiobutton-${folderName}"]`)
       .should('exist')
       .click();
-    cy.get('va-button[text="Confirm"]').click();
+    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]')
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('have.text', 'Message conversation was successfully moved.');
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+    cy.get(Locators.ALERTS.CLOSE_NOTIFICATION).should('have.focus');
   };
 
   confirmDeleteFolder = folderId => {
@@ -256,7 +256,7 @@ class FolderManagementPage {
       mockFolders,
     ).as('updatedFoldersList');
 
-    cy.get('[text="Yes, remove this folder"]')
+    cy.get(Locators.FOLDERS.FOLDER_REMOVE)
       .shadow()
       .find('[type="button"]')
       .click();

@@ -4,6 +4,7 @@ import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -23,8 +24,7 @@ export const dependentNameRequired = (form, index) =>
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Gross monthly income',
-    'ui:description': IncomeSourceDescription,
+    ...titleUI('Gross monthly income', IncomeSourceDescription),
     'view:informationAlert': {
       'ui:description': IncomeInformationAlert,
     },
