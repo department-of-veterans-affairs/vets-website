@@ -43,59 +43,87 @@ describe('Avs container', () => {
 
   it('user is not logged in', () => {
     // expected behavior is be redirected to the home page with next in the url
-    const screen = renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
-      initialState,
-    });
+    renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/${id}`]}>
+        <Route path="/:id">
+          <Avs {...props} />
+        </Route>
+      </MemoryRouter>,
+      {
+        initialState,
+      },
+    );
 
     expect(window.location.replace.called).to.be.true;
     expect(window.location.replace.firstCall.args[0]).to.eq('/');
   });
 
   it('feature flags are still loading', () => {
-    const screen = renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          loading: true,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
+    const screen = renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/${id}`]}>
+        <Route path="/:id">
+          <Avs {...props} />
+        </Route>
+      </MemoryRouter>,
+      {
+        initialState: {
+          ...initialState,
+          featureToggles: {
+            loading: true,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
           },
         },
       },
-    });
+    );
     expect(screen.getByTestId('avs-loading-indicator'));
   });
 
   it('feature flag set to false', () => {
-    renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
-      initialState
-    });
+    renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/${id}`]}>
+        <Route path="/:id">
+          <Avs {...props} />
+        </Route>
+      </MemoryRouter>,
+      {
+        initialState,
+      },
+    );
     expect(window.location.replace.called).to.be.true;
     expect(window.location.replace.firstCall.args[0]).to.eq('/');
   });
 
   it('feature flag set to true', async () => {
     mockApiRequest(mockAvs);
-    const screen = renderInReduxProvider(<MemoryRouter initialEntries={[`/${id}`]}><Route path={'/:id'}><Avs {...props} /></Route></MemoryRouter>, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          avs_enabled: true,
-          loading: false,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
+    const screen = renderInReduxProvider(
+      <MemoryRouter initialEntries={[`/${id}`]}>
+        <Route path="/:id">
+          <Avs {...props} />
+        </Route>
+      </MemoryRouter>,
+      {
+        initialState: {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            avs_enabled: true,
+            loading: false,
           },
-          profile: {
-            services: [backendServices.USER_PROFILE],
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.USER_PROFILE],
+            },
           },
         },
       },
-    });
+    );
     await waitFor(() => {
       expect(screen.getByText('After-visit summary'));
     });
@@ -104,42 +132,47 @@ describe('Avs container', () => {
   it('User is redirected when visiting base path', async () => {
     renderInReduxProvider(
       <MemoryRouter initialEntries={['/']}>
-        <Route path={'/'}>
+        <Route path="/">
           <Avs {...props} />
         </Route>
-      </MemoryRouter>, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          avs_enabled: true,
-          loading: false,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
+      </MemoryRouter>,
+      {
+        initialState: {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            avs_enabled: true,
+            loading: false,
           },
-          profile: {
-            services: [backendServices.USER_PROFILE],
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.USER_PROFILE],
+            },
           },
         },
       },
-    });
+    );
 
     expect(window.location.replace.called).to.be.true;
-    expect(window.location.replace.firstCall.args[0]).to.eq('/my-health/medical-records/summaries-and-notes/');
+    expect(window.location.replace.firstCall.args[0]).to.eq(
+      '/my-health/medical-records/summaries-and-notes/',
+    );
   });
 
   it('API request fails', async () => {
     mockApiRequest({}, false);
     const screen = renderInReduxProvider(
       <MemoryRouter initialEntries={[`/${id}`]}>
-        <Route path={'/:id'}>
+        <Route path="/:id">
           <ErrorBoundary>
             <Avs {...props} />
           </ErrorBoundary>
         </Route>
-      </MemoryRouter>, {
+      </MemoryRouter>,
+      {
         initialState: {
           ...initialState,
           featureToggles: {
