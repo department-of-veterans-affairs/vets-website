@@ -6,50 +6,76 @@ import DateWidget from 'platform/forms-system/src/js/widgets/DateWidget';
 
 const BenefitRelinquishmentDate = props => {
   const { formData, setFormData } = props;
-  const [isDateChecked, setIsDateChecked] = useState(false);
+  const aYearAgo = moment(new Date()).subtract(1, 'y');
+  const populateDate = () => {
+    let returnDate;
+    if (moment(formData?.benefitEffectiveDate).isBefore(aYearAgo)) {
+      returnDate = aYearAgo.format('YYYY-MM-DD');
+    } else {
+      returnDate = moment(formData?.benefitEffectiveDate).format('YYYY-MM-DD');
+    }
+
+    return returnDate;
+  };
+
+  const [dateValue, setDateValue] = useState(
+    formData?.mebAutoPopulateRelinquishmentDate ? populateDate() : '',
+  );
 
   useEffect(
     () => {
-      if (formData?.mebAutoPopulateRelinquishmentDate && !isDateChecked) {
-        const aYearAgo = moment(new Date()).subtract(1, 'y');
-        if (
-          moment(formData?.benefitEffectiveDate).isBefore(aYearAgo) ||
-          !formData?.benefitEffectiveDate
-        ) {
-          setFormData({
-            ...formData,
-            benefitEffectiveDate: moment(new Date())
-              .subtract(1, 'y')
-              .format('YYYY-MM-DD'),
-          });
-
-          setIsDateChecked(true);
-        }
+      if (
+        formData?.mebAutoPopulateRelinquishmentDate &&
+        (!formData?.benefitEffectiveDate ||
+          moment(formData?.benefitEffectiveDate).isBefore(aYearAgo))
+      ) {
+        setFormData({
+          ...formData,
+          benefitEffectiveDate: aYearAgo.format('YYYY-MM-DD'),
+        });
       }
     },
-    [isDateChecked, formData?.benefitEffectiveDate],
+    [formData?.benefitEffectiveDate, setFormData],
   );
 
+  // useEffect(
+  //   () => {
+  //     if (formData?.mebAutoPopulateRelinquishmentDate && !isDateChecked) {
+  //       const aYearAgo = moment(new Date()).subtract(1, 'y');
+
+  //       const shouldUpdateDate = !formData?.benefitEffectiveDate || moment(formData?.benefitEffectiveDate).isBefore(aYearAgo)
+  //       if (shouldUpdateDate) {
+  //         setFormData({
+  //           ...formData,
+  //           benefitEffectiveDate: aYearAgo.format('YYYY-MM-DD')
+  //         });
+  //         console.log(formData?.benefitEffectiveDate, "IN THE USEEFFECT")
+  //         setIsDateChecked(true);
+  //       }
+  //     }
+  //   },
+  //   [formData, setFormData],
+  // );
+
   function handleChange(event) {
-    setFormData({
-      ...formData,
-      benefitEffectiveDate: event,
-    });
+    if (event !== null && event !== undefined) {
+      setFormData({
+        ...formData,
+        benefitEffectiveDate: event,
+      });
+
+      setDateValue(event);
+    }
   }
 
-  const initialValue = formData?.mebAutoPopulateRelinquishmentDate
-    ? moment(new Date())
-        .subtract(1, 'y')
-        .format('YYYY-MM-DD')
-    : formData?.benefitEffectiveDate;
-
+  // const dateValue = formData?.mebAutoPopulateRelinquishmentDate
+  //   ? formData?.benefitEffectiveDate || moment(new Date())
+  //       .subtract(1, 'y')
+  //       .format('YYYY-MM-DD')
+  //   : undefined;
   return (
     <>
-      <DateWidget
-        {...props}
-        onChange={handleChange}
-        value={formData?.benefitEffectiveDate || initialValue}
-      />
+      <DateWidget {...props} onChange={handleChange} value={dateValue} />
       <br />
       <br />
     </>
