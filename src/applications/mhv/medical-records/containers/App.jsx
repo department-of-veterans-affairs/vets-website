@@ -61,21 +61,21 @@ const App = ({ children }) => {
           label: 'Medical records',
           datatestid: 'about-va-medical-records-sidebar',
           subpaths: [
-            {
-              path: '/labs-and-tests',
-              label: 'Lab and test results',
-              datatestid: 'labs-and-tests-sidebar',
-            },
-            {
-              path: '/conditions',
-              label: 'Health conditions',
-              datatestid: 'health-conditions-sidebar',
-            },
-            {
-              path: '/vitals',
-              label: 'Vitals',
-              datatestid: 'vitals-sidebar',
-            },
+            // {
+            //   path: '/labs-and-tests',
+            //   label: 'Lab and test results',
+            //   datatestid: 'labs-and-tests-sidebar',
+            // },
+            // {
+            //   path: '/conditions',
+            //   label: 'Health conditions',
+            //   datatestid: 'health-conditions-sidebar',
+            // },
+            // {
+            //   path: '/vitals',
+            //   label: 'Vitals',
+            //   datatestid: 'vitals-sidebar',
+            // },
             // {
             //   path: '/download-all',
             //   label: 'Download all medical records',

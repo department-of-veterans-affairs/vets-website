@@ -31,6 +31,15 @@ const RecordList = props => {
     setCurrentPage(page);
   };
 
+  useEffect(() => {
+    window.onpopstate = () => {
+      const param2 = new URLSearchParams(history.location.search);
+      const paramPage2 = param2.get('page') ? param2.get('page') : 1;
+      setCurrentRecords(paginatedRecords.current[paramPage2 - 1]);
+      setCurrentPage(paramPage2);
+    };
+  }, []);
+
   const fromToNums = (page, total) => {
     const from = (page - 1) * perPage + 1;
     const to = Math.min(page * perPage, total);
