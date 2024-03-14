@@ -474,7 +474,7 @@ class PatientInboxPage {
       .type('testSubject', { force: true });
     cy.get('#compose-message-body')
       .shadow()
-      .find('#textarea')
+      .find('textarea')
       .type('testMessage', { force: true });
   };
 
