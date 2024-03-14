@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { FLOW_TYPES } from '../../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
 
 describe('VAOS Page: ContactInfoPage', () => {
   it('should accept email, phone, and preferred time and continue', async () => {
@@ -15,6 +15,13 @@ describe('VAOS Page: ContactInfoPage', () => {
           vapContactInfo: {},
         },
       },
+      newAppointment: {
+        data: {
+          facilityType: FACILITY_TYPES.VAMC,
+        },
+        flowType: FLOW_TYPES.DIRECT,
+        previousPages: {},
+      },
     });
 
     let screen = renderWithStoreAndRouter(<ContactInfoPage />, {
@@ -22,12 +29,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     });
 
     let input = await screen.findByLabelText(/^Your phone number/);
-    // Using userEvent.type here doesn't work when the test is run with CHOMA_SEED=lDgiaNUkvl
-    // for some inexplicable reason
-    fireEvent.change(input, { target: { value: '5555555555' } });
-
-    let checkbox = screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/);
-    userEvent.click(checkbox);
+    userEvent.type(input, '5555555555');
 
     input = screen.getByLabelText(/^Your email address/);
     userEvent.type(input, 'joe.blow@gmail.com');
@@ -67,9 +69,6 @@ describe('VAOS Page: ContactInfoPage', () => {
     input = await screen.findByLabelText(/^Your phone number/);
     expect(input.value).to.equal('5555555555');
 
-    checkbox = screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/);
-    expect(checkbox.checked).to.be.true;
-
     input = screen.getByLabelText(/^Your email address/);
     expect(input.value).to.equal('joe.blow@gmail.com');
   });
@@ -99,7 +98,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     userEvent.click(button);
 
     // it should display page heading
-    expect(screen.getByText('Confirm your contact information')).to.be.ok;
+    expect(screen.getByText('How should we contact you?')).to.be.ok;
 
     expect(await screen.getByText(/^Please choose at least one option/)).to.be
       .ok;
