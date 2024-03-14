@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const allergies = {
+const status = {
   data: {
     patient: {
       identifier: '1012845331V153043',
@@ -19,11 +19,10 @@ const allergies = {
         lastModified: 1643823309701,
         recordCount: 0,
         lastRequested: 1643823306897,
-        lastCompleted: 1643823309698,
-        loadStatus: 'ERROR',
-        errorMessage:
-          'Pathways Fatal&#x3b; Code&#x3a; READ_REQUEST_ALL_DATASOURCES_FAILED, Message&#x3a; All datasources failed.  Unable to get data from applicable datasource&#x28;s&#x29; due to the following reason&#x3a;&#xa; No data found for the read request.&#xa;',
-        lastSuccessfulCompleted: null,
+        lastCompleted: moment().unix(),
+        loadStatus: 'OK',
+        errorMessage: null,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
       {
@@ -33,7 +32,7 @@ const allergies = {
         lastModified: 1709593739913,
         recordCount: 0,
         lastRequested: 1709593739267,
-        lastCompleted: 1709593739913,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
         lastSuccessfulCompleted: moment().unix(),
@@ -46,10 +45,10 @@ const allergies = {
         lastModified: 1709593740659,
         recordCount: 0,
         lastRequested: 1709593739279,
-        lastCompleted: 1709593740657,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
-        lastSuccessfulCompleted: null,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
       {
@@ -59,10 +58,10 @@ const allergies = {
         lastModified: 1709593751264,
         recordCount: 340,
         lastRequested: 1709593739284,
-        lastCompleted: 1709593751263,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
-        lastSuccessfulCompleted: 1709593751263,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
       {
@@ -72,10 +71,10 @@ const allergies = {
         lastModified: 1709593739730,
         recordCount: 0,
         lastRequested: 1709593739258,
-        lastCompleted: 1709593739729,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
-        lastSuccessfulCompleted: null,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
       {
@@ -85,10 +84,10 @@ const allergies = {
         lastModified: 1709593739292,
         recordCount: 1,
         lastRequested: 1709593739262,
-        lastCompleted: 1709593739291,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
-        lastSuccessfulCompleted: 1709593739291,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
       {
@@ -98,10 +97,10 @@ const allergies = {
         lastModified: 1709593739286,
         recordCount: 0,
         lastRequested: 1709593739275,
-        lastCompleted: 1709593739285,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
-        lastSuccessfulCompleted: 1709593739285,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
       {
@@ -111,10 +110,10 @@ const allergies = {
         lastModified: 1709593739632,
         recordCount: 0,
         lastRequested: 1709593739273,
-        lastCompleted: 1709593739631,
+        lastCompleted: moment().unix(),
         loadStatus: 'OK',
         errorMessage: null,
-        lastSuccessfulCompleted: 1709593739631,
+        lastSuccessfulCompleted: moment().unix(),
         upToDate: true,
       },
     ],
@@ -122,5 +121,5 @@ const allergies = {
 };
 
 module.exports = {
-  allergies,
+  status,
 };
