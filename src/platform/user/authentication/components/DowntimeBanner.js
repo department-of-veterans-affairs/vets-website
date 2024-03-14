@@ -10,6 +10,7 @@ export default function DowntimeBanners() {
   );
   const dispatch = useDispatch();
   const isLocalhost = useMemo(() => environment.isLocalhost(), []);
+  // const isLocalhost = false;
   useEffect(() => {
     if (!loading && !isLocalhost) {
       dispatch(getBackendStatusAction());
