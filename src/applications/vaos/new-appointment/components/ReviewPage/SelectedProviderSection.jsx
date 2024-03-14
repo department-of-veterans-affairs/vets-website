@@ -29,7 +29,9 @@ export default function SelectedProviderSection({ data, vaCityState }) {
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="vads-l-row vads-u-justify-content--space-between">
         <div className="vads-u-flex--1 vads-u-padding-right--1">
-          <h3 className="vaos-appts__block-label">Preferred provider</h3>
+          <h2 className="vads-u-font-size--base vaos-appts__block-label">
+            Preferred provider
+          </h2>
           {!hasProvider && <>No provider specified</>}
           <span className="vaos-u-word-break--break-word">
             {!!hasProvider && (

@@ -114,12 +114,11 @@ export default function ProviderSortVariant({
             aria-live="polite"
             aria-atomic="true"
           >
-            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-            {communityCareProviderList.length} providers
+            Displaying 1 of {communityCareProviderList.length} providers
           </p>
         )}
       <VaSelect
-        label="Show providers nearest to this location"
+        label="Show providers nearest to this location:"
         name="sort"
         onVaSelect={onValueChange}
         value={selectedSortMethod}

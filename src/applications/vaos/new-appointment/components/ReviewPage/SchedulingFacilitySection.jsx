@@ -28,7 +28,9 @@ export default function SchedulingFacilitySection({ facility }) {
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="vads-l-row vads-u-justify-content--space-between">
         <div className="vads-u-flex--1 vads-u-padding-right--1">
-          <h3 className="vaos-appts__block-label">Scheduling facility</h3>
+          <h2 className="vads-u-font-size--base vaos-appts__block-label">
+            Scheduling facility
+          </h2>
           <p>
             This facility will contact you if we need more information about
             your request.

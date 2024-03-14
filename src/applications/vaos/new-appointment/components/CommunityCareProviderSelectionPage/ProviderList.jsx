@@ -148,10 +148,9 @@ export default function ProviderList({
                         {provider.address?.line}
                       </span>
                       <span className="vads-u-display--block">
-                        {provider.address.city}, {provider.address.state}{' '}
-                        {provider.address.postalCode}
+                        {provider.address.city}, {provider.address.state}
                       </span>
-                      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                      <span className="vads-u-display--block vads-u-font-size--sm">
                         {provider[sortMethod]} miles
                         <span className="sr-only">
                           {' '}
@@ -164,6 +163,7 @@ export default function ProviderList({
                     {checked && (
                       <button
                         type="button"
+                        className="vads-u-width--auto"
                         onClick={() => {
                           onChange(provider);
                           setCheckedProvider();
