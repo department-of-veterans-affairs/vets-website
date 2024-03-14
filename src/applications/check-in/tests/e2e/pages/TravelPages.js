@@ -109,6 +109,20 @@ class TravelPages {
       .shadow()
       .find('#checkbox-error-message');
   };
+
+  goBack = () => {
+    cy.get('a[data-testid="back-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickAgreementLink = () => {
+    cy.get(`[data-testid="travel-agreement-link"]`).click();
+  };
+
+  validateAgreementPage = () => {
+    cy.get(`[data-testid="agreement-list-items"]`).should('be.visible');
+  };
 }
 
 export default new TravelPages();

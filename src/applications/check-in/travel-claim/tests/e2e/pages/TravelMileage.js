@@ -11,6 +11,20 @@ class TravelMileage {
       waitForAnimations: true,
     });
   };
+
+  selectFacility = stationNo => {
+    cy.get(`[data-testid="checkbox-${stationNo}"]`)
+      .shadow()
+      .find('.usa-checkbox')
+      .click();
+  };
+
+  validateFacilityCount = expectedCount => {
+    cy.get('[data-testid="checkbox-group"] [data-testid^="checkbox-"]').should(
+      'have.length',
+      expectedCount,
+    );
+  };
 }
 
 export default new TravelMileage();

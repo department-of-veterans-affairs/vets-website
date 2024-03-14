@@ -8,7 +8,7 @@ import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import TravelComplete from './pages/TravelComplete';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
-describe('Single Facility Travel Claim', () => {
+describe('A Patient with appointments at one facility', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -21,7 +21,7 @@ describe('Single Facility Travel Claim', () => {
     initializeSessionPost.withSuccess();
     initializeBtsssPost.withSuccess();
   });
-  it('should successfully file a travel claim for a patient with a single appointment', () => {
+  it('should successfully file a travel claim for a single appointment', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
       sharedData.get.defaultUUID,
     );
@@ -65,7 +65,7 @@ describe('Single Facility Travel Claim', () => {
       'Travel-claim--single-claim-single-appointment--Complete',
     );
   });
-  it('should successfully file a travel claim for a patient with multiple appointments', () => {
+  it('should successfully file a travel claim for multiple appointments', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
       sharedData.get.multiApptSingleFacilityUUID,
     );
@@ -103,7 +103,7 @@ describe('Single Facility Travel Claim', () => {
     TravelPages.attemptToGoToNextPage();
 
     TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('single-claim-multiple-appointments');
+    TravelComplete.validateContent('single-claim-multi-appointments');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots(
       'Travel-claim--single-claim-multiple-appointments--Complete',

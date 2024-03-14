@@ -13,19 +13,14 @@ class TravelComplete {
           `[data-testid="travel-pay-single-claim-single-appointment-submitted"]`,
         ).should('be.visible');
         break;
-      case 'single-claim-multiple-appointments':
+      case 'single-claim-multi-appointment':
         cy.get(
           `[data-testid="travel-pay-single-claim-multi-appointment-submitted"]`,
         ).should('be.visible');
         break;
-      case 'multiple-claims-single-appointment':
+      case 'multi-claim-multi-appointment':
         cy.get(
-          `[data-testid="travel-pay-multi-claims-single-appointment-submitted"]`,
-        ).should('be.visible');
-        break;
-      case 'multiple-claims-multiple-appointments':
-        cy.get(
-          `[data-testid="travel-pay-multi-claims-multi-appointment-submitted"]`,
+          `[data-testid="travel-pay-multi-claim-multi-appointment-submitted"]`,
         ).should('be.visible');
         break;
       default:
