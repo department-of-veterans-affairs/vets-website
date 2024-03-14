@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
-} from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 
@@ -100,33 +100,10 @@ function recordChangedEvents(email, phone, data) {
 
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
-const pageTitle = 'Confirm your contact information';
 
-export default function ContactInfoPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
-  const userData = useSelector(getFormData);
-  const email = useSelector(selectVAPEmailAddress);
-  const homePhone = useSelector(selectVAPHomePhoneString);
-  const mobilePhone = useSelector(selectVAPMobilePhoneString);
-  const flowType = useSelector(getFlowType);
-
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    recordPopulatedEvents(email, mobilePhone || homePhone);
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
-
-  const uiSchema = {
-    'ui:description': (
+function Description({ flowType }) {
+  if (FLOW_TYPES.DIRECT === flowType)
+    return (
       <>
         <p>
           We’ll use this information to contact you about your appointment. Any
@@ -143,7 +120,44 @@ export default function ContactInfoPage({ changeCrumb }) {
           .
         </p>
       </>
-    ),
+    );
+  return (
+    <p>We’ll use this information to contact you about your appointment.</p>
+  );
+}
+Description.propTypes = {
+  flowType: PropTypes.elementType,
+};
+
+export default function ContactInfoPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
+  const userData = useSelector(getFormData);
+  const email = useSelector(selectVAPEmailAddress);
+  const homePhone = useSelector(selectVAPHomePhoneString);
+  const mobilePhone = useSelector(selectVAPMobilePhoneString);
+  const flowType = useSelector(getFlowType);
+  const pageTitle =
+    FLOW_TYPES.DIRECT === flowType
+      ? 'Confirm your contact information'
+      : 'How should we contact you?';
+
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    recordPopulatedEvents(email, mobilePhone || homePhone);
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, []);
+
+  const uiSchema = {
+    'ui:description': <Description flowType={flowType} />,
     phoneNumber: {
       ...phoneConfig,
       'ui:errorMessages': {
@@ -219,6 +233,21 @@ export default function ContactInfoPage({ changeCrumb }) {
           onChange={newData => setData(newData)}
           data={data}
         >
+          {FLOW_TYPES.REQUEST === flowType && (
+            <va-additional-info
+              trigger="How to update your information in your VA.gov profile"
+              class="vads-u-margin-y--4"
+              data-testid="additional-info"
+            >
+              <div>
+                You can update your contact information for most of your
+                benefits and services in your VA.gov profile.
+                <NewTabAnchor href="/profile/contact-information">
+                  Go to your VA profile
+                </NewTabAnchor>
+              </div>
+            </va-additional-info>
+          )}
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey, data))

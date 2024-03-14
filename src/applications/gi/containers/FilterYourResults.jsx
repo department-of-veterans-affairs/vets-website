@@ -23,6 +23,7 @@ import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
 import { useFilterBtn } from '../hooks/useFilterbtn';
+import Loader from '../components/Loader';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -67,7 +68,9 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
   const [nameValue, setNameValue] = useState(search.query.name);
-  const { isCleared, setIsCleared, focusOnFirstInput } = useFilterBtn(true);
+  const { isCleared, setIsCleared, focusOnFirstInput, loading } = useFilterBtn(
+    true,
+  );
   const recordCheckboxEvent = e => {
     recordEvent({
       event: 'gibct-form-change',
@@ -483,6 +486,7 @@ export function FilterYourResults({
   const renderLocation = () => {
     return (
       <>
+        {loading && <Loader className="search-loader" />}
         <h3>Location</h3>
         {renderCountryFilter()}
         {renderStateFilter()}
