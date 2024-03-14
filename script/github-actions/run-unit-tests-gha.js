@@ -98,7 +98,7 @@ console.log('matrix step: ', matrixStep);
 console.log('splitUnitTests:', splitUnitTests[matrixStep]);
 console.log('appsToRun: ', appsToRun);
 if (testsToVerify === null) {
-  if (appsToRun.length && appsToRun.length > 0)
+  if (appsToRun && appsToRun.length > 0)
     for (const dir of appsToRun) {
       const updatedPath = options['app-folder']
         ? options.path.map(p => `'${p}'`).join(' ')
