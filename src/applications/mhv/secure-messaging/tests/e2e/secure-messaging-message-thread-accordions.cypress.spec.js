@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockThreadResponse from './fixtures/thread-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { Assertions, AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Thread Details', () => {
   const landingPage = new PatientInboxPage();

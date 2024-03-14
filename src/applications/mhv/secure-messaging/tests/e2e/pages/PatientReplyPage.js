@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
-import { Locators } from '../utils/constants';
+import { Assertions, Locators } from '../utils/constants';
 
 class PatientReplyPage {
   sendReplyMessage = messageId => {
@@ -109,7 +109,7 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('[data-testid="alert-text"]').should(
+    cy.get(Locators.ALERTS.ALERT_TEXT).should(
       'contain.text',
       'Secure message was successfully sent.',
     );
@@ -157,7 +157,7 @@ class PatientReplyPage {
   verifyContnueButtonMessageDisplay = () => {
     cy.get(Locators.REPLY_FORM)
       .find('va-button')
-      .should('have.attr', 'text', 'Continue editing');
+      .should('have.attr', 'text', Assertions.CONTINUE_EDITING);
   };
 
   verifyDeleteButtonMessageDisplay = () => {

@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Assertions, Locators, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 
@@ -47,7 +47,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('[data-testid="alert-text"]').should(
+    cy.get(Locators.ALERTS.ALERT_TEXT).should(
       'contain.text',
       'Secure message was successfully sent.',
     );
@@ -392,9 +392,9 @@ class PatientComposePage {
   };
 
   verifyDeleteDraftSuccessfulMessage = () => {
-    cy.get('[data-testid="alert-text"]').should(
+    cy.get(Locators.ALERTS.ALERT_TEXT).should(
       'contain.text',
-      'Message conversation was successfully moved to Trash.',
+      Assertions.MESSAGE_CONVERSATION_SUCCESS_TRASH,
     );
   };
 
@@ -402,7 +402,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('[id="error-message"]')
-      .should('contain', ' Please select a recipient.');
+      .should('contain', Assertions.SELECT_RECIPIENT);
   };
 
   verifySubjectErrorMessage = () => {

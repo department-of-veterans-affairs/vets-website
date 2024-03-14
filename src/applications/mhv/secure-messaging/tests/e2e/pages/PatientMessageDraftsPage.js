@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { Assertions, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
@@ -294,14 +294,14 @@ class PatientMessageDraftsPage {
 
   // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
-    cy.get('[data-testid="alert-text"]').should(
+    cy.get(Locators.ALERTS.ALERT_TEXT).should(
       'contain.text',
       Alerts.Message.DELETE_DRAFT_SUCCESS,
     );
   };
 
   verifyConfirmationMessage = message => {
-    cy.get('[data-testid="alert-text"]').should('contain.text', message);
+    cy.get(Locators.ALERTS.ALERT_TEXT).should('contain.text', message);
   };
 
   verifyDeleteConfirmationHasFocus = () => {
@@ -517,7 +517,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyDraftMessageBannerTextHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+    cy.focused().should('contain.text', Assertions.DRAFT_DELETED_SUCCESS);
   };
 }
 
