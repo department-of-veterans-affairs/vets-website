@@ -14,18 +14,13 @@ const fetchTravelClaimsFailure = error => ({
   error,
 });
 
-const sleep = ms => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
 export function getTravelClaims() {
   return async dispatch => {
     dispatch(fetchTravelClaimsStart());
 
     try {
       const response = await apiRequest('/travel-claims');
-      // simulate network request while using mocks
-      await sleep(1000);
+
       dispatch(fetchTravelClaimsSuccess(response.data));
     } catch (error) {
       dispatch(fetchTravelClaimsFailure(error));

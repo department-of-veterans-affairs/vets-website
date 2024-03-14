@@ -8,4 +8,4 @@ const responses = {
   'GET /v0/travel-claims': travelClaims,
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 2000);
