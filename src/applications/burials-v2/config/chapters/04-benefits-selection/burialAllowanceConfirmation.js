@@ -35,7 +35,7 @@ export default {
         </>
       ),
       'ui:options': {
-        hideOnReview: true,
+        // hideOnReview: true,
       },
       confirmation: {
         ...checkboxGroupUI({
@@ -51,7 +51,7 @@ export default {
         }),
         'ui:options': {
           classNames: 'vads-u-margin-top-0',
-          hideOnReview: true,
+          // hideOnReview: true,
         },
       },
     },

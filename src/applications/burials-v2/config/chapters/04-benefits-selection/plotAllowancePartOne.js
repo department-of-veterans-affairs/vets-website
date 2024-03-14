@@ -6,10 +6,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
-const {
-  govtContributions,
-  // amountGovtContribution,
-} = fullSchemaBurials.properties;
+const { govtContributions } = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {

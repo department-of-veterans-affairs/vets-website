@@ -1,138 +1,62 @@
 {
-  "view:separationDocuments": false,
+  "deathCertificate": [
+    {
+      "name": "Screenshot from 2024-03-14 09-26-05.png",
+      "size": 95183,
+      "confirmationCode": "d56723cb-7de1-4ae6-b835-215061ac4e50",
+      "isEncrypted": false
+    }
+  ],
+  "transportationExpenses": false,
+  "view:claimedBenefits": {
+    "transportation": true
+  },
+  "view:servedUnderOtherNames": false,
+  "militarySeparationDocuments": [
+    {
+      "name": "Screenshot from 2024-03-07 09-28-35.png",
+      "size": 43149,
+      "confirmationCode": "920d72a5-1ccf-47fc-b316-cca4f9f53453",
+      "isEncrypted": false
+    }
+  ],
+  "view:separationDocuments": true,
+  "locationOfDeath": {
+    "location": "nursingHomeUnpaid"
+  },
+  "deathDate": "2023-01-19",
+  "burialDate": "2023-02-01",
+  "view:burialDateWarning": {},
+  "veteranFullName": {
+    "first": "Tom",
+    "last": "Riddle",
+    "suffix": "Sr."
+  },
+  "veteranSocialSecurityNumber": "333445556",
+  "veteranDateOfBirth": "1991-09-16",
   "claimantAddress": {
-    "isMilitary": false,
+    "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 Fake St.",
     "street2": "Apt 1033",
     "city": "Fakesville",
-    "state": "CA",
+    "state": "FL",
     "postalCode": "12345"
   },
-  "view:servedUnderOtherNames": true,
-  "burialAllowanceRequested": {
-    "service": true,
-    "nonService": true
-  },
-  "unclaimedRemains": true,
-  "view:allowanceStatement": {
-    "confirmation": {
-      "checkBox": true
-    }
-  },
-  "view:claimedBenefits": {
-    "burialAllowance": true,
-    "plotAllowance": true,
-    "transportation": true
-  },
-  "finalRestingPlace": {
-    "location": "other",
-    "other": "Other location test"
-  },
-  "previousNames": [
-    {
-      "first": "Tommy",
-      "last": "Bahama",
-      "serviceBranch": "Air Force",
-      "suffix": "Sr.",
-      "middle": "Middle"
-    },
-    {
-      "first": "Tom",
-      "last": "Ford",
-      "serviceBranch": "Coast Guard"
-    }
-  ],
-  "militaryServiceNumber": "1234567",
-  "toursOfDuty": [
-    {
-      "serviceBranch": "Air Force",
-      "dateRange": {
-        "from": "2005-07-19",
-        "to": "2009-04-02"
-      },
-      "placeOfEntry": "Los Angeles, CA",
-      "placeOfSeparation": "Dallas, TX",
-      "rank": "Sergeant",
-      "unit": "Unit test AF"
-    },
-    {
-      "serviceBranch": "Coast Guard",
-      "dateRange": {
-        "from": "2011-03-05",
-        "to": "2016-04-15"
-      },
-      "placeOfEntry": "Dallas, TX",
-      "placeOfSeparation": "San Francisco, CA",
-      "rank": "Chief",
-      "unit": "Unit test CG"
-    }
-  ],
-  "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
-  },
-  "veteranFullName": {
-    "first": "Tom",
-    "middle": "Middle",
-    "last": "Riddle",
-    "suffix": "Sr."
-  },
-  "veteranSocialSecurityNumber": "333444555",
-  "vaFileNumber": "123456789",
-  "veteranDateOfBirth": "1991-11-16",
   "claimantFullName": {
     "first": "Tom",
-    "middle": "Marvolo",
     "last": "Riddle",
     "suffix": "Jr."
   },
-  "claimantSocialSecurityNumber": "333445556",
-  "claimantDateOfBirth": "1991-01-21",
+  "claimantSocialSecurityNumber": "333445555",
+  "claimantDateOfBirth": "1991-07-21",
   "formV2": true,
-  "transportationReceipts": [
-    {
-      "name": "Screenshot from 2024-03-08 11-21-30.png",
-      "size": 52846,
-      "confirmationCode": "4d67edab-8b96-4a77-bc6d-a7b74183c2ed",
-      "isEncrypted": false
-    }
-  ],
-  "deathCertificate": [
-    {
-      "name": "Screenshot from 2024-03-08 11-25-36.png",
-      "size": 43620,
-      "confirmationCode": "bb5d8c08-58d8-4921-a6c1-3566e0d1a29f",
-      "isEncrypted": false
-    }
-  ],
-  "transportationExpenses": true,
-  "plotExpenseResponsibility": true,
-  "govtContributions": true,
-  "amountGovtContribution": "7890",
-  "tribalLandLocation": {
-    "name": "Test tribal location",
-    "zip": "12345"
+  "relationshipToVeteran": "otherFamily",
+  "burialAllowanceRequested": {},
+  "view:allowanceStatement": {
+    "confirmation": {}
   },
-  "cemetaryLocationQuestion": "tribalLand",
-  "nationalOrFederal": true,
-  "name": "Test location",
-  "previouslyReceivedAllowance": true,
-  "burialExpenseResponsibility": true,
-  "confirmation": {
-    "checkBox": true
-  },
-  "deathDate": "2023-03-19",
-  "burialDate": "2023-04-01",
-  "claimantEmail": "nope@nope.org",
-  "claimantPhone": "9008675309",
-  "claimantIntPhone": "9008675309",
-  "relationshipToVeteran": "spouse",
-  "burialAllowance": true,
-  "plotAllowance": true,
-  "transportation": true,
-  "privacyAgreementAccepted": true
+  "finalRestingPlace": {},
+  "cemeteryLocation": {},
+  "tribalLandLocation": {}
 }

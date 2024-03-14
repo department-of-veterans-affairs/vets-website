@@ -18,9 +18,6 @@ export default {
           labels: restingPlaceLabels,
           classNames: 'vads-u-margin-y--0 vads-u-margin-top--0',
         }),
-        // 'ui:options': {
-        //   classNames: 'vads-u-margin-y--0 vads-u-margin-top--0',
-        // },
       },
       other: {
         'ui:title': 'Final resting place of the deceased Veteran’s remains',
