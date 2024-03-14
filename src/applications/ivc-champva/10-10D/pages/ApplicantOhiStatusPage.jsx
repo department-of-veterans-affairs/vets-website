@@ -12,7 +12,9 @@ const keyname = 'applicantHasOhi';
 function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
     data?.applicants?.[pagePerItemIndex],
-  ).slice(0, -3); // remove 's_
+    undefined,
+    false,
+  );
 
   const useFirstPerson =
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;

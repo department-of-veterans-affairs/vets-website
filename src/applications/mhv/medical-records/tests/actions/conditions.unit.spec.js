@@ -17,6 +17,9 @@ describe('Get conditions action', () => {
     const dispatch = sinon.spy();
     return getConditionsList()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Conditions.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
         Actions.Conditions.GET_LIST,
       );
     });

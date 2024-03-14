@@ -253,9 +253,9 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
           NUM_CONTAINERS: 10
-
+      
       - name: Archive unit test results
-        if: ${{ always() }}
+        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-report-${{ matrix.ci_node_index }}
@@ -263,10 +263,15 @@ jobs:
 
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
-
+      - name: Rename Coverage Summary file
+        if: ${{ env.NO_APPS_TO_RUN == 'false' }}
+        run: |
+          cd coverage
+          mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
+        
       - name: Upload Coverage Report Artifact
         uses: ./.github/workflows/upload-artifact
-        if: ${{ always() }}
+        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         with:
           name: unit-test-coverage-${{ matrix.ci_node_index }}
           # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
@@ -1145,128 +1150,122 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-  # testing-reports-unit-tests-coverage:
-  #   name: Testing Reports - Unit Tests Coverage
-  #   runs-on: ubuntu-latest
-  #   needs: [testing-reports-prep, unit-tests]
-  #   if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
-  #   continue-on-error: true
-  #   env:
-  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  testing-reports-unit-tests-coverage:
+    name: Testing Reports - Unit Tests Coverage
+    runs-on: ubuntu-latest
+    needs: [testing-reports-prep, unit-tests]
+    if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       timeout-minutes: 30
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
-  #     # ------------------------
-  #     # | Upload BigQuery Data |
-  #     # ------------------------
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
 
-  #     - name: Configure AWS credentials
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
           
 
-  #     - name: Get va-vsp-bot token
-  #       uses: ./.github/workflows/inject-secrets
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
-  #     - name: Get AWS IAM role
-  #       uses: ./.github/workflows/inject-secrets
-  #       with:
-  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+      - name: Get AWS IAM role
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-  #     - name: Set UUID for Mochawesome reports
-  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-  #     - name: Configure AWS Credentials (2)
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
-  #         role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-  #         role_duration: 900
-  #         session_name: vsp-frontendteam-githubaction
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
           
 
-  #     # --------------------------------------
-  #     # | Publish Unit Test Coverage Report       |
-  #     # -------------------------------------
-  #     - name: Download Unit Test coverage results
-  #       uses: ./.github/workflows/download-artifact
-  #       with:
-  #         pattern: unit-test-coverage-*
-  #         path: qa-standards-dashboard-data/coverage
-  #         merge-multiple: true
+      # --------------------------------------
+      # | Publish Unit Test Coverage Report       |
+      # -------------------------------------
+      - name: Download Unit Test coverage results
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-coverage-*
+          path: qa-standards-dashboard-data/coverage
+          merge-multiple: true
 
-  #     # - name: Download Unit Test Coverage Report
-  #     #   uses: ./.github/workflows/download-artifact
-  #     #   with:
-  #     #     name: unit-test-coverage-report
-  #     #     path: qa-standards-dashboard-data/src/testing-reports/data
+      - name: Merge all coverage reports
+        run: |
+          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
 
-  #     - name: Generate coverage report by app
-  #       run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
-
-  #     - name: Archive coverage txt
-  #       if: ${{ always() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: unit-test-coverage-txt
-  #         path: qa-standards-dashboard-data/coverage/coverage_report.txt
-
-  #     - name: Process Coverage Report and post results to BigQuery
-  #       run: yarn unit-coverage-to-bigquery
-  #       working-directory: qa-standards-dashboard-data
-
-  #     - name: Upload coverage report to S3
-  #       if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
-  #       run: |
-  #         if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
-  #           aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-  #         else
-  #           echo 'No coverage report exists as no tests were run.'
-  #         fi
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
       
-  #     # -------------------------
-  #     # | Unit Tests Summary |
-  #     # -------------------------
-  #     - name: Get code coverage
-  #       if: ${{ always() }}
-  #       id: code-coverage
-  #       run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+      - name: Archive coverage txt
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-coverage-txt
+          path: qa-standards-dashboard-data/coverage/coverage_report.txt
 
-  #     - name: Publish test results
-  #       if: ${{ always() }}
-  #       continue-on-error: true
-  #       uses: ./.github/workflows/publish-test-results
-  #       with:
-  #         check_name: 'Unit Tests Summary'
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         report_paths: 'test-results/unit-tests.xml'
-  #         summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-  #         fail_on_failure: 'true'
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
+        run: |
+          if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
+            aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          else
+            echo 'No coverage report exists as no tests were run.'
+          fi
+      
+      # -------------------------
+      # | Unit Tests Summary |
+      # -------------------------
+
+      - name: Get code coverage
+        if: ${{ always() }}
+        id: code-coverage
+        run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+
+      - name: Publish Unit Test Coverage Results
+        if: ${{ always() }}
+        uses: ./.github/workflows/checks-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Unit Test Coverage Summary
+          conclusion: ${{ needs.unit-tests.result }}
+          output: |
+            {"summary":"<https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/frontend-support-dashboard/unit-test-coverage-report/>"}
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests

@@ -179,9 +179,9 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  it('should render an AskVAQuestions warning component', () => {
+  it('should render a NeedHelp warning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('Connect(AskVAQuestions)').length).to.equal(1);
+    expect(wrapper.find('NeedHelp').length).to.equal(1);
     wrapper.unmount();
   });
 
