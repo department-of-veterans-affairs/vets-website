@@ -5,7 +5,7 @@ import arrayBuilderChapter from './components/ArrayBuilderChapter';
 describe('arrayBuilderChapter required options tests', () => {
   it('should throw an error if incorrect config is passed', () => {
     const msg =
-      'arrayBuilderChapter must include a config function like this `arrayBuilderChapter(pages => { ... })`';
+      'arrayBuilderChapter must include a config function like this `arrayBuilderChapter(pageBuilder => { ... })`';
     try {
       arrayBuilderChapter();
       expect(true).to.be.false;
@@ -22,8 +22,8 @@ describe('arrayBuilderChapter required options tests', () => {
 
   it('should throw an error if uiSchema is not defined with YesNoField', () => {
     try {
-      arrayBuilderChapter(pages => ({
-        summaryPage: pages.summaryPage({
+      arrayBuilderChapter(pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {},
         }),
@@ -36,8 +36,8 @@ describe('arrayBuilderChapter required options tests', () => {
 
   it('should throw an error if options is not provided', () => {
     try {
-      arrayBuilderChapter(pages => ({
-        summaryPage: pages.summaryPage({
+      arrayBuilderChapter(pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
             hasEmployment: {
@@ -56,9 +56,9 @@ describe('arrayBuilderChapter required options tests', () => {
 
   it('should throw an error if specific options are not provided', () => {
     try {
-      arrayBuilderChapter(pages => ({
+      arrayBuilderChapter(pageBuilder => ({
         options: {},
-        summaryPage: pages.summaryPage({
+        summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
             hasEmployment: {
@@ -74,11 +74,11 @@ describe('arrayBuilderChapter required options tests', () => {
       );
     }
     try {
-      arrayBuilderChapter(pages => ({
+      arrayBuilderChapter(pageBuilder => ({
         options: {
           arrayPath: 'employers',
         },
-        summaryPage: pages.summaryPage({
+        summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
             hasEmployment: {
@@ -97,14 +97,14 @@ describe('arrayBuilderChapter required options tests', () => {
 
   it('should throw an error if specific pageOptions are not provided', () => {
     try {
-      arrayBuilderChapter(pages => ({
+      arrayBuilderChapter(pageBuilder => ({
         options: {
           arrayPath: 'employers',
           nounSingular: 'employer',
           nounPlural: 'employers',
           nextChapterPath: '/next-chapter',
         },
-        summaryPage: pages.summaryPage({
+        summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
             hasEmployment: {
@@ -116,7 +116,7 @@ describe('arrayBuilderChapter required options tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include(
-        'arrayBuilderChapter `pages.summaryPage()` must include',
+        'arrayBuilderChapter `pageBuilder.summaryPage()` must include',
       );
       expect(e.message).to.include('path: ...');
     }
@@ -124,14 +124,14 @@ describe('arrayBuilderChapter required options tests', () => {
 
   it('should pass if everything is provided correctly', () => {
     try {
-      arrayBuilderChapter(pages => ({
+      arrayBuilderChapter(pageBuilder => ({
         options: {
           arrayPath: 'employers',
           nounSingular: 'employer',
           nounPlural: 'employers',
           nextChapterPath: '/next-chapter',
         },
-        summaryPage: pages.summaryPage({
+        summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           path: '/summary',
           uiSchema: {
@@ -141,13 +141,13 @@ describe('arrayBuilderChapter required options tests', () => {
           },
           schema: {},
         }),
-        firstPage: pages.itemFirstPage({
+        firstPage: pageBuilder.itemFirstPage({
           title: 'Name of employer',
           path: '/name/:index',
           uiSchema: {},
           schema: {},
         }),
-        lastPage: pages.itemLastPage({
+        lastPage: pageBuilder.itemLastPage({
           title: 'Address of employer',
           path: '/address/:index',
           uiSchema: {},
