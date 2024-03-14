@@ -13,7 +13,7 @@ const BenefitRelinquishmentDate = props => {
       if (formData?.mebAutoPopulateRelinquishmentDate && !isDateChecked) {
         const aYearAgo = moment(new Date()).subtract(1, 'y');
         if (
-          formData?.benefitEffectiveDate?.isBefore(aYearAgo) ||
+          moment(formData?.benefitEffectiveDate).isBefore(aYearAgo) ||
           !formData?.benefitEffectiveDate
         ) {
           setFormData({
