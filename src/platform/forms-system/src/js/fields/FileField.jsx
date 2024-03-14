@@ -493,9 +493,7 @@ const FileField = props => {
             const retryButtonText =
               content[allowRetry ? 'tryAgain' : 'newFile'];
             const deleteButtonText =
-              content[
-                enableShortWorkflow && hasVisibleError ? 'cancel' : 'delete'
-              ];
+              content[hasVisibleError ? 'cancel' : 'delete'];
 
             const getUiSchema = innerUiSchema =>
               typeof innerUiSchema === 'function'
@@ -611,25 +609,24 @@ const FileField = props => {
                 {!formContext.reviewMode &&
                   !isUploading && (
                     <div className="vads-u-margin-top--2">
-                      {hasVisibleError &&
-                        enableShortWorkflow && (
-                          <va-button
-                            name={`retry_upload_${index}`}
-                            class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                            onClick={getRetryFunction(
-                              allowRetry,
-                              index,
-                              file.file,
-                            )}
-                            label={
-                              allowRetry
-                                ? content.tryAgainLabel(file.name)
-                                : content.newFile
-                            }
-                            text={retryButtonText}
-                            uswds
-                          />
-                        )}
+                      {hasVisibleError && (
+                        <va-button
+                          name={`retry_upload_${index}`}
+                          class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                          onClick={getRetryFunction(
+                            allowRetry,
+                            index,
+                            file.file,
+                          )}
+                          label={
+                            allowRetry
+                              ? content.tryAgainLabel(file.name)
+                              : content.newFile
+                          }
+                          text={retryButtonText}
+                          uswds
+                        />
+                      )}
                       <va-button
                         secondary
                         class="delete-upload vads-u-width--auto"
