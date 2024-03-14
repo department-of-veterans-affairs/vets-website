@@ -595,7 +595,7 @@ jobs:
       # The following statement is included in each step because of a bug in
       # GitHub's branch protection:
       #
-      # if: needs.tests-prep.outputs.tests != '[]'
+      # if: needs.tests-prep.outputs.cypress-tests != '[]'
       #
       # Previously, if no tests were selected, the branch protection check that
       # requires the cypress-tests job to run was not satisfied. This update forces
@@ -605,11 +605,11 @@ jobs:
           
 
       - name: Checkout vets-website
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -617,19 +617,19 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Download production build artifact
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
 
       - name: Unpack build
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Install dependencies
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/install
         timeout-minutes: 20
         with:
@@ -641,36 +641,36 @@ jobs:
             node_modules
 
       - name: Start server
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Run Cypress tests
-        if: needs.tests-prep.outputs.tests != '[]'
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 40
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          TESTS: ${{ needs.tests-prep.outputs.tests }}
+          TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
       - name: Archive test videos
-        if: ${{ needs.tests-prep.outputs.tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
-        if: ${{ needs.tests-prep.outputs.tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        if: ${{ needs.tests-prep.outputs.tests != '[]' && always() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
@@ -704,11 +704,11 @@ jobs:
 
     steps:
       - name: Checkout vets-website
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -716,19 +716,19 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Download production build artifact
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
 
       - name: Unpack build
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Install dependencies
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: ./.github/workflows/install
         timeout-minutes: 20
         with:
@@ -740,30 +740,30 @@ jobs:
             node_modules
 
       - name: Start server
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Run Cypress tests
-        if: needs.tests-prep.outputs.tests-to-stress-test != '[]'
+        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 90
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          TESTS: ${{ needs.tests-prep.outputs.tests-to-stress-test }}
+          TESTS: ${{ needs.tests-prep.outputs.cypress-tests-to-stress-test }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: 1
           IS_STRESS_TEST: true
 
       - name: Archive test videos
-        if: ${{ needs.tests-prep.outputs.tests != '[]' && failure() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-stress-test-videos-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive Mochawesome test results
-        if: ${{ needs.tests-prep.outputs.tests-to-stress-test != '[]' && always() }}
+        if: ${{ needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-stress-test-results-${{ matrix.ci_node_index }}
