@@ -337,7 +337,9 @@ const Prescriptions = () => {
         !isLoading &&
         loadingMessage === '' &&
         pdfTxtGenerateStatus.format === 'print' &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+        allergies &&
+        !allergiesError
       ) {
         setPdfTxtGenerateStatus({
           status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -345,11 +347,14 @@ const Prescriptions = () => {
         window.print();
       }
     },
-    [isLoading, loadingMessage, pdfTxtGenerateStatus],
+    [isLoading, loadingMessage, pdfTxtGenerateStatus, allergiesError],
   );
 
   const handleFullListDownload = async format => {
-    updateLoadingStatus(true, 'Downloading your file...');
+    if (format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT) {
+      updateLoadingStatus(true, 'Downloading your file...');
+    } else if (!allergies)
+      updateLoadingStatus(true, 'Downloading your file...');
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
@@ -374,6 +379,10 @@ const Prescriptions = () => {
         buildAllergiesTXT(),
       );
     } else {
+      updateLoadingStatus(false, '');
+      setPdfTxtGenerateStatus({
+        status: PDF_TXT_GENERATE_STATUS.NotStarted,
+      });
       window.print();
     }
     dispatch(clearAllergiesError());
@@ -431,6 +440,7 @@ const Prescriptions = () => {
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">
               <PrintDownload
+                // print={handleFullListPrint}
                 download={handleFullListDownload}
                 isSuccess={
                   pdfTxtGenerateStatus.status ===
