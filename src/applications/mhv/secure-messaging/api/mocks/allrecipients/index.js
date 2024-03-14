@@ -7,13 +7,6 @@ const allRecipients = {
       attributes: {
         triageTeamId: 1013155,
         name: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-        structured: {
-          visn: '11223344',
-          facility: 'MHV',
-          location: 'Portland, OR',
-          careCategories: ['A', 'B'],
-          group: 'TestGroup',
-        },
         stationNumber: '989',
         blockedStatus: false,
         preferredTeam: true,
