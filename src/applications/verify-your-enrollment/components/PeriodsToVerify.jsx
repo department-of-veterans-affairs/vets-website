@@ -9,6 +9,7 @@ import {
   verifyEnrollmentAction,
 } from '../actions';
 import { translateDatePeriod, formatCurrency } from '../helpers';
+import Alert from './Alert';
 
 const PeriodsToVerify = ({
   enrollmentData,
@@ -108,7 +109,7 @@ const PeriodsToVerify = ({
   return (
     <div id="verifications-pending-alert">
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length > 0 && (
+        .length > 0 ? (
         <va-alert
           close-btn-aria-label="Close notification"
           // class="vads-u-margin-bottom--4"
@@ -130,6 +131,11 @@ const PeriodsToVerify = ({
             />
           </div>
         </va-alert>
+      ) : (
+        <Alert
+          status="success"
+          message="You're up-to-date with your monthly enrollment verification. You'll be able to verify your enrollment next month."
+        />
       )}
       {/* 
                 will need to update logic here/ currently this would not work in prod
