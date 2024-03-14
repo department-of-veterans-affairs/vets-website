@@ -1,5 +1,12 @@
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import {
+  getMonthlyIncome,
+  // getMonthlyIncomeAPI,
+  safeNumber,
+  // getMonthlyExpensesAPI,
+  // calculateTotalExpensesAPI,
+  // calculateTotalAssetsAPI,
+} from './calculateIncome';
 import { getTotalAssets } from './helpers';
 import { getMonthlyExpenses } from './calculateExpenses';
 
@@ -95,6 +102,12 @@ export const isStreamlinedLongForm = formData => {
  */
 export const calculateTotalAnnualIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+
+  // console.group('calculateTotalAnnualIncome');
+  // const totalIncome = getMonthlyIncomeAPI(formData);
+  // console.error('totalIncome: ', totalIncome);
+  // console.groupEnd();
+
   return totalMonthlyNetIncome * 12;
 };
 
@@ -116,6 +129,11 @@ export const calculateLiquidAssets = formData => {
     return acc;
   }, 0);
 
+  // console.group('calculateLiquidAssets');
+  // const test = calculateTotalAssetsAPI(formData);
+  // console.error('calculateLiquidAssets: ', test);
+  // console.groupEnd();
+
   return formData['view:streamlinedWaiverAssetUpdate']
     ? liquidAssets
     : getTotalAssets(formData);
@@ -129,6 +147,16 @@ export const calculateLiquidAssets = formData => {
  */
 export const calculateDiscretionaryIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+
+  // console.group('calculateDiscretionaryIncome');
+  // const income = getMonthlyIncomeAPI(formData);
+  // const expensesApi = getMonthlyExpensesAPI(formData);
+  // const expenseTotalApi = calculateTotalExpensesAPI(formData);
+  // console.error('income: ', income);
+  // console.error('expensesApi: ', expensesApi);
+  // console.error('expenseTotalApi: ', expenseTotalApi);
+  // console.groupEnd();
+
   const expenses = getMonthlyExpenses(formData);
   return totalMonthlyNetIncome - expenses;
 };

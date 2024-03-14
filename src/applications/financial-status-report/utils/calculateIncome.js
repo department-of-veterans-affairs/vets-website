@@ -1,3 +1,5 @@
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   sumValues,
   otherDeductionsName,
@@ -6,7 +8,6 @@ import {
   filterReduceByName,
   safeNumber,
 } from './helpers';
-
 // default income object
 
 const defaultIncome = {
@@ -194,4 +195,123 @@ const getMonthlyIncome = formData => {
   };
 };
 
-export { calculateIncome, getMonthlyIncome, safeNumber };
+// /v0/calculate_monthly_income
+const getMonthlyIncomeAPI = async formData => {
+  // console.group('getMonthlyIncomeAPI');
+  const body = JSON.stringify({ data: { ...formData } });
+
+  // console.log('\nbody: ', body);
+
+  try {
+    const url = `${environment.API_URL}/debts_api/v0/calculate_monthly_income`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    // Sentry.withScope(scope => {
+    //   scope.setExtra('error', error);
+    //   Sentry.captureMessage(`calculate_monthly_income failed: ${error}`);
+    // });
+    // console.error('error', error);
+    // console.groupEnd();
+    return null;
+  }
+};
+
+// /v0/calculate_monthly_expenses
+const getMonthlyExpensesAPI = async formData => {
+  // console.group('getMonthlyExpensesAPI');
+  const body = JSON.stringify(formData);
+
+  try {
+    const url = `${
+      environment.API_URL
+    }/debts_api/v0/calculate_monthly_expenses`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    // console.error('error', error);
+    // console.groupEnd();
+    return null;
+  }
+};
+
+// /v0/calculate_all_expenses
+const calculateTotalExpensesAPI = async formData => {
+  // console.group('calculateTotalExpensesAPI');
+  const body = JSON.stringify(formData);
+
+  try {
+    const url = `${environment.API_URL}/debts_api/v0/calculate_all_expenses`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    // console.error('error', error);
+    // console.groupEnd();
+    return null;
+  }
+};
+
+// /v0/calculate_total_assets
+const calculateTotalAssetsAPI = async formData => {
+  // console.group('calculateTotalAssetsAPI');
+  const body = JSON.stringify(formData);
+
+  try {
+    const url = `${environment.API_URL}/debts_api/v0/calculate_total_assets`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    // console.error('error', error);
+    // console.groupEnd();
+    return null;
+  }
+};
+export {
+  calculateIncome,
+  getMonthlyIncome,
+  getMonthlyIncomeAPI,
+  safeNumber,
+  getMonthlyExpensesAPI,
+  calculateTotalExpensesAPI,
+  calculateTotalAssetsAPI,
+};
