@@ -47,7 +47,7 @@ const useDatadogRumUser = user => {
         window.DD_RUM?.getInitConfiguration() &&
         // Not during unit tests
         !window.Mocha &&
-        // only in staging until testing is validated66668
+        // only in staging until testing is validated
         environment.isStaging()
       ) {
         setRumUser(user);
