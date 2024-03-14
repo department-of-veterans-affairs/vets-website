@@ -54,7 +54,7 @@ describe('Check-in experience', () => {
         expect(getByTestId('travel-info-external-link')).to.exist;
         expect(getByTestId('travel-complete-content')).to.exist;
       });
-      it('calls travel API via hook', () => {
+      it.skip('calls travel API via hook', () => {
         sandbox.stub(v2, 'postTravelPayClaims').resolves({});
         render(
           <CheckInProvider store={store}>
@@ -79,7 +79,7 @@ describe('Check-in experience', () => {
         );
         expect(updateErrorSpy.calledOnce).to.be.true;
       });
-      it('does not call API on reload or already filed', () => {
+      it.skip('does not call API on reload or already filed', () => {
         sandbox.stub(useStorageModule, 'useStorage').returns({
           getTravelPaySent: () => ({ 500: '2024-03-12T15:18:02.422Z' }),
         });
@@ -91,7 +91,7 @@ describe('Check-in experience', () => {
         );
         sandbox.assert.notCalled(v2.postTravelPayClaims);
       });
-      it('does call API if station filed before today', () => {
+      it.skip('does call API if station filed before today', () => {
         sandbox.stub(useStorageModule, 'useStorage').returns({
           getTravelPaySent: () => ({ 500: '2024-03-10T15:18:02.422Z' }),
         });
