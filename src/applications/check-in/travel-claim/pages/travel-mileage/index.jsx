@@ -45,7 +45,8 @@ const TravelMileage = props => {
           {
             stationNo: firstAppointment.stationNo,
             startTime: firstAppointment.startTime,
-            multipleAppointments: eligibleToFile.length > 1,
+            appointmentCount: eligibleToFile.length,
+            facility: firstAppointment.facility,
           },
         ]);
       }
@@ -78,14 +79,6 @@ const TravelMileage = props => {
     },
     [dispatch, goToNextPage, selectedFacilities, setError],
   );
-  const formatAppointment = appointment => {
-    const appointmentLabel = appointment.clinicStopCodeName
-      ? `${appointment.clinicStopCodeName} ${t('appointment')}`
-      : t('VA-appointment');
-    const providerLabel =
-      appointment.doctorName && ` with ${appointment.doctorName}`;
-    return `${appointmentLabel}${providerLabel}`;
-  };
   let header = t('file-mileage-only-claim-todays-appointment', {
     count: eligibleToFile.length,
   });
@@ -113,7 +106,6 @@ const TravelMileage = props => {
           {multipleFacilities ? (
             <MultipleFacilityBody
               error={error}
-              formatAppointment={formatAppointment}
               appointmentsByFacility={appointmentsByFacility}
               selectedFacilities={selectedFacilities}
               setSelectedFacilities={setSelectedFacilities}
@@ -122,12 +114,12 @@ const TravelMileage = props => {
             <SingleFacilityBody
               facility={eligibleToFile[0].facility}
               appointments={eligibleToFile}
-              formatAppointment={formatAppointment}
             />
           )}
           <va-additional-info
             trigger={t('if-you-have-other-expenses-to-claim')}
             uswds
+            class="vads-u-margin-bottom--2"
           >
             <Trans
               i18nKey="if-you-need-submit-receipts-other-expenses"

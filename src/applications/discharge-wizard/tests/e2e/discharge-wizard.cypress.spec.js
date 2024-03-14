@@ -63,7 +63,7 @@ describe('functionality of discharge wizard', () => {
     axeTestPage();
 
     // open Form download
-    cy.get('.main va-link[download="true"]')
+    cy.get('.main .step-1-download')
       .first()
       .click();
   });
