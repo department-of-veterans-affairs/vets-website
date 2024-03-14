@@ -604,7 +604,6 @@ const FileField = props => {
                     index={index}
                     onSubmitPassword={onSubmitPassword}
                     passwordLabel={content.passwordLabel(file.name)}
-                    uswds
                   />
                 )}
                 {!formContext.reviewMode &&
