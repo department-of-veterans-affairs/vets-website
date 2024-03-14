@@ -41,6 +41,7 @@ import transportationExpenses from './chapters/04-benefits-selection/transportat
 
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
+import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
 import { submit } from '../utils/helpers';
 import manifest from '../manifest.json';
@@ -356,14 +357,23 @@ const formConfig = {
           schema: deathCertificate.schema,
         },
         transportationReceipts: {
-          title: 'Transportation Receipts',
+          title: 'Transportation receipts',
           reviewTitle: () => (
-            <h4 className="vads-u-font-size--h3">Transportation Receipts</h4>
+            <h4 className="vads-u-font-size--h3">Transportation receipts</h4>
           ),
           path: 'additional-information/transportation-receipts',
           depends: form => get('transportationExpenses', form),
           uiSchema: transportationReceipts.uiSchema,
           schema: transportationReceipts.schema,
+        },
+        additionalEvidence: {
+          title: 'Additional evidence',
+          reviewTitle: () => (
+            <h4 className="vads-u-font-size--h3">Additional evidence</h4>
+          ),
+          path: 'additional-information/additional-evidence',
+          uiSchema: additionalEvidence.uiSchema,
+          schema: additionalEvidence.schema,
         },
       },
     },
