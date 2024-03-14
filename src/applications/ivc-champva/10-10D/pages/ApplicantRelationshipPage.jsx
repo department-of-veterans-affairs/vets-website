@@ -21,12 +21,8 @@ function generateOptions({ data, pagePerItemIndex }) {
   const useFirstPerson =
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
 
-  // Set up grammatically appropriate articles
-  const relativeBeingVerb = `${`${
-    !useFirstPerson
-      ? `${applicant} ${data.sponsorIsDeceased ? 'was' : 'is'}`
-      : `${data.sponsorIsDeceased ? 'I was' : 'I’m'}`
-  }`}`;
+  const relative = `${useFirstPerson ? 'I' : applicant}`;
+  const beingVerbPresent = useFirstPerson ? 'am' : 'is';
 
   const relativePossessive = applicantWording(
     currentListItem,
@@ -35,24 +31,31 @@ function generateOptions({ data, pagePerItemIndex }) {
     false,
   );
 
+  const marriedDeceased = `${relative} was married to the ${personTitle} at any time`;
+  const marriedLiving = `${relative} ${beingVerbPresent} the ${personTitle}’s spouse`;
+  const marriedLivingDivorced = `${relative} was the ${personTitle}’s spouse, but ${beingVerbPresent} no longer married to the ${personTitle}`;
+
+  const marriageOptions = [];
+  if (data.sponsorIsDeceased) {
+    marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
+  } else {
+    marriageOptions.push({ label: marriedLiving, value: 'spouse' });
+    marriageOptions.push({ label: marriedLivingDivorced, value: 'spouse' });
+  }
+
   // Create dynamic radio labels based on above phrasing
   const options = [
+    ...marriageOptions,
     {
-      label: `${relativeBeingVerb} the ${personTitle}'s spouse`,
-      value: 'spouse',
-    },
-    {
-      label: `${relativeBeingVerb} the ${personTitle}'s child`,
+      label: `${relative} ${beingVerbPresent} the ${personTitle}’s ${
+        data.sponsorIsDeceased ? 'surviving' : ''
+      } child (including adopted children and stepchildren)`,
       value: 'child',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}'s caretaker`,
-      value: 'caretaker',
-    },
-    {
       label: `${
-        applicant && !useFirstPerson ? `${applicant} doesn’t` : 'We don’t'
-      } have a relationship that’s listed here`,
+        useFirstPerson ? 'Our' : `${applicant}’s`
+      } relationship is not listed here`,
       value: 'other',
     },
   ];
@@ -61,7 +64,6 @@ function generateOptions({ data, pagePerItemIndex }) {
     options,
     useFirstPerson,
     relativePossessive,
-    relativeBeingVerb,
     applicant,
     personTitle,
     keyname,
@@ -110,7 +112,7 @@ export function ApplicantRelationshipReviewPage(props) {
         {other ? (
           <div className="review-row">
             <dt>
-              Since {useFirstPerson ? 'your' : `${applicant}'s `} relationship
+              Since {useFirstPerson ? 'your' : `${applicant}’s `} relationship
               with the {personTitle} was not listed, please describe it here
             </dt>
             <dd>{other}</dd>
@@ -220,7 +222,7 @@ export default function ApplicantRelationshipPage({
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
           class="vads-u-margin-y--2"
-          label={`What's ${
+          label={`What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
             useFirstPerson ? `your` : `${applicant}’s`
           } relationship to the ${personTitle}?`}
           hint="Depending on your response, you may need to submit additional documents with this application."
