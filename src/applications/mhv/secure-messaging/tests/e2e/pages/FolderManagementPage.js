@@ -4,7 +4,6 @@ import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import { Locators, Alerts, Paths } from '../utils/constants';
 
-
 class FolderManagementPage {
   currentThread = defaultMockThread;
 
