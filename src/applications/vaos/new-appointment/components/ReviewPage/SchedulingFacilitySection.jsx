@@ -21,8 +21,13 @@ function handleClick(history, pageFlow) {
 export default function SchedulingFacilitySection({ facility }) {
   const history = useHistory();
   const pageFlow = useSelector(getNewAppointmentFlow);
-  const { telecom = [] } = facility;
-  const { value: phone } = telecom[0];
+  const { telecom } = facility;
+
+  let phone = '';
+  if (telecom && telecom.length > 0) {
+    const { value } = telecom[0];
+    phone = value;
+  }
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
