@@ -211,14 +211,14 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.emis]}
+        dependencies={[externalServices.vaProfile]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <va-featured-content uswds>
+      <va-summary-box uswds>
         <h3 className="vads-u-margin-top--0" slot="headline">
           Request your military records (DD214)
         </h3>
@@ -226,7 +226,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           href="/records/get-military-service-records"
           text="Learn how to request your DD214 and other military records"
         />
-      </va-featured-content>
+      </va-summary-box>
 
       {profileShowProofOfVeteranStatus && (
         <div className="vads-u-margin-y--4">

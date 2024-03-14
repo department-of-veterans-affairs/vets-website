@@ -1,40 +1,38 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import Wrapper from '../../../components/layout/Wrapper';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { hasMultipleFacilities } from '../../../utils/appointment';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import TravelEligibilityAddtionalInfo from '../../../components/TravelEligibilityAdditionalInfo';
-
-// Appointments will come from redux this is temp
-import { singleFacility } from './testAppointments';
+import { APP_NAMES } from '../../../utils/appConstants';
+import ExternalLink from '../../../components/ExternalLink';
 
 const TravelIntro = props => {
-  const { router, appointments = singleFacility } = props;
+  const { router } = props;
   const { t } = useTranslation();
 
-  const { jumpToPage } = useFormRouting(router);
-  // @TODO logic need to figure out if we should go to multi-facility page or single
+  const { goToNextPage } = useFormRouting(router);
 
-  const nextPage = hasMultipleFacilities(appointments)
-    ? 'select-appointment'
-    : 'travel-mileage';
   const fileClaimClick = useCallback(
     e => {
       if (e?.key && e.key !== ' ') {
         return;
       }
       recordEvent({
-        event: createAnalyticsSlug('file-travel-clicked', 'nav'),
+        event: createAnalyticsSlug(
+          'file-a-mileage-only-claim--link-clicked',
+          'nav',
+          APP_NAMES.TRAVEL_CLAIM,
+        ),
       });
       e.preventDefault();
-      jumpToPage(nextPage);
+      goToNextPage();
     },
-    [jumpToPage, nextPage],
+    [goToNextPage],
   );
+
   return (
     <>
       <Wrapper
@@ -42,12 +40,7 @@ const TravelIntro = props => {
         classNames="travel-page"
       >
         <p className="vads-u-margin-bottom--0">
-          <Trans
-            i18nKey="you-can-use-this-tool-file-claim"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
+          {t('you-can-use-this-tool-file-claim')}
         </p>
         <va-process-list uswds>
           <va-process-list-item>
@@ -57,12 +50,14 @@ const TravelIntro = props => {
             <p className="vads-u-margin-top--0">
               {t('if-youre-eligible-for-travel-reimbursement-you-can-file')}
             </p>
-            <va-additional-info
-              trigger={t('travel-reimbursement-eligibility')}
-              uswds
+            <ExternalLink
+              href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+              eventId="travel-reimbursement-eligibility--link-clicked"
+              hrefLang="en"
+              eventPrefix="nav"
             >
-              <TravelEligibilityAddtionalInfo />
-            </va-additional-info>
+              {t('travel-reimbursement-eligibility')}
+            </ExternalLink>
           </va-process-list-item>
           <va-process-list-item>
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
@@ -81,35 +76,41 @@ const TravelIntro = props => {
               {t('file-mileage-only-claim')}
             </a>
             <p>
-              {t(
-                'if-claiming-other-expenses-file-online-or-mail-email-fax-in-person',
-              )}
+              {t('if-claiming-other-expenses-file-online-or-mail-or-in-person')}
             </p>
-            <a
-              className="vads-c-action-link--green"
+            <ExternalLink
               href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+              eventId="learn-how-to-file-claims-for-other-expenses--link-clicked"
+              hrefLang="en"
+              eventPrefix="nav"
             >
               {t('learn-how-file-claims-other-expenses')}
-            </a>
+            </ExternalLink>
           </va-process-list-item>
         </va-process-list>
-        <va-featured-content class="vads-u-margin-bottom--1" uswds>
-          <h2 className="vads-u-font-family--sans vads-u-margin-top--0">
+        <va-summary-box class="vads-u-margin-bottom--1" uswds>
+          <h2
+            className="vads-u-font-family--sans vads-u-margin-top--0"
+            slot="headline"
+          >
             {t('set-up-direct-deposit')}
           </h2>
           <p>{t('set-up-direct-deposit-to-receive-travel-reimbursement')}</p>
-          <a href="https://www.va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/">
+          <ExternalLink
+            href="https://www.va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
+            eventId="set-up-direct-desposit--link-clicked"
+            hrefLang="en"
+            eventPrefix="nav"
+          >
             {t('set-up-direct-deposit')}
-          </a>
-        </va-featured-content>
+          </ExternalLink>
+        </va-summary-box>
       </Wrapper>
     </>
   );
 };
 
 TravelIntro.propTypes = {
-  // temp prop remove after data fetch in place
-  appointments: PropTypes.array,
   router: PropTypes.object,
 };
 

@@ -21,7 +21,7 @@ import { isProductionOfTestProdEnv } from '../helpers';
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
     return {
-      applicantInformation: createApplicantInformationPage(fullSchema1995, {
+      ...createApplicantInformationPage(fullSchema1995, {
         isVeteran: true,
         fields: [
           'veteranFullName',

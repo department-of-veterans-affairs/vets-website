@@ -927,6 +927,15 @@ ol.va-list-horizontal {
   margin-right: 6px;
 }
 
+.docs-filed-text {
+  font-weight: bold;
+}
+
+.docs-filed-icon {
+  margin-right: 6px;
+  color: $color-green;
+}
+
 .submission-description {
   display: inline-block;
   padding: 0 0 0.5em 0;
@@ -1490,7 +1499,7 @@ $marker-text-width: 9rem;
 }
 
 .tab-content {
-  border-top: 1px solid $color-gray-lighter;
+  border-top: 1px solid $color-gray-light;
 }
 
 .tab-panel:focus {

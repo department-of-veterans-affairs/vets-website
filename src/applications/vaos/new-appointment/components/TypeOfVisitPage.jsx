@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
-import { TYPE_OF_VISIT } from '../../utils/constants';
+import { getFormPageInfo, getNewAppointment } from '../redux/selectors';
+import { FLOW_TYPES, TYPE_OF_VISIT } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
@@ -15,28 +15,19 @@ import {
   updateFormData,
 } from '../redux/actions';
 
-const initialSchema = {
-  type: 'object',
-  required: ['visitType'],
-  properties: {
-    visitType: {
-      type: 'string',
-      enum: TYPE_OF_VISIT.map(v => v.id),
-      enumNames: TYPE_OF_VISIT.map(v => v.name),
-    },
-  },
-};
-
 const uiSchema = {
   visitType: {
     'ui:widget': 'radio',
     'ui:title':
       'Please let us know how you would like to be seen for this appointment.',
+    'ui:errorMessages': {
+      required: 'Select an option',
+    },
   },
 };
 
 const pageKey = 'visitType';
-const pageTitle = 'Choose a type of appointment';
+const pageTitle = 'How do you want to attend this appointment?';
 
 export default function TypeOfVisitPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -47,6 +38,31 @@ export default function TypeOfVisitPage({ changeCrumb }) {
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
+  const { flowType } = useSelector(getNewAppointment);
+
+  const initialSchema = {
+    type: 'object',
+    required: ['visitType'],
+    properties: {
+      visitType: {
+        type: 'string',
+        enum: TYPE_OF_VISIT.map(v => v.id),
+        enumNames: TYPE_OF_VISIT.map(v => {
+          if (FLOW_TYPES.DIRECT === flowType) return v.name;
+
+          // Request flow
+          if (v.id === 'clinic') return 'In person';
+          if (v.id === 'phone') return 'By phone';
+          if (v.id === 'telehealth')
+            return 'Through VA Video Connect (telehealth)';
+
+          // It's an error if this is reached so return the original name
+          return v.name;
+        }),
+      },
+    },
+  };
+
   const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {

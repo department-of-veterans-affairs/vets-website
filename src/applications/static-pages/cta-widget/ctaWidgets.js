@@ -216,7 +216,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.MANAGE_VA_DEBT]: {
     id: CTA_WIDGET_TYPES.MANAGE_VA_DEBT,
     deriveToolUrlDetails: () => ({
-      url: '/manage-va-debt/your-debt',
+      url: '/manage-va-debt/summary/debt-balances',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,

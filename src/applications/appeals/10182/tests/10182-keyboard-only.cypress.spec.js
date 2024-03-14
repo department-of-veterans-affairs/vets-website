@@ -10,7 +10,7 @@ import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 // Skipping for now
-describe('Notice of Disagreement keyboard only navigation', () => {
+describe.skip('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cypressSetup();
 

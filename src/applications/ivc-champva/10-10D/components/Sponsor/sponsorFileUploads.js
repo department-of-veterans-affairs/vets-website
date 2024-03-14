@@ -1,5 +1,37 @@
 import React from 'react';
-import { fileTypes, maxSize } from '../../config/attachments';
+import { fileTypes, maxSize, minSize } from '../../config/attachments';
+
+const marriagePapers = [
+  'Marriage certificate',
+  'Civil union papers',
+  'Affidavit of common law marriage',
+];
+
+export const acceptableFiles = {
+  casualtyCert: ['Casualty report', 'Death certificate'],
+  dischargeCert: ['DD214'],
+  disabilityCert: ['VBA rating decision'],
+  birthCert: ['Birth certificate', 'Social Security card'],
+  schoolCert: ['School enrollment certification form', 'Enrollment letter'],
+  spouseCert: marriagePapers,
+  stepCert: marriagePapers,
+  adoptionCert: ['Court ordered adoption papers'],
+  helplessCert: ['VBA decision rating certificate of award'],
+  medicareABCert: [
+    'Front of Medicare Parts A or B card',
+    'Back of Medicare Parts A or B card',
+  ],
+  medicareDCert: [
+    'Front of Medicare Part D card',
+    'Back of Medicare Part D card',
+  ],
+  ssIneligible: ['Letter from the SSA'],
+  healthInsCert: [
+    'Front of health insurance card',
+    'Back of health insurance card',
+  ],
+  va7959cCert: ['VA form 10-7959c'],
+};
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -43,15 +75,23 @@ export const fileUploadBlurb = {
         <ul>
           <li>
             You can upload your files as one of these file types:{' '}
-            {fileTypes.join(', ')}
+            {fileTypes.join(', .')}
           </li>
           <li>
-            Upload one or more files that add up to no more than {maxSize}{' '}
-            total.
+            Upload one or more files that add up to at least {minSize} but no
+            more than {maxSize} total.
           </li>
           <li>
             If you don’t have a digital copy of a file, you can scan or take a
             photo of it and then upload the image from your computer or phone.
+          </li>
+          <li>
+            If you don’t want to upload your supporting files now, you’ll have
+            the option to upload again at the end of this application.
+          </li>
+          <li>
+            If you don’t upload your supporting files, we’ll provide you
+            instructions for how to mail or fax in your file(s).
           </li>
         </ul>
       </>
@@ -131,19 +171,19 @@ export function uploadWithInfoComponent(
 }
 
 export const sponsorDisabilityRatingConfig = uploadWithInfoComponent(
-  ['VBA rating decision'],
+  acceptableFiles.disabilityCert,
   'disability rating',
   true,
 );
 
 export const sponsorDischargePapersConfig = uploadWithInfoComponent(
-  ['DD214'],
+  acceptableFiles.dischargeCert,
   'discharge papers',
   true,
 );
 
 export const sponsorCasualtyReportConfig = uploadWithInfoComponent(
-  ['Casualty report', 'Death certificate'],
+  acceptableFiles.casualtyCert,
   'casualty report',
   false,
 );

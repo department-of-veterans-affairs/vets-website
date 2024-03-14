@@ -67,11 +67,12 @@ describe('<ClaimStatusHeader>', () => {
         },
       },
     };
-    const { container, getByText } = render(
+    const { container, queryByText } = render(
       <ClaimStatusHeader claim={claim} />,
     );
     expect($('.claim-status-header-container', container)).to.exist;
+    expect(queryByText('In Progress')).not.to.exist;
     expect($('.usa-label', container)).to.not.exist;
-    expect(getByText(getLastUpdated(claim))).to.exist;
+    expect(queryByText(getLastUpdated(claim))).not.to.exist;
   });
 });

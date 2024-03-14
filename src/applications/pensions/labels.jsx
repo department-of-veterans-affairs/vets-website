@@ -1,18 +1,26 @@
+// Always name keys with uppercase snake_casing
+// Always use keys for data storage
 export const relationshipLabels = {
-  child: 'Child',
-  parent: 'Parent',
+  CHILD: 'Child',
+  PARENT: 'Parent',
 };
 
 export const marriageTypeLabels = {
-  ceremony:
+  CEREMONY:
     'In a civil or religious ceremony with an officiant who signed my marriage license',
-  other: 'Some other way',
+  OTHER: 'Some other way',
+};
+
+export const recipientTypeLabels = {
+  VETERAN: 'Veteran',
+  SPOUSE: 'Veteran’s spouse',
+  DEPENDENT: 'Veteran’s child',
 };
 
 export const separationTypeLabels = {
-  death: 'Spouse’s death',
-  divorce: 'Divorce',
-  other: 'Other',
+  DEATH: 'Spouse’s death',
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
 };
 
 export const serviceBranchLabels = {
@@ -24,4 +32,12 @@ export const serviceBranchLabels = {
   spaceForce: 'Space Force',
   usphs: 'USPHS',
   noaa: 'NOAA',
+};
+
+export const typeOfIncomeLabels = {
+  SOCIAL_SECURITY: 'Social Security',
+  INTEREST_DIVIDEND: 'Interest or dividend income',
+  CIVIL_SERVICE: 'Civil Service',
+  PENSION_RETIREMENT: 'Pension or retirement income',
+  OTHER: 'Other income',
 };

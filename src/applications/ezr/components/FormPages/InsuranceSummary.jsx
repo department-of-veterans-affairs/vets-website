@@ -145,6 +145,7 @@ const InsuranceSummary = props => {
           text={content['button-update-page']}
           label={content['insurance-update-button-aria-label']}
           data-testid="ezr-update-button"
+          uswds
         />
       )}
     </form>

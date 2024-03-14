@@ -4,7 +4,8 @@ import { Formik } from 'formik';
 
 import profile from '@@profile/reducers';
 import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
-import { snakeCase } from 'lodash';
+import snakeCase from 'lodash/snakeCase';
+import merge from 'lodash/merge';
 import {
   renderInReduxProvider,
   renderWithStoreAndRouter,
@@ -211,6 +212,25 @@ export function createBasicInitialState() {
       },
     },
   };
+}
+
+const loa3State = {
+  user: {
+    profile: {
+      loa: { current: 3 },
+      verified: true,
+      multifactor: true,
+      signIn: {
+        serviceName: 'idme',
+        accountType: 'N/A',
+      },
+    },
+  },
+};
+
+export function createCustomProfileState(profileState = { ...loa3State }) {
+  const customState = merge(loa3State, profileState);
+  return merge(createBasicInitialState(), customState);
 }
 
 export function createFeatureTogglesState(customToggles = {}) {

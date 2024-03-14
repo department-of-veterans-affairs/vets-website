@@ -14,6 +14,7 @@ import {
   ALERT_TYPE_ERROR,
   pageTitles,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -30,6 +31,7 @@ import {
   formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import {
   crisisLineHeader,
@@ -45,30 +47,33 @@ import usePrintTitle from '../../shared/hooks/usePrintTitle';
 const Vaccines = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const listState = useSelector(state => state.mr.vaccines.listState);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
+  const refresh = useSelector(state => state.mr.refresh);
+  const vaccinesCurrentAsOf = useSelector(
+    state => state.mr.vaccines.listCurrentAsOf,
+  );
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const activeAlert = useAlerts();
+  const activeAlert = useAlerts(dispatch);
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: vaccinesCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getVaccinesList,
+    dispatch,
+  });
 
   useEffect(
     () => {
-      dispatch(getVaccinesList());
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },

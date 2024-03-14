@@ -4,12 +4,20 @@ import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { isArrayAndHasItems } from '../util/helpers';
 
-export const getVitals = () => async dispatch => {
+export const getVitals = (isCurrent = false) => async dispatch => {
+  dispatch({
+    type: Actions.Vitals.UPDATE_LIST_STATE,
+    payload: Constants.loadStates.FETCHING,
+  });
   try {
     const response = await getVitalsList();
-    dispatch({ type: Actions.Vitals.GET_LIST, response });
+    dispatch({
+      type: Actions.Vitals.GET_LIST,
+      response,
+      isCurrent,
+    });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
@@ -20,7 +28,7 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
     }
     dispatch({ type: Actions.Vitals.GET, vitalType });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 

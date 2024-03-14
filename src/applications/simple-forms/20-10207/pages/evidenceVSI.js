@@ -10,7 +10,7 @@ import { createPayload, parseResponse } from '../helpers';
 const uiTitle =
   'Upload evidence for Seriously or Very Seriously Injured or Ill during military operations';
 const uiDescription =
-  'If you have documents you would like to submit as s evidence of a disability resulting from a military operation that will likely result in a discharge from military service, upload them here.';
+  'If you have documents you would like to submit as evidence of a disability resulting from a military operation that will likely result in a discharge from military service, upload them here.';
 
 /** @type {PageSchema} */
 export default {
@@ -35,7 +35,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_vsi_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

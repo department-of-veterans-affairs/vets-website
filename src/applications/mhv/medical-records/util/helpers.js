@@ -227,3 +227,43 @@ export const dispatchDetails = async (
     dispatch({ type: actionsGet, response });
   }
 };
+
+/**
+ * Function: getActiveLinksStyle
+ * Description: Determines the style for active links based on the linkPath and currentPath.
+ * Pre-conditions:
+ * - linkPath: A string representing the path of the link being evaluated.
+ * - currentPath: A string representing the current path of the application.
+ * Post-conditions:
+ * - Returns 'is-active' if the link is active, otherwise returns an empty string.
+ * @param {string} linkPath - The path of the link being evaluated.
+ * @param {string} currentPath - The current path of the application.
+ * @returns {string} - 'is-active' if the link is active, otherwise an empty string.
+ */
+export const getActiveLinksStyle = (linkPath, currentPath) => {
+  let relativePath;
+
+  if (linkPath === '/' && currentPath === '/') {
+    return 'is-active';
+  }
+
+  const pathArr = currentPath.slice(1).split('/');
+
+  if (
+    pathArr.length > 1 &&
+    pathArr.length < 5 &&
+    pathArr[0] === 'labs-and-tests'
+  ) {
+    relativePath = '/labs-and-tests';
+  } else if (pathArr.length === 3) {
+    relativePath = `/${pathArr[0]}/${pathArr[1]}`;
+  } else {
+    relativePath = currentPath;
+  }
+
+  if (linkPath.split('/')[1] === relativePath.split('/')[1]) {
+    return 'is-active';
+  }
+
+  return '';
+};

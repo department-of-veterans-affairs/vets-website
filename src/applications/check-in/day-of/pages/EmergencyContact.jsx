@@ -11,6 +11,7 @@ import EmergencyContactDisplay from '../../components/pages/emergencyContact/Eme
 import { makeSelectVeteranData } from '../../selectors';
 import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -25,7 +26,7 @@ const EmergencyContact = props => {
     goToPreviousPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useStorage(false);
+  const { setShouldSendDemographicsFlags } = useStorage(APP_NAMES.CHECK_IN);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-emergency-contact-information',

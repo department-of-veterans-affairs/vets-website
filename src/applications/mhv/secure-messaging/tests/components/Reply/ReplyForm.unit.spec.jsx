@@ -215,10 +215,6 @@ describe('Reply form component', () => {
       },
     };
 
-    customState.featureToggles[
-      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
-    ] = true;
-
     const screen = render(customState, {
       drafts: threadDetails.drafts,
       recipients: customState.sm.recipients,
@@ -255,10 +251,6 @@ describe('Reply form component', () => {
       },
     };
 
-    customState.featureToggles[
-      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
-    ] = true;
-
     const screen = render(customState, {
       drafts: threadDetails.drafts,
       recipients: customState.sm.recipients,
@@ -293,10 +285,6 @@ describe('Reply form component', () => {
         },
       },
     };
-
-    customState.featureToggles[
-      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
-    ] = true;
 
     const screen = render(customState, {
       drafts: threadDetails.drafts,

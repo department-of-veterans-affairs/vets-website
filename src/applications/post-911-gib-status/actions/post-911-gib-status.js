@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 import {
   BACKEND_AUTHENTICATION_ERROR,
@@ -14,11 +14,11 @@ import {
   SET_SERVICE_UPTIME_REMAINING,
 } from '../utils/constants';
 
-export function getEnrollmentData() {
+export function getEnrollmentData(apiVersion) {
   return dispatch =>
     apiRequest(
       '/post911_gi_bill_status',
-      null,
+      apiVersion,
       response => {
         recordEvent({ event: 'post911-status-success' });
         return dispatch({
