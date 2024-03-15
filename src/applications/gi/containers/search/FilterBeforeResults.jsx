@@ -564,7 +564,7 @@ export function FilterBeforeResults({
   };
 
   const typeOfInstitution = () => {
-    const title = 'NK1 Filter your results';
+    const title = 'Filter your results';
     return (
       <>
         <hr />
