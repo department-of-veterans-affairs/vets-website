@@ -48,7 +48,7 @@ export const ProfileBreadcrumbs = ({ className }) => {
     <div className={className}>
       <VaBreadcrumbs
         uswds
-        breadcrumb-list={JSON.stringify(breadcrumbs)}
+        breadcrumbList={breadcrumbs}
         onRouteChange={handleRouteChange}
       />
     </div>
