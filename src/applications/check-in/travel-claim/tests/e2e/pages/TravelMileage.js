@@ -6,6 +6,15 @@ class TravelMileage {
     cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
   };
 
+  validateContext = {
+    singleFacility: () => {
+      cy.get(`[data-testid="single-fac-context"]`).should('be.visible');
+    },
+    multiFacility: () => {
+      cy.get(`[data-testid="multi-fac-context"]`).should('be.visible');
+    },
+  };
+
   attemptToGoToNextPage = () => {
     cy.get(`[data-testid="continue-button"]`).click({
       waitForAnimations: true,
