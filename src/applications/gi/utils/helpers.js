@@ -95,7 +95,7 @@ export const phoneInfo = (areaCode, phoneNumber) => {
 export function convertRatingToStars(rating) {
   const ratingValue = parseFloat(rating);
 
-  if (!ratingValue || isNaN(ratingValue)) {
+  if (!ratingValue || Number.isNaN(ratingValue)) {
     return null;
   }
 
@@ -122,7 +122,7 @@ export const handleScrollOnInputFocus = fieldId => {
 };
 
 export const formatCurrency = value => {
-  if (isNaN(value)) {
+  if (Number.isNaN(value)) {
     return value;
   }
   return `$${formatNumber(Math.round(+value))}`;
