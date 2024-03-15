@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
-import { Assertions, AXE_CONTEXT, Locators } from './utils/constants';
+import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
 describe('SM main page', () => {
@@ -56,7 +56,7 @@ describe('SM main page without API calls', () => {
     site.login();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/allrecipients',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
       mockRecipients,
     ).as('Recipients');
     cy.visit('my-health/secure-messages/');
