@@ -1,4 +1,12 @@
 {
+  "additionalEvidence": [
+    {
+      "name": "Screenshot from 2024-03-15 11-17-14.png",
+      "size": 416763,
+      "confirmationCode": "8a90f69e-bbc1-4386-ab43-fd246a19a503",
+      "isEncrypted": false
+    }
+  ],
   "finalRestingPlace": {
     "location": "other",
     "other": "Other location test"

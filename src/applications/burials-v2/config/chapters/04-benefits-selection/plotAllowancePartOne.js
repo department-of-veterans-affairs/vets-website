@@ -24,7 +24,7 @@ export default {
         title: 'Amount the government or employer paid',
         hideIf: form => !form?.govtContributions,
         min: 0,
-        max: 99999999999999,
+        // max: 99999999999999,
       }),
       'ui:required': form => form?.govtContributions,
     },

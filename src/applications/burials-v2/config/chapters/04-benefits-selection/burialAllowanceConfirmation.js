@@ -51,7 +51,6 @@ export default {
         }),
         'ui:options': {
           classNames: 'vads-u-margin-top-0',
-          // hideOnReview: true,
         },
       },
     },
