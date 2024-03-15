@@ -114,7 +114,8 @@ export default function ProviderSortVariant({
             aria-live="polite"
             aria-atomic="true"
           >
-            Displaying 1 of {communityCareProviderList.length} providers
+            Displaying {currentlyShownProvidersList.length} of{' '}
+            {communityCareProviderList.length} providers
           </p>
         )}
       <VaSelect
