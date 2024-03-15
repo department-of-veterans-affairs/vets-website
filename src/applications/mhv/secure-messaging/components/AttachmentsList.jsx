@@ -40,25 +40,34 @@ const AttachmentsList = props => {
   const attachmentNameId = id =>
     forPrint ? `has-attachment-for-print-${id}` : `has-attachment-${id}`;
 
-  useEffect(() => {
-    focusElement(focusedElement);
-  }, [focusedElement]);
+  useEffect(
+    () => {
+      focusElement(focusedElement);
+    },
+    [focusedElement],
+  );
 
-  useEffect(() => {
-    if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
-      setTimeout(() => {
-        setFocusedElement(
-          document.querySelector('#close-success-alert-button'),
-        );
-      }, 300);
-    }
-  }, [attachFileSuccess, attachments, attachFileAlertRef]);
+  useEffect(
+    () => {
+      if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
+        setTimeout(() => {
+          setFocusedElement(
+            document.querySelector('#close-success-alert-button'),
+          );
+        }, 300);
+      }
+    },
+    [attachFileSuccess, attachments, attachFileAlertRef],
+  );
 
-  useEffect(() => {
-    if (attachments.length === 0) {
-      setAttachFileSuccess(false);
-    }
-  }, [attachments]);
+  useEffect(
+    () => {
+      if (attachments.length === 0) {
+        setAttachFileSuccess(false);
+      }
+    },
+    [attachments],
+  );
 
   const removeAttachment = file => {
     const newAttArr = attachments?.filter(item => {
@@ -111,29 +120,30 @@ const AttachmentsList = props => {
       </div>
       {editingEnabled && <HowToAttachFiles />}
 
-      {attachFileSuccess && attachments.length > 0 && (
-        <VaAlert
-          uswds
-          closeable
-          closeBtnAriaLabel="Close notification"
-          aria-live="polite"
-          aria-label="file successfully attached"
-          ref={attachFileAlertRef}
-          background-only
-          className="file-attached-success vads-u-margin-top--2"
-          data-testid="file-attached-success-alert"
-          disable-analytics
-          full-width="false"
-          show-icon
-          status="success"
-          onCloseEvent={() => {
-            setAttachFileSuccess(false);
-            handleSuccessAlertClose();
-          }}
-        >
-          <p className="vads-u-margin-y--0">File attached</p>
-        </VaAlert>
-      )}
+      {attachFileSuccess &&
+        attachments.length > 0 && (
+          <VaAlert
+            uswds
+            closeable
+            closeBtnAriaLabel="Close notification"
+            aria-live="polite"
+            aria-label="file successfully attached"
+            ref={attachFileAlertRef}
+            background-only
+            className="file-attached-success vads-u-margin-top--2"
+            data-testid="file-attached-success-alert"
+            disable-analytics
+            full-width="false"
+            show-icon
+            status="success"
+            onCloseEvent={() => {
+              setAttachFileSuccess(false);
+              handleSuccessAlertClose();
+            }}
+          >
+            <p className="vads-u-margin-y--0">File attached</p>
+          </VaAlert>
+        )}
 
       <ul className="attachments-list">
         {!!attachments.length &&
