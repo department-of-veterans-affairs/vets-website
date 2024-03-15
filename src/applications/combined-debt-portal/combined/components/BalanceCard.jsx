@@ -32,14 +32,8 @@ const BalanceCard = ({ amount, count, date, appType }) => {
         className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
         data-testid="card-amount"
       >
-        {currency(amount)}
+        {currency(amount)} {cardHeader}
       </h3>
-      <h4
-        className="vads-u-margin-top--0  vads-u-margin-bottom--1p5 vads-u-font-weight--normal"
-        data-testid="card-header"
-      >
-        {cardHeader}
-      </h4>
       {date && (
         <p className="card-date vads-u-margin-top--0  vads-u-margin-bottom--1p5">
           Updated on

@@ -45,7 +45,7 @@ const testConfig = createTestConfig(
               .shadow()
               .get('#checkbox-element')
               .first()
-              .click()
+              .click({ force: true })
               .then(() => {
                 cy.findByText('Continue')
                   .first()
@@ -97,7 +97,7 @@ const testConfig = createTestConfig(
               .shadow()
               .get('#checkbox-element')
               .first()
-              .click()
+              .click({ force: true })
               .then(() => {
                 cy.findByText('Continue')
                   .first()

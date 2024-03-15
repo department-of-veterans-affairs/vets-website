@@ -11,9 +11,20 @@ import {
   fhirResourceTypes,
   labTypes,
   EMPTY_FIELD,
+  loadStates,
 } from '../util/constants';
 
 const initialState = {
+  /**
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+
   /**
    * The list of lab and test results returned from the api
    * @type {array}
@@ -225,6 +236,8 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       const recordList = action.response;
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         labsAndTestsList:
           recordList.entry
             ?.map(record => convertLabsAndTestsRecord(record))
@@ -235,6 +248,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: undefined,
+      };
+    }
+    case Actions.LabsAndTests.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:

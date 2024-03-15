@@ -29,7 +29,7 @@ function App({ children }) {
     return document.location.replace('/');
   }
 
-  return <>{children}</>;
+  return children;
 }
 
 App.propTypes = {

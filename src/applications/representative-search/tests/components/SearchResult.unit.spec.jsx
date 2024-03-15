@@ -5,6 +5,23 @@ import { shallow, mount } from 'enzyme';
 import SearchResult from '../../components/results/SearchResult';
 
 describe('SearchResults', () => {
+  const testProps = {
+    officer: 'Test Officer',
+    addressLine1: '123 Main St',
+    addressLine2: 'Suite 100',
+    city: 'Columbus',
+    stateCode: 'OH',
+    zipCode: '43210',
+    phone: '945-456-7890',
+    email: 'test@example.com',
+    representativeId: '123',
+    query: { context: { location: 'UserLocation' } },
+    reports: {},
+    initializeRepresentativeReport: () => {},
+    reportSubmissionStatus: 'INITIAL',
+    setReportModalTester: () => {},
+  };
+
   it('should render rep email if rep email exists', () => {
     const wrapper = shallow(
       <SearchResult
@@ -81,21 +98,31 @@ describe('SearchResults', () => {
 
     wrapper.unmount();
   });
-
-  it('displays the "Thanks for reporting outdated information." message when reports are present', () => {
-    const { queryByText } = render(
+  it('sets the aria-label on the address link', () => {
+    const wrapper = shallow(
       <SearchResult
-        officer="Paul Luebkert"
-        addressLine1="123 Main St"
-        city="Anytown"
-        stateCode="State"
-        zipCode="12345"
-        phone="123-456-7890"
-        email="test@example.com"
-        representativeId="123"
-        reports={{}}
+        addressLine1="123 test place"
+        city="Columbus"
+        stateCode="CA"
+        zipCode="43210"
       />,
     );
+
+    const expectedAriaLabel =
+      '123 test place Columbus, CA 43210 (opens in a new tab)';
+    const addressLink = wrapper.find('.address-link a');
+
+    expect(addressLink.exists(), 'Address link exists').to.be.true;
+    expect(
+      addressLink.prop('aria-label'),
+      'Aria label is set correctly',
+    ).to.equal(expectedAriaLabel);
+
+    wrapper.unmount();
+  });
+
+  it('displays the "Thanks for reporting outdated information." message when reports are present', () => {
+    const { queryByText } = render(<SearchResult {...testProps} />);
 
     const thankYouMessage = queryByText(
       'Thanks for reporting outdated information.',
@@ -103,19 +130,6 @@ describe('SearchResults', () => {
     expect(thankYouMessage).to.not.be.null;
   });
   it('renders addressLine2 if it exists', () => {
-    const testProps = {
-      officer: 'Test Officer',
-      addressLine1: '123 Main St',
-      addressLine2: 'Suite 100',
-      city: 'Columbus',
-      stateCode: 'OH',
-      zipCode: '43210',
-      phone: '945-456-7890',
-      email: 'test@example.com',
-      representativeId: '123',
-      query: { context: { location: 'UserLocation' } },
-    };
-
     const { container } = render(<SearchResult {...testProps} />);
 
     const addressLink = container.querySelector('.address-link > a');
@@ -133,10 +147,16 @@ describe('SearchResults', () => {
       email: 'example@rep.com',
       representativeId: '123',
       query: { context: { location: 'UserLocation' } },
+      initializeRepresentativeReport: () => {},
+      reportSubmissionStatus: 'INITIAL',
     };
 
     const { queryByText } = render(
-      <SearchResult {...testPropsWithoutAddressLine2} />,
+      <SearchResult
+        {...testPropsWithoutAddressLine2}
+        initializeRepresentativeReport={() => {}}
+        reportSubmissionStatus="INITIAL"
+      />,
     );
 
     const addressLine2Text = queryByText('Suite 100');
@@ -144,12 +164,9 @@ describe('SearchResults', () => {
   });
 
   it('renders the trigger button text for associated organizations', () => {
-    const testProps = {
-      officer: 'Test Officer',
-      associatedOrgs: ['Org1', 'Org2', 'Org3'],
-    };
-
-    const { container } = render(<SearchResult {...testProps} />);
+    const { container } = render(
+      <SearchResult {...testProps} associatedOrgs={['Org1', 'Org2', 'Org3']} />,
+    );
 
     const triggerButton = container
       .querySelector('.associated-organizations-info va-additional-info')
@@ -158,12 +175,9 @@ describe('SearchResults', () => {
   });
 
   it('renders distance information when distance is provided', () => {
-    const testProps = {
-      officer: 'Test Officer',
-      distance: '5.5',
-    };
-
-    const { container } = render(<SearchResult {...testProps} />);
+    const { container } = render(
+      <SearchResult {...testProps} distance="5.5" />,
+    );
 
     const distanceElement = container.querySelector(
       '.vads-u-font-weight--bold.vads-u-font-family--serif',
@@ -177,20 +191,7 @@ describe('SearchResults', () => {
   });
 
   it('renders modal when appropriate', () => {
-    const wrapper = mount(
-      <SearchResult
-        officer="Paul Luebkert"
-        addressLine1="123 Main St"
-        city="Anytown"
-        stateCode="State"
-        zipCode="12345"
-        phone="123-456-7890"
-        email="test@example.com"
-        representativeId="123"
-        reports={{}}
-        setReportModalTester
-      />,
-    );
+    const wrapper = mount(<SearchResult {...testProps} />);
 
     wrapper.find('#open-modal-test-button').simulate('click');
 

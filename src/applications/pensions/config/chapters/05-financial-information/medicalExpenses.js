@@ -6,6 +6,7 @@ import {
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -31,7 +32,7 @@ MedicalExpenseView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add a medical or other unreimbursed expense',
+    ...titleUI('Add a medical or other unreimbursed expense'),
     medicalExpenses: {
       'ui:options': {
         itemName: 'Unreimbursed Expense',
