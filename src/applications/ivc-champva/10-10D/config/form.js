@@ -63,6 +63,7 @@ import {
 import {
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
+  applicantHelplessChildConfig,
   applicantAdoptedConfig,
   applicantStepChildConfig,
   applicantMedicarePartAPartBCardsConfig,
@@ -109,6 +110,7 @@ import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
   AppSchoolDocReviewField,
+  AppHelplessChildReviewField,
   AppAdoptionDocReviewField,
   AppStepDocReviewField,
   AppMarriageDocReviewField,
@@ -1014,7 +1016,9 @@ const formConfig = {
                 getAgeInYears(formData.applicants[index]?.applicantDOB),
                 18,
                 23,
-              )
+              ) &&
+              formData.applicants[index]?.applicantDependentStatus?.status ===
+                'enrolledOrIntendsToEnroll'
             );
           },
           CustomPage: FileFieldCustom,
@@ -1053,6 +1057,64 @@ const formConfig = {
             ...applicantSchoolCertConfig.schema,
             applicantSchoolCert: fileWithMetadataSchema(
               acceptableFiles.schoolCert,
+            ),
+          }),
+        },
+        page18b2: {
+          path: 'applicant-information/:index/helpless-child',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} helpless child documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child' &&
+              isInRange(
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                18,
+                150,
+              ) &&
+              formData.applicants[index]?.applicantDependentStatus?.status ===
+                'over18HelplessChild'
+            );
+          },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: AppHelplessChildReviewField,
+          customPageUsesPagePerItemData: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Optional supporting file upload',
+                  ({ formData }) =>
+                    `Upload a VBA decision rating certificate of award for ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
+                ),
+                ...applicantHelplessChildConfig.uiSchema,
+                applicantHelplessCert: fileUploadUI(
+                  'Upload VBA decision rating for the applicant',
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantHelplessChildConfig.schema,
+            applicantHelplessCert: fileWithMetadataSchema(
+              acceptableFiles.helplessCert,
             ),
           }),
         },

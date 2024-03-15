@@ -24,7 +24,6 @@ function generateOptions({ data, pagePerItemIndex }) {
 
   const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
 
-  // Create dynamic radio labels based on above phrasing
   const options = [
     {
       label: `${relativeBeingVerb} age 18-23 and enrolled in, or intending to enroll in, college or another educational institution within the next term`,
