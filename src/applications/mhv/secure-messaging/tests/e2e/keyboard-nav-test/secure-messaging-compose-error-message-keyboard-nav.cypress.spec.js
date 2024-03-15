@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
+import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Compose Errors Keyboard Nav', () => {
