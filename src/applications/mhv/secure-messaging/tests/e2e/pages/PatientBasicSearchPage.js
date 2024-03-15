@@ -1,6 +1,6 @@
 import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import folderResponse from '../fixtures/folder-response.json';
-import { Locators } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
@@ -21,7 +21,7 @@ class PatientBasicSearchPage {
   submitInboxSearch = () => {
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/folders/${
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
         folderResponse.data.at(0).attributes.folderId
       }/search`,
       mockMessageResponse,
@@ -32,7 +32,7 @@ class PatientBasicSearchPage {
   submitDraftSearch = () => {
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/folders/${
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
         folderResponse.data.at(1).attributes.folderId
       }/search`,
       mockMessageResponse,
@@ -43,7 +43,7 @@ class PatientBasicSearchPage {
   submitCustomFolderSearch = () => {
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/folders/${
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
         folderResponse.data.at(4).attributes.folderId
       }/search`,
       mockMessageResponse,
@@ -60,7 +60,7 @@ class PatientBasicSearchPage {
   loadInboxSearchResults = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/0/search',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/search`,
       mockMessageResponse,
     ).as('inboxSearchResults');
   };
@@ -77,7 +77,7 @@ class PatientBasicSearchPage {
   //   folderInfo.data.attributes.folderId = folderID;
   //   cy.intercept(
   //     'GET',
-  //     `/my_health/v1/messaging/folders/${folderID}/messages?per_page=1`,
+  //     `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderID}/messages?per_page=1`,
   //     mockMessages,
   //   ).as('basicSearchInboxRequest');
   // }
