@@ -95,11 +95,12 @@ import {
   ApplicantSponsorMarriageDetailsPage,
   ApplicantSponsorMarriageDetailsReviewPage,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
+import { ApplicantAddressCopyPage } from '../pages/ApplicantAddressPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
 import { fileTypes, fileWithMetadataSchema } from './attachments';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
@@ -160,7 +161,7 @@ const formConfig = {
   },
   formId: '10-10D',
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
     collapsibleNavLinks: true,
   },
   saveInProgress: {
@@ -186,7 +187,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          // initialData: mockData.data,
+          initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -735,6 +736,23 @@ const formConfig = {
             'view:description': blankSchema,
             applicantSSN: ssnOrVaFileNumberNoHintSchema,
           }),
+        },
+        page15a: {
+          path: 'applicant-information/:index/pre-address',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} mailing address`,
+          CustomPage: ApplicantAddressCopyPage,
+          CustomPageReview: null,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {}),
         },
         page15: {
           path: 'applicant-information/:index/address',

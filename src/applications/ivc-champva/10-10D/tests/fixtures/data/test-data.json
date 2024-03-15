@@ -31,6 +31,28 @@
         "applicantMedicareStatus": "enrolled",
         "applicantMedicarePart": "partA, partD",
         "applicantHasOhi": "yes"
+      },
+      {
+        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
+        "applicantGender": "male",
+        "applicantEmailAddress": "jimmy@alvin.gov",
+        "applicantSSN": {
+          "ssn": "123123123"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantEnrolledInMedicare": false,
+        "applicantEnrolledInOHI": false,
+        "applicantDOB": "2000-01-04",
+        "applicantName": {
+          "first": "Jimmy",
+          "middle": "J",
+          "last": "Alvin"
+        },
+        "applicantMedicareStatus": "enrolled",
+        "applicantMedicarePart": "partA, partD",
+        "applicantHasOhi": "yes"
       }
     ],
     "sponsorPhone": "5555555555",
