@@ -14,7 +14,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
 ## Running tests
 Unit tests for can be run using this command: `yarn test:unit --app-folder mhv/secure-messaging`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder secure-messaging --coverage --coverage-html`. View the report at `/coverage/index.html`
 
-Cypress tests can be run with the GUI (cannot be used from codespaces, only local command line) using this command: `yarn cy:open`. From there you can filter by `secure-messages` to run just AVS end to end tests.
+Cypress tests can be run with the GUI (cannot be used from codespaces, only local command line) using this command: `yarn cy:open`. From there you can filter by `secure-messages` to run just secure-messages end to end tests.
 
 Run Cypress from command line:
 - Run all `yarn cy:run --spec "src/applications/mhv/secure-messaging/**/**/*"`
