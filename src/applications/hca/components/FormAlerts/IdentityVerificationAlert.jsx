@@ -4,10 +4,10 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 const IdentityVerificationAlert = ({ onVerify }) => (
   <va-alert status="continue" data-testid="hca-identity-alert" uswds>
-    <h4 slot="headline">
+    <h2 slot="headline">
       Please verify your identity before applying for VA health care
-    </h4>
-    <p>This process should take about 5 to 10 minutes.</p>
+    </h2>
+    <p>This process takes about 5 minutes.</p>
     <p>
       <strong>If you’re applying for the first time</strong>
     </p>

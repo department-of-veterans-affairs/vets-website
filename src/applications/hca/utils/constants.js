@@ -47,6 +47,22 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
 };
 
+// declare initial state fetching enrollment status
+export const ENROLLMENT_STATUS_INIT_STATE = {
+  applicationDate: null,
+  enrollmentDate: null,
+  preferredFacility: null,
+  enrollmentStatus: null,
+  enrollmentStatusEffectiveDate: null,
+  dismissedNotificationDate: null,
+  hasServerError: false,
+  isLoadingApplicationStatus: false,
+  isLoadingDismissedNotification: false,
+  isUserInMVI: false,
+  loginRequired: false,
+  noESRRecordFound: false,
+};
+
 // declare enrollment status strings
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   activeDuty: 'activeduty',

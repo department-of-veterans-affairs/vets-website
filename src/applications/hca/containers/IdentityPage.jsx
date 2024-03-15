@@ -15,7 +15,7 @@ import {
 } from '../utils/actions';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
-import { selectEnrollmentStatus } from '../utils/selectors';
+import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';
 
