@@ -1070,11 +1070,7 @@ const formConfig = {
             return (
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
-              isInRange(
-                getAgeInYears(formData.applicants[index]?.applicantDOB),
-                18,
-                150,
-              ) &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 18 &&
               formData.applicants[index]?.applicantDependentStatus?.status ===
                 'over18HelplessChild'
             );
