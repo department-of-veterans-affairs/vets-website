@@ -1,6 +1,6 @@
 # Rated Disabilities
 
-The VA assigns a Veteran a disability rating based on the severity of their service connected condition. They rate disabilities from 0% to 100% in 10% increments (e.g. 10%, 20%, 30% etc.). This service allows veterans the ability to view their combined and individual disability ratings.
+The VA assigns a Veteran a disability rating based on the severity of their service connected condition. They rate disabilities from 0% to 100% in 10% increments (e.g. 10%, 20%, 30% etc.). The VA uses a Veterans disability rating to determine how much disability compensation they’ll receive each month, as well as their eligibility for other VA benefits. This service allows veterans the ability to view their combined and individual disability ratings.
 
 ## How to run locally
 
