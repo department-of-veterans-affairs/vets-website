@@ -2,7 +2,7 @@ import React from 'react';
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import { generateTitle } from '../../../utils/helpers';
 import { benefitsLabels } from '../../../utils/labels';

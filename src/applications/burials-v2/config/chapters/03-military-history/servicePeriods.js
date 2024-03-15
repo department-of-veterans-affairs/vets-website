@@ -5,12 +5,12 @@ import format from 'date-fns-tz/format';
 import {
   currentOrPastDateUI,
   numberSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   VaTextInputField,
   VaSelectField,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+} from 'platform/forms-system/src/js/web-component-fields';
 
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';

@@ -1,4 +1,4 @@
-import { yesNoUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 export default {

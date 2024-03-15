@@ -1,5 +1,5 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import { dateOfDeathUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { dateOfDeathUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 const { deathDate, burialDate } = fullSchemaBurials.properties;

@@ -1,4 +1,4 @@
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { generateTitle } from '../../../utils/helpers';
 
 export default {

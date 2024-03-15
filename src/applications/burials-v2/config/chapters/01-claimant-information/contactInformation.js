@@ -1,7 +1,7 @@
 import {
   phoneUI,
   emailUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import { generateTitle } from '../../../utils/helpers';

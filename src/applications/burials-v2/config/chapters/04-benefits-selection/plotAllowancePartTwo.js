@@ -1,5 +1,5 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import { yesNoUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 const { plotExpenseResponsibility } = fullSchemaBurials.properties;

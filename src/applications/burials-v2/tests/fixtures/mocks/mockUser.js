@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 const { VA_FORM_IDS } = require('platform/forms/constants');
 
 /* eslint-disable camelcase */
@@ -25,24 +23,7 @@ const mockUser = {
       },
       in_progress_forms: [
         {
-          form: VA_FORM_IDS.FORM_10_10EZ,
-          metadata: {},
-        },
-        {
-          form: VA_FORM_IDS.FORM_22_1995,
-          metadata: {},
-        },
-        {
           form: VA_FORM_IDS.FORM_21P_530,
-          metadata: {
-            last_updated: 1506792808,
-            expires_at: moment()
-              .add(1, 'day')
-              .unix(),
-          },
-        },
-        {
-          form: VA_FORM_IDS.FORM_21P_527EZ,
           metadata: {},
         },
       ],
