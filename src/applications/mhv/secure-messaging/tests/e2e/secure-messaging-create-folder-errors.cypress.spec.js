@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('create folder errors check', () => {
@@ -23,7 +23,7 @@ describe('create folder errors check', () => {
     folderPage
       .createFolderTextBox()
       .type(createFolderName, { waitforanimations: true, force: true });
-    cy.intercept('POST', '/my_health/v1/messaging/folder', {
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGE_FOLDER, {
       statusCode: 400,
       body: {
         alertType: 'error',

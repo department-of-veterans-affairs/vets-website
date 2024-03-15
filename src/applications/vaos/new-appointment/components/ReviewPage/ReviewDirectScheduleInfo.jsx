@@ -29,6 +29,7 @@ export default function ReviewDirectScheduleInfo({
       {facility.name}
       <br />
       {facility.address?.city}, <State state={facility.address?.state} />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ContactDetailSection data={data} />
