@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Paths, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipients-response.json';
@@ -120,7 +120,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       });
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('a')
-        .should('have.attr', 'href', '/find-locations/');
+        .should('have.attr', 'href', Paths.FIND_LOCATIONS);
     });
 
     it('reply btn does not exist', () => {

@@ -20,7 +20,6 @@ const initialState = {
   },
 };
 let store;
-
 describe('<PeriodsToVerify />', () => {
   it('renders without crashing', () => {
     store = mockStore(initialState);

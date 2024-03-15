@@ -25,6 +25,7 @@ const PeriodsToVerify = ({
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
   const [justVerified, setJustVerified] = useState(false);
+
   const getPeriodsToVerify = () => {
     return pendingEnrollments
       .map(enrollmentToBeVerified => {
@@ -149,14 +150,7 @@ const PeriodsToVerify = ({
             <VerifiedSuccessStatement />
           </div>
         )}
-      {/* {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 &&
-        !justVerified && (
-          <Alert
-            status="success"
-            message="You're up-to-date with your monthly enrollment verification. You'll be able to verify your enrollment next month."
-          />
-        )} */}
+
       {loading ? (
         <Loader />
       ) : (

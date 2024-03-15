@@ -1,5 +1,5 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Paths, Locators } from './utils/constants';
+import { AXE_CONTEXT, Paths, Locators, Assertions } from './utils/constants';
 import mockFeatureToggles from './fixtures/toggles-response.json';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 
@@ -52,7 +52,7 @@ describe('Secure Messaging Pilot feature flag', () => {
     cy.get(Locators.ACCORDIONS)
       .last()
       .find('span')
-      .should('have.text', 'What is Secure Messaging Pilot?');
+      .should('have.text', Assertions.SECURE_MESSAGE_PILOT);
 
     // TODO text of expanded accordion TBD later. Test could be adjusted accordingly
   });

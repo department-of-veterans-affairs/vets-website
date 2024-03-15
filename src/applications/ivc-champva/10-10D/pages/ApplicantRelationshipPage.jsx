@@ -65,7 +65,10 @@ function generateOptions({ data, pagePerItemIndex }) {
     marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
   } else {
     marriageOptions.push({ label: marriedLiving, value: 'spouse' });
-    marriageOptions.push({ label: marriedLivingDivorced, value: 'spouse' });
+    marriageOptions.push({
+      label: marriedLivingDivorced,
+      value: 'spouseSeparated',
+    });
   }
 
   // Create dynamic radio labels based on above phrasing
@@ -177,6 +180,7 @@ export default function ApplicantRelationshipPage({
     applicant,
     personTitle,
     customTitle,
+    description,
   } = genOps({
     data,
     pagePerItemIndex,
@@ -253,9 +257,12 @@ export default function ApplicantRelationshipPage({
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
           class="vads-u-margin-y--2"
-          label={`What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
-            useFirstPerson ? `your` : `${applicant}’s`
-          } relationship to the ${personTitle}?`}
+          label={
+            description ||
+            `What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
+              useFirstPerson ? `your` : `${applicant}’s`
+            } relationship to the ${personTitle}?`
+          }
           hint="Depending on your response, you may need to submit additional documents with this application."
           required
           error={checkError}
