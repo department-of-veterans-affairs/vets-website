@@ -50,8 +50,7 @@ export default function SelectedProvider({
           </h2>
           <span className="vads-u-display--block">{formData.name}</span>
           <span className="vads-u-display--block">
-            {formData.address?.city}, {formData.address?.state}{' '}
-            {formData.address?.postalCode}
+            {formData.address?.city}, {formData.address?.state}
           </span>
           <span>{`${formData[sortMethod]} miles`}</span>
           <div className="vads-u-display--flex vads-u-margin-top--1">
