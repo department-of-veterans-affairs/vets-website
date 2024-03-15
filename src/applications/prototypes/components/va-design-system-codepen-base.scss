@@ -1,0 +1,48 @@
+/* stylelint-disable */
+.a11y-info-highlight{
+    background-color: yellow !important;
+  }
+  #a11yInfoContainer {
+    z-index: 9999;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 1px solid #ccc;
+    overflow: scroll;
+
+    ul {
+      li {
+        color: #000;
+        line-height: 1.4em;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    &.open {
+      padding: 1rem 4rem 1rem 2rem;
+      width: 300px;
+      height: 200px;
+    }
+  }
+
+
+  #a11yInfoOpen {
+    border: none;
+    color: #000;
+    z-index: 99999;
+    background: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 2rem;
+    width: 40px;
+    height: 40px;
+
+    &:focus {
+      outline: none;
+    }
+  }

@@ -1,0 +1,6 @@
+@use "uswds-core" with (
+  $theme-image-path: "@uswds/uswds/img",
+  $theme-font-path: "@uswds/uswds/fonts",
+  $theme-hero-image: "@uswds/uswds/img/hero.jpg"
+);
+@forward "usa-combo-box";
