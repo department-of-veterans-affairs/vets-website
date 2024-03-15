@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { createAnalyticsSlug, createApiEvent } from './index';
+import { APP_NAMES } from '../appConstants';
 
 describe('Pre check in', () => {
   describe('analytics utils', () => {
@@ -14,6 +15,16 @@ describe('Pre check in', () => {
         const slug = 'testing';
         const result = createAnalyticsSlug(slug);
         expect(result).to.equal('check-in-testing');
+      });
+      it('returns custom prefix', () => {
+        const slug = 'testing';
+        const result = createAnalyticsSlug(slug, 'nav');
+        expect(result).to.equal('nav-check-in-testing');
+      });
+      it('returns different app context', () => {
+        const slug = 'testing';
+        const result = createAnalyticsSlug(slug, null, APP_NAMES.TRAVEL_CLAIM);
+        expect(result).to.equal('travel-claim-testing');
       });
     });
     describe('createApiEvent', () => {

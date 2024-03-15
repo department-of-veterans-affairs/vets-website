@@ -45,7 +45,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
     expect(screen.baseElement).to.contain.text(
-      'Let us know why you’re making this appointment',
+      'What’s the reason for this appointment?',
     );
 
     expect(
@@ -70,7 +70,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       .to.equal('250');
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
+      'What’s the reason for this appointment?',
     );
 
     expect(
@@ -90,7 +90,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     const alerts = await screen.findAllByRole('alert');
-    expect(alerts[0]).to.contain.text('Please provide a response');
+    expect(alerts[0]).to.contain.text('Select a reason for your appointment');
   });
 
   it('should show error msg when enter all spaces for VA medical request', async () => {
@@ -169,7 +169,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(textBox.value).to.equal('   ');
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
+      'What’s the reason for this appointment?',
     );
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -217,7 +217,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(textBox.value).to.equal('test');
 
     expect(screen.baseElement).to.contain.text(
-      'Tell us the reason for this appointment',
+      'What’s the reason for this appointment?',
     );
 
     fireEvent.click(screen.getByText(/Continue/));

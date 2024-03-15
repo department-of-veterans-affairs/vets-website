@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import categories from '../fixtures/categories-response.json';
 
 describe('Validate the category', () => {
@@ -12,7 +12,7 @@ describe('Validate the category', () => {
 
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
     cy.tabToElement('[data-testid="edit-preferences-button"]').should(
       'have.focus',
