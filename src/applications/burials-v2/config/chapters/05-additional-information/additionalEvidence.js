@@ -30,7 +30,6 @@ export default {
         uswds: true,
         classNames: 'vads-u-font-size--md',
       }),
-      'ui:required': form => form?.transportationExpenses,
     },
   },
   schema: {

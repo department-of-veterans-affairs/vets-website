@@ -49,9 +49,9 @@ export default {
             checkBox: 'I confirm these statements are true',
           },
         }),
-        'ui:options': {
-          classNames: 'vads-u-margin-top-0',
-        },
+        // 'ui:options': {
+        //   classNames: 'vads-u-margin-top-0',
+        // },
       },
     },
   },
