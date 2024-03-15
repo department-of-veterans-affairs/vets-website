@@ -32,7 +32,7 @@ describe('<ViewDependentsList />', () => {
     ],
   };
 
-  it('Should Render', () => {
+  it('Should Render', async () => {
     const screen = renderInReduxProvider(
       <ViewDependentsList
         header="Dependents on your VA benefits"
@@ -46,8 +46,10 @@ describe('<ViewDependentsList />', () => {
     );
 
     expect(
-      screen.findByRole('heading', { name: 'Dependents on your VA benefits' }),
+      await screen.findByRole('heading', {
+        name: 'Dependents on your VA benefits',
+      }),
     ).to.exist;
-    expect(screen.findByText(/Cindy See/)).to.exist;
+    expect(await screen.findByText(/Cindy See/)).to.exist;
   });
 });

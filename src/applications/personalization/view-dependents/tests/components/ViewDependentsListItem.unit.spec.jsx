@@ -13,12 +13,12 @@ describe('<ViewDependentsListItem />', () => {
     relationship: 'Child',
   };
 
-  it('Should Render with all props visible', () => {
+  it('Should Render with all props visible', async () => {
     const screen = renderInReduxProvider(<ViewDependentsListItem />, {
       mockData,
       removeDependents,
     });
 
-    expect(screen.findByText(/Cindy See/)).to.exist;
+    expect(await screen.findByText(/Cindy See/)).to.exist;
   });
 });

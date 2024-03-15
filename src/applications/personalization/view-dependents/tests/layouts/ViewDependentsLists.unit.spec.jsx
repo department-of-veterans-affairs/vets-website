@@ -1,6 +1,6 @@
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import removeDependents from '../../manage-dependents/redux/reducers';
 import ViewDependentsLists from '../../layouts/ViewDependentsLists';
 
@@ -30,12 +30,12 @@ describe('<ViewDependentsLists />', () => {
     ],
   };
 
-  it('should render', () => {
+  it('should render', async () => {
     const screen = renderInReduxProvider(<ViewDependentsLists />, {
       mockState,
       reducers: removeDependents,
     });
 
-    expect(screen.findByText(/Billy Blank/)).to.exist;
+    expect(await screen.findByText(/Billy Blank/)).to.exist;
   });
 });

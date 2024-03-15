@@ -31,29 +31,29 @@ describe('<ViewDependentsLayout />', () => {
     ],
   };
 
-  it('should render', () => {
+  it('should render', async () => {
     const screen = renderInReduxProvider(<ViewDependentsLayout />, {
       mockState,
       reducers: removeDependents,
     });
 
-    expect(screen.findByText(/Billy Blank/)).to.exist;
+    expect(await screen.findByText(/Billy Blank/)).to.exist;
   });
 
-  it('should show an info alert when there are no dependents', () => {
+  it('should show an info alert when there are no dependents', async () => {
     const screen = renderInReduxProvider(<ViewDependentsLayout />, {
       initialState: {},
       reducers: removeDependents,
     });
 
     expect(
-      screen.findByRole('heading', {
+      await screen.findByRole('heading', {
         name: 'We don’t have dependents information on file for you',
       }),
     ).to.exist;
   });
 
-  it('should show an error alert when there is a 500 error', () => {
+  it('should show an error alert when there is a 500 error', async () => {
     const screen = renderInReduxProvider(<ViewDependentsLayout />, {
       initialState: {
         errors: [
@@ -66,7 +66,7 @@ describe('<ViewDependentsLayout />', () => {
     });
 
     expect(
-      screen.findByRole('heading', {
+      await screen.findByRole('heading', {
         name: 'We’re sorry. Something went wrong on our end',
       }),
     ).to.exist;
