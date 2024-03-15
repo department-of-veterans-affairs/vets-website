@@ -27,8 +27,8 @@ export const acceptableFiles = {
   ],
   ssIneligible: ['Letter from the SSA'],
   healthInsCert: [
-    'Front of health insurance card',
-    'Back of health insurance card',
+    'Front of health insurance card(s)',
+    'Back of health insurance card(s)',
   ],
   va7959cCert: ['VA form 10-7959c'],
 };
@@ -93,7 +93,7 @@ export const fileUploadBlurb = {
 export const requiredFileUploadMessage = {
   'ui:description': (
     <p>
-      <b>This file is required for your application.</b>
+      <i>This file is required for your application.</i>
       Your application will not be considered complete until we receive this
       file.
     </p>
