@@ -38,10 +38,11 @@ const App = ({ children }) => {
       if (scheduledDowntimes.size > 0) {
         return (
           scheduledDowntimes?.get(externalServices.mhvMeds)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
+          externalServiceStatus.ok
         );
       }
-      return 'downtime status: ok';
+      return externalServiceStatus.ok;
     },
     [scheduledDowntimes],
   );
@@ -93,7 +94,7 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      {mhvMedsDown === externalServiceStatus.down ? (
+      {mhvMedsDown !== externalServiceStatus.ok ? (
         <>
           <h1 className="vads-u-padding-top--4">Medications</h1>
           <DowntimeNotification
