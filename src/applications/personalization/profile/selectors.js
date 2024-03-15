@@ -55,9 +55,6 @@ export const eduDirectDepositLoadError = state => {
   return error;
 };
 
-export const cnpDirectDepositAddressInformation = state =>
-  cnpDirectDepositInformation(state)?.paymentAddress;
-
 export const cnpDirectDepositIsEligible = state =>
   !!cnpDirectDepositInformation(state)?.controlInformation
     ?.canUpdateDirectDeposit;
@@ -67,14 +64,9 @@ export const cnpDirectDepositIsBlocked = state => {
 
   if (!controlInfo) return false;
 
-  // 2 sets of flags are used to determine if the user is blocked from
-  // setting up direct deposit. Remove the first set once the
-  // lighthouse based feature flag is removed.
+  // control information flags that are used to determine if the user is blocked from
+  // setting up direct deposit. These will also cause the whole profile to be blocked
   const controlInfoFlags = [
-    'isCompetentIndicator',
-    'noFiduciaryAssignedIndicator',
-    'notDeceasedIndicator',
-
     'isCompetent',
     'hasNoFiduciaryAssigned',
     'isNotDeceased',

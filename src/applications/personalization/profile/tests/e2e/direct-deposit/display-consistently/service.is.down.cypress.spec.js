@@ -9,7 +9,7 @@ describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
-  it('should service down message if edu benefits is down', () => {
+  it('should show DirectDepositConnectionError alert if edu benefits is down but cnp is operational', () => {
     cy.login(loa3User72);
     cy.intercept(
       'GET',
@@ -24,9 +24,9 @@ describe('Direct Deposit Consistently', () => {
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
-    DirectDeposit.confirmServiceIsDownMessageShows();
+    DirectDeposit.confirmEduConnectionErrorAlertShows();
   });
-  it('should service down message if cpn is down', () => {
+  it('should service down message if cpn is down and block all of direct deposit', () => {
     cy.login(loa3User72);
     cy.intercept(
       'GET',
