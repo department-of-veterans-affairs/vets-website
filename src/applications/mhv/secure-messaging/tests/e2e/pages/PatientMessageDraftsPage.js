@@ -142,9 +142,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockParentMessageDetails.data.attributes.messageId}/thread?full_body=true`,
       this.currentThread,
     ).as('full-thread');
 
@@ -166,17 +164,13 @@ class PatientMessageDraftsPage {
   loadSingleDraft = (singleDraftThread, singleDraft) => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        mockMessages.data[0].attributes.messageId
-      }/thread*`,
+      `${Paths.SM_API_EXTENDED}/${mockMessages.data[0].attributes.messageId}/thread*`,
       singleDraftThread,
     ).as('full-thread');
 
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${
-        singleDraftThread.data[0].attributes.messageId
-      }`,
+      `${Paths.SM_API_EXTENDED}/${singleDraftThread.data[0].attributes.messageId}`,
       singleDraft,
     ).as('fist-message-in-thread');
 
@@ -194,24 +188,18 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[0].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[0].attributes.messageId}`,
       { data: mockResponse.data[0] },
     ).as('firstDraft');
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[1].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[1].attributes.messageId}`,
       { data: mockResponse.data[1] },
     ).as('secondDraft');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[2].attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockResponse.data[2].attributes.messageId}`,
       { data: mockResponse.data[2] },
     ).as('firstSentMessage');
 
@@ -250,9 +238,7 @@ class PatientMessageDraftsPage {
     )[0].attributes.messageId;
     cy.intercept(
       'PUT',
-      `${
-        Paths.SM_API_BASE
-      }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
+      `${Paths.SM_API_BASE}/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
       { data: mockResponse },
     ).as('saveDraft');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
@@ -267,8 +253,8 @@ class PatientMessageDraftsPage {
     ).as('deletedDraftResponse');
     if (isNewDraftText) {
       cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Yes, delete this draft"]', { force: true })
-        .contains('Yes, delete this draft')
+        .find('va-button[text="Delete draft"]', { force: true })
+        .contains('Delete draft')
         .click({ force: true });
       // Wait needs to be added back in before closing PR
       // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });

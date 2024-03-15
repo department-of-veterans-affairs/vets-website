@@ -88,14 +88,14 @@ const FilterBox = forwardRef((props, ref) => {
         </VaModal>
       )}
 
-      <va-accordion uswds open-single>
-        <va-accordion-item uswds id="additional-filter-accordion">
+      <va-accordion uswds={false} open-single>
+        <va-accordion-item uswds={false} id="additional-filter-accordion">
           <h3 slot="headline" className="headline-text">
             Add filters
           </h3>
           <div className="filter-content">
             <VaSelect
-              uswds
+              uswds={false}
               id="category-dropdown"
               label="Category"
               name="category"
@@ -112,7 +112,7 @@ const FilterBox = forwardRef((props, ref) => {
             </VaSelect>
 
             <VaSelect
-              uswds
+              uswds={false}
               id="date-range-dropdown"
               label="Date range"
               name="dateRange"

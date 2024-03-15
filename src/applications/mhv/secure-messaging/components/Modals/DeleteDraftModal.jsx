@@ -28,15 +28,10 @@ const DeleteDraftModal = props => {
         <va-button
           uswds
           class="vads-u-padding-right--0 vads-u-padding-bottom--2 small-screen:vads-u-padding-right--2 small-screen:vads-u-padding-bottom--0"
-          text={unsavedNewDraft ? 'Yes, delete this draft' : 'Delete draft'}
+          text="Delete draft"
           onClick={props.onDelete}
         />
-        <va-button
-          uswds
-          secondary
-          text={unsavedNewDraft ? 'No, continue editing' : 'Cancel'}
-          onClick={props.onClose}
-        />
+        <va-button uswds secondary text="Cancel" onClick={props.onClose} />
       </div>
     </VaModal>
   );

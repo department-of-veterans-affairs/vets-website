@@ -18,41 +18,30 @@ const CreateFolderModal = props => {
   const [nameWarning, setNameWarning] = useState('');
   const folderNameInput = useRef();
 
-  useEffect(
-    () => {
-      if (nameWarning.length)
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-    },
-    [nameWarning],
-  );
+  useEffect(() => {
+    if (nameWarning.length)
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+  }, [nameWarning]);
 
-  const closeNewModal = useCallback(
-    () => {
-      setFolderName('');
-      setNameWarning('');
-      setIsCreateNewModalVisible(false);
-    },
-    [setFolderName, setNameWarning, setIsCreateNewModalVisible],
-  );
+  const closeNewModal = useCallback(() => {
+    setFolderName('');
+    setNameWarning('');
+    setIsCreateNewModalVisible(false);
+  }, [setFolderName, setNameWarning, setIsCreateNewModalVisible]);
 
-  const confirmNewFolder = useCallback(
-    () => {
-      let folderMatch = null;
-      folderMatch = folders.filter(folder => folder.name === folderName);
-      if (folderName === '' || folderName.match(/^[\s]+$/)) {
-        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
-      } else if (folderMatch.length > 0) {
-        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
-      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        onConfirm(folderName, closeNewModal);
-      } else {
-        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
-      }
-    },
-    [folders, folderName, onConfirm, closeNewModal],
-  );
+  const confirmNewFolder = useCallback(() => {
+    let folderMatch = null;
+    folderMatch = folders.filter(folder => folder.name === folderName);
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
+    } else if (folderMatch.length > 0) {
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      onConfirm(folderName, closeNewModal);
+    } else {
+      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
+    }
+  }, [folders, folderName, onConfirm, closeNewModal]);
 
   return (
     <VaModal
@@ -96,6 +85,7 @@ const CreateFolderModal = props => {
         text="Cancel"
         onClick={closeNewModal}
         data-testid="cancel-folder-button"
+        class="small-screen:vads-u-margin-y--1p5"
         data-dd-action-name="Cancel Create New Folder Button"
       />
     </VaModal>
