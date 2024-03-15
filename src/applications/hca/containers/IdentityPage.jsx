@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { isLoggedIn } from 'platform/user/selectors';
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { isLoggedIn } from '~/platform/user/selectors';
 
 import {
   getEnrollmentStatus,

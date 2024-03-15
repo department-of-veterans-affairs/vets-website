@@ -1,7 +1,7 @@
 import appendQuery from 'append-query';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '~/platform/utilities/api';
+import environment from '~/platform/utilities/environment';
+import recordEvent from '~/platform/monitoring/record-event';
 import { getData, isServerError, isClientError } from '.';
 import {
   DISABILITY_PREFIX,

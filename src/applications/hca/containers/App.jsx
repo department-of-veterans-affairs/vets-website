@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
+import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
+import recordEvent from '~/platform/monitoring/record-event';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import { selectProfile } from '~/platform/user/selectors';
 
 import {
   fetchTotalDisabilityRating,

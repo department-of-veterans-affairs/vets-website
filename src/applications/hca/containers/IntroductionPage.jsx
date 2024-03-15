@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
+import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import {
   DowntimeNotification,
   externalServices,
-} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+} from '~/platform/monitoring/DowntimeNotification';
 
 import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import GetStarted from '../components/IntroductionPage/GetStarted';

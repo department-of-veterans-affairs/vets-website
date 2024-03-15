@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
-import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { selectProfile } from '~/platform/user/selectors';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { selectAuthStatus } from '../../../utils/selectors/auth-status';
