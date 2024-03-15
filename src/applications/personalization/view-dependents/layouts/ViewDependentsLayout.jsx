@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
@@ -70,5 +71,16 @@ function ViewDependentsLayout(props) {
 
   return <div>{layout}</div>;
 }
+
+ViewDependentsLayout.propTypes = {
+  dependencyVerificationToggle: PropTypes.func,
+  dependentsToggle: PropTypes.func,
+  error: PropTypes.object,
+  loading: PropTypes.bool,
+  manageDependentsToggle: PropTypes.func,
+  notOnAwardDependents: PropTypes.array,
+  updateDiariesStatus: PropTypes.func,
+  onAwardDependents: PropTypes.array,
+};
 
 export default ViewDependentsLayout;

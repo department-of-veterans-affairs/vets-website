@@ -32,20 +32,19 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { benefitTypes } from '~/applications/personalization/common/constants';
+import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import DirectDepositConnectionError from './alerts/DirectDepositConnectionError';
 
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
-import { benefitTypes } from '~/applications/personalization/common/constants';
-
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import { EduMigrationDowntimeAlert } from './alerts/EduMigrationDowntimeAlert';
-import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 
 export const BankInfo = ({
   isLOA3,
@@ -101,40 +100,31 @@ export const BankInfo = ({
   const isEmptyForm =
     !formAccountNumber && !formAccountType && !formRoutingNumber;
 
-  useEffect(
-    () => {
-      setFormIsDirty(isEmptyForm);
-    },
-    [isEmptyForm, setFormIsDirty],
-  );
+  useEffect(() => {
+    setFormIsDirty(isEmptyForm);
+  }, [isEmptyForm, setFormIsDirty]);
 
-  useEffect(
-    () => {
-      return () => {
-        if (isEditingBankInfo) {
-          toggleEditState(false);
-        }
-      };
-    },
-    [isEditingBankInfo, toggleEditState],
-  );
+  useEffect(() => {
+    return () => {
+      if (isEditingBankInfo) {
+        toggleEditState(false);
+      }
+    };
+  }, [isEditingBankInfo, toggleEditState]);
 
   // when we enter and exit edit mode...
-  useEffect(
-    () => {
-      if (isEditingBankInfo && !wasEditingBankInfo) {
-        focusOnMainHeading(sectionTitleId);
-      }
-      if (wasEditingBankInfo && !isEditingBankInfo) {
-        // clear the form data when exiting edit mode so it's blank when the
-        // edit form is shown again
-        setFormData({});
-        // focus the edit button when we exit edit mode
-        editBankInfoButton.current.focus();
-      }
-    },
-    [isEditingBankInfo, wasEditingBankInfo, sectionTitleId],
-  );
+  useEffect(() => {
+    if (isEditingBankInfo && !wasEditingBankInfo) {
+      focusOnMainHeading(sectionTitleId);
+    }
+    if (wasEditingBankInfo && !isEditingBankInfo) {
+      // clear the form data when exiting edit mode so it's blank when the
+      // edit form is shown again
+      setFormData({});
+      // focus the edit button when we exit edit mode
+      editBankInfoButton.current.focus();
+    }
+  }, [isEditingBankInfo, wasEditingBankInfo, sectionTitleId]);
 
   const saveBankInfo = () => {
     const fields = {
@@ -385,7 +375,11 @@ export const BankInfo = ({
   }
 
   if (directDepositServerError) {
-    return <DirectDepositConnectionError benefitType={type} />;
+    return (
+      <div className={type === benefitTypes.EDU && 'vads-u-margin-top--4'}>
+        <DirectDepositConnectionError benefitType={type} />
+      </div>
+    );
   }
 
   return (
@@ -487,7 +481,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BankInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(BankInfo);

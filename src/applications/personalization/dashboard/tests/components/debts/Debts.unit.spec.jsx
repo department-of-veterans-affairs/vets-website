@@ -1,22 +1,25 @@
 import React from 'react';
-import { act, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '~/platform/testing/unit/helpers';
 
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { createDebtsSuccess } from '../../../mocks/debts';
 import { user81Copays } from '../../../mocks/medical-copays';
 import BenefitPaymentsAndDebt from '../../../components/debts/Debts';
 import reducers from '../../../reducers';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 const mockStore = configureStore([thunk]);
 
 describe('<BenefitPaymentsAndDebt />', () => {
-  it('should display loading indicator', () => {
+  it('displays loading indicator', () => {
     const store = mockStore({
       allDebts: {
         isLoading: true,
@@ -27,16 +30,16 @@ describe('<BenefitPaymentsAndDebt />', () => {
       },
     });
 
-    const view = render(
+    const { getAllByTestId } = render(
       <Provider store={store}>
         <BenefitPaymentsAndDebt />
       </Provider>,
     );
 
-    expect(view.getAllByTestId('debts-loading-indicator')).to.exist;
+    expect(getAllByTestId('debts-loading-indicator')).to.exist;
   });
 
-  it('should display no outstanding debts text when no debts and copays', () => {
+  it('displays no outstanding debts text when no debts and copays', () => {
     const store = mockStore({
       allDebts: {
         isLoading: false,
@@ -47,16 +50,16 @@ describe('<BenefitPaymentsAndDebt />', () => {
       },
     });
 
-    const view = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <BenefitPaymentsAndDebt />
       </Provider>,
     );
 
-    expect(view.getByTestId('no-outstanding-debts-text')).to.exist;
+    expect(getByTestId('no-outstanding-debts-text')).to.exist;
   });
 
-  it('should display debts card when debts are present', () => {
+  it('displays debts card when debts are present', () => {
     const store = mockStore({
       allDebts: {
         isLoading: false,
@@ -141,22 +144,20 @@ describe('<BenefitPaymentsAndDebt />', () => {
       },
     });
 
-    const view = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <BenefitPaymentsAndDebt />
       </Provider>,
     );
 
-    // Assuming DebtsCard component renders something identifiable
-    expect(view.getByTestId('dashboard-section-debts')).to.exist;
+    expect(getByTestId('dashboard-section-debts')).to.exist;
   });
 
-  it('should fetch debts and copays and display them formatted', async () => {
+  it('fetches debts and copays and displays them formatted', async () => {
     mockFetch();
     setFetchJSONResponse(global.fetch.onFirstCall(), createDebtsSuccess());
     setFetchJSONResponse(global.fetch.onSecondCall(), user81Copays);
 
-    let view;
     const initialState = {
       allDebts: {
         isLoading: false,
@@ -167,20 +168,21 @@ describe('<BenefitPaymentsAndDebt />', () => {
       },
     };
 
-    await act(async () => {
-      view = renderInReduxProvider(<BenefitPaymentsAndDebt />, {
+    const { getByTestId, getByText } = renderInReduxProvider(
+      <BenefitPaymentsAndDebt />,
+      {
         initialState,
         reducers,
-      });
-    });
+      },
+    );
 
     await waitFor(() => {
-      expect(view.getByTestId('copay-due-header')).to.exist;
-      expect(view.getByText('3 copay bills')).to.exist;
+      expect(getByTestId('copay-due-header')).to.exist;
+      expect(getByText('3 copay bills')).to.exist;
     });
   });
 
-  it('should display error message when there is a debt API error', () => {
+  it('displays error message when there is a debt API error', () => {
     const store = mockStore({
       allDebts: {
         isLoading: false,
@@ -191,16 +193,16 @@ describe('<BenefitPaymentsAndDebt />', () => {
       },
     });
 
-    const view = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <BenefitPaymentsAndDebt />
       </Provider>,
     );
 
-    expect(view.getByTestId('outstanding-debts-error')).to.exist;
+    expect(getByTestId('outstanding-debts-error')).to.exist;
   });
 
-  it('should display error message when there is a copays API error', () => {
+  it('displays error message when there is a copays API error', () => {
     const store = mockStore({
       allDebts: {
         isLoading: false,
@@ -211,12 +213,12 @@ describe('<BenefitPaymentsAndDebt />', () => {
       },
     });
 
-    const view = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <BenefitPaymentsAndDebt />
       </Provider>,
     );
 
-    expect(view.getByTestId('outstanding-debts-error')).to.exist;
+    expect(getByTestId('outstanding-debts-error')).to.exist;
   });
 });

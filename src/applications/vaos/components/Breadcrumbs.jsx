@@ -29,12 +29,9 @@ export default function VAOSBreadcrumbs({ children }) {
   const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
   const newLabel = label === undefined || label === null ? covidLabel : label;
 
-  useEffect(
-    () => {
-      setBreadcrumb(newLabel);
-    },
-    [location, newLabel],
-  );
+  useEffect(() => {
+    setBreadcrumb(newLabel);
+  }, [location, newLabel]);
 
   const getBreadcrumbList = () => {
     const isPast = location.pathname.includes('/past');
@@ -57,7 +54,10 @@ export default function VAOSBreadcrumbs({ children }) {
         label: 'Appointments',
       },
     ];
-    if (window.location.pathname === `${manifest.rootUrl}/`) {
+    if (
+      window.location.pathname === `${manifest.rootUrl}/` ||
+      window.location.pathname === manifest.rootUrl
+    ) {
       return BREADCRUMB_BASE;
     }
 

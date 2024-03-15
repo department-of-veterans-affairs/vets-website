@@ -9,15 +9,19 @@ import {
   verifyEnrollmentAction,
 } from '../actions';
 import { translateDatePeriod, formatCurrency } from '../helpers';
-import Alert from './Alert';
+import Loader from './Loader';
 
 const PeriodsToVerify = ({
   enrollmentData,
+  loggedIEnenrollmentData,
   dispatchUpdatePendingVerifications,
   dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
+  isUserLoggedIn,
+  loading,
 }) => {
-  const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
+  const userData = isUserLoggedIn ? loggedIEnenrollmentData : enrollmentData;
+  const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
   const [justVerified, setJustVerified] = useState(false);
@@ -63,7 +67,7 @@ const PeriodsToVerify = ({
     // update awardIds to a blank array
     dispatchUpdatePendingVerifications({ awardIds: [] });
 
-    const newVerifiedIDS = currentPendingAwardIDs.map(id => {
+    const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
       return {
         PendingVerificationSubmitted: currentDateTime,
         awardIds: [id],
@@ -73,40 +77,34 @@ const PeriodsToVerify = ({
     dispatchVerifyEnrollmentAction();
     setJustVerified(true);
   };
-  useEffect(
-    () => {
-      setUserEnrollmentData(enrollmentData);
-    },
-    [enrollmentData],
-  );
+  useEffect(() => {
+    setUserEnrollmentData(userData);
+  }, [userData]);
 
-  useEffect(
-    () => {
-      if (
-        userEnrollmentData?.['vye::UserInfo']?.awards &&
-        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications
-      ) {
-        const { awards, pendingVerifications } = userEnrollmentData?.[
-          'vye::UserInfo'
-        ];
-        // add all previouslyVerified data into single array
-        const { awardIds } = pendingVerifications;
-        setCurrentPendingAwardIDs(awardIds);
-        const toBeVerifiedEnrollmentsArray = [];
-        awardIds.forEach(id => {
-          // check for each id inside award_ids array
-          if (awards.some(award => award.id === id)) {
-            toBeVerifiedEnrollmentsArray.push(
-              awards.find(award => award.id === id),
-            );
-          }
-        });
+  useEffect(() => {
+    if (
+      userEnrollmentData?.['vye::UserInfo']?.awards &&
+      userEnrollmentData?.['vye::UserInfo']?.pendingVerifications
+    ) {
+      const { awards, pendingVerifications } = userEnrollmentData?.[
+        'vye::UserInfo'
+      ];
+      // add all previouslyVerified data into single array
+      const { awardIds } = pendingVerifications;
+      setCurrentPendingAwardIDs(awardIds);
+      const toBeVerifiedEnrollmentsArray = [];
+      awardIds.forEach(id => {
+        // check for each id inside award_ids array
+        if (awards.some(award => award.id === id)) {
+          toBeVerifiedEnrollmentsArray.push(
+            awards.find(award => award.id === id),
+          );
+        }
+      });
 
-        setPendingEnrollments(toBeVerifiedEnrollmentsArray);
-      }
-    },
-    [userEnrollmentData],
-  );
+      setPendingEnrollments(toBeVerifiedEnrollmentsArray);
+    }
+  }, [userEnrollmentData]);
 
   return (
     <div id="verifications-pending-alert">
@@ -146,19 +144,17 @@ const PeriodsToVerify = ({
             <VerifiedSuccessStatement />
           </div>
         )}
-      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 &&
+
+      {loading ? (
+        <Loader />
+      ) : (
+        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
+          .length === 0 &&
         !justVerified && (
-          <Alert
-            status="success"
-            message="You're up-to-date with your monthly enrollment verification. You'll be able to verify your enrollment next month."
-          />
-        )}
-      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === undefined && (
-        <div className="vads-u-margin-top--2">
-          <UpToDateVerificationStatement />
-        </div>
+          <div className="vads-u-margin-top--2">
+            <UpToDateVerificationStatement />
+          </div>
+        )
       )}
     </div>
   );
@@ -166,7 +162,8 @@ const PeriodsToVerify = ({
 
 // export default PeriodsToVerify
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  enrollmentData: state.getDataReducer.data,
+  loggedIEnenrollmentData: state.personalInfo.personalInfo,
 });
 
 const mapDispatchToProps = {
@@ -180,8 +177,8 @@ PeriodsToVerify.propTypes = {
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
   enrollmentData: PropTypes.object,
+  isUserLoggedIn: PropTypes.bool,
+  loading: PropTypes.bool,
+  loggedIEnenrollmentData: PropTypes.object,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PeriodsToVerify);
+export default connect(mapStateToProps, mapDispatchToProps)(PeriodsToVerify);

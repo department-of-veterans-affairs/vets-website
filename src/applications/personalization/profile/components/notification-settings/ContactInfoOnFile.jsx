@@ -26,6 +26,7 @@ const ContactInfoOnFile = ({
             <strong>Email address: </strong>
             {emailAddress && `${emailAddress} `}
             <Link
+              data-testid="email-address-on-file"
               to={generateContactInfoLink({
                 fieldName: FIELD_NAMES.EMAIL,
                 returnPath: encodeURIComponent(
@@ -46,9 +47,7 @@ const ContactInfoOnFile = ({
           {mobilePhoneNumber && (
             <VaTelephone
               data-testid="mobile-phone-number-on-file"
-              contact={`${mobilePhoneNumber.areaCode}${
-                mobilePhoneNumber.phoneNumber
-              }`}
+              contact={`${mobilePhoneNumber.areaCode}${mobilePhoneNumber.phoneNumber}`}
               notClickable
             />
           )}

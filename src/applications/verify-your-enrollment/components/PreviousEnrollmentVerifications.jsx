@@ -131,27 +131,26 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                 </va-additional-info>
               </>
             )}
-            {!verifiedDate &&
-              !PendingVerificationSubmitted && (
-                <>
-                  <h3 className="vads-u-font-size--h4">
-                    {translateDateIntoMonthYearFormat(awardBeginDate)}
-                  </h3>
-                  <va-alert
-                    background-only
-                    class="vads-u-margin-bottom--4"
-                    close-btn-aria-label="Close notification"
-                    disable-analytics="false"
-                    full-width="false"
-                    status="info"
-                    visible="true"
-                  >
-                    <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
-                      This month has not yet been verified.
-                    </p>
-                  </va-alert>
-                </>
-              )}
+            {!verifiedDate && !PendingVerificationSubmitted && (
+              <>
+                <h3 className="vads-u-font-size--h4">
+                  {translateDateIntoMonthYearFormat(awardBeginDate)}
+                </h3>
+                <va-alert
+                  background-only
+                  class="vads-u-margin-bottom--4"
+                  close-btn-aria-label="Close notification"
+                  disable-analytics="false"
+                  full-width="false"
+                  status="info"
+                  visible="true"
+                >
+                  <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+                    This month has not yet been verified.
+                  </p>
+                </va-alert>
+              </>
+            )}
           </div>
         );
       })
@@ -178,84 +177,72 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     [setCurrentPage],
   );
 
-  useEffect(
-    () => {
-      setUserEnrollmentData(enrollmentData);
-    },
-    [enrollmentData],
-  );
+  useEffect(() => {
+    setUserEnrollmentData(enrollmentData);
+  }, [enrollmentData]);
 
-  useEffect(
-    () => {
-      setTotalEnrollmentCount(
-        userEnrollmentData?.['vye::UserInfo']?.awards?.length,
-      );
-    },
-    [userEnrollmentData],
-  );
+  useEffect(() => {
+    setTotalEnrollmentCount(
+      userEnrollmentData?.['vye::UserInfo']?.awards?.length,
+    );
+  }, [userEnrollmentData]);
 
-  useEffect(
-    () => {
-      if (
-        userEnrollmentData?.['vye::UserInfo']?.awards &&
-        userEnrollmentData?.['vye::UserInfo']?.verifications
-      ) {
-        const { awards, verifications } = userEnrollmentData?.['vye::UserInfo'];
-        // add all awards data into single array, verified and non-verified
-        const allEnrollments = awards.flatMap((award, index) => {
-          // check each award that has been verified and add the
-          // verified date to the enrollment period being returned
-          if (index < verifications.length) {
-            const {
-              awardIds,
-              createdOn,
-              PendingVerificationSubmitted,
-            } = verifications[index];
-            // check if record has been verified
-            if (awardIds.some(id => id === award.id)) {
-              const tempData = award;
-              let updatedTempData = {};
-              if (createdOn) {
-                // add key/value when enrollment was verified
-                updatedTempData = { ...tempData, verifiedDate: createdOn };
-              }
-              if (PendingVerificationSubmitted) {
-                // add key/value when enrollment was verified
-                updatedTempData = {
-                  ...tempData,
-                  PendingVerificationSubmitted,
-                };
-              }
-              return updatedTempData;
+  useEffect(() => {
+    if (
+      userEnrollmentData?.['vye::UserInfo']?.awards &&
+      userEnrollmentData?.['vye::UserInfo']?.verifications
+    ) {
+      const { awards, verifications } = userEnrollmentData?.['vye::UserInfo'];
+      // add all awards data into single array, verified and non-verified
+      const allEnrollments = awards.flatMap((award, index) => {
+        // check each award that has been verified and add the
+        // verified date to the enrollment period being returned
+        if (index < verifications.length) {
+          const {
+            awardIds,
+            createdOn,
+            PendingVerificationSubmitted,
+          } = verifications[index];
+          // check if record has been verified
+          if (awardIds?.some(id => id === award.id)) {
+            const tempData = award;
+            let updatedTempData = {};
+            if (createdOn) {
+              // add key/value when enrollment was verified
+              updatedTempData = { ...tempData, verifiedDate: createdOn };
             }
+            if (PendingVerificationSubmitted) {
+              // add key/value when enrollment was verified
+              updatedTempData = {
+                ...tempData,
+                PendingVerificationSubmitted,
+              };
+            }
+            return updatedTempData;
           }
-          // add enrollment that has not been verified
-          return award;
-        });
+        }
+        // add enrollment that has not been verified
+        return award;
+      });
 
-        // array of all enrollment periods with verifiedDate
-        // add to enrollments that have been verified
-        setPastAndCurrentAwards(allEnrollments);
-      }
-    },
-    [userEnrollmentData],
-  );
+      // array of all enrollment periods with verifiedDate
+      // add to enrollments that have been verified
+      setPastAndCurrentAwards(allEnrollments);
+    }
+  }, [userEnrollmentData]);
 
-  useEffect(
-    () => {
-      // set how many enrollments to initially show
-      // and the page count
-      if (totalEnrollmentCount >= ENROLLMETS_PER_PAGE) {
-        setSubsetEnd(ENROLLMETS_PER_PAGE);
-        setPageCount(Math.ceil(totalEnrollmentCount / ENROLLMETS_PER_PAGE));
-        setCurrentPage(1);
-      } else {
-        setSubsetEnd(totalEnrollmentCount);
-        setPageCount(1);
-      }
-    },
-    [totalEnrollmentCount],
-  );
+  useEffect(() => {
+    // set how many enrollments to initially show
+    // and the page count
+    if (totalEnrollmentCount >= ENROLLMETS_PER_PAGE) {
+      setSubsetEnd(ENROLLMETS_PER_PAGE);
+      setPageCount(Math.ceil(totalEnrollmentCount / ENROLLMETS_PER_PAGE));
+      setCurrentPage(1);
+    } else {
+      setSubsetEnd(totalEnrollmentCount);
+      setPageCount(1);
+    }
+  }, [totalEnrollmentCount]);
 
   return (
     <div>

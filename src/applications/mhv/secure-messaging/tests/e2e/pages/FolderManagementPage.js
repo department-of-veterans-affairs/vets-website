@@ -3,7 +3,7 @@ import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockMessageWithAttachment from '../fixtures/message-response-withattachments.json';
-import { Locators } from '../utils/constants';
+import { Locators, Alerts, Paths } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -130,9 +130,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockParentMessageDetails.data.attributes.messageId}/thread`,
       this.currentThread,
     ).as('full-thread');
 
@@ -142,7 +140,7 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get(Locators.ALERTS.ALERT_TEXT);
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
@@ -201,9 +199,7 @@ class FolderManagementPage {
   moveCustomFolderMessageToDifferentFolder = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/messaging/threads/${
-        mockCustomResponse.data.attributes.threadId
-      }/move?folder_id=-3`,
+      `/my_health/v1/messaging/threads/${mockCustomResponse.data.attributes.threadId}/move?folder_id=-3`,
       mockCustomResponse,
     ).as('moveMockCustomResponse');
     cy.get(Locators.ALERTS.MOVE_MODAL)
@@ -224,9 +220,7 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `my_health/v1/messaging/threads/${
-        mockCustomResponse.data.attributes.threadId
-      }/move?folder_id=${folderId}`,
+      `my_health/v1/messaging/threads/${mockCustomResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
       {},
     );
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
@@ -242,9 +236,7 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `my_health/v1/messaging/threads/${
-        mockCustomResponse.data.attributes.threadId
-      }/move?folder_id=${folderId}`,
+      `my_health/v1/messaging/threads/${mockCustomResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
       mockMessageWithAttachment,
     ).as('moveMessageWithAttachment');
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
@@ -255,9 +247,9 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT)
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('contain.text', Assertions.MESSAGE_CONVERSATION_SUCCESS);
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {

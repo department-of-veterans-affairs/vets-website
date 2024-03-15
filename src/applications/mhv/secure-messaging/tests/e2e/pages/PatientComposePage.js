@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Assertions, Locators, Paths } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 
@@ -45,7 +45,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT).should(
+    cy.get('[data-testid="alert-text"]').should(
       'contain.text',
       'Secure message was successfully sent.',
     );
@@ -59,7 +59,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
-      .find('#options')
+      .find('select')
       .select(recipient, { force: true });
   };
 
@@ -153,7 +153,7 @@ class PatientComposePage {
     return cy
       .get(Locators.MESSAGES_BODY)
       .shadow()
-      .find('#input-type-textarea');
+      .find('textarea');
   };
 
   keyboardNavToMessageSubjectField = () => {
@@ -166,7 +166,7 @@ class PatientComposePage {
   composeDraftByKeyboard = () => {
     cy.tabToElement('#recipient-dropdown')
       .shadow()
-      .find('#select')
+      .find('select')
       .select(1, { force: true });
     cy.tabToElement(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
       .first()
@@ -202,9 +202,7 @@ class PatientComposePage {
   saveDraft = draftMessage => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/message_drafts/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('draft_message');
 
@@ -298,7 +296,10 @@ class PatientComposePage {
   };
 
   verifyAlertModal = () => {
-    cy.get(`#heading`).should('contain', "We can't save this message yet");
+    cy.get(`[modaltitle="We can't save this message yet"]`)
+      .shadow()
+      .find('[class="usa-modal va-modal-alert"]')
+      .should('contain', "We can't save this message yet");
   };
 
   clickOnContinueEditingButton = () => {
@@ -358,9 +359,7 @@ class PatientComposePage {
   clickTrashButton = () => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageResponse.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageResponse.data.attributes.messageId}`,
       mockMessageResponse,
     ).as('mockMessageResponse');
     cy.intercept(
@@ -385,9 +384,9 @@ class PatientComposePage {
   };
 
   verifyDeleteDraftSuccessfulMessage = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT).should(
+    cy.get('[data-testid="alert-text"]').should(
       'contain.text',
-      Assertions.MESSAGE_CONVERSATION_SUCCESS_TRASH,
+      'Message conversation was successfully moved to Trash.',
     );
   };
 
@@ -395,7 +394,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('[id="error-message"]')
-      .should('contain', Assertions.SELECT_RECIPIENT);
+      .should('contain', ' Please select a recipient.');
   };
 
   verifySubjectErrorMessage = () => {

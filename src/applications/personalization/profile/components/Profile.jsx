@@ -280,7 +280,7 @@ const mapStateToProps = state => {
     CSP_IDS.LOGIN_GOV,
   ]);
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
-    backendServices.EVSS_CLAIMS,
+    backendServices.LIGHTHOUSE,
   );
   const isEvssAvailable = isEvssAvailableSelector(state);
   const is2faEnabled = isMultifactorEnabled(state);
@@ -371,7 +371,4 @@ const mapDispatchToProps = {
 
 export { Profile as ProfileUnconnected, mapStateToProps };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

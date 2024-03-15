@@ -26,17 +26,13 @@ class PatientMessageTrashPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}/thread`,
       mockThreadResponse,
     ).as('threadResponse');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}`,
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
@@ -70,7 +66,7 @@ class PatientMessageTrashPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#options')
+      .find('select')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',

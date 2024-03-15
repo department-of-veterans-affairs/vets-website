@@ -13,13 +13,10 @@ export const useData = () => {
   const { data, loading } = useSelector(state => state.getDataReducer);
   const { personalInfo, isLoading } = useSelector(state => state.personalInfo);
 
-  useEffect(
-    () => {
-      dispatch(getData());
-      dispatch(fetchPersonalInfo());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getData());
+    dispatch(fetchPersonalInfo());
+  }, [dispatch]);
   const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
 
   const userInfo = isUserLoggedIn
@@ -29,11 +26,13 @@ export const useData = () => {
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
-    loading: loading || isLoading,
+    isUserLoggedIn,
+    loading: isUserLoggedIn ? isLoading : loading,
     expirationDate,
     updated,
     day,
     month,
+    enrollmentData: isUserLoggedIn ? personalInfo : data,
     ...userInfo,
   };
 };
