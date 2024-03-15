@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { updatePageTitle } from '../../shared/util/helpers';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';

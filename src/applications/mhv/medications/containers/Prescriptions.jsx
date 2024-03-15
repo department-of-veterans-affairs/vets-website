@@ -3,6 +3,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
+import usePrintTitle, {
+  updatePageTitle,
+  reportGeneratedBy,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
@@ -36,9 +40,6 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import { updatePageTitle } from '../../shared/util/helpers';
-import { reportGeneratedBy } from '../../shared/util/constants';
-import usePrintTitle from '../components/shared/usePrintTitle';
 import { selectRefillContentFlag } from '../util/selectors';
 
 const Prescriptions = () => {

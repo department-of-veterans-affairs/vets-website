@@ -9,7 +9,7 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import { useDatadogRum } from '@department-of-veterans-affairs/mhv/exports';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
