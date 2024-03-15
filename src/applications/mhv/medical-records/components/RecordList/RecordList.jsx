@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
 import { getParamValue } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
@@ -14,7 +17,7 @@ const RecordList = props => {
   const totalEntries = records?.length;
 
   const history = useHistory();
-  const { location } = window;
+  const location = useLocation();
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(paramPage);
@@ -29,13 +32,14 @@ const RecordList = props => {
     setCurrentPage(page);
   };
 
-  useEffect(() => {
-    window.onpopstate = () => {
+  useEffect(
+    () => {
       const historyParamVal = getParamValue(history.location.search, 'page');
       setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
       setCurrentPage(historyParamVal);
-    };
-  }, []);
+    },
+    [history.location.search],
+  );
 
   const fromToNums = (page, total) => {
     const from = (page - 1) * perPage + 1;

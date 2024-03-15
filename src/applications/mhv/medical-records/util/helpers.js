@@ -229,11 +229,51 @@ export const dispatchDetails = async (
 };
 
 /**
- * Download a text file
+ * Parse a value from a url using the parameter name
  * @param {String} url url
  * @param {String} paramName name for the text file
  */
 export const getParamValue = (url, paramName) => {
   const getParams = new URLSearchParams(url);
   return getParams.get(`${paramName}`) ? getParams.get(`${paramName}`) : 1;
+};
+
+/**
+ * Function: getActiveLinksStyle
+ * Description: Determines the style for active links based on the linkPath and currentPath.
+ * Pre-conditions:
+ * - linkPath: A string representing the path of the link being evaluated.
+ * - currentPath: A string representing the current path of the application.
+ * Post-conditions:
+ * - Returns 'is-active' if the link is active, otherwise returns an empty string.
+ * @param {string} linkPath - The path of the link being evaluated.
+ * @param {string} currentPath - The current path of the application.
+ * @returns {string} - 'is-active' if the link is active, otherwise an empty string.
+ */
+export const getActiveLinksStyle = (linkPath, currentPath) => {
+  let relativePath;
+
+  if (linkPath === '/' && currentPath === '/') {
+    return 'is-active';
+  }
+
+  const pathArr = currentPath.slice(1).split('/');
+
+  if (
+    pathArr.length > 1 &&
+    pathArr.length < 5 &&
+    pathArr[0] === 'labs-and-tests'
+  ) {
+    relativePath = '/labs-and-tests';
+  } else if (pathArr.length === 3) {
+    relativePath = `/${pathArr[0]}/${pathArr[1]}`;
+  } else {
+    relativePath = currentPath;
+  }
+
+  if (linkPath.split('/')[1] === relativePath.split('/')[1]) {
+    return 'is-active';
+  }
+
+  return '';
 };
