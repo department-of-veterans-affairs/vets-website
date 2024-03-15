@@ -11,6 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -218,6 +219,13 @@ export default function ContactInfoPage({ changeCrumb }) {
         required: 'Enter an email address',
       },
       'ui:validations': [validateLength],
+      'ui:options': {
+        classNames: classNames({
+          'schemaform-first-field':
+            flowType === FLOW_TYPES.REQUEST &&
+            userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE,
+        }),
+      },
     },
   };
 
@@ -256,6 +264,7 @@ export default function ContactInfoPage({ changeCrumb }) {
               <div>
                 You can update your contact information for most of your
                 benefits and services in your VA.gov profile.
+                <br />
                 <NewTabAnchor href="/profile/contact-information">
                   Go to your VA profile
                 </NewTabAnchor>
