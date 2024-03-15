@@ -1,4 +1,4 @@
-import { Paths, Alerts } from '../utils/constants';
+import { Paths, Alerts, Locators } from '../utils/constants';
 
 class PatienErrorPage {
   loadParticularFolderError = () => {
@@ -38,7 +38,7 @@ class PatienErrorPage {
   };
 
   verifyAlertMessage = () => {
-    cy.get('[data-testid="alert-text"]')
+    cy.get(Locators.ALERTS.ALERT_TEXT)
       .should('be.visible')
       .and('contain.text', Alerts.OUTAGE);
   };
