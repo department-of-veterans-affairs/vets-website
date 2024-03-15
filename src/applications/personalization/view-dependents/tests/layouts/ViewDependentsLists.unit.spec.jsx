@@ -8,22 +8,17 @@ describe('<ViewDependentsLists />', () => {
   const mockState = {
     onAwardDependents: [
       {
-        name: 'Billy Blank',
+        firstName: 'Billy',
+        lastName: 'Blank',
         social: '312-243-5634',
         onAward: true,
         birthdate: '05-05-1983',
       },
-      {
-        name: 'Cindy See',
-        social: '312-243-5634',
-        onAward: true,
-        birthdate: '05-05-1953',
-        spouse: true,
-      },
     ],
     notOnAwardDependents: [
       {
-        name: 'Frank Fuzzy',
+        firstName: 'Frank',
+        lastName: 'Fuzzy',
         social: '312-243-5634',
         birthdate: '05-05-1953',
       },
@@ -31,10 +26,15 @@ describe('<ViewDependentsLists />', () => {
   };
 
   it('should render', async () => {
-    const screen = renderInReduxProvider(<ViewDependentsLists />, {
-      mockState,
-      reducers: removeDependents,
-    });
+    const screen = renderInReduxProvider(
+      <ViewDependentsLists
+        onAwardDependents={mockState.onAwardDependents}
+        notOnAwardDependents={mockState.notOnAwardDependents}
+      />,
+      {
+        reducers: removeDependents,
+      },
+    );
 
     expect(await screen.findByText(/Billy Blank/)).to.exist;
   });
