@@ -212,7 +212,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
               PendingVerificationSubmitted,
             } = verifications[index];
             // check if record has been verified
-            if (awardIds.some(id => id === award.id)) {
+            if (awardIds?.some(id => id === award.id)) {
               const tempData = award;
               let updatedTempData = {};
               if (createdOn) {
