@@ -217,7 +217,7 @@ jobs:
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         if: ${{ always() }}
         id: unit-tests-to-stress-test
-        run: echo "tests=$TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+        run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
       
       - name: Set output of TESTS
         id: cypress-tests
@@ -225,7 +225,7 @@ jobs:
 
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         id: cypress-tests-to-stress-test
-        run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
+        run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
