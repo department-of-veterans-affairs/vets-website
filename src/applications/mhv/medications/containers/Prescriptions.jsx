@@ -309,7 +309,13 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
-        } else {
+        } else if (pdfTxtGenerateStatus.format === 'print') {
+          if (!isLoading && loadingMessage === '') {
+            setPdfTxtGenerateStatus({
+              status: PDF_TXT_GENERATE_STATUS.NotStarted,
+            });
+            window.print();
+          }
           updateLoadingStatus(false, '');
         }
       } else if (
@@ -326,28 +332,11 @@ const Prescriptions = () => {
       prescriptionsFullList,
       pdfTxtGenerateStatus.status,
       pdfTxtGenerateStatus.format,
+      isLoading,
+      loadingMessage,
       generatePDF,
       generateTXT,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (
-        !isLoading &&
-        loadingMessage === '' &&
-        pdfTxtGenerateStatus.format === 'print' &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-        allergies &&
-        !allergiesError
-      ) {
-        setPdfTxtGenerateStatus({
-          status: PDF_TXT_GENERATE_STATUS.NotStarted,
-        });
-        window.print();
-      }
-    },
-    [isLoading, loadingMessage, pdfTxtGenerateStatus, allergiesError],
   );
 
   const handleFullListDownload = async format => {
@@ -430,6 +419,7 @@ const Prescriptions = () => {
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
             onCancelButtonClick={handleModalClose}
+            isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
             visible={Boolean(
               prescriptionsFullList?.length &&
                 pdfTxtGenerateStatus.status ===
