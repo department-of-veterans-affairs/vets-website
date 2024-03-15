@@ -41,10 +41,6 @@ function ClearFiltersBtn({
     });
     setIsCleared(true);
   };
-  // eslint-disable-next-line no-console
-  console.log(
-    `----------------isProductionOrTestProdEnv()=${isProductionOrTestProdEnv()}`,
-  );
   return (
     <>
       {isProductionOrTestProdEnv() ? (
