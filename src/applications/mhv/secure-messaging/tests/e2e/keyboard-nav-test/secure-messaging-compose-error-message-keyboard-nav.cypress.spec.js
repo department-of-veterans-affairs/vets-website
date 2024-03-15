@@ -28,7 +28,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.clickOnDeleteDraftButton();
   });
 
-  it.skip('focus on error message for empty category', () => {
+  it('focus on error message for empty category', () => {
     composePage.selectRecipient();
     composePage.getMessageSubjectField().type('Test Subject');
     composePage
@@ -39,11 +39,11 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
       cy.log(el);
     });
     composePage.verifyFocusOnErrorMessageToSelectCategory();
-    // cy.injectAxe();
-    // cy.axeCheck(AXE_CONTEXT);
-    // composePage.selectCategory();
-    // composePage.selectSideBarMenuOption('Inbox');
-    // composePage.clickOnDeleteDraftButton();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+    composePage.selectCategory();
+    composePage.selectSideBarMenuOption('Inbox');
+    composePage.clickOnDeleteDraftButton();
   });
 
   it('focus on error message for empty message subject', () => {
