@@ -446,6 +446,9 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
         };
 
         expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
@@ -481,6 +484,9 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
         };
 
         expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
@@ -505,6 +511,9 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
         };
         expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
           .true;

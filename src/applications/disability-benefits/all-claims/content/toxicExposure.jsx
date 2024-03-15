@@ -103,7 +103,7 @@ export function showToxicExposurePages(formData) {
  * 1. TE pages should be showing at all
  * 2. at least one checkbox on the TE conditions page is selected that is not 'none'
  *
- * @param {*} formData
+ * @param {object} formData
  * @returns true if at least one condition is claimed for toxic exposure, false otherwise
  */
 export function isClaimingTECondition(formData) {
@@ -271,7 +271,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
  */
 export function showGulfWar1990LocationDatesPage(formData, locationId) {
   return (
-    showToxicExposurePages(formData) &&
+    isClaimingTECondition(formData) &&
     formData?.gulfWar1990 &&
     formData?.gulfWar1990?.[locationId] === true
   );

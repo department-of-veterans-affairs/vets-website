@@ -1,4 +1,7 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import {
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { formTitle } from '../../utils';
 import {
   dateRangePageDescription,
@@ -28,18 +31,14 @@ function makeUiSchema(locationId) {
       ),
     gulfWar1990Locations: {
       [locationId]: {
-        startDate: {
-          ...currentOrPastDateUI(startDateApproximate),
-          'ui:options': {
-            monthYear: true,
-          },
-        },
-        endDate: {
-          ...currentOrPastDateUI(endDateApproximate),
-          'ui:options': {
-            monthYear: true,
-          },
-        },
+        startDate: currentOrPastDateUI({
+          title: startDateApproximate,
+          monthYearOnly: true,
+        }),
+        endDate: currentOrPastDateUI({
+          title: endDateApproximate,
+          monthYearOnly: true,
+        }),
       },
     },
     'view:gulfWar1990AdditionalInfo': {
@@ -63,14 +62,8 @@ function makeSchema(locationId) {
           [locationId]: {
             type: 'object',
             properties: {
-              startDate: {
-                type: 'string',
-                format: 'monthYear',
-              },
-              endDate: {
-                type: 'string',
-                format: 'monthYear',
-              },
+              startDate: currentOrPastDateSchema,
+              endDate: currentOrPastDateSchema,
             },
           },
         },

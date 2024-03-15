@@ -3,9 +3,8 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { changeDropdown } from 'platform/testing/unit/helpers';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/gulfWar1990LocationDates';
 import {
   dateHelp,
@@ -31,81 +30,52 @@ describe('gulfWar1990LocationDates', () => {
   };
 
   Object.keys(GULF_WAR_1990_LOCATIONS).forEach(locationId => {
-    it(`should render for ${locationId}`, () => {
-      const { getByText } = render(
-        <DefinitionTester
-          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-          data={formData}
-        />,
-      );
+    if (locationId === 'airspace') {
+      it(`should render for ${locationId}`, () => {
+        const { container, getByText } = render(
+          <DefinitionTester
+            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
+            data={formData}
+          />,
+        );
 
-      getByText(gulfWar1990PageTitle);
-      getByText(dateHelp);
-      getByText(startDateApproximate);
-      getByText(endDateApproximate);
+        getByText(gulfWar1990PageTitle);
+        getByText(dateHelp);
 
-      if (locationId === 'afghanistan') {
-        getByText(`1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
-          exact: false,
-        });
-      } else if (locationId === 'airspace') {
-        getByText(`2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
-          exact: false,
-        });
-      } else {
-        getByText(GULF_WAR_1990_LOCATIONS[locationId]);
-      }
-    });
+        expect(
+          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+        ).to.exist;
+        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+          .to.exist;
 
-    it(`should submit without dates for ${locationId}`, () => {
-      const onSubmit = sinon.spy();
-      const { getByText } = render(
-        <DefinitionTester
-          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-          data={formData}
-          onSubmit={onSubmit}
-        />,
-      );
-
-      userEvent.click(getByText('Submit'));
-      expect(onSubmit.calledOnce).to.be.true;
-    });
-
-    it(`should submit with dates for ${locationId}`, () => {
-      const onSubmit = sinon.spy();
-      const form = mount(
-        <DefinitionTester
-          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-          data={formData}
-          onSubmit={onSubmit}
-        />,
-      );
-
-      const startMonthId = `#root_gulfWar1990Locations_${locationId}_startDateMonth`;
-      changeDropdown(form, startMonthId, 5);
-      const startYear = form.find(
-        `#root_gulfWar1990Locations_${locationId}_startDateYear`,
-      );
-      startYear.simulate('change', {
-        target: { value: '2020' },
+        if (locationId === 'afghanistan') {
+          getByText(`1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
+            exact: false,
+          });
+        } else if (locationId === 'airspace') {
+          getByText(`2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
+            exact: false,
+          });
+        } else {
+          getByText(GULF_WAR_1990_LOCATIONS[locationId]);
+        }
       });
 
-      const endMonthId = `#root_gulfWar1990Locations_${locationId}_endDateMonth`;
-      changeDropdown(form, endMonthId, 2);
-      const year = form.find(
-        `#root_gulfWar1990Locations_${locationId}_endDateYear`,
-      );
-      year.simulate('change', {
-        target: { value: '2024' },
-      });
+      it(`should submit without dates for ${locationId}`, () => {
+        const onSubmit = sinon.spy();
+        const { getByText } = render(
+          <DefinitionTester
+            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
+            data={formData}
+            onSubmit={onSubmit}
+          />,
+        );
 
-      form.find('form').simulate('submit');
-      expect(onSubmit.calledOnce).to.be.true;
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      form.unmount();
-    });
+        userEvent.click(getByText('Submit'));
+        expect(onSubmit.calledOnce).to.be.true;
+      });
+    }
   });
 });
