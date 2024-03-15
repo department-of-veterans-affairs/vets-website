@@ -38,14 +38,16 @@ export const isReviewInstance = () => {
 };
 
 export const isProductionOrTestProdEnv = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
   return (
     environment.isProduction() || // Comment out to send to production
     environment.isStaging() ||
     environment.isDev() ||
     isReviewInstance() ||
-    environment.isLocalhost() ||
-    automatedTest ||
-    (global && global?.window && global?.window?.buildType)
+    environment.isLocalhost()
   );
 };
 
@@ -99,7 +101,7 @@ export const phoneInfo = (areaCode, phoneNumber) => {
 export function convertRatingToStars(rating) {
   const ratingValue = parseFloat(rating);
 
-  if (!ratingValue || Number.isNaN(ratingValue)) {
+  if (!ratingValue || isNaN(ratingValue)) {
     return null;
   }
 
@@ -126,7 +128,7 @@ export const handleScrollOnInputFocus = fieldId => {
 };
 
 export const formatCurrency = value => {
-  if (Number.isNaN(value)) {
+  if (isNaN(value)) {
     return value;
   }
   return `$${formatNumber(Math.round(+value))}`;
