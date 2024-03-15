@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
@@ -20,6 +21,10 @@ const marriageInfo = {
         first: 'Jane',
         last: 'Doe',
       },
+      spouseDateOfBirth: moment().toISOString(),
+      spouseSocialSecurityNumber: '111223333',
+      spouseIsVeteran: 'N',
+      'view:liveWithSpouse': 'Y',
     },
   ],
 };
@@ -48,24 +53,6 @@ describe('Pensions spouse info', () => {
     expect($$('va-radio', container).length).to.equal(2);
   });
 
-  it('should not submit an empty form', async () => {
-    const onSubmit = sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    fireEvent.submit($('form', container));
-    await waitFor(() => {
-      expect($$(errors, container).length).to.equal(4);
-      expect(onSubmit.called).to.be.false;
-    });
-  });
-
   it('should render spouse va file number', () => {
     const { container } = render(
       <DefinitionTester
@@ -89,19 +76,26 @@ describe('Pensions spouse info', () => {
       .be.null;
   });
 
-  it('should submit with valid data', async () => {
-    marriageInfo.marriages[0] = {
-      ...marriageInfo.marriages[0],
-      spouseDateOfBirth: {
-        spouseDateOfBirthMonth: '2',
-        spouseDateOfBirthDay: '2',
-        spouseDateOfBirthYear: '2000',
-      },
-      spouseSocialSecurityNumber: '111223333',
-      spouseIsVeteran: 'N',
-      'view:liveWithSpouse': 'Y',
-    };
+  it('should not submit an empty form', async () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+        data={{}}
+      />,
+    );
 
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      expect($$(errors, container).length).to.equal(4);
+      expect(onSubmit.called).to.be.false;
+    });
+  });
+
+  it('should submit with valid data', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -113,7 +107,20 @@ describe('Pensions spouse info', () => {
       />,
     );
 
-    // passing values in data does not set a yesNoUI correctly
+    const birthDate = $(
+      'va-memorable-date[name="root_spouseDateOfBirth"]',
+      container,
+    );
+    birthDate.__events.dateChange(
+      new CustomEvent('setdate', { detail: { value: '1955-11-5' } }),
+    );
+
+    const ssnInput = $(
+      'va-text-input[name="root_spouseSocialSecurityNumber"]',
+      container,
+    );
+    ssnInput.value = '111223333';
+
     const spouseIsVeteran = $(
       'va-radio[name="root_spouseIsVeteran"]',
       container,

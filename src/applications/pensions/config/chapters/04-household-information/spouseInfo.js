@@ -1,3 +1,5 @@
+import merge from 'lodash/merge';
+
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -17,21 +19,24 @@ import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 export default {
   uiSchema: {
     ...titleUI(createHouseholdMemberTitle('spouseFullName', 'information')),
-    spouseDateOfBirth: dateOfBirthUI({
-      title: 'Date of birth',
-      updateSchema: createSpouseLabelSelector(
-        spouseName => `${spouseName.first} ${spouseName.last}’s date of birth`,
-      ),
+    spouseDateOfBirth: merge({}, dateOfBirthUI(), {
+      'ui:title': '',
+      'ui:options': {
+        updateSchema: createSpouseLabelSelector(
+          spouseName =>
+            `${spouseName.first} ${spouseName.last}’s date of birth`,
+        ),
+      },
     }),
-    spouseSocialSecurityNumber: {
-      ...ssnUI(),
+    spouseSocialSecurityNumber: merge({}, ssnUI(), {
+      'ui:title': '',
       'ui:options': {
         updateSchema: createSpouseLabelSelector(
           spouseName =>
             `${spouseName.first} ${spouseName.last}’s Social Security number`,
         ),
       },
-    },
+    }),
     spouseIsVeteran: yesNoUI({
       updateSchema: createSpouseLabelSelector(
         spouseName =>
