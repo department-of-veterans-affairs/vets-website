@@ -93,6 +93,10 @@ import {
   ApplicantRelOriginReviewPage,
 } from '../pages/ApplicantRelOriginPage';
 import {
+  ApplicantDependentStatusPage,
+  ApplicantDependentStatusReviewPage,
+} from '../pages/ApplicantDependentStatus';
+import {
   ApplicantSponsorMarriageDetailsPage,
   ApplicantSponsorMarriageDetailsReviewPage,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
@@ -952,6 +956,48 @@ const formConfig = {
             applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
               acceptableFiles.birthCert,
             ),
+          }),
+        },
+        page18b1: {
+          path: 'applicant-information/:index/school-age',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} dependent status`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child' &&
+              isInRange(
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                18,
+                23,
+              )
+            );
+          },
+          CustomPage: ApplicantDependentStatusPage,
+          CustomPageReview: ApplicantDependentStatusReviewPage,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'ui:description': blankSchema,
+            applicantDependentStatus: {
+              type: 'object',
+              properties: {
+                status: radioSchema([
+                  'enrolledOrIntendsToEnroll',
+                  'over18HelplessChild',
+                ]),
+                otherStatus: { type: 'string' },
+              },
+            },
           }),
         },
         page18b: {

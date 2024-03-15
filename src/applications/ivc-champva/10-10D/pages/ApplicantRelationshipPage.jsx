@@ -13,7 +13,15 @@ import {
   additionalFilesHint,
 } from '../helpers/wordingCustomization';
 
+/*
+Overriding these allows us to set custom property titles.
+This is part of the slow advance towards converting this component
+into a generally custom "Radio options + other dropdown" since it's
+needed in multiple places in this form.
+*/
 const KEYNAME = 'applicantRelationshipToSponsor';
+const PRIMARY = 'relationshipToVeteran';
+const SECONDARY = 'otherRelationshipToVeteran';
 
 export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
@@ -103,23 +111,20 @@ function generateOptions({ data, pagePerItemIndex }) {
   };
 }
 
-const relationshipStructure = {
-  relationshipToVeteran: undefined,
-  otherRelationshipToVeteran: undefined,
-};
-
 export function ApplicantRelationshipReviewPage(props) {
-  const { data, keyname = KEYNAME } = props || {};
+  const { data, keyname = KEYNAME, primary = PRIMARY, secondary = SECONDARY } =
+    props || {};
   const genOps = props.genOp || generateOptions;
   const {
     currentListItem,
     options,
+    customOtherDescription,
     description,
     useFirstPerson,
     applicant,
     personTitle,
   } = genOps(props);
-  const other = currentListItem?.[keyname]?.otherRelationshipToVeteran;
+  const other = currentListItem?.[keyname]?.[secondary];
   return data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
@@ -134,7 +139,7 @@ export function ApplicantRelationshipReviewPage(props) {
           <dd>
             {options.map(
               opt =>
-                opt.value === currentListItem?.[keyname]?.relationshipToVeteran
+                opt.value === currentListItem?.[keyname]?.[primary]
                   ? opt.label
                   : '',
             )}
@@ -144,8 +149,13 @@ export function ApplicantRelationshipReviewPage(props) {
         {other ? (
           <div className="review-row">
             <dt>
-              Since {useFirstPerson ? 'your' : `${applicant}’s `} relationship
-              with the {personTitle} was not listed, please describe it here
+              {customOtherDescription || (
+                <>
+                  Since {useFirstPerson ? 'your' : `${applicant}’s `}{' '}
+                  relationship with the {personTitle} was not listed, please
+                  describe it here
+                </>
+              )}
             </dt>
             <dd>{other}</dd>
           </div>
@@ -162,10 +172,16 @@ export default function ApplicantRelationshipPage({
   goBack,
   goForward,
   keyname = KEYNAME,
+  primary = PRIMARY,
+  secondary = SECONDARY,
   pagePerItemIndex,
   updatePage,
   onReviewPage,
 }) {
+  const relationshipStructure = {
+    [primary]: undefined,
+    [secondary]: undefined,
+  };
   const [checkValue, setCheckValue] = useState(
     data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
   );
@@ -184,6 +200,7 @@ export default function ApplicantRelationshipPage({
     personTitle,
     customTitle,
     description,
+    customOtherDescription,
   } = genOps({
     data,
     pagePerItemIndex,
@@ -192,16 +209,13 @@ export default function ApplicantRelationshipPage({
   const handlers = {
     validate() {
       let isValid = true;
-      if (!checkValue.relationshipToVeteran) {
+      if (!checkValue[primary]) {
         setCheckError('This field is required');
         isValid = false;
       } else {
         setCheckError(null); // Clear any existing err msg
       }
-      if (
-        checkValue.relationshipToVeteran === 'other' &&
-        !checkValue.otherRelationshipToVeteran
-      ) {
+      if (checkValue[primary] === 'other' && !checkValue[secondary]) {
         setInputError('This field is required');
         isValid = false;
       } else {
@@ -213,17 +227,17 @@ export default function ApplicantRelationshipPage({
       const val =
         detail.value === 'other'
           ? {
-              relationshipToVeteran: detail.value,
-              otherRelationshipToVeteran: undefined,
+              [primary]: detail.value,
+              [secondary]: undefined,
             }
-          : { relationshipToVeteran: detail.value };
+          : { [primary]: detail.value };
       setDirty(true);
       setCheckValue(val);
       handlers.validate();
     },
     inputUpdate: ({ target }) => {
       const val = checkValue;
-      val.otherRelationshipToVeteran = target.value;
+      val[secondary] = target.value;
       setDirty(true);
       setCheckValue(val);
       handlers.validate();
@@ -277,20 +291,18 @@ export default function ApplicantRelationshipPage({
               name="describes-you"
               label={option.label}
               value={option.value}
-              checked={checkValue.relationshipToVeteran === option.value}
+              checked={checkValue[primary] === option.value}
               uswds
               aria-describedby={
-                checkValue.relationshipToVeteran === option.value
-                  ? option.value
-                  : null
+                checkValue[primary] === option.value ? option.value : null
               }
             />
           ))}
         </VaRadio>
-        {checkValue.relationshipToVeteran === 'other' && (
+        {checkValue[primary] === 'other' && (
           <div
             className={
-              checkValue.relationshipToVeteran === 'other'
+              checkValue[primary] === 'other'
                 ? 'form-expanding-group form-expanding-group-open'
                 : ''
             }
@@ -298,11 +310,14 @@ export default function ApplicantRelationshipPage({
             <div className="form-expanding-group-inner-enter-done">
               <div className="schemaform-expandUnder-indent">
                 <VaTextInput
-                  label={`Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`}
+                  label={
+                    customOtherDescription ||
+                    `Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`
+                  }
                   onInput={handlers.inputUpdate}
-                  required={checkValue.relationshipToVeteran === 'other'}
+                  required={checkValue[primary] === 'other'}
                   error={inputError}
-                  value={checkValue.otherRelationshipToVeteran}
+                  value={checkValue[secondary]}
                   uswds
                 />
               </div>
@@ -330,6 +345,8 @@ ApplicantRelationshipPage.propTypes = {
   goForward: PropTypes.func,
   keyname: PropTypes.string,
   pagePerItemIndex: PropTypes.string || PropTypes.number,
+  primary: PropTypes.string,
+  secondary: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
