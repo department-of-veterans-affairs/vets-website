@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 // import { useSelector } from 'react-redux';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
-import PeriodsToVerify from '../components/PeriodsToVerify';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
 import PageLink from '../components/PageLink';
 import {
@@ -17,6 +16,7 @@ import { useData } from '../hooks/useData';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
+import PeriodsToVerify from '../components/PeriodsToVerify';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
