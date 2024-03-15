@@ -159,7 +159,7 @@ describe('profile selectors', () => {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              isCompetentIndicator: false,
+              isCompetent: false,
             },
           },
         },
@@ -171,7 +171,7 @@ describe('profile selectors', () => {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              noFiduciaryAssignedIndicator: false,
+              hasNoFiduciaryAssigned: false,
             },
           },
         },
@@ -183,7 +183,7 @@ describe('profile selectors', () => {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              notDeceasedIndicator: false,
+              isNotDeceased: false,
             },
           },
         },

@@ -3,10 +3,9 @@ import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-
 import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
-import { Paths, Locators } from '../utils/constants';
+import { Paths, Locators, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
-import mockFolderWithMessages from '../fixtures/customResponse/folder-messages-response .json';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -70,7 +69,7 @@ class PatientMessageCustomFolderPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-      mockFolderWithMessages,
+      mockSingleThreadResponse,
     ).as('singleFolderThread');
 
     cy.contains(folderName).click({ waitForAnimations: true });
@@ -105,7 +104,7 @@ class PatientMessageCustomFolderPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }/thread`,
       mockSingleThreadResponse,
@@ -113,7 +112,7 @@ class PatientMessageCustomFolderPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }`,
       mockSingleMessageResponse,
@@ -241,6 +240,17 @@ class PatientMessageCustomFolderPage {
       .should('be.visible')
       .click();
   };
-}
 
+  VerifyFolderSuccesefullyRenamed = () => {
+    cy.get(Locators.ALERTS.ALERT_TEXT)
+      .should('be.visible')
+      .and('contain.text', Assertions.FOLDER_RENAMED_SUCCESS);
+  };
+
+  VerifySaveText = () => {
+    cy.get('[text="Save"]')
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+  };
+}
 export default new PatientMessageCustomFolderPage();

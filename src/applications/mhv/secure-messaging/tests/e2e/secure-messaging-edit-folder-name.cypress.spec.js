@@ -27,10 +27,7 @@ describe('edit custom folder name validation', () => {
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
-    cy.get(Locators.ALERTS.MAIN_CONTENT)
-      .should('be.visible')
-      .and('have.text', 'Folder was successfully renamed.');
-
+    PatientMessageCustomFolderPage.VerifyFolderSuccesefullyRenamed();
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('be.visible');
   });
 
@@ -46,10 +43,7 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get('[text="Save"]')
-      .should('be.visible')
-      .click({ waitForAnimations: true });
-
+    PatientMessageCustomFolderPage.VerifySaveText();
     cy.get(Locators.FOLDERS.FOLDER_NAME, { timeout: 10000 })
       .shadow()
       .find('#input-error-message')

@@ -105,6 +105,7 @@ export function NameSearchForm({
       dispatchShowFiltersBeforeResult();
       doSearch(name);
     }
+    onApplyFilterClick();
   };
 
   const doAutocompleteSuggestionsSearch = value => {
@@ -123,7 +124,7 @@ export function NameSearchForm({
   };
 
   return (
-    <div>
+    <div className="search-form-container">
       <form onSubmit={handleSubmit}>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">

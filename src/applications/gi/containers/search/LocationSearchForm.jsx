@@ -100,6 +100,7 @@ export function LocationSearchForm({
   const doSearch = event => {
     if (event) {
       event.preventDefault();
+      onApplyFilterClick();
       setShowFiltersBeforeSearch(false);
     }
     let paramLocation = location;

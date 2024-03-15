@@ -10,6 +10,7 @@ import JumpLink from '../../components/profile/JumpLink';
 // import LearnMoreLabel from '../../components/LearnMoreLabel';
 // import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
+import Loader from '../../components/Loader';
 import {
   isProductionOrTestProdEnv,
   getStateNameForCode,
@@ -43,7 +44,12 @@ export function FilterBeforeResults({
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
-  const { isCleared, setIsCleared, focusOnFirstInput } = useFilterBtn();
+  const {
+    isCleared,
+    setIsCleared,
+    focusOnFirstInput,
+    loading,
+  } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -642,6 +648,7 @@ export function FilterBeforeResults({
 
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
+      {loading && <Loader className="search-loader" />}
       {!smallScreen && (
         <div>
           {search.inProgress && (
