@@ -47,6 +47,7 @@ import {
 import {
   sponsorWording,
   applicantWording,
+  additionalFilesHint,
 } from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
@@ -285,7 +286,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               "What's your relationship to the Applicant(s)?",
-              'Depending on your response, additional documentation may be required to determine eligibility',
+              additionalFilesHint,
             ),
             certifierRelationship: relationshipToVeteranUI({
               personTitle: 'Applicant(s)',
