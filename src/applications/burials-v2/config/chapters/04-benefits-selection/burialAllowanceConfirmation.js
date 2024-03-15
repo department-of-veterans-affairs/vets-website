@@ -19,7 +19,7 @@ export default {
             unclaimed remains of a Veteran.
           </p>
           <p classNames="vads-u-font-size--md vads-u-font-family--sans">
-            To makes this claim, you'll need to confirm that both of these
+            To make this claim, you'll need to confirm that both of these
             statements are true:
           </p>
           <ul classNames="vads-u-font-size--md vads-u-font-family--sans">
