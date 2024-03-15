@@ -15,9 +15,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       'Go to your inbox',
     );
 
-    cy.tabToElement('[data-testid="compose-message-link"]').should(
-      'have.focus',
-    );
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE).should('have.focus');
 
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.WELCOME_MESSAGE)

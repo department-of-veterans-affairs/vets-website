@@ -47,6 +47,57 @@ function handleClick(history, pageFlow) {
   };
 }
 
+function getContent({ data, flowType, formData }) {
+  if (FLOW_TYPES.DIRECT === flowType)
+    return (
+      <>
+        <h3 className="vaos-appts__block-label">Your contact details</h3>
+        <span>
+          {data.email}
+          <br />
+          <VaTelephone
+            notClickable
+            contact={data.phoneNumber}
+            data-testid="patient-telephone"
+          />
+          {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+            flowType === FLOW_TYPES.REQUEST && (
+              <>
+                <br />
+                <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+              </>
+            )}
+        </span>
+      </>
+    );
+
+  return (
+    <>
+      <h2 className="vads-u-font-size--base vaos-appts__block-label">
+        Your contact information
+      </h2>
+      <span>
+        <strong>Email: </strong>
+        {data.email}
+        <br />
+        <strong>Phone number: </strong>
+        <VaTelephone
+          notClickable
+          contact={data.phoneNumber}
+          data-testid="patient-telephone"
+        />
+        {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+          flowType === FLOW_TYPES.REQUEST && (
+            <>
+              <br />
+              <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+            </>
+          )}
+      </span>
+    </>
+  );
+}
+
 export default function ContactDetailSection({ data }) {
   const formData = useSelector(getFormData);
   const flowType = useSelector(getFlowType);
@@ -58,23 +109,7 @@ export default function ContactDetailSection({ data }) {
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
-            <h3 className="vaos-appts__block-label">Your contact details</h3>
-            <span>
-              {data.email}
-              <br />
-              <VaTelephone
-                notClickable
-                contact={data.phoneNumber}
-                data-testid="patient-telephone"
-              />
-              {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-                flowType === FLOW_TYPES.REQUEST && (
-                  <>
-                    <br />
-                    <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
-                  </>
-                )}
-            </span>
+            {getContent({ data, flowType, formData })}
           </div>
           <div>
             <va-link

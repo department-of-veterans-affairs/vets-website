@@ -2,7 +2,7 @@ import mockMessage from '../fixtures/message-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
-import { Locators } from '../utils/constants';
+import { Assertions, Locators, Paths } from '../utils/constants';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
@@ -69,11 +69,11 @@ class PatientMessageDetailsPage {
       )}`,
     );
     if (getFoldersStatus === 200) {
-      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
         'folders',
       );
     } else {
-      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, {
         statusCode: 400,
         body: {
           alertType: 'error',
@@ -89,7 +89,7 @@ class PatientMessageDetailsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
@@ -99,7 +99,7 @@ class PatientMessageDetailsPage {
     //  mockParentMessageDetails.data.attributes.messageId= this.currentThread.data.at(this.currentThread.data.length-1).attributes.messageId;
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         this.currentThread.data.at(this.currentThread.data.length - 1)
           .attributes.messageId
       }`,
@@ -111,7 +111,7 @@ class PatientMessageDetailsPage {
       cy.log("intercepting thread "+ i);
       cy.intercept(
         'GET',
-        `/my_health/v1/messaging/messages/${
+        `${Paths.INTERCEPT.MESSAGES}/${
           this.currentThread.data.at(i).attributes.messageId
         }`,
         mockParentMessageDetails,
@@ -120,7 +120,7 @@ class PatientMessageDetailsPage {
 */
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockParentMessageDetails.data.attributes.messageId
       }/thread?full_body=true`,
       this.currentThread,
@@ -130,7 +130,7 @@ class PatientMessageDetailsPage {
       .should('be.visible')
       .click({ force: true });
 
-    cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
+    cy.location('pathname', { timeout: 5000 }).should('include', Paths.THREAD);
     cy.wait('@full-thread');
   };
 
@@ -173,14 +173,14 @@ class PatientMessageDetailsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageDetails.data.attributes.messageId
       }`,
       mockMessage,
     ).as('message2');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageDetails.data.attributes.messageId
       }/thread?full_body=true`,
       mockThread,
@@ -197,7 +197,7 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.intercept('GET', '/my_health/v1/messaging/messages/**', '{}').as(
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGES}/**`, '{}').as(
       'allMessageDetails',
     );
     cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
@@ -244,7 +244,7 @@ class PatientMessageDetailsPage {
     cy.log(`expanded message content${JSON.stringify(threadMessageDetails)}`);
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         threadMessageDetails.data.attributes.messageId
       }`,
       threadMessageDetails,
@@ -283,7 +283,7 @@ class PatientMessageDetailsPage {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
+    cy.get(Locators.DELET_MES_CONFIRM, { timeout: 8000 })
       .contains('Messages in the trash folder')
       .should('be.visible');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
@@ -328,12 +328,12 @@ class PatientMessageDetailsPage {
   loadReplyPage = mockMessageDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageDetails.data.attributes.messageId
       }`,
       mockMessageDetails,
     ).as('reply-message');
-    cy.get('[data-testid=reply-button-text]').click();
+    cy.get(Locators.BUTTONS.REPLY_BUTTON_TEXT).click();
   };
 
   verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
@@ -356,9 +356,7 @@ class PatientMessageDetailsPage {
   verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
-        messageDetails.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${messageDetails.data.attributes.messageId}`,
       messageDetails,
     );
     cy.get('.older-message')
@@ -392,7 +390,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageIDDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-id"]')
+    cy.get(Locators.MESS_ID)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -401,7 +399,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MES_DATE)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -485,7 +483,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MES_DATE)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -497,7 +495,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageId = messageDetails => {
-    cy.get('[data-testid="message-id"]').should(
+    cy.get(Locators.MESS_ID).should(
       'contain',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
     );
@@ -505,11 +503,11 @@ class PatientMessageDetailsPage {
 
   // temporary changed to 'contain', 'REPLY'
   ReplyToMessageBody = testMessageBody => {
-    cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
+    cy.get(Locators.MESS_BODY).should('contain', testMessageBody);
   };
 
   verifyDeleteMessageConfirmationMessageHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+    cy.focused().should('contain.text', Assertions.DRAFT_DELETED_SUCCESS);
   };
 }
 export default PatientMessageDetailsPage;
