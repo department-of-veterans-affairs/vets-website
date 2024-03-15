@@ -2,7 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
-import { Locators, Alerts, Paths, Assertions } from '../utils/constants';
+import { Locators, Alerts, Paths } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -141,7 +141,7 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get(Locators.ALERTS.ALERT_TEXT);
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
@@ -236,9 +236,9 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT)
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('contain.text', Assertions.MESSAGE_CONVERSATION_SUCCESS);
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {

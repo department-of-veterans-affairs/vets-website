@@ -37,6 +37,7 @@ const DirectDepositConnectionError = ({ benefitType }) => {
   return (
     <va-alert
       class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
+      status="warning"
       uswds
     >
       <h3 slot="headline">{headline}</h3>

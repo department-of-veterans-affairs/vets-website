@@ -17,7 +17,7 @@ describe('Start a new message With Attacments and Errors', () => {
     composePage
       .getCategory('COVID')
       .first()
-      .click();
+      .click({ force: true });
 
     // logic has changed here. After attaching 4th file, Attach File button becomes hidden
 

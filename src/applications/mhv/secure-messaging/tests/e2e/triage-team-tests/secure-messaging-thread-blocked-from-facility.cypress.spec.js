@@ -32,7 +32,7 @@ describe('Verify Thread - Blocked from Facility', () => {
 
     // TODO create a loop to check all triageGroups in facility
 
-    cy.get(Locators.SELECT).should(
+    cy.get(Locators.ALERTS.REPT_SELECT).should(
       'not.contain',
       mockFacilityBlockedRecipients.data[3].attributes.name,
     );

@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { Assertions, AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('verify deeplinking sending the draft', () => {
   const site = new SecureMessagingSite();
@@ -16,8 +16,8 @@ describe('verify deeplinking sending the draft', () => {
     cy.get(Locators.BUTTONS.PREFER_BUTTON).click();
 
     cy.get('.va-modal-alert-body')
-      .find(Locators.HEADER)
-      .should('have.text', Assertions.MESSAGE_PREFERENCES);
+      .find('h2')
+      .should('have.text', 'Edit your message preferences');
     cy.get(Locators.LINKS.PREFER_LINK)
       .should('have.attr', 'href')
       .and('contain', 'mhv-portal-web/preferences');
