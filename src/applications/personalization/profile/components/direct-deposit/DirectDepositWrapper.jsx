@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { CSP_IDS } from 'platform/user/authentication/constants';
-import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
-
 import {
   cnpDirectDepositLoadError,
-  eduDirectDepositLoadError,
   cnpDirectDepositIsBlocked,
 } from '@@profile/selectors';
+
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { isAuthenticatedWithOAuth } from '~/platform/user/authentication/selectors';
+
 import VerifyIdentity from './alerts/VerifyIdentity';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
 import LoadFail from '../alerts/LoadFail';
@@ -18,7 +18,6 @@ const DirectDepositWrapper = props => {
   const { children, setViewingIsRestricted } = props;
   const { profile, loading } = useSelector(state => state.user || {});
   const cnpError = useSelector(cnpDirectDepositLoadError);
-  const eduError = useSelector(eduDirectDepositLoadError);
   const isBlocked = useSelector(cnpDirectDepositIsBlocked);
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
@@ -26,8 +25,9 @@ const DirectDepositWrapper = props => {
     return <va-loading-indicator />;
   }
 
-  const errored = !!cnpError || !!eduError;
-  if (errored) {
+  // If we have an error loading the CNP direct deposit information, we should
+  // not show the direct deposit page, since we wont be able to get control info from that service either
+  if (cnpError) {
     setViewingIsRestricted(true);
     return <LoadFail />;
   }
