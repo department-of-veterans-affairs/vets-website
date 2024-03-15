@@ -6,8 +6,8 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
   veteranUI,
-  ssnDashesUI,
   sponsorDetailsSubHeader,
+  ssnDashesUI,
   sponsorDetailsGuidingText,
 } from '../../utils/helpers';
 
