@@ -11,6 +11,7 @@ import {
 
 function MHVDowntime({
   appTitle = 'our health tools',
+  heading = null,
   children = null,
   endTime,
   status,
@@ -43,7 +44,12 @@ function MHVDowntime({
   }
 
   if (status === externalServiceStatus.down) {
-    return <MHVDown {...props} />;
+    return (
+      <>
+        {heading}
+        <MHVDown {...props} />
+      </>
+    );
   }
   return children;
 }
@@ -52,6 +58,7 @@ MHVDowntime.propTypes = {
   appTitle: PropTypes.string,
   children: PropTypes.node,
   endTime: PropTypes.object, // Date|Moment object
+  heading: PropTypes.node,
   startTime: PropTypes.object, // Date|Moment object
   status: PropTypes.string,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import { MHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -46,7 +46,13 @@ const LandingPage = ({ data = {} }) => {
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <DowntimeNotification
           dependencies={[externalServices.mhvPlatform]}
-          render={renderMHVDowntime}
+          render={(props, children) => {
+            const allProps = {
+              heading: <h1>HIIIIIII</h1>,
+              ...props,
+            };
+            return <MHVDowntime {...allProps}>{children}</MHVDowntime>;
+          }}
         />
         {!showPersonalization && <HeaderLayoutV1 />}
         {showPersonalization && (
