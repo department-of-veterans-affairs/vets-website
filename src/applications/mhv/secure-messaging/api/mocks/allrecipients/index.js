@@ -27,7 +27,7 @@ const allRecipients = {
     },
   ],
   meta: {
-    associatedTriageGroups: 1,
+    associatedTriageGroups: 2,
     associatedBlockedTriageGroups: 0,
     sort: {
       name: 'ASC',
