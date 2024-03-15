@@ -93,7 +93,6 @@ export default function ReviewPage({ changeCrumb }) {
           onClick={() => dispatch(submitAppointmentOrRequest(history))}
           className={classNames('usa-button', 'usa-button-primary', {
             'vads-u-margin-top--5': FLOW_TYPES.REQUEST === flowType,
-            'vads-u-width--auto': FLOW_TYPES.REQUEST === flowType,
           })}
         >
           {isDirectSchedule ? 'Confirm appointment' : 'Submit request'}

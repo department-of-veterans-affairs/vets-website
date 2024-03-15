@@ -163,7 +163,6 @@ export default function ProviderList({
                     {checked && (
                       <button
                         type="button"
-                        className="vads-u-width--auto"
                         onClick={() => {
                           onChange(provider);
                           setCheckedProvider();
