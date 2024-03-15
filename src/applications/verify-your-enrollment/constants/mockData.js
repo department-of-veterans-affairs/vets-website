@@ -219,7 +219,7 @@ export const USER_MOCK_DATA = {
       },
     ],
     pendingVerifications: {
-      awardIds: [18, 19, 20, 21],
+      awardIds: [],
     },
     verifications: [
       {

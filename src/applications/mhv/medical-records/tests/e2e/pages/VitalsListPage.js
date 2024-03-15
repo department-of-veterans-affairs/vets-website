@@ -38,7 +38,7 @@ class VitalsListPage {
       .click();
   };
 
-  verifyVitalOnListPage = (index, name, measurement, date, location) => {
+  verifyVitalOnListPage = (index, name, measurement, date) => {
     cy.get('[data-testid="vital-li-display-name"]')
       .eq(index)
       .contains(name);
@@ -48,9 +48,6 @@ class VitalsListPage {
     cy.get('[data-testid="vital-li-date"]')
       .eq(index)
       .contains(date);
-    cy.get('[data-testid="vital-li-location"]')
-      .eq(index)
-      .contains(location);
     cy.get('[data-testid="vital-li-review-over-time"]')
       .eq(index)
       .contains(`Review ${name} over time`, { matchCase: false });
