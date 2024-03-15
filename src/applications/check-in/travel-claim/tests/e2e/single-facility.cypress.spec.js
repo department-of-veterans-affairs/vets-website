@@ -42,17 +42,17 @@ describe('A Patient with appointments at one facility', () => {
     cy.createScreenshots('Travel-claim--Mileage');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--Vehicle');
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--Address');
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--Review');
     TravelPages.acceptTerms();
@@ -86,17 +86,17 @@ describe('A Patient with appointments at one facility', () => {
     cy.createScreenshots('Travel-claim--Mileage');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--Vehicle');
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--Address');
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--Review');
     TravelPages.acceptTerms();

@@ -24,6 +24,11 @@ class TravelPages {
       .and('include.text', title);
   };
 
+  // @TODO: replace validatePageLoaded with this function
+  validatePageWrapper = testID => {
+    cy.get(`[data-testid="${testID}"]`).should('be.visible');
+  };
+
   validateHelpSection = () => {
     cy.get('[data-testid="for-help-using-this-tool"]').contains(
       'For help using this tool to prepare for your appointments',

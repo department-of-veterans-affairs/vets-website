@@ -40,15 +40,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('500');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
@@ -77,15 +77,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('530');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
@@ -103,7 +103,7 @@ describe('A patient with appointments at multiple facilities', () => {
       // Set the value in local storage using win.localStorage.setItem()
       win.localStorage.setItem(
         'my.health.travel-claim.travel.pay.sent',
-        `{"530":"${new Date().toString()}"}`,
+        `{"530":"${new Date().toISOString()}"}`,
       );
     });
 
@@ -117,20 +117,21 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelIntro.attemptToGoToNextPage();
 
     TravelMileage.validatePageLoaded();
+    TravelMileage.validateContext.multiFacility();
     cy.injectAxeThenAxeCheck();
     TravelMileage.validateFacilityCount(2);
     TravelMileage.selectFacility('500');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
@@ -148,10 +149,9 @@ describe('A patient with appointments at multiple facilities', () => {
       // Set the value in local storage using win.localStorage.setItem()
       win.localStorage.setItem(
         'my.health.travel-claim.travel.pay.sent',
-        `{"530":"${new Date().toString()}"}`,
+        `{"530":"${new Date().toISOString()}"}`,
       );
     });
-
     ValidateVeteran.validatePage.travelClaim();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
@@ -162,18 +162,19 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelIntro.attemptToGoToNextPage();
 
     TravelMileage.validatePageLoaded();
+    TravelMileage.validateContext.singleFacility();
     cy.injectAxeThenAxeCheck();
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
@@ -203,15 +204,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('500');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.goBack();
@@ -224,15 +225,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('530');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
@@ -262,15 +263,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('500');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.clickEditLink();
@@ -319,15 +320,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('500');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.clickEditLink();
@@ -338,15 +339,15 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelMileage.selectFacility('530');
     TravelMileage.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('vehicle');
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('address');
+    TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.attemptToGoToNextPage();
 
-    TravelPages.validatePageLoaded('review');
+    TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.clickAgreementLink();
     TravelPages.validateAgreementPage();
