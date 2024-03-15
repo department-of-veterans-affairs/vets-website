@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import DevToolsLoader from './DevToolsLoader';
 
@@ -45,9 +45,7 @@ describe('<DevToolsLoader />', () => {
   it('shows the panel when the button is clicked', async () => {
     const { findByRole, findByTestId } = render(<DevToolsLoader {...props} />);
 
-    await act(async () => {
-      fireEvent.click(await findByRole('button'));
-    });
+    fireEvent.click(await findByRole('button'));
 
     expect(await findByTestId('devtools-panel')).to.exist;
   });
@@ -59,9 +57,7 @@ describe('<DevToolsLoader />', () => {
       </DevToolsLoader>,
     );
 
-    await act(async () => {
-      fireEvent.click(await findByRole('button'));
-    });
+    fireEvent.click(await findByRole('button'));
 
     expect(await findByText('Child Content', { exact: false })).to.exist;
     expect(
