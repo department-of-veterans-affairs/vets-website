@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Secure Messaging Keyboard Nav To Compose', () => {
   const site = new SecureMessagingSite();
@@ -10,7 +10,7 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     patientInboxPage.loadInboxMessages();
   });
   it('Keyboard Nav from Welcome Page to Compose', () => {
-    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -22,7 +22,7 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     });
     cy.tabToElement('[data-testid="continue-button"] ');
     cy.realPress(['Enter']);
-    cy.get('.page-title')
+    cy.get(Locators.ALERTS.PAGE_TITLE)
       .should('be.focused')
       .and('have.text', 'Start a new message');
   });

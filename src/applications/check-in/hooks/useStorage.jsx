@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { createStorageKeys } from '../utils/storage';
 
-const useStorage = (isPreCheckIn = true, local = false) => {
+const useStorage = (app, local = false) => {
   const STORAGE_KEYS = useMemo(
     () => {
-      return createStorageKeys({ isPreCheckIn });
+      return createStorageKeys({ app });
     },
-    [isPreCheckIn],
+    [app],
   );
 
   const clearCurrentStorage = useCallback(

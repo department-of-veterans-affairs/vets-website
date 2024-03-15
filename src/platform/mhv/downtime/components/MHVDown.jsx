@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function MHVDown({
-  appTitle = 'some of our health tools',
+  appTitle = 'our health tools',
   endString,
   startString,
   timeInterval,
@@ -10,11 +10,10 @@ function MHVDown({
   return (
     <>
       <va-alert class="vads-u-margin-bottom--4" status="error" uswds visible>
-        <h3 slot="headline">Maintenance on My HealtheVet</h3>
+        <h2 slot="headline">Maintenance on My HealtheVet</h2>
         <p>
-          We&#x2019;re working on My HealtheVet. The maintenance will last{' '}
-          {timeInterval}. During this time, you may have trouble using{' '}
-          {appTitle}.
+          We&#x2019;re working on {appTitle} right now. The maintenance will
+          last {timeInterval}.
         </p>
         {startString && (
           <p>

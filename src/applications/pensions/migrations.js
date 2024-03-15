@@ -209,6 +209,9 @@ export default [
       if (transformedExpense.recipients === 'CHILD') {
         transformedExpense.recipients = 'DEPENDENT';
       }
+      if (transformedExpense.hoursPerWeek) {
+        transformedExpense.hoursPerWeek = transformedExpense.hoursPerWeek.toString();
+      }
       return transformedExpense;
     }
 
@@ -267,5 +270,15 @@ export default [
       }
     }
     return { formData: newFormData, metadata };
+  },
+  // 5 > 6, remove nested jobs field (missed in migration 3 > 4)
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    const newMetadata = { ...metadata };
+    if (formData['view:history']) {
+      newMetadata.returnUrl = '/applicant/information';
+      delete newFormData['view:history'];
+    }
+    return { formData: newFormData, metadata: newMetadata };
   },
 ];

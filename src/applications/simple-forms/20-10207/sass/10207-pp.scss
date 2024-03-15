@@ -15,3 +15,8 @@ va-textarea[name="root_otherHousingRisks"]::part(input-type-textarea) {
   height: 6.5rem;
   resize: none;
 }
+
+va-accordion-item[data-chapter="preparerTypeChapter"]
+  .form-review-panel-page-header {
+  display: none;
+}

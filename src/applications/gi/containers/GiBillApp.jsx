@@ -39,7 +39,6 @@ export function GiBillApp({
   const location = useLocation();
 
   useEffect(() => {
-    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     document.addEventListener('focus', scrollToFocusedElement, true);
     return () => {
       document.removeEventListener('focus', scrollToFocusedElement);

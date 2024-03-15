@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -58,7 +58,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -91,7 +91,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
@@ -124,7 +124,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -157,7 +157,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
@@ -194,7 +194,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -227,9 +227,9 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get('#select').should(
+    cy.get(Locators.SELECT).should(
       'not.contain',
       mockRecipients.data[0].attributes.name,
     );

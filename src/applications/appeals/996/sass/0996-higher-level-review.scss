@@ -5,25 +5,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../shared/sass/appeals";
 
-.schemaform-intro {
-  padding: 0 0 2rem 0;
-
-  .process-step:last-child {
-    padding-bottom: 0;
-  }
-
-  .omb-info--container {
-    margin-top: 1em;
-  }
-}
-
-/* Global */
-.nowrap {
-  white-space: nowrap;
-}
-
-fieldset.vads-u-margin-y--2,
 /* Wizard */
 .wizard-content-inner .fieldset-input:first-child {
   margin-top: 0 !important;
@@ -33,17 +16,6 @@ fieldset.vads-u-margin-y--2,
 .input-section,
 .row.form-progress-buttons {
   margin-bottom: 1em;
-}
-
-/* Step 1a */
-/* Veteran details block */
-.blue-bar-block {
-  border-left: 7px solid $color-primary;
-  padding-left: 1em;
-
-  p {
-    margin: 0.5em 0;
-  }
 }
 
 /* contact info page */
@@ -67,86 +39,8 @@ article[data-location="contact-information"] {
   display: none;
 }
 
-/* Contested issue cards (contested issue page & review/submit page)
- * This could go in the schemaform css, it's used in form 526 & HLR
- */
-.issues {
-  /* v2 cards */
-  .widget-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
-    .widget-checkbox-wrap {
-      margin: 0;
-      width: 4rem;
-      min-width: 4rem;
-
-      label {
-        margin-top: 0;
-      }
-
-      [type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
-        margin: 0;
-      }
-    }
-
-    .widget-title {
-      margin: 0;
-      text-transform: capitalize;
-      /*
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: calc(100% - 7rem);
-      */
-    }
-
-    .widget-content {
-      width: 100%;
-      margin-inline-start: 0; /* override user agent */
-      text-align: left;
-      margin: 0;
-    }
-    .widget-content.widget-edit {
-      margin-top: 0;
-      margin-right: 0;
-      display: flex;
-
-      .widget-content-wrap {
-        margin-top: 3rem;
-        margin-right: 0.5rem;
-        width: 100%;
-      }
-
-      .edit {
-        margin-top: 2rem;
-        /* position the edit button above the overlapping label */
-        position: relative;
-        z-index: 1;
-        align-self: center;
-      }
-    }
-    .edit-issue-link:visited {
-      color: inherit;
-    }
-  }
-
-  .checkbox-hidden {
-    .widget-content {
-      margin: 2rem 0 0 0;
-    }
-  }
-}
-
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
   font-weight: bold;
-}
-
-.review-row > dd {
-  word-break: break-word;
 }
 
 ul.issues-summary,
@@ -217,33 +111,6 @@ article[data-location="add-issue"] {
   }
 }
 
-/* Area of disagreement */
-.area-of-disagreement-label {
-  margin-top: 0;
-
-  .usa-input-error-message {
-    display: none;
-  }
-}
-.area-of-disagreement-label[data-submitted="true"].usa-input-error {
-  .usa-input-error-message {
-    display: block;
-  }
-  .input-section {
-    margin-bottom: 0;
-  }
-}
-.area-of-disagreement-label:not(.usa-input-error) {
-  margin: 2rem 0;
-}
-label[for^="root_disagreementOptions"] {
-  margin-top: 3rem;
-}
-
-/* override formation to maintain margin between checkboxes */
-.usa-input-error label {
-  margin-top: 3rem;
-}
 #root_otherEntry-label {
   margin-top: 2rem;
 }
@@ -274,35 +141,6 @@ label > .opt-in-title {
 }
 
 /* page specific */
-
-article[data-location^="area-of-disagreement"],
-article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
-  .schemaform-block-header,
-  .schemaform-block-header + .usa-input-error {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  .area-of-disagreement-label.usa-input-error ~ div {
-    /* add left red border to 2 associated divs */
-    border-left: 4px solid var(--color-secondary-dark);
-    position: relative;
-    right: 1.9rem;
-    padding-left: 1.9rem;
-
-    .vads-u-margin-y--2 {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-    }
-    #root_otherEntry-label {
-      margin-top: 0 !important;
-      padding-top: 2rem;
-    }
-    label[for="root_disagreementOptions_evaluation"] {
-      margin-bottom: 0;
-    }
-  }
-}
-
 article[data-location="informal-conference/representative-info"],
 article[data-location="informal-conference/representative-information"] {
   .schemaform-field-container {
@@ -312,9 +150,6 @@ article[data-location="informal-conference/representative-information"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  .normal-weight-in-review {
-    font-weight: normal;
-  }
   dl.review .widget-wrapper-v2.checkbox-hidden {
     margin-top: 1rem;
 
@@ -322,13 +157,6 @@ article[data-location="review-and-submit"] {
       width: 0;
       min-width: 0;
     }
-  }
-  dd {
-    word-break: break-word;
-  }
-  /* hide when reviewing content. Shows when editing */
-  dt .hide-on-review, dd .hide-on-review {
-    display: none;
   }
 }
 
@@ -356,6 +184,12 @@ article[data-location="review-and-submit"] {
         margin: 2rem 0 0 0;
       }
     }
+  }
+}
+
+article[data-location="review-and-submit"] {
+  dt strong.opt-in-title {
+    font-weight: normal;
   }
 }
 

@@ -1,0 +1,27 @@
+name: Annotations
+description: Annotations
+
+inputs:
+  check_title:
+    description: Title of the annotations step
+    required: false
+    default: Annotate files
+  input_json:
+    description: JSON env variable that contains the annotations
+    required: false
+    default: ''
+  token:
+    description: Repo Token
+    required: true
+    default: ''
+
+
+runs:
+  using: composite
+  steps:
+    - uses: yuzutech/annotations-action@v0.4.0
+      with:
+        repo-token: ${{ inputs.token }}
+        title: ${{ inputs.check_title }}
+        input: ${{ inputs.input_json }}
+    

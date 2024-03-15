@@ -288,6 +288,16 @@ const hasMultipleFacilities = appointments => {
   return uniqueFacilites.length > 1;
 };
 
+/**
+ * Return unique facilities as an array
+ * @param {Array<Appointment>} appointments
+ * @returns {Array}
+ */
+
+const getUniqueFacilies = appointments => {
+  return [...new Set(appointments.map(appt => appt.facility))];
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -306,4 +316,5 @@ export {
   getAppointmentId,
   findAppointment,
   hasMultipleFacilities,
+  getUniqueFacilies,
 };

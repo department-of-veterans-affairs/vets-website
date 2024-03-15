@@ -18,10 +18,12 @@ import {
   getUserPhaseDescription,
   getPhaseDescription,
   getStatusDescription,
+  getStatusMap,
   getClaimStatusDescription,
   truncateDescription,
   getItemDate,
   isClaimComplete,
+  isClaimOpen,
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
   getClaimType,
@@ -580,6 +582,29 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('getStatusMap', () => {
+    it('should display status map', () => {
+      const STATUSES = getStatusMap();
+
+      expect(STATUSES.get('CLAIM_RECEIVED')).to.equal('CLAIM_RECEIVED');
+      expect(STATUSES.get('UNDER_REVIEW')).to.equal('UNDER_REVIEW');
+      expect(STATUSES.get('GATHERING_OF_EVIDENCE')).to.equal(
+        'GATHERING_OF_EVIDENCE',
+      );
+      expect(STATUSES.get('REVIEW_OF_EVIDENCE')).to.equal('REVIEW_OF_EVIDENCE');
+      expect(STATUSES.get('PREPARATION_FOR_DECISION')).to.equal(
+        'PREPARATION_FOR_DECISION',
+      );
+      expect(STATUSES.get('PENDING_DECISION_APPROVAL')).to.equal(
+        'PENDING_DECISION_APPROVAL',
+      );
+      expect(STATUSES.get('PREPARATION_FOR_NOTIFICATION')).to.equal(
+        'PREPARATION_FOR_NOTIFICATION',
+      );
+      expect(STATUSES.get('COMPLETE')).to.equal('COMPLETE');
+    });
+  });
+
   describe('getClaimStatusDescription', () => {
     it('should display claim status description from map', () => {
       const desc = getClaimStatusDescription('CLAIM_RECEIVED');
@@ -659,6 +684,42 @@ describe('Disability benefits helpers: ', () => {
       });
 
       expect(isComplete).to.be.true;
+    });
+  });
+
+  describe('isClaimOpen', () => {
+    context('when status is COMPLETE', () => {
+      const status = 'COMPLETE';
+      context('when closeDate is null', () => {
+        it('should return false', () => {
+          const isOpen = isClaimOpen(status, null);
+          expect(isOpen).to.be.false;
+        });
+      });
+
+      context('when closeDate exists', () => {
+        it('should return false', () => {
+          const isOpen = isClaimOpen(status, '2024-01-01');
+          expect(isOpen).to.be.false;
+        });
+      });
+    });
+
+    context('when status is not COMPLETE', () => {
+      const status = 'CLAIM_RECEIVED';
+      context('when closeDate is null', () => {
+        it('should return true', () => {
+          const isOpen = isClaimOpen(status, null);
+          expect(isOpen).to.be.true;
+        });
+      });
+
+      context('when closeDate exists', () => {
+        it('should return false', () => {
+          const isOpen = isClaimOpen(status, '2024-01-01');
+          expect(isOpen).to.be.false;
+        });
+      });
     });
   });
 

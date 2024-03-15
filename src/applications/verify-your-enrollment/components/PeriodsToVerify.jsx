@@ -3,17 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
-import { updatePendingVerifications, updateVerifications } from '../actions';
+import {
+  updatePendingVerifications,
+  updateVerifications,
+  verifyEnrollmentAction,
+} from '../actions';
 import { translateDatePeriod, formatCurrency } from '../helpers';
+import Alert from './Alert';
 
 const PeriodsToVerify = ({
   enrollmentData,
   dispatchUpdatePendingVerifications,
   dispatchUpdateVerifications,
+  dispatchVerifyEnrollmentAction,
 }) => {
   const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
+  const [justVerified, setJustVerified] = useState(false);
 
   const getPeriodsToVerify = () => {
     return pendingEnrollments
@@ -63,6 +70,8 @@ const PeriodsToVerify = ({
       };
     });
     dispatchUpdateVerifications(newVerifiedIDS);
+    dispatchVerifyEnrollmentAction();
+    setJustVerified(true);
   };
   useEffect(
     () => {
@@ -117,13 +126,11 @@ const PeriodsToVerify = ({
           </div>
           <div>
             {getPeriodsToVerify()}
-            <button
-              className="usa-button-primary"
-              type="button"
+            <va-button
               onClick={handleVerification}
-            >
-              Verify enrollment
-            </button>
+              text="Verify enrollment"
+              data-testid="Verify enrollment"
+            />
           </div>
         </va-alert>
       )}
@@ -133,11 +140,20 @@ const PeriodsToVerify = ({
                 enrollments even if the user didn't just verify
             */}
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 && (
-        <div>
-          <VerifiedSuccessStatement />
-        </div>
-      )}
+        .length === 0 &&
+        justVerified && (
+          <div>
+            <VerifiedSuccessStatement />
+          </div>
+        )}
+      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
+        .length === 0 &&
+        !justVerified && (
+          <Alert
+            status="success"
+            message="You're up-to-date with your monthly enrollment verification. You'll be able to verify your enrollment next month."
+          />
+        )}
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
         .length === undefined && (
         <div className="vads-u-margin-top--2">
@@ -156,12 +172,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchUpdatePendingVerifications: updatePendingVerifications,
   dispatchUpdateVerifications: updateVerifications,
+  dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
 };
 
 PeriodsToVerify.propTypes = {
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
-  enrollmentData: PropTypes.func,
+  dispatchVerifyEnrollmentAction: PropTypes.func,
+  enrollmentData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,

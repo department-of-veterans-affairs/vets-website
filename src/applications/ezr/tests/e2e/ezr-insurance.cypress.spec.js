@@ -59,11 +59,11 @@ describe('EZR Insurance Policies', () => {
     goToNextPage('review-and-submit');
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
+    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
       .scrollIntoView()
       .shadow()
-      .find('[type="checkbox"]')
-      .check();
+      .find('label')
+      .click();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();

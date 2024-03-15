@@ -3,62 +3,39 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
-// END lighthouse_migration
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
+import WhatYouNeedToDo from '../components/claim-status-tab/WhatYouNeedToDo';
 import ClaimStatusHeader from '../components/ClaimStatusHeader';
-import WhatWeAreDoing from '../components/WhatWeAreDoing';
-import RecentActivity from '../components/RecentActivity';
+import WhatWeAreDoing from '../components/claim-status-tab/WhatWeAreDoing';
+import RecentActivity from '../components/claim-status-tab/RecentActivity';
+import NextSteps from '../components/claim-status-tab/NextSteps';
+import Payments from '../components/claim-status-tab/Payments';
+import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
 import { DATE_FORMATS } from '../constants';
-import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
+import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
   getClaimType,
   getItemDate,
+  getStatusMap,
   getTrackedItemDate,
   getUserPhase,
+  isClaimOpen,
   itemsNeedingAttentionFromVet,
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-// START lighthouse_migration
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return claimDate || dateFiled || null;
-};
-// END lighthouse_migration
-
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
-  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
-  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
-  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
-  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
 
 const STATUSES = getStatusMap();
 
@@ -219,16 +196,7 @@ class ClaimStatusPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, showClaimLettersLink, useLighthouse } = this.props;
-
-    if (!useLighthouse) {
-      return (
-        <ClaimStatusPageContent
-          claim={claim}
-          showClaimLettersLink={showClaimLettersLink}
-        />
-      );
-    }
+    const { claim, showClaimLettersLink } = this.props;
 
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
@@ -240,8 +208,7 @@ class ClaimStatusPage extends React.Component {
       documentsNeeded,
       status,
     } = attributes;
-
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
@@ -251,38 +218,47 @@ class ClaimStatusPage extends React.Component {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
             <ClaimStatusHeader claim={claim} />
-            <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
-            <WhatWeAreDoing claim={claim} />
+            {isOpen ? (
+              <>
+                <WhatYouNeedToDo claim={claim} useLighthouse />
+                <WhatWeAreDoing claim={claim} />
+              </>
+            ) : (
+              <>
+                <ClosedClaimAlert
+                  closeDate={closeDate}
+                  decisionLetterSent={decisionLetterSent}
+                />
+                <Payments />
+                <NextSteps />
+              </>
+            )}
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
-          {showDocsNeeded && (
-            <Toggler.Disabled>
+          <Toggler.Disabled>
+            {showDocsNeeded && (
               <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            </Toggler.Disabled>
-          )}
-        </Toggler>
-
-        {decisionLetterSent && !isOpen ? (
-          <ClaimsDecision
-            completedDate={closeDate}
-            showClaimLettersLink={showClaimLettersLink}
-          />
-        ) : null}
-        {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={closeDate} />
-        ) : null}
-        {status && isOpen ? (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
-              <ClaimTimeline
-                id={claim.id}
-                phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-                currentPhaseBack={claimPhaseDates.currentPhaseBack}
-                events={generateEventTimeline(claim)}
+            )}
+            {status &&
+              isOpen && (
+                <ClaimTimeline
+                  id={claim.id}
+                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                  currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                  events={generateEventTimeline(claim)}
+                />
+              )}
+            {decisionLetterSent && !isOpen ? (
+              <ClaimsDecision
+                completedDate={closeDate}
+                showClaimLettersLink={showClaimLettersLink}
               />
-            </Toggler.Disabled>
-          </Toggler>
-        ) : null}
+            ) : null}
+            {!decisionLetterSent && !isOpen ? (
+              <ClaimComplete completedDate={closeDate} />
+            ) : null}
+          </Toggler.Disabled>
+        </Toggler>
       </div>
     );
   }
@@ -291,7 +267,7 @@ class ClaimStatusPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(getClaimDate(claim));
+      const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -301,18 +277,12 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced, useLighthouse } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
-
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
@@ -340,7 +310,6 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 
@@ -357,7 +326,6 @@ ClaimStatusPage.propTypes = {
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(

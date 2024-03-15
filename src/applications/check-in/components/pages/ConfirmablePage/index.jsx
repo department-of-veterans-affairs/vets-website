@@ -15,8 +15,8 @@ import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
 import { URLS } from '../../../utils/navigation';
-import { APP_NAMES } from '../../../utils/appConstants';
 import TravelWarningAlert from '../../TravelWarningAlert';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const ConfirmablePage = ({
   header,
@@ -41,7 +41,7 @@ const ConfirmablePage = ({
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const { jumpToPage } = useFormRouting(router);
-  const { getCheckinComplete } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
+  const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
@@ -51,8 +51,11 @@ const ConfirmablePage = ({
   const onYesClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `yes-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
+        `yes-to-${pageType}${
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
+        }-clicked`,
         'nav',
+        app,
       ),
     });
     yesAction();
@@ -61,8 +64,11 @@ const ConfirmablePage = ({
   const onNoClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `no-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
+        `no-to-${pageType}${
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
+        }-clicked`,
         'nav',
+        app,
       ),
     });
     noAction();

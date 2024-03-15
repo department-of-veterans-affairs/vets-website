@@ -29,7 +29,7 @@ const Welcome = ({ loading, name }) => (
         role="img"
         className="fas fa-user vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
       />
-      <va-link href="/profile" text="Profile" />
+      <va-link href="/profile" text="Profile" uswds />
     </div>
   </div>
 );

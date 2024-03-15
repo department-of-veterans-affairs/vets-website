@@ -1,23 +1,70 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-
+import React, { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { Trans, useTranslation } from 'react-i18next';
+import { usePostTravelClaims } from '../../../hooks/usePostTravelClaims';
+import { useUpdateError } from '../../../hooks/useUpdateError';
+import { makeSelectForm } from '../../../selectors';
 import Wrapper from '../../../components/layout/Wrapper';
+import ExternalLink from '../../../components/ExternalLink';
+import TravelClaimSuccessAlert from './TravelClaimSuccessAlert';
 
 const Complete = () => {
   const { t } = useTranslation();
+  const selectForm = useMemo(makeSelectForm, []);
+  const { updateError } = useUpdateError();
+  const { data } = useSelector(selectForm);
+  const { facilitiesToFile } = data;
+  const { isLoading, travelPayClaimError } = usePostTravelClaims();
 
-  return (
-    <Wrapper pageTitle={t('fpo-header')} classNames="travel-page">
-      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
-        Complete!
-      </div>
-    </Wrapper>
+  useEffect(
+    () => {
+      if (travelPayClaimError) {
+        updateError('completing-travel-submission');
+      }
+    },
+    [travelPayClaimError, updateError],
   );
-};
-
-Complete.propTypes = {
-  router: PropTypes.object,
+  if (isLoading) {
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('loading')}
+      />
+    );
+  }
+  return (
+    <>
+      <Wrapper
+        pageTitle={t('were-processing-your-travel-claim', {
+          count: facilitiesToFile.length,
+        })}
+        classNames="travel-page"
+      >
+        <TravelClaimSuccessAlert claims={facilitiesToFile} />
+        <div data-testid="travel-complete-content">
+          <p>
+            <Trans
+              i18nKey="to-file-another-claim-for-today"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+              ]}
+            />
+          </p>
+          <p>{t('or-you-can-still-file-your-claim')}</p>
+        </div>
+        <ExternalLink
+          key="link"
+          href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+          hrefLang="en"
+          eventId="travel-claim-info-clicked"
+          eventPrefix="nav"
+          dataTestId="travel-info-external-link"
+        >
+          {t('find-out-how-to-file--link')}
+        </ExternalLink>
+      </Wrapper>
+    </>
+  );
 };
 
 export default Complete;

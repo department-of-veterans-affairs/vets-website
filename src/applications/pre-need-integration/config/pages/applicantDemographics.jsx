@@ -13,12 +13,13 @@ import {
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
+  subHeader = applicantDemographicsSubHeader,
   genderTitle = applicantDemographicsGenderTitle,
   maritalStatusTitle = applicantDemographicsMaritalStatusTitle,
 ) {
   return {
     application: {
-      'ui:title': applicantDemographicsSubHeader,
+      'ui:title': subHeader,
       'view:applicantDemographicsDescription': {
         'ui:description': applicantDemographicsDescription,
         'ui:options': {

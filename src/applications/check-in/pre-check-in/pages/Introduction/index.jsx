@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-
+import { APP_NAMES } from '../../../utils/appConstants';
 import IntroductionDisplay from './IntroductionDisplay';
 
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
@@ -23,7 +23,7 @@ const Introduction = props => {
     refreshNeeded: false,
     reload: false,
     router,
-    isPreCheckIn: true,
+    app: APP_NAMES.PRE_CHECK_IN,
   });
 
   useEffect(

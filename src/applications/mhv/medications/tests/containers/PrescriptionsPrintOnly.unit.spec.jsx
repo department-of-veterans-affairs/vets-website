@@ -3,18 +3,29 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../reducers';
 import PrescriptionsPrintOnly from '../../containers/PrescriptionsPrintOnly';
+import { allergiesList } from '../fixtures/allergiesList.json';
+import { rxListSortingOptions } from '../../util/constants';
 
 describe('Medications List Print Page', () => {
   const setup = (params = {}) => {
     return renderWithStoreAndRouter(<PrescriptionsPrintOnly />, {
-      initialState: {},
+      initialState: {
+        rx: {
+          prescriptions: {
+            selectedSortOption: rxListSortingOptions.alphabeticalOrder,
+          },
+          allergies: {
+            allergiesList: { allergiesList },
+          },
+        },
+      },
       reducers,
-      path: '/1',
+      path: '/?page=1',
       ...params,
     });
   };
 
-  it('renders without errors', () => {
+  it('renders without errors', async () => {
     const screen = setup();
     expect(screen);
   });

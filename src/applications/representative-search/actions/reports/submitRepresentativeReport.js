@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
 import {
-  REPORT_STARTED,
+  REPORT_SUBMITTED,
   REPORT_FAILED,
   REPORT_COMPLETE,
 } from '../../utils/actionTypes';
@@ -15,32 +15,32 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 
 export const submitRepresentativeReport = newReport => {
   return async dispatch => {
+    dispatch({
+      type: REPORT_SUBMITTED,
+      payload: {
+        reportSubmissionInProgress: true,
+      },
+    });
+
+    const storedReports = JSON.parse(localStorage.getItem('vaReports')) || [];
+    const updatedReports = [...storedReports];
+
+    // look for existing reports for a given representative
+    const index = storedReports.findIndex(
+      storedReport =>
+        storedReport.representativeId === newReport.representativeId,
+    );
+
+    if (index !== -1) {
+      updatedReports[index].reports = {
+        ...storedReports[index].reports,
+        ...newReport.reports,
+      };
+    } else {
+      updatedReports.push(newReport);
+    }
+
     try {
-      dispatch({
-        type: REPORT_STARTED,
-        payload: {
-          reportSubmissionInProgress: true,
-        },
-      });
-
-      const storedReports = JSON.parse(localStorage.getItem('vaReports')) || [];
-      const updatedReports = [...storedReports];
-
-      // look for existing reports for a given representative
-      const index = storedReports.findIndex(
-        storedReport =>
-          storedReport.representativeId === newReport.representativeId,
-      );
-
-      if (index !== -1) {
-        updatedReports[index].reports = {
-          ...storedReports[index].reports,
-          ...newReport.reports,
-        };
-      } else {
-        updatedReports.push(newReport);
-      }
-
       // send to api, update local storage + redux state on successful response
       const reportResponse = await RepresentativeFinderApi.reportResult(
         newReport,
@@ -61,18 +61,31 @@ export const submitRepresentativeReport = newReport => {
         });
       }
     } catch (error) {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', error);
-        Sentry.captureMessage('Error fetching accredited representatives');
-      });
+      // for incognito browsers, we will ignore duplicate report submissions (but not throw a UI error)
+      const skipIpErrorOnFrontend =
+        error?.errors[0]?.ipAddress && error?.errors.length === 1;
 
-      dispatch({
-        type: REPORT_FAILED,
-        payload: { reportSubmissionInProgress: false },
-        error: error.message,
-      });
+      if (skipIpErrorOnFrontend) {
+        localStorage.setItem('vaReports', JSON.stringify(updatedReports));
 
-      throw error;
+        dispatch({
+          type: REPORT_COMPLETE,
+          payload: { updatedReports },
+        });
+      } else {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage('Error submitting representative report');
+        });
+
+        dispatch({
+          type: REPORT_FAILED,
+          payload: { reportSubmissionInProgress: false },
+          error: error.message,
+        });
+
+        throw error;
+      }
     }
   };
 };

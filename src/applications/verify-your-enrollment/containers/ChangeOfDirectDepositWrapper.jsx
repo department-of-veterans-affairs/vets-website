@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import '../sass/change-of-direct-deposit-wrapper.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -9,39 +11,54 @@ import {
   DIRECT_DEPOSIT_BUTTON_TEXT,
   SMALL_SCREEN,
 } from '../constants/index';
+import { updateBankInfo } from '../actions';
+import Alert from '../components/Alert';
+import Loader from '../components/Loader';
 
-const ChangeOfDirectDepositWrapper = () => {
+const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
+  const prefix = 'GI-Bill-Chapters-';
   const [toggleDirectDepositForm, setToggleDirectDepositForm] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [formData, setFormData] = useState({});
-
-  const PREFIX = 'GI-Bill-Chapters-';
+  const [formData, setFormData] = useState();
+  const dispatch = useDispatch();
+  const { loading, error, data: response } = useSelector(
+    state => state.bankInfo,
+  );
 
   const scrollToTopOfForm = () => {
     scrollToElement('Direct deposit information');
   };
 
-  const handleCloseForm = () => {
+  const handleCloseForm = useCallback(() => {
     setFormData({}); // clear form data
     setToggleDirectDepositForm(false);
     scrollToTopOfForm();
-  };
-
+  }, []);
   // called when submitting form
   const saveBankInfo = () => {
-    // commented out until tied in with redux
-    // const fields = {
-    //     bankname: formData[`${PREFIX}BankName`],
-    //     bankPhone: formData[`${PREFIX}BankPhone`],
-    //     routingNumber: formData[`${PREFIX}RoutingNumber`],
-    //     accountNumber: formData[`${PREFIX}AccountNumber`],
-    //     accountType: formData[`${PREFIX}AccountType`],
-
-    // };
-    handleCloseForm(); // close directDeposit form
-    // add redux logic here when API is available
+    // commented out until tied in with redu
+    const fields = {
+      phone: formData[`${prefix}phone`],
+      // phone2: formData[`${prefix}phone`],
+      fullName: formData[`${prefix}fullName`],
+      email: formData[`${prefix}email`],
+      acctType: formData[`${prefix}AccountType`],
+      routingNo: formData[`${prefix}RoutingNumber`],
+      acctNo: formData[`${prefix}AccountNumber`],
+      bankName: formData[`${prefix}BankName`],
+      bankPhone: formData[`${prefix}BankPhone`],
+    };
+    dispatch(updateBankInfo(fields));
   };
 
+  useEffect(
+    () => {
+      if (!loading) {
+        handleCloseForm();
+      }
+    },
+    [handleCloseForm, loading],
+  );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>
@@ -111,21 +128,6 @@ const ChangeOfDirectDepositWrapper = () => {
     };
   }, []);
 
-  //   scroll to top of div when edit page is canceled or saved
-  // useEffect(
-  //   () => {
-  //     if (!toggleDirectDepositForm) {
-  //       scrollToElement('Direct deposit information');
-  //       // const element = document.getElementById('Direct deposit information');
-  //       // if (element) {
-  //       //   element.scrollIntoView({ behavior: 'smooth' });
-  //       // }
-  //     }
-  //     // }
-  //   },
-  //   [toggleDirectDepositForm],
-  // );
-
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
       <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
@@ -148,6 +150,18 @@ const ChangeOfDirectDepositWrapper = () => {
               onClick={handleAddNewClick}
               text={DIRECT_DEPOSIT_BUTTON_TEXT}
             />
+            {error && (
+              <Alert
+                status="error"
+                message="Sorry, something went wrong. Please try again Later"
+              />
+            )}
+            {response?.ok && (
+              <Alert
+                status="success"
+                message="Your direct deposit information has been updated."
+              />
+            )}
             <va-alert
               close-btn-aria-label="Close notification"
               status="info"
@@ -181,10 +195,12 @@ const ChangeOfDirectDepositWrapper = () => {
           <div className="direct-deposit-form-container">
             <p className="vads-u-font-weight--bold">Add new account</p>
             {directDepositDescription}
+            {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
+              defaultName={applicantName}
               formData={formData}
               formChange={data => setFormData(data)}
-              formPrefix={PREFIX}
+              formPrefix={prefix}
               formSubmit={saveBankInfo}
             >
               <LoadingButton
@@ -203,7 +219,7 @@ const ChangeOfDirectDepositWrapper = () => {
                   handleCloseForm();
                 }}
                 data-qa="cancel-button"
-                data-testid={`${PREFIX}form-cancel-button`}
+                data-testid={`${prefix}form-cancel-button`}
               />
             </ChangeOfDirectDepositForm>
           </div>
@@ -212,5 +228,7 @@ const ChangeOfDirectDepositWrapper = () => {
     </div>
   );
 };
-
+ChangeOfDirectDepositWrapper.propTypes = {
+  applicantName: PropTypes.string,
+};
 export default ChangeOfDirectDepositWrapper;

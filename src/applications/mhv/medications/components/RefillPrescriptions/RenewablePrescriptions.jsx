@@ -8,7 +8,7 @@ import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 import { dateFormat } from '../../util/helpers';
 
-const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
+const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
   const dispatch = useDispatch();
 
@@ -73,22 +73,29 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
         />
       </p>
       <p>
-        <strong>Note:</strong> If your prescriptions isn’t in this list, find it
+        <strong>Note:</strong> If your prescription isn’t in this list, find it
         in your medications list.{' '}
         <Link data-testid="medications-page-link" to="/">
           Go to your medications list
         </Link>
       </p>
-      <p data-testid="renew-page-list-count">
-        Showing {renewablePrescriptionsList.length} prescription
-        {renewablePrescriptionsList.length !== 1 ? 's' : ''} you may need to
-        renew
-      </p>
-      <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
+      {renewablePrescriptionsList.length > 0 && (
+        <>
+          <p data-testid="renew-page-list-count">
+            Showing {renewablePrescriptionsList.length} prescription
+            {renewablePrescriptionsList.length !== 1 ? 's' : ''} you may need to
+            renew
+          </p>
+          <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
+        </>
+      )}
       <div>
         {paginatedRenewablePrescriptions.map((prescription, idx) => (
-          <div key={idx}>
-            <h4 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
+          <div
+            key={idx}
+            className={`vads-u-margin-top--${idx !== 0 ? '5' : '2p5'}`}
+          >
+            <h4 className="vads-u-margin--0">
               <Link
                 data-testid={`medication-details-page-link-${idx}`}
                 to={`/prescription/${prescription.prescriptionId}`}
@@ -101,7 +108,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
               Prescription number: {prescription.prescriptionNumber}
               <br />
               <span data-testid={`renew-last-filled-${idx}`}>
-                Last filled on:{' '}
+                Last filled on{' '}
                 {dateFormat(
                   prescription.rxRfRecords?.[0]?.[1]?.find(
                     record => record.dispensedDate,
@@ -133,7 +140,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList }) => {
 };
 
 RenewablePrescriptions.propTypes = {
-  renewablePrescriptionsList: PropTypes.array.isRequired,
+  renewablePrescriptionsList: PropTypes.array,
 };
 
 export default RenewablePrescriptions;
