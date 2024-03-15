@@ -1,6 +1,6 @@
 import {
   ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -88,10 +88,10 @@ const formConfig = {
           title: 'Veteran SSN and VA file number',
           uiSchema: {
             ...titleUI(
-              `Veteran's identification information`,
-              `You must enter either a Social Security number of VA File number`,
+              `Identification information`,
+              `You must enter either a Social Security number of VA File number.`,
             ),
-            ssn: ssnOrVaFileNumberUI(),
+            ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
@@ -115,6 +115,9 @@ const formConfig = {
                 street2: 'Apartment or unit number',
               },
               omit: ['street3', 'isMilitary'],
+              required: {
+                state: () => true,
+              },
             }),
           },
           schema: {
@@ -136,14 +139,24 @@ const formConfig = {
               'Mailing address',
               "We'll send any important information about your application to this address.",
             ),
-            mailingAddress: addressUI(),
+            mailingAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3', 'isMilitary'],
+              required: {
+                state: () => true,
+              },
+            }),
           },
           schema: {
             type: 'object',
-            required: 'mailingAddress',
+            required: ['mailingAddress'],
             properties: {
               titleSchema,
-              mailingAddress: addressSchema(),
+              mailingAddress: addressSchema({
+                omit: ['street3', 'isMilitary'],
+              }),
             },
           },
         },
