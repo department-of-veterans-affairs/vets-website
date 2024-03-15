@@ -6,6 +6,7 @@ Gated by `profile_contacts` feature toggle.
 
 ## Front-end states, backend responses, and renered UI
 
+```
 [CONDITIONS] -> [VA PROFILE RESPONSE]-> [VETS API RESPONSE] -> [UI]
 
 CONDITIONS:
@@ -59,3 +60,5 @@ CONDITIONS:
 VA PROFILE:
 VETS API:
 UI:
+
+```
