@@ -85,10 +85,7 @@ const TravelPage = ({
         withBackButton
       >
         {bodyText && (
-          <div
-            data-testid="body-text"
-            className="vads-u-font-family--serif vads-u-margin-bottom--3"
-          >
+          <div data-testid="body-text" className="vads-u-margin-bottom--3">
             {bodyText}
           </div>
         )}
