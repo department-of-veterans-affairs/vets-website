@@ -228,11 +228,12 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </va-summary-box>
 
-      {profileShowProofOfVeteranStatus && (
-        <div className="vads-u-margin-y--4">
-          <ProofOfVeteranStatus />
-        </div>
-      )}
+      {profileShowProofOfVeteranStatus &&
+        militaryInformation && (
+          <div className="vads-u-margin-y--4">
+            <ProofOfVeteranStatus />
+          </div>
+        )}
       <DevTools
         alwaysShowChildren={false}
         devToolsData={{ militaryInformation, veteranStatus }}
