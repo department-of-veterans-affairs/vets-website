@@ -153,7 +153,7 @@ class PatientComposePage {
     return cy
       .get(Locators.MESSAGES_BODY)
       .shadow()
-      .find('#textarea');
+      .find('textarea');
   };
 
   keyboardNavToMessageSubjectField = () => {
