@@ -26,12 +26,25 @@ export const rubyifyKeys = query =>
     }),
     {},
   );
-export const isProductionOfTestProdEnv = () => {
+
+export const isReviewInstance = () => {
+  const { hostname } = window.location;
+  const globalRegex = new RegExp('review.vetsgov-internal', 'g');
+  return globalRegex.test(hostname);
+};
+
+export const isProductionOrTestProdEnv = (automatedTest = false) => {
   return (
-    environment.isProduction() ||
+    environment.isProduction() || // Comment out to send to production
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() ||
+    environment.isLocalhost() ||
+    automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
 };
+
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
