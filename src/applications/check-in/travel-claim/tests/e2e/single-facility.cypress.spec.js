@@ -8,6 +8,8 @@ import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import TravelComplete from './pages/TravelComplete';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
+const dateFns = require('date-fns');
+
 describe('A Patient with appointments at one facility', () => {
   beforeEach(() => {
     const {
@@ -39,7 +41,9 @@ describe('A Patient with appointments at one facility', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Mileage');
+    cy.createScreenshots(
+      'Travel-claim--single-claim-single-appointment--Mileage',
+    );
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -54,7 +58,9 @@ describe('A Patient with appointments at one facility', () => {
 
     TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Review');
+    cy.createScreenshots(
+      'Travel-claim--single-claim-single-appointment--Review',
+    );
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
 
@@ -78,27 +84,25 @@ describe('A Patient with appointments at one facility', () => {
 
     TravelIntro.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Intro');
     TravelIntro.attemptToGoToNextPage();
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Mileage');
+    cy.createScreenshots(
+      'Travel-claim--single-claim-mulitple-appointments--Mileage',
+    );
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Vehicle');
     TravelPages.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-address-page');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Address');
     TravelPages.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Review');
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
 
@@ -108,5 +112,47 @@ describe('A Patient with appointments at one facility', () => {
     cy.createScreenshots(
       'Travel-claim--single-claim-multiple-appointments--Complete',
     );
+  });
+  it('should successfully file a travel claim for a single appointment the day after the same facility was already filed', () => {
+    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
+      sharedData.get.defaultUUID,
+    );
+    cy.visitTravelClaimWithUUID();
+    cy.window().then(win => {
+      // Set the value in local storage using win.localStorage.setItem()
+      win.localStorage.setItem(
+        'my.health.travel-claim.travel.pay.sent',
+        `{"530":"${dateFns.sub(new Date(), { days: -1 }).toISOString()}"}`,
+      );
+    });
+    ValidateVeteran.validatePage.travelClaim();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.validateVeteran();
+    ValidateVeteran.attemptToGoToNextPage();
+
+    TravelIntro.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelIntro.attemptToGoToNextPage();
+
+    TravelMileage.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelMileage.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-address-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-review-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.acceptTerms();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelComplete.validatePageLoaded();
+    TravelComplete.validateContent('single-claim-multi-appointments');
+    cy.injectAxeThenAxeCheck();
   });
 });

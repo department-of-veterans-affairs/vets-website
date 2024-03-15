@@ -75,6 +75,7 @@ describe('A patient with appointments at multiple facilities', () => {
     cy.injectAxeThenAxeCheck();
     TravelMileage.selectFacility('500');
     TravelMileage.selectFacility('530');
+    cy.createScreenshots('Travel-claim--multiple-facilities--Mileage');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -87,12 +88,14 @@ describe('A patient with appointments at multiple facilities', () => {
 
     TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--multiple-facilities--Review');
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
 
     TravelComplete.validatePageLoaded();
     TravelComplete.validateContent('multi-claim-multi-appointment');
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Travel-claim--multiple-facilities--Complete');
   });
   it('should successfully file a travel claim for one facility when there are three and one other one is already filed', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
@@ -276,6 +279,10 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelPages.acceptTerms();
     TravelPages.clickEditLink();
 
+    TravelIntro.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelIntro.attemptToGoToNextPage();
+
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
     TravelMileage.validateFacilityCount(3);
@@ -332,6 +339,10 @@ describe('A patient with appointments at multiple facilities', () => {
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.clickEditLink();
+
+    TravelIntro.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelIntro.attemptToGoToNextPage();
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
