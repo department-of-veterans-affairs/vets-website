@@ -9,7 +9,8 @@ describe('<ViewDependentsLayout />', () => {
   const mockState = {
     onAwardDependents: [
       {
-        name: 'Billy Blank',
+        firstName: 'Billy',
+        lastName: 'Blank',
         social: '312-243-5634',
         onAward: true,
         birthdate: '05-05-1983',
@@ -32,10 +33,16 @@ describe('<ViewDependentsLayout />', () => {
   };
 
   it('should render', async () => {
-    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
-      mockState,
-      reducers: removeDependents,
-    });
+    const screen = renderInReduxProvider(
+      <ViewDependentsLayout
+        onAwardDependents={mockState.onAwardDependents}
+        notOnAwardDependents={mockState.notOnAwardDependents}
+      />,
+      {
+        mockState,
+        reducers: removeDependents,
+      },
+    );
 
     expect(await screen.findByText(/Billy Blank/)).to.exist;
   });
@@ -47,23 +54,20 @@ describe('<ViewDependentsLayout />', () => {
     });
 
     expect(
-      await screen.findByRole('heading', {
-        name: 'We don’t have dependents information on file for you',
-      }),
+      await screen.findByText(
+        'We don’t have dependents information on file for you',
+      ),
     ).to.exist;
   });
 
   it('should show an error alert when there is a 500 error', async () => {
-    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
-      initialState: {
-        errors: [
-          {
-            code: 500,
-          },
-        ],
+    const screen = renderInReduxProvider(
+      <ViewDependentsLayout error={{ code: 500 }} />,
+      {
+        initialState: {},
+        reducers: removeDependents,
       },
-      reducers: removeDependents,
-    });
+    );
 
     expect(
       await screen.findByRole('heading', {
