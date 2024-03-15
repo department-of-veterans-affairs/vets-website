@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { LANGUAGES } from '../../../utils/constants';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
+import { LANGUAGES } from '../../../../../utils/constants';
+import getNewAppointmentFlow from '../../../../newAppointmentFlow';
 
 function handleClick(history, pageFlow) {
   const { home, ccPreferences } = pageFlow;

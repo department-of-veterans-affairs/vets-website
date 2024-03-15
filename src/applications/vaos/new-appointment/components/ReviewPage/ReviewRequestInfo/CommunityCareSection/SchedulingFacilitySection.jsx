@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
+import getNewAppointmentFlow from '../../../../newAppointmentFlow';
 
 function handleClick(history, pageFlow) {
   const { home, ccPreferences } = pageFlow;

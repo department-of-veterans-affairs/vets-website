@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ContactDetailSection from './ContactDetailSection';
-import ReasonForAppointmentSection from './ReasonForAppointmentSection';
-import PreferredDatesSection from './PreferredDatesSection';
-import SelectedProviderSection from './SelectedProviderSection';
+import ContactDetailSection from '../../ContactDetailSection';
+import ReasonForAppointmentSection from '../../ReasonForAppointmentSection';
+import PreferredDatesSection from '../../PreferredDatesSection';
+import SelectedProviderSection from '../../SelectedProviderSection';
 import PreferredLanguageSection from './PreferredLanguageSection';
 import SchedulingFacilitySection from './SchedulingFacilitySection';
 
