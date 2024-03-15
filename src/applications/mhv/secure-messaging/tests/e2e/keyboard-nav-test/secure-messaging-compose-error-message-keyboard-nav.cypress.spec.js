@@ -34,22 +34,22 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.clickOnDeleteDraftButton();
   });
 
-  // it('focus on error message for empty category', () => {
-  //   composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-  //   composePage.pushSendMessageWithKeyboardPress();
-  //   composePage.verifyFocusOnErrorMessageToSelectCategory();
-  //   cy.injectAxe();
-  //   cy.axeCheck(AXE_CONTEXT, {
-  //     rules: {
-  //       'aria-required-children': {
-  //         enabled: false,
-  //       },
-  //     },
-  //   });
-  //   composePage.selectCategory();
-  //   composePage.selectSideBarMenuOption('Inbox');
-  //   composePage.clickOnDeleteDraftButton();
-  // });
+  it('focus on error message for empty category', () => {
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    composePage.pushSendMessageWithKeyboardPress();
+    composePage.verifyFocusOnErrorMessageToSelectCategory();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    composePage.selectCategory();
+    composePage.selectSideBarMenuOption('Inbox');
+    composePage.clickOnDeleteDraftButton();
+  });
 
   it('focus on error message for empty message subject', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
