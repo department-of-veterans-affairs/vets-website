@@ -63,6 +63,22 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  it('handles a 403 response', () => {
+    cy.intercept('GET', '/v0/profile/contacts', { statusCode: 403 });
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('service-is-down-banner');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('handles a 404 response', () => {
+    cy.intercept('GET', '/v0/profile/contacts', { statusCode: 404 });
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('service-is-down-banner');
+    cy.injectAxeThenAxeCheck();
+  });
+
   it('handles a 500 response', () => {
     cy.intercept('GET', '/v0/profile/contacts', { statusCode: 500 });
     cy.login(loa3User72);
