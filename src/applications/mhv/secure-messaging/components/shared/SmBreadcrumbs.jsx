@@ -134,7 +134,11 @@ const SmBreadcrumbs = () => {
       }`}
     >
       {/* We need to redo va-breadcrumbs functionality make it compatible with uswds */}
-      <va-breadcrumbs label="Breadcrumb" home-veterans-affairs={false}>
+      <va-breadcrumbs
+        uswds="false"
+        label="Breadcrumb"
+        home-veterans-affairs={false}
+      >
         {crumbs && (
           <ul className={breadcrumbSize()}>
             <li>
