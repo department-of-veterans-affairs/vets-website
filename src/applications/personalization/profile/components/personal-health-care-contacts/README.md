@@ -42,7 +42,7 @@ E2E: `src/applications/personalization/profile/tests/e2e/account-security/downti
 
 CONDITIONS:
   - `profile_contacts` feature toggle on
-  - Breakers is reporting an outage
+  - Breakers is detects an outage condition with VA Profile
 VA PROFILE: N/A
 VETS API: 500
 UI: LoadFail, "This page isn't available right now."
