@@ -28,6 +28,7 @@ class ValidateVeteran {
       this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
     travelClaim: () => {
+      cy.get('[data-testid="travelClaim-validate-page"]').should('be.visible');
       cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     },
   };
