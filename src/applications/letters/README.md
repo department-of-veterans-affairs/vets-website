@@ -149,7 +149,7 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
 Go to <http://localhost:3000/flipper/features/bcas_letters_use_lighthouse> and make sure the feature toggle **bcas_letters_use_lighthouse** is on.
 
-### How to login into localhost and view the claim status tool
+### How to login into localhost and view the letter service
 
 1. Go to <http://localhost:3001/sign-in/mocked-auth>
 2. Select ID.me from the drop down list and click the ‘Sign in with mocked authentication’ button.
