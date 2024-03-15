@@ -227,3 +227,13 @@ export const dispatchDetails = async (
     dispatch({ type: actionsGet, response });
   }
 };
+
+/**
+ * Download a text file
+ * @param {String} url url
+ * @param {String} paramName name for the text file
+ */
+export const getParamValue = (url, paramName) => {
+  const getParams = new URLSearchParams(url);
+  return getParams.get(`${paramName}`) ? getParams.get(`${paramName}`) : 1;
+};

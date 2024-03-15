@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
-
+import { getParamValue } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -15,9 +15,7 @@ const RecordList = props => {
 
   const history = useHistory();
   const { location } = window;
-  const param = new URLSearchParams(location.search);
-  const paramPage = param.get('page') ? param.get('page') : 1;
-
+  const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(paramPage);
   const [isInitialPage, setInitialPage] = useState(false);
@@ -33,10 +31,9 @@ const RecordList = props => {
 
   useEffect(() => {
     window.onpopstate = () => {
-      const param2 = new URLSearchParams(history.location.search);
-      const paramPage2 = param2.get('page') ? param2.get('page') : 1;
-      setCurrentRecords(paginatedRecords.current[paramPage2 - 1]);
-      setCurrentPage(paramPage2);
+      const historyParamVal = getParamValue(history.location.search, 'page');
+      setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
+      setCurrentPage(historyParamVal);
     };
   }, []);
 
