@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 
 describe('Secure Messaging Compose', () => {
@@ -10,7 +10,7 @@ describe('Secure Messaging Compose', () => {
     site.login(mockEhrData, false);
     site.loadPageUnauthenticated();
 
-    cy.url().should('contain', '/health-care/secure-messaging');
+    cy.url().should('contain', Paths.HEALTH_CARE_SECURE_MSG);
 
     site.login();
 

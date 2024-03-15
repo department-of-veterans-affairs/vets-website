@@ -87,6 +87,7 @@ export const sanitizeCernerParams = path => {
 
 export const generateReturnURL = returnUrl => {
   return [
+    ``, // create account links don't have a authReturnUrl
     `${environment.BASE_URL}/?next=loginModal`,
     `${environment.BASE_URL}`,
   ].includes(returnUrl)

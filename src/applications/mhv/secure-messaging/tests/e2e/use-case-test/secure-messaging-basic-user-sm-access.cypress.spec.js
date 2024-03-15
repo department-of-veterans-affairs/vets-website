@@ -3,6 +3,7 @@ import mockUser from '../fixtures/userResponse/user.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 import mockFeatureToggles from '../fixtures/generalResponses/featureToggles.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
+import { Paths } from '../utils/constants';
 
 describe('Secure Messaging Basic User', () => {
   it('verify basic user has not access to secure-messaging', () => {
@@ -14,18 +15,18 @@ describe('Secure Messaging Basic User', () => {
     const site = new SecureMessagingSite();
     site.login(true, basicUser);
 
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
+    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockFeatureToggles).as(
       'featureToggles',
     );
     cy.intercept('GET', '/v0/user', basicUser).as('user');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
       mockGeneralFolder,
     ).as('generalFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/messages*`,
       mockGeneralMessages,
     ).as('generalMessages');
 
@@ -35,6 +36,6 @@ describe('Secure Messaging Basic User', () => {
       },
     });
 
-    cy.location('pathname').should('eq', '/health-care/secure-messaging');
+    cy.location('pathname').should('eq', Paths.HEALTH_CARE_SECURE_MSG);
   });
 });
