@@ -3,8 +3,7 @@ Active engineers: Micah Chiang (front end), Jesse Cohn (front end), Kathleen Cra
 Form ID (if different from app name, NA otherwise): `NA`
 URL: `{root url}/va-payment-history/payments`
 
-
-# Background
+# View Payments
 Veterans receive lots of payments for the various benefits they receive from the VA. This app allows Veterans to see what payments have been made to them as well as some basic information about those payments.
 
 ## How the app works for the user
@@ -29,6 +28,247 @@ When we render payments for the Veteran we do it using the `<Payments />` compon
 
 ## The back end code
 When the front end calls [/profile/payment_history](https://github.com/department-of-veterans-affairs/vets-api/blob/be3a39e6054afd8c6a2cbb61cfd215421a8a718a/app/controllers/v0/profile/payment_history_controller.rb#L1) in the back end we call the `new` method from the BGS People Service and assign the result, which is the Veteran's VA file number, to a new variable called `person`. We then use that `person` variable to call the `new` method from the BGS Payment Service and assign the result, a list of payments for the Veteran, to a new array of objects called `response`. We then send that response back to the front end using the `VetPaymentHistorySerializer`.
+
+## How to run locally
+
+### Run vets-api locally
+
+1. Open up the project in **VSCode** or in a **terminal instance** by cding into the vets-api project.
+2. Mock the `profile/payment_history` endpoint in vets-api
+   - When developing locally, vets-api is not able to properly access BGS to retrieve payment data.
+    In order to retrieve view payments locally, we can create mock data for vets-api to return by
+    replacing the `payment_history` method in `/app/services/bgs/payment_service.rb` with the following:
+
+    ```ruby
+    def payment_history(person)
+        response = {
+            :payments => {
+                :payment => [
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/01/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/02/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/03/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/04/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/05/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/06/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/07/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/08/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/09/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/10/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/11/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/12/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                    {
+                        :payment_amount => 3261.10,
+                        :payment_date => '04/13/2019',
+                        :payment_type => 'Compensation & Pension - Recurring',
+                        :payment_method => ' Direct Deposit',
+                        :address_eft => {
+                            :account_number => '123456',
+                            :account_type => 'Checking',
+                            :bank_name => 'BANK OF AMERICA, N.A.',
+                            :routing_number => '111000025',
+                        },
+                        :account_number => '****1234'
+                    },
+                ]
+            }
+        }
+
+        rescue => e
+            report_error(e)
+            empty_response if e.message.include?('No Data Found')
+        end
+    ```
+
+> [!NOTE]
+> The above will return an array of payments, but it will not include any returned payments, so when viewing the > page at `/va-payment-history/payments`, you will only see the `Payments you received` table.
+
+3. Once in the vets-api project use the following commands:
+
+   - If you just did a git pull or this is your first time running the project run this command
+
+    ```code block
+    bundle install
+    ```
+
+   - Run vets-api locally
+  
+    ```code block
+    foreman start -m all=1,clamd=0,freshclam=0
+    ```
+
+### Run vets-website locally
+
+1. Open up the project in **VSCode** or in a **terminal instance** by cding into the vets-website project.
+2. Take a look at [src/applications/claims-status/manifest.json](https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/claims-status/manifest.json) to see what the service name is that you’ll need for the vets-website yarn watch command and for the url
+
+   - Service Name: entryName
+   - Localhost Url: rootUrl (EX: <http://localhost:3001/track-claims/your-claims/>)
+
+3. Once in the vets-website project use the following commands:
+
+   - If you just did a git pull or this is your first time running the project run this command
+
+    ```code block
+    yarn install
+    ```
+
+   - Run vets-website locally
+  
+    ```code block
+    yarn watch --env entry=auth,claims-status,static-pages,login-page,terms-of-use,verify
+    ```
+
+### How to login into localhost and view the claim status tool
+
+1. Go to <http://localhost:3001/sign-in/mocked-auth>
+2. Select ID.me from the drop down list and click the ‘Sign in with mocked authentication’ button.
+3. Select a profile from the drop down (EX: vets.gov.user+228@gmail.com) and click the ‘Continue signing in’ button.
+4. You’ll be logged into localhost and the page will spin since we are only running certain services. Change the url to <http://localhost:3001/track-claims/your-claims/>  and you will be directed to the Claim Status Tool service.
+
 
 ## Mocking the `profile/payment_history` endpoint in vets-api
 When developing locally, vets-api is not able to properly access BGS to retrieve payment data.
