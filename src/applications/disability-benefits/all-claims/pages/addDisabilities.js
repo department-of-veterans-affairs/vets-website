@@ -30,7 +30,7 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
   newDisabilities: {
-    'ui:title': 'Tell us the new conditions you want to claim.',
+    'ui:title': 'Do not Tell us the new conditions you want to claim.',
     'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
@@ -44,15 +44,18 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: autosuggest.uiSchema(
+      // HERE@!!!!!!
+      condition: autosuggestWithNewSearch.uiSchema( // this uiSchema is what contains AutoSuggest component
         autoSuggestTitle,
-        () =>
-          Promise.resolve(
+        () => {
+          console.log('autoSuggestTitle: ', autoSuggestTitle);
+          return Promise.resolve(
             Object.entries(getDisabilityLabels()).map(([key, value]) => ({
               id: key,
               label: value,
             })),
-          ),
+          );
+        },
         {
           'ui:reviewField': ({ children }) => children,
           'ui:options': {
