@@ -98,7 +98,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnMessageAttachment = () => {
-    cy.get(Locators.ALERTS.SUCCESS_ALERT)
+    cy.get()
       .should('be.visible')
       .should('have.focus');
   };

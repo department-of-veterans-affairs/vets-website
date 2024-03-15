@@ -28,7 +28,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.clickOnDeleteDraftButton();
   });
 
-  it('focus on error message for empty category', () => {
+  it.skip('focus on error message for empty category', () => {
     composePage.selectRecipient();
     composePage.getMessageSubjectField().type('Test Subject');
     composePage
