@@ -282,11 +282,6 @@ const PrescriptionDetails = () => {
           });
         }
       }
-    },
-    [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
-  );
-  useEffect(
-    () => {
       if (
         allergies &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
@@ -295,7 +290,7 @@ const PrescriptionDetails = () => {
         window.print();
       }
     },
-    [allergies, pdfTxtGenerateStatus],
+    [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
   );
 
   useEffect(
