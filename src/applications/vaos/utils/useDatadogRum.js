@@ -10,7 +10,8 @@ const initializeDatadogRum = () => {
     // Prevent RUM from running on local/CI environments.
     environment.BASE_URL.indexOf('localhost') < 0 &&
     // Prevent re-initializing the SDK.
-    !window.DD_RUM?.getInitConfiguration()
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
   ) {
     datadogRum.init({
       applicationId: '8880279e-5c40-4f82-90f9-9a3cdb6d461b',
@@ -18,7 +19,7 @@ const initializeDatadogRum = () => {
       site: 'ddog-gov.com',
       service: 'va.gov-appointments',
       env: environment.vspEnvironment(),
-      sampleRate: 100,
+      sessionSampleRate: 100,
       sessionReplaySampleRate: 100,
       trackInteractions: true,
       trackFrustrations: true,
@@ -26,6 +27,7 @@ const initializeDatadogRum = () => {
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
     });
+    datadogRum.startSessionReplayRecording();
   }
 };
 
