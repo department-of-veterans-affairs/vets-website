@@ -64,24 +64,25 @@ export class Main extends Component {
       ACCOUNT_TRANSITION_DISMISSED,
     );
 
-    if (currentlyLoggedIn) {
-      this.executeRedirect();
-      this.closeModals();
-      if (
-        this.props.signInServiceName === 'mhv' &&
-        mhvTransitionEligible &&
-        !mhvTransitionComplete &&
-        !accountTransitionPreviouslyDismissed
-      ) {
-        this.props.toggleAccountTransitionModal(true);
-      }
+    if (!currentlyLoggedIn) {
+      return;
+    }
+    this.executeRedirect();
+    this.closeModals();
+    if (
+      this.props.signInServiceName === 'mhv' &&
+      mhvTransitionEligible &&
+      !mhvTransitionComplete &&
+      !accountTransitionPreviouslyDismissed
+    ) {
+      this.props.toggleAccountTransitionModal(true);
+    }
 
-      if (
-        this.props.signInServiceName === 'logingov' &&
-        mhvTransitionComplete
-      ) {
-        this.props.toggleAccountTransitionSuccessModal(true);
-      }
+    if (
+      this.props.signInServiceName === 'logingov' &&
+      mhvTransitionComplete
+    ) {
+      this.props.toggleAccountTransitionSuccessModal(true);
     }
   }
 
@@ -163,13 +164,14 @@ export class Main extends Component {
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
-        if (!this.props.currentlyLoggedIn) {
-          e.preventDefault();
-          const linkHref = el.getAttribute('href');
-          const pageTitle = el.textContent;
-          this.appendOrRemoveParameter({ url: linkHref, pageTitle });
-          this.openLoginModal();
+        if (this.props.currentlyLoggedIn) {
+          return;
         }
+        e.preventDefault();
+        const linkHref = el.getAttribute('href');
+        const pageTitle = el.textContent;
+        this.appendOrRemoveParameter({ url: linkHref, pageTitle });
+        this.openLoginModal();
       });
     });
   };
@@ -211,14 +213,14 @@ export class Main extends Component {
   signInSignUp = () => {
     if (this.props.shouldConfirmLeavingForm) {
       this.props.toggleFormSignInModal(true);
-    } else {
-      // Make only one upfront request to get all backend statuses to prevent
+      return;
+    }
+    // Make only one upfront request to get all backend statuses to prevent
       // each identity dependency's warning banner from making duplicate
       // requests when the sign-in modal renders.
-      this.props.getBackendStatuses();
-      this.props.toggleLoginModal(true, 'header');
-      this.appendOrRemoveParameter({});
-    }
+    this.props.getBackendStatuses();
+    this.props.toggleLoginModal(true, 'header');
+    this.appendOrRemoveParameter({});
   };
 
   render() {
@@ -275,7 +277,7 @@ export const mapStateToProps = state => {
     formAutoSavedStatus = form.autoSavedStatus;
     additionalRoutes = form.additionalRoutes;
     additionalSafePaths =
-      additionalRoutes && additionalRoutes.map(route => route.path);
+      additionalRoutes?.map(route => route.path);
   }
   const shouldConfirmLeavingForm =
     typeof formAutoSavedStatus !== 'undefined' &&
