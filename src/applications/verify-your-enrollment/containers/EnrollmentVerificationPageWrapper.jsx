@@ -37,34 +37,36 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <MGIBEnrollmentStatement />
-            <PeriodsToVerify
-              link={() => (
-                <PageLink
-                  linkText="Start enrollment verification"
-                  relativeURL={VERIFICATION_REVIEW_RELATIVE_URL}
-                  URL={VERIFICATION_REVIEW_URL}
-                  margin="0"
-                  className="vads-c-action-link--blue"
-                />
-              )}
-            />
             {loading ? (
               <Loader />
             ) : (
-              <CurrentBenefitsStatus
-                updated={updated}
-                remainingBenefits={`${month} Months, ${day} Days`}
-                expirationDate={expirationDate}
-                link={() => (
-                  <PageLink
-                    linkText="Manage your benefits profile"
-                    relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
-                    URL={BENEFITS_PROFILE_URL}
-                    margin="0"
-                    className="vads-c-action-link--blue"
-                  />
-                )}
-              />
+              <>
+                <PeriodsToVerify
+                  link={() => (
+                    <PageLink
+                      linkText="Start enrollment verification"
+                      relativeURL={VERIFICATION_REVIEW_RELATIVE_URL}
+                      URL={VERIFICATION_REVIEW_URL}
+                      margin="0"
+                      className="vye-mimic-va-button vads-u-font-family--sans"
+                    />
+                  )}
+                />
+                <CurrentBenefitsStatus
+                  updated={updated}
+                  remainingBenefits={`${month} Months, ${day} Days`}
+                  expirationDate={expirationDate}
+                  link={() => (
+                    <PageLink
+                      linkText="Manage your benefits profile"
+                      relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
+                      URL={BENEFITS_PROFILE_URL}
+                      margin="0"
+                      className="vads-c-action-link--blue"
+                    />
+                  )}
+                />
+              </>
             )}
             <PreviousEnrollmentVerifications enrollmentData={mockData} />
             <MoreInfoCard
