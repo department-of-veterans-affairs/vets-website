@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import mockSignature from './fixtures/signature-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
@@ -30,7 +30,7 @@ describe('Secure Messaging Compose', () => {
     composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage
       .getMessageBodyField()
-      .type('Test message body', { force: true });
+      .type(Data.TEST_MESSAGE_BODY, { force: true });
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifySendMessageConfirmationMessageText();
     // landingPage.verifyInboxHeader('Inbox');

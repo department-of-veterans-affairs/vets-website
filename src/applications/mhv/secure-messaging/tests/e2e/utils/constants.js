@@ -182,3 +182,7 @@ export const Alerts = {
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
 };
+
+export const Data = {
+  TEST_MESSAGE_BODY: 'Test message body',
+};
