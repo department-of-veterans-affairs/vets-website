@@ -372,7 +372,7 @@ const Prescriptions = () => {
       setPdfTxtGenerateStatus({
         status: PDF_TXT_GENERATE_STATUS.NotStarted,
       });
-      window.print();
+      setTimeout(() => window.print(), 1);
     }
     dispatch(clearAllergiesError());
   };
