@@ -24,9 +24,6 @@ describe(`${appName} - landing page`, () => {
 
   it('display the landing page', () => {
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles()).as(
-      'featureToggles',
-    );
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();

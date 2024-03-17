@@ -10,6 +10,7 @@ import JumpLink from '../../components/profile/JumpLink';
 // import LearnMoreLabel from '../../components/LearnMoreLabel';
 // import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
+import Loader from '../../components/Loader';
 import {
   isProductionOfTestProdEnv,
   getStateNameForCode,
@@ -25,6 +26,7 @@ import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
+import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -37,10 +39,17 @@ export function FilterBeforeResults({
   errorReducer,
   nameVal,
   searchType,
+  onApplyFilterClick,
 }) {
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
+  const {
+    isCleared,
+    setIsCleared,
+    focusOnFirstInput,
+    loading,
+  } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -220,6 +229,8 @@ export function FilterBeforeResults({
           row={!smallScreen}
           colNum="1p5"
           labelMargin="3"
+          focusOnFirstInput={focusOnFirstInput}
+          setIsCleared={setIsCleared}
         />
       </div>
     );
@@ -263,6 +274,7 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
+        setIsCleared={setIsCleared}
         className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
           <h3
@@ -307,6 +319,7 @@ export function FilterBeforeResults({
         }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
+        setIsCleared={setIsCleared}
         row={!smallScreen}
         colNum="4p5"
       />
@@ -369,6 +382,7 @@ export function FilterBeforeResults({
     if (modalClose) {
       modalClose();
     }
+    onApplyFilterClick();
   };
 
   const specializedMissionAttributes = () => {
@@ -457,43 +471,46 @@ export function FilterBeforeResults({
     ];
 
     return (
-      <CheckboxGroup
-        class="vads-u-margin-y--4"
-        className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
-        label={
-          <>
-            <h3
-              className={
-                isProductionOfTestProdEnv() ? '' : 'school-types-label'
-              }
-              aria-level={2}
-            >
-              Community focus
-            </h3>
-            <button
+      <div className="community-focus-container">
+        <h3
+          className={isProductionOfTestProdEnv() ? '' : 'school-types-label'}
+          aria-level={2}
+        >
+          Community focus
+        </h3>
+        <div style={{ marginTop: '-10px' }}>
+          {smallScreen && <>Go to community focus details</>}
+          {!smallScreen && (
+            <JumpLink
+              label="Go to community focus details"
+              jumpToId="learn-more-about-specialized-missions-accordion-button"
+              dataTestId="go-to-comm-focus-details"
+              iconToggle={false}
+              onClick={() => jumpLinkClick()}
+              customClass="filter-before-res-jump-link"
               className={
                 isProductionOfTestProdEnv()
                   ? 'mobile-jump-link'
                   : 'mobile-jump-link labels-margin'
               }
-              onClick={() => jumpLinkClick()}
-            >
-              {smallScreen && <>Go to community focus details</>}
-              {!smallScreen && (
-                <JumpLink
-                  label="Go to community focus details"
-                  jumpToId="learn-more-about-specialized-missions-accordion-button"
-                  iconToggle={false}
-                />
-              )}
-            </button>
-          </>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        colNum="4"
-      />
+            />
+          )}
+          <CheckboxGroup
+            class="vads-u-margin-y--4"
+            className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
+            label={
+              <h3 className="visually-hidden" aria-level={2}>
+                Community focus
+              </h3>
+            }
+            onChange={onChangeCheckbox}
+            options={options}
+            setIsCleared={setIsCleared}
+            row={!smallScreen}
+            colNum="4"
+          />
+        </div>
+      </div>
     );
   };
 
@@ -584,7 +601,11 @@ export function FilterBeforeResults({
                 Clear filters
               </button>
             ) : (
-              <ClearFiltersBtn testId="clear-button">
+              <ClearFiltersBtn
+                testId="clear-button"
+                isCleared={isCleared}
+                setIsCleared={setIsCleared}
+              >
                 Clear filters
               </ClearFiltersBtn>
             )}
@@ -594,8 +615,7 @@ export function FilterBeforeResults({
             className="vads-u-margin-top--3"
           >
             <VaAccordionGi
-              onChange={e => {
-                e.preventDefault();
+              onChange={() => {
                 setSmfAccordionExpanded(!smfAccordionExpanded);
               }}
               expanded={smfAccordionExpanded}
@@ -628,6 +648,7 @@ export function FilterBeforeResults({
 
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
+      {loading && <Loader className="search-loader" />}
       {!smallScreen && (
         <div>
           {search.inProgress && (

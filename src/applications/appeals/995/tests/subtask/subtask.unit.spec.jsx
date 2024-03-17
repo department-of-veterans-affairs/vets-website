@@ -13,7 +13,7 @@ import SubTask, {
 import SubTaskContainer from '../../subtask/SubTaskContainer';
 import pages from '../../subtask/pages';
 
-const mockStore = ({ data = {}, show995 = true, loading = false } = {}) => {
+const mockStore = ({ data = {} } = {}) => {
   setStoredSubTask(data);
   return {
     getState: () => ({
@@ -26,11 +26,6 @@ const mockStore = ({ data = {}, show995 = true, loading = false } = {}) => {
         touched: {},
         submitted: false,
       },
-      featureToggles: {
-        loading,
-        // eslint-disable-next-line camelcase
-        supplemental_claim: show995,
-      },
     }),
     subscribe: () => {},
     dispatch: () => ({
@@ -42,27 +37,6 @@ const mockStore = ({ data = {}, show995 = true, loading = false } = {}) => {
 describe('the Supplemental Claims Sub-task', () => {
   after(() => {
     resetStoredSubTask();
-  });
-
-  it('should render feature toggle loading indicator', () => {
-    const { container } = render(
-      <Provider store={mockStore({ loading: true })}>
-        <SubTaskContainer />
-      </Provider>,
-    );
-    expect(
-      $('va-loading-indicator', container).getAttribute('message'),
-    ).to.contain('Loading application');
-  });
-  it('should render WIP alert', () => {
-    const { container } = render(
-      <Provider store={mockStore({ show995: false })}>
-        <SubTaskContainer />
-      </Provider>,
-    );
-    const alert = $('va-alert', container);
-    expect(alert).to.exist;
-    expect(alert.innerHTML).to.contain('still working on this feature');
   });
 
   it('should render the SubTask as a form element', () => {

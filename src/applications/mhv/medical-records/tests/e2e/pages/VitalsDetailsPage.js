@@ -1,10 +1,47 @@
 // import defaultVitals from '../fixtures/Vitals.json';
 
 class VitalsDetailsPage {
-  verifyVitalsPageText = Vitals => {
+  verifyVitalReadingByIndex = (
+    index = 0,
+    date,
+    measurement,
+    location,
+    notes,
+  ) => {
+    // Verify date
+    cy.get('[data-testid="vital-date"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-date"]')
+      .eq(index)
+      .contains(date);
+    // Verify measurement
+    cy.get('[data-testid="vital-result"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-result"]')
+      .eq(index)
+      .contains(measurement);
+    // Verify location
+    cy.get('[data-testid="vital-location"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-location"]')
+      .eq(index)
+      .contains(location);
+    // Verify provider notes
+    cy.get('[data-testid="vital-provider-note"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-provider-note"]')
+      .eq(index)
+      .contains(notes);
+  };
+
+  verifyVitalsPageTitle = title => {
     // Verify "Vitals" Page title Text
     cy.get('[data-testid="vitals"]').should('be.visible');
-    cy.get('[data-testid="vitals"]').contains(Vitals);
+    cy.get('[data-testid="vitals"]').contains(title);
   };
 
   clickBreadCrumbsLink = (breadcrumb = 0) => {

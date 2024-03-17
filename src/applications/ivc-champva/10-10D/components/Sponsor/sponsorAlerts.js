@@ -1,4 +1,6 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const blankSchema = { type: 'object', properties: {} };
 
@@ -6,8 +8,10 @@ export const homelessInfo = {
   uiSchema: {
     'view:homelessInfo': {
       'ui:description': (
-        <va-alert status="info" visible uswds>
-          <h3 slot="headline">Resources available</h3>
+        <va-additional-info
+          trigger="If you don’t have an address"
+          class="vads-u-margin-bottom--4"
+        >
           <p>
             If you don’t currently have a mailing address or are experiencing
             homelessness you can use{' '}
@@ -22,9 +26,9 @@ export const homelessInfo = {
             If you are a veteran who is homeless or at imminent risk of
             homelessness, we strongly encourage you to contact the National Call
             Center for Homeless Veterans at{' '}
-            <va-telephone contact="8774243838" /> for assistance.
+            <VaTelephone contact={CONTACTS['4AID_VET']} /> for assistance.
           </p>
-        </va-alert>
+        </va-additional-info>
       ),
     },
   },
@@ -35,13 +39,15 @@ export const noPhoneInfo = {
   uiSchema: {
     'view:noPhoneInfo': {
       'ui:description': (
-        <va-alert status="info" visible uswds>
-          <h3 slot="headline">Resources available</h3>
+        <va-additional-info
+          trigger="If you don’t have a phone number"
+          class="vads-u-margin-bottom--4"
+        >
           <p>
-            If you don’t currently have a phone number, here is a suggestion and
-            a link to a resource <va-telephone contact="8774243838" />
+            If you don’t currently have a phone number, please enter a phone
+            number of someone who you have contact with.
           </p>
-        </va-alert>
+        </va-additional-info>
       ),
     },
   },

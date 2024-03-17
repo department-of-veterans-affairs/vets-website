@@ -47,7 +47,7 @@ const RadiologySingleImage = () => {
         dispatch(
           setBreadcrumbs([
             {
-              url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
+              url: `/labs-and-tests/radiology-images/${labId}`,
               label: `Images: ${labAndTestDetails?.name}`,
             },
           ]),

@@ -25,14 +25,13 @@ const InsurancePolicyReviewPage = ({ data, editPage }) => {
               <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 {content['insurance-review-header-title']}
               </h4>
-              <button
-                type="button"
+              <va-button
+                text={content['button-edit']}
+                label={content['insurance-edit-button-aria-label']}
                 onClick={editPage}
-                className="edit-btn primary-outline"
-                aria-label={content['insurance-edit-button-aria-label']}
-              >
-                {content['button-edit']}
-              </button>
+                secondary
+                uswds
+              />
             </div>
             <dl className="review">{reviewRows}</dl>
           </>

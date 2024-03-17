@@ -10,18 +10,28 @@ Assumptions that may need to be addressed:
 then additional functionality will need to be added to account for this.
 */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import {
+  renderMHVDowntime,
+  updatePageTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { retrieveFolder } from '../actions/folders';
-import { DefaultFolders as Folder, PageTitles } from '../util/constants';
-import { updatePageTitle } from '../util/helpers';
+import {
+  DefaultFolders as Folder,
+  PageTitles,
+  downtimeNotificationParams,
+} from '../util/constants';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CernerTransitioningFacilityAlert from '../components/Alerts/CernerTransitioningFacilityAlert';
 
@@ -29,17 +39,7 @@ const LandingPageAuth = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
   const inbox = useSelector(state => state.sm.folders?.folder);
-  const { featureToggles } = useSelector(state => state);
   const [prefLink, setPrefLink] = useState('');
-
-  const cernerTransition556T30 = useMemo(
-    () => {
-      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        : false;
-    },
-    [featureToggles],
-  );
 
   useEffect(
     () => {
@@ -65,7 +65,13 @@ const LandingPageAuth = () => {
       <AlertBackgroundBox />
       <h1>Messages</h1>
 
-      {cernerTransition556T30 && <CernerTransitioningFacilityAlert />}
+      <DowntimeNotification
+        appTitle={downtimeNotificationParams.appTitle}
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvSm]}
+        render={renderMHVDowntime}
+      />
+
+      <CernerTransitioningFacilityAlert />
 
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.

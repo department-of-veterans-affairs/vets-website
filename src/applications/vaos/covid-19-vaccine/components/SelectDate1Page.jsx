@@ -21,7 +21,7 @@ import {
 } from '../flow';
 
 const pageKey = 'selectDate1';
-const pageTitle = 'Choose a date';
+const pageTitle = 'Choose a date and time';
 
 const missingDateError =
   'Please choose your preferred date and time for your appointment.';

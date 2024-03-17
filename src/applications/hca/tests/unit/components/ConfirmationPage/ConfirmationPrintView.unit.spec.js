@@ -24,7 +24,7 @@ describe('hca <ConfirmationPrintView>', () => {
       const selectors = {
         image: container.querySelector('.vagov-logo'),
         title: container.querySelector('h1'),
-        subtitles: container.querySelectorAll('h2'),
+        subtitles: container.querySelectorAll('h2, h3'),
         veteranName: container.querySelector('.hca-veteran-fullname'),
       };
       expect(selectors.image).to.exist;

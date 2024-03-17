@@ -5,19 +5,20 @@ import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
+  numberUI,
+  numberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VaTextInputField,
+  VaCheckboxField,
+} from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ListItemView from '../../../components/ListItemView';
-import { validateWorkHours } from '../../../helpers';
+import { recipientTypeLabels } from '../../../labels';
 
 const { dateRange } = fullSchemaPensions.definitions;
-
-const recipientOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Veteran’s spouse',
-  CHILD: 'Veteran’s child',
-};
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -42,10 +43,11 @@ CareExpenseView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add an unreimbursed care expense',
+    ...titleUI('Add an unreimbursed care expense'),
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',
+        itemAriaLabel: data => `${data.provider} care expense`,
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
         keepInPageOnReview: true,
@@ -56,21 +58,23 @@ export default {
       items: {
         recipients: radioUI({
           title: 'Who receives care?',
-          labels: recipientOptions,
+          labels: recipientTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         childName: {
           'ui:title': 'Enter the child’s name',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'CHILD',
+            expandUnderCondition: 'DEPENDENT',
           },
           'ui:required': (form, index) =>
-            get(['careExpenses', index, 'recipients'], form) === 'CHILD',
+            get(['careExpenses', index, 'recipients'], form) === 'DEPENDENT',
         },
         provider: {
           'ui:title': 'What’s the name of the care provider?',
+          'ui:webComponentField': VaTextInputField,
         },
         careType: radioUI({
           title: 'Choose the type of care:',
@@ -79,10 +83,12 @@ export default {
         ratePerHour: currencyUI(
           'If this is an in-home provider, what is the rate per hour?',
         ),
-        hoursPerWeek: {
-          'ui:title': 'How many hours per week does the care provider work?',
-          'ui:validations': [validateWorkHours],
-        },
+        hoursPerWeek: numberUI({
+          title: 'How many hours per week does the care provider work?',
+          width: 'sm',
+          min: 1,
+          max: 168,
+        }),
         careDateRange: dateRangeUI(
           'Care start date',
           'Care end date',
@@ -90,6 +96,7 @@ export default {
         ),
         noCareEndDate: {
           'ui:title': 'No end date',
+          'ui:webComponentField': VaCheckboxField,
         },
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
@@ -115,12 +122,12 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientOptions)),
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName: { type: 'string' },
             provider: { type: 'string' },
             careType: radioSchema(Object.keys(careOptions)),
             ratePerHour: { type: 'number' },
-            hoursPerWeek: { type: 'number' },
+            hoursPerWeek: numberSchema,
             careDateRange: {
               ...dateRange,
               required: ['from'],

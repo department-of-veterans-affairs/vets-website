@@ -3,12 +3,20 @@ import { getLabsAndTests, getLabOrTest } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 
-export const getLabsAndTestsList = () => async dispatch => {
+export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
+  dispatch({
+    type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+    payload: Constants.loadStates.FETCHING,
+  });
   try {
     const response = await getLabsAndTests();
-    dispatch({ type: Actions.LabsAndTests.GET_LIST, response });
+    dispatch({
+      type: Actions.LabsAndTests.GET_LIST,
+      response,
+      isCurrent,
+    });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 
@@ -17,7 +25,7 @@ export const getlabsAndTestsDetails = labId => async dispatch => {
     const response = await getLabOrTest(labId);
     dispatch({ type: Actions.LabsAndTests.GET, response });
   } catch (error) {
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
 

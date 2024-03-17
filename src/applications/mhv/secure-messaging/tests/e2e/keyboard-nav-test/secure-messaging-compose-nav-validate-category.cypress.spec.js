@@ -1,15 +1,18 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
+import categories from '../fixtures/categories-response.json';
 
 describe('Validate the category', () => {
   it('selects a category', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
+    const listOfCategories = categories.data.attributes.messageCategoryType;
+
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
     cy.tabToElement('[data-testid="edit-preferences-button"]').should(
       'have.focus',
@@ -17,22 +20,12 @@ describe('Validate the category', () => {
     cy.realPress(['Tab']);
     cy.realPress(['Tab']);
 
-    cy.get('#OTHEROTHERinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#COVIDCOVIDinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#APPOINTMENTSAPPOINTMENTSinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#MEDICATIONSMEDICATIONSinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#TEST_RESULTSTEST_RESULTSinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#EDUCATIONEDUCATIONinput').should('have.focus');
+    for (let i = 0; i < listOfCategories.length; i += 1) {
+      cy.get(`#compose-message-categories${listOfCategories[i]}input`).should(
+        'have.focus',
+      );
+      cy.realPress('ArrowDown');
+    }
     cy.tabToElement('[data-testid="message-subject-field"]').should(
       'have.focus',
     );

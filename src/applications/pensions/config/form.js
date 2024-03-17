@@ -14,9 +14,8 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -24,15 +23,17 @@ import {
 import {
   getDependentChildTitle,
   getMarriageTitleWithCurrent,
-  directDepositWarning,
+  DirectDepositWarning,
   isMarried,
+  MarriageTitle,
   submit,
   createSpouseLabelSelector,
-  generateHelpText,
+  HelpText,
   isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
+import ServicePeriodReview from '../components/ServicePeriodReview';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
@@ -49,6 +50,7 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
+import dependentChildAddress from './chapters/04-household-information/dependentChildAddress';
 import hasDependents from './chapters/04-household-information/hasDependents';
 import dependentChildren from './chapters/04-household-information/dependentChildren';
 import documentUpload from './chapters/06-additional-information/documentUpload';
@@ -95,7 +97,6 @@ const {
   spouseVaFileNumber,
   liveWithSpouse,
   spouseIsVeteran,
-  dependents,
 } = fullSchemaPensions.properties;
 
 const {
@@ -111,8 +112,6 @@ const {
   centralMailVaFile,
   bankAccount,
 } = fullSchemaPensions.definitions;
-
-const nonRequiredFullName = createNonRequiredFullName(fullName);
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
@@ -165,17 +164,17 @@ export function isUnder65(formData, currentDate) {
 export function showSpouseAddress(form) {
   return (
     isMarried(form) &&
-    (form.maritalStatus === 'Separated' ||
+    (form.maritalStatus === 'SEPARATED' ||
       get(['view:liveWithSpouse'], form) === false)
   );
 }
 
 export function isSeparated(formData) {
-  return formData.maritalStatus === 'Separated';
+  return formData.maritalStatus === 'SEPARATED';
 }
 
 export function currentSpouseHasFormerMarriages(formData) {
-  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'Yes';
+  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'YES';
 }
 
 export function hasNoSocialSecurityDisability(formData) {
@@ -252,12 +251,12 @@ const marriageProperties = marriages.items.properties;
 
 const marriageType = {
   ...marriageProperties.marriageType,
-  enum: [marriageTypeLabels.ceremony, marriageTypeLabels.other],
+  enum: Object.keys(marriageTypeLabels),
 };
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: Object.values(separationTypeLabels),
+  enum: Object.keys(separationTypeLabels),
 };
 
 const formConfig = {
@@ -277,7 +276,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 4,
+  version: 6,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -307,7 +306,7 @@ const formConfig = {
   // showReviewErrors: true,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
-  useCustomScrollAndFocus: true,
+  useCustomScrollAndFocus: false,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -356,6 +355,7 @@ const formConfig = {
           title: 'Service period',
           uiSchema: servicePeriod.uiSchema,
           schema: servicePeriod.schema,
+          CustomPageReview: ServicePeriodReview,
         },
         general: {
           path: 'military/general',
@@ -390,6 +390,7 @@ const formConfig = {
         socialSecurityDisability: {
           title: 'Social Security disability',
           path: 'medical/history/social-security-disability',
+          depends: formData => !formData.isOver65,
           uiSchema: socialSecurityDisability.uiSchema,
           schema: socialSecurityDisability.schema,
         },
@@ -491,7 +492,7 @@ const formConfig = {
           depends: isMarried,
           uiSchema: {
             marriages: {
-              'ui:title': 'How many times have you been married?',
+              ...titleUI('How many times have you been married?'),
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
               'ui:options': {
@@ -523,9 +524,13 @@ const formConfig = {
             marriages: {
               items: {
                 'ui:options': {
-                  updateSchema: (form, schema, uiSchema, index) => ({
-                    title: getMarriageTitleWithCurrent(form, index),
-                  }),
+                  updateSchema: (form, schema, uiSchema, index) => {
+                    return {
+                      title: MarriageTitle(
+                        getMarriageTitleWithCurrent(form, index),
+                      ),
+                    };
+                  },
                 },
                 spouseFullName: merge({}, fullNameUI, {
                   first: {
@@ -558,11 +563,14 @@ const formConfig = {
                   marriageType: {
                     'ui:title': 'How did you get married?',
                     'ui:widget': 'radio',
+                    'ui:options': {
+                      labels: marriageTypeLabels,
+                    },
                     'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   otherExplanation: {
                     'ui:title': 'Please specify',
-                    'ui:description': generateHelpText(
+                    'ui:description': HelpText(
                       'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
                     ),
                     'ui:required': (form, index) =>
@@ -574,10 +582,10 @@ const formConfig = {
                           'marriageType',
                         ],
                         form,
-                      ) === marriageTypeLabels.other,
+                      ) === 'OTHER',
                     'ui:options': {
                       expandUnder: 'marriageType',
-                      expandUnderCondition: marriageTypeLabels.other,
+                      expandUnderCondition: 'OTHER',
                     },
                   },
                 },
@@ -588,6 +596,9 @@ const formConfig = {
                   reasonForSeparation: {
                     'ui:title': 'How did the marriage end?',
                     'ui:widget': 'radio',
+                    'ui:options': {
+                      labels: separationTypeLabels,
+                    },
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
                   otherExplanation: {
@@ -601,10 +612,10 @@ const formConfig = {
                           'reasonForSeparation',
                         ],
                         form,
-                      ) === separationTypeLabels.other,
+                      ) === 'OTHER',
                     'ui:options': {
                       expandUnder: 'reasonForSeparation',
-                      expandUnderCondition: separationTypeLabels.other,
+                      expandUnderCondition: 'OTHER',
                     },
                   },
                   dateOfMarriage: merge(
@@ -675,7 +686,9 @@ const formConfig = {
           path: 'household/spouse-info',
           depends: isMarried,
           uiSchema: {
-            'ui:title': 'Spouse information',
+            ...titleUI(
+              createHouseholdMemberTitle('spouseFullName', 'information'),
+            ),
             spouseDateOfBirth: merge({}, currentOrPastDateUI(''), {
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
@@ -827,6 +840,7 @@ const formConfig = {
           uiSchema: {
             dependents: {
               items: {
+                ...titleUI(createHouseholdMemberTitle('fullName', 'household')),
                 childInHousehold: yesNoUI({
                   title: 'Does your child live with you?',
                 }),
@@ -840,67 +854,8 @@ const formConfig = {
           depends: dependentIsOutsideHousehold,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    childAddress: dependents.items.properties.childAddress,
-                    personWhoLivesWithChild:
-                      dependents.items.properties.personWhoLivesWithChild,
-                    monthlyPayment: dependents.items.properties.monthlyPayment,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childAddress: address.uiSchema(
-                  '',
-                  false,
-                  dependentIsOutsideHousehold,
-                ),
-                personWhoLivesWithChild: merge({}, fullNameUI, {
-                  'ui:title': 'Who do they live with?',
-                  first: {
-                    'ui:title': 'First name',
-                  },
-                  last: {
-                    'ui:title': 'Last name',
-                  },
-                  middle: {
-                    'ui:title': 'Middle name',
-                  },
-                  suffix: {
-                    'ui:title': 'Suffix',
-                  },
-                  'ui:options': {
-                    updateSchema: (form, _UISchema, _schema, index) => {
-                      if (dependentIsOutsideHousehold(form, index)) {
-                        return fullName;
-                      }
-                      return nonRequiredFullName;
-                    },
-                  },
-                }),
-                monthlyPayment: merge(
-                  {},
-                  currencyUI(
-                    "How much do you contribute per month to your child's support?",
-                  ),
-                  {
-                    'ui:required': dependentIsOutsideHousehold,
-                  },
-                ),
-              },
-            },
-          },
+          schema: dependentChildAddress.schema,
+          uiSchema: dependentChildAddress.uiSchema,
         },
       },
     },
@@ -944,7 +899,14 @@ const formConfig = {
           path: 'financial/home-ownership/acres/value',
           depends: isHomeAcreageMoreThanTwo,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: {
+            type: 'object',
+            properties: {
+              homeAcreageValue: {
+                type: 'number',
+              },
+            },
+          },
           CustomPage: HomeAcreageValueInput,
           CustomPageReview: HomeAcreageValueReview,
         },
@@ -1004,7 +966,7 @@ const formConfig = {
           path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Direct deposit',
+            ...titleUI('Direct deposit'),
             'view:noDirectDeposit': {
               'ui:title': 'I don’t want to use direct deposit',
             },
@@ -1032,7 +994,7 @@ const formConfig = {
               },
             }),
             'view:stopWarning': {
-              'ui:description': directDepositWarning,
+              'ui:description': DirectDepositWarning,
               'ui:options': {
                 hideIf: usingDirectDeposit,
               },

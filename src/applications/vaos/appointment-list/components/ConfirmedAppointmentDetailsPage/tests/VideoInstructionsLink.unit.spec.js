@@ -6,7 +6,7 @@ import { MockAppointment } from '../../../../tests/mocks/unit-test-helpers';
 import { VIDEO_TYPES } from '../../../../utils/constants';
 import VideoInstructionsLink from '../VideoInstructionsLink';
 
-describe('VAInstructionsLink component', () => {
+describe('VAOS Component: VAInstructionsLink', () => {
   it('should display instructions for video visit', async () => {
     // Arrange
     const mockAppointment = new MockAppointment({ start: moment() });

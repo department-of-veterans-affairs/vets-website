@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import {
   convertToDateField,
   validateCurrentOrPastDate,
@@ -38,6 +37,55 @@ export function validateServiceDates(
     }
   }
 }
+
+export function validateGulfWarDates(
+  errors,
+  { gulfWarStartDate, gulfWarEndDate },
+) {
+  const fromDate = convertToDateField(gulfWarStartDate);
+  const toDate = convertToDateField(gulfWarEndDate);
+  const messages = {
+    range: 'Service end date must be after the service start date',
+    format: 'Enter a date that includes a month and year',
+  };
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.gulfWarStartDate.addError(messages.format);
+  }
+
+  if (toDate.month.value && !toDate.year.value) {
+    errors.gulfWarEndDate.addError(messages.format);
+  }
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.gulfWarEndDate.addError(messages.range);
+  }
+}
+
+export function validateExposureDates(
+  errors,
+  { toxicExposureStartDate, toxicExposureEndDate },
+) {
+  const fromDate = convertToDateField(toxicExposureStartDate);
+  const toDate = convertToDateField(toxicExposureEndDate);
+  const messages = {
+    range: 'Exposure end date must be after the exposure start date',
+    format: 'Enter a date that includes a month and year',
+  };
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.toxicExposureStartDate.addError(messages.format);
+  }
+
+  if (toDate.month && !toDate.year) {
+    errors.toxicExposureEndDate.addError(messages.format);
+  }
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.toxicExposureEndDate.addError(messages.range);
+  }
+}
+
 export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
   const dependentDate = moment(fieldData);
   const birthDate = moment(dateOfBirth);
@@ -55,11 +103,22 @@ export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
  * HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)
  */
 export function validateCurrency(errors, currencyAmount) {
-  if (
-    !/(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/.test(
-      currencyAmount,
-    )
-  ) {
-    errors.addError('Please enter a valid dollar amount');
+  const pattern = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+
+  if (!pattern.test(currencyAmount)) {
+    errors.addError('Enter a valid dollar amount');
+  }
+}
+
+export function validatePolicyNumber(errors, fieldData) {
+  const { insurancePolicyNumber, insuranceGroupCode } = fieldData;
+
+  if (!insurancePolicyNumber && !insuranceGroupCode) {
+    errors.insuranceGroupCode.addError(
+      'Group code (either this or the policy number is required)',
+    );
+    errors.insurancePolicyNumber.addError(
+      'Policy number (either this or the group code is required)',
+    );
   }
 }

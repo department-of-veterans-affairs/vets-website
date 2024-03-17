@@ -133,7 +133,11 @@ const SmBreadcrumbs = () => {
         !crumbs?.label ? 'breadcrumbs--hidden' : ''
       }`}
     >
-      <va-breadcrumbs label="Breadcrumb">
+      <va-breadcrumbs
+        uswds="false"
+        label="Breadcrumb"
+        home-veterans-affairs={false}
+      >
         {crumbs && (
           <ul className={breadcrumbSize()}>
             <li>

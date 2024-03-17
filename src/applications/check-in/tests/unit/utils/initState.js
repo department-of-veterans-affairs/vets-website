@@ -35,6 +35,9 @@ const createStore = ({
   features = {},
   error = null,
   seeStaffMessage = null,
+  eligibleToFile = null,
+  alreadyFiled = null,
+  facilitiesToFile = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -43,6 +46,8 @@ const createStore = ({
       app,
       context: {
         token: 'some-token',
+        eligibleToFile,
+        alreadyFiled,
       },
       form: {
         pages: formPages,
@@ -55,6 +60,7 @@ const createStore = ({
           'travel-mileage': travelMileage,
           'travel-vehicle': travelVehicle,
           'travel-review': travelReview,
+          facilitiesToFile,
         },
       },
       appointments,

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {
   VaButtonPair,
   VaCheckbox,
+  VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
@@ -12,6 +12,7 @@ import {
 } from '../../utilities/page-navigation';
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
+import { applyFocus } from '../../utilities/page-setup';
 
 /**
  * Produces a variable group of checkboxes
@@ -33,6 +34,7 @@ const CheckboxGroup = ({
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const [headerHasFocused, setHeaderHasFocused] = useState(false);
 
   const onValueChange = event => {
     const { value } = event?.target;
@@ -57,6 +59,7 @@ const CheckboxGroup = ({
           name={shortName}
           value={response}
           onVaChange={onValueChange}
+          uswds
         />
       );
     });
@@ -82,38 +85,29 @@ const CheckboxGroup = ({
 
   return (
     <>
-      <div
-        className={classNames('vads-u-margin-bottom--3', {
-          'pact-act-form-question-error': formError,
-        })}
+      <VaCheckboxGroup
+        data-testid={testId}
+        error={formError ? 'Select a location.' : null}
+        hint="Select all that apply"
+        id="paw-checkbox"
+        label={h1}
+        label-header-level="1"
+        onLoad={applyFocus(
+          'paw-checkbox',
+          headerHasFocused,
+          setHeaderHasFocused,
+        )}
+        uswds
       >
-        <h1
-          className="pact-act-form-question-header"
-          id="pact-act-form-question"
-        >
-          {h1}
-        </h1>
-        <fieldset
-          aria-labelledby="pact-act-form-question pact-act-form-instructions"
-          data-testid={testId}
-        >
-          {formError && (
-            <span className="usa-error-message" role="alert">
-              <div className="pact-act-form-text-error">
-                <span className="usa-sr-only">Error</span> Select a location.
-              </div>
-            </span>
-          )}
-          <p id="pact-act-form-instructions">Select all that apply.</p>
-          {createCheckboxes()}
-        </fieldset>
-      </div>
+        {createCheckboxes()}
+      </VaCheckboxGroup>
       <VaButtonPair
+        class="vads-u-margin-top--3"
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds={false}
+        uswds
       />
     </>
   );

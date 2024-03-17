@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -11,14 +12,13 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Income and assets',
+    ...titleUI('Income and assets'),
     'view:informationAlert': {
       'ui:description': AssetTransferInformationAlert,
     },
     transferredAssets: yesNoUI({
       title:
         'Did you, your spouse, or your dependents transfer any assets in the last 3 calendar years?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlert': {

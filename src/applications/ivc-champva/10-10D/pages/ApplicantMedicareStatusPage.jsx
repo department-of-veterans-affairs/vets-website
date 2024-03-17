@@ -12,7 +12,9 @@ const keyname = 'applicantMedicareStatus';
 export function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
     data?.applicants?.[pagePerItemIndex],
-  ).slice(0, -3); // remove 's_
+    undefined,
+    false,
+  );
 
   const useFirstPerson =
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
@@ -159,7 +161,7 @@ export function ApplicantMedicareStatusPage({
 ApplicantMedicareStatusReviewPage.propTypes = {
   data: PropTypes.object,
   editPage: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.number,
   props: PropTypes.object,
   title: PropTypes.func,
 };

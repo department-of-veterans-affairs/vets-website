@@ -4,28 +4,23 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-// START lighthouse_migration
-import FilesPageContent from '../components/evss/FilesPageContent';
-// END lighthouse_migration
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-// END lighthouse_migration
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
-import AdditionalEvidencePage from './AdditionalEvidencePage';
-import ClaimFileHeader from '../components/ClaimFileHeader';
+import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
+import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
+import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 
 import { clearNotification } from '../actions';
-import { cstUseLighthouse } from '../selectors';
 import {
   buildDateFormatter,
   getClaimType,
   setDocumentTitle,
   getFilesNeeded,
   getFilesOptional,
+  isClaimOpen,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 import { DATE_FORMATS } from '../constants';
@@ -34,32 +29,6 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('INITIAL_REVIEW', 'INITIAL_REVIEW');
-  map.set(
-    'EVIDENCE_GATHERING_REVIEW_DECISION',
-    'EVIDENCE_GATHERING_REVIEW_DECISION',
-  );
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
-
-const STATUSES = getStatusMap();
-
-// START lighthouse_migration
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return claimDate || dateFiled || null;
-};
-// END lighthouse_migration
 
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
@@ -95,10 +64,7 @@ class FilesPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, params, useLighthouse } = this.props;
-    if (!useLighthouse) {
-      return <FilesPageContent claim={claim} params={params} />;
-    }
+    const { claim, params } = this.props;
 
     const {
       closeDate,
@@ -106,14 +72,14 @@ class FilesPage extends React.Component {
       supportingDocuments,
       trackedItems,
     } = claim.attributes;
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const waiverSubmitted = claim.attributes.evidenceWaiverSubmitted5103;
     const showDecision =
       claim.attributes.claimPhaseDates.latestPhaseType ===
         FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
 
-    const filesNeeded = getFilesNeeded(trackedItems, useLighthouse);
-    const optionalFiles = getFilesOptional(trackedItems, useLighthouse);
+    const filesNeeded = getFilesNeeded(trackedItems, true);
+    const optionalFiles = getFilesOptional(trackedItems, true);
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
@@ -126,39 +92,41 @@ class FilesPage extends React.Component {
 
     return (
       <div>
-        {isOpen && (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            {isOpen && (
               <RequestedFilesInfo
                 id={claim.id}
                 filesNeeded={filesNeeded}
                 optionalFiles={optionalFiles}
               />
-            </Toggler.Disabled>
-            <Toggler.Enabled>
-              <ClaimFileHeader />
-              <AdditionalEvidencePage />
-            </Toggler.Enabled>
-          </Toggler>
-        )}
-        {showDecision && <AskVAToDecide id={params.id} />}
-        <div className="submitted-files-list">
-          <h2 className="claim-file-border">Documents filed</h2>
-          {documentsTurnedIn.length === 0 ? (
-            <div>
-              <p>You haven’t turned in any documents to VA.</p>
-            </div>
-          ) : null}
+            )}
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <div className="submitted-files-list">
+              <h2 className="claim-file-border">Documents filed</h2>
+              {documentsTurnedIn.length === 0 ? (
+                <div>
+                  <p>You haven’t turned in any documents to VA.</p>
+                </div>
+              ) : null}
 
-          {documentsTurnedIn.map(
-            (item, itemIndex) =>
-              item.status && item.id ? (
-                <SubmittedTrackedItem item={item} key={itemIndex} />
-              ) : (
-                <AdditionalEvidenceItem item={item} key={itemIndex} />
-              ),
-          )}
-        </div>
+              {documentsTurnedIn.map(
+                (item, itemIndex) =>
+                  item.status && item.id ? (
+                    <SubmittedTrackedItem item={item} key={itemIndex} />
+                  ) : (
+                    <AdditionalEvidenceItem item={item} key={itemIndex} />
+                  ),
+              )}
+            </div>
+          </Toggler.Disabled>
+          <Toggler.Enabled>
+            <ClaimFileHeader isOpen={isOpen} />
+            <AdditionalEvidencePage />
+            {showDecision && <AskVAToDecide id={params.id} />}
+            <DocumentsFiled claim={claim} />
+          </Toggler.Enabled>
+        </Toggler>
       </div>
     );
   }
@@ -167,7 +135,7 @@ class FilesPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(getClaimDate(claim));
+      const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Files For ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -177,18 +145,12 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced, useLighthouse } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading && claim) {
       content = this.getPageContent();
     }
-
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
 
     return (
       <ClaimDetailLayout
@@ -214,7 +176,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 
@@ -234,7 +195,6 @@ FilesPage.propTypes = {
   }),
   params: PropTypes.object,
   synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(

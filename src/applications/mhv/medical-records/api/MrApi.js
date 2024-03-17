@@ -125,17 +125,12 @@ export const getNote = id => {
   );
 };
 
-export const getVitalsList = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/vitals`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vitals);
-    }, 1000);
-  });
+export const getVitalsList = () => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/vitals`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 export const getConditions = runningUnitTest => {

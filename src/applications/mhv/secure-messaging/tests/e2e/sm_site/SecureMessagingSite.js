@@ -4,9 +4,11 @@ import mockStatus from '../fixtures/profile-status.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockFacilities from '../fixtures/facilityResponse/facilities-no-cerner.json';
+import { Paths } from '../utils/constants';
 
 class SecureMessagingSite {
   login = (
+    mockVamc = vamcUser,
     isSMUser = true,
     user = mockUser,
     userFacilities = mockFacilities,
@@ -14,11 +16,11 @@ class SecureMessagingSite {
     if (isSMUser === true) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc).as('vamcUser');
       cy.intercept('GET', '/v0/user', user).as('mockUser');
       cy.intercept('GET', '/v0/user_transition_availabilities', user);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
+      cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
         'featureToggle',
       );
       const facilityIDs = [];
@@ -52,7 +54,7 @@ class SecureMessagingSite {
       cy.intercept('GET', '/v0/user_transition_availabilities', {
         statusCode: 200,
       });
-      cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
+      cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
         'featureToggle',
       );
     }

@@ -143,19 +143,11 @@
         "value": true
       },
       {
-        "name": "show_new_get_medical_records_page",
-        "value": true
-      },
-      {
         "name": "show_new_refill_track_prescriptions_page",
         "value": true
       },
       {
         "name": "show_new_schedule_view_appointments_page",
-        "value": true
-      },
-      {
-        "name": "show_new_secure_messaging_page",
         "value": true
       },
       {

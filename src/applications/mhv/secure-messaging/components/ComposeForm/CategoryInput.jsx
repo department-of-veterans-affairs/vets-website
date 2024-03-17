@@ -50,7 +50,7 @@ const CategoryInput = props => {
                     }`
                   : item
               }
-              name={item}
+              name="compose-message-categories"
               value={item}
               checked={category === item}
             />

@@ -30,6 +30,7 @@ import {
   generateLabsIntro,
   generateMicrobioContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -49,6 +50,14 @@ const MicroDetails = props => {
       );
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateMicrobiologyPdf = async () => {
