@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-expressions */
 
-/* eslint-disable sonarjs/no-all-duplicated-branches */
-
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,6 +7,7 @@ import { connect } from 'react-redux';
 import {
   VaButtonPair,
   VaRadio,
+  VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import { useScrollToTop } from '../hooks/useScrollToTop';
@@ -27,9 +26,6 @@ const VerificationReviewWrapper = ({
   children,
   enrollmentData,
   dispatchupdateToggleEnrollmentCard,
-  // dispatchUpdatePendingVerifications,
-  // dispatchUpdateVerifications,
-  // dispatchVerifyEnrollmentAction,
 }) => {
   useScrollToTop();
   const [radioValue, setRadioValue] = useState(null);
@@ -56,9 +52,12 @@ const VerificationReviewWrapper = ({
     const { value } = e.detail;
     setRadioValue(value);
     setErrorStatement(null);
-    value
-      ? dispatchupdateToggleEnrollmentCard(value)
-      : dispatchupdateToggleEnrollmentCard(value);
+    if (value === 'true') {
+      dispatchupdateToggleEnrollmentCard(true);
+    }
+    if (value === 'false') {
+      dispatchupdateToggleEnrollmentCard(false);
+    }
   };
 
   useEffect(
@@ -72,7 +71,6 @@ const VerificationReviewWrapper = ({
         ];
         // add all previouslyVerified data into single array
         const { awardIds } = pendingVerifications;
-        // setCurrentPendingAwardIDs(awardIds);
         const toBeVerifiedEnrollmentsArray = [];
         awardIds.forEach(id => {
           // check for each id inside award_ids array
@@ -114,50 +112,52 @@ const VerificationReviewWrapper = ({
             {loading ? (
               <Loader />
             ) : (
-              <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
+              <>
+                <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
+                <div className="vads-u-margin-top--3">
+                  <VaRadio
+                    error={errorStatement}
+                    hint=""
+                    label="To the best of your knowledge, is this enrollment
+                          information correct?"
+                    required
+                    onVaValueChange={handleRadioClick}
+                  >
+                    <VaRadioOption
+                      id="vye-radio-button-yes"
+                      label="Yes, this information is correct."
+                      name="vye-radio-group1"
+                      tile
+                      value="true"
+                    />
+                    <VaRadioOption
+                      id="vye-radio-button-no"
+                      label="No, this information isn't correct."
+                      name="vye-radio-group1"
+                      tile
+                      value="false"
+                    />
+                  </VaRadio>
+                </div>
+                <p className="vye-text-block vads-u-margin-top--3">
+                  If you select “No, this information isn’t correct” we will
+                  pause your monthly payment until your information is updated.
+                  Work with your School Certifying Official (SCO) to ensure your
+                  enrollment information is updated with the VA.
+                </p>
+                <div
+                  style={{
+                    paddingLeft: '8px',
+                  }}
+                >
+                  <VaButtonPair
+                    continue
+                    onPrimaryClick={handleNextClick}
+                    onSecondaryClick={handleBackClick}
+                  />
+                </div>
+              </>
             )}
-            <div className="vads-u-margin-top--3">
-              <VaRadio
-                onVaValueChange={handleRadioClick}
-                error={errorStatement}
-                hint=""
-                label="To the best of your knowledge, is this enrollment
-                      information correct?"
-                required
-              >
-                <va-radio-option
-                  id="vye-radio-button-yes"
-                  label="Yes, this information is correct."
-                  name="vye-radio-group1"
-                  tile
-                  value
-                />
-                <va-radio-option
-                  id="vye-radio-button-no"
-                  label="No, this information isn't correct."
-                  name="vye-radio-group1"
-                  tile
-                  value={false}
-                />
-              </VaRadio>
-            </div>
-            <p className="vye-text-block vads-u-margin-top--3">
-              If you select “No, this information isn’t correct” we will pause
-              your monthly payment until your information is updated. Work with
-              your School Certifying Official (SCO) to ensure your enrollment
-              information is updated with the VA.
-            </p>
-            <div
-              style={{
-                paddingLeft: '8px',
-              }}
-            >
-              <VaButtonPair
-                continue
-                onPrimaryClick={handleNextClick}
-                onSecondaryClick={handleBackClick}
-              />
-            </div>
             <NeedHelp />
             {children}
           </div>
@@ -174,14 +174,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchupdateToggleEnrollmentCard: updateToggleEnrollmentCard,
-  //   dispatchUpdateVerifications: updateVerifications,
-  //   dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
 };
 
 VerificationReviewWrapper.propTypes = {
   dispatchupdateToggleEnrollmentCard: PropTypes.func,
-  // dispatchUpdateVerifications: PropTypes.func,
-  // dispatchVerifyEnrollmentAction: PropTypes.func,
   children: PropTypes.any,
   enrollmentData: PropTypes.object,
   link: PropTypes.func,

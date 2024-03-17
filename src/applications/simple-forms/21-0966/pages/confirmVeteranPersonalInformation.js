@@ -15,6 +15,8 @@ export default {
               <p className="vads-u-margin--1px">
                 <strong>
                   {formData?.['view:veteranPrefillStore']?.fullName?.first}{' '}
+                  {formData?.['view:veteranPrefillStore']?.fullName?.middle &&
+                    `${formData['view:veteranPrefillStore'].fullName.middle} `}
                   {formData?.['view:veteranPrefillStore']?.fullName?.last}
                 </strong>
               </p>

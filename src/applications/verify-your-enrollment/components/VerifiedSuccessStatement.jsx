@@ -10,7 +10,7 @@ const VerifiedSuccessStatement = () => {
       >
         <div
           slot="headline"
-          className="vads-u-font-size--h2 vads-u-font-weight--bold"
+          className="vads-u-font-size--h2 vye-alert-absolute-title-position vads-u-font-weight--bold"
         >
           You have successfully verified your enrollment
         </div>

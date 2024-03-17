@@ -6,6 +6,7 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -26,7 +27,7 @@ import {
 } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase, updatePageTitle } from '../util/helpers';
+import { convertPathNameToTitleCase } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -181,7 +182,7 @@ const FolderThreadListView = props => {
         ),
       );
     }
-  }, 60000);
+  }, 60000); // 1 minute
 
   const LoadingIndicator = () => {
     return (
@@ -277,7 +278,11 @@ const FolderThreadListView = props => {
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
         <AlertBackgroundBox closeable />
-        {folder?.folderId === undefined && <LoadingIndicator />}
+        {folder === null ? (
+          <></>
+        ) : (
+          folder?.folderId === undefined && <LoadingIndicator />
+        )}
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader

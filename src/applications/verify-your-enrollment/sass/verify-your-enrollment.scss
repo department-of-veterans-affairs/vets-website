@@ -68,4 +68,10 @@
 	border: 1px solid $color-gray-lightest;
 	border-top: 0;
 	padding: 1em;
+    font-size: 16.96px;
+}
+
+.vye-alert-absolute-title-position{
+    position: relative;
+    top: -8px;
 }

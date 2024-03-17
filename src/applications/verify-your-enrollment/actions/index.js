@@ -20,9 +20,23 @@ export const VERIFY_ENROLLMENT_SUCCESS = 'VERIFY_ENROLLMENT_SUCCESS';
 export const VERIFY_ENROLLMENT_FAILURE = 'VERIFY_ENROLLMENT_FAILURE';
 export const TOGGLE_ENROLLMENT_ERROR_STATEMENT =
   'TOGGLE_ENROLLMENT_ERROR_STATEMENT';
+export const UPDATE_TOGGLE_ENROLLMENT_SUCCESS =
+  'UPDATE_TOGGLE_ENROLLMENT_SUCCESS';
+export const UPDATE_TOGGLE_ENROLLMENT_ERROR = 'UPDATE_TOGGLE_ENROLLMENT_ERROR';
 
-export const updateToggleEnrollmentCard = () => ({
+export const updateToggleEnrollmentSuccess = toggleEnrollmentSuccess => ({
+  type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
+  payload: toggleEnrollmentSuccess,
+});
+
+export const updateToggleEnrollmentError = toggleEnrollmentError => ({
+  type: UPDATE_TOGGLE_ENROLLMENT_ERROR,
+  payload: toggleEnrollmentError,
+});
+
+export const updateToggleEnrollmentCard = toggleEnrollmentErrorStatement => ({
   type: TOGGLE_ENROLLMENT_ERROR_STATEMENT,
+  payload: toggleEnrollmentErrorStatement,
 });
 
 const API_URL = `${environment.API_URL}/vye/v1`;

@@ -159,35 +159,29 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
           <p
             className={
               review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5'
-                : 'vads-u-margin--0'
+                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-weight--bold'
+                : 'vads-u-margin--0 vads-u-font-weight--bold'
             }
           >
-            <span className="vads-u-font-weight--bold">
-              {translateDatePeriod(awardBeginDate, awardEndDate)}
-            </span>
+            {translateDatePeriod(awardBeginDate, awardEndDate)}
           </p>
           <p
             className={
               review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5'
-                : 'vads-u-margin--0'
+                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-weight--bold'
+                : 'vads-u-margin--0 vads-u-font-weight--bold'
             }
           >
-            <span className="vads-u-font-weight--bold">
-              Total Credit Hours:
-            </span>{' '}
-            {numberHours}
+            {`Total Credit Hours: ${numberHours}`}
           </p>
           <p
             className={
               review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5'
-                : 'vads-u-margin--0'
+                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-weight--bold'
+                : 'vads-u-margin--0 vads-u-font-weight--bold'
             }
           >
-            <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-            {formatCurrency(monthlyRate)}
+            {`Monthly Rate: ${formatCurrency(monthlyRate)}`}
           </p>
         </div>
       );

@@ -12,51 +12,76 @@ import {
   VERIFICATION_REVIEW_RELATIVE_URL,
   VERIFICATION_RELATIVE_URL,
 } from '../constants';
-import { getEnrollmentCard } from '../selectors/enrollmentCard';
-// import { getPeriodsToVerify } from '../helpers';
-// import {
-//     updatePendingVerifications,
-//     updateVerifications,
-//     verifyEnrollmentAction,
-//   } from '../actions';
+import { getToggleEnrollmentErrorStatement } from '../selectors/getToggleEnrollmentErrorStatement';
+
+import {
+  updateToggleEnrollmentSuccess,
+  updatePendingVerifications,
+  updateVerifications,
+  verifyEnrollmentAction,
+} from '../actions';
 import Loader from '../components/Loader';
 import { useData } from '../hooks/useData';
 
 const ConfirmationReviewWrapper = ({
   children,
   enrollmentData,
-  // dispatchUpdatePendingVerifications,
-  // dispatchUpdateVerifications,
-  // dispatchVerifyEnrollmentAction,
+  loggedIEnenrollmentData,
+  dispatchUpdateToggleEnrollmentSuccess,
+  dispatchUpdatePendingVerifications,
+  dispatchUpdateVerifications,
+  dispatchVerifyEnrollmentAction,
+  isUserLoggedIn,
 }) => {
   useScrollToTop();
   const { loading } = useData();
+  const history = useHistory();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-  const history = useHistory();
-  const enrollmentCardState = useSelector(getEnrollmentCard);
+  const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
+  const enrollmentErrorStatementState = useSelector(
+    getToggleEnrollmentErrorStatement,
+  );
+  const userData = isUserLoggedIn ? loggedIEnenrollmentData : enrollmentData;
 
   const handleBackClick = () => {
     history.push(VERIFICATION_REVIEW_RELATIVE_URL);
   };
 
+  // used with mock data to mock what happens after
+  // successfully verifying
+  // if (toggleEnrollmentSuccess && !justVerified){
+  const handleVerification = () => {
+    const currentDateTime = new Date().toISOString();
+    // update awardIds to a blank array
+    dispatchUpdatePendingVerifications({ awardIds: [] });
+    const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
+      return {
+        PendingVerificationSubmitted: currentDateTime,
+        awardIds: [id],
+      };
+    });
+    dispatchUpdateVerifications(newVerifiedIDS);
+    dispatchVerifyEnrollmentAction();
+  };
+
   const handleSubmission = () => {
+    handleVerification();
+    dispatchUpdateToggleEnrollmentSuccess(true);
     history.push(VERIFICATION_RELATIVE_URL);
   };
 
   useEffect(
     () => {
       if (
-        enrollmentData?.['vye::UserInfo']?.awards &&
-        enrollmentData?.['vye::UserInfo']?.pendingVerifications
+        userData?.['vye::UserInfo']?.awards &&
+        userData?.['vye::UserInfo']?.pendingVerifications
       ) {
-        const { awards, pendingVerifications } = enrollmentData?.[
-          'vye::UserInfo'
-        ];
+        const { awards, pendingVerifications } = userData?.['vye::UserInfo'];
         // add all previouslyVerified data into single array
         const { awardIds } = pendingVerifications;
-        // setCurrentPendingAwardIDs(awardIds);
+        setCurrentPendingAwardIDs(awardIds);
         const toBeVerifiedEnrollmentsArray = [];
         awardIds.forEach(id => {
           // check for each id inside award_ids array
@@ -89,42 +114,29 @@ const ConfirmationReviewWrapper = ({
               <Loader />
             ) : (
               <>
-                {enrollmentCardState && <ErrorEnrollmentStatement />}
+                {!enrollmentErrorStatementState && <ErrorEnrollmentStatement />}
                 <EnrollmentCard
                   enrollmentPeriods={enrollmentPeriodsToVerify}
                   confirmationPage
-                  confimredEnrollment={!enrollmentCardState}
+                  confirmedEnrollment={enrollmentErrorStatementState}
                 />
+                <div
+                  style={{
+                    paddingLeft: '8px',
+                  }}
+                >
+                  <va-button
+                    onClick={handleBackClick}
+                    back
+                    className="vye-button-override"
+                  />
+                  <va-button
+                    onClick={handleSubmission}
+                    text="Submit verification"
+                  />
+                </div>
               </>
             )}
-            <div
-              style={{
-                paddingLeft: '8px',
-              }}
-            >
-              <va-button
-                onClick={handleBackClick}
-                back
-                className="vye-button-override"
-              />
-              <va-button
-                onClick={handleSubmission}
-                text="Submit verification"
-              />
-            </div>
-            {/* </div> */}
-            {/* <div
-                style={{
-                    paddingLeft: '8px'
-                }}
-                >
-                <VaButtonPair
-                  continue
-                  primaryLabel='Submit verification'
-                  onPrimaryClick={function noRefCheck(){}}
-                  onSecondaryClick={handleBackClick}
-                />
-            </div> */}
             <NeedHelp />
             {children}
           </div>
@@ -136,24 +148,27 @@ const ConfirmationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  // enrollmentData: state.mockData.mockData,
+  enrollmentData: state.getDataReducer.data,
 });
 
-// const mapDispatchToProps = {
-//   dispatchUpdatePendingVerifications: updatePendingVerifications,
-//   dispatchUpdateVerifications: updateVerifications,
-//   dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
-// };
+const mapDispatchToProps = {
+  dispatchUpdatePendingVerifications: updatePendingVerifications,
+  dispatchUpdateToggleEnrollmentSuccess: updateToggleEnrollmentSuccess,
+  dispatchUpdateVerifications: updateVerifications,
+  dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
+};
 
 ConfirmationReviewWrapper.propTypes = {
-  // dispatchUpdatePendingVerifications: PropTypes.func,
-  // dispatchUpdateVerifications: PropTypes.func,
-  // dispatchVerifyEnrollmentAction: PropTypes.func,
+  dispatchUpdatePendingVerifications: PropTypes.func,
+  dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
+  dispatchUpdateVerifications: PropTypes.func,
+  dispatchVerifyEnrollmentAction: PropTypes.func,
   children: PropTypes.any,
   enrollmentData: PropTypes.object,
   link: PropTypes.func,
 };
 export default connect(
   mapStateToProps,
-  // mapDispatchToProps,
+  mapDispatchToProps,
 )(ConfirmationReviewWrapper);

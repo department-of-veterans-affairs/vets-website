@@ -3,29 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
-// import {
-//   updatePendingVerifications,
-//   updateVerifications,
-//   verifyEnrollmentAction,
-// } from '../actions';
 import { getPeriodsToVerify } from '../helpers';
+import Loader from './Loader';
 
 const PeriodsToVerify = ({
   enrollmentData,
-  // dispatchUpdatePendingVerifications,
-  // dispatchUpdateVerifications,
-  // dispatchVerifyEnrollmentAction,
+  loggedInEnenrollmentData,
+  isUserLoggedIn,
+  loading,
   link,
+  toggleEnrollmentSuccess,
 }) => {
-  const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
+  const userData = isUserLoggedIn ? loggedInEnenrollmentData : enrollmentData;
+  const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
-  // const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
+  const justVerified = !!toggleEnrollmentSuccess;
 
   useEffect(
     () => {
-      setUserEnrollmentData(enrollmentData);
+      setUserEnrollmentData(userData);
     },
-    [enrollmentData],
+    [userData],
   );
 
   useEffect(
@@ -39,7 +37,6 @@ const PeriodsToVerify = ({
         ];
         // add all previouslyVerified data into single array
         const { awardIds } = pendingVerifications;
-        // setCurrentPendingAwardIDs(awardIds);
         const toBeVerifiedEnrollmentsArray = [];
         awardIds.forEach(id => {
           // check for each id inside award_ids array
@@ -62,23 +59,20 @@ const PeriodsToVerify = ({
         .length > 0 && (
         <va-alert
           close-btn-aria-label="Close notification"
-          // class="vads-u-margin-bottom--4"
           status="info"
           visible
         >
-          <div
+          <span
+            id="vye-periods-to-verify-container"
             slot="headline"
-            className="vads-u-font-size--h2 vads-u-font-weight--bold"
+            className="vads-u-font-size--h2
+              vye-alert-absolute-title-position
+              vads-u-font-weight--bold"
           >
             You have enrollment periods to verify
-          </div>
+          </span>
           <div>
             {getPeriodsToVerify(pendingEnrollments)}
-            {/* <va-button
-              onClick={handleVerification}
-              text="Start enrollment verification"
-              data-testid="Verify enrollment"
-            /> */}
             {link && <>{link()}</>}
           </div>
         </va-alert>
@@ -89,40 +83,38 @@ const PeriodsToVerify = ({
                 enrollments even if the user didn't just verify
             */}
       {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 && (
-        <div>
-          <VerifiedSuccessStatement />
-        </div>
-      )}
-      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === undefined && (
-        <div className="vads-u-margin-top--2">
-          <UpToDateVerificationStatement />
-        </div>
+        .length === 0 &&
+        justVerified && (
+          <div>
+            <VerifiedSuccessStatement />
+          </div>
+        )}
+
+      {loading ? (
+        <Loader />
+      ) : (
+        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
+          .length === 0 &&
+        !justVerified && (
+          <div className="vads-u-margin-top--2">
+            <UpToDateVerificationStatement />
+          </div>
+        )
       )}
     </div>
   );
 };
 
-// export default PeriodsToVerify
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  loggedInEnenrollmentData: state.personalInfo.personalInfo,
 });
 
-// const mapDispatchToProps = {
-//   dispatchUpdatePendingVerifications: updatePendingVerifications,
-//   dispatchUpdateVerifications: updateVerifications,
-//   dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
-// };
-
 PeriodsToVerify.propTypes = {
-  // dispatchUpdatePendingVerifications: PropTypes.func,
-  // dispatchUpdateVerifications: PropTypes.func,
-  // dispatchVerifyEnrollmentAction: PropTypes.func,
   enrollmentData: PropTypes.object,
+  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
+  loading: PropTypes.bool,
+  loggedInEnenrollmentData: PropTypes.object,
+  toggleEnrollmentSuccess: PropTypes.bool,
 };
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps,
-)(PeriodsToVerify);
+export default connect(mapStateToProps)(PeriodsToVerify);

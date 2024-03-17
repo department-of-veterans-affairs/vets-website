@@ -29,13 +29,13 @@ const EnrollmentCard = ({
           <div key={enrollment[0].id}>
             <div className="vads-u-margin-top--3">
               <h2 className="vye-highlighted-title-container">
-                {translateDateIntoMonthYearFormat(enrollment[0].awardEndDate)}
+                {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
               </h2>
             </div>
             <div className="vye-highlighted-content-container">
               {!confirmationPage &&
                 `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
-                  enrollment[0].awardEndDate,
+                  enrollment[0].awardBeginDate,
                 )}.`}
               {confirmationPage &&
                 confirmedEnrollment && (
@@ -62,13 +62,13 @@ const EnrollmentCard = ({
         <div key={enrollment[0].id}>
           <div className="vads-u-margin-top--3">
             <h2 className="vye-highlighted-title-container">
-              {translateDateIntoMonthYearFormat(enrollment[0].awardEndDate)}
+              {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
             </h2>
           </div>
           <div className="vye-highlighted-content-container">
             {!confirmationPage &&
               `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
-                enrollment[0].awardEndDate,
+                enrollment[0].awardBeginDate,
               )}.`}
             {confirmationPage &&
               confirmedEnrollment && (

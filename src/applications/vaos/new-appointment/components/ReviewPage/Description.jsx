@@ -19,25 +19,19 @@ export default function Description({ data, flowType }) {
     description !== 'community care';
   return (
     <>
-      <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
-        You're {isDirectSchedule ? 'scheduling' : 'requesting'}{' '}
-        {isVowel ? 'an' : 'a'} {description} appointment
-      </h2>
       {isDirectSchedule && (
-        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-          Make sure the information is correct. Then confirm your appointment.
-          If you need to update any details, click Edit to go back to the screen
-          where you entered the information. After you update your information,
-          you'll need to go through the tool again to schedule your appointment.
-        </p>
-      )}
-      {!isDirectSchedule && (
-        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-          Please review the information before submitting your request. If you
-          need to update any details, click Edit to go back to the screen where
-          you entered the information. After you update your information, you'll
-          need to go through the tool again to request your appointment.
-        </p>
+        <>
+          <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
+            You're scheduling {isVowel ? 'an' : 'a'} {description} appointment
+          </h2>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+            Make sure the information is correct. Then confirm your appointment.
+            If you need to update any details, click Edit to go back to the
+            screen where you entered the information. After you update your
+            information, you'll need to go through the tool again to schedule
+            your appointment.
+          </p>
+        </>
       )}
     </>
   );
