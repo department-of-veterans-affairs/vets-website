@@ -31,7 +31,12 @@ export const attachmentsSchema = {
 };
 
 export const fileWithMetadataSchema = possibleFiles => {
-  const enu = possibleFiles || [];
+  let enu = possibleFiles || [];
+  // If we have nested elements in format [{text: 'File Name', ...}]
+  // grab the content we care about rendering:
+  enu = enu.map(
+    el => (typeof el === 'string' || el.text ? el.text || el : undefined),
+  );
 
   return {
     type: 'array',

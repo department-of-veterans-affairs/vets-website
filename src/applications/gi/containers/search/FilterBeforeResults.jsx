@@ -12,7 +12,7 @@ import JumpLink from '../../components/profile/JumpLink';
 import Dropdown from '../../components/Dropdown';
 import Loader from '../../components/Loader';
 import {
-  isProductionOfTestProdEnv,
+  isProductionOrTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
@@ -217,7 +217,7 @@ export function FilterBeforeResults({
           label={
             <h3
               className={
-                isProductionOfTestProdEnv() ? '' : 'school-types-label'
+                isProductionOrTestProdEnv() ? 'school-types-label' : ''
               }
               aria-level={2}
             >
@@ -275,10 +275,10 @@ export function FilterBeforeResults({
     return (
       <CheckboxGroup
         setIsCleared={setIsCleared}
-        className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
+        className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
         label={
           <h3
-            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
+            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
             aria-level={2}
           >
             About the school
@@ -308,10 +308,10 @@ export function FilterBeforeResults({
     ];
     return (
       <CheckboxGroup
-        className={isProductionOfTestProdEnv() ? '' : 'other-checkbox'}
+        className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
         label={
           <h3
-            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
+            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
             aria-level={2}
           >
             Other
@@ -391,89 +391,89 @@ export function FilterBeforeResults({
         name: 'specialMissionHbcu',
         dataTestId: 'special-mission-hbcu',
         checked: specialMissionHbcu,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Historically Black college or university'
-          : 'Historically Black Colleges and Universities',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Historically Black Colleges and Universities'
+          : 'Historically Black college or university',
       },
       {
         name: 'specialMissionMenonly',
         dataTestId: 'special-mission-menonly',
         checked: specialMissionMenonly,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Men-only'
-          : 'Men’s colleges and universities',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Men’s colleges and universities'
+          : 'Men-only',
       },
       {
         name: 'specialMissionWomenonly',
         dataTestId: 'special-mission-womenonly',
         checked: specialMissionWomenonly,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Women-only'
-          : 'Women’s colleges and universities',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Women’s colleges and universities'
+          : 'Women-only',
         // optionLabel: 'Women-only',
       },
       {
         name: 'specialMissionRelaffil',
         dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Religious affiliation'
-          : 'Religiously affiliated institutions',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Religiously affiliated institutions'
+          : 'Religious affiliation',
       },
       {
         name: 'specialMissionHSI',
         dataTestId: 'special-mission-hsi',
         checked: specialMissionHSI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Hispanic-serving institutions'
-          : 'Hispanic-Serving Institutions',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Hispanic-Serving Institutions'
+          : 'Hispanic-serving institutions',
       },
       {
         name: 'specialMissionNANTI',
         dataTestId: 'special-mission-nanti',
         checked: specialMissionNANTI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Native American-serving institutions'
-          : 'Native American-Serving Nontribal Institutions',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Native American-Serving Nontribal Institutions'
+          : 'Native American-serving institutions',
       },
       {
         name: 'specialMissionANNHI',
         dataTestId: 'special-mission-annhi',
         checked: specialMissionANNHI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Alaska Native-serving institutions'
-          : 'Alaska Native-Serving Institutions',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Alaska Native-Serving Institutions'
+          : 'Alaska Native-serving institutions',
       },
       {
         name: 'specialMissionAANAPII',
         dataTestId: 'special-mission-aanapii',
         checked: specialMissionAANAPII,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Asian American Native American Pacific Islander-serving institutions'
-          : 'Asian American and Native American Pacific Islander-Serving Institutions',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Asian American and Native American Pacific Islander-Serving Institutions'
+          : 'Asian American Native American Pacific Islander-serving institutions',
       },
       {
         name: 'specialMissionPBI',
         dataTestId: 'special-mission-pbi',
         checked: specialMissionPBI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Predominantly Black institutions'
-          : 'Predominantly Black Institutions',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Predominantly Black Institutions'
+          : 'Predominantly Black institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         dataTestId: 'special-mission-tribal',
         checked: specialMissionTRIBAL,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Tribal college and university'
-          : 'Tribal Colleges and Universities',
+        optionLabel: isProductionOrTestProdEnv()
+          ? 'Tribal Colleges and Universities'
+          : 'Tribal college and university',
       },
     ];
 
     return (
       <div className="community-focus-container">
         <h3
-          className={isProductionOfTestProdEnv() ? '' : 'school-types-label'}
+          className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
           aria-level={2}
         >
           Community focus
@@ -489,15 +489,15 @@ export function FilterBeforeResults({
               onClick={() => jumpLinkClick()}
               customClass="filter-before-res-jump-link"
               className={
-                isProductionOfTestProdEnv()
-                  ? 'mobile-jump-link'
-                  : 'mobile-jump-link labels-margin'
+                isProductionOrTestProdEnv()
+                  ? 'mobile-jump-link labels-margin'
+                  : 'mobile-jump-link'
               }
             />
           )}
           <CheckboxGroup
             class="vads-u-margin-y--4"
-            className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
+            className={isProductionOrTestProdEnv() ? 'my-filters-margin' : ''}
             label={
               <h3 className="visually-hidden" aria-level={2}>
                 Community focus
@@ -589,7 +589,15 @@ export function FilterBeforeResults({
             >
               Apply filters
             </button>
-            {isProductionOfTestProdEnv() ? (
+            {isProductionOrTestProdEnv() ? (
+              <ClearFiltersBtn
+                testId="clear-button"
+                isCleared={isCleared}
+                setIsCleared={setIsCleared}
+              >
+                Clear filters
+              </ClearFiltersBtn>
+            ) : (
               <button
                 onClick={clearAllFilters}
                 className={
@@ -600,14 +608,6 @@ export function FilterBeforeResults({
               >
                 Clear filters
               </button>
-            ) : (
-              <ClearFiltersBtn
-                testId="clear-button"
-                isCleared={isCleared}
-                setIsCleared={setIsCleared}
-              >
-                Clear filters
-              </ClearFiltersBtn>
             )}
           </div>
           <div
