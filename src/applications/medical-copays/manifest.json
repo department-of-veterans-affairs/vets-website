@@ -1,7 +1,0 @@
-{
-  "appName": "Medical Copays",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "medical-copays",
-  "rootUrl": "/health-care/pay-copay-bill/your-current-balances",
-  "productId": "71bc2422-2e0c-4d3f-80f9-e7af4ec03372"
-}

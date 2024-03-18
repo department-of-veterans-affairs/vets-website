@@ -352,10 +352,6 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
-  verifySentSuccessMessage = () => {
-    cy.contains('Secure message was successfully sent.').should('be.visible');
-  };
-
   verifyMoveMessageWithAttachmentSuccessMessage = () => {
     cy.get('p').contains('Message conversation was successfully moved');
   };
@@ -447,13 +443,13 @@ class PatientInboxPage {
 
   selectAdvancedSearchCategory = text => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('#select')
+      .find('select')
       .select(text, { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('#select')
+      .find('select')
       .select('Medication');
   };
 
@@ -467,7 +463,7 @@ class PatientInboxPage {
   composeMessage = () => {
     cy.get('#recipient-dropdown')
       .shadow()
-      .find('#select')
+      .find('select')
       .select(1, { force: true });
     cy.get(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
       .first()
@@ -478,7 +474,7 @@ class PatientInboxPage {
       .type('testSubject', { force: true });
     cy.get('#compose-message-body')
       .shadow()
-      .find('#textarea')
+      .find('textarea')
       .type('testMessage', { force: true });
   };
 
@@ -557,11 +553,11 @@ class PatientInboxPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('select')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
       sortedResponse,
     );
     cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });

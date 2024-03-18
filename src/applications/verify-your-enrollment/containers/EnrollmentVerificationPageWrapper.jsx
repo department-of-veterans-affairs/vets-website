@@ -1,27 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
-import PeriodsToVerify from '../components/PeriodsToVerify';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
 import PageLink from '../components/PageLink';
 import {
   BENEFITS_PROFILE_RELATIVE_URL,
   BENEFITS_PROFILE_URL,
 } from '../constants';
-import { getMockData } from '../selectors/mockData';
+// import { getMockData } from '../selectors/mockData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import { useData } from '../hooks/useData';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
+import PeriodsToVerify from '../components/PeriodsToVerify';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const mockData = useSelector(getMockData);
-  const { expirationDate, updated, month, day, loading } = useData();
+  // const mockData = useSelector(getMockData);
+  const {
+    expirationDate,
+    updated,
+    month,
+    day,
+    loading,
+    isUserLoggedIn,
+    enrollmentData,
+  } = useData();
 
   return (
     <>
@@ -35,7 +43,10 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <MGIBEnrollmentStatement />
-            <PeriodsToVerify />
+            <PeriodsToVerify
+              isUserLoggedIn={isUserLoggedIn}
+              loading={loading}
+            />
             {loading ? (
               <Loader />
             ) : (
@@ -54,7 +65,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 )}
               />
             )}
-            <PreviousEnrollmentVerifications enrollmentData={mockData} />
+            <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your benefits profile"
@@ -75,6 +86,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
 
 EnrollmentVerificationPageWrapper.propTypes = {
   children: PropTypes.any,
+  enrollmentData: PropTypes.object,
 };
 
 export default EnrollmentVerificationPageWrapper;

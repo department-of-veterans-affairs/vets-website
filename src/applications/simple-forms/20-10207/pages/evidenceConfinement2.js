@@ -14,7 +14,6 @@ export default {
       title: 'Start of confinement',
       hint:
         'Tell us the dates you confinement began as a prisoner of war a second time.',
-      required: () => true,
       errorMessages: {
         required: 'Provide the start date of confinement',
       },
@@ -23,7 +22,6 @@ export default {
       title: 'End of confinement',
       hint:
         'Tell us the dates your confinement ended as a prisoner of war a second time.',
-      required: () => true,
       errorMessages: {
         required: 'Provide the end date of confinement',
       },

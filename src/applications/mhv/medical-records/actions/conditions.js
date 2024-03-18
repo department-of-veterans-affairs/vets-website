@@ -4,10 +4,18 @@ import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 
-export const getConditionsList = () => async dispatch => {
+export const getConditionsList = (isCurrent = false) => async dispatch => {
+  dispatch({
+    type: Actions.Conditions.UPDATE_LIST_STATE,
+    payload: Constants.loadStates.FETCHING,
+  });
   try {
     const response = await getConditions();
-    dispatch({ type: Actions.Conditions.GET_LIST, response });
+    dispatch({
+      type: Actions.Conditions.GET_LIST,
+      response,
+      isCurrent,
+    });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
