@@ -157,13 +157,13 @@ describe('Medications <App>', () => {
       },
     );
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
+      screen.getByText('We’re working on Medications right now', {
         exact: false,
       }),
     );
@@ -200,13 +200,13 @@ describe('Medications <App>', () => {
       },
     );
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
+      screen.getByText('We’re working on Medications right now', {
         exact: false,
       }),
     );
@@ -243,13 +243,13 @@ describe('Medications <App>', () => {
       },
     );
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
-        exact: true,
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
+        exact: false,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
+      screen.getByText('We’re working on Medications right now', {
         exact: false,
       }),
     );
