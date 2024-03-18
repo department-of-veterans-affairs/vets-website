@@ -27,14 +27,14 @@ describe('Claim Letters Page', () => {
     cy.contains(/Previous/i).should('not.exist');
 
     // Click 'Next' button
-    cy.tabToElement('.usa-pagination__next-page span').realPress('Enter');
+    cy.tabToElement('.usa-pagination__next-page').realPress('Enter');
 
     // Now on second page
     // 'Previous' button should now be shown
     cy.contains(/Previous/i).should('exist');
 
     // Click 'Prev' button
-    cy.tabToElement('.usa-pagination__previous-page span', false, true) // had to use forward = false parameter to avoid a timeout error
+    cy.tabToElement('.usa-pagination__previous-page', false, true) // had to use forward = false parameter to avoid a timeout error
       .realPress('Enter');
 
     // Back on first page
