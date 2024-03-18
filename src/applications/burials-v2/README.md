@@ -1,6 +1,6 @@
 App Name: `Form 21P-530`
 Application for Burial Benefits (Under 38 U.S.C. Chapter 23)
-Active engineers: Name (front end), Name (front end), Name (back end), Name (back end)
+Active engineers: Sean Midgley (front end), Dakota Larson (front end), Evan Smith (back end), Thomas Blackwell (back end)
 Form ID (if different from app name): `21P-530EZ`
 
 # Background
@@ -58,7 +58,7 @@ The original form system is used to build this application and follows a pretty 
 
 Active toggle names: 
 - `burial_form_enabled`
-- `burial_form_v2`
+- `burial_form_v2` (temporary for rollout)
 
 The form is built using `/config/form.js` which is imported and used inside `/BurialsApp.jsx` with the `<RoutedSavableApp />` component from the platform. 
 In `/BurialsApp.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we check the `BurialFormEnabled` feature toggle boolean to decide whether we show the form or not. 
