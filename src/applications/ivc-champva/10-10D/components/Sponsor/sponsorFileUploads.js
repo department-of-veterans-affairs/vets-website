@@ -27,8 +27,8 @@ export const acceptableFiles = {
   ],
   ssIneligible: ['Letter from the SSA'],
   healthInsCert: [
-    'Front of health insurance card',
-    'Back of health insurance card',
+    'Front of health insurance card(s)',
+    'Back of health insurance card(s)',
   ],
   va7959cCert: ['VA form 10-7959c'],
 };
@@ -58,42 +58,33 @@ export const fileUploadBlurb = {
   'view:fileUploadBlurb': {
     'ui:description': (
       <>
-        <va-alert status="info" visible uswds>
-          <h3 slot="headline">
-            Upload your file now or at the end of your application
-          </h3>
-          <p>
-            If you don’t want to upload your supporting files now, you’ll have
-            the option to upload again at the end of this application. If you
-            don’t upload your supporting files, we’ll provide you instructions
-            for how to mail or fax in your file(s).
-          </p>
-        </va-alert>
-        <p>
-          <b>Tips for uploading:</b>
-        </p>
-        <ul>
-          <li>
-            You can upload your files as one of these file types:{' '}
-            {fileTypes.join(', .')}
-          </li>
-          <li>
-            Upload one or more files that add up to at least {minSize} but no
-            more than {maxSize} total.
-          </li>
-          <li>
-            If you don’t have a digital copy of a file, you can scan or take a
-            photo of it and then upload the image from your computer or phone.
-          </li>
-          <li>
-            If you don’t want to upload your supporting files now, you’ll have
-            the option to upload again at the end of this application.
-          </li>
-          <li>
-            If you don’t upload your supporting files, we’ll provide you
-            instructions for how to mail or fax in your file(s).
-          </li>
-        </ul>
+        <va-additional-info
+          trigger="Tips for uploading"
+          class="vads-u-margin-bottom--4"
+        >
+          <ul>
+            <li>
+              You can upload your files as one of these file types:{' '}
+              {fileTypes.join(', .')}
+            </li>
+            <li>
+              Upload one or more files that add up to at least {minSize} but no
+              more than {maxSize} total.
+            </li>
+            <li>
+              If you don’t have a digital copy of a file, you can scan or take a
+              photo of it and then upload the image from your computer or phone.
+            </li>
+            <li>
+              If you don’t want to upload your supporting files now, you’ll have
+              the option to upload again at the end of this application.
+            </li>
+            <li>
+              If you don’t upload your supporting files, we’ll provide you
+              instructions for how to mail or fax in your file(s).
+            </li>
+          </ul>
+        </va-additional-info>
       </>
     ),
   },
@@ -102,7 +93,7 @@ export const fileUploadBlurb = {
 export const requiredFileUploadMessage = {
   'ui:description': (
     <p>
-      <b>This file is required for your application.</b>
+      <i>This file is required for your application.</i>
       Your application will not be considered complete until we receive this
       file.
     </p>

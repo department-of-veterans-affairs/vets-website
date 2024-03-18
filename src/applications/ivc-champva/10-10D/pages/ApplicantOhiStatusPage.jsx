@@ -5,7 +5,10 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
 const keyname = 'applicantHasOhi';
 
@@ -124,6 +127,7 @@ export default function ApplicantOhiStatusPage({
           label={`${
             useFirstPerson ? 'Do you' : `Does ${applicant}`
           } have other health insurance (that is not Medicare)?`}
+          hint={additionalFilesHint}
           required
           error={error}
           onVaValueChange={handlers.radioUpdate}
