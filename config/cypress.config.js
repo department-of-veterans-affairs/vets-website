@@ -4,7 +4,7 @@ const cypressConfig = {
   viewportWidth: 1920,
   viewportHeight: 1080,
   modifyObstructiveCode: false,
-  fixturesFolder: 'src',
+  fixturesFolder: 'src/**/**/tests/fixtures/data',
   waitForAnimations: false,
   chromeWebSecurity: false,
   videoCompression: false,
