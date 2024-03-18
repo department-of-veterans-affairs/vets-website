@@ -49,6 +49,12 @@ class DirectDepositPage {
     cy.findByTestId('service-is-down-banner').should('exist');
   };
 
+  confirmEduConnectionErrorAlertShows = () => {
+    cy.findByText('We can’t load education benefits information').should(
+      'exist',
+    );
+  };
+
   confirmProfileIsBlocked = () => {
     cy.findByTestId('account-blocked-alert').should('exist');
   };

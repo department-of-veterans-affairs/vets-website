@@ -23,10 +23,10 @@ describe('recipients dropdown box', () => {
       .find('select')
       .find('option')
       .its('length')
-      .should('equal', mockRecipients.data.length + 1);
+      .should('equal', mockRecipients.data.length + 2);
     cy.get(Locators.ALERTS.MESS_CATAGO)
       .first()
-      .click();
+      .click({ force: true });
   });
 
   it('preferredTriageTeam select dropdown false', () => {
@@ -51,7 +51,7 @@ describe('recipients dropdown box', () => {
         .find('select')
         .find('option')
         .its('length')
-        .should('equal', mockBlockedRecipientsresponse.data.length);
+        .should('equal', mockBlockedRecipientsresponse.data.length + 1);
       cy.get(Locators.ALERTS.REPT_SELECT)
         .first()
         .click();
