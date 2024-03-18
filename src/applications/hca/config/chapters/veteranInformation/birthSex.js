@@ -3,23 +3,17 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { genderLabels } from 'platform/static-data/labels';
 
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import {
-  isLoggedOut,
-  notShortFormEligible,
-} from '../../../utils/helpers/form-config';
+import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { gender } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
+    'ui:description': PrefillMessage,
     'view:birthSexShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': { hideIf: notShortFormEligible },
-    },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-      'ui:options': { hideIf: isLoggedOut },
     },
     gender: {
       'ui:title': 'What sex were you assigned at birth?',
