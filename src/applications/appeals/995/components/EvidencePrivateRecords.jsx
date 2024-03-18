@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import debounce from 'platform/utilities/data/debounce';
@@ -32,6 +30,7 @@ import {
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
+import { customPageProps995 } from '../../shared/props';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -395,34 +394,6 @@ const EvidencePrivateRecords = ({
   );
 };
 
-EvidencePrivateRecords.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    providerFacility: PropTypes.arrayOf(
-      PropTypes.shape({
-        providerFacilityName: PropTypes.string,
-        providerFacilityAddress: PropTypes.shape({
-          country: PropTypes.string,
-          street: PropTypes.string,
-          street2: PropTypes.string,
-          city: PropTypes.string,
-          state: PropTypes.string,
-          postalCode: PropTypes.string,
-        }),
-        issues: PropTypes.arrayOf(PropTypes.string),
-        treatmentDateRange: PropTypes.shape({
-          from: PropTypes.string,
-          to: PropTypes.string,
-        }),
-      }),
-    ),
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};
+EvidencePrivateRecords.propTypes = customPageProps995;
 
 export default EvidencePrivateRecords;

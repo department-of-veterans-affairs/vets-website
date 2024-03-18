@@ -19,11 +19,11 @@ import {
   HeaderAndModal,
   IssueAndDates,
   PageNavigation,
-  evidencePagePropTypes,
 } from './EvidenceRecords';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
+import { customPageProps995 } from '../../shared/props';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 
@@ -343,6 +343,6 @@ const EvidenceVaRecords = ({
   );
 };
 
-EvidenceVaRecords.propTypes = evidencePagePropTypes;
+EvidenceVaRecords.propTypes = customPageProps995;
 
 export default EvidenceVaRecords;

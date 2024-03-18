@@ -350,14 +350,3 @@ PageNavigation.propTypes = {
   }),
   path: PropTypes.string,
 };
-
-export const evidencePagePropTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({}),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};

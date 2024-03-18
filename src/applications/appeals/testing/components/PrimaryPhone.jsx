@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { content } from '../../995/content/primaryPhone';
+import { customPageProps } from '../../shared/props';
 
 export const PrimaryPhone = ({
   data,
@@ -103,31 +103,6 @@ export const PrimaryPhone = ({
   );
 };
 
-PrimaryPhone.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    'view:primaryPhone': PropTypes.string,
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-    }).isRequired,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+PrimaryPhone.propTypes = customPageProps;
 
 export default PrimaryPhone;
