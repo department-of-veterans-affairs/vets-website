@@ -28,7 +28,6 @@ export default {
     required: ['gender'],
     properties: {
       'view:birthSexShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
       gender,
     },
   },
