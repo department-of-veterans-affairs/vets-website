@@ -68,12 +68,11 @@ export const newPayload = ({
 }) => {
   const payload = { csp, authBroker, authLocation, application, level };
   const requiredFields = ['csp', 'authBroker', 'authLocation', 'application'];
-  const missingFields = requiredFields.filter(field => !payload[field]);
-  if (missingFields.length > 0) {
-    throw new Error(
-      `Payload is missing required field(s): ${missingFields.join(', ')}`,
-    );
-  }
+  requiredFields.forEach(field => {
+    if (!payload[field]) {
+      payload[field] = 'unknown';
+    }
+  });
   return payload;
 };
 
@@ -84,15 +83,12 @@ export const newError = ({ message, code, requestId }) => {
     ...(requestId && { requestId }),
   };
   if (!message) {
-    throw new Error('Error message cannot be left blank');
+    error.message = 'unknown';
   }
   return error;
 };
 
 export const dataDogLog = ({ name, payload, status, error }) => {
-  if (!name) {
-    throw new Error('Name cannot be left blank');
-  }
   // Initialize datadog logger
   datadogLogs.init({
     clientToken: DATA_DOG_TOKEN,
@@ -100,5 +96,5 @@ export const dataDogLog = ({ name, payload, status, error }) => {
     service: DATA_DOG_SERVICE,
     site: 'ddog-gov.com',
   });
-  datadogLogs.logger.log(name, payload, status, error);
+  datadogLogs.logger.log(name || 'unknown', payload, status, error);
 };
