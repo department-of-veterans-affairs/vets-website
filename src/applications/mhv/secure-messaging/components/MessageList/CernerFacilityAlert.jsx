@@ -9,14 +9,17 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
     state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
   );
 
-  const cernerFacilitiesNames = useMemo(() => {
-    if (ehrDataByVhaId) {
-      return cernerFacilities?.map(facility =>
-        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
-      );
-    }
-    return [];
-  }, [cernerFacilities, ehrDataByVhaId]);
+  const cernerFacilitiesNames = useMemo(
+    () => {
+      if (ehrDataByVhaId) {
+        return cernerFacilities?.map(facility =>
+          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
+        );
+      }
+      return [];
+    },
+    [cernerFacilities, ehrDataByVhaId],
+  );
 
   return (
     <>

@@ -45,34 +45,40 @@ const MessageThreadItem = props => {
     }
   };
 
-  useEffect(() => {
-    if (open && !preloaded) {
-      // opening an accordion by triggering an event, as passing in the open prop makes the accordion uncontrolled and rerender
-      const accordionItemToggledEvent = new CustomEvent(
-        'accordionItemToggled',
-        {
-          bubbles: true,
-          detail: {},
-        },
-      );
-      accordionItemRef.current.dispatchEvent(accordionItemToggledEvent);
-    }
-  }, [dispatch, isDraftThread, messageId, open, preloaded]);
+  useEffect(
+    () => {
+      if (open && !preloaded) {
+        // opening an accordion by triggering an event, as passing in the open prop makes the accordion uncontrolled and rerender
+        const accordionItemToggledEvent = new CustomEvent(
+          'accordionItemToggled',
+          {
+            bubbles: true,
+            detail: {},
+          },
+        );
+        accordionItemRef.current.dispatchEvent(accordionItemToggledEvent);
+      }
+    },
+    [dispatch, isDraftThread, messageId, open, preloaded],
+  );
 
-  const accordionAriaLabel = useMemo(() => {
-    return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
-      fromMe ? 'sent' : 'received'
-    } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
-      hasAttachments || attachment ? 'with attachment' : ''
-    } from ${senderName}.`;
-  }, [
-    attachment,
-    fromMe,
-    hasAttachments,
-    isSentOrReadOrDraft,
-    senderName,
-    sentDate,
-  ]);
+  const accordionAriaLabel = useMemo(
+    () => {
+      return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
+        fromMe ? 'sent' : 'received'
+      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
+        hasAttachments || attachment ? 'with attachment' : ''
+      } from ${senderName}.`;
+    },
+    [
+      attachment,
+      fromMe,
+      hasAttachments,
+      isSentOrReadOrDraft,
+      senderName,
+      sentDate,
+    ],
+  );
 
   return (
     <VaAccordionItem

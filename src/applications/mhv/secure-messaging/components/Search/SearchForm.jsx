@@ -26,20 +26,29 @@ const SearchForm = props => {
   const filterBoxRef = useRef();
   const filterInputRef = useRef();
 
-  useEffect(() => {
-    if (dateRange !== 'any' || category) {
-      setCustomFilter(true);
-    } else {
-      setCustomFilter(false);
-    }
-  }, [dateRange, category, customFilter]);
-  useEffect(() => {
-    setSearchTerm(keyword);
-  }, [keyword]);
+  useEffect(
+    () => {
+      if (dateRange !== 'any' || category) {
+        setCustomFilter(true);
+      } else {
+        setCustomFilter(false);
+      }
+    },
+    [dateRange, category, customFilter],
+  );
+  useEffect(
+    () => {
+      setSearchTerm(keyword);
+    },
+    [keyword],
+  );
 
-  useEffect(() => {
-    if (resultsCount > 0) focusElement(resultsCountRef.current);
-  }, [resultsCount]);
+  useEffect(
+    () => {
+      if (resultsCount > 0) focusElement(resultsCountRef.current);
+    },
+    [resultsCount],
+  );
 
   const getRelativeDate = range => {
     const today = new Date();

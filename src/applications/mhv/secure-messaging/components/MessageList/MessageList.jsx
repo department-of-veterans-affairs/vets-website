@@ -64,11 +64,14 @@ const MessageList = props => {
     [perPage],
   );
 
-  const fromToNums = useMemo(() => {
-    const from = (page - 1) * perPage + 1;
-    const to = Math.min(page * perPage, messages?.length);
-    return { from, to };
-  }, [page, perPage, messages?.length]);
+  const fromToNums = useMemo(
+    () => {
+      const from = (page - 1) * perPage + 1;
+      const to = Math.min(page * perPage, messages?.length);
+      return { from, to };
+    },
+    [page, perPage, messages?.length],
+  );
 
   // sort messages
   const sortMessages = useCallback(
@@ -123,13 +126,16 @@ const MessageList = props => {
   );
 
   // run once on component mount to set initial message and page data
-  useEffect(() => {
-    if (messages?.length) {
-      paginatedMessages.current = paginateData(sortMessages(messages));
+  useEffect(
+    () => {
+      if (messages?.length) {
+        paginatedMessages.current = paginateData(sortMessages(messages));
 
-      setCurrentMessages(paginatedMessages.current[page - 1]);
-    }
-  }, [page, messages, paginateData, sortMessages]);
+        setCurrentMessages(paginatedMessages.current[page - 1]);
+      }
+    },
+    [page, messages, paginateData, sortMessages],
+  );
 
   // update pagination values on...page change
   const onPageChange = pageValue => {
@@ -138,13 +144,18 @@ const MessageList = props => {
     focusElement(displayingNumberOfMesssagesRef.current);
   };
 
-  useEffect(() => {
-    // get display numbers
-    if (fromToNums && messages.length) {
-      const label = `Showing ${fromToNums.from} - ${fromToNums.to} of ${messages.length} found messages`;
-      setDisplayNums({ ...fromToNums, label });
-    }
-  }, [fromToNums, messages.length]);
+  useEffect(
+    () => {
+      // get display numbers
+      if (fromToNums && messages.length) {
+        const label = `Showing ${fromToNums.from} - ${fromToNums.to} of ${
+          messages.length
+        } found messages`;
+        setDisplayNums({ ...fromToNums, label });
+      }
+    },
+    [fromToNums, messages.length],
+  );
 
   const sortCallback = sortOrderValue => {
     dispatch(setSearchSort(sortOrderValue));
@@ -169,7 +180,9 @@ const MessageList = props => {
         ref={displayingNumberOfMesssagesRef}
         className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-background-color--gray-light-alt vads-u-padding-left--1"
       >
-        {`Showing ${displayNums.from} to ${displayNums.to} of ${totalEntries} messages `}
+        {`Showing ${displayNums.from} to ${
+          displayNums.to
+        } of ${totalEntries} messages `}
 
         <span className="sr-only">
           {` sorted by ${threadSortingOptions[sortOrder].label}`}
@@ -196,15 +209,16 @@ const MessageList = props => {
           End of {!isSearch ? 'messages in this folder' : 'search results'}
         </p>
       )}
-      {currentMessages && paginatedMessages.current.length > 1 && (
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={page}
-          pages={paginatedMessages.current.length}
-          max-page-list-length={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
-      )}
+      {currentMessages &&
+        paginatedMessages.current.length > 1 && (
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={page}
+            pages={paginatedMessages.current.length}
+            max-page-list-length={MAX_PAGE_LIST_LENGTH}
+            showLastPage
+          />
+        )}
     </div>
   );
 };
