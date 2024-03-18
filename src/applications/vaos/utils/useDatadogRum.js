@@ -14,7 +14,7 @@ const initializeDatadogRum = () => {
     !window.Mocha
   ) {
     datadogRum.init({
-      applicationId: '8880279e-5c40-4f82-90f9-9a3cdb6d461b',
+      applicationId: 'fa7a1075-965f-484d-b812-6f10f4572694',
       clientToken: 'pub4705a09a8da66995fa85908096f42321',
       site: 'ddog-gov.com',
       service: 'va.gov-appointments',
