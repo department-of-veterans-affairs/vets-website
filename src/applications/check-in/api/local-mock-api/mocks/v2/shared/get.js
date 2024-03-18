@@ -17,6 +17,7 @@ const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
 
 // travel-claim UUIDS
 const multiApptSingleFacilityUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
+const multiApptTwoFacilityUUID = '0791fe85-36b0-4a28-85ea-48f5f4306b5b';
 const multiApptMultiFacilityUUID = '8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0';
 
 // Minutes before start time that the window for check-in starts.
@@ -327,6 +328,18 @@ const createAppointmentsOH = (token = defaultUUID) => {
     );
   }
 
+  if (token === multiApptTwoFacilityUUID) {
+    appointments.push(
+      createAppointmentOH({
+        appointmentIen: '2222',
+        startTime: dateFns.addHours(new Date(), 1).toISOString(),
+        type: 'Mental Health',
+        facility: 'VA Facility 2',
+        stationNo: '500',
+      }),
+    );
+  }
+
   if (token === multiApptMultiFacilityUUID) {
     appointments.push(
       createAppointmentOH({
@@ -375,4 +388,7 @@ module.exports = {
   mockDemographics,
   createMockFailedResponse,
   createMockNotFoundResponse,
+  multiApptSingleFacilityUUID,
+  multiApptMultiFacilityUUID,
+  multiApptTwoFacilityUUID,
 };
