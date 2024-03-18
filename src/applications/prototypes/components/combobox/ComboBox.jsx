@@ -7,9 +7,6 @@ import './combo-box.scss';
 // import './formation-readded.css';
 //import 'uswds/src/stylesheets/components/_combo-box.scss';
 import React from "react";
-// import { createStore, bindActionCreators } from 'redux';
-// import { connect } from 'react-redux';
-// import {v4 as uuidv4} from 'uuid';
 import { getDisabilityLabels } from '../../../disability-benefits/all-claims/content/disabilityLabels';
 import { substringCountLCS } from './search';
 import { initialState } from './reducer';
@@ -49,7 +46,6 @@ class ComboBox extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // Check if the search term has changed
     if (prevState.searchTerm !== this.state.searchTerm) {
       this.filterOptions();
     }
@@ -59,25 +55,11 @@ class ComboBox extends Component {
   }
 
   handleKeyDownFromInput(evt) {
-    console.log('evt: ', evt);
-    console.log('evt.key: ', evt.key);
-    // TAB_KEY_CODE = 9;
-    // ENTER_KEY_CODE = 13;
-    // ESCAPE_KEY_CODE = 27;
-    // UP_ARROW_KEY_CODE = 38;
-    // DOWN_ARROW_KEY_CODE = 40;
     switch (evt.key) {
       case 'Tab':
       case 'ArrowDown':
       case 'ArrowUp':
         const liElem = this.listRef.current.querySelector('.usa-combo-box__list-option');
-        // const PREFIX = 'usa';
-        // const COMBO_BOX_CLASS = `${PREFIX}-combo-box`;
-        // const LIST_OPTION_CLASS = `${COMBO_BOX_CLASS}__list-option`;
-        // const LIST_OPTION_FOCUSED_CLASS = `${LIST_OPTION_CLASS}--focused`;
-        // liElem.classList.add(LIST_OPTION_FOCUSED_CLASS);
-        console.log('liElem.focus():', liElem.focus()); // don't comment, this sets focus
-        console.log('document.activeElement: ', document.activeElement);
         evt.preventDefault();
         break;
 
@@ -91,7 +73,6 @@ class ComboBox extends Component {
         break;
 
       default:
-        console.log('default');
         break;
     }
   }
@@ -100,22 +81,19 @@ class ComboBox extends Component {
     console.log('key from li: ', evt.key);
     switch (evt.key) {
       case 'ArrowDown':
-        console.log('do something w/ the arrows');
+        evt.preventDefault();
         const focusedOptionEl = evt.target;
         const nextOptionEl = focusedOptionEl.nextSibling;
 
         if (nextOptionEl) {
-          console.log('put focus on the next one!', nextOptionEl);
           nextOptionEl.focus();
         }
         else {
-          console.log('no next option');
           this.setState({ searchTerm: '' });
-          evt.preventDefault();
         }
         break;
       case 'ArrowUp':
-        console.log('arrow up yo');
+        evt.preventDefault();
         const focusedOptionElUpArrow = evt.target;
         const prevOptionEl = focusedOptionElUpArrow.previousSibling;
 
@@ -123,9 +101,7 @@ class ComboBox extends Component {
           prevOptionEl.focus();
         }
         else {
-          console.log('no prev option');
           this.setState({ searchTerm: '' });
-          evt.preventDefault();
         }
         break;
       case 'Enter':
@@ -140,9 +116,6 @@ class ComboBox extends Component {
     }
   }
   handleMouseEnter(evt, option) {
-    console.log('unimplemented', option);
-    console.log('evt: ', evt);
-    console.log('evt.target: ', evt.target);
     const newFocusedElem = evt.target;
     newFocusedElem.focus();
   }
@@ -150,9 +123,6 @@ class ComboBox extends Component {
   filterOptions = () => {
     const { searchTerm, value } = this.state;
     const options = this.disabilitiesArr;
-    // let filtered = options.filter(option =>
-    //   option.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
     let filtered = substringCountLCS(searchTerm, options, 0)
     filtered = filtered.splice(0, MAX_NUM_DISABILITY_SUGGESTIONS);
     if (searchTerm && searchTerm.length === 0) {
@@ -209,10 +179,6 @@ class ComboBox extends Component {
       filteredOptions: [],
     });
     const { onChange } = this.props;
-    const { value } = this.state;
-    // console.log('calling on change w/ value: ', value);
-    // onChange(value);
-    console.log('calling on change w/ value: ', option);
     onChange(option);
   }
 
@@ -282,22 +248,12 @@ export const ComboBoxApp = connect(state => state)(
     }
 
     handleAdd() {
-      console.log('handleAdd triggered');
-      console.log('this.props.current: ', this.props.current);
       const { name } = this.props.current;
-      console.log('name: ', name);
       if (name) {
-        console.log('name detect');
         this.itemId = (this.itemId || 0) + 1;
-        //this.itemId = (this.itemId || uuid.v4());
-        //this.itemId = uuid.v4();
 
         this.props.dispatch(addItem({ id: this.itemId, name }));
-        console.log('update current w/ initialState.current: ', initialState.current);
         this.props.dispatch(updateCurrent(initialState.current));
-        // hide addNewConditionSection after adding condition
-        console.log('hideAddNewConditionSection called...');
-        // hideAddNewConditionSection();
         this.props.dispatch(hideNewConditionSection());
       }
     }
