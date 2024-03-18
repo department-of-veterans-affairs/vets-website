@@ -15,6 +15,9 @@ describe('Medical Records Download Functionality For Radiology', () => {
       moment(),
       '',
     );
+
+    cy.get('[data-testid="download-blue-button-txt"]').click();
+    site.verifyDownloadedTxtFile();
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {
