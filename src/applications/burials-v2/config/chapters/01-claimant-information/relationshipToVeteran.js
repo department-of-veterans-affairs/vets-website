@@ -1,4 +1,3 @@
-// import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import {
   radioUI,
   radioSchema,
