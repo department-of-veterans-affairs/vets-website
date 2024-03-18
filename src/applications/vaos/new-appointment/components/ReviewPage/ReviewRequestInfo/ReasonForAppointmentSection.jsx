@@ -2,9 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { FLOW_TYPES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
-import { getFlowType } from '../../redux/selectors';
+import { FLOW_TYPES, PURPOSE_TEXT_V2 } from '../../../../utils/constants';
+import getNewAppointmentFlow from '../../../newAppointmentFlow';
+import { getFlowType } from '../../../redux/selectors';
 
 function handleClick(history, pageFlow) {
   const { home, reasonForAppointment } = pageFlow;

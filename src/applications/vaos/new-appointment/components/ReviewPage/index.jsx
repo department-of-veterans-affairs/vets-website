@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ReviewDirectScheduleInfo from './ReviewDirectScheduleInfo';
+import ReviewDirectScheduleInfo from './ReviewRequestInfo/ReviewDirectScheduleInfo/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from './ReviewRequestInfo';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
