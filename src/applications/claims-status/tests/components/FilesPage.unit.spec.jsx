@@ -89,7 +89,7 @@ describe('<FilesPage>', () => {
               },
             },
             closeDate: null,
-            documentsNeeded: false,
+            documentsNeeded: true,
             decisionLetterSent: false,
             status: 'INITIAL_REVIEW',
             supportingDocuments: [],
@@ -241,7 +241,7 @@ describe('<FilesPage>', () => {
         closeDate: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        status: 'INTIIAL_REVIEW',
+        status: 'INITIAL_REVIEW',
         supportingDocuments: [],
         trackedItems: [],
       },
@@ -372,7 +372,7 @@ describe('<FilesPage>', () => {
         closeDate: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        status: 'INTIIAL_REVIEW',
+        status: 'INITIAL_REVIEW',
         supportingDocuments: [],
         trackedItems: [
           {
@@ -417,7 +417,7 @@ describe('<FilesPage>', () => {
         closeDate: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        status: 'INTIIAL_REVIEW',
+        status: 'INITIAL_REVIEW',
         supportingDocuments: [],
         trackedItems: [],
       },
@@ -457,7 +457,7 @@ describe('<FilesPage>', () => {
         closeDate: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        status: 'INTIIAL_REVIEW',
+        status: 'INITIAL_REVIEW',
         supportingDocuments: [
           {
             id: '123456',

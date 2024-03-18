@@ -48,7 +48,7 @@ describe('travel-review', () => {
       );
       expect(component.getByTestId('claiming-1-facilities')).to.exist;
       expect(component.getByTestId('claim-list')).to.contain.text(
-        'Mileage only reimbursement for 1 appointment at test facility',
+        'Mileage-only reimbursement for 1 appointment at test facility',
       );
     });
     it('displays multi claimList', () => {
@@ -59,7 +59,7 @@ describe('travel-review', () => {
       );
       expect(component.getByTestId('claiming-2-facilities')).to.exist;
       expect(component.getByTestId('claim-list')).to.contain.text(
-        'Mileage only reimbursement for 1 appointment at test facility, and 3 appointments at another test facility',
+        'Mileage-only reimbursement for 1 appointment at test facility, and 3 appointments at another test facility',
       );
     });
   });

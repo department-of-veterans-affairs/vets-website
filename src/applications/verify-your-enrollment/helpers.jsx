@@ -1,3 +1,4 @@
+import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import { TIMS_DOCUMENTS } from './constants';
 
@@ -136,4 +137,90 @@ export const remainingBenefits = remEnt => {
   const day = Math.round(rest * 30);
 
   return { month, day };
+};
+
+export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
+  return pendingEnrollments
+    .map(enrollmentToBeVerified => {
+      const {
+        awardBeginDate,
+        awardEndDate,
+        monthlyRate,
+        numberHours,
+        id,
+      } = enrollmentToBeVerified;
+      return (
+        <div
+          className={
+            review ? 'vads-u-margin-y--2 vye-left-border' : 'vads-u-margin-y--2'
+          }
+          key={`Enrollment-to-be-verified-${id}`}
+        >
+          <p
+            className={
+              review
+                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
+                : 'vads-u-margin--0 vads-u-font-size--base'
+            }
+          >
+            <span className="vads-u-font-weight--bold">
+              {translateDatePeriod(awardBeginDate, awardEndDate)}
+            </span>
+          </p>
+          <p
+            className={
+              review
+                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
+                : 'vads-u-margin--0 vads-u-font-size--base'
+            }
+          >
+            <span className="vads-u-font-weight--bold">
+              Total Credit Hours:
+            </span>{' '}
+            {numberHours}
+          </p>
+          <p
+            className={
+              review
+                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
+                : 'vads-u-margin--0 vads-u-font-size--base'
+            }
+          >
+            <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+            {formatCurrency(monthlyRate)}
+          </p>
+        </div>
+      );
+    })
+    .reverse();
+};
+
+export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
+  const trackEndDate = [];
+  const combineMonths = {};
+
+  enrollmentPeriods.forEach(period => {
+    const tempMonthYear = translateDateIntoMonthYearFormat(period.awardEndDate);
+    if (trackEndDate.includes(tempMonthYear)) {
+      combineMonths[tempMonthYear].push({
+        id: period.id,
+        awardBeginDate: period.awardBeginDate,
+        awardEndDate: period.awardEndDate,
+        numberHours: period.numberHours,
+        monthlyRate: period.monthlyRate,
+      });
+    } else {
+      trackEndDate.push(tempMonthYear);
+      combineMonths[tempMonthYear] = [
+        {
+          id: period.id,
+          awardBeginDate: period.awardBeginDate,
+          awardEndDate: period.awardEndDate,
+          numberHours: period.numberHours,
+          monthlyRate: period.monthlyRate,
+        },
+      ];
+    }
+  });
+  return combineMonths;
 };
