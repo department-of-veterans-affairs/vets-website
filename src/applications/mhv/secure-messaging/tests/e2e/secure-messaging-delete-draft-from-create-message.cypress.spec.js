@@ -16,10 +16,7 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage
-      .getCategory(requestBody.category)
-      .first()
-      .click();
+    composePage.getCategory(requestBody.category).click({ force: true });
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()

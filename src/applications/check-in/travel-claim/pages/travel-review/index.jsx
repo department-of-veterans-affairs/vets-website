@@ -21,7 +21,7 @@ const TravelReview = props => {
   const address = useSelector(selectVeteranAddress);
   const onEditClick = e => {
     e.preventDefault();
-    jumpToPage('/travel-mileage');
+    jumpToPage('/travel-pay');
   };
   const agreementLink = e => {
     e.preventDefault();
@@ -45,6 +45,7 @@ const TravelReview = props => {
       })} ${facility.facility}`;
     }),
     t('and'),
+    false,
   );
 
   const bodyText = (
@@ -127,7 +128,6 @@ const TravelReview = props => {
   return (
     <TravelPage
       header={t('review-your-travel-claim')}
-      eyebrow={t('check-in')}
       bodyText={bodyText}
       pageType="travel-review"
       router={router}
@@ -135,6 +135,7 @@ const TravelReview = props => {
       yesFunction={validation}
       noButtonText={t('back')}
       noFunction={() => goToPreviousPage()}
+      testID="travel-claim-review-page"
     />
   );
 };

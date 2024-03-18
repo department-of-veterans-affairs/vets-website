@@ -39,6 +39,7 @@ const Complete = () => {
           count: facilitiesToFile.length,
         })}
         classNames="travel-page"
+        testID="travel-complete-page"
       >
         <TravelClaimSuccessAlert claims={facilitiesToFile} />
         <div data-testid="travel-complete-content">
