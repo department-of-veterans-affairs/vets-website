@@ -16,7 +16,7 @@ import {
   getMarriageTitleWithCurrent,
   MarriageTitle,
 } from '../../../helpers.jsx';
-import { validateAfterPastMarriageDate } from '../../../validation';
+import { validateAfterMarriageDate } from '../../../validation';
 import { marriageTypeLabels, separationTypeLabels } from '../../../labels';
 import { isCurrentMarriage } from '../../form';
 
@@ -132,7 +132,7 @@ export default {
               'ui:required': (...args) => !isCurrentMarriage(...args),
             },
             {
-              'ui:validations': [validateAfterPastMarriageDate],
+              'ui:validations': [validateAfterMarriageDate],
             },
             {
               'ui:options': {

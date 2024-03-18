@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import {
   isValidCurrency,
   validateAfterMarriageDate,
-  validateAfterPastMarriageDate,
   validateAfterMarriageDates,
   validateCurrency,
   validateServiceBirthDates,
@@ -31,7 +30,7 @@ describe('Pension validation', () => {
         addError: sinon.spy(),
       };
 
-      validateAfterPastMarriageDate(errors, '2014-01-01', {
+      validateAfterMarriageDate(errors, '2014-01-01', {
         'view:pastMarriage': {
           dateOfMarriage: '2016-01-01',
         },

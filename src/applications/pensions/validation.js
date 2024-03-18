@@ -2,30 +2,15 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { isValidDateRange } from '@department-of-veterans-affairs/platform-forms/validations';
 import { convertToDateField } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
-function validateDateRange(errors, fromDate, toDate) {
-  if (!isValidDateRange(fromDate, toDate)) {
-    errors.addError('Date marriage ended must be after date of marriage');
-  }
-}
-
-export function validateAfterPastMarriageDate(
-  errors,
-  dateOfSeparation,
-  formData,
-) {
+export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
   const fromDate = convertToDateField(
     formData['view:pastMarriage']?.dateOfMarriage || formData.dateOfMarriage,
   );
   const toDate = convertToDateField(dateOfSeparation);
 
-  validateDateRange(errors, fromDate, toDate);
-}
-
-export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
-  const fromDate = convertToDateField(formData.dateOfMarriage);
-  const toDate = convertToDateField(dateOfSeparation);
-
-  validateDateRange(errors, fromDate, toDate);
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.addError('Date marriage ended must be after date of marriage');
+  }
 }
 
 export function validateAfterMarriageDates(errors, dateOfSeparation, formData) {
