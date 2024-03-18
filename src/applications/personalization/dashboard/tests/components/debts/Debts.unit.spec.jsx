@@ -10,10 +10,10 @@ import {
   setFetchJSONResponse,
 } from '~/platform/testing/unit/helpers';
 
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { createDebtsSuccess } from '../../../mocks/debts';
 import { user81Copays } from '../../../mocks/medical-copays';
 import BenefitPaymentsAndDebt from '../../../components/debts/Debts';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '../../../reducers';
 
 const mockStore = configureStore([thunk]);

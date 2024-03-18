@@ -73,14 +73,14 @@ function ViewDependentsLayout(props) {
 }
 
 ViewDependentsLayout.propTypes = {
-  dependencyVerificationToggle: PropTypes.func,
-  dependentsToggle: PropTypes.func,
   error: PropTypes.object,
-  loading: PropTypes.bool,
-  manageDependentsToggle: PropTypes.func,
   notOnAwardDependents: PropTypes.array,
-  updateDiariesStatus: PropTypes.func,
   onAwardDependents: PropTypes.array,
+  loading: PropTypes.bool,
+  dependentsToggle: PropTypes.func,
+  dependencyVerificationToggle: PropTypes.func,
+  manageDependentsToggle: PropTypes.func,
+  updateDiariesStatus: PropTypes.func,
 };
 
 export default ViewDependentsLayout;

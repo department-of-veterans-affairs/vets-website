@@ -32,19 +32,20 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
-import { benefitTypes } from '~/applications/personalization/common/constants';
-import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import DirectDepositConnectionError from './alerts/DirectDepositConnectionError';
 
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { benefitTypes } from '~/applications/personalization/common/constants';
+
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import { EduMigrationDowntimeAlert } from './alerts/EduMigrationDowntimeAlert';
+import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 
 export const BankInfo = ({
   isLOA3,
