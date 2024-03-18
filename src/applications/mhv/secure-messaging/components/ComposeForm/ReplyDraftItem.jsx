@@ -88,13 +88,19 @@ const ReplyDraftItem = props => {
     clearTimeout(timeoutId);
   };
 
-  const formattededSignature = useMemo(() => {
-    return messageSignatureFormatter(signature);
-  }, [signature]);
+  const formattededSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
-  const refreshThreadHandler = useCallback(() => {
-    dispatch(retrieveMessageThread(replyMessage.messageId));
-  }, [replyMessage, dispatch]);
+  const refreshThreadHandler = useCallback(
+    () => {
+      dispatch(retrieveMessageThread(replyMessage.messageId));
+    },
+    [replyMessage, dispatch],
+  );
 
   const beforeUnloadHandler = useCallback(
     e => {
@@ -112,24 +118,30 @@ const ReplyDraftItem = props => {
     [draft, messageBody, attachments],
   );
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', beforeUnloadHandler);
-    return () => {
-      window.removeEventListener('beforeunload', beforeUnloadHandler);
-      window.onbeforeunload = null;
-      noTimeout();
-    };
-  }, [beforeUnloadHandler]);
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
+      };
+    },
+    [beforeUnloadHandler],
+  );
 
-  const checkMessageValidity = useCallback(() => {
-    let messageValid = true;
-    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-      messageValid = false;
-    }
-    setMessageInvalid(!messageValid);
-    return messageValid;
-  }, [messageBody]);
+  const checkMessageValidity = useCallback(
+    () => {
+      let messageValid = true;
+      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+        messageValid = false;
+      }
+      setMessageInvalid(!messageValid);
+      return messageValid;
+    },
+    [messageBody],
+  );
 
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
@@ -226,90 +238,102 @@ const ReplyDraftItem = props => {
   );
 
   // Before Save
-  useEffect(() => {
-    const draftBody = draft && draft.body;
-    if (
-      messageBody === draftBody ||
-      (messageBody === '' && draftBody === null)
-    ) {
-      setNavigationError(null);
-    } else if (messageBody !== draftBody) {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
-      });
-    }
-  }, [deleteButtonClicked, draft, messageBody]);
-
-  useEffect(() => {
-    if (replyMessage && !draft) {
-      setSelectedRecipient(replyMessage.senderId);
-      setSubject(replyMessage.subject);
-      setMessageBody('');
-      setCategory(replyMessage.category);
-    }
-  }, [replyMessage, draft]);
-
-  useEffect(() => {
-    if (
-      editMode &&
-      debouncedMessageBody &&
-      isAutosave &&
-      !cannotReply &&
-      !modalVisible
-    ) {
-      saveDraftHandler('auto');
-    }
-  }, [
-    cannotReply,
-    debouncedMessageBody,
-    isAutosave,
-    modalVisible,
-    saveDraftHandler,
-  ]);
-
-  useEffect(() => {
-    if (sendMessageFlag && isSaving !== true) {
-      const messageData = {
-        category,
-        body: messageBody,
-        subject,
-      };
-      if (draft && replyToMessageId) {
-        messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
-      }
-      messageData[`${'recipient_id'}`] = selectedRecipient;
-      setIsAutosave(false);
-
-      let sendData;
-
-      if (attachments.length > 0) {
-        sendData = new FormData();
-        sendData.append('message', JSON.stringify(messageData));
-        attachments.map(upload => sendData.append('uploads[]', upload));
-      } else {
-        sendData = JSON.stringify(messageData);
-      }
-
-      dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
-        .then(() => {
-          if (draftsCount > 1) {
-            // send a call to get updated thread
-            dispatch(retrieveMessageThread(replyMessage.messageId));
-          } else {
-            navigateToFolderByFolderId(
-              draft?.threadFolderId ? draft?.threadFolderId : folderId,
-              history,
-            );
-          }
-        })
-        .catch(() => {
-          setSendMessageFlag(false);
-          setIsAutosave(true);
+  useEffect(
+    () => {
+      const draftBody = draft && draft.body;
+      if (
+        messageBody === draftBody ||
+        (messageBody === '' && draftBody === null)
+      ) {
+        setNavigationError(null);
+      } else if (messageBody !== draftBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
         });
-    }
-  }, [sendMessageFlag, isSaving]);
+      }
+    },
+    [deleteButtonClicked, draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      if (replyMessage && !draft) {
+        setSelectedRecipient(replyMessage.senderId);
+        setSubject(replyMessage.subject);
+        setMessageBody('');
+        setCategory(replyMessage.category);
+      }
+    },
+    [replyMessage, draft],
+  );
+
+  useEffect(
+    () => {
+      if (
+        editMode &&
+        debouncedMessageBody &&
+        isAutosave &&
+        !cannotReply &&
+        !modalVisible
+      ) {
+        saveDraftHandler('auto');
+      }
+    },
+    [
+      cannotReply,
+      debouncedMessageBody,
+      isAutosave,
+      modalVisible,
+      saveDraftHandler,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (sendMessageFlag && isSaving !== true) {
+        const messageData = {
+          category,
+          body: messageBody,
+          subject,
+        };
+        if (draft && replyToMessageId) {
+          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
+        }
+        messageData[`${'recipient_id'}`] = selectedRecipient;
+        setIsAutosave(false);
+
+        let sendData;
+
+        if (attachments.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+        } else {
+          sendData = JSON.stringify(messageData);
+        }
+
+        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+          .then(() => {
+            if (draftsCount > 1) {
+              // send a call to get updated thread
+              dispatch(retrieveMessageThread(replyMessage.messageId));
+            } else {
+              navigateToFolderByFolderId(
+                draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                history,
+              );
+            }
+          })
+          .catch(() => {
+            setSendMessageFlag(false);
+            setIsAutosave(true);
+          });
+      }
+    },
+    [sendMessageFlag, isSaving],
+  );
 
   const populateForm = () => {
     setSelectedRecipient(draft?.recipientId);
@@ -327,17 +351,23 @@ const ReplyDraftItem = props => {
     );
   };
 
-  useEffect(() => {
-    if (messageInvalid) {
-      focusOnErrorField();
-    }
-  }, [messageInvalid]);
+  useEffect(
+    () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
 
-  useEffect(() => {
-    if (draft && !formPopulated) {
-      populateForm();
-    }
-  }, [draft, formPopulated]);
+  useEffect(
+    () => {
+      if (draft && !formPopulated) {
+        populateForm();
+      }
+    },
+    [draft, formPopulated],
+  );
 
   if (!sendMessageFlag && !navigationError && attachments.length) {
     setNavigationError({
@@ -347,20 +377,23 @@ const ReplyDraftItem = props => {
     });
   }
 
-  useEffect(() => {
-    if (editMode && focusToTextarea) {
-      setTimeout(() => {
-        focusElement(
-          cannotReply
-            ? composeFormActionButtonsRef.current?.querySelector(
-                '#delete-draft-button',
-              )
-            : textareaRef.current,
-        );
-        setFocusToTextarea(false);
-      }, 300);
-    }
-  }, [cannotReply, editMode, focusToTextarea]);
+  useEffect(
+    () => {
+      if (editMode && focusToTextarea) {
+        setTimeout(() => {
+          focusElement(
+            cannotReply
+              ? composeFormActionButtonsRef.current?.querySelector(
+                  '#delete-draft-button',
+                )
+              : textareaRef.current,
+          );
+          setFocusToTextarea(false);
+        }, 300);
+      }
+    },
+    [cannotReply, editMode, focusToTextarea],
+  );
 
   return (
     <>
@@ -451,25 +484,26 @@ const ReplyDraftItem = props => {
             />
           )}
 
-          {!cannotReply && !showBlockedTriageGroupAlert && (
-            <section className="attachments-section vads-u-margin-top--2">
-              <AttachmentsList
-                attachments={attachments}
-                reply
-                setAttachments={setAttachments}
-                setNavigationError={setNavigationError}
-                editingEnabled
-                attachFileSuccess={attachFileSuccess}
-                setAttachFileSuccess={setAttachFileSuccess}
-              />
+          {!cannotReply &&
+            !showBlockedTriageGroupAlert && (
+              <section className="attachments-section vads-u-margin-top--2">
+                <AttachmentsList
+                  attachments={attachments}
+                  reply
+                  setAttachments={setAttachments}
+                  setNavigationError={setNavigationError}
+                  editingEnabled
+                  attachFileSuccess={attachFileSuccess}
+                  setAttachFileSuccess={setAttachFileSuccess}
+                />
 
-              <FileInput
-                attachments={attachments}
-                setAttachments={setAttachments}
-                setAttachFileSuccess={setAttachFileSuccess}
-              />
-            </section>
-          )}
+                <FileInput
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  setAttachFileSuccess={setAttachFileSuccess}
+                />
+              </section>
+            )}
 
           <DraftSavedInfo />
 

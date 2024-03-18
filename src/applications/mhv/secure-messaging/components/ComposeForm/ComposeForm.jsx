@@ -105,15 +105,21 @@ const ComposeForm = props => {
     clearTimeout(timeoutId);
   };
 
-  useEffect(() => {
-    if (!categories) {
-      dispatch(getCategories());
-    }
-  }, [categories, dispatch]);
+  useEffect(
+    () => {
+      if (!categories) {
+        dispatch(getCategories());
+      }
+    },
+    [categories, dispatch],
+  );
 
-  const formattedSignature = useMemo(() => {
-    return messageSignatureFormatter(signature);
-  }, [signature]);
+  const formattedSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   const setUnsavedNavigationError = typeOfError => {
     if (typeOfError === null) {
@@ -140,21 +146,24 @@ const ComposeForm = props => {
     }
   };
 
-  useEffect(() => {
-    if (recipients?.allowedRecipients?.length > 0) {
-      setRecipientsList([
-        ...defaultRecipientsList,
-        ...recipients.allowedRecipients,
-      ]);
-    }
+  useEffect(
+    () => {
+      if (recipients?.allowedRecipients?.length > 0) {
+        setRecipientsList([
+          ...defaultRecipientsList,
+          ...recipients.allowedRecipients,
+        ]);
+      }
 
-    if (!draft) {
-      setSelectedRecipient('0');
-      setCategory(null);
-      setSubject('');
-      setMessageBody('');
-    }
-  }, [recipients, draft]);
+      if (!draft) {
+        setSelectedRecipient('0');
+        setCategory(null);
+        setSubject('');
+        setMessageBody('');
+      }
+    },
+    [recipients, draft],
+  );
 
   useEffect(() => {
     if (draft) {
@@ -190,46 +199,55 @@ const ComposeForm = props => {
     // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
   }, []);
 
-  useEffect(() => {
-    if (sendMessageFlag && isSaving !== true) {
-      const messageData = {
-        category,
-        body: messageBody,
-        subject,
-      };
-      messageData[`${'draft_id'}`] = draft?.messageId;
-      messageData[`${'recipient_id'}`] = selectedRecipient;
+  useEffect(
+    () => {
+      if (sendMessageFlag && isSaving !== true) {
+        const messageData = {
+          category,
+          body: messageBody,
+          subject,
+        };
+        messageData[`${'draft_id'}`] = draft?.messageId;
+        messageData[`${'recipient_id'}`] = selectedRecipient;
 
-      let sendData;
-      if (attachments.length > 0) {
-        sendData = new FormData();
-        sendData.append('message', JSON.stringify(messageData));
-        attachments.map(upload => sendData.append('uploads[]', upload));
-      } else {
-        sendData = JSON.stringify(messageData);
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+        } else {
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
+            navigateToFolderByFolderId(
+              currentFolder?.folderId || DefaultFolders.INBOX.id,
+              history,
+            ),
+          )
+          .catch(setSendMessageFlag(false));
       }
-      dispatch(sendMessage(sendData, attachments.length > 0))
-        .then(() =>
-          navigateToFolderByFolderId(
-            currentFolder?.folderId || DefaultFolders.INBOX.id,
-            history,
-          ),
-        )
-        .catch(setSendMessageFlag(false));
-    }
-  }, [sendMessageFlag, isSaving]);
+    },
+    [sendMessageFlag, isSaving],
+  );
 
-  useEffect(() => {
-    if (messageInvalid) {
-      focusOnErrorField();
-    }
-  }, [messageInvalid]);
+  useEffect(
+    () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
 
-  useEffect(() => {
-    if (alertStatus) {
-      focusElement(lastFocusableElement);
-    }
-  }, [alertStatus]);
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
+  );
 
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
@@ -267,31 +285,34 @@ const ComposeForm = props => {
 
   if (draft && !formPopulated) populateForm();
 
-  const checkMessageValidity = useCallback(() => {
-    let messageValid = true;
-    if (
-      selectedRecipient === '0' ||
-      selectedRecipient === '' ||
-      !selectedRecipient
-    ) {
-      setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-      messageValid = false;
-    }
-    if (!subject || subject === '') {
-      setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
-      messageValid = false;
-    }
-    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-      messageValid = false;
-    }
-    if (!category || category === '') {
-      setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
-      messageValid = false;
-    }
-    setMessageInvalid(!messageValid);
-    return messageValid;
-  }, [category, messageBody, selectedRecipient, subject]);
+  const checkMessageValidity = useCallback(
+    () => {
+      let messageValid = true;
+      if (
+        selectedRecipient === '0' ||
+        selectedRecipient === '' ||
+        !selectedRecipient
+      ) {
+        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        messageValid = false;
+      }
+      if (!subject || subject === '') {
+        setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
+        messageValid = false;
+      }
+      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+        messageValid = false;
+      }
+      if (!category || category === '') {
+        setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
+        messageValid = false;
+      }
+      setMessageInvalid(!messageValid);
+      return messageValid;
+    },
+    [category, messageBody, selectedRecipient, subject],
+  );
 
   const saveDraftHandler = useCallback(
     async (type, e) => {
@@ -375,84 +396,90 @@ const ComposeForm = props => {
     [checkMessageValidity],
   );
 
-  useEffect(() => {
-    const blankForm =
-      messageBody === '' &&
-      subject === '' &&
-      (selectedRecipient === 0 || selectedRecipient === '0') &&
-      category === null &&
-      attachments.length === 0;
+  useEffect(
+    () => {
+      const blankForm =
+        messageBody === '' &&
+        subject === '' &&
+        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        category === null &&
+        attachments.length === 0;
 
-    const savedEdits =
-      messageBody === draft?.body &&
-      Number(selectedRecipient) === draft?.recipientId &&
-      category === draft?.category &&
-      subject === draft?.subject;
+      const savedEdits =
+        messageBody === draft?.body &&
+        Number(selectedRecipient) === draft?.recipientId &&
+        category === draft?.category &&
+        subject === draft?.subject;
 
-    const editPopulatedForm =
-      (messageBody !== draft?.body ||
-        selectedRecipient !== draft?.recipientId ||
-        category !== draft?.category ||
-        subject !== draft?.subject) &&
-      !blankForm &&
-      !savedEdits;
+      const editPopulatedForm =
+        (messageBody !== draft?.body ||
+          selectedRecipient !== draft?.recipientId ||
+          category !== draft?.category ||
+          subject !== draft?.subject) &&
+        !blankForm &&
+        !savedEdits;
 
-    if (editPopulatedForm === false) {
-      setSavedDraft(false);
-    }
-
-    const unsavedDraft = editPopulatedForm && !deleteButtonClicked;
-
-    if (blankForm || savedDraft) {
-      setUnsavedNavigationError(null);
-    } else {
-      if (unsavedDraft) {
+      if (editPopulatedForm === false) {
         setSavedDraft(false);
-        setUnsavedNavigationError(
-          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-        );
       }
-      if (unsavedDraft && attachments.length > 0) {
-        setUnsavedNavigationError(
-          ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-        );
-        updateModalVisible(false);
-      }
-    }
-  }, [
-    attachments,
-    category,
-    checkMessageValidity,
-    deleteButtonClicked,
-    draft?.category,
-    draft?.messageBody,
-    draft?.recipientId,
-    draft?.subject,
-    formPopulated,
-    messageBody,
-    selectedRecipient,
-    subject,
-  ]);
 
-  useEffect(() => {
-    if (
-      debouncedRecipient &&
-      debouncedCategory &&
-      debouncedSubject &&
-      debouncedMessageBody &&
-      !modalVisible
-    ) {
-      saveDraftHandler('auto');
-      setUnsavedNavigationError(null);
-    }
-  }, [
-    debouncedCategory,
-    debouncedMessageBody,
-    debouncedSubject,
-    debouncedRecipient,
-    saveDraftHandler,
-    modalVisible,
-  ]);
+      const unsavedDraft = editPopulatedForm && !deleteButtonClicked;
+
+      if (blankForm || savedDraft) {
+        setUnsavedNavigationError(null);
+      } else {
+        if (unsavedDraft) {
+          setSavedDraft(false);
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+        }
+        if (unsavedDraft && attachments.length > 0) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
+          );
+          updateModalVisible(false);
+        }
+      }
+    },
+    [
+      attachments,
+      category,
+      checkMessageValidity,
+      deleteButtonClicked,
+      draft?.category,
+      draft?.messageBody,
+      draft?.recipientId,
+      draft?.subject,
+      formPopulated,
+      messageBody,
+      selectedRecipient,
+      subject,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        debouncedRecipient &&
+        debouncedCategory &&
+        debouncedSubject &&
+        debouncedMessageBody &&
+        !modalVisible
+      ) {
+        saveDraftHandler('auto');
+        setUnsavedNavigationError(null);
+      }
+    },
+    [
+      debouncedCategory,
+      debouncedMessageBody,
+      debouncedSubject,
+      debouncedRecipient,
+      saveDraftHandler,
+      modalVisible,
+    ],
+  );
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
@@ -505,14 +532,17 @@ const ComposeForm = props => {
     ],
   );
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', beforeUnloadHandler);
-    return () => {
-      window.removeEventListener('beforeunload', beforeUnloadHandler);
-      window.onbeforeunload = null;
-      noTimeout();
-    };
-  }, [beforeUnloadHandler]);
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
+      };
+    },
+    [beforeUnloadHandler],
+  );
 
   return (
     <>
@@ -586,37 +616,39 @@ const ComposeForm = props => {
               </div>
             )}
 
-          {recipientsList && !noAssociations && !allTriageGroupsBlocked && (
-            <>
-              <VaSelect
-                uswds={false}
-                enable-analytics
-                id="recipient-dropdown"
-                label="To"
-                name="to"
-                value={selectedRecipient}
-                onVaSelect={recipientHandler}
-                class="composeSelect"
-                data-testid="compose-recipient-select"
-                error={recipientError}
-                data-dd-privacy="mask"
-                data-dd-action-name="Compose Recipient Dropdown List"
-              >
-                {sortRecipients(recipientsList)?.map(item => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </VaSelect>
-            </>
-          )}
+          {recipientsList &&
+            !noAssociations &&
+            !allTriageGroupsBlocked && (
+              <>
+                <VaSelect
+                  uswds={false}
+                  enable-analytics
+                  id="recipient-dropdown"
+                  label="To"
+                  name="to"
+                  value={selectedRecipient}
+                  onVaSelect={recipientHandler}
+                  class="composeSelect"
+                  data-testid="compose-recipient-select"
+                  error={recipientError}
+                  data-dd-privacy="mask"
+                  data-dd-action-name="Compose Recipient Dropdown List"
+                >
+                  {sortRecipients(recipientsList)?.map(item => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </VaSelect>
+              </>
+            )}
 
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
                 title={FormLabels.CATEGORY}
-                body={`${RadioCategories[draft?.category].label}: ${
-                  RadioCategories[draft?.category].description
+                body={`${RadioCategories[(draft?.category)].label}: ${
+                  RadioCategories[(draft?.category)].description
                 }`}
               />
             ) : (
@@ -680,25 +712,27 @@ const ComposeForm = props => {
               />
             )}
           </div>
-          {recipientsList && !noAssociations && !allTriageGroupsBlocked && (
-            <section className="attachments-section">
-              <AttachmentsList
-                compose
-                attachments={attachments}
-                setAttachments={setAttachments}
-                attachFileSuccess={attachFileSuccess}
-                setAttachFileSuccess={setAttachFileSuccess}
-                setNavigationError={setNavigationError}
-                editingEnabled
-              />
+          {recipientsList &&
+            !noAssociations &&
+            !allTriageGroupsBlocked && (
+              <section className="attachments-section">
+                <AttachmentsList
+                  compose
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  attachFileSuccess={attachFileSuccess}
+                  setAttachFileSuccess={setAttachFileSuccess}
+                  setNavigationError={setNavigationError}
+                  editingEnabled
+                />
 
-              <FileInput
-                attachments={attachments}
-                setAttachments={setAttachments}
-                setAttachFileSuccess={setAttachFileSuccess}
-              />
-            </section>
-          )}
+                <FileInput
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  setAttachFileSuccess={setAttachFileSuccess}
+                />
+              </section>
+            )}
 
           <DraftSavedInfo />
           <ComposeFormActionButtons
