@@ -41,24 +41,16 @@ const ManageFolderButtons = props => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (alertStatus) {
-        renameModalReference.current?.focus();
-      }
-    },
-    [alertStatus],
-  );
+  useEffect(() => {
+    if (alertStatus) {
+      renameModalReference.current?.focus();
+    }
+  }, [alertStatus]);
 
-  useEffect(
-    () => {
-      if (nameWarning.length)
-        focusElement(
-          folderNameInput.current.shadowRoot?.querySelector('input'),
-        );
-    },
-    [nameWarning],
-  );
+  useEffect(() => {
+    if (nameWarning.length)
+      focusElement(folderNameInput.current.shadowRoot?.querySelector('input'));
+  }, [nameWarning]);
 
   const openDelModal = () => {
     dispatch(closeAlert());
@@ -226,6 +218,7 @@ const ManageFolderButtons = props => {
           text="Save"
           onClick={confirmRenameFolder}
           data-dd-action-name="Save Rename Folder Button"
+          class="xsmall-screen:vads-u-margin-y--1p5"
         />
         <va-button
           uswds
