@@ -62,15 +62,14 @@ const PeriodsToVerify = ({
           status="info"
           visible
         >
-          <span
+          <h2
             id="vye-periods-to-verify-container"
             slot="headline"
-            className="vads-u-font-size--h2
-              vye-alert-absolute-title-position
+            className="vads-u-font-size--h3
               vads-u-font-weight--bold"
           >
             You have enrollment periods to verify
-          </span>
+          </h2>
           <div>
             {getPeriodsToVerify(pendingEnrollments)}
             {link && <>{link()}</>}

@@ -51,7 +51,6 @@ const ConfirmationReviewWrapper = ({
 
   // used with mock data to mock what happens after
   // successfully verifying
-  // if (toggleEnrollmentSuccess && !justVerified){
   const handleVerification = () => {
     const currentDateTime = new Date().toISOString();
     // update awardIds to a blank array
@@ -123,6 +122,7 @@ const ConfirmationReviewWrapper = ({
                 <div
                   style={{
                     paddingLeft: '8px',
+                    marginTop: '24px',
                   }}
                 >
                   <va-button

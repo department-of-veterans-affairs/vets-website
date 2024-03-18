@@ -63,11 +63,17 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                   <p className="vads-u-font-weight--bold">
                     {translateDatePeriod(awardBeginDate, awardEndDate)}
                   </p>
-                  <p className="vads-u-font-weight--bold">
-                    {`Total Credit Hours: ${numberHours}`}
+                  <p>
+                    <span className="vads-u-font-weight--bold">
+                      Total Credit Hours:
+                    </span>{' '}
+                    {numberHours}
                   </p>
-                  <p className="vads-u-font-weight--bold">
-                    {`Monthly Rate: ${formatCurrency(monthlyRate)}`}
+                  <p>
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {formatCurrency(monthlyRate)}
                   </p>
                 </va-additional-info>
               </>
@@ -106,11 +112,17 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                   <p className="vads-u-font-weight--bold">
                     {translateDatePeriod(awardBeginDate, awardEndDate)}
                   </p>
-                  <p className="vads-u-font-weight--bold">
-                    {`Total Credit Hours: ${numberHours}`}
+                  <p>
+                    <span className="vads-u-font-weight--bold">
+                      Total Credit Hours:
+                    </span>{' '}
+                    {numberHours}
                   </p>
-                  <p className="vads-u-font-weight--bold">
-                    {`Monthly Rate: ${formatCurrency(monthlyRate)}`}
+                  <p>
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {formatCurrency(monthlyRate)}
                   </p>
                 </va-additional-info>
               </>
@@ -158,7 +170,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const onPageSelect = useCallback(
     newPage => {
       handlePageChange(newPage);
-      focusElement('h2');
+      focusElement('.focus-element-on-pagination');
     },
     [setCurrentPage],
   );
