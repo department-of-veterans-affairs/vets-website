@@ -219,7 +219,7 @@ export const USER_MOCK_DATA = {
       },
     ],
     pendingVerifications: {
-      awardIds: [],
+      awardIds: [18, 19, 20, 21],
     },
     verifications: [
       {
@@ -262,6 +262,22 @@ export const USER_MOCK_DATA = {
         createdOn: '2024-08-15T16:12:43.491Z',
         awardIds: [17],
       },
+      // {
+      //   createdOn: '2024-07-15T16:12:43.491Z',
+      //   awardIds: [18],
+      // },
+      // {
+      //   createdOn: '2024-09-15T16:12:43.491Z',
+      //   awardIds: [19],
+      // },
+      // {
+      //   createdOn: '2024-10-15T16:12:43.491Z',
+      //   awardIds: [20],
+      // },
+      // {
+      //   createdOn: '2024-11-15T16:12:43.491Z',
+      //   awardIds: [21],
+      // },
     ],
   },
 };

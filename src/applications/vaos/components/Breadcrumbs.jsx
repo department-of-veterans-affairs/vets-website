@@ -57,7 +57,10 @@ export default function VAOSBreadcrumbs({ children }) {
         label: 'Appointments',
       },
     ];
-    if (window.location.pathname === `${manifest.rootUrl}/`) {
+    if (
+      window.location.pathname === `${manifest.rootUrl}/` ||
+      window.location.pathname === manifest.rootUrl
+    ) {
       return BREADCRUMB_BASE;
     }
 
