@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
@@ -14,6 +13,7 @@ import formConfig from '../../../../config/form';
 
 const errors =
   '.usa-input-error, va-radio[error], va-text-input[error], va-memorable-date[error]';
+
 const marriageInfo = {
   marriages: [
     {
@@ -21,8 +21,8 @@ const marriageInfo = {
         first: 'Jane',
         last: 'Doe',
       },
-      spouseDateOfBirth: moment().toISOString(),
-      spouseSocialSecurityNumber: '111223333',
+      spouseDateOfBirth: '1955-11-5',
+      spouseSocialSecurityNumber: '111-22-3333',
       spouseIsVeteran: 'N',
       'view:liveWithSpouse': 'Y',
     },
@@ -40,9 +40,9 @@ describe('Pensions spouse info', () => {
     const { container } = render(
       <DefinitionTester
         schema={schema}
-        data={marriageInfo}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
+        data={marriageInfo}
       />,
     );
 
@@ -111,34 +111,43 @@ describe('Pensions spouse info', () => {
       'va-memorable-date[name="root_spouseDateOfBirth"]',
       container,
     );
-    birthDate.__events.dateChange(
-      new CustomEvent('setdate', { detail: { value: '1955-11-5' } }),
+    fireEvent(
+      birthDate,
+      new CustomEvent('dateChange', { detail: { value: '1955-11-5' } }),
     );
 
     const ssnInput = $(
       'va-text-input[name="root_spouseSocialSecurityNumber"]',
       container,
     );
-    ssnInput.value = '111223333';
+    fireEvent(
+      ssnInput,
+      new CustomEvent('change', { detail: { value: '111223333' } }),
+    );
+    // fireEvent.change(ssnInput, '111223333');
 
     const spouseIsVeteran = $(
       'va-radio[name="root_spouseIsVeteran"]',
       container,
     );
-    spouseIsVeteran.__events.vaValueChange(
-      new CustomEvent('selected', { detail: { value: 'N' } }),
+    fireEvent(
+      spouseIsVeteran,
+      new CustomEvent('vaValueChange', { detail: { value: 'N' } }),
     );
 
     const liveWithSpouse = $(
       'va-radio[name="root_view:liveWithSpouse"]',
       container,
     );
-    liveWithSpouse.__events.vaValueChange(
-      new CustomEvent('selected', { detail: { value: 'Y' } }),
+    fireEvent(
+      liveWithSpouse,
+      new CustomEvent('vaValueChange', { detail: { value: 'Y' } }),
     );
 
     fireEvent.submit($('form', container));
     await waitFor(() => {
+      fireEvent.change(ssnInput, '111223333');
+
       expect($$(errors, container).length).to.equal(0);
       expect(onSubmit.called).to.be.true;
     });
