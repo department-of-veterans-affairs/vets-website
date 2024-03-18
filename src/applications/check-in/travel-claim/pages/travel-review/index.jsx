@@ -135,6 +135,7 @@ const TravelReview = props => {
       yesFunction={validation}
       noButtonText={t('back')}
       noFunction={() => goToPreviousPage()}
+      testID="travel-claim-review-page"
     />
   );
 };
