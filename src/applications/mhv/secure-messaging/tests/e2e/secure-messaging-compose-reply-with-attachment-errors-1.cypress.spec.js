@@ -17,7 +17,7 @@ describe('Start a new message With Attacments and Errors', () => {
     composePage
       .getCategory('COVID')
       .first()
-      .click();
+      .click({ force: true });
     composePage.attachMessageFromFile('test_video.mp4');
     composePage.verifyAttachmentErrorMessage(
       "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",

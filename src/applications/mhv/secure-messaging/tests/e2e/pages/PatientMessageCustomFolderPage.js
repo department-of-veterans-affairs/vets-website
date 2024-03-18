@@ -104,7 +104,7 @@ class PatientMessageCustomFolderPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }/thread`,
       mockSingleThreadResponse,
@@ -112,7 +112,7 @@ class PatientMessageCustomFolderPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }`,
       mockSingleMessageResponse,
@@ -145,7 +145,7 @@ class PatientMessageCustomFolderPage {
   ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('select')
       .select(`${text}`);
     cy.intercept(
       'GET',

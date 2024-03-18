@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { isProductionOfTestProdEnv } from '../utils/helpers';
+import { isProductionOrTestProdEnv } from '../utils/helpers';
 
 export const useFilterBtn = (afterResults = false) => {
   const [isCleared, setIsCleared] = useState(false);
@@ -23,7 +23,7 @@ export const useFilterBtn = (afterResults = false) => {
       if (
         isCleared &&
         afterResults &&
-        !isProductionOfTestProdEnv() &&
+        isProductionOrTestProdEnv() &&
         inputRef.current.Schools
       ) {
         setLoadingAndFocus(inputRef.current.Schools);
