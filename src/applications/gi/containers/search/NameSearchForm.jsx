@@ -88,12 +88,18 @@ export function NameSearchForm({
     },
     [search.loadFromUrl],
   );
+
+  useEffect(
+    () => {
+      sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
+    },
+    [showFiltersBeforeResult],
+  );
   const onApplyFilterClick = () => {
     if (name.length === 0) {
       inputRef.current.focus();
     }
   };
-
   const handleSubmit = event => {
     event.preventDefault();
     if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
@@ -106,6 +112,11 @@ export function NameSearchForm({
       doSearch(name);
     }
     onApplyFilterClick();
+  };
+  const onKeyEnter = event => {
+    if (event.key === 'Enter') {
+      handleSubmit();
+    }
   };
 
   const doAutocompleteSuggestionsSearch = value => {
@@ -148,6 +159,7 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
+              onKeyPress={onKeyEnter}
             >
               <i
                 aria-hidden="true"
@@ -161,7 +173,7 @@ export function NameSearchForm({
       </form>
       {!smallScreen &&
         isProductionOrTestProdEnv() &&
-        showFiltersBeforeResult && (
+        JSON.parse(sessionStorage.getItem('show')) && (
           <div>
             <FilterBeforeResults
               nameVal={name}
