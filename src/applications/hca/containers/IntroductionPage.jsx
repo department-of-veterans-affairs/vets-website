@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
-import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import {
   DowntimeNotification,
   externalServices,
@@ -21,7 +19,6 @@ import content from '../locales/en/content.json';
 const IntroductionPage = ({ route }) => {
   const { isLoadingApplicationStatus } = useSelector(selectEnrollmentStatus);
   const { isUserLOA1 } = useSelector(selectAuthStatus);
-  const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -47,7 +44,7 @@ const IntroductionPage = ({ route }) => {
             />
 
             {isUserLOA1 ? (
-              <IdentityVerificationAlert onVerify={onVerifyEvent} />
+              <IdentityVerificationAlert />
             ) : (
               <GetStarted route={route} />
             )}
