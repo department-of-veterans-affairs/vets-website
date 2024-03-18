@@ -32,6 +32,7 @@ const RecordList = props => {
     setCurrentPage(page);
   };
 
+  // tracks url param
   useEffect(
     () => {
       const historyParamVal = getParamValue(history.location.search, 'page');
