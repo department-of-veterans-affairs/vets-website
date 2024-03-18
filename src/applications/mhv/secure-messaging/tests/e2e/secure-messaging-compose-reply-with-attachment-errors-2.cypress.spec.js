@@ -20,24 +20,24 @@ describe('Start a new message With Attacments and Errors', () => {
       .click();
 
     composePage.getMessageSubjectField();
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage
       .getMessageBodyField()
       .type(Data.TEST_MESSAGE_BODY, { force: true, waitforanimations: true });
 
-    composePage.attachMessageFromFile('sample_pdf.pdf');
-    composePage.attachMessageFromFile('sample_pdf.pdf');
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
     composePage.verifyAttachmentErrorMessage(
       'You have already attached this file.',
     );
 
-    composePage.attachMessageFromFile('test_image_10mb.jpg');
+    composePage.attachMessageFromFile(Data.TEST_IMAGE);
     composePage.verifyAttachmentErrorMessage(
       'Your file is too large. Try attaching a file smaller than 6MB.',
     );
 
-    composePage.attachMessageFromFile('sample_pdf.pdf');
-    composePage.attachMessageFromFile('sample_docx.docx');
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
+    composePage.attachMessageFromFile(Data.SAMPLE_DOC);
     // Verify current attachments count
     composePage.verifyExpectedAttachmentsCount(2);
     composePage.attachMessageFromFile('sample_XLS.xls');

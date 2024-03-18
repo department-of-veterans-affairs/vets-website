@@ -24,11 +24,11 @@ describe('Start a new message With Attacments and Errors', () => {
     // composePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage
       .getMessageBodyField()
       .type(Data.TEST_MESSAGE_BODY, { force: true, waitforanimations: true });
-    composePage.attachMessageFromFile('sample_pdf.pdf');
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
     composePage.sendMessage();
 
     composePage.verifySendMessageConfirmationMessageText();

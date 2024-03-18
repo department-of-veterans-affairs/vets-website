@@ -18,7 +18,7 @@ describe('Start a new message With Attacments and Errors', () => {
       .getCategory('COVID')
       .first()
       .click();
-    composePage.attachMessageFromFile('test_video.mp4');
+    composePage.attachMessageFromFile(Data.TEST_VIDEO);
     composePage.verifyAttachmentErrorMessage(
       "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
     );
@@ -31,7 +31,7 @@ describe('Start a new message With Attacments and Errors', () => {
     // TO DO: remove attachment
     composePage.removeAttachMessageFromFile();
 
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage
       .getMessageBodyField()
       .type(Data.TEST_MESSAGE_BODY, { force: true, waitforanimations: true });

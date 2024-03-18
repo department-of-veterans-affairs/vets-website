@@ -26,7 +26,7 @@ describe('Secure Messaging Compose', () => {
     cy.get(`[name="compose-message-categories"][value=COVID]`)
       .first()
       .click();
-    composePage.attachMessageFromFile('test_image.jpg', { force: true });
+    composePage.attachMessageFromFile(Data.TEST_IMAGE, { force: true });
     composePage
       .getMessageSubjectField()
       .type(Data.TEST_SUBJECT, { force: true });
