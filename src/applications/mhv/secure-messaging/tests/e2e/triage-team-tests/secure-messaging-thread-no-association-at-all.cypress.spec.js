@@ -64,7 +64,7 @@ describe('Verify thread - No association at all', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
   });
 
   it('detailed view', () => {
@@ -115,7 +115,7 @@ describe('Verify thread - No association at all', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });

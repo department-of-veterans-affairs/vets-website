@@ -1,11 +1,11 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Paths } from '../utils/constants';
-import mockFeatureToggles from '../fixtures/toggles-response.json';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUser from '../fixtures/userResponse/user.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import mockRecipients from '../fixtures/recipients-response.json';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 
 describe('Verify Thread - Blocked from particular Triage Group', () => {
   const landingPage = new PatientInboxPage();
@@ -34,14 +34,14 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       mockTestUser,
     );
 
-    cy.get('h1[slot="headline"]').should(
+    cy.get(Locators.HEADLINE).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
     );
-    cy.get('va-alert[status="warning"]')
+    cy.get(Locators.ALERTS.VA_ALERT_WARNING)
       .find('a')
       .should('be.visible')
-      .and('have.attr', 'href', '/find-locations');
+      .and('have.attr', 'href', Paths.FIND_LOCATION);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -56,15 +56,15 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   it('verify alert on inbox page', () => {
     landingPage.loadInboxMessages();
 
-    cy.get('h1[slot="headline"]').should(
+    cy.get(Locators.HEADLINE).should(
       'have.text',
       'You can’t send messages to some of your care teams right now',
     );
-    cy.get('va-alert[status="warning"]')
+    cy.get(Locators.ALERTS.VA_ALERT_WARNING)
       .find('a')
       .should('be.visible')
-      .and('have.attr', 'href', '/find-locations');
-    cy.get('[data-testid="cerner-facilities-alert"]')
+      .and('have.attr', 'href', Paths.FIND_LOCATION);
+    cy.get(Locators.ALERTS.CERNER_ALERT)
       .should('be.visible')
       .and('contain.text', 'Make sure you’re in the right health portal');
 

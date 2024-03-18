@@ -18,18 +18,14 @@ describe('Secure Messaging Compose Categories', () => {
     for (let i = 0; i < listOfCategories.length; i += 1) {
       landingPage.loadInboxMessages();
       landingPage.navigateToComposePage();
-      composePage.selectRecipient();
+      composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
 
-      composePage.getCategory(listOfCategories[i]).click();
+      composePage.getCategory(listOfCategories[i]).click({ force: true });
 
       composePage.enterDataToMessageSubject();
       composePage.enterDataToMessageBody();
       composePage.sendMessage();
-      landingPage.verifySentSuccessMessage();
-
-      cy.get('va-alert')
-        .find('div > p')
-        .should('have.text', 'Secure message was successfully sent.');
+      composePage.verifySendMessageConfirmationMessageText();
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {

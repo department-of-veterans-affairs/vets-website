@@ -81,7 +81,7 @@ describe('Compose container', () => {
 
     const screen = setup(state);
     await waitFor(() => {
-      fireEvent.click(screen.getByText('Continue to start message'));
+      fireEvent.click(screen.getByTestId('continue-button'));
     });
     const recipient = screen.getByTestId('compose-recipient-select');
     const categoryRadioButtons = screen.getAllByTestId(
@@ -123,7 +123,7 @@ describe('Compose container', () => {
   it('does not display recipients with preferredTeam:false attribute', async () => {
     const screen = setup();
     await waitFor(() => {
-      fireEvent.click(screen.getByText('Continue to start message'));
+      fireEvent.click(screen.getByTestId('continue-button'));
     });
     const recipient = screen.getByTestId('compose-recipient-select');
 
@@ -148,7 +148,7 @@ describe('Compose container', () => {
   it('responds to sending a message with attachment', async () => {
     const screen = setup();
     await waitFor(() => {
-      fireEvent.click(screen.getByText('Continue to start message'));
+      fireEvent.click(screen.getByTestId('continue-button'));
     });
     await waitFor(() => {
       screen.getByTestId('compose-recipient-select');

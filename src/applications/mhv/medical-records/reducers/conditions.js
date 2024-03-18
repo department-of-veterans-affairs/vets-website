@@ -1,8 +1,18 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { EMPTY_FIELD } from '../util/constants';
+import { EMPTY_FIELD, loadStates } from '../util/constants';
 
 const initialState = {
+  /**
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+
   /**
    * The list of conditions returned from the api
    * @type {array}
@@ -46,6 +56,8 @@ export const conditionReducer = (state = initialState, action) => {
     case Actions.Conditions.GET_LIST: {
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         conditionsList: action.response.map(item => {
           return convertCondition(item);
         }),
@@ -55,6 +67,12 @@ export const conditionReducer = (state = initialState, action) => {
       return {
         ...state,
         conditionDetails: undefined,
+      };
+    }
+    case Actions.Conditions.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:
