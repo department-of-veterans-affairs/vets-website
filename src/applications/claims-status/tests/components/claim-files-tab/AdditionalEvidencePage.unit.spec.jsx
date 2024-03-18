@@ -195,6 +195,65 @@ describe('<AdditionalEvidencePage>', () => {
       expect(getClaim.calledWith(1)).to.be.true;
       expect(router.push.calledWith('your-claims/1/files')).to.be.true;
     });
+
+    it('shows va-alerts when files are needed', () => {
+      const props = {
+        claim,
+        clearAdditionalEvidenceNotification: () => {},
+        files: [],
+        getClaim: () => {},
+        params,
+        resetUploads: () => {},
+        router: getRouter(),
+        uploadField: { value: null, dirty: false },
+        filesNeeded: [],
+        filesOptional: [],
+      };
+      props.filesNeeded = [
+        {
+          id: 1,
+          status: 'NEEDED_FROM_YOU',
+          displayName: 'Test',
+          description: 'Test',
+          suspenseDate: '2024-02-01',
+        },
+      ];
+      props.filesOptional = [
+        {
+          id: 2,
+          status: 'NEEDED_FROM_OTHERS',
+          displayName: 'Test',
+          description: 'Test',
+        },
+      ];
+
+      const { container } = render(
+        <AdditionalEvidencePage {...props} {...fileFormProps} />,
+      );
+
+      expect($('.primary-alert', container)).to.exist;
+      expect($('.optional-alert', container)).to.exist;
+    });
+
+    it('doesn’t show va-alerts when no files are needed', () => {
+      const props = {
+        claim,
+        clearAdditionalEvidenceNotification: () => {},
+        files: [],
+        getClaim: () => {},
+        params,
+        resetUploads: () => {},
+        router: getRouter(),
+        uploadField: { value: null, dirty: false },
+        filesNeeded: [],
+        filesOptional: [],
+      };
+
+      const { container } = render(<AdditionalEvidencePage {...props} />);
+
+      expect($('.primary-alert', container)).not.to.exist;
+      expect($('.optional-alert', container)).not.to.exist;
+    });
   });
 
   context('when claim is closed', () => {
