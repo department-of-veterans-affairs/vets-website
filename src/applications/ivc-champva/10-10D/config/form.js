@@ -47,6 +47,7 @@ import {
 import {
   sponsorWording,
   applicantWording,
+  additionalFilesHint,
 } from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
@@ -86,13 +87,20 @@ import ApplicantOhiStatusPage, {
   ApplicantOhiStatusReviewPage,
 } from '../pages/ApplicantOhiStatusPage';
 import SupportingDocumentsPage from '../pages/SupportingDocumentsPage';
+import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
+import {
+  ApplicantRelOriginPage,
+  ApplicantRelOriginReviewPage,
+} from '../pages/ApplicantRelOriginPage';
+import {
+  ApplicantSponsorMarriageDetailsPage,
+  ApplicantSponsorMarriageDetailsReviewPage,
+} from '../pages/ApplicantSponsorMarriageDetailsPage';
+
 import { hasReq } from '../components/File/MissingFileOverview';
-
-import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
-
 import { fileTypes, fileWithMetadataSchema } from './attachments';
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
@@ -105,7 +113,6 @@ import FileViewField, {
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
-import { MissingFileConsentPage } from '../pages/MissingFileConsentPage';
 
 // Used to condense some repetitive schema boilerplate
 const maxApplicants = 3;
@@ -180,7 +187,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -279,7 +286,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               "What's your relationship to the Applicant(s)?",
-              'Depending on your response, additional documentation may be required to determine eligibility',
+              additionalFilesHint,
             ),
             certifierRelationship: relationshipToVeteranUI({
               personTitle: 'Applicant(s)',
@@ -861,6 +868,41 @@ const formConfig = {
             },
           },
         },
+        page18c: {
+          path: 'applicant-information/:index/child-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} relationship to sponsor (continued)`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'child'
+            );
+          },
+          CustomPage: ApplicantRelOriginPage,
+          CustomPageReview: ApplicantRelOriginReviewPage,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'ui:description': blankSchema,
+            applicantRelationshipOrigin: customRelationshipSchema([
+              'blood',
+              'adoption',
+              'step',
+            ]),
+          }),
+        },
         page18a: {
           path: 'applicant-information/:index/child-documents',
           arrayPath: 'applicants',
@@ -968,51 +1010,6 @@ const formConfig = {
             ),
           }),
         },
-        page18c: {
-          path: 'applicant-information/:index/child-info',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'child'
-            );
-          },
-          uiSchema: {
-            applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} relationship to sponsor`,
-                ),
-                'ui:description': AdditionalDocumentationAlert(),
-                applicantRelationshipOrigin: radioUI({
-                  title: 'Question regarding blood relation status',
-                  required: () => true,
-                  labels: {
-                    blood: 'Blood',
-                    adoption: 'Adoption',
-                    step: 'Stepchild',
-                  },
-                }),
-              },
-            },
-          },
-          schema: applicantListSchema([], {
-            titleSchema,
-            'ui:description': blankSchema,
-            applicantRelationshipOrigin: radioSchema([
-              'blood',
-              'adoption',
-              'step',
-            ]),
-          }),
-        },
         page18d: {
           path: 'applicant-information/:index/adoption-documents',
           arrayPath: 'applicants',
@@ -1026,7 +1023,7 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
-                'applicantRelationshipOrigin',
+                'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'adoption'
             );
@@ -1084,7 +1081,7 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
-                'applicantRelationshipOrigin',
+                'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'step'
             );
@@ -1130,6 +1127,39 @@ const formConfig = {
             ),
           }),
         },
+        page18f1: {
+          path: 'applicant-information/:index/marriage-details',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              ['spouse', 'spouseSeparated'].includes(
+                get(
+                  'applicantRelationshipToSponsor.relationshipToVeteran',
+                  formData?.applicants?.[index],
+                ),
+              ) && get('sponsorIsDeceased', formData)
+            );
+          },
+          CustomPage: ApplicantSponsorMarriageDetailsPage,
+          CustomPageReview: ApplicantSponsorMarriageDetailsReviewPage,
+          schema: applicantListSchema([], {
+            applicantSponsorMarriageDetails: {
+              type: 'object',
+              properties: {
+                relationshipToVeteran: { type: 'string' },
+                otherRelationshipToVeteran: { type: 'string' },
+              },
+            },
+          }),
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
+        },
         page18f: {
           path: 'applicant-information/:index/spouse',
           arrayPath: 'applicants',
@@ -1141,7 +1171,18 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse'
+              ) === 'spouse' &&
+              ((get('sponsorIsDeceased', formData) &&
+                [
+                  'marriedTillDeathNoRemarriage',
+                  'marriedTillDeathRemarriedAfter55',
+                ].includes(
+                  get(
+                    'applicantSponsorMarriageDetails.relationshipToVeteran',
+                    formData?.applicants?.[index],
+                  ),
+                )) ||
+                !get('sponsorIsDeceased', formData))
             );
           },
           CustomPage: FileFieldCustom,
@@ -1374,13 +1415,15 @@ const formConfig = {
                 ...titleUI(
                   'Required supporting file upload',
                   ({ formData }) =>
-                    `Upload ${formData?.applicantName?.first} ${
-                      formData?.applicantName?.last
-                    }'s copy of health insurance card.`,
+                    `Upload the front and back of ${applicantWording(
+                      formData,
+                      undefined,
+                      true,
+                    )} health insurance card(s). If you have more than one type of health insurance (other than Medicare), please upload the front and back of all cards`,
                 ),
                 ...applicantOhiCardsConfig.uiSchema,
                 applicantOhiCard: fileUploadUI(
-                  "Upload the applicant's copy of health insurance card",
+                  "Upload front and back of the applicant's health insurance card",
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,

@@ -79,7 +79,11 @@ const EkgDetails = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="ekg-date"
+        data-testid="ekg-record-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="ekg-date" />
@@ -96,11 +100,13 @@ const EkgDetails = props => {
         <h2 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location
         </h2>
-        <p>{record.facility || 'There is no facility reported at this time'}</p>
+        <p data-testid="ekg-record-facility">
+          {record.facility || 'There is no facility reported at this time'}
+        </p>
         <h2 className="vads-u-font-size--base vads-u-font-family--sans">
           Results
         </h2>
-        <p>
+        <p data-testid="ekg-results">
           Your EKG results aren’t available in this tool. To get your EKG
           results, you can request a copy of your complete medical record from
           your VA health facility.
