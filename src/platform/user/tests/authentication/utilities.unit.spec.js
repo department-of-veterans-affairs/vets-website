@@ -649,5 +649,8 @@ describe('Authentication Utilities', () => {
         nonHomepageRoute,
       );
     });
+    it('should return users to /my-va page when `authReturnUrl` is empty', () => {
+      expect(authUtilities.generateReturnURL('')).to.eql(myVARoute);
+    });
   });
 });

@@ -121,6 +121,7 @@ const ReviewPage = props => {
               key={chapter.name}
               header={chapter.formConfig.title}
               id={chapter.name}
+              open
             >
               <ReviewCollapsibleChapter
                 expandedPages={chapter.expandedPages}
