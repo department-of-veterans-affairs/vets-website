@@ -133,7 +133,7 @@ export const pageHooks = cy => ({
           .first()
           .shadow()
           .find('input')
-          .check();
+          .click({ force: true });
         cy.findAllByText(/Submit application/i, {
           selector: 'button',
         }).click();

@@ -41,7 +41,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
     cy.get(Locators.ALERTS.VA_ALERT_WARNING)
       .find('a')
       .should('be.visible')
-      .and('have.attr', 'href', '/find-locations');
+      .and('have.attr', 'href', Paths.FIND_LOCATION);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -63,7 +63,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
     cy.get(Locators.ALERTS.VA_ALERT_WARNING)
       .find('a')
       .should('be.visible')
-      .and('have.attr', 'href', '/find-locations');
+      .and('have.attr', 'href', Paths.FIND_LOCATION);
     cy.get(Locators.ALERTS.CERNER_ALERT)
       .should('be.visible')
       .and('contain.text', 'Make sure you’re in the right health portal');

@@ -3,6 +3,9 @@ import {
   BASE_URL,
   BENEFITS_PROFILE_URL_SEGMENT,
   BENEFITS_PROFILE_URL,
+  VERIFICATION_PROFILE_URL,
+  VERIFICATION_REVIEW_URL_SEGMENT,
+  CONFIRMATION_REVIEW_URL_SEGMENT,
 } from '../constants';
 
 export default function EnrollmentVerificationBreadcrumbs() {
@@ -14,7 +17,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
       Education and training
     </a>,
     <a href={BASE_URL} key="enrollment-verification-page">
-      Montgomery GI Bill® Enrollment Verifications
+      Montgomery GI Bill® enrollment verification
     </a>,
   ];
 
@@ -27,7 +30,23 @@ export default function EnrollmentVerificationBreadcrumbs() {
   if ([BENEFITS_PROFILE_URL_SEGMENT].includes(page)) {
     breadcrumbs.push(
       <a href={BENEFITS_PROFILE_URL} key="BenefitsProfilePage">
-        Your Benefits Profile
+        Your benefits profile
+      </a>,
+    );
+  }
+
+  if ([VERIFICATION_REVIEW_URL_SEGMENT].includes(page)) {
+    breadcrumbs.push(
+      <a href={VERIFICATION_PROFILE_URL} key="VerificationReviewPage">
+        Verify your enrollment
+      </a>,
+    );
+  }
+
+  if ([CONFIRMATION_REVIEW_URL_SEGMENT].includes(page)) {
+    breadcrumbs.push(
+      <a href={VERIFICATION_PROFILE_URL} key="ConfirmationReviewPage">
+        Verify your enrollment
       </a>,
     );
   }

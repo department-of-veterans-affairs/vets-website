@@ -15,16 +15,19 @@ describe('authenticated experience -- profile -- direct deposit', () => {
     const createStore = ({
       serviceType = CSP_IDS.ID_ME,
       cpnErrors,
+      eduErrors,
       controlInformation = {
-        canUpdateAddress: true,
-        corpAvailIndicator: true,
-        corpRecFoundIndicator: true,
-        hasNoBdnPaymentsIndicator: true,
-        identityIndicator: true,
-        isCompetentIndicator: true,
-        indexIndicator: true,
-        noFiduciaryAssignedIndicator: true,
-        notDeceasedIndicator: true,
+        canUpdateDirectDeposit: true,
+        isCorpAvailable: true,
+        isCorpRecFound: true,
+        hasNoBdnPayments: true,
+        hasIdentity: true,
+        hasIndex: true,
+        isCompetent: true,
+        hasMailingAddress: true,
+        hasNoFiduciaryAssigned: true,
+        isNotDeceased: true,
+        hasPaymentAddress: true,
       },
     } = {}) => {
       const middleware = [];
@@ -48,6 +51,14 @@ describe('authenticated experience -- profile -- direct deposit', () => {
         initState.vaProfile = {
           cnpPaymentInformation: {
             error: cpnErrors,
+          },
+        };
+      }
+
+      if (eduErrors) {
+        initState.vaProfile = {
+          eduPaymentInformation: {
+            error: eduErrors,
           },
         };
       }
@@ -131,27 +142,25 @@ describe('authenticated experience -- profile -- direct deposit', () => {
 
       expect(setViewingIsRestricted.called).to.be.true;
     });
-    it('should render service down if eduDirectDeposit errored ', () => {
+    it('should render children if eduDirectDeposit errored but CNP was successful', () => {
       const setViewingIsRestricted = spy();
-      const store = createStore({ cpnErrors: [{}] });
-      const { getByTestId, queryByTestId } = render(
+      const store = createStore({ eduErrors: { data: [{}] } });
+      const { getByTestId } = render(
         <Provider store={store}>
           <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
             <div data-testid="child" />
           </DirectDepositWrapper>
         </Provider>,
       );
-      expect(getByTestId('service-is-down-banner')).to.exist;
-      expect(queryByTestId('child')).to.be.null;
-
-      expect(setViewingIsRestricted.called).to.be.true;
+      expect(getByTestId('child')).to.exist;
+      expect(setViewingIsRestricted.called).to.be.false;
     });
 
     it('should render blocked message if the veteran is deceased', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          notDeceasedIndicator: false,
+          isNotDeceased: false,
         },
       });
 
@@ -169,7 +178,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          noFiduciaryAssignedIndicator: false,
+          hasNoFiduciaryAssigned: false,
         },
       });
 
@@ -187,7 +196,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          isCompetentIndicator: false,
+          isCompetent: false,
         },
       });
 
