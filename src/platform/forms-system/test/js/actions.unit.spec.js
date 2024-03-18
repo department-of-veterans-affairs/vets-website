@@ -305,7 +305,7 @@ describe('Schemaform actions:', () => {
       requests = [];
     });
 
-    it('should reject if file is too big', done => {
+    it('should reject if file is too large', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -323,8 +323,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please make sure the file is 5B or less and try again.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5B.`,
           });
           done();
         },
@@ -360,8 +360,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'pdf',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please make sure the file is 5B or less and try again.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5B.`,
           });
           done();
         },
@@ -398,8 +398,8 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
             errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please make sure the file is 5 Bytes or less and try again.`,
+              'We couldn\u2019t upload your file because it\u2019s too large. ' +
+              `File size must be less than 5 Bytes.`,
           });
           done();
         },
@@ -437,13 +437,12 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please make sure the file is 5 Bytes or more and try again.`,
+              `Try uploading a file that\u2019s 5 Bytes or more.`,
           });
           done();
         },
         undefined,
         undefined,
-        enableShortWorkflow,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
@@ -474,13 +473,12 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please make sure the file is 5B or more and try again.`,
+              `Try uploading a file that\u2019s 5B or more.`,
           });
           done();
         },
         undefined,
         undefined,
-        enableShortWorkflow,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
@@ -516,7 +514,6 @@ describe('Schemaform actions:', () => {
         },
         undefined,
         undefined,
-        enableShortWorkflow,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
@@ -685,7 +682,6 @@ describe('Schemaform actions:', () => {
         f => f,
         undefined,
         undefined,
-        enableShortWorkflow,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
@@ -726,7 +722,6 @@ describe('Schemaform actions:', () => {
         f => f,
         undefined,
         undefined,
-        enableShortWorkflow,
       );
       const dispatch = sinon.spy();
       const getState = sinon.stub().returns({
@@ -788,237 +783,6 @@ describe('Schemaform actions:', () => {
         name: 'jpg',
         size: 42,
         errorMessage: 'Internal Server Error',
-      });
-    });
-  });
-  describe('uploadFile when enableShortWorkflow is false', () => {
-    let xhr;
-    let requests = [];
-
-    beforeEach(() => {
-      global.FormData = sinon.stub().returns({
-        append: sinon.spy(),
-      });
-      xhr = sinon.useFakeXMLHttpRequest();
-      xhr.onCreate = req => {
-        requests.push(req);
-      };
-    });
-
-    afterEach(() => {
-      delete global.FormData;
-      global.XMLHttpRequest = window.XMLHttpRequest;
-      xhr.restore();
-      requests = [];
-    });
-
-    it('should reject if file is too big', done => {
-      const onChange = sinon.spy();
-      const thunk = uploadFile(
-        {
-          name: 'jpg',
-          size: 10,
-        },
-        {
-          fileTypes: ['jpg'],
-          maxSize: 5,
-          maxPdfSize: 20,
-        },
-        f => f,
-        onChange,
-        () => {
-          expect(onChange.firstCall.args[0]).to.eql({
-            name: 'jpg',
-            errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
-          });
-          done();
-        },
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {},
-        },
-      });
-
-      thunk(dispatch, getState);
-    });
-
-    it('should reject if PDF file is too big', done => {
-      const onChange = sinon.spy();
-      const thunk = uploadFile(
-        {
-          name: 'pdf',
-          size: 10,
-        },
-        {
-          fileTypes: ['pdf'],
-          maxSize: 20,
-          maxPdfSize: 5,
-        },
-        f => f,
-        onChange,
-        () => {
-          expect(onChange.firstCall.args[0]).to.eql({
-            name: 'pdf',
-            errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
-          });
-          done();
-        },
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {},
-        },
-      });
-
-      thunk(dispatch, getState);
-    });
-
-    it('should reject if file is too small', done => {
-      const onChange = sinon.spy();
-      const thunk = uploadFile(
-        {
-          name: 'jpg',
-          size: 1,
-        },
-        {
-          minSize: 5,
-          fileTypes: ['jpg'],
-          maxSize: 8,
-        },
-        f => f,
-        onChange,
-        () => {
-          expect(onChange.firstCall.args[0]).to.eql({
-            name: 'jpg',
-            errorMessage:
-              'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or more.`,
-          });
-          done();
-        },
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {},
-        },
-      });
-
-      thunk(dispatch, getState);
-    });
-
-    it('should reject if file is wrong type', done => {
-      const onChange = sinon.spy();
-      const thunk = uploadFile(
-        {
-          name: 'jpg',
-          size: 5,
-        },
-        {
-          fileTypes: ['jpeg'],
-          maxSize: 5,
-        },
-        f => f,
-        onChange,
-        () => {
-          expect(onChange.firstCall.args[0]).to.eql({
-            errorMessage:
-              'We couldn’t upload your file because we can’t accept this type of file. ' +
-              'Please delete the file. Then try again with a .jpeg file.',
-            name: 'jpg',
-          });
-          done();
-        },
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {},
-        },
-      });
-
-      thunk(dispatch, getState);
-    });
-
-    it('should render wrong file type message with seperators', done => {
-      const onChange = sinon.spy();
-      const thunk = uploadFile(
-        {
-          name: 'jpg',
-          size: 5,
-        },
-        {
-          fileTypes: ['jpeg', 'pdf', 'img'],
-          maxSize: 5,
-        },
-        f => f,
-        onChange,
-        () => {
-          expect(onChange.firstCall.args[0]).to.eql({
-            errorMessage:
-              'We couldn’t upload your file because we can’t accept this type of file. ' +
-              'Please delete the file. Then try again with a .jpeg, .pdf, or .img file.',
-            name: 'jpg',
-          });
-          done();
-        },
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {},
-        },
-      });
-
-      thunk(dispatch, getState);
-    });
-
-    it('should set error on network issue', () => {
-      const onChange = sinon.spy();
-      const thunk = uploadFile(
-        {
-          name: 'jpg',
-          size: 0,
-        },
-        {
-          fileTypes: ['jpg'],
-          maxSize: 5,
-          createPayload: f => f,
-          parseResponse: f => f.data.attributes,
-        },
-        f => f,
-        onChange,
-        f => f,
-      );
-      const dispatch = sinon.spy();
-      const getState = sinon.stub().returns({
-        form: {
-          data: {},
-        },
-      });
-
-      thunk(dispatch, getState);
-
-      requests[0].error();
-      expect(onChange.firstCall.args[0]).to.eql({
-        name: 'jpg',
-        uploading: true,
-      });
-      expect(onChange.secondCall.args[0]).to.eql({
-        name: 'jpg',
-        errorMessage:
-          'We’re sorry. We had a connection problem. Please delete the file and try again.',
-        file: {
-          name: 'jpg',
-          size: 0,
-        },
       });
     });
   });

@@ -154,7 +154,10 @@ export const App = ({
   if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
     router.push('/start');
     content = wrapInH1(
-      <va-loading-indicator message="Please wait while we restart the application for you." />,
+      <va-loading-indicator
+        set-focus
+        message="Please wait while we restart the application for you."
+      />,
     );
   } else if (
     loggedIn &&

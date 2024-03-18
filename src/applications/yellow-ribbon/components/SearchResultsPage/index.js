@@ -8,7 +8,6 @@ import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
 import { toggleShowMobileFormAction } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
-import { getCurrentAcademicYear } from '../../helpers';
 
 export const SearchResultsPage = ({
   hasFetchedOnce,
@@ -18,7 +17,7 @@ export const SearchResultsPage = ({
 }) => (
   <>
     {/* Title */}
-    <h1 className="vads-u-margin-bottom--0">
+    <h1>
       Yellow Ribbon school search results
       {/* Screen reader total results */}
       {hasFetchedOnce && (
@@ -29,15 +28,6 @@ export const SearchResultsPage = ({
     </h1>
 
     <div className="vads-l-row">
-      {/* Search Form */}
-      <div className="vads-l-col--12">
-        {/* Pre-form content */}
-        <p className="vads-l-col--12 medium-screen:vads-l-col--9">
-          Information for participating schools is for the current academic
-          year, {getCurrentAcademicYear()}.
-        </p>
-      </div>
-
       {/* Search Form */}
       <div className="vads-l-col--12 medium-screen:vads-l-col--3">
         {/* Toggle Mobile Form */}

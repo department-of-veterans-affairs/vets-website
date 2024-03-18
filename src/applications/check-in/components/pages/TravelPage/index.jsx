@@ -14,6 +14,7 @@ import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const TravelPage = ({
   header,
@@ -39,7 +40,6 @@ const TravelPage = ({
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
-
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
@@ -48,9 +48,10 @@ const TravelPage = ({
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
-          setECheckinStartedCalled ? '' : '-45MR'
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
         }-clicked`,
         'nav',
+        app,
       ),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
@@ -84,10 +85,7 @@ const TravelPage = ({
         withBackButton
       >
         {bodyText && (
-          <div
-            data-testid="body-text"
-            className="vads-u-font-family--serif vads-u-margin-bottom--3"
-          >
+          <div data-testid="body-text" className="vads-u-margin-bottom--3">
             {bodyText}
           </div>
         )}

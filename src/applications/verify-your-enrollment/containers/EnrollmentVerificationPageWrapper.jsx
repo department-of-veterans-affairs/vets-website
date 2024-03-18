@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { getToggleEnrollmentSuccess } from '../selectors/getToggleEnrollmentSuccess';
+// import { getToggleEnrollmentError } from '../selectors/getToggleEnrollmentError';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
-import PeriodsToVerify from '../components/PeriodsToVerify';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
 import PageLink from '../components/PageLink';
 import {
@@ -19,11 +20,25 @@ import { useData } from '../hooks/useData';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
+import PeriodsToVerify from '../components/PeriodsToVerify';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
   const mockData = useSelector(getMockData);
-  const { expirationDate, updated, month, day, loading } = useData();
+  const {
+    expirationDate,
+    updated,
+    month,
+    day,
+    loading,
+    isUserLoggedIn,
+    enrollmentData,
+  } = useData();
+
+  const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
+  // const toggleEnrollmentError = useSelector(getToggleEnrollmentError);
+
+  const data = toggleEnrollmentSuccess ? mockData : enrollmentData;
 
   return (
     <>
@@ -42,6 +57,9 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             ) : (
               <>
                 <PeriodsToVerify
+                  enrollmentData={data}
+                  isUserLoggedIn={isUserLoggedIn}
+                  loading={loading}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"
@@ -51,6 +69,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                       className="vye-mimic-va-button vads-u-font-family--sans"
                     />
                   )}
+                  toggleEnrollmentSuccess={toggleEnrollmentSuccess}
                 />
                 <CurrentBenefitsStatus
                   updated={updated}
@@ -68,7 +87,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={mockData} />
+            <PreviousEnrollmentVerifications enrollmentData={data} />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your benefits profile"
@@ -86,7 +105,6 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     </>
   );
 };
-
 EnrollmentVerificationPageWrapper.propTypes = {
   children: PropTypes.any,
 };

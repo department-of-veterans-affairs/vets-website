@@ -22,7 +22,7 @@ import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageKey = 'requestDateTime';
-const pageTitle = 'Choose an appointment day and time';
+const pageTitle = 'When would you like an appointment?';
 
 const maxSelections = 3;
 
@@ -84,11 +84,15 @@ export default function VARequest({ changeCrumb }) {
 
   return (
     <div className="vaos-form__detailed-radio">
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vads-u-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       <p>
-        Choose your preferred date and time for this appointment. You can
-        request up to 3 dates. A scheduling coordinator will call you to
-        schedule your appointment.
+        You can select up to 3 preferred timeframes. We'll schedule your
+        appointment or call to schedule with you.{' '}
       </p>
       <CalendarWidget
         multiSelect
@@ -105,7 +109,7 @@ export default function VARequest({ changeCrumb }) {
         renderOptions={props => <DateTimeRequestOptions {...props} />}
         renderSelectedLabel={getSelectedLabel}
         required
-        requiredMessage="Please select at least one preferred date for your appointment. You can select up to three dates."
+        requiredMessage="Select at least 1 preferred timeframe for your appointment."
         showValidation={submitted && !userSelectedSlot(selectedDates)}
       />
       <FormButtons

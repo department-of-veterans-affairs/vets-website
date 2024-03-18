@@ -1,27 +1,46 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-// eslint-disable-next-line import/no-unresolved
+import { usePostTravelClaims } from '../../../hooks/usePostTravelClaims';
+import { useUpdateError } from '../../../hooks/useUpdateError';
+import { makeSelectForm } from '../../../selectors';
 import Wrapper from '../../../components/layout/Wrapper';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelClaimSuccessAlert from './TravelClaimSuccessAlert';
-import { getUniqueFacilies } from '../../../utils/appointment';
-
-// @TODO Appointments will come from redux this is temp
-import { multiFacility } from '../travel-intro/testAppointments';
 
 const Complete = () => {
   const { t } = useTranslation();
-  const facilities = getUniqueFacilies(multiFacility);
+  const selectForm = useMemo(makeSelectForm, []);
+  const { updateError } = useUpdateError();
+  const { data } = useSelector(selectForm);
+  const { facilitiesToFile } = data;
+  const { isLoading, travelPayClaimError } = usePostTravelClaims();
 
+  useEffect(
+    () => {
+      if (travelPayClaimError) {
+        updateError('completing-travel-submission');
+      }
+    },
+    [travelPayClaimError, updateError],
+  );
+  if (isLoading) {
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('loading')}
+      />
+    );
+  }
   return (
     <>
       <Wrapper
         pageTitle={t('were-processing-your-travel-claim', {
-          count: facilities.length,
+          count: facilitiesToFile.length,
         })}
         classNames="travel-page"
       >
-        <TravelClaimSuccessAlert appointments={multiFacility} />
+        <TravelClaimSuccessAlert claims={facilitiesToFile} />
         <div data-testid="travel-complete-content">
           <p>
             <Trans
