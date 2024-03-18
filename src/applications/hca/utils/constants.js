@@ -94,6 +94,17 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedRightEntry: 'rejected_rightentry',
 });
 
+// declare enrollment status codes that permit apply/reapply action
+export const HCA_APPLY_ALLOWED_STATUSES = new Set([
+  null,
+  HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+  HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
+  HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+  HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+  HCA_ENROLLMENT_STATUSES.canceledDeclined,
+  HCA_ENROLLMENT_STATUSES.closed,
+]);
+
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
 

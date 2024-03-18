@@ -11,7 +11,6 @@ import {
 
 import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import GetStarted from '../components/IntroductionPage/GetStarted';
-import OMBInfo from '../components/IntroductionPage/GetStarted/OMBInfo';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import content from '../locales/en/content.json';
@@ -48,8 +47,6 @@ const IntroductionPage = ({ route }) => {
             ) : (
               <GetStarted route={route} />
             )}
-
-            <OMBInfo />
           </>
         )}
       </DowntimeNotification>

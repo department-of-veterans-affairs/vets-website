@@ -14,6 +14,7 @@ describe('hca IntroductionPage', () => {
     hasError = false,
     hasESRecord = false,
     overrideEnabled = false,
+    enrollmentStatus = null,
   } = {}) => ({
     props: {
       route: {
@@ -31,6 +32,7 @@ describe('hca IntroductionPage', () => {
           isLoadingApplicationStatus: isLoading,
           hasServerError: hasError,
           noESRRecordFound: !hasESRecord,
+          enrollmentStatus,
         },
         form: {
           formId: formConfig.formId,
@@ -124,8 +126,12 @@ describe('hca IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const selector = container.querySelector('va-process-list');
-    expect(selector).to.exist;
+    const selectors = {
+      list: container.querySelector('va-process-list'),
+      ombInfo: container.querySelector('va-omb-info'),
+    };
+    expect(selectors.list).to.exist;
+    expect(selectors.ombInfo).to.exist;
   });
 
   it('should show enrollment status alert when record exists', () => {
@@ -148,9 +154,11 @@ describe('hca IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const selector = container.querySelector(
-      '[data-testid="hca-server-error-alert"]',
-    );
-    expect(selector).to.exist;
+    const selectors = {
+      alert: container.querySelector('[data-testid="hca-server-error-alert"]'),
+      ombInfo: container.querySelector('va-omb-info'),
+    };
+    expect(selectors.alert).to.exist;
+    expect(selectors.ombInfo).to.not.exist;
   });
 });

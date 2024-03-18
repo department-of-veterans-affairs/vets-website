@@ -3,7 +3,10 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
-import { HCA_ENROLLMENT_STATUSES } from '../../utils/constants';
+import {
+  HCA_ENROLLMENT_STATUSES,
+  HCA_APPLY_ALLOWED_STATUSES,
+} from '../../utils/constants';
 
 Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
   describe(`HCA-Enrollment-Status: ${status}`, () => {
@@ -57,8 +60,13 @@ Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
         cy.get('va-process-list').should('not.exist');
       }
 
-      cy.injectAxe();
-      cy.axeCheck();
+      if (HCA_APPLY_ALLOWED_STATUSES.has(status)) {
+        cy.get('va-omb-info').should('exist');
+      } else {
+        cy.get('va-omb-info').should('not.exist');
+      }
+
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
@@ -107,7 +115,6 @@ describe('HCA-Enrollment-Status: Server Error', () => {
     cy.get('[data-testid="hca-enrollment-alert"]').should('not.exist');
     cy.get('va-process-list').should('not.exist');
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
