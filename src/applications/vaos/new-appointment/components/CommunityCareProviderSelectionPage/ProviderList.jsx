@@ -145,9 +145,6 @@ export default function ProviderList({
                         {name}
                       </span>
                       <span className="vads-u-display--block">
-                        {provider.address?.line}
-                      </span>
-                      <span className="vads-u-display--block">
                         {provider.address.city}, {provider.address.state}
                       </span>
                       <span className="vads-u-display--block vads-u-font-size--sm">

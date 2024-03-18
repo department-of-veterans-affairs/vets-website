@@ -19,11 +19,15 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const uiSchema = {
   communityCareSystemId: {
-    'ui:title':
-      'Choose a city that is near you. This ensures that we send your community care request to your closest VA health system.',
+    'ui:title': ' ',
     'ui:widget': 'radio',
     'ui:errorMessages': {
       required: 'Select a city',
+    },
+    'ui:options': {
+      classNames: 'vads-u-margin-top--neg2',
+      showFieldLabel: false,
+      widgetClassNames: 'foobar2',
     },
   },
 };
@@ -71,7 +75,9 @@ export default function ClosestCityStatePage({ changeCrumb }) {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--0">
+        {pageTitle}
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Closest city and state"
@@ -86,7 +92,7 @@ export default function ClosestCityStatePage({ changeCrumb }) {
         >
           <va-additional-info
             trigger="Why we’re asking this"
-            class="vads-u-margin-y--4"
+            class="vads-u-margin-bottom--4"
             data-testid="additional-info"
           >
             <div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
 import TypeOfAppointmentSection from '../TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
-import CommunityCareSection from '../CommunityCareSection';
+import CommunityCareSection from './CommunityCareSection/CommunityCareSection';
 import Description from '../Description';
 
 export default function ReviewRequestInfo({
