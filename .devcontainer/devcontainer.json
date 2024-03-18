@@ -9,8 +9,8 @@
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2":{},
 		"ghcr.io/devcontainers/features/desktop-lite:1": {
-            "vncPort": "5900",
-            "webPort": "6080"
+			"vncPort": "5900",
+			"webPort": "6080"
 		}
 	},
 	"customizations": {
