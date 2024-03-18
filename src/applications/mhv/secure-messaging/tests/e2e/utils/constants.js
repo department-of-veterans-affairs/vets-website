@@ -185,4 +185,7 @@ export const Alerts = {
 
 export const Data = {
   TEST_MESSAGE_BODY: 'Test message body',
+  TEST_SUBJECT: 'Test Subject',
+  TEST_IMAGE: 'test_image.jpg',
+  ESC: '{esc}',
 };

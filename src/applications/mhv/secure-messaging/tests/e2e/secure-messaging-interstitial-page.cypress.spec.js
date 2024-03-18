@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
@@ -12,7 +12,7 @@ describe('Secure Messaging Compose', () => {
 
     cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
 
-    cy.realType('{esc}');
+    cy.realType(Data.ESC);
 
     cy.get(Locators.ALERTS.VA_CRISIS_LINE).should('have.focus');
 

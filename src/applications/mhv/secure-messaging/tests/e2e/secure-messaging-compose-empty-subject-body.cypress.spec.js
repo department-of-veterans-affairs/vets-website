@@ -20,7 +20,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   });
 
   it('empty message body error', () => {
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage.clickOnSendMessageButton();
     composePage.verifyBodyErrorMessage();
     cy.injectAxe();
