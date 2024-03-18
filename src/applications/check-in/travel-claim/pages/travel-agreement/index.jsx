@@ -38,7 +38,7 @@ const TravelAgreement = props => {
           onClick={goToPreviousPage}
           to={URLS.TRAVEL_REVIEW}
           data-testid="file-claim-link"
-          className="vad-u-font-weight-bold"
+          className="vads-u-font-weight--bold"
         >
           {t('finish-reviewing-your-travel-claim')}
         </Link>

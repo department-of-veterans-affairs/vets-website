@@ -8,11 +8,15 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
-const keyname = 'applicantRelationshipToSponsor';
+const KEYNAME = 'applicantRelationshipToSponsor';
 
-function generateOptions({ data, pagePerItemIndex }) {
+export function appRelBoilerplate({ data, pagePerItemIndex }) {
+  const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
   const applicant = applicantWording(currentListItem, undefined, false);
@@ -31,6 +35,30 @@ function generateOptions({ data, pagePerItemIndex }) {
     false,
   );
 
+  return {
+    keyname,
+    currentListItem,
+    personTitle,
+    applicant,
+    useFirstPerson,
+    relative,
+    beingVerbPresent,
+    relativePossessive,
+  };
+}
+
+function generateOptions({ data, pagePerItemIndex }) {
+  const {
+    keyname,
+    currentListItem,
+    personTitle,
+    applicant,
+    useFirstPerson,
+    relative,
+    beingVerbPresent,
+    relativePossessive,
+  } = appRelBoilerplate({ data, pagePerItemIndex });
+
   const marriedDeceased = `${relative} was married to the ${personTitle} at any time`;
   const marriedLiving = `${relative} ${beingVerbPresent} the ${personTitle}’s spouse`;
   const marriedLivingDivorced = `${relative} was the ${personTitle}’s spouse, but ${beingVerbPresent} no longer married to the ${personTitle}`;
@@ -40,7 +68,10 @@ function generateOptions({ data, pagePerItemIndex }) {
     marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
   } else {
     marriageOptions.push({ label: marriedLiving, value: 'spouse' });
-    marriageOptions.push({ label: marriedLivingDivorced, value: 'spouse' });
+    marriageOptions.push({
+      label: marriedLivingDivorced,
+      value: 'spouseSeparated',
+    });
   }
 
   // Create dynamic radio labels based on above phrasing
@@ -78,7 +109,8 @@ const relationshipStructure = {
 };
 
 export function ApplicantRelationshipReviewPage(props) {
-  const { data } = props || {};
+  const { data, keyname = KEYNAME } = props || {};
+  const genOps = props.genOp || generateOptions;
   const {
     currentListItem,
     options,
@@ -86,7 +118,7 @@ export function ApplicantRelationshipReviewPage(props) {
     useFirstPerson,
     applicant,
     personTitle,
-  } = generateOptions(props);
+  } = genOps(props);
   const other = currentListItem?.[keyname]?.otherRelationshipToVeteran;
   return data ? (
     <div className="form-review-panel-page">
@@ -125,9 +157,11 @@ export function ApplicantRelationshipReviewPage(props) {
 
 export default function ApplicantRelationshipPage({
   data,
+  genOp,
   setFormData,
   goBack,
   goForward,
+  keyname = KEYNAME,
   pagePerItemIndex,
   updatePage,
   onReviewPage,
@@ -141,13 +175,16 @@ export default function ApplicantRelationshipPage({
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
+  const genOps = genOp || generateOptions;
   const {
     options,
     relativePossessive,
     useFirstPerson,
     applicant,
     personTitle,
-  } = generateOptions({
+    customTitle,
+    description,
+  } = genOps({
     data,
     pagePerItemIndex,
   });
@@ -213,19 +250,23 @@ export default function ApplicantRelationshipPage({
     <>
       {
         titleUI(
-          `${
-            useFirstPerson ? `Your` : `${applicant}’s`
-          } relationship to the ${personTitle}`,
+          customTitle ||
+            `${
+              useFirstPerson ? `Your` : `${applicant}’s`
+            } relationship to the ${personTitle}`,
         )['ui:title']
       }
 
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
           class="vads-u-margin-y--2"
-          label={`What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
-            useFirstPerson ? `your` : `${applicant}’s`
-          } relationship to the ${personTitle}?`}
-          hint="Depending on your response, you may need to submit additional documents with this application."
+          label={
+            description ||
+            `What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
+              useFirstPerson ? `your` : `${applicant}’s`
+            } relationship to the ${personTitle}?`
+          }
+          hint={additionalFilesHint}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
@@ -277,13 +318,17 @@ export default function ApplicantRelationshipPage({
 ApplicantRelationshipReviewPage.propTypes = {
   data: PropTypes.object,
   editPage: PropTypes.func,
+  genOp: PropTypes.func,
+  keyname: PropTypes.string,
   title: PropTypes.func,
 };
 
 ApplicantRelationshipPage.propTypes = {
   data: PropTypes.object,
+  genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  keyname: PropTypes.string,
   pagePerItemIndex: PropTypes.string || PropTypes.number,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
