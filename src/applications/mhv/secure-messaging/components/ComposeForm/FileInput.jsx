@@ -91,15 +91,12 @@ const FileInput = props => {
     }
   };
 
-  useEffect(
-    () => {
-      const errorElement = document.getElementById(`error-${selectedFileId}`);
-      if (errorElement) {
-        errorElement.focus();
-      }
-    },
-    [selectedFileId],
-  );
+  useEffect(() => {
+    const errorElement = document.getElementById(`error-${selectedFileId}`);
+    if (errorElement) {
+      errorElement.focus();
+    }
+  }, [selectedFileId]);
 
   const useFileInput = () => {
     fileInputRef.current.click();
@@ -139,7 +136,6 @@ const FileInput = props => {
           />
 
           <va-button
-            uswds
             onClick={useFileInput}
             secondary
             text={

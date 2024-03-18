@@ -9,23 +9,19 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
     state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
   );
 
-  const cernerFacilitiesNames = useMemo(
-    () => {
-      if (ehrDataByVhaId) {
-        return cernerFacilities?.map(facility =>
-          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
-        );
-      }
-      return [];
-    },
-    [cernerFacilities, ehrDataByVhaId],
-  );
+  const cernerFacilitiesNames = useMemo(() => {
+    if (ehrDataByVhaId) {
+      return cernerFacilities?.map(facility =>
+        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
+      );
+    }
+    return [];
+  }, [cernerFacilities, ehrDataByVhaId]);
 
   return (
     <>
       {cernerFacilitiesNames?.length > 0 && (
         <va-alert
-          uswds
           className="vads-u-margin-bottom--2"
           status="warning"
           background-only
@@ -68,10 +64,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
               Go to My VA Health (opens in new tab)
             </a>
 
-            <va-additional-info
-              trigger="Having trouble opening My VA Health?"
-              uswds
-            >
+            <va-additional-info trigger="Having trouble opening My VA Health?">
               <div>Try these steps:</div>
               <ul>
                 <li>Disable your browser’s pop-up blocker</li>

@@ -19,38 +19,29 @@ const Folders = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // clear out alerts if user navigates away from this component
-  useEffect(
-    () => {
-      return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [location.pathname, dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch, location, isModalVisible],
-  );
-
-  useEffect(
-    () => {
-      if (!isModalVisible) {
-        const alertVisible = alertList[alertList?.length - 1];
-        const alertSelector =
-          folders !== undefined && !alertVisible?.isActive
-            ? 'h1'
-            : alertVisible?.isActive && 'va-alert';
-        focusElement(document.querySelector(alertSelector));
-        updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
+  useEffect(() => {
+    return () => {
+      if (location.pathname) {
+        dispatch(closeAlert());
       }
-    },
-    [alertList, folders, isModalVisible],
-  );
+    };
+  }, [location.pathname, dispatch]);
+
+  useEffect(() => {
+    dispatch(getFolders());
+  }, [dispatch, location, isModalVisible]);
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      const alertVisible = alertList[alertList?.length - 1];
+      const alertSelector =
+        folders !== undefined && !alertVisible?.isActive
+          ? 'h1'
+          : alertVisible?.isActive && 'va-alert';
+      focusElement(document.querySelector(alertSelector));
+      updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
+    }
+  }, [alertList, folders, isModalVisible]);
 
   const openNewModal = () => {
     dispatch(closeAlert());
@@ -75,7 +66,7 @@ const Folders = () => {
     }
     if (folders === null || folders === false) {
       return (
-        <va-alert uswds status="error" visible class="vads-u-margin-y--9">
+        <va-alert status="error" visible class="vads-u-margin-y--9">
           <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
           <p>
             You can’t view your secure message because something went wrong on
@@ -102,7 +93,6 @@ const Folders = () => {
           text="Create new folder"
           data-testid="create-new-folder"
           data-dd-action-name="Create New Folder Button"
-          uswds
         />
         {folderCount > 0 && (
           <>

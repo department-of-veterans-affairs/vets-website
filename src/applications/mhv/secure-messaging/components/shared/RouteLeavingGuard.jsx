@@ -51,15 +51,12 @@ export const RouteLeavingGuard = ({
     });
   };
 
-  useEffect(
-    () => {
-      if (confirmedNavigation) {
-        navigate(lastLocation.pathname);
-        updateConfirmedNavigation(false);
-      }
-    },
-    [confirmedNavigation],
-  );
+  useEffect(() => {
+    if (confirmedNavigation) {
+      navigate(lastLocation.pathname);
+      updateConfirmedNavigation(false);
+    }
+  }, [confirmedNavigation]);
 
   return (
     <>

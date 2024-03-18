@@ -6,7 +6,6 @@ import { Prompts } from '../../util/constants';
 const DeleteMessageModal = props => {
   return (
     <VaModal
-      uswds
       id="delete-message-modal"
       modalTitle={Prompts.Message.DELETE_MESSAGE_CONFIRM}
       onCloseEvent={props.onClose}

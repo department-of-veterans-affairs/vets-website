@@ -76,7 +76,6 @@ const FilterBox = forwardRef((props, ref) => {
           primaryButtonText="Ok"
           status="error"
           visible
-          uswds
         >
           <p>
             Please use at least one of the following search fields or choose a

@@ -17,8 +17,8 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
       <h2 className="vads-u-margin-top--1">
         Questions about this messaging tool
       </h2>
-      <va-accordion uswds open-single bordered>
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+      <va-accordion open-single bordered>
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">Who can I send messages to?</h3>
           <p>
             You can send messages to VA providers and staff on your care team.
@@ -59,7 +59,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             What if I have an emergency or an urgent question?
           </h3>
@@ -92,7 +92,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </ul>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             Will VA protect my personal health information?
           </h3>
@@ -107,7 +107,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             What happened to my settings from My HealtheVet secure messaging?
           </h3>
@@ -136,7 +136,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             Will I need to pay a copay for using this messaging tool?
           </h3>
@@ -174,8 +174,8 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
     <div className="secure-messaging-faq">
       <h2 className="vads-u-margin-top--1">Questions about using messages</h2>
 
-      <va-accordion uswds open-single>
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+      <va-accordion open-single>
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">Who can I communicate with in messages?</h3>
           <p>
             You can communicate with VA providers on your care team. Most VA
@@ -213,7 +213,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             What if I have an emergency or an urgent question?
           </h3>
@@ -231,7 +231,6 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
               or night.
               <br />
               <va-button
-                uswds
                 class="vads-u-margin-y--1"
                 secondary="true"
                 text="Connect with the Veterans Crisis Line"
@@ -246,7 +245,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </ul>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             Will VA protect my personal health information?
           </h3>
@@ -261,7 +260,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item uswds data-testid="faq-accordion-item">
+        <va-accordion-item data-testid="faq-accordion-item">
           <h3 slot="headline">
             What happened to my settings from My HealtheVet secure messaging?
           </h3>

@@ -136,7 +136,6 @@ const ManageFolderButtons = props => {
       )}
       {isEmptyWarning && (
         <VaModal
-          uswds
           className="modal"
           data-testid="error-folder-not-empty"
           visible={isEmptyWarning}
@@ -149,7 +148,6 @@ const ManageFolderButtons = props => {
         >
           <p>{Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY}</p>
           <va-button
-            uswds
             ref={emptyFolderConfirmBtn}
             text="Ok"
             onClick={() => {
@@ -160,7 +158,6 @@ const ManageFolderButtons = props => {
       )}
       {!isEmptyWarning && (
         <VaModal
-          uswds
           className="modal"
           data-testid="remove-this-folder"
           visible={deleteModal}
@@ -171,14 +168,12 @@ const ManageFolderButtons = props => {
         >
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button
-            uswds
             ref={removeButton}
             text="Yes, remove this folder"
             onClick={confirmDelFolder}
             data-dd-action-name="Confirm Remove Folder Button"
           />
           <va-button
-            uswds
             secondary
             text="No, keep this folder"
             onClick={closeDelModal}
@@ -187,7 +182,6 @@ const ManageFolderButtons = props => {
         </VaModal>
       )}
       <VaModal
-        uswds
         className="modal"
         data-testid="rename-folder-modal"
         visible={renameModal}
@@ -197,7 +191,6 @@ const ManageFolderButtons = props => {
         data-dd-action-name="Rename Folder Modal Closed"
       >
         <VaTextInput
-          uswds
           data-dd-privacy="mask"
           ref={folderNameInput}
           label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
@@ -214,14 +207,12 @@ const ManageFolderButtons = props => {
           charcount
         />
         <va-button
-          uswds
           text="Save"
           onClick={confirmRenameFolder}
           data-dd-action-name="Save Rename Folder Button"
           class="xsmall-screen:vads-u-margin-y--1p5"
         />
         <va-button
-          uswds
           secondary="true"
           text="Cancel"
           onClick={closeRenameModal}

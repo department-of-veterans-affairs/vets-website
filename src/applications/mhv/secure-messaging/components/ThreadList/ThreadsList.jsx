@@ -28,33 +28,25 @@ const ThreadsList = props => {
 
   const [atEndOfThreads, setAtEndOfThreads] = useState(false);
 
-  const fromToNums = useMemo(
-    () => {
-      const from = (pageNum - 1) * threadsPerPage + 1;
-      const to = Math.min(pageNum * threadsPerPage, totalThreads);
-      return { from, to };
-    },
-    [pageNum, threadsPerPage, totalThreads],
-  );
+  const fromToNums = useMemo(() => {
+    const from = (pageNum - 1) * threadsPerPage + 1;
+    const to = Math.min(pageNum * threadsPerPage, totalThreads);
+    return { from, to };
+  }, [pageNum, threadsPerPage, totalThreads]);
 
-  useEffect(
-    () => {
-      // get display numbers
-      if (fromToNums && totalThreads) {
-        const label = `Showing ${fromToNums.from} to ${
-          fromToNums.to
-        } of ${totalThreads} conversations`;
-        setDisplayNums({ ...fromToNums, label });
-      }
+  useEffect(() => {
+    // get display numbers
+    if (fromToNums && totalThreads) {
+      const label = `Showing ${fromToNums.from} to ${fromToNums.to} of ${totalThreads} conversations`;
+      setDisplayNums({ ...fromToNums, label });
+    }
 
-      if (totalThreads === fromToNums.to) {
-        setAtEndOfThreads(true);
-      } else {
-        setAtEndOfThreads(false);
-      }
-    },
-    [fromToNums, totalThreads],
-  );
+    if (totalThreads === fromToNums.to) {
+      setAtEndOfThreads(true);
+    } else {
+      setAtEndOfThreads(false);
+    }
+  }, [fromToNums, totalThreads]);
 
   return (
     <>
@@ -94,7 +86,6 @@ const ThreadsList = props => {
             onPageSelect={e => paginationCallback(e.detail.page)}
             page={pageNum}
             pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
-            uswds
           />
         )}
       </div>

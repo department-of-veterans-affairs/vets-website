@@ -7,7 +7,6 @@ const DeleteDraftModal = props => {
   const { unsavedNewDraft } = props;
   return (
     <VaModal
-      uswds
       id="delete-draft-modal"
       data-testid="delete-draft-modal"
       modalTitle={
@@ -26,12 +25,11 @@ const DeleteDraftModal = props => {
       </p>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <va-button
-          uswds
           class="vads-u-padding-right--0 vads-u-padding-bottom--2 small-screen:vads-u-padding-right--2 small-screen:vads-u-padding-bottom--0"
           text="Delete draft"
           onClick={props.onDelete}
         />
-        <va-button uswds secondary text="Cancel" onClick={props.onClose} />
+        <va-button secondary text="Cancel" onClick={props.onClose} />
       </div>
     </VaModal>
   );

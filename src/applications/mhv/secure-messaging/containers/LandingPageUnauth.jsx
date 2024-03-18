@@ -20,7 +20,6 @@ const LandingPageUnauth = () => {
         business days.
       </p>
       <va-alert
-        uswds
         close-btn-aria-label="Close notification"
         status="continue"
         visible
@@ -36,7 +35,6 @@ const LandingPageUnauth = () => {
             these accounts, you can create a free account now.
           </p>
           <va-button
-            uswds
             onClick={handleSignIn}
             primary-alternate
             text="Sign in or create account"

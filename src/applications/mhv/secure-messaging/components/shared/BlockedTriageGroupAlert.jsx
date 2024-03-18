@@ -64,24 +64,21 @@ const BlockedTriageGroupAlert = props => {
       : sortTriageList(blockedTriageGroupList);
   }, []);
 
-  useEffect(
-    () => {
-      if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
-        let value = '';
-        if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
-          value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
-        } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
-          value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
-        } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
-          value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
-        } else {
-          value = alertTitleText;
-        }
-        datadogRum.addAction('Blocked triage group alert', { type: value });
+  useEffect(() => {
+    if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
+      let value = '';
+      if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
+        value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
+      } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
+        value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
+      } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
+        value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
+      } else {
+        value = alertTitleText;
       }
-    },
-    [alertTitle.NO_ASSOCIATIONS, alertTitleText],
-  );
+      datadogRum.addAction('Blocked triage group alert', { type: value });
+    }
+  }, [alertTitle.NO_ASSOCIATIONS, alertTitleText]);
 
   useEffect(() => {
     if (parentComponent === ParentComponent.FOLDER_HEADER) {
@@ -158,7 +155,6 @@ const BlockedTriageGroupAlert = props => {
     </va-alert-expandable>
   ) : (
     <va-alert
-      uswds
       close-btn-aria-label="Close notification"
       status={alertStyle}
       visible

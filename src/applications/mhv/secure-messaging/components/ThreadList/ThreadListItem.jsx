@@ -88,18 +88,17 @@ const ThreadListItem = props => {
       data-testid="thread-list-item"
     >
       <div className="unread-column vads-l-col">
-        {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (unreadMessages && (
-            <span>
-              <i
-                role="img"
-                aria-hidden="true"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
-                data-testid="thread-list-unread-icon"
-                alt="Unread message icon"
-              />
-            </span>
-          ))}
+        {activeFolder.folderId !== DefaultFolders.DRAFTS.id && unreadMessages && (
+          <span>
+            <i
+              role="img"
+              aria-hidden="true"
+              className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+              data-testid="thread-list-unread-icon"
+              alt="Unread message icon"
+            />
+          </span>
+        )}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <Link
@@ -167,10 +166,9 @@ const ThreadListItem = props => {
           )}
           {unsentDrafts && (
             <>
-              {location.pathname !== Paths.DRAFTS &&
-                messageCount > 0 && (
-                  <span className="vads-u-color--gray-medium">, </span>
-                )}
+              {location.pathname !== Paths.DRAFTS && messageCount > 0 && (
+                <span className="vads-u-color--gray-medium">, </span>
+              )}
               <span className="vads-u-color--secondary-darkest">Draft</span>
             </>
           )}
@@ -183,19 +181,18 @@ const ThreadListItem = props => {
       data-testid="thread-list-item"
     >
       <div className="unread-column vads-l-col">
-        {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (unreadMessages && (
-            <span>
-              <i
-                role="img"
-                aria-label="Unread message"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
-                data-testid="thread-list-unread-icon"
-                alt="Unread message icon"
-              />
-              <span className="sr-only">Unread message</span>
-            </span>
-          ))}
+        {activeFolder.folderId !== DefaultFolders.DRAFTS.id && unreadMessages && (
+          <span>
+            <i
+              role="img"
+              aria-label="Unread message"
+              className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+              data-testid="thread-list-unread-icon"
+              alt="Unread message icon"
+            />
+            <span className="sr-only">Unread message</span>
+          </span>
+        )}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()} data-dd-privacy="mask">

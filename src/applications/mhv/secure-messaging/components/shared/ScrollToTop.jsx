@@ -4,14 +4,11 @@ import PropTypes from 'prop-types';
 
 const ScrollToTop = props => {
   const location = useLocation();
-  useEffect(
-    () => {
-      if (!location.hash) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      }
-    },
-    [location],
-  );
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  }, [location]);
 
   return <>{props.children}</>;
 };

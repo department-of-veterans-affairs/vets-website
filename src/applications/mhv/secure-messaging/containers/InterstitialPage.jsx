@@ -10,19 +10,16 @@ const InterstitialPage = props => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  const continueButtonText = useMemo(
-    () => {
-      switch (type) {
-        case 'reply':
-          return 'Continue to reply';
-        case 'draft':
-          return 'Continue to draft';
-        default:
-          return 'Continue to start message';
-      }
-    },
-    [type],
-  );
+  const continueButtonText = useMemo(() => {
+    switch (type) {
+      case 'reply':
+        return 'Continue to reply';
+      case 'draft':
+        return 'Continue to draft';
+      default:
+        return 'Continue to start message';
+    }
+  }, [type]);
 
   return (
     <div className="interstitial-page">
@@ -37,7 +34,6 @@ const InterstitialPage = props => {
         </p>
 
         <va-button
-          uswds
           data-testid="continue-button"
           onClick={acknowledge}
           text={continueButtonText}

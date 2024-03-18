@@ -90,7 +90,6 @@ const ThreadListSort = props => {
       </VaSelect>
 
       <va-button
-        uswds
         type="button"
         text="Sort"
         label="Sort"

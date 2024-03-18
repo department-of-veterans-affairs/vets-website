@@ -47,21 +47,18 @@ const AlertBackgroundBox = props => {
   const location = useLocation();
   const SrOnlyTag = alertContent === SERVER_ERROR_503 ? 'h1' : 'span';
 
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert?.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        // The activeAlert is the most recent alert marked as active.
-        setActiveAlert(filteredSortedAlerts[0] || null);
-      }
-    },
-    [alertList],
-  );
+  useEffect(() => {
+    if (alertList?.length) {
+      const filteredSortedAlerts = alertList
+        .filter(alert => alert?.isActive)
+        .sort((a, b) => {
+          // Sort chronologically descending.
+          return b.datestamp - a.datestamp;
+        });
+      // The activeAlert is the most recent alert marked as active.
+      setActiveAlert(filteredSortedAlerts[0] || null);
+    }
+  }, [alertList]);
 
   const handleShowIcon = () => {
     if (props.noIcon) {
@@ -81,32 +78,29 @@ const AlertBackgroundBox = props => {
   const threadViewPage = /thread\/\d+/.test(location.pathname);
 
   // sets custom server error messages for the landing page and folder view pages
-  useEffect(
-    () => {
-      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
-      const isErrorAlert = activeAlert?.alertType === 'error';
-      let content = activeAlert?.content;
+  useEffect(() => {
+    const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
+    const isErrorAlert = activeAlert?.alertType === 'error';
+    let content = activeAlert?.content;
 
-      if (
-        lastPathName !== 'Messages' &&
-        !foldersViewPage &&
-        !threadViewPage &&
-        (isServiceOutage || isErrorAlert)
-      ) {
-        content = SERVER_ERROR_503;
-      }
-      setAlertContent(content);
-    },
-    [
-      SERVER_ERROR_503,
-      SERVICE_OUTAGE,
-      activeAlert,
-      foldersViewPage,
-      lastPathName,
-      location.pathname,
-      threadViewPage,
-    ],
-  );
+    if (
+      lastPathName !== 'Messages' &&
+      !foldersViewPage &&
+      !threadViewPage &&
+      (isServiceOutage || isErrorAlert)
+    ) {
+      content = SERVER_ERROR_503;
+    }
+    setAlertContent(content);
+  }, [
+    SERVER_ERROR_503,
+    SERVICE_OUTAGE,
+    activeAlert,
+    foldersViewPage,
+    lastPathName,
+    location.pathname,
+    threadViewPage,
+  ]);
 
   useInterval(() => {
     const shouldRetrieveFolders =
@@ -129,7 +123,6 @@ const AlertBackgroundBox = props => {
     <>
       {activeAlert && (
         <VaAlert
-          uswds
           ref={alertRef}
           background-only
           closeable={props.closeable}
