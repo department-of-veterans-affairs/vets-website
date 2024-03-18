@@ -29,9 +29,12 @@ export default function VAOSBreadcrumbs({ children }) {
   const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
   const newLabel = label === undefined || label === null ? covidLabel : label;
 
-  useEffect(() => {
-    setBreadcrumb(newLabel);
-  }, [location, newLabel]);
+  useEffect(
+    () => {
+      setBreadcrumb(newLabel);
+    },
+    [location, newLabel],
+  );
 
   const getBreadcrumbList = () => {
     const isPast = location.pathname.includes('/past');

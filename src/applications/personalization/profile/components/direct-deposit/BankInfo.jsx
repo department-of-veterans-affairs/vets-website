@@ -100,31 +100,40 @@ export const BankInfo = ({
   const isEmptyForm =
     !formAccountNumber && !formAccountType && !formRoutingNumber;
 
-  useEffect(() => {
-    setFormIsDirty(isEmptyForm);
-  }, [isEmptyForm, setFormIsDirty]);
+  useEffect(
+    () => {
+      setFormIsDirty(isEmptyForm);
+    },
+    [isEmptyForm, setFormIsDirty],
+  );
 
-  useEffect(() => {
-    return () => {
-      if (isEditingBankInfo) {
-        toggleEditState(false);
-      }
-    };
-  }, [isEditingBankInfo, toggleEditState]);
+  useEffect(
+    () => {
+      return () => {
+        if (isEditingBankInfo) {
+          toggleEditState(false);
+        }
+      };
+    },
+    [isEditingBankInfo, toggleEditState],
+  );
 
   // when we enter and exit edit mode...
-  useEffect(() => {
-    if (isEditingBankInfo && !wasEditingBankInfo) {
-      focusOnMainHeading(sectionTitleId);
-    }
-    if (wasEditingBankInfo && !isEditingBankInfo) {
-      // clear the form data when exiting edit mode so it's blank when the
-      // edit form is shown again
-      setFormData({});
-      // focus the edit button when we exit edit mode
-      editBankInfoButton.current.focus();
-    }
-  }, [isEditingBankInfo, wasEditingBankInfo, sectionTitleId]);
+  useEffect(
+    () => {
+      if (isEditingBankInfo && !wasEditingBankInfo) {
+        focusOnMainHeading(sectionTitleId);
+      }
+      if (wasEditingBankInfo && !isEditingBankInfo) {
+        // clear the form data when exiting edit mode so it's blank when the
+        // edit form is shown again
+        setFormData({});
+        // focus the edit button when we exit edit mode
+        editBankInfoButton.current.focus();
+      }
+    },
+    [isEditingBankInfo, wasEditingBankInfo, sectionTitleId],
+  );
 
   const saveBankInfo = () => {
     const fields = {
@@ -481,4 +490,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BankInfo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BankInfo);

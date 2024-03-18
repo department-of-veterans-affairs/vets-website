@@ -13,10 +13,13 @@ export const useData = () => {
   const { data, loading } = useSelector(state => state.getDataReducer);
   const { personalInfo, isLoading } = useSelector(state => state.personalInfo);
 
-  useEffect(() => {
-    dispatch(getData());
-    dispatch(fetchPersonalInfo());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(getData());
+      dispatch(fetchPersonalInfo());
+    },
+    [dispatch],
+  );
   const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
 
   const userInfo = isUserLoggedIn
