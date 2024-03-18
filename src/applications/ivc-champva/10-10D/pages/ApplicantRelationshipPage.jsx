@@ -8,7 +8,10 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
 const KEYNAME = 'applicantRelationshipToSponsor';
 
@@ -263,7 +266,7 @@ export default function ApplicantRelationshipPage({
               useFirstPerson ? `your` : `${applicant}’s`
             } relationship to the ${personTitle}?`
           }
-          hint="Depending on your response, you may need to submit additional documents with this application."
+          hint={additionalFilesHint}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
