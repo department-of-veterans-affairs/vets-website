@@ -57,7 +57,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('[name="root_homeless"]');
+      cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
       cy.tabToContinueForm();
 
