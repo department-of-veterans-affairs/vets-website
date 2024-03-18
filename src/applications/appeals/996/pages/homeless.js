@@ -4,7 +4,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { errorMessages } from '../constants';
-// eslint-disable-next-line import/named
 import { homelessTitle, homelessReviewField } from '../content/homeless';
 
 export default {
