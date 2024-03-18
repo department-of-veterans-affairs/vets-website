@@ -9,7 +9,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths, Data } from '../utils/constants';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -502,7 +502,7 @@ class PatientInboxPage {
 
   verifySignature = () => {
     cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
+      .should('have.attr', Data.VALUE)
       .and('not.be.empty');
   };
 

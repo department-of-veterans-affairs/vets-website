@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   const landingPage = new PatientInboxPage();
@@ -65,7 +65,7 @@ describe('Secure Messaging Compose', () => {
       .type(maxText, { waitForAnimations: true });
     cy.get(Locators.FIELDS.MESS_SUBJECT).should(
       'have.attr',
-      'value',
+      Data.VALUE,
       `${maxText}`,
     );
 

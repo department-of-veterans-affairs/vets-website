@@ -3,7 +3,7 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 import mockMessages from '../fixtures/messages-response.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 
 describe('Navigate to Message Details ', () => {
   it('Keyboard Navigation to Print Button', () => {
@@ -16,10 +16,10 @@ describe('Navigate to Message Details ', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
-    cy.contains('Print').should('be.visible');
+    cy.contains(Data.PRINT).should('be.visible');
     cy.tabToElement('button')
       .eq(0)
-      .should('contain', 'Print');
+      .should('contain', Data.PRINT);
 
     cy.realPress('Tab');
     cy.get(Locators.BUTTONS.BUTTON_MOVE).should('have.focus');

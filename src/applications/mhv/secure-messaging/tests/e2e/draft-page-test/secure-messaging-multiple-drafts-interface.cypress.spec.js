@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
@@ -66,11 +66,11 @@ describe('handle multiple drafts in one thread', () => {
     cy.get(Locators.REPLY_FORM)
       .find('h3')
       .each(el => {
-        cy.wrap(el).should('include.text', 'Draft');
+        cy.wrap(el).should('include.text', Data.DRAFT);
       });
 
     cy.get(Locators.ALERTS.LAST_EDIT_DATE).each(el => {
-      cy.wrap(el).should('include.text', 'edited');
+      cy.wrap(el).should('include.text', Data.EDITED);
     });
   });
 
@@ -85,12 +85,12 @@ describe('handle multiple drafts in one thread', () => {
     });
 
     cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
+      .should('have.attr', Data.VALUE)
       .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
 
     cy.get(Locators.ALERTS.EDIT_DRAFT).click();
     cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
+      .should('have.attr', Data.VALUE)
       .and('eq', updatedMultiDraftResponse.data[1].attributes.body);
 
     cy.get('.message-body-draft-preview').should(
@@ -100,7 +100,7 @@ describe('handle multiple drafts in one thread', () => {
 
     cy.get('[text="Edit draft 2"]').click();
     cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
+      .should('have.attr', Data.VALUE)
       .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
 
     cy.get('.message-body-draft-preview').should(
