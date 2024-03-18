@@ -45,7 +45,11 @@ export const ProfileBreadcrumbs = ({ className }) => {
   );
 
   return (
-    <div className={className}>
+    <div
+      className={className}
+      data-breadcrumbs-json={JSON.stringify(breadcrumbs)}
+      data-testid="profile-breadcrumbs-wrapper"
+    >
       <VaBreadcrumbs
         uswds
         breadcrumbList={breadcrumbs}
