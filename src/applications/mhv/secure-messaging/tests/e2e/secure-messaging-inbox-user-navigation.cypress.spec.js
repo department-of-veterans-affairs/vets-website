@@ -27,7 +27,9 @@ describe('Secure Messaging Compose', () => {
       .first()
       .click();
     composePage.attachMessageFromFile('test_image.jpg', { force: true });
-    composePage.getMessageSubjectField().type(Data.TEST_IMAGE, { force: true });
+    composePage
+      .getMessageSubjectField()
+      .type(Data.TEST_SUBJECT, { force: true });
     composePage
       .getMessageBodyField()
       .type(Data.TEST_MESSAGE_BODY, { force: true });
