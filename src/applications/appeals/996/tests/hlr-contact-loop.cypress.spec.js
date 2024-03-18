@@ -21,10 +21,6 @@ import cypressSetup from '../../shared/tests/cypress.setup';
 import mockTelephoneUpdate from '../../shared/tests/fixtures/mocks/profile-telephone-update.json';
 import mockTelephoneUpdateSuccess from '../../shared/tests/fixtures/mocks/profile-telephone-update-success.json';
 
-const checkOpt = {
-  waitForAnimations: true,
-};
-
 describe('HLR contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
   const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
@@ -60,7 +56,8 @@ describe('HLR contact info loop', () => {
 
     // Homeless question
     cy.location('pathname').should('eq', `${BASE_URL}/homeless`);
-    cy.get('[type="radio"][value="N"]').check(checkOpt);
+    cy.tabToElement('input[name="root_homeless"]');
+    cy.chooseRadio('N');
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
