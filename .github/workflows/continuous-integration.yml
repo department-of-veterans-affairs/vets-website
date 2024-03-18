@@ -684,9 +684,9 @@ jobs:
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
-    container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
-      options: -u 1001:1001 -v /usr/local/share:/share
+    # container:
+    #   image: public.ecr.aws/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+    #   options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
