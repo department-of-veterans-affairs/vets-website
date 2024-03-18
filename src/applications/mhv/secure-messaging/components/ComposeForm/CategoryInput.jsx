@@ -46,7 +46,9 @@ const CategoryInput = props => {
               key={i}
               label={
                 RadioCategories[item]
-                  ? `${RadioCategories[item].label}: ${RadioCategories[item].description}`
+                  ? `${RadioCategories[item].label}: ${
+                      RadioCategories[item].description
+                    }`
                   : item
               }
               name="compose-message-categories"
