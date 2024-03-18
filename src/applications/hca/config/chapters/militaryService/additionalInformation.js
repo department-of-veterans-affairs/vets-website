@@ -1,5 +1,5 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { teraInformationEnabled } from '../../../utils/helpers/form-config';
 
 const {

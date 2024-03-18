@@ -3,8 +3,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-
+} from '~/platform/forms/definitions/address';
 import { HomeAddressDescription } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { notShortFormEligible } from '../../../utils/helpers/form-config';

@@ -1,6 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from '~/platform/forms-system/src/js/definitions/email';
+import phoneUI from '~/platform/forms-system/src/js/definitions/phone';
 
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { ContactInfoDescription } from '../../../components/FormDescriptions';
