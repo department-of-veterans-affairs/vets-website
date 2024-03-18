@@ -194,7 +194,7 @@ export const Data = {
   START_NEW_MSG: 'Start a new message',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
-  FOLDER_NAME_CNOT_BLANKAN: 'Folder name cannot be blank',
+  FOLDER_NAME_CANNOT_BLANKAN: 'Folder name cannot be blank',
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
   SECURE_MSG_SENT_SUCCESSFULLY: 'Secure message was successfully sent',

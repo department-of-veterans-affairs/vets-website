@@ -51,6 +51,6 @@ describe('create folder errors check', () => {
     cy.get(Locators.FOLDER_MANE)
       .shadow()
       .find('#input-error-message')
-      .should('contain', Data.FOLDER_NAME_CNOT_BLANKAN);
+      .should('contain', Data.FOLDER_NAME_CANNOT_BLANKAN);
   });
 });

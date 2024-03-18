@@ -53,6 +53,6 @@ describe('edit custom folder name validation', () => {
     cy.get(Locators.FOLDERS.FOLDER_NAME, { timeout: 10000 })
       .shadow()
       .find('#input-error-message')
-      .and('include.text', Data.FOLDER_NAME_CNOT_BLANKAN);
+      .and('include.text', Data.FOLDER_NAME_CANNOT_BLANKAN);
   });
 });
