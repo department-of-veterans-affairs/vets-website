@@ -6,14 +6,6 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
 
-  const handleKeyPress = e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      // prevent from scrolling to the footer
-      e.preventDefault();
-      acknowledge();
-    }
-  };
-
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
@@ -43,20 +35,14 @@ const InterstitialPage = props => {
           Your care team may take up to <strong>3 business days</strong> to
           reply.
         </p>
-        {
-          // linter advises to use button instead. However, per designs, action link is required
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <a
-            data-testid="continue-button"
-            className="vads-c-action-link--green vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--1 vads-u-font-size--lg link"
-            tabIndex={0}
-            role="button"
-            onKeyPress={handleKeyPress}
-            onClick={props.acknowledge}
-          >
-            {continueButtonText}
-          </a>
-        }
+
+        <va-button
+          uswds
+          data-testid="continue-button"
+          onClick={acknowledge}
+          text={continueButtonText}
+        />
+
         <h2 className="vads-u-font-size--h3">
           If you need help sooner, use one of these urgent communication
           options:
