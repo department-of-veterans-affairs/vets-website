@@ -5,7 +5,10 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
 const keyname = 'applicantMedicareStatus';
 
@@ -133,6 +136,7 @@ export function ApplicantMedicareStatusPage({
           label={`${
             useFirstPerson ? `Are you` : `Is ${applicant}`
           } enrolled in Medicare?`}
+          hint={additionalFilesHint}
           required
           error={error}
           uswds
