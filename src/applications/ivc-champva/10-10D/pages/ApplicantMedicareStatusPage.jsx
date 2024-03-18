@@ -39,6 +39,10 @@ export function generateOptions({ data, pagePerItemIndex }) {
     },
   ];
 
+  const prompt = `${
+    useFirstPerson ? 'Are you' : `Is ${applicant}`
+  } enrolled in Medicare?`;
+
   return {
     options,
     currentListItem,
@@ -53,7 +57,9 @@ export function generateOptions({ data, pagePerItemIndex }) {
     customTitle: `${
       useFirstPerson ? `Your` : `${applicant}'s`
     } Medicare status`,
-    description: 'Enrolled in Medicare',
+    customOtherDescription:
+      'Please explain the ineligibility or lack of enrollment',
+    description: prompt,
   };
 }
 
