@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import EnhancedEligibilityDescription from '../FormDescriptions/EnhancedEligibilityDescription';
 
 const HouseholdFinancialOnboarding = props => {
   const {
@@ -61,43 +62,7 @@ const HouseholdFinancialOnboarding = props => {
         with the Internal Revenue Service (IRS).
       </p>
 
-      <va-additional-info
-        trigger="Learn more about enhanced eligibility status for VA health care"
-        uswds
-      >
-        <div>
-          <p className="vads-u-font-weight--bold vads-u-margin-top--0">
-            You may qualify for enhanced eligibility status if you receive any
-            of these benefits:
-          </p>
-          <ul>
-            <li>VA pension</li>
-            <li>A service-connected disability compensation</li>
-            <li>Medicaid benefits</li>
-          </ul>
-          <p className="vads-u-font-weight--bold">
-            You may also qualify for enhanced eligibility status if you fit one
-            of these descriptions:
-          </p>
-          <ul className="vads-u-margin-bottom--0">
-            <li>You’re a former Prisoner of War (POW)</li>
-            <li>You received a Purple Heart</li>
-            <li>You received a Medal of Honor</li>
-            <li>
-              You served in Southwest Asia during the Gulf War between August 2,
-              1990, and November 11, 1998
-            </li>
-            <li>
-              You served at least 30 days at Camp Lejeune between August 1,
-              1953, and December 31, 1987.
-            </li>
-            <li>
-              You served in a location where you had exposure to Agent Orange
-              during the Vietnam War era
-            </li>
-          </ul>
-        </div>
-      </va-additional-info>
+      <EnhancedEligibilityDescription />
 
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />

@@ -136,9 +136,9 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       store,
     });
 
-    await screen.findByText(/requesting a community care appointment/i);
+    await screen.findByText(/Review and submit your request/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/requests/fake_id?confirmMsg=true',
@@ -226,9 +226,9 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       store,
     });
 
-    await screen.findByText(/requesting a community care appointment/i);
+    await screen.findByText(/Review and submit your request/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/requests/fake_id?confirmMsg=true',
@@ -277,9 +277,9 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       store,
     });
 
-    await screen.findByText(/requesting a community care appointment/i);
+    await screen.findByText(/Review and submit your request/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
 
     await screen.findByText('We couldn’t schedule this appointment');
 

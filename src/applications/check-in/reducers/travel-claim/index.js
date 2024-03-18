@@ -7,4 +7,23 @@ const receivedTravelDataHandler = (state, action) => {
   };
 };
 
-export { receivedTravelDataHandler };
+const setFilteredAppointmentsHandler = (state, action) => {
+  return {
+    ...state,
+    context: { ...state.context, ...action.payload },
+  };
+};
+
+const setFacilityToFileHandler = (state, action) => {
+  const data = { ...state.form.data, ...action.payload };
+  return {
+    ...state,
+    form: { ...state.form, data },
+  };
+};
+
+export {
+  receivedTravelDataHandler,
+  setFilteredAppointmentsHandler,
+  setFacilityToFileHandler,
+};

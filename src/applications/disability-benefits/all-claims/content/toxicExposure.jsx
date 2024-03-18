@@ -1,12 +1,17 @@
 import React from 'react';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  capitalizeEachWord,
-  isClaimingNew,
-  showToxicExposurePages,
-  sippableId,
-} from '../utils';
-import { NULL_CONDITION_STRING } from '../constants';
+import { capitalizeEachWord, isClaimingNew, sippableId } from '../utils';
+import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
+
+/**
+ * Checks if the toxic exposure pages should be displayed. Note: toggle is currently read
+ * from the redux store by Form526EZApp and stored in sessions storage since not all form
+ * aspects have ready access to the store.
+ * @returns true if the toggle is enabled and Veteran is claiming at least one new condition, false otherwise
+ */
+export const showToxicExposurePages = formData =>
+  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
+  formData?.newDisabilities?.length > 0;
 
 /**
  * Checks if

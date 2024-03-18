@@ -114,7 +114,7 @@ const PrintDownload = props => {
           <span>Print or download</span>
           <i className={menuIconClasses} aria-hidden="true" />
         </button>
-        <ul className={menuOptionsClasses}>
+        <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
               className="vads-u-padding-x--2"

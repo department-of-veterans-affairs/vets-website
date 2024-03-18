@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import {
   editCNPPaymentInformationToggled,
   saveCNPPaymentInformation as saveCNPPaymentInformationAction,
@@ -27,13 +25,14 @@ import {
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
-import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
+import DirectDepositConnectionError from './alerts/DirectDepositConnectionError';
 
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
@@ -45,6 +44,8 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 import { ProfileInfoCard } from '../ProfileInfoCard';
+import { EduMigrationDowntimeAlert } from './alerts/EduMigrationDowntimeAlert';
+import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 
 export const BankInfo = ({
   isLOA3,
@@ -60,6 +61,7 @@ export const BankInfo = ({
   setFormIsDirty,
   setViewingPayments,
   showSuccessMessage,
+  benefitTypeLong,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -170,9 +172,6 @@ export const BankInfo = ({
   };
 
   const benefitTypeShort = typeIsCNP ? 'disability' : 'education';
-  const benefitTypeLong = typeIsCNP
-    ? 'disability compensation and pension'
-    : 'education';
 
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
@@ -334,8 +333,20 @@ export const BankInfo = ({
     </>
   );
 
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isAlertToggleEnabled = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleFormEduDowntime,
+  );
+
+  const shouldShowEduMigrationAlert =
+    isAlertToggleEnabled && benefitTypes.EDU === type;
+
   // Helper that determines which data to show in the top row of the table
   const getBankInfo = () => {
+    if (shouldShowEduMigrationAlert) {
+      return <EduMigrationDowntimeAlert />;
+    }
+
     if (directDepositUiState.isEditing) {
       return editingBankInfoContent;
     }
@@ -359,6 +370,10 @@ export const BankInfo = ({
     if (isEligibleToSetUpDirectDeposit || isDirectDepositSetUp) {
       data.title = 'Account';
     }
+
+    if (shouldShowEduMigrationAlert) {
+      data.title = '';
+    }
     return [data];
   };
 
@@ -370,34 +385,26 @@ export const BankInfo = ({
   }
 
   if (directDepositServerError) {
-    return <DirectDepositConnectionError benefitType={type} />;
+    return (
+      <div className={type === benefitTypes.EDU && 'vads-u-margin-top--4'}>
+        <DirectDepositConnectionError benefitType={type} />
+      </div>
+    );
   }
 
   return (
     <>
-      <VaModal
-        modalTitle="Are you sure?"
-        status="warning"
-        visible={showConfirmCancelModal}
-        onCloseEvent={() => {
+      <ConfirmCancelModal
+        isVisible={showConfirmCancelModal}
+        onHide={() => {
           setShowConfirmCancelModal(false);
         }}
-        primaryButtonText="Continue Editing"
-        onPrimaryButtonClick={() => {
-          setShowConfirmCancelModal(false);
-        }}
-        secondaryButtonText="Cancel"
-        onSecondaryButtonClick={() => {
+        closeModal={() => {
           setShowConfirmCancelModal(false);
           toggleEditState();
         }}
-        uswds
-      >
-        <p>
-          You haven’t finished editing and saving the changes to your direct
-          deposit information. If you cancel now, we won’t save your changes.
-        </p>
-      </VaModal>
+        activeSection={`${benefitTypeLong} direct deposit information`}
+      />
 
       <ProfileInfoCard
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
@@ -411,6 +418,7 @@ export const BankInfo = ({
 };
 
 BankInfo.propTypes = {
+  benefitTypeLong: PropTypes.string.isRequired,
   directDepositServerError: PropTypes.bool.isRequired,
   isDirectDepositSetUp: PropTypes.bool.isRequired,
   isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
@@ -439,6 +447,9 @@ export const mapStateToProps = (state, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
 
   return {
+    benefitTypeLong: typeIsCNP
+      ? 'disability compensation and pension'
+      : 'education',
     typeIsCNP,
     isLOA3: isLOA3Selector(state),
     directDepositAccountInfo: typeIsCNP
@@ -454,7 +465,7 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositIsEligible(state, true)
+      ? cnpDirectDepositIsEligible(state)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)

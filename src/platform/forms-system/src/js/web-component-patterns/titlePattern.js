@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-const Title = ({ title, description }) => (
+export const Title = ({ title, description }) => (
   <>
     <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">{title}</h3>
     {description && (
@@ -42,10 +42,12 @@ export const titleUI = (title, description) => {
     'ui:title':
       isTitleFn || isDescriptionFn ? (
         props => (
-          <Title
-            title={isTitleFn ? title(props) : title}
-            description={isDescriptionFn ? description(props) : description}
-          />
+          <legend className="schemaform-block-title">
+            <Title
+              title={isTitleFn ? title(props) : title}
+              description={isDescriptionFn ? description(props) : description}
+            />
+          </legend>
         )
       ) : (
         <Title title={title} description={description} />

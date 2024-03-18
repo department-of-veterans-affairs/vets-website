@@ -2,36 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const AssetInformationAlert = () => (
-  <va-alert-expandable status="info" trigger="What are assets?">
-    <p>Assets are all the money and property you or your dependents own.</p>
-    <br />
+  <va-additional-info trigger="How we define assets" uswds>
     <p>
-      Don’t include the value of your primary residence or personal belongings
-      such as appliances and vehicles you or your dependents need for
-      transportation.
+      Assets are all the money and property you or your dependents own. Don’t
+      include the value of your primary residence or personal belongings such as
+      appliances and vehicles you or your dependents need for transportation.
     </p>
-  </va-alert-expandable>
+  </va-additional-info>
 );
 
 export const AssetTransferInformationAlert = () => (
-  <va-alert-expandable status="info" trigger="What are assets?">
-    <p>Assets are all the money and property you or your dependents own.</p>
-    <br />
-    <p>
-      Don’t include the value of your primary residence or personal belongings
-      such as appliances and vehicles you or your dependents need for
-      transportation.
-    </p>
-    <br />
+  <va-additional-info trigger="How to tell if you transferred assets" uswds>
     <p>You transferred assets if you made any of these transactions:</p>
-    <br />
     <ul>
       <li>You gave away money or property</li>
       <li>You sold a home that isn’t your primary residence</li>
       <li>You purchased an annuity</li>
       <li>You put money or property into a trust</li>
     </ul>
-  </va-alert-expandable>
+  </va-additional-info>
 );
 
 export const ContactWarningAlert = () => (
@@ -230,4 +219,17 @@ export const WartimeWarningAlert = () => (
       </a>
     </p>
   </va-alert>
+);
+
+export const FormReactivationAlert = () => (
+  <p>
+    You should know that we updated our online form.{' '}
+    <strong>If you started applying online before November 8, 2023</strong>, we
+    have some new questions for you to answer. And we changed some questions, so
+    you may need to provide certain information again.
+    <br />
+    <br />
+    Select <strong>Continue your application</strong> to use our update form. Or
+    come back later to finish your application.
+  </p>
 );

@@ -37,9 +37,17 @@ import {
   additionalContextHandler,
 } from './day-of';
 
-import { RECEIVED_TRAVEL_DATA } from '../actions/travel-claim';
+import {
+  RECEIVED_TRAVEL_DATA,
+  SET_FILTERED_APPOINTMENTS,
+  SET_FACILITY_TO_FILE,
+} from '../actions/travel-claim';
 
-import { receivedTravelDataHandler } from './travel-claim';
+import {
+  receivedTravelDataHandler,
+  setFilteredAppointmentsHandler,
+  setFacilityToFileHandler,
+} from './travel-claim';
 
 import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
 
@@ -74,6 +82,8 @@ const handler = Object.freeze({
   [SET_FORM]: setFormHandler,
   [ADDITIONAL_CONTEXT]: additionalContextHandler,
   [RECEIVED_TRAVEL_DATA]: receivedTravelDataHandler,
+  [SET_FILTERED_APPOINTMENTS]: setFilteredAppointmentsHandler,
+  [SET_FACILITY_TO_FILE]: setFacilityToFileHandler,
 
   default: state => {
     return { ...state };

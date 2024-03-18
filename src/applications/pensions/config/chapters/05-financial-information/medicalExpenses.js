@@ -6,7 +6,9 @@ import {
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
@@ -30,7 +32,7 @@ MedicalExpenseView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add a medical or other unreimbursed expense',
+    ...titleUI('Add a medical or other unreimbursed expense'),
     medicalExpenses: {
       'ui:options': {
         itemName: 'Unreimbursed Expense',
@@ -50,6 +52,7 @@ export default {
         }),
         childName: {
           'ui:title': 'Enter the child’s name',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
@@ -60,9 +63,11 @@ export default {
         },
         provider: {
           'ui:title': 'Who receives the payment?',
+          'ui:webComponentField': VaTextInputField,
         },
         purpose: {
           'ui:title': 'What’s the payment for?',
+          'ui:webComponentField': VaTextInputField,
         },
         paymentDate: currentOrPastDateUI('What’s the date of the payment?'),
         paymentFrequency: radioUI({

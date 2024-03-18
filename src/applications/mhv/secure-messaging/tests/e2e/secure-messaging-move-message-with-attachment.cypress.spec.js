@@ -4,7 +4,7 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
 import mockMessages from './fixtures/messages-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('Secure Messaging - Move Message with Attachment', () => {
   it('can move with attachment', () => {
@@ -19,30 +19,32 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      `${
+        Paths.INTERCEPT.MESSAGE_FOLDERS
+      }/0/messages?per_page=-1&useCache=false`,
       mockMessages,
     ).as('messagesFolder');
     cy.intercept(
       'PATCH',
-      `/my_health/v1/messaging/threads/${
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${
         mockThreadwithAttachment.data.at(0).attributes.threadId
       }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
 
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
+    cy.get('.is-active').click();
     messageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    cy.get('[data-testid="move-button-text"]').click({ force: true });
-    cy.get('[data-testid="move-to-modal"]')
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
+    cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
       })
       .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
       .click();
-    cy.get('[data-testid="move-to-modal"]')
+    cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('va-button[text="Confirm"]')
       .click();
     cy.wait('@moveMessagewithAttachment');

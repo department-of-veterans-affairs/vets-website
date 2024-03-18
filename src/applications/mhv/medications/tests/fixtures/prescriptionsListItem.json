@@ -130,5 +130,6 @@
             ]
         ]
     ],
-    "tracking": false
+    "tracking": false,
+    "orderable_item": "ABACAVIR"
 }

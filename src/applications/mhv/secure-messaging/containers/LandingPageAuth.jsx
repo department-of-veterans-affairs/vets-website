@@ -13,14 +13,25 @@ then additional functionality will need to be added to account for this.
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import {
+  renderMHVDowntime,
+  updatePageTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { retrieveFolder } from '../actions/folders';
-import { DefaultFolders as Folder, PageTitles } from '../util/constants';
-import { updatePageTitle } from '../util/helpers';
+import {
+  DefaultFolders as Folder,
+  PageTitles,
+  downtimeNotificationParams,
+} from '../util/constants';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CernerTransitioningFacilityAlert from '../components/Alerts/CernerTransitioningFacilityAlert';
 
@@ -53,6 +64,12 @@ const LandingPageAuth = () => {
     <div className="dashboard">
       <AlertBackgroundBox />
       <h1>Messages</h1>
+
+      <DowntimeNotification
+        appTitle={downtimeNotificationParams.appTitle}
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvSm]}
+        render={renderMHVDowntime}
+      />
 
       <CernerTransitioningFacilityAlert />
 

@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { Alerts, AXE_CONTEXT, Locators } from '../utils/constants';
+import { Alerts, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -50,7 +50,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -83,7 +83,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
@@ -116,7 +116,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
       .and(
         'include.text',
@@ -149,7 +149,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');

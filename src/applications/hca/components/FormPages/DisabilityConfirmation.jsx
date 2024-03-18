@@ -13,7 +13,8 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   };
 
   return (
-    <va-summary-box
+    <va-alert
+      status="info"
       class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
       uswds
     >
@@ -24,8 +25,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
       <p>
         You selected that you currently receive service-connected disability pay
         for a 50% or higher disability rating. This means that you meet one of
-        our eligibility criteria and we don’t need to ask your questions about
-        other criteria, like income and military service.
+        our eligibility criteria and we don’t need to ask you some questions.
       </p>
       <div className="row form-progress-buttons schemaform-buttons">
         <div className="small-5 medium-4 columns">
@@ -45,7 +45,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
           />
         </div>
       </div>
-    </va-summary-box>
+    </va-alert>
   );
 };
 

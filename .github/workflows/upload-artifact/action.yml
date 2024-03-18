@@ -1,0 +1,22 @@
+name: Upload Artifact
+description: Upload Artifact
+
+inputs:
+  name:
+    description: Assign a name to the artifact you're uploading
+    required: true
+  path:
+    description: Path to upload artifact from
+    required: true
+  retention-days:
+    description: Days to retain artifacts for
+    required: false
+    default: 0 # in this case, 0 allows it to inherit repository's default value
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.path }}

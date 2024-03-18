@@ -7,7 +7,10 @@ import {
   selectUI,
   selectSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { previousHiApplicationFields } from '../definitions/constants';
+import {
+  VA_REGIONAL_OFFICE_CITIES,
+  previousHiApplicationFields,
+} from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
   previousHiApplicationFields.parentObject
@@ -31,7 +34,7 @@ export default {
       ),
       [previousHiApplicationFields.previousHiApplicationAddress]: {
         city: selectUI(
-          'VA regional office city connected with your past application',
+          'Select the city of the VA regional office connected with your past application (if you know it)',
         ),
       },
     },
@@ -47,11 +50,7 @@ export default {
           [previousHiApplicationFields.previousHiApplicationAddress]: {
             type: 'object',
             properties: {
-              city: selectSchema([
-                'Atlanta',
-                'Boston',
-                // Temporary data. To be updated in ticket #1065
-              ]),
+              city: selectSchema(VA_REGIONAL_OFFICE_CITIES),
             },
           },
         },

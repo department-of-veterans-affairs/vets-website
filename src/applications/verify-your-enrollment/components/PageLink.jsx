@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
-const PageLink = ({ linkText, relativeURL, URL }) => {
+const PageLink = ({ linkText, relativeURL, URL, className, margin }) => {
   const history = useHistory();
 
   const handleClick = useCallback(
@@ -17,9 +17,9 @@ const PageLink = ({ linkText, relativeURL, URL }) => {
 
   return (
     <a
-      className="vads-c-action-link--green vads-u-margin-top--5"
+      className={`${className} vads-u-margin-top--${margin}`}
       href={URL}
-      onClick={handleClick}
+      onClick={relativeURL && handleClick}
     >
       {linkText}
     </a>
@@ -28,7 +28,9 @@ const PageLink = ({ linkText, relativeURL, URL }) => {
 
 PageLink.propTypes = {
   URL: PropTypes.string,
+  className: PropTypes.string,
   linkText: PropTypes.string,
+  margin: PropTypes.string,
   relativeURL: PropTypes.string,
 };
 export default PageLink;

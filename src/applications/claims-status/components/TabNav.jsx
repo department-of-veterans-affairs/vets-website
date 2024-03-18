@@ -18,12 +18,14 @@ export default function TabNav({ id }) {
           tabpath={`your-claims/${id}/files`}
           title="Files"
         />
-        <TabItem
-          shortcut={3}
-          tabpath={`your-claims/${id}/details`}
-          title="Details"
-        />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <TabItem
+              shortcut={3}
+              tabpath={`your-claims/${id}/details`}
+              title="Details"
+            />
+          </Toggler.Disabled>
           <Toggler.Enabled>
             <TabItem
               shortcut={4}

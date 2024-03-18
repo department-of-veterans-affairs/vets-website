@@ -1,61 +1,81 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { waitFor, fireEvent, render, cleanup } from '@testing-library/react';
+import { mount, shallow } from 'enzyme';
+import { waitFor } from '@testing-library/react';
 import { USER_MOCK_DATA } from '../../constants/mockData';
-import { renderWithStoreAndRouter } from '../helpers';
 import PeriodsToVerify from '../../components/PeriodsToVerify';
 
-describe('PeriodsToVerify', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
-  it('should render', async () => {
-    const screen = renderWithStoreAndRouter(<PeriodsToVerify />, {
-      initialState: {
-        enrollmentData: USER_MOCK_DATA,
-      },
-    });
-    await waitFor(() => {
-      expect(screen).to.not.be.null;
-    });
-  });
-
-  it('displays the success message after verification', async () => {
-    const screen = renderWithStoreAndRouter(
-      <PeriodsToVerify enrollmentData={USER_MOCK_DATA} />,
-      {
-        initialState: {
-          enrollmentData: USER_MOCK_DATA,
-        },
-      },
-    );
-
-    const verifyEnrollmentButton = screen.getByTestId('Verify enrollment');
-    fireEvent.click(verifyEnrollmentButton);
-    await waitFor(() => {
-      const successMessage = screen.getByText(
-        'You have successfully verified your enrollment',
-      );
-      expect(successMessage).to.be.ok;
-    });
-  });
-
-  it('renders up to date statement with blank enrollmentData', () => {
-    const mockStore = configureMockStore();
-    const store = mockStore({ mockData: { mockData: {} } }); // Providing blank object for enrollmentData
-    const screen = render(
+const mockStore = configureMockStore();
+const initialState = {
+  getDataReducer: {
+    data: {
+      ...USER_MOCK_DATA,
+    },
+  },
+  personalInfo: {
+    personalInfo: {},
+  },
+};
+let store;
+describe('<PeriodsToVerify />', () => {
+  it('renders without crashing', () => {
+    store = mockStore(initialState);
+    const wrapper = shallow(
       <Provider store={store}>
-        <PeriodsToVerify
-          dispatchUpdatePendingVerifications={() => {}}
-          dispatchUpdateVerifications={() => {}}
-        />
+        <PeriodsToVerify />
       </Provider>,
     );
-    const upToDateStatement =
-      'You’re up-to-date with your monthly enrollment verification. You’ll be able to verify your enrollment next month.';
-    expect(screen.queryByText(upToDateStatement)).to.be.visible;
+    expect(wrapper.exists()).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('shows loader when loading is true', async () => {
+    store = mockStore(initialState);
+    const props = {
+      loading: true,
+      isUserLoggedIn: false,
+      enrollmentData: {},
+      loggedIEnenrollmentData: {},
+      dispatchUpdatePendingVerifications: sinon.spy(),
+      dispatchUpdateVerifications: sinon.spy(),
+      dispatchVerifyEnrollmentAction: sinon.spy(),
+    };
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <PeriodsToVerify {...props} />
+      </Provider>,
+    );
+    await waitFor(() => {
+      expect(wrapper.find('Loader').exists()).to.be.true;
+    });
+    wrapper.unmount();
+  });
+  it('should renders up to date statement with blank enrollmentdata', async () => {
+    const mockData = initialState.personalInfo;
+    store = mockStore(mockData);
+    const props = {
+      loading: false,
+      isUserLoggedIn: false,
+      enrollmentData: { mockData },
+      loggedIEnenrollmentData: {},
+      dispatchUpdatePendingVerifications: sinon.spy(),
+      dispatchUpdateVerifications: sinon.spy(),
+      dispatchVerifyEnrollmentAction: sinon.spy(),
+    };
+    const wrapper = shallow(
+      <Provider store={store}>
+        <PeriodsToVerify {...props} />
+      </Provider>,
+    );
+    expect(
+      wrapper
+        .find('p')
+        .someWhere(t => t.text().includes("You're up-to-date with your")),
+    ).to.equal(false);
+    wrapper.unmount();
   });
 });

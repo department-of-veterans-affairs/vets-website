@@ -9,7 +9,7 @@ import { createPayload, parseResponse } from '../helpers';
 
 const uiTitle = 'Upload evidence for extreme financial hardship';
 const uiDescription =
-  'If you have documents you would like to submit as evidence of financial hardship upload them here.';
+  'If you have documents you would like to submit as evidence of financial hardship, upload them here.';
 
 /** @type {PageSchema} */
 export default {
@@ -34,7 +34,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_financial_hardship_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

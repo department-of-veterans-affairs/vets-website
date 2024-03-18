@@ -26,9 +26,7 @@ const AuthenticatedShortFormAlert = () => {
           VA service-connected disability rating of {disabilityRating}
           %.
         </strong>{' '}
-        This means that you meet one of our eligibility criteria. And we don’t
-        need to ask you questions about other criteria like income and military
-        service.
+        This means that you meet one of our eligibility criteria.
       </p>
       <va-additional-info trigger="What if I don’t think my rating information is correct here?">
         Call us at <va-telephone contact={CONTACTS['222_VETS']} />. We’re here

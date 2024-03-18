@@ -5,7 +5,7 @@ import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-delet
 import mockSentFolderMetaResponse from './fixtures/sentResponse/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 import mockCustomFolderMetaResponse from './fixtures/customResponse/custom-folder-messages-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   const landingPage = new PatientInboxPage();
@@ -29,7 +29,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
     composePage.verifyExpectedPageOpened('Inbox');
-    cy.get('[data-testid="compose-message-link"]').should('be.visible');
+    cy.get(Locators.ALERTS.CREATE_NEW_MESSAGE).should('be.visible');
   });
 
   it('Navigate Away From `Start a new message` To Draft', () => {
@@ -48,7 +48,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     composePage.selectSideBarMenuOption('Drafts');
@@ -72,7 +72,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1*`,
       mockSentFolderMetaResponse,
     ).as('sentResponse');
     composePage.selectSideBarMenuOption('Sent');
@@ -96,7 +96,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3*`,
       mockDeletedFolderMetaResponse,
     ).as('trashResponse');
     composePage.selectSideBarMenuOption('Trash');
@@ -120,7 +120,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders?*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}?*`,
       mockCustomFolderMetaResponse,
     ).as('trashResponse');
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   fullNameUI,
   fullNameSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 import { formatFullName } from '../../../helpers';
@@ -20,7 +21,7 @@ PreviousNameView.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add other service names',
+    ...titleUI('Add other service names'),
     previousNames: {
       'ui:options': {
         itemName: 'Name',

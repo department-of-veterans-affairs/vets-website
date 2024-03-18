@@ -1,25 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import PoaRequestsTable from '../components/PoaRequestsTable/PoaRequestsTable';
+import POARequestsTable from '../components/POARequestsTable/POARequestsTable';
 import { mockPOARequests } from '../mocks/mockPOARequests';
-import LoginViewWrapper from './LoginViewWrapper';
 
-const POARequests = ({ POApermissions = true }) => {
-  const breadcrumbs = [
-    { link: '/', label: 'Home' },
-    { link: '/dashboard', label: 'Dashboard' },
-    { link: '/poa-requests', label: 'POA requests' },
-  ];
+const POARequests = () => {
   return (
-    <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
+    <>
       <h1>Power of attorney requests</h1>
-      <PoaRequestsTable poaRequests={mockPOARequests} />
-    </LoginViewWrapper>
+      <POARequestsTable poaRequests={mockPOARequests} />
+    </>
   );
-};
-
-POARequests.propTypes = {
-  POApermissions: PropTypes.bool,
 };
 
 export default POARequests;

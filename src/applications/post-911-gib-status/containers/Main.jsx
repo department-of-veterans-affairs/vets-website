@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -12,7 +13,7 @@ import {
 
 export class Main extends React.Component {
   componentDidMount() {
-    this.props.getEnrollmentData();
+    this.props.getEnrollmentData(this.props.apiVersion);
   }
 
   render() {
@@ -41,6 +42,13 @@ export class Main extends React.Component {
     return <div>{appContent}</div>;
   }
 }
+
+Main.propTypes = {
+  apiVersion: PropTypes.object.isRequired,
+  getEnrollmentData: PropTypes.func.isRequired,
+  availability: PropTypes.string,
+  children: PropTypes.node,
+};
 
 function mapStateToProps(state) {
   return {
