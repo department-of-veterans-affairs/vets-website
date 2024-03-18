@@ -14,7 +14,7 @@ import {
 
 // import "@department-of-veterans-affairs/formation/dist/formation.min.css";
 // import "@department-of-veterans-affairs/component-library/dist/main.css";
-const initialState = {
+export const initialState = {
     list: [
       // {
       //   name: "Finger(s)",

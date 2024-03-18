@@ -12,6 +12,7 @@ import React from "react";
 // import {v4 as uuidv4} from 'uuid';
 import { getDisabilityLabels } from '../../../disability-benefits/all-claims/content/disabilityLabels';
 import { substringCountLCS } from './search';
+import { initialState } from './reducer';
 import {
   ADD_ITEM,
   UPDATE_CURRENT,
@@ -137,7 +138,13 @@ class ComboBox extends Component {
         console.log('default');
         break;
     }
-
+  }
+  handleMouseEnter(evt, option) {
+    console.log('unimplemented', option);
+    console.log('evt: ', evt);
+    console.log('evt.target: ', evt.target);
+    const newFocusedElem = evt.target;
+    newFocusedElem.focus();
   }
 
   filterOptions = () => {
@@ -180,7 +187,16 @@ class ComboBox extends Component {
   drawFreeTextOption(option) {
     const liText = `Add "${option}" as a new condition`;
     return (
-      <li key={-1} className="usa-combo-box__list-option free-text-li-option" onKeyDown={(evt) => { this.handleKeyDownFromLi(evt, option) }} onClick={() => { this.selectOption(option) }} style={{ cursor: 'pointer' }} tabIndex="-1">
+      <li 
+       key={-1}
+       className="usa-combo-box__list-option free-text-li-option"
+       onKeyDown={(evt) => { this.handleKeyDownFromLi(evt, option) }}
+       onClick={() => { this.selectOption(option) }}
+       style={{ cursor: 'pointer' }}
+       tabIndex="-1"
+       onMouseEnter={(evt) => { this.handleMouseEnter(evt, option) }}
+       label="new-condition-option"
+      >
         Add "<span style={{ fontWeight: 'bold' }}>{option}</span>" as a new condition
       </li>
     )
@@ -234,7 +250,16 @@ class ComboBox extends Component {
         <ul className={'usa-combo-box__list'} style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }} ref={this.listRef}>
           {searchTerm.length && searchTerm !== value ? this.drawFreeTextOption(searchTerm) : null}
           {filteredOptions.map((option, index) => (
-            <li key={index} className="usa-combo-box__list-option" onKeyDown={(evt) => { this.handleKeyDownFromLi(evt, option) }} onClick={() => { this.selectOption(option) }} style={{ cursor: 'pointer' }} tabIndex="-1">
+            <li
+              key={index}
+              className="usa-combo-box__list-option"
+              onKeyDown={(evt) => { this.handleKeyDownFromLi(evt, option) }}
+              onClick={() => { this.selectOption(option) }}
+              style={{ cursor: 'pointer' }}
+              tabIndex="-1"
+              onMouseEnter={(evt) => { this.handleMouseEnter(evt, option) }}
+              label={option}
+            >
               {this.highlightOptionWithSearch(option, searchTerm)}
             </li>
           ))}
@@ -432,7 +457,7 @@ export const ComboBoxApp = connect(state => state)(
 
                     {
                       this.props.list.length > 0 ?
-                        <div class="small-6 right columns"><button id="removeNewConditionButton" type="button" class="usa-button-secondary float-right" aria-label="Remove incomplete Condition" onclick={this.handleCloseNewConditionSection}>Remove</button>
+                        <div class="small-6 right columns"><button id="removeNewConditionButton" type="button" class="usa-button-secondary float-right" aria-label="Remove incomplete Condition" onClick={this.handleCloseNewConditionSection}>Remove</button>
 
                         </div> :
                         <div></div>
