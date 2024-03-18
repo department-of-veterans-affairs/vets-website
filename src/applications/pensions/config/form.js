@@ -30,6 +30,7 @@ import {
   createSpouseLabelSelector,
   HelpText,
   isHomeAcreageMoreThanTwo,
+  DirectDepositOtherOptions,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
@@ -38,6 +39,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
+
+import { AccountInformationAlert } from '../components/FormAlerts';
 
 // chapter-pages
 import age from './chapters/03-health-and-employment-information/age';
@@ -962,41 +965,24 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         directDeposit: {
-          title: 'Direct deposit',
+          title: 'Direct deposit for Veterans Pension benefits',
           path: 'additional-information/direct-deposit',
           initialData: {},
           uiSchema: {
-            ...titleUI('Direct deposit'),
+            ...titleUI(
+              'Direct deposit for Veterans Pension benefits',
+              DirectDepositWarning,
+            ),
             'view:noDirectDeposit': {
-              'ui:title': 'I don’t want to use direct deposit',
-            },
-            bankAccount: merge({}, bankAccountUI, {
-              'ui:order': [
-                'accountType',
-                'bankName',
-                'accountNumber',
-                'routingNumber',
-              ],
+              'ui:title':
+                'Do you have a bank account to use for direct deposit?',
+              'ui:widget': 'yesNo',
               'ui:options': {
-                hideIf: formData => !usingDirectDeposit(formData),
-              },
-              bankName: {
-                'ui:title': 'Bank name',
-              },
-              accountType: {
-                'ui:required': usingDirectDeposit,
-              },
-              accountNumber: {
-                'ui:required': usingDirectDeposit,
-              },
-              routingNumber: {
-                'ui:required': usingDirectDeposit,
-              },
-            }),
-            'view:stopWarning': {
-              'ui:description': DirectDepositWarning,
-              'ui:options': {
-                hideIf: usingDirectDeposit,
+                yesNoReverse: true,
+                labels: {
+                  Y: 'Yes',
+                  N: 'No',
+                },
               },
             },
           },
@@ -1006,8 +992,72 @@ const formConfig = {
               'view:noDirectDeposit': {
                 type: 'boolean',
               },
+            },
+          },
+        },
+        accountInformation: {
+          title: 'Account information for direct deposit',
+          path: 'additional-information/account-information',
+          initialData: {},
+          uiSchema: {
+            'view:accountInformationAlert': {
+              ...titleUI(
+                'Account information for direct deposit',
+                AccountInformationAlert,
+              ),
+              'ui:options': {
+                hideIf: formData => !usingDirectDeposit(formData),
+              },
+            },
+            'view:directDepositOtherOptions': {
+              ...titleUI('Other payment options', DirectDepositOtherOptions),
+              'ui:options': {
+                hideIf: formData => usingDirectDeposit(formData),
+              },
+            },
+            bankAccount: merge({}, bankAccountUI, {
+              'ui:options': {
+                hideIf: formData => !usingDirectDeposit(formData),
+              },
+              'ui:order': [
+                'accountType',
+                'bankName',
+                'accountNumber',
+                'routingNumber',
+              ],
+              'ui:description':
+                'Enter the details of the bank account where you want to get your VA benefit payments.',
+              bankName: {
+                'ui:title': 'Bank name',
+              },
+              accountType: {
+                'ui:required': usingDirectDeposit,
+              },
+              accountNumber: {
+                'ui:title': 'Account number',
+                'ui:required': usingDirectDeposit,
+              },
+              routingNumber: {
+                'ui:title': 'Routing number',
+                'ui:required': usingDirectDeposit,
+              },
+            }),
+            'view:stopWarning': {
+              'ui:description': DirectDepositWarning,
+              'ui:options': {
+                hideIf: formData => usingDirectDeposit(formData),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:accountInformationAlert': {
+                type: 'object',
+                properties: {},
+              },
               bankAccount,
-              'view:stopWarning': {
+              'view:directDepositOtherOptions': {
                 type: 'object',
                 properties: {},
               },
