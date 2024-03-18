@@ -15,6 +15,12 @@ export const applicantSchoolCertConfig = uploadWithInfoComponent(
   false,
 );
 
+export const applicantHelplessChildConfig = uploadWithInfoComponent(
+  acceptableFiles.helplessCert,
+  'VBA decision rating',
+  false,
+);
+
 export const applicantAdoptedConfig = uploadWithInfoComponent(
   acceptableFiles.adoptionCert,
   'adoption papers',
