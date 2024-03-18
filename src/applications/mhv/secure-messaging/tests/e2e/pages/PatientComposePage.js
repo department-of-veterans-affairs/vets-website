@@ -356,7 +356,7 @@ class PatientComposePage {
     } = mockSignature.data;
     cy.get(Locators.MESSAGES_BODY).should(
       'have.attr',
-      Data.VALUE,
+      'value',
       `${includeSignature &&
         `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
     );
