@@ -1,22 +1,20 @@
-import React, { useMemo, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
   externalServices,
   externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import { MHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
-  const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -27,31 +25,6 @@ const App = ({ children }) => {
       };
     },
     state => state.featureToggles,
-  );
-
-  const scheduledDowntimes = useSelector(
-    state => state.scheduledDowntime?.serviceMap || [],
-  );
-
-  const mhvMedsDown = useMemo(
-    () => {
-      if (scheduledDowntimes.size > 0) {
-        return (
-          scheduledDowntimes?.get(externalServices.mhvMeds)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
-          externalServiceStatus.ok
-        );
-      }
-      return externalServiceStatus.ok;
-    },
-    [scheduledDowntimes],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getScheduledDowntime());
-    },
-    [dispatch],
   );
 
   const datadogRumConfig = {
@@ -94,21 +67,24 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      {mhvMedsDown !== externalServiceStatus.ok ? (
-        <>
-          <h1 className="vads-u-padding-top--4">Medications</h1>
-          <DowntimeNotification
-            appTitle="Medications"
-            dependencies={[
-              externalServices.mhvPlatform,
-              externalServices.mhvMeds,
-            ]}
-            render={renderMHVDowntime}
-          />
-        </>
-      ) : (
-        children
-      )}
+      <DowntimeNotification
+        appTitle="Medications"
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvMeds]}
+        render={(downtimeProps, downtimeChildren) => (
+          <>
+            {downtimeProps.status === externalServiceStatus.down && (
+              <h1 className="vads-u-margin-top--4">Medications</h1>
+            )}
+            {downtimeProps.status ===
+              externalServiceStatus.downtimeApproaching && (
+              <div className="vads-u-margin-top--4" />
+            )}
+            <MHVDowntime {...downtimeProps}>{downtimeChildren}</MHVDowntime>
+          </>
+        )}
+      >
+        {children}
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 };
