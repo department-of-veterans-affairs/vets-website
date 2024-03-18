@@ -1353,8 +1353,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-              'enrolled'
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled'
             );
           },
           CustomPage: ApplicantMedicareStatusContinuedPage,
