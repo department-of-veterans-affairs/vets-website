@@ -5,6 +5,7 @@ import { bankFieldsHaveInput } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentViewObjectField from '../components/PaymentViewObjectField';
 import { paymentInformationTitle } from '../content/paymentInformation';
+import { paymentNewAccountAlert } from '../content/paymentNewAccountAlert';
 
 const {
   bankAccountType,
@@ -18,6 +19,8 @@ export const uiSchema = {
   'view:bankAccount': {
     'ui:title': paymentInformationTitle,
     'ui:field': ReviewCardField,
+    'ui:subtitle':
+      'If you’re awarded disability benefits, we’ll use this bank account for your payments.',
     'ui:options': {
       viewComponent: PaymentView,
       reviewTitle: 'Payment information',
@@ -57,6 +60,9 @@ export const uiSchema = {
       'ui:title': 'Bank name',
       'ui:required': bankFieldsHaveInput,
     },
+    'view:newAccountAlert': {
+      'ui:description': paymentNewAccountAlert,
+    },
   },
 };
 
@@ -70,6 +76,10 @@ export const schema = {
         bankAccountNumber,
         bankRoutingNumber,
         bankName,
+        'view:newAccountAlert': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
