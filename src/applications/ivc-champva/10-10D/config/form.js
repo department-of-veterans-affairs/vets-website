@@ -43,6 +43,8 @@ import {
   isInRange,
   getParts,
   onReviewPage,
+  MAX_APPLICANTS,
+  applicantListSchema,
 } from '../helpers/utilities';
 import {
   sponsorWording,
@@ -100,6 +102,8 @@ import {
 import {
   ApplicantSponsorMarriageDetailsPage,
   ApplicantSponsorMarriageDetailsReviewPage,
+  marriageDatesSchema,
+  remarriageDetailsSchema,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
@@ -119,26 +123,6 @@ import FileViewField, {
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
-
-// Used to condense some repetitive schema boilerplate
-const maxApplicants = 3;
-const applicantListSchema = (requireds, propertyList) => {
-  return {
-    type: 'object',
-    properties: {
-      applicants: {
-        type: 'array',
-        minItems: 1,
-        maxItems: maxApplicants,
-        items: {
-          type: 'object',
-          required: requireds,
-          properties: propertyList,
-        },
-      },
-    },
-  };
-};
 
 const uploadUrl = `${
   environment.API_URL
@@ -632,8 +616,8 @@ const formConfig = {
                 } applicants you want to enroll in CHAMPVA benefits.`}
                 <br />
                 <br />
-                {`You can add up to ${maxApplicants} applicants in a single application. If you 
-              need to add more than ${maxApplicants} applicants, you'll need to submit a 
+                {`You can add up to ${MAX_APPLICANTS} applicants in a single application. If you 
+              need to add more than ${MAX_APPLICANTS} applicants, you'll need to submit a 
               separate application for them.`}
               </>
             )),
@@ -1263,6 +1247,120 @@ const formConfig = {
               items: {},
             },
           },
+        },
+        // If applicant has second marriage, is it ongoing?
+        page18f2: {
+          path: 'applicant-information/:index/remarriage-viable',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} remarriage status`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              (get('sponsorIsDeceased', formData) &&
+                get(
+                  'applicantSponsorMarriageDetails.relationshipToVeteran',
+                  formData?.applicants?.[index],
+                ) === 'marriedTillDeathRemarriedAfter55')
+            );
+          },
+          uiSchema: remarriageDetailsSchema.uiSchema,
+          schema: remarriageDetailsSchema.schema,
+        },
+        // Marriage dates (sponsor living or dead) when applicant did not remarry
+        page18f3: {
+          path: 'applicant-information/:index/marriage-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              (get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathNoRemarriage' ||
+                !get('sponsorIsDeceased', formData))
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.noRemarriageSchema,
+        },
+        // Applicant remarried after sponsor died
+        page18f4: {
+          path: 'applicant-information/:index/remarried-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55' &&
+              get('remarriageIsViable', formData?.applicants?.[index])
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.remarriageSchema,
+        },
+        // Applicant remarried after sponsor died but separated from 2nd spouse
+        page18f5: {
+          path: 'applicant-information/:index/remarried-separated-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55' &&
+              !get('remarriageIsViable', formData?.applicants?.[index])
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.remarriageSeparatedSchema,
+        },
+        // Applicant separated from sponsor before sponsor's death
+        page18f6: {
+          path: 'applicant-information/:index/married-separated-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriageDissolved'
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.separatedSchema,
         },
         page18f: {
           path: 'applicant-information/:index/spouse',

@@ -46,3 +46,23 @@ export function makeHumanReadable(inputStr) {
 export function onReviewPage() {
   return window.location.href.includes('review-and-submit');
 }
+
+// Used to condense some repetitive schema boilerplate in form config
+export const MAX_APPLICANTS = 3;
+export const applicantListSchema = (requireds, propertyList) => {
+  return {
+    type: 'object',
+    properties: {
+      applicants: {
+        type: 'array',
+        minItems: 1,
+        maxItems: MAX_APPLICANTS,
+        items: {
+          type: 'object',
+          required: requireds,
+          properties: propertyList,
+        },
+      },
+    },
+  };
+};
