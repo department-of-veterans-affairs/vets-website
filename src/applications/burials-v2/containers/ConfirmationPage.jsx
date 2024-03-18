@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { utcToZonedTime, format } from 'date-fns-tz'; // this is the import
-// import parseJSON from 'date-fns/parseJSON';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { benefitsLabels } from '../utils/labels';
 
 const ConfirmationPage = ({ form }) => {
@@ -23,21 +20,32 @@ const ConfirmationPage = ({ form }) => {
     form?.data?.deathCertificate || form?.data?.transportationReceipts;
   const { deathCertificate, transportationReceipts } = form.data;
 
-  const date = () =>
-    form?.submission?.submittedAt
-      ? form?.submission?.submittedAt
-      : '2024-03-20T06:00:00.000Z';
+  const formatTimestamp = inputTimestamp => {
+    const date = new Date(inputTimestamp);
 
-  // console.log(form?.submission?.timeStamp);
-  // // timeStamp is what we need ^^^
-  // console.log(form);
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZoneName: 'short',
+    };
 
-  const formattedDate = format(utcToZonedTime(date()), `PPP 'at' h:mm bbbb z`, {
-    timeZone: 'America/Chicago',
-  }); // ct time
-  // this is what it'll return 'March 20th, 2024 at 6:00 a.m. CDT'
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  };
 
-  // const submittedAt = parseJSON(form?.submission?.submittedAt);
+  const timestamp = formatTimestamp(form?.submission?.timestamp);
+  let renderedTimestamp = '';
+
+  if (timestamp !== undefined && timestamp !== null) {
+    if (typeof timestamp === 'object') {
+      renderedTimestamp = timestamp.toString();
+    } else {
+      renderedTimestamp = timestamp;
+    }
+  }
 
   return (
     <div>
@@ -71,7 +79,7 @@ const ConfirmationPage = ({ form }) => {
           </li>
           <li>
             <h4>Date submitted</h4>
-            <span>{formattedDate}</span>
+            <span>{renderedTimestamp}</span>
           </li>
           <li>
             <h4>Deceased Veteran</h4>
@@ -110,6 +118,10 @@ const ConfirmationPage = ({ form }) => {
                 <p key={index}>{line}</p>
               ))}
             </address>
+          </li>
+          <li>
+            <h4>Confirmation for your records</h4>
+            <p>You can print this confirmation page for your records</p>
           </li>
         </ul>
         <va-button

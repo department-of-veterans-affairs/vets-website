@@ -11,12 +11,10 @@ import { generateTitle } from '../../../utils/helpers';
 const { govtContributions } = fullSchemaBurials.properties;
 const currencyReviewRowView = ({ children }) => {
   return (
-    <dl className="review">
-      <div className="review-row">
-        <dt>{children?.props?.uiSchema?.['ui:title']}</dt>
-        <dd>${children}</dd>
-      </div>
-    </dl>
+    <div className="review-row">
+      <dt>{children?.props?.uiSchema?.['ui:title']}</dt>
+      <dd>${children}</dd>
+    </div>
   );
 };
 
