@@ -769,6 +769,7 @@ jobs:
           build: yarn build
           start: yarn watch
           browser: chrome
+          config-file: ./config/cypress.config.js
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
