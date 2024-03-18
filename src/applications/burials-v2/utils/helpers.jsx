@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from 'platform/utilities/api';
+import { formatISO } from 'date-fns';
 
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
@@ -73,6 +73,7 @@ function transformCountryCode(countryCode) {
 }
 
 export function transform(formConfig, form) {
+  const localTime = formatISO(new Date());
   const correctedForm = {
     ...form,
     data: {
@@ -86,11 +87,9 @@ export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, correctedForm);
   return JSON.stringify({
     burialClaim: {
-      // this is ugly but the address schema helper within the forms system coerces all country codes back to alpha 3
       form: formData,
     },
-    // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ'),
+    localTime,
   });
 }
 
@@ -197,20 +196,6 @@ export const BurialDateWarning = () => {
   );
 };
 
-export function fileHelp({ formContext }) {
-  if (formContext.reviewMode) {
-    return <p />;
-  }
-
-  return (
-    <p>
-      Files we accept: pdf, jpg, png
-      <br />
-      Maximum file size: 20MB
-    </p>
-  );
-}
-
 export const generateTitle = text => {
   return <h3 className="vads-u-margin-top--0">{text}</h3>;
 };
@@ -220,11 +205,3 @@ export const generateHelpText = text => {
     <span className="vads-u-color--gray vads-u-font-size--md">{text}</span>
   );
 };
-
-// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
-export function isEligibleNonService(veteranBurialDate) {
-  return moment()
-    .startOf('day')
-    .subtract(2, 'years')
-    .isBefore(veteranBurialDate);
-}
