@@ -8,7 +8,7 @@ import WhatYouNeedToDo from '../../../components/claim-status-tab/WhatYouNeedToD
 describe('<WhatYouNeedToDo>', () => {
   context('when useLighthouse true', () => {
     const useLighthouse = true;
-    it('should render no-documents description when there are no flies needed', () => {
+    it('should render no-documents description when there are no files needed', () => {
       const claim = {
         attributes: {
           open: false,

@@ -27,5 +27,5 @@ const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
     fs.existsSync(specPath),
 );
 
-core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
+core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
