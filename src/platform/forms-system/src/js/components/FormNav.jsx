@@ -10,11 +10,10 @@ import {
   getCurrentChapterDisplay,
 } from '../helpers';
 
-import {
-  focusByOrder,
-  customScrollAndFocus,
-  defaultFocusSelector,
-} from '../../../../utilities/ui';
+import // focusByOrder,
+// customScrollAndFocus,
+// defaultFocusSelector,
+'../../../../utilities/ui';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -111,35 +110,8 @@ export default function FormNav(props) {
       } else if (current === index) {
         setIndex(index - 1);
       }
-
-      return () => {
-        // Check main toggle to enable custom focus; the unmounting of the page
-        // before the review & submit page may cause the customScrollAndFocus
-        // function to be called inadvertently
-        if (
-          !(
-            page.chapterKey === 'review' ||
-            window.location.pathname.endsWith('review-and-submit')
-          )
-        ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
-          } else {
-            focusByOrder([defaultFocusSelector, 'h2']);
-          }
-        } else {
-          // h2 fallback for confirmation page
-          focusByOrder([defaultFocusSelector, 'h2']);
-        }
-      };
     },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-    ],
+    [current, index],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
