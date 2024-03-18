@@ -17,14 +17,13 @@ describe('Secure Messaging Thread Details', () => {
     landingPage.loadSingleThread(mockThreadResponse, date);
 
     for (let i = 1; i < messageIdList.length; i += 1) {
-      cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
-        .shadow()
-        .find('[part="accordion-header"]')
-        .click();
+      cy.get(
+        `[data-testid="expand-message-button-${messageIdList[i]}"]`,
+      ).click();
 
       cy.get(`[data-testid="expand-message-button-${messageIdList[i]}"]`)
         .shadow()
-        .find('[part="accordion-header"]')
+        .find('button')
         .should('have.attr', 'aria-expanded', 'true');
     }
 

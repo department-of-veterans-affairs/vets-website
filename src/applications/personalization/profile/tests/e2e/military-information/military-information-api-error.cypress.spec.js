@@ -14,6 +14,7 @@ describe('Military Information - Profile page', () => {
       '/v0/feature_toggles*',
       generateFeatureToggles({
         profileAlwaysShowDirectDepositDisplay: true,
+        profileShowProofOfVeteranStatus: true,
       }),
     );
     cy.intercept('GET', '/v0/user', loa3User72);
@@ -59,6 +60,7 @@ describe('Military Information - NonVeteran', () => {
       '/v0/feature_toggles*',
       generateFeatureToggles({
         profileAlwaysShowDirectDepositDisplay: true,
+        profileShowProofOfVeteranStatus: true,
       }),
     );
     cy.intercept('GET', '/v0/user', nonVeteranUser);
@@ -94,6 +96,7 @@ describe('Military Information - NotInDeers', () => {
       '/v0/feature_toggles*',
       generateFeatureToggles({
         profileAlwaysShowDirectDepositDisplay: true,
+        profileShowProofOfVeteranStatus: true,
       }),
     );
     cy.intercept('GET', '/v0/user', loa3User72);
