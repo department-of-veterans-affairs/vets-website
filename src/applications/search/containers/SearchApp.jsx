@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import moment from 'moment-timezone';
+import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
+import {
+  zonedTimeToUtc,
+  utcToZonedTime,
+  format as tzFormat,
+} from 'date-fns-tz';
+
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -414,42 +420,42 @@ class SearchApp extends React.Component {
     );
 
     function isWithinMaintenanceWindow() {
-      // Define maintenance window: Tuesday and Thursday, 3 PM to 6 PM Eastern Time
       const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
       const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
       const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
+      const timeZone = 'America/New_York';
 
-      // Get the current time in New York timezone
-      const now = moment().tz('America/New_York');
+      const now = new Date();
+      const zonedNow = utcToZonedTime(now, timeZone);
 
-      // Check if now is within the maintenance window
       return (
-        maintenanceDays.includes(now.day()) &&
-        now.hour() >= maintenanceStartHour &&
-        now.hour() < maintenanceEndHour
+        maintenanceDays.includes(getDay(zonedNow)) &&
+        getHours(zonedNow) >= maintenanceStartHour &&
+        getHours(zonedNow) < maintenanceEndHour
       );
     }
 
-    // Maintenance window: Tuesdays & Thursdays, 3-6 PM EST.
     function calculateCurrentMaintenanceWindow() {
       const maintenanceStartHour = 15; // 3 PM in 24-hour format
       const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
+      const timeZone = 'America/New_York';
 
-      // Assuming current time is within a maintenance window,
-      // set the start time to the beginning of the current maintenance window.
-      const start = moment()
-        .tz('America/New_York')
-        .hour(maintenanceStartHour)
-        .minute(0)
-        .second(0)
-        .millisecond(0);
+      let start = new Date();
+      start = utcToZonedTime(start, timeZone);
+      start = setHours(start, maintenanceStartHour);
+      start = setMinutes(start, 0);
+      start = setSeconds(start, 0);
 
-      // Calculate the end time of the maintenance window
-      const end = start.clone().add(maintenanceDurationHours, 'hours');
+      let end = new Date(
+        start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
+      );
+      end = zonedTimeToUtc(end, timeZone);
 
       return {
-        start: start.format('ddd MMM D YYYY HH:mm:ss [GMT]ZZ'),
-        end: end.format('ddd MMM D YYYY HH:mm:ss [GMT]ZZ'),
+        start: tzFormat(start, 'EEE MMM d yyyy HH:mm:ss [GMT]XXXX', {
+          timeZone,
+        }),
+        end: tzFormat(end, 'EEE MMM d yyyy HH:mm:ss [GMT]XXXX', { timeZone }),
       };
     }
 
