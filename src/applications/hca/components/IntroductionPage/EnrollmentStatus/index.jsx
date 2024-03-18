@@ -3,48 +3,48 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions';
+import { HCA_ENROLLMENT_STATUSES } from '../../../utils/constants';
 import { selectEnrollmentStatus } from '../../../utils/selectors';
-import EnrollmentStatusWarning from './Warning';
+import WarningHeadline from './Warning/WarningHeadline';
+import WarningStatus from './Warning/WarningStatus';
+import WarningExplanation from './Warning/WarningExplanation';
+import ReapplyButton from './Warning/ReapplyButton';
 import EnrollmentStatusFAQ from './FAQ';
 
 const EnrollmentStatus = props => {
-  const {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  } = useSelector(selectEnrollmentStatus);
-  const { route, getEnrollmentStatus } = props;
-
-  const alertProps = {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  };
-
-  const faqProps = { enrollmentStatus, route };
+  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
+  const { route, fetchEnrollmentStatus } = props;
+  const alertStatus =
+    enrollmentStatus === HCA_ENROLLMENT_STATUSES.enrolled
+      ? 'continue'
+      : 'warning';
 
   useEffect(() => {
-    getEnrollmentStatus();
+    fetchEnrollmentStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return enrollmentStatus ? (
     <>
-      <EnrollmentStatusWarning {...alertProps} />
-      <EnrollmentStatusFAQ {...faqProps} />
+      <va-alert status={alertStatus} data-testid="hca-enrollment-alert" uswds>
+        <WarningHeadline />
+        <WarningStatus />
+        <WarningExplanation />
+        <ReapplyButton route={route} />
+      </va-alert>
+
+      <EnrollmentStatusFAQ />
     </>
   ) : null;
 };
 
 EnrollmentStatus.propTypes = {
-  getEnrollmentStatus: PropTypes.func,
+  fetchEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
 };
 
 const mapDispatchToProps = {
-  getEnrollmentStatus: getEnrollmentStatusAction,
+  fetchEnrollmentStatus: getEnrollmentStatusAction,
 };
 
 export default connect(

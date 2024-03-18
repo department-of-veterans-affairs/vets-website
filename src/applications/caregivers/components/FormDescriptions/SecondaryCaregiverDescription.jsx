@@ -44,6 +44,7 @@ const SecondaryCaregiverDescription = ({
         <va-additional-info
           trigger="Learn more about who qualifies as a Secondary Family Caregiver"
           class="vads-u-margin-y--1p5"
+          uswds
         >
           <p className="vads-u-margin-top--0">
             Family caregivers are approved and designated by VA as Primary

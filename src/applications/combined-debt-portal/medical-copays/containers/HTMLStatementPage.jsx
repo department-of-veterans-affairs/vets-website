@@ -10,7 +10,6 @@ import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
 import DownloadStatement from '../components/DownloadStatement';
 import { OnThisPageStatements } from '../components/OnThisPageStatements';
-import '../sass/medical-copays.scss';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;

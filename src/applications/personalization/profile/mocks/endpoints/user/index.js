@@ -249,13 +249,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -472,13 +472,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -684,13 +684,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -896,13 +896,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1104,13 +1104,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1319,13 +1319,13 @@ const mockErrorResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1411,6 +1411,20 @@ const mockErrorResponses = {
   },
 };
 
+// user that is loa1 but is a dslogon user
+const loa1UserDSLogon = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'dslogon',
+);
+
+// user that is loa1 but is a mhv user
+const loa1UserMHV = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'mhv',
+);
+
 // users with various contact info missing
 const loa3UserWithNoMobilePhone = set(
   cloneDeep(baseUserResponses.loa3User72),
@@ -1459,6 +1473,8 @@ const loa3UserWithoutMailingAddress = set(
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
+  loa1UserDSLogon,
+  loa1UserMHV,
   loa3UserWithNoMobilePhone,
   loa3UserWithNoEmail,
   loa3UserWithNoEmailOrMobilePhone,

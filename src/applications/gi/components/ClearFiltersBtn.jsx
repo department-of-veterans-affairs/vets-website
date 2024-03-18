@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isProductionOfTestProdEnv } from '../utils/helpers';
+import { isProductionOrTestProdEnv } from '../utils/helpers';
 import { filterChange } from '../actions';
 
 function ClearFiltersBtn({
@@ -10,6 +10,9 @@ function ClearFiltersBtn({
   smallScreen,
   children,
   testId,
+  isCleared,
+  setIsCleared,
+  onKeyDown,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
@@ -36,11 +39,26 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
+    setIsCleared(true);
   };
-
   return (
     <>
-      {isProductionOfTestProdEnv() ? (
+      {isProductionOrTestProdEnv() ? (
+        <button
+          className="clear-filters-btn"
+          onClick={clearAllFilters}
+          data-testid={testId}
+          aria-label={
+            isCleared
+              ? 'All filters have been removed. Please select at least one filter.'
+              : ''
+          }
+          onKeyDown={onKeyDown}
+        >
+          {' '}
+          {children}
+        </button>
+      ) : (
         <button
           onClick={clearAllFilters}
           className={
@@ -49,15 +67,6 @@ function ClearFiltersBtn({
               : 'clear-filters-button'
           }
         >
-          {children}
-        </button>
-      ) : (
-        <button
-          className="clear-filters-btn"
-          onClick={clearAllFilters}
-          data-testid={testId}
-        >
-          {' '}
           {children}
         </button>
       )}

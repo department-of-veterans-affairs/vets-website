@@ -158,7 +158,7 @@ export const selectRelationshipToVeteranPattern = (fieldName, value) => {
 // page test definitions
 
 export const introductionPageFlow = () => {
-  cy.findAllByText(/start/i, { selector: 'button' });
+  cy.get('va-button[text*="start"]');
   cy.findAllByText(/without signing in/i)
     .first()
     .click({ force: true });
@@ -183,7 +183,7 @@ export const reviewAndSubmitPageFlow = (
   cy.get(`va-checkbox[name="veteran-certify"]`)
     .shadow()
     .find('input')
-    .check();
+    .click({ force: true });
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();

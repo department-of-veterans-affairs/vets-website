@@ -27,12 +27,12 @@ class IntroductionPage extends React.Component {
           pageList={pageList}
           startText="Start the Application"
         >
-          Please complete the 10-7959F-1 form to apply for health care benefits.
+          Please complete the 10-7959F-1 form to apply for CHAMPVA benefits.
         </SaveInProgressIntro>
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for health care benefits.
+          Follow the steps below to apply for CHAMPVA benefits.
         </h2>
-        <va-process-list>
+        <va-process-list uswds="false">
           <li>
             <h3>Prepare</h3>
             <h4>To fill out this application, you’ll need your:</h4>
@@ -50,7 +50,7 @@ class IntroductionPage extends React.Component {
           </li>
           <li>
             <h3>Apply</h3>
-            <p>Complete this health care benefits form.</p>
+            <p>Complete this CHAMPVA benefits form.</p>
             <p>
               After submitting the form, you’ll get a confirmation message. You
               can print this for your records.

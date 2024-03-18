@@ -72,6 +72,13 @@ class NotesDetailsPage {
     cy.get('[data-testid="progress-signed-date"]').contains(progressSignedDate);
   };
 
+  verifyProgressNoteCoSignedBy = progressCoSignedBy => {
+    cy.get('[data-testid="note-record-cosigned-by"]').should('be.visible');
+    cy.get('[data-testid="note-record-cosigned-by"]').contains(
+      progressCoSignedBy,
+    );
+  };
+
   verifyProgressNoteRecord = progressNote => {
     cy.get('[data-testid="note-record"]').should('be.visible');
     cy.get('[data-testid="note-record"]').contains(progressNote);

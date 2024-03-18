@@ -1,13 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import manifest from '../manifest.json';
 
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const BENEFITS_PROFILE_URL_SEGMENT = 'benefits-profile';
+export const VERIFICATION_REVIEW_URL_SEGMENT = 'verification-review';
+export const CONFIRMATION_REVIEW_URL_SEGMENT = 'confirmation-review';
 export const VERIFICATION_PROFILE_URL = BASE_URL;
 export const VERIFICATION_RELATIVE_URL = `/`;
 
 export const BENEFITS_PROFILE_URL = `${VERIFICATION_PROFILE_URL}${BENEFITS_PROFILE_URL_SEGMENT}/`;
 export const BENEFITS_PROFILE_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${BENEFITS_PROFILE_URL_SEGMENT}/`;
+
+export const VERIFICATION_REVIEW_URL = `${VERIFICATION_PROFILE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
+export const VERIFICATION_REVIEW_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
+
+export const CONFIRMATION_REVIEW_URL = `${VERIFICATION_PROFILE_URL}${CONFIRMATION_REVIEW_URL_SEGMENT}/`;
+export const CONFIRMATION_REVIEW_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${CONFIRMATION_REVIEW_URL_SEGMENT}/`;
 
 export const CHANGE_OF_DIRECT_DEPOSIT_TITLE = 'Direct deposit information';
 export const DIRECT_DEPOSIT_BUTTON_TEXT = 'Add or update account';
@@ -26,6 +35,7 @@ export const addressFormRequiredData = [
   'addressLine1',
   'city',
   'stateCode',
+  'zipCode',
 ];
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
@@ -34,6 +44,23 @@ export const blockURLsRegEx =
   '^((?!http|www\\.|\\.co|\\.net|\\.gov|\\.edu|\\.org).)*$';
 
 // export const STREET_LINE_MAX_LENGTH = 20;
+export const Paragraph = ({ title, date, className }) => {
+  return (
+    <p
+      className={`vads-u-font-size--md vads-u-font-family--serif vads-u-font-weight--bold ${className}`}
+    >
+      {title}:
+      <span className="vads-u-font-weight--normal vads-u-font-family--sans text-color vads-u-display--inline-block vads-u-margin-left--1">
+        {date}
+      </span>
+    </p>
+  );
+};
+Paragraph.propTypes = {
+  className: PropTypes.string,
+  date: PropTypes.string,
+  title: PropTypes.string,
+};
 
 export const ACTIVEDUTYBENEFITSSTATEMENT = (
   <p>

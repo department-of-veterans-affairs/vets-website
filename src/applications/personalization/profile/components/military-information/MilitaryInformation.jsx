@@ -24,7 +24,12 @@ import { ProfileInfoCard } from '../ProfileInfoCard';
 const NotAVeteranAlert = () => {
   return (
     <>
-      <va-alert status="info" data-testid="not-a-veteran-alert" uswds>
+      <va-alert
+        status="info"
+        data-testid="not-a-veteran-alert"
+        uswds
+        class="vads-u-margin-bottom--4"
+      >
         <h2 slot="headline">We don’t have military service records for you</h2>
 
         <p>
@@ -42,7 +47,12 @@ const NotAVeteranAlert = () => {
 const NotInDEERSAlert = () => {
   return (
     <>
-      <va-alert status="warning" data-testid="not-in-deers-alert" uswds>
+      <va-alert
+        status="warning"
+        data-testid="not-in-deers-alert"
+        uswds
+        class="vads-u-margin-bottom--4"
+      >
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
@@ -81,7 +91,7 @@ const NotInDEERSAlert = () => {
 const NoServiceHistoryAlert = () => {
   return (
     <>
-      <va-alert status="warning" uswds>
+      <va-alert status="warning" uswds class="vads-u-margin-bottom--4">
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
@@ -211,14 +221,14 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.emis]}
+        dependencies={[externalServices.vaProfile]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <va-featured-content uswds>
+      <va-summary-box uswds>
         <h3 className="vads-u-margin-top--0" slot="headline">
           Request your military records (DD214)
         </h3>
@@ -226,13 +236,14 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           href="/records/get-military-service-records"
           text="Learn how to request your DD214 and other military records"
         />
-      </va-featured-content>
+      </va-summary-box>
 
-      {profileShowProofOfVeteranStatus && (
-        <div className="vads-u-margin-y--4">
-          <ProofOfVeteranStatus />
-        </div>
-      )}
+      {profileShowProofOfVeteranStatus &&
+        militaryInformation?.serviceHistory?.serviceHistory && (
+          <div className="vads-u-margin-y--4">
+            <ProofOfVeteranStatus />
+          </div>
+        )}
       <DevTools
         alwaysShowChildren={false}
         devToolsData={{ militaryInformation, veteranStatus }}

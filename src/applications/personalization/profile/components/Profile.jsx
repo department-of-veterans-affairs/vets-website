@@ -165,7 +165,6 @@ class Profile extends Component {
 
     const routes = getRoutes({
       profileContactsPage: toggles.profileContacts,
-      profileUseHubPage: toggles.profileUseHubPage,
     });
 
     return (
@@ -175,7 +174,6 @@ class Profile extends Component {
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
             isBlocked={this.props.isBlocked}
-            profileUseHubPage={toggles.profileUseHubPage}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -210,12 +208,6 @@ class Profile extends Component {
                 to={PROFILE_PATHS.CONTACT_INFORMATION}
               />
 
-              <Redirect
-                exact
-                from={PROFILE_PATHS.PROFILE_ROOT}
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
-              />
-
               {/* fallback handling: redirect to root route */}
               {/* Should we consider making a 404 page for this instead? */}
               <Route path="*">
@@ -246,7 +238,6 @@ class Profile extends Component {
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
           dependencies={[
-            externalServices.emis,
             externalServices.evss,
             externalServices.mvi,
             externalServices.vaProfile,
@@ -289,7 +280,7 @@ const mapStateToProps = state => {
     CSP_IDS.LOGIN_GOV,
   ]);
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
-    backendServices.EVSS_CLAIMS,
+    backendServices.LIGHTHOUSE,
   );
   const isEvssAvailable = isEvssAvailableSelector(state);
   const is2faEnabled = isMultifactorEnabled(state);

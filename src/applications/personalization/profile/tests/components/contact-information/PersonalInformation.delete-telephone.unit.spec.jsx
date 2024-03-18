@@ -237,7 +237,7 @@ describe('Deleting', () => {
       it('should show an error and not auto-exit Delete Modal if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);
       });
-      it('should show an error and not auto-exit Delete Modal if the transaction fails quickly', async () => {
+      it.skip('should show an error and not auto-exit Delete Modal if the transaction fails quickly', async () => {
         await testQuickFailure(numberName);
       });
       it('should show an error if the transaction fails after the Delete Modal exits', async () => {

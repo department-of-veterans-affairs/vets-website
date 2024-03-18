@@ -25,6 +25,7 @@ import {
   generateLabsIntro,
   generatePathologyContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -44,6 +45,14 @@ const PathologyDetails = props => {
       );
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generatePathologyPdf = async () => {

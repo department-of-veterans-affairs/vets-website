@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -6,10 +7,9 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Medicaid coverage',
+    ...titleUI('Medicaid coverage'),
     medicaidCoverage: yesNoUI({
       title: 'Does Medicaid cover all or part of your nursing home costs?',
-      uswds: true,
     }),
   },
   schema: {

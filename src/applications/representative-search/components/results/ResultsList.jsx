@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import { focusElement } from 'platform/utilities/ui';
 import { representativeTypes } from '../../config';
-import { setFocus } from '../../utils/helpers';
 import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
 
@@ -17,7 +16,7 @@ const ResultsList = props => {
 
   useEffect(
     () => {
-      setFocus(searchResultTitle.current);
+      focusElement(searchResultTitle.current);
       recordSearchResultsEvents(searchResults, props);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,6 +48,10 @@ const ResultsList = props => {
                 representative={result}
                 representativeId={result.id}
                 submitRepresentativeReport={props.submitRepresentativeReport}
+                initializeRepresentativeReport={
+                  props.initializeRepresentativeReport
+                }
+                reportSubmissionStatus={props.reportSubmissionStatus}
                 query={query}
                 index={index}
               />
@@ -64,8 +67,10 @@ ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
   inProgress: PropTypes.bool,
+  initializeRepresentativeReport: PropTypes.func,
   pagination: PropTypes.object,
   query: PropTypes.object,
+  reportSubmissionStatus: PropTypes.string,
   representativeTypeName: PropTypes.string,
   searchError: PropTypes.object,
   searchResults: PropTypes.array,

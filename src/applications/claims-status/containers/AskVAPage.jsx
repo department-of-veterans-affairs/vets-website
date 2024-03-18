@@ -7,11 +7,10 @@ import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
   submitRequest as submitRequestAction,
-  getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
+  getClaim as getClaimAction,
 } from '../actions';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 // START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
@@ -34,13 +33,7 @@ class AskVAPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
-      // START lighthouse_migration
-      if (this.props.useLighthouseShow) {
-        props.getClaimLighthouse(this.props.params.id);
-      } else {
-        props.getClaimEVSS(this.props.params.id);
-      }
-      // END lighthouse_migration
+      props.getClaim(this.props.params.id);
       this.goToStatusPage();
     }
   }
@@ -90,14 +83,14 @@ class AskVAPage extends React.Component {
           </div>
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            <div>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--4">
               <h1>Ask for your claim decision</h1>
               <p className="first-of-type">
                 We sent you a letter in the mail asking for more evidence to
-                support your claim. We’ll wait 30 days for your evidence. If you
-                don’t have anything more you want to submit, let us know and
-                we’ll go ahead and make a decision on your claim.
+                your claim. We’ll wait 30 days for your evidence. If you don’t
+                don’t have anything more you want to submit, let us know and go
+                ahead and make a decision on your claim.
               </p>
               <p>Taking the full 30 days won’t affect:</p>
               <ul>
@@ -118,31 +111,27 @@ class AskVAPage extends React.Component {
                   onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
                 />
               </div>
-              <button
+              <va-button
                 disabled={submitDisabled}
-                type="button"
-                className={
-                  submitDisabled
-                    ? 'usa-button-primary usa-button-disabled'
-                    : 'usa-button-primary'
-                }
+                submit
+                uswds
+                class="button-primary vads-u-margin-top--1"
+                text={buttonMsg}
                 onClick={() => submitFunc(this.props.params.id)}
-              >
-                {buttonMsg}
-              </button>
+              />
               {!loadingDecisionRequest ? (
-                <button
-                  className="usa-button-secondary"
+                <va-button
+                  secondary
+                  uswds
+                  class="button-secondary vads-u-margin-top--1"
+                  text="Not yet–I still have more evidence to submit"
                   onClick={this.goToStatusPage}
-                  type="button"
-                >
-                  Not yet–I still have more evidence to submit
-                </button>
+                />
               ) : null}
             </div>
-          </div>
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            <AskVAQuestions />
+            <div className="vads-u-padding-x--2p5">
+              <NeedHelp />
+            </div>
           </div>
         </div>
       </div>
@@ -158,7 +147,6 @@ function mapStateToProps(state) {
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     // START lighthouse_migration
     useLighthouse5103: cstUseLighthouse(state, '5103'),
-    useLighthouseShow: cstUseLighthouse(state, 'show'),
     // END lighthouse_migration
   };
 }
@@ -167,9 +155,8 @@ const mapDispatchToProps = {
   // START lighthouse_migration
   submit5103: submit5103Action,
   submitRequest: submitRequestAction,
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
   // END lighthouse_migration
+  getClaim: getClaimAction,
 };
 
 export default withRouter(
@@ -182,10 +169,7 @@ export default withRouter(
 AskVAPage.propTypes = {
   decisionRequestError: PropTypes.string,
   decisionRequested: PropTypes.bool,
-  // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
-  // END lighthouse_migration
+  getClaim: PropTypes.func,
   loadingDecisionRequest: PropTypes.bool,
   params: PropTypes.object,
   router: PropTypes.object,
@@ -193,7 +177,6 @@ AskVAPage.propTypes = {
   submit5103: PropTypes.func,
   submitRequest: PropTypes.func,
   useLighthouse5103: PropTypes.bool,
-  useLighthouseShow: PropTypes.bool,
   // END lighthouse_migration
 };
 

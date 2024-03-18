@@ -1,17 +1,12 @@
 /* eslint-disable camelcase */
 
-const HOUR_MS = 3600000;
-const MIN_MS = 60000;
+const { add, set } = require('date-fns');
 
-function offsetDate(date, hours = 0, minutes = 0) {
-  const ts = date.getTime() + hours * HOUR_MS + minutes * MIN_MS;
-  return new Date(ts);
-}
 const now = new Date(); // datetime the mock api server was refreshed
-const soonStartTime = offsetDate(now, 1, -10);
-const soonEndTime = offsetDate(soonStartTime, 4); // 4 hours later
-const lateStartTime = offsetDate(now, 6, 30);
-const lateEndTime = offsetDate(lateStartTime, 8);
+const soonStartTime = add(now, { minutes: 45 });
+const soonEndTime = add(soonStartTime, { hours: 4 }); // 4 hours later
+const lateStartTime = set(now, { hours: 6, minutes: 30, seconds: 0 });
+const lateEndTime = add(lateStartTime, { hours: 8 });
 
 // vets-api requests are camelCase, thanks to `X-Key-Inflection: camel` header
 const responses = {

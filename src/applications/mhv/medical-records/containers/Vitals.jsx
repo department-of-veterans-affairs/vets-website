@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -10,37 +11,52 @@ import {
   pageTitles,
   ALERT_TYPE_ERROR,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
+import useListRefresh from '../hooks/useListRefresh';
 
 const Vitals = () => {
+  const listState = useSelector(state => state.mr.vitals.listState);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
+  const user = useSelector(state => state.user.profile);
+  const refresh = useSelector(state => state.mr.refresh);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
-  const activeAlert = useAlerts();
-
-  useEffect(
-    () => {
-      dispatch(getVitals());
-    },
-    [dispatch],
+  const activeAlert = useAlerts(dispatch);
+  const vatalsCurrentAsOf = useSelector(
+    state => state.mr.vitals.listCurrentAsOf,
   );
 
+  useListRefresh({
+    listState,
+    listCurrentAsOf: vatalsCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getVitals,
+    dispatch,
+  });
+
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  usePrintTitle(
+    pageTitles.VITALS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   useEffect(
@@ -94,7 +110,7 @@ const Vitals = () => {
       <h1 data-testid="vitals" className="vads-u-margin--0">
         Vitals
       </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         Vitals are basic health numbers your providers check at your
         appointments.
       </p>

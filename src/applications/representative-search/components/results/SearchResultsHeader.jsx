@@ -16,7 +16,7 @@ export const SearchResultsHeader = props => {
     searchArea,
   } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
-  const noResultsFound = !searchResults || !searchResults.length;
+  const noResultsFound = !searchResults || !searchResults?.length;
 
   const [selectedSortType, setSelectedSortType] = useState(sortType);
 
@@ -25,7 +25,7 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    veteran_service_officer: 'Accredited Veteran Service Officer (VSO)',
+    veteran_service_officer: 'Accredited Veterans Service Officer (VSO)',
     attorney: 'Accredited attorney',
     claim_agents: 'Accredited claims agent',
   };
@@ -70,26 +70,37 @@ export const SearchResultsHeader = props => {
 
   return (
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
+      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+      {props.onClickApplyButtonTester ? (
+        <button
+          id="test-button"
+          type="button"
+          text-label="button"
+          onClick={onClickApplyButton}
+        />
+      ) : null}
       <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
-        <div>
-          {' '}
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="info"
-            uswds
-            visible
-          >
-            <h3 id="track-your-status-on-mobile" slot="headline">
-              We’re updating our search tool
-            </h3>
-            <p>
-              Our search tool may show outdated contact information for some
-              accredited representatives. You can report outdated information in
-              your search results.
-            </p>
-          </va-alert>
-        </div>
+        {searchResults?.length ? (
+          <div>
+            {' '}
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              uswds
+              visible
+            >
+              <h3 id="track-your-status-on-mobile" slot="headline">
+                We’re updating our search tool
+              </h3>
+              <p>
+                Our search tool may show outdated contact information for some
+                accredited representatives. You can report outdated information
+                in your search results.
+              </p>
+            </va-alert>
+          </div>
+        ) : null}
 
         <p
           id="search-results-subheader"
@@ -104,7 +115,7 @@ export const SearchResultsHeader = props => {
           {context.repOrgName && (
             <>
               {` `}
-              matching &quot;
+              named &quot;
               <b>{context.repOrgName}</b>
               &quot;
             </>
@@ -113,12 +124,23 @@ export const SearchResultsHeader = props => {
           {context.location && (
             <>
               within &quot;
-              <b>{searchArea} miles</b>
+              <b>
+                {searchArea === 'Show all' ? (
+                  'Show all'
+                ) : (
+                  <>{searchArea} miles</>
+                )}
+              </b>
               &quot; of &quot;
               <b>{context.location}</b>
-              &quot;
+              &quot;{' '}
             </>
           )}
+          <>
+            sorted by &quot;
+            <b>{sortOptions[selectedSortType]}</b>
+            &quot;
+          </>
         </p>
 
         {noResultsFound ? (

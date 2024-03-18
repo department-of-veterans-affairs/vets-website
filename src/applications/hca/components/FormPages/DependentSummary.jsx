@@ -127,15 +127,13 @@ const DependentSummary = props => {
           {contentAfterButtons}
         </>
       ) : (
-        <button
-          type="button"
+        <va-button
           onClick={updatePage}
-          className="usa-button-primary"
-          aria-label="Update your dependents"
+          text="Update page"
+          label="Update your dependents"
           data-testid="hca-update-button"
-        >
-          Update page
-        </button>
+          uswds
+        />
       )}
     </form>
   );

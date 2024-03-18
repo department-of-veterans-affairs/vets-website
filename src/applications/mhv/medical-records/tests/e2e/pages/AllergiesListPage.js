@@ -42,9 +42,11 @@ class AllergiesListPage {
     );
   };
 
-  // cy.get('#showingRecords').should(
-  //   'have.text',
-  //   'Showing 11 to 14 of 14 records from newest to oldest',
-  // );
+  verifyBreadcrumbs = breadcrumbsText => {
+    cy.get('[data-testid="breadcrumbs"]').should(
+      'contain',
+      `‹ ${breadcrumbsText}`,
+    );
+  };
 }
 export default new AllergiesListPage();

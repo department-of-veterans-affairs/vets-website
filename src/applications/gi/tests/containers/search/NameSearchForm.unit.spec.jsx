@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import NameSearchForm from '../../../containers/search/NameSearchForm';
@@ -12,6 +12,9 @@ import {
 } from '../../helpers';
 
 describe('<NameSearchForm>', () => {
+  beforeEach(() => {
+    cleanup();
+  });
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<NameSearchForm />, {
       initialState: {
@@ -215,6 +218,7 @@ describe('<NameSearchForm>', () => {
     expect(doSearchSpy.calledWith('some name')).to.be.false;
   });
   it('should show Learn more about community focus filters when Go to community focus details button is Clicked', () => {
+    sessionStorage.setItem('show', JSON.stringify(true));
     const props = {
       autocomplete: { nameSuggestions: [] },
       filters: {
@@ -224,7 +228,7 @@ describe('<NameSearchForm>', () => {
       preview: { version: '1' },
       search: { query: { name: 'some name' }, tab: null, loadFromUrl: true },
     };
-    const { getByRole } = renderWithStoreAndRouter(
+    const { getByRole, getByTestId } = renderWithStoreAndRouter(
       <NameSearchForm smallScreen={false} {...props} />,
       {
         initialState: {
@@ -238,7 +242,7 @@ describe('<NameSearchForm>', () => {
         },
       },
     );
-    const btn = getByRole('button', { name: 'Go to community focus details' });
+    const btn = getByTestId('go-to-comm-focus-details');
     userEvent.click(btn);
     const heading = getByRole('heading', {
       name: 'Historically Black Colleges and Universities',
@@ -250,6 +254,7 @@ describe('<NameSearchForm>', () => {
     expect(heading).to.exist;
   });
   it('should expand when Learn more about community focus filters button is clicked', () => {
+    sessionStorage.setItem('show', JSON.stringify(true));
     const props = {
       autocomplete: { nameSuggestions: [] },
       filters: {
@@ -286,6 +291,7 @@ describe('<NameSearchForm>', () => {
     let fetchStub;
 
     beforeEach(() => {
+      sessionStorage.setItem('show', JSON.stringify(true));
       sandbox = sinon.createSandbox();
       fetchStub = sandbox.stub(global, 'fetch').callsFake(() => {
         return Promise.resolve({

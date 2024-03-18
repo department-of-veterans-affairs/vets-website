@@ -55,6 +55,24 @@ describe('CategoryInput component', () => {
     expect(values).deep.equal(categories);
   });
 
+  it('should contain same category name for all options', async () => {
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const name = await screen
+      .getAllByTestId('compose-category-radio-button')
+      ?.map(el => el.name);
+
+    expect(name).to.be.not.empty;
+    expect(name).to.contain('compose-message-categories');
+    expect(name).to.have.lengthOf(categories.length);
+  });
+
   it('should have category checked when category prop is present', async () => {
     const selectedCategory = RadioCategories.OTHER.value;
     await renderWithStoreAndRouter(

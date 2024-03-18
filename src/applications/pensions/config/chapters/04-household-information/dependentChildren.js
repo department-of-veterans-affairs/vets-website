@@ -1,22 +1,35 @@
-import merge from 'lodash/merge';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import fullNameUI from 'platform/forms/definitions/fullName';
+import {
+  dateOfBirthUI,
+  dateOfBirthSchema,
+  fullNameUI,
+  fullNameSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import ListItemView from '../../../components/ListItemView';
+import { DependentsMinItem, formatFullName } from '../../../helpers';
 
-import { dependentsMinItem } from '../../../helpers';
-import DependentField from '../../../components/DependentField';
+const DependentNameView = ({ formData }) => (
+  <ListItemView title={formatFullName(formData.fullName)} />
+);
 
-const { dependents } = fullSchemaPensions.properties;
+DependentNameView.propTypes = {
+  formData: PropTypes.shape({
+    fullName: PropTypes.object,
+  }),
+};
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Dependent children',
+    ...titleUI('Dependent children'),
     dependents: {
       'ui:options': {
         itemName: 'Dependent',
-        viewField: DependentField,
+        itemAriaLabel: data => data.fullName && formatFullName(data.fullName),
+        viewField: DependentNameView,
         reviewTitle: 'Dependent children',
         keepInPageOnReview: true,
         customTitle: ' ',
@@ -24,24 +37,11 @@ export default {
         useDlWrap: true,
       },
       'ui:errorMessages': {
-        minItems: dependentsMinItem,
+        minItems: DependentsMinItem,
       },
       items: {
-        fullName: merge({}, fullNameUI, {
-          first: {
-            'ui:title': 'Child’s first name',
-          },
-          last: {
-            'ui:title': 'Child’s last name',
-          },
-          middle: {
-            'ui:title': 'Child’s middle name',
-          },
-          suffix: {
-            'ui:title': 'Child’s suffix',
-          },
-        }),
-        childDateOfBirth: currentOrPastDateUI('Date of birth'),
+        fullName: fullNameUI(title => `Child’s ${title}`),
+        childDateOfBirth: dateOfBirthUI(),
       },
     },
   },
@@ -55,8 +55,8 @@ export default {
           type: 'object',
           required: ['fullName', 'childDateOfBirth'],
           properties: {
-            fullName: dependents.items.properties.fullName,
-            childDateOfBirth: dependents.items.properties.childDateOfBirth,
+            fullName: fullNameSchema,
+            childDateOfBirth: dateOfBirthSchema,
           },
         },
       },

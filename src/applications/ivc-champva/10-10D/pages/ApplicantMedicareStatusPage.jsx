@@ -5,14 +5,19 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
 const keyname = 'applicantMedicareStatus';
 
 export function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
     data?.applicants?.[pagePerItemIndex],
-  ).slice(0, -3); // remove 's_
+    undefined,
+    false,
+  );
 
   const useFirstPerson =
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
@@ -131,6 +136,7 @@ export function ApplicantMedicareStatusPage({
           label={`${
             useFirstPerson ? `Are you` : `Is ${applicant}`
           } enrolled in Medicare?`}
+          hint={additionalFilesHint}
           required
           error={error}
           uswds
@@ -159,7 +165,7 @@ export function ApplicantMedicareStatusPage({
 ApplicantMedicareStatusReviewPage.propTypes = {
   data: PropTypes.object,
   editPage: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.number,
   props: PropTypes.object,
   title: PropTypes.func,
 };

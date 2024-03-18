@@ -6,15 +6,12 @@ import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 import user from '../../mocks/endpoints/user';
 
 describe('Profile - Hub page', () => {
-  // visits the profile page with useProfileHub toggled on and off
-  // and checks that the correct content is rendered
-
   beforeEach(() => {
     cy.login(mockUser);
     mockProfileLOA3();
   });
 
-  it('should render the correct content with toggle ON', () => {
+  it('should render the correct content', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     cy.findByText('Profile', { selector: 'h1' }).should('exist');
@@ -47,9 +44,7 @@ describe('Profile - Hub page', () => {
     cy.findByText('Review your mailing address').should('exist');
 
     // link text for the bad address indicator alert
-    cy.findByText(
-      'Go to your contact information to review your address',
-    ).should('exist');
+    cy.findByText('Review the mailing address in your profile').should('exist');
 
     cy.url().should('not.include', 'personal-information');
 
@@ -60,7 +55,6 @@ describe('Profile - Hub page', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
-        profileUseHubPage: true,
         profileLighthouseDirectDeposit: true,
       }),
     );
@@ -75,27 +69,6 @@ describe('Profile - Hub page', () => {
     cy.findByText('We can’t show your information').should('exist');
 
     cy.url().should('include', 'profile/account-security');
-
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should render the personal information page as the profile root route when toggle is OFF', () => {
-    cy.intercept(
-      'v0/feature_toggles*',
-      generateFeatureToggles({
-        profileUseHubPage: false,
-      }),
-    );
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    // renders personal information page
-    cy.findByText('Legal name').should('exist');
-    cy.findByText('Date of birth').should('exist');
-    cy.findByText('Preferred name').should('exist');
-    cy.findByText('Gender identity').should('exist');
-    cy.findByText('Disability rating').should('exist');
-
-    cy.url().should('include', 'profile/personal-information');
 
     cy.injectAxeThenAxeCheck();
   });

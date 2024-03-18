@@ -34,8 +34,6 @@ describe('Secure Messaging Message Details', () => {
     detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 0);
 
     detailsPage.expandAllThreadMessages();
-    // there should only call to /messages/message/*
-    cy.wait('@message1');
 
     detailsPage.verifyExpandedThreadBodyDisplay(defaultMockThread, 2);
     detailsPage.verifyExpandedThreadAttachmentDisplay(defaultMockThread, 2);

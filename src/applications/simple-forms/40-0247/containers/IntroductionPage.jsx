@@ -33,6 +33,13 @@ const ombInfo = {
 
 const childContent = (
   <>
+    <p>
+      Use this form if you want to request a Presidential Memorial Certificate.
+      A Presidential Memorial Certificate is an engraved paper certificate
+      signed by the current president. It honors the memory of a deceased
+      Veteran and expresses the country’s grateful recognition of their service
+      in the Armed Forces.
+    </p>
     <h2 className="vad-u-margin-top--0">Follow these steps to get started</h2>
     <va-process-list uswds>
       <va-process-list-item header="Check the Veteran’s or Reservist’s eligibility">
@@ -48,7 +55,7 @@ const childContent = (
         <p>Not sure if the Veteran or Reservist is eligible?</p>
         <p>
           <a href="/burials-memorials/eligibility/">
-            Check eligibility requirements for burial in a VA national cemetary
+            Check eligibility requirements for burial in a VA national cemetery
           </a>
         </p>
         <p>

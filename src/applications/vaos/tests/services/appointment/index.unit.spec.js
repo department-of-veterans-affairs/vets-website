@@ -30,7 +30,7 @@ import {
 import { generateAppointmentUrl } from '../../../utils/appointment';
 import { setRequestedPeriod } from '../../mocks/helpers';
 
-describe('VAOS Appointment service', () => {
+describe('VAOS Services: Appointment ', () => {
   describe('fetchBookedAppointment by id', () => {
     beforeEach(() => mockFetch());
 

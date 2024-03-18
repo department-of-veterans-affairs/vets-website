@@ -1,3 +1,4 @@
+import { notFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
 
 const avsId = '9A7AF40B2BC2471EA116891839113252';
@@ -57,5 +58,20 @@ describe('After-visit Summary', () => {
     cy.contains('More help and information').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
+  });
+
+  it('Visit root URL and get a page not found', () => {
+    cy.visit(manifest.rootUrl);
+    cy.injectAxeThenAxeCheck();
+    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+  });
+
+  it('Visit a child path past an ID and get a page not found', () => {
+    cy.visit(`${testUrl}/path1`);
+    cy.injectAxeThenAxeCheck();
+    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+
+    cy.visit(`${testUrl}/path1/path2`);
+    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
   });
 });

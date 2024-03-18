@@ -9,30 +9,23 @@ import {
   serviceNumberUI,
   checkboxGroupUI,
   checkboxGroupSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
-import { wartimeWarning, servedDuringWartime } from '../../../helpers';
-import { validateServiceBirthDates } from '../../../validation';
 
-const serviceBranchOptions = {
-  army: 'Army',
-  navy: 'Navy',
-  airForce: 'Air Force',
-  coastGuard: 'Coast Guard',
-  marineCorps: 'Marine Corps',
-  spaceForce: 'Space Force',
-  usphs: 'USPHS',
-  noaa: 'NOAA',
-};
+import { serviceBranchLabels } from '../../../labels';
+import { WartimeWarningAlert } from '../../../components/FormAlerts';
+import { servedDuringWartime } from '../../../helpers';
+import { validateServiceBirthDates } from '../../../validation';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Service period',
+    ...titleUI('Service period'),
     serviceBranch: checkboxGroupUI({
       title: 'Branch of service',
-      labels: serviceBranchOptions,
+      labels: serviceBranchLabels,
       required: true,
     }),
     activeServiceDateRange: dateRangeUI(
@@ -60,7 +53,7 @@ export default {
       );
 
       return {
-        'ui:description': wartimeWarning,
+        'ui:description': WartimeWarningAlert,
         'ui:options': {
           hideIf: hideWartimeWarning,
         },
@@ -71,7 +64,7 @@ export default {
     type: 'object',
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
-      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchOptions)),
+      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
       activeServiceDateRange: {
         ...dateRange,
         required: ['from', 'to'],

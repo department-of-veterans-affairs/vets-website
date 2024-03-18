@@ -10,7 +10,7 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 import AddFilesFormOld from '../components/AddFilesFormOld';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
+import { benefitsDocumentsUseLighthouse } from '../selectors';
 import { setFocus, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -22,10 +22,7 @@ import {
   // END lighthouse_migration
   updateField,
   cancelUpload,
-  // START lighthouse_migration
   getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
-  // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
@@ -76,13 +73,7 @@ class AdditionalEvidencePageOld extends React.Component {
   }
 
   goToFilesPage() {
-    // START lighthouse_migration
-    if (this.props.useLighthouse) {
-      this.props.getClaimLighthouse(this.props.claim.id);
-    } else {
-      this.props.getClaimEVSS(this.props.claim.id);
-    }
-    // END lighthouse_migration
+    this.props.getClaim(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
@@ -170,7 +161,6 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state, 'show'),
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
@@ -182,9 +172,8 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
+  getClaim: getClaimAction,
   // START lighthouse_migration
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
   submitFilesLighthouse,
   // END lighthouse_migration
   setFieldsDirty,
@@ -201,10 +190,7 @@ AdditionalEvidencePageOld.propTypes = {
   documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration
   files: PropTypes.array,
-  // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
-  // END lighthouse_migration
+  getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
@@ -222,9 +208,6 @@ AdditionalEvidencePageOld.propTypes = {
   uploadComplete: PropTypes.bool,
   uploadField: PropTypes.object,
   uploading: PropTypes.bool,
-  // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export default withRouter(

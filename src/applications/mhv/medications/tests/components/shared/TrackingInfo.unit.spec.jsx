@@ -5,10 +5,10 @@ import reducers from '../../../reducers';
 import TrackingInfo from '../../../components/shared/TrackingInfo';
 
 describe('Medications Breadcrumbs', () => {
-  const setup = () => {
+  const setup = (carrier = 'ups') => {
     return renderWithStoreAndRouter(
       <TrackingInfo
-        carrier="ups"
+        carrier={carrier}
         trackingNumber="000"
         completeDateTime={1649971200000}
         prescriptionName="Prescription Name"
@@ -66,5 +66,9 @@ describe('Medications Breadcrumbs', () => {
     const datePattern = /^(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}$/;
     const isDateFormattedCorrectly = datePattern.test(shippingDateText);
     expect(isDateFormattedCorrectly).to.be.true;
+  });
+  it('If no carrier is provided, then display trackingNumber', () => {
+    const screen = setup('');
+    expect(screen.findByText('000'));
   });
 });

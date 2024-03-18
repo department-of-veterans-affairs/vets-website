@@ -1,6 +1,11 @@
 import { groupBy, matches } from 'lodash';
 import environment from '../utilities/environment';
-import { VA_FORM_IDS_IN_PROGRESS_FORMS_API } from './constants';
+import {
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+  memoizedGetFormLink,
+} from './constants';
+
+export const getFormLink = memoizedGetFormLink();
 
 export function inProgressApi(formId) {
   const apiUrl =
