@@ -5,7 +5,8 @@ import {
   vaFileNumberUI,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
+import { AltReviewRowView } from '../../../components/ReviewRowView';
+import { generateHelpText, generateTitle } from '../../../utils/helpers';
 
 const {
   veteranFullName,
@@ -19,7 +20,13 @@ export default {
     'ui:title': generateTitle('Personal information'),
     veteranFullName: fullNameUI(title => `Veteran’s ${title}`),
     veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
-    vaFileNumber: vaFileNumberUI('Veteran’s VA file number'),
+    vaFileNumber: {
+      ...vaFileNumberUI('Veteran’s VA file number'),
+      'ui:description': generateHelpText(
+        'Enter this number only if it’s different than their Social Security number',
+      ),
+      'ui:reviewField': AltReviewRowView,
+    },
     veteranDateOfBirth: dateOfBirthUI('Veteran’s date of birth'),
   },
   schema: {

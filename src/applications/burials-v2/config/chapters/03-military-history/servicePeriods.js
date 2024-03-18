@@ -55,7 +55,7 @@ export function ServicePeriodView({ formData }) {
 
 ServicePeriodView.propTypes = {
   formData: PropTypes.shape({
-    dateRange: PropTypes.string,
+    dateRange: PropTypes.object,
     serviceBranch: PropTypes.string,
   }),
 };

@@ -215,25 +215,9 @@ export const generateTitle = text => {
   return <h3 className="vads-u-margin-top--0">{text}</h3>;
 };
 
-export const generateDescription = text => {
-  return <h3>{text}</h3>;
-};
-
-export const generateText = text => {
-  return <p>{text}</p>;
-};
-
 export const generateHelpText = text => {
   return (
     <span className="vads-u-color--gray vads-u-font-size--md">{text}</span>
-  );
-};
-
-export const labelSize = text => {
-  return (
-    <p className="vads-u-margin-y--0 vads-u-padding-y--0 vads-u-font-size--md vads-u-font-family--sans vads-u-font-weight--normal vads-u-color--base">
-      {text}
-    </p>
   );
 };
 
