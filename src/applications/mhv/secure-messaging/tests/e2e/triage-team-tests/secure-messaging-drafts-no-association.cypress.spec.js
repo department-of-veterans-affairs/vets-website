@@ -229,7 +229,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .find('a')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
-    cy.get(Locators.SELECT).should(
+    cy.get(Locators.ALERTS.REPT_SELECT).should(
       'not.contain',
       mockRecipients.data[0].attributes.name,
     );
