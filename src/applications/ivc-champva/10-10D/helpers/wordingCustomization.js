@@ -35,3 +35,6 @@ export function applicantWording(
   }
   return retVal;
 }
+
+export const additionalFilesHint =
+  'Depending on your response, you may need to submit additional documents with this application.';

@@ -2,7 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
-import { Locators, Alerts, Assertions } from '../utils/constants';
+import { Locators, Alerts, Paths } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -44,13 +44,13 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}*`,
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}*`,
       folderData,
     ).as('customFolderID');
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads*`,
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads*`,
       folderMessages,
     ).as('customFolderMessages');
 
@@ -121,7 +121,7 @@ class FolderManagementPage {
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
@@ -129,7 +129,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockParentMessageDetails.data.attributes.messageId
       }/thread`,
       this.currentThread,
@@ -141,7 +141,7 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get(Locators.ALERTS.ALERT_TEXT);
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
@@ -175,14 +175,14 @@ class FolderManagementPage {
   selectFolderFromModal = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageResponse.data.at(1).attributes.messageId
       }`,
       mockMessageResponse,
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessageResponse.data.at(2).attributes.messageId
       }`,
       mockMessageResponse,
@@ -236,9 +236,9 @@ class FolderManagementPage {
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT)
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('contain.text', Assertions.MESSAGE_CONVERSATION_SUCCESS);
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {
@@ -246,13 +246,13 @@ class FolderManagementPage {
   };
 
   confirmDeleteFolder = folderId => {
-    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
+    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}`, {
       statusCode: 204,
     }).as('deleteFolder');
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders?page=1&per_page=999&useCache=false',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}?page=1&per_page=999&useCache=false`,
       mockFolders,
     ).as('updatedFoldersList');
 

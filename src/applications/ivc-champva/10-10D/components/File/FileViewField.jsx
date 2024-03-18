@@ -47,6 +47,13 @@ export function AppSchoolDocReviewField(props) {
   return FileViewField(data, title);
 }
 
+export function AppHelplessChildReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} helpless child documents`;
+  const data = app?.applicantHelplessCert || [];
+  return FileViewField(data, title);
+}
+
 export function AppAdoptionDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} adoption documents`;
