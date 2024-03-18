@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import {
   isValidCurrency,
   validateAfterMarriageDate,
+  validateAfterPastMarriageDate,
   validateAfterMarriageDates,
   validateCurrency,
   validateServiceBirthDates,
@@ -19,6 +20,21 @@ describe('Pension validation', () => {
 
       validateAfterMarriageDate(errors, '2014-01-01', {
         dateOfMarriage: '2016-01-01',
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+  });
+  describe('validateAfterPastMarriageDate', () => {
+    it('should add error if date of past marriage is after date of separation', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateAfterPastMarriageDate(errors, '2014-01-01', {
+        'view:pastMarriage': {
+          dateOfMarriage: '2016-01-01',
+        },
       });
 
       expect(errors.addError.called).to.be.true;
