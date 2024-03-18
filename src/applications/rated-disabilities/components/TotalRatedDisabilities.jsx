@@ -17,10 +17,7 @@ const TotalRatedDisabilities = ({ error, loading, totalDisabilityRating }) => {
   // If there is a rating, display the rating and content
   if (loading) {
     content = (
-      <va-loading-indicator
-        message="Loading your total disability rating..."
-        uswds="false"
-      />
+      <va-loading-indicator message="Loading your total disability rating..." />
     );
   } else if (errorCode && isServerError(errorCode)) {
     content = errorMessage();

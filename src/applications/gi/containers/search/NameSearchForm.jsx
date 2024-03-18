@@ -2,7 +2,7 @@ import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
@@ -15,7 +15,10 @@ import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
-import { validateSearchTerm } from '../../utils/helpers';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function NameSearchForm({
   autocomplete,
@@ -169,7 +172,7 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() &&
+        isProductionOrTestProdEnv() &&
         JSON.parse(sessionStorage.getItem('show')) && (
           <div>
             <FilterBeforeResults
