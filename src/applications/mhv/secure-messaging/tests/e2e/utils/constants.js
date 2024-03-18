@@ -59,7 +59,7 @@ export const Locators = {
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
   DELET_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
-  SELECT: '#options',
+  SELECT: '#select',
   HEADER: 'h1',
   HEADLINE: 'h1[slot="headline"]',
   KEYWORD_SEARCH: '[data-testid="keyword-search-input"]',
