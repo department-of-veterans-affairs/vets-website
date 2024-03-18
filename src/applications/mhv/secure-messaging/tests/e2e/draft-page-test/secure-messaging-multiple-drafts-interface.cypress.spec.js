@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { Assertions, AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
@@ -66,11 +66,11 @@ describe('handle multiple drafts in one thread', () => {
     cy.get(Locators.REPLY_FORM)
       .find('h3')
       .each(el => {
-        cy.wrap(el).should('include.text', Assertions.DRAFT);
+        cy.wrap(el).should('include.text', 'Draft');
       });
 
     cy.get(Locators.ALERTS.LAST_EDIT_DATE).each(el => {
-      cy.wrap(el).should('include.text', Assertions.EDITED);
+      cy.wrap(el).should('include.text', 'edited');
     });
   });
 
