@@ -12,7 +12,7 @@ const checkDate = (mebAutoPopulateRelinquishmentDate, dateToCheck) => {
   const currentDate = moment();
   const oneYearAgo = currentDate.subtract(1, 'y');
 
-  if (dateFromData.isBefore(oneYearAgo)) {
+  if (dateFromData.isBefore(oneYearAgo) || dateToCheck === undefined) {
     return oneYearAgo.format('YYYY-MM-DD');
   }
 

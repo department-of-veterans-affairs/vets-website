@@ -10,7 +10,10 @@ const BenefitRelinquishmentDate = props => {
   const aYearAgo = moment(new Date()).subtract(1, 'y');
   const populateDate = () => {
     let returnDate;
-    if (moment(formData?.benefitEffectiveDate).isBefore(aYearAgo)) {
+    if (
+      moment(formData?.benefitEffectiveDate).isBefore(aYearAgo) ||
+      formData?.benefitEffectiveDate === undefined
+    ) {
       returnDate = aYearAgo.format('YYYY-MM-DD');
     } else {
       returnDate = moment(formData?.benefitEffectiveDate).format('YYYY-MM-DD');
