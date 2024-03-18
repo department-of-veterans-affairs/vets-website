@@ -57,6 +57,9 @@ describe('526 -- paymentInformation', () => {
       </Provider>,
     );
 
+    const vaAlert = form.find('va-alert');
+    expect(vaAlert).not.to.be.undefined;
+
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
