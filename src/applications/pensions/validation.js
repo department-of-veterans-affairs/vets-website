@@ -14,7 +14,7 @@ export function validateAfterPastMarriageDate(
   formData,
 ) {
   const fromDate = convertToDateField(
-    formData['view:pastMarriage'].dateOfMarriage,
+    formData['view:pastMarriage']?.dateOfMarriage || formData.dateOfMarriage,
   );
   const toDate = convertToDateField(dateOfSeparation);
 
