@@ -31,7 +31,7 @@
       {
         "jobDate": "2020-06-15",
         "jobType": "Customer service",
-        "jobHoursWeek": 20,
+        "jobHoursWeek": "20",
         "jobTitle": "Manager"
       }
     ],

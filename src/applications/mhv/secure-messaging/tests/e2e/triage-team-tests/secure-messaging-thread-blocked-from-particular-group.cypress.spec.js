@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Paths, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipients-response.json';
@@ -33,7 +33,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         },
       });
 
-      cy.get('[class="alert-expandable-title"]')
+      cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
         .should('be.visible')
         .and('include.text', Alerts.BLOCKED.HEADER);
     });
@@ -120,7 +120,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       });
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('a')
-        .should('have.attr', 'href', '/find-locations/');
+        .should('have.attr', 'href', Paths.FIND_LOCATIONS);
     });
 
     it('reply btn does not exist', () => {
@@ -152,7 +152,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
         waitForAnimations: true,
       });
       cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
-      cy.get('#select').should(
+      cy.get(Locators.ALERTS.REPT_SELECT).should(
         'not.contain',
         mockBlockedRecipients.data[3].attributes.name,
       );

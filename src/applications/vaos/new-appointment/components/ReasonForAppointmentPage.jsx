@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { validateWhiteSpace } from 'platform/forms/validations';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
+import { getFlowType, getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
+import {
+  PURPOSE_TEXT_V2,
+  FACILITY_TYPES,
+  FLOW_TYPES,
+} from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -71,6 +75,9 @@ const uiSchema = {
     reasonForAppointment: {
       'ui:widget': 'radio',
       'ui:title': 'Let us know why you’re making this appointment.',
+      'ui:errorMessages': {
+        required: 'Select a reason for your appointment',
+      },
     },
     reasonAdditionalInfo: {
       'ui:widget': TextareaWidget,
@@ -78,6 +85,10 @@ const uiSchema = {
         rows: 5,
       },
       'ui:validations': [validComment],
+      'ui:errorMessages': {
+        required:
+          'Provide more details about why you are requesting this appointment',
+      },
     },
   },
   cc: {
@@ -99,6 +110,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const flowType = useSelector(getFlowType);
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -111,9 +123,10 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
-  const pageTitle = isCommunityCare
-    ? 'Tell us the reason for this appointment'
-    : 'Choose a reason for this appointment';
+  const pageTitle =
+    FLOW_TYPES.DIRECT === flowType
+      ? 'Tell us the reason for this appointment'
+      : 'What’s the reason for this appointment?';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
 
   useEffect(() => {

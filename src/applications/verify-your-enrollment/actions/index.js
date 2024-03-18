@@ -18,6 +18,26 @@ export const UPDATE_BANK_INFO_FAILED = 'UPDATE_BANK_INFO_FAILED';
 export const VERIFY_ENROLLMENT = 'VERIFY_ENROLLMENT';
 export const VERIFY_ENROLLMENT_SUCCESS = 'VERIFY_ENROLLMENT_SUCCESS';
 export const VERIFY_ENROLLMENT_FAILURE = 'VERIFY_ENROLLMENT_FAILURE';
+export const TOGGLE_ENROLLMENT_ERROR_STATEMENT =
+  'TOGGLE_ENROLLMENT_ERROR_STATEMENT';
+export const UPDATE_TOGGLE_ENROLLMENT_SUCCESS =
+  'UPDATE_TOGGLE_ENROLLMENT_SUCCESS';
+export const UPDATE_TOGGLE_ENROLLMENT_ERROR = 'UPDATE_TOGGLE_ENROLLMENT_ERROR';
+
+export const updateToggleEnrollmentSuccess = toggleEnrollmentSuccess => ({
+  type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
+  payload: toggleEnrollmentSuccess,
+});
+
+export const updateToggleEnrollmentError = toggleEnrollmentError => ({
+  type: UPDATE_TOGGLE_ENROLLMENT_ERROR,
+  payload: toggleEnrollmentError,
+});
+
+export const updateToggleEnrollmentCard = toggleEnrollmentErrorStatement => ({
+  type: TOGGLE_ENROLLMENT_ERROR_STATEMENT,
+  payload: toggleEnrollmentErrorStatement,
+});
 
 const API_URL = `${environment.API_URL}/vye/v1`;
 // Action Creators

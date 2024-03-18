@@ -13,7 +13,6 @@ const basicEnrollmentStatusState = {
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
-  showReapplyContent: false,
 };
 const loggedOutUserState = {
   login: {
@@ -68,8 +67,6 @@ const LOA1UserState = {
     loading: false,
   },
 };
-
-// describe('when the profile is loading', () => {});
 
 describe('hca top-level selectors', () => {
   describe('when `isLoggedOut` executes', () => {
@@ -153,19 +150,6 @@ describe('hca top-level selectors', () => {
       state.hcaEnrollmentStatus.noESRRecordFound = true;
       noESRRecordFound = selectors.noESRRecordFound(state);
       expect(noESRRecordFound).to.be.true;
-    });
-  });
-
-  describe('when `shouldShowReapplyContent` executes', () => {
-    it('should return the correct part of the enrollment status state', () => {
-      const state = {
-        hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
-      };
-      let showReapplyContent = selectors.shouldShowReapplyContent(state);
-      expect(showReapplyContent).to.be.false;
-      state.hcaEnrollmentStatus.showReapplyContent = true;
-      showReapplyContent = selectors.shouldShowReapplyContent(state);
-      expect(showReapplyContent).to.be.true;
     });
   });
 
@@ -556,77 +540,6 @@ describe('hca compound selectors', () => {
             state,
           );
           expect(shouldShowGetStartedContent).to.be.true;
-        });
-      });
-    });
-  });
-
-  describe('when `shouldHideFormFooter` executes', () => {
-    describe('when the enrollment status is loading', () => {
-      it('should return `false`', () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-            isLoadingApplicationStatus: true,
-          },
-          user: { ...LOA1UserState },
-        };
-        const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-        expect(shouldHideFormFooter).to.be.false;
-      });
-    });
-
-    describe('when the profile is loading', () => {
-      it('should return `false`', () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-          },
-          user: { ...loadingUserState },
-        };
-        const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-        expect(shouldHideFormFooter).to.be.false;
-      });
-    });
-
-    describe('when the user is LOA1', () => {
-      it('should return `true`', () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-          },
-          user: { ...LOA1UserState },
-        };
-        const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-        expect(shouldHideFormFooter).to.be.true;
-      });
-    });
-
-    describe('when the user is LOA3', () => {
-      describe('when the reapply content is not rendered', () => {
-        it('should return `true`', () => {
-          const state = {
-            hcaEnrollmentStatus: {
-              ...basicEnrollmentStatusState,
-            },
-            user: { ...LOA3UserState },
-          };
-          const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-          expect(shouldHideFormFooter).to.be.true;
-        });
-      });
-
-      describe('when the reapply content is rendered', () => {
-        it('should return `false`', () => {
-          const state = {
-            hcaEnrollmentStatus: {
-              ...basicEnrollmentStatusState,
-              showReapplyContent: true,
-            },
-            user: { ...LOA3UserState },
-          };
-          const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-          expect(shouldHideFormFooter).to.be.false;
         });
       });
     });

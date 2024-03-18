@@ -63,7 +63,7 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <va-breadcrumbs class="va-nav-breadcrumbs">
+          <va-breadcrumbs uswds="false" class="va-nav-breadcrumbs">
             <a href="/">Home</a>
             {/* this will get updated when this route is added */}
             <a href="/health-care">Health care</a>
