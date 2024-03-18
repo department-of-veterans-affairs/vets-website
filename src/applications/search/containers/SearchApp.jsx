@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
-import {
-  zonedTimeToUtc,
-  utcToZonedTime,
-  format as tzFormat,
-} from 'date-fns-tz';
+import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -440,22 +436,32 @@ class SearchApp extends React.Component {
       const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
       const timeZone = 'America/New_York';
 
+      // Current date and time in the specified timezone
       let start = new Date();
       start = utcToZonedTime(start, timeZone);
       start = setHours(start, maintenanceStartHour);
       start = setMinutes(start, 0);
       start = setSeconds(start, 0);
 
+      // Calculate end time by adding the duration to the start time
       let end = new Date(
         start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
       );
-      end = zonedTimeToUtc(end, timeZone);
+      end = utcToZonedTime(end, timeZone); // Ensure the end time is also adjusted to the specified timezone
+
+      // Format start and end dates to include timezone offset correctly
+      const startFormatted = tzFormat(
+        start,
+        "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX",
+        { timeZone },
+      );
+      const endFormatted = tzFormat(end, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
+        timeZone,
+      });
 
       return {
-        start: tzFormat(start, 'EEE MMM d yyyy HH:mm:ss [GMT]XXXX', {
-          timeZone,
-        }),
-        end: tzFormat(end, 'EEE MMM d yyyy HH:mm:ss [GMT]XXXX', { timeZone }),
+        start: startFormatted,
+        end: endFormatted,
       };
     }
 

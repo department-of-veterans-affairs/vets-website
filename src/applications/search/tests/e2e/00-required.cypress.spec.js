@@ -123,28 +123,39 @@ describe('Sitewide Search smoke test', () => {
   });
 
   describe('Maintenance Window Message Display', () => {
-    it('should display maintenance message during maintenance window when 0 results', () => {
-      cy.clock(new Date('2021-03-16T20:00:00.000Z').getTime(), ['Date']);
+    const maintenanceTestCases = [
+      { date: '2021-03-16T20:00:00.000Z', description: 'Tuesday at 4 PM EST' }, // Within Tuesday maintenance window
+      { date: '2021-03-18T20:00:00.000Z', description: 'Thursday at 4 PM EST' }, // Within Thursday maintenance window
+      { date: '2021-03-16T21:00:00.000Z', description: 'Tuesday at 5 PM EST' }, // Within Tuesday maintenance window
+      { date: '2021-03-18T21:00:00.000Z', description: 'Thursday at 5 PM EST' }, // Within Thursday maintenance window
+    ];
 
-      enableDropdownComponent();
-      cy.intercept('GET', '/v0/search?query=benefits', {
-        body: zeroResultsStub,
-        statusCode: 200,
-      }).as('getSearchResultsGlobal');
+    maintenanceTestCases.forEach(testCase => {
+      it(`should display maintenance message during maintenance window when 0 results on ${
+        testCase.description
+      }`, () => {
+        cy.clock(new Date(testCase.date).getTime(), ['Date']);
 
-      cy.visit('/search?query=benefits');
-      cy.injectAxeThenAxeCheck();
+        enableDropdownComponent();
+        cy.intercept('GET', '/v0/search?query=benefits', {
+          body: zeroResultsStub,
+          statusCode: 200,
+        }).as('getSearchResultsGlobal');
 
-      cy.get('[data-e2e-id="search-app"]').within(() => {
-        cy.get('va-maintenance-banner')
-          .should('exist')
-          .and('contain', 'We’re working on Search VA.gov right now.');
+        cy.visit('/search?query=benefits');
+        cy.injectAxeThenAxeCheck();
+
+        cy.get('[data-e2e-id="search-app"]').within(() => {
+          cy.get('va-maintenance-banner')
+            .should('exist')
+            .and('contain', 'We’re working on Search VA.gov right now.');
+        });
+
+        cy.axeCheck();
       });
-
-      cy.axeCheck();
     });
 
-    it('if returns with search results, does not display maintenance message at 4 PM EST on a Tuesday', () => {
+    it('should not display message if returns with search results at 4 PM EST on a Tuesday', () => {
       // Mocking the date and time to Tuesday at 4 PM EST (EDT, so UTC-4)
       cy.clock(new Date('2021-03-16T20:00:00.000Z').getTime(), ['Date']);
 
@@ -180,7 +191,7 @@ describe('Sitewide Search smoke test', () => {
     ];
 
     nonMaintenanceTestCases.forEach(testCase => {
-      it(`should not display maintenance message ${
+      it(`should not display maintenance message with no results on ${
         testCase.description
       }`, () => {
         cy.clock(new Date(testCase.date).getTime(), ['Date']);
