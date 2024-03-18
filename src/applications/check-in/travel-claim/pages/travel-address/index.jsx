@@ -50,6 +50,7 @@ const TravelAddress = props => {
       pageType="travel-address"
       router={router}
       noFunction={noFunction}
+      testID="travel-claim-address-page"
     />
   );
 };
