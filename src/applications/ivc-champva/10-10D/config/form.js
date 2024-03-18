@@ -1338,7 +1338,13 @@ const formConfig = {
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
-            applicantMedicareStatus: { type: 'string' },
+            applicantMedicareStatus: {
+              type: 'object',
+              properties: {
+                eligibility: { type: 'string' },
+                otherIneligible: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
@@ -1380,8 +1386,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled' &&
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled' &&
               ['partA', 'partB'].some(part =>
                 get(
                   'applicantMedicarePart',
@@ -1439,8 +1447,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled' &&
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled' &&
               get(
                 'applicantMedicarePart',
                 formData?.applicants?.[index],
@@ -1622,8 +1632,10 @@ const formConfig = {
             if (index === undefined) return true;
             return (
               get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled'
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
