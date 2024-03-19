@@ -78,15 +78,6 @@ class Confirmation {
       .should('have.length.gt', 0);
   };
 
-  validateStaffMessage = () => {
-    cy.get('[data-testid="tell-staff-member"]')
-      .invoke('text')
-      .should(
-        'include',
-        'The staff can call you back anytime now that you’ve completed check-in.',
-      );
-  };
-
   validateBTSSSLink = () => {
     cy.get('div[data-testid="btsss-link"] a:first').should(
       'have.text',
