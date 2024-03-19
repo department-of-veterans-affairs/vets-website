@@ -138,7 +138,7 @@ describe('NoFormPage', () => {
     );
     await waitFor(() => {
       expect($$('h2', container)[0].textContent).to.eql(
-        'This online form isn’t working right now',
+        'You don’t have any saved online burial forms.',
       );
       expect($$('h2', container).length <= 9).to.be.true;
     });

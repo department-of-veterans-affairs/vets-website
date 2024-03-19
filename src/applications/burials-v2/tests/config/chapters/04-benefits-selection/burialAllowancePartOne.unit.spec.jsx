@@ -31,6 +31,6 @@ describe('Burial Allowance Part One', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('va-radio-option', formDOM).length).to.equal(4);
+    expect($$('va-checkbox', formDOM).length).to.equal(3);
   });
 });
