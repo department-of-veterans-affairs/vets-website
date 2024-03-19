@@ -45,7 +45,8 @@ export function fetchAppealsSuccess(response) {
 const recordAppealsAPIEvent = ({
   startTime,
   success,
-  error,
+  errorStatus,
+  errorTitle,
   apiName = 'GET appeals /v0/appeals',
 }) => {
   const event = {
@@ -53,8 +54,10 @@ const recordAppealsAPIEvent = ({
     'api-name': apiName,
     'api-status': success ? 'successful' : 'failed',
   };
-  if (error) {
-    event['error-key'] = error;
+  if (errorStatus && errorTitle) {
+    event[
+      'error-key'
+    ] = `my_va_appeals_api_failure_${errorStatus}_${errorTitle}`;
   }
   if (startTime) {
     const apiLatencyMs = roundToNearest({
@@ -64,11 +67,6 @@ const recordAppealsAPIEvent = ({
     event['api-latency-ms'] = apiLatencyMs;
   }
   recordEvent(event);
-  if (event['error-key']) {
-    recordEvent({
-      'error-key': undefined,
-    });
-  }
 };
 
 export function getAppealsV2() {
@@ -114,7 +112,8 @@ export function getAppealsV2() {
         recordAppealsAPIEvent({
           startTime: startTimestampMs,
           success: false,
-          error: status,
+          errorStatus: `${status}`,
+          errorTitle: `${action.type}`,
         });
         return dispatch(action);
       });
