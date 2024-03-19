@@ -65,9 +65,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         const reduceBy = ([refillable, renewable], rx) => {
           if (
             rx.isRefillable ||
-            (rx.dispStatus === dispStatusObj.active &&
-              rx.refillRemaining > 0) ||
-            rx.dispStatus === dispStatusObj.activeParked
+            ([dispStatusObj.active, dispStatusObj.activeParked].includes(
+              rx.dispStatus,
+            ) &&
+              rx.refillRemaining > 0)
           ) {
             return [[...refillable, rx], renewable];
           }
