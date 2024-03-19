@@ -54,7 +54,7 @@ describe('re-save multiple drafts in one thread', () => {
       },
     });
 
-    cy.get('#textarea').type('newText', { force: true });
+    cy.get('textarea').type('newText', { force: true });
     draftPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[0],
       updatedMultiDraftResponse.data[0].attributes.messageId,
@@ -77,7 +77,7 @@ describe('re-save multiple drafts in one thread', () => {
     });
 
     cy.get('#edit-draft-button').click({ waitForAnimations: true });
-    cy.get('#textarea').type('newText', { force: true });
+    cy.get('textarea').type('newText', { force: true });
     draftPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[1],
       updatedMultiDraftResponse.data[1].attributes.messageId,

@@ -19,7 +19,7 @@ describe('Secure Messaging Compose', () => {
         },
       },
     });
-    composePage.selectRecipient();
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.selectCategory();
     composePage.attachMessageFromFile(Data.TEST_IMAGE);
     composePage.getMessageSubjectField().click();

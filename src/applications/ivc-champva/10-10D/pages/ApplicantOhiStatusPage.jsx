@@ -5,14 +5,19 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
 const keyname = 'applicantHasOhi';
 
 function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
     data?.applicants?.[pagePerItemIndex],
-  ).slice(0, -3); // remove 's_
+    undefined,
+    false,
+  );
 
   const useFirstPerson =
     data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
@@ -122,6 +127,7 @@ export default function ApplicantOhiStatusPage({
           label={`${
             useFirstPerson ? 'Do you' : `Does ${applicant}`
           } have other health insurance (that is not Medicare)?`}
+          hint={additionalFilesHint}
           required
           error={error}
           onVaValueChange={handlers.radioUpdate}
