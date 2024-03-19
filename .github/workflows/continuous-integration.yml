@@ -770,6 +770,7 @@ jobs:
           start: yarn watch
           browser: chrome
           config-file: ./config/cypress.config.js
+          working-directory: src
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
