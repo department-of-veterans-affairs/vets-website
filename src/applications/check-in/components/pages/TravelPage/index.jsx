@@ -28,6 +28,7 @@ const TravelPage = ({
   yesFunction,
   noButtonText,
   noFunction,
+  testID = 'travel-page',
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -83,12 +84,10 @@ const TravelPage = ({
         classNames="travel-page"
         eyebrow={eyebrow}
         withBackButton
+        testID={testID}
       >
         {bodyText && (
-          <div
-            data-testid="body-text"
-            className="vads-u-font-family--serif vads-u-margin-bottom--3"
-          >
+          <div data-testid="body-text" className="vads-u-margin-bottom--3">
             {bodyText}
           </div>
         )}
@@ -148,6 +147,7 @@ TravelPage.propTypes = {
   helpText: PropTypes.node,
   noButtonText: PropTypes.string,
   noFunction: PropTypes.func,
+  testID: PropTypes.string,
   yesButtonText: PropTypes.string,
   yesFunction: PropTypes.func,
 };

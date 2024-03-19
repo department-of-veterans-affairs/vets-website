@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { setupI18n, teardownI18n } from '../../../../utils/i18n/i18n';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import CheckInConfirmation from '../CheckInConfirmation';
 
@@ -14,6 +15,12 @@ import * as useUpdateErrorModule from '../../../../hooks/useUpdateError';
 import * as useFormRoutingModule from '../../../../hooks/useFormRouting';
 
 describe('check in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('CheckInConfirmation', () => {
     const appointments = [
       {

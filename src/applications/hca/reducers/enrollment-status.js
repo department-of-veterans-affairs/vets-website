@@ -1,24 +1,10 @@
 import {
   ENROLLMENT_STATUS_ACTIONS,
   HCA_ENROLLMENT_STATUSES,
+  ENROLLMENT_STATUS_INIT_STATE,
 } from '../utils/constants';
 
-const initialState = {
-  applicationDate: null,
-  enrollmentDate: null,
-  preferredFacility: null,
-  enrollmentStatus: null,
-  enrollmentStatusEffectiveDate: null,
-  dismissedNotificationDate: null,
-  hasServerError: false,
-  isLoadingApplicationStatus: false,
-  isLoadingDismissedNotification: false,
-  isUserInMVI: false,
-  loginRequired: false,
-  noESRRecordFound: false,
-};
-
-function hcaEnrollmentStatus(state = initialState, action) {
+function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
   const { data = {}, response = {}, type } = action;
   const {
     FETCH_ENROLLMENT_STATUS_STARTED,
@@ -77,7 +63,7 @@ function hcaEnrollmentStatus(state = initialState, action) {
         noESRRecordFound,
       };
     },
-    [RESET_ENROLLMENT_STATUS]: () => ({ ...initialState }),
+    [RESET_ENROLLMENT_STATUS]: () => ({ ...ENROLLMENT_STATUS_INIT_STATE }),
     [FETCH_DISMISSED_HCA_NOTIFICATION_STARTED]: () => ({
       ...state,
       isLoadingDismissedNotification: true,

@@ -15,7 +15,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage
       .getCategory('COVID')
       .first()
-      .click();
+      .click({ force: true });
     composePage.attachMessageFromFile('test_image.jpg');
   });
 
