@@ -802,6 +802,9 @@ export function stringifyUrlParams(urlParams) {
  * @returns {number | undefined}
  */
 export function getUrlPathIndex(url) {
+  if (!url) {
+    return undefined;
+  }
   const urlParts = url.split('/');
   const indexString = urlParts
     .map(part => part.replace(/\?.*/, ''))
