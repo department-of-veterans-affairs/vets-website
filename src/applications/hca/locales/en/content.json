@@ -9,5 +9,10 @@
   "enrollment-alert-title--review": "We\u2019re reviewing your application",
   "enrollment-alert-application-date-label": "You applied on:",
   "enrollment-alert-enrolled-date-label": "We enrolled you on:",
-  "enrollment-alert-facility-label": "Your preferred VA medical center is:"
+  "enrollment-alert-facility-label": "Your preferred VA medical center is:",
+  "form-title": "Apply for VA health care",
+  "form-subtitle": "Enrollment Application for Health Benefits (VA Form 10-10EZ)",
+  "load-app": "Loading application...",
+  "load-enrollment-status": "Verifying your enrollment status...",
+  "sip-start-form-text": "Start the health care application"
 }
