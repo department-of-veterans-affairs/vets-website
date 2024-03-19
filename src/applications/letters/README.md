@@ -2,9 +2,7 @@
 
 To receive some benefits, Veterans need a letter proving their status. This service allows VA users to access and download their VA Benefit Summary Letter (sometimes called a VA award letter) and other benefit letters and documents online.
 
-## How to run locally
-
-### Initial set up steps
+## Initial set up steps to run locally
 
 You'll only need to do these steps once.
 
@@ -43,9 +41,9 @@ You'll only need to do these steps once.
   brew install awscli
   ```
 
-### Create ssh port forwarding
+## How to run locally
 
-These will need to be done everytime
+### Create ssh port forwarding
 
 1. In a Terminal instance go into devops/utilities
 
