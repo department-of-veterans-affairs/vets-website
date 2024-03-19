@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 export const selectGreetingName = state => {
   const result =
-    state?.myHealth?.personalInformation?.data?.preferredName ||
+    state?.user?.profile?.demographics?.preferredName ||
     state?.user?.profile?.userFullName?.first ||
     null;
 
@@ -12,6 +12,3 @@ export const selectGreetingName = state => {
 
   return result;
 };
-
-export const selectPersonalInformation = state =>
-  state?.myHealth?.personalInformation || {};
