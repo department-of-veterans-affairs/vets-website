@@ -1,9 +1,17 @@
 import React from 'react';
-import { addHours, isBetween, differenceInHours, parseJSON } from 'date-fns';
+import {
+  subHours,
+  isWithinInterval,
+  parseJSON,
+  format,
+  differenceInHours,
+} from 'date-fns';
+import { format as fmtTZ } from 'date-fns-tz';
 
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import { SERVICE_PROVIDERS } from './constants';
 
+/* Shared */
 export const AUTH_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,
   EXTERNAL_SERVICES.ssoe,
@@ -14,17 +22,23 @@ export const AUTH_DEPENDENCIES = [
 ];
 
 export const generateCSPBanner = ({ csp }) => {
-  return {
-    headline: `You may have trouble signing in with ${
-      SERVICE_PROVIDERS[csp].label
-    }`,
-    status: 'warning',
-    message: `We’re sorry. We’re working to fix some problems with our ${
-      SERVICE_PROVIDERS[csp].label
-    } sign in process. If you’d like to sign in to VA.gov with your ${
-      SERVICE_PROVIDERS[csp].label
-    } account, please check back later.`,
-  };
+  return csp === 'idme'
+    ? {
+        headline: `You may have trouble signing in with some of your accounts`,
+        status: 'warning',
+        message: `We’re sorry. We’re working to fix some problems with ID.me. If you’d like to sign in to VA.gov with your ID.me, DS Logon, or My HealtheVet accounts, please check back later.`,
+      }
+    : {
+        headline: `You may have trouble signing in with ${
+          SERVICE_PROVIDERS[csp].label
+        }`,
+        status: 'warning',
+        message: `We’re sorry. We’re working to fix some problems with our ${
+          SERVICE_PROVIDERS[csp].label
+        } sign in process. If you’d like to sign in to VA.gov with your ${
+          SERVICE_PROVIDERS[csp].label
+        } account, please check back later.`,
+      };
 };
 
 export const DOWNTIME_BANNER_CONFIG = {
@@ -37,9 +51,15 @@ export const DOWNTIME_BANNER_CONFIG = {
   ),
   ssoe: {
     headline: 'Our sign in process isn’t working right now',
-    status: 'error',
+    status: 'warning',
     message:
       'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
+  },
+  multipleServices: {
+    headline: 'You may have trouble signing in or using some tools or services',
+    status: 'warning',
+    message:
+      'We’re sorry. We’re working to fix a problem that affects our site. If you have trouble signing in or using any tools or services, please check back soon.',
   },
   mvi: {
     headline: 'You may have trouble signing in or using some tools or services',
@@ -48,37 +68,24 @@ export const DOWNTIME_BANNER_CONFIG = {
       'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
   },
   maintenance: {
-    headline: 'Site maintenance',
-    status: 'warning',
+    headline: 'Upcoming site maintenance',
+    status: 'info',
   },
 };
 
-export const createMaintenanceBanner = ({
-  start_time: startTime,
-  end_time: endTime,
-}) => {
-  const { headline, status } = DOWNTIME_BANNER_CONFIG.maintenance;
+const serviceCheck = ({ serviceId, status }) =>
+  AUTH_DEPENDENCIES.includes(serviceId) && status !== 'active';
 
-  const startsAt = parseJSON(startTime);
-  const expiresAt = parseJSON(endTime);
-  const hours = differenceInHours(expiresAt, startsAt);
-  const timeFrame = `hour${hours > 1 ? 's' : ''}`;
-  const message = (
-    <p>
-      We’ll be doing some work on VA.gov. The maintenance will last {hours}
-      {timeFrame}. During that time, you won’t be able to sign in or use tools.
-    </p>
-  );
-  return {
-    headline,
-    status,
-    message,
-  };
-};
-
+/**
+ *
+ * @param {String} service - A singular auth dependency inside AUTH_DEPENDENCIES
+ * @returns A React-node (va-alert)
+ */
 export const renderServiceDown = service => {
   const { status, headline, message } =
-    DOWNTIME_BANNER_CONFIG[service] ?? DOWNTIME_BANNER_CONFIG.mvi;
+    typeof service === 'string'
+      ? DOWNTIME_BANNER_CONFIG[service] ?? DOWNTIME_BANNER_CONFIG.mvi
+      : service;
   return (
     <div className="form-warning-banner fed-warning--v2">
       <va-alert visible status={status} uswds>
@@ -89,42 +96,96 @@ export const renderServiceDown = service => {
   );
 };
 
-const checkTime = maint => {
-  const startsAt = addHours(parseJSON(maint.start_time), 1);
-  const endsAt = parseJSON(maint.end_time);
-  // const ready = isBetween(startsAt, endsAt);
-
-  // console.log({ service: maint.external_service, ready, startsAt });
-  return isBetween(startsAt, endsAt);
+export const renderDowntimeBanner = statuses => {
+  const areMultipleServicesDown = statuses?.filter(serviceCheck).length > 1;
+  const downedService = areMultipleServicesDown
+    ? { serviceId: 'multipleServices' }
+    : statuses?.find(serviceCheck);
+  return !downedService ? null : renderServiceDown(downedService.serviceId);
 };
 
-export const isUpcoming = maintArr => {
-  return maintArr.some(maint => {
-    return (
-      ['global', ...AUTH_DEPENDENCIES].includes(maint.external_service) &&
-      checkTime(maint)
-    );
-  });
+/**
+ *
+ * @param {Object} - A single object from a maintenance window (destructured start & end times)
+ * @returns An object needed to create the React-node (va-alert) maintenance banner
+ */
+export const createMaintenanceBanner = ({
+  start_time: startingTime,
+  end_time: endingTime,
+}) => {
+  const { headline, status } = DOWNTIME_BANNER_CONFIG.maintenance;
+
+  const startTime = parseJSON(startingTime);
+  const startDate = format(startTime, `PPPP`);
+  const endTime = parseJSON(endingTime);
+  const hours = differenceInHours(endTime, startTime);
+  const howLongMaintLasts = `${hours} hour${hours > 1 ? 's' : ''}`;
+
+  const startsAt = format(startTime, `h:mm bbbb`);
+  const endsAt = fmtTZ(endTime, `h:mm bbbb z`);
+
+  const message = (
+    <>
+      <p>
+        We’ll be working on VA.gov soon. The maintenance will last about{' '}
+        {howLongMaintLasts}. During this time, you won’t be able to sign in, use
+        online tools, or access VA.gov webpages.
+      </p>
+      <p>
+        <strong>Date:</strong> {startDate}
+      </p>
+      <p>
+        <strong>Start and end time:</strong> {startsAt} and {endsAt}
+      </p>
+    </>
+  );
+  return { headline, status, message, startTime, endTime };
 };
 
-const serviceCheck = svc =>
-  AUTH_DEPENDENCIES.includes(svc.serviceId) && svc.status !== 'active';
+/**
+ *
+ * @param {Array} maintArray - `maintenance_windows` array from API response
+ * @returns An object of the first maintenance window meeting our criteria
+ */
+export const determineMaintenance = maintArray =>
+  maintArray.find(maintService =>
+    ['global', ...AUTH_DEPENDENCIES].includes(maintService.external_service),
+  );
 
-export const isDepedencyDown = serviceArr => serviceArr.some(serviceCheck);
+/**
+ *
+ * @param {ISODateString} startTime
+ * @param {ISODateString} endTime
+ * @returns Boolean (true/false) based on if the times are within the maintenance window
+ */
+export const isInMaintenanceWindow = (startTime, endTime) => {
+  const start = subHours(parseJSON(startTime), 2);
+  const end = parseJSON(endTime);
 
-export const generateMaintenanceBanner = maintArray => {
-  return maintArray.reduce((banner, item) => {
-    if (AUTH_DEPENDENCIES.includes(item.externalService)) {
-      return { ...banner, item };
-    }
-    return { ...banner, item };
-  }, {});
+  const currentTime = new Date();
+
+  return isWithinInterval(currentTime, { start, end });
 };
 
-export const renderMaintenanceWindow = maint => {
-  const maintenanceBanner = createMaintenanceBanner(maint);
-  return renderServiceDown(maintenanceBanner);
-};
+/**
+ *
+ * @param {Array} maintArray - `maintenance_windows` array from API response
+ * @returns A React-node (va-alert) of the maintenance window when inside a maintenance window otherwise it returns null
+ */
+export const renderMaintenanceWindow = maintArray => {
+  if (!maintArray || maintArray.length <= 0) {
+    return null;
+  }
 
-export const generateDowntimeStatus = statusArray =>
-  statusArray?.find(serviceCheck)?.serviceId;
+  const maintenanceBanner = createMaintenanceBanner(
+    determineMaintenance(maintArray),
+  );
+
+  return maintenanceBanner &&
+    isInMaintenanceWindow(
+      maintenanceBanner.startTime,
+      maintenanceBanner.endTime,
+    )
+    ? renderServiceDown(maintenanceBanner)
+    : null;
+};
