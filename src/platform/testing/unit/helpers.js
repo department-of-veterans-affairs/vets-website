@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 chai.use(chaiAsPromised);
 
@@ -107,7 +107,7 @@ export function changeDropdown(form, selector, value) {
  * @param returnVal The value to return from the fetch promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
-export function mockFetch(returnVal, shouldResolve = true) {
+function mockFetch(returnVal, shouldResolve = true) {
   const fetchStub = sinon.stub(global, 'fetch');
   fetchStub.callsFake(url => {
     let response = returnVal;
@@ -163,7 +163,7 @@ export function setFetchBlobFailure(stub, error) {
 /**
  * Resets the fetch mock set with mockFetch
  */
-export function resetFetch() {
+function resetFetch() {
   if (global.fetch.isSinonProxy) {
     global.fetch.restore();
   }
@@ -185,7 +185,7 @@ const getApiRequestObject = returnVal => ({
  * @param {} returnVal The value to return from the json promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
-export function mockApiRequest(returnVal, shouldResolve = true) {
+function mockApiRequest(returnVal, shouldResolve = true) {
   const returnObj = getApiRequestObject(returnVal);
   mockFetch(returnObj, shouldResolve);
 }
@@ -197,7 +197,7 @@ export function mockApiRequest(returnVal, shouldResolve = true) {
  * ---
  * @param {Response[]} responses - An array of responses which subsequent fetch calls should return
  */
-export function mockMultipleApiRequests(responses) {
+function mockMultipleApiRequests(responses) {
   mockFetch();
   responses.forEach((res, index) => {
     const { response, shouldResolve } = res;
@@ -259,7 +259,11 @@ export {
   createTestHistory,
   expect,
   fillDate,
+  mockFetch,
+  mockApiRequest,
+  mockMultipleApiRequests,
   mockEventListeners,
+  resetFetch,
   wrapWithContext,
   wrapWithRouterContext,
 };
