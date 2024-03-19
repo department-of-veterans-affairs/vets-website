@@ -16,7 +16,6 @@ const generateState = ({
     ? {
         externalServiceStatuses: {
           loading: false,
-          shouldGetBackendStatuses: false,
           statuses: statuses.reduce((acc, cv) => {
             if (cv.serviceId === 'mvi' || cv.serviceId === 'idme') {
               acc.push({ ...cv, status: 'nope' });
@@ -50,6 +49,10 @@ const generateState = ({
 };
 
 describe('DowntimeBanner', () => {
+  const downtimeBannersWithoutMultipleOrMaint = Object.keys(
+    DOWNTIME_BANNER_CONFIG,
+  ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
+
   it('should display banner if API is down', () => {
     const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
       initialState: generateState({ isApiDown: true }),
@@ -74,22 +77,20 @@ describe('DowntimeBanner', () => {
     ).to.not.exist;
   });
 
-  Object.keys(DOWNTIME_BANNER_CONFIG)
-    .filter(dt => !['multipleServices', 'maintenance'].includes(dt))
-    .forEach(key => {
-      it(`should display banner if ${key} is down`, () => {
-        const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
-          initialState: generateState({
-            serviceDown: true,
-            serviceId: key,
-          }),
-        });
-
-        const expectedText = DOWNTIME_BANNER_CONFIG[key].headline;
-
-        expect(queryByText(expectedText)).to.exist;
+  downtimeBannersWithoutMultipleOrMaint.forEach(key => {
+    it(`should display banner if ${key} service is down`, () => {
+      const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
+        initialState: generateState({
+          serviceDown: true,
+          serviceId: key,
+        }),
       });
+
+      const expectedText = DOWNTIME_BANNER_CONFIG[key].headline;
+
+      expect(queryByText(expectedText)).to.exist;
     });
+  });
 
   it('should display banner if multipleServices are down', () => {
     const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
@@ -102,5 +103,4 @@ describe('DowntimeBanner', () => {
 
     expect(queryByText(expectedText)).to.exist;
   });
-  it('should display maintenance banner', () => {});
 });
