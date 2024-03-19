@@ -8,19 +8,37 @@ import formConfig from '../../../config/form';
 export const shouldIncludePage = (page, data, index) =>
   !Object.hasOwn(page, 'depends') || page.depends(data, index);
 
-export const tabToElement = selector => {
-  cy.get(selector).should('exist');
+export const tabToElement = (selector, checkInDom = true, reverse = false) => {
+  if (checkInDom) {
+    cy.get(selector).should('exist');
+  }
 
-  cy.realPress('Tab', { pressDelay: 0 }).then(() => {
+  const key = reverse ? ['Shift', 'Tab'] : 'Tab';
+  cy.realPress(key, { pressDelay: 0 }).then(() => {
     cy.document().then(doc => {
-      if (doc.activeElement.tagName.toLowerCase() !== 'body') {
-        return cy.get(':focus').then($el => {
-          if (!$el.is(selector) && !$el.find(selector).length) {
-            tabToElement(selector);
-          }
-        });
+      const { activeElement } = doc;
+      if (!activeElement) {
+        return tabToElement(selector, false, reverse);
       }
-      return tabToElement(selector);
+
+      // if we've reached the continue button, go up
+      if (activeElement.id.includes('continueButton')) {
+        return tabToElement(selector, false, true);
+      }
+
+      // if we've reached the breadcrumb, go down
+      if (activeElement.ariaCurrent === 'page') {
+        return tabToElement(selector, false, false);
+      }
+
+      if (
+        !activeElement.matches(selector) &&
+        !activeElement.matches(selector.replace('Month', ''))
+      ) {
+        return tabToElement(selector, false, reverse);
+      }
+
+      return activeElement;
     });
   });
 };
@@ -50,22 +68,26 @@ export const typeEachChar = str => {
   }
 };
 
-export const fillSelectByTyping = str => {
+export const fillSelectByTyping = (str, i = 0) => {
+  cy.realPress(str[i]);
   cy.get(':focus :selected')
     .should(Cypress._.noop)
     .then($el => {
       const text = $el.text();
-      if (!text.includes(str)) {
+      if (!text.startsWith(str.slice(0, i)) || i + 1 > str.length) {
         // Sometimes the select doesn't pick up the first character,
         // causing the wrong option to be selected. Waiting before
         // re-typing the selection mimics user behavior and allows
         // the select to reset the selection process..
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500);
-        typeEachChar(str);
+        cy.wait(100);
 
-        fillSelectByTyping(str);
+        return fillSelectByTyping(str);
       }
+      if (!text.includes(str)) {
+        return fillSelectByTyping(str, i + 1);
+      }
+      return text;
     });
 };
 
@@ -84,12 +106,8 @@ export const fillDate = fieldData => {
 
 export const fillInput = (fieldData, onFocusError = () => {}) => {
   cy.document().then(doc => {
-    if (doc.activeElement?.tagName.toLowerCase() === 'input') {
-      cy.get(':focus').type(fieldData, { delay: 0 });
-    } else if (doc.activeElement) {
-      cy.get(':focus')
-        .find('input')
-        .type(fieldData, { delay: 0 });
+    if (doc.activeElement) {
+      typeEachChar(fieldData);
     } else {
       // Sometimes elements lose focus after tabbing to them,
       // causing the `get(':focus')` command to fail.
@@ -123,7 +141,14 @@ export const fillField = ({
   }
 
   if (type === 'date') {
-    cy.typeInDate(`#root_${path.join('_')}`, fieldData);
+    const name = `root_${path.join('_')}`;
+    const date = fieldData.split('-').map(v => parseInt(v, 10).toString());
+    tabToElement(`#${name}Month`);
+    cy.chooseSelectOptionUsingValue(date[1]);
+    cy.tabToElement(`#${name}Day`);
+    cy.chooseSelectOptionUsingValue(date[2]);
+    cy.tabToElement(`input[name="${name}Year"]`);
+    typeEachChar(date[0]);
     return;
   }
 
@@ -195,11 +220,7 @@ export const fillSchema = ({
   data,
   path = [],
 }) => {
-  const isInitiallyHidden = k => get(`${k}.ui:options.expandUnder`, uiSchema);
-  const entries = Object.entries(schema.properties);
-  const hiddenEntries = entries.filter(([k, _v]) => isInitiallyHidden(k));
-  const shownEntries = entries.filter(([k, _v]) => !isInitiallyHidden(k));
-  [...shownEntries, ...hiddenEntries].forEach(([key, value]) => {
+  Object.entries(schema.properties).forEach(([key, value]) => {
     const elementPath = [...path, key];
     const elementSchema = value.$ref
       ? replaceRefSchemas(value, formConfig.defaultDefinitions)
@@ -317,6 +338,7 @@ export const keyboardTestPage = (page, data) => {
 
 export const startForm = () => {
   cy.url().should('include', '/introduction');
+
   cy.tabToElement('.schemaform-start-button');
   cy.realPress('Enter');
 };

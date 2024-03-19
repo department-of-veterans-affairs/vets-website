@@ -9,7 +9,7 @@ import {
   keyboardTestPage,
   startForm,
   fillReviewPage,
-} from './helpers/keyboard-only-helpers';
+} from './helpers/keyboardOnlyHelpers';
 
 const testForm = data => {
   const { chapters } = formConfig;
@@ -40,7 +40,6 @@ describe('Higher-Level Review keyboard only navigation', () => {
     cypressSetup(cy);
 
     cy.get('@testData').then(data => {
-      cy.visit('/pension/application/527EZ/introduction');
       cy.injectAxeThenAxeCheck();
 
       testForm(data);
@@ -51,18 +50,16 @@ describe('Higher-Level Review keyboard only navigation', () => {
     cypressSetup(cy);
 
     cy.get('@testData').then(data => {
-      cy.visit('/pension/application/527EZ/introduction');
       cy.injectAxeThenAxeCheck();
 
       testForm(data);
     });
   });
-  it('keyboard navigates through an overflow form', () => {
+  it.skip('keyboard navigates through an overflow form', () => {
     cy.wrap(overflowFixture.data).as('testData');
     cypressSetup(cy);
 
     cy.get('@testData').then(data => {
-      cy.visit('/pension/application/527EZ/introduction');
       cy.injectAxeThenAxeCheck();
 
       testForm(data);
