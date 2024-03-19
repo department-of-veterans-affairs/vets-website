@@ -29,7 +29,7 @@ describe('edit custom folder name validation', () => {
 
     cy.get('[data-testid="alert-text"]')
       .should('be.visible')
-      .and('contain.text', 'Folder was successfully renamed.');
+      .and('contain.text', Data.FOLDER_RENAMED_SUCCESSFULLY);
 
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('be.visible');
   });
