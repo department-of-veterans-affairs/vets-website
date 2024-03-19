@@ -68,8 +68,9 @@ describe('Pensions spouse info', () => {
       'va-radio[name="root_spouseIsVeteran"]',
       container,
     );
-    spouseIsVeteran.__events.vaValueChange(
-      new CustomEvent('selected', { detail: { value: 'Y' } }),
+    fireEvent(
+      spouseIsVeteran,
+      new CustomEvent('vaValueChange', { detail: { value: 'Y' } }),
     );
 
     expect($('va-text-input[name="root_spouseVaFileNumber"]', container)).to.not
@@ -120,11 +121,7 @@ describe('Pensions spouse info', () => {
       'va-text-input[name="root_spouseSocialSecurityNumber"]',
       container,
     );
-    fireEvent(
-      ssnInput,
-      new CustomEvent('change', { detail: { value: '111223333' } }),
-    );
-    // fireEvent.change(ssnInput, '111223333');
+    fireEvent.change(ssnInput, '111223333');
 
     const spouseIsVeteran = $(
       'va-radio[name="root_spouseIsVeteran"]',
@@ -146,8 +143,6 @@ describe('Pensions spouse info', () => {
 
     fireEvent.submit($('form', container));
     await waitFor(() => {
-      fireEvent.change(ssnInput, '111223333');
-
       expect($$(errors, container).length).to.equal(0);
       expect(onSubmit.called).to.be.true;
     });
