@@ -2,7 +2,11 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/refillablePrescriptionsList.json';
@@ -37,6 +41,14 @@ describe('Refill Prescriptions Component', () => {
     );
   };
 
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
+
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
@@ -68,6 +80,7 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Mocks API Request', async () => {
+    resetFetch();
     mockApiRequest(prescriptionsList);
     const screen = setup();
     const title = await screen.findByTestId('refill-page-title');
