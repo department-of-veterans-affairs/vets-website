@@ -40,7 +40,7 @@ export default function VaMemorableDateField(props) {
     <VaMemorableDate
       {...mappedProps}
       onDateChange={(event, newValue) => {
-        const date = newValue ?? event.detail.value ?? undefined;
+        const date = newValue ?? event.target.value ?? undefined;
         const newValues = parseISODate(date);
         setValues(newValues);
 
