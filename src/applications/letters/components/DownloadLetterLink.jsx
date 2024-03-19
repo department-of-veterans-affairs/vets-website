@@ -43,7 +43,7 @@ export class DownloadLetterLink extends React.Component {
         buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
-          <va-alert status="success" role="alert" uswds="false">
+          <va-alert status="success" role="alert">
             <h4 slot="headline">Your letter has successfully downloaded.</h4>
             <p>
               If you want to download your letter again, please press the button
@@ -57,7 +57,7 @@ export class DownloadLetterLink extends React.Component {
         buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
-          <va-alert status="error" role="alert" uswds="false">
+          <va-alert status="error" role="alert">
             <h4 slot="headline">Your letter didn’t download.</h4>
             <p>
               Your letter isn’t available at this time. If you need help with
