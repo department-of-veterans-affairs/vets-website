@@ -12,12 +12,9 @@ You'll only need to do these steps once.
 > [!TIP]
 > When on Step 5 you can create a credentials folder by doing the following:
 >
->   ```code block
->   // Go to your home folder
->   cd ~
->
+>   ```sh
 >   // Create an aws folder
->   mkdir .aws
+>   mkdir ~/.aws
 >
 >   // Create a credentials file
 >   touch ~/.aws/credentials
@@ -30,13 +27,13 @@ You'll only need to do these steps once.
 >   aws_secret_access_key = <SECRET_KEY>
 >   ```
 
-2. Clone the [devops service](https://github.com/department-of-veterans-affairs/devops)
+2. Clone the [devops repo](https://github.com/department-of-veterans-affairs/devops)
 
 3. If you dont already have Docker installed make sure to download [Docker](https://www.docker.com/get-started/) and run it
 
 4. If you havent added jq or awscli then brew install them
 
-  ```code block
+  ```sh
   brew install jq
   brew install awscli
   ```
@@ -47,7 +44,7 @@ You'll only need to do these steps once.
 
 1. In a Terminal instance go into devops/utilities
 
-  ```code block
+  ```sh
   cd devops/utilities
   ```
 
@@ -57,7 +54,7 @@ You'll only need to do these steps once.
 > Replace the User Name with your AWS user name ex: Jim.Frank
 > Replace the MFA Code with the 6 digit code that you see on your MFA app for AWS
 
-  ```code block
+  ```sh
   source ./issue_mfa.sh <User Name> <MFA Code>
   ```
 
@@ -70,7 +67,7 @@ You'll only need to do these steps once.
 > | Instance ID | Private Ip | Name |
 > | i-00c543a63d6753411 | 10.247.35.112 | dsva-vagov-staging-deployment-vagov-staging-fwdproxy-20240312-201722-asg |
 
-  ```code block
+  ```sh
   ./ssm.sh fwdproxy staging
   ```
 
@@ -80,7 +77,7 @@ You'll only need to do these steps once.
 > In the IP Address replace the . with -
 > EX:10.247.35.112 => 10-247-35-112
 
-  ```code block
+  ```sh
   ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
   ```
 
@@ -96,7 +93,7 @@ You'll only need to do these steps once.
 1. Open up the project in **VSCode** or in a **terminal instance** by cding into the vets-api project.
 2. Make sure that **config/settings.local.yml** has the following code in it...
 
-   ```code block
+   ```sh
     # lighthouse
     lighthouse: 
     letters_generator:
@@ -109,7 +106,7 @@ You'll only need to do these steps once.
 
 3. Go to **lib/va_profile/configuration.rb** and inside the connection method add to following...
 
-   ```code block
+   ```sh
    faraday.ssl.verify = false
    ```
 
@@ -117,13 +114,13 @@ You'll only need to do these steps once.
 
    - If you just did a git pull or this is your first time running the project run this command
 
-    ```code block
+    ```sh
     bundle install
     ```
 
    - Run vets-api locally
   
-    ```code block
+    ```sh
     foreman start -m all=1,clamd=0,freshclam=0
     ```
 
@@ -139,13 +136,13 @@ You'll only need to do these steps once.
 
    - If you just did a git pull or this is your first time running the project run this command
 
-    ```code block
+    ```sh
     yarn install
     ```
 
    - Run vets-website locally
   
-    ```code block
+    ```sh
     yarn watch --env entry=auth,letters,static-pages,login-page,terms-of-use,verify
     ```
 
