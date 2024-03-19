@@ -164,7 +164,7 @@ const SearchForm = props => {
         in <strong>{folderName}</strong> for{' '}
         {keyword && (
           <>
-            "<strong>{query.queryData.searchTerm}</strong>"
+            "<strong>{query.queryData?.searchTerm}</strong>"
           </>
         )}
         <ul>
