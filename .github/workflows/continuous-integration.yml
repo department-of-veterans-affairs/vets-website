@@ -18,6 +18,7 @@ jobs:
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
+      build_path: ${{ steps.generate-build-path.outputs.build_path }}  # for build directory
 
     strategy:
       fail-fast: false
@@ -90,6 +91,13 @@ jobs:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
+
+      - name: Generate build details
+        id: generate-build-path
+        run: |
+          # Generate build details
+          # Save the path of the build directory to an output
+          echo "build_path=build/${{ matrix.buildtype }}" >> $GITHUB_OUTPUT
 
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
@@ -616,17 +624,23 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
-      - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: vagovprod.tar.bz2
+      # - name: Download production build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: ./.github/workflows/download-artifact
+      #   with:
+      #     name: vagovprod.tar.bz2
 
-      - name: Unpack build
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
+      # - name: Unpack build
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     mkdir -p build/vagovprod
+      #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Use build from the build job
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          # Copy build directory from the build job output
+          cp -r ${{ needs.build.outputs.build_path }} build/vagovprod
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
