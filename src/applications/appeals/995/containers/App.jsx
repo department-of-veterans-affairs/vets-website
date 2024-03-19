@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
@@ -146,8 +146,8 @@ export const App = ({
     formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
     // record 100% of staging sessions, but only 10% of production
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 10,
+    sessionReplaySampleRate: 100, // temp to 100%; end on 3/22/2024
+    //  environment.vspEnvironment() === 'staging' ? 100 : 10,
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
