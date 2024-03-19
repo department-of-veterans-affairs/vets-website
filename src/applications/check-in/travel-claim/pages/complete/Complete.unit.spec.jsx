@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import sinon from 'sinon';
 import Complete from './index';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import * as usePostTravelClaimsModule from '../../../hooks/usePostTravelClaims';
 import * as useUpdateErrorModule from '../../../hooks/useUpdateError';
@@ -12,6 +13,12 @@ import * as useStorageModule from '../../../hooks/useStorage';
 import { api } from '../../../api';
 
 describe('Check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('travel-claim components', () => {
     describe('Complete', () => {
       const sandbox = sinon.createSandbox();
