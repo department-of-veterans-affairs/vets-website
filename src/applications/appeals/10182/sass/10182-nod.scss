@@ -7,81 +7,6 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 @import "../../shared/sass/appeals";
 
-.schemaform-intro {
-  padding: 0 0 2rem 0;
-
-  .process-step:last-child {
-    padding-bottom: 0;
-  }
-
-  .omb-info--container {
-    margin-top: 1em;
-  }
-}
-
-/* Contested issue cards (contested issue page & review/submit page)
- * This could go in the schemaform css, it's used in form 526 & HLR
- */
- .issues {
-
-  .widget-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
-    .widget-checkbox-wrap {
-      margin: 0;
-      width: 4rem;
-      min-width: 4rem;
-
-      label {
-        margin-top: 0;
-      }
-
-      [type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
-        margin: 0;
-      }
-    }
-
-    .widget-content {
-      width: 100%;
-      margin-inline-start: 0; /* override user agent */
-      text-align: left;
-      margin: 0;
-    }
-    .widget-content.widget-edit {
-      margin-top: 0;
-      margin-right: 0;
-      display: flex;
-
-      .widget-content-wrap {
-        margin-top: 3rem;
-        margin-right: 0.5rem;
-        width: 100%;
-      }
-
-      .edit {
-        margin-top: 2rem;
-        /* position the edit button above the overlapping label */
-        position: relative;
-        z-index: 1;
-        align-self: center;
-      }
-    }
-    .edit-issue-link:visited {
-      color: inherit;
-    }
-  }
-
-  .checkbox-hidden {
-    .widget-content {
-      margin: 2rem 0 0 0;
-    }
-  }
-}
-
 ul.issues-summary,
 ul.issues,
 .usa-accordion-bordered ul li ul.issues {
@@ -105,10 +30,6 @@ ul.issues,
   .usa-input-error {
     margin-top: 0;
   }
-}
-
-.form-checkbox.usa-input-error {
-  margin-top: 0;
 }
 
 /* request extension NOD v2 */
@@ -154,10 +75,6 @@ article[data-location="add-issue"] {
 }
 
 /* Show issues list */
-.capitalize {
-  text-transform: capitalize;
-}
-
 form.rjsf > fieldset {
   margin-top: 0 !important;
 }
@@ -182,32 +99,4 @@ article[data-location$="/upload"] {
 #root_hearingTypePreference-label,
 #root_boardReviewOption-label {
   margin-bottom: 2rem;
-}
-
-article[data-location="review-and-submit"] {
-  /* hide when reviewing content. Shows when editing */
-  dt .hide-on-review, dd .hide-on-review {
-    display: none;
-  }
-  dt strong.opt-in-title {
-    font-weight: normal;
-  }
-  dd {
-    word-break: break-word;
-  }
-}
-
-/* Fix va-radio v3 input overlapping finish this request later link */
-.schemaform-save-container {
-  position: relative;
-  z-index: 1;
-}
-
-/* contestable issues widget - copy uswds v3 style */
-.widget-checkbox-wrap label:before {
-  box-shadow: rgb(27, 27, 27) 0px 0px 0px 2px;
-}
-
-.rjsf-object-field:empty {
-  display: none;
 }

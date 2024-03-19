@@ -1,7 +1,7 @@
 import appendQuery from 'append-query';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
-import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from '~/platform/utilities/api';
+import environment from '~/platform/utilities/environment';
+import recordEvent from '~/platform/monitoring/record-event';
 import { getData, isServerError, isClientError } from '.';
 import {
   DISABILITY_PREFIX,
@@ -9,10 +9,7 @@ import {
   ENROLLMENT_STATUS_ACTIONS,
   HCA_ENROLLMENT_STATUSES,
 } from './constants';
-import {
-  dismissedHCANotificationDate,
-  isEnrollmentStatusLoading,
-} from './selectors';
+import { selectEnrollmentStatus } from './selectors/enrollment-status';
 
 // NOTE: flip the `false` to `true` to fake the endpoint when testing locally
 // eslint-disable-next-line sonarjs/no-redundant-boolean
@@ -26,7 +23,6 @@ const {
   FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
   FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
   SET_DISMISSED_HCA_NOTIFICATION,
-  SHOW_HCA_REAPPLY_CONTENT,
 } = ENROLLMENT_STATUS_ACTIONS;
 
 /**
@@ -143,7 +139,8 @@ function getResponseError(response) {
  */
 export function getEnrollmentStatus(formData) {
   return (dispatch, getState) => {
-    if (isEnrollmentStatusLoading(getState())) {
+    const { isLoadingApplicationStatus } = selectEnrollmentStatus(getState());
+    if (isLoadingApplicationStatus) {
       return null;
     }
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
@@ -220,9 +217,8 @@ export function getDismissedHCANotification() {
  */
 export function setDismissedHCANotification(status, statusEffectiveAt) {
   return (dispatch, getState) => {
-    const hasPreviouslyDismissedNotification = !!dismissedHCANotificationDate(
-      getState(),
-    );
+    const { dismissedNotificationDate } = selectEnrollmentStatus(getState());
+    const hasPreviouslyDismissedNotification = !!dismissedNotificationDate;
     dispatch({
       type: SET_DISMISSED_HCA_NOTIFICATION,
       data: statusEffectiveAt,
@@ -290,12 +286,4 @@ export function fetchTotalDisabilityRating() {
       });
     }
   };
-}
-
-/**
- * Declare action type to determine if users can be shown content on how to reapply for benefits
- * @returns {Object} - object containing the constant string to use in a fetch action
- */
-export function showReapplyContent() {
-  return { type: SHOW_HCA_REAPPLY_CONTENT };
 }

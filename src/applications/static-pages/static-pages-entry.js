@@ -58,6 +58,7 @@ import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createNearByVALocations from './facilities/vet-center/createNearByVALocations';
 import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
@@ -83,6 +84,7 @@ import create1095BDownloadCTA from './download-1095b';
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
 import create2010206Access from './simple-forms/20-10206/entry';
+import create2010207Access from './simple-forms/20-10207/entry';
 import create210845Access from './simple-forms/21-0845/entry';
 import create210966Access from './simple-forms/21-0966/entry';
 import create210972Access from './simple-forms/21-0972/entry';
@@ -159,6 +161,7 @@ createVetCentersHours(store);
 createVetCentersSatelliteLocationHours(store);
 createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
+createNearByVALocations(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -222,6 +225,7 @@ createEducationLettersLoginWidget(
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
 create2010206Access(store, widgetTypes.FORM_2010206_CTA);
+create2010207Access(store, widgetTypes.FORM_2010207_CTA);
 create210845Access(store, widgetTypes.FORM_210845_CTA);
 create210966Access(store, widgetTypes.FORM_210966_CTA);
 create210972Access(store, widgetTypes.FORM_210972_CTA);

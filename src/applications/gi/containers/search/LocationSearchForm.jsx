@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
@@ -25,7 +25,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
-import { validateSearchTerm } from '../../utils/helpers';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function LocationSearchForm({
   autocomplete,
@@ -97,6 +100,7 @@ export function LocationSearchForm({
   const doSearch = event => {
     if (event) {
       event.preventDefault();
+      onApplyFilterClick();
       setShowFiltersBeforeSearch(false);
     }
     let paramLocation = location;
@@ -313,7 +317,7 @@ export function LocationSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() &&
+        isProductionOrTestProdEnv() &&
         showFiltersBeforeSearch && (
           <div>
             <FilterBeforeResults

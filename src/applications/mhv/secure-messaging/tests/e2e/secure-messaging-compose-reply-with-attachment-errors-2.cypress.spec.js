@@ -17,7 +17,7 @@ describe('Start a new message With Attacments and Errors', () => {
     composePage
       .getCategory('COVID')
       .first()
-      .click();
+      .click({ force: true });
 
     composePage.getMessageSubjectField();
     composePage.getMessageSubjectField().type('Test Subject');

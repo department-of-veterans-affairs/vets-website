@@ -11,7 +11,11 @@ import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import { SMALL_SCREEN_WIDTH, filterKeys } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  PREVIOUS_URL_PUSHED_TO_HISTORY,
+  filterKeys,
+} from '../constants';
 
 /**
  * Snake-cases field names
@@ -26,12 +30,27 @@ export const rubyifyKeys = query =>
     }),
     {},
   );
-export const isProductionOfTestProdEnv = () => {
+
+export const isReviewInstance = () => {
+  const { hostname } = window.location;
+  const globalRegex = new RegExp('review.vetsgov-internal', 'g');
+  return globalRegex.test(hostname);
+};
+
+export const isProductionOrTestProdEnv = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
   return (
-    environment.isProduction() ||
-    (global && global?.window && global?.window?.buildType)
+    environment.isProduction() || // Comment out to send to production
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() ||
+    environment.isLocalhost()
   );
 };
+
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
@@ -401,4 +420,14 @@ export const giDocumentTitle = () => {
 
 export const setDocumentTitle = () => {
   document.title = `${giDocumentTitle()} | Veterans Affairs`;
+};
+
+export const managePushHistory = (history, url) => {
+  const previousUrl = window.sessionStorage.getItem(
+    PREVIOUS_URL_PUSHED_TO_HISTORY,
+  );
+  if (url !== previousUrl) {
+    window.sessionStorage.setItem(PREVIOUS_URL_PUSHED_TO_HISTORY, url);
+    history.push(url);
+  }
 };
