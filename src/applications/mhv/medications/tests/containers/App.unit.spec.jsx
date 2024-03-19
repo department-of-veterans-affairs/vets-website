@@ -4,6 +4,10 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addDays, subDays, format } from 'date-fns';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import App from '../../containers/App';
 
@@ -50,6 +54,14 @@ describe('Medications <App>', () => {
       reducers: reducer,
     };
   };
+
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
 
   it('feature flags are still loading', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
