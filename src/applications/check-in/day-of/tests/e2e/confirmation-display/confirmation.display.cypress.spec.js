@@ -38,7 +38,7 @@ describe('Check In Experience -- ', () => {
       Demographics.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage();
-      Appointments.validatePageLoaded();
+      Confirmation.validateArrivedPage();
       Appointments.attemptCheckIn(1);
     });
     it('confirm page display', () => {

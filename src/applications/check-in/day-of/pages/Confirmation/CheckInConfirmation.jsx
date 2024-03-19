@@ -129,9 +129,9 @@ const CheckInConfirmation = props => {
   const staffMessage = () => {
     const arrivedAnswer = form.data['arrived-at-facility'];
     if (arrivedAnswer === 'no') {
-      return t('the-staff-can-call-you-back-see-staff');
+      return t('the-staff-can-call-you-back-anytime-see-staff');
     }
-    return t('the-staff-can-call-you-back');
+    return t('the-staff-can-call-you-back-anytime');
   };
 
   const renderConfirmationMessage = () => {
