@@ -15,6 +15,8 @@ export default {
   // Enrollment System (HCA submissions)
   es: 'es',
   evss: 'evss',
+  '1010ez': '1010ez',
+  '1010ezr': '1010ezr',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
