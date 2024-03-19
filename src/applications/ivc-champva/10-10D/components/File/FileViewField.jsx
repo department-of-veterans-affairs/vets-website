@@ -89,6 +89,13 @@ export function AppMedicareDDocReviewField(props) {
   return FileViewField(data, title);
 }
 
+export function AppMedicareOver65IneligibleReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} over 65 and ineligible for Medicare`;
+  const data = app?.applicantMedicareIneligibleProof || [];
+  return FileViewField(data, title);
+}
+
 export function AppOhiDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} other health insurance`;

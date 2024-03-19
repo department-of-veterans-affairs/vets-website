@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { getDate } from '../../shared/utils/dates';
 import { NO_ISSUES_SELECTED } from '../constants';
 
-import { FORMAT_READABLE, SELECTED } from '../../shared/constants';
+import { FORMAT_READABLE } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
+import { data995 } from '../../shared/props';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
@@ -68,23 +68,7 @@ const IssueSummary = ({ formData }) => {
 };
 
 IssueSummary.propTypes = {
-  formData: PropTypes.shape({
-    contestedIssues: PropTypes.arrayOf(
-      PropTypes.shape({
-        attributes: PropTypes.shape({
-          ratingIssueSubjectText: PropTypes.string,
-        }),
-        [SELECTED]: PropTypes.bool,
-      }),
-    ),
-    additionalIssues: PropTypes.arrayOf(
-      PropTypes.shape({
-        issue: PropTypes.string,
-        decisionDate: PropTypes.string,
-        [SELECTED]: PropTypes.bool,
-      }),
-    ),
-  }),
+  formData: data995,
 };
 
 export default IssueSummary;

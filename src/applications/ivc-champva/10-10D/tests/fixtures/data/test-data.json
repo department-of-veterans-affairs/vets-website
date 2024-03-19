@@ -28,7 +28,9 @@
           "last": "Alvin",
           "suffix": "Jr."
         },
-        "applicantMedicareStatus": "enrolled",
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
         "applicantMedicarePart": "partA, partD",
         "applicantHasOhi": "yes"
       }
