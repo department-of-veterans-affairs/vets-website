@@ -1,5 +1,5 @@
 {
-  "appName": "Accredited Representative Portal",
+  "appName": "Representatives",
   "entryFile": "./app-entry.jsx",
   "entryName": "representative",
   "rootUrl": "/representative",
