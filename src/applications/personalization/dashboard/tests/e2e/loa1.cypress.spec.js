@@ -46,7 +46,7 @@ const loa1DashboardTest = (mobile, stubs) => {
   cy.findByText(/We need you to verify your identity for this account/i).should(
     'exist',
   );
-  cy.findByText(/ID.me will ask you for certain personal information/i).should(
+  cy.findByText(/will ask you for certain personal information/i).should(
     'exist',
   );
   cy.findByRole('link', { name: 'Verify your identity' }).should(
