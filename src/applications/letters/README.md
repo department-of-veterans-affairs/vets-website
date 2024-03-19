@@ -77,6 +77,9 @@ You'll only need to do these steps once.
 > In the IP Address replace the . with -
 > EX:10.247.35.112 => 10-247-35-112
 
+> [!TIP]
+> 4433 is the forward proxy port for vet360 and it can be replaced with any other ports
+
   ```sh
   ssh -L 4447:localhost:4433 ip-<IP Address>.us-gov-west-1.compute.internal
   ```
@@ -96,8 +99,8 @@ You'll only need to do these steps once.
    ```sh
     # lighthouse
     lighthouse: 
-    letters_generator:
-      use_mocks: true
+      letters_generator:
+        use_mocks: true
 
     # vet360
     vet360:
