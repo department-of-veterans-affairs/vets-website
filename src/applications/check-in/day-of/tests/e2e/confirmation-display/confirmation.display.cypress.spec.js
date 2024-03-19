@@ -49,6 +49,10 @@ describe('Check In Experience -- ', () => {
       Confirmation.validateConfirmationMessage();
       cy.injectAxeThenAxeCheck();
     });
+    it('confirm page has see staff message', () => {
+      Confirmation.validateStaffMessage();
+      cy.injectAxeThenAxeCheck();
+    });
     it('confirm page has BTSSS link', () => {
       Confirmation.validateBTSSSLink();
       cy.injectAxeThenAxeCheck();
