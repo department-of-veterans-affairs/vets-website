@@ -92,7 +92,6 @@ const App = () => {
         <va-loading-indicator
           data-testid="mhv-landing-page-loading"
           message="Please wait..."
-          uswds
         />
       </div>
     );

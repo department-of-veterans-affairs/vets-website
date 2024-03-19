@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -14,6 +12,8 @@ import {
   authorizationHeader,
   authorizationInfo,
 } from '../content/evidencePrivateRecordsAuthorization';
+
+import { customPageProps995 } from '../../shared/props';
 
 const EvidencePrivateRecordsAuthorization = ({
   data = {},
@@ -108,15 +108,6 @@ const EvidencePrivateRecordsAuthorization = ({
   );
 };
 
-EvidencePrivateRecordsAuthorization.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    privacyAgreementAccepted: PropTypes.bool,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  setFormData: PropTypes.func,
-};
+EvidencePrivateRecordsAuthorization.propTypes = customPageProps995;
 
 export default EvidencePrivateRecordsAuthorization;
