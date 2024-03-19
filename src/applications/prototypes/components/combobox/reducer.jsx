@@ -1,3 +1,4 @@
+/* eslint-disable */
 // import React from 'react'
 import { createStore, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

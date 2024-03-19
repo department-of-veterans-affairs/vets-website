@@ -1,3 +1,4 @@
+/* eslint-disable */
 // eslint-disable-next-line max-classes-per-file
 import { Component, createRef } from 'react';
 import { connect } from 'react-redux';
@@ -86,7 +87,8 @@ class ComboBox extends Component {
         const nextOptionEl = focusedOptionEl.nextSibling;
 
         if (nextOptionEl) {
-          nextOptionEl.focus();
+          // nextOptionEl.focus();
+          nextOptionEl.classList.add('usa-combo-box-highlight');
         }
         else {
           this.setState({ searchTerm: '' });
@@ -115,9 +117,22 @@ class ComboBox extends Component {
         break;
     }
   }
+
   handleMouseEnter(evt, option) {
     const newFocusedElem = evt.target;
     newFocusedElem.focus();
+  }
+
+  handleBlur(evt) {
+    console.log('blur event: ', evt);
+    console.log('evt.relatedTarget: ', evt.relatedTarget);
+    const blurTarget = evt.relatedTarget;
+    if (blurTarget && blurTarget.classList.contains('free-text-li-option')) {
+      console.log('nothing happens');
+    }
+    else {
+      this.setState({ searchTerm: '' });
+    }
   }
 
   filterOptions = () => {
@@ -202,7 +217,6 @@ class ComboBox extends Component {
     const { searchTerm, filteredOptions, value } = this.state;
 
     return (
-
       <div className="usa-combo-box prototype-combobox-class" data-enhanced="true">
         <input
           type="text"
@@ -211,8 +225,9 @@ class ComboBox extends Component {
           value={searchTerm}
           onChange={this.handleSearchChange}
           onKeyDown={(evt) => { this.handleKeyDownFromInput(evt) }}
+          onBlur={(evt) => { this.handleBlur(evt) }}
         />
-        {searchTerm.length || value.length ? this.drawCloseButton() : null}
+        { searchTerm.length || value.length ? this.drawCloseButton() : null }
         <ul className={'usa-combo-box__list'} style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }} ref={this.listRef}>
           {searchTerm.length && searchTerm !== value ? this.drawFreeTextOption(searchTerm) : null}
           {filteredOptions.map((option, index) => (
@@ -297,6 +312,11 @@ export const ComboBoxApp = connect(state => state)(
     }
     showAddNewConditionSection() {
       // disabled={isAddingNewCondition || this.state.editMode}
+      const { editMode } = this.state;
+      if (editMode) {
+        this.setState({ editMode: 0 });
+        this.props.dispatch(updateCurrent(initialState.current)); // Reset the current item
+      }
       this.props.dispatch(showNewConditionSection());
     }
 
@@ -318,7 +338,7 @@ export const ComboBoxApp = connect(state => state)(
                   >
                     {item.name}
                   </div>
-                  <button type="button" class="usa-button-secondary float-right" aria-label={"Edit " + current.name} value={item.id} onClick={this.handleEditMode} disabled={isAddingNewCondition}>Edit</button>
+                  <button type="button" class="usa-button-secondary float-right" aria-label={"Edit " + current.name} value={item.id} onClick={this.handleEditMode}>Edit</button>
                 </div> :
                 /* This is how the form displays in edit mode */
                 <div id="addNewConditionSection">
@@ -413,7 +433,7 @@ export const ComboBoxApp = connect(state => state)(
 
                     {
                       this.props.list.length > 0 ?
-                        <div class="small-6 right columns"><button id="removeNewConditionButton" type="button" class="usa-button-secondary float-right" aria-label="Remove incomplete Condition" onClick={this.handleCloseNewConditionSection}>Remove</button>
+                        <div class="small-6 right columns"><button id="removeNewConditionButton" type="button" class="usa-button-secondary float-right" aria-label="Remove incomplete Condition" onClick={() => {this.handleCloseNewConditionSection()}}>Remove</button>
 
                         </div> :
                         <div></div>
