@@ -234,7 +234,7 @@ function isCurrentMarriage(form, index) {
 }
 
 function usingDirectDeposit(formData) {
-  return formData['view:noDirectDeposit'] !== true;
+  return get(['view:noDirectDeposit'], formData) !== true;
 }
 
 export function doesHaveDependents(formData) {
@@ -983,7 +983,6 @@ const formConfig = {
                   Y: 'Yes',
                   N: 'No',
                 },
-                'ui:required': true,
               },
             },
           },
@@ -994,6 +993,7 @@ const formConfig = {
                 type: 'boolean',
               },
             },
+            required: ['view:noDirectDeposit'],
           },
         },
         accountInformation: {
