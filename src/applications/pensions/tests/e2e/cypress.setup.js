@@ -14,6 +14,8 @@ const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {
   const features = isEnabled ? featuresEnabled : featuresDisabled;
 
+  cy.config('numTestsKeptInMemory', 0);
+
   Cypress.on('window:before:load', window => {
     const win = window;
     const original = win.addEventListener;
