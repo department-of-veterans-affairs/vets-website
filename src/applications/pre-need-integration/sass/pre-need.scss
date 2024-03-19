@@ -124,14 +124,24 @@ fieldset.schemaform-field-template.schemaform-first-field {
   padding-bottom: 1em;
 }
 
-.preparer-va-radio {
-  padding-top: 0.5em;
+.sponsor-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 0em;
+}
+
+.preparer-va-radio,
+.sponsor-va-radio {
+  padding-top: 0em;
 }
 
 .desiredCemeteryNoteTitle {
   font-family: "Source Sans Pro";
   font-size: 16px;
   font-weight: normal;
+}
+
+.isSponsorSubHeader {
+  margin-top: 0em;
 }
 
 .applicantDetailsSubHeader,

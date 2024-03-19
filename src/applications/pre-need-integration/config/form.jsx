@@ -411,15 +411,14 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         isSponsor: {
-          title: 'Are you the Sponsor?',
           path: 'is-sponsor',
           depends: formData => !isVeteran(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },
         sponsorInfo: {
-          title: 'Sponsor information',
-          path: 'sponsor-information',
+          title: 'Sponsor details',
+          path: 'sponsor-details',
           depends: formData => !isVeteran(formData),
           uiSchema: sponsorInfo.uiSchema,
           schema: sponsorInfo.schema,
