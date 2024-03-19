@@ -6,18 +6,16 @@ export default function Notification({ body, title, type, onClose }) {
   const closeable = !!onClose;
 
   return (
-    <div>
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        closeable={closeable}
-        onCloseEvent={onClose}
-        status={type}
-        visible
-      >
-        <h2 slot="headline">{title}</h2>
-        <p className="vads-u-margin-y--0">{body}</p>
-      </VaAlert>
-    </div>
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      closeable={closeable}
+      onCloseEvent={onClose}
+      status={type}
+      visible
+    >
+      <h2 slot="headline">{title}</h2>
+      <p className="vads-u-margin-y--0">{body}</p>
+    </VaAlert>
   );
 }
 
