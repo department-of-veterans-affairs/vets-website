@@ -20,16 +20,12 @@ const ArrivedAtFacility = props => {
   const currentPage = getCurrentPageFromRouter();
 
   const pageType = 'arrived-at-facility';
-
   const testID = 'arrived-page';
-
   const bodyText = (
     <>
       <p>{t('we-ask-this-question-because-staff-can-call-you')}</p>
     </>
   );
-
-  // const bodyText = t('we-ask-this-question-because-staff-can-call-you');
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
@@ -73,7 +69,6 @@ const ArrivedAtFacility = props => {
     <>
       <Wrapper
         pageTitle={t('have-you-arrived-at-your-va-health-facility')}
-        classNames="travel-page"
         testID={testID}
       >
         {bodyText && (

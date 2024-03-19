@@ -1,4 +1,3 @@
-import { cy } from 'date-fns/locale';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Confirmation {
@@ -6,12 +5,6 @@ class Confirmation {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('include.text', 'checked in');
-  };
-
-  validateArrivedPage = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', 'Is this your');
   };
 
   validatePageLoadedWithNoBtsssClaim = () => {
