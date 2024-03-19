@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { isLoggedIn } from 'platform/user/selectors';
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { isLoggedIn } from '~/platform/user/selectors';
 
 import {
   getEnrollmentStatus,
@@ -15,7 +15,7 @@ import {
 } from '../utils/actions';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
-import { selectEnrollmentStatus } from '../utils/selectors';
+import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';
 

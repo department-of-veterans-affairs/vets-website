@@ -73,6 +73,14 @@ describe('check in', () => {
           'thing1, thing2, and thing3.',
         );
       });
+      it('does not add a period to single items if addPeriod false', () => {
+        const items = ['thing1'];
+        expect(formatList(items, 'and', false)).to.equal('thing1');
+      });
+      it('does not add a period to multiple items if addPeriod false', () => {
+        const items = ['thing1', 'thing2'];
+        expect(formatList(items, 'and', false)).to.equal('thing1, and thing2');
+      });
     });
   });
 });

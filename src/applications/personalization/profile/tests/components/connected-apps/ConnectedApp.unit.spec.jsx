@@ -6,7 +6,7 @@ import { ConnectedApp } from '../../../components/connected-apps/ConnectedApp';
 import { getVaButtonByText } from '../../../../common/unitHelpers';
 
 describe('<ConnectedApp>', () => {
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     const defaultProps = {
       attributes: {
         grants: [
@@ -35,7 +35,7 @@ describe('<ConnectedApp>', () => {
     expect(view.getByText(/Connected on June 27, 2020/)).to.exist;
 
     // button should be rendered with the correct text
-    expect(view.findByTestId('disconnect-app-1')).to.be.ok;
+    expect(await view.findByTestId('disconnect-app-1')).to.be.ok;
     expect(getVaButtonByText('Disconnect', view)).to.be.ok;
   });
 });

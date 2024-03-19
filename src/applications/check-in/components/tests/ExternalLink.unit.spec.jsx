@@ -2,9 +2,16 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import ExternalLink from '../ExternalLink';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('ExternalLink component - en', () => {
     it('renders link component - en', () => {
       const screen = render(
