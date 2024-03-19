@@ -51,6 +51,7 @@ import {
   applicantWording,
   additionalFilesHint,
 } from '../helpers/wordingCustomization';
+import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
@@ -314,27 +315,8 @@ const formConfig = {
           path: 'sponsor-information/name-dob',
           title: formData =>
             `${sponsorWording(formData)} name and date of birth`,
-          uiSchema: {
-            ...titleUI(
-              ({ formData }) =>
-                `${sponsorWording(formData)} name and date of birth`,
-              ({ formData }) =>
-                formData?.certifierRole === 'sponsor'
-                  ? 'Please provide your information. We use this information to identify eligibility.'
-                  : `Please provide the information for the Veteran that you're connected to (called your "Sponsor"). We use this information to identify eligibility.`,
-            ),
-            veteransFullName: fullNameUI(),
-            sponsorDOB: dateOfBirthUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorDOB'],
-            properties: {
-              titleSchema,
-              veteransFullName: fullNameSchema,
-              sponsorDOB: dateOfBirthSchema,
-            },
-          },
+          uiSchema: sponsorNameDobConfig.uiSchema,
+          schema: sponsorNameDobConfig.schema,
         },
         page7: {
           path: 'sponsor-information/ssn',
@@ -346,15 +328,14 @@ const formConfig = {
                 `${sponsorWording(formData)} identification information`,
               'You must enter either a Social Security number or VA File number',
             ),
-            ssn: ssnOrVaFileNumberUI(),
+            ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              // TODO: remove description from above va file number
-              ssn: ssnOrVaFileNumberSchema,
+              ssn: ssnOrVaFileNumberNoHintSchema,
             },
           },
         },
@@ -363,14 +344,16 @@ const formConfig = {
           title: 'Sponsor status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
-            sponsorInfoTitle: titleUI('Sponsor status'),
+            sponsorInfoTitle: titleUI(
+              'Sponsor status',
+              'Now we’ll ask questions about the death of the sponsor (if they died). Fill this out to the best of your knowledge.',
+            ),
             sponsorIsDeceased: yesNoUI({
-              title: 'Is sponsor still living?',
+              title: 'Has the sponsor died?',
               labels: {
-                Y: 'Yes, sponsor is alive',
-                N: 'No, sponsor is deceased',
+                yes: 'Yes',
+                no: 'No',
               },
-              yesNoReverse: true,
             }),
           },
           schema: {
@@ -390,9 +373,9 @@ const formConfig = {
             get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: titleUI('Sponsor status (continued)'),
-            sponsorDOD: dateOfDeathUI(),
+            sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
-              title: 'Did sponsor pass away on active military service?',
+              title: 'Did sponsor die during active military service?',
               labels: {
                 yes: 'Yes, sponsor passed away during active military service',
                 no:
