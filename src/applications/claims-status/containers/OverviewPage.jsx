@@ -207,10 +207,10 @@ class OverviewPage extends React.Component {
     if (claim) {
       const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
-      const title = `Status Of ${claimDate} ${claimType} Claim`;
+      const title = `Overview Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
     } else {
-      setDocumentTitle('Status Of Your Claim');
+      setDocumentTitle('Overview Of Your Claim');
     }
   }
 
