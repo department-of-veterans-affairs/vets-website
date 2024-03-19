@@ -8,7 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from 'platform/utilities/api';
-import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import SearchDropdownComponent from './SearchDropdownComponent';
 import DropDownPanel from './DropDownPanel/DropDownPanel';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 

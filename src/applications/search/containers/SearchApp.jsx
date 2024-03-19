@@ -2,23 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
-import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
+import * as Sentry from '@sentry/browser';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
-
 import { focusElement } from 'platform/utilities/ui';
-
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
+
+import {
+  VaPagination,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   formatResponseString,
   truncateResponseString,
@@ -29,6 +29,11 @@ import { fetchSearchResults } from '../actions';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
+import SearchGovMaintenanceBanner, {
+  isWithinMaintenanceWindow,
+} from '../components/SearchGovMaintenanceBanner';
+import MoreVASearchTools from '../components/MoreVASearchTools';
+import SearchErrors from '../components/SearchErrors';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 const MAX_DESCRIPTION_LENGTH = 186;
@@ -54,6 +59,7 @@ class SearchApp extends React.Component {
       currentResultsQuery: userInputFromURL,
       page: pageFromURL,
       typeaheadUsed,
+      formWasSubmitted: false,
     };
   }
 
@@ -98,6 +104,8 @@ class SearchApp extends React.Component {
   handleSearch = e => {
     if (e) e.preventDefault();
     const { userInput, currentResultsQuery, page } = this.state;
+
+    this.setState({ formWasSubmitted: true });
 
     const userInputFromURL = this.props.router?.location?.query?.query;
     const rawPageFromURL = this.props.router?.location?.query?.page;
@@ -342,6 +350,10 @@ class SearchApp extends React.Component {
     this.setState({
       userInput: e.target.value,
     });
+
+    if (this.state.formWasSubmitted) {
+      this.setState({ formWasSubmitted: false });
+    }
   };
 
   fetchInputValue = input => {
@@ -363,30 +375,22 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <div
-        className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
-        role="search"
-        aria-labelledby="h1-search-title"
-      >
-        <div>Enter a keyword</div>
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
+        <p className="vads-u-margin-top--0">
+          Enter a keyword, phrase, or question
+        </p>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
           {!this.props.searchDropdownComponentEnabled && (
-            <form
+            <VaSearchInput
+              aria-labelledby="h1-search-title"
+              buttonText="Search"
+              className="vads-u-width--full"
+              label="Enter a keyword, phrase, or question"
+              onInput={this.handleInputChange}
               onSubmit={this.handleSearch}
-              className="va-flex vads-u-width--full"
-            >
-              <input
-                type="text"
-                name="query"
-                aria-label="Enter a keyword"
-                value={userInput}
-                onChange={this.handleInputChange}
-              />
-              <button type="submit">
-                <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
-                <span className="button-text">Search</span>
-              </button>
-            </form>
+              uswds
+              value={userInput}
+            />
           )}
           {this.props.searchDropdownComponentEnabled && (
             <SearchDropdownComponent
@@ -415,56 +419,6 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    function isWithinMaintenanceWindow() {
-      const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
-      const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
-      const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
-      const timeZone = 'America/New_York';
-
-      const now = new Date();
-      const zonedNow = utcToZonedTime(now, timeZone);
-
-      return (
-        maintenanceDays.includes(getDay(zonedNow)) &&
-        getHours(zonedNow) >= maintenanceStartHour &&
-        getHours(zonedNow) < maintenanceEndHour
-      );
-    }
-
-    function calculateCurrentMaintenanceWindow() {
-      const maintenanceStartHour = 15; // 3 PM in 24-hour format
-      const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
-      const timeZone = 'America/New_York';
-
-      // Current date and time in the specified timezone
-      let start = new Date();
-      start = utcToZonedTime(start, timeZone);
-      start = setHours(start, maintenanceStartHour);
-      start = setMinutes(start, 0);
-      start = setSeconds(start, 0);
-
-      // Calculate end time by adding the duration to the start time
-      let end = new Date(
-        start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
-      );
-      end = utcToZonedTime(end, timeZone); // Ensure the end time is also adjusted to the specified timezone
-
-      // Format start and end dates to include timezone offset correctly
-      const startFormatted = tzFormat(
-        start,
-        "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX",
-        { timeZone },
-      );
-      const endFormatted = tzFormat(end, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
-        timeZone,
-      });
-
-      return {
-        start: startFormatted,
-        end: endFormatted,
-      };
-    }
-
     if (
       isWithinMaintenanceWindow() &&
       results &&
@@ -472,50 +426,20 @@ class SearchApp extends React.Component {
       !hasErrors &&
       !loading
     ) {
-      const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
-      return (
-        <div className="columns vads-u-margin-bottom--4">
-          <va-maintenance-banner
-            banner-id="search-gov-maintenance-banner"
-            maintenance-title="Search.gov Maintenance"
-            maintenance-start-date-time={start}
-            maintenance-end-date-time={end}
-            isError
-          >
-            <div slot="maintenance-content">
-              We’re working on Search VA.gov right now. If you have trouble
-              using the search tool, check back after we’re finished. Thank you
-              for your patience.
-            </div>
-          </va-maintenance-banner>
-          {searchInput}
-        </div>
-      );
+      return <SearchGovMaintenanceBanner searchInput={searchInput} />;
     }
 
     // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
-    if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
-      let errorMessage;
-
-      if (!userInput.trim().length) {
-        errorMessage = `Enter a search term that contains letters or numbers to find what you're looking for.`;
-      } else if (userInput.length > 255) {
-        errorMessage =
-          'The search is over the character limit. Shorten the search and try again.';
-      } else {
-        errorMessage = `We’re sorry. Something went wrong on our end, and your search
-        didn't go through. Please try again.`;
-      }
-
+    if (
+      (hasErrors && !loading) ||
+      (isSearchStrInvalid(userInput) && this.state.formWasSubmitted)
+    ) {
       return (
-        <div className="columns vads-u-margin-bottom--4">
-          {/* this is the alert box for when searches fail due to server issues */}
-          <va-alert status="error" data-e2e-id="alert-box" uswds>
-            <h2 slot="headline">Your search didn't go through</h2>
-            <p>{errorMessage}</p>
-          </va-alert>
-          {searchInput}
-        </div>
+        <SearchErrors
+          formWasSubmitted={this.state.formWasSubmitted}
+          searchInput={searchInput}
+          userInput={userInput}
+        />
       );
     }
 
@@ -538,7 +462,7 @@ class SearchApp extends React.Component {
                 onPageSelect={e => this.handlePageChange(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
-                maxPageListLength={5}
+                maxPageListLength={7}
                 uswds
               />
             )}
@@ -695,25 +619,26 @@ class SearchApp extends React.Component {
         key={result.url}
         className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
       >
-        <a
-          className="result-title"
-          href={replaceWithStagingDomain(result.url)}
-          onClick={this.onSearchResultClick({
-            bestBet: isBestBet,
-            title: strippedTitle,
-            index,
-            url: replaceWithStagingDomain(result.url),
-            // Trigger a new build
-          })}
+        <h4
+          className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+          data-e2e-id="result-title"
         >
-          <h4
-            className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
-            data-e2e-id="result-title"
+          <va-link
+            className="result-title"
+            href={replaceWithStagingDomain(result.url)}
+            text={strippedTitle}
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
             }}
+            onClick={this.onSearchResultClick({
+              bestBet: isBestBet,
+              title: strippedTitle,
+              index,
+              url: replaceWithStagingDomain(result.url),
+              // Trigger a new build
+            })}
           />
-        </a>
+        </h4>
         <p className="result-url vads-u-color--green vads-u-font-size--base">
           {replaceWithStagingDomain(result.url)}
         </p>
@@ -753,72 +678,7 @@ class SearchApp extends React.Component {
               {this.renderResults()}
             </DowntimeNotification>
           </div>
-          <div className="usa-width-one-fourth columns">
-            <h2 className="highlight vads-u-font-size--h4">
-              More VA search tools
-            </h2>
-            <ul>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="https://search.usa.gov/search?affiliate=bvadecisions"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Look up BVA decisions',
-                    })
-                  }
-                >
-                  Look up Board of Veterans' Appeals (BVA) decisions
-                </a>
-              </li>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="/find-forms/"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path': 'More VA Search Tools -> Find a VA form',
-                    })
-                  }
-                >
-                  Find a VA form
-                </a>
-              </li>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="https://www.va.gov/vapubs/"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> VA handbooks and other publications',
-                    })
-                  }
-                >
-                  VA handbooks and other publications
-                </a>
-              </li>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="https://www.vacareers.va.gov/job-search/index.asp"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Explore and apply for open VA jobs',
-                    })
-                  }
-                >
-                  Explore and apply for open VA jobs
-                </a>
-              </li>
-            </ul>
-          </div>
+          <MoreVASearchTools />
         </div>
       </div>
     );
