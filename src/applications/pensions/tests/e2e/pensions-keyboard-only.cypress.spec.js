@@ -1,7 +1,8 @@
+import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cypress-example.json';
+import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-example.json';
+import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
+
 import formConfig from '../../config/form';
-import simpleTestData from './fixtures/data/simple-test.json';
-import maximalTestData from './fixtures/data/maximal-test.json';
-import overflowTestData from './fixtures/data/overflow-test.json';
 import cypressSetup from './cypress.setup';
 import {
   keyboardTestArrayPages,
@@ -29,13 +30,13 @@ const testForm = data => {
   });
 
   fillReviewPage(data);
-
+  cy.wait(['@submitApplication', '@pollSubmission']);
   cy.url().should('include', '/confirmation');
 };
 
 describe('Higher-Level Review keyboard only navigation', () => {
   it('keyboard navigates through a simple form', () => {
-    cy.wrap(simpleTestData.data).as('testData');
+    cy.wrap(simpleFixture.data).as('testData');
     cypressSetup(cy);
 
     cy.get('@testData').then(data => {
@@ -46,7 +47,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
     });
   });
   it('keyboard navigates through a maximal form', () => {
-    cy.wrap(maximalTestData.data).as('testData');
+    cy.wrap(kitchenSinkFixture.data).as('testData');
     cypressSetup(cy);
 
     cy.get('@testData').then(data => {
@@ -57,7 +58,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
     });
   });
   it('keyboard navigates through an overflow form', () => {
-    cy.wrap(overflowTestData.data).as('testData');
+    cy.wrap(overflowFixture.data).as('testData');
     cypressSetup(cy);
 
     cy.get('@testData').then(data => {
