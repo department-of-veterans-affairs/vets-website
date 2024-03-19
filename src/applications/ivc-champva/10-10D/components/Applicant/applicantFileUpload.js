@@ -60,5 +60,11 @@ export const applicant107959cConfig = uploadWithInfoComponent(
 export const applicantMarriageCertConfig = uploadWithInfoComponent(
   acceptableFiles.spouseCert,
   'marriage certificates',
-  false,
+  true,
+);
+
+export const applicantSecondMarriageDivorceCertConfig = uploadWithInfoComponent(
+  acceptableFiles.divorceCert,
+  'marriage certificates',
+  true,
 );
