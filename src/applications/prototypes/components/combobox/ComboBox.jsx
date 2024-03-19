@@ -262,6 +262,7 @@ export const ComboBoxApp = connect(state => state)(
       this.handleEdit = this.handleEdit.bind(this);
     }
 
+    // save button clicked
     handleAdd() {
       const { name } = this.props.current;
       if (name) {
@@ -290,6 +291,10 @@ export const ComboBoxApp = connect(state => state)(
 
     handleEditMode(evt) {
       console.log('handleEditMode called with event', evt);
+      const { isAddingNewCondition } = this.props;
+      if (isAddingNewCondition) {
+        this.props.dispatch(hideNewConditionSection());
+      }
       this.setState({ editMode: Number(evt.target.value) });
       this.props.dispatch(updateCurrent(this.props.list.find(item => item.id === +evt.target.value)));
     }
@@ -311,9 +316,8 @@ export const ComboBoxApp = connect(state => state)(
       }
     }
     showAddNewConditionSection() {
-      // disabled={isAddingNewCondition || this.state.editMode}
-      const { editMode } = this.state;
-      if (editMode) {
+      const { isAddingNewCondition } = this.props;
+      if (!isAddingNewCondition) {
         this.setState({ editMode: 0 });
         this.props.dispatch(updateCurrent(initialState.current)); // Reset the current item
       }
@@ -323,9 +327,7 @@ export const ComboBoxApp = connect(state => state)(
     render() {
       const { current, list, isAddingNewCondition } = this.props;
 
-      // const { list } = this.props;
       return (
-
         <div id="addedDisabilities" class="va-growable vads-u-margin-top--2">
           <div name="topOfTable_root_newDisabilities"></div>
           {list.map(item =>
