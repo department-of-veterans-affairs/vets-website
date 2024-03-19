@@ -1,13 +1,12 @@
+import * as React from 'react';
 import '@department-of-veterans-affairs/platform-polyfills';
-import startApp from '@department-of-veterans-affairs/platform-startup/index';
+import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 
 import './sass/representatives.scss';
-import routes from './routes';
-import reducer from './reducers';
-import manifest from './manifest.json';
+import App from './App';
 
-startApp({
-  url: manifest.rootUrl,
-  reducer,
-  routes,
-});
+startReactApp(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
