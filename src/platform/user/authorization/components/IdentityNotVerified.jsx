@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 
 import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
