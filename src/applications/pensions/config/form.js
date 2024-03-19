@@ -978,7 +978,7 @@ const formConfig = {
                 'Do you have a bank account to use for direct deposit?',
               'ui:widget': 'yesNo',
               'ui:options': {
-                yesNoReverse: true,
+                yesNoReverse: false,
                 labels: {
                   Y: 'Yes',
                   N: 'No',
