@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { homelessReviewField } from '../../content/homeless';
+import { homelessReviewField } from '../../../shared/content/homeless';
 
 describe('reviewField', () => {
   it('should render value', () => {
