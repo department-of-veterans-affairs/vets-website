@@ -4,19 +4,7 @@ import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-
 import WelcomeContainer from '../../containers/WelcomeContainer';
 import reducers from '../../reducers';
 
-const stateFn = ({
-  loading = false,
-  preferredName = 'Bob',
-  first = 'Robert',
-} = {}) => ({
-  myHealth: {
-    personalInformation: {
-      data: {
-        preferredName,
-      },
-      loading,
-    },
-  },
+const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
   user: {
     profile: {
       loa: {
@@ -25,6 +13,9 @@ const stateFn = ({
       status: 'OK',
       userFullName: {
         first,
+      },
+      demographics: {
+        preferredName,
       },
     },
   },
@@ -37,16 +28,9 @@ const setup = (initialState = stateFn(), props = {}) =>
   });
 
 describe('WelcomeContainer component', () => {
-  it('renders', () => {
+  it('renders with preferred name', () => {
     const { getByRole } = setup();
     getByRole('heading', { name: /Welcome, Bob/ });
-  });
-
-  it('is hidden, holding vertical space, while loading', () => {
-    const state = stateFn({ loading: true });
-    const { container } = setup(state);
-    expect(container.firstChild.classList.contains('visibility:hidden')).to.be
-      .true;
   });
 
   it("masks the user's name from datadog (no PII)", () => {

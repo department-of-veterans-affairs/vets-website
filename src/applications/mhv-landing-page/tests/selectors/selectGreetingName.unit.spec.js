@@ -3,17 +3,13 @@ import { selectGreetingName } from '../../selectors';
 import { appName } from '../../manifest.json';
 
 const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
-  myHealth: {
-    personalInformation: {
-      data: {
-        preferredName,
-      },
-    },
-  },
   user: {
     profile: {
       userFullName: {
         first,
+      },
+      demographics: {
+        preferredName,
       },
     },
   },
