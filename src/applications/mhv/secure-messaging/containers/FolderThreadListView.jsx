@@ -129,14 +129,36 @@ const FolderThreadListView = props => {
               threadSort.page,
             ),
           );
+          if (threadSort.page > 1 && threadList.length === 0) {
+            const decrementPage = threadSort.page - 1;
+            dispatch(
+              getListOfThreads(
+                folder.folderId,
+                threadsPerPage,
+                decrementPage,
+                threadSort.value,
+                true,
+              ),
+            );
+            dispatch(setThreadPage(decrementPage));
+          }
         }
-
         if (folder.folderId !== searchFolder?.folderId) {
           dispatch(clearSearchResults());
         }
       }
     },
-    [folder?.folderId, dispatch],
+    [
+      folder?.folderId,
+      dispatch,
+      folder?.name,
+      location?.pathname,
+      threadSort?.folderId,
+      threadSort?.value,
+      threadSort?.page,
+      searchFolder?.folderId,
+      threadList?.length,
+    ],
   );
 
   useEffect(
@@ -200,7 +222,7 @@ const FolderThreadListView = props => {
         return <LoadingIndicator />;
       }
 
-      if (threadList?.length === 0) {
+      if (threadList?.length === 0 && threadSort?.page === 1) {
         return (
           <>
             {!noAssociations &&

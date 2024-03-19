@@ -8,6 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 import Appointments from '../pages/Appointments';
 import Error from '../pages/Error';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('travel pay path', () => {
@@ -33,6 +34,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
