@@ -983,6 +983,7 @@ const formConfig = {
                   Y: 'Yes',
                   N: 'No',
                 },
+                'ui:required': true,
               },
             },
           },
