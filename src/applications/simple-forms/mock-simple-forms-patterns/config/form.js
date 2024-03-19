@@ -28,7 +28,7 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
-import arrayBuilderChapter from '../arrayBuilder/components/ArrayBuilderChapter';
+import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
 import { arrayMultiPageBuilderSummary } from '../pages/mockArrayMultiPageBuilderSummary';
 
 const chapterSelectInitialData = {
@@ -282,43 +282,56 @@ const formConfig = {
         },
       },
     },
-    arrayMultiPageBuilder: arrayBuilderChapter(pageBuilder => ({
+    arrayMultiPageBuilder: {
       title: 'Array Multi-Page Builder (WIP)',
-      options: {
-        arrayPath: 'employers',
-        noun: 'employer',
-        nextChapterPath: '/review-and-submit',
-        isIncompleteItem: item =>
-          !item?.name ||
-          !item?.address?.country ||
-          !item?.address?.city ||
-          !item?.address?.street ||
-          !item?.address?.postalCode,
-      },
       pages: {
-        multiPageBuilderStart: pageBuilder.summaryPage({
-          title: 'Array with multiple page builder summary',
-          path: 'array-multiple-page-builder-summary',
-          uiSchema: arrayMultiPageBuilderSummary.uiSchema,
-          schema: arrayMultiPageBuilderSummary.schema,
-          depends: includeChapter('arrayMultiPageBuilder'),
-        }),
-        multiPageBuilderStepOne: pageBuilder.itemFirstPage({
-          title: 'Multiple Page Item Title',
-          path: 'array-multiple-page-builder-item-page-1/:index',
-          uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
-          schema: arrayMultiPageBuilderItemPage1.schema,
-          depends: includeChapter('arrayMultiPageBuilder'),
-        }),
-        multiPageBuilderStepTwo: pageBuilder.itemLastPage({
-          title: 'Multiple Page Item Title',
-          path: 'array-multiple-page-builder-item-page-2/:index',
-          uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
-          schema: arrayMultiPageBuilderItemPage2.schema,
-          depends: includeChapter('arrayMultiPageBuilder'),
-        }),
+        ...arrayBuilderPages(
+          {
+            arrayPath: 'employers',
+            nounSingular: 'employer',
+            nounPlural: 'employers',
+            getItemName: item => item.name,
+            isIncompleteItem: item =>
+              !item?.name ||
+              !item?.address?.country ||
+              !item?.address?.city ||
+              !item?.address?.street ||
+              !item?.address?.postalCode,
+            maxItems: 5,
+            customContent: {
+              cards: {
+                description: item => `${item?.dateStart} - ${item?.dateEnd}`,
+              },
+              cancel: {},
+              remove: {},
+            },
+          },
+          pageBuilder => ({
+            multiPageBuilderStart: pageBuilder.summaryPage({
+              title: 'Array with multiple page builder summary',
+              path: 'array-multiple-page-builder-summary',
+              uiSchema: arrayMultiPageBuilderSummary.uiSchema,
+              schema: arrayMultiPageBuilderSummary.schema,
+              depends: includeChapter('arrayMultiPageBuilder'),
+            }),
+            multiPageBuilderStepOne: pageBuilder.itemFirstPage({
+              title: 'Multiple Page Item Title',
+              path: 'array-multiple-page-builder-item-page-1/:index',
+              uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
+              schema: arrayMultiPageBuilderItemPage1.schema,
+              depends: includeChapter('arrayMultiPageBuilder'),
+            }),
+            multiPageBuilderStepTwo: pageBuilder.itemLastPage({
+              title: 'Multiple Page Item Title',
+              path: 'array-multiple-page-builder-item-page-2/:index',
+              uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
+              schema: arrayMultiPageBuilderItemPage2.schema,
+              depends: includeChapter('arrayMultiPageBuilder'),
+            }),
+          }),
+        ),
       },
-    })),
+    },
   },
 };
 
