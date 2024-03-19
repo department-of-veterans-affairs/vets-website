@@ -564,6 +564,9 @@ const testForm = testConfig => {
     useWebComponentFields = false,
   } = testConfig;
 
+  /* eslint-disable-next-line no-console */
+  console.log('data dir: ', dataDir);
+
   const skippedTests = Array.isArray(skip) && new Set(skip);
   const testSuite = skip && !skippedTests ? describe.skip : describe;
   const testCase = (testKey, callback) =>
