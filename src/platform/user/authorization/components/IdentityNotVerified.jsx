@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 
 import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
@@ -39,7 +40,23 @@ const IdentityNotVerified = ({
   headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
   showVerifyIdenityHelpInfo = false,
+  signInService,
 }) => {
+  let serviceName;
+  switch (signInService) {
+    case 'mhv':
+    case 'dslogon':
+      serviceName = 'Login.gov or ID.me';
+      break;
+    case 'idme':
+      serviceName = 'ID.me';
+      break;
+    case 'logingov':
+      serviceName = 'Login.gov';
+      break;
+    default:
+      serviceName = 'your account';
+  }
   return (
     <>
       <va-alert
@@ -52,12 +69,13 @@ const IdentityNotVerified = ({
         <div className="vads-u-margin-bottom--1">
           <p>
             Our records show that you haven’t verified your identity for your
-            ID.me account. We need you to verify your identity for this account
-            to help us keep your information safe and prevent fraud and identity
-            theft.
+            &nbsp;
+            {serviceName} account. We need you to verify your identity for this
+            account to help us keep your information safe and prevent fraud and
+            identity theft.
           </p>
           <p>
-            ID.me will ask you for certain personal information and
+            {serviceName} will ask you for certain personal information and
             identification. This process often takes about 10 minutes.
           </p>
           <a
@@ -81,6 +99,7 @@ IdentityNotVerified.propTypes = {
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,
+  signInService: PropTypes.string,
 };
 
 export { IdentityNotVerified as default };

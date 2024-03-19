@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -24,9 +25,7 @@ const LandingPage = ({ data = {} }) => {
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
-
   const showCards = hasHealth && !isUnverified;
-
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = isUnverified ? (
@@ -34,6 +33,7 @@ const LandingPage = ({ data = {} }) => {
       headline={unVerifiedHeadline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
+      signInService={signInService}
     />
   ) : (
     <NoHealthAlert />
