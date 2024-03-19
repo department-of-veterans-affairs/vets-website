@@ -10,6 +10,7 @@ describe('SpecializedMissionModalContent modal', () => {
     expect(wrapper.html()).to.not.be.undefined;
     wrapper.unmount();
   });
+
   it('should render', () => {
     global.window.buildType = true;
     const wrapper = shallow(<SpecializedMissionModalContent />);

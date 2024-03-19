@@ -10,10 +10,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getStoredSubTask } from 'platform/forms/sub-task';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import formConfig from '../config/form';
 import {
@@ -29,11 +26,14 @@ import {
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
 
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';
+
+import { data995 } from '../../shared/props';
 
 export const App = ({
   loggedIn,
@@ -156,7 +156,10 @@ export const App = ({
   if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
     router.push('/start');
     content = wrapInH1(
-      <va-loading-indicator message="Please wait while we restart the application for you." />,
+      <va-loading-indicator
+        set-focus
+        message="Please wait while we restart the application for you."
+      />,
     );
   } else if (
     loggedIn &&
@@ -188,13 +191,7 @@ App.propTypes = {
     issues: PropTypes.array,
     legacyCount: PropTypes.number,
   }),
-  formData: PropTypes.shape({
-    additionalIssues: PropTypes.array,
-    areaOfDisagreement: PropTypes.array,
-    benefitType: PropTypes.string,
-    contestedIssues: PropTypes.array,
-    legacyCount: PropTypes.number,
-  }),
+  formData: data995,
   inProgressFormId: PropTypes.number,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({

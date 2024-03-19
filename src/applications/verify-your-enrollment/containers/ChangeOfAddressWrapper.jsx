@@ -98,7 +98,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {error && (
               <Alert
                 status="error"
-                message="Sorry, something went wrong. Please try agian Later"
+                message="Sorry, something went wrong. Please try again Later"
               />
             )}
             {response?.ok && (
@@ -190,23 +190,16 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               background-only
               class="vads-u-margin-y--2"
             >
-              <h2 id="VYE-change-of-mailing-address" slot="headline">
-                Change of Mailing Address for Veryify Your Enrollment
-              </h2>
-              <div>
-                <span className="vads-u-margin-y--0">
-                  <p>
-                    This address is only used for payments for Montgomery GI
-                    Bill® Benefits.
-                  </p>
-                  <p>
-                    To change your address for other VA services, edit your{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
-                      VA Profile.
-                    </a>
-                  </p>
-                </span>
-              </div>
+              <p className="vye-alert-absolute-title-position">
+                This address is only used for payments for Montgomery GI Bill®
+                Benefits.
+              </p>
+              <p>
+                To change your address for other VA services, edit your{' '}
+                <a href="https://www.va.gov/profile/personal-information">
+                  VA Profile.
+                </a>
+              </p>
             </va-alert>
             {/* {bankInfoHelpText} */}
           </>

@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { focusElement } from 'platform/utilities/ui';
-
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import { EVIDENCE_UPLOAD_API } from '../constants';
 
 import {
@@ -45,17 +45,18 @@ export const fileUploadUi = content => {
         attachmentId: '',
       };
     },
-    attachmentSchema: ({ fileId }) => ({
+    attachmentSchema: (/* { fileId, index } */) => ({
       'ui:title': 'Document type',
       'ui:disabled': false,
-      'ui:widget': 'select',
+      'ui:webComponentField': VaSelectField,
       'ui:options': {
-        widgetProps: {
-          'aria-describedby': fileId,
-        },
+        // TO DO: not implemented - see vets-design-system-documentation #2587;
+        // Need to get file name from within element with ID of fileId
+        // 'message-aria-describedby': // ???
       },
     }),
     hideOnReview: true,
     attachmentName: false,
+    uswds: true,
   });
 };

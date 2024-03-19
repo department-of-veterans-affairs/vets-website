@@ -1,10 +1,7 @@
-// Dependencies.
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-// Relative Imports
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import AnswerReview from './AnswerReview';
 import Questions from './questions';

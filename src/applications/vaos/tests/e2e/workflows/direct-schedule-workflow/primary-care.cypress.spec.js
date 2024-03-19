@@ -39,34 +39,34 @@ const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
 describe('VAOS direct schedule flow - Primary care', () => {
-  beforeEach(() => {
-    vaosSetup();
-
-    const response = new MockAppointmentResponse({
-      id: 'mock1',
-      localStartTime: moment(),
-      status: APPOINTMENT_STATUS.booked,
-      serviceType: 'primaryCare',
-    });
-    mockAppointmentGetApi({
-      response,
-    });
-    mockAppointmentCreateApi({ response });
-    mockAppointmentsGetApi({ response: [] });
-    mockFeatureToggles();
-    mockVamcEhrApi();
-  });
-
   describe('When veteran is not CC eligible', () => {
+    beforeEach(() => {
+      vaosSetup();
+
+      mockAppointmentsGetApi({ response: [] });
+      mockFeatureToggles();
+      mockVamcEhrApi();
+    });
+
     describe('And one facility supports online scheduling', () => {
-      beforeEach(() => {
+      const setup = () => {
         const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
           type: 'direct',
           isEligible: true,
         });
+        const response = new MockAppointmentResponse({
+          id: 'mock1',
+          localStartTime: moment(),
+          status: APPOINTMENT_STATUS.booked,
+          serviceType: 'primaryCare',
+        });
 
+        mockAppointmentCreateApi({ response });
+        mockAppointmentGetApi({
+          response,
+        });
         mockEligibilityApi({ response: mockEligibilityResponse });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
@@ -76,9 +76,11 @@ describe('VAOS direct schedule flow - Primary care', () => {
           isDirect: true,
           isRequest: true,
         });
-      });
+      };
 
       describe('And veteran does have a home address', () => {
+        beforeEach(setup);
+
         it('should submit form', () => {
           // Arrange
           const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -153,6 +155,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       describe('And veteran does not have a home address', () => {
+        beforeEach(setup);
+
         it('should submit form', () => {
           // Arrange
           const mockUser = new MockUser();
@@ -223,6 +227,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       describe('And one clinic supports online scheduling', () => {
+        beforeEach(setup);
+
         it('should submit form', () => {
           // Arrange
           const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -265,15 +271,18 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeSelectPageObject.assertUrl()
+            .assertHeading({ name: /Choose a date and time/i })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({ name: /Tell us the reason for this appointment/i })
             .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
+            .assertHeading({ name: /Confirm your contact information/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
@@ -298,6 +307,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       describe('And user selects "I need a different clinic"', () => {
+        beforeEach(setup);
+
         it('should start appointment request flow', () => {
           // Arrange
           const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -342,6 +353,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       describe('And no clinic supports online scheduling, clinic supports requests', () => {
+        beforeEach(setup);
+
         it('should start appointment request flow', () => {
           // Arrange
           const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -377,13 +390,23 @@ describe('VAOS direct schedule flow - Primary care', () => {
     });
 
     describe('And more than one facility supports online scheduling', () => {
-      beforeEach(() => {
+      const setup = () => {
         const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
           isEligible: false,
         });
+        const response = new MockAppointmentResponse({
+          id: 'mock1',
+          localStartTime: moment(),
+          status: APPOINTMENT_STATUS.booked,
+          serviceType: 'primaryCare',
+        });
 
+        mockAppointmentCreateApi({ response });
+        mockAppointmentGetApi({
+          response,
+        });
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983', '984'],
@@ -404,9 +427,11 @@ describe('VAOS direct schedule flow - Primary care', () => {
             startTimes: [moment().add(1, 'month')],
           }),
         });
-      });
+      };
 
       describe('And veteran does have a home address', () => {
+        beforeEach(setup);
+
         it('should submit form', () => {
           // Arrange
           const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -472,6 +497,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       describe('And veteran does not have a home address', () => {
+        beforeEach(setup);
+
         it('should submit form', () => {
           // Arrange
           const mockUser = new MockUser();
@@ -537,6 +564,8 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       describe('And user selects "I need a different clinic"', () => {
+        beforeEach(setup);
+
         it('should start appointment request flow', () => {
           // Arrange
           const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -581,6 +610,24 @@ describe('VAOS direct schedule flow - Primary care', () => {
   });
 
   describe('When veteran is CC eligible', () => {
+    beforeEach(() => {
+      vaosSetup();
+
+      const response = new MockAppointmentResponse({
+        id: 'mock1',
+        localStartTime: moment(),
+        status: APPOINTMENT_STATUS.booked,
+        serviceType: 'primaryCare',
+      });
+      mockAppointmentGetApi({
+        response,
+      });
+      mockAppointmentCreateApi({ response });
+      mockAppointmentsGetApi({ response: [] });
+      mockFeatureToggles();
+      mockVamcEhrApi();
+    });
+
     describe('And more than one facility supports online scheduling', () => {
       beforeEach(() => {
         const mockEligibilityResponse = new MockEligibilityResponse({

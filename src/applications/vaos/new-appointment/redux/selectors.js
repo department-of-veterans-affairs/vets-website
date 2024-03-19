@@ -36,7 +36,7 @@ export function selectPageChangeInProgress(state) {
 }
 
 export function getFlowType(state) {
-  return getNewAppointment(state).flowType;
+  return getNewAppointment(state)?.flowType;
 }
 
 export function getAppointmentLength(state) {

@@ -5,7 +5,7 @@ const { gulfWarService } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Gulf War locations',
+    'ui:title': 'Service in Gulf War locations',
     gulfWarService: {
       'ui:title': 'Did you serve in any of these Gulf War locations?',
       'ui:description': GulfWarServiceDescription,

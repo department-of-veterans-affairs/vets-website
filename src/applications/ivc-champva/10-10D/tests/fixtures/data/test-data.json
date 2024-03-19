@@ -3,7 +3,7 @@
     "certifierRole": "sponsor",
     "applicants": [
       {
-        "applicantRelationshipOrigin": "blood",
+        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
         "applicantGender": "male",
         "applicantEmailAddress": "johnny@alvin.gov",
         "applicantAddress": {
@@ -28,7 +28,9 @@
           "last": "Alvin",
           "suffix": "Jr."
         },
-        "applicantMedicareStatus": "enrolled",
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
         "applicantMedicarePart": "partA, partD",
         "applicantHasOhi": "yes"
       }

@@ -18,7 +18,7 @@ describe('Secure Messaging Compose', () => {
     composePage
       .getCategory(requestBody.category)
       .first()
-      .click();
+      .click({ force: true });
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()
@@ -31,7 +31,7 @@ describe('Secure Messaging Compose', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it.skip('verify subject field max size', () => {
+  it('verify subject field max size', () => {
     const charsLimit = 50;
     const normalText = 'Qwerty1234';
     const maxText = 'Qwerty1234Qwerty1234Qwerty1234Qwerty1234Qwerty1234';
@@ -63,7 +63,11 @@ describe('Secure Messaging Compose', () => {
       .getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
-    cy.get('#message-subject').should('have.attr', 'value', `${maxText}`);
+    cy.get(Locators.FIELDS.MESS_SUBJECT).should(
+      'have.attr',
+      'value',
+      `${maxText}`,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
