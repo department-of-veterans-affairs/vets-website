@@ -30,7 +30,7 @@ export default function FileViewField(data, title = 'Supporting Documents') {
 }
 
 FileViewField.propTypes = {
-  data: { supportingDocuments: PropTypes.array },
+  data: PropTypes.array,
 };
 
 export function AppBirthCertReviewField(props) {
