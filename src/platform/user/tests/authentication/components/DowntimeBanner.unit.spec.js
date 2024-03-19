@@ -33,7 +33,7 @@ const generateState = ({
           loading: false,
           statuses: isApiDown
             ? []
-            : statuses.map(el => {
+            : statuses?.map(el => {
                 return {
                   ...el,
                   status:
