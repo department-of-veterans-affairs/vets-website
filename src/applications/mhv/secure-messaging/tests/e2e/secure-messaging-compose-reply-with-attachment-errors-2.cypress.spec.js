@@ -31,7 +31,7 @@ describe('Start a new message With Attacments and Errors', () => {
       'You have already attached this file.',
     );
 
-    composePage.attachMessageFromFile(Data.TEST_IMAGE);
+    composePage.attachMessageFromFile(Data.TEST_LARGE_IMAGE);
     composePage.verifyAttachmentErrorMessage(
       'Your file is too large. Try attaching a file smaller than 6MB.',
     );

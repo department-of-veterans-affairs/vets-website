@@ -187,6 +187,7 @@ export const Data = {
   TEST_MESSAGE_BODY: 'Test message body',
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
+  TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
   MESSAGE_WAS_SAVED: 'message was saved',
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',

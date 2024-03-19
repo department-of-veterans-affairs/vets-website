@@ -16,10 +16,10 @@ describe('Navigate to Message Details ', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
-    cy.contains('print').should('be.visible');
+    cy.contains('Print').should('be.visible');
     cy.tabToElement('button')
       .eq(0)
-      .should('contain', 'print');
+      .should('contain', 'Print');
 
     cy.realPress('Tab');
     cy.get(Locators.BUTTONS.BUTTON_MOVE).should('have.focus');
