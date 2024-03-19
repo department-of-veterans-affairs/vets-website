@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../../reducers';
 import FillRefillButton from '../../../components/shared/FillRefillButton';
 
@@ -23,6 +27,14 @@ describe('Fill Refill Button component', () => {
       path: '/1234567890',
     });
   };
+
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
 
   it('renders without errors', () => {
     const screen = setup();
