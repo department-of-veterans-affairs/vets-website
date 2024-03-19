@@ -101,9 +101,9 @@ function getUpdatedItemIndexFromPath() {
  *   nounSingular="employer"
  *   nounPlural="employers"
  *   isIncomplete={item => !item?.name}
- *   editItemPathUrl="/array-multiple-page-builder-item-page-1"
+ *   editItemPathUrl="/array-multiple-page-builder-item-page-1/:index"
  * />
- * ```
+ * ```x
  *
  * @param {Object} props
  */
