@@ -45,6 +45,12 @@ export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
   false,
 );
 
+export const appMedicareOver65IneligibleConfig = uploadWithInfoComponent(
+  acceptableFiles.ssIneligible,
+  'Medicare ineligibility proof',
+  false,
+);
+
 export const applicantOhiCardsConfig = uploadWithInfoComponent(
   acceptableFiles.healthInsCert,
   'copy of other health insurance card',

@@ -70,6 +70,7 @@ import {
   applicantStepChildConfig,
   applicantMedicarePartAPartBCardsConfig,
   applicantMedicarePartDCardsConfig,
+  appMedicareOver65IneligibleConfig,
   applicantOhiCardsConfig,
   applicant107959cConfig,
   applicantMarriageCertConfig,
@@ -121,6 +122,7 @@ import FileViewField, {
   AppMarriageDocReviewField,
   AppMedicareABDocReviewField,
   AppMedicareDDocReviewField,
+  AppMedicareOver65IneligibleReviewField,
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
@@ -668,7 +670,7 @@ const formConfig = {
           }),
         },
         page14: {
-          path: 'applicant-information/:index/ssn-dob',
+          path: 'applicant-information/:index/ssn',
           arrayPath: 'applicants',
           title: item => `${applicantWording(item)} identification information`,
           showPagePerItem: true,
@@ -1465,7 +1467,13 @@ const formConfig = {
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
-            applicantMedicareStatus: { type: 'string' },
+            applicantMedicareStatus: {
+              type: 'object',
+              properties: {
+                eligibility: { type: 'string' },
+                otherIneligible: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
@@ -1482,8 +1490,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-              'enrolled'
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled'
             );
           },
           CustomPage: ApplicantMedicareStatusContinuedPage,
@@ -1505,8 +1515,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled' &&
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled' &&
               ['partA', 'partB'].some(part =>
                 get(
                   'applicantMedicarePart',
@@ -1555,8 +1567,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled' &&
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled' &&
               get(
                 'applicantMedicarePart',
                 formData?.applicants?.[index],
@@ -1590,6 +1604,65 @@ const formConfig = {
             ...applicantMedicarePartDCardsConfig.schema,
             applicantMedicarePartDCard: fileWithMetadataSchema(
               acceptableFiles.medicareDCert,
+            ),
+          }),
+        },
+        // If the user is ineligible for Medicare and over 65 years,
+        // require them to upload proof of ineligibility
+        page20c: {
+          path: 'applicant-information/:index/over-65-ineligible',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) !== 'enrolled' &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+            );
+          },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: AppMedicareOver65IneligibleReviewField,
+          customPageUsesPagePerItemData: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload the letter from the Social Security Administration that confirms ${
+                      formData?.applicantName?.first
+                    } ${
+                      formData?.applicantName?.last
+                    } doesn’t qualify for Medicare benefits under anyone’s Social Security number`,
+                ),
+                ...appMedicareOver65IneligibleConfig.uiSchema,
+                applicantMedicareIneligibleProof: fileUploadUI(
+                  'Upload the applicant’s letter from the Social Security Administration.',
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...appMedicareOver65IneligibleConfig.schema,
+            applicantMedicareIneligibleProof: fileWithMetadataSchema(
+              acceptableFiles.ssIneligible,
             ),
           }),
         },
@@ -1661,8 +1734,10 @@ const formConfig = {
             if (index === undefined) return true;
             return (
               get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled'
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
