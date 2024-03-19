@@ -2,7 +2,7 @@ import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
@@ -15,7 +15,10 @@ import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
-import { validateSearchTerm } from '../../utils/helpers';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function NameSearchForm({
   autocomplete,
@@ -85,12 +88,18 @@ export function NameSearchForm({
     },
     [search.loadFromUrl],
   );
+
+  useEffect(
+    () => {
+      sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
+    },
+    [showFiltersBeforeResult],
+  );
   const onApplyFilterClick = () => {
     if (name.length === 0) {
       inputRef.current.focus();
     }
   };
-
   const handleSubmit = event => {
     event.preventDefault();
     if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
@@ -101,6 +110,12 @@ export function NameSearchForm({
       });
       dispatchShowFiltersBeforeResult();
       doSearch(name);
+    }
+    onApplyFilterClick();
+  };
+  const onKeyEnter = event => {
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -120,7 +135,7 @@ export function NameSearchForm({
   };
 
   return (
-    <div>
+    <div className="search-form-container">
       <form onSubmit={handleSubmit}>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
@@ -144,6 +159,7 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
+              onKeyPress={onKeyEnter}
             >
               <i
                 aria-hidden="true"
@@ -156,8 +172,8 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() &&
-        showFiltersBeforeResult && (
+        isProductionOrTestProdEnv() &&
+        JSON.parse(sessionStorage.getItem('show')) && (
           <div>
             <FilterBeforeResults
               nameVal={name}

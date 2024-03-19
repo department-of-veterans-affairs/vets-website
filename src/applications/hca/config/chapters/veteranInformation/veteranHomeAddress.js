@@ -1,11 +1,9 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-
+} from '~/platform/forms/definitions/address';
 import { HomeAddressDescription } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { notShortFormEligible } from '../../../utils/helpers/form-config';
@@ -17,15 +15,7 @@ export default {
   uiSchema: {
     'view:homeAddressShortFormMessage': {
       'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-      'ui:options': {
-        hideIf: formData => !formData['view:isLoggedIn'],
-      },
+      'ui:options': { hideIf: notShortFormEligible },
     },
     veteranHomeAddress: merge({}, addressUI(null, true), {
       'ui:title': HomeAddressDescription,
@@ -53,7 +43,6 @@ export default {
     type: 'object',
     properties: {
       'view:homeAddressShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
       veteranHomeAddress: merge(
         {},
         addressSchema({ definitions: { address } }, true),

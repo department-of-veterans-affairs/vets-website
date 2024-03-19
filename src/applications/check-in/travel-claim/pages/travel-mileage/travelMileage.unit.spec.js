@@ -2,10 +2,17 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import TravelMileage from '.';
 
 describe('travel-mileage', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Mileage page', () => {
     it('displays single facility context', () => {
       const store = {
@@ -53,7 +60,7 @@ describe('travel-mileage', () => {
         {
           stationNo: '500',
           startTime: '2021-08-19T13:56:31',
-          multipleAppointments: false,
+          appointmentCount: 1,
         },
       ];
       const component = render(
@@ -100,7 +107,7 @@ describe('travel-mileage', () => {
           {
             stationNo: '500',
             startTime: '2021-08-19T13:56:31',
-            multipleAppointments: false,
+            appoinmentCount: 1,
           },
         ],
       };
@@ -108,7 +115,7 @@ describe('travel-mileage', () => {
         {
           stationNo: '500',
           startTime: '2021-08-19T13:56:31',
-          multipleAppointments: false,
+          appoinmentCount: 1,
         },
       ];
       const component = render(
@@ -179,46 +186,6 @@ describe('travel-mileage', () => {
         expect(push.notCalled).to.be.true;
       });
     });
-    // This test is currently impossible due to shadowDOM
-    // describe('onCheck', () => {
-    //   it('updates state on facility check', () => {
-    //     const store = {
-    //       eligibleToFile: [
-    //         {
-    //           stationNo: '500',
-    //           startTime: '2021-08-19T13:56:31',
-    //           facility: 'fac 1',
-    //         },
-    //         {
-    //           stationNo: '600',
-    //           startTime: '2021-08-19T13:56:31',
-    //           facility: 'fac 2',
-    //         },
-    //       ],
-    //     };
-    //     const expectedStateValue = [
-    //       {
-    //         stationNo: '500',
-    //         startTime: '2021-08-19T13:56:31',
-    //         multipleAppointments: false,
-    //       },
-    //     ];
-    //     const component = render(
-    //       <CheckInProvider store={store}>
-    //         <TravelMileage />
-    //       </CheckInProvider>,
-    //     );
-    //     expect(component.getByTestId('[]')).to.exist;
-    //     const checkBox = component.getByTestId('checkbox-500');
-    //     // checkBox.__events.vaChange();
-    //     // checkBox.__events.vaChange({ detail: { value: 'other' } });
-    //     fireEvent.click(checkBox);
-    //     expect(await component.getByTestId(JSON.stringify(expectedStateValue)))
-    //       .to.exist;
-    //   });
-    //   it('updates state on facility un-check', () => {
-    //   });
-    // });
     describe('formatAppointment', () => {
       it('formats string with values', () => {
         const store = {

@@ -1,9 +1,24 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { EMPTY_FIELD, loincCodes, noteTypes } from '../util/constants';
+import {
+  EMPTY_FIELD,
+  loincCodes,
+  noteTypes,
+  loadStates,
+} from '../util/constants';
 import { extractContainedResource, isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
+  /**
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+
   /**
    * The list of care summaries and notes returned from the api
    * @type {array}
@@ -192,6 +207,8 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         careSummariesAndNotesList:
           action.response.entry
             ?.map(note => {
@@ -204,6 +221,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         careSummariesDetails: undefined,
+      };
+    }
+    case Actions.CareSummariesAndNotes.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:

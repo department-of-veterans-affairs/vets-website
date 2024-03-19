@@ -20,6 +20,26 @@ export const Paths = {
   CATEGORIES: '/categories',
   RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
+  FIND_LOCATIONS: '/find-locations/',
+  FIND_LOCATION: '/find-locations',
+  HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
+  THREAD: '/thread',
+  INTERCEPT: {
+    MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
+    MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
+    MESSAGE_FOLDER: '/my_health/v1/messaging/folders*',
+    MESSAGE_FOLDERS: '/my_health/v1/messaging/folders',
+    MESSAGE_FOLDER_THREAD: '/my_health/v1/messaging/folders/0/threads?*',
+    MESSAGE_FOLDER_MESS: '/my_health/v1/messaging//folders/0/messages*',
+    MESSAGE_DRAFTS: '/my_health/v1/messaging/message_drafts',
+    MESSAGE_FOLDERS_SEARCH: '/my_health/v1/messaging/folders/*/search',
+    MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
+    FEATURE_TOGGLES: '/v0/feature_toggles?*',
+    MESSAGE_THREADS: '/my_health/v1/messaging/threads/',
+    MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
+    MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
+    MESSAGES: '/my_health/v1/messaging/messages',
+  },
 };
 
 export const Locators = {
@@ -91,6 +111,7 @@ export const Locators = {
     CREATE_FOLDER: '[data-testid="create-new-folder"]',
     DELETE_DRAFT: '#delete-draft-button',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
+    DELETE_FOLDER: '[data-testid="remove-folder-button"]',
     PRINT: '[data-testid="print-button"]',
     BUTTON_SORT: '[data-testid="sort-button"]',
     ATTACH_FILE_BUTTON: '[data-testid="attach-file-button"]',
@@ -157,7 +178,7 @@ export const Locators = {
     MESSAGE: '#textarea',
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
-    CATEGORY_DROPDOWN: '#category-dropdown',
+    CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -179,4 +200,27 @@ export const Alerts = {
       'If you need to contact this care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
+  OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+};
+
+export const Assertions = {
+  MESSAGES: 'Messages',
+  FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',
+  MESSAGE_CONVERSATION_SUCCESS: 'Message conversation was successfully moved.',
+  MESSAGE_CONVERSATION_SUCCESS_TRASH:
+    'Message conversation was successfully moved to Trash.',
+  SELECT_RECIPIENT: ' Please select a recipient.',
+  DRAFT_DELETED_SUCCESS: 'Draft was successfully deleted.',
+  CANT_SAVE_MESSAGE_YET: "We can't save this message yet",
+  CONTINUE_EDITING: 'Continue editing',
+  INBOX: 'inbox',
+  DRAFT: 'Draft',
+  EDITED: 'edited',
+  ACTIVE: 'is-active',
+  MESSAGE_PREFERENCES: 'Edit your message preferences',
+  NO_MESSAGE_FOLDER: 'There are no messages in this folder.',
+  CODE_STATUS: 'statusCode',
+  SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
+  NEW_MESSAGE: 'new-message',
+  ARIA_EXPANDED: 'aria-expanded',
 };

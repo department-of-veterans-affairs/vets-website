@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   VaCheckboxGroup,
@@ -22,6 +21,7 @@ import {
 import { calculateOtherMaxLength } from '../utils/areaOfDisagreement';
 
 import { hasAreaOfDisagreementChoice } from '../validations/areaOfDisagreement';
+import { customPageProps } from '../props';
 
 const AreaOfDisagreement = ({
   data = {},
@@ -171,20 +171,6 @@ const AreaOfDisagreement = ({
   );
 };
 
-AreaOfDisagreement.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    limitedConsent: PropTypes.string,
-    providerFacility: PropTypes.array,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+AreaOfDisagreement.propTypes = customPageProps;
 
 export default AreaOfDisagreement;
