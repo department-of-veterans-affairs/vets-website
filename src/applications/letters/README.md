@@ -4,7 +4,9 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
 ## How to run locally
 
-### Initial Set Up Steps
+### Initial set up steps
+
+You'll only need to do these steps once.
 
 1. You will need AWS access first in order to use this service locally.
    - Go to this [link](https://depo-platform-documentation.scrollhelp.site/developer-docs/set-up-your-aws-account#SetupyourAWSAccount-Setupprogrammaticaccess) and follow the instructions under **How to create a new file**.
@@ -34,20 +36,24 @@ To receive some benefits, Veterans need a letter proving their status. This serv
 
 3. If you dont already have Docker installed make sure to download [Docker](https://www.docker.com/get-started/) and run it
 
-4. In a Terminal instance go into devops/utilities
-
-  ```code block
-  cd devops/utilities
-  ```
-
-5. If you havent added jq or awscli then brew install them
+4. If you havent added jq or awscli then brew install them
 
   ```code block
   brew install jq
   brew install awscli
   ```
 
-5. Generate temporary credentials for AWS.
+### Create ssh port forwarding
+
+These will need to be done everytime
+
+1. In a Terminal instance go into devops/utilities
+
+  ```code block
+  cd devops/utilities
+  ```
+
+2. Generate temporary credentials for AWS.
 
 > [!TIP]
 > Replace the User Name with your AWS user name ex: Jim.Frank
@@ -57,7 +63,7 @@ To receive some benefits, Veterans need a letter proving their status. This serv
   source ./issue_mfa.sh <User Name> <MFA Code>
   ```
 
-6. Get a list of the current forward proxy instances in staging
+3. Get a list of the current forward proxy instances in staging
 
 > [!TIP]
 > The private ip addresses will be used below and **q key** with the **enter key** lets you exit
@@ -70,7 +76,7 @@ To receive some benefits, Veterans need a letter proving their status. This serv
   ./ssm.sh fwdproxy staging
   ```
 
-7. Create the ssh tunnel
+4. Create the ssh tunnel
 
 > [!TIP]
 > In the IP Address replace the . with -
