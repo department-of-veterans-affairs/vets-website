@@ -3,7 +3,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 export default function ServerError() {
   return (
-    <va-alert status="error" uswds>
+    <va-alert status="error">
       <h2 slot="headline">We’re sorry. Something went wrong on our end.</h2>
       <p className="vads-u-font-size--base">
         Please refresh this page or check back later. You can also sign out of

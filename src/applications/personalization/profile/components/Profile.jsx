@@ -280,7 +280,7 @@ const mapStateToProps = state => {
     CSP_IDS.LOGIN_GOV,
   ]);
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
-    backendServices.EVSS_CLAIMS,
+    backendServices.LIGHTHOUSE,
   );
   const isEvssAvailable = isEvssAvailableSelector(state);
   const is2faEnabled = isMultifactorEnabled(state);

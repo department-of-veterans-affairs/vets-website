@@ -221,6 +221,19 @@ export const WartimeWarningAlert = () => (
   </va-alert>
 );
 
+export const FormReactivationAlert = () => (
+  <p>
+    You should know that we updated our online form.{' '}
+    <strong>If you started applying online before November 8, 2023</strong>, we
+    have some new questions for you to answer. And we changed some questions, so
+    you may need to provide certain information again.
+    <br />
+    <br />
+    Select <strong>Continue your application</strong> to use our update form. Or
+    come back later to finish your application.
+  </p>
+);
+
 export const AccountInformationAlert = () => (
   <>
     <br />

@@ -171,7 +171,7 @@ describe('mapStateToProps', () => {
   const makeDefaultProfileState = () => ({
     multifactor: true,
     status: 'OK',
-    services: ['evss-claims'],
+    services: ['lighthouse'],
     mhvAccount: {
       accountState: 'needs_terms_acceptance',
       errors: null,

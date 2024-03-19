@@ -15,6 +15,12 @@ export const applicantSchoolCertConfig = uploadWithInfoComponent(
   false,
 );
 
+export const applicantHelplessChildConfig = uploadWithInfoComponent(
+  acceptableFiles.helplessCert,
+  'VBA decision rating',
+  false,
+);
+
 export const applicantAdoptedConfig = uploadWithInfoComponent(
   acceptableFiles.adoptionCert,
   'adoption papers',
@@ -36,6 +42,12 @@ export const applicantMedicarePartAPartBCardsConfig = uploadWithInfoComponent(
 export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
   acceptableFiles.medicareDCert,
   'copy of Medicare Part D card',
+  false,
+);
+
+export const appMedicareOver65IneligibleConfig = uploadWithInfoComponent(
+  acceptableFiles.ssIneligible,
+  'Medicare ineligibility proof',
   false,
 );
 
