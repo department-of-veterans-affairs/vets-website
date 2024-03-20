@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 
 import { FormSignature } from '../../../src/js/components/FormSignature';
 
@@ -37,8 +37,10 @@ describe('Forms library - Forms signature component', () => {
       ).to.equal('Custom text here');
     });
 
-    it('should pass axeCheck', () => {
-      axeCheck(<FormSignature />);
+    it('should pass axeCheck', async () => {
+      await expect(
+        renderComponentForA11y(<FormSignature />),
+      ).to.be.accessible();
     });
   });
 

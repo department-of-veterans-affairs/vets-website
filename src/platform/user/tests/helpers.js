@@ -1,48 +1,36 @@
-import axe from 'axe-core';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
-export function axeCheck(component, state) {
-  let div = document.getElementById('axeContainer');
-  if (!div) {
-    div = document.createElement('div');
-    div.setAttribute('id', 'axeContainer');
-    document.body.appendChild(div);
+/**
+ *
+ * Examples:
+ * ```
+ * // If normal React component (aka not wrapped by RTL or RTL helpers)
+ * it('should be accessible for normal React component', async () => {
+ *    const component = renderComponentForA11y(<ComponentName />)
+ *    await expect(component).to.be.accessible();
+ * })
+ *
+ * // If using a wrapped component (wrapped by RTL, or our helpers that require the router and/or redux)
+ * it('should be accessible for RTL helper component', async () => {
+ *    const { container } = renderWithStoreAndRouter(<ProfileAlert />, {
+ *      path: PROFILE_PATHS.PROFILE_ROOT,
+ *    });
+ *    const component = renderComponentForA11y(container, { isWrapped: true });
+ *    await expect(component).to.be.accessible();
+ * })
+ * ```
+ */
+export function renderComponentForA11y(component, { isWrapped = false } = {}) {
+  const parentNode = document.createElement('div');
+
+  if (isWrapped) {
+    document.body.appendChild(parentNode);
+    parentNode.innerHTML = component.innerHTML;
+    return parentNode.children[0];
   }
-  div.innerHTML = '';
 
-  if (state) {
-    mount(component, { attachTo: div }).setState(state);
-  } else {
-    mount(component, { attachTo: div });
-  }
-
-  return new Promise((resolve, reject) => {
-    axe.run(document.body, (err, result) => {
-      if (err) {
-        // eslint-disable-next-line no-console
-        console.error(err);
-        reject(err);
-      }
-      if (result.violations.length) {
-        reject(
-          new Error(
-            result.violations
-              .map(violation => {
-                const nodeInfo = violation.nodes.reduce((str, node) => {
-                  const { html, target } = node;
-                  return [str, html, ...target].join('\n');
-                }, '');
-
-                return `[${violation.impact}] ${violation.help}
-            See ${violation.helpUrl}
-            ${nodeInfo}`;
-              })
-              .join('\n'),
-          ),
-        );
-      }
-
-      resolve();
-    });
-  });
+  const { container } = render(component);
+  document.body.appendChild(parentNode);
+  parentNode.innerHTML = container.innerHTML;
+  return parentNode.children[0];
 }

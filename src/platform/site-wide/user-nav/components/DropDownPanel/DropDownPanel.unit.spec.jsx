@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 
 import DropDown from './DropDownPanel.jsx';
 
@@ -80,21 +80,25 @@ describe('<DropDownPanel>', () => {
     expect(document.body.removeEventListener.called).to.be.true;
   });
 
-  it('should pass axe check when open', () =>
-    axeCheck(
+  it('should pass axe check when open', async () => {
+    const component = renderComponentForA11y(
       <nav>
         <DropDown {...props} id="testId2">
           <h1>Hi</h1>
         </DropDown>
       </nav>,
-    ));
+    );
+    await expect(component).to.be.accessible();
+  });
 
-  it('should pass axe check when closed', () =>
-    axeCheck(
+  it('should pass axe check when closed', async () => {
+    const component = renderComponentForA11y(
       <nav>
-        <DropDown {...props} id="testId2" isOpen={false}>
+        <DropDown {...props} id="testId" isOpen={false}>
           <h1>Hi</h1>
         </DropDown>
       </nav>,
-    ));
+    );
+    await expect(component).to.be.accessible();
+  });
 });

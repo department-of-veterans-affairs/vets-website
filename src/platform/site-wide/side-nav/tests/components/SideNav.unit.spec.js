@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import SideNav from '../../components/SideNav';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 describe('<SideNav>', () => {
   const firstID = uniqueId('sidenav_');
@@ -48,5 +48,8 @@ describe('<SideNav>', () => {
     wrapper.unmount();
   });
 
-  it('should pass axe check', () => axeCheck(<SideNav {...defaultProps} />));
+  it('should pass axe check', async () => {
+    const component = renderComponentForA11y(<SideNav {...defaultProps} />);
+    await expect(component).to.be.accessible();
+  });
 });

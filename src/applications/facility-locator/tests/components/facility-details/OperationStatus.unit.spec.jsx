@@ -1,16 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import OperationStatus from '../../../components/facility-details/OperationStatus';
 import { FacilityType } from '../../../constants';
 
 describe('facility-locator', () => {
   describe('OperationStatus', () => {
-    it('check in button passes axeCheck', () => {
+    it('check in button passes axeCheck', async () => {
       const operatingStatus = { code: 'NOTICE' };
-
-      axeCheck(<OperationStatus operatingStatus={operatingStatus} />);
+      const component = renderComponentForA11y(
+        <OperationStatus operatingStatus={operatingStatus} />,
+      );
+      await expect(component).to.be.accessible();
     });
     it('should render nothing for no operating status', () => {
       const { container } = render(<OperationStatus />);

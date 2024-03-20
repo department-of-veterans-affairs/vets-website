@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 import VerifyIdentity from '../../../../components/direct-deposit/alerts/VerifyIdentity';
 
@@ -19,8 +19,10 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       cleanup();
     });
 
-    it('passes axeCheck', () => {
-      axeCheck(<VerifyIdentity />);
+    it('passes axeCheck', async () => {
+      await expect(
+        renderComponentForA11y(<VerifyIdentity />),
+      ).to.be.accessible();
     });
 
     it('renders the proper URLs for VerifyIdentity (SAML)', async () => {

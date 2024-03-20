@@ -5,7 +5,7 @@ import chaiAsPromised from 'chai-as-promised';
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
 
-import { axeCheck } from '../../config/helpers';
+import { renderComponentForA11y } from 'platform/user/tests/helpers';
 import ProgressButton from '../../../src/js/components/ProgressButton.jsx';
 
 chai.use(chaiAsPromised);
@@ -132,21 +132,27 @@ describe('<ProgressButton>', () => {
     tree.unmount();
   });
 
-  it('should pass aXe check when enabled', () =>
-    axeCheck(
-      <ProgressButton
-        buttonText="Button text"
-        buttonClass="usa-button-primary"
-        disabled={false}
-      />,
-    ));
+  it('should pass aXe check when enabled', async () => {
+    await expect(
+      renderComponentForA11y(
+        <ProgressButton
+          buttonText="Button text"
+          buttonClass="usa-button-primary"
+          disabled={false}
+        />,
+      ),
+    ).to.be.accessible();
+  });
 
-  it('should pass aXe check when disabled', () =>
-    axeCheck(
-      <ProgressButton
-        buttonText="Button text"
-        buttonClass="usa-button-primary"
-        disabled
-      />,
-    ));
+  it('should pass aXe check when disabled', async () => {
+    await expect(
+      renderComponentForA11y(
+        <ProgressButton
+          buttonText="Button text"
+          buttonClass="usa-button-primary"
+          disabled
+        />,
+      ),
+    ).to.be.accessible();
+  });
 });
