@@ -614,6 +614,7 @@ const formConfig = {
                 keepInPageOnReview: true,
                 useDlWrap: false,
                 itemName: 'Applicant',
+                confirmRemove: true,
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
