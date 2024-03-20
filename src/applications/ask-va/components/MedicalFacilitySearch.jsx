@@ -3,7 +3,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { URL } from '../constants';
 import SearchItem from './search/SearchItem';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import { convertToLatLng } from '../utils/mapbox';
 import SearchControls from './search/SearchControls';
 
