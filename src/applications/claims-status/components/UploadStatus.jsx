@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function UploadStatus({ files, progress, onCancel }) {
+export default function UploadStatus({ files, onCancel, progress }) {
   const handleClick = evt => {
     evt.preventDefault();
     onCancel();
