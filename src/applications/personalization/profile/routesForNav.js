@@ -71,11 +71,13 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = ({
-  profileContacts,
-  profileShowDirectDepositSingleForm,
-}) =>
-  routesForNav.reduce((acc, route) => {
+export const getRoutesForNav = (
+  { profileContacts = false, profileShowDirectDepositSingleForm = false } = {
+    profileContacts: false,
+    profileShowDirectDepositSingleForm: false,
+  },
+) => {
+  return routesForNav.reduce((acc, route) => {
     if (route.name === PROFILE_PATH_NAMES.CONTACTS && profileContacts) {
       acc.push(route);
       return acc;
@@ -91,3 +93,4 @@ export const getRoutesForNav = ({
     acc.push(route);
     return acc;
   }, []);
+};
