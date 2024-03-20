@@ -593,7 +593,7 @@ const testForm = testConfig => {
     // so those have to be set up _before each_ test.
     beforeEach(() => {
       /* eslint-disable-next-line no-console */
-      console.log('data dir: ', dataDir);
+      cy.log('data dir: ', dataDir);
       // Dismiss any announcements.
       disableFTUXModals();
 
