@@ -37,5 +37,6 @@ const testConfig = createTestConfig(
   manifest,
   // formConfig,
 );
-
+/* eslint-disable-next-line no-console */
+console.log(testConfig.dataDir);
 testForm(testConfig);
