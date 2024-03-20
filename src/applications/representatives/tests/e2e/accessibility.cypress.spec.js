@@ -2,7 +2,9 @@ describe('Accessibility', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'representatives_portal_frontend', value: true }],
+        features: [
+          { name: 'accredited_representative_portal_frontend', value: true },
+        ],
       },
     });
   });
