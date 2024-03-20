@@ -110,6 +110,10 @@
     {
       "rootFolder": "representatives",
       "slackGroup": "@arfeng"
+    },
+    {
+      "rootFolder": "accredited-representative-portal",
+      "slackGroup": "@arfeng"
     }
   ]
 }
