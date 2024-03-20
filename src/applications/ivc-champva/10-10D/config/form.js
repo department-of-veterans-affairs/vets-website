@@ -73,6 +73,7 @@ import {
   applicantOhiCardsConfig,
   applicant107959cConfig,
   applicantMarriageCertConfig,
+  applicantSecondMarriageDivorceCertConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -133,6 +134,17 @@ import FileViewField, {
 const uploadUrl = `${
   environment.API_URL
 }/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
+
+const fileWithTextConfigBoilerPlate = {
+  fileTypes,
+  fileUploadUrl: uploadUrl,
+  attachmentSchema: {
+    'ui:title': 'Document type',
+  },
+  attachmentName: {
+    'ui:title': 'Document name',
+  },
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -438,16 +450,7 @@ const formConfig = {
             ...sponsorCasualtyReportConfig.uiSchema,
             sponsorCasualtyReport: fileUploadUI(
               "Upload Sponsor's casualty report",
-              {
-                fileTypes,
-                fileUploadUrl: uploadUrl,
-                attachmentSchema: {
-                  'ui:title': 'Document type',
-                },
-                attachmentName: {
-                  'ui:title': 'Document name',
-                },
-              },
+              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -538,16 +541,7 @@ const formConfig = {
             ...sponsorDisabilityRatingConfig.uiSchema,
             sponsorDisabilityRating: fileUploadUI(
               "Upload Sponsor's disability rating",
-              {
-                fileTypes,
-                fileUploadUrl: uploadUrl,
-                attachmentSchema: {
-                  'ui:title': 'Document type',
-                },
-                attachmentName: {
-                  'ui:title': 'Document name',
-                },
-              },
+              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -581,16 +575,7 @@ const formConfig = {
             ...sponsorDischargePapersConfig.uiSchema,
             sponsorDischargePapers: fileUploadUI(
               "Upload Sponsor's discharge papers",
-              {
-                fileTypes,
-                fileUploadUrl: uploadUrl,
-                attachmentSchema: {
-                  'ui:title': 'Document type',
-                },
-                attachmentName: {
-                  'ui:title': 'Document name',
-                },
-              },
+              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -929,16 +914,7 @@ const formConfig = {
                 ...applicantBirthCertConfig.uiSchema,
                 applicantBirthCertOrSocialSecCard: fileUploadUI(
                   "Upload the applicant's birth certificate",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1029,16 +1005,7 @@ const formConfig = {
                 ...applicantSchoolCertConfig.uiSchema,
                 applicantSchoolCert: fileUploadUI(
                   "Upload the applicant's school certification",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1083,16 +1050,7 @@ const formConfig = {
                 ...applicantHelplessChildConfig.uiSchema,
                 applicantHelplessCert: fileUploadUI(
                   'Upload VBA decision rating for the applicant',
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1140,16 +1098,7 @@ const formConfig = {
                 ...applicantAdoptedConfig.uiSchema,
                 applicantAdoptionPapers: fileUploadUI(
                   "Upload the applicant's adoption papers",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1200,16 +1149,7 @@ const formConfig = {
                 ...applicantStepChildConfig.uiSchema,
                 applicantStepMarriageCert: fileUploadUI(
                   "Upload marriage certificate between applicant's parent and the sponsor",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1338,7 +1278,7 @@ const formConfig = {
               'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
-                  'Required supporting file upload',
+                  'Optional supporting file upload',
                   ({ formData }) =>
                     `Upload a marriage certificate showing the marriage between the sponsor and ${
                       formData?.applicantName?.first
@@ -1347,16 +1287,7 @@ const formConfig = {
                 ...applicantMarriageCertConfig.uiSchema,
                 applicantMarriageCert: fileUploadUI(
                   "Upload the applicant's marriage certificate",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1365,6 +1296,106 @@ const formConfig = {
             titleSchema,
             ...applicantMarriageCertConfig.schema,
             applicantMarriageCert: fileWithMetadataSchema(
+              acceptableFiles.spouseCert,
+            ),
+          }),
+        },
+        page18f7: {
+          path: 'applicant-information/:index/second-marriage',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} second marriage documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55'
+            );
+          },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: AppMarriageDocReviewField,
+          customPageUsesPagePerItemData: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Optional supporting file upload',
+                  ({ formData }) =>
+                    `Upload a marriage certificate showing the marriage between ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last} and their new spouse`,
+                ),
+                ...applicantMarriageCertConfig.uiSchema,
+                applicantSecondMarriageCert: fileUploadUI(
+                  "Upload the applicant's second marriage certificate",
+                  fileWithTextConfigBoilerPlate,
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMarriageCertConfig.schema,
+            applicantSecondMarriageCert: fileWithMetadataSchema(
+              acceptableFiles.spouseCert,
+            ),
+          }),
+        },
+        // If applicant remarried after 55 but the second marriage is not viable,
+        // upload a certificate proving the marriage dissolved
+        page18f8: {
+          path: 'applicant-information/:index/second-marriage-dissolved',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} second marriage dissolution documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55' &&
+              !get('remarriageIsViable', formData?.applicants?.[index])
+            );
+          },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: AppMarriageDocReviewField,
+          customPageUsesPagePerItemData: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Optional supporting file upload',
+                  ({ formData }) =>
+                    `Upload the legal document that ended ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}'s second marriage`,
+                ),
+                ...applicantSecondMarriageDivorceCertConfig.uiSchema,
+                applicantSecondMarriageDivorceCert: fileUploadUI(
+                  "Upload the applicant's second marriage dissolution document",
+                  fileWithTextConfigBoilerPlate,
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantSecondMarriageDivorceCertConfig.schema,
+            applicantSecondMarriageDivorceCert: fileWithMetadataSchema(
               acceptableFiles.spouseCert,
             ),
           }),
@@ -1456,16 +1487,7 @@ const formConfig = {
                 ...applicantMedicarePartAPartBCardsConfig.uiSchema,
                 applicantMedicarePartAPartBCard: fileUploadUI(
                   "Upload the applicant's copy of Medicare Parts A or B card(s)",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1513,16 +1535,7 @@ const formConfig = {
                 ...applicantMedicarePartDCardsConfig.uiSchema,
                 applicantMedicarePartDCard: fileUploadUI(
                   "Upload the applicant's copy of Medicare Part D",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1640,16 +1653,7 @@ const formConfig = {
                 ...applicantOhiCardsConfig.uiSchema,
                 applicantOhiCard: fileUploadUI(
                   "Upload front and back of the applicant's health insurance card",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1694,16 +1698,7 @@ const formConfig = {
                 ...applicant107959cConfig.uiSchema,
                 applicant107959c: fileUploadUI(
                   "Upload the applicant's VA form 10-7959c",
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
+                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
