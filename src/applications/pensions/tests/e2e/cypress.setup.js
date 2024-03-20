@@ -11,9 +11,7 @@ const SUBMISSION_DATE = new Date().toISOString();
 
 const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 
-const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {
-  const features = isEnabled ? featuresEnabled : featuresDisabled;
-
+export const cypressBeforeAllSetup = () => {
   cy.config('numTestsKeptInMemory', 0);
   cy.config('waitForAnimations', true);
 
@@ -27,6 +25,10 @@ const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {
       return original.apply(this, args);
     };
   });
+};
+
+const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {
+  const features = isEnabled ? featuresEnabled : featuresDisabled;
 
   cy.intercept('GET', '/v0/feature_toggles*', features);
   cy.intercept('GET', '/v0/maintenance_windows', []);
