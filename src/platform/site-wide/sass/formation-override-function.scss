@@ -96,9 +96,9 @@ $unit-types: (
   }
   $numeric-result: if( $numeric-value == "" , null, $sign * $numeric-value);
   @return (
-    number: $numeric-result,
-    unit: unquote($unit),
-    joint: $numeric-result+unquote($unit)
+          number: $numeric-result,
+          unit: unquote($unit),
+          joint: if($numeric-result != null, #{$numeric-result} + unquote($unit), $string)
   );
 }
 
@@ -129,15 +129,15 @@ $unit-types: (
     $scaled-values: ();
 
     @each $val in $value-set{
-        $val-parts : split-value-unit($val);
-        @if (map-get($val-parts, unit) == rem) {
-            $rem-number: str-slice($val, 0, -4);
-            $scaled-rem: map-get($val-parts, number) * $coeff ;
-            $scaled-values: append($scaled-values, $scaled-rem + rem);
-        } @else {
-            $scaled-values: append($scaled-values,
-            map-get($val-parts, joint), $separator);
-        }
+      $val-parts : split-value-unit($val);
+      @if (map-get($val-parts, unit) == rem) {
+        $rem-number: str-slice($val, 0, -4);
+        $scaled-rem: map-get($val-parts, number) * $coeff ;
+        $scaled-values: append($scaled-values, $scaled-rem + rem);
+      } @else {
+        $scaled-values: append($scaled-values,
+                map-get($val-parts, joint), $separator);
+      }
     }
     @return  $scaled-values;
   }

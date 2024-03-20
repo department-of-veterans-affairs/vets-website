@@ -1,6 +1,6 @@
 .hub-links-list {
   padding-right: 5px;
-  padding-left: 1rem;
+  padding-left: 0.625rem;
   list-style: none;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .homepage-hub-container {
-  max-width: 100rem;
+  max-width: 62.5rem;
 
   @include media($medium-screen) {
     margin: auto;
