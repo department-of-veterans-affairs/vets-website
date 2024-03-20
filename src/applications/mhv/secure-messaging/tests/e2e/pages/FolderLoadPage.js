@@ -3,7 +3,7 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import { Assertions, Locators, Paths } from '../utils/constants';
+import { Data, Assertions, Locators, Paths } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -68,7 +68,7 @@ class FolderLoadPage {
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_RECIPIENT, mockRecipients);
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_MESS, mockMessages);
 
-    cy.contains('Back to messages')
+    cy.contains(Data.BACK_TO_MSG)
       .should('be.visible')
       .click({ force: true });
     cy.get(Locators.HEADER).should('contain', Assertions.MESSAGES);

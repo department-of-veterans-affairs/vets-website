@@ -11,6 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -101,7 +102,7 @@ function recordChangedEvents(email, phone, data) {
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 
-function Description({ flowType }) {
+function Description({ flowType, userData }) {
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
@@ -121,12 +122,26 @@ function Description({ flowType }) {
         </p>
       </>
     );
+
+  if (userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
+    return (
+      <p>
+        We’ll use this information if we need to contact you about this
+        appointment. For most other VA communications, we'll use the contact
+        information in your VA.gov profile.
+      </p>
+    );
+
   return (
-    <p>We’ll use this information to contact you about your appointment.</p>
+    <p>
+      We’ll use this information if we need to contact you about your
+      appointment.
+    </p>
   );
 }
 Description.propTypes = {
   flowType: PropTypes.elementType,
+  userData: PropTypes.object,
 };
 
 export default function ContactInfoPage({ changeCrumb }) {
@@ -157,7 +172,7 @@ export default function ContactInfoPage({ changeCrumb }) {
   }, []);
 
   const uiSchema = {
-    'ui:description': <Description flowType={flowType} />,
+    'ui:description': <Description flowType={flowType} userData={userData} />,
     phoneNumber: {
       ...phoneConfig,
       'ui:errorMessages': {
@@ -204,6 +219,13 @@ export default function ContactInfoPage({ changeCrumb }) {
         required: 'Enter an email address',
       },
       'ui:validations': [validateLength],
+      'ui:options': {
+        classNames: classNames({
+          'schemaform-first-field':
+            flowType === FLOW_TYPES.REQUEST &&
+            userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE,
+        }),
+      },
     },
   };
 
@@ -242,6 +264,7 @@ export default function ContactInfoPage({ changeCrumb }) {
               <div>
                 You can update your contact information for most of your
                 benefits and services in your VA.gov profile.
+                <br />
                 <NewTabAnchor href="/profile/contact-information">
                   Go to your VA profile
                 </NewTabAnchor>

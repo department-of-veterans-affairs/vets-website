@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
-import { getFlowType, getFormData } from '../../redux/selectors';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
+import { getFlowType, getFormData } from '../../../redux/selectors';
+import getNewAppointmentFlow from '../../../newAppointmentFlow';
 
 function formatBestTimetoCall(bestTime) {
   const times = [];
