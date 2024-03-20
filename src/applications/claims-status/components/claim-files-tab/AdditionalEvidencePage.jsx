@@ -185,7 +185,7 @@ class AdditionalEvidencePage extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claim = claimsState.claimDetail.detail;
-  const trackedItems = claim.attributes;
+  const { trackedItems } = claim.attributes;
 
   return {
     loading: claimsState.claimDetail.loading,
