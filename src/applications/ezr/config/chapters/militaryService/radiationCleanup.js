@@ -8,7 +8,7 @@ export default {
     'ui:title': 'Cleanup or response efforts',
     radiationCleanupEfforts: {
       'ui:title':
-        'Did you take part in any of these cleanup or response efforts?',
+        'Did you take part in any of these clean up or response efforts while serving in any of these locations?',
       'ui:description': RadiationCleanupDescription,
       'ui:widget': 'yesNo',
     },
