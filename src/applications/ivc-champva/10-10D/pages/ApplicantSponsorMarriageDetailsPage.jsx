@@ -6,7 +6,10 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { additionalFilesHint } from '../helpers/wordingCustomization';
+import {
+  additionalFilesHint,
+  applicantWording,
+} from '../helpers/wordingCustomization';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -99,10 +102,25 @@ export const marriageDatesSchema = {
   uiSchema: {
     applicants: {
       items: {
-        'ui:options': { viewField: ApplicantField },
-        ...titleUI('Applicant date of marriage to sponsor'),
+        'ui:options': {
+          viewField: ApplicantField,
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(
+                    formData,
+                    context,
+                    true,
+                    true,
+                  )} marriage dates`,
+                  '',
+                )['ui:title'],
+            };
+          },
+        },
         dateOfMarriageToSponsor: currentOrPastDateUI({
-          title: 'Date of marriage',
+          title: 'Date of marriage to the sponsor',
           errorMessages: {
             pattern: 'Please provide a valid date',
             required: 'Please provide the date of marriage',
@@ -173,7 +191,22 @@ export const remarriageDetailsSchema = {
     applicants: {
       'ui:options': { viewField: ApplicantField },
       items: {
-        ...titleUI('Applicant remarriage status'),
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(
+                    formData,
+                    context,
+                    true,
+                    true,
+                  )} remarriage status`,
+                  '',
+                )['ui:title'],
+            };
+          },
+        },
         remarriageIsViable: yesNoUI({
           title: 'Is the remarriage still viable?',
           hint: additionalFilesHint,
