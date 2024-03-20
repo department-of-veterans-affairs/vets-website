@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ReviewDirectScheduleInfo from './ReviewDirectScheduleInfo';
+import ReviewDirectScheduleInfo from './ReviewRequestInfo/ReviewDirectScheduleInfo/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from './ReviewRequestInfo';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
@@ -68,7 +68,7 @@ export default function ReviewPage({ changeCrumb }) {
       {isDirectSchedule && (
         <ReviewDirectScheduleInfo
           data={data}
-          facility={facility}
+          facility={facilityDetails}
           systemId={systemId}
           clinic={clinic}
           pageTitle={pageTitle}
@@ -77,7 +77,7 @@ export default function ReviewPage({ changeCrumb }) {
       {!isDirectSchedule && (
         <ReviewRequestInfo
           data={data}
-          facility={facility}
+          facility={facilityDetails}
           vaCityState={vaCityState}
           pageTitle={pageTitle}
         />
@@ -93,7 +93,6 @@ export default function ReviewPage({ changeCrumb }) {
           onClick={() => dispatch(submitAppointmentOrRequest(history))}
           className={classNames('usa-button', 'usa-button-primary', {
             'vads-u-margin-top--5': FLOW_TYPES.REQUEST === flowType,
-            'vads-u-width--auto': FLOW_TYPES.REQUEST === flowType,
           })}
         >
           {isDirectSchedule ? 'Confirm appointment' : 'Submit request'}
