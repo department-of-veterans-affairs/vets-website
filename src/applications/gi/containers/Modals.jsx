@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as actions from '../actions';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
@@ -1046,11 +1045,7 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('specializedMission')}
-          modalTitle={
-            environment.isProduction()
-              ? 'Specialized mission'
-              : 'Community focus'
-          }
+          modalTitle="Community focus"
         >
           <SpecializedMissionModalContent />
         </VaModal>

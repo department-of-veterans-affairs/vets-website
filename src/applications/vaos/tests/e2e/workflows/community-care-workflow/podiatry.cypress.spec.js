@@ -89,9 +89,10 @@ describe('VAOS community care flow - Podiatry', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress({ exist: false })
-            .selectProvider()
+            .selectProvider({ label: /Podiatry providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
@@ -159,9 +160,10 @@ describe('VAOS community care flow - Podiatry', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress()
-            .selectProvider()
+            .selectProvider({ label: /Podiatry providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
@@ -209,9 +211,10 @@ describe('VAOS community care flow - Podiatry', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress({ exist: false })
-            .selectProvider()
+            .selectProvider({ label: /Podiatry providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
