@@ -252,7 +252,12 @@ SearchResult.propTypes = {
   initializeRepresentativeReport: PropTypes.func,
   officer: PropTypes.string,
   phone: PropTypes.string,
-  query: PropTypes.object,
+  query: PropTypes.shape({
+    locationQueryString: PropTypes.string,
+    representativeType: PropTypes.string,
+    searchArea: PropTypes.string,
+    representativeQueryString: PropTypes.string,
+  }),
   reportSubmissionStatus: PropTypes.string,
   reports: PropTypes.shape({
     phone: PropTypes.string,
@@ -261,6 +266,15 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
+  searchResults: PropTypes.shape({
+    meta: PropTypes.shape({
+      pagination: PropTypes.shape({
+        totalEntries: PropTypes.number,
+        totalPages: PropTypes.number,
+        currentPage: PropTypes.number,
+      }),
+    }),
+  }),
   setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
