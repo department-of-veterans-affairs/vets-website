@@ -26,7 +26,7 @@ describe('Accredited Representative Portal', () => {
       togglePortal(false);
 
       it('does redirect to root', () => {
-        cy.visit('/representative');
+        cy.visit('/representatives');
         cy.injectAxe();
         cy.axeCheck();
 
@@ -41,15 +41,15 @@ describe('Accredited Representative Portal', () => {
   togglePortal(true);
 
   it('does not redirect to root', () => {
-    cy.visit('/representative');
+    cy.visit('/representatives');
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.location('pathname').should('equal', '/representative/');
+    cy.location('pathname').should('equal', '/representatives/');
   });
 
   it('allows navigation from landing page to unified sign-in page', () => {
-    cy.visit('/representative');
+    cy.visit('/representatives');
     cy.injectAxe();
     cy.axeCheck();
 
@@ -58,20 +58,20 @@ describe('Accredited Representative Portal', () => {
   });
 
   it('allows navigation from landing page to dashboard to poa requests', () => {
-    cy.visit('/representative');
+    cy.visit('/representatives');
     cy.injectAxe();
     cy.axeCheck();
 
     cy.contains('Welcome to the Accredited Representative Portal');
     cy.contains('Until sign in is added use this to see dashboard').click();
 
-    cy.url().should('include', '/representative/dashboard');
+    cy.url().should('include', '/representatives/dashboard');
     cy.axeCheck();
 
     cy.contains('Accredited Representative Portal');
     cy.contains('View all').click();
 
-    cy.url().should('include', '/representative/poa-requests');
+    cy.url().should('include', '/representatives/poa-requests');
     cy.axeCheck();
 
     cy.contains('Power of attorney requests');
