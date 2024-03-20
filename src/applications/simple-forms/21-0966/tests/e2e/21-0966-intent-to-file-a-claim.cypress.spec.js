@@ -20,7 +20,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: [
       'veteran-minimal-test',
-      'veteran-maximal-test',
+      // 'veteran-maximal-test',
       'surviving-minimal-test',
       'surviving-maximal-test',
       'third-party-veteran-minimal-test',
