@@ -4,7 +4,6 @@ import {
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
   ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
   addressSchema,
@@ -105,6 +104,11 @@ import {
   ApplicantSponsorMarriageDetailsReviewPage,
   marriageDatesSchema,
   remarriageDetailsSchema,
+  depends18f2,
+  depends18f3,
+  depends18f4,
+  depends18f5,
+  depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
@@ -135,6 +139,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
+  showReviewErrors: !environment.isProduction(),
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   // submit: () =>
   // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
@@ -346,7 +351,7 @@ const formConfig = {
                 `${sponsorWording(formData)} identification information`,
               'You must enter either a Social Security number or VA File number',
             ),
-            ssn: ssnOrVaFileNumberUI(),
+            ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
@@ -1256,20 +1261,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} remarriage status`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              (get('sponsorIsDeceased', formData) &&
-                get(
-                  'applicantSponsorMarriageDetails.relationshipToVeteran',
-                  formData?.applicants?.[index],
-                ) === 'marriedTillDeathRemarriedAfter55')
-            );
-          },
+          depends: (formData, index) => depends18f2(formData, index),
           uiSchema: remarriageDetailsSchema.uiSchema,
           schema: remarriageDetailsSchema.schema,
         },
@@ -1279,20 +1271,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              (get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathNoRemarriage' ||
-                !get('sponsorIsDeceased', formData))
-            );
-          },
+          depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.uiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
         },
@@ -1302,20 +1281,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55' &&
-              get('remarriageIsViable', formData?.applicants?.[index])
-            );
-          },
+          depends: (formData, index) => depends18f4(formData, index),
           uiSchema: marriageDatesSchema.uiSchema,
           schema: marriageDatesSchema.remarriageSchema,
         },
@@ -1325,20 +1291,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55' &&
-              !get('remarriageIsViable', formData?.applicants?.[index])
-            );
-          },
+          depends: (formData, index) => depends18f5(formData, index),
           uiSchema: marriageDatesSchema.uiSchema,
           schema: marriageDatesSchema.remarriageSeparatedSchema,
         },
@@ -1348,19 +1301,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriageDissolved'
-            );
-          },
+          depends: (formData, index) => depends18f6(formData, index),
           uiSchema: marriageDatesSchema.uiSchema,
           schema: marriageDatesSchema.separatedSchema,
         },
