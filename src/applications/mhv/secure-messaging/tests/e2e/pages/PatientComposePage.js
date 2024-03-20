@@ -299,7 +299,6 @@ class PatientComposePage {
 
   verifyAlertModal = () => {
     cy.get(`h1`).should('contain', "We can't save this message yet");
-
   };
 
   clickOnContinueEditingButton = () => {
