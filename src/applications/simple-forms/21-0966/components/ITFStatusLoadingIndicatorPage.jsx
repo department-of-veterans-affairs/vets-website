@@ -3,7 +3,9 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 export default () => {
   useEffect(() => {
-    waitForRenderThenFocus('va-loading-indicator');
+    if (!window.Cypress) {
+      waitForRenderThenFocus('va-loading-indicator');
+    }
   }, []);
 
   return (
