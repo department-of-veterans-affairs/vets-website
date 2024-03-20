@@ -68,8 +68,8 @@ export class SearchResults extends Component {
     const { name, stateOrTerritory, city } = this.getSearchParams();
     const formattedName = name ? titleCase(name) : '';
     const formattedCity = city ? titleCase(city) : '';
-
     const additionalSearchParams = [];
+
     if (formattedName)
       additionalSearchParams.push(
         <strong key="name">"{formattedName}"</strong>,
