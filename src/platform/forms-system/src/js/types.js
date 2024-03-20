@@ -293,6 +293,7 @@
  * `updateUiSchema` does not work inside of an array, however a workaround for arrays is to use `updateSchema` which allows for a `title` attribute as long as `'ui:title'` is not defined.
  *
  * When using dynamic fields you need to consider accessibility and screen readers. For these reasons it is not recommended to change fields live, because the changes may not get read out. Instead, it is recommended to already have some previous `formData` set so that when you get to the dynamic fields, they are static while on that page.
+ * @property {boolean} [useVaCards] For arrays on a single page. If true, will use the `VaCard` component to wrap each item in the array. Has a white background with border instead of gray background.
  * @property {boolean} [reflectInputError] Whether or not to add usa-input--error as class if error message is outside of component.
  * @property {string} [reviewItemHeaderLevel] Optional level for the item-header on Review page - for arrays. Defaults to '5' for a <h5> header-tag.
  * @property {boolean} [useDlWrap] On the review page, moves \<dl\> tag to immediately surrounding the \<dt\> field instead of using a \<div\>. \<dt\> fields should be wrapped in \<dl\> fields, so this fixes that a11y issue. Formats fields horizontally.
