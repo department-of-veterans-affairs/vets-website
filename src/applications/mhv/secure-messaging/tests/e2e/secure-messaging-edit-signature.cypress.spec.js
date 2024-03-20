@@ -16,7 +16,7 @@ describe('verify deeplinking sending the draft', () => {
     cy.get(Locators.BUTTONS.PREFER_BUTTON).click();
 
     cy.get('.va-modal-alert-body')
-      .find(Locators.HEADER)
+      .find(Locators.HEADER2)
       .should('have.text', Data.EDIT_YOUR_MSG_PREFRENCES);
     cy.get(Locators.LINKS.PREFER_LINK)
       .should('have.attr', 'href')

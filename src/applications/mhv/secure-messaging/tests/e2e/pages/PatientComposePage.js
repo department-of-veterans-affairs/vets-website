@@ -300,7 +300,7 @@ class PatientComposePage {
   verifyAlertModal = () => {
     cy.get(`[modaltitle="We can't save this message yet"]`)
       .shadow()
-      .find('[class="va-modal-inner va-modal-alert"]')
+      .find('[class="usa-modal va-modal-alert"]')
       .should('contain', Data.MESSAGE_CANNOT_SAVE_YET);
   };
 
