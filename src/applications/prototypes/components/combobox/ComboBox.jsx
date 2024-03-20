@@ -55,12 +55,34 @@ class ComboBox extends Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleCliccyBoi);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleCliccyBoi);
+  }
+
+  handleCliccyBoi = (evt) => {
+    const isClickedInComboBox = evt.composedPath().includes(this.listRef.current)
+    
+    if (!isClickedInComboBox) {
+      console.log('clicked outside of combobox');
+      console.log('clicked outside of combobox');
+      console.log('clicked outside of combobox');
+      console.log('clicked outside of combobox');
+      console.log('clicked outside of combobox');
+      this.setState({ searchTerm: '' });
+    }
+  }
+
   handleKeyDownFromInput(evt) {
     switch (evt.key) {
       case 'Tab':
       case 'ArrowDown':
       case 'ArrowUp':
         const liElem = this.listRef.current.querySelector('.usa-combo-box__list-option');
+        liElem.focus();
         evt.preventDefault();
         break;
 
@@ -87,8 +109,8 @@ class ComboBox extends Component {
         const nextOptionEl = focusedOptionEl.nextSibling;
 
         if (nextOptionEl) {
-          // nextOptionEl.focus();
-          nextOptionEl.classList.add('usa-combo-box-highlight');
+          nextOptionEl.focus();
+          // nextOptionEl.classList.add('usa-combo-box-highlight');
         }
         else {
           this.setState({ searchTerm: '' });
@@ -225,7 +247,7 @@ class ComboBox extends Component {
           value={searchTerm}
           onChange={this.handleSearchChange}
           onKeyDown={(evt) => { this.handleKeyDownFromInput(evt) }}
-          onBlur={(evt) => { this.handleBlur(evt) }}
+          // onBlur={(evt) => { this.handleBlur(evt) }}
         />
         { searchTerm.length || value.length ? this.drawCloseButton() : null }
         <ul className={'usa-combo-box__list'} style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }} ref={this.listRef}>
@@ -378,7 +400,7 @@ export const ComboBoxApp = connect(state => state)(
 
                       <div class="row small-collapse">
                         <div class="small-6 left columns">
-                          <button type="button" class="float-left" aria-label="Save Condition" className="btn" onClick={this.handleEdit}>Save</button>
+                          <button type="button" class="float-left" aria-label="Save Condition" className="btn" onClick={this.handleEdit}>Update</button>
                           <div class="float-left row columns"></div>
                         </div>
                         {/* TODO: Add Remove Action */}
