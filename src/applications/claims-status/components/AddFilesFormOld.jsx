@@ -71,6 +71,7 @@ class AddFilesFormOld extends React.Component {
       errorMessage: null,
       checked: false,
       errorMessageCheckbox: null,
+      canShowUploadModal: false,
     };
   }
 
@@ -166,6 +167,8 @@ class AddFilesFormOld extends React.Component {
           : 'Please confirm these documents apply to this claim only',
       });
 
+      this.setState({ canShowUploadModal: true });
+
       if (this.state.checked) {
         this.props.onSubmit();
         return;
@@ -177,6 +180,9 @@ class AddFilesFormOld extends React.Component {
   };
 
   render() {
+    const showUploadModal =
+      this.props.uploading && this.state.canShowUploadModal;
+
     return (
       <>
         <va-additional-info
@@ -315,9 +321,8 @@ class AddFilesFormOld extends React.Component {
         </div>
         <VaModal
           id="upload-status"
-          onCloseEvent={() => true}
-          visible={Boolean(this.props.uploading)}
-          uswds="false"
+          onCloseEvent={() => this.setState({ canShowUploadModal: false })}
+          visible={showUploadModal}
         >
           <UploadStatus
             progress={this.props.progress}
