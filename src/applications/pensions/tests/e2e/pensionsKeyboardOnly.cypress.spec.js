@@ -3,7 +3,7 @@ import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-ex
 import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
 
 import formConfig from '../../config/form';
-import cypressSetup from './cypress.setup';
+import cypressSetup, { cypressBeforeAllSetup } from './cypress.setup';
 import {
   keyboardTestArrayPages,
   keyboardTestPage,
@@ -40,6 +40,9 @@ const testForm = data => {
 };
 
 describe('Higher-Level Review keyboard only navigation', () => {
+  before(() => {
+    cypressBeforeAllSetup();
+  });
   it('keyboard navigates through a simple form', () => {
     cy.wrap(simpleFixture.data).as('testData');
     cypressSetup(cy);

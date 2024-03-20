@@ -8,7 +8,7 @@ import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-exampl
 import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import setupCypress from './cypress.setup';
+import setupCypress, { cypressBeforeAllSetup } from './cypress.setup';
 
 import {
   fillAddressWebComponentPattern,
@@ -88,6 +88,9 @@ const testConfig = createTestConfig(
       { title: 'simple', data: simpleFixture },
     ],
     pageHooks: pageHooks(cy),
+    setup: () => {
+      cypressBeforeAllSetup();
+    },
     setupPerTest: () => {
       cy.login(mockUser);
       setupCypress(cy);
