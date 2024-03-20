@@ -1,7 +1,21 @@
+import {
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
+  titleUI,
+  titleSchema,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  additionalFilesHint,
+  applicantWording,
+} from '../helpers/wordingCustomization';
+import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
 } from './ApplicantRelationshipPage';
+import ApplicantField from '../components/Applicant/ApplicantField';
 
 const KEYNAME = 'applicantSponsorMarriageDetails';
 
@@ -82,3 +96,130 @@ export function ApplicantSponsorMarriageDetailsReviewPage(props) {
   };
   return ApplicantRelationshipReviewPage(newProps);
 }
+
+// Dates for marriage/remarriage
+export const marriageDatesSchema = {
+  uiSchema: {
+    applicants: {
+      items: {
+        'ui:options': {
+          viewField: ApplicantField,
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(
+                    formData,
+                    context,
+                    true,
+                    true,
+                  )} marriage dates`,
+                  '',
+                )['ui:title'],
+            };
+          },
+        },
+        dateOfMarriageToSponsor: currentOrPastDateUI({
+          title: 'Date of marriage to the sponsor',
+          errorMessages: {
+            pattern: 'Please provide a valid date',
+            required: 'Please provide the date of marriage',
+          },
+        }),
+        dateOfSeparationFromSponsor: currentOrPastDateUI({
+          title: 'Date of legal separation of the marriage',
+          errorMessages: {
+            pattern: 'Please provide a valid date',
+            required: 'Please provide the date of separation',
+          },
+        }),
+        dateOfMarriageToOtherSpouse: currentOrPastDateUI({
+          title: 'Date of remarriage',
+          errorMessages: {
+            pattern: 'Please provide a valid date',
+            required: 'Please provide the date of remarriage',
+          },
+        }),
+        dateOfSeparationFromOtherSpouse: currentOrPastDateUI({
+          title: 'Date of legal separation of the remarriage',
+          errorMessages: {
+            pattern: 'Please provide a valid date',
+            required: 'Please provide the date of separation',
+          },
+        }),
+      },
+    },
+  },
+  noRemarriageSchema: applicantListSchema(['dateOfMarriageToSponsor'], {
+    titleSchema,
+    dateOfMarriageToSponsor: currentOrPastDateSchema,
+  }),
+  separatedSchema: applicantListSchema(
+    ['dateOfMarriageToSponsor', 'dateOfSeparationFromSponsor'],
+    {
+      titleSchema,
+      dateOfMarriageToSponsor: currentOrPastDateSchema,
+      dateOfSeparationFromSponsor: currentOrPastDateSchema,
+    },
+  ),
+  remarriageSchema: applicantListSchema(
+    ['dateOfMarriageToSponsor', 'dateOfMarriageToOtherSpouse'],
+    {
+      titleSchema,
+      dateOfMarriageToSponsor: currentOrPastDateSchema,
+      dateOfMarriageToOtherSpouse: currentOrPastDateSchema,
+    },
+  ),
+  remarriageSeparatedSchema: applicantListSchema(
+    [
+      'dateOfMarriageToSponsor',
+      'dateOfMarriageToOtherSpouse',
+      'dateOfSeparationFromOtherSpouse',
+    ],
+    {
+      titleSchema,
+      dateOfMarriageToSponsor: currentOrPastDateSchema,
+      dateOfMarriageToOtherSpouse: currentOrPastDateSchema,
+      dateOfSeparationFromOtherSpouse: currentOrPastDateSchema,
+    },
+  ),
+};
+
+// Schemas for follow-up marriage questions
+export const remarriageDetailsSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': { viewField: ApplicantField },
+      items: {
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(
+                    formData,
+                    context,
+                    true,
+                    true,
+                  )} remarriage status`,
+                  '',
+                )['ui:title'],
+            };
+          },
+        },
+        remarriageIsViable: yesNoUI({
+          title: 'Is the remarriage still viable?',
+          hint: additionalFilesHint,
+          labels: {
+            Y: 'Yes, second marriage is viable',
+            N: 'No, second marriage has legally ended',
+          },
+        }),
+      },
+    },
+  },
+  schema: applicantListSchema(['remarriageIsViable'], {
+    titleSchema,
+    remarriageIsViable: yesNoSchema,
+  }),
+};

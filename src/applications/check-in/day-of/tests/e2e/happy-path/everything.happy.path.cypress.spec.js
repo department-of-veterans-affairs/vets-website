@@ -9,6 +9,7 @@ import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('everything path', () => {
@@ -57,6 +58,8 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
