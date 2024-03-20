@@ -11,7 +11,8 @@ describe('Landing Page', () => {
 
   it('should render welcome headline', () => {
     const { getByText } = render(<LandingPage />);
-    expect(getByText('Welcome to Representative.VA.gov')).to.exist;
+    expect(getByText('Welcome to the Accredited Representative Portal')).to
+      .exist;
   });
 
   it('should render subheading', () => {

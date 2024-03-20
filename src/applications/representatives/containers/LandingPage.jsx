@@ -15,7 +15,7 @@ const LandingPage = () => {
             small-desktop-screen:vads-u-padding-bottom--8"
             >
               <h1 className="homepage-hero__welcome-headline vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-y--1 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-font-size--lg vads-u-font-family--serif">
-                Welcome to Representative.VA.gov
+                Welcome to the Accredited Representative Portal
               </h1>
               <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl small-desktop-screen:vads-u-font-size--2xl">
                 Manage power of attorney requests
