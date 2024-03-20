@@ -129,7 +129,6 @@ const AlertBackgroundBox = props => {
     <>
       {activeAlert && (
         <VaAlert
-          uswds
           ref={alertRef}
           background-only
           closeable={props.closeable}

@@ -2,6 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
+import mockMessageWithAttachment from '../fixtures/message-response-withattachments.json';
 import { Locators, Alerts, Paths } from '../utils/constants';
 
 class FolderManagementPage {
@@ -129,9 +130,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockParentMessageDetails.data.attributes.messageId}/thread`,
       this.currentThread,
     ).as('full-thread');
 
@@ -187,22 +186,20 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
     cy.get(Locators.ALERTS.MOVE_MODAL)
 
-      .find('[class = "form-radio-buttons hydrated"]', {
+      .find('.form-radio-buttons', {
         includeShadowDom: true,
       })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
-      .click();
+      .find('#radiobutton-Deletedinput', { includeShadowDom: true })
+      .click({ force: true });
   };
 
   moveCustomFolderMessageToDifferentFolder = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/messaging/threads/${
-        mockCustomResponse.data.attributes.threadId
-      }/move?folder_id=-3`,
+      `/my_health/v1/messaging/threads/${mockCustomResponse.data.attributes.threadId}/move?folder_id=-3`,
       mockCustomResponse,
     ).as('moveMockCustomResponse');
     cy.get(Locators.ALERTS.MOVE_MODAL)
@@ -223,16 +220,30 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `my_health/v1/messaging/threads/${
-        mockCustomResponse.data.attributes.threadId
-      }/move?folder_id=${folderId}`,
+      `my_health/v1/messaging/threads/${mockCustomResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
       {},
     );
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
-    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+    cy.get(`#radiobutton-${folderName}input`)
       .should('exist')
-      .click();
-    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
+      .click({ force: true });
+    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click({ force: true });
+  };
+
+  moveMessageWithAttachment = (
+    folderId = this.foldersSelectors.folderId[0],
+    folderName = this.foldersSelectors.folderName[0],
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `my_health/v1/messaging/threads/${mockCustomResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
+      mockMessageWithAttachment,
+    ).as('moveMessageWithAttachment');
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
+    cy.get(`#radiobutton-${folderName}input`)
+      .should('exist')
+      .click({ force: true });
+    cy.get(Locators.BUTTONS.TEXT_CONFIRM).click({ force: true });
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {

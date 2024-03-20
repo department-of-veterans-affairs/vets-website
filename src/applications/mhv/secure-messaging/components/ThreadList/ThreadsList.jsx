@@ -94,7 +94,6 @@ const ThreadsList = props => {
             onPageSelect={e => paginationCallback(e.detail.page)}
             page={pageNum}
             pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
-            uswds
           />
         )}
       </div>

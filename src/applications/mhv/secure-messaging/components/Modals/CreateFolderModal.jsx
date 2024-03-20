@@ -86,6 +86,7 @@ const CreateFolderModal = props => {
         onClick={confirmNewFolder}
         data-testid="create-folder-button"
         data-dd-action-name="Confirm Create New Folder Button"
+        class="xsmall-screen:vads-u-margin-y--1p5"
       />
       <va-button
         secondary="true"

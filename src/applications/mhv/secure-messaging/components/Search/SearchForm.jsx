@@ -255,7 +255,7 @@ const SearchForm = props => {
         {!location.pathname.includes(Paths.DRAFTS) && (
           <va-additional-info
             trigger="What's a message ID?"
-            class="message-id-info"
+            class="message-id-info vads-u-margin-y--1p5"
           >
             A message ID is a number we assign to each message. If you sign up
             for email notifications, we’ll send you an email each time you get a

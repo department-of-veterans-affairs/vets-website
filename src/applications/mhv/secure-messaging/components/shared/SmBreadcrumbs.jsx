@@ -133,6 +133,7 @@ const SmBreadcrumbs = () => {
         !crumbs?.label ? 'breadcrumbs--hidden' : ''
       }`}
     >
+      {/* We need to redo va-breadcrumbs functionality make it compatible with uswds */}
       <va-breadcrumbs
         uswds="false"
         label="Breadcrumb"

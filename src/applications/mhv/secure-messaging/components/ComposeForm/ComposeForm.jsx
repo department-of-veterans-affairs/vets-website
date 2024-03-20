@@ -148,7 +148,7 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients.allowedRecipients.length > 0) {
+      if (recipients?.allowedRecipients?.length > 0) {
         setRecipientsList([
           ...defaultRecipientsList,
           ...recipients.allowedRecipients,
@@ -599,7 +599,8 @@ const ComposeForm = props => {
           <EditPreferences />
 
           {showBlockedTriageGroupAlert &&
-            (!noAssociations && !allTriageGroupsBlocked) && (
+            !noAssociations &&
+            !allTriageGroupsBlocked && (
               <div
                 className="
                   vads-u-border-top--1px
@@ -620,6 +621,7 @@ const ComposeForm = props => {
             !allTriageGroupsBlocked && (
               <>
                 <VaSelect
+                  uswds={false}
                   enable-analytics
                   id="recipient-dropdown"
                   label="To"
@@ -665,6 +667,7 @@ const ComposeForm = props => {
               <ViewOnlyDraftSection title={FormLabels.SUBJECT} body={subject} />
             ) : (
               <va-text-input
+                charcount
                 label={FormLabels.SUBJECT}
                 required
                 type="text"
@@ -678,8 +681,6 @@ const ComposeForm = props => {
                 data-dd-privacy="mask"
                 data-dd-action-name="Compose Message Subject Input Field"
                 maxlength="50"
-                uswds
-                charcount
               />
             )}
           </div>
@@ -712,26 +713,26 @@ const ComposeForm = props => {
             )}
           </div>
           {recipientsList &&
-            (!noAssociations &&
-              !allTriageGroupsBlocked && (
-                <section className="attachments-section">
-                  <AttachmentsList
-                    compose
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    attachFileSuccess={attachFileSuccess}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                    setNavigationError={setNavigationError}
-                    editingEnabled
-                  />
+            !noAssociations &&
+            !allTriageGroupsBlocked && (
+              <section className="attachments-section">
+                <AttachmentsList
+                  compose
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  attachFileSuccess={attachFileSuccess}
+                  setAttachFileSuccess={setAttachFileSuccess}
+                  setNavigationError={setNavigationError}
+                  editingEnabled
+                />
 
-                  <FileInput
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                  />
-                </section>
-              ))}
+                <FileInput
+                  attachments={attachments}
+                  setAttachments={setAttachments}
+                  setAttachFileSuccess={setAttachFileSuccess}
+                />
+              </section>
+            )}
 
           <DraftSavedInfo />
           <ComposeFormActionButtons

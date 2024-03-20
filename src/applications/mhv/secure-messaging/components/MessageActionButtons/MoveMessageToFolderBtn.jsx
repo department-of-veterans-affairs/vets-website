@@ -173,6 +173,7 @@ const MoveMessageToFolderBtn = props => {
             secondary
             text="Cancel"
             onClick={closeModal}
+            class="vads-u-margin-left--1p5"
             data-dd-action-name="Cancel Move to Button"
           />
         </VaModal>

@@ -62,9 +62,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `${Alerts.NO_ASSOCIATION.HEADER} ${
-          mockRecipients.data[0].attributes.name
-        }`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${mockRecipients.data[0].attributes.name}`,
       );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
@@ -128,9 +126,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `${Alerts.NO_ASSOCIATION.HEADER} ${
-          mockRecipients.data[0].attributes.name
-        }`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${mockRecipients.data[0].attributes.name}`,
       );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
@@ -198,9 +194,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `${Alerts.NO_ASSOCIATION.HEADER} ${
-          mockRecipients.data[0].attributes.name
-        }`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${mockRecipients.data[0].attributes.name}`,
       );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)

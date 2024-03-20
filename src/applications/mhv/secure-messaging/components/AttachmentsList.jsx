@@ -123,6 +123,8 @@ const AttachmentsList = props => {
       {attachFileSuccess &&
         attachments.length > 0 && (
           <VaAlert
+            closeable
+            closeBtnAriaLabel="Close notification"
             aria-live="polite"
             aria-label="file successfully attached"
             ref={attachFileAlertRef}
@@ -133,28 +135,12 @@ const AttachmentsList = props => {
             full-width="false"
             show-icon
             status="success"
-            onCloseEvent={handleSuccessAlertClose}
+            onCloseEvent={() => {
+              setAttachFileSuccess(false);
+              handleSuccessAlertClose();
+            }}
           >
-            <p className="vads-u-margin-bottom--0">File attached</p>
-            <button
-              className="close-success-alert-button vads-u-padding--0p5"
-              id="close-success-alert-button"
-              data-testid="close-success-alert-button"
-              aria-label="Close notification"
-              type="button"
-              onClick={() => {
-                setAttachFileSuccess(false);
-                handleSuccessAlertClose();
-              }}
-            >
-              <i
-                className="fas fa-times-circle vads-u-color--black"
-                style={{ fontSize: '2.4rem' }}
-                alt="Close notification icon"
-                aria-hidden="true"
-                role="presentation"
-              />
-            </button>
+            <p className="vads-u-margin-y--0">File attached</p>
           </VaAlert>
         )}
 

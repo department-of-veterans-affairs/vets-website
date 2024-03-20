@@ -133,9 +133,7 @@ describe('Delete Draft component', () => {
       'visible',
       'true',
     );
-    fireEvent.click(
-      document.querySelector('va-button[text="Yes, delete this draft"]'),
-    );
+    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
     expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
       'visible',
       'false',

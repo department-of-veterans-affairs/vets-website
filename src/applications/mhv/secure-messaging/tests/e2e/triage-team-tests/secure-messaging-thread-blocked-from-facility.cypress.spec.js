@@ -63,9 +63,7 @@ describe('Verify Thread - Blocked from Facility', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `${Alerts.BLOCKED.HEADER} ${
-          mockFacilityBlockedRecipients.data[3].attributes.name
-        }`,
+        `${Alerts.BLOCKED.HEADER} ${mockFacilityBlockedRecipients.data[3].attributes.name}`,
       );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)

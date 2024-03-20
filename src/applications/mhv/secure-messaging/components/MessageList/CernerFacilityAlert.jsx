@@ -67,10 +67,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
               Go to My VA Health (opens in new tab)
             </a>
 
-            <va-additional-info
-              trigger="Having trouble opening My VA Health?"
-              uswds
-            >
+            <va-additional-info trigger="Having trouble opening My VA Health?">
               <div>Try these steps:</div>
               <ul>
                 <li>Disable your browser’s pop-up blocker</li>

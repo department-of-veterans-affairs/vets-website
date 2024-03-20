@@ -120,9 +120,7 @@ class PatientMessageDetailsPage {
 */
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockParentMessageDetails.data.attributes.messageId}/thread?full_body=true`,
       this.currentThread,
     ).as('full-thread');
 
@@ -173,24 +171,18 @@ class PatientMessageDetailsPage {
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageDetails.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageDetails.data.attributes.messageId}`,
       mockMessage,
     ).as('message2');
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageDetails.data.attributes.messageId}/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.wait('@full-thread');
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/message_drafts/${
-        mockMessageDetails.data.attributes.messageId
-      }/replydraft`,
+      `/my_health/v1/messaging/message_drafts/${mockMessageDetails.data.attributes.messageId}/replydraft`,
     ).as('replyDraftSave');
 
     // cy.wait('@message2');
@@ -236,24 +228,18 @@ class PatientMessageDetailsPage {
       index,
     ).attributes.triageGroupName;
     cy.log(
-      `thread message detail id expanding = ${
-        threadMessageDetails.data.attributes.messageId
-      }`,
+      `thread message detail id expanding = ${threadMessageDetails.data.attributes.messageId}`,
     );
 
     cy.log(`expanded message content${JSON.stringify(threadMessageDetails)}`);
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        threadMessageDetails.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${threadMessageDetails.data.attributes.messageId}`,
       threadMessageDetails,
     ).as('messageDetails');
     cy.get('.older-messages')
       .find(
-        `[data-testid="expand-message-button-${
-          threadMessageDetails.data.attributes.messageId
-        }"]`,
+        `[data-testid="expand-message-button-${threadMessageDetails.data.attributes.messageId}"]`,
       )
       .eq(index - 1)
       .click({ waitforanimations: true });
@@ -328,9 +314,7 @@ class PatientMessageDetailsPage {
   loadReplyPage = mockMessageDetails => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageDetails.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageDetails.data.attributes.messageId}`,
       mockMessageDetails,
     ).as('reply-message');
     cy.get('[data-testid=reply-button-text]').click();
@@ -363,9 +347,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'contain',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName} (${messageDetails.data.attributes.triageGroupName})`,
       );
   };
 
@@ -374,9 +356,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName} (${messageDetails.data.attributes.triageGroupName})`,
       );
   };
 
@@ -416,32 +396,20 @@ class PatientMessageDetailsPage {
     attachmentIndex = 0,
   ) => {
     cy.get(
-      `[data-testid="expand-message-button-${
-        messageThread.data[messageIndex].id
-      }"]`,
+      `[data-testid="expand-message-button-${messageThread.data[messageIndex].id}"]`,
     )
       .find(
-        `[data-testid="has-attachment-${
-          messageThread.data[messageIndex].attributes.attachments[
-            attachmentIndex
-          ].id
-        }"]`,
+        `[data-testid="has-attachment-${messageThread.data[messageIndex].attributes.attachments[attachmentIndex].id}"]`,
       )
       .should(
         'have.text',
-        `${
-          messageThread.data[messageIndex].attributes.attachments[
-            attachmentIndex
-          ].name
-        }`,
+        `${messageThread.data[messageIndex].attributes.attachments[attachmentIndex].name}`,
       );
   };
 
   verifyExpandedThreadBodyDisplay = (messageThread, messageIndex = 0) => {
     cy.get(
-      `[data-testid="expand-message-button-${
-        messageThread.data[messageIndex].id
-      }"]`,
+      `[data-testid="expand-message-button-${messageThread.data[messageIndex].id}"]`,
     )
       .find(
         `[data-testid="message-body-${messageThread.data[messageIndex].id}"]`,
@@ -457,9 +425,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${messageDetails.data.attributes.triageGroupName})`,
       );
   };
 
@@ -469,9 +435,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName} (${messageDetails.data.attributes.triageGroupName})`,
       );
   };
 

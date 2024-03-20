@@ -18,10 +18,7 @@ const DeleteMessageModal = props => {
       data-testid="delete-message-modal"
       data-dd-action-name="Delete Message Modal Closed"
     >
-      <div
-        className="modal-body vads-u-padding-bottom--1p5"
-        data-testid="delete-message-confirm-note"
-      >
+      <div className="modal-body" data-testid="delete-message-confirm-note">
         <p>{Prompts.Message.DELETE_MESSAGE_CONFIRM_NOTE}</p>
       </div>
     </VaModal>

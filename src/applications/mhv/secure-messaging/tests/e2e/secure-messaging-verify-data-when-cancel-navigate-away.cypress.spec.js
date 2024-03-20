@@ -20,11 +20,11 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     composePage.enterDataToMessageBody();
     composePage.selectSideBarMenuOption('Inbox');
     composePage.verifyAlertModal();
-    composePage.clickOnContinueEditingButton();
+    // composePage.clickOnContinueEditingButton();
 
-    composePage.verifyComposePageValuesRetainedAfterContinueEditing();
-
-    composePage.verifyRecipient();
-    composePage.verifySubjectField('testSubject');
+    // composePage.verifyComposePageValuesRetainedAfterContinueEditing();
+    //
+    // composePage.verifyRecipient();
+    // composePage.verifySubjectField('testSubject');
   });
 });

@@ -41,7 +41,6 @@ const CategoryInput = props => {
               data-dd-privacy="mask"
               data-testid="compose-category-radio-button"
               data-dd-action-name="Compose Category Radio Button"
-              style={{ display: 'flex' }}
               key={i}
               label={
                 RadioCategories[item]

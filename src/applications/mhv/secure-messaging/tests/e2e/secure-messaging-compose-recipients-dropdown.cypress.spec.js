@@ -23,7 +23,7 @@ describe('recipients dropdown box', () => {
       .find('select')
       .find('option')
       .its('length')
-      .should('equal', mockRecipients.data.length + 2);
+      .should('equal', mockRecipients.data.length + 1);
     cy.get(Locators.ALERTS.MESS_CATAGO)
       .first()
       .click({ force: true });
@@ -51,7 +51,7 @@ describe('recipients dropdown box', () => {
         .find('select')
         .find('option')
         .its('length')
-        .should('equal', mockBlockedRecipientsresponse.data.length + 1);
+        .should('equal', mockBlockedRecipientsresponse.data.length);
       cy.get(Locators.ALERTS.REPT_SELECT)
         .first()
         .click();

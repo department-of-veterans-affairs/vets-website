@@ -89,7 +89,7 @@ const ThreadListItem = props => {
     >
       <div className="unread-column vads-l-col">
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (unreadMessages && (
+          unreadMessages && (
             <span>
               <i
                 role="img"
@@ -99,7 +99,7 @@ const ThreadListItem = props => {
                 alt="Unread message icon"
               />
             </span>
-          ))}
+          )}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <Link
@@ -184,7 +184,7 @@ const ThreadListItem = props => {
     >
       <div className="unread-column vads-l-col">
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
-          (unreadMessages && (
+          unreadMessages && (
             <span>
               <i
                 role="img"
@@ -195,7 +195,7 @@ const ThreadListItem = props => {
               />
               <span className="sr-only">Unread message</span>
             </span>
-          ))}
+          )}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()} data-dd-privacy="mask">

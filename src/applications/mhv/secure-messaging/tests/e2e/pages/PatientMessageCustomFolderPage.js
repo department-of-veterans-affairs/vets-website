@@ -104,17 +104,13 @@ class PatientMessageCustomFolderPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}/thread`,
       mockSingleThreadResponse,
     ).as('threadResponse');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}`,
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
@@ -127,7 +123,7 @@ class PatientMessageCustomFolderPage {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
-        cy.get(Locators.HEADER).should('have.text', `${text}`);
+        cy.get('h1').should('have.text', `${text}`);
       });
   };
 

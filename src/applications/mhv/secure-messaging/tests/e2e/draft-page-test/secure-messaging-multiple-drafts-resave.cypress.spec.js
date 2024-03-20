@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('re-save multiple drafts in one thread', () => {

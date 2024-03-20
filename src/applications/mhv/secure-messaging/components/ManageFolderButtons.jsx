@@ -218,6 +218,7 @@ const ManageFolderButtons = props => {
           text="Save"
           onClick={confirmRenameFolder}
           data-dd-action-name="Save Rename Folder Button"
+          class="xsmall-screen:vads-u-margin-y--1p5"
         />
         <va-button
           secondary="true"

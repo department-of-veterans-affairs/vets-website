@@ -55,7 +55,7 @@ class PatientComposePage {
     cy.focused().should('contain.text', 'Secure message was successfully sent');
   };
 
-  selectRecipient = (recipient = 1) => {
+  selectRecipient = (recipient = '***TG 100_SLC4%') => {
     cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
@@ -98,7 +98,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnMessageAttachment = () => {
-    cy.get(Locators.ALERTS.SUCCESS_ALERT)
+    cy.get()
       .should('be.visible')
       .should('have.focus');
   };
@@ -202,9 +202,7 @@ class PatientComposePage {
   saveDraft = draftMessage => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/message_drafts/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('draft_message');
 
@@ -361,9 +359,7 @@ class PatientComposePage {
   clickTrashButton = () => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockMessageResponse.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${mockMessageResponse.data.attributes.messageId}`,
       mockMessageResponse,
     ).as('mockMessageResponse');
     cy.intercept(
