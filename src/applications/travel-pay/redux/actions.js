@@ -1,4 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
@@ -47,7 +48,8 @@ export function getUnauthPing() {
     dispatch(fetchUnauthPingStart());
 
     try {
-      const response = await apiRequest('/travel_pay/pings/ping');
+      const absoluteURL = `${environment.API_URL}/travel_pay/pings/ping`;
+      const response = await apiRequest(absoluteURL);
 
       dispatch(fetchUnauthPingSuccess(response.data));
     } catch (error) {
