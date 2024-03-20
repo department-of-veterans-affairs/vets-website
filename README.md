@@ -166,6 +166,13 @@ To **open the Cypress test runner UI and run any tests within it**:
 yarn cy:open
 ```
 
+To **open the Cypress test runner UI in Codespaces and run any tests within it**:
+
+```sh
+yarn cy:open-codespaces
+```
+Then visit http://localhost:6080/ and log in with the password `vscode`.
+
 To **run Cypress tests from the command line**:
 
 ```sh

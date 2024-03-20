@@ -9,8 +9,15 @@ import {
   singleAppointment,
 } from '../../../tests/unit/mocks/mock-appointments';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 
 describe('check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     const initAppointments = [...multipleAppointments, ...singleAppointment];
     const now = format(new Date(), "yyyy-LL-dd'T'HH:mm:ss");
