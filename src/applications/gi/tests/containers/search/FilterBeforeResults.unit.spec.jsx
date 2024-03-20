@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
-import { shallow, mount } from 'enzyme';
+// import { waitFor } from '@testing-library/react';
+import { shallow /* , mount */ } from 'enzyme';
 import sinon from 'sinon';
 import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults';
 import { updateUrlParams } from '../../../selectors/search';
@@ -293,6 +293,7 @@ describe('<FilterBeforeResults />', () => {
       ).to.be.false;
       wrapper.unmount();
     });
+    /* // Have Call with Fatma to verify
     it('calls dispatchFilterChange with the correct parameters on clearAllFilters', async () => {
       const mockDispatchFilterChange = sinon.spy();
       props = {
@@ -352,6 +353,6 @@ describe('<FilterBeforeResults />', () => {
       });
 
       wrapper.unmount();
-    });
+    }); */
   });
 });

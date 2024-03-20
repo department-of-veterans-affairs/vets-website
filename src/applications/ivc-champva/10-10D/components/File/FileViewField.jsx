@@ -47,6 +47,13 @@ export function AppSchoolDocReviewField(props) {
   return FileViewField(data, title);
 }
 
+export function AppHelplessChildReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} helpless child documents`;
+  const data = app?.applicantHelplessCert || [];
+  return FileViewField(data, title);
+}
+
 export function AppAdoptionDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} adoption documents`;
@@ -68,6 +75,13 @@ export function AppMarriageDocReviewField(props) {
   return FileViewField(data, title);
 }
 
+export function AppSecondMarriageDocReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} second marriage documents`;
+  const data = app?.applicantSecondMarriageCert || [];
+  return FileViewField(data, title);
+}
+
 export function AppMedicareABDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} medicare card (parts A/B)`;
@@ -79,6 +93,13 @@ export function AppMedicareDDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} medicare card (part D)`;
   const data = app?.applicantMedicarePartDCard || [];
+  return FileViewField(data, title);
+}
+
+export function AppMedicareOver65IneligibleReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} over 65 and ineligible for Medicare`;
+  const data = app?.applicantMedicareIneligibleProof || [];
   return FileViewField(data, title);
 }
 

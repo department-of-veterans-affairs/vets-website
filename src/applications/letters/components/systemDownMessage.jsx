@@ -2,7 +2,7 @@ import React from 'react';
 
 const systemDownMessage = (
   <>
-    <va-alert id="systemDownMessage" status="warning" uswds="false">
+    <va-alert id="systemDownMessage" status="warning">
       <h3 slot="headline">
         We’re sorry. Our system is temporarily down while we fix a few things.
       </h3>
