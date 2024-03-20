@@ -75,6 +75,13 @@ export function AppMarriageDocReviewField(props) {
   return FileViewField(data, title);
 }
 
+export function AppSecondMarriageDocReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} second marriage documents`;
+  const data = app?.applicantSecondMarriageCert || [];
+  return FileViewField(data, title);
+}
+
 export function AppMedicareABDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} medicare card (parts A/B)`;
