@@ -140,10 +140,9 @@ const VerificationReviewWrapper = ({
                   </VaRadio>
                 </div>
                 <p className="vye-text-block vads-u-margin-top--3">
-                  If you select “No, this information isn’t correct” we will
-                  pause your monthly payment until your information is updated.
-                  Work with your School Certifying Official (SCO) to ensure your
-                  enrollment information is updated with the VA.
+                  If you select “No, this information isn’t correct”, work with
+                  your School Certifying Official (SCO) to ensure your
+                  enrollment information is updated with VA.
                 </p>
                 <div
                   style={{
