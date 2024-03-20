@@ -250,9 +250,13 @@ SearchResult.propTypes = {
   distance: PropTypes.string,
   email: PropTypes.string,
   initializeRepresentativeReport: PropTypes.func,
+  key: PropTypes.number,
   officer: PropTypes.string,
   phone: PropTypes.string,
   query: PropTypes.shape({
+    context: PropTypes.shape({
+      location: PropTypes.string,
+    }),
     locationQueryString: PropTypes.string,
     representativeType: PropTypes.string,
     searchArea: PropTypes.string,
