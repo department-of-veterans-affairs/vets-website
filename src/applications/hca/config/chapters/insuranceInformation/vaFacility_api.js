@@ -7,7 +7,7 @@ import {
 } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
-import { isShortFormEligible } from '../../../utils/helpers';
+import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
 
 // define default schema properties
@@ -26,7 +26,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: formData => !isShortFormEligible(formData),
+        hideIf: notShortFormEligible,
       },
     },
     'view:vaFacilityTitle': {
@@ -43,12 +43,10 @@ export default {
       'ui:title': 'Select your preferred VA medical facility',
       'view:facilityState': {
         'ui:title': 'State',
-        'ui:required': () => true,
       },
       vaMedicalFacility: {
         'ui:title': 'Center or clinic',
         'ui:widget': VaMedicalCenter,
-        'ui:required': () => true,
         'ui:options': {
           hideLabelText: true,
         },
@@ -72,6 +70,7 @@ export default {
       'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {
         type: 'object',
+        required: ['view:facilityState', 'vaMedicalFacility'],
         properties: {
           'view:facilityState': {
             type: 'string',

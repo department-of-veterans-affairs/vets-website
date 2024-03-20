@@ -28,10 +28,11 @@ export const initialState = {
 
 export const prescriptionsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case Actions.Prescriptions.SET_DETAILS:
     case Actions.Prescriptions.GET_DETAILS: {
       return {
         ...state,
-        prescriptionDetails: action.response.data.attributes,
+        prescriptionDetails: action.prescription,
       };
     }
     case Actions.Prescriptions.CLEAR_DETAILS: {

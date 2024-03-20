@@ -64,7 +64,7 @@ const Results2 = ({ formResponses, router, viewedIntroPage }) => {
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
         onClick={() => onResultsBackClick(formResponses, router)}
-        uswds={false}
+        uswds
       />
     </>
   );

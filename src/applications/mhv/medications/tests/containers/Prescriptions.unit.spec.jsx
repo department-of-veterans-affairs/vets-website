@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -35,6 +39,14 @@ describe('Medications Prescriptions container', () => {
       path: '/',
     });
   };
+
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
 
   it('renders without errors', () => {
     const screen = setup();
@@ -79,6 +91,7 @@ describe('Medications Prescriptions container', () => {
 
   it('displays empty list alert', () => {
     const mockData = [];
+    resetFetch();
     mockApiRequest(mockData);
     const screen = renderWithStoreAndRouter(<Prescriptions />, {
       initialState: {
@@ -112,6 +125,7 @@ describe('Medications Prescriptions container', () => {
 
   it('should display a clickable download button', () => {
     const mockData = [prescriptions[0]];
+    resetFetch();
     mockApiRequest(mockData);
     const screen = renderWithStoreAndRouter(<Prescriptions />, {
       initialState: {
@@ -179,5 +193,18 @@ describe('Medications Prescriptions container', () => {
         'When you download medication records, we include a list of your allergies and reactions. But we can’t access your allergy records right now.',
       ),
     ).to.exist;
+  });
+
+  it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', () => {
+    const screen = setup({
+      ...initialState,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_content: true,
+      },
+    });
+    expect(
+      screen.findByText('find a list of prescriptions you can refill online..'),
+    );
   });
 });

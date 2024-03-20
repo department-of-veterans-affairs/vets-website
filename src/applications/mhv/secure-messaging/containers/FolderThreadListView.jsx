@@ -6,7 +6,7 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -27,7 +27,7 @@ import {
 } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase, updatePageTitle } from '../util/helpers';
+import { convertPathNameToTitleCase } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -50,14 +50,9 @@ const FolderThreadListView = props => {
   const location = useLocation();
   const params = useParams();
 
-  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
-      ],
+  const { noAssociations, allTriageGroupsBlocked } = useSelector(
+    state => state.sm.recipients,
   );
-
-  const { allTriageGroupsBlocked } = useSelector(state => state.sm.recipients);
 
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
@@ -134,14 +129,36 @@ const FolderThreadListView = props => {
               threadSort.page,
             ),
           );
+          if (threadSort.page > 1 && threadList.length === 0) {
+            const decrementPage = threadSort.page - 1;
+            dispatch(
+              getListOfThreads(
+                folder.folderId,
+                threadsPerPage,
+                decrementPage,
+                threadSort.value,
+                true,
+              ),
+            );
+            dispatch(setThreadPage(decrementPage));
+          }
         }
-
         if (folder.folderId !== searchFolder?.folderId) {
           dispatch(clearSearchResults());
         }
       }
     },
-    [folder?.folderId, dispatch],
+    [
+      folder?.folderId,
+      dispatch,
+      folder?.name,
+      location?.pathname,
+      threadSort?.folderId,
+      threadSort?.value,
+      threadSort?.page,
+      searchFolder?.folderId,
+      threadList?.length,
+    ],
   );
 
   useEffect(
@@ -187,7 +204,7 @@ const FolderThreadListView = props => {
         ),
       );
     }
-  }, 60000);
+  }, 60000); // 1 minute
 
   const LoadingIndicator = () => {
     return (
@@ -205,20 +222,16 @@ const FolderThreadListView = props => {
         return <LoadingIndicator />;
       }
 
-      if (threadList?.length === 0) {
+      if (threadList?.length === 0 && threadSort?.page === 1) {
         return (
           <>
-            {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+            {!noAssociations &&
               !allTriageGroupsBlocked && (
                 <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
                   Showing 0 of 0 conversations
                 </div>
-              )
-            ) : (
-              <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-                Showing 0 of 0 conversations
-              </div>
-            )}
+              )}
+
             <div className="vads-u-margin-top--3">
               <va-alert
                 background-only="true"
@@ -287,7 +300,11 @@ const FolderThreadListView = props => {
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
         <AlertBackgroundBox closeable />
-        {folder?.folderId === undefined && <LoadingIndicator />}
+        {folder === null ? (
+          <></>
+        ) : (
+          folder?.folderId === undefined && <LoadingIndicator />
+        )}
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader

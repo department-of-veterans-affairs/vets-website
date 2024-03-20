@@ -24,16 +24,7 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     PatientReplyPage.saveReplyDraft(messageDetails, testMessageBody);
     cy.log(
@@ -72,15 +63,6 @@ describe('Secure Messaging Reply', () => {
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

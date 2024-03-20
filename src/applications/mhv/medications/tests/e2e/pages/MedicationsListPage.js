@@ -260,17 +260,16 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveRefillsLeft = () => {
     cy.get(
-      `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
-    ).should('exist');
+      `[data-testid="rx-card-info"] > #card-header-${
+        activeRxRefills.data.id
+      } > [data-testid="medications-history-details-link"]`,
+    );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3)',
-    )
-
-      // cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)')
-      .should(
-        'contain',
-        `${activeRxRefills.data.attributes.refillRemaining} refills left`,
-      );
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
+    ).should(
+      'contain',
+      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
+    );
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {
@@ -398,7 +397,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(2) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -428,6 +427,39 @@ class MedicationsListPage {
           }`,
         });
       });
+  };
+
+  verifyCmopNdcNumberIsNull = () => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[1].attributes).to.include({
+          cmopNdcNumber: null,
+        });
+      });
+  };
+
+  verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[3].attributes).to.include({
+          prescriptionSource: 'NV',
+        });
+      });
+  };
+
+  verifyPrescriptionNumberIsVisibleOnRxCardOnListPage = prescriptionNumber => {
+    cy.get('[data-testid="rx-number"]')
+      .first()
+      .should('contain', prescriptionNumber);
+  };
+
+  verifyMedicationsListPageTitle = () => {
+    cy.get('[data-testid="list-page-title"]').should(
+      'have.text',
+      'Medications',
+    );
   };
 }
 export default MedicationsListPage;

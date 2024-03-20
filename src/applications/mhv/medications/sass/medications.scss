@@ -18,6 +18,31 @@
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
+.refill-back-link {
+  margin-top: 50px;
+  display: block;
+  margin-bottom: 16px;
+  margin-left: 13px;
+  width: fit-content;
+}
+.refill-back-arrow {
+  &:before {
+    content: "\f053";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+  }
+}
+.refill-loading-indicator {
+  margin-top: 70px;
+}
+.renew-pagination-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .main-content {
   padding: 0;
   margin-bottom: 40px;
@@ -143,25 +168,8 @@
 }
 
 @media print {
-  @page {
-    margin: 5mm 2mm;
-  }
-
-  table {
-    border-collapse: collapse;
-    border: none;
-    margin-top: -0.25rem;
-    font-size: 17px;
-  }
-  thead {
-    display: table-header-group;
-  }
-  tfoot {
-    display: table-footer-group;
-  }
-  th, td {
-    border: none;
-    padding: 0;
+  .landing-page {
+    margin-top: 10px;
   }
   h1 {
     font-size: 40px;
@@ -189,14 +197,11 @@
   .no-break {
     break-inside: avoid;
   }
-  .print-only-rx-full-list-page {
-    margin-top: -10.5rem;
-  }
   .print-only-refill-container {
     margin-top: 1.5rem;
   }
   .print-only-crisis-line-header {
-    font-size: 1.58rem;
+    font-size: 1.46rem;
     margin-bottom: 5rem;
     width: 100%;
   }

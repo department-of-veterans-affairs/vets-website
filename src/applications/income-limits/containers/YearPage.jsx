@@ -114,16 +114,17 @@ const YearPage = ({
         required
         value={yearInput}
         onVaSelect={onYearInput}
-        uswds={false}
+        uswds
       >
         {makeYearArray()}
       </VaSelect>
       <VaButtonPair
+        class="vads-u-margin-top--1"
         data-testid="il-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds={false}
+        uswds
       />
     </>
   );

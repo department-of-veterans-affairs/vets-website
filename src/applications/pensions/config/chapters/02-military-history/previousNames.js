@@ -3,32 +3,30 @@ import PropTypes from 'prop-types';
 import {
   fullNameUI,
   fullNameSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
+import { formatFullName } from '../../../helpers';
 
-export const PreviousNameView = ({ formData }) => {
-  const { first = '', middle = '', last = '', suffix = '' } =
-    formData.previousFullName || {};
-
-  // Filter out empty strings and join non-empty parts with a space
-  const fullName = [first, middle, last, suffix].filter(Boolean).join(' ');
-
-  return <ListItemView title={fullName} />;
-};
+export const PreviousNameView = ({ formData }) => (
+  <ListItemView title={formatFullName(formData.previousFullName)} />
+);
 
 PreviousNameView.propTypes = {
   formData: PropTypes.shape({
-    previousFullName: PropTypes.string,
+    previousFullName: PropTypes.object,
   }),
 };
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Add other service names',
+    ...titleUI('Add other service names'),
     previousNames: {
       'ui:options': {
         itemName: 'Name',
+        itemAriaLabel: data =>
+          data.previousFullName && formatFullName(data.previousFullName),
         viewField: PreviousNameView,
         reviewTitle: 'Previous names',
         keepInPageOnReview: true,

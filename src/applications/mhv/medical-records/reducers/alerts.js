@@ -16,10 +16,18 @@ export const alertsReducer = (state = initialState, action) => {
         datestamp: new Date(),
         isActive: true,
         type: action.payload.type,
+        errorMessage: action.payload.error.message,
+        errorStackTrace: action.payload.error.stack,
       };
       return {
         ...state,
         alertList: [...state.alertList, newAlert],
+      };
+    }
+    case Actions.Alerts.CLEAR_ALERT: {
+      return {
+        ...state,
+        alertList: state.alertList.map(item => ({ ...item, isActive: false })),
       };
     }
     default:

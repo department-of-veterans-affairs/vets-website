@@ -494,6 +494,25 @@ class ApiInitializer {
       });
     },
   };
+
+  initializeCheckInDataGetOH = {
+    withSuccess: token => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        const rv = sharedData.get.createAppointmentsOH(token);
+        req.reply(rv);
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
+      });
+    },
+    withUuidNotFound: () => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        req.reply(404, sharedData.get.createMockNotFoundResponse());
+      });
+    },
+  };
 }
 
 export default new ApiInitializer();

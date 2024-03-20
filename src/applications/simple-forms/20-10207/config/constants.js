@@ -199,10 +199,11 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
         We’ll use this information only to prioritize your request.
       </p>
       <p>
-        Note: If you need help because of domestic violence, call the National
-        Domestic Violence hotline 800-799-7233 (TTY: 800-787-3224) or text
-        "START" to 88788. Staff are there to help 24 hours a day, 7 days a week.
-        All conversations are private and confidential.
+        <b>Note:</b> If you need help because of domestic violence, call the
+        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
+        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
+        Staff are there to help 24 hours a day, 7 days a week. All conversations
+        are private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -221,10 +222,12 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_VET = Object.freeze(
         any details. We’ll use this information only to prioritize the request.
       </p>
       <p>
-        Note: If the Veteran needs help because of domestic violence, call the
-        National Domestic Violence hotline 800-799-7233 (TTY: 800-787-3224) or
-        text "START" to 88788. Staff are there to help 24 hours a day, 7 days a
-        week. All conversations are private and confidential.
+        <b>Note:</b> If the Veteran needs help because of domestic violence,
+        call the National Domestic Violence hotline{' '}
+        <va-telephone contact="8007997233" /> (TTY:{' '}
+        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
+        are there to help 24 hours a day, 7 days a week. All conversations are
+        private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -243,10 +246,12 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze
         any details. We’ll use this information only to prioritize the request.
       </p>
       <p>
-        Note: If the claimant needs help because of domestic violence, call the
-        National Domestic Violence hotline 800-799-7233 (TTY: 800-787-3224) or
-        text "START" to 88788. Staff are there to help 24 hours a day, 7 days a
-        week. All conversations are private and confidential.
+        <b>Note:</b> If the claimant needs help because of domestic violence,
+        call the National Domestic Violence hotline{' '}
+        <va-telephone contact="8007997233" /> (TTY:{' '}
+        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
+        are there to help 24 hours a day, 7 days a week. All conversations are
+        private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -255,6 +260,16 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze
 export const MAILING_ADDRESS_YES_NO_LABELS = Object.freeze({
   Y: 'Yes, I have a current mailing address.',
   N: 'No, I don’t have a current mailing address.',
+});
+
+export const MAILING_ADDRESS_YES_NO_LABELS_3RD_PTY_VET = Object.freeze({
+  Y: 'Yes, the Veteran has a current mailing address.',
+  N: 'No, the Veteran doesn’t have a current mailing address.',
+});
+
+export const MAILING_ADDRESS_YES_NO_LABELS_3RD_PTY_NON_VET = Object.freeze({
+  Y: 'Yes, the Claimant has a current mailing address.',
+  N: 'No, the Claimant doesn’t have a current mailing address.',
 });
 
 export const OTHER_REASONS = Object.freeze({
@@ -269,8 +284,35 @@ export const OTHER_REASONS = Object.freeze({
   MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
 });
 
+export const OTHER_REASONS_3RD_PTY_VET = Object.freeze({
+  FINANCIAL_HARDSHIP: 'The Veteran is experiencing extreme financial hardship.',
+  ALS:
+    'The Veteran has ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'The Veteran has a terminal illness.',
+  VSI_SI:
+    'The Veteran has a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'The Veteran is age 85 or older.',
+  FORMER_POW: 'The Veteran is a former prisoner of war (POW).',
+  MEDAL_AWARD:
+    'The Veteran is a Medal of Honor or Purple Heart award recipient.',
+});
+
+export const OTHER_REASONS_3RD_PTY_NON_VET = Object.freeze({
+  FINANCIAL_HARDSHIP:
+    'The Claimant is experiencing extreme financial hardship.',
+  ALS:
+    'The Claimant has ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'The Claimant has a terminal illness.',
+  VSI_SI:
+    'The Claimant has a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'The Claimant is age 85 or older.',
+  FORMER_POW: 'The Claimant is a former prisoner of war (POW).',
+  MEDAL_AWARD:
+    'The Claimant is a Medal of Honor or Purple Heart award recipient.',
+});
+
 export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -292,11 +334,11 @@ export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
       </ul>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -331,11 +373,11 @@ export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
       </a>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const ALS_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -370,11 +412,11 @@ export const ALS_DESCRIPTION = Object.freeze(
       </a>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const VSI_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -410,7 +452,7 @@ export const VSI_DESCRIPTION = Object.freeze(
       </a>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const POW_MULTIPLE_CONFINEMENTS_LABELS = Object.freeze({
@@ -424,7 +466,7 @@ export const POW_MULTIPLE_CONFINEMENTS_LABELS_3RD_PTY_VET = Object.freeze({
 });
 
 export const POW_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -454,11 +496,11 @@ export const POW_DESCRIPTION = Object.freeze(
       </ul>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
 
 export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
-  <>
+  <div>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
@@ -483,5 +525,12 @@ export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
       </ul>
     </va-additional-info>
     <p />
-  </>,
+  </div>,
 );
+
+export const workInProgressContent = {
+  description:
+    'We’re rolling out Request Priority Processing (VA Form 20-10207) in stages. It’s not quite ready yet. Please check back again soon.',
+  redirectLink: '/',
+  redirectText: 'Return to VA home page',
+};

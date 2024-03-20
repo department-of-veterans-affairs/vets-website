@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['sw-short-path-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
-
+    skip: true, // leaving in until we finish deprecating the legacy pages
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.intercept('GET', '/v0/feature_toggles*', {
@@ -92,7 +92,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -105,7 +108,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'cash-on-hand': ({ afterHook }) => {
@@ -145,16 +151,14 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

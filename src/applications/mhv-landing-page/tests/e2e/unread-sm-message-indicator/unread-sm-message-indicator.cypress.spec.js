@@ -10,24 +10,31 @@ describe(manifest.appName, () => {
       ApiInitializer.initializeUserData.withDefaultUser();
     });
 
+    const getUnreadLink = () =>
+      cy.findByRole('link', {
+        name: /You have unread messages. Go to your inbox/i,
+      });
+
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('indicator is shown when there are unread messages', () => {
+    it('indicator is shown when there are unread messages and user has an MHV account', () => {
+      ApiInitializer.initializeUserData.withMHVAccountState('OK');
       ApiInitializer.initializeMessageData.withUnreadMessages();
 
       LandingPage.visitPage();
       LandingPage.validatePageLoaded();
 
-      LandingPage.unreadMessageIndicator().should('be.visible');
+      getUnreadLink().should('be.visible');
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('indicator is not shown when there are no unread messages', () => {
+    it('indicator is not shown when there are no unread messages and user does not have an MHV', () => {
+      ApiInitializer.initializeUserData.withMHVAccountState('NONE');
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
 
       LandingPage.visitPage();
       LandingPage.validatePageLoaded();
 
-      LandingPage.unreadMessageIndicator().should('not.exist');
+      getUnreadLink().should('not.exist');
     });
   });
 });

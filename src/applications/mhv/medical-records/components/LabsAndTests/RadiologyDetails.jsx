@@ -20,6 +20,7 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -41,6 +42,14 @@ const RadiologyDetails = props => {
     [record],
   );
 
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const download = () => {
     GenerateRadiologyPdf(record, user, runningUnitTest);
   };
@@ -57,7 +66,6 @@ ${txtLine}\n\n
 Reason for test: ${record.reason} \n
 Clinical history: ${record.clinicalHistory} \n
 Ordered by: ${record.orderedBy} \n
-Order location: ${record.orderingLocation} \n
 Imaging location: ${record.imagingLocation} \n
 Imaging provider: ${record.imagingProvider} \n
 ${txtLine}\n\n
@@ -73,7 +81,11 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="radiology-date"
+        data-testid="radiology-record-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="radiology-date" />
@@ -103,29 +115,31 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Reason for test
         </h3>
-        <p>{record.reason}</p>
+        <p data-testid="radiology-reason">{record.reason}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Clinical history
         </h3>
-        <p>{record.clinicalHistory}</p>
+        <p data-testid="radiology-clinical-history">{record.clinicalHistory}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="radiology-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging location
         </h3>
-        <p>{record.imagingLocation}</p>
+        <p data-testid="radiology-imaging-location">{record.imagingLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging provider
         </h3>
-        <p>{record.imagingProvider}</p>
+        <p data-testid="radiology-imaging-provider">{record.imagingProvider}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="monospace">{record.results}</p>
+        <p data-testid="radiology-record-results" className="monospace">
+          {record.results}
+        </p>
       </div>
     </div>
   );

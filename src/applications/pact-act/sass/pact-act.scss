@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-.pact-act-app {
 
+.pact-act-app {
   h1:focus {
     outline: none;
   }
@@ -21,26 +21,15 @@
     }
   }
 
-  .pact-act-form-question-header {
-    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-    font-size: 2em;
-    line-height: 1.5;
-    margin-bottom: 0;
+  #paw-orange-2-2-2-info {
+    margin-top: -22px;
   }
 
-  .pact-act-form-question-error {
-    border-left: 0.4rem solid $color-secondary-dark;
-    padding-left: 2rem;
-    position: relative;
+  va-button-pair {
+    margin-left: 4px;
   }
 
-  .pact-act-form-text-error {
-    color: $color-secondary-dark;
-    font-weight: bold;
-  }
-
-  .pact-act-form-label {
-    margin-top: 1rem;
-    padding-left: 6px;
+  .usa-hint {
+    color: $color-gray-medium;
   }
 }

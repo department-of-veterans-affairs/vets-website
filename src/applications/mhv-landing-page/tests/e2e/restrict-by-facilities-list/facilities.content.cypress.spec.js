@@ -8,26 +8,6 @@ const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
 const noHealthDataHeading = /You don’t have access to My HealtheVet/i;
 
-// Validate a card has a heading and the correct number of links in it.
-function validateLinkGroup(cardHeadline, numLinks) {
-  // Find the spotlight section and look for the links
-  cy.findByRole('heading', { name: cardHeadline }).should.exist;
-  cy.findByRole('heading', { name: cardHeadline })
-    .parents('[data-testid^="mhv-link-group"]')
-    .should('have.length', 1)
-    .find('a')
-    .should('have.length', numLinks)
-    .each($link => {
-      // Check the links have text and an href
-      cy.wrap($link)
-        .invoke('text')
-        .should('have.length.gt', 0);
-      cy.wrap($link)
-        .should('have.attr', 'href')
-        .should('not.be.empty');
-    });
-}
-
 describe(appName, () => {
   describe('Display content based on patient facilities', () => {
     viewportSizes.forEach(size => {
@@ -62,7 +42,7 @@ describe(appName, () => {
         });
         // Test the hubs are visible
         pageLinks.hubs.forEach(hub => {
-          validateLinkGroup(hub.title, hub.links.length);
+          LandingPage.validateLinkGroup(hub.title, hub.links.length);
         });
 
         // Test for the conditional heading for VA health benefits
@@ -88,10 +68,10 @@ describe(appName, () => {
 
         // Validate the cards and hubs
         pageLinks.cards.forEach(card => {
-          validateLinkGroup(card.title, card.links.length);
+          LandingPage.validateLinkGroup(card.title, card.links.length);
         });
         pageLinks.hubs.forEach(hub => {
-          validateLinkGroup(hub.title, hub.links.length);
+          LandingPage.validateLinkGroup(hub.title, hub.links.length);
         });
 
         // Test for the conditional heading for VA health benefits

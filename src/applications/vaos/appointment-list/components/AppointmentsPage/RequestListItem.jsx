@@ -1,16 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -40,9 +37,6 @@ export default function RequestListItem({ appointment, facility }) {
     'MMMM D, YYYY',
   );
   const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
 
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
@@ -67,13 +61,11 @@ export default function RequestListItem({ appointment, facility }) {
           history,
           link,
           idClickable,
-          featureStatusImprovement,
         })}
         onKeyDown={handleKeyDown({
           history,
           link,
           idClickable,
-          featureStatusImprovement,
         })}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">

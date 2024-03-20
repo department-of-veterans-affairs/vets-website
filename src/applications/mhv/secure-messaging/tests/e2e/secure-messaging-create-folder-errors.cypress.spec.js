@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('create folder errors check', () => {
@@ -16,20 +16,14 @@ describe('create folder errors check', () => {
 
   it('create folder network error check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.loadFoldersList();
     folderPage.createANewFolderButton().click({ waitForAnimations: true });
     const createFolderName = 'create folder test';
     folderPage
       .createFolderTextBox()
       .type(createFolderName, { waitforanimations: true, force: true });
-    cy.intercept('POST', '/my_health/v1/messaging/folder', {
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGE_FOLDER, {
       statusCode: 400,
       body: {
         alertType: 'error',
@@ -47,23 +41,14 @@ describe('create folder errors check', () => {
 
   it('create blank name folder error check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.loadFoldersList();
-    cy.get('[data-testid="create-new-folder"]').click();
-    cy.get('[data-testid="create-folder-button"]').click({
+    cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
+    cy.get(Locators.BUTTONS.CREAT_FOLDER_BUTTON).click({
       waitForAnimations: true,
       force: true,
     });
-    cy.get('[data-testid="folder-name"]')
+    cy.get(Locators.FOLDER_MANE)
       .shadow()
       .find('#input-error-message')
       .should('contain', 'Folder name cannot be blank');

@@ -30,4 +30,9 @@ export default class MockProviderResponse {
     this.attributes.long = value;
     return this;
   }
+
+  setName(value) {
+    this.attributes.name = value;
+    return this;
+  }
 }

@@ -14,6 +14,9 @@ describe('Avs: Your Treatment Plan', () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     const props = { avs };
     const screen = render(<MoreInformation {...props} />);
+    expect(screen.getByTestId('clinical-services').children[1]).to.contain.text(
+      'CardiologyLocation: HartfordHours of operation: 0800-1830Phone: Comment:',
+    );
     expect(
       screen.getByTestId('more-help-and-information').firstChild,
     ).to.contain.text(
@@ -23,9 +26,11 @@ describe('Avs: Your Treatment Plan', () => {
 
   it('sections without data are hidden', async () => {
     const avs = replacementFunctions.cloneDeep(avsData);
-    delete avs.moreHelpAndInformation;
+    avs.clinicalServices = null;
+    avs.moreHelpAndInformation = null;
     const props = { avs };
     const screen = render(<MoreInformation {...props} />);
     expect(screen.queryByTestId('more-help-and-information')).to.not.exist;
+    expect(screen.queryByTestId('clinical-services')).to.not.exist;
   });
 });

@@ -1,6 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
+import notes from './fixtures/notes/notes.json';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,30 +14,32 @@ describe('Medical Records Care Summary Page', () => {
   });
 
   it('Discharge Summary Details  ', () => {
-    // Very Care Summary Page title Text
-    NotesDetailsPage.verifyCareSummaryPageText();
+    // Verify Care Summary Page title
+    NotesListPage.verifyCareSummariesAndNotesPageTitle();
 
     // should display Discharge Summary
     NotesDetailsPage.clickDischargeSummaryLink(1);
 
-    // Verify Discharge Summary Note Details Location
-    NotesDetailsPage.verifyDischargeSummaryLocation('DAYTON');
-
-    // Verify Discharge Summary Details DischargeDate
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate('August 9, 2022');
-    // Verify Discharge Summary Admitted By --this is currently removed
-    // NotesDetailsPage.verifyDischargeSummaryAdmittedBy('AHMED,NAJEEB');
-
-    // Verify Discharge Summary discharged By
-    NotesDetailsPage.verifyDischargeSummaryDischargedBy('AHMED,MARUF');
-
-    // Verify Discharge Summary Note
-    NotesDetailsPage.verifyDischargeSummaryNote(
-      'LOCAL TITLE: Discharge Summary',
+    NotesDetailsPage.verifyDischargeSummaryTitle(
+      notes.entry[1].resource.content[0].attachment.title,
     );
 
-    // Click Back to Care summaries and notes
-    // NotesDetailsPage.clickBreadCrumbsLink(0);
+    // Verify Discharge Summary Note Location
+    NotesDetailsPage.verifyDischargeSummaryLocation(
+      notes.entry[1].resource.contained[1].name,
+    );
+    // Verify Discharged Date
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate(
+      moment(notes.entry[1].resource.date).format('MMMM D, YYYY'),
+    );
+    // Verify Discharge Summary discharged By
+    NotesDetailsPage.verifyDischargeSummaryDischargedBy(
+      notes.entry[1].resource.contained[0].name[0].text,
+    );
+    // Verify Discharge Summary Note
+    NotesDetailsPage.verifyDischargeSummaryNote(
+      `LOCAL TITLE: ${notes.entry[1].resource.content[0].attachment.title}`,
+    );
 
     cy.injectAxe();
     cy.axeCheck('main');

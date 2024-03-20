@@ -33,12 +33,6 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

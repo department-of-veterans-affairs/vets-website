@@ -21,7 +21,7 @@ const touUpdatedDate = `September 2023`;
 
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
-  const isAUthenticatedWithIAM = useSelector(isAuthenticatedWithSSOe);
+  const isAuthenticatedWithIAM = useSelector(isAuthenticatedWithSSOe);
   const [isMiddleAuth, setIsMiddleAuth] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
@@ -30,7 +30,7 @@ export default function TermsOfUse() {
     redirectLocation.searchParams.get('terms_code')?.length > 1;
   const redirectUrl = validateWhichRedirectUrlToUse(redirectLocation);
   const shouldRedirectToMobile = sessionStorage.getItem('ci') === 'vamobile';
-  const isFullyAuthenticated = isAUthenticatedWithIAM || isAuthenticatedWithSiS;
+  const isFullyAuthenticated = isAuthenticatedWithIAM || isAuthenticatedWithSiS;
   const isUnauthenticated = !isMiddleAuth && !isFullyAuthenticated;
 
   useEffect(

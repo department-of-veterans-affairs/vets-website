@@ -12,13 +12,7 @@ describe(manifest.appName, () => {
 
   it('Check the Inbox folder', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     FolderLoadPage.getFolderHeader('Inbox');
     FolderLoadPage.verifyBackToMessagesButton();
   });
@@ -26,13 +20,7 @@ describe(manifest.appName, () => {
   it('Check the Draft folder', () => {
     FolderLoadPage.loadDraftMessages();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     FolderLoadPage.getFolderHeader('Drafts');
     FolderLoadPage.verifyBackToMessagesButton();
   });
@@ -40,13 +28,7 @@ describe(manifest.appName, () => {
   it('Check the Sent folder', () => {
     FolderLoadPage.loadSentMessages();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     FolderLoadPage.getFolderHeader('Sent');
     FolderLoadPage.verifyBackToMessagesButton();
   });

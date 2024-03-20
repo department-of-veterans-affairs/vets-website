@@ -18,6 +18,7 @@ export default {
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
+  EZR_TERA_ALERT: 'ezr-tera-alert',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
@@ -35,6 +36,7 @@ export default {
   FORM_10182_CTA: 'form-10182-cta',
   FORM_686_CTA: 'form-686-CTA',
   FORM_2010206_CTA: 'form2010206',
+  FORM_2010207_CTA: 'form2010207',
   FORM_210845_CTA: 'form210845',
   FORM_210966_CTA: 'form210966',
   FORM_210972_CTA: 'form210972',
@@ -72,6 +74,7 @@ export default {
   VET_CENTER_HOURS: 'vet-center-hours',
   VET_CENTER_HOURS_SATELLITE_LOCATIONS: 'vet-center-hours-satellite-locations',
   VET_CENTER_NEARBY: 'vet-center-nearby',
+  VA_LOCATION_NEARBY: 'va-location-nearby',
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',

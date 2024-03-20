@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/browser';
 import {
   cardActionMiddleware,
   ifMissingParamsCallSentry,
+  handleCardAction,
 } from '../../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
@@ -77,6 +78,89 @@ describe('Webchat.jsx Helpers', () => {
         expect(recordEventStub.notCalled).to.be.true;
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
+      });
+      describe('handleCardAction', () => {
+        it('should call recordEvent when button with class in classList is clicked in Rx skill', () => {
+          const mockCardTargetClassList = ['webchat__suggested-action'];
+          const mockCardActionValue = 'button-text';
+          const mockIsRxSkill = 'true';
+
+          const recordEventStub = sandbox.stub(recordEventObject, 'default');
+
+          handleCardAction(
+            mockCardTargetClassList,
+            mockCardActionValue,
+            mockIsRxSkill,
+          );
+
+          const recordEventData = {
+            event: 'chatbot-button-click',
+            clickText: mockCardActionValue,
+            topic: 'prescriptions',
+          };
+
+          expect(recordEventStub.calledOnce).to.be.true;
+          expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
+        });
+        it('should call recordEvent when button with class in classList is clicked outside Rx skill', () => {
+          const mockCardTargetClassList = ['webchat__suggested-action'];
+          const mockCardActionValue = 'button-text';
+          const mockIsRxSkill = 'false';
+
+          const recordEventStub = sandbox.stub(recordEventObject, 'default');
+
+          handleCardAction(
+            mockCardTargetClassList,
+            mockCardActionValue,
+            mockIsRxSkill,
+          );
+
+          const recordEventData = {
+            event: 'chatbot-button-click',
+            clickText: mockCardActionValue,
+            topic: undefined,
+          };
+
+          expect(recordEventStub.calledOnce).to.be.true;
+          expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
+        });
+        it('should call recordEvent when button with class in classList is clicked outside Rx skill', () => {
+          const mockCardTargetClassList = ['webchat__suggested-action'];
+          const mockCardActionValue = 'button-text';
+          const mockIsRxSkill = 'false';
+
+          const recordEventStub = sandbox.stub(recordEventObject, 'default');
+
+          handleCardAction(
+            mockCardTargetClassList,
+            mockCardActionValue,
+            mockIsRxSkill,
+          );
+
+          const recordEventData = {
+            event: 'chatbot-button-click',
+            clickText: mockCardActionValue,
+            topic: undefined,
+          };
+
+          expect(recordEventStub.calledOnce).to.be.true;
+          expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
+        });
+        it('should call recordEvent when button with class in classList is clicked outside Rx skill', () => {
+          const mockCardTargetClassList = ['some_unexpected_class'];
+          const mockCardActionValue = 'button-text';
+          const mockIsRxSkill = 'false';
+
+          const recordEventStub = sandbox.stub(recordEventObject, 'default');
+
+          handleCardAction(
+            mockCardTargetClassList,
+            mockCardActionValue,
+            mockIsRxSkill,
+          );
+
+          expect(recordEventStub.notCalled).to.be.true;
+        });
       });
       describe('When there are unexpected values', () => {
         it('should not throw an error when cardAction.value is not a string', () => {

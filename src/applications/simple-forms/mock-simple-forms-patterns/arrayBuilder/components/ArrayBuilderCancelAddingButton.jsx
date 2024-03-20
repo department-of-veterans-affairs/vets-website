@@ -16,9 +16,11 @@ const ArrayBuilderCancelAddingButton = ({
   setFormData,
   formData,
   buttonText,
+  modalButtonPrimary,
+  modalButtonSecondary,
   modalTitle,
   modalDescription,
-  router,
+  goToPath,
   summaryRoute,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,11 +49,11 @@ const ArrayBuilderCancelAddingButton = ({
     const newData = set(arrayPath, newArrayData, formData);
     setFormData(newData);
     hideCancelConfirmationModal();
-    router.push(summaryRoute);
+    goToPath(summaryRoute);
   }
 
   return (
-    <div className="vads-u-margin-top--4">
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
       <va-button
         text={buttonText}
         data-action="cancel"
@@ -63,8 +65,8 @@ const ArrayBuilderCancelAddingButton = ({
         clickToClose
         status="warning"
         modalTitle={modalTitle}
-        primaryButtonText="Yes, cancel adding"
-        secondaryButtonText="No, cancel"
+        primaryButtonText={modalButtonPrimary}
+        secondaryButtonText={modalButtonSecondary}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}
         onSecondaryButtonClick={hideCancelConfirmationModal}
@@ -87,28 +89,30 @@ const mapDispatchToProps = {
 
 ArrayBuilderCancelAddingButton.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  buttonText: PropTypes.object.isRequired,
-  formData: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  formData: PropTypes.object.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  modalButtonPrimary: PropTypes.string.isRequired,
+  modalButtonSecondary: PropTypes.string.isRequired,
   modalDescription: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
-  router: PropTypes.object.isRequired,
-  setFormData: PropTypes.string.isRequired,
+  setFormData: PropTypes.func.isRequired,
   summaryRoute: PropTypes.string.isRequired,
 };
 
 /**
  * Usage:
  * ```
- * contentBeforeButtons: ({ router }) => (
- *    <ArrayBuilderCancelAddingButton
- *      buttonText="Cancel adding this employer"
- *      arrayPath="employers"
- *      modalTitle="Are you sure you want to cancel adding this employer?"
- *      modalDescription="If you cancel adding this employer, we won't save the information. You'll return to a screen where you can add or remove employers."
- *      router={router}
- *      summaryRoute="/array-multiple-page-builder-summary"
- *    />
- *  )
+ * <ArrayBuilderCancelAddingButton
+ *   buttonText="Cancel adding this employer"
+ *   arrayPath="employers"
+ *   modalTitle="Are you sure you want to cancel adding this employer?"
+ *   modalDescription="If you cancel adding this employer, we won't save the information. You'll return to a screen where you can add or remove employers."
+ *   modalButtonPrimary="Yes, cancel"
+ *   modalButtonSecondary="No, continue adding"
+ *   goToPath={goToPath}
+ *   summaryRoute="/array-multiple-page-builder-summary"
+ * />
  * ```
  */
 export default connect(

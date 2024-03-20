@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
 describe('SM main page', () => {
@@ -12,77 +12,41 @@ describe('SM main page', () => {
 
   it('axe check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('verify headers', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     SecureMessagingLandingPage.verifyHeader();
     SecureMessagingLandingPage.verifyUnreadMessagesNote();
   });
 
   it('verify main topics', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     SecureMessagingLandingPage.verifyWelcomeMessage();
     SecureMessagingLandingPage.verifyFaqMessage();
   });
 
   it('verify faq accordions', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     SecureMessagingLandingPage.verifyFaqAccordions();
   });
 
   it('verify "Start a new message" link', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
-    cy.location('pathname').should('contain', 'new-message');
+    cy.location('pathname').should('contain', Assertions.NEW_MESSAGE);
   });
 
   it('verify "Go to the inbox" link', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
-    cy.location('pathname').should('contain', 'inbox');
+    cy.location('pathname').should('contain', Assertions.INBOX);
   });
 });
 
@@ -92,7 +56,7 @@ describe('SM main page without API calls', () => {
     site.login();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/allrecipients',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
       mockRecipients,
     ).as('Recipients');
     cy.visit('my-health/secure-messages/');
@@ -101,12 +65,6 @@ describe('SM main page without API calls', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

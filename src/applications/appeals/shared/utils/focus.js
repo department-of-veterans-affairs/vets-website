@@ -1,8 +1,8 @@
 import {
   defaultFocusSelector,
   focusElement,
+  focusByOrder,
   scrollTo,
-  scrollToTop,
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -37,18 +37,18 @@ export const focusIssue = (_index, root, value) => {
 };
 
 export const focusRadioH3 = () => {
-  scrollToTop();
+  scrollTo('topContentElement');
   const radio = $('va-radio');
   if (radio) {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
-    focusElement(defaultFocusSelector);
+    focusByOrder(['#main h3', defaultFocusSelector]);
   }
 };
 
 export const focusAlertH3 = () => {
-  scrollTo('h3');
+  scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
   waitForRenderThenFocus('h3');

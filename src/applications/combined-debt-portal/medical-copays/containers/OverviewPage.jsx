@@ -16,7 +16,6 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import { OnThisPageOverview } from '../components/OnThisPageOverview';
-import '../sass/medical-copays.scss';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
@@ -124,9 +123,9 @@ const OverviewPage = () => {
             label: 'Current copay balances',
           },
         ]}
-        className="vads-u-font-family--sans no-wrap"
         label="Breadcrumb"
         uswds
+        wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>

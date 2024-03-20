@@ -8,9 +8,8 @@ import PropTypes from 'prop-types';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
 import AddFilesFormOld from '../components/AddFilesFormOld';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import DueDateOld from '../components/DueDateOld';
 import Notification from '../components/Notification';
@@ -26,7 +25,6 @@ import {
   cancelUpload,
   // START lighthouse_migration
   getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
   setFieldsDirty,
   clearNotification,
@@ -34,7 +32,7 @@ import {
 import { scrubDescription } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
-import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
+import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 
 const scrollToError = () => {
@@ -85,10 +83,7 @@ class DocumentRequestPage extends React.Component {
   }
 
   getPageContent() {
-    const { trackedItem, useLighthouse } = this.props;
-    if (!useLighthouse) {
-      return <DocumentRequestPageContent trackedItem={trackedItem} />;
-    }
+    const { trackedItem } = this.props;
 
     return (
       <>
@@ -110,13 +105,7 @@ class DocumentRequestPage extends React.Component {
   }
 
   goToFilesPage() {
-    // START lighthouse_migration
-    if (this.props.useLighthouse) {
-      this.props.getClaimLighthouse(this.props.claim.id);
-    } else {
-      this.props.getClaimEVSS(this.props.claim.id);
-    }
-    // END lighthouse_migration
+    this.props.getClaim(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
@@ -210,8 +199,10 @@ class DocumentRequestPage extends React.Component {
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               {content}
             </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-              <AskVAQuestions />
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <NeedHelp />
             </div>
           </div>
         </div>
@@ -223,24 +214,14 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
-  const useLighthouse = cstUseLighthouse(state, 'show');
 
-  let trackedItems = [];
   let trackedItem = null;
   if (claimDetail.detail) {
-    const { attributes } = claimDetail.detail;
+    const { trackedItems } = claimDetail.detail.attributes;
     const { trackedItemId } = ownProps.params;
-    if (useLighthouse) {
-      trackedItems = attributes.trackedItems;
-      [trackedItem] = trackedItems.filter(
-        event => event.id === parseInt(trackedItemId, 10),
-      );
-    } else {
-      trackedItems = attributes.eventsTimeline;
-      [trackedItem] = trackedItems.filter(
-        event => event.trackedItemId === parseInt(trackedItemId, 10),
-      );
-    }
+    [trackedItem] = trackedItems.filter(
+      item => item.id === parseInt(trackedItemId, 10),
+    );
   }
 
   return {
@@ -256,7 +237,6 @@ function mapStateToProps(state, ownProps) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
     // START lighthouse_migration
-    useLighthouse,
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
@@ -268,9 +248,8 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
+  getClaim: getClaimAction,
   // START lighthouse_migration
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
   submitFilesLighthouse,
   // END lighthouse_migration
   setFieldsDirty,
@@ -294,10 +273,7 @@ DocumentRequestPage.propTypes = {
   documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration
   files: PropTypes.array,
-  // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
-  // END lighthouse_migration
+  getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
@@ -314,9 +290,6 @@ DocumentRequestPage.propTypes = {
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
   uploading: PropTypes.bool,
-  // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export { DocumentRequestPage };

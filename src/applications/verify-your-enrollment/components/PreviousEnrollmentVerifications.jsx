@@ -7,7 +7,6 @@ import {
   translateDateIntoMonthDayYearFormat,
   formatCurrency,
   translateDatePeriod,
-  scrollToElement,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
 
@@ -61,10 +60,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                     Verified on{' '}
                     {translateDateIntoMonthDayYearFormat(verifiedDate)}
                   </div>
-                  <p>
-                    <span className="vads-u-font-weight--bold">
-                      {translateDatePeriod(awardBeginDate, awardEndDate)}
-                    </span>
+                  <p className="vads-u-font-weight--bold">
+                    {translateDatePeriod(awardBeginDate, awardEndDate)}
                   </p>
                   <p>
                     <span className="vads-u-font-weight--bold">
@@ -112,10 +109,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                       PendingVerificationSubmitted,
                     )}
                   </div>
-                  <p>
-                    <span className="vads-u-font-weight--bold">
-                      {translateDatePeriod(awardBeginDate, awardEndDate)}
-                    </span>
+                  <p className="vads-u-font-weight--bold">
+                    {translateDatePeriod(awardBeginDate, awardEndDate)}
                   </p>
                   <p>
                     <span className="vads-u-font-weight--bold">
@@ -140,25 +135,16 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                   </h3>
                   <va-alert
                     background-only
-                    class="vads-u-margin-bottom--4"
+                    class="vads-u-margin-bottom--3"
                     close-btn-aria-label="Close notification"
-                    disable-analytics="false"
+                    disable-analytics="true"
                     full-width="false"
                     status="info"
                     visible="true"
+                    slim
                   >
-                    <p className="vads-u-margin-y--0">
-                      Please{' '}
-                      <va-link
-                        onClick={() =>
-                          scrollToElement(
-                            'montgomery-gi-bill-enrollment-statement',
-                          )
-                        }
-                        className="vads-u-color--link-default vads-u-text-decoration--underline vye-mimic-link"
-                        text="verify your enrollment"
-                      />
-                      for this month.
+                    <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+                      This month has not yet been verified.
                     </p>
                   </va-alert>
                 </>
@@ -184,7 +170,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const onPageSelect = useCallback(
     newPage => {
       handlePageChange(newPage);
-      focusElement('h2');
+      focusElement('.focus-element-on-pagination');
     },
     [setCurrentPage],
   );
@@ -223,7 +209,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
               PendingVerificationSubmitted,
             } = verifications[index];
             // check if record has been verified
-            if (awardIds.some(id => id === award.id)) {
+            if (awardIds?.some(id => id === award.id)) {
               const tempData = award;
               let updatedTempData = {};
               if (createdOn) {

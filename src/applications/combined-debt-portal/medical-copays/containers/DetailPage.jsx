@@ -15,7 +15,6 @@ import {
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
-import '../sass/medical-copays.scss';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -68,12 +67,14 @@ const DetailPage = ({ match }) => {
             label: `Copay bill for ${selectedCopay?.station.facilityName}`,
           },
         ]}
-        className="vads-u-font-family--sans no-wrap"
         label="Breadcrumb"
         uswds
+        wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
-        <h1 data-testid="detail-page-title">{title}</h1>
+        <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
+          {title}
+        </h1>
         <p className="va-introtext">
           Updated on
           <time

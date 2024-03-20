@@ -29,7 +29,6 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
   CHAR_LIMITS,
-  SHOW_TOXIC_EXPOSURE,
 } from '../constants';
 import { getBranches } from './serviceBranches';
 
@@ -323,9 +322,6 @@ export const isDisabilityPtsd = disability => {
 
 export const hasRatedDisabilities = formData =>
   formData?.ratedDisabilities?.length > 0;
-
-export const showToxicExposurePages =
-  window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true';
 
 export const isClaimingNew = formData =>
   _.get(
@@ -747,5 +743,7 @@ export const truncateDescriptions = data =>
  * @returns {string} markup with h3 tag and consistent styling
  */
 export const formTitle = title => (
-  <h3 className="vads-u-font-size--h4 vads-u-margin--0">{title}</h3>
+  <h3 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
+    {title}
+  </h3>
 );

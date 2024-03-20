@@ -33,7 +33,9 @@ import optIn from '../pages/optIn';
 import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
+import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
@@ -193,7 +195,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -201,8 +203,8 @@ const formConfig = {
           depends: hasVAEvidence,
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
-          uiSchema: blankUiSchema,
-          schema: blankSchema,
+          uiSchema: evidenceVaRecords.uiSchema,
+          schema: evidenceVaRecords.schema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },
@@ -230,8 +232,8 @@ const formConfig = {
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
           CustomPageReview: null,
-          uiSchema: blankUiSchema,
-          schema: blankSchema,
+          uiSchema: evidencePrivateRecords.uiSchema,
+          schema: evidencePrivateRecords.schema,
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {
@@ -248,7 +250,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

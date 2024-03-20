@@ -27,13 +27,7 @@ describe('Secure Messaging Message Details Buttons Check', () => {
       waitForAnimations: true,
     });
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     PatientReplyPage.getMessageBodyField().should('be.visible');
   });

@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
@@ -9,10 +9,10 @@ describe('Secure Messaging Inbox Message Sort', () => {
     site.login();
     cy.reload(true);
     landingPage.loadInboxMessages();
-    cy.get('.sidebar-navigation-messages-list-header > a');
+    cy.get(Locators.ALERTS.LIST_HEADER);
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
       .should('contain', 'Newest');
@@ -27,53 +27,35 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   it('Sort Inbox Messages from Oldest to Newest', () => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
       .select('SENT_DATE_ASCENDING', { force: true })
       .should('contain', 'newest');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
   it('Sort Inbox Messages from A to Z', () => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
       .select('SENDER_ALPHA_ASCENDING', { force: true })
       .should('contain', 'A to Z');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('Sort Inbox Messages from Z to A', () => {
-    cy.get('#sort-order-dropdown')
+    cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
       .select('SENDER_ALPHA_DESCENDING', { force: true })
       .should('contain', 'Z to A');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   afterEach(() => {
-    cy.get('[data-testid="sort-button"]').click({ force: true });
+    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
   });
 });

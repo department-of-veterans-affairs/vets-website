@@ -1,6 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import ConfirmationScreenView from '../../../components/ConfirmationPage/ConfirmationScreenView';
 
@@ -23,15 +24,13 @@ describe('CG <ConfirmationScreenView>', () => {
   };
 
   it('should render with default props', () => {
-    const view = render(<ConfirmationScreenView {...defaultProps} />);
+    const { container } = render(<ConfirmationScreenView {...defaultProps} />);
     const selectors = {
-      subtitles: view.container.querySelectorAll('h2'),
-      veteranName: view.container.querySelector(
-        '[data-testid="cg-veteranfullname"]',
+      subtitles: container.querySelectorAll('h2, h3'),
+      veteranName: container.querySelector(
+        '[data-testid="cg-veteran-fullname"]',
       ),
-      download: view.container.querySelector(
-        '.caregiver-application--download',
-      ),
+      download: container.querySelector('.caregiver-application--download'),
     };
     expect(selectors.subtitles).to.have.lengthOf(2);
     expect(selectors.subtitles[0]).to.contain.text(
@@ -45,27 +44,35 @@ describe('CG <ConfirmationScreenView>', () => {
   });
 
   it('should not render timestamp in `application information` section when not provided', () => {
-    const view = render(<ConfirmationScreenView {...defaultProps} />);
-    const selector = view.container.querySelector(
-      '[data-testid="cg-timestamp"]',
+    const { container } = render(<ConfirmationScreenView {...defaultProps} />);
+    const selector = container.querySelector(
+      '[data-testid="cg-submission-date"]',
     );
     expect(selector).to.not.exist;
   });
 
   it('should render timestamp in `application information` section when provided', () => {
     const props = { ...defaultProps, timestamp: 1666887649663 };
-    const view = render(<ConfirmationScreenView {...props} />);
-    const selector = view.container.querySelector(
-      '[data-testid="cg-timestamp"]',
+    const { container } = render(<ConfirmationScreenView {...props} />);
+    const selector = container.querySelector(
+      '[data-testid="cg-submission-date"]',
     );
     expect(selector).to.exist;
     expect(selector).to.contain.text('Oct. 27, 2022');
   });
 
   it('should render application print button', () => {
-    const view = render(<ConfirmationScreenView {...defaultProps} />);
-    const selector = view.container.querySelector('va-button');
+    const { container } = render(<ConfirmationScreenView {...defaultProps} />);
+    const selector = container.querySelector('[data-testid="cg-print-button"]');
     expect(selector).to.exist;
     expect(selector).to.have.attribute('text', 'Print this page');
+  });
+
+  it('should fire `window.print` function when the print button is clicked', () => {
+    const printSpy = sinon.spy(window, 'print');
+    const { container } = render(<ConfirmationScreenView {...defaultProps} />);
+    const selector = container.querySelector('[data-testid="cg-print-button"]');
+    fireEvent.click(selector);
+    expect(printSpy.called).to.be.true;
   });
 });

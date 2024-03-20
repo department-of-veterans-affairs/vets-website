@@ -8,7 +8,23 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
-const statusMap = {
+// Using a Map instead of the typical Object because
+// we want to guarantee that the key insertion order
+// is maintained when converting to an array of keys
+export const getStatusMap = () => {
+  const map = new Map();
+  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
+  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
+  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
+  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
+  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
+  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
+  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
+  map.set('COMPLETE', 'COMPLETE');
+  return map;
+};
+
+const statusStepMap = {
   CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
   INITIAL_REVIEW: 'Step 2 of 5: Initial review',
   EVIDENCE_GATHERING_REVIEW_DECISION:
@@ -18,7 +34,29 @@ const statusMap = {
 };
 
 export function getStatusDescription(status) {
-  return statusMap[status];
+  return statusStepMap[status];
+}
+
+const statusDescriptionMap = {
+  CLAIM_RECEIVED:
+    'We received your claim. We haven’t assigned the claim to a reviewer yet.',
+  INITIAL_REVIEW:
+    'We assigned your claim to a reviewer. The reviewer will determine if we need any more information from you.',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'We’re getting evidence from you, your health care providers, government agencies, and other sources. We’ll review the evidence and make a decision.',
+  PREPARATION_FOR_NOTIFICATION:
+    'We’ve made a decision on your claim. We’re getting your decision letter ready to mail to you.',
+  COMPLETE:
+    'We’ve made a decision about your claim. If available, you can view your decision letter. We’ll also send you your letter by U.S. mail.',
+};
+
+export function getClaimStatusDescription(status) {
+  return statusDescriptionMap[status];
+}
+
+export function isClaimOpen(status, closeDate) {
+  const STATUSES = getStatusMap();
+  return status !== STATUSES.get('COMPLETE') && closeDate === null;
 }
 
 const evidenceGathering = 'Evidence gathering, review, and decision';

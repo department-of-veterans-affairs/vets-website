@@ -2,12 +2,12 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
@@ -25,7 +25,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
-import { validateSearchTerm } from '../../utils/helpers';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function LocationSearchForm({
   autocomplete,
@@ -45,6 +48,7 @@ export function LocationSearchForm({
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
+  const inputRef = createRef();
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
@@ -88,10 +92,15 @@ export function LocationSearchForm({
   //     setError(null);
   //   }
   // };
-
+  const onApplyFilterClick = () => {
+    if (location.length === 0) {
+      inputRef.current.focus();
+    }
+  };
   const doSearch = event => {
     if (event) {
       event.preventDefault();
+      onApplyFilterClick();
       setShowFiltersBeforeSearch(false);
     }
     let paramLocation = location;
@@ -216,6 +225,7 @@ export function LocationSearchForm({
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
+              inputRef={inputRef}
               className="location-search"
               type="location"
               // error={error}
@@ -307,10 +317,14 @@ export function LocationSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() &&
+        isProductionOrTestProdEnv() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults nameVal={location} searchType="location" />
+            <FilterBeforeResults
+              nameVal={location}
+              searchType="location"
+              onApplyFilterClick={onApplyFilterClick}
+            />
           </div>
         )}
     </div>

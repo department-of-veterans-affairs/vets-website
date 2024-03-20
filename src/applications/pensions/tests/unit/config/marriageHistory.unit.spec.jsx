@@ -37,7 +37,7 @@ describe('Pensions marriage history', () => {
     it('hides if married and last', () => {
       const result = hideIfCurrentMarriage(
         {
-          maritalStatus: 'Married',
+          maritalStatus: 'MARRIED',
           marriages: [{}],
         },
         0,
@@ -49,7 +49,7 @@ describe('Pensions marriage history', () => {
     it('does not hide if married and not last', () => {
       const result = hideIfCurrentMarriage(
         {
-          maritalStatus: 'Married',
+          maritalStatus: 'MARRIED',
           marriages: [{}, {}],
         },
         0,
@@ -132,7 +132,7 @@ describe('Pensions marriage history', () => {
 
     formDOM.fillData(
       '#root_view\\:pastMarriage_reasonForSeparation_1',
-      'Divorce',
+      'divorce',
     );
     formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationMonth', '3');
     formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationDay', '3');

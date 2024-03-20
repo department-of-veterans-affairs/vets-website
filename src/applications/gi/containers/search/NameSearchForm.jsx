@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
   updateAutocompleteName,
   setError,
+  filterBeforeResultFlag,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
-import { validateSearchTerm } from '../../utils/helpers';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function NameSearchForm({
   autocomplete,
@@ -27,14 +31,17 @@ export function NameSearchForm({
   search,
   smallScreen,
   errorReducer,
+  filterBeforeResultsReducer,
+  dispatchShowFiltersBeforeResult,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
-  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  const { showFiltersBeforeResult } = filterBeforeResultsReducer;
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const history = useHistory();
-
+  const inputRef = createRef();
   const doSearch = value => {
     const searchName = value || search.query.name;
     dispatchFetchSearchByNameResults(searchName, 1, filters, version);
@@ -82,6 +89,17 @@ export function NameSearchForm({
     [search.loadFromUrl],
   );
 
+  useEffect(
+    () => {
+      sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
+    },
+    [showFiltersBeforeResult],
+  );
+  const onApplyFilterClick = () => {
+    if (name.length === 0) {
+      inputRef.current.focus();
+    }
+  };
   const handleSubmit = event => {
     event.preventDefault();
     if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
@@ -90,8 +108,14 @@ export function NameSearchForm({
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
-      setShowFiltersBeforeSearch(false);
+      dispatchShowFiltersBeforeResult();
       doSearch(name);
+    }
+    onApplyFilterClick();
+  };
+  const onKeyEnter = event => {
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -111,11 +135,12 @@ export function NameSearchForm({
   };
 
   return (
-    <div>
+    <div className="search-form-container">
       <form onSubmit={handleSubmit}>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
+              inputRef={inputRef}
               className="name-search"
               inputValue={name}
               label="School, employer, or training provider"
@@ -134,6 +159,7 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
+              onKeyPress={onKeyEnter}
             >
               <i
                 aria-hidden="true"
@@ -146,10 +172,14 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() &&
-        showFiltersBeforeSearch && (
+        isProductionOrTestProdEnv() &&
+        JSON.parse(sessionStorage.getItem('show')) && (
           <div>
-            <FilterBeforeResults nameVal={name} searchType="name" />
+            <FilterBeforeResults
+              nameVal={name}
+              searchType="name"
+              onApplyFilterClick={onApplyFilterClick}
+            />
           </div>
         )}
     </div>
@@ -162,6 +192,7 @@ const mapStateToProps = state => ({
   preview: state.preview,
   search: state.search,
   errorReducer: state.errorReducer,
+  filterBeforeResultsReducer: state.filterBeforeResultsReducer,
 });
 
 const mapDispatchToProps = {
@@ -169,6 +200,7 @@ const mapDispatchToProps = {
   dispatchUpdateAutocompleteName: updateAutocompleteName,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
   dispatchError: setError,
+  dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
 };
 
 export default connect(

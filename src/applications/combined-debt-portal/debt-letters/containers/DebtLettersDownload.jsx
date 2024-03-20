@@ -17,35 +17,33 @@ const DebtLettersDownload = () => {
 
   return (
     <>
-      <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <VaBreadcrumbs
-          breadcrumbList={[
-            {
-              href: '/',
-              label: 'Home',
-            },
-            {
-              href: '/manage-va-debt',
-              label: 'Manage your VA debt',
-            },
-            {
-              href: '/manage-va-debt/summary',
-              label: 'Your VA debt and bills',
-            },
-            {
-              href: '/manage-va-debt/summary/debt-balances',
-              label: 'Current VA debt',
-            },
-            {
-              href: '/manage-va-debt/summary/debt-balances/letters',
-              label: 'Debt letters',
-            },
-          ]}
-          className="vads-u-font-family--sans no-wrap"
-          label="Breadcrumb"
-          uswds
-        />
-      </div>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/manage-va-debt/summary/debt-balances',
+            label: 'Current VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary/debt-balances/letters',
+            label: 'Debt letters',
+          },
+        ]}
+        label="Breadcrumb"
+        uswds
+        wrapping
+      />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1
           id="downloadDebtLetters"

@@ -56,7 +56,8 @@ export function mockCCProvidersApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          forceNetworkError: true,
+          body: '404 Not Found',
+          statusCode: 404,
         });
 
         return;
@@ -88,11 +89,15 @@ export function mockAppointmentGetApi({
       {
         method: 'GET',
         pathname: `/vaos/v2/appointments/${data.id}`,
+        query: {
+          _include: '*',
+        },
       },
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
           return;
         }
@@ -128,7 +133,8 @@ export function mockAppointmentUpdateApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
           return;
         }
@@ -166,7 +172,8 @@ export function mockAppointmentCreateApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
           return;
         }
@@ -209,7 +216,8 @@ export function mockAppointmentsGetApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
           return;
         }
@@ -251,7 +259,8 @@ export function mockFacilityApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
@@ -294,14 +303,17 @@ export function mockFacilitiesApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
         }
 
         if (data) {
-          req.reply({ data });
+          req.reply({
+            data,
+          });
         }
       },
     ).as('v2:get:facilities');
@@ -402,7 +414,8 @@ export function mockEligibilityApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
@@ -448,7 +461,8 @@ export function mockEligibilityDirectApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
@@ -488,7 +502,8 @@ export function mockEligibilityRequestApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
@@ -549,12 +564,13 @@ export function mockClinicsApi({
     cy.intercept(
       {
         method: 'GET',
-        path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
+        pathname: `/vaos/v2/locations/${locationId}/clinics`,
       },
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
@@ -601,7 +617,8 @@ export function mockSlotsApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;

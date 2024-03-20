@@ -9,9 +9,9 @@
     "wcv3IsCurrentlyActiveDuty": true,
     "amountOrNumber": "123",
     "selectDefault": "option1",
-    "wcOldSelectFirst": "option1",
-    "wcOldSelectSecond": "option1",
-    "wcv3Select": "option1",
+    "wcv3SelectSimple": "Option 1",
+    "wcv3SelectValues": "Option 1",
+    "wcv3SelectKeyValues": "option1",
     "wcv3TextEmailNew": "abc@abc.com",
     "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
     "rjsfCheckRequiredCheckbox": true,
@@ -156,6 +156,7 @@
         }
       }
     ],
-    "hasEmployment": false
+    "hasEmployment": false,
+    "nameCustom": "Test"
   }
 }

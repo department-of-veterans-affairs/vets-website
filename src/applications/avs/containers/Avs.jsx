@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -10,12 +11,14 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
+import { useDatadogRum } from '../hooks/useDatadogRum';
+
 import BreadCrumb from '../components/BreadCrumb';
-import YourAppointment from '../components/YourAppointment';
-import YourTreatmentPlan from '../components/YourTreatmentPlan';
-import YourHealthInformation from '../components/YourHealthInformation';
 import MoreInformation from '../components/MoreInformation';
-import Footer from '../components/Footer';
+import AvsPageHeader from '../components/AvsPageHeader';
+import YourAppointment from '../components/YourAppointment';
+import YourHealthInformation from '../components/YourHealthInformation';
+import YourTreatmentPlan from '../components/YourTreatmentPlan';
 
 const generateAppointmentHeader = avs => {
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -23,6 +26,8 @@ const generateAppointmentHeader = avs => {
 };
 
 const Avs = props => {
+  useDatadogRum();
+
   const user = useSelector(selectUser);
   const { avsEnabled, featureTogglesLoading } = useSelector(
     state => {
@@ -34,7 +39,7 @@ const Avs = props => {
     state => state.featureToggles,
   );
   const { isLoggedIn } = props;
-  const { id } = props.params;
+  const { id } = useParams();
 
   const [avs, setAvs] = useState({});
   const [avsLoading, setAvsLoading] = useState(true);
@@ -80,13 +85,18 @@ const Avs = props => {
   }
 
   return (
-    <div className="vads-l-grid-container main-content">
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 main-content">
       <RequiredLoginView
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <BreadCrumb />
         <h1>After-visit summary</h1>
+        {avs.meta?.pageHeader && (
+          <p>
+            <AvsPageHeader text={avs.meta.pageHeader} />
+          </p>
+        )}
 
         <va-accordion uswds>
           <va-accordion-item
@@ -112,8 +122,6 @@ const Avs = props => {
             <MoreInformation avs={avs} />
           </va-accordion-item>
         </va-accordion>
-
-        <Footer avs={avs} />
       </RequiredLoginView>
     </div>
   );

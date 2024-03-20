@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
   it('Navigates to Inbox after Delete Draft With No Changes and No Confirmation', () => {
@@ -14,26 +14,9 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     draftsPage.clickDeleteButton();
     draftsPage.verifyDeleteConfirmationMessage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
-    cy.get('[data-testid="inbox-sidebar"]')
-      .find('a')
-      .should('have.class', 'is-active');
+    cy.axeCheck(AXE_CONTEXT, {});
+    cy.get(Locators.FOLDERS.INBOX);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

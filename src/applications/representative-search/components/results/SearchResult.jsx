@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
+
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import ReportModal from './ReportModal';
-import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
@@ -17,27 +22,23 @@ const SearchResult = ({
   email,
   associatedOrgs,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
+  reportSubmissionStatus,
   reports,
-  representative,
   representativeId,
   query,
+  setReportModalTester,
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const addressExists =
-    addressLine1 ||
-    addressLine2 ||
-    addressLine3 ||
-    city ||
-    stateCode ||
-    zipCode;
+  const addressExists = addressLine1 || city || stateCode || zipCode;
 
   // concatenating address for ReportModal
   const address =
     [
-      addressLine1.trim(),
+      (addressLine1 || '').trim(),
       (addressLine2 || '').trim(),
       (addressLine3 || '').trim(),
     ]
@@ -47,12 +48,37 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  const closeReportModal = () => {
+  const onCloseReportModal = () => {
     setReportModalIsShowing(false);
   };
 
+  useEffect(
+    () => {
+      if (reportSubmissionStatus === 'SUCCESS') {
+        scrollTo(`#thank-you-alert-${representativeId}`);
+        focusElement(`#thank-you-alert-${representativeId}`);
+      } else if (reportSubmissionStatus === 'CANCELLED') {
+        scrollTo(`#report-button-${representativeId}`);
+        focusElement(`#report-button-${representativeId}`);
+      }
+      initializeRepresentativeReport();
+    },
+    [reportModalIsShowing],
+  );
+
   return (
     <div className="report-outdated-information-modal">
+      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+
+      {setReportModalTester ? (
+        <button
+          id="open-modal-test-button"
+          label="open-modal-test-button"
+          type="button"
+          onClick={() => setReportModalIsShowing(true)}
+        />
+      ) : null}
+
       {reportModalIsShowing && (
         <ReportModal
           representativeName={officer}
@@ -61,7 +87,7 @@ const SearchResult = ({
           phone={phone}
           email={email}
           existingReports={reports}
-          onCloseModal={closeReportModal}
+          onCloseReportModal={onCloseReportModal}
           submitRepresentativeReport={submitRepresentativeReport}
         />
       )}
@@ -75,14 +101,28 @@ const SearchResult = ({
               </div>
             )}
             {officer && (
-              <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
-                <h3>{officer}</h3>
-              </div>
+              <>
+                <div
+                  className="vads-u-font-family--serif vads-u-margin-top--2p5"
+                  id={`result-${representativeId}`}
+                >
+                  <h3 aria-describedby={`representative-${representativeId}`}>
+                    {officer}
+                  </h3>
+                </div>
+                {associatedOrgs?.length === 1 && (
+                  <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
+                )}
+              </>
             )}
           </div>
-          {associatedOrgs && (
+          {associatedOrgs?.length > 1 && (
             <div className="associated-organizations-info vads-u-margin-top--1p5">
-              <va-additional-info trigger="See associated organizations" uswds>
+              <va-additional-info
+                trigger="See associated organizations"
+                disable-border
+                uswds
+              >
                 {associatedOrgs?.map((org, index) => {
                   return (
                     <>
@@ -99,10 +139,26 @@ const SearchResult = ({
 
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
-              <RepresentativeDirectionsLink
-                representative={representative}
-                query={query}
-              />
+              <div className="address-link">
+                <a
+                  href={`https://maps.google.com?saddr=${
+                    query?.context?.location
+                  }&daddr=${address}`}
+                  tabIndex="0"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${address} (opens in a new tab)`}
+                >
+                  {addressLine1}{' '}
+                  {addressLine2 ? (
+                    <>
+                      <br /> {addressLine2}
+                    </>
+                  ) : null}{' '}
+                  <br />
+                  {city}, {stateCode} {zipCode}
+                </a>
+              </div>
             )}
             {phone && (
               <div className="vads-u-margin-top--1p5">
@@ -118,9 +174,11 @@ const SearchResult = ({
           {reports && (
             <div className="report-thank-you-alert">
               <va-alert
-                class="vads-u-margin-bottom--2"
+                class="thank-you-alert vads-u-margin-bottom--2"
+                id={`thank-you-alert-${representativeId}`}
                 close-btn-aria-label="Close notification"
                 disable-analytics="false"
+                tabIndex={-1}
                 full-width="false"
                 slim
                 status="info"
@@ -128,7 +186,7 @@ const SearchResult = ({
                 visible="true"
               >
                 <p className="vads-u-margin-y--0">
-                  Thank you for reporting outdated information.
+                  Thanks for reporting outdated information.
                 </p>
               </va-alert>
             </div>
@@ -138,8 +196,11 @@ const SearchResult = ({
               onClick={() => {
                 setReportModalIsShowing(true);
               }}
+              tabIndex={-1}
+              id={`report-button-${representativeId}`}
               secondary
               text="Report outdated information"
+              label={`Report outdated information for ${officer}`}
               uswds
             />
           </div>
@@ -157,17 +218,19 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
+  initializeRepresentativeReport: PropTypes.func,
   officer: PropTypes.string,
   phone: PropTypes.string,
   query: PropTypes.object,
+  reportSubmissionStatus: PropTypes.string,
   reports: PropTypes.shape({
     phone: PropTypes.string,
     email: PropTypes.string,
     address: PropTypes.string,
-    otherComment: PropTypes.string,
+    other: PropTypes.string,
   }),
-  representative: PropTypes.object,
   representativeId: PropTypes.string,
+  setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,

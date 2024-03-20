@@ -2,8 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { PURPOSE_TEXT_V2 } from '../../../utils/constants';
+import { FLOW_TYPES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
+import { getFlowType } from '../../redux/selectors';
 
 function handleClick(history, pageFlow) {
   const { home, reasonForAppointment } = pageFlow;
@@ -23,6 +24,7 @@ export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
   const history = useHistory();
   const pageFlow = useSelector(getNewAppointmentFlow);
+  const flowType = useSelector(getFlowType);
 
   if (!reasonForAppointment && !reasonAdditionalInfo) {
     return null;
@@ -30,15 +32,31 @@ export default function ReasonForAppointmentSection({ data }) {
 
   return (
     <>
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
-            <h3 className="vaos-appts__block-label">
-              {PURPOSE_TEXT_V2.find(
-                purpose => purpose.id === reasonForAppointment,
-              )?.short || 'Additional details'}
-            </h3>
+            {FLOW_TYPES.DIRECT === flowType && (
+              <h3 className="vaos-appts__block-label">
+                {PURPOSE_TEXT_V2.find(
+                  purpose => purpose.id === reasonForAppointment,
+                )?.short || 'Additional details'}
+              </h3>
+            )}
+            {FLOW_TYPES.REQUEST === flowType && (
+              <>
+                <h2 className="vads-u-font-size--base vaos-appts__block-label">
+                  Details you’d like to share with your provider
+                </h2>
+                <span>
+                  {
+                    PURPOSE_TEXT_V2.find(
+                      purpose => purpose.id === reasonForAppointment,
+                    )?.short
+                  }
+                </span>
+                <br />
+              </>
+            )}
             <span className="vaos-u-word-break--break-word">
               {reasonAdditionalInfo}
             </span>

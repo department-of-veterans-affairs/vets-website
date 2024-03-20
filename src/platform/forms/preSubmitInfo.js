@@ -3,7 +3,7 @@ import React from 'react';
 export default {
   required: true,
   notice: (
-    <div>
+    <div className="vads-u-margin-y--2">
       <strong>Note:</strong> According to federal law, there are criminal
       penalties, including a fine and/or imprisonment for up to 5 years, for
       withholding information or for providing incorrect information. (See 18

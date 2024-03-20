@@ -5,7 +5,7 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
@@ -19,20 +19,11 @@ describe('Secure Messaging Delete Draft', () => {
     PatientInterstitialPage.getContinueButton().should('not.exist');
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     draftsPage.confirmDeleteDraft(mockDraftResponse, false);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDeleteConfirmationHasFocus();
-    cy.get('[data-testid="drafts-sidebar"]')
+    cy.get(Locators.FOLDERS.DRAFTS)
       .find('a')
       .should('have.class', 'is-active');
     draftsPage.verifyDraftMessageBannerTextHasFocus();

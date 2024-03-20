@@ -6,7 +6,7 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
@@ -29,23 +29,14 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     ).as('autosaveResponse');
     composePage.attachMessageFromFile('sample_docx.docx');
     composePage.saveDraftButton().click();
-    cy.get('[visible=""] > p').should(
+    cy.get(Locators.FIELDS.VISIBLE_P).should(
       'contain',
       'If you save this message as a draft',
     );
 
     cy.wait('@autosaveResponse');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.realPress(['Enter']);
   });
 });

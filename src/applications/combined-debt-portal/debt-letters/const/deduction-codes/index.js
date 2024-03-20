@@ -228,7 +228,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
             <li>Your eligibility for a benefit has changed.</li>
           </ul>
 
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Note: </strong>
             For Post-9/11 GI Bill benefits, we make separate payments for
             tuition, housing, and books and supplies. When there is a change in

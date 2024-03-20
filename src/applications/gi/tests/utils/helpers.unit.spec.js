@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
+import mapboxClient from '../../components/MapboxClient';
 import {
   addAllOption,
   convertRatingToStars,
@@ -21,6 +21,9 @@ import {
   isPresent,
   locationInfo,
   scrollToFocusedElement,
+  handleInputFocusWithPotentialOverLap,
+  validateSearchTerm,
+  searchCriteriaFromCoords,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -316,6 +319,175 @@ describe('GIBCT helpers:', () => {
 
       scrollToFocusedElement(getScrollOptions);
       expect(scrollToStub.called).to.be.true;
+    });
+  });
+  describe('searchCriteriaFromCoords', () => {
+    let reverseGeocodeStub;
+    beforeEach(() => {
+      reverseGeocodeStub = sinon.stub(mapboxClient, 'reverseGeocode').returns({
+        send: () =>
+          Promise.resolve({
+            body: {
+              features: [
+                {
+                  placeName:
+                    'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
+                },
+              ],
+            },
+          }),
+      });
+    });
+    afterEach(() => {
+      reverseGeocodeStub.restore();
+    });
+
+    it('should return searchString and position based on coordinates', async () => {
+      const longitude = -123.456;
+      const latitude = 45.678;
+
+      const result = await searchCriteriaFromCoords(longitude, latitude);
+
+      expect(result).to.be.an('object');
+      expect(result).to.have.all.keys('searchString', 'position');
+      expect(result.searchString).to.equal(
+        'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
+      );
+      expect(result.position).to.deep.equal({ longitude, latitude });
+    });
+  });
+  describe('validateSearchTerm', () => {
+    let dispatchError;
+    let error;
+    let filters;
+
+    beforeEach(() => {
+      dispatchError = sinon.spy();
+      error = null;
+      filters = { school: true, employer: true, trainingProvider: true };
+    });
+
+    it('should validate name search term', () => {
+      const valid = validateSearchTerm(
+        'Test',
+        dispatchError,
+        error,
+        filters,
+        'name',
+      );
+      expect(valid).to.be.true;
+      expect(dispatchError.called).to.be.false;
+
+      const invalid = validateSearchTerm(
+        ' ',
+        dispatchError,
+        error,
+        filters,
+        'name',
+      );
+      expect(invalid).to.be.false;
+      expect(
+        dispatchError.calledWith(
+          'Please fill in a school, employer, or training provider.',
+        ),
+      ).to.be.true;
+    });
+
+    it('should validate location search term', () => {
+      const valid = validateSearchTerm(
+        '12345',
+        dispatchError,
+        error,
+        filters,
+        'location',
+      );
+      expect(valid).to.be.true;
+      expect(dispatchError.called).to.be.false;
+
+      const invalid = validateSearchTerm(
+        '123456',
+        dispatchError,
+        error,
+        filters,
+        'location',
+      );
+      expect(invalid).to.be.true;
+      expect(dispatchError.calledWith('Please enter a valid postal code.')).to
+        .be.true;
+    });
+    it('should not dispatchError when error is not null for name', () => {
+      const invalid = validateSearchTerm(
+        'new york',
+        dispatchError,
+        (error = 'error'),
+        filters,
+        'name',
+      );
+      expect(invalid).to.be.true;
+      expect(
+        dispatchError.calledWith(
+          'Please fill in a school, employer, or training provider',
+        ),
+      ).to.be.false;
+    });
+    it('should not dispatchError when error is not null for location', () => {
+      const invalid = validateSearchTerm(
+        '94121',
+        dispatchError,
+        (error = 'error'),
+        filters,
+        'location',
+      );
+      expect(invalid).to.be.true;
+      expect(dispatchError.calledWith('Please enter a valid postal code.')).to
+        .be.false;
+    });
+    it('should dispatchError search input is empty', () => {
+      validateSearchTerm('', dispatchError, error, filters, 'location');
+
+      expect(
+        dispatchError.calledWith(
+          'Please fill in a city, state, or postal code.',
+        ),
+      ).to.be.true;
+    });
+  });
+
+  describe('handleInputFocusWithPotentialOverLap', () => {
+    let scrollIntoViewStub;
+    let scrollByStub;
+    let getElementByIdStub;
+
+    beforeEach(() => {
+      // const isMobileViewStub = sinon.stub().returns(true);
+      scrollIntoViewStub = sinon.stub();
+      scrollByStub = sinon.stub();
+
+      getElementByIdStub = sinon.stub(document, 'getElementById');
+      getElementByIdStub.returns({
+        scrollIntoView: scrollIntoViewStub,
+        getBoundingClientRect: sinon.stub().returns({
+          right: 10,
+          left: 0,
+          bottom: 10,
+          top: 0,
+        }),
+        scrollBy: scrollByStub,
+      });
+    });
+
+    afterEach(() => {
+      getElementByIdStub.restore();
+    });
+
+    it('should handle input focus with potential overlap', () => {
+      handleInputFocusWithPotentialOverLap(
+        'field1',
+        'field2',
+        'scrollableField',
+      );
+      expect(scrollIntoViewStub.called).to.be.false;
+      expect(scrollByStub.called).to.be.false;
     });
   });
 });

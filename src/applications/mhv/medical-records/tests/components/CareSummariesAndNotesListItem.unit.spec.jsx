@@ -31,11 +31,11 @@ describe('CareSummariesAndNotesListItem with clinical note', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getAllByText('Progress note').length).to.eq(2);
+    expect(screen.getAllByText('Adverse React/Allergy').length).to.eq(2);
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getAllByText('Progress note');
+    const recordName = screen.getAllByText('Adverse React/Allergy');
     expect(recordName.length).to.eq(2);
   });
 
@@ -46,7 +46,7 @@ describe('CareSummariesAndNotesListItem with clinical note', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
-      name: /Progress note on August 5/,
+      name: /Adverse React\/Allergy on August 5/,
     });
     expect(recordDetailsLink).to.exist;
   });
@@ -75,11 +75,11 @@ describe('CareSummariesAndNotesListItem with discharge summary', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getAllByText('Discharge summary').length).to.eq(2);
+    expect(screen.getAllByText('Discharge Summary').length).to.eq(2);
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getAllByText('Discharge summary');
+    const recordName = screen.getAllByText('Discharge Summary');
     expect(recordName.length).to.eq(2);
   });
 
@@ -90,7 +90,7 @@ describe('CareSummariesAndNotesListItem with discharge summary', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
-      name: /Discharge summary on August/,
+      name: /Discharge Summary on August/,
     });
     expect(recordDetailsLink).to.exist;
   });

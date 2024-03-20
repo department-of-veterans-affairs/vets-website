@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
 import { prescriptions } from '../fixtures/prescriptions.json';
-import { prescriptionDetails } from '../fixtures/prescriptionDetails.json';
+import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import { allergies } from '../../../medical-records/tests/fixtures/allergies.json';
 import { Actions } from '../../util/actionTypes';
 import {
@@ -11,6 +11,7 @@ import {
   getAllergiesList,
   clearAllergiesError,
   fillPrescription,
+  setPrescriptionDetails,
 } from '../../actions/prescriptions';
 
 describe('Get prescription list action', () => {
@@ -59,15 +60,25 @@ describe('Clear allergies error action', () => {
 });
 
 describe('Get prescription details action', () => {
-  it('should dispatch a get details action', () => {
+  it('should dispatch a get details action', async () => {
     const mockData = prescriptionDetails;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getPrescriptionDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Prescriptions.GET_DETAILS,
-      );
-    });
+    await getPrescriptionDetails()(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Prescriptions.GET_DETAILS,
+    );
+  });
+});
+
+describe('Set prescription details action', () => {
+  it('should dispatch a set details action', async () => {
+    const mockData = prescriptionDetails.data.attributes;
+    const dispatch = sinon.spy();
+    await setPrescriptionDetails(mockData)(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Prescriptions.SET_DETAILS,
+    );
   });
 });
 

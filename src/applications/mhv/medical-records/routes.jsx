@@ -1,7 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
+import AppRoute from './components/shared/AppRoute';
 import HealthConditions from './containers/HealthConditions';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
@@ -19,91 +21,124 @@ import DownloadRecordsPage from './containers/DownloadRecordsPage';
 import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
-import App from './containers/App';
 
 const routes = (
-  <App>
-    <Switch>
-      <Route exact path="/" key="Medical Records Home">
-        <LandingPage />
-      </Route>
-      <Route exact path="/allergies" key="Allergies">
-        <Allergies />
-      </Route>
-      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
-        <AllergyDetails />
-      </Route>
-      <FeatureFlagRoute
-        exact
-        path="/vaccines"
-        key="Vaccines"
-        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-      >
-        <Vaccines />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        path="/vaccines/:vaccineId"
-        key="Vaccine"
-        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-      >
-        <VaccineDetails />
-      </FeatureFlagRoute>
-
-      <FeatureFlagRoute
-        exact
-        path="/summaries-and-notes"
-        key="CareSummariesAndNotes"
-        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-      >
-        <CareSummariesAndNotes />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        path="/summaries-and-notes/:summaryId"
-        key="CareSummaryAndNotesDetails"
-        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-      >
-        <CareSummariesDetails />
-      </FeatureFlagRoute>
-      <Route exact path="/conditions" key="Health Conditions">
-        <HealthConditions />
-      </Route>
-      <Route path="/conditions/:conditionId" key="Condition Details">
-        <ConditionDetails />
-      </Route>
-      <Route path="/download-all" key="DownloadRecords">
-        <DownloadRecordsPage />
-      </Route>
-      <Route exact path="/labs-and-tests" key="LabsAndTests">
-        <LabsAndTests />
-      </Route>
-      <Route exact path="/labs-and-tests/:labId" key="LabAndTestDetails">
-        <LabAndTestDetails />
-      </Route>
-      <Route
-        exact
-        path="/labs-and-tests/:labId/images"
-        key="RadiologyImagesList"
-      >
-        <RadiologyImagesList />
-      </Route>
-      <Route
-        exact
-        path="/labs-and-tests/:labId/images/:imageId"
-        key="RadiologySingleImage"
-      >
-        <RadiologySingleImage />
-      </Route>
-      <Route path="/settings" key="Settings">
-        <SettingsPage />
-      </Route>
-      <Route exact path="/vitals" key="Vitals">
-        <Vitals />
-      </Route>
-      <Route path="/vitals/:vitalType-history" key="VitalDetails">
-        <VitalDetails />
-      </Route>
-    </Switch>
-  </App>
+  <Switch>
+    <AppRoute exact path="/" key="Medical Records Home">
+      <LandingPage />
+    </AppRoute>
+    <AppRoute exact path="/allergies" key="Allergies">
+      <Allergies />
+    </AppRoute>
+    <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
+      <AllergyDetails />
+    </AppRoute>
+    <FeatureFlagRoute
+      exact
+      path="/vaccines"
+      key="Vaccines"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+    >
+      <Vaccines />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/vaccines/:vaccineId"
+      key="Vaccine"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+    >
+      <VaccineDetails />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/summaries-and-notes"
+      key="CareSummariesAndNotes"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
+    >
+      <CareSummariesAndNotes />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/summaries-and-notes/:summaryId"
+      key="CareSummaryAndNotesDetails"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
+    >
+      <CareSummariesDetails />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/conditions"
+      key="Health Conditions"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
+    >
+      <HealthConditions />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/conditions/:conditionId"
+      key="Condition Details"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
+    >
+      <ConditionDetails />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/vitals"
+      key="Vitals"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
+    >
+      <Vitals />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/vitals/:vitalType-history"
+      key="VitalDetails"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
+    >
+      <VitalDetails />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/labs-and-tests"
+      key="LabsAndTests"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
+    >
+      <LabsAndTests />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/labs-and-tests/:labId"
+      key="LabAndTestDetails"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
+    >
+      <LabAndTestDetails />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/labs-and-tests/:labId/images"
+      key="RadiologyImagesList"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
+    >
+      <RadiologyImagesList />
+    </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/labs-and-tests/:labId/images/:imageId"
+      key="RadiologySingleImage"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
+    >
+      <RadiologySingleImage />
+    </FeatureFlagRoute>
+    <AppRoute exact path="/download-all" key="DownloadRecords">
+      <DownloadRecordsPage />
+    </AppRoute>
+    <AppRoute exact path="/settings" key="Settings">
+      <SettingsPage />
+    </AppRoute>
+    <Route>
+      <PageNotFound />
+    </Route>
+  </Switch>
 );
 
 export default routes;

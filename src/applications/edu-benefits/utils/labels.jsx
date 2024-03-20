@@ -179,6 +179,18 @@ export const benefitsLabelsUpdate = {
       </a>
     </p>
   ),
+  chapter35: (
+    <p>
+      Survivors' and Dependents’ Education Assistance (DEA, Chapter 35 )<br />
+      <a
+        aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance"
+        href="/education/survivor-dependent-benefits/dependents-education-assistance/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
 };
 
 // The links and labels are different from the above
@@ -318,3 +330,9 @@ export const bankInfoHelpText = (
     </span>
   </va-additional-info>
 );
+
+export const genderLabels = {
+  F: 'Female',
+  M: 'Male',
+  NA: 'Prefer not to answer',
+};

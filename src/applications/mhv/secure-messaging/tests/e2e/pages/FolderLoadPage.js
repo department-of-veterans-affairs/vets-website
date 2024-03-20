@@ -3,25 +3,22 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import { Assertions, Locators, Paths } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
+    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
       'featureToggle',
     );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/categories',
-      mockCategories,
-    ).as('categories');
-    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
+      'categories',
+    );
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
       'folders',
     );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/threads?*',
-      mockMessages,
-    ).as('inboxMessages');
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
+      'inboxMessages',
+    );
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
@@ -31,12 +28,12 @@ class FolderLoadPage {
 
   loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
     this.foldersSetup();
-    cy.intercept('GET', `/my_health/v1/messaging/folders/${folderNumber}*`, {
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
     }).as('folderMetaData');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderNumber}/threads*`,
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}/threads*`,
       mockMessages,
     ).as('folderThreadResponse');
 
@@ -64,31 +61,27 @@ class FolderLoadPage {
   };
 
   getFolderHeader = text => {
-    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
   verifyBackToMessagesButton = () => {
-    cy.intercept('GET', '/my_health/v1/messaging/recipients*', mockRecipients);
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging//folders/0/messages*',
-      mockMessages,
-    );
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_RECIPIENT, mockRecipients);
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_MESS, mockMessages);
 
     cy.contains('Back to messages')
       .should('be.visible')
       .click({ force: true });
-    cy.get('h1').should('contain', 'Messages');
+    cy.get(Locators.HEADER).should('contain', Assertions.MESSAGES);
   };
 
   navigateToLastPage = index => {
-    cy.get('.usa-pagination__list li')
+    cy.get(Locators.ALERTS.PAGIN_LIST)
       .eq(index)
       .click();
   };
 
   verifyPaginationElements = () => {
-    cy.get('.usa-pagination__list li').each(el => {
+    cy.get(Locators.ALERTS.PAGIN_LIST).each(el => {
       cy.wrap(el).should('be.visible');
     });
   };

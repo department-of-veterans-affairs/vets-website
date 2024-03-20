@@ -3,10 +3,10 @@ import { createSelector } from 'reselect';
 
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 import {
   cnpDirectDepositBankInfo,
-  isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from './util';
@@ -55,33 +55,18 @@ export const eduDirectDepositLoadError = state => {
   return error;
 };
 
-export const cnpDirectDepositAddressInformation = state =>
-  cnpDirectDepositInformation(state)?.paymentAddress;
-
-export const cnpDirectDepositIsEligible = (
-  state,
-  useLighthouseFormat = false,
-) => {
-  if (useLighthouseFormat) {
-    return !!cnpDirectDepositInformation(state)?.controlInformation
-      ?.canUpdateDirectDeposit;
-  }
-  return isEligibleForCNPDirectDeposit(cnpDirectDepositInformation(state));
-};
+export const cnpDirectDepositIsEligible = state =>
+  !!cnpDirectDepositInformation(state)?.controlInformation
+    ?.canUpdateDirectDeposit;
 
 export const cnpDirectDepositIsBlocked = state => {
   const controlInfo = cnpDirectDepositInformation(state)?.controlInformation;
 
   if (!controlInfo) return false;
 
-  // 2 sets of flags are used to determine if the user is blocked from
-  // setting up direct deposit. Remove the first set once the
-  // lighthouse based feature flag is removed.
+  // control information flags that are used to determine if the user is blocked from
+  // setting up direct deposit. These will also cause the whole profile to be blocked
   const controlInfoFlags = [
-    'isCompetentIndicator',
-    'noFiduciaryAssignedIndicator',
-    'notDeceasedIndicator',
-
     'isCompetent',
     'hasNoFiduciaryAssigned',
     'isNotDeceased',
@@ -145,20 +130,15 @@ export const selectProfileShowProofOfVeteranStatusToggle = state =>
 
 export const selectProfileContacts = state => state?.profileContacts || {};
 
-export const selectEmergencyContact = state => {
-  const contacts = selectProfileContacts(state).data || [];
-  const emergencyContacts =
-    contacts.filter(contact =>
-      contact?.attributes?.contactType?.match(/emergency contact/i),
-    ) || [];
-  return emergencyContacts[0];
+export const selectHasRetiringSignInService = state => {
+  const serviceName = state?.user?.profile?.signIn?.serviceName;
+  return !serviceName || [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName);
 };
 
-export const selectNextOfKin = state => {
-  const contacts = selectProfileContacts(state).data || [];
-  const nextOfKin =
-    contacts.filter(contact =>
-      contact?.attributes?.contactType?.match(/next of kin/i),
-    ) || [];
-  return nextOfKin[0];
+export const selectShowCredRetirementMessaging = state => {
+  return (
+    toggleValues(state)?.[
+      FEATURE_FLAG_NAMES.profileShowCredentialRetirementMessaging
+    ] && selectHasRetiringSignInService(state)
+  );
 };

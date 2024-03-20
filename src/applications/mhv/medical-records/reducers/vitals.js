@@ -1,5 +1,13 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { loincCodes, vitalTypes, EMPTY_FIELD } from '../util/constants';
+import {
+  loincCodes,
+  vitalTypes,
+  EMPTY_FIELD,
+  vitalUnitCodes,
+  vitalUnitDisplayText,
+  loadStates,
+} from '../util/constants';
 import {
   isArrayAndHasItems,
   macroCase,
@@ -9,6 +17,16 @@ import {
 
 const initialState = {
   /**
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+
+  /**
    * The list of vaccines returned from the api
    * @type {array}
    */
@@ -17,6 +35,11 @@ const initialState = {
    * The vaccine currently being displayed to the user
    */
   vitalDetails: undefined,
+};
+
+const getUnit = (type, unit) => {
+  if (vitalUnitCodes[type] === unit) return vitalUnitDisplayText[type];
+  return ` ${unit}`;
 };
 
 const getMeasurement = (record, type) => {
@@ -29,7 +52,8 @@ const getMeasurement = (record, type) => {
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  return `${record.valueQuantity?.value} ${record.valueQuantity?.code}`;
+  const unit = getUnit(type, record.valueQuantity?.code);
+  return `${record.valueQuantity?.value}${unit}`;
 };
 
 export const extractLocation = vital => {
@@ -55,6 +79,9 @@ export const convertVital = record => {
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
     date: record?.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
+    dateTime: record?.effectiveDateTime
       ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     location: extractLocation(record),
@@ -76,6 +103,8 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         vitalsList:
           action.response.entry?.map(vital => {
             return convertVital(vital.resource);
@@ -86,6 +115,12 @@ export const vitalReducer = (state = initialState, action) => {
       return {
         ...state,
         vitalDetails: undefined,
+      };
+    }
+    case Actions.Vitals.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:

@@ -5,7 +5,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Paths } from './utils/constants';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
@@ -22,18 +22,18 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      `${
+        Paths.INTERCEPT.MESSAGE_FOLDERS
+      }/0/messages?per_page=-1&useCache=false`,
       mockMessages,
     ).as('messagesFolder');
     cy.intercept(
       'PATCH',
-      `/my_health/v1/messaging/threads/${
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${
         mockThreadwithAttachment.data.at(0).attributes.threadId
       }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
-
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     detailsPage.loadMessageDetails(
       mockMessagewithAttachment,
@@ -46,12 +46,6 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

@@ -7,7 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { getCommunityCareFacilities, getCommunityCareFacility } from '..';
 import { calculateBoundingBox } from '../../../utils/address';
 
-describe('VAOS CC facilities API', () => {
+describe('VAOS Services: CC facilities API', () => {
   beforeEach(() => {});
 
   const data = [

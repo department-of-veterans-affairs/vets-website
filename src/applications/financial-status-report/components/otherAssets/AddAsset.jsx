@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/other-assets-summary';
 const CHECKLIST_PATH = '/other-assets-checklist';
@@ -84,12 +85,15 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
           },
         });
       }
+      handlers.onSubmit(event);
     },
   };
 
+  const labelText = otherAssets.length === index ? 'Add' : 'Update';
+
   return (
     <>
-      <form onSubmit={handlers.onSubmit}>
+      <form>
         <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
@@ -109,6 +113,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
+            uswds
             charcount
           />
           <VaNumberInput
@@ -123,17 +128,22 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
+            uswds
           />
           <br />
           <va-additional-info
             class="vads-u-margin-top--4"
             trigger="Why do I need to provide this information?"
+            uswds
           >
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.
           </va-additional-info>
-          <va-additional-info trigger="What if I don’t know the estimated value of an asset?">
+          <va-additional-info
+            trigger="What if I don’t know the estimated value of an asset?"
+            uswds
+          >
             Don’t worry. We just want to get an idea of items of value you may
             own so we can better understand your financial situation. Include
             the amount of money you think you would get if you sold the asset.
@@ -147,24 +157,20 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
               </li>
             </ul>
           </va-additional-info>
-          <p>
-            <button
-              type="button"
-              id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
-              onClick={handlers.onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              id="submit"
-              className="vads-u-width--auto"
-              onClick={handlers.onUpdate}
-            >
-              {`${otherAssets.length === index ? 'Add' : 'Update'} asset`}
-            </button>
-          </p>
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Cancel',
+                onClick: handlers.onCancel, // Define this function based on page-specific logic
+                isSecondary: true,
+              },
+              {
+                label: `${labelText} asset`,
+                onClick: handlers.onUpdate,
+                isSubmitting: true, // If this button submits a form
+              },
+            ]}
+          />
         </fieldset>
       </form>
     </>

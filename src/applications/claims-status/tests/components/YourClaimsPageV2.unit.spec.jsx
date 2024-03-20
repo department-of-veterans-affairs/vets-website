@@ -32,7 +32,7 @@ Object.defineProperty(window, 'sessionStorage', {
 
 describe('<YourClaimsPageV2>', () => {
   const defaultProps = {
-    canAccessClaimsEVSS: true,
+    canAccessClaims: true,
     canAccessAppeals: true,
     claimsLoading: false,
     appealsLoading: false,
@@ -66,7 +66,7 @@ describe('<YourClaimsPageV2>', () => {
     ],
     pages: 1,
     page: 1,
-    getClaimsEVSS: sinon.spy(),
+    getClaims: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
   };
@@ -179,9 +179,9 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  it('should render an AskVAQuestions warning component', () => {
+  it('should render a NeedHelp warning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('Connect(AskVAQuestions)').length).to.equal(1);
+    expect(wrapper.find('NeedHelp').length).to.equal(1);
     wrapper.unmount();
   });
 

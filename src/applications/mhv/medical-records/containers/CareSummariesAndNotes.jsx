@@ -5,11 +5,13 @@ import RecordList from '../components/RecordList/RecordList';
 import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { updatePageTitle } from '../../shared/util/helpers';
+import useListRefresh from '../hooks/useListRefresh';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
   recordType,
+  refreshExtractTypes,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -20,21 +22,30 @@ const CareSummariesAndNotes = () => {
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
-  const activeAlert = useAlerts();
-
-  useEffect(
-    () => {
-      dispatch(getCareSummariesAndNotesList());
-    },
-    [dispatch],
+  const careSummariesAndNotesCurrentAsOf = useSelector(
+    state => state.mr.careSummariesAndNotes.listCurrentAsOf,
   );
+  const listState = useSelector(
+    state => state.mr.careSummariesAndNotes.listState,
+  );
+  const refresh = useSelector(state => state.mr.refresh);
+  const activeAlert = useAlerts(dispatch);
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: careSummariesAndNotesCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getCareSummariesAndNotesList,
+    dispatch,
+  });
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/my-health/medical-records',
+            url: '/',
             label: 'Medical records',
           },
         ]),

@@ -109,6 +109,7 @@ const BankruptcyDetails = ({
   // Handle nav forward if data is valid
   const onSubmit = event => {
     event.preventDefault();
+    onGoForward();
     if (!courtError && !docketError && !dateError) {
       goForward(data);
     }
@@ -185,14 +186,12 @@ const BankruptcyDetails = ({
           {
             label: 'Back',
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
           },
           {
             label: continueButtonText,
-            onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            onClick: onSubmit,
+            isSubmitting: true,
           },
         ]}
       />

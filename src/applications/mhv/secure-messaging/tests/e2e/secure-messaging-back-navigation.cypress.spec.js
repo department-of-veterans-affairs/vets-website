@@ -22,20 +22,14 @@ describe('SM back navigation', () => {
     composePage
       .getCategory(requestBody.category)
       .first()
-      .click();
+      .click({ force: true });
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()
       .type(`${requestBody.body}`, { force: true });
     composePage.sendMessage(requestBody);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.INBOX.header);
     cy.location().should(loc => {
@@ -51,13 +45,7 @@ describe('SM back navigation', () => {
     draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
     cy.location().should(loc => {

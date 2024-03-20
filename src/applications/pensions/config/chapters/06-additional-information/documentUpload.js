@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import environment from 'platform/utilities/environment';
@@ -59,7 +59,7 @@ const UploadMessage = (
       <br />
       PO Box 5365
       <br />
-      Janesville, WI 53547-5192
+      Janesville, WI 53547-5365
       <br />
     </p>
   </div>
@@ -67,7 +67,7 @@ const UploadMessage = (
 
 export default {
   uiSchema: {
-    'ui:title': 'Submit your supporting documents',
+    ...titleUI('Submit your supporting documents'),
     'ui:description': Description,
     files: fileUploadUI('', {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,

@@ -35,7 +35,7 @@ export const emailValidation = (
 };
 
 /**
- * Web component uiSchema for email
+ * Web component v3 uiSchema for email
  * ```js
  * email: emailUI() // 'Email address'
  * email: emailUI('Your email address')
@@ -44,7 +44,7 @@ export const emailValidation = (
  *   description: "By providing an email address, I agree to receive electronic correspondence from VA regarding my application",
  * })
  * ```
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   description: UISchemaOptions['ui:description'],
  *   hint?: string

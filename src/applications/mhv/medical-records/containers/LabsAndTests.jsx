@@ -10,32 +10,37 @@ import {
   accessAlertTypes,
   pageTitles,
   recordType,
+  refreshExtractTypes,
 } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
-  const activeAlert = useAlerts();
-
-  useEffect(
-    () => {
-      dispatch(getLabsAndTestsList());
-    },
-    [dispatch],
+  const activeAlert = useAlerts(dispatch);
+  const listState = useSelector(state => state.mr.labsAndTests.listState);
+  const refresh = useSelector(state => state.mr.refresh);
+  const labsAndTestsCurrentAsOf = useSelector(
+    state => state.mr.labsAndTests.listCurrentAsOf,
   );
 
+  useListRefresh({
+    listState,
+    listCurrentAsOf: labsAndTestsCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getLabsAndTestsList,
+    dispatch,
+  });
+
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          { url: '/my-health/medical-records/', label: 'Medical records' },
-        ]),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },

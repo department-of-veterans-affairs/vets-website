@@ -27,6 +27,7 @@ import {
   geolocateUser,
   geocodeUserAddress,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
@@ -50,9 +51,13 @@ const SearchPage = props => {
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
-      distance: currentQuery.searchArea || null,
       ...params,
     };
+
+    if (currentQuery.searchArea !== null) {
+      queryParams.distance = currentQuery.searchArea;
+    }
+
     const queryStringObj = appendQuery(
       `/get-help-from-accredited-representative/find-rep${location.pathname}`,
       queryParams,
@@ -228,7 +233,7 @@ const SearchPage = props => {
       },
       {
         href: '/get-help-from-accredited-representative',
-        label: 'Get help from a VA accredited representative',
+        label: 'Get help from a VA accredited representative or VSO',
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
@@ -237,17 +242,15 @@ const SearchPage = props => {
     ];
     return (
       <>
-        <div className="row vads-u-padding-left--4">
-          <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
-        </div>
+        <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
       </>
     );
   };
 
   const renderSearchSection = () => {
     return (
-      <div className="row usa-width-three-fourths search-section">
-        <div className="title-section vads-u-padding-y--1">
+      <div className="row search-section">
+        <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
           <p>
             An accredited attorney, claims agent, or Veterans Service Officer
@@ -322,20 +325,32 @@ const SearchPage = props => {
           searchResults={searchResults}
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
+          initializeRepresentativeReport={props.initializeRepresentativeReport}
+          reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
     };
 
-    if (isLoading && !isErrorFetchRepresentatives) {
+    if (
+      isLoading &&
+      !isErrorFetchRepresentatives &&
+      props.currentQuery.searchCounter > 0
+    ) {
       return (
-        <div>
-          <va-loading-indicator message="Search in progress" />
+        <div className="row results-section">
+          <div className="loading-indicator-container">
+            <va-loading-indicator
+              label="Searching"
+              message="Searching for representatives..."
+              set-focus
+            />
+          </div>
         </div>
       );
     }
 
     return (
-      <div className="row usa-width-three-fourths results-section">
+      <div className="row results-section">
         <VaModal
           modalTitle="Were sorry, something went wrong"
           message="Please try again soon."
@@ -370,14 +385,15 @@ const SearchPage = props => {
 
   return (
     <>
-      {renderBreadcrumbs()}
-
-      <div className="usa-grid use-grid-full ">
-        <div className="vads-u-margin-right--3">
-          {renderSearchSection()}
-          {renderResultsSection()}
+      <div className="usa-grid usa-grid-full">
+        <div className="usa-width-three-fourths">
+          <nav className="va-nav-breadcrumbs">{renderBreadcrumbs()}</nav>
+          <article className="usa-content">
+            {renderSearchSection()}
+            {renderResultsSection()}
+            <GetFormHelp />
+          </article>
         </div>
-        <GetFormHelp />
       </div>
     </>
   );
@@ -435,6 +451,7 @@ SearchPage.propTypes = {
     totalEntries: PropTypes.number,
   }),
   reportedResults: PropTypes.array,
+  reportSubmissionStatus: PropTypes.string,
   results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
@@ -442,6 +459,7 @@ SearchPage.propTypes = {
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
@@ -454,6 +472,7 @@ const mapStateToProps = state => ({
   isErrorReportSubmission: state.errors.isErrorReportSubmission,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
+  reportSubmissionStatus: state.searchResult.reportSubmissionStatus,
   selectedResult: state.searchResult.selectedResult,
   reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
@@ -469,6 +488,7 @@ const mapDispatchToProps = {
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,
+  initializeRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };

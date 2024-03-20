@@ -12,18 +12,12 @@ describe('Start a new message With Attacments and Errors', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage
       .getCategory('COVID')
       .first()
-      .click();
+      .click({ force: true });
 
     // logic has changed here. After attaching 4th file, Attach File button becomes hidden
 

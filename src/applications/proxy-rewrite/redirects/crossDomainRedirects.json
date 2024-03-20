@@ -261,6 +261,16 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/FDC/walkthrough.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/FDC/checklist.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/effective_dates.asp",
     "dest": "/disability/about-disability-ratings/effective-date/"
   },

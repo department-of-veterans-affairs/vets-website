@@ -33,6 +33,7 @@ const PayeeInformationWrapper = ({
         <span className="vye-top-border" />
         <PayeeInformationCard
           title="Program"
+          loading={loading}
           showAdditionalInformation={false}
           applicantChapter={applicantChapter}
         />

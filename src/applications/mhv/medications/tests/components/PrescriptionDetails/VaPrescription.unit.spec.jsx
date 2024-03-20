@@ -7,8 +7,9 @@ import { dateFormat } from '../../../util/helpers';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
-  const setup = () => {
-    return renderWithStoreAndRouter(<VaPrescription {...prescription} />, {
+  const newRx = { ...prescription, phoneNumber: '1234567891' };
+  const setup = (rx = newRx) => {
+    return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
       initialState: {},
       reducers: {},
       path: '/prescriptions/1234567891',
@@ -62,5 +63,24 @@ describe('vaPrescription details container', () => {
     expect(trackingNumber).to.have.text(
       rxDetailsResponse.data.attributes.trackingList[0][1][0].trackingNumber,
     );
+  });
+  it('displays none noted if no phone number is provided', () => {
+    const screen = setup(prescription);
+    const pharmacyPhone = screen.queryByTestId('pharmacy-phone');
+
+    expect(pharmacyPhone).to.not.exist;
+  });
+  it('displays "You haven’t filled this prescription yet" if there is no refil history', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      rxRfRecords: [],
+      dispensedDate: undefined,
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const haventFilledRxNotification = screen.getByText(
+      'You haven’t filled this prescription yet.',
+    );
+
+    expect(haventFilledRxNotification).to.exist;
   });
 });
