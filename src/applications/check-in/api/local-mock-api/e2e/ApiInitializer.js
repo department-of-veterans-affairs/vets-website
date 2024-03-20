@@ -483,13 +483,13 @@ class ApiInitializer {
   };
 
   initializeBtsssPost = {
-    withSuccess: () => {
-      cy.intercept(`/check_in/v0/travel_claims/`, { times: 1 }, req => {
+    withSuccess: (times = 1) => {
+      cy.intercept(`/check_in/v0/travel_claims/`, { times }, req => {
         req.reply(202, btsss.post.createMockSuccessResponse());
       }).as('btsssPostSuccess');
     },
-    withFailure: () => {
-      cy.intercept(`/check_in/v0/travel_claims/`, { times: 1 }, req => {
+    withFailure: (times = 1) => {
+      cy.intercept(`/check_in/v0/travel_claims/`, { times }, req => {
         req.reply(500, btsss.post.createMockFailedResponse());
       }).as('btsssPostFailure');
     },

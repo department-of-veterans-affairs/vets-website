@@ -14,17 +14,16 @@ describe('A Patient that encounters an error when submitting for a travel claim'
       initializeFeatureToggle,
       initializeSessionGet,
       initializeSessionPost,
+      initializeCheckInDataGetOH,
       initializeBtsssPost,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
-    initializeBtsssPost.withFailure();
+    initializeCheckInDataGetOH.withSuccess(sharedData.get.defaultUUID);
+    initializeBtsssPost.withFailure(1);
   });
   it('should see the correct error page', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.defaultUUID,
-    );
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
     cy.injectAxeThenAxeCheck();
@@ -65,18 +64,19 @@ describe('A Patient that encounters an error and a success when submitting multi
       initializeFeatureToggle,
       initializeSessionGet,
       initializeSessionPost,
+      initializeCheckInDataGetOH,
       initializeBtsssPost,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
-    initializeBtsssPost.withSuccess();
-    initializeBtsssPost.withFailure();
-  });
-  it('should see the correct error page', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
+    initializeCheckInDataGetOH.withSuccess(
       sharedData.get.multiApptMultiFacilityUUID,
     );
+    initializeBtsssPost.withSuccess(1);
+    initializeBtsssPost.withFailure(1);
+  });
+  it('should see the correct error page', () => {
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
     cy.injectAxeThenAxeCheck();

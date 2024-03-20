@@ -2,19 +2,13 @@ import '../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
-import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 import Error from './pages/Error';
 
 describe('A patient that attempts to log in with an incorrect last name and dob ', () => {
   beforeEach(() => {
-    const {
-      initializeFeatureToggle,
-      initializeSessionGet,
-      initializeCheckInDataGetOH,
-    } = ApiInitializer;
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
-    initializeCheckInDataGetOH.withSuccess(sharedData.get.defaultUUID);
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
   });

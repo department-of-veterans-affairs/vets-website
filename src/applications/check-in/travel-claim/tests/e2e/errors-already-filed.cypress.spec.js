@@ -11,12 +11,10 @@ describe('A Patient who has already filed for all eligile appointments', () => {
       initializeFeatureToggle,
       initializeSessionGet,
       initializeSessionPost,
-      initializeBtsssPost,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
-    initializeBtsssPost.withSuccess();
   });
   it('should redirect to the correct error page after login', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
