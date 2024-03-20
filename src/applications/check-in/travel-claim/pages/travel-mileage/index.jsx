@@ -100,7 +100,12 @@ const TravelMileage = props => {
         action={goToPreviousPage}
         prevUrl={getPreviousPageFromRouter()}
       />
-      <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
+      <Wrapper
+        pageTitle={header}
+        classNames="travel-page"
+        withBackButton
+        testID="travel-mileage-page"
+      >
         {/* Setting state value here for testing purposes. Could not mock hook with our test setup. */}
         <div data-testid={JSON.stringify(selectedFacilities)}>
           {multipleFacilities ? (

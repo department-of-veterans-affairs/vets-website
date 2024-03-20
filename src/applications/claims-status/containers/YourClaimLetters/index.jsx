@@ -93,7 +93,6 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
             page={currentPage}
             pages={totalPages.current}
             maxPageListLength={ITEMS_PER_PAGE}
-            uswds="false"
           />
         )}
       </>
@@ -101,20 +100,12 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   };
 
   if (isLoading) {
-    return (
-      <va-loading-indicator message="Loading application..." uswds="false" />
-    );
+    return <va-loading-indicator message="Loading application..." />;
   }
 
   let content;
 
   if (showClaimLetters) {
-    /**
-     * This commented code was deemed likely to be needed.
-     * Commented on: 01/06/2023
-     * Stale by: 03/01/2023
-     */
-    // const fromToNums = getFromToNums(currentPage, totalItems.current);
     content = (
       <>
         <h1>Your VA claim letters</h1>
@@ -122,10 +113,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
           You can download your claim letters. We also mail you these letters.
         </div>
         {lettersLoading ? (
-          <va-loading-indicator
-            message="Loading your claim letters..."
-            uswds="false"
-          />
+          <va-loading-indicator message="Loading your claim letters..." />
         ) : (
           getSectionBodyContent(requestStatus.current)
         )}

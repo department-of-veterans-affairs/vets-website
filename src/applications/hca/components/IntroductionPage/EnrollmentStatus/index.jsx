@@ -1,30 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions';
-import { HCA_ENROLLMENT_STATUSES } from '../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../utils/selectors';
+import { selectEnrollmentStatus } from '../../../utils/selectors/enrollment-status';
+import ServerErrorAlert from '../../FormAlerts/ServerErrorAlert';
 import WarningHeadline from './Warning/WarningHeadline';
 import WarningStatus from './Warning/WarningStatus';
 import WarningExplanation from './Warning/WarningExplanation';
 import ReapplyButton from './Warning/ReapplyButton';
 import EnrollmentStatusFAQ from './FAQ';
 
-const EnrollmentStatus = props => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
-  const { route, fetchEnrollmentStatus } = props;
-  const alertStatus =
-    enrollmentStatus === HCA_ENROLLMENT_STATUSES.enrolled
-      ? 'continue'
-      : 'warning';
+const EnrollmentStatus = ({ route }) => {
+  const { isEnrolledInESR, hasServerError } = useSelector(
+    selectEnrollmentStatus,
+  );
+  const alertStatus = isEnrolledInESR ? 'continue' : 'warning';
 
-  useEffect(() => {
-    fetchEnrollmentStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return enrollmentStatus ? (
+  return !hasServerError ? (
     <>
       <va-alert status={alertStatus} data-testid="hca-enrollment-alert" uswds>
         <WarningHeadline />
@@ -35,19 +27,13 @@ const EnrollmentStatus = props => {
 
       <EnrollmentStatusFAQ />
     </>
-  ) : null;
+  ) : (
+    <ServerErrorAlert />
+  );
 };
 
 EnrollmentStatus.propTypes = {
-  fetchEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
 };
 
-const mapDispatchToProps = {
-  fetchEnrollmentStatus: getEnrollmentStatusAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EnrollmentStatus);
+export default EnrollmentStatus;

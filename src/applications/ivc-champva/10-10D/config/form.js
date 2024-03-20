@@ -43,10 +43,13 @@ import {
   isInRange,
   getParts,
   onReviewPage,
+  MAX_APPLICANTS,
+  applicantListSchema,
 } from '../helpers/utilities';
 import {
   sponsorWording,
   applicantWording,
+  additionalFilesHint,
 } from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
@@ -62,10 +65,12 @@ import {
 import {
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
+  applicantHelplessChildConfig,
   applicantAdoptedConfig,
   applicantStepChildConfig,
   applicantMedicarePartAPartBCardsConfig,
   applicantMedicarePartDCardsConfig,
+  appMedicareOver65IneligibleConfig,
   applicantOhiCardsConfig,
   applicant107959cConfig,
   applicantMarriageCertConfig,
@@ -92,8 +97,14 @@ import {
   ApplicantRelOriginReviewPage,
 } from '../pages/ApplicantRelOriginPage';
 import {
+  ApplicantDependentStatusPage,
+  ApplicantDependentStatusReviewPage,
+} from '../pages/ApplicantDependentStatus';
+import {
   ApplicantSponsorMarriageDetailsPage,
   ApplicantSponsorMarriageDetailsReviewPage,
+  marriageDatesSchema,
+  remarriageDetailsSchema,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
@@ -104,34 +115,16 @@ import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
   AppSchoolDocReviewField,
+  AppHelplessChildReviewField,
   AppAdoptionDocReviewField,
   AppStepDocReviewField,
   AppMarriageDocReviewField,
   AppMedicareABDocReviewField,
   AppMedicareDDocReviewField,
+  AppMedicareOver65IneligibleReviewField,
   AppOhiDocReviewField,
   App107959cDocReviewField,
 } from '../components/File/FileViewField';
-
-// Used to condense some repetitive schema boilerplate
-const maxApplicants = 3;
-const applicantListSchema = (requireds, propertyList) => {
-  return {
-    type: 'object',
-    properties: {
-      applicants: {
-        type: 'array',
-        minItems: 1,
-        maxItems: maxApplicants,
-        items: {
-          type: 'object',
-          required: requireds,
-          properties: propertyList,
-        },
-      },
-    },
-  };
-};
 
 const uploadUrl = `${
   environment.API_URL
@@ -285,7 +278,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               "What's your relationship to the Applicant(s)?",
-              'Depending on your response, additional documentation may be required to determine eligibility',
+              additionalFilesHint,
             ),
             certifierRelationship: relationshipToVeteranUI({
               personTitle: 'Applicant(s)',
@@ -625,8 +618,8 @@ const formConfig = {
                 } applicants you want to enroll in CHAMPVA benefits.`}
                 <br />
                 <br />
-                {`You can add up to ${maxApplicants} applicants in a single application. If you 
-              need to add more than ${maxApplicants} applicants, you'll need to submit a 
+                {`You can add up to ${MAX_APPLICANTS} applicants in a single application. If you 
+              need to add more than ${MAX_APPLICANTS} applicants, you'll need to submit a 
               separate application for them.`}
               </>
             )),
@@ -692,7 +685,7 @@ const formConfig = {
           }),
         },
         page14: {
-          path: 'applicant-information/:index/ssn-dob',
+          path: 'applicant-information/:index/ssn',
           arrayPath: 'applicants',
           title: item => `${applicantWording(item)} identification information`,
           showPagePerItem: true,
@@ -953,6 +946,48 @@ const formConfig = {
             ),
           }),
         },
+        page18b1: {
+          path: 'applicant-information/:index/school-age',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} dependent status`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child' &&
+              isInRange(
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                18,
+                23,
+              )
+            );
+          },
+          CustomPage: ApplicantDependentStatusPage,
+          CustomPageReview: ApplicantDependentStatusReviewPage,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'ui:description': blankSchema,
+            applicantDependentStatus: {
+              type: 'object',
+              properties: {
+                status: radioSchema([
+                  'enrolledOrIntendsToEnroll',
+                  'over18HelplessChild',
+                ]),
+                otherStatus: { type: 'string' },
+              },
+            },
+          }),
+        },
         page18b: {
           path: 'applicant-information/:index/school-documents',
           arrayPath: 'applicants',
@@ -967,7 +1002,9 @@ const formConfig = {
                 getAgeInYears(formData.applicants[index]?.applicantDOB),
                 18,
                 23,
-              )
+              ) &&
+              formData.applicants[index]?.applicantDependentStatus?.status ===
+                'enrolledOrIntendsToEnroll'
             );
           },
           CustomPage: FileFieldCustom,
@@ -1006,6 +1043,60 @@ const formConfig = {
             ...applicantSchoolCertConfig.schema,
             applicantSchoolCert: fileWithMetadataSchema(
               acceptableFiles.schoolCert,
+            ),
+          }),
+        },
+        page18b2: {
+          path: 'applicant-information/:index/helpless-child',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} helpless child documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child' &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 18 &&
+              formData.applicants[index]?.applicantDependentStatus?.status ===
+                'over18HelplessChild'
+            );
+          },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: AppHelplessChildReviewField,
+          customPageUsesPagePerItemData: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Optional supporting file upload',
+                  ({ formData }) =>
+                    `Upload a VBA decision rating certificate of award for ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
+                ),
+                ...applicantHelplessChildConfig.uiSchema,
+                applicantHelplessCert: fileUploadUI(
+                  'Upload VBA decision rating for the applicant',
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantHelplessChildConfig.schema,
+            applicantHelplessCert: fileWithMetadataSchema(
+              acceptableFiles.helplessCert,
             ),
           }),
         },
@@ -1159,6 +1250,120 @@ const formConfig = {
             },
           },
         },
+        // If applicant has second marriage, is it ongoing?
+        page18f2: {
+          path: 'applicant-information/:index/remarriage-viable',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} remarriage status`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              (get('sponsorIsDeceased', formData) &&
+                get(
+                  'applicantSponsorMarriageDetails.relationshipToVeteran',
+                  formData?.applicants?.[index],
+                ) === 'marriedTillDeathRemarriedAfter55')
+            );
+          },
+          uiSchema: remarriageDetailsSchema.uiSchema,
+          schema: remarriageDetailsSchema.schema,
+        },
+        // Marriage dates (sponsor living or dead) when applicant did not remarry
+        page18f3: {
+          path: 'applicant-information/:index/marriage-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              (get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathNoRemarriage' ||
+                !get('sponsorIsDeceased', formData))
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.noRemarriageSchema,
+        },
+        // Applicant remarried after sponsor died
+        page18f4: {
+          path: 'applicant-information/:index/remarried-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55' &&
+              get('remarriageIsViable', formData?.applicants?.[index])
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.remarriageSchema,
+        },
+        // Applicant remarried after sponsor died but separated from 2nd spouse
+        page18f5: {
+          path: 'applicant-information/:index/remarried-separated-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55' &&
+              !get('remarriageIsViable', formData?.applicants?.[index])
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.remarriageSeparatedSchema,
+        },
+        // Applicant separated from sponsor before sponsor's death
+        page18f6: {
+          path: 'applicant-information/:index/married-separated-dates',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} marriage dates`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriageDissolved'
+            );
+          },
+          uiSchema: marriageDatesSchema.uiSchema,
+          schema: marriageDatesSchema.separatedSchema,
+        },
         page18f: {
           path: 'applicant-information/:index/spouse',
           arrayPath: 'applicants',
@@ -1231,7 +1436,13 @@ const formConfig = {
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
-            applicantMedicareStatus: { type: 'string' },
+            applicantMedicareStatus: {
+              type: 'object',
+              properties: {
+                eligibility: { type: 'string' },
+                otherIneligible: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
@@ -1248,8 +1459,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-              'enrolled'
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled'
             );
           },
           CustomPage: ApplicantMedicareStatusContinuedPage,
@@ -1271,8 +1484,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled' &&
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled' &&
               ['partA', 'partB'].some(part =>
                 get(
                   'applicantMedicarePart',
@@ -1330,8 +1545,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled' &&
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled' &&
               get(
                 'applicantMedicarePart',
                 formData?.applicants?.[index],
@@ -1377,6 +1594,65 @@ const formConfig = {
             ),
           }),
         },
+        // If the user is ineligible for Medicare and over 65 years,
+        // require them to upload proof of ineligibility
+        page20c: {
+          path: 'applicant-information/:index/over-65-ineligible',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) !== 'enrolled' &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+            );
+          },
+          CustomPage: FileFieldCustom,
+          CustomPageReview: AppMedicareOver65IneligibleReviewField,
+          customPageUsesPagePerItemData: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': { viewField: ApplicantField },
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload the letter from the Social Security Administration that confirms ${
+                      formData?.applicantName?.first
+                    } ${
+                      formData?.applicantName?.last
+                    } doesn’t qualify for Medicare benefits under anyone’s Social Security number`,
+                ),
+                ...appMedicareOver65IneligibleConfig.uiSchema,
+                applicantMedicareIneligibleProof: fileUploadUI(
+                  'Upload the applicant’s letter from the Social Security Administration.',
+                  {
+                    fileTypes,
+                    fileUploadUrl: uploadUrl,
+                    attachmentSchema: {
+                      'ui:title': 'Document type',
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name',
+                    },
+                  },
+                ),
+              },
+            },
+          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...appMedicareOver65IneligibleConfig.schema,
+            applicantMedicareIneligibleProof: fileWithMetadataSchema(
+              acceptableFiles.ssIneligible,
+            ),
+          }),
+        },
         page21: {
           path: 'applicant-information/:index/ohi',
           arrayPath: 'applicants',
@@ -1414,13 +1690,15 @@ const formConfig = {
                 ...titleUI(
                   'Required supporting file upload',
                   ({ formData }) =>
-                    `Upload ${formData?.applicantName?.first} ${
-                      formData?.applicantName?.last
-                    }'s copy of health insurance card.`,
+                    `Upload the front and back of ${applicantWording(
+                      formData,
+                      undefined,
+                      true,
+                    )} health insurance card(s). If you have more than one type of health insurance (other than Medicare), please upload the front and back of all cards`,
                 ),
                 ...applicantOhiCardsConfig.uiSchema,
                 applicantOhiCard: fileUploadUI(
-                  "Upload the applicant's copy of health insurance card",
+                  "Upload front and back of the applicant's health insurance card",
                   {
                     fileTypes,
                     fileUploadUrl: uploadUrl,
@@ -1452,8 +1730,10 @@ const formConfig = {
             if (index === undefined) return true;
             return (
               get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
-              get('applicantMedicareStatus', formData?.applicants?.[index]) ===
-                'enrolled'
+              get(
+                'applicantMedicareStatus.eligibility',
+                formData?.applicants?.[index],
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
