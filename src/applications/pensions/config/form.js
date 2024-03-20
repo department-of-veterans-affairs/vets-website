@@ -10,7 +10,6 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import {
   titleUI,
@@ -24,7 +23,6 @@ import {
   DirectDepositWarning,
   isMarried,
   submit,
-  createSpouseLabelSelector,
   isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
