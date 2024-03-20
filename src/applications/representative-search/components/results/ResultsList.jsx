@@ -47,6 +47,7 @@ const ResultsList = props => {
                 associatedOrgs={result.attributes.organizationNames}
                 representative={result}
                 representativeId={result.id}
+                searchResults={searchResults}
                 submitRepresentativeReport={props.submitRepresentativeReport}
                 initializeRepresentativeReport={
                   props.initializeRepresentativeReport

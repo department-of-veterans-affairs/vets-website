@@ -11,6 +11,7 @@ import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
   officer,
+  key,
   addressLine1,
   addressLine2,
   addressLine3,
@@ -26,6 +27,7 @@ const SearchResult = ({
   reportSubmissionStatus,
   reports,
   representativeId,
+  searchResults,
   query,
   setReportModalTester,
 }) => {
@@ -50,6 +52,25 @@ const SearchResult = ({
 
   const onCloseReportModal = () => {
     setReportModalIsShowing(false);
+  };
+
+  const dataLayerPush = () => {
+    window.dataLayer.push({
+      event: 'far-search-results-click',
+      'search-query': query?.locationQueryString,
+      'search-filters-list': {
+        'representative-type': query?.representativeType,
+        'search-radius': query?.searchArea,
+        'representative-name': query?.representativeQueryString,
+      },
+      'search-selection': 'Find VA Accredited Rep',
+      'search-results-id': representativeId,
+      'search-results-total-count':
+        searchResults?.meta?.pagination?.totalEntries, // populate with the total number of search results
+      'search-results-total-pages': searchResults?.meta?.pagination?.totalPages, // populate with total number of result pages
+      'search-result-position': key, // populate with the current pagination number
+      'search-result-page': searchResults?.meta?.pagination?.currentPage, // populate with the current pagination number
+    });
   };
 
   useEffect(
@@ -148,6 +169,7 @@ const SearchResult = ({
                     query?.context?.location
                   }&daddr=${address}`}
                   tabIndex="0"
+                  onClick={() => dataLayerPush()}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${address} (opens in a new tab)`}
@@ -165,12 +187,18 @@ const SearchResult = ({
             )}
             {phone && (
               <div className="vads-u-margin-top--1p5">
-                <va-telephone contact={contact} extension={extension} />
+                <va-telephone
+                  contact={contact}
+                  extension={extension}
+                  onClick={() => dataLayerPush()}
+                />
               </div>
             )}
             {email && (
               <div className="vads-u-margin-top--1p5">
-                <a href={`mailto:${email}`}>{email}</a>
+                <a href={`mailto:${email}`} onClick={() => dataLayerPush()}>
+                  {email}
+                </a>
               </div>
             )}
           </div>
