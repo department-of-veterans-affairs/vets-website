@@ -13,7 +13,6 @@ import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 
 import FileFieldCustom from '../../components/File/FileUpload';
-// import FileViewField from '../../components/File/FileViewField';
 
 import mockData from '../fixtures/data/test-data.json';
 
@@ -253,15 +252,6 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
-
-/* TODO: needs rework
-testComponentRender(
-  'FileViewField',
-  <FileViewField
-    data={{ supportingDocuments: [{ f1: { name: 'f1', size: 123 } }] }}
-  />,
-);
-*/
 
 describe('File sizes', () => {
   it('should be in bytes for values < 999', () => {

@@ -374,9 +374,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
+          .assertHeading({ name: /Which provider do you prefer/i })
           .expandAccordian()
           .assertHomeAddress()
-          .selectProvider()
+          .selectProvider({ label: /Optometry providers/i })
           .clickNextButton();
 
         PreferredLanguagePageObject.assertUrl()

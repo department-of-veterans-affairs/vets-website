@@ -42,8 +42,8 @@ const noDisabilityRatingContent = errorCode => {
         </p>
         <p className="vads-u-font-size--base">
           If you get this error again, please call the VA.gov help desk at{' '}
-          <va-telephone contact={CONTACTS.VA_311} uswds="false" /> (
-          <va-telephone contact={CONTACTS['711']} tty uswds="false" />
+          <va-telephone contact={CONTACTS.VA_311} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </>
@@ -73,9 +73,7 @@ const noDisabilityRatingContent = errorCode => {
 
   return (
     <div className="vads-u-margin-y--5">
-      <va-alert status={status} uswds="false">
-        {content}
-      </va-alert>
+      <va-alert status={status}>{content}</va-alert>
     </div>
   );
 };
@@ -103,12 +101,7 @@ const RatedDisabilityList = ({
   };
 
   if (!ratedDisabilities) {
-    return (
-      <va-loading-indicator
-        message="Loading your information..."
-        uswds="false"
-      />
-    );
+    return <va-loading-indicator message="Loading your information..." />;
   }
 
   if (

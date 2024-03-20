@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { Element } from 'react-scroll';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -26,6 +25,7 @@ import {
 } from './EvidenceSummaryLists';
 
 import { LIMITATION_KEY } from '../constants';
+import { customPageProps995 } from '../../shared/props';
 
 const EvidenceSummary = ({
   data,
@@ -260,20 +260,6 @@ const EvidenceSummary = ({
   );
 };
 
-EvidenceSummary.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    locations: PropTypes.array,
-    providerFacility: PropTypes.array,
-    limitedConsent: PropTypes.string,
-    additionalDocuments: PropTypes.array,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+EvidenceSummary.propTypes = customPageProps995;
 
 export default EvidenceSummary;

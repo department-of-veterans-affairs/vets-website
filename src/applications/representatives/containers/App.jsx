@@ -13,7 +13,9 @@ function App({ children }) {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(TOGGLE_NAMES.representativesPortalFrontend);
+  const appEnabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
+  );
 
   const toggleIsLoading = useToggleLoadingValue();
 
