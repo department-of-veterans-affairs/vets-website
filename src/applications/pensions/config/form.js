@@ -234,7 +234,7 @@ function isCurrentMarriage(form, index) {
 }
 
 function usingDirectDeposit(formData) {
-  return get(['view:noDirectDeposit'], formData) !== true;
+  return get(['view:usingDirectDeposit'], formData) === true;
 }
 
 export function doesHaveDependents(formData) {
@@ -973,27 +973,16 @@ const formConfig = {
               'Direct deposit for Veterans Pension benefits',
               DirectDepositWarning,
             ),
-            'view:noDirectDeposit': {
-              'ui:title':
-                'Do you have a bank account to use for direct deposit?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                yesNoReverse: false,
-                labels: {
-                  Y: 'Yes',
-                  N: 'No',
-                },
-              },
-            },
+            'view:usingDirectDeposit': yesNoUI({
+              title: 'Do you have a bank account to use for direct deposit?',
+            }),
           },
           schema: {
             type: 'object',
             properties: {
-              'view:noDirectDeposit': {
-                type: 'boolean',
-              },
+              'view:usingDirectDeposit': yesNoSchema,
             },
-            required: ['view:noDirectDeposit'],
+            required: ['view:usingDirectDeposit'],
           },
         },
         accountInformation: {
@@ -1043,12 +1032,6 @@ const formConfig = {
                 'ui:required': usingDirectDeposit,
               },
             }),
-            'view:stopWarning': {
-              'ui:description': DirectDepositWarning,
-              'ui:options': {
-                hideIf: formData => usingDirectDeposit(formData),
-              },
-            },
           },
           schema: {
             type: 'object',

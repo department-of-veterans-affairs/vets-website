@@ -235,13 +235,12 @@ export const FormReactivationAlert = () => (
 );
 
 export const AccountInformationAlert = () => (
-  <>
-    <br />
-    <va-alert status="info" uswds="true">
+  <div className="vads-u-margin-top--4">
+    <va-alert uswds>
       <h4 slot="headline" className="vads-u-font-size--h4">
         We’ll use this bank account for all your VA benefit payments
       </h4>
-      <p>
+      <p className="vads-u-margin-y--0">
         If we approve your application for pension benefits, we’ll update your
         direct deposit information for all your VA benefit payments. We’ll
         deposit any payments you may receive for pension or education benefits
@@ -250,5 +249,5 @@ export const AccountInformationAlert = () => (
         time, every time, without error.
       </p>
     </va-alert>
-  </>
+  </div>
 );

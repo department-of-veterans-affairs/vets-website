@@ -206,7 +206,10 @@ export const DirectDepositWarning = (
 export const DirectDepositOtherOptions = (
   <div>
     <h4>Option 1: Get your payment through Direct Express Debit MasterCard</h4>
-    <p>To request a Direct Express Debit MasterCard, call 800-333-1795.</p>
+    <p>
+      To request a Direct Express Debit MasterCard, call{' '}
+      <va-telephone contact="8003331795" />.
+    </p>
     <p>
       <a
         href="https://www.usdirectexpress.com/how_it_works.html"
@@ -219,8 +222,9 @@ export const DirectDepositOtherOptions = (
     </p>
     <p>
       <strong>Note:</strong> If you choose to get payments through a Direct
-      Express Debit MasterCard, you’ll need to call 888-224-2950 to request a
-      waiver from the Department of Treasury.
+      Express Debit MasterCard, you’ll need to call{' '}
+      <va-telephone contact="8882242950" /> to request a waiver from the
+      Department of Treasury.
     </p>
     <h4>Option 2: Open a bank account</h4>
     <p>

@@ -140,7 +140,7 @@ class ConfirmationPage extends React.Component {
         </section>
 
         <section>
-          <va-alert status="info" uswds="true">
+          <va-alert uswds>
             <h4 slot="headline" className="vads-u-font-size--h4">
               If we approve your application for pension benefits and you
               provided a bank account for direct deposit, we'll use that account
