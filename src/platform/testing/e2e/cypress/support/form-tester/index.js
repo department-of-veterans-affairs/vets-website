@@ -579,8 +579,6 @@ const testForm = testConfig => {
 
   testSuite(appName, () => {
     before(() => {
-      /* eslint-disable-next-line no-console */
-      console.log('data dir: ', dataDir);
       if (
         typeof dataDir === 'undefined' &&
         typeof fixtures.data === 'undefined'
@@ -594,6 +592,8 @@ const testForm = testConfig => {
     // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
+      /* eslint-disable-next-line no-console */
+      console.log('data dir: ', dataDir);
       // Dismiss any announcements.
       disableFTUXModals();
 
