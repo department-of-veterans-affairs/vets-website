@@ -1,7 +1,3 @@
-import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cypress-example.json';
-import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-example.json';
-import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
-
 import formConfig from '../../config/form';
 import cypressSetup from './cypress.setup';
 import {
@@ -10,6 +6,11 @@ import {
   startForm,
   fillReviewPage,
 } from './helpers/keyboardOnlyHelpers';
+import {
+  kitchenSinkFixture,
+  overflowFixture,
+  simpleFixture,
+} from './fixtures/data/vetsJsonSchemaFixtures';
 
 const testForm = data => {
   const { chapters } = formConfig;
@@ -55,7 +56,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       testForm(data);
     });
   });
-  it.skip('keyboard navigates through an overflow form', () => {
+  it('keyboard navigates through an overflow form', () => {
     cy.wrap(overflowFixture.data).as('testData');
     cypressSetup(cy);
 
