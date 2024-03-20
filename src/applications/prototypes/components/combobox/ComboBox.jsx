@@ -56,21 +56,21 @@ class ComboBox extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleCliccyBoi);
+    document.addEventListener('click', this.handleClickEvent);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleCliccyBoi);
+    document.removeEventListener('click', this.handleClickEvent);
   }
 
-  handleCliccyBoi = (evt) => {
-    const isClickedInComboBox = evt.composedPath().includes(this.listRef.current)
+  handleClickEvent = (evt) => {
+    const isComboBoxListClicked = evt.composedPath().includes(this.listRef.current)
+    const isComboBoxInputClicked = evt.target.classList.contains('usa-combo-box__input');
+    const isEditButton = evt.target.classList.contains('prototype-edit-disability-class');
     
-    if (!isClickedInComboBox) {
-      console.log('clicked outside of combobox');
-      console.log('clicked outside of combobox');
-      console.log('clicked outside of combobox');
-      console.log('clicked outside of combobox');
+    if (!isComboBoxListClicked && !isComboBoxInputClicked && !isEditButton) {
+      console.log('this.listRef.current: ', this.listRef.current);
+      console.log('target: ', evt.target);
       console.log('clicked outside of combobox');
       this.setState({ searchTerm: '' });
     }
@@ -145,24 +145,13 @@ class ComboBox extends Component {
     newFocusedElem.focus();
   }
 
-  handleBlur(evt) {
-    console.log('blur event: ', evt);
-    console.log('evt.relatedTarget: ', evt.relatedTarget);
-    const blurTarget = evt.relatedTarget;
-    if (blurTarget && blurTarget.classList.contains('free-text-li-option')) {
-      console.log('nothing happens');
-    }
-    else {
-      this.setState({ searchTerm: '' });
-    }
-  }
-
   filterOptions = () => {
     const { searchTerm, value } = this.state;
     const options = this.disabilitiesArr;
     let filtered = substringCountLCS(searchTerm, options, 0)
     filtered = filtered.splice(0, MAX_NUM_DISABILITY_SUGGESTIONS);
-    if (searchTerm && searchTerm.length === 0) {
+    // if (searchTerm && searchTerm.length === 0) {
+    if (searchTerm.length === 0) {
       filtered = [];
     }
     if (searchTerm == value) {
@@ -247,7 +236,6 @@ class ComboBox extends Component {
           value={searchTerm}
           onChange={this.handleSearchChange}
           onKeyDown={(evt) => { this.handleKeyDownFromInput(evt) }}
-          // onBlur={(evt) => { this.handleBlur(evt) }}
         />
         { searchTerm.length || value.length ? this.drawCloseButton() : null }
         <ul className={'usa-combo-box__list'} style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }} ref={this.listRef}>
@@ -317,8 +305,8 @@ export const ComboBoxApp = connect(state => state)(
       if (isAddingNewCondition) {
         this.props.dispatch(hideNewConditionSection());
       }
-      this.setState({ editMode: Number(evt.target.value) });
       this.props.dispatch(updateCurrent(this.props.list.find(item => item.id === +evt.target.value)));
+      this.setState({ editMode: Number(evt.target.value) });
     }
 
     handleEdit() {
@@ -362,7 +350,7 @@ export const ComboBoxApp = connect(state => state)(
                   >
                     {item.name}
                   </div>
-                  <button type="button" class="usa-button-secondary float-right" aria-label={"Edit " + current.name} value={item.id} onClick={this.handleEditMode}>Edit</button>
+                  <button type="button" class="usa-button-secondary prototype-edit-disability-class float-right" aria-label={"Edit " + current.name} value={item.id} onClick={this.handleEditMode}>Edit</button>
                 </div> :
                 /* This is how the form displays in edit mode */
                 <div id="addNewConditionSection">
@@ -378,11 +366,6 @@ export const ComboBoxApp = connect(state => state)(
                               </label>
                               <div class="schemaform-widget-wrapper">
                                 <div class="autosuggest-container">
-                                  {/* This is where we want to embed the new Combo-Box*/}
-
-                                  {/* <ComboBox value={current.name}/> */}
-                                  {/* onChange={(value) => this.handleChange({name: value})}
- */}
                                   <ComboBox
                                     value={current.name}
                                     onChange={(value) => this.handleChange({ name: value })}
