@@ -47,6 +47,22 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
 };
 
+// declare initial state fetching enrollment status
+export const ENROLLMENT_STATUS_INIT_STATE = {
+  applicationDate: null,
+  enrollmentDate: null,
+  preferredFacility: null,
+  enrollmentStatus: null,
+  enrollmentStatusEffectiveDate: null,
+  dismissedNotificationDate: null,
+  hasServerError: false,
+  isLoadingApplicationStatus: false,
+  isLoadingDismissedNotification: false,
+  isUserInMVI: false,
+  loginRequired: false,
+  noESRRecordFound: false,
+};
+
 // declare enrollment status strings
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   activeDuty: 'activeduty',
@@ -77,6 +93,17 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedScWrongEntry: 'rejected_sc_wrongentry',
   rejectedRightEntry: 'rejected_rightentry',
 });
+
+// declare enrollment status codes that permit apply/reapply action
+export const HCA_APPLY_ALLOWED_STATUSES = new Set([
+  null,
+  HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+  HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
+  HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+  HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+  HCA_ENROLLMENT_STATUSES.canceledDeclined,
+  HCA_ENROLLMENT_STATUSES.closed,
+]);
 
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;

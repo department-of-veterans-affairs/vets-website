@@ -35,6 +35,7 @@ export const acceptableFiles = {
     },
   ],
   spouseCert: marriagePapers,
+  divorceCert: ['Divorce decree', 'Annulment decree'],
   stepCert: marriagePapers,
   adoptionCert: ['Court ordered adoption papers'],
   helplessCert: ['VBA decision rating certificate of award'],

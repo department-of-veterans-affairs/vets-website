@@ -5,6 +5,7 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 import session from '../../../../api/local-mock-api/mocks/v2/sessions';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   const testState = {
@@ -52,7 +53,8 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage();
@@ -62,6 +64,8 @@ describe('Check In Experience', () => {
         // clear out session storage
         window.sessionStorage.clear();
         cy.visitWithUUID();
+        Arrived.validateArrivedPage();
+        Arrived.attemptToGoToNextPage();
         Demographics.validatePageLoaded();
       });
     });

@@ -2,13 +2,15 @@ const togglePortal = value => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'representatives_portal_frontend', value }],
+        features: [
+          { name: 'accredited_representative_portal_frontend', value },
+        ],
       },
     });
   });
 };
 
-describe('Representatives', () => {
+describe('Accredited Representative Portal', () => {
   describe('feature toggling in production', () => {
     // During CI, the environment is production, so we can test our global
     // feature toggling behavior there. But when running this test locally, the
@@ -60,7 +62,7 @@ describe('Representatives', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.contains('Welcome to Representative.VA.gov');
+    cy.contains('Welcome to the Accredited Representative Portal');
     cy.contains('Until sign in is added use this to see dashboard').click();
 
     cy.url().should('include', '/representatives/dashboard');

@@ -8,7 +8,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import { createClaimsSuccess } from '../../mocks/claims';
-import { createAppealsSuccess } from '../../mocks/appeals-success';
+import { createAppealsSuccess } from '../../mocks/appeals';
 import { getAppealsV2, getClaims } from '../../actions/claims';
 
 import {
@@ -67,12 +67,9 @@ describe('/actions/claims', () => {
       it(`Dispatches ${
         appealsErrors[code]
       } when GET fails with ${code}`, done => {
-        setFetchJSONResponse(
-          global.fetch.onCall(0),
-          Promise.reject({
-            errors: [{ status: `${code}` }],
-          }),
-        );
+        setFetchJSONFailure(global.fetch.onCall(0), {
+          errors: [{ status: `${code}` }],
+        });
         const thunk = getAppealsV2();
         const dispatch = sinon.spy();
         thunk(dispatch)
