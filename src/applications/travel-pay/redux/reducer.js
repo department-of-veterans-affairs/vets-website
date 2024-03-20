@@ -11,7 +11,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   isFetchingUnauthPing: false,
-  unuathPingResponse: null,
+  unauthPingResponse: null,
   travelClaims: [],
   error: null,
 };
@@ -35,13 +35,6 @@ function travelClaimsReducer(state = initialState, action) {
         isLoading: false,
         error: action.error,
       };
-    default:
-      return state;
-  }
-}
-
-function unauthPingReducer(state = initialState, action) {
-  switch (action.type) {
     case FETCH_UNAUTH_PING_STARTED:
       return {
         ...state,
@@ -51,13 +44,12 @@ function unauthPingReducer(state = initialState, action) {
       return {
         ...state,
         isFetchingUnauthPing: false,
-        unuathPingResponse: action.payload,
+        unauthPingResponse: action.payload,
       };
     case FETCH_UNAUTH_PING_FAILURE:
       return {
         ...state,
         isFetchingUnauthPing: false,
-        error: action.error,
       };
     default:
       return state;
@@ -66,5 +58,4 @@ function unauthPingReducer(state = initialState, action) {
 
 export default {
   travelPay: travelClaimsReducer,
-  unauthPing: unauthPingReducer,
 };

@@ -19,10 +19,17 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
-  const { isFetchingUnauthPing, unauthPingResponse } = useSelector(
-    state => state.unauthPing,
-  );
+  const {
+    isLoading,
+    travelClaims,
+    isFetchingUnauthPing,
+    unauthPingResponse,
+  } = useSelector(state => state.travelPay);
+
+  async function handleUnauthButtonClick() {
+    dispatch(getUnauthPing());
+  }
+
   useEffect(
     () => {
       if (userLoggedIn) {
@@ -54,7 +61,10 @@ export default function App({ children }) {
       <br />
       {!isFetchingUnauthPing ? (
         <>
-          <va-button onClick={getUnauthPing} text="Unauthorized Ping" />
+          <va-button
+            onClick={handleUnauthButtonClick}
+            text="Unauthorized Ping"
+          />
           <p>{unauthPingResponse}</p>
         </>
       ) : (
