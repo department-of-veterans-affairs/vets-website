@@ -4,7 +4,6 @@ import { apiRequest } from 'platform/utilities/api';
 import manifest from '../manifest.json';
 
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
-
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';

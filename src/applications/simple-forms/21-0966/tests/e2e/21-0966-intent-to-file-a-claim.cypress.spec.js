@@ -46,7 +46,6 @@ const testConfig = createTestConfig(
               'survivingDependentMailingAddress',
               data.survivingDependentMailingAddress,
             );
-
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
