@@ -2,9 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { FLOW_TYPES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
-import { getFlowType } from '../../redux/selectors';
+import { FLOW_TYPES, PURPOSE_TEXT_V2 } from '../../../../utils/constants';
+import getNewAppointmentFlow from '../../../newAppointmentFlow';
+import { getFlowType } from '../../../redux/selectors';
 
 function handleClick(history, pageFlow) {
   const { home, reasonForAppointment } = pageFlow;
@@ -36,25 +36,29 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             {FLOW_TYPES.DIRECT === flowType && (
-              <h3 className="vaos-appts__block-label">
+              <h2 className="vads-u-font-size--base vaos-appts__block-label">
                 {PURPOSE_TEXT_V2.find(
                   purpose => purpose.id === reasonForAppointment,
                 )?.short || 'Additional details'}
-              </h3>
+              </h2>
             )}
             {FLOW_TYPES.REQUEST === flowType && (
               <>
                 <h2 className="vads-u-font-size--base vaos-appts__block-label">
                   Details you’d like to share with your provider
                 </h2>
-                <span>
-                  {
-                    PURPOSE_TEXT_V2.find(
-                      purpose => purpose.id === reasonForAppointment,
-                    )?.short
-                  }
-                </span>
-                <br />
+                {reasonForAppointment && (
+                  <>
+                    <span>
+                      {
+                        PURPOSE_TEXT_V2.find(
+                          purpose => purpose.id === reasonForAppointment,
+                        )?.short
+                      }
+                    </span>
+                    <br />
+                  </>
+                )}
               </>
             )}
             <span className="vaos-u-word-break--break-word">
