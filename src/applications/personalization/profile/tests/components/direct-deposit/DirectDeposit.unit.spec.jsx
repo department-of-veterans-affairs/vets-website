@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import DirectDeposit from '@@profile/components/direct-deposit/DirectDeposit';
+import DirectDeposit from '~/applications/personalization/profile/components/direct-deposit/legacy/DirectDeposit';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { generateFeatureTogglesState } from '../../../mocks/endpoints/feature-toggles';

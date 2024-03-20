@@ -2,7 +2,8 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import DirectDeposit from './components/direct-deposit/DirectDeposit';
+import DirectDeposit from './components/direct-deposit/legacy/DirectDeposit';
+import { DirectDeposit as DirectDepositNew } from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
@@ -70,10 +71,23 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = profileContactsToggle =>
-  routesForNav.filter(route => {
-    if (route.name === PROFILE_PATH_NAMES.CONTACTS) {
-      return profileContactsToggle;
+export const getRoutesForNav = ({
+  profileContacts,
+  profileShowDirectDepositSingleForm,
+}) =>
+  routesForNav.reduce((acc, route) => {
+    if (route.name === PROFILE_PATH_NAMES.CONTACTS && profileContacts) {
+      acc.push(route);
+      return acc;
     }
-    return true;
-  });
+
+    if (
+      route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT &&
+      profileShowDirectDepositSingleForm
+    ) {
+      acc.push({ ...route, component: DirectDepositNew });
+      return acc;
+    }
+    acc.push(route);
+    return acc;
+  }, []);

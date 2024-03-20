@@ -3,7 +3,7 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import NotEligible from '../../../../components/direct-deposit/alerts/NotEligible';
+import NotEligible from '../../../../components/direct-deposit/legacy/alerts/NotEligible';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('NotEligible', () => {

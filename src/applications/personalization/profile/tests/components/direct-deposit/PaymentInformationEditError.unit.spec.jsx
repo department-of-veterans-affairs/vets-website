@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 
-import PaymentInformationEditError from '@@profile/components/direct-deposit/PaymentInformationEditError';
+import PaymentInformationEditError from '~/applications/personalization/profile/components/direct-deposit/legacy/PaymentInformationEditError';
 
 const { errors } = mockDisabilityCompensations.updates;
 
