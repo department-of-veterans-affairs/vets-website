@@ -560,6 +560,7 @@ const ComposeForm = props => {
       <form className="compose-form" id="sm-compose-form">
         {saveError && (
           <VaModal
+            uswds={false}
             modalTitle={saveError.title}
             onCloseEvent={() => {
               setSaveError(null);
@@ -573,6 +574,7 @@ const ComposeForm = props => {
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
             <va-button
+              uswds={false}
               text="Continue editing"
               onClick={() => setSaveError(null)}
             />
@@ -620,6 +622,7 @@ const ComposeForm = props => {
             !allTriageGroupsBlocked && (
               <>
                 <VaSelect
+                  uswds={false}
                   enable-analytics
                   id="recipient-dropdown"
                   label="To"

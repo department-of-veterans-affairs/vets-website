@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import PreferredDates from './PreferredDates';
-import { FACILITY_TYPES } from '../../../utils/constants';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
+import { FACILITY_TYPES } from '../../../../utils/constants';
+import getNewAppointmentFlow from '../../../newAppointmentFlow';
 
 function handleClick(history, pageFlow, isCommunityCare) {
   const { home, ccRequestDateTime, requestDateTime } = pageFlow;
