@@ -8,7 +8,15 @@ import formConfig from '../../../config/form';
 export const shouldIncludePage = (page, data, index) =>
   !Object.hasOwn(page, 'depends') || page.depends(data, index);
 
-export const tabToElement = (selector, checkInDom = true, reverse = false) => {
+export const tabToElement = (
+  selector,
+  checkInDom = true,
+  reverse = false,
+  attempt = 0,
+) => {
+  if (attempt > 6) {
+    throw new Error(`Unable to find ${selector} after 6 full searches`);
+  }
   if (checkInDom) {
     cy.get(selector).should('exist');
   }
@@ -18,24 +26,24 @@ export const tabToElement = (selector, checkInDom = true, reverse = false) => {
     cy.document().then(doc => {
       const { activeElement } = doc;
       if (!activeElement) {
-        return tabToElement(selector, false, reverse);
+        return tabToElement(selector, false, reverse, attempt);
       }
 
       // if we've reached the continue button, go up
       if (activeElement.id.includes('continueButton')) {
-        return tabToElement(selector, false, true);
+        return tabToElement(selector, false, true, attempt + 1);
       }
 
       // if we've reached the breadcrumb, go down
       if (activeElement.ariaCurrent === 'page') {
-        return tabToElement(selector, false, false);
+        return tabToElement(selector, false, false, attempt + 1);
       }
 
       if (
         !activeElement.matches(selector) &&
         !activeElement.matches(selector.replace('Month', ''))
       ) {
-        return tabToElement(selector, false, reverse);
+        return tabToElement(selector, false, reverse, attempt);
       }
 
       return activeElement;
@@ -68,7 +76,10 @@ export const typeEachChar = str => {
   }
 };
 
-export const fillSelectByTyping = (str, i = 0) => {
+export const fillSelectByTyping = (str, i = 0, attempt = 0) => {
+  if (attempt > 3) {
+    throw new Error(`Unable to enter ${str} in select after 3 tries`);
+  }
   cy.realPress(str[i]);
   cy.get(':focus :selected')
     .should(Cypress._.noop)
@@ -82,7 +93,7 @@ export const fillSelectByTyping = (str, i = 0) => {
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(100);
 
-        return fillSelectByTyping(str);
+        return fillSelectByTyping(str, 0, attempt + 1);
       }
       if (!text.includes(str)) {
         return fillSelectByTyping(str, i + 1);
