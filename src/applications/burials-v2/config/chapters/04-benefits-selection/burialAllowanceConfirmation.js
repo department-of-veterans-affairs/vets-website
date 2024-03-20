@@ -14,15 +14,15 @@ export default {
       'ui:title': generateTitle('Type of burial allowance'),
       'ui:description': (
         <>
-          <p>
+          <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
             You selected that you're claiming a burial allowance for the
             unclaimed remains of a Veteran.
           </p>
-          <p>
+          <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
             To make this claim, you'll need to confirm that both of these
             statements are true:
           </p>
-          <ul>
+          <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
             <li>
               The remains of the Veteran have not been claimed by their family
               members or friends, <strong>and</strong>
