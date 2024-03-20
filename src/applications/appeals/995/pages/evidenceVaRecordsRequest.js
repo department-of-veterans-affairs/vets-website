@@ -24,6 +24,7 @@ export default {
       errorMessages: {
         required: errorMessages.requiredYesNo,
       },
+      hideOnReview: true,
     }),
 
     'view:vaEvidenceInfo': {
