@@ -28,6 +28,17 @@ export const searchWithInput = ({
       },
     });
 
+    window.dataLayer.push({
+      event: 'far-search',
+      'search-query': address,
+      'search-filters-list': {
+        'representative-type': type,
+        'search-radius': distance,
+        'representative-name': name,
+      },
+      'search-selection': 'Find VA Accredited Rep',
+    });
+
     fetchRepresentatives(
       address,
       lat,
