@@ -96,7 +96,10 @@ const SearchResult = ({
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
             {distance && (
-              <div className="vads-u-font-weight--bold vads-u-font-family--serif">
+              <div
+                id={`representative-${representativeId}`}
+                className="vads-u-font-weight--bold vads-u-font-family--serif"
+              >
                 {parseFloat(JSON.parse(distance).toFixed(2))} Mi
               </div>
             )}
