@@ -98,8 +98,12 @@ const FilterBox = forwardRef((props, ref) => {
               label="Category"
               name="category"
               class="advanced-search-field"
-              value={category}
-              onVaSelect={e => setCategory(e.detail.value)}
+              value={category?.value}
+              onVaSelect={e => {
+                setCategory(
+                  SelectCategories.find(item => item?.value === e.detail.value),
+                );
+              }}
               data-testid="category-dropdown"
             >
               {SelectCategories.map(item => (
