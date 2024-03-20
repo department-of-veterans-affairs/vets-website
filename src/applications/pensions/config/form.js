@@ -13,7 +13,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
   titleUI,
   yesNoUI,
@@ -27,7 +26,6 @@ import {
   isMarried,
   MarriageTitle,
   submit,
-  createSpouseLabelSelector,
   HelpText,
   isHomeAcreageMoreThanTwo,
 } from '../helpers';
@@ -79,6 +77,7 @@ import receivesIncome from './chapters/05-financial-information/receivesIncome';
 import servicePeriod from './chapters/02-military-history/servicePeriod';
 import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
 import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
+import spouseInfo from './chapters/04-household-information/spouseInfo';
 import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
@@ -90,14 +89,6 @@ import migrations from '../migrations';
 import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
-
-const {
-  spouseDateOfBirth,
-  spouseSocialSecurityNumber,
-  spouseVaFileNumber,
-  liveWithSpouse,
-  spouseIsVeteran,
-} = fullSchemaPensions.properties;
 
 const {
   fullName,
@@ -685,79 +676,8 @@ const formConfig = {
           title: 'Spouse information',
           path: 'household/spouse-info',
           depends: isMarried,
-          uiSchema: {
-            ...titleUI(
-              createHouseholdMemberTitle('spouseFullName', 'information'),
-            ),
-            spouseDateOfBirth: merge({}, currentOrPastDateUI(''), {
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `${spouseName.first} ${spouseName.last}’s date of birth`,
-                ),
-              },
-            }),
-            spouseSocialSecurityNumber: merge({}, ssnUI, {
-              'ui:title': '',
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `${spouseName.first} ${
-                      spouseName.last
-                    }’s Social Security number`,
-                ),
-              },
-            }),
-            spouseIsVeteran: {
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `Is ${spouseName.first} ${spouseName.last} also a Veteran?`,
-                ),
-                yesNoReverse: true,
-                labels: {
-                  Y: 'No',
-                  N: 'Yes',
-                },
-              },
-            },
-            spouseVaFileNumber: {
-              'ui:title':
-                'Enter their VA file number if it does not match their SSN',
-              'ui:options': {
-                expandUnder: 'spouseIsVeteran',
-              },
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be 8 or 9 digits',
-              },
-            },
-            'view:liveWithSpouse': {
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `Do you live with ${spouseName.first} ${spouseName.last}?`,
-                ),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'spouseDateOfBirth',
-              'spouseSocialSecurityNumber',
-              'spouseIsVeteran',
-              'view:liveWithSpouse',
-            ],
-            properties: {
-              spouseDateOfBirth,
-              spouseSocialSecurityNumber,
-              spouseIsVeteran,
-              spouseVaFileNumber,
-              'view:liveWithSpouse': liveWithSpouse,
-            },
-          },
+          uiSchema: spouseInfo.uiSchema,
+          schema: spouseInfo.schema,
         },
         reasonForCurrentSeparation: {
           title: 'Reason for separation',
