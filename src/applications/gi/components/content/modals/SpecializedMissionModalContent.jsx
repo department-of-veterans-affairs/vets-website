@@ -1,10 +1,7 @@
 import React from 'react';
-import { isProductionOrTestProdEnv } from '../../../utils/helpers';
 
-const h3Text = (automatedTest = false) => {
-  return isProductionOrTestProdEnv(automatedTest)
-    ? 'Community focus'
-    : 'Specialized mission';
+const h3Text = () => {
+  return 'Community focus';
 };
 
 export default function SpecializedMissionModalContent() {
