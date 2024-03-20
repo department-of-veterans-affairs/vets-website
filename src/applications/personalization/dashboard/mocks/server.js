@@ -5,7 +5,7 @@ const {
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 const { createSuccessPayment } = require('./payment-history');
-const { createAppealsSuccess } = require('./appeals-success');
+const { createAppealsSuccess } = require('./appeals');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
