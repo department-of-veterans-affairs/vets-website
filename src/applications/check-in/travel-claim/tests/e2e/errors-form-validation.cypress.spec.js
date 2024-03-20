@@ -118,7 +118,7 @@ describe('Travel claim validation', () => {
       );
     });
   });
-  describe('A patient who attempts to click continue from facility selection with check at least one facility', () => {
+  describe('A patient who attempts to click continue from facility selection without checking at least one facility', () => {
     it('should display an error on the page', () => {
       TravelMileage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
