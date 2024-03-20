@@ -22,6 +22,7 @@ export default {
         keepInPageOnReview: true,
         customTitle: ' ',
         useDlWrap: true,
+        confirmRemove: true,
       },
       items: {
         'ui:options': {
