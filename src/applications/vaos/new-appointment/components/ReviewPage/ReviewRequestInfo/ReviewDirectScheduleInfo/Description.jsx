@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getTypeOfCare } from '../../redux/selectors';
-import { FLOW_TYPES, FACILITY_TYPES } from '../../../utils/constants';
-import { lowerCase } from '../../../utils/formatters';
+import { getTypeOfCare } from '../../../../redux/selectors';
+import { FLOW_TYPES, FACILITY_TYPES } from '../../../../../utils/constants';
+import { lowerCase } from '../../../../../utils/formatters';
 
 export default function Description({ data, flowType }) {
   const typeOfCare = lowerCase(getTypeOfCare(data)?.name);
