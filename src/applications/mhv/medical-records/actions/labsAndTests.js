@@ -17,6 +17,7 @@ export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
@@ -26,6 +27,7 @@ export const getlabsAndTestsDetails = labId => async dispatch => {
     dispatch({ type: Actions.LabsAndTests.GET, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
