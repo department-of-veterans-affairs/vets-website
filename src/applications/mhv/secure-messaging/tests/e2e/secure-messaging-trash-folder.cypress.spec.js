@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 import FolderLoadPage from './pages/FolderLoadPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Trash Folder checks', () => {
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe('Secure Messaging Trash Folder checks', () => {
       FolderLoadPage.navigateToLastPage(lastPageIndex);
       cy.get('.endOfThreads').should(
         'have.text',
-        'End of conversations in this folder',
+        Data.END_CONVERSATION_IN_FOLDER,
       );
     });
     FolderLoadPage.verifyPaginationElements();
