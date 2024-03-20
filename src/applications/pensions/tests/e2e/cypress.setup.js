@@ -15,6 +15,7 @@ const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {
   const features = isEnabled ? featuresEnabled : featuresDisabled;
 
   cy.config('numTestsKeptInMemory', 0);
+  cy.config('waitForAnimations', true);
 
   Cypress.on('window:before:load', window => {
     const win = window;
