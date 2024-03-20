@@ -144,11 +144,17 @@ fieldset.schemaform-field-template.schemaform-first-field {
   margin-top: 0em;
 }
 
-.applicantDetailsSubHeader,
-.sponsorDetailsSubHeader {
+.applicantDetailsSubHeader {
   margin-bottom: -1em;
 }
 
+.sponsorDetailsSubHeader {
+  padding-bottom: 0em;
+}
+
+.sponsorDetailsSummaryBoxText {
+  padding-top: 0.5em;
+}
 .sponsorMilitaryDetailsSubHeader {
   margin-bottom: -2em;
 }

@@ -14,7 +14,8 @@ import {
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
-  'ui:title': formContext => sponsorDetailsSubHeader(formContext),
+  'ui:title': (formContext, formData) =>
+    sponsorDetailsSubHeader(formContext, formData),
   application: {
     veteran: merge({}, veteranUI, {
       'view:sponsorDetailsDescription': {

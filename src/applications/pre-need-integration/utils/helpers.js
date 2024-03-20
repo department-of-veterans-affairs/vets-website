@@ -77,20 +77,25 @@ export const sponsorDeceasedDescription = (
   </div>
 );
 
-export function sponsorDetailsSubHeader({ formContext }) {
+export function isApplicantTheSponsor(item) {
+  return get('application.applicant.isSponsor', item) === 'yes';
+}
+
+export function sponsorDetailsSubHeader({ formContext, formData }) {
   return (
     <>
-      {!formContext.onReviewPage && (
-        <div className="sponsorDetailsSummaryBox">
-          <va-summary-box>
-            <p>
-              We’ve prefilled your details since you indicated you’re the
-              applicant’s sponsor. If you need to correct anything, you can edit
-              the fields below.
-            </p>
-          </va-summary-box>
-        </div>
-      )}
+      {isApplicantTheSponsor(formData) &&
+        !formContext.onReviewPage && (
+          <div className="sponsorDetailsSummaryBox">
+            <va-summary-box>
+              <p className="sponsorDetailsSummaryBoxText">
+                We’ve prefilled your details since you indicated you’re the
+                applicant’s sponsor. If you need to correct anything, you can
+                edit the fields below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
       <div className="sponsorDetailsSubHeader">
         <h3 className="vads-u-font-size--h5">Sponsor details</h3>
       </div>
@@ -101,7 +106,8 @@ export function sponsorDetailsSubHeader({ formContext }) {
 export const sponsorDetailsGuidingText = (
   <div className="sponsorDetailsGuidingText">
     <p>
-      Provide the details for the Veteran or service member you’re connected to.
+      Provide the details for the Veteran or service member the applicant is
+      connected to.
     </p>
   </div>
 );
@@ -478,10 +484,6 @@ export function sponsorMailingAddressHasState(item) {
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
-}
-
-export function isApplicantTheSponsor(item) {
-  return get('application.applicant.isSponsor', item) === 'yes';
 }
 
 export function isSponsorDeceased(item) {
