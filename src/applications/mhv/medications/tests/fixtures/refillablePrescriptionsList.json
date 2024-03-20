@@ -291,6 +291,7 @@
                 "indicationForUse": null,
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
+                "sortedDispensedDate": "2023-07-13T04:00:00.000Z",
                 "trackingList": [],
                 "rxRfRecords": [
                     [
