@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 
-import PaymentHistory from '../../../components/direct-deposit/legacy/PaymentHistory';
+import PaymentHistory from '../../../../components/direct-deposit/legacy/PaymentHistory';
 
-import { renderWithProfileReducers } from '../../unit-test-helpers';
+import { renderWithProfileReducers } from '../../../unit-test-helpers';
 
 describe('PaymentHistory', () => {
   it('should render the payment history link', async () => {

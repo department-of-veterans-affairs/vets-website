@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import DirectDeposit from '~/applications/personalization/profile/components/direct-deposit/legacy/DirectDeposit';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { generateFeatureTogglesState } from '../../../mocks/endpoints/feature-toggles';
-import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
+import { generateFeatureTogglesState } from '../../../../mocks/endpoints/feature-toggles';
+import { renderWithProfileReducersAndRouter } from '../../../unit-test-helpers';
 
 // all required data for direct deposit page in a 'happy path' state
 // loading is set to false for dependent api calls

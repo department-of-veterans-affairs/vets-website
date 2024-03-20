@@ -78,18 +78,20 @@ export const getRoutesForNav = (
   },
 ) => {
   return routesForNav.reduce((acc, route) => {
-    if (route.name === PROFILE_PATH_NAMES.CONTACTS && profileContacts) {
-      acc.push(route);
+    // don't include the contacts route if the profileContacts flag is false
+    if (!profileContacts && route.name === PROFILE_PATH_NAMES.CONTACTS) {
       return acc;
     }
 
+    // use the new direct deposit root route component if profileShowDirectDepositSingleForm flag is true
     if (
-      route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT &&
-      profileShowDirectDepositSingleForm
+      profileShowDirectDepositSingleForm &&
+      route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT
     ) {
       acc.push({ ...route, component: DirectDepositNew });
       return acc;
     }
+
     acc.push(route);
     return acc;
   }, []);
