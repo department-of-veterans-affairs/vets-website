@@ -4,8 +4,10 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 import { bankFieldsHaveInput } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentViewObjectField from '../components/PaymentViewObjectField';
-import { paymentInformationTitle } from '../content/paymentInformation';
-import { paymentNewAccountAlert } from '../content/paymentNewAccountAlert';
+import {
+  addAccountAlert,
+  paymentInformationTitle,
+} from '../content/paymentInformation';
 
 const {
   bankAccountType,
@@ -19,8 +21,6 @@ export const uiSchema = {
   'view:bankAccount': {
     'ui:title': paymentInformationTitle,
     'ui:field': ReviewCardField,
-    'ui:subtitle':
-      'If you’re awarded disability benefits, we’ll use this bank account for your payments.',
     'ui:options': {
       viewComponent: PaymentView,
       reviewTitle: 'Payment information',
@@ -31,6 +31,9 @@ export const uiSchema = {
       itemName: 'account',
       startInEdit: formData => !formData['view:hasPrefilledBank'],
       volatileData: true,
+    },
+    'view:newAccountAlert': {
+      'ui:description': addAccountAlert,
     },
     bankAccountType: {
       'ui:title': 'Account type',
@@ -60,9 +63,6 @@ export const uiSchema = {
       'ui:title': 'Bank name',
       'ui:required': bankFieldsHaveInput,
     },
-    'view:newAccountAlert': {
-      'ui:description': paymentNewAccountAlert,
-    },
   },
 };
 
@@ -72,14 +72,14 @@ export const schema = {
     'view:bankAccount': {
       type: 'object',
       properties: {
-        bankAccountType,
-        bankAccountNumber,
-        bankRoutingNumber,
-        bankName,
         'view:newAccountAlert': {
           type: 'object',
           properties: {},
         },
+        bankAccountType,
+        bankAccountNumber,
+        bankRoutingNumber,
+        bankName,
       },
     },
   },
