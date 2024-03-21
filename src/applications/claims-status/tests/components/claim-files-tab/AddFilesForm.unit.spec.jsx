@@ -124,17 +124,7 @@ describe('<AddFilesForm>', () => {
           onDirtyFields={onDirtyFields}
         />,
       );
-      // Create a file and add it to the vafileinput
-      const files = [
-        {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        },
-      ];
-      $('va-file-input', container).__events.vaChange({
-        detail: { files },
-      });
+
       // Check the checkbox
       $('va-checkbox', container).__events.vaChange({
         detail: { checked: true },

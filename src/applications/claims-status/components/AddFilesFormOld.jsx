@@ -9,6 +9,7 @@ import {
   VaSelect,
   VaTextInput,
   VaCheckbox,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -308,8 +309,8 @@ class AddFilesFormOld extends React.Component {
           <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
         </div>
         <div>
-          <va-button
-            primary
+          <VaButton
+            submit
             text="Submit Files for Review"
             class="submit-files-button"
             onClick={this.submit}
