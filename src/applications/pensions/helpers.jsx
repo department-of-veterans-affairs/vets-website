@@ -304,12 +304,6 @@ export const IncomeSourceDescription = (
 
 export const MarriageTitle = title => <Title title={title} />;
 
-export const HelpText = text => {
-  return (
-    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
-  );
-};
-
 /**
  * Formats a full name from the given first, middle, last, and suffix
  *
