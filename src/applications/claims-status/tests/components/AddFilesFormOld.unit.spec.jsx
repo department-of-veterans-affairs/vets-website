@@ -162,6 +162,7 @@ describe('<AddFilesFormOld>', () => {
       onCancel: () => {},
       removeFile: () => {},
       onDirtyFields: () => {},
+      uploading: false,
     };
     const onSubmit = sinon.spy();
     const onDirtyFields = sinon.spy();

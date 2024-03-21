@@ -59,7 +59,7 @@ describe('<AddFilesForm>', () => {
 
     it('uploading modal should not be visible', () => {
       const { container } = render(
-        <AddFilesForm uploading {...fileFormProps} />,
+        <AddFilesForm {...fileFormProps} uploading />,
       );
       expect($('#upload-status', container).visible).to.be.false;
     });
