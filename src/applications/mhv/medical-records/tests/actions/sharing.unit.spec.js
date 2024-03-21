@@ -17,15 +17,20 @@ describe('Fetch sharing status action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Sharing.STATUS);
     });
   });
+
   it('should dispatch an error action', () => {
     const mockData = { test: 'test' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return fetchSharingStatus()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Sharing.STATUS_ERROR,
-      );
-    });
+    return fetchSharingStatus()(dispatch)
+      .then(() => {
+        throw new Error('Expected fetchSharingStatus() to throw an error.');
+      })
+      .catch(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Sharing.STATUS_ERROR,
+        );
+      });
   });
 });
 
@@ -38,25 +43,35 @@ describe('Update sharing status action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Sharing.UPDATE);
     });
   });
+
   it('should dispatch an error action and revert to opt in', () => {
     const mockData = { test: 'test' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return updateSharingStatus(false)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Sharing.STATUS_ERROR,
-      );
-    });
+    return updateSharingStatus(false)(dispatch)
+      .then(() => {
+        throw new Error('Expected updateSharingStatus() to throw an error.');
+      })
+      .catch(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Sharing.STATUS_ERROR,
+        );
+      });
   });
+
   it('should dispatch an error action and revert to opt out', () => {
     const mockData = { test: 'test' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return updateSharingStatus(true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Sharing.STATUS_ERROR,
-      );
-    });
+    return updateSharingStatus(true)(dispatch)
+      .then(() => {
+        throw new Error('Expected updateSharingStatus() to throw an error.');
+      })
+      .catch(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.Sharing.STATUS_ERROR,
+        );
+      });
   });
 });
 
