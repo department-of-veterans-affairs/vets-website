@@ -323,7 +323,7 @@ const createAppointmentsOH = (token = defaultUUID) => {
     appointments.push(
       createAppointmentOH({
         appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date().getTime(), 1).toISOString(),
+        startTime: dateFns.addHours(new Date(), 1).toISOString(),
         type: 'Mental Health',
       }),
     );
@@ -333,7 +333,7 @@ const createAppointmentsOH = (token = defaultUUID) => {
     appointments.push(
       createAppointmentOH({
         appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date().getTime(), 1).toISOString(),
+        startTime: dateFns.addHours(new Date(), 1).toISOString(),
         type: 'Mental Health',
         facility: 'VA Facility 2',
         stationNo: '500',
@@ -345,26 +345,26 @@ const createAppointmentsOH = (token = defaultUUID) => {
     appointments.push(
       createAppointmentOH({
         appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date().getTime(), 1).toISOString(),
+        startTime: dateFns.addHours(new Date(), 1).toISOString(),
         type: 'Mental Health',
       }),
       createAppointmentOH({
         appointmentIen: '1111',
-        startTime: dateFns.addHours(new Date().getTime(), 3).toISOString(),
+        startTime: dateFns.addHours(new Date(), 3).toISOString(),
         type: 'Primary Care',
         stationNo: '500',
         facility: 'VA Facility 2',
       }),
       createAppointmentOH({
         appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date().getTime(), 2).toISOString(),
+        startTime: dateFns.addHours(new Date(), 2).toISOString(),
         type: 'Anesthesiology',
         stationNo: '500',
         facility: 'VA Facility 2',
       }),
       createAppointmentOH({
         appointmentIen: '6767',
-        startTime: dateFns.addHours(new Date().getTime(), 4).toISOString(),
+        startTime: dateFns.addHours(new Date(), 4).toISOString(),
         type: 'Neurology',
         stationNo: '622',
         facility: 'VA Facility 3',
