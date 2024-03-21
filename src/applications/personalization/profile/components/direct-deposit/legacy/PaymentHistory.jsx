@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import recordAnalyticsEvent from '~/platform/monitoring/record-event';
 
-import { ProfileInfoCard } from '../ProfileInfoCard';
+import { ProfileInfoCard } from '../../ProfileInfoCard';
 
 function PaymentHistory({ recordEvent = recordAnalyticsEvent } = {}) {
   const tableData = [

@@ -4,12 +4,12 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import { ProfileLink } from '../../ProfileLink';
+import { ProfileLink } from '../../../ProfileLink';
 import {
   cnpDirectDepositIsEligible,
   eduDirectDepositIsSetUp,
-} from '../../../selectors';
-import { useSessionStorage } from '../../../../common/hooks/useSessionStorage';
+} from '../../../../selectors';
+import { useSessionStorage } from '../../../../../common/hooks/useSessionStorage';
 
 export const EduMigrationAlert = ({ className }) => {
   const directDepositPath = '/profile/direct-deposit';
