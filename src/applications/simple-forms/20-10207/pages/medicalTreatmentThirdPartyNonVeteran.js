@@ -20,16 +20,17 @@ export default {
         itemName: 'Treatment facility',
         viewField: MedicalTreatmentViewField,
         keepInPageOnReview: true,
+        useVaCards: true,
         customTitle: ' ',
         useDlWrap: true,
       },
       items: {
-        'ui:options': {
-          classNames: 'vads-u-margin-left--1p5',
-        },
         facilityName: {
           'ui:title': 'Name of treatment facility',
           'ui:webComponentField': VaTextInputField,
+          'ui:options': {
+            charcount: 40,
+          },
         },
         facilityAddress: addressNoMilitaryUI({
           omit: ['street2', 'street3'],
