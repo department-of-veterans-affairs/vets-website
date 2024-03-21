@@ -9,7 +9,6 @@ import { vitalReducer } from './vitals';
 import { allergyReducer } from './allergies';
 import { sharingReducer } from './sharing';
 import { alertsReducer } from './alerts';
-import { paginationReducer } from './pagination';
 import { refreshReducer } from './refresh';
 
 const rootReducer = {
@@ -23,7 +22,6 @@ const rootReducer = {
     conditions: conditionReducer,
     sharing: sharingReducer,
     alerts: alertsReducer,
-    pagination: paginationReducer,
     refresh: refreshReducer,
   }),
 };
