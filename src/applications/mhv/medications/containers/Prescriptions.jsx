@@ -3,7 +3,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
-import usePrintTitle, {
+import {
+  usePrintTitle,
   updatePageTitle,
   reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
