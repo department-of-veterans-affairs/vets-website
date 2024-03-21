@@ -19,6 +19,7 @@ export const getVaccinesList = (isCurrent = false) => async dispatch => {
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
@@ -34,6 +35,7 @@ export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
