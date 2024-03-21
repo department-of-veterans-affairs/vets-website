@@ -6,7 +6,7 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
@@ -27,12 +27,9 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       }`,
       mockDraftResponse,
     ).as('autosaveResponse');
-    composePage.attachMessageFromFile('sample_docx.docx');
+    composePage.attachMessageFromFile(Data.SAMPLE_DOC);
     composePage.saveDraftButton().click();
-    cy.get(Locators.FIELDS.VISIBLE_P).should(
-      'contain',
-      'If you save this message as a draft',
-    );
+    cy.get(Locators.FIELDS.VISIBLE_P).should('contain', Data.SAVE_MEG_AS_DRAFT);
 
     cy.wait('@autosaveResponse');
     cy.injectAxe();

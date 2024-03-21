@@ -18,8 +18,7 @@ import {
 const uiSchema = {
   visitType: {
     'ui:widget': 'radio',
-    'ui:title':
-      'Please let us know how you would like to be seen for this appointment.',
+    'ui:title': ' ',
     'ui:errorMessages': {
       required: 'Select an option',
     },

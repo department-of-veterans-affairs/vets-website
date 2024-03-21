@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Data } from '../utils/constants';
 import requestBody from '../fixtures/message-compose-request-body.json';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
@@ -24,11 +24,11 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
       .type(`${requestBody.body}`, { force: true });
     // verify attachments button has "Attach file" with no attachments
     composePage.verifyAttachmentButtonText(0);
-    composePage.attachMessageFromFile('test_image.jpg');
+    composePage.attachMessageFromFile(Data.TEST_IMAGE);
     composePage.verifyFocusOnMessageAttachment();
     // verify attachments button has "Attach additional file" with one or more attachments
     composePage.verifyAttachmentButtonText(1);
-    composePage.attachMessageFromFile('sample_docx.docx');
+    composePage.attachMessageFromFile(Data.SAMPLE_DOC);
     composePage.verifyFocusOnMessageAttachment();
     //
     cy.realPress('Enter');
