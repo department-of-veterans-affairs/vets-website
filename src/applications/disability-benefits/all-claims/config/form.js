@@ -162,6 +162,7 @@ const formConfig = {
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
+  v3SegmentedProgressBar: true,
   savedFormMessages: {
     notFound: 'Please start over to file for disability claims increase.',
     noAuth:

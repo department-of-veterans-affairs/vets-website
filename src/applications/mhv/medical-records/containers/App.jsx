@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -29,7 +26,6 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
 } from '../util/selectors';
-import { resetPagination } from '../actions/pagination';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
@@ -41,7 +37,6 @@ const App = ({ children }) => {
     state => state.featureToggles,
   );
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   // Individual feature flags
@@ -102,15 +97,6 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(resetPagination(history.location.pathname));
-      };
-    },
-    [dispatch, history.location.pathname],
-  );
 
   const addSideNavItem = (navPaths, isDisplayed, path, label) => {
     if (isDisplayed)
