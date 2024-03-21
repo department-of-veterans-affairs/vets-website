@@ -23,6 +23,7 @@ export default {
         useVaCards: true,
         customTitle: ' ',
         useDlWrap: true,
+        confirmRemove: true,
       },
       items: {
         facilityName: {
