@@ -1,4 +1,5 @@
 {
+  "processOption": true,
   "view:allowanceStatement": {
     "confirmation": {
       "checkBox": true
@@ -30,14 +31,14 @@
   },
   "previousNames": [
     {
-      "first": "Tommy",
-      "last": "Bahama",
+      "first": "Tom",
+      "last": "Smith",
       "serviceBranch": "Air Force",
       "suffix": "Sr.",
       "middle": "Middle"
     },
     {
-      "first": "Tom",
+      "first": "Thomas",
       "last": "Ford",
       "serviceBranch": "Coast Guard"
     }

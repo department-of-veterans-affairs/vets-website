@@ -38,6 +38,7 @@ import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocat
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
+import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
@@ -414,6 +415,17 @@ const formConfig = {
           path: 'additional-information/additional-evidence',
           uiSchema: additionalEvidence.uiSchema,
           schema: additionalEvidence.schema,
+        },
+        fasterClaimProcessing: {
+          title: 'Faster claim processing',
+          reviewTitle: () => (
+            <div>
+              <h4 className="vads-u-font-size--h3">Faster claim processing</h4>
+            </div>
+          ),
+          path: 'additional-information/fdc-program',
+          uiSchema: fasterClaimProcessing.uiSchema,
+          schema: fasterClaimProcessing.schema,
         },
       },
     },

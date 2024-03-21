@@ -153,6 +153,7 @@ export const pageHooks = cy => ({
       selectRadioWebComponent('root_cemetaryLocationQuestion', 'none');
     });
   },
+  [pagePaths.confirmation]: () => {},
 });
 
 const testConfig = createTestConfig(
@@ -170,6 +171,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login(mockUser);
       setup();
+      cy.injectAxeThenAxeCheck();
     },
 
     // skip: [],

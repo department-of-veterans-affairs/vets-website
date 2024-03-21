@@ -43,3 +43,9 @@ export const cemeteryTypeLabels = {
   tribalLand: 'Yes, on tribal trust land',
   none: 'No, in neither of these types of cemeteries',
 };
+
+export const fasterClaimLabels = {
+  Y:
+    'Yes. I’ve uploaded all my supporting documents form my application for burial benefits',
+  N: 'No. I have other supporting documents to submit later',
+};
