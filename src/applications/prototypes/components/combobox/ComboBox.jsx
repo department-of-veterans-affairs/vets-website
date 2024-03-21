@@ -206,22 +206,6 @@ class ComboBox extends Component {
     onChange(option);
   }
 
-  highlightOptionWithSearch(option, searchInput) {
-    option = option.toLowerCase();
-    const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const value = searchInput.toLowerCase();
-    const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, "i");
-    let highlightedText = option
-      .split(caseInsensitiveMatch)
-      .map((str) =>
-        str.toLowerCase() === searchInput
-          ? `<span style="font-weight: bold">${str}</span>`
-          : str
-      )
-      .join("");
-    return (<div dangerouslySetInnerHTML={{ __html: highlightedText }} />);
-  }
-
   render() {
     const { searchTerm, filteredOptions, value } = this.state;
 
@@ -249,7 +233,7 @@ class ComboBox extends Component {
               onMouseEnter={(evt) => { this.handleMouseEnter(evt, option) }}
               label={option}
             >
-              {this.highlightOptionWithSearch(option, searchTerm)}
+              { option }
             </li>
           ))}
         </ul>
