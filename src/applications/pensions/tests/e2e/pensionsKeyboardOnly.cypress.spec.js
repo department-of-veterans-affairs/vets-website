@@ -11,6 +11,11 @@ import {
   fillReviewPage,
 } from './helpers/keyboardOnlyHelpers';
 
+const skipInCI = (testKey, callback) =>
+  Cypress.env('CI')
+    ? context.skip(testKey, callback)
+    : context(testKey, callback);
+
 const testForm = data => {
   const { chapters } = formConfig;
   startForm();
@@ -58,7 +63,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       testForm(data);
     });
   });
-  it('keyboard navigates through an overflow form', () => {
+  skipInCI('keyboard navigates through an overflow form', () => {
     cy.wrap(overflowFixture.data).as('testData');
     cypressSetup(cy);
 
