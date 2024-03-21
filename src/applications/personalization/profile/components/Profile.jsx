@@ -164,7 +164,9 @@ class Profile extends Component {
     const toggles = this.props.profileToggles;
 
     const routes = getRoutes({
-      profileContactsPage: toggles.profileContacts,
+      profileContacts: toggles.profileContacts,
+      profileShowDirectDepositSingleForm:
+        toggles.profileShowDirectDepositSingleForm,
     });
 
     return (
@@ -280,7 +282,7 @@ const mapStateToProps = state => {
     CSP_IDS.LOGIN_GOV,
   ]);
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
-    backendServices.EVSS_CLAIMS,
+    backendServices.LIGHTHOUSE,
   );
   const isEvssAvailable = isEvssAvailableSelector(state);
   const is2faEnabled = isMultifactorEnabled(state);

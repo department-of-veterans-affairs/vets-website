@@ -1,6 +1,6 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
@@ -12,10 +12,12 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     cy.get(Locators.ALERTS.INBOX_TEXT).should('be.visible');
     cy.tabToElement('[text="Go to your inbox"]').should(
       'have.text',
-      'Go to your inbox',
+      Data.GO_YOUR_INBOX,
     );
 
-    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE).should('have.focus');
+    cy.tabToElement('[data-testid="compose-message-link"]').should(
+      'have.focus',
+    );
 
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.WELCOME_MESSAGE)

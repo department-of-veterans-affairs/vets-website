@@ -101,16 +101,16 @@ function getUpdatedItemIndexFromPath() {
  *   nounSingular="employer"
  *   nounPlural="employers"
  *   isIncomplete={item => !item?.name}
- *   editItemBasePathUrl="/array-multiple-page-builder-item-page-1"
+ *   editItemPathUrl="/array-multiple-page-builder-item-page-1/:index"
  * />
- * ```
+ * ```x
  *
  * @param {Object} props
  */
 const ArrayBuilderCards = ({
   arrayPath,
-  isIncomplete,
-  editItemBasePathUrl,
+  isIncomplete = () => false,
+  editItemPathUrl,
   setFormData,
   formData,
   nounSingular,
@@ -221,7 +221,7 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          basePath: editItemBasePathUrl,
+                          path: editItemPathUrl,
                           index,
                           isReview,
                         })}
@@ -259,6 +259,7 @@ const ArrayBuilderCards = ({
 
 const mapStateToProps = state => ({
   formData: state.form.data,
+  pageList: state.form.pages,
 });
 
 const mapDispatchToProps = {
@@ -272,7 +273,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.node,
     PropTypes.string,
   ]).isRequired,
-  editItemBasePathUrl: PropTypes.string.isRequired,
+  editItemPathUrl: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
   isIncomplete: PropTypes.func.isRequired,
   nounPlural: PropTypes.string.isRequired,
@@ -302,7 +303,7 @@ ArrayBuilderCards.propTypes = {
  *   nounSingular="employer"
  *   nounPlural="employers"
  *   isIncomplete={item => !item?.name}
- *   editItemBasePathUrl="/array-multiple-page-builder-item-page-1"
+ *   editItemPathUrl="/array-multiple-page-builder-item-page-1"
  * />
  * ```
  *

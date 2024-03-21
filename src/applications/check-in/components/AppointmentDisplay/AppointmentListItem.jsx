@@ -28,9 +28,7 @@ const AppointmentListItem = props => {
 
   const detailsAriaLabel = () => {
     const modality = appointment.kind === 'phone' ? t('phone') : t('in-person');
-    const type = appointment.clinicStopCodeName
-      ? `${appointment.clinicStopCodeName} ${t('appointment')}`
-      : t('VA-appointment');
+    const type = t('VA-appointment');
     const provider = appointment.doctorName
       ? `${t('with')} ${appointment.doctorName}`
       : '';
@@ -84,9 +82,7 @@ const AppointmentListItem = props => {
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
         >
-          {appointment.clinicStopCodeName
-            ? appointment.clinicStopCodeName
-            : t('VA-appointment')}
+          {t('VA-appointment')}
           {appointment.doctorName
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}

@@ -13,10 +13,7 @@ import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
-import {
-  cstUseLighthouse,
-  benefitsDocumentsUseLighthouse,
-} from '../../selectors';
+import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus, setUpPage } from '../../utils/page';
 import {
   addFile,
@@ -27,17 +24,12 @@ import {
   // END lighthouse_migration
   updateField,
   cancelUpload,
-  // START lighthouse_migration
   getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
-  // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
 import {
-  getTrackedItemId,
-  getTrackedItems,
   getFilesNeeded,
   getFilesOptional,
   isClaimOpen,
@@ -88,13 +80,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   goToFilesPage() {
-    // START lighthouse_migration
-    if (this.props.useLighthouse) {
-      this.props.getClaimLighthouse(this.props.claim.id);
-    } else {
-      this.props.getClaimEVSS(this.props.claim.id);
-    }
-    // END lighthouse_migration
+    this.props.getClaim(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
@@ -135,14 +121,14 @@ class AdditionalEvidencePage extends React.Component {
             <>
               {this.props.filesNeeded.map(item => (
                 <FilesNeeded
-                  key={getTrackedItemId(item)}
+                  key={item.id}
                   id={this.props.claim.id}
                   item={item}
                 />
               ))}
               {this.props.filesOptional.map(item => (
                 <FilesOptional
-                  key={getTrackedItemId(item)}
+                  key={item.id}
                   id={this.props.claim.id}
                   item={item}
                 />
@@ -198,9 +184,8 @@ class AdditionalEvidencePage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-  const useLighthouse = cstUseLighthouse(state, 'show');
   const claim = claimsState.claimDetail.detail;
-  const trackedItems = getTrackedItems(claim, useLighthouse);
+  const { trackedItems } = claim.attributes;
 
   return {
     loading: claimsState.claimDetail.loading,
@@ -213,10 +198,9 @@ function mapStateToProps(state) {
     uploadField: claimsState.uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
-    filesNeeded: getFilesNeeded(trackedItems, useLighthouse),
-    filesOptional: getFilesOptional(trackedItems, useLighthouse),
+    filesNeeded: getFilesNeeded(trackedItems),
+    filesOptional: getFilesOptional(trackedItems),
     // START lighthouse_migration
-    useLighthouse,
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
@@ -228,11 +212,8 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
-  // START lighthouse_migration
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
+  getClaim: getClaimAction,
   submitFilesLighthouse,
-  // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
@@ -249,10 +230,7 @@ AdditionalEvidencePage.propTypes = {
   files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
-  // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
-  // END lighthouse_migration
+  getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
@@ -270,9 +248,6 @@ AdditionalEvidencePage.propTypes = {
   uploadComplete: PropTypes.bool,
   uploadField: PropTypes.object,
   uploading: PropTypes.bool,
-  // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export default withRouter(

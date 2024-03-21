@@ -2,7 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
-import { Locators, Alerts, Paths, Assertions } from '../utils/constants';
+import { Data, Locators, Alerts, Paths } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -141,13 +141,13 @@ class FolderManagementPage {
   };
 
   folderConfirmation = () => {
-    return cy.get(Locators.ALERTS.ALERT_TEXT);
+    return cy.get('[data-testid="alert-text"]');
   };
 
   verifyDeleteSuccessMessage = () => {
     this.folderConfirmation().should(
       'contain.text',
-      'Folder was successfully removed.',
+      Data.FOLDER_REMOVED_SUCCESSFULLY,
     );
   };
 
@@ -164,7 +164,7 @@ class FolderManagementPage {
   verifyCreateFolderSuccessMessage = () => {
     this.folderConfirmation().should(
       'contain.text',
-      'Folder was successfully created.',
+      Data.FOLDER_CREATED_SUCCESSFULLY,
     );
   };
 
@@ -193,7 +193,7 @@ class FolderManagementPage {
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
       })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
+      .find('[for = "radiobutton-Deletedinput"]', { includeShadowDom: true })
       .click();
   };
 
@@ -229,16 +229,16 @@ class FolderManagementPage {
       {},
     );
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
-    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+    cy.get(`[for="radiobutton-${folderName}input"]`)
       .should('exist')
       .click();
     cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT)
+    cy.get('[data-testid="alert-text"]')
       .should('exist')
-      .and('contain.text', Assertions.MESSAGE_CONVERSATION_SUCCESS);
+      .and('contain.text', 'Message conversation was successfully moved.');
   };
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {

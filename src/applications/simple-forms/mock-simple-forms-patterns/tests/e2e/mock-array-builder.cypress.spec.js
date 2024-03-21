@@ -35,7 +35,7 @@ State change: ${state.value}
 }
 
 function summaryAddMore(hasEmployment) {
-  cy.selectYesNoVaRadioOption('root_hasEmployment', hasEmployment);
+  cy.selectYesNoVaRadioOption('root_view:hasEmployment', hasEmployment);
   cy.axeCheck();
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
@@ -124,7 +124,7 @@ function removeItem1() {
     .click();
   cy.get('va-card').should('have.length', 1);
   cy.axeCheck();
-  cy.selectYesNoVaRadioOption('root_hasEmployment', false);
+  cy.selectYesNoVaRadioOption('root_view:hasEmployment', false);
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 

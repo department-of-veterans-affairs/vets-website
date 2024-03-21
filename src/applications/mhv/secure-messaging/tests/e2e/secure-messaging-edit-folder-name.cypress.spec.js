@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('edit custom folder name validation', () => {
@@ -27,7 +27,10 @@ describe('edit custom folder name validation', () => {
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
-    PatientMessageCustomFolderPage.VerifyFolderSuccesefullyRenamed();
+    cy.get('[data-testid="alert-text"]')
+      .should('be.visible')
+      .and('contain.text', Data.FOLDER_RENAMED_SUCCESSFULLY);
+
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('be.visible');
   });
 
@@ -43,10 +46,13 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    PatientMessageCustomFolderPage.VerifySaveText();
+    cy.get('[text="Save"]')
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+
     cy.get(Locators.FOLDERS.FOLDER_NAME, { timeout: 10000 })
       .shadow()
       .find('#input-error-message')
-      .and('include.text', 'Folder name cannot be blank');
+      .and('include.text', Data.FOLDER_NAME_CANNOT_BLANKAN);
   });
 });

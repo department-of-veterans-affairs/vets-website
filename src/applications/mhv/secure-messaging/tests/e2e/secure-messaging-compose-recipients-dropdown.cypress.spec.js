@@ -26,7 +26,7 @@ describe('recipients dropdown box', () => {
       .should('equal', mockRecipients.data.length + 1);
     cy.get(Locators.ALERTS.MESS_CATAGO)
       .first()
-      .click();
+      .click({ force: true });
   });
 
   it('preferredTriageTeam select dropdown false', () => {

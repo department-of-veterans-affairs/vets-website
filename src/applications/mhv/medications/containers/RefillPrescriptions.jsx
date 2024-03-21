@@ -10,6 +10,7 @@ import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
+import { dispStatusObj } from '../util/constants';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -62,7 +63,13 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           .map(({ attributes }) => attributes)
           .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
         const reduceBy = ([refillable, renewable], rx) => {
-          if (rx.dispStatus === 'Active' && rx.refillRemaining > 0) {
+          if (
+            rx.isRefillable ||
+            ([dispStatusObj.active, dispStatusObj.activeParked].includes(
+              rx.dispStatus,
+            ) &&
+              rx.refillRemaining > 0)
+          ) {
             return [[...refillable, rx], renewable];
           }
           return [refillable, [...renewable, rx]];
@@ -152,55 +159,50 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             text="Select all"
           />
           <div>
-            {fullRefillList
-              .slice()
-              .filter(rx => rx.refillRemaining > 0)
-              .map((prescription, idx) => (
-                <div key={idx} className="vads-u-margin-bottom--2">
-                  <input
-                    data-testid={`refill-prescription-checkbox-${idx}`}
-                    type="checkbox"
-                    checked={
-                      selectedRefillList.includes(
-                        prescription.prescriptionId,
-                      ) || false
-                    }
-                    id={`checkbox-${prescription.prescriptionId}`}
-                    name={prescription.prescriptionId}
-                    className="vads-u-margin-y--0"
-                    onChange={e =>
-                      e.type === 'change' &&
-                      onSelectPrescription(prescription.prescriptionId)
-                    }
-                  />
-                  <label
-                    htmlFor={`checkbox-${prescription.prescriptionId}`}
-                    className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
-                  >
-                    {prescription.prescriptionName}
-                  </label>
-                  <p
-                    className="vads-u-margin-left--4 vads-u-margin-top--0"
-                    data-testid={`refill-prescription-details-${
-                      prescription.prescriptionNumber
-                    }`}
-                  >
-                    Prescription number: {prescription.prescriptionNumber}
-                    <br />
-                    <span data-testid={`refill-last-filled-${idx}`}>
-                      Last filled on{' '}
-                      {dateFormat(
-                        prescription.rxRfRecords?.[0]?.[1]?.find(
-                          record => record.dispensedDate,
-                        )?.dispensedDate || prescription.dispensedDate,
-                        'MMMM D, YYYY',
-                      )}
-                    </span>
-                    <br />
-                    {prescription.refillRemaining} refills left
-                  </p>
-                </div>
-              ))}
+            {fullRefillList.slice().map((prescription, idx) => (
+              <div key={idx} className="vads-u-margin-bottom--2">
+                <input
+                  data-testid={`refill-prescription-checkbox-${idx}`}
+                  type="checkbox"
+                  checked={
+                    selectedRefillList.includes(prescription.prescriptionId) ||
+                    false
+                  }
+                  id={`checkbox-${prescription.prescriptionId}`}
+                  name={prescription.prescriptionId}
+                  className="vads-u-margin-y--0"
+                  onChange={e =>
+                    e.type === 'change' &&
+                    onSelectPrescription(prescription.prescriptionId)
+                  }
+                />
+                <label
+                  htmlFor={`checkbox-${prescription.prescriptionId}`}
+                  className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
+                >
+                  {prescription.prescriptionName}
+                </label>
+                <p
+                  className="vads-u-margin-left--4 vads-u-margin-top--0"
+                  data-testid={`refill-prescription-details-${
+                    prescription.prescriptionNumber
+                  }`}
+                >
+                  Prescription number: {prescription.prescriptionNumber}
+                  <br />
+                  <span data-testid={`refill-last-filled-${idx}`}>
+                    Last filled on{' '}
+                    {dateFormat(
+                      prescription.sortedDispensedDate ||
+                        prescription.dispensedDate,
+                      'MMMM D, YYYY',
+                    )}
+                  </span>
+                  <br />
+                  {prescription.refillRemaining} refills left
+                </p>
+              </div>
+            ))}
           </div>
           <VaButton
             uswds

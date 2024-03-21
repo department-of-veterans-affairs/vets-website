@@ -43,7 +43,6 @@ export const Paths = {
 };
 
 export const Locators = {
-  MESS_BODY: '[data-testid="message-body"]',
   MESSAGE_FAQ: '.secure-messaging-faq',
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
@@ -62,6 +61,7 @@ export const Locators = {
   DELET_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
   SELECT: '#select',
   HEADER: 'h1',
+  HEADER2: 'h2',
   HEADLINE: 'h1[slot="headline"]',
   KEYWORD_SEARCH: '[data-testid="keyword-search-input"]',
   NO_MESS: '[data-testid=alert-no-messages] p',
@@ -94,7 +94,6 @@ export const Locators = {
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
-    REPLY_BUTTON_TEXT: '[data-testid=reply-button-text]',
     CONTINUE: '[data-testid="continue-button"]',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
@@ -131,7 +130,6 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
-    ALERT_TEXT: '[data-testid="alert-text"]',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
     CLOSE_NOTIFICATION: '.va-alert',
@@ -181,7 +179,7 @@ export const Locators = {
     MESSAGE: '#textarea',
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
-    CATEGORY_DROPDOWN: '#category-dropdown',
+    CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -206,6 +204,47 @@ export const Alerts = {
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
 };
 
+export const Data = {
+  TEST_MESSAGE_BODY: 'Test message body',
+  TEST_SUBJECT: 'Test Subject',
+  TEST_IMAGE: 'test_image.jpg',
+  TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
+  MESSAGE_WAS_SAVED: 'message was saved',
+  TEST_MESSAGE_SUBJECT: 'Test Message Subject',
+  SAMPLE_DOC: 'sample_docx.docx',
+  SAMPLE_PDF: 'sample_pdf.pdf',
+  START_NEW_MSG: 'Start a new message',
+  GO_YOUR_INBOX: 'Go to your inbox',
+  BACK_TO_MSG: 'Back to messages',
+  FOLDER_NAME_CANNOT_BLANKAN: 'Folder name cannot be blank',
+  FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
+  FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
+  FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
+  SECURE_MSG_SENT_SUCCESSFULLY: 'Secure message was successfully sent',
+  PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
+  PLEASE_SELECT_CATEGORY: 'Please select a category.',
+  SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
+  MESSAGE_CANNOT_BLANK: 'Message body cannot be blank.',
+  ATTACH_FILE: 'Attach file',
+  ATTACH_ADDITIONAL_FILE: 'Attach additional file',
+  MESSAGE_CANNOT_SAVE_YET: "We can't save this message yet",
+  CONTINUE_EDITING: 'Continue editing',
+  MESSAGE_MOVED_TO_TRASH:
+    'Message conversation was successfully moved to Trash.',
+  TEST_VIDEO: 'test_video.mp4',
+  CREATE_FOLDER_TEST: 'create folder test',
+  IS_ACTIVE: 'is-active',
+  END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
+  SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
+  EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
+  NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
+  WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
+  FILE_IS_TOO_LARGE_TEXT:
+    'Your file is too large. Try attaching a file smaller than 6MB.',
+  ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+  CANNOT_SEND_MSG_TO_CARE_TEAM:
+    "You can't send messages to your care teams right now",
+};
 export const Assertions = {
   MESSAGES: 'Messages',
   FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',

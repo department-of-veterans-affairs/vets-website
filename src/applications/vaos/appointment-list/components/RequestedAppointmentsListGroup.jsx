@@ -96,7 +96,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   });
 
   const paragraphText =
-    'Your appointment requests that haven’t been scheduled yet.';
+    'Appointments that you request will show here until staff review and schedule them.';
 
   return (
     <>
