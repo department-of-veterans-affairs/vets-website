@@ -308,7 +308,9 @@ const getUniqueFacilies = appointments => {
 
 const utcToFacilityTimeZone = (time, timezone) => {
   const isoFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
-  return format(utcToZonedTime(time, timezone), isoFormat);
+  return format(utcToZonedTime(time, timezone), isoFormat, {
+    timeZone: timezone,
+  });
 };
 
 export {
