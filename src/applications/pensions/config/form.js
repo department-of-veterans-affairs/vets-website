@@ -989,26 +989,15 @@ const formConfig = {
           title: 'Account information for direct deposit',
           path: 'additional-information/account-information',
           initialData: {},
+          depends: usingDirectDeposit,
           uiSchema: {
             'view:accountInformationAlert': {
               ...titleUI(
                 'Account information for direct deposit',
                 AccountInformationAlert,
               ),
-              'ui:options': {
-                hideIf: formData => !usingDirectDeposit(formData),
-              },
-            },
-            'view:directDepositOtherOptions': {
-              ...titleUI('Other payment options', DirectDepositOtherOptions),
-              'ui:options': {
-                hideIf: formData => usingDirectDeposit(formData),
-              },
             },
             bankAccount: merge({}, bankAccountUI, {
-              'ui:options': {
-                hideIf: formData => !usingDirectDeposit(formData),
-              },
               'ui:order': [
                 'accountType',
                 'bankName',
@@ -1041,6 +1030,22 @@ const formConfig = {
                 properties: {},
               },
               bankAccount,
+            },
+          },
+        },
+        otherPaymentOptions: {
+          title: 'Other payment options',
+          path: 'additional-information/other-payment-options',
+          initialData: {},
+          depends: !usingDirectDeposit,
+          uiSchema: {
+            'view:directDepositOtherOptions': {
+              ...titleUI('Other payment options', DirectDepositOtherOptions),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
               'view:directDepositOtherOptions': {
                 type: 'object',
                 properties: {},
