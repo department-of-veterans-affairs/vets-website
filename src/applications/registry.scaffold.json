@@ -103,11 +103,6 @@
     "entryName": "dhp-consent-flow"
   },
   {
-    "appName": "Transfer Account",
-    "rootUrl": "/transfer-account",
-    "entryName": "mhv-inherited-proofing"
-  },
-  {
     "appName": "Notice of Disagreement",
     "rootUrl": "/decision-reviews/board-appeal/",
     "entryName": "form-10182-cta"
