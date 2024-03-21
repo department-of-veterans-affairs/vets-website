@@ -10,11 +10,6 @@ import {
   startForm,
   fillReviewPage,
 } from './helpers/keyboardOnlyHelpers';
-import {
-  kitchenSinkFixture,
-  overflowFixture,
-  simpleFixture,
-} from './fixtures/data/vetsJsonSchemaFixtures';
 
 const testForm = data => {
   const { chapters } = formConfig;
