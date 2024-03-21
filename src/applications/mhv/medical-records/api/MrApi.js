@@ -6,6 +6,7 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
 import vaccines from '../tests/fixtures/vaccines.json';
+import vaccine from '../tests/fixtures/vaccine.json';
 import allergies from '../tests/fixtures/allergies.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
@@ -78,9 +79,9 @@ export const testableApiRequestWithRetry = (
  * @param {number} endTime the cutoff time to stop polling the path and simply return the error
  * @returns
  */
-const apiRequestWithRetry = async (path, options, endTime) => {
-  return testableApiRequestWithRetry(2000, apiRequest)(path, options, endTime);
-};
+// const apiRequestWithRetry = async (path, options, endTime) => {
+//   return testableApiRequestWithRetry(2000, apiRequest)(path, options, endTime);
+// };
 
 export const getLabsAndTests = runningUnitTest => {
   if (hitApi(runningUnitTest)) {
@@ -110,27 +111,42 @@ export const getLabOrTest = (id, runningUnitTest) => {
 };
 
 export const getNotes = () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/clinical_notes`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+    return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(notes);
+    }, 1000);
+  });
 };
 
 export const getNote = id => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/clinical_notes/${id}`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+    return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(notes);
+    }, 1000);
+  });
 };
 
-export const getVitalsList = () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/vitals`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+export const getVitalsList = runningUnitTest => {
+  if (hitApi(runningUnitTest)) {
+    return apiRequest(`${apiBasePath}/medical_records/vitals`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vitals);
+    }, 1000);
+  });
 };
 
 export const getConditions = runningUnitTest => {
@@ -160,20 +176,33 @@ export const getCondition = (id, runningUnitTest) => {
   });
 };
 
-export const getAllergies = async () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/allergies`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+export const getAllergies = useLiveData => {
+  if (useLiveData) {
+    return apiRequest(`${apiBasePath}/medical_records/allergies`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(allergies);
+    }, 1000);
+  });
 };
 
-export const getAllergy = id => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/allergies/${id}`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+export const getAllergy = (id, useLiveData) => {
+  if (useLiveData) {
+    return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const allergy = allergies.entry.find(
+        alg => String(alg.resource.id) === String(id),
+      );
+      resolve(allergy.resource);
+    }, 1000);
+  });
 };
 
 /**
@@ -181,11 +210,16 @@ export const getAllergy = id => {
  * @returns list of patient's vaccines in FHIR format
  */
 export const getVaccineList = () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/vaccines`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccines);
+    }, 1000);
+  });
 };
 
 /**
@@ -194,11 +228,16 @@ export const getVaccineList = () => {
  * @returns vaccine details in FHIR format
  */
 export const getVaccine = id => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/vaccines/${id}`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccine);
+    }, 1000);
+  });
 };
 
 /**
