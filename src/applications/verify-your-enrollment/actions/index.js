@@ -24,6 +24,10 @@ export const UPDATE_TOGGLE_ENROLLMENT_SUCCESS =
   'UPDATE_TOGGLE_ENROLLMENT_SUCCESS';
 export const UPDATE_TOGGLE_ENROLLMENT_ERROR = 'UPDATE_TOGGLE_ENROLLMENT_ERROR';
 
+export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
+export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
+export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
+
 export const updateToggleEnrollmentSuccess = toggleEnrollmentSuccess => ({
   type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
   payload: toggleEnrollmentSuccess,
@@ -154,4 +158,52 @@ export const verifyEnrollmentAction = () => {
       throw error;
     }
   };
+};
+
+export const validateAddress = (formData, fullName) => async dispatch => {
+  dispatch({ type: ADDRESS_VALIDATION_START });
+  try {
+    const validationResponse = await apiRequest(
+      'http://localhost:8080/profile/address_validation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      },
+    );
+    dispatch({ type: ADDRESS_VALIDATION_SUCCESS, payload: validationResponse });
+    const {
+      address,
+      addressMetaData: { confidenceScore },
+    } = validationResponse.addresses[0];
+    let stateAndZip = {};
+    if (address.countryCodeIso3 === 'USA') {
+      stateAndZip = {
+        state: address.stateCode,
+        zipCode: address.zipCode,
+      };
+    } else {
+      stateAndZip = {
+        state: address.province,
+        zipCode: address.internationalPostalCode,
+      };
+    }
+    if (confidenceScore === 100) {
+      const fields = {
+        veteranName: fullName,
+        address1: address.addressLine1,
+        address2: address.addressLine2,
+        address3: formData.addressLine3,
+        address4: formData.addressLine4,
+        city: formData.city,
+        ...stateAndZip,
+      };
+      await dispatch(postMailingAddress(fields));
+    }
+  } catch (error) {
+    dispatch({
+      type: ADDRESS_VALIDATION_FAIL,
+      payload: error.toString(),
+    });
+  }
 };
