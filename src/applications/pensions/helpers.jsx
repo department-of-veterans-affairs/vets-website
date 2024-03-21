@@ -197,7 +197,7 @@ export const DirectDepositWarning = (
         The Department of Treasury requires all federal benefit payments be made
         by electronic funds transfer (EFT), also called direct deposit. If we
         approve your application for pension benefits, we’ll use direct deposit
-        deposit your payments directly into a bank account.
+        to deposit your payments directly into a bank account.
       </p>
     </div>
   </div>
