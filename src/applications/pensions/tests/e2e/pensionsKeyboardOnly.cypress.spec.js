@@ -43,34 +43,40 @@ describe('Higher-Level Review keyboard only navigation', () => {
   before(() => {
     cypressBeforeAllSetup();
   });
-  it('keyboard navigates through a simple form', () => {
-    cy.wrap(simpleFixture.data).as('testData');
-    cypressSetup(cy);
+  context('Simple', () => {
+    it('keyboard navigates through the form', () => {
+      cy.wrap(simpleFixture.data).as('testData');
+      cypressSetup(cy);
 
-    cy.get('@testData').then(data => {
-      cy.injectAxeThenAxeCheck();
+      cy.get('@testData').then(data => {
+        cy.injectAxeThenAxeCheck();
 
-      testForm(data);
+        testForm(data);
+      });
     });
   });
-  it('keyboard navigates through a maximal form', () => {
-    cy.wrap(kitchenSinkFixture.data).as('testData');
-    cypressSetup(cy);
+  context('Kitchen sink', () => {
+    it('keyboard navigates through the form', () => {
+      cy.wrap(kitchenSinkFixture.data).as('testData');
+      cypressSetup(cy);
 
-    cy.get('@testData').then(data => {
-      cy.injectAxeThenAxeCheck();
+      cy.get('@testData').then(data => {
+        cy.injectAxeThenAxeCheck();
 
-      testForm(data);
+        testForm(data);
+      });
     });
   });
-  skipInCI('keyboard navigates through an overflow form', () => {
-    cy.wrap(overflowFixture.data).as('testData');
-    cypressSetup(cy);
+  skipInCI('Overflow', () => {
+    it('keyboard navigates through the form', () => {
+      cy.wrap(overflowFixture.data).as('testData');
+      cypressSetup(cy);
 
-    cy.get('@testData').then(data => {
-      cy.injectAxeThenAxeCheck();
+      cy.get('@testData').then(data => {
+        cy.injectAxeThenAxeCheck();
 
-      testForm(data);
+        testForm(data);
+      });
     });
   });
 });
