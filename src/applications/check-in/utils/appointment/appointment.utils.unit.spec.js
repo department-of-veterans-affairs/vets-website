@@ -500,8 +500,8 @@ describe('check in', () => {
       });
     });
     describe('utcToFacilityTimeZone', () => {
-      it('returns the timezone djusted ISO srting', () => {
-        const time = '2020-01-24T00:20:00.000+00:00';
+      it('returns the timezone adjusted ISO srting', () => {
+        const time = '2020-01-24T00:20:00.000Z';
         const timezone = 'America/Los_Angeles';
         expect(utcToFacilityTimeZone(time, timezone)).to.equal(
           '2020-01-23T16:20:00.000-08:00',
