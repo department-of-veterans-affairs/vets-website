@@ -23,6 +23,7 @@ import {
 const MAX_NUM_DISABILITY_SUGGESTIONS = 20;
 const DISABILITIES_OBJECT = getDisabilityLabels();
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
+let THRESHOLD = 0.5;
 
 // actions
 const addItem = (item) => ({ type: ADD_ITEM, payload: item });
@@ -54,28 +55,26 @@ class ComboBox extends Component {
       this.setState({ searchTerm: '' })
     }
   }
-
+  
   componentDidMount() {
     document.addEventListener('click', this.handleClickEvent);
   }
-
+  
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickEvent);
   }
-
+  
   handleClickEvent = (evt) => {
     const isComboBoxListClicked = evt.composedPath().includes(this.listRef.current)
     const isComboBoxInputClicked = evt.target.classList.contains('usa-combo-box__input');
     const isEditButton = evt.target.classList.contains('prototype-edit-disability-class');
-    
     if (!isComboBoxListClicked && !isComboBoxInputClicked && !isEditButton) {
       console.log('this.listRef.current: ', this.listRef.current);
       console.log('target: ', evt.target);
       console.log('clicked outside of combobox');
-      this.setState({ searchTerm: '' });
+      this.state.value ? this.setState({ searchTerm: this.state.value }) : this.setState({ searchTerm: '' });
     }
   }
-
   handleKeyDownFromInput(evt) {
     switch (evt.key) {
       case 'Tab':
@@ -148,9 +147,8 @@ class ComboBox extends Component {
   filterOptions = () => {
     const { searchTerm, value } = this.state;
     const options = this.disabilitiesArr;
-    let filtered = substringCountLCS(searchTerm, options, 0)
+    let filtered = substringCountLCS(searchTerm, options, THRESHOLD)
     filtered = filtered.splice(0, MAX_NUM_DISABILITY_SUGGESTIONS);
-    // if (searchTerm && searchTerm.length === 0) {
     if (searchTerm.length === 0) {
       filtered = [];
     }
@@ -193,7 +191,7 @@ class ComboBox extends Component {
        onMouseEnter={(evt) => { this.handleMouseEnter(evt, option) }}
        label="new-condition-option"
       >
-        Add "<span style={{ fontWeight: 'bold' }}>{option}</span>" as a new condition
+        Enter your condition as "<span style={{ fontWeight: 'bold' }}>{option}</span>"
       </li>
     )
   }
@@ -260,6 +258,7 @@ class ComboBox extends Component {
   }
 }
 
+
 export const ComboBoxApp = connect(state => state)(
   class extends Component {
     constructor(props) {
@@ -270,6 +269,7 @@ export const ComboBoxApp = connect(state => state)(
       this.handleChange = this.handleChange.bind(this);
       this.handleEditMode = this.handleEditMode.bind(this);
       this.handleEdit = this.handleEdit.bind(this);
+      this.handleCancel = this.handleCancel.bind(this);
     }
 
     // save button clicked
@@ -305,8 +305,13 @@ export const ComboBoxApp = connect(state => state)(
       if (isAddingNewCondition) {
         this.props.dispatch(hideNewConditionSection());
       }
+      
       this.props.dispatch(updateCurrent(this.props.list.find(item => item.id === +evt.target.value)));
       this.setState({ editMode: Number(evt.target.value) });
+    }
+
+    handleCancel(){
+      this.setState({ editMode: 0 })
     }
 
     handleEdit() {
@@ -383,8 +388,17 @@ export const ComboBoxApp = connect(state => state)(
 
                       <div class="row small-collapse">
                         <div class="small-6 left columns">
-                          <button type="button" class="float-left" aria-label="Save Condition" className="btn" onClick={this.handleEdit}>Update</button>
-                          <div class="float-left row columns"></div>
+                          {list.length > 1 ? <button type="button" className="btn" class="float-left" aria-label="Save Condition" onClick={this.handleEdit}>Update</button> : <button type="button" class="float-left" aria-label="Save Condition" className="btn" onClick={this.handleEdit}>Save</button>}
+                      <div class="row columns">
+                           {list.length > 1 && <button
+                  type="button"
+                  class="usa-button-secondary float-right"
+                  aria-label="Cancel Editing"
+                  onClick={this.handleCancel}
+                >
+                  Cancel
+                </button>}
+                        </div>
                         </div>
                         {/* TODO: Add Remove Action */}
                         <div class="small-6 right columns">{list.length > 1 ? <button type="button" class="usa-button-secondary float-right" aria-label="Remove incomplete Condition" value={item.id} onClick={this.handleDelete}>Remove</button> : null}</div>
