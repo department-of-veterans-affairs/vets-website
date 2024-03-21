@@ -3,7 +3,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
-import { mockFeatureToggles } from '../helpers';
+import { mockFeatureToggles } from '../../helpers';
 
 const TEST_ACCOUNT = {
   NUMBER: '123123123',

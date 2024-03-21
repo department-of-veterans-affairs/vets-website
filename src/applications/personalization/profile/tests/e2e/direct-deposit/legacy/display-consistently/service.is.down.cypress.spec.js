@@ -1,9 +1,9 @@
 import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import DirectDeposit from '../DirectDeposit';
-import bankAccounts from '../../../../mocks/endpoints/bank-accounts';
-import { loa3User72 } from '../../../../mocks/endpoints/user';
+import bankAccounts from '../../../../../mocks/endpoints/bank-accounts';
+import { loa3User72 } from '../../../../../mocks/endpoints/user';
 
-import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
+import { generateFeatureToggles } from '../../../../../mocks/endpoints/feature-toggles';
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
