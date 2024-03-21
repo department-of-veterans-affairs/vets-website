@@ -134,6 +134,7 @@ export const flowPaths = {
   someoneElseBenVet: 'veteran-someones-benefits',
   someoneElseBenFam: 'family-someones-benefits',
   someoneElseBen3rdParty: 'third-party-someones-benefits',
+  someoneElseBen3rdPartyEducation: 'third-party-someones-benefits-education',
   general: 'general-question',
 };
 
@@ -254,7 +255,7 @@ someoneElseBenFamPages.searchVAMedicalCenter_familysomeonesbenefits.onNavForward
 };
 
 const someoneElseBen3rdParty = [
-  'yourRoleEducation',
+  'yourRole',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
@@ -272,6 +273,27 @@ export const someoneElseBen3rdPartyPages = flowPages(
   ch3Pages,
   someoneElseBen3rdParty,
   flowPaths.someoneElseBen3rdParty,
+);
+
+const someoneElseBen3rdPartyEducation = [
+  'yourRoleEducation',
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
+  'veteransAddressZip',
+  'searchVAMedicalCenter',
+  'vaEmployee',
+  'aboutYourself',
+  'yourPhoneAndEmail',
+  'howToContact',
+  'yourCountry',
+  'yourAddress',
+  'yourAddressConfirmation',
+];
+export const someoneElseBen3rdPartyEducationPages = flowPages(
+  ch3Pages,
+  someoneElseBen3rdPartyEducation,
+  flowPaths.someoneElseBen3rdPartyEducation,
 );
 
 const generalQuestion = [
