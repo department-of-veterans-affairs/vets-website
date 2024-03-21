@@ -154,7 +154,7 @@ export const getCondition = (id, runningUnitTest) => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const condition = conditions.find(cond => cond.id === id);
+      const condition = conditions.entry.find(cond => cond.id === id);
       resolve(condition);
     }, 1000);
   });

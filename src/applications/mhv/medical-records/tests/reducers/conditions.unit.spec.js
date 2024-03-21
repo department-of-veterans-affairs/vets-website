@@ -6,7 +6,7 @@ import {
 } from '../../reducers/conditions';
 
 describe('Condition Extraction Functions', () => {
-  const EMPTY_FIELD = 'EMPTY_FIELD'; // Define EMPTY_FIELD as per your implementation
+  const EMPTY_FIELD = 'None noted'; // Define EMPTY_FIELD as per your implementation
 
   describe('extractLocation', () => {
     it('should return the location name if present', () => {

@@ -54,7 +54,7 @@ describe('Condition details container', () => {
   });
 
   it('displays the formatted received date', () => {
-    const formattedDate = screen.getAllByText('April', {
+    const formattedDate = screen.getAllByText('February', {
       exact: false,
       selector: 'span',
     });
