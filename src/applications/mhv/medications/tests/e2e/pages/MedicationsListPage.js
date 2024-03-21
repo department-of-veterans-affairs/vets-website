@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import prescriptions from '../fixtures/prescriptions.json';
+import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
