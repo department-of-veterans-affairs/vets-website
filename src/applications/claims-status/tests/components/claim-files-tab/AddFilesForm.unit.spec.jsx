@@ -1,13 +1,9 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { createStore } from 'redux';
-import userEvent from '@testing-library/user-event';
-
 
 import sinon from 'sinon';
 
@@ -32,7 +28,6 @@ import {
 const byName = name => {
   return node => node?.props?.name === name;
 };
-const store = createStore(() => ({}));
 
 describe('<AddFilesForm>', () => {
   context('tests using render()', () => {
@@ -49,11 +44,7 @@ describe('<AddFilesForm>', () => {
     };
 
     it('should render component', () => {
-      const { container } = render(
-        <Provider store={store}>
-          <AddFilesForm {...fileFormProps} />,
-        </Provider>,
-      );
+      const { container } = render(<AddFilesForm {...fileFormProps} />);
 
       expect($('.add-files-form', container)).to.exist;
       const checkbox = $('va-checkbox', container);
@@ -66,22 +57,15 @@ describe('<AddFilesForm>', () => {
       expect($('.files-form-information', container)).to.exist;
     });
 
-    it('should show uploading modal', () => {
+    it('uploading modal should not be visible', () => {
       const { container } = render(
-        <Provider store={store}>
-          <AddFilesForm uploading {...fileFormProps} />,
-        </Provider>,
+        <AddFilesForm uploading {...fileFormProps} />,
       );
-      // VaModal has an id of `upload-status` so we can use that as the selector here
-      expect($('#upload-status', container)).to.exist;
+      expect($('#upload-status', container).visible).to.be.false;
     });
 
     it('should include mail info additional info', () => {
-      const { container } = render(
-        <Provider store={store}>
-          <AddFilesForm {...fileFormProps} />,
-        </Provider>,
-      );
+      const { container } = render(<AddFilesForm {...fileFormProps} />);
 
       expect($('va-additional-info', container)).to.exist;
     });
@@ -91,14 +75,11 @@ describe('<AddFilesForm>', () => {
       const onDirtyFields = sinon.spy();
 
       const { container } = render(
-        <Provider store={store}>
-          <AddFilesForm
-            {...fileFormProps}
-            onSubmit={onSubmit}
-            onDirtyFields={onDirtyFields}
-          />
-          ,
-        </Provider>,
+        <AddFilesForm
+          {...fileFormProps}
+          onSubmit={onSubmit}
+          onDirtyFields={onDirtyFields}
+        />,
       );
 
       fireEvent.click($('#submit', container));
@@ -120,66 +101,70 @@ describe('<AddFilesForm>', () => {
       const onSubmit = sinon.spy();
       const onDirtyFields = sinon.spy();
       const { container } = render(
-        <Provider store={store}>
-          <AddFilesForm
-            {...fileFormProps}
-            files={files}
-            onSubmit={onSubmit}
-            onDirtyFields={onDirtyFields}
-          />
-          ,
-        </Provider>,
+        <AddFilesForm
+          {...fileFormProps}
+          files={files}
+          onSubmit={onSubmit}
+          onDirtyFields={onDirtyFields}
+        />,
       );
       fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.false;
       expect(onDirtyFields.called).to.be.true;
     });
 
-    it.only('should add a valid file and submit', async () => {
+    it('should add a valid file and submit', async () => {
       const onSubmit = sinon.spy();
       const onDirtyFields = sinon.spy();
 
       const { container, rerender } = render(
-        <Provider store={store}>
-          <AddFilesForm
-            {...fileFormProps}
-            onSubmit={onSubmit}
-            onDirtyFields={onDirtyFields}
-          />
-          ,
-        </Provider>,
+        <AddFilesForm
+          {...fileFormProps}
+          onSubmit={onSubmit}
+          onDirtyFields={onDirtyFields}
+        />,
       );
-
-      const file = new File(['hello'], 'hello.jpg', {
-        name: 'hello.jpg',
-        type: fileTypeSignatures.jpg.mime,
-        size: 9999,
+      // Create a file and add it to the vafileinput
+      const files = [
+        {
+          name: 'hello.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        },
+      ];
+      $('va-file-input', container).__events.vaChange({
+        detail: { files },
       });
-
-      const input = $('va-file-input', container);
-      expect(input).to.exist;
-      userEvent.upload(input, file);
-
+      // Check the checkbox
       $('va-checkbox', container).__events.vaChange({
         detail: { checked: true },
       });
-      fireEvent.click($('#submit', container));
+
+      // Rerender component with new props and submit the file upload
+      const file = {
+        file: new File(['hello'], 'hello.jpg', {
+          name: 'hello.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        }),
+        docType: { value: 'L029', dirty: true },
+        password: { value: '', dirty: false },
+        isEncrypted: false,
+      };
 
       rerender(
-        <Provider store={store}>
-          <AddFilesForm
-            {...fileFormProps}
-            onSubmit={onSubmit}
-            onDirtyFields={onDirtyFields}
-            uploading
-          />
-          ,
-        </Provider>,
+        <AddFilesForm
+          {...fileFormProps}
+          files={[file]}
+          onSubmit={onSubmit}
+          onDirtyFields={onDirtyFields}
+          uploading
+        />,
       );
 
-      console.log($('#upload-status', container));
-
+      fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
+      expect($('#upload-status', container).visible).to.be.true;
     });
   });
 
