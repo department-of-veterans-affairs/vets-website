@@ -303,7 +303,10 @@ const testConfig = createTestConfig(
           )
           .get('.schemaform-file-uploading')
           .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
+        cy.get('va-select')
+          .shadow()
+          .find('select')
+          .select('Buddy/Lay Statement');
       },
     },
 
