@@ -148,8 +148,8 @@
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
- * @property {({ formData, goPath, goPreviousPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
- * @property {({ formData, goPath, goNextPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
+ * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
+ * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]
@@ -196,6 +196,15 @@
 /**
  * Autocomplete values
  * @typedef {'on' | 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name' | 'honorific-suffix' | 'nickname' | 'email' | 'username' | 'current-password' | 'organization-title' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3' | 'address-level4' | 'address-level3' | 'address-level2' | 'address-level1' | 'country' | 'country-name' | 'postal-code' | 'cc-name' | 'cc-given-name' | 'cc-additional-name' | 'cc-family-name' | 'cc-number' | 'cc-exp' | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language' | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'tel' | 'tel-country-code' | 'tel-national' | 'tel-area-code' | 'tel-local' | 'tel-extension' | 'impp' | 'url' | 'photo' | OrAnyString} AutocompleteValue
+ */
+
+/**
+ * @typedef {Array<{
+ *    pageKey: string,
+ *    path: string,
+ *    chapterKey?: string,
+ *    chapterTitle?: string,
+ * } & Partial<FormConfigPage>>} PageList
  */
 
 /**
