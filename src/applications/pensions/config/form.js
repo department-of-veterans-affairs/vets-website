@@ -1031,7 +1031,7 @@ const formConfig = {
           title: 'Other payment options',
           path: 'additional-information/other-payment-options',
           initialData: {},
-          depends: !usingDirectDeposit,
+          depends: formData => !usingDirectDeposit(formData),
           uiSchema: {
             ...titleUI('Other payment options', DirectDepositOtherOptions),
           },
