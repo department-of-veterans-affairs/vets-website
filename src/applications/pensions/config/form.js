@@ -1035,6 +1035,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Other payment options', DirectDepositOtherOptions),
           },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         aidAttendance: {
           title: 'Supporting documents',
