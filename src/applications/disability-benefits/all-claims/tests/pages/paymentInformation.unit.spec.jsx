@@ -24,6 +24,31 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
+    expect(form.find('va-alert')).to.exist;
+    expect(form.find('input').length).to.equal(3);
+    expect(form.find('select').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('should render with prefill', () => {
+    const formData = {
+      'view:originalBankAccount': {
+        'view:bankAccountType': 'Checking',
+        'view:bankAccountNumber': '*********1234',
+        'view:bankRoutingNumber': '*****2115',
+        'view:bankName': 'Comerica',
+      },
+    };
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        formData={formData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect(form.find('va-alert')).to.exist;
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(1);
     form.unmount();
@@ -57,8 +82,7 @@ describe('526 -- paymentInformation', () => {
       </Provider>,
     );
 
-    const vaAlert = form.find('va-alert');
-    expect(vaAlert).not.to.be.undefined;
+    expect(form.find('va-alert')).to.exist;
 
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;

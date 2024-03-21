@@ -24,7 +24,7 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('va-alert').length).to.equal(1);
+    expect(tree.find('va-alert').length).to.equal(0);
     tree.unmount();
   });
 
@@ -44,6 +44,7 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
+    expect(tree.find('va-alert').length).to.equal(1);
     tree.unmount();
   });
 
@@ -53,6 +54,7 @@ describe('AllClaims PaymentView', () => {
       bankAccountNumber: '1231231234',
       bankRoutingNumber: '123123123',
       bankName: 'Big Bank',
+      'view:hasPrefilledBank': true,
     };
     const originalData = {
       'view:bankAccountType': 'Checking',
@@ -64,11 +66,14 @@ describe('AllClaims PaymentView', () => {
       <PaymentView formData={formData} originalData={originalData} />,
     );
     const text = tree.text();
+    expect(text).to.contain(
+      'If we approve your application for disability benefits',
+    );
     expect(text).to.contain('Checking Account');
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('va-alert').length).to.equal(1);
+    expect(tree.find('va-alert').length).to.equal(0);
     tree.unmount();
   });
 });
