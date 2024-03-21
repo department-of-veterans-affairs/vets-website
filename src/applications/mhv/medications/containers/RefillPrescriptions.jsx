@@ -190,7 +190,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     <span data-testid={`refill-last-filled-${idx}`}>
                       Last filled on{' '}
                       {dateFormat(
-                        prescription.rxRfRecords?.[0]?.[1]?.find(
+                        prescription.rxRfRecords.find(
                           record => record.dispensedDate,
                         )?.dispensedDate || prescription.dispensedDate,
                         'MMMM D, YYYY',
