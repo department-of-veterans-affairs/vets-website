@@ -1,6 +1,6 @@
 import {
   ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -60,15 +60,15 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: "Veteran's Information",
+      title: 'Name and date of birth',
       pages: {
         page1: {
           path: 'veteran-information',
-          title: 'Veteran Personal Information',
+          title: 'Name and date of birth',
           uiSchema: {
             ...titleUI(
-              "Veteran's personal information",
-              'We use this information to contact you and verify other details.',
+              'Name and date of birth',
+              'We use this information to verify other details.',
             ),
             fullName: fullNameUI(),
             veteranDOB: dateOfBirthUI(),
@@ -88,10 +88,10 @@ const formConfig = {
           title: 'Veteran SSN and VA file number',
           uiSchema: {
             ...titleUI(
-              `Veteran's identification information`,
-              `You must enter either a Social Security number of VA File number`,
+              `Identification information`,
+              `You must enter either a Social Security number of VA File number.`,
             ),
-            ssn: ssnOrVaFileNumberUI(),
+            ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
@@ -106,31 +106,57 @@ const formConfig = {
           path: 'physical-address',
           title: 'Physical Address',
           uiSchema: {
-            ...titleUI("Veteran's home address (residence)"),
-            physicalAddress: addressUI(),
+            ...titleUI(
+              'Physical Address',
+              'This is your current location, outside the United States.',
+            ),
+            physicalAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3', 'isMilitary'],
+              required: {
+                state: () => true,
+              },
+            }),
           },
           schema: {
             type: 'object',
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              physicalAddress: addressSchema(),
+              physicalAddress: addressSchema({
+                omit: ['street3', 'isMilitary'],
+              }),
             },
           },
         },
         page4: {
           path: 'mailing-address',
-          title: "Veteran's mailing address",
+          title: 'Mailing address',
           uiSchema: {
-            ...titleUI("Veteran's mailing address"),
-            mailingAddress: addressUI(),
+            ...titleUI(
+              'Mailing address',
+              "We'll send any important information about your application to this address.",
+            ),
+            mailingAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3', 'isMilitary'],
+              required: {
+                state: () => true,
+              },
+            }),
           },
           schema: {
             type: 'object',
-            required: 'mailingAddress',
+            required: ['mailingAddress'],
             properties: {
               titleSchema,
-              mailingAddress: addressSchema(),
+              mailingAddress: addressSchema({
+                omit: ['street3', 'isMilitary'],
+              }),
             },
           },
         },
