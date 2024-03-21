@@ -10,8 +10,8 @@
 
 $font-size: 16.96px;
 
-// Override currency widget styles to match v3 web components
-// until there is a currency pattern web component replacement
+// Override widget styles to match v3 web components
+// until there is a web component pattern replacement
 .schemaform-currency-input-v3 {
   margin-top: 24px;
   label {
@@ -20,6 +20,15 @@ $font-size: 16.96px;
   input {
     width: 100%;
     max-width: 480px;
+    font-size: $font-size;
+  }
+}
+
+.schemaform-date-input-v3 {
+  &.schemaform-first-field {
+    margin-top: 8px !important;
+  }
+  legend {
     font-size: $font-size;
   }
 }

@@ -8,7 +8,10 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCard,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
@@ -341,7 +344,7 @@ export default class ArrayField extends React.Component {
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
     const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
-    const { generateIndividualItemHeaders } = uiOptions;
+    const { generateIndividualItemHeaders, useVaCards } = uiOptions;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -396,18 +399,27 @@ export default class ArrayField extends React.Component {
               uiItemName;
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
+            const useCardStyling = notLastOrMultipleRows;
+            const CardOrDiv = useVaCards && useCardStyling ? VaCard : 'div';
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
-                <div
+                <CardOrDiv
                   key={index}
                   id={`${this.props.idSchema.$id}_${index}`}
-                  className={
-                    notLastOrMultipleRows ? 'va-growable-background' : null
-                  }
+                  className={classNames({
+                    'va-growable-background': useCardStyling && !useVaCards,
+                    'vads-u-margin-bottom--2 vads-u-padding--2':
+                      useCardStyling && useVaCards,
+                  })}
                 >
                   <Element name={`table_${itemIdPrefix}`} />
-                  <div className="row small-collapse">
+                  <div
+                    className={classNames({
+                      'row small-collapse': true,
+                      'vads-u-margin--0': useVaCards,
+                    })}
+                  >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
@@ -494,14 +506,18 @@ export default class ArrayField extends React.Component {
                       )}
                     </VaModal>
                   )}
-                </div>
+                </CardOrDiv>
               );
             }
             return (
-              <div
+              <CardOrDiv
                 id={`${this.props.name}_${index}`}
                 key={index}
-                className="va-growable-background editable-row"
+                className={classNames({
+                  'va-growable-background': !useVaCards,
+                  'editable-row': true,
+                  'vads-u-margin-bottom--2 vads-u-padding--2': useVaCards,
+                })}
               >
                 <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                   <div className="vads-u-flex--fill">
@@ -519,11 +535,11 @@ export default class ArrayField extends React.Component {
                     Edit
                   </button>
                 </div>
-              </div>
+              </CardOrDiv>
             );
           })}
           {/* Only show the 'Add another ..' button when another item can be added. This approach helps
-           improve accessibility by removing unnecessary elements from the DOM when they are not relevant 
+           improve accessibility by removing unnecessary elements from the DOM when they are not relevant
            or interactable. */}
           {showAddAnotherButton && (
             <button
