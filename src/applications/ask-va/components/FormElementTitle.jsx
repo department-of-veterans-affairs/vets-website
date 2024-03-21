@@ -3,7 +3,7 @@ import React from 'react';
 
 const FormElementTitle = ({ title }) => <h2>{title}</h2>;
 
-FormElementTitle.prototype = {
+FormElementTitle.propTypes = {
   title: PropTypes.string,
 };
 

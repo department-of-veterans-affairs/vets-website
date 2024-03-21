@@ -24,7 +24,7 @@ describe('questionAboutPage', () => {
       />,
     );
 
-    expect($('h3', container).textContent).to.eq("What's your question about?");
+    expect($('h2', container).textContent).to.eq("What's your question about?");
   });
 
   it('should allow selecting what your question is about', () => {
