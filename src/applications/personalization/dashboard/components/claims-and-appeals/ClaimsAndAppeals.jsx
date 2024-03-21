@@ -12,7 +12,7 @@ import IconCTALink from '../IconCTALink';
 import {
   getAppealsV2 as getAppealsAction,
   getClaims as getClaimsAction,
-} from '../../actions/claims';
+} from '../../actions/claims-and-appeals';
 import { appealsAvailability } from '../../utils/appeals-helpers';
 import { claimsAvailability } from '../../utils/claims-helpers';
 import { canAccess } from '../../../common/selectors';

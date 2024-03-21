@@ -9,7 +9,7 @@ import {
 
 import { createClaimsSuccess } from '../../mocks/claims';
 import { createAppealsSuccess } from '../../mocks/appeals';
-import { getAppealsV2, getClaims } from '../../actions/claims';
+import { getAppealsV2, getClaims } from '../../actions/claims-and-appeals';
 
 import {
   FETCH_CLAIMS_PENDING,
@@ -26,7 +26,7 @@ import {
   FETCH_APPEALS_ERROR,
 } from '../../utils/appeals-helpers';
 
-describe('/actions/claims', () => {
+describe('/actions/claims-and-appeals', () => {
   describe('getAppealsV2', () => {
     let dispatchSpy;
     beforeEach(() => {

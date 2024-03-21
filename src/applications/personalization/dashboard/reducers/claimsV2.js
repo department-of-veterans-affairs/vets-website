@@ -6,7 +6,7 @@ import {
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_STEM_CLAIMS_SUCCESS,
-} from '../actions/claims';
+} from '../actions/claims-and-appeals';
 import {
   FETCH_APPEALS_SUCCESS,
   FETCH_APPEALS_PENDING,
