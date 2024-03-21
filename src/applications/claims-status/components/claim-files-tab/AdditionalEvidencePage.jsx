@@ -30,8 +30,6 @@ import {
   clearAdditionalEvidenceNotification,
 } from '../../actions';
 import {
-  getTrackedItemId,
-  getTrackedItems,
   getFilesNeeded,
   getFilesOptional,
   isClaimOpen,
@@ -123,14 +121,14 @@ class AdditionalEvidencePage extends React.Component {
             <>
               {this.props.filesNeeded.map(item => (
                 <FilesNeeded
-                  key={getTrackedItemId(item)}
+                  key={item.id}
                   id={this.props.claim.id}
                   item={item}
                 />
               ))}
               {this.props.filesOptional.map(item => (
                 <FilesOptional
-                  key={getTrackedItemId(item)}
+                  key={item.id}
                   id={this.props.claim.id}
                   item={item}
                 />
@@ -187,7 +185,7 @@ class AdditionalEvidencePage extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claim = claimsState.claimDetail.detail;
-  const trackedItems = getTrackedItems(claim);
+  const { trackedItems } = claim.attributes;
 
   return {
     loading: claimsState.claimDetail.loading,
