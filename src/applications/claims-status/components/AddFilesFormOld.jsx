@@ -310,7 +310,6 @@ class AddFilesFormOld extends React.Component {
         </div>
         <div>
           <VaButton
-            submit
             text="Submit Files for Review"
             class="submit-files-button"
             onClick={this.submit}
