@@ -8,6 +8,7 @@ import {
   VaSelect,
   VaTextInput,
   VaCheckbox,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -169,7 +170,6 @@ class AddFilesForm extends React.Component {
       });
 
       this.setState({ canShowUploadModal: true });
-
       if (this.state.checked) {
         this.props.onSubmit();
         return;
@@ -298,7 +298,7 @@ class AddFilesForm extends React.Component {
             this.setState({ checked: event.detail.checked });
           }}
         />
-        <va-button
+        <VaButton
           id="submit"
           submit
           uswds

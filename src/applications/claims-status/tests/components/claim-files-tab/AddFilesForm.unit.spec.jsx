@@ -6,6 +6,8 @@ import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { createStore } from 'redux';
+import userEvent from '@testing-library/user-event';
+
 
 import sinon from 'sinon';
 
@@ -131,6 +133,53 @@ describe('<AddFilesForm>', () => {
       fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.false;
       expect(onDirtyFields.called).to.be.true;
+    });
+
+    it.only('should add a valid file and submit', async () => {
+      const onSubmit = sinon.spy();
+      const onDirtyFields = sinon.spy();
+
+      const { container, rerender } = render(
+        <Provider store={store}>
+          <AddFilesForm
+            {...fileFormProps}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+          />
+          ,
+        </Provider>,
+      );
+
+      const file = new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      });
+
+      const input = $('va-file-input', container);
+      expect(input).to.exist;
+      userEvent.upload(input, file);
+
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: true },
+      });
+      fireEvent.click($('#submit', container));
+
+      rerender(
+        <Provider store={store}>
+          <AddFilesForm
+            {...fileFormProps}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+            uploading
+          />
+          ,
+        </Provider>,
+      );
+
+      console.log($('#upload-status', container));
+
+      expect(onSubmit.called).to.be.true;
     });
   });
 
