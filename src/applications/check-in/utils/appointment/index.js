@@ -1,5 +1,6 @@
 import React from 'react';
 import { parseISO, startOfDay } from 'date-fns';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -298,6 +299,18 @@ const getUniqueFacilies = appointments => {
   return [...new Set(appointments.map(appt => appt.facility))];
 };
 
+/**
+ * Return adjusted ISO timestring
+ * @param {string} time
+ * @param {string} timezone
+ * @returns {string}
+ */
+
+const utcToFacilityTimeZone = (time, timezone) => {
+  const isoFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
+  return format(utcToZonedTime(time, timezone), isoFormat);
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -317,4 +330,5 @@ export {
   findAppointment,
   hasMultipleFacilities,
   getUniqueFacilies,
+  utcToFacilityTimeZone,
 };
