@@ -1,34 +1,46 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
-import { setPagination } from '../../actions/pagination';
-
+import { getParamValue } from '../../util/helpers';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
   const { records, type, perPage = 10, hidePagination } = props;
   const totalEntries = records?.length;
-  const paginationPage = useSelector(state =>
-    state.mr.pagination.page.find(key => key.domain === type),
-  );
 
-  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
-  const [currentPage, setCurrentPage] = useState(paginationPage.value);
-  const [isInitialPage, setInitialPage] = useState(true);
+  const [currentPage, setCurrentPage] = useState(paramPage);
+  const [isInitialPage, setInitialPage] = useState(false);
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
+    const newURL = `${history.location.pathname}?page=${page}`;
+    history.push(newURL);
     setInitialPage(false);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
-    dispatch(setPagination(type, page));
   };
+
+  // tracks url param
+  useEffect(
+    () => {
+      const historyParamVal = getParamValue(history.location.search, 'page');
+      setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
+      setCurrentPage(historyParamVal);
+    },
+    [history.location.search],
+  );
 
   const fromToNums = (page, total) => {
     const from = (page - 1) * perPage + 1;
