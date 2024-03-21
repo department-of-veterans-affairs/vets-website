@@ -146,6 +146,16 @@ export const yourRoleOptions = {
   OTHER: 'Other',
 };
 
+// Reason options
+export const yourRoleOptionsEducation = {
+  TRAINING_OR_APPRENTICESHIP_SUP:
+    'On-the-job training or apprenticeship supervisor',
+  SCO: 'School Certifying Official (SCO)',
+  VA_EMPLOYEE: 'VA employee',
+  WORK_STUDY_SUP: 'Work study site supervisor',
+  OTHER: 'Other',
+};
+
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',

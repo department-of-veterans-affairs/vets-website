@@ -2,30 +2,36 @@ import _ from 'lodash';
 import { CHAPTER_3 } from '../../constants';
 
 // Personal Information
+import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
+import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
+import aboutYourRelationshipPage from '../chapters/personalInformation/aboutYourRelationship';
+import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
+import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
+import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
+import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
+import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
 import vaEmployeePage from '../chapters/personalInformation/vaEmployee';
-import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
-import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
-import aboutYourRelationshipPage from '../chapters/personalInformation/aboutYourRelationship';
-import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
-import howToContactPage from '../chapters/personalInformation/howToContact';
-import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
-import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
-import yourPhoneAndEmailPage from '../chapters/personalInformation/yourPhoneAndEmail';
-import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
-import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
-import yourRolePage from '../chapters/personalInformation/yourRole';
+import yourCountryPage from '../chapters/personalInformation/yourCountry';
+import yourPhoneAndEmailPage from '../chapters/personalInformation/yourPhoneAndEmail';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
+import yourRolePage from '../chapters/personalInformation/yourRole';
+import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
 
 const ch3Pages = {
   yourRole: {
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRolePage.uiSchema,
     schema: yourRolePage.schema,
+  },
+  yourRoleEducation: {
+    title: CHAPTER_3.YOUR_ROLE.TITLE,
+    uiSchema: yourRoleEducationPage.uiSchema,
+    schema: yourRoleEducationPage.schema,
   },
   aboutYourRelationship: {
     title: CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
@@ -248,7 +254,7 @@ someoneElseBenFamPages.searchVAMedicalCenter_familysomeonesbenefits.onNavForward
 };
 
 const someoneElseBen3rdParty = [
-  'yourRole',
+  'yourRoleEducation',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
