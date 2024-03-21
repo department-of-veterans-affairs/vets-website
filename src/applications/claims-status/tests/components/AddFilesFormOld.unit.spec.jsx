@@ -35,6 +35,7 @@ describe('<AddFilesFormOld>', () => {
     const onFieldChange = sinon.spy();
     const onCancel = sinon.spy();
     const onDirtyFields = sinon.spy();
+    const uploading = false;
 
     const tree = SkinDeep.shallowRender(
       <AddFilesFormOld
@@ -46,6 +47,7 @@ describe('<AddFilesFormOld>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
+        uploading={uploading}
       />,
     );
 
@@ -56,34 +58,6 @@ describe('<AddFilesFormOld>', () => {
 
     // VaModal has an id of `upload-status` so we can use that as the selector here
     expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.false;
-  });
-
-  it('should show uploading modal', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesFormOld
-        uploading
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-
-    // VaModal has an id of `upload-status` so we can use that as the selector here
-    expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.true;
   });
 
   it('should include mail info additional info', () => {
