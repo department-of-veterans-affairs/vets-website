@@ -193,7 +193,7 @@ class FolderManagementPage {
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
       })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
+      .find('[for = "radiobutton-Deletedinput"]', { includeShadowDom: true })
       .click();
   };
 
@@ -229,7 +229,7 @@ class FolderManagementPage {
       {},
     );
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
-    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+    cy.get(`[for="radiobutton-${folderName}input"]`)
       .should('exist')
       .click();
     cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
