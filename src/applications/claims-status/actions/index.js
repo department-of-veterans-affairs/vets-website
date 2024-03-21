@@ -129,42 +129,6 @@ function fetchClaimsSuccess(claims) {
   };
 }
 
-export function pollRequest(options) {
-  const {
-    onError,
-    onSuccess,
-    pollingExpiration,
-    pollingInterval,
-    request = apiRequest,
-    shouldFail,
-    shouldSucceed,
-    target,
-  } = options;
-  return request(
-    target,
-    null,
-    response => {
-      if (shouldSucceed(response)) {
-        onSuccess(response);
-        return;
-      }
-
-      if (shouldFail(response)) {
-        onError(response);
-        return;
-      }
-
-      if (pollingExpiration && Date.now() > pollingExpiration) {
-        onError(null);
-        return;
-      }
-
-      setTimeout(pollRequest, pollingInterval, options);
-    },
-    error => onError(error),
-  );
-}
-
 const recordClaimsAPIEvent = ({ startTime, success, error }) => {
   const event = {
     event: 'api_call',
