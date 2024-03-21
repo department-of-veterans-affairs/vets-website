@@ -1,14 +1,26 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { isLOA1 } from '~/platform/user/selectors';
+import { useSelector } from 'react-redux';
 
 import ErrorBoundary from './components/ErrorBoundary';
 
 import Avs from './containers/Avs';
 
+const AuthGuard = ({ children }) => {
+  const isUnverified = useSelector(isLOA1);
+  if (isUnverified) {
+    return <Redirect to="/my-health" />;
+  }
+  return children;
+};
+
 const ErrorBoundaryWrapper = props => (
   <ErrorBoundary>
-    <Avs {...props} />
+    <AuthGuard>
+      <Avs {...props} />
+    </AuthGuard>
   </ErrorBoundary>
 );
 
