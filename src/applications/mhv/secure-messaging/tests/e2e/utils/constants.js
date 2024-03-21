@@ -224,7 +224,7 @@ export const Data = {
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
-  MESSAGE_CANNOT_BLANK: 'Message body cannot be blank.',
+  BODY_CANNOT_BLANK: 'Message body cannot be blank.',
   ATTACH_FILE: 'Attach file',
   ATTACH_ADDITIONAL_FILE: 'Attach additional file',
   MESSAGE_CANNOT_SAVE_YET: "We can't save this message yet",

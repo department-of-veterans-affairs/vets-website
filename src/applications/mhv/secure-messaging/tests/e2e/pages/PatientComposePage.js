@@ -32,16 +32,18 @@ class PatientComposePage {
       });
   };
 
-  getCategory = (category = 'COVID') => {
-    return cy.get(`#compose-message-categories${category}input`);
-  };
-
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
     // cy.wait(Locators.INFO.MESSAGE);
+  };
+
+  clickSendMessageButton = () => {
+    cy.get(Locators.BUTTONS.SEND)
+      .contains('Send')
+      .click({ force: true });
   };
 
   verifySendMessageConfirmationMessageText = () => {
@@ -61,6 +63,10 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(recipient, { force: true });
+  };
+
+  getCategory = (category = 'COVID') => {
+    return cy.get(`#compose-message-categories${category}input`);
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -101,6 +107,10 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.SUCCESS_ALERT)
       .should('be.visible')
       .should('have.focus');
+  };
+
+  verifyFocusOnErrorMessage = text => {
+    return cy.focused().should('have.attr', 'error', text);
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
