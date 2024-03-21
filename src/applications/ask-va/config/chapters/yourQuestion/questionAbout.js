@@ -8,15 +8,18 @@ import {
   questionAboutDescriptions,
   questionAboutLabels,
 } from '../../../constants';
+// import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const questionAboutPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_1.TITLE }),
-    questionAbout: radioUI({
-      title: CHAPTER_2.PAGE_1.QUESTION_1,
-      labels: questionAboutLabels,
-      descriptions: questionAboutDescriptions,
-    }),
+    questionAbout: {
+      ...radioUI({
+        title: CHAPTER_2.PAGE_1.QUESTION_1,
+        labels: questionAboutLabels,
+        descriptions: questionAboutDescriptions,
+      }),
+    },
   },
   schema: {
     type: 'object',
