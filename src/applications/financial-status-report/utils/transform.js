@@ -34,16 +34,6 @@ export const transform = (formConfig, form) => {
         middle: spouseMiddle = '',
         last: spouseLast = '',
       },
-      address: {
-        street,
-        street2 = '',
-        street3 = '',
-        city,
-        state,
-        postalCode,
-        country,
-      } = {},
-      telephoneNumber,
       dateOfBirth,
       dependents,
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
@@ -51,12 +41,9 @@ export const transform = (formConfig, form) => {
     assets,
     additionalData,
     selectedDebtsAndCopays = [],
-    realEstateRecords,
   } = form.data;
 
   try {
-    // enhanced fsr flag
-    const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
     const isShortStreamlined = isStreamlinedShortForm(form.data);
     const isLongStreamlined = isStreamlinedLongForm(form.data);
     const streamlinedAssetUpdateActive =
@@ -97,7 +84,6 @@ export const transform = (formConfig, form) => {
       utilities,
       otherLivingExpenses,
       filteredExpenses,
-      otherExpenses,
       installmentContractsAndCreditCards,
       expensesInstallmentContractsAndOtherDebts,
     } = getAllExpenses(form.data);
@@ -150,33 +136,15 @@ export const transform = (formConfig, form) => {
       otherStocksFilters,
     );
     const calculateRealEstateOwned = () => {
-      if (!enhancedFSRActive) {
-        try {
-          return sumValues(realEstateRecords, 'realEstateAmount');
-        } catch (error) {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(
-              `calculateRealEstateOwned NOT ENHANCED LOGIC failed: ${error}`,
-            );
-          });
-          return 0;
-        }
-      } else {
-        try {
-          return Number(
-            assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-          );
-        } catch (error) {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(
-              `calculateRealEstateOwned ENHANCED LOGIC failed: ${error}`,
-            );
-          });
+      try {
+        return Number(assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0);
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(`calculateRealEstateOwned failed: ${error}`);
+        });
 
-          return 0;
-        }
+        return 0;
       }
     };
 
@@ -187,28 +155,23 @@ export const transform = (formConfig, form) => {
     );
     // handle dependents
     const enhancedDependent =
-      enhancedFSRActive && questions?.hasDependents > 0
+      questions?.hasDependents > 0
         ? dependents
             ?.slice(0, parseInt(questions.hasDependents, 10))
             .map(dep => dep.dependentAge)
         : [];
-    const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
 
     // Contact Information
     const submitAddress = {
-      addresslineOne: enhancedFSRActive ? address.addressLine1 : street,
-      addresslineTwo: enhancedFSRActive ? address.addressLine2 || '' : street2,
-      addresslineThree: enhancedFSRActive
-        ? address.addressLine3 || ''
-        : street3,
-      city: enhancedFSRActive ? address.city : city,
-      stateOrProvince: enhancedFSRActive ? address.stateCode : state,
-      zipOrPostalCode: enhancedFSRActive ? address.zipCode : postalCode,
-      countryName: enhancedFSRActive ? address.countryCodeIso2 : country,
+      addresslineOne: address.addressLine1,
+      addresslineTwo: address.addressLine2 || '',
+      addresslineThree: address.addressLine3 || '',
+      city: address.city,
+      stateOrProvince: address.stateCode,
+      zipOrPostalCode: address.zipCode,
+      countryName: address.countryCodeIso2,
     };
-    const submitPhone = enhancedFSRActive
-      ? getFormattedPhone(mobilePhone)
-      : telephoneNumber;
+    const submitPhone = getFormattedPhone(mobilePhone);
 
     const submissionObj = {
       personalIdentification: {
@@ -239,9 +202,7 @@ export const transform = (formConfig, form) => {
           middle: spouseMiddle,
           last: spouseLast,
         },
-        agesOfOtherDependents: enhancedFSRActive
-          ? enhancedDependent
-          : standardDependents,
+        agesOfOtherDependents: enhancedDependent,
         employmentHistory,
       },
       income: [
@@ -278,20 +239,12 @@ export const transform = (formConfig, form) => {
         amountCanBePaidTowardDebt,
       },
       assets: {
-        cashInBank: enhancedFSRActive
-          ? calculatedCashInBank
-          : assets.cashInBank,
-        cashOnHand: enhancedFSRActive
-          ? calculatedCashOnHand
-          : assets.cashOnHand,
+        cashInBank: calculatedCashInBank,
+        cashOnHand: calculatedCashOnHand,
         automobiles: assets.automobiles,
         trailersBoatsCampers: assets.recVehicleAmount,
-        usSavingsBonds: enhancedFSRActive
-          ? calculatedUsSavingsBonds
-          : assets.usSavingsBonds,
-        stocksAndOtherBonds: enhancedFSRActive
-          ? calculatedStocksAndOther
-          : assets.stocksAndOtherBonds,
+        usSavingsBonds: calculatedUsSavingsBonds,
+        stocksAndOtherBonds: calculatedStocksAndOther,
         realEstateOwned: calculateRealEstateOwned(),
         otherAssets: assets.otherAssets,
         totalAssets,
@@ -340,7 +293,7 @@ export const transform = (formConfig, form) => {
         },
         additionalComments: mergeAdditionalComments(
           additionalData?.additionalComments,
-          enhancedFSRActive ? filteredExpenses : otherExpenses,
+          filteredExpenses,
         ),
       },
       applicantCertifications: {
