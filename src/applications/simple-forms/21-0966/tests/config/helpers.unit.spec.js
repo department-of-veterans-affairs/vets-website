@@ -419,6 +419,27 @@ describe('Confirmation Page helper functions', () => {
 
     expect(confirmationPageFormBypassed(formData)).to.be.false;
     expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'It may take us a few days to process your intent to file for disability compensation. Then you’ll have 1 year to file your claim.',
+    );
+
+    formData.benefitSelection[veteranBenefits.PENSION] = true;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'It may take us a few days to process your intent to file for disability compensation and for pension claims. Then you’ll have 1 year to file your claim.',
+    );
+
+    formData.benefitSelection[veteranBenefits.COMPENSATION] = false;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'It may take us a few days to process your intent to file for pension claims. Then you’ll have 1 year to file your claim.',
+    );
+
+    formData.benefitSelection[veteranBenefits.PENSION] = false;
+    formData.benefitSelection[survivingDependentBenefits.SURVIVOR] = true;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'It may take us a few days to process your intent to file for pension claims for survivors. Then you’ll have 1 year to file your claim.',
+    );
+
+    formData.benefitSelection[survivingDependentBenefits.SURVIVOR] = false;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
       'It may take us a few days to process your intent to file. Then you’ll have 1 year to file your claim.',
     );
   });
