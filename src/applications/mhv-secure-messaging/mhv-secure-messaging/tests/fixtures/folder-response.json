@@ -1,0 +1,44 @@
+[
+  {
+    "id": 0,
+    "name": "Inbox",
+    "count": 55,
+    "unreadCount": 41,
+    "systemFolder": true
+  },
+  {
+    "id": -2,
+    "name": "Drafts",
+    "count": 18,
+    "unreadCount": 16,
+    "systemFolder": true
+  },
+  {
+    "id": -1,
+    "name": "Sent",
+    "count": 96,
+    "unreadCount": 76,
+    "systemFolder": true
+  },
+  {
+    "id": -3,
+    "name": "Deleted",
+    "count": 2,
+    "unreadCount": 0,
+    "systemFolder": true
+  },
+  {
+    "id": 7038175,
+    "name": "TEST2",
+    "count": 8,
+    "unreadCount": 0,
+    "systemFolder": false
+  },
+  {
+    "id": 6976715,
+    "name": "TESTAGAIN",
+    "count": 2,
+    "unreadCount": 0,
+    "systemFolder": false
+  }
+]
