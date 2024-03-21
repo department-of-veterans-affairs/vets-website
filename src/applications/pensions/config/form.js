@@ -991,12 +991,10 @@ const formConfig = {
           initialData: {},
           depends: usingDirectDeposit,
           uiSchema: {
-            'view:accountInformationAlert': {
-              ...titleUI(
-                'Account information for direct deposit',
-                AccountInformationAlert,
-              ),
-            },
+            ...titleUI(
+              'Account information for direct deposit',
+              AccountInformationAlert,
+            ),
             bankAccount: merge({}, bankAccountUI, {
               'ui:order': [
                 'accountType',
@@ -1025,10 +1023,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:accountInformationAlert': {
-                type: 'object',
-                properties: {},
-              },
               bankAccount,
             },
           },
@@ -1039,18 +1033,7 @@ const formConfig = {
           initialData: {},
           depends: !usingDirectDeposit,
           uiSchema: {
-            'view:directDepositOtherOptions': {
-              ...titleUI('Other payment options', DirectDepositOtherOptions),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:directDepositOtherOptions': {
-                type: 'object',
-                properties: {},
-              },
-            },
+            ...titleUI('Other payment options', DirectDepositOtherOptions),
           },
         },
         aidAttendance: {
