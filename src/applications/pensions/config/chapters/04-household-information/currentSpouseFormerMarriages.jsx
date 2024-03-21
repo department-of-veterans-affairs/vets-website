@@ -78,6 +78,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
