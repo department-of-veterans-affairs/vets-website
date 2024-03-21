@@ -313,7 +313,6 @@ class AddFilesFormOld extends React.Component {
             text="Submit Files for Review"
             class="submit-files-button"
             onClick={this.submit}
-            uswds
           />
           <Link to={this.props.backUrl} className="claims-files-cancel">
             Cancel

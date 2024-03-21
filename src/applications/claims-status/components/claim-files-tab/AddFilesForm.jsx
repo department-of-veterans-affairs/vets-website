@@ -300,8 +300,6 @@ class AddFilesForm extends React.Component {
         />
         <VaButton
           id="submit"
-          submit
-          uswds
           text="Submit files for review"
           onClick={this.submit}
         />
