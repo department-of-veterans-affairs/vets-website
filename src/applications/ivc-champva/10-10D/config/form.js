@@ -3,7 +3,6 @@ import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
   addressSchema,
@@ -363,7 +362,7 @@ const formConfig = {
           uiSchema: {
             sponsorInfoTitle: titleUI(
               'Sponsor status',
-              'Now we’ll ask questions about the death of the sponsor (if they died). Fill this out to the best of your knowledge.',
+              'Now we’ll ask you questions about the death of the sponsor (if they died). Fill this out to the best of your knowledge.',
             ),
             sponsorIsDeceased: yesNoUI({
               title: 'Has the sponsor died?',
@@ -393,6 +392,7 @@ const formConfig = {
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor die during active military service?',
+              hint: additionalFilesHint,
               labels: {
                 yes: 'Yes, sponsor passed away during active military service',
                 no:
@@ -454,14 +454,14 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
-              "We'll send any important information about your application to this address. Any updates you make here to your address will apply only to this application",
+              'We’ll send any important information about this application to your address.',
             ),
             ...homelessInfo.uiSchema,
             sponsorAddress: {
               ...addressUI({
                 labels: {
                   militaryCheckbox:
-                    'Address is on a United States military base outside the country.',
+                    'Address is on a U.S. military base outside of the United States.',
                 },
               }),
             },
@@ -484,7 +484,7 @@ const formConfig = {
             ...titleUI(
               ({ formData }) =>
                 `${sponsorWording(formData)} contact information`,
-              'This information helps us contact you faster if we need to follow up with you about your application.',
+              'Having this information helps us contact the sponsor faster if we have questions about their information.',
             ),
             ...noPhoneInfo.uiSchema,
             sponsorPhone: {

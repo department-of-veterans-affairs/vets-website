@@ -16,7 +16,7 @@ export const sponsorNameDobConfig = {
       ({ formData }) =>
         formData?.certifierRole === 'sponsor'
           ? 'Please provide your information. We use this information to identify eligibility.'
-          : `Please provide the information for your sponsor (this is the Veteran that you’re connected to). We’ll use this information to confirm your eligibility for CHAMPVA benefits.`,
+          : `Enter the information for your sponsor (this is the Veteran or service member that you’re connected to). We’ll use the sponsor’s information to confirm your eligibility for CHAMPVA benefits.`,
     ),
     veteransFullName: fullNameUI(),
     sponsorDOB: dateOfBirthUI(),
