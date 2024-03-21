@@ -5,3 +5,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+.travel-claim-card {
+  min-width: 220px;
+  max-width: 500px;
+}

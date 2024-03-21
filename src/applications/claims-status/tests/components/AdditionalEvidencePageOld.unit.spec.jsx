@@ -2,11 +2,11 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+
+import { uploadStore } from '~/platform/forms-system/test/config/helpers';
+
 import { AdditionalEvidencePageOld } from '../../containers/AdditionalEvidencePageOld';
 
 const getRouter = () => ({ push: sinon.spy() });
@@ -127,7 +127,7 @@ describe('<AdditionalEvidencePageOld>', () => {
   });
 
   it('should set details and go to files page if complete', () => {
-    const getClaimEVSS = sinon.spy();
+    const getClaim = sinon.spy();
     const resetUploads = sinon.spy();
     const router = getRouter();
 
@@ -139,7 +139,7 @@ describe('<AdditionalEvidencePageOld>', () => {
         uploadComplete
         uploadField={{ value: null, dirty: false }}
         router={router}
-        getClaimEVSS={getClaimEVSS}
+        getClaim={getClaim}
         resetUploads={resetUploads}
       />,
     );
@@ -147,52 +147,7 @@ describe('<AdditionalEvidencePageOld>', () => {
     tree
       .getMountedInstance()
       .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
-    expect(getClaimEVSS.calledWith(1)).to.be.true;
+    expect(getClaim.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });
-
-  // START lighthouse_migration
-  context('cst_use_lighthouse feature toggle', () => {
-    const props = {
-      claim,
-      files: [],
-      params,
-      resetUploads: () => {},
-      router: getRouter(),
-      uploadField: { value: null, dirty: false },
-    };
-
-    it('calls getClaimLighthouse when enabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = true;
-
-      const { rerender } = render(<AdditionalEvidencePageOld {...props} />);
-
-      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
-      // which requires rerendering
-      rerender(<AdditionalEvidencePageOld {...props} uploadComplete />);
-
-      expect(props.getClaimEVSS.called).to.be.false;
-      expect(props.getClaimLighthouse.called).to.be.true;
-    });
-
-    it('calls getClaimEVSS when disabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = false;
-
-      const { rerender } = render(<AdditionalEvidencePageOld {...props} />);
-
-      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
-      // which requires rerendering
-      rerender(<AdditionalEvidencePageOld {...props} uploadComplete />);
-
-      expect(props.getClaimEVSS.called).to.be.true;
-      expect(props.getClaimLighthouse.called).to.be.false;
-    });
-  });
-  // END lighthouse_migration
 });

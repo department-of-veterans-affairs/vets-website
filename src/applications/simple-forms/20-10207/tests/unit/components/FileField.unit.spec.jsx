@@ -389,7 +389,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     // Prepend 'Error' for screenreader
-    expect($('.va-growable-background', container).textContent).to.contain(
+    expect($('.schemaform-file-error', container).textContent).to.contain(
       'Error Bad error',
     );
     expect($('span[role="alert"]', container)).to.exist;
