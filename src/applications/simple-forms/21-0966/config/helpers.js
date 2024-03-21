@@ -193,6 +193,22 @@ export const confirmationPageAlertParagraph = formData => {
     }
   }
 
+  if (
+    formData.benefitSelection[veteranBenefits.COMPENSATION] &&
+    formData.benefitSelection[veteranBenefits.PENSION]
+  ) {
+    return 'It may take us a few days to process your intent to file for disability compensation and for pension claims. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[veteranBenefits.COMPENSATION]) {
+    return 'It may take us a few days to process your intent to file for disability compensation. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[veteranBenefits.PENSION]) {
+    return 'It may take us a few days to process your intent to file for pension claims. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
+    return 'It may take us a few days to process your intent to file for pension claims for survivors. Then you’ll have 1 year to file your claim.';
+  }
+
   return 'It may take us a few days to process your intent to file. Then you’ll have 1 year to file your claim.';
 };
 

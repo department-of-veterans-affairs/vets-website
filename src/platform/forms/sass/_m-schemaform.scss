@@ -741,3 +741,7 @@ i.fa-angles-right::before {
   content: "\F101";
   margin-left: 8px;
 }
+
+va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
+  max-width: 100%;
+}
