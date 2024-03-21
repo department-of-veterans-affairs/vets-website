@@ -275,7 +275,6 @@
   "on-date-at-time": "on {{date, dayOfWeek}}, {{date, long}} at {{date, time}}",
   "in-person": "in person",
   "details-for": "Details for",
-  "the-staff-can-call-you-back": "The staff can call you back once you complete check-in.",
   "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time.",
   "file-travel-reimbursement-claim": "File a travel reimbursement claim", 
   "you-can-use-this-tool-file-claim": "You can use this tool to file a claim for today’s appointments until the end of today.",
@@ -333,5 +332,9 @@
   "review-your-claim-information-now-to-file": "Review your claim information now to file your travel pay claim.",
   "select-at-least-one-appointment": "Select at least one appointment",
   "appointments-at_one": "appointment at",
-  "appointments-at_other": "appointments at"
+  "appointments-at_other": "appointments at",
+  "we-ask-this-question-because-staff-can-call-you": "We ask this question because staff can call you back anytime after you complete check-in. If you’re more than 5-10 minutes away after completing check-in, see a staff member when you arrive.",
+  "have-you-arrived-at-your-va-health-facility": "Have you arrived at your VA health facility?",
+  "the-staff-can-call-you-back-anytime": "The staff can call you back anytime now that you’ve completed check-in.",
+  "the-staff-can-call-you-back-anytime-see-staff": "The staff can call you back anytime now that you’ve completed check-in. See a staff member when you arrive in the waiting room."
 }

@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Locators, Paths, Data } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 
@@ -47,12 +47,12 @@ class PatientComposePage {
   verifySendMessageConfirmationMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
-      'Secure message was successfully sent.',
+      Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.focused().should('contain.text', 'Secure message was successfully sent');
+    cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
   };
 
   selectRecipient = (recipient = 1) => {
@@ -106,19 +106,19 @@ class PatientComposePage {
   verifyFocusOnErrorMessageToSelectRecipient = () => {
     return cy
       .focused()
-      .should('have.attr', 'error', 'Please select a recipient.');
+      .should('have.attr', 'error', Data.PLEASE_SELECT_RECIPIENT);
   };
 
   verifyFocusOnErrorMessageToSelectCategory = () => {
-    cy.focused().should('have.attr', 'error', 'Please select a category.');
+    cy.focused().should('have.attr', 'error', Data.PLEASE_SELECT_CATEGORY);
   };
 
   verifyFocusOnErrorEmptyMessageSubject = () => {
-    cy.focused().should('have.attr', 'error', 'Subject cannot be blank.');
+    cy.focused().should('have.attr', 'error', Data.SUBJECT_CANNOT_BLANK);
   };
 
   verifyFocusOnErrorEmptyMessageBody = () => {
-    cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
+    cy.focused().should('have.attr', 'error', Data.MESSAGE_CANNOT_BLANK);
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter
@@ -174,11 +174,11 @@ class PatientComposePage {
     cy.tabToElement(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
-      .type('testSubject', { force: true });
+      .type(Data.TEST_SUBJECT, { force: true });
     cy.get(Locators.MESSAGES_BODY)
       .shadow()
       .find('#textarea')
-      .type('testMessage', { force: true });
+      .type(Data.TEST_MESSAGE_BODY, { force: true });
   };
 
   saveDraftByKeyboard = () => {
@@ -247,12 +247,12 @@ class PatientComposePage {
       cy.get(Locators.BUTTONS.ATTACH_FILE_BUTTON)
         .shadow()
         .find('[type="button"]')
-        .should('contain', 'Attach file');
+        .should('contain', Data.ATTACH_FILE);
     } else {
       cy.get(Locators.BUTTONS.ATTACH_FILE_BUTTON)
         .shadow()
         .find('[type="button"]')
-        .should('contain', 'Attach additional file');
+        .should('contain', Data.ATTACH_ADDITIONAL_FILE);
     }
   };
 
@@ -298,17 +298,14 @@ class PatientComposePage {
   };
 
   verifyAlertModal = () => {
-    cy.get(`[modaltitle="We can't save this message yet"]`)
-      .shadow()
-      .find('[class="usa-modal va-modal-alert"]')
-      .should('contain', "We can't save this message yet");
+    cy.get(`h1`).should('contain', "We can't save this message yet");
   };
 
   clickOnContinueEditingButton = () => {
     cy.get(Locators.BUTTONS.CONTINUE_EDITING)
       .shadow()
       .find('button')
-      .contains('Continue editing')
+      .contains(Data.CONTINUE_EDITING)
       .click();
   };
 
@@ -390,7 +387,7 @@ class PatientComposePage {
   verifyDeleteDraftSuccessfulMessage = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
-      'Message conversation was successfully moved to Trash.',
+      Data.MESSAGE_MOVED_TO_TRASH,
     );
   };
 
@@ -398,7 +395,7 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('[id="error-message"]')
-      .should('contain', ' Please select a recipient.');
+      .should('contain', Data.PLEASE_SELECT_RECIPIENT);
   };
 
   verifySubjectErrorMessage = () => {

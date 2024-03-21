@@ -342,3 +342,24 @@ export const OMB_CONTROL = '2900-0747';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
+
+export const GULF_WAR_1990_LOCATIONS = Object.freeze({
+  afghanistan: 'Afghanistan',
+  bahrain: 'Bahrain',
+  egypt: 'Egypt',
+  iraq: 'Iraq',
+  israel: 'Israel',
+  jordan: 'Jordan',
+  kuwait: 'Kuwait',
+  neutralzone: 'Neutral zone between Iraq and Saudi Arabia',
+  oman: 'Oman',
+  qatar: 'Qatar',
+  saudiarabia: 'Saudi Arabia',
+  somalia: 'Somalia',
+  syria: 'Syria',
+  uae: 'The United Arab Emirates (UAE)',
+  turkey: 'Turkey',
+  waters:
+    'The waters of the Arabian Sea, Gulf of Aden, Gulf of Oman, Persian Gulf, and Red Sea',
+  airspace: 'The airspace above any of these locations',
+});

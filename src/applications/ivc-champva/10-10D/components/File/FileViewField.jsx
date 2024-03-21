@@ -30,7 +30,7 @@ export default function FileViewField(data, title = 'Supporting Documents') {
 }
 
 FileViewField.propTypes = {
-  data: { supportingDocuments: PropTypes.array },
+  data: PropTypes.array,
 };
 
 export function AppBirthCertReviewField(props) {
@@ -72,6 +72,13 @@ export function AppMarriageDocReviewField(props) {
   const app = props?.data?.applicants?.[props?.pagePerItemIndex];
   const title = `${applicantWording(app)} marriage documents`;
   const data = app?.applicantMarriageCert || [];
+  return FileViewField(data, title);
+}
+
+export function AppSecondMarriageDocReviewField(props) {
+  const app = props?.data?.applicants?.[props?.pagePerItemIndex];
+  const title = `${applicantWording(app)} second marriage documents`;
+  const data = app?.applicantSecondMarriageCert || [];
   return FileViewField(data, title);
 }
 
