@@ -55,7 +55,6 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
-        uswds="false"
       />
     );
   } else if (claim !== null) {
