@@ -725,7 +725,9 @@ const formConfig = {
           path: 'applicant-information/:index/pre-address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          keepInPageOnReview: false,
+          title: item => `${applicantWording(item)} address screener`,
+          depends: (formData, index) => index === undefined || index > 0,
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
