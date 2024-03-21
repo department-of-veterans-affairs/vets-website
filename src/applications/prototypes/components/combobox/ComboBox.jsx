@@ -388,17 +388,17 @@ export const ComboBoxApp = connect(state => state)(
 
                       <div class="row small-collapse">
                         <div class="small-6 left columns">
-                          {list.length > 1 ? <button type="button" className="btn" class="float-left" aria-label="Save Condition" onClick={this.handleEdit}>Update</button> : <button type="button" class="float-left" aria-label="Save Condition" className="btn" onClick={this.handleEdit}>Save</button>}
-                      <div class="row columns">
-                           {list.length > 1 && <button
-                  type="button"
-                  class="usa-button-secondary float-right"
-                  aria-label="Cancel Editing"
-                  onClick={this.handleCancel}
-                >
-                  Cancel
-                </button>}
-                        </div>
+                          <button type="button" className="btn" class="float-left" aria-label="Save Condition" onClick={this.handleEdit}>Update</button>
+                          <div class="row columns">
+                             <button
+                               type="button"
+                               class="usa-button-secondary float-right"
+                               aria-label="Cancel Editing"
+                               onClick={this.handleCancel}
+                             >
+                               Cancel
+                             </button>
+                          </div>
                         </div>
                         {/* TODO: Add Remove Action */}
                         <div class="small-6 right columns">{list.length > 1 ? <button type="button" class="usa-button-secondary float-right" aria-label="Remove incomplete Condition" value={item.id} onClick={this.handleDelete}>Remove</button> : null}</div>
