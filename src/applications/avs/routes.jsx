@@ -8,6 +8,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 import Avs from './containers/Avs';
 
+// Redirect an unverified user to the My Health landing page
+
 const AuthGuard = ({ children }) => {
   const isUnverified = useSelector(isLOA1);
   if (isUnverified) {
