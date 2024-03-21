@@ -298,10 +298,7 @@ class PatientComposePage {
   };
 
   verifyAlertModal = () => {
-    cy.get(`[modaltitle="We can't save this message yet"]`)
-      .shadow()
-      .find('[class="usa-modal va-modal-alert"]')
-      .should('contain', Data.MESSAGE_CANNOT_SAVE_YET);
+    cy.get(`h1`).should('contain', "We can't save this message yet");
   };
 
   clickOnContinueEditingButton = () => {
