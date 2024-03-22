@@ -218,6 +218,7 @@ const SearchResult = ({
                   contact={contact}
                   extension={extension}
                   onClick={() => recordContactLinkClick()}
+                  disableAnalytics
                 />
               </div>
             )}
@@ -264,6 +265,7 @@ const SearchResult = ({
               text="Report outdated information"
               label={`Report outdated information for ${officer}`}
               uswds
+              disableAnalytics
             />
           </div>
         </div>
