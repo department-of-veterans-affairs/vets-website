@@ -11,13 +11,13 @@
 }
 
 .va-c-social-icon {
-  color: $color-link-default;
+  color: var(--vads-color-link);
 }
 
 .va-c-range-error-message {
   margin-bottom: 0;
   font-weight: 700;
-  color: $color-red;
+  color: var(--vads-color-secondary);
 }
 
 
