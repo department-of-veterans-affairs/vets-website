@@ -20,6 +20,5 @@ describe('A patent who returns to the app with a valid session ', () => {
     cy.visitTravelClaimWithUUID();
     TravelIntro.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Returning-user--Intro');
   });
 });
