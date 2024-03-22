@@ -12,7 +12,7 @@ import pageNames from './pageNames';
 
 const content = {
   linkText:
-    'Learnn more about why you’re not eligible for disability benefits right now',
+    'Learn more about why you’re not eligible for disability benefits right now',
 };
 
 const UnableToFileBDDPage = ({ data = {} }) => {
