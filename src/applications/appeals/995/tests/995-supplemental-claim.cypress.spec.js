@@ -305,7 +305,7 @@ const testConfig = createTestConfig(
         cy.get('va-select')
           .shadow()
           .find('select')
-          .select('Buddy/Lay Statement');
+          .select('Buddy/Lay Statement', { force: true });
       },
     },
 
