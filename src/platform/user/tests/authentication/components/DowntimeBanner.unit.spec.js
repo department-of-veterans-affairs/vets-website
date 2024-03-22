@@ -3,7 +3,7 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
-import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/constants';
+import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
 import { statuses, maintenanceWindows } from './fixtures/mock-downtime';
 
 const generateState = ({
