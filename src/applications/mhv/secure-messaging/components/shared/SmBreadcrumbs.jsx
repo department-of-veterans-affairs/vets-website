@@ -133,22 +133,22 @@ const SmBreadcrumbs = () => {
         !crumbs?.label ? 'breadcrumbs--hidden' : ''
       }`}
     >
-      <va-breadcrumbs
-        uswds="false"
-        label="Breadcrumb"
-        home-veterans-affairs={false}
-      >
-        {crumbs && (
-          <ul className={breadcrumbSize()}>
-            <li>
-              <span className="breadcrumb-angle vads-u-padding-right--1">
-                {'\u2039'}{' '}
-              </span>
-              <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
-            </li>
-          </ul>
-        )}
-      </va-breadcrumbs>
+      {crumbs && (
+        <ul className={breadcrumbSize()}>
+          <li>
+            <span className="breadcrumb-angle vads-u-padding-right--1">
+              {'\u2039'}{' '}
+            </span>
+            <Link
+              to={crumbs.path?.toLowerCase()}
+              label="Breadcrumb"
+              aria-label="Breadcrumb"
+            >
+              {crumbs.label}
+            </Link>
+          </li>
+        </ul>
+      )}
     </div>
   );
 };
