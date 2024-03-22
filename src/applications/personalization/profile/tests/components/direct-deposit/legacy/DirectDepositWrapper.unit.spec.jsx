@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import DirectDepositWrapper from '@@profile/components/direct-deposit/DirectDepositWrapper';
+import DirectDepositWrapper from '~/applications/personalization/profile/components/direct-deposit/legacy/DirectDepositWrapper';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 

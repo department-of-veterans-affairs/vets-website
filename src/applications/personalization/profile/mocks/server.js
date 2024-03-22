@@ -72,7 +72,7 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: false,
+            profileShowDirectDepositSingleForm: true,
             profileShowDirectDepositSingleFormAlert: false,
             profileShowDirectDepositSingleFormEduDowntime: false,
           }),
