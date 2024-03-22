@@ -1,16 +1,15 @@
 import { captureError } from '@@vap-svc/util/analytics';
-import recordAnalyticsEvent from '~/platform/monitoring/record-event';
-
 import {
+  getData,
   createCNPDirectDepositAnalyticsDataObject,
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
-} from '../util';
+} from '@@profile/util';
+import recordAnalyticsEvent from '~/platform/monitoring/record-event';
 
 import { DirectDepositClient } from '../util/direct-deposit';
 import { API_STATUS } from '../constants';
-import { getData } from '~/platform/user/profile/utilities';
 
 export const CNP_PAYMENT_INFORMATION_FETCH_STARTED =
   'CNP_PAYMENT_INFORMATION_FETCH_STARTED';
