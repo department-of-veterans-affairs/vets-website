@@ -17,7 +17,7 @@ const data = {
   previousSahApplication: {},
 };
 
-const expectedNumberOfWebComponentFields = 2;
+const expectedNumberOfWebComponentFields = 1;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
