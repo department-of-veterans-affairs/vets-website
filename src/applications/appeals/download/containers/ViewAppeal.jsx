@@ -9,10 +9,9 @@ import { focusElement } from 'platform/utilities/ui';
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
-import GetFormHelp from '../../10182/content/GetFormHelp';
-
 import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 
 const ViewAppeal = () => {
   useEffect(() => {
@@ -186,7 +185,6 @@ const ViewAppeal = () => {
           text="Print this page for your records"
           uswds
         />
-        <h2 className="help-heading vads-u-padding-top--2">Need help?</h2>
         <GetFormHelp />
       </div>
     </div>
