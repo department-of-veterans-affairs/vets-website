@@ -19,8 +19,7 @@ const FillRefillButton = rx => {
 
   const [isLoading, setIsLoading] = useState(false);
   const hasBeenDispensed =
-    dispensedDate ||
-    rx.rxRfRecords?.[0]?.[1].find(record => record.dispensedDate);
+    dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
 
   useEffect(
     () => {
