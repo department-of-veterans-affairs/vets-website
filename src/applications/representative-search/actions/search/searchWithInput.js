@@ -1,7 +1,5 @@
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { SEARCH_STARTED } from '../../utils/actionTypes';
-// import {  SEARCH_FAILED } from '../../utils/actionTypes';
-// import { reverseGeocodeBox } from '../../utils/mapHelpers';
-// import { LocationType } from '../../constants';
 import { fetchRepresentatives } from '../representatives/fetchRepresentatives';
 
 /**
@@ -28,13 +26,14 @@ export const searchWithInput = ({
       },
     });
 
-    window.dataLayer.push({
-      event: 'far-search',
+    recordEvent({
+      // prettier-ignore
+      'event': 'far-search',
       'search-query': address,
       'search-filters-list': {
-        'representative-type': type,
-        'search-radius': distance,
-        'representative-name': name,
+        'Type of accredited representative': type,
+        'Search area': distance,
+        'Name of accredited representative': name,
       },
       'search-selection': 'Find VA Accredited Rep',
     });
