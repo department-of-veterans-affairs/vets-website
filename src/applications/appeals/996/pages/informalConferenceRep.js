@@ -47,7 +47,6 @@ export default {
         ...phoneUI({
           title: RepresentativePhoneTitle,
         }),
-        // 'ui:widget': PhoneNumberWidget,
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:required': formData => formData?.informalConference === 'rep',
         'ui:errorMessages': {
