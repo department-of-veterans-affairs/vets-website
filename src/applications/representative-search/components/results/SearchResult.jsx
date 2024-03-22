@@ -7,7 +7,7 @@ import {
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 

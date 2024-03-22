@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   // FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
@@ -44,7 +45,7 @@ export const fetchRepresentatives = async (
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });
 
-      window.dataLayer.push({
+      recordEvent({
         // prettier-ignore
         'event': 'far-search-results',
         'search-query': address,
