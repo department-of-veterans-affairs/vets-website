@@ -210,7 +210,7 @@ class MedicationsListPage {
     ).should('be.visible');
 
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
+      '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
@@ -276,7 +276,7 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        'We got your request on October 4, 2023. Check back for updates.',
+        'We got your request on October 2, 2023. Check back for updates.',
       );
   };
 
@@ -396,7 +396,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -412,15 +412,10 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionExpirationDateforRxOver180Days = expiredPrescription => {
-    // cy.intercept(
-    //   'GET',
-    //   'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
-    //   prescriptions,
-    // ).as('medicationsList');
     cy.get('@medicationsList')
       .its('response')
       .then(res => {
-        expect(res.body.data[15].attributes).to.include({
+        expect(res.body.data[14].attributes).to.include({
           expirationDate: `${
             expiredPrescription.data.attributes.expirationDate
           }`,
@@ -442,7 +437,7 @@ class MedicationsListPage {
     cy.get('@medicationsList')
       .its('response')
       .then(res => {
-        expect(res.body.data[3].attributes).to.include({
+        expect(res.body.data[4].attributes).to.include({
           prescriptionSource: 'NV',
         });
       });
