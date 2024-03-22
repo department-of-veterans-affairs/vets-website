@@ -176,10 +176,7 @@ const testConfig = createTestConfig(
                 }
               }
             });
-            cy.get('va-button-pair')
-              .shadow()
-              .find('va-button[continue]')
-              .click();
+            cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
       },

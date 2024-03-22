@@ -16,7 +16,7 @@ import mockData from '../fixtures/data/test-data.json';
 
 testComponentRender(
   'ApplicantMedicareStatusReviewPage',
-  <>{ApplicantMedicareStatusReviewPage()}</>,
+  <ApplicantMedicareStatusReviewPage data={mockData.data} title={() => ''} />,
 );
 
 testComponentRender(
@@ -61,7 +61,10 @@ describe('ApplicantMedicareStatusPage handlers', () => {
 describe('ApplicantMedicareStatusPage', () => {
   it('should show err msg when no option selected', async () => {
     const component = (
-      <ApplicantMedicareStatusPage setFormData={() => mockData.data} />
+      <ApplicantMedicareStatusPage
+        setFormData={() => mockData.data}
+        data={mockData.data}
+      />
     );
     const { mockStore } = getProps();
     const view = render(<Provider store={mockStore}>{component}</Provider>);

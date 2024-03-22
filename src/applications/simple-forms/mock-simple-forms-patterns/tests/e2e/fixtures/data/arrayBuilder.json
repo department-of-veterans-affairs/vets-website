@@ -1,6 +1,6 @@
 {
   "data": {
-    "hasEmployment": true,
+    "view:hasEmployment": true,
     "employers": [
       {
         "dateStart": "1999-01-03",

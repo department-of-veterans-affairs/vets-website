@@ -1,6 +1,5 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { teraInformationEnabled } from '../../../utils/helpers/form-config';
 
 const {
@@ -18,7 +17,6 @@ const {
 export default {
   uiSchema: {
     ...titleUI('Service history', 'Check all that apply to you.'),
-    'ui:description': MilitaryPrefillMessage,
     'view:serviceHistory': {
       purpleHeartRecipient: {
         'ui:title': 'Purple Heart award recipient',
