@@ -6,6 +6,7 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
+  benefitEffectiveDate: state?.form?.data?.benefitEffectiveDate,
   eligibility: state.data?.eligibility,
   duplicateEmail: state.data?.duplicateEmail,
   duplicatePhone: state.data?.duplicatePhone,
@@ -54,7 +55,7 @@ export const getAppData = state => ({
   mebExclusionPeriodEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
   ],
-  mebAutoPopulateRelinquishmentDate:
-    state?.featureToggles?.mebAutoPopulateRelinquishmentDate,
-  user: state.user || {},
+  mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
+  ],
 });

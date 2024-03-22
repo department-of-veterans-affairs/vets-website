@@ -14,7 +14,7 @@ import {
   fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, checkDate } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
@@ -49,6 +49,7 @@ export const App = ({
   email,
   duplicateEmail,
   duplicatePhone,
+  benefitEffectiveDate,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -359,6 +360,14 @@ export const App = ({
         }
       };
       fetchAndUpdateDirectDepositInfo();
+
+      setFormData({
+        ...formData,
+        benefitEffectiveDate: checkDate(
+          mebAutoPopulateRelinquishmentDate,
+          benefitEffectiveDate,
+        ),
+      });
     },
     [
       isLoggedIn,
@@ -368,6 +377,7 @@ export const App = ({
       fetchedDirectDeposit,
       getDirectDeposit,
       setFetchedDirectDeposit,
+      benefitEffectiveDate,
     ],
   );
 

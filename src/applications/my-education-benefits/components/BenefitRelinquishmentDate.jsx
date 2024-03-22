@@ -18,13 +18,19 @@ const BenefitRelinquishmentDate = props => {
     } else {
       returnDate = moment(formData?.benefitEffectiveDate).format('YYYY-MM-DD');
     }
-
     return returnDate;
   };
 
   const [dateValue, setDateValue] = useState(
     formData?.mebAutoPopulateRelinquishmentDate ? populateDate() : '',
   );
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      benefitEffectiveDate: dateValue,
+    });
+  }, []);
 
   useEffect(
     () => {
@@ -39,7 +45,7 @@ const BenefitRelinquishmentDate = props => {
         });
       }
     },
-    [formData?.benefitEffectiveDate, setFormData, dateValue],
+    [formData?.benefitEffectiveDate, dateValue, setFormData],
   );
 
   function handleChange(event) {

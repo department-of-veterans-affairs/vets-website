@@ -3,7 +3,7 @@ import moment from 'moment';
 import { DATE_TIMESTAMP, formFields } from './constants';
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
-const checkDate = (mebAutoPopulateRelinquishmentDate, dateToCheck) => {
+export const checkDate = (mebAutoPopulateRelinquishmentDate, dateToCheck) => {
   const dateFromData = moment(dateToCheck);
 
   if (!mebAutoPopulateRelinquishmentDate)
@@ -251,6 +251,10 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
+  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
+  const mebAutoPopulateRelinquishmentDate =
+    state?.featureToggles.mebAutoPopulateRelinquishmentDate;
+
   let firstName;
   let middleName;
   let lastName;
@@ -341,6 +345,10 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
       },
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
+      [formFields.benefitEffectiveDate]: checkDate(
+        mebAutoPopulateRelinquishmentDate,
+        benefitEffectiveDate,
+      ),
     },
     [formFields.bankAccount]: {
       ...bankInformation,
@@ -653,7 +661,7 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
   const stateUser = state.user || {};
   const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
   const mebAutoPopulateRelinquishmentDate =
-    state?.featureToggles.mebAutoPopulateRelinquishmentDate;
+    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
