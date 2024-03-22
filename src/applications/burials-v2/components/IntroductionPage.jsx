@@ -21,17 +21,9 @@ const IntroductionPage = ({ route }) => {
           <p>
             Make sure you meet our eligibility requirements before you apply.
           </p>
-          <a
-            href="/burials-memorials/veterans-burial-allowance"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Find out if you’re eligible for a Veterans burial allowance (opens
-            on new tab)
-          </a>
           <va-link
-            href="/burials-memorials/veterans-burial-allowance?target=_blank"
-            text=""
+            href="/burials-memorials/veterans-burial-allowance"
+            text="Find out if you’re eligible for a Veterans burial allowance"
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
@@ -71,16 +63,10 @@ const IntroductionPage = ({ route }) => {
             We also recommend providing a copy of the Veteran’s DD214 or other
             separation documents, you can request these documents now.
           </p>
-          <a
-            href="/burials-memorials/veterans-burial-allowance"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Learn more about requesting military service records (opens on new
-              tab)"
-          >
-            Learn more about requesting military service records (opens on new
-            tab)
-          </a>
+          <va-link
+            href="/records/get-military-service-records/"
+            text="Learn more about requesting military service records"
+          />
           <p>
             <strong>What if I need help with my application?</strong>
           </p>
@@ -88,16 +74,10 @@ const IntroductionPage = ({ route }) => {
             An accredited representative, like a Veterans Service Officer (VSO),
             can help you fill out your application.
           </p>
-          <a
+          <va-link
             href="/disability/get-help-filing-claim/"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Learn more about getting help from an accredited representative
-            (opens on new tab)"
-          >
-            Learn more about getting help from an accredited representative
-            (opens on new tab)
-          </a>
+            text="Learn more about getting help from an accredited representative"
+          />
         </va-process-list-item>
         <va-process-list-item header="Apply">
           <p>
