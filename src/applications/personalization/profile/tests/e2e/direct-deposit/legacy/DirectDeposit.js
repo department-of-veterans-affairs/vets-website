@@ -1,13 +1,4 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
-import { mockUser } from '@@profile/tests/fixtures/users/user';
-import { base } from '../../../mocks/endpoints/direct-deposit';
-import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
-
-const defaults = {
-  user: mockUser,
-  directDepositResponse: base,
-  featureToggles: generateFeatureToggles(),
-};
 
 class DirectDepositPage {
   LINK_TEXT = 'Direct Deposit Information';
@@ -15,25 +6,6 @@ class DirectDepositPage {
   visitPage = () => {
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
   };
-
-  setup(opts = defaults) {
-    const user = opts.user || defaults.user;
-    const directDepositResponse =
-      opts.directDepositResponse || defaults.directDepositResponse;
-    const featureToggles = opts.featureToggles || defaults.featureToggles;
-
-    cy.login(user);
-
-    cy.intercept('GET', '/v0/profile/direct_deposit', directDepositResponse).as(
-      'getDirectDeposit',
-    );
-
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
-      'getFeatureToggles',
-    );
-
-    this.visitPage();
-  }
 
   confirmDirectDepositIsAvailable = ({ visitPage = true } = {}) => {
     // the DD item should exist in the sub nav
@@ -57,9 +29,12 @@ class DirectDepositPage {
     cy.findByText(this.LINK_TEXT).should('not.exist');
   };
 
-  // TODO: update test ID to not be disability specific for unified form
-  confirmIneligibleMessageIsDisplayed = () => {
+  confirmIneligibleMessageIsDisplayedForCNP = () => {
     cy.findByTestId('disability-header').should('exist');
+  };
+
+  confirmIneligibleMessageIsDisplayedForEducation = () => {
+    cy.findByTestId('education-header').should('exist');
   };
 
   checkVerifyMessageIsShowing = () => {
@@ -74,6 +49,12 @@ class DirectDepositPage {
     cy.findByTestId('service-is-down-banner').should('exist');
   };
 
+  confirmEduConnectionErrorAlertShows = () => {
+    cy.findByText('We can’t load education benefits information').should(
+      'exist',
+    );
+  };
+
   confirmProfileIsBlocked = () => {
     cy.findByTestId('account-blocked-alert').should('exist');
   };
@@ -86,4 +67,4 @@ class DirectDepositPage {
   };
 }
 
-export default DirectDepositPage;
+export default new DirectDepositPage();
