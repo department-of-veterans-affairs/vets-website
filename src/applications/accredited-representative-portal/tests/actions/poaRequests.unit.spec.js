@@ -14,9 +14,12 @@ afterEach(() => {
 describe('POA Request Handling', () => {
   it('handles acceptPOARequest successfully', async () => {
     server.use(
-      rest.post('/poa_requests/:veteranId/accept', (req, res, ctx) => {
-        return res(ctx.json({ status: 'success' }));
-      }),
+      rest.post(
+        '/power_of_attorney_requests/:poaId/accept',
+        (req, res, ctx) => {
+          return res(ctx.json({ status: 'success' }));
+        },
+      ),
     );
 
     const response = await acceptPOARequest('12345');
@@ -25,9 +28,12 @@ describe('POA Request Handling', () => {
 
   it('handles declinePOARequest successfully', async () => {
     server.use(
-      rest.post('/poa_requests/:veteranId/decline', (req, res, ctx) => {
-        return res(ctx.json({ status: 'success' }));
-      }),
+      rest.post(
+        '/power_of_attorney_requests/:poaId/decline',
+        (req, res, ctx) => {
+          return res(ctx.json({ status: 'success' }));
+        },
+      ),
     );
 
     const response = await declinePOARequest('12345');
@@ -36,9 +42,12 @@ describe('POA Request Handling', () => {
 
   it('returns an error status when the server responds with an error for accept', async () => {
     server.use(
-      rest.post('/poa_requests/:veteranId/accept', (req, res, ctx) => {
-        return res(ctx.status(500));
-      }),
+      rest.post(
+        '/power_of_attorney_requests/:poaId/accept',
+        (req, res, ctx) => {
+          return res(ctx.status(500));
+        },
+      ),
     );
 
     const response = await acceptPOARequest('12345');
@@ -50,9 +59,12 @@ describe('POA Request Handling', () => {
 
   it('returns an error status when the server responds with an error for decline', async () => {
     server.use(
-      rest.post('/poa_requests/:veteranId/decline', (req, res, ctx) => {
-        return res(ctx.status(500));
-      }),
+      rest.post(
+        '/power_of_attorney_requests/:poaId/decline',
+        (req, res, ctx) => {
+          return res(ctx.status(500));
+        },
+      ),
     );
 
     const response = await declinePOARequest('12345');
@@ -64,7 +76,7 @@ describe('POA Request Handling', () => {
 
   it('handles network errors gracefully for accept', async () => {
     server.use(
-      rest.post('/poa_requests/:veteranId/accept', (req, res) => {
+      rest.post('/power_of_attorney_requests/:poaId/accept', (req, res) => {
         return res.networkError('Failed to connect');
       }),
     );
@@ -78,7 +90,7 @@ describe('POA Request Handling', () => {
 
   it('handles network errors gracefully for decline', async () => {
     server.use(
-      rest.post('/poa_requests/:veteranId/decline', (req, res) => {
+      rest.post('/power_of_attorney_requests/:poaId/decline', (req, res) => {
         return res.networkError('Failed to connect');
       }),
     );
