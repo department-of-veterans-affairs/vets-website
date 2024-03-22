@@ -7,9 +7,9 @@ const settings = {
   },
 };
 
-const handlePOARequest = async (veteranId, action) => {
+const handlePOARequest = async (poaId, action) => {
   try {
-    const resource = `/poa_requests/${veteranId}/${action}`;
+    const resource = `/power_of_attorney_requests/${poaId}/${action}`;
     const response = await apiRequest(resource, settings);
 
     if (!response.ok) {
@@ -23,7 +23,5 @@ const handlePOARequest = async (veteranId, action) => {
   }
 };
 
-export const acceptPOARequest = veteranId =>
-  handlePOARequest(veteranId, 'accept');
-export const declinePOARequest = veteranId =>
-  handlePOARequest(veteranId, 'decline');
+export const acceptPOARequest = poaId => handlePOARequest(poaId, 'accept');
+export const declinePOARequest = poaId => handlePOARequest(poaId, 'decline');
