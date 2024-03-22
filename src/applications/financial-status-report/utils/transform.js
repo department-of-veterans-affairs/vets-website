@@ -5,7 +5,6 @@ import {
   isStreamlinedLongForm,
 } from './streamlinedDepends';
 import {
-  safeNumber,
   sumValues,
   dateFormatter,
   getFsrReason,
@@ -46,8 +45,6 @@ export const transform = (formConfig, form) => {
   try {
     const isShortStreamlined = isStreamlinedShortForm(form.data);
     const isLongStreamlined = isStreamlinedLongForm(form.data);
-    const streamlinedAssetUpdateActive =
-      form.data['view:streamlinedWaiverAssetUpdate'];
 
     // === Set Streamlined FSR flag ===
     let streamlinedData;
@@ -114,13 +111,8 @@ export const transform = (formConfig, form) => {
       monetaryAssets,
       cashFilters,
     );
-    // streamlinedCashOnHand - Asset determination for short form prior to streamlined asset update
-    const streamlinedCashOnHand =
-      cashFilteredMonetaryAssets + safeNumber(assets?.cashOnHand);
 
-    const calculatedCashOnHand = streamlinedAssetUpdateActive
-      ? cashFilteredMonetaryAssets
-      : streamlinedCashOnHand;
+    const calculatedCashOnHand = cashFilteredMonetaryAssets;
 
     const calculatedCashInBank = filterReduceByName(
       monetaryAssets,
@@ -161,18 +153,6 @@ export const transform = (formConfig, form) => {
             .map(dep => dep.dependentAge)
         : [];
 
-    // Contact Information
-    const submitAddress = {
-      addresslineOne: address.addressLine1,
-      addresslineTwo: address.addressLine2 || '',
-      addresslineThree: address.addressLine3 || '',
-      city: address.city,
-      stateOrProvince: address.stateCode,
-      zipOrPostalCode: address.zipCode,
-      countryName: address.countryCodeIso2,
-    };
-    const submitPhone = getFormattedPhone(mobilePhone);
-
     const submissionObj = {
       personalIdentification: {
         ssn: personalIdentification.ssn,
@@ -186,15 +166,15 @@ export const transform = (formConfig, form) => {
           last: vetLast,
         },
         address: {
-          addresslineOne: submitAddress.addresslineOne,
-          addresslineTwo: submitAddress.addresslineTwo,
-          addresslineThree: submitAddress.addresslineThree,
-          city: submitAddress.city,
-          stateOrProvince: submitAddress.stateOrProvince,
-          zipOrPostalCode: submitAddress.zipOrPostalCode,
-          countryName: submitAddress.countryName,
+          addresslineOne: address.addressLine1,
+          addresslineTwo: address.addressLine2 || '',
+          addresslineThree: address.addressLine3 || '',
+          city: address.city,
+          stateOrProvince: address.stateCode,
+          zipOrPostalCode: address.zipCode,
+          countryName: address.countryCodeIso2,
         },
-        telephoneNumber: submitPhone,
+        telephoneNumber: getFormattedPhone(mobilePhone),
         dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
         married: questions.isMarried,
         spouseFullName: {

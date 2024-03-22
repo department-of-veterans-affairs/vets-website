@@ -193,9 +193,6 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
 };
 
 export const getTotalAssets = ({ assets, questions }) => {
-  const formattedREValue = Number(
-    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = Number(
     assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0,
@@ -203,7 +200,10 @@ export const getTotalAssets = ({ assets, questions }) => {
   const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
-  const realEstate = formattedREValue;
+  const realEstate = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
+
   const totAssets = sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
