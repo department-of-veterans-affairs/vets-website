@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import * as Sentry from '@sentry/browser';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
@@ -134,67 +134,6 @@ export function submit(form, formConfig) {
     .then(onSuccess)
     .catch(onFailure);
 }
-export const serviceRecordNotification = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <span>
-      <strong>Note:</strong> If you would rather upload a DD214 than enter dates
-      here, you can do that later in the form.
-    </span>
-  </div>
-);
-
-export const serviceRecordWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <span>
-      <strong>Note:</strong> If you chose to upload a DD214 instead of recording
-      service periods, you can do that here
-    </span>
-  </div>
-);
-
-export const transportationWarning = (
-  <div
-    className="usa-alert usa-alert-warning background-color-only"
-    aria-live="polite"
-  >
-    <span>
-      <strong>Note:</strong> At the end of the application, you will be asked to
-      upload documentation for the expenses you incurred for transporting the
-      Veteran’s remains.
-    </span>
-  </div>
-);
-
-export const BurialDateWarning = () => {
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    // NOTE: If we don't wait at least 900ms to render,
-    // the alert content gets overspoken by the year content
-    // when using a Screen Reader.
-    // Using 1000ms to give a bit of padding
-    const timeout = setTimeout(() => setShouldRender(true), 1000);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  return (
-    <div aria-live="polite">
-      {shouldRender && (
-        <va-alert background-only show-icon status="warning" uswds="false">
-          <span className="sr-only">Warning:</span>
-          <p className="vads-u-margin-top--0">
-            If filing for a non-service-connected allowance, the Veteran’s
-            burial date must be no more than 2 years from the current date.
-          </p>
-          <a href="/burials-memorials/eligibility/" target="_blank">
-            Find out if you still qualify for a non-service-connected allowance
-            (opens in new tab)
-          </a>
-        </va-alert>
-      )}
-    </div>
-  );
-};
 
 export const generateTitle = text => {
   return <h3 className="vads-u-margin-top--0">{text}</h3>;
