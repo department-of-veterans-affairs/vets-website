@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
@@ -20,24 +20,20 @@ describe('Start a new message With Attacments and Errors', () => {
       .click({ force: true });
 
     composePage.getMessageSubjectField();
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage
       .getMessageBodyField()
-      .type('Test message body', { force: true, waitforanimations: true });
+      .type(Data.TEST_MESSAGE_BODY, { force: true, waitforanimations: true });
 
-    composePage.attachMessageFromFile('sample_pdf.pdf');
-    composePage.attachMessageFromFile('sample_pdf.pdf');
-    composePage.verifyAttachmentErrorMessage(
-      'You have already attached this file.',
-    );
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
+    composePage.verifyAttachmentErrorMessage(Data.ALREADY_ATTACHED_FILE);
 
-    composePage.attachMessageFromFile('test_image_10mb.jpg');
-    composePage.verifyAttachmentErrorMessage(
-      'Your file is too large. Try attaching a file smaller than 6MB.',
-    );
+    composePage.attachMessageFromFile(Data.TEST_LARGE_IMAGE);
+    composePage.verifyAttachmentErrorMessage(Data.FILE_IS_TOO_LARGE_TEXT);
 
-    composePage.attachMessageFromFile('sample_pdf.pdf');
-    composePage.attachMessageFromFile('sample_docx.docx');
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
+    composePage.attachMessageFromFile(Data.SAMPLE_DOC);
     // Verify current attachments count
     composePage.verifyExpectedAttachmentsCount(2);
     composePage.attachMessageFromFile('sample_XLS.xls');
