@@ -236,12 +236,12 @@ class PatientComposePage {
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
-      cy.get(Locators.BUTTONS.ATTACH_FILE_BUTTON)
+      cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_FILE);
     } else {
-      cy.get(Locators.BUTTONS.ATTACH_FILE_BUTTON)
+      cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_ADDITIONAL_FILE);
