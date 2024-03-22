@@ -230,3 +230,6 @@ export const isMobileDevice = () => {
     navigator.userAgent,
   );
 };
+export const objectHaNoUndefinedValues = obj => {
+  return Object.values(obj).every(value => value !== undefined);
+};

@@ -4,7 +4,7 @@ import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { scrollToElement } from '../helpers';
+import { objectHaNoUndefinedValues, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
@@ -46,7 +46,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     },
     [error, mailingAddress],
   );
-
   const handleCloseForm = useCallback(
     () => {
       setFormData({});
@@ -151,14 +150,18 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               Mailing address
             </p>
             <p>
-              <span className="vads-u-display--block">
-                {`${newAddress.street}`}
-              </span>
-              <span className="vads-u-display--block">
-                {`${newAddress.city}, ${newAddress.stateCode} ${
-                  newAddress.zipCode
-                }`}
-              </span>
+              {objectHaNoUndefinedValues(newAddress) && (
+                <>
+                  <span className="vads-u-display--block">
+                    {`${newAddress?.street}`}
+                  </span>
+                  <span className="vads-u-display--block">
+                    {`${newAddress?.city}, ${newAddress?.stateCode} ${
+                      newAddress?.zipCode
+                    }`}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         )}
