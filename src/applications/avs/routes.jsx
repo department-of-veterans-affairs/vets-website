@@ -15,6 +15,9 @@ const ErrorBoundaryWrapper = props => (
 
 const routes = (
   <Switch>
+    <Route exact path="/" key="/:id">
+      <ErrorBoundaryWrapper />
+    </Route>
     <Route exact path="/:id" key="/:id">
       <ErrorBoundaryWrapper />
     </Route>
