@@ -98,22 +98,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-<<<<<<< Updated upstream
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-=======
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
->>>>>>> Stashed changes
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
