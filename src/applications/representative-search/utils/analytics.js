@@ -30,7 +30,8 @@ export const recordSearchResultsChange = (
   } else {
     recordEvent({
       ...eventParams,
-      event: 'far-search-results-change',
+      // prettier-ignore
+      'event': 'far-search-results-change',
       'search-results-change-action-type': changeType,
       'search-results-change-action-label': changeLabel,
       'search-results-page': page,

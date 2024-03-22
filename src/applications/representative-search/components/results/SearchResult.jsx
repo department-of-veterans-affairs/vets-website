@@ -58,7 +58,8 @@ const SearchResult = ({
 
   const dataLayerPush = () => {
     recordEvent({
-      event: 'far-search-results-click',
+      // prettier-ignore
+      'event': 'far-search-results-click',
       'search-query': query?.locationQueryString,
       'search-filters-list': {
         'representative-type': query?.representativeType,

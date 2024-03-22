@@ -45,7 +45,8 @@ export const fetchRepresentatives = async (
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });
 
       window.dataLayer.push({
-        event: 'far-search-results',
+        // prettier-ignore
+        'event': 'far-search-results',
         'search-query': address,
         'search-filters-list': {
           'representative-type': type,
