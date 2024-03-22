@@ -1731,10 +1731,6 @@
         "value": true
       },
       {
-        "name": "va_online_scheduling_required_schedulable_param",
-        "value": true
-      },
-      {
         "name": "vaOnlineSchedulingAfterVisitSummary",
         "value": false
       },
