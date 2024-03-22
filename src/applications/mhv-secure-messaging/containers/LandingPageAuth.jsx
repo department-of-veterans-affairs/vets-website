@@ -63,7 +63,7 @@ const LandingPageAuth = () => {
   return (
     <div className="dashboard">
       <AlertBackgroundBox />
-      <h1>Messages</h1>
+      <h1>Messages new</h1>
 
       <DowntimeNotification
         appTitle={downtimeNotificationParams.appTitle}
