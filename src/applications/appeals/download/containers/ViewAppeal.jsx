@@ -185,6 +185,7 @@ const ViewAppeal = () => {
           text="Print this page for your records"
           uswds
         />
+        <h2 className="help-heading vads-u-padding-top--2">Need help?</h2>
         <GetFormHelp />
       </div>
     </div>
