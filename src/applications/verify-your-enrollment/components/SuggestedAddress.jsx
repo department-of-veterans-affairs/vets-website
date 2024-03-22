@@ -107,14 +107,6 @@ const SuggestedAddress = ({
           onChange={handleChange}
           setIsEnteredAddress={setIsEnteredAddress}
         />
-        {/* {deliveryPointValidation !== 'CONFIRMED' && (
-          <ButtonsGroup
-            onPrimaryClick={onUpdateClicked}
-            onSecondaryClick={onBackToEditClick}
-            primaryLabel="Update"
-            secondaryLabel="Go back to edit"
-          />
-        )} */}
       </div>
       {deliveryPointValidation === 'CONFIRMED' && (
         <>
@@ -187,6 +179,8 @@ SuggestedAddress.propTypes = {
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setBackToEdit: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  goBackToAddressDescription: PropTypes.func,
   handleCloseForm: PropTypes.func,
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { BAD_UNIT_NUMBER, MISSING_UNIT_NUMBER } from '../constants';
 import Alert from './Alert';
 
@@ -65,4 +66,9 @@ const NoSuggestedAddress = ({
   );
 };
 
+NoSuggestedAddress.propTypes = {
+  deliveryPointValidation: PropTypes.string,
+  formData: PropTypes.object,
+  setIsEnteredAddress: PropTypes.string,
+};
 export default NoSuggestedAddress;
