@@ -2,12 +2,9 @@ import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import moment from 'moment';
 
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -23,14 +20,12 @@ import {
 import {
   getDependentChildTitle,
   getMarriageTitleWithCurrent,
-  DirectDepositWarning,
   isMarried,
   MarriageTitle,
   submit,
   createSpouseLabelSelector,
   HelpText,
   isHomeAcreageMoreThanTwo,
-  DirectDepositOtherOptions,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
@@ -39,8 +34,6 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-
-import { AccountInformationAlert } from '../components/FormAlerts';
 
 // chapter-pages
 import age from './chapters/03-health-and-employment-information/age';
@@ -87,6 +80,12 @@ import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 import landMarketable from './chapters/05-financial-information/landMarketable';
+import {
+  usingDirectDeposit,
+  directDeposit,
+  accountInformation,
+  otherPaymentOptions,
+} from './chapters/06-additional-information';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -94,27 +93,15 @@ import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
-const {
+import {
   spouseDateOfBirth,
   spouseSocialSecurityNumber,
   spouseVaFileNumber,
   liveWithSpouse,
   spouseIsVeteran,
-} = fullSchemaPensions.properties;
-
-const {
-  fullName,
-  usaPhone,
-  dateRange,
-  date,
-  monthlyIncome,
-  netWorth,
   marriages,
-  expectedIncome,
-  ssn,
-  centralMailVaFile,
-  bankAccount,
-} = fullSchemaPensions.definitions;
+  defaultDefinitions,
+} from './definitions';
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
@@ -233,10 +220,6 @@ function isCurrentMarriage(form, index) {
   return isMarried(form) && numMarriages - 1 === index;
 }
 
-function usingDirectDeposit(formData) {
-  return get(['view:usingDirectDeposit'], formData) === true;
-}
-
 export function doesHaveDependents(formData) {
   return get(['view:hasDependents'], formData) === true;
 }
@@ -313,18 +296,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  defaultDefinitions: {
-    address: address.schema(fullSchemaPensions),
-    date,
-    dateRange,
-    usaPhone,
-    fullName,
-    ssn,
-    centralMailVaFile,
-    monthlyIncome,
-    expectedIncome,
-    netWorth,
-  },
+  defaultDefinitions,
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
@@ -968,77 +940,21 @@ const formConfig = {
           title: 'Direct deposit for Veterans Pension benefits',
           path: 'additional-information/direct-deposit',
           initialData: {},
-          uiSchema: {
-            ...titleUI(
-              'Direct deposit for Veterans Pension benefits',
-              DirectDepositWarning,
-            ),
-            'view:usingDirectDeposit': yesNoUI({
-              title: 'Do you have a bank account to use for direct deposit?',
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:usingDirectDeposit': yesNoSchema,
-            },
-            required: ['view:usingDirectDeposit'],
-          },
+          ...directDeposit,
         },
         accountInformation: {
           title: 'Account information for direct deposit',
           path: 'additional-information/account-information',
           initialData: {},
           depends: usingDirectDeposit,
-          uiSchema: {
-            ...titleUI(
-              'Account information for direct deposit',
-              AccountInformationAlert,
-            ),
-            bankAccount: merge({}, bankAccountUI, {
-              'ui:order': [
-                'accountType',
-                'bankName',
-                'accountNumber',
-                'routingNumber',
-              ],
-              'ui:description':
-                'Enter the details of the bank account where you want to get your VA benefit payments.',
-              bankName: {
-                'ui:title': 'Bank name',
-              },
-              accountType: {
-                'ui:required': usingDirectDeposit,
-              },
-              accountNumber: {
-                'ui:title': 'Account number',
-                'ui:required': usingDirectDeposit,
-              },
-              routingNumber: {
-                'ui:title': 'Routing number',
-                'ui:required': usingDirectDeposit,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccount,
-            },
-          },
+          ...accountInformation,
         },
         otherPaymentOptions: {
           title: 'Other payment options',
           path: 'additional-information/other-payment-options',
           initialData: {},
           depends: formData => !usingDirectDeposit(formData),
-          uiSchema: {
-            ...titleUI('Other payment options', DirectDepositOtherOptions),
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          ...otherPaymentOptions,
         },
         aidAttendance: {
           title: 'Supporting documents',
