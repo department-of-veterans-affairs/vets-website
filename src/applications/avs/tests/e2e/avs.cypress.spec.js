@@ -60,13 +60,16 @@ describe('After-visit Summary', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('Visit root URL and get a page not found', () => {
+  it('root URL is redirected to summaries & notes', () => {
     cy.visit(manifest.rootUrl);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+    cy.url().should(
+      'match',
+      /\/my-health\/medical-records\/summaries-and-notes\/$/,
+    );
   });
 
-  it('Visit a child path past an ID and get a page not found', () => {
+  it('child paths past an ID get page not found', () => {
     cy.visit(`${testUrl}/path1`);
     cy.injectAxeThenAxeCheck();
     cy.findByRole('heading', { name: notFoundHeading }).should.exist;

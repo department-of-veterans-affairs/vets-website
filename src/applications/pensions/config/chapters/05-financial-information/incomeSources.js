@@ -78,6 +78,9 @@ export default {
           },
         },
         amount: merge({}, currencyUI('What’s the monthly amount of income?'), {
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
           'ui:validations': [validateCurrency],
         }),
       },
