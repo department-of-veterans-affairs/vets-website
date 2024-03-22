@@ -57,7 +57,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('[name="root_homeless"]');
+      cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
       cy.tabToContinueForm();
 
@@ -118,27 +118,12 @@ describe('Higher-Level Review keyboard only navigation', () => {
         chapters.informalConference.pages.representativeInfoV2.path,
       );
       const rep = data.informalConferenceRep;
-      const repPrefix = '[name="root_informalConferenceRep_';
-      cy.get(`${repPrefix}firstName"]`)
-        .shadow()
-        .find('input')
-        .type(rep.firstName);
-      cy.get(`${repPrefix}lastName"]`)
-        .shadow()
-        .find('input')
-        .type(rep.lastName);
-      cy.get(`${repPrefix}phone"]`)
-        .shadow()
-        .find('input')
-        .type(rep.phone);
-      cy.get(`${repPrefix}extension"]`)
-        .shadow()
-        .find('input')
-        .type(rep.extension);
-      cy.get(`${repPrefix}email"]`)
-        .shadow()
-        .find('input')
-        .type(rep.email);
+      const repPrefix = 'input[name="root_informalConferenceRep_';
+      cy.typeInIfDataExists(`${repPrefix}firstName"]`, rep.firstName);
+      cy.typeInIfDataExists(`${repPrefix}lastName"]`, rep.lastName);
+      cy.typeInIfDataExists(`${repPrefix}phone"]`, rep.phone);
+      cy.typeInIfDataExists(`${repPrefix}extension"]`, rep.extension);
+      cy.typeInIfDataExists(`${repPrefix}email"]`, rep.email);
       cy.tabToContinueForm();
 
       // Informal conference time
