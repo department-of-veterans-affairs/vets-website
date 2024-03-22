@@ -53,6 +53,11 @@ export function ApplicantAddressCopyPage({
     },
   ];
 
+  function fullName(name) {
+    return `${name.first} ${name?.middle || ''} ${name.last}, ${name?.suffix ||
+      ''}`;
+  }
+
   function isValidOrigin(person) {
     // Make sure that our <select> only shows options that:
     // 1. Have a valid address we can copy
@@ -95,7 +100,7 @@ export function ApplicantAddressCopyPage({
         setSelectValue(undefined);
       }
       if (parsedAddress) {
-        setAddress(parsedAddress);
+        setAddress(parsedAddress.originatorAddress);
         setSelectValue(value);
       }
       setDirty(true);
@@ -174,10 +179,13 @@ export function ApplicantAddressCopyPage({
                         key={`${el.applicantName.first}${
                           el.applicantName.last
                         }`}
-                        value={JSON.stringify(el.applicantAddress)}
+                        value={JSON.stringify({
+                          originatorName: fullName(el.applicantName),
+                          originatorAddress: el.applicantAddress,
+                        })}
                       >
-                        {el.applicantName.first} {el.applicantName.last}{' '}
-                        {el.applicantName.suffix} - {el.applicantAddress.street}
+                        {fullName(el.applicantName)} -{' '}
+                        {el.applicantAddress.street}
                       </option>
                     ))}
                 </VaSelect>
