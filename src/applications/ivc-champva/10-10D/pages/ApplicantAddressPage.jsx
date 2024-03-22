@@ -164,7 +164,7 @@ export function ApplicantAddressCopyPage({
                   error={selectError}
                   required
                   value={selectValue}
-                  label="Select the user with whom you share an address"
+                  label="Select the applicant with whom you share an address"
                   name="shared-address-select"
                 >
                   {data.applicants
