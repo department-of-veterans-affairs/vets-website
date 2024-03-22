@@ -53,13 +53,12 @@ class MedicationsListPage {
   };
 
   verifyLearnHowToRenewPrescriptionsLinkExists = () => {
-    cy.get('[data-testid="active-no-refill-left"]');
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
+    cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
   };
 
   clickLearnHowToRenewPrescriptionsLink = () => {
-    cy.get('[data-testid="active-no-refill-left"]');
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+    cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
+    cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
       .find('[href="/my-health/medications/about/accordion-renew-rx"]')

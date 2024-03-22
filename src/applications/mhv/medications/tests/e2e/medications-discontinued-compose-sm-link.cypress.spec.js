@@ -12,9 +12,7 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink(true);
-    // cy.get('[data-testid="discontinued-compose-message-link"]')
-    //   .invoke('attr', 'href')
-    //   .should('contain', 'myhealth.va.gov/mhv-portal-web/secure-messaging');
+
     cy.get('[data-testid="discontinued-compose-message-link"]')
       .shadow()
       .first()
