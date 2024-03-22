@@ -27,6 +27,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     addressValidationData,
     validationError,
     isLoadingValidateAddress,
+    addressLoader,
   } = useSelector(state => state.addressValidation);
   const address = addressValidationData?.addresses[0]?.address;
   const confidenceScore =
@@ -71,7 +72,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setGoBack(val);
   };
   // called when submitting form
-  const saveAddressInfo = async () => {
+  const saveAddressInfo = () => {
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
       stateAndZip = {
@@ -99,19 +100,19 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       },
     };
     try {
-      await dispatch(validateAddress(fields, formData.fullName));
+      dispatch(validateAddress(fields, formData.fullName));
     } catch (err) {
       throw new Error(err);
     }
   };
   useEffect(
     () => {
-      if (!isLoading && !isLoadingValidateAddress) {
+      if (!addressLoader || !isLoadingValidateAddress) {
         handleCloseForm();
       }
     },
 
-    [handleCloseForm, isLoading, isLoadingValidateAddress],
+    [handleCloseForm, addressLoader, isLoadingValidateAddress],
   );
   const setAddressToUI = value => {
     if (!error) {

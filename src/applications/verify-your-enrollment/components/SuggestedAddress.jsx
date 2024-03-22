@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { error } from '@actions/core';
 import { postMailingAddress, validateAddress } from '../actions';
 import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
+import NoSuggestedAddress from './NoSuggestedAddress';
 
 const SuggestedAddress = ({
   formData,
@@ -17,15 +17,21 @@ const SuggestedAddress = ({
   setFormData,
 }) => {
   const dispatch = useDispatch();
-  const { isLoadingValidateAddress } = useSelector(
-    state => state.addressValidation,
+  const {
+    isLoadingValidateAddress,
+    addressValidationData,
+    addressLoader,
+  } = useSelector(state => state.addressValidation);
+  const { loading: isLoading, error } = useSelector(
+    state => state.updateAddress,
   );
-  const { loading: isLoading } = useSelector(state => state.updateAddress);
 
   const [isEnteredAddress, setIsEnteredAddress] = useState(false);
-  // const deliveryPointValidation =
-  //   addressValidationData?.addresses[0]?.addressMetaData
-  //     ?.deliveryPointValidation;
+  const deliveryPointValidation =
+    addressValidationData?.addresses[0]?.addressMetaData
+      ?.deliveryPointValidation;
+  const confidenceScore =
+    addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
   const onBackToEditClick = event => {
     handleAddNewClick(event);
@@ -87,59 +93,88 @@ const SuggestedAddress = ({
 
   return (
     <div className="address-change-form-container">
-      {(isLoadingValidateAddress || isLoading) && <Loader className="loader" />}
+      {(isLoadingValidateAddress || addressLoader) && (
+        <Loader className="loader" />
+      )}
       <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
         Mailing address
       </p>
-      <Alert
-        status="warning"
-        title="We can’t confirm the address you entered with the U.S. Postal Service."
-        message=" Tell us which of these addresses you’d like us to use."
-      />
+      <div>
+        <NoSuggestedAddress
+          deliveryPointValidation={deliveryPointValidation}
+          confidenceScore={confidenceScore}
+          formData={formData}
+          onChange={handleChange}
+          setIsEnteredAddress={setIsEnteredAddress}
+        />
+        {/* {deliveryPointValidation !== 'CONFIRMED' && (
+          <ButtonsGroup
+            onPrimaryClick={onUpdateClicked}
+            onSecondaryClick={onBackToEditClick}
+            primaryLabel="Update"
+            secondaryLabel="Go back to edit"
+          />
+        )} */}
+      </div>
+      {deliveryPointValidation === 'CONFIRMED' && (
+        <>
+          <Alert
+            status="warning"
+            title="We can’t confirm the address you entered with the U.S. Postal Service."
+            message=" Tell us which of these addresses you’d like us to use."
+          />
 
-      <div className="usa-radio vads-u-margin-top--2p5">
-        <span className="vads-u-font-weight--bold">Entered Addresses:</span>
-        <input
-          className="usa-radio__input"
-          id="entered-address"
-          type="radio"
-          name="addressSelection"
-          value="entered"
-          onChange={handleChange}
-        />
-        <label
-          className="usa-radio__label vads-u-margin-top--1"
-          htmlFor="entered-address"
-        >
-          {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
-          <br />
-          {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
-        </label>
-      </div>
-      <div className="usa-radio vads-u-margin-top--2p5">
-        <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
-        <input
-          className="usa-radio__input"
-          id="suggested-address"
-          type="radio"
-          name="addressSelection"
-          value="suggested"
-          onChange={handleChange}
-          defaultChecked
-        />
-        <label
-          className="usa-radio__label vads-u-margin-top--1"
-          htmlFor="suggested-address"
-        >
-          {`${address.addressLine1} ${address.addressLine2 || ''}`}
-          <br />
-          {`${address.city}, ${address.stateCode} ${address.zipCode}`}
-        </label>
-      </div>
+          <div className="usa-radio vads-u-margin-top--2p5">
+            <span className="vads-u-font-weight--bold">Entered Addresses:</span>
+            <input
+              className="usa-radio__input"
+              id="entered-address"
+              type="radio"
+              name="addressSelection"
+              value="entered"
+              onChange={handleChange}
+            />
+            <label
+              className="usa-radio__label vads-u-margin-top--1"
+              htmlFor="entered-address"
+            >
+              {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
+              <br />
+              {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
+            </label>
+          </div>
+          <div className="usa-radio vads-u-margin-top--2p5">
+            <span className="vads-u-font-weight--bold">
+              Suggested Addresses:
+            </span>
+            <input
+              className="usa-radio__input"
+              id="suggested-address"
+              type="radio"
+              name="addressSelection"
+              value="suggested"
+              onChange={handleChange}
+              defaultChecked
+            />
+            <label
+              className="usa-radio__label vads-u-margin-top--1"
+              htmlFor="suggested-address"
+            >
+              {`${address.addressLine1} ${address.addressLine2 || ''}`}
+              <br />
+              {`${address.city}, ${address.stateCode} ${address.zipCode}`}
+            </label>
+          </div>
+        </>
+      )}
       <ButtonsGroup
         onPrimaryClick={onUpdateClicked}
         onSecondaryClick={onBackToEditClick}
-        primaryLabel="Update"
+        primaryLabel={
+          deliveryPointValidation === 'CONFIRMED'
+            ? 'Update'
+            : 'Use this address'
+        }
         secondaryLabel="Go back to edit"
       />
     </div>
