@@ -1,51 +1,92 @@
-import {
-  resetFetch,
-  mockApiRequest,
-} from '@department-of-veterans-affairs/platform-testing/unit/helpers';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import { expect } from 'chai';
 import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
 
-describe('POA request actions', () => {
-  afterEach(() => {
-    resetFetch();
-  });
+const server = setupServer();
 
-  it('should successfully accept a POA request', async () => {
-    const mockResponse = { status: 'success' };
-    mockApiRequest(mockResponse);
-    const response = await acceptPOARequest('1234');
-    expect(response).to.deep.equal(mockResponse);
-  });
-
-  it('should handle failed POA acceptance', async () => {
-    const mockError = { ok: false, status: 400 };
-    mockApiRequest(mockError, false);
-
-    const result = await acceptPOARequest('1234');
-    expect(result).to.equal({
-      status: 'error',
-      error: 'Server responded with status: 400',
-    });
-  });
+beforeEach(() => server.listen());
+afterEach(() => {
+  server.resetHandlers();
+  server.close();
 });
 
-describe('declinePOARequest', () => {
-  it('should handle successful POA declination', async () => {
-    const mockResponse = { ok: true, status: 200 };
-    mockApiRequest(mockResponse);
+describe('POA Request Handling', () => {
+  it('handles acceptPOARequest successfully', async () => {
+    server.use(
+      rest.post('/poa_requests/:veteranId/accept', (req, res, ctx) => {
+        return res(ctx.json({ status: 'success' }));
+      }),
+    );
 
-    const result = await declinePOARequest('1234');
-    expect(result).to.equal({ status: 'success' });
+    const response = await acceptPOARequest('12345');
+    expect(response).to.eq({ status: 'success' });
   });
 
-  it('should handle failed POA declination', async () => {
-    const mockError = { ok: false, status: 400 };
-    mockApiRequest(mockError, false);
+  it('handles declinePOARequest successfully', async () => {
+    server.use(
+      rest.post('/poa_requests/:veteranId/decline', (req, res, ctx) => {
+        return res(ctx.json({ status: 'success' }));
+      }),
+    );
 
-    const result = await declinePOARequest('1234');
-    expect(result).to.equal({
+    const response = await declinePOARequest('12345');
+    expect(response).to.eq({ status: 'success' });
+  });
+
+  it('returns an error status when the server responds with an error for accept', async () => {
+    server.use(
+      rest.post('/poa_requests/:veteranId/accept', (req, res, ctx) => {
+        return res(ctx.status(500));
+      }),
+    );
+
+    const response = await acceptPOARequest('12345');
+    expect(response).to.eq({
       status: 'error',
-      error: 'Server responded with status: 400',
+      error: 'Server responded with status: 500',
+    });
+  });
+
+  it('returns an error status when the server responds with an error for decline', async () => {
+    server.use(
+      rest.post('/poa_requests/:veteranId/decline', (req, res, ctx) => {
+        return res(ctx.status(500));
+      }),
+    );
+
+    const response = await declinePOARequest('12345');
+    expect(response).to.eq({
+      status: 'error',
+      error: 'Server responded with status: 500',
+    });
+  });
+
+  it('handles network errors gracefully for accept', async () => {
+    server.use(
+      rest.post('/poa_requests/:veteranId/accept', (req, res) => {
+        return res.networkError('Failed to connect');
+      }),
+    );
+
+    const response = await acceptPOARequest('12345');
+    expect(response).to.eq({
+      status: 'error',
+      error: 'An unexpected error occurred.',
+    });
+  });
+
+  it('handles network errors gracefully for decline', async () => {
+    server.use(
+      rest.post('/poa_requests/:veteranId/decline', (req, res) => {
+        return res.networkError('Failed to connect');
+      }),
+    );
+
+    const response = await declinePOARequest('12345');
+    expect(response).to.eq({
+      status: 'error',
+      error: 'An unexpected error occurred.',
     });
   });
 });
