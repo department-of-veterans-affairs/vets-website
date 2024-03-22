@@ -12,7 +12,7 @@ import { isAuthenticatedWithOAuth } from '~/platform/user/authentication/selecto
 
 import VerifyIdentity from './alerts/VerifyIdentity';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
-import LoadFail from '../alerts/LoadFail';
+import LoadFail from '../../alerts/LoadFail';
 
 const DirectDepositWrapper = props => {
   const { children, setViewingIsRestricted } = props;
