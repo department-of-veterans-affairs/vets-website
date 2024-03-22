@@ -43,9 +43,8 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimsPath = `your-claims/${id}`;
 
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
@@ -122,17 +121,18 @@ export default function ClaimDetailLayout(props) {
     );
   }
 
+  const crumb = {
+    href: `your-claims/${id}`,
+    label: getBreadcrumbText(currentTab, claimType),
+  };
+
   return (
     <div>
       <div name="topScrollElement" />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>
-                {getBreadcrumbText(currentTab, claimType)}
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={[crumb]} />
           </div>
         </div>
         {!!headingContent && (

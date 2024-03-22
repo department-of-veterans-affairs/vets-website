@@ -50,6 +50,7 @@ class AskVAPage extends React.Component {
     const {
       loadingDecisionRequest,
       decisionRequestError,
+      params,
       submit5103,
       submitRequest,
       useLighthouse5103,
@@ -68,18 +69,22 @@ class AskVAPage extends React.Component {
       buttonMsg = 'Something went wrong...';
     }
 
+    const crumbs = [
+      {
+        href: `your-claims/${params.id}`,
+        label: 'Status details',
+      },
+      {
+        href: `your-claims/${params.id}/ask-va-to-decide`,
+        label: 'Ask for your claim decision',
+      },
+    ];
+
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0  vads-u-margin-bottom--7">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={`your-claims/${this.props.params.id}`}>
-                Status details
-              </Link>
-              <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
-                Ask for your claim decision
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={crumbs} />
           </div>
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">
@@ -117,7 +122,7 @@ class AskVAPage extends React.Component {
                 uswds
                 class="button-primary vads-u-margin-top--1"
                 text={buttonMsg}
-                onClick={() => submitFunc(this.props.params.id)}
+                onClick={() => submitFunc(params.id)}
               />
               {!loadingDecisionRequest ? (
                 <va-button

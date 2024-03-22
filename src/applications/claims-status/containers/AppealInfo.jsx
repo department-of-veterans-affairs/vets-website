@@ -157,16 +157,17 @@ export class AppealInfo extends React.Component {
       appealContent = appealsDownMessage;
     }
 
+    const crumb = {
+      href: `appeals/${params.id}`,
+      label: 'Status details',
+    };
+
     return (
       <div>
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={`appeals/${params.id}`} key="claims-appeal">
-                  Status details
-                </Link>
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={[crumb]} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
