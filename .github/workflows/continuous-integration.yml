@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-16-cores-latest
+    runs-on: [NexGenLab]    
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
@@ -93,10 +93,20 @@ jobs:
 
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -105,7 +115,6 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
           
-
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
         with:
@@ -119,13 +128,17 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch E2E Test Stability Allow List
-        run: yarn get-allow-list
+        run: |
+          export OPENSSL_CONF=/etc/ssl/openssl-insecure.cnf
+          yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
 
       - name: Fetch Unit Test Stability Allow List
-        run: yarn get-allow-list
+        run: |
+          export OPENSSL_CONF=/etc/ssl/openssl-insecure.cnf
+          yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: unit_test
@@ -147,7 +160,7 @@ jobs:
   tests-prep:
     name: Tests Prep
     needs: [fetch-allow-lists]
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]    
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
@@ -239,7 +252,7 @@ jobs:
     name: Unit Tests
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]    
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -313,10 +326,10 @@ jobs:
 
   unit-tests-stress-test:
     name: Unit Test Stability Review
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]    
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep == 'success' }}
 
     env:
       TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
@@ -370,7 +383,7 @@ jobs:
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]    
     needs: [unit-tests-stress-test, fetch-allow-lists]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
     continue-on-error: true
@@ -445,7 +458,7 @@ jobs:
 
   security-audit:
     name: Security Audit
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -475,7 +488,7 @@ jobs:
   linting:
     name: Linting (All)
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -523,7 +536,7 @@ jobs:
 
   testing-reports-prep:
     name: Testing Reports Prep
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -565,12 +578,14 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Upload app list to BigQuery
-        run: yarn generate-app-list
+        run: |
+          export OPENSSL_CONF=/etc/ssl/openssl-insecure.cnf
+          yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
   cypress-tests:
     name: Cypress E2E Tests
-    runs-on: self-hosted
+    runs-on: [NexGenLab]  
     timeout-minutes: 60
     needs: [build, tests-prep]
     if: |
@@ -679,7 +694,7 @@ jobs:
 
   stress-test-cypress-tests:
     name: E2E Test Stability Review
-    runs-on: self-hosted
+    runs-on: [NexGenLab]  
     timeout-minutes: 120
     needs: [build, tests-prep]
     if: |
@@ -772,7 +787,7 @@ jobs:
 
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs:
       [
         testing-reports-prep,
@@ -891,7 +906,7 @@ jobs:
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs: [testing-reports-prep, unit-tests]
     if: ${{ always() }}
     continue-on-error: true
@@ -1022,7 +1037,7 @@ jobs:
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs: [testing-reports-prep, unit-tests-stress-test]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
@@ -1121,7 +1136,7 @@ jobs:
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs: [testing-reports-prep, unit-tests]
     if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
@@ -1238,7 +1253,7 @@ jobs:
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs: [testing-reports-prep, tests-prep, cypress-tests]
     if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
@@ -1361,7 +1376,7 @@ jobs:
 
   testing-reports-cypress-stress-test:
     name: Testing Reports - E2E Test Stability Review
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
     if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
     env:
@@ -1484,7 +1499,7 @@ jobs:
 
   test-stability-review-merge-status:
     name: QA Merge Status
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     needs:
       [
         cypress-tests,
@@ -1606,7 +1621,7 @@ jobs:
 
   archive:
     name: Archive
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
 
     strategy:
       matrix:
@@ -1695,7 +1710,7 @@ jobs:
     name: Set Environments to Deploy
     needs: [archive, build]
     if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
     env:
@@ -1802,7 +1817,7 @@ jobs:
 
   notify-failure:
     name: Notify Failure
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]  
     if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
     needs: [deploy, build]
     env:
