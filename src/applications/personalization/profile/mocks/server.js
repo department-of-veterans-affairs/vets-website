@@ -21,6 +21,7 @@ const {
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
+const directDeposits = require('./endpoints/direct-deposits');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -129,6 +130,16 @@ const responses = {
     return res
       .status(200)
       .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
+    // return res.status(200).json(disabilityComps.updates.success);
+  },
+  'GET /v0/profile/direct_deposits': (_req, res) => {
+    // this endpoint is used for the single form version of the direct deposit page
+    return res.status(200).json(directDeposits.base);
+  },
+  'PUT /v0/profile/direct_deposits': (_req, res) => {
+    return res
+      .status(200)
+      .json(directDeposits.updates.errors.invalidAccountNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
