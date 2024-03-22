@@ -98,6 +98,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+<<<<<<< Updated upstream
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -107,6 +108,12 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+=======
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+>>>>>>> Stashed changes
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -115,7 +122,6 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
           
-
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
         with:
@@ -550,6 +556,11 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
       - name: Generate new application list
         run: yarn generate-app-list
