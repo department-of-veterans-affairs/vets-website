@@ -24,6 +24,8 @@ export default {
         customTitle: ' ',
         useDlWrap: true,
         confirmRemove: true,
+        confirmRemoveDescription:
+          'This will remove the facility from your priority processing request.',
       },
       items: {
         facilityName: {
