@@ -102,7 +102,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   canvas.mapboxgl-canvas:focus {
-    outline: 2px solid var(--vads-color-action-focus-on-light)
+    outline: 2px solid var(--vads-color-action-focus-on-light);
     outline-offset: 2px;
   }
 
