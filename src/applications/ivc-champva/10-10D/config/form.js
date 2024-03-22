@@ -23,8 +23,8 @@ import {
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import {
   relationshipToVeteranUI,
@@ -134,17 +134,6 @@ import FileViewField, {
 const uploadUrl = `${
   environment.API_URL
 }/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
-
-const fileWithTextConfigBoilerPlate = {
-  fileTypes,
-  fileUploadUrl: uploadUrl,
-  attachmentSchema: {
-    'ui:title': 'Document type',
-  },
-  attachmentName: {
-    'ui:title': 'Document name',
-  },
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -450,7 +439,6 @@ const formConfig = {
             ...sponsorCasualtyReportConfig.uiSchema,
             sponsorCasualtyReport: fileUploadUI(
               "Upload Sponsor's casualty report",
-              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -541,7 +529,6 @@ const formConfig = {
             ...sponsorDisabilityRatingConfig.uiSchema,
             sponsorDisabilityRating: fileUploadUI(
               "Upload Sponsor's disability rating",
-              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -575,7 +562,6 @@ const formConfig = {
             ...sponsorDischargePapersConfig.uiSchema,
             sponsorDischargePapers: fileUploadUI(
               "Upload Sponsor's discharge papers",
-              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -915,7 +901,6 @@ const formConfig = {
                 ...applicantBirthCertConfig.uiSchema,
                 applicantBirthCertOrSocialSecCard: fileUploadUI(
                   "Upload the applicant's birth certificate",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1006,7 +991,6 @@ const formConfig = {
                 ...applicantSchoolCertConfig.uiSchema,
                 applicantSchoolCert: fileUploadUI(
                   "Upload the applicant's school certification",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1051,7 +1035,6 @@ const formConfig = {
                 ...applicantHelplessChildConfig.uiSchema,
                 applicantHelplessCert: fileUploadUI(
                   'Upload VBA decision rating for the applicant',
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1099,7 +1082,6 @@ const formConfig = {
                 ...applicantAdoptedConfig.uiSchema,
                 applicantAdoptionPapers: fileUploadUI(
                   "Upload the applicant's adoption papers",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1150,7 +1132,6 @@ const formConfig = {
                 ...applicantStepChildConfig.uiSchema,
                 applicantStepMarriageCert: fileUploadUI(
                   "Upload marriage certificate between applicant's parent and the sponsor",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1288,7 +1269,6 @@ const formConfig = {
                 ...applicantMarriageCertConfig.uiSchema,
                 applicantMarriageCert: fileUploadUI(
                   "Upload the applicant's marriage certificate",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1336,7 +1316,6 @@ const formConfig = {
                 ...applicantMarriageCertConfig.uiSchema,
                 applicantSecondMarriageCert: fileUploadUI(
                   "Upload the applicant's second marriage certificate",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1388,7 +1367,6 @@ const formConfig = {
                 ...applicantSecondMarriageDivorceCertConfig.uiSchema,
                 applicantSecondMarriageDivorceCert: fileUploadUI(
                   "Upload the applicant's second marriage dissolution document",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1488,7 +1466,6 @@ const formConfig = {
                 ...applicantMedicarePartAPartBCardsConfig.uiSchema,
                 applicantMedicarePartAPartBCard: fileUploadUI(
                   "Upload the applicant's copy of Medicare Parts A or B card(s)",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1536,7 +1513,6 @@ const formConfig = {
                 ...applicantMedicarePartDCardsConfig.uiSchema,
                 applicantMedicarePartDCard: fileUploadUI(
                   "Upload the applicant's copy of Medicare Part D",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1654,7 +1630,6 @@ const formConfig = {
                 ...applicantOhiCardsConfig.uiSchema,
                 applicantOhiCard: fileUploadUI(
                   "Upload front and back of the applicant's health insurance card",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1699,7 +1674,6 @@ const formConfig = {
                 ...applicant107959cConfig.uiSchema,
                 applicant107959c: fileUploadUI(
                   "Upload the applicant's VA form 10-7959c",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
