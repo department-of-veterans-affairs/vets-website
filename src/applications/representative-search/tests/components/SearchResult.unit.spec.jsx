@@ -23,7 +23,7 @@ describe('SearchResults', () => {
     setReportModalTester: () => {},
   };
 
-  it('should push to datalayer', () => {
+  it('should push to datalayer on click of contact link', () => {
     const wrapper = mount(<SearchResult {...testProps} />);
 
     const addressLink = wrapper.find('.address-anchor');
@@ -34,6 +34,17 @@ describe('SearchResults', () => {
     expect(priorEvent.length).to.equal(1);
     addressLink.simulate('click');
     expect(priorEvent.length).to.equal(2);
+
+    wrapper.unmount();
+  });
+
+  it('should push to datalayer on click of report button', () => {
+    const wrapper = mount(<SearchResult {...testProps} />);
+    const priorEvent = window.dataLayer;
+
+    wrapper.find('#open-modal-test-button').simulate('click');
+
+    expect(priorEvent.length).to.equal(1);
 
     wrapper.unmount();
   });

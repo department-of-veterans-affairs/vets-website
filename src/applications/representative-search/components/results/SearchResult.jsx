@@ -56,10 +56,30 @@ const SearchResult = ({
     setReportModalIsShowing(false);
   };
 
-  const dataLayerPush = () => {
+  const recordContactLinkClick = () => {
     recordEvent({
       // prettier-ignore
       'event': 'far-search-results-click',
+      'search-query': query?.locationQueryString,
+      'search-filters-list': {
+        'representative-type': query?.representativeType,
+        'search-radius': query?.searchArea,
+        'representative-name': query?.representativeQueryString,
+      },
+      'search-selection': 'Find VA Accredited Rep',
+      'search-results-id': representativeId,
+      'search-results-total-count':
+        searchResults?.meta?.pagination?.totalEntries,
+      'search-results-total-pages': searchResults?.meta?.pagination?.totalPages,
+      'search-result-position': key,
+      'search-result-page': searchResults?.meta?.pagination?.currentPage,
+    });
+  };
+
+  const recordReportButtonClick = () => {
+    recordEvent({
+      // prettier-ignore
+      'event': 'far-search-results-outdated',
       'search-query': query?.locationQueryString,
       'search-filters-list': {
         'representative-type': query?.representativeType,
@@ -99,7 +119,10 @@ const SearchResult = ({
           id="open-modal-test-button"
           label="open-modal-test-button"
           type="button"
-          onClick={() => setReportModalIsShowing(true)}
+          onClick={() => {
+            recordReportButtonClick();
+            setReportModalIsShowing(true);
+          }}
         />
       ) : null}
 
@@ -173,7 +196,7 @@ const SearchResult = ({
                   }&daddr=${address}`}
                   tabIndex="0"
                   className="address-anchor"
-                  onClick={() => dataLayerPush()}
+                  onClick={() => recordContactLinkClick()}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${address} (opens in a new tab)`}
@@ -194,13 +217,16 @@ const SearchResult = ({
                 <va-telephone
                   contact={contact}
                   extension={extension}
-                  onClick={() => dataLayerPush()}
+                  onClick={() => recordContactLinkClick()}
                 />
               </div>
             )}
             {email && (
               <div className="vads-u-margin-top--1p5">
-                <a href={`mailto:${email}`} onClick={() => dataLayerPush()}>
+                <a
+                  href={`mailto:${email}`}
+                  onClick={() => recordContactLinkClick()}
+                >
                   {email}
                 </a>
               </div>
@@ -229,6 +255,7 @@ const SearchResult = ({
           <div className="report-outdated-information-button">
             <va-button
               onClick={() => {
+                recordReportButtonClick();
                 setReportModalIsShowing(true);
               }}
               tabIndex={-1}
