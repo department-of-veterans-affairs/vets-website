@@ -117,19 +117,6 @@ import { fileTypes, fileWithMetadataSchema } from './attachments';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
-import FileViewField, {
-  AppBirthCertReviewField,
-  AppSchoolDocReviewField,
-  AppHelplessChildReviewField,
-  AppAdoptionDocReviewField,
-  AppStepDocReviewField,
-  AppMarriageDocReviewField,
-  AppMedicareABDocReviewField,
-  AppMedicareDDocReviewField,
-  AppMedicareOver65IneligibleReviewField,
-  AppOhiDocReviewField,
-  App107959cDocReviewField,
-} from '../components/File/FileViewField';
 
 const uploadUrl = `${
   environment.API_URL
@@ -406,11 +393,7 @@ const formConfig = {
             get('sponsorIsDeceased', formData) &&
             get('sponsorDeathConditions', formData),
           CustomPage: FileFieldCustom,
-          CustomPageReview: props =>
-            FileViewField(
-              props?.data.sponsorCasualtyReport || [],
-              `${sponsorWording(props?.data)} casualty report`,
-            ),
+          CustomPageReview: null,
           uiSchema: {
             ...titleUI(
               'Required supporting file upload',
@@ -496,11 +479,7 @@ const formConfig = {
           path: 'sponsor-information/disability',
           title: 'Sponsor disability rating',
           CustomPage: FileFieldCustom,
-          CustomPageReview: props =>
-            FileViewField(
-              props?.data.sponsorDisabilityRating || [],
-              `${sponsorWording(props?.data)} disability rating`,
-            ),
+          CustomPageReview: null,
           uiSchema: {
             ...titleUI(
               'Optional supporting file upload',
@@ -529,11 +508,7 @@ const formConfig = {
           path: 'sponsor-information/discharge-papers',
           title: 'Sponsor discharge papers',
           CustomPage: FileFieldCustom,
-          CustomPageReview: props =>
-            FileViewField(
-              props?.data.sponsorDischargePapers || [],
-              `${sponsorWording(props?.data)} discharge papers`,
-            ),
+          CustomPageReview: null,
           uiSchema: {
             ...titleUI(
               'Optional supporting file upload',
@@ -804,7 +779,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
           CustomPage: ApplicantRelationshipPage,
-          CustomPageReview: ApplicantRelationshipReviewPage, // CustomReviewField,
+          CustomPageReview: ApplicantRelationshipReviewPage,
           schema: applicantListSchema([], {
             applicantRelationshipToSponsor: {
               type: 'object',
@@ -868,7 +843,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppBirthCertReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -958,7 +933,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppSchoolDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1002,7 +977,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppHelplessChildReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1049,7 +1024,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppAdoptionDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1097,7 +1072,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppStepDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1236,7 +1211,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMarriageDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1283,7 +1258,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMarriageDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1334,7 +1309,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMarriageDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1431,7 +1406,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMedicareABDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1480,7 +1455,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMedicareDDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1527,7 +1502,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMedicareOver65IneligibleReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1595,7 +1570,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppOhiDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1641,7 +1616,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: App107959cDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1650,9 +1625,7 @@ const formConfig = {
                 ...titleUI(
                   'Required supporting file upload',
                   ({ formData }) =>
-                    `Upload ${formData?.applicantName?.first} ${
-                      formData?.applicantName?.last
-                    }'s VA form 10-7959c.`,
+                    `Upload ${applicantWording(formData)} VA form 10-7959c.`,
                 ),
                 ...applicant107959cConfig.uiSchema,
                 applicant107959c: fileUploadUI(
