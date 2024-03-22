@@ -380,7 +380,7 @@ class SearchApp extends React.Component {
           {!this.props.searchDropdownComponentEnabled && (
             <VaSearchInput
               aria-labelledby="h1-search-title"
-              buttonText="Search"
+              submitButtonText="Search"
               className="vads-u-width--full"
               label="Enter a keyword, phrase, or question"
               onInput={this.handleInputChange}
@@ -391,25 +391,12 @@ class SearchApp extends React.Component {
           )}
           {this.props.searchDropdownComponentEnabled && (
             <SearchDropdownComponent
-              buttonText="Search"
-              canSubmit
               id="search-results-page-dropdown"
-              componentClassName=""
-              containerClassName=""
-              buttonClassName=""
-              inputClassName=""
-              suggestionsListClassName=""
-              suggestionClassName=""
-              formatSuggestions
-              fullWidthSuggestions={false}
-              mobileResponsive
-              startingValue={userInput}
-              submitOnClick
-              submitOnEnter
               fetchInputValue={this.fetchInputValue}
               fetchSuggestions={this.fetchSuggestions}
               onInputSubmit={this.onInputSubmit}
               onSuggestionSubmit={this.onSuggestionSubmit}
+              startingValue={userInput}
             />
           )}
         </div>

@@ -10,7 +10,7 @@ describe('Search Dropdown Component <SearchDropdownComponent/>', () => {
     const fetchSuggestions = sinon.spy();
     const wrapper = mount(
       <SearchDropdownComponent
-        buttonText="Search"
+        submitButtonText="Search"
         className="dropdown"
         startingValue="Starting Value"
         fetchSuggestions={fetchSuggestions}
