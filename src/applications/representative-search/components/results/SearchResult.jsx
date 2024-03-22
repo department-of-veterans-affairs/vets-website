@@ -218,7 +218,7 @@ const SearchResult = ({
                   contact={contact}
                   extension={extension}
                   onClick={() => recordContactLinkClick()}
-                  disableAnalytics
+                  disable-analytics
                 />
               </div>
             )}
