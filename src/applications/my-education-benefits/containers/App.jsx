@@ -361,13 +361,15 @@ export const App = ({
       };
       fetchAndUpdateDirectDepositInfo();
 
-      setFormData({
-        ...formData,
-        benefitEffectiveDate: checkDate(
-          mebAutoPopulateRelinquishmentDate,
-          benefitEffectiveDate,
-        ),
-      });
+      if (!benefitEffectiveDate) {
+        setFormData({
+          ...formData,
+          benefitEffectiveDate: checkDate(
+            mebAutoPopulateRelinquishmentDate,
+            benefitEffectiveDate,
+          ),
+        });
+      }
     },
     [
       isLoggedIn,
