@@ -59,7 +59,7 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-function transformCountryCode(countryCode) {
+export function transformCountryCode(countryCode) {
   switch (countryCode) {
     case 'USA':
       return 'US';
