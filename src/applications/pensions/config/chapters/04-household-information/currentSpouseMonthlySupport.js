@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
@@ -5,8 +6,16 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 export default {
   uiSchema: {
     ...titleUI('Financial support for your spouse'),
-    currentSpouseMonthlySupport: currencyUI(
-      'How much do you contribute each month to your spouse’s support?',
+    currentSpouseMonthlySupport: merge(
+      {},
+      currencyUI(
+        'How much do you contribute each month to your spouse’s support?',
+      ),
+      {
+        'ui:options': {
+          classNames: 'schemaform-currency-input-v3',
+        },
+      },
     ),
   },
   schema: {

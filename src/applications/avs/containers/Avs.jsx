@@ -64,7 +64,7 @@ const Avs = props => {
         }
       };
 
-      if (isLoggedIn && avsLoading) {
+      if (isLoggedIn && avsLoading && id) {
         fetchAvs();
       }
     },
@@ -73,15 +73,21 @@ const Avs = props => {
 
   if (avsEnabled === false) {
     window.location.replace('/');
+    return null;
   }
 
-  if (isLoggedIn && (avsLoading || featureTogglesLoading)) {
+  if (isLoggedIn && id && (avsLoading || featureTogglesLoading)) {
     return (
       <va-loading-indicator
         data-testid="avs-loading-indicator"
         message="Loading your after-visit summary"
       />
     );
+  }
+
+  if (!id) {
+    window.location.replace('/my-health/medical-records/summaries-and-notes/');
+    return null;
   }
 
   return (

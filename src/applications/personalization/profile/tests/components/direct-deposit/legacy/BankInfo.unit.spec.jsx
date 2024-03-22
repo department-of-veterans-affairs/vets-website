@@ -9,7 +9,7 @@ import * as mocks from '@@profile/msw-mocks';
 import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
-import BankInfo from '@@profile/components/direct-deposit/BankInfo';
+import BankInfo from '~/applications/personalization/profile/components/direct-deposit/legacy/BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 const paymentAccount = {

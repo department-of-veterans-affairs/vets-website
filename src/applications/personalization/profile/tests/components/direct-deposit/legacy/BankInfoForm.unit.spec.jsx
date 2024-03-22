@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import BankInfoForm from '@@profile/components/direct-deposit/BankInfoForm';
+import BankInfoForm from '~/applications/personalization/profile/components/direct-deposit/legacy/BankInfoForm';
 
 describe('<BankInfoForm/>', () => {
   let wrapper;

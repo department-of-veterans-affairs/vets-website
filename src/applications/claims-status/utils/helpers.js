@@ -130,18 +130,6 @@ export const getTrackedItemDate = item => {
 };
 // END lighthouse_migration
 
-export function getTrackedItems(claim, useLighthouse = true) {
-  // claimAttributes are different between lighthouse and evss
-  // Therefore we have to filter them differntly
-  if (useLighthouse) {
-    return claim.attributes.trackedItems;
-  }
-
-  return claim.attributes.eventsTimeline.filter(event =>
-    event.type.endsWith('_list'),
-  );
-}
-
 export function getFilesNeeded(trackedItems, useLighthouse = true) {
   // trackedItems are different between lighthouse and evss
   // Therefore we have to filter them differntly

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
-import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
+import { ACCOUNT_TYPES_OPTIONS } from '../../../constants';
 
 export function makeFormProperties(prefix) {
   return {
