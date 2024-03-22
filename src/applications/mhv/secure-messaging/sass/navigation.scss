@@ -68,7 +68,7 @@
     &.is-active {
         background-color: var(--vads-color-base-lightest);
         border-left: 4px solid var(--vads-color-base);
-        color: var(--$vads-color-black);
+        color: var(--vads-color-black);
         font-weight: bold;
         padding-left: units-px(1.5);
 
@@ -92,7 +92,7 @@
 
   .fa-times {
     width: 14px;
-    color: var(--$vads-color-black);
+    color: var(--vads-color-black);
   }
 
   ul {
@@ -115,7 +115,7 @@
         color: var(--vads-color-link);
 
         &.is-active {
-          color: var(--$vads-color-black);
+          color: var(--vads-color-black);
         }
 
         &:active {
