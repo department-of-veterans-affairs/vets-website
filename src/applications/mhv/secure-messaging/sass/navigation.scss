@@ -9,8 +9,8 @@
   position: fixed;
   top: 0;
   right: 0;
-  border: 1px solid $color-gray;
-  background-color: $color-white;
+  border: 1px solid var(--vads-color-base-dark);
+  background-color: var(--vads-color-white);
 
   @media (max-width: calc(#{$medium-screen} - 1px)) {
       width: 264px;
@@ -21,8 +21,8 @@
     height: 50px;
 
     i.fa-medkit {
-      color: $color-white;
-      background-color: $color-primary;
+      color: var(--vads-color-white);
+      background-color: var(--vads-color-primary);
       margin-top: 9px;
       margin-bottom: 11px;
       height: 34px;
@@ -32,7 +32,7 @@
     }
 
     h4 {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       width: 88px;
       height: 20px;
       margin-left: 5px;
@@ -48,27 +48,27 @@
   }
 
   .usa-sidenav-list {
-    border-top: 1px solid $color-gray;
+    border-top: 1px solid var(--vads-color-base-dark);
   }
 
   a {
     font-size: 15px;
     margin: 2px 0px;
-    color: $color-link-default;
+    color: var(--vads-color-link);
 
     &:active,
     &:focus,
     &:hover {
-        background-color: $color-primary-alt-lightest;
-        border-left: 4px solid $color-link-default;
+        background-color: var(--vads-color-primary-alt-lightest);
+        border-left: 4px solid var(--vads-color-link);
         transition: background-color 0.1s ease-in-out,
             border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
     }
 
     &.is-active {
-        background-color: $color-gray-lightest;
-        border-left: 4px solid $color-base;
-        color: $color-black;
+        background-color: var(--vads-color-base-lightest);
+        border-left: 4px solid var(--vads-color-base);
+        color: var(--$vads-color-black);
         font-weight: bold;
         padding-left: units-px(1.5);
 
@@ -87,12 +87,12 @@
   }
 
   button {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
   }
 
   .fa-times {
     width: 14px;
-    color: $color-black;
+    color: var(--$vads-color-black);
   }
 
   ul {
@@ -107,26 +107,26 @@
     .sidebar-navigation-messages-list-header {
 
       &.is-active {
-        background-color: $color-gray-lightest;
-        border-left: 4px solid $color-base;
+        background-color: var(--vads-color-base-lightest);
+        border-left: 4px solid var(--vads-color-base);
       }
 
       a {
-        color: $color-link-default;
+        color: var(--vads-color-link);
 
         &.is-active {
-          color: $color-black;
+          color: var(--$vads-color-black);
         }
 
         &:active {
-            color: $color-gray-dark;
+            color: var(--vads-color-base-darker);
             text-decoration: underline;
         }
       }
     }
 
     .usa-sidenav-list {
-      border-top: 1px solid $color-gray;
+      border-top: 1px solid var(--vads-color-base-dark);
       border-bottom: 0;
       padding-top: 4px;
 
@@ -148,7 +148,7 @@
         }
 
         .sidebar-navigation-messages-list-menu {
-          background-color: $color-white;
+          background-color: var(--vads-color-white);
           display: block;
 
           ul {
@@ -206,7 +206,7 @@
 
         a {
           padding-top: 7px;
-          color: $color-link-default;
+          color: var(--vads-color-link);
         }
       }
     }
