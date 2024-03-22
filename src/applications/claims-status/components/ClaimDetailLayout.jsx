@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { DATE_FORMATS } from '../constants';
@@ -124,6 +123,7 @@ export default function ClaimDetailLayout(props) {
   const crumb = {
     href: `your-claims/${id}`,
     label: getBreadcrumbText(currentTab, claimType),
+    isRouterLink: true,
   };
 
   return (

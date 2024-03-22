@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 import { getAppealsV2 as getAppealsV2Action } from '../actions';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
@@ -160,6 +159,7 @@ export class AppealInfo extends React.Component {
     const crumb = {
       href: `appeals/${params.id}`,
       label: 'Status details',
+      isRouterLink: true,
     };
 
     return (

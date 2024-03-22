@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { setUpPage } from '../utils/page';
 
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
@@ -21,8 +20,7 @@ class StemClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading } = this.props;
-    const claimsPath = `your-stem-claims/${this.props.params.id}`;
+    const { claim, loading, params } = this.props;
     let content;
     if (loading) {
       content = (
@@ -50,17 +48,19 @@ class StemClaimStatusPage extends React.Component {
       );
     }
 
+    const crumb = {
+      href: `your-stem-claims/${params.id}`,
+      label: 'Your Rogers STEM Scholarship application status details',
+      isRouterLink: true,
+    };
+
     return (
       <div>
         <div name="topScrollElement" />
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={claimsPath}>
-                  Your Rogers STEM Scholarship application status details
-                </Link>
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={crumb} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">

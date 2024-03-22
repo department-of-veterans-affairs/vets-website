@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -71,12 +71,14 @@ class AskVAPage extends React.Component {
 
     const crumbs = [
       {
-        href: `your-claims/${params.id}`,
+        href: `your-claims/${params.id}/status`,
         label: 'Status details',
+        isRouterLink: true,
       },
       {
         href: `your-claims/${params.id}/ask-va-to-decide`,
         label: 'Ask for your claim decision',
+        isRouterLink: true,
       },
     ];
 
