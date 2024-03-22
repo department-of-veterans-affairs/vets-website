@@ -20,7 +20,7 @@ export function ApplicantAddressCopyPage({
 }) {
   const currentApp = data?.applicants?.[pagePerItemIndex];
   const [radioValue, setRadioValue] = useState(currentApp.hasSharedAddress);
-  const [selectValue, setSelectValue] = useState(currentApp?.addressOriginator);
+  const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
   const [address, setAddress] = useState(currentApp?.applicantAddress);
 
   // TODO: Do we want/need this functionality? Commenting out for now.
@@ -28,9 +28,9 @@ export function ApplicantAddressCopyPage({
   // info if the user ever comes back to this screen and we want to notify.
   /*
   const [hasEditedAddress, setHasEditedAddress] = useState(
-    currentApp?.addressOriginator &&
+    currentApp?.hasSharedAddress &&
       JSON.stringify(currentApp?.applicantAddress) !==
-        currentApp?.addressOriginator,
+        currentApp?.sharesAddressWith.originatorAddress,
   );
   */
 
@@ -112,7 +112,7 @@ export function ApplicantAddressCopyPage({
       const tmpApp = tmpVal.applicants[pagePerItemIndex];
       tmpApp.hasSharedAddress = radioValue;
       if (radioValue) {
-        tmpApp.addressOriginator = selectValue;
+        tmpApp.sharesAddressWith = selectValue;
         tmpApp.applicantAddress = address;
       }
       setFormData(tmpVal);

@@ -116,7 +116,7 @@ import { ApplicantAddressCopyPage } from '../pages/ApplicantAddressPage';
 import { hasReq } from '../components/File/MissingFileOverview';
 import { fileTypes, fileWithMetadataSchema } from './attachments';
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
 import FileViewField, {
   AppBirthCertReviewField,
@@ -171,7 +171,7 @@ const formConfig = {
   },
   formId: '10-10D',
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
     collapsibleNavLinks: true,
   },
   saveInProgress: {
@@ -197,7 +197,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
