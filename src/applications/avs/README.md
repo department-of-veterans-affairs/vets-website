@@ -2,7 +2,7 @@
 
 ## Quick start to get running locally
 
-fore you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
+Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
 
 - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
 - navigate to the AVS application `cd src/applications/avs`
