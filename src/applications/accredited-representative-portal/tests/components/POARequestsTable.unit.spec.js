@@ -7,40 +7,44 @@ import { mockPOARequests } from '../../mocks/mockPOARequests';
 
 describe('POA Requests Table', () => {
   it('renders headers', () => {
-    const { getByTestId } = render(<POARequestsTable />);
+    const { getByTestId } = render(
+      <POARequestsTable poaRequests={mockPOARequests} />,
+    );
     expect(getByTestId('poa-requests-table')).to.exist;
-    expect(
-      getByTestId('poa-requests-table-claimant-header').textContent,
-    ).to.equal('Claimant');
+    expect(getByTestId('poa-requests-table-claimant-header').textContent).to.eq(
+      'Claimant',
+    );
     expect(
       getByTestId('poa-requests-table-submitted-header').textContent,
-    ).to.equal('Submitted');
+    ).to.eq('Submitted');
     expect(
       getByTestId('poa-requests-table-description-header').textContent,
-    ).to.equal('Description');
-    expect(
-      getByTestId('poa-requests-table-status-header').textContent,
-    ).to.equal('Status');
-    expect(
-      getByTestId('poa-requests-table-actions-header').textContent,
-    ).to.equal('Actions');
+    ).to.eq('Description');
+    expect(getByTestId('poa-requests-table-status-header').textContent).to.eq(
+      'Status',
+    );
+    expect(getByTestId('poa-requests-table-actions-header').textContent).to.eq(
+      'Actions',
+    );
   });
 
   it('renders requests', () => {
-    const { getByTestId } = render(<POARequestsTable />);
+    const { getByTestId } = render(
+      <POARequestsTable poaRequests={mockPOARequests} />,
+    );
     mockPOARequests.forEach(({ id, name, date, description, status }) => {
       expect(
         getByTestId(`poa-requests-table-${id}-claimant`).textContent,
-      ).to.equal(name);
+      ).to.eq(name);
       expect(
         getByTestId(`poa-requests-table-${id}-submitted`).textContent,
-      ).to.equal(date);
+      ).to.eq(date);
       expect(
         getByTestId(`poa-requests-table-${id}-description`).textContent,
-      ).to.equal(description);
-      expect(
-        getByTestId(`poa-requests-table-${id}-status`).textContent,
-      ).to.equal(status);
+      ).to.eq(description);
+      expect(getByTestId(`poa-requests-table-${id}-status`).textContent).to.eq(
+        status,
+      );
       if (status === 'Pending') {
         expect(
           getByTestId(`poa-requests-table-${id}-accept-button`),

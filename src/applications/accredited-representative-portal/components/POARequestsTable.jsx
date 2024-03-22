@@ -24,7 +24,7 @@ const POARequestsTable = ({ poaRequests }) => {
           <span data-testid={`poa-requests-table-${id}-description`}>
             {description}
           </span>
-          <span data-testid={`-poa-requests-table-${id}-status`}>{status}</span>
+          <span data-testid={`poa-requests-table-${id}-status`}>{status}</span>
           <span>
             {isActionable(status) && (
               <>

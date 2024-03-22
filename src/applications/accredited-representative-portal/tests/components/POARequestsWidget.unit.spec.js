@@ -7,28 +7,32 @@ import { mockPOARequests } from '../../mocks/mockPOARequests';
 
 describe('POA Requests Widget', () => {
   it('renders headers', () => {
-    const { getByTestId } = render(<POARequestsWidget />);
+    const { getByTestId } = render(
+      <POARequestsWidget poaRequests={mockPOARequests} />,
+    );
     expect(getByTestId('poa-requests-widget-table')).to.exist;
     expect(
       getByTestId('poa-requests-widget-table-claimant-header').textContent,
-    ).to.equal('Claimant');
+    ).to.eq('Claimant');
     expect(
       getByTestId('poa-requests-widget-table-submitted-header').textContent,
-    ).to.equal('Submitted');
+    ).to.eq('Submitted');
     expect(
       getByTestId('poa-requests-widget-table-actions-header').textContent,
-    ).to.equal('Actions');
+    ).to.eq('Actions');
   });
 
   it('renders requests', () => {
-    const { getByTestId } = render(<POARequestsWidget />);
+    const { getByTestId } = render(
+      <POARequestsWidget poaRequests={mockPOARequests} />,
+    );
     mockPOARequests.forEach(({ id, name, date }) => {
       expect(
         getByTestId(`poa-requests-widget-table-${id}-claimant`).textContent,
-      ).to.equal(name);
+      ).to.eq(name);
       expect(
         getByTestId(`poa-requests-widget-table-${id}-submitted`).textContent,
-      ).to.equal(date);
+      ).to.eq(date);
     });
   });
 });

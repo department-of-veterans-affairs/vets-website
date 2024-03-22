@@ -18,7 +18,7 @@ describe('SignedInView Layout', () => {
 
   it('renders SideNav', () => {
     const { getByTestId } = render(<SignedInViewLayout />);
-    expect(getByTestId('sidenav-heading').textContent).to.equal('Navigation');
+    expect(getByTestId('sidenav-heading').textContent).to.eq('Navigation');
   });
 
   it('renders Breadcrumbs', () => {

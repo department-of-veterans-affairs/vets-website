@@ -8,17 +8,14 @@ describe('Permissions Page', () => {
   it('renders Permissions Page', () => {
     const { getByTestId } = render(<PermissionsPage />);
 
-    expect(getByTestId('permissions-heading').textContent).to.equal(
-      'Permissions',
+    expect(getByTestId('permissions-heading').textContent).to.eq('Permissions');
+    expect(getByTestId('permissions-add-button')).to.have.attribute(
+      'text',
+      'Add',
     );
-    expect(
-      getByTestId('permissions-add-button').to.have.attribute('text', 'Add'),
-    );
-    expect(
-      getByTestId('permissions-upload-csv-button').to.have.attribute(
-        'text',
-        'Upload CSV',
-      ),
+    expect(getByTestId('permissions-upload-csv-button')).to.have.attribute(
+      'text',
+      'Upload CSV',
     );
   });
 });

@@ -11,7 +11,7 @@ describe('Dashboard Page', () => {
 
   it('renders heading', () => {
     const { getByTestId } = render(<DashboardPage />);
-    expect(getByTestId('dashboard-heading').textContent).to.equal(
+    expect(getByTestId('dashboard-heading').textContent).to.eq(
       'Accredited Representative Portal',
     );
   });

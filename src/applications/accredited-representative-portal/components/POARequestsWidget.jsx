@@ -27,21 +27,19 @@ const POARequestsWidget = ({ poaRequests }) => (
           Actions
         </span>
       </va-table-row>
-      {poaRequests.map(request => {
+      {poaRequests.map(({ id, name, date }) => {
         return (
-          <va-table-row key={request.id}>
+          <va-table-row key={id}>
             <span>
               <Link
-                data-testid={`poa-requests-widget-table-${request.id}-claimant`}
-                to={`/poa-requests/${request.id}`}
+                data-testid={`poa-requests-widget-table-${id}-claimant`}
+                to={`/poa-requests/${id}`}
               >
-                {request.name}
+                {name}
               </Link>
             </span>
-            <span
-              data-testid={`poa-requests-widget-table-${request.id}-submitted`}
-            >
-              {request.date}
+            <span data-testid={`poa-requests-widget-table-${id}-submitted`}>
+              {date}
             </span>
             <span />
           </va-table-row>
