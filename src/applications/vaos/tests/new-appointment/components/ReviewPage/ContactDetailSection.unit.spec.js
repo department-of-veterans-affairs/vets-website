@@ -5,7 +5,7 @@ import {
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
 
-import ContactDetailSection from '../../../../new-appointment/components/ReviewPage/ContactDetailSection';
+import ContactDetailSection from '../../../../new-appointment/components/ReviewPage/ReviewRequestInfo/ContactDetailSection';
 
 describe('VAOS Component: ContactDetailSection', () => {
   describe('best time to call', () => {
