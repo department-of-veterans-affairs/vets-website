@@ -4,7 +4,7 @@ import {
   loa3User72,
   dsLogonUser,
   mvhUser,
-} from '../../../mocks/endpoints/user';
+} from '../../../../mocks/endpoints/user';
 import DirectDeposit from './DirectDeposit';
 
 let getDD4CNPBankInfoStub;

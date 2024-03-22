@@ -42,8 +42,8 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
-import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
-import { ProfileInfoCard } from '../ProfileInfoCard';
+import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../../constants';
+import { ProfileInfoCard } from '../../ProfileInfoCard';
 import { EduMigrationDowntimeAlert } from './alerts/EduMigrationDowntimeAlert';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 
