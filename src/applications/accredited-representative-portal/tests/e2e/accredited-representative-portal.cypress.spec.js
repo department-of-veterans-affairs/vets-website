@@ -45,7 +45,7 @@ describe('Accredited Representative Portal', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.location('pathname').should('equal', '/representative');
+    cy.location('pathname').should('equal', '/representative/');
   });
 
   it('allows navigation from the Landing Page to unified sign-in page', () => {
@@ -56,10 +56,7 @@ describe('Accredited Representative Portal', () => {
     cy.get('[data-testid=landing-sign-in-link]')
       .contains('Sign in or create an account')
       .click();
-    cy.location('pathname').should(
-      'contain',
-      '/sign-in/?application=arp&oauth=true',
-    );
+    cy.location('pathname').should('equal', '/sign-in/');
   });
 
   it('allows navigation from the Landing Page to the Dashboard Page and back', () => {
@@ -68,7 +65,7 @@ describe('Accredited Representative Portal', () => {
     cy.axeCheck();
 
     cy.get('[data-testid=landing-heading]').should(
-      'equal',
+      'have.text',
       'Welcome to the Accredited Representative Portal',
     );
     cy.get('[data-testid=landing-bypass-sign-in-link]').click();
@@ -77,24 +74,30 @@ describe('Accredited Representative Portal', () => {
     cy.axeCheck();
 
     cy.get('[data-testid=dashboard-heading]').should(
-      'equal',
+      'have.text',
       'Accredited Representative Portal',
     );
 
     cy.get('[data-testid=home-breadcrumb]').click();
     cy.get('[data-testid=landing-heading]').should(
-      'equal',
+      'have.text',
       'Welcome to the Accredited Representative Portal',
     );
   });
 
-  it('allows navigation from the Dashboard Page to the POA Requests Page and back', () => {
-    cy.visit('/representative/dashboard');
+  it('allows navigation from the Landing Page tot the Dashboard Page to the POA Requests Page and back', () => {
+    cy.visit('/representative');
     cy.injectAxe();
     cy.axeCheck();
 
+    cy.get('[data-testid=landing-heading]').should(
+      'have.text',
+      'Welcome to the Accredited Representative Portal',
+    );
+    cy.get('[data-testid=landing-bypass-sign-in-link]').click();
+
     cy.get('[data-testid=dashboard-heading]').should(
-      'equal',
+      'have.text',
       'Accredited Representative Portal',
     );
     cy.get('[data-testid=view-all-poa-requests-link]').click();
@@ -103,25 +106,31 @@ describe('Accredited Representative Portal', () => {
     cy.axeCheck();
 
     cy.get('[data-testid=poa-requests-heading]').should(
-      'equal',
+      'have.text',
       'Power of attorney requests',
     );
     cy.get('[data-testid=poa-requests-table]').should('exist');
 
-    cy.get('[data-testid=dashboard-breadcrumb]').click();
-    cy.get('[data-testid=dashboard-heading]').should(
-      'equal',
-      'Accredited Representative Portal',
+    cy.get('[data-testid=home-breadcrumb]').click();
+    cy.get('[data-testid=landing-heading]').should(
+      'have.text',
+      'Welcome to the Accredited Representative Portal',
     );
   });
 
-  it('allows navigation from the Dashboard Page to the Permissions Page and back', () => {
-    cy.visit('/representative/dashboard');
+  it('allows navigation from the Landing Page to the Dashboard Page to the Permissions Page and back', () => {
+    cy.visit('/representative');
     cy.injectAxe();
     cy.axeCheck();
 
+    cy.get('[data-testid=landing-heading]').should(
+      'have.text',
+      'Welcome to the Accredited Representative Portal',
+    );
+    cy.get('[data-testid=landing-bypass-sign-in-link]').click();
+
     cy.get('[data-testid=dashboard-heading]').should(
-      'equal',
+      'have.text',
       'Accredited Representative Portal',
     );
     cy.get('[data-testid=permissions-sidenav-item]').click();
@@ -129,12 +138,15 @@ describe('Accredited Representative Portal', () => {
     cy.location('pathname').should('equal', '/representative/permissions');
     cy.axeCheck();
 
-    cy.get('[data-testid=permissions-heading]').should('equal', 'Permissions');
+    cy.get('[data-testid=permissions-heading]').should(
+      'have.text',
+      'Permissions',
+    );
 
-    cy.get('[data-testid=dashboard-breadcrumb]').click();
-    cy.get('[data-testid=dashboard-heading]').should(
-      'equal',
-      'Accredited Representative Portal',
+    cy.get('[data-testid=home-breadcrumb]').click();
+    cy.get('[data-testid=landing-heading]').should(
+      'have.text',
+      'Welcome to the Accredited Representative Portal',
     );
   });
 });
