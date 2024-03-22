@@ -43,7 +43,7 @@ class PatientComposePage {
   clickSendMessageButton = () => {
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
-      .click({ force: true });
+      .click({ waitForAnimations: true, force: true });
   };
 
   verifySendMessageConfirmationMessageText = () => {
@@ -111,24 +111,6 @@ class PatientComposePage {
 
   verifyFocusOnErrorMessage = text => {
     return cy.focused().should('have.attr', 'error', text);
-  };
-
-  verifyFocusOnErrorMessageToSelectRecipient = () => {
-    return cy
-      .focused()
-      .should('have.attr', 'error', Data.PLEASE_SELECT_RECIPIENT);
-  };
-
-  verifyFocusOnErrorMessageToSelectCategory = () => {
-    cy.focused().should('have.attr', 'error', Data.PLEASE_SELECT_CATEGORY);
-  };
-
-  verifyFocusOnErrorEmptyMessageSubject = () => {
-    cy.focused().should('have.attr', 'error', Data.SUBJECT_CANNOT_BLANK);
-  };
-
-  verifyFocusOnErrorEmptyMessageBody = () => {
-    cy.focused().should('have.attr', 'error', Data.MESSAGE_CANNOT_BLANK);
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter

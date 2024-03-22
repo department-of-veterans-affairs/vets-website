@@ -54,7 +54,7 @@ describe('Secure Messaging Compose Errors', () => {
       .getMessageSubjectField()
       .type(Data.TEST_SUBJECT, { force: true });
     composePage.clickSendMessageButton();
-    composePage.verifyFocusOnErrorMessage(Data.BODY_CANNOT_BLANK);
+    composePage.verifyFocusOnErrorMessage('Message body cannot be blank.');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
