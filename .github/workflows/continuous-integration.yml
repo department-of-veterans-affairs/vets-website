@@ -98,10 +98,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          node-version: 18
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Set SSL config
+        run: export OPENSSL_CONF=/etc/ssl/openssl-insecure.cnf
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -320,7 +328,7 @@ jobs:
     runs-on: [NexGenLab]    
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep == 'success' }}
 
     env:
       TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
@@ -545,10 +553,8 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      - name: Set SSL config
+        run: export OPENSSL_CONF=/etc/ssl/openssl-insecure.cnf
 
       - name: Generate new application list
         run: yarn generate-app-list
