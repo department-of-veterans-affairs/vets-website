@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+
 import { shallow, mount } from 'enzyme';
 import SearchResult from '../../components/results/SearchResult';
 
@@ -21,6 +22,21 @@ describe('SearchResults', () => {
     reportSubmissionStatus: 'INITIAL',
     setReportModalTester: () => {},
   };
+
+  it('should push to datalayer', () => {
+    const wrapper = mount(<SearchResult {...testProps} />);
+
+    const addressLink = wrapper.find('.address-anchor');
+
+    addressLink.simulate('click');
+
+    const priorEvent = window.dataLayer;
+    expect(priorEvent.length).to.equal(1);
+    addressLink.simulate('click');
+    expect(priorEvent.length).to.equal(2);
+
+    wrapper.unmount();
+  });
 
   it('should render rep email if rep email exists', () => {
     const wrapper = shallow(

@@ -6,6 +6,8 @@ import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+
+import recordEvent from 'platform/monitoring/record-event';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -55,7 +57,7 @@ const SearchResult = ({
   };
 
   const dataLayerPush = () => {
-    window.dataLayer.push({
+    recordEvent({
       event: 'far-search-results-click',
       'search-query': query?.locationQueryString,
       'search-filters-list': {
@@ -66,10 +68,10 @@ const SearchResult = ({
       'search-selection': 'Find VA Accredited Rep',
       'search-results-id': representativeId,
       'search-results-total-count':
-        searchResults?.meta?.pagination?.totalEntries, // populate with the total number of search results
-      'search-results-total-pages': searchResults?.meta?.pagination?.totalPages, // populate with total number of result pages
-      'search-result-position': key, // populate with the current pagination number
-      'search-result-page': searchResults?.meta?.pagination?.currentPage, // populate with the current pagination number
+        searchResults?.meta?.pagination?.totalEntries,
+      'search-results-total-pages': searchResults?.meta?.pagination?.totalPages,
+      'search-result-position': key,
+      'search-result-page': searchResults?.meta?.pagination?.currentPage,
     });
   };
 
@@ -169,6 +171,7 @@ const SearchResult = ({
                     query?.context?.location
                   }&daddr=${address}`}
                   tabIndex="0"
+                  className="address-anchor"
                   onClick={() => dataLayerPush()}
                   target="_blank"
                   rel="noreferrer"
