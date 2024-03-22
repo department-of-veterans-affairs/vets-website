@@ -74,7 +74,7 @@ const uiSchema = {
   default: {
     reasonForAppointment: {
       'ui:widget': 'radio',
-      'ui:title': 'Let us know why you’re making this appointment.',
+      'ui:title': ' ',
       'ui:errorMessages': {
         required: 'Select a reason for your appointment',
       },
@@ -95,7 +95,7 @@ const uiSchema = {
     reasonAdditionalInfo: {
       'ui:widget': TextareaWidget,
       'ui:title':
-        'Please let us know any additional details about your symptoms that may be helpful for the community health provider to know. (Optional)',
+        'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
       'ui:options': {
         rows: 5,
       },

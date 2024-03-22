@@ -134,13 +134,13 @@ describe('Refill Prescriptions Component', () => {
 
   it('Shows the correct "last filled on" date (w/rxRfRecords) for refill', async () => {
     const screen = setup();
-    const lastFilledEl = await screen.findByTestId(`refill-last-filled-5`);
+    const lastFilledEl = await screen.findByTestId(`refill-last-filled-6`);
     expect(lastFilledEl).to.exist;
     const rx = prescriptions.find(
       ({ prescriptionId }) => prescriptionId === 22217099,
     );
     expect(lastFilledEl).to.have.text(
-      `Last filled on ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
+      `Last filled on ${dateFormat(rx.rxRfRecords[0]?.dispensedDate)}`,
     );
   });
 
