@@ -9,7 +9,7 @@ const appUrl = process.env.APP_URLS.split(',')[0];
 // If it has been selected, it is run in its own container in the last parallel container.
 let divider;
 let longestTestIsPresent = false;
-const longestTest = /all-claims.cypress.spec.js/g;
+const longestTest = /long-ptsd.cypress.spec.js/g;
 const lastStep = numContainers - 1;
 
 if (tests.some(test => test.match(longestTest))) {
