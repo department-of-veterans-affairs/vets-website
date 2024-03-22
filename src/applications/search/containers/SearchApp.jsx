@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
+import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -29,11 +31,6 @@ import { fetchSearchResults } from '../actions';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
-import SearchGovMaintenanceBanner, {
-  isWithinMaintenanceWindow,
-} from '../components/SearchGovMaintenanceBanner';
-import MoreVASearchTools from '../components/MoreVASearchTools';
-import SearchErrors from '../components/SearchErrors';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 const MAX_DESCRIPTION_LENGTH = 186;
@@ -419,6 +416,56 @@ class SearchApp extends React.Component {
       </div>
     );
 
+    function isWithinMaintenanceWindow() {
+      const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
+      const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
+      const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
+      const timeZone = 'America/New_York';
+
+      const now = new Date();
+      const zonedNow = utcToZonedTime(now, timeZone);
+
+      return (
+        maintenanceDays.includes(getDay(zonedNow)) &&
+        getHours(zonedNow) >= maintenanceStartHour &&
+        getHours(zonedNow) < maintenanceEndHour
+      );
+    }
+
+    function calculateCurrentMaintenanceWindow() {
+      const maintenanceStartHour = 15; // 3 PM in 24-hour format
+      const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
+      const timeZone = 'America/New_York';
+
+      // Current date and time in the specified timezone
+      let start = new Date();
+      start = utcToZonedTime(start, timeZone);
+      start = setHours(start, maintenanceStartHour);
+      start = setMinutes(start, 0);
+      start = setSeconds(start, 0);
+
+      // Calculate end time by adding the duration to the start time
+      let end = new Date(
+        start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
+      );
+      end = utcToZonedTime(end, timeZone); // Ensure the end time is also adjusted to the specified timezone
+
+      // Format start and end dates to include timezone offset correctly
+      const startFormatted = tzFormat(
+        start,
+        "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX",
+        { timeZone },
+      );
+      const endFormatted = tzFormat(end, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
+        timeZone,
+      });
+
+      return {
+        start: startFormatted,
+        end: endFormatted,
+      };
+    }
+
     if (
       isWithinMaintenanceWindow() &&
       results &&
@@ -426,20 +473,50 @@ class SearchApp extends React.Component {
       !hasErrors &&
       !loading
     ) {
-      return <SearchGovMaintenanceBanner searchInput={searchInput} />;
+      const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
+      return (
+        <div className="columns vads-u-margin-bottom--4">
+          <va-maintenance-banner
+            banner-id="search-gov-maintenance-banner"
+            maintenance-title="Search.gov Maintenance"
+            maintenance-start-date-time={start}
+            maintenance-end-date-time={end}
+            isError
+          >
+            <div slot="maintenance-content">
+              We’re working on Search VA.gov right now. If you have trouble
+              using the search tool, check back after we’re finished. Thank you
+              for your patience.
+            </div>
+          </va-maintenance-banner>
+          {searchInput}
+        </div>
+      );
     }
 
     // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
-    if (
-      (hasErrors && !loading) ||
-      (isSearchStrInvalid(userInput) && this.state.formWasSubmitted)
-    ) {
+    if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
+      let errorMessage;
+
+      if (!userInput.trim().length) {
+        errorMessage = `Enter a search term that contains letters or numbers to find what you're looking for.`;
+      } else if (userInput.length > 255) {
+        errorMessage =
+          'The search is over the character limit. Shorten the search and try again.';
+      } else {
+        errorMessage = `We’re sorry. Something went wrong on our end, and your search
+        didn't go through. Please try again.`;
+      }
+
       return (
-        <SearchErrors
-          formWasSubmitted={this.state.formWasSubmitted}
-          searchInput={searchInput}
-          userInput={userInput}
-        />
+        <div className="columns vads-u-margin-bottom--4">
+          {/* this is the alert box for when searches fail due to server issues */}
+          <va-alert status="error" data-e2e-id="alert-box" uswds>
+            <h2 slot="headline">Your search didn't go through</h2>
+            <p>{errorMessage}</p>
+          </va-alert>
+          {searchInput}
+        </div>
       );
     }
 
@@ -678,7 +755,68 @@ class SearchApp extends React.Component {
               {this.renderResults()}
             </DowntimeNotification>
           </div>
-          <MoreVASearchTools />
+          <div className="usa-width-one-fourth columns">
+            <h2 className="highlight vads-u-font-size--h4">
+              More VA search tools
+            </h2>
+            <ul>
+              <li>
+                <va-link
+                  className="right-nav-link"
+                  href="https://search.usa.gov/search?affiliate=bvadecisions"
+                  text="Look up Board of Veterans' Appeals (BVA) decisions"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Look up BVA decisions',
+                    })
+                  }
+                />
+              </li>
+              <li>
+                <va-link
+                  className="right-nav-link"
+                  href="/find-forms/"
+                  text="Find a VA form"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path': 'More VA Search Tools -> Find a VA form',
+                    })
+                  }
+                />
+              </li>
+              <li>
+                <va-link
+                  className="right-nav-link"
+                  href="https://www.va.gov/vapubs/"
+                  text="VA handbooks and other publications"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> VA handbooks and other publications',
+                    })
+                  }
+                />
+              </li>
+              <li>
+                <va-link
+                  className="right-nav-link"
+                  href="https://www.vacareers.va.gov/job-search/index.asp"
+                  text="Explore and apply for open VA jobs"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Explore and apply for open VA jobs',
+                    })
+                  }
+                />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     );
