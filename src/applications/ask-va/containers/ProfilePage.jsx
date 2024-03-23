@@ -17,7 +17,7 @@ const ProfileTest = ({ loggedIn }) => {
 
   const getData = async () => {
     const PROFILE_DATA = `${environment.API_URL}/ask_va_api/v0/static_data`;
-    // example
+
     const response = await apiRequest(PROFILE_DATA)
       .then(res => {
         return res;

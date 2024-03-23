@@ -161,7 +161,6 @@ describe('TermsOfUse', () => {
         (_, res, ctx) => res(ctx.status(200)),
       ),
       rest.post(
-        // example
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
         (req, res, ctx) => {
           expect(req.url.searchParams.get('terms_code')).to.eql(termsCode);

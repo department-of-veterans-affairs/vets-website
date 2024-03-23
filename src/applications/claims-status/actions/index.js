@@ -411,7 +411,6 @@ export function submitRequest(id) {
     }
 
     makeAuthRequest(
-      // example
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,

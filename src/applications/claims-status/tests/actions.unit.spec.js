@@ -469,7 +469,6 @@ describe('Actions', () => {
       const ID = 5;
       server.use(
         rest.post(
-          // example
           `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
           (req, res, ctx) =>
             res(
