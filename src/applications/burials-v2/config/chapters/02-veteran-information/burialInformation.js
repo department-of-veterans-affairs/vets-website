@@ -6,6 +6,26 @@ import { generateTitle } from '../../../utils/helpers';
 
 const { deathDate, burialDate } = fullSchemaBurials.properties;
 
+export const ReviewField = ({ children }) => (
+  <div className="review-row">
+    <dt>Date of burial</dt>
+    <dd>
+      {children.props.formData && (
+        <>
+          {new Date(`${children.props.formData}T00:00:00`).toLocaleDateString(
+            'en-us',
+            {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            },
+          )}
+        </>
+      )}
+    </dd>
+  </div>
+);
+
 export default {
   uiSchema: {
     'ui:title': generateTitle('Burial information'),
@@ -32,27 +52,7 @@ export default {
         pattern: 'Please enter a valid current or past date',
         required: 'Please enter a date',
       },
-      // 'ui:options': {
-      //   ...uiOptions,
-      // },
-      'ui:reviewField': ({ children }) => (
-        <div className="review-row">
-          <dt>Date of burial</dt>
-          <dd>
-            {children.props.formData && (
-              <>
-                {new Date(
-                  `${children.props.formData}T00:00:00`,
-                ).toLocaleDateString('en-us', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </>
-            )}
-          </dd>
-        </div>
-      ),
+      'ui:reviewField': ReviewField,
     },
   },
   schema: {

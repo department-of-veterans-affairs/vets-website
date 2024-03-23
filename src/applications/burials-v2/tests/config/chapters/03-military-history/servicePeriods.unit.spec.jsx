@@ -9,7 +9,10 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
-import { dateRangeUI } from '../../../../config/chapters/03-military-history/servicePeriods';
+import {
+  dateRangeUI,
+  ServicePeriodView,
+} from '../../../../config/chapters/03-military-history/servicePeriods';
 
 const defaultStore = createCommonStore();
 
@@ -88,5 +91,26 @@ describe('Service Periods', () => {
     const result = dateRangeUI();
     expect(result.from['ui:title']).to.equal('From');
     expect(result.to['ui:title']).to.equal('To');
+  });
+});
+
+describe('ServicePeriodView', () => {
+  it('should render an empty strings if service period is empty', () => {
+    const formData = { serviceBranch: 'Army' };
+    const { queryByText } = render(<ServicePeriodView formData={formData} />);
+
+    expect(queryByText('Army')).to.exist;
+    expect(queryByText(' - ')).to.not.exist;
+  });
+
+  it('should render `to` and `from` when date ranges service periods provided', () => {
+    const formData = {
+      serviceBranch: 'Navy',
+      dateRange: { from: '01-01-2019', to: '05-21-2024' },
+    };
+    const { queryByText } = render(<ServicePeriodView formData={formData} />);
+
+    expect(queryByText('Navy')).to.exist;
+    expect(queryByText('January 1, 2019 - May 21, 2024')).to.exist;
   });
 });

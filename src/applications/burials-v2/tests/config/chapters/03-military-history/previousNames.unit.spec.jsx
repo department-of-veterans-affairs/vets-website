@@ -8,6 +8,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { PreviousNamesView } from '../../../../config/chapters/03-military-history/previousNames';
 import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
@@ -32,5 +33,12 @@ describe('Previous Names', () => {
     const formDOM = getFormDOM(form);
 
     expect($$('va-text-input', formDOM).length).to.equal(4);
+  });
+
+  it('should display a previous name', () => {
+    const formData = { first: 'First name' };
+    const { queryByText } = render(<PreviousNamesView formData={formData} />);
+
+    expect(queryByText('First name')).to.exist;
   });
 });
