@@ -26,8 +26,8 @@
     user-select: none;
   }
   [type="checkbox"]:checked + label::before {
-    background-color: $color-white;
-    color: $color-primary;
+    background-color: var(--vads-color-white);
+    color: var(--vads-color-primary);
     content: "\f00c";
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
@@ -35,7 +35,7 @@
 }
 
 .selected-debt {
-  border: 4px solid $color-blue;
+  border: 4px solid var(--vads-color-primary);
   padding: 20px;
 }
 
@@ -49,11 +49,11 @@
   va-table {
     table-layout: fixed;
     width: 100%;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
   }
   .item-loop {
     padding: 15px 30px;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     .horizontal-field-container {
       display: flex;
       align-items: center;
@@ -75,7 +75,7 @@
       overflow-x: hidden;
     }
     .usa-button-secondary {
-      background: $color-white;
+      background: var(--vads-color-white);
     }
     .button-group {
       display: flex;
@@ -97,13 +97,13 @@
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
-      background: $color-white;
+      background: var(--vads-color-white);
     }
   }
   .add-item-container {
     display: flex;
     flex-direction: column;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -111,7 +111,7 @@
       cursor: pointer;
       width: fit-content;
       .plus-icon {
-        color: $color-light-blue;
+        color: var(--vads-color-primary);
         margin-right: 5px;
       }
     }
@@ -134,18 +134,18 @@
     }
   }
   .review-card--body {
-    border: 3px solid $color-light-blue;
+    border: 3px solid var(--vads-color-primary);
     padding: 25px;
   }
   .usa-button-secondary {
-    background: $color-white;
+    background: var(--vads-color-white);
   }
 }
 
 // schemaform title override to match DS
 .schemaform-block-title {
   font-size: $h3-font-size;
-  color: $color-base;
+  color: var(--vads-color-base);
   padding-bottom: 0;
 }
 
@@ -154,7 +154,7 @@
   margin: 4px 0 0;
   font-size: $base-font-size;
   max-width: 400px;
-  color: $color-gray-medium;
+  color: var(--vads-color-gray-medium);
 }
 
 // bankruptcyHistory
@@ -241,8 +241,8 @@
   pointer-events: none;
   input,
   select {
-    background-color: $color-gray-lightest;
-    color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
+    color: var(--vads-color-base-lightest);
   }
 }
 
@@ -320,7 +320,7 @@
 }
 
 .required-text {
-  color: $color-red;
+  color: var(--vads-color-secondary);
 }
 
 .error-line {
@@ -329,14 +329,14 @@
 }
 
 .summary-card-delete-button {
-  color: $color-secondary-dark;
+  color: var(--vads-color-secondary-dark);
   background-color: transparent;
   width: auto !important;
   font-weight: bold;
   &:hover,
   &:active {
-    color: $color-secondary-darkest;
-    background-color: $color-secondary-lightest;
+    color: var(--vads-color-secondary-darkest);
+    background-color: var(--vads-color-secondary-lightest);
   }
 }
 
@@ -349,12 +349,12 @@
 }
 
 .review-header {
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 .review-top-bottom-borders {
-  border-top: 1px solid $color-gray-light;
-  border-bottom: 1px solid $color-gray-light;
+  border-top: 1px solid var(--vads-color-base-light);
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 $chapters: veteranInformationChapter, householdIncomeChapter,

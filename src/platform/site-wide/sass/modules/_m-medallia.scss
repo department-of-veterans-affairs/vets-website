@@ -272,6 +272,14 @@
 /************************************/
 
 /* form styles */
+
+// a11y fix to overwrite in-line style width to make content viewable beyond 300% zoom
+#survey-wrapper[style] {
+  width: auto !important;
+  max-width: 28rem !important;
+  overflow: auto !important;
+}
+
 .smallSurvey main {
   padding-left: 0px !important;
   padding-right: 0px !important;

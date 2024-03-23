@@ -10,7 +10,7 @@
   }
 
   .message-detail-block {
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
 
     .message-detail-header {
       @media print {

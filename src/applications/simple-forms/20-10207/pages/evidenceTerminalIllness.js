@@ -15,7 +15,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': TERMINAL_ILLNESS_DESCRIPTION,
+    'ui:description': () => TERMINAL_ILLNESS_DESCRIPTION,
     'ui:objectViewField': TerminalIllnessViewField,
     terminalIllnessDocuments: {
       'ui:title': 'Upload additional evidence',
