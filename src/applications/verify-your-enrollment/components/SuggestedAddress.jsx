@@ -26,7 +26,7 @@ const SuggestedAddress = ({
     state => state.updateAddress,
   );
 
-  const [isEnteredAddress, setIsEnteredAddress] = useState(false);
+  const [isEnteredAddress, setIsEnteredAddress] = useState('suggested');
   const deliveryPointValidation =
     addressValidationData?.addresses[0]?.addressMetaData
       ?.deliveryPointValidation;
@@ -49,11 +49,11 @@ const SuggestedAddress = ({
   };
 
   const handleChange = event => {
-    setIsEnteredAddress(event.target.value === 'entered');
+    setIsEnteredAddress(event.target.value);
   };
   const onUpdateClicked = () => {
     try {
-      if (!isEnteredAddress) {
+      if (isEnteredAddress === 'suggested') {
         dispatch(validateAddress(address, formData?.fullName));
       } else {
         const addressState = {

@@ -103,6 +103,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     } catch (err) {
       throw new Error(err);
     }
+    if (validationError) {
+      setEditFormData({});
+    }
   };
   useEffect(
     () => {
@@ -134,7 +137,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           />
         ) : (
           <div className="vads-u-margin-bottom--1">
-            {error && (
+            {(error || validationError) && (
               <Alert
                 status="error"
                 message="Sorry, something went wrong. Please try again Later"
