@@ -106,7 +106,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
   useEffect(
     () => {
-      if (!addressLoader || !isLoadingValidateAddress) {
+      if (!addressLoader && !isLoadingValidateAddress) {
         handleCloseForm();
       }
     },

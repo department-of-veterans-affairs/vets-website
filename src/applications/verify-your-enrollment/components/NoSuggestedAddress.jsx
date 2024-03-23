@@ -2,17 +2,22 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BAD_UNIT_NUMBER, MISSING_UNIT_NUMBER } from '../constants';
 import Alert from './Alert';
+import { noSuggestedAddress } from '../helpers';
 
 const NoSuggestedAddress = ({
   deliveryPointValidation,
   formData,
   setIsEnteredAddress,
 }) => {
+  const isThereNoSuggestedAddress = noSuggestedAddress(deliveryPointValidation);
+
   useEffect(
     () => {
-      setIsEnteredAddress(true);
+      if (isThereNoSuggestedAddress) {
+        setIsEnteredAddress('');
+      }
     },
-    [setIsEnteredAddress],
+    [isThereNoSuggestedAddress, setIsEnteredAddress],
   );
   const alert = () => {
     if (deliveryPointValidation === BAD_UNIT_NUMBER) {
@@ -69,6 +74,5 @@ const NoSuggestedAddress = ({
 NoSuggestedAddress.propTypes = {
   deliveryPointValidation: PropTypes.string,
   formData: PropTypes.object,
-  setIsEnteredAddress: PropTypes.string,
 };
 export default NoSuggestedAddress;
