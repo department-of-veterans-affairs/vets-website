@@ -21,17 +21,24 @@ import DownloadRecordsPage from './containers/DownloadRecordsPage';
 import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
+import { AuthGuard } from '~/platform/mhv/util/route-guard';
 
 const routes = (
   <Switch>
     <AppRoute exact path="/" key="Medical Records Home">
-      <LandingPage />
+      <AuthGuard>
+        <LandingPage />
+      </AuthGuard>
     </AppRoute>
     <AppRoute exact path="/allergies" key="Allergies">
-      <Allergies />
+      <AuthGuard>
+        <Allergies />
+      </AuthGuard>
     </AppRoute>
     <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
-      <AllergyDetails />
+      <AuthGuard>
+        <AllergyDetails />
+      </AuthGuard>
     </AppRoute>
     <FeatureFlagRoute
       exact
@@ -39,7 +46,9 @@ const routes = (
       key="Vaccines"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
     >
-      <Vaccines />
+      <AuthGuard>
+        <Vaccines />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -47,7 +56,9 @@ const routes = (
       key="Vaccine"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
     >
-      <VaccineDetails />
+      <AuthGuard>
+        <VaccineDetails />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -55,7 +66,9 @@ const routes = (
       key="CareSummariesAndNotes"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
     >
-      <CareSummariesAndNotes />
+      <AuthGuard>
+        <CareSummariesAndNotes />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -63,7 +76,9 @@ const routes = (
       key="CareSummaryAndNotesDetails"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
     >
-      <CareSummariesDetails />
+      <AuthGuard>
+        <CareSummariesDetails />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -71,7 +86,9 @@ const routes = (
       key="Health Conditions"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
     >
-      <HealthConditions />
+      <AuthGuard>
+        <HealthConditions />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -79,7 +96,9 @@ const routes = (
       key="Condition Details"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
     >
-      <ConditionDetails />
+      <AuthGuard>
+        <ConditionDetails />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -87,7 +106,9 @@ const routes = (
       key="Vitals"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
     >
-      <Vitals />
+      <AuthGuard>
+        <Vitals />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -95,7 +116,9 @@ const routes = (
       key="VitalDetails"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
     >
-      <VitalDetails />
+      <AuthGuard>
+        <VitalDetails />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -103,7 +126,9 @@ const routes = (
       key="LabsAndTests"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <LabsAndTests />
+      <AuthGuard>
+        <LabsAndTests />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -111,7 +136,9 @@ const routes = (
       key="LabAndTestDetails"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <LabAndTestDetails />
+      <AuthGuard>
+        <LabAndTestDetails />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -119,7 +146,9 @@ const routes = (
       key="RadiologyImagesList"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <RadiologyImagesList />
+      <AuthGuard>
+        <RadiologyImagesList />
+      </AuthGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -127,16 +156,24 @@ const routes = (
       key="RadiologySingleImage"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <RadiologySingleImage />
+      <AuthGuard>
+        <RadiologySingleImage />
+      </AuthGuard>
     </FeatureFlagRoute>
     <AppRoute exact path="/download-all" key="DownloadRecords">
-      <DownloadRecordsPage />
+      <AuthGuard>
+        <DownloadRecordsPage />
+      </AuthGuard>
     </AppRoute>
     <AppRoute exact path="/settings" key="Settings">
-      <SettingsPage />
+      <AuthGuard>
+        <SettingsPage />
+      </AuthGuard>
     </AppRoute>
     <Route>
-      <PageNotFound />
+      <AuthGuard>
+        <PageNotFound />
+      </AuthGuard>
     </Route>
   </Switch>
 );
