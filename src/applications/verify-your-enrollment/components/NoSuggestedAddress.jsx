@@ -74,5 +74,6 @@ const NoSuggestedAddress = ({
 NoSuggestedAddress.propTypes = {
   deliveryPointValidation: PropTypes.string,
   formData: PropTypes.object,
+  setIsEnteredAddress: PropTypes.object,
 };
 export default NoSuggestedAddress;
