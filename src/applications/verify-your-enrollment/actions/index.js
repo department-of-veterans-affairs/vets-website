@@ -169,7 +169,7 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         body: JSON.stringify(formData),
       },
     );
-    dispatch({ type: ADDRESS_VALIDATION_SUCCESS, payload: validationResponse });
+
     const {
       address,
       addressMetaData: { confidenceScore },
@@ -186,6 +186,7 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         zipCode: address.internationalPostalCode,
       };
     }
+    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
     if (confidenceScore === 100) {
       const fields = {
         veteranName: fullName,
@@ -196,7 +197,21 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         city: formData.city,
         ...stateAndZip,
       };
-      dispatch(postMailingAddress(fields));
+      try {
+        await dispatch({
+          type: ADDRESS_VALIDATION_SUCCESS,
+          payload: validationResponse,
+        });
+        dispatch(postMailingAddress(fields));
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+    if (confidenceScore < 100) {
+      dispatch({
+        type: ADDRESS_VALIDATION_SUCCESS,
+        payload: validationResponse,
+      });
     }
   } catch (error) {
     dispatch({

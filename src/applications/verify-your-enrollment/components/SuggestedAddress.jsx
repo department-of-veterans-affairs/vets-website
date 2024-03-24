@@ -50,8 +50,9 @@ const SuggestedAddress = ({
     };
     if (isEnteredAddress === 'suggested') {
       try {
-        dispatch(validateAddress(address, formData?.fullName));
+        await dispatch(validateAddress(address, formData?.fullName));
         dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+        setFormData({});
       } catch (err) {
         setFormData({});
         throw new Error(err);

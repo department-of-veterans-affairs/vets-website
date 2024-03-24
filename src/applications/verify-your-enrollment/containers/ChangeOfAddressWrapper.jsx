@@ -22,6 +22,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     state => state.updateAddress,
   );
   const [newAddress, setNewAddress] = useState({});
+
   const {
     addressValidationData,
     validationError,
@@ -105,12 +106,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
   useEffect(
     () => {
-      if (response || error || addressValidationData) {
+      if (!isLoading && !isLoadingValidateAddress) {
         handleCloseForm();
       }
     },
-
-    [error, handleCloseForm, response, addressValidationData],
+    [handleCloseForm, isLoading, isLoadingValidateAddress],
   );
   const setAddressToUI = value => {
     if (response) {
@@ -170,11 +170,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   const handleAddNewClick = event => {
     event?.preventDefault();
-    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
-    dispatch({ type: 'RESET_ERROR' });
     setToggleAddressForm(true);
     scrollToTopOfForm();
     setFormData({});
+    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+    dispatch({ type: 'RESET_ERROR' });
   };
   const updateAddressData = data => {
     const tempData = { ...data };
