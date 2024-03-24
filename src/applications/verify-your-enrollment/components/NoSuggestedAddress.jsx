@@ -51,22 +51,23 @@ const NoSuggestedAddress = ({
   };
   return (
     <div>
-      {deliveryPointValidation !== 'CONFIRMED' && (
-        <>
-          {alert()}
-          <div className="usa-radio vads-u-margin-top--2p5 12px vads-u-margin-bottom--2">
-            <span className="vads-u-font-weight--bold">You entered:</span>
-            <label
-              className="usa-radio__label vads-u-margin-top--1"
-              htmlFor="entered-address"
-            >
-              {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
-              <br />
-              {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
-            </label>
-          </div>
-        </>
-      )}
+      {deliveryPointValidation !== undefined &&
+        deliveryPointValidation !== 'CONFIRMED' && (
+          <>
+            {alert()}
+            <div className="usa-radio vads-u-margin-top--2p5 12px vads-u-margin-bottom--2">
+              <span className="vads-u-font-weight--bold">You entered:</span>
+              <label
+                className="usa-radio__label vads-u-margin-top--1"
+                htmlFor="entered-address"
+              >
+                {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
+                <br />
+                {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
+              </label>
+            </div>
+          </>
+        )}
     </div>
   );
 };

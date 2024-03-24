@@ -13,6 +13,8 @@ const SuggestedAddress = ({
   handleAddNewClick,
   setAddressToUI,
   setFormData,
+  setIsvalidate,
+  isavlaidate,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -49,9 +51,9 @@ const SuggestedAddress = ({
       state: stateAndZip.stateCode,
     };
     if (isEnteredAddress === 'suggested') {
+      setIsvalidate(true);
       try {
-        await dispatch(validateAddress(address, formData?.fullName));
-        dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+        dispatch(validateAddress(address, formData?.fullName));
         setFormData({});
       } catch (err) {
         setFormData({});
@@ -98,7 +100,9 @@ const SuggestedAddress = ({
           setIsEnteredAddress={setIsEnteredAddress}
         />
       </div>
-      {deliveryPointValidation === 'CONFIRMED' && (
+      {((deliveryPointValidation !== undefined &&
+        deliveryPointValidation === 'CONFIRMED') ||
+        isavlaidate) && (
         <>
           <Alert
             status="warning"
@@ -120,9 +124,9 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
+              {`${formData?.addressLine1} ${formData?.addressLine2 || ''}`}
               <br />
-              {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
+              {`${formData?.city}, ${formData?.stateCode} ${formData?.zipCode}`}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
@@ -142,9 +146,9 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="suggested-address"
             >
-              {`${address.addressLine1} ${address.addressLine2 || ''}`}
+              {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
               <br />
-              {`${address.city}, ${address.stateCode} ${address.zipCode}`}
+              {`${address?.city}, ${address?.stateCode} ${address?.zipCode}`}
             </label>
           </div>
         </>
@@ -153,6 +157,7 @@ const SuggestedAddress = ({
         onPrimaryClick={onUpdateClicked}
         onSecondaryClick={onBackToEditClick}
         primaryLabel={
+          deliveryPointValidation !== undefined &&
           deliveryPointValidation === 'CONFIRMED'
             ? 'Update'
             : 'Use this address'
@@ -164,11 +169,11 @@ const SuggestedAddress = ({
 };
 
 SuggestedAddress.propTypes = {
-  address: PropTypes.object.isRequired,
-  formData: PropTypes.object.isRequired,
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  address: PropTypes.object,
+  formData: PropTypes.object,
   handleCloseForm: PropTypes.func,
 };
 

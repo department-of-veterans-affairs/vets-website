@@ -15,14 +15,9 @@ import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
-  const [toggleAddressForm, setToggleAddressForm] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [editFormData, setEditFormData] = useState({});
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
-  const [newAddress, setNewAddress] = useState({});
-
   const {
     addressValidationData,
     validationError,
@@ -32,6 +27,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
+  const [toggleAddressForm, setToggleAddressForm] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [editFormData, setEditFormData] = useState({});
+  const [isavlaidate, setIsvalidate] = useState(false);
+  const [newAddress, setNewAddress] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
 
@@ -60,7 +60,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           ...stateAndZip,
         });
       }
-
+      sessionStorage.setItem('address', JSON.stringify(address));
       setToggleAddressForm(false);
       scrollToTopOfForm();
     },
@@ -108,6 +108,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       if (!isLoading && !isLoadingValidateAddress) {
         handleCloseForm();
+        setIsvalidate(false);
       }
     },
     [handleCloseForm, isLoading, isLoadingValidateAddress],
@@ -173,7 +174,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setToggleAddressForm(true);
     scrollToTopOfForm();
     setFormData({});
-    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
     dispatch({ type: 'RESET_ERROR' });
   };
   const updateAddressData = data => {
@@ -220,13 +220,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 ? (
+            {confidenceScore < 100 || isavlaidate ? (
               <SuggestedAddress
                 formData={editFormData}
-                address={address}
+                address={JSON.parse(sessionStorage.getItem('address'))}
                 handleAddNewClick={event => handleAddNewClick(event)}
                 setFormData={setFormData}
                 setAddressToUI={setAddressToUI}
+                setIsvalidate={setIsvalidate}
+                isavlaidate={isavlaidate}
               />
             ) : (
               <>
