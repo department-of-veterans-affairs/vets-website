@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
 import {
-  DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED,
-  DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED,
-  DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED,
-  DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED,
-  DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED,
-  DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED,
+  DIRECT_DEPOSIT_FETCH_SUCCEEDED,
+  DIRECT_DEPOSIT_FETCH_FAILED,
+  DIRECT_DEPOSIT_SAVE_STARTED,
+  DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+  DIRECT_DEPOSIT_SAVE_FAILED,
+  DIRECT_DEPOSIT_EDIT_TOGGLED,
 } from '@@profile/actions/directDeposit';
 import directDeposit from '@@profile/reducers/directDeposit';
 
@@ -25,7 +25,7 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(undefined, {})).deep.equal(initialState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED', () => {
+  it('should handle DIRECT_DEPOSIT_FETCH_SUCCEEDED', () => {
     const response = {
       controlInformation: {
         canUpdateDirectDeposit: true,
@@ -49,7 +49,7 @@ describe('directDeposit reducer', () => {
       },
     };
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED,
+      type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
       response,
     };
     const expectedState = {
@@ -64,9 +64,9 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED', () => {
+  it('should handle DIRECT_DEPOSIT_FETCH_FAILED', () => {
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED,
+      type: DIRECT_DEPOSIT_FETCH_FAILED,
       response: {
         error: 'error',
       },
@@ -78,9 +78,9 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED and fall back to true', () => {
+  it('should handle DIRECT_DEPOSIT_FETCH_FAILED and fall back to true', () => {
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED,
+      type: DIRECT_DEPOSIT_FETCH_FAILED,
       response: {},
     };
     const expectedState = {
@@ -90,9 +90,9 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED', () => {
+  it('should handle DIRECT_DEPOSIT_SAVE_STARTED', () => {
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED,
+      type: DIRECT_DEPOSIT_SAVE_STARTED,
     };
     const expectedState = {
       ...initialState,
@@ -105,7 +105,7 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED', () => {
+  it('should handle DIRECT_DEPOSIT_SAVE_SUCCEEDED', () => {
     const response = {
       controlInformation: {
         canUpdateDirectDeposit: true,
@@ -129,7 +129,7 @@ describe('directDeposit reducer', () => {
       },
     };
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED,
+      type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
       response,
     };
     const expectedState = {
@@ -144,9 +144,9 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED', () => {
+  it('should handle DIRECT_DEPOSIT_SAVE_FAILED', () => {
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED,
+      type: DIRECT_DEPOSIT_SAVE_FAILED,
       response: 'error',
     };
     const expectedState = {
@@ -160,9 +160,9 @@ describe('directDeposit reducer', () => {
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
 
-  it('should handle DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED', () => {
+  it('should handle DIRECT_DEPOSIT_EDIT_TOGGLED', () => {
     const action = {
-      type: DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED,
+      type: DIRECT_DEPOSIT_EDIT_TOGGLED,
       open: true,
     };
     const expectedState = {

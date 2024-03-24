@@ -8,45 +8,40 @@ import { recordApiEvent } from '../util';
 // action types for direct deposit information
 
 // fetch actions
-export const DIRECT_DEPOSIT_INFORMATION_FETCH_STARTED =
-  'DIRECT_DEPOSIT_INFORMATION_FETCH_STARTED';
-export const DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED =
-  'DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED';
-export const DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED =
-  'DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED';
+export const DIRECT_DEPOSIT_FETCH_STARTED = 'DIRECT_DEPOSIT_FETCH_STARTED';
+export const DIRECT_DEPOSIT_FETCH_SUCCEEDED = 'DIRECT_DEPOSI_FETCH_SUCCEEDED';
+export const DIRECT_DEPOSIT_FETCH_FAILED = 'DIRECT_DEPOSIT_FETCH_FAILED';
 
 // save actions
-export const DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED =
+export const DIRECT_DEPOSIT_SAVE_STARTED =
   'DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED';
-export const DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED =
-  'DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED';
-export const DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED =
-  'DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED';
+export const DIRECT_DEPOSIT_SAVE_SUCCEEDED = 'DIRECT_DEPOSIT_SAVE_SUCCEEDED';
+export const DIRECT_DEPOSIT_SAVE_FAILED = 'DIRECT_DEPOSIT_SAVE_FAILED';
 
 // edit actions for ui state
-export const DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED =
-  'DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED';
+export const DIRECT_DEPOSIT_EDIT_TOGGLED = 'DIRECT_DEPOSIT_EDIT_TOGGLED';
 
 // API endpoint for fetching and updating direct deposit information
-const DIRECT_DEPOSIT_INFORMATION_API_ENDPOINT = '/profile/direct_deposits';
+export const DIRECT_DEPOSIT_API_ENDPOINT = '/profile/direct_deposits';
 
 // action creator to fetch direct deposit information
-export function fetchDirectDepositInformation({
+export function fetchDirectDeposit({
   captureDirectDepositError = captureError,
+  recordDirectDepositEvent = recordApiEvent,
 } = {}) {
   return async dispatch => {
-    dispatch({ type: DIRECT_DEPOSIT_INFORMATION_FETCH_STARTED });
+    dispatch({ type: DIRECT_DEPOSIT_FETCH_STARTED });
 
-    recordApiEvent({
-      endpoint: DIRECT_DEPOSIT_INFORMATION_API_ENDPOINT,
+    recordDirectDepositEvent({
+      endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.STARTED,
     });
 
-    const response = await getData(DIRECT_DEPOSIT_INFORMATION_API_ENDPOINT);
+    const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT);
 
     if (response.error) {
-      recordApiEvent({
-        endpoint: DIRECT_DEPOSIT_INFORMATION_API_ENDPOINT,
+      recordDirectDepositEvent({
+        endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.FAILED,
       });
 
@@ -55,24 +50,24 @@ export function fetchDirectDepositInformation({
       });
 
       dispatch({
-        type: DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED,
+        type: DIRECT_DEPOSIT_FETCH_FAILED,
         response,
       });
     } else {
-      recordApiEvent({
-        endpoint: DIRECT_DEPOSIT_INFORMATION_API_ENDPOINT,
+      recordDirectDepositEvent({
+        endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.SUCCESSFUL,
       });
 
       dispatch({
-        type: DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED,
+        type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
         response,
       });
     }
   };
 }
 
-export const toggleDirectDepositInformationEdit = open => ({
-  type: DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED,
+export const toggleDirectDepositEdit = open => ({
+  type: DIRECT_DEPOSIT_EDIT_TOGGLED,
   open,
 });

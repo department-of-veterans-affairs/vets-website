@@ -1,10 +1,10 @@
 import {
-  DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED,
-  DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED,
-  DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED,
-  DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED,
-  DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED,
-  DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED,
+  DIRECT_DEPOSIT_FETCH_SUCCEEDED,
+  DIRECT_DEPOSIT_FETCH_FAILED,
+  DIRECT_DEPOSIT_SAVE_STARTED,
+  DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+  DIRECT_DEPOSIT_SAVE_FAILED,
+  DIRECT_DEPOSIT_EDIT_TOGGLED,
 } from '@@profile/actions/directDeposit';
 
 const initialState = {
@@ -19,8 +19,8 @@ const initialState = {
 
 function directDeposit(state = initialState, action) {
   switch (action.type) {
-    case DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED:
-    case DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED: {
+    case DIRECT_DEPOSIT_FETCH_SUCCEEDED:
+    case DIRECT_DEPOSIT_SAVE_SUCCEEDED: {
       return {
         controlInformation: action.response?.controlInformation,
         paymentAccount: action.response?.paymentAccount,
@@ -32,14 +32,14 @@ function directDeposit(state = initialState, action) {
       };
     }
 
-    case DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED: {
+    case DIRECT_DEPOSIT_FETCH_FAILED: {
       return {
         ...state,
         error: action.response.error || true,
       };
     }
 
-    case DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED: {
+    case DIRECT_DEPOSIT_EDIT_TOGGLED: {
       return {
         ...state,
         error: null,
@@ -50,7 +50,7 @@ function directDeposit(state = initialState, action) {
       };
     }
 
-    case DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED: {
+    case DIRECT_DEPOSIT_SAVE_STARTED: {
       return {
         ...state,
         ui: {
@@ -61,7 +61,7 @@ function directDeposit(state = initialState, action) {
       };
     }
 
-    case DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED: {
+    case DIRECT_DEPOSIT_SAVE_FAILED: {
       return {
         ...state,
         error: action.response,

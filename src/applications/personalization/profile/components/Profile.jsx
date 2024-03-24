@@ -54,7 +54,7 @@ import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
-import { fetchDirectDepositInformation as fetchDirectDepositInformationAction } from '../actions/directDeposit';
+import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
 
 class Profile extends Component {
   componentDidMount() {
@@ -390,7 +390,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
-  fetchDirectDepositInformation: fetchDirectDepositInformationAction,
+  fetchDirectDepositInformation: fetchDirectDepositAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
