@@ -54,7 +54,7 @@ import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
-import { fetchDirectDepositInformation as fetchDirectDepositInformationAction } from '../actions/directDepositInformation';
+import { fetchDirectDepositInformation as fetchDirectDepositInformationAction } from '../actions/directDeposit';
 
 class Profile extends Component {
   componentDidMount() {

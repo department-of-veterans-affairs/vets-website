@@ -5,26 +5,27 @@ import {
   DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED,
   DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED,
   DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED,
-} from '@@profile/actions/directDepositInformation';
+} from '@@profile/actions/directDeposit';
 
 const initialState = {
-  directDepositInformation: null,
-  directDepositInformationUiState: {
+  controlInformation: null,
+  paymentAccount: null,
+  error: null,
+  ui: {
     isEditing: false,
     isSaving: false,
-    responseError: null,
   },
 };
 
-function directDepositInformation(state = initialState, action) {
+function directDeposit(state = initialState, action) {
   switch (action.type) {
     case DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED:
     case DIRECT_DEPOSIT_INFORMATION_SAVE_SUCCEEDED: {
       return {
-        ...state,
-        directDepositInformation: action.response,
-        directDepositInformationUiState: {
-          responseError: null,
+        controlInformation: action.response?.controlInformation,
+        paymentAccount: action.response?.paymentAccount,
+        error: null,
+        ui: {
           isEditing: false,
           isSaving: false,
         },
@@ -34,18 +35,17 @@ function directDepositInformation(state = initialState, action) {
     case DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED: {
       return {
         ...state,
-        directDepositInformation: { error: action.response.error || true },
+        error: action.response.error || true,
       };
     }
 
     case DIRECT_DEPOSIT_INFORMATION_EDIT_TOGGLED: {
       return {
         ...state,
-        directDepositInformationUiState: {
-          ...state.directDepositInformationUiState,
-          isEditing:
-            action.open ?? !state.directDepositInformationUiState.isEditing,
-          responseError: null,
+        error: null,
+        ui: {
+          ...state.ui,
+          isEditing: action.open ?? !state.ui.isEditing,
         },
       };
     }
@@ -53,8 +53,8 @@ function directDepositInformation(state = initialState, action) {
     case DIRECT_DEPOSIT_INFORMATION_SAVE_STARTED: {
       return {
         ...state,
-        directDepositInformationUiState: {
-          ...state.directDepositInformationUiState,
+        ui: {
+          ...state.ui,
           responseError: null,
           isSaving: true,
         },
@@ -64,10 +64,10 @@ function directDepositInformation(state = initialState, action) {
     case DIRECT_DEPOSIT_INFORMATION_SAVE_FAILED: {
       return {
         ...state,
-        directDepositInformationUiState: {
-          ...state.directDepositInformationUiState,
+        error: action.response,
+        ui: {
+          ...state.ui,
           isSaving: false,
-          responseError: action.response,
         },
       };
     }
@@ -77,4 +77,4 @@ function directDepositInformation(state = initialState, action) {
   }
 }
 
-export default directDepositInformation;
+export default directDeposit;
