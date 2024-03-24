@@ -1,36 +1,38 @@
-class EKGDetailsPage {
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-  };
+import Utilities from './Utilities';
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
+class EKGDetailsPage extends Utilities {
+  // verifyPrintOrDownload = () => {
+  //   cy.get('[data-testid="print-records-button"]').should('be.visible');
+  // };
 
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
-  };
+  // clickPrintOrDownload = () => {
+  //   cy.get('[data-testid="print-records-button"]').click({ force: true });
+  // };
 
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
+  // verifyPrintButton = () => {
+  //   // should display print button for a list "Print this list"
+  //   cy.get('[data-testid="printButton-0"]').should('be.visible');
+  // };
 
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
-    // cy.get('[data-testid="printButton-2').click();
-  };
+  // verifyDownloadPDF = () => {
+  //   // should display a download pdf file button "Download PDF of this page"
+  //   cy.get('[data-testid="printButton-1"]').should('be.visible');
+  // };
 
-  clickDownloadPDFFile = () => {
-    // should display a download pdf file button "Download list as a pdf file"
-    cy.get('[data-testid="printButton-1"]').click();
-  };
+  // verifyDownloadTextFile = () => {
+  //   // should display a download text file button "Download list as a text file"
+  //   cy.get('[data-testid="printButton-2"]').should('be.visible');
+  //   // cy.get('[data-testid="printButton-2').click();
+  // };
 
-  clickDownloadTxtFile = () => {
-    cy.get('[data-testid="printButton-2"]').click();
-  };
+  // clickDownloadPDFFile = () => {
+  //   // should display a download pdf file button "Download list as a pdf file"
+  //   cy.get('[data-testid="printButton-1"]').click();
+  // };
+
+  // clickDownloadTxtFile = () => {
+  //   cy.get('[data-testid="printButton-2"]').click();
+  // };
 
   verifyTitle = recordName => {
     cy.get('[data-testid="ekg-record-name"]').should('be.visible');
