@@ -10,21 +10,15 @@ import NoSuggestedAddress from './NoSuggestedAddress';
 const SuggestedAddress = ({
   formData,
   address,
-  setBackToEdit,
   handleAddNewClick,
   setAddressToUI,
-  goBackToAddressDescription,
   setFormData,
 }) => {
   const dispatch = useDispatch();
-  const {
-    isLoadingValidateAddress,
-    addressValidationData,
-    addressLoader,
-  } = useSelector(state => state.addressValidation);
-  const { loading: isLoading, error } = useSelector(
-    state => state.updateAddress,
+  const { isLoadingValidateAddress, addressValidationData } = useSelector(
+    state => state.addressValidation,
   );
+  const { loading: isLoading } = useSelector(state => state.updateAddress);
 
   const [isEnteredAddress, setIsEnteredAddress] = useState('suggested');
   const deliveryPointValidation =
@@ -35,7 +29,6 @@ const SuggestedAddress = ({
 
   const onBackToEditClick = event => {
     handleAddNewClick(event);
-    setBackToEdit(true);
     setFormData({});
   };
   const isUSA = isEnteredAddress
@@ -47,55 +40,51 @@ const SuggestedAddress = ({
     stateCode: isUSA ? source.stateCode : source.province,
     zipCode: isUSA ? source.zipCode : source.internationalPostalCode,
   };
-
   const handleChange = event => {
     setIsEnteredAddress(event.target.value);
   };
-  const onUpdateClicked = () => {
-    try {
-      if (isEnteredAddress === 'suggested') {
+  const onUpdateClicked = async () => {
+    const addressState = {
+      ...stateAndZip,
+      state: stateAndZip.stateCode,
+    };
+    if (isEnteredAddress === 'suggested') {
+      try {
         dispatch(validateAddress(address, formData?.fullName));
-      } else {
-        const addressState = {
-          ...stateAndZip,
-          state: stateAndZip.stateCode,
-        };
-        dispatch(
+        dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+      } catch (err) {
+        setFormData({});
+        throw new Error(err);
+      }
+    } else {
+      try {
+        await dispatch(
           postMailingAddress({
             veteranName: formData.fullName,
             address1: formData.addressLine1,
             address2: formData.addressLine2,
             address3: formData.addressLine3,
             address4: formData.addressLine4,
-            Validation: 'true',
             city: formData.city,
             ...addressState,
           }),
         );
-        goBackToAddressDescription(true);
-        if (!isLoading) {
-          setFormData({});
-        }
+        dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+        setFormData({});
+      } catch (err) {
+        setFormData({});
+        throw new Error(err);
       }
-    } catch (err) {
-      throw new Error(err);
-    }
-    if (!error) {
       setAddressToUI({
-        street: isEnteredAddress
-          ? `${formData.addressLine1} ${formData.addressLine2 || ''}`
-          : `${address.addressLine1} ${address.addressLine2 || ''}`,
-        city: isEnteredAddress ? formData.city : address.city,
+        street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
+        city: formData.city,
         ...stateAndZip,
       });
     }
   };
-
   return (
     <div className="address-change-form-container">
-      {(isLoadingValidateAddress || addressLoader) && (
-        <Loader className="loader" />
-      )}
+      {(isLoadingValidateAddress || isLoading) && <Loader className="loader" />}
       <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
         Mailing address
       </p>
@@ -178,9 +167,7 @@ SuggestedAddress.propTypes = {
   formData: PropTypes.object.isRequired,
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
-  setBackToEdit: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  goBackToAddressDescription: PropTypes.func,
   handleCloseForm: PropTypes.func,
 };
 

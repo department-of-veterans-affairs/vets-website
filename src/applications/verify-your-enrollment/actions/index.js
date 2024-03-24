@@ -105,9 +105,8 @@ export function postMailingAddress(mailingAddress) {
     } catch (error) {
       dispatch({
         type: UPDATE_ADDRESS_FAILURE,
-        errors: error,
+        errors: error.toString(),
       });
-      throw error;
     }
   };
 }
@@ -153,9 +152,8 @@ export const verifyEnrollmentAction = () => {
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,
-        errors: error,
+        errors: error.toString(),
       });
-      throw error;
     }
   };
 };
@@ -163,11 +161,14 @@ export const verifyEnrollmentAction = () => {
 export const validateAddress = (formData, fullName) => async dispatch => {
   dispatch({ type: ADDRESS_VALIDATION_START });
   try {
-    const validationResponse = await apiRequest('/profile/address_validation', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    const validationResponse = await apiRequest(
+      'http://localhost:8080/profile/address_validation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      },
+    );
     dispatch({ type: ADDRESS_VALIDATION_SUCCESS, payload: validationResponse });
     const {
       address,
@@ -195,7 +196,7 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         city: formData.city,
         ...stateAndZip,
       };
-      await dispatch(postMailingAddress(fields));
+      dispatch(postMailingAddress(fields));
     }
   } catch (error) {
     dispatch({

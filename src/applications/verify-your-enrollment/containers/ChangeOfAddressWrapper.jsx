@@ -16,7 +16,6 @@ import SuggestedAddress from '../components/SuggestedAddress';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
-  const [goBcak, setGoBack] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
   const { loading: isLoading, error, data: response } = useSelector(
@@ -27,7 +26,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     addressValidationData,
     validationError,
     isLoadingValidateAddress,
-    addressLoader,
   } = useSelector(state => state.addressValidation);
   const address = addressValidationData?.addresses[0]?.address;
   const confidenceScore =
@@ -44,7 +42,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setNewAddress(mailingAddress);
     },
-    [error, mailingAddress],
+    [mailingAddress],
   );
   const handleCloseForm = useCallback(
     () => {
@@ -65,13 +63,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       setToggleAddressForm(false);
       scrollToTopOfForm();
     },
-    [address, confidenceScore, response],
+    [confidenceScore, response, address],
   );
-  const goBackToAddressDescription = val => {
-    setGoBack(val);
-  };
+
   // called when submitting form
-  const saveAddressInfo = () => {
+  const saveAddressInfo = async () => {
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
       stateAndZip = {
@@ -109,15 +105,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
   useEffect(
     () => {
-      if (!addressLoader && !isLoadingValidateAddress) {
+      if (response || error || addressValidationData) {
         handleCloseForm();
       }
     },
 
-    [handleCloseForm, addressLoader, isLoadingValidateAddress],
+    [error, handleCloseForm, response, addressValidationData],
   );
   const setAddressToUI = value => {
-    if (!error) {
+    if (response) {
       setNewAddress(value);
     }
   };
@@ -174,11 +170,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   const handleAddNewClick = event => {
     event?.preventDefault();
-    if (!isLoadingValidateAddress && !isLoading) {
-      setToggleAddressForm(prevState => !prevState);
-      scrollToTopOfForm();
-      setGoBack(false);
-    }
+    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+    dispatch({ type: 'RESET_ERROR' });
+    setToggleAddressForm(true);
+    scrollToTopOfForm();
+    setFormData({});
   };
   const updateAddressData = data => {
     const tempData = { ...data };
@@ -224,18 +220,13 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 && !goBcak ? (
+            {confidenceScore < 100 ? (
               <SuggestedAddress
                 formData={editFormData}
                 address={address}
-                setBackToEdit={() => {}}
                 handleAddNewClick={event => handleAddNewClick(event)}
-                saveAddressInfo={saveAddressInfo}
                 setFormData={setFormData}
                 setAddressToUI={setAddressToUI}
-                goBackToAddressDescription={goBackToAddressDescription}
-                isLoading={isLoading}
-                error={error}
               />
             ) : (
               <>
@@ -297,7 +288,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 label="cancel updating your bank information for GI Bill benefits"
                 onClick={() => {
                   setEditFormData({});
-                  setGoBack(true);
                   handleCloseForm();
                 }}
                 data-qa="cancel-button"
