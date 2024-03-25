@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-class SearchDropdownComponent extends React.Component {
+class Typeahead extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     fetchInputValue: PropTypes.func,
@@ -84,28 +84,21 @@ class SearchDropdownComponent extends React.Component {
     const { id, onInputSubmit } = this.props;
 
     return (
-      <div
-        id={`${id}-component`}
-        className="search-dropdown-component vads-u-display--flex vads-u-width--full shrink-to-column"
-      >
-        <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column">
-          <VaSearchInput
-            aria-autocomplete="none"
-            aria-controls={`${id}-listbox`}
-            aria-label="Search"
-            autoComplete="off"
-            className="vads-u-width--full search-dropdown-input-field"
-            id={`${id}-input-field`}
-            data-e2e-id={`${id}-input-field`}
-            onInput={this.handleInputChange}
-            onSubmit={() => onInputSubmit(this.state)}
-            suggestions={suggestions}
-            value={inputValue}
-          />
-        </div>
-      </div>
+      <VaSearchInput
+        aria-autocomplete="none"
+        aria-controls={`${id}-listbox`}
+        aria-label="Search"
+        autoComplete="off"
+        class="vads-u-width--full"
+        id={`${id}-input-field`}
+        data-e2e-id={`${id}-input-field`}
+        onInput={this.handleInputChange}
+        onSubmit={() => onInputSubmit(this.state)}
+        suggestions={suggestions}
+        value={inputValue}
+      />
     );
   }
 }
 
-export default SearchDropdownComponent;
+export default Typeahead;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-class SearchBreadcrumbs extends React.Component {
+class Breadcrumbs extends React.Component {
   static defaultProps = {
     breadcrumbId: 'search-breadcrumbs',
   };
@@ -36,8 +36,8 @@ class SearchBreadcrumbs extends React.Component {
   }
 }
 
-SearchBreadcrumbs.propTypes = {
+Breadcrumbs.propTypes = {
   breadcrumbId: PropTypes.string.isRequired,
 };
 
-export default SearchBreadcrumbs;
+export default Breadcrumbs;
