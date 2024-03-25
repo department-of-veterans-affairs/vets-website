@@ -15,7 +15,7 @@ $anchor-font-size: 1.9rem;
 }
 
 .mhv-c-indicator::after {
-  background-color: $color-red;
+  background-color: var(--vads-color-secondary);
   content: "";
   height: 1rem;
   width: 1rem;
@@ -32,11 +32,11 @@ $anchor-font-size: 1.9rem;
   margin: 0;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid $color-gray-light;
+    border-bottom: 1px solid var(--vads-color-base-light);
   }
 
   .mhv-c-indicator::after {
-    background-color: $color-red;
+    background-color: var(--vads-color-secondary);
     border-radius: 1rem;
     content: "";
     display: inline-block;
