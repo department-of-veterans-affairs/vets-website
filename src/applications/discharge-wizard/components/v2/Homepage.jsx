@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 
-const HomePage = () => {
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { ROUTES } from '../../constants';
+import { updateIntroPageViewed } from '../../actions';
+import { pageSetup } from '../../../pact-act/utilities/page-setup';
+import { QUESTION_MAP } from '../../constants/question-data-map';
+
+const HomePage = ({ router, setIntroPageViewed }) => {
+  const H1 = QUESTION_MAP.HOME;
+  useEffect(() => {
+    pageSetup(H1);
+    setIntroPageViewed(true);
+  });
+
+  const startForm = event => {
+    event.preventDefault();
+    router.push(ROUTES.SERVICE_BRANCH);
+  };
   return (
     <section
       className="dw-instructions"
       itemScope
       itemType="http://schema.org/FAQPage"
     >
-      <h1 itemProp="name">How to Apply for a Discharge Upgrade @@@@</h1>
+      <h1 itemProp="name">{H1}</h1>
       <div className="row">
         <article className="usa-content columns">
           <div className="va-introtext">
@@ -49,7 +66,11 @@ const HomePage = () => {
                     confidential.
                   </p>
                   <p>
-                    <Link className="vads-c-action-link--green" to="questions">
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <Link
+                      className="vads-c-action-link--green"
+                      onClick={startForm}
+                    >
                       Get started
                     </Link>
                   </p>
@@ -237,4 +258,18 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  setIntroPageViewed: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  setIntroPageViewed: updateIntroPageViewed,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(HomePage);

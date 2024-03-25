@@ -94,3 +94,22 @@ export const prevApplicationYearCutoff = {
   3: 2011,
   4: 2017,
 };
+
+// v2 constants
+export const DUW_VIEWED_INTRO_PAGE =
+  'discharge-upgrade-wizard/DUW_VIEWED_INTRO_PAGE';
+export const DUW_UPDATE_SERVICE_BRANCH =
+  'discharge-upgrade-wizard/DUW_UPDATE_SERVICE_BRANCH';
+export const DUW_UPDATE_DISCHARGE_YEAR =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_YEAR';
+export const DUW_UPDATE_DISCHARGE_MONTH =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_MONTH';
+
+// Except for HOME and results pages, left side must match
+// short name codes in constants/question-data-map
+export const ROUTES = Object.freeze({
+  HOME: 'introduction',
+  SERVICE_BRANCH: 'service-branch',
+  DISCHARGE_YEAR: 'discharge-year',
+  DISCHARGE_MONTH: 'discharge-month',
+});

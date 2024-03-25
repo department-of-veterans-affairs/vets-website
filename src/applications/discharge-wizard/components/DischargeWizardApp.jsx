@@ -1,11 +1,22 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 import Breadcrumbs from './Breadcrumbs';
 
 export default function DischargeWizardApp({ children }) {
+  const isProd = environment.isProduction();
+
+  if (isProd) {
+    return (
+      <div className="row discharge-wizard vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+        <Breadcrumbs />
+        {children}
+      </div>
+    );
+  }
   return (
-    <div className="row discharge-wizard vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+    <div className="row discharge-wizard-v2 vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
       <Breadcrumbs />
-      {children}
+      <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>
   );
 }
