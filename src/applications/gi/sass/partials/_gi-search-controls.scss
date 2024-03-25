@@ -8,7 +8,7 @@
   }
 
   .location-wrap:before {
-    color: $color-primary;
+    color: var(--vads-color-primary);
     content: "\f3c5";
     font-family: "Font Awesome 5 Free";
     position: absolute;
@@ -32,7 +32,7 @@
     }
 
     label.wrap:after {
-      color: $color-primary;
+      color: var(--vads-color-primary);
       content: "\F107";
       font-family: "Font Awesome 5 Free";
       position: absolute;
@@ -47,7 +47,7 @@
     }
 
     #distance {
-      color: $color-gray;
+      color: var(--vads-color-base-dark);
       font-style: italic;
       width: 110px;
       background-image: none;
@@ -66,18 +66,18 @@
 
   .search-section-label {
     font-weight: bold;
-    color: $color-gray-medium;
+    color: var(--vads-color-gray-medium);
   }
 }
 .update-results-form {
   margin-top: -2em;
-  border-left: solid $color-gray-lightest;
-  border-right: solid $color-gray-lightest;
+  border-left: solid var(--vads-color-base-lightest);
+  border-right: solid var(--vads-color-base-lightest);
 }
 .update-results,
 .update-results-2 {
   height: 4.5em;
-  background-color: $color-gray-lightest;
+  background-color: var(--vads-color-base-lightest);
 }
 .update-results-2 {
   height: 7.5em;
@@ -96,10 +96,10 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-color: $color-blue;
+  background-color: var(--vads-color-primary);
   border: 0;
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   cursor: pointer;
   display: inline-block;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
@@ -132,7 +132,7 @@
   -moz-appearance: none;
   appearance: none;
   background-color: transparent;
-  color: $color-blue;
+  color: var(--vads-color-primary);
   cursor: pointer;
   display: inline-block;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
@@ -146,13 +146,13 @@
 
   &:hover {
     background-color: transparent;
-    color: $color-blue;
+    color: var(--vads-color-primary);
     text-decoration: underline;
   }
 
   &:visited {
     background-color: transparent;
-    color: $color-blue;
+    color: var(--vads-color-primary);
     text-decoration: underline;
   }
 }
@@ -191,7 +191,7 @@
 }
 
 .accordion-dropdown {
-  border: 1px solid $color-gray;
+  border: 1px solid var(--vads-color-base-dark);
   position: relative;
   min-width: 230px;
   margin: 0.2em 0;
@@ -203,7 +203,7 @@
     }
 
     label:after {
-      color: $color-primary;
+      color: var(--vads-color-primary);
       content: "\F107";
       font-family: "Font Awesome 5 Free";
       position: absolute;
@@ -228,7 +228,7 @@
 
 .accordion-dropdown-out {
   padding: 14px;
-  background-color: $color-white;
+  background-color: var(--vads-color-white);
   width: calc(100% + 2px);
   position: absolute;
   z-index: 50;
@@ -242,7 +242,7 @@
   }
 
   .dropdown-divider {
-    border-bottom: 2px solid $color-gray-light;
+    border-bottom: 2px solid var(--vads-color-base-light);
     margin: 14px -14px 14px -14px;
   }
 
