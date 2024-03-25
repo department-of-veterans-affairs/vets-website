@@ -1,8 +1,8 @@
 .landing-page {
   a {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
   a:visited {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
 }
