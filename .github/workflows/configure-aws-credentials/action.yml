@@ -33,3 +33,4 @@ runs:
         role-to-assume: ${{ inputs.role }}
         role-session-name: ${{ inputs.session_name }}
         role-duration-seconds: ${{ inputs.role_duration }}
+        output-credentials: true
