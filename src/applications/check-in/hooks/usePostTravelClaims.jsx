@@ -36,9 +36,9 @@ const usePostTravelClaims = props => {
   useEffect(
     () => {
       if (
-        !data['travel-vehicle'] ||
-        !data['travel-address'] ||
-        !data['travel-review']
+        data['travel-vehicle'] !== 'yes' ||
+        data['travel-address'] !== 'yes' ||
+        data['travel-review'] !== 'yes'
       ) {
         jumpToPage(URLS.TRAVEL_INTRO);
         return;
