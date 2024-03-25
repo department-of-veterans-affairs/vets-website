@@ -4,22 +4,35 @@ import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { scrollToElement } from '../helpers';
+import { objectHaNoUndefinedValues, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
-import { postMailingAddress } from '../actions';
+import { validateAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
+import SuggestedAddress from '../components/SuggestedAddress';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
+  const [goBcak, setGoBack] = useState(false);
   const [formData, setFormData] = useState({});
+  const [editFormData, setEditFormData] = useState({});
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
   const [newAddress, setNewAddress] = useState({});
+  const {
+    addressValidationData,
+    validationError,
+    isLoadingValidateAddress,
+    addressLoader,
+  } = useSelector(state => state.addressValidation);
+  const address = addressValidationData?.addresses[0]?.address;
+  const confidenceScore =
+    addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
+
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
 
@@ -31,59 +44,85 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setNewAddress(mailingAddress);
     },
-    [mailingAddress],
+    [error, mailingAddress],
   );
+  const handleCloseForm = useCallback(
+    () => {
+      setFormData({});
+      if (confidenceScore === 100 && response) {
+        const isUSA = address.countryCodeIso3 === 'USA';
+        const stateAndZip = {
+          stateCode: isUSA ? address.stateCode : address.province,
+          zipCode: isUSA ? address.zipCode : address.internationalPostalCode,
+        };
+        setNewAddress({
+          street: `${address.addressLine1} ${address.addressLine2 || ''}`,
+          city: address.city,
+          ...stateAndZip,
+        });
+      }
 
-  const handleCloseForm = useCallback(() => {
-    setFormData({}); // clear form data
-    setToggleAddressForm(false);
-    scrollToTopOfForm();
-  }, []);
-
+      setToggleAddressForm(false);
+      scrollToTopOfForm();
+    },
+    [address, confidenceScore, response],
+  );
+  const goBackToAddressDescription = val => {
+    setGoBack(val);
+  };
   // called when submitting form
-  const saveAddressInfo = async () => {
-    // commented out until tied in with redux
+  const saveAddressInfo = () => {
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
       stateAndZip = {
-        state: formData.stateCode,
+        stateCode: formData.stateCode,
         zipCode: formData.zipCode,
       };
     } else {
       stateAndZip = {
-        state: formData.province,
+        stateCode: formData.province,
         zipCode: formData.internationalPostalCode,
       };
     }
-
     const fields = {
-      veteranName: formData.fullName,
-      address1: formData.addressLine1,
-      address2: formData.addressLine2,
-      address3: formData.addressLine3,
-      address4: formData.addressLine4,
-      city: formData.city,
-      ...stateAndZip,
-    };
-    try {
-      await dispatch(postMailingAddress(fields));
-      setNewAddress({
-        street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
+      address: {
+        veteranName: formData.fullName,
+        addressLine1: formData.addressLine1,
+        addressLine2: formData.addressLine2,
+        addressLine3: formData.addressLine3,
+        addressLine4: formData.addressLine4,
+        addressPou: 'CORRESPONDENCE',
+        addressType: 'DOMESTIC',
+        countryCodeIso3: formData.countryCodeIso3,
         city: formData.city,
         ...stateAndZip,
-      });
+      },
+    };
+    try {
+      dispatch(validateAddress(fields, formData.fullName));
     } catch (err) {
       throw new Error(err);
     }
   };
-
   useEffect(
     () => {
-      if (!isLoading) {
+      if (!addressLoader || !isLoadingValidateAddress) {
         handleCloseForm();
       }
     },
-    [handleCloseForm, isLoading],
+
+    [handleCloseForm, addressLoader, isLoadingValidateAddress],
+  );
+  const setAddressToUI = value => {
+    if (!error) {
+      setNewAddress(value);
+    }
+  };
+  useEffect(
+    () => {
+      setEditFormData({});
+    },
+    [error, response, validationError],
   );
   const addressDescription = () => {
     return (
@@ -111,14 +150,18 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               Mailing address
             </p>
             <p>
-              <span className="vads-u-display--block">
-                {`${newAddress.street}`}
-              </span>
-              <span className="vads-u-display--block">
-                {`${newAddress.city}, ${newAddress.state} ${
-                  newAddress.zipCode
-                }`}
-              </span>
+              {objectHaNoUndefinedValues(newAddress) && (
+                <>
+                  <span className="vads-u-display--block">
+                    {`${newAddress?.street}`}
+                  </span>
+                  <span className="vads-u-display--block">
+                    {`${newAddress?.city}, ${newAddress?.stateCode} ${
+                      newAddress?.zipCode
+                    }`}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         )}
@@ -127,10 +170,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
 
   const handleAddNewClick = event => {
-    event.preventDefault();
-    if (!loading) {
+    event?.preventDefault();
+    if (!isLoadingValidateAddress && !isLoading) {
       setToggleAddressForm(prevState => !prevState);
       scrollToTopOfForm();
+      setGoBack(false);
     }
   };
   const updateAddressData = data => {
@@ -157,6 +201,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     }
 
     setFormData(tempData);
+    setEditFormData(tempData);
   };
 
   return (
@@ -176,12 +221,29 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {addressDescription()}
-            <va-button
-              id="VYE-mailing-address-button"
-              onClick={event => handleAddNewClick(event)}
-              text={ADDRESS_BUTTON_TEXT}
-            />
+            {confidenceScore < 100 && !goBcak ? (
+              <SuggestedAddress
+                formData={editFormData}
+                address={address}
+                setBackToEdit={() => {}}
+                handleAddNewClick={event => handleAddNewClick(event)}
+                saveAddressInfo={saveAddressInfo}
+                setFormData={setFormData}
+                setAddressToUI={setAddressToUI}
+                goBackToAddressDescription={goBackToAddressDescription}
+                isLoading={isLoading}
+                error={error}
+              />
+            ) : (
+              <>
+                {addressDescription()}
+                <va-button
+                  id="VYE-mailing-address-button"
+                  onClick={event => handleAddNewClick(event)}
+                  text={ADDRESS_BUTTON_TEXT}
+                />
+              </>
+            )}
 
             <va-alert
               close-btn-aria-label="Close notification"
@@ -207,13 +269,16 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
         {toggleAddressForm && (
           <div className="address-change-form-container">
             <p className="vads-u-font-weight--bold">Change mailing address</p>
-            {isLoading && <Loader className="loader" />}
+            {(isLoadingValidateAddress || isLoading) && (
+              <Loader className="loader" />
+            )}
             <ChangeOfAddressForm
               applicantName={applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
+              formData={editFormData}
             >
               <LoadingButton
                 aria-label="save your Mailing address for GI Bill benefits"
@@ -228,6 +293,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 secondary
                 label="cancel updating your bank information for GI Bill benefits"
                 onClick={() => {
+                  setEditFormData({});
+                  setGoBack(true);
                   handleCloseForm();
                 }}
                 data-qa="cancel-button"

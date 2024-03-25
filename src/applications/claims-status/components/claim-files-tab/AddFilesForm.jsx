@@ -8,6 +8,7 @@ import {
   VaSelect,
   VaTextInput,
   VaCheckbox,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -72,6 +73,7 @@ class AddFilesForm extends React.Component {
       errorMessage: null,
       checked: false,
       errorMessageCheckbox: null,
+      canShowUploadModal: false,
     };
   }
 
@@ -167,6 +169,7 @@ class AddFilesForm extends React.Component {
           : 'Please confirm these documents apply to this claim only',
       });
 
+      this.setState({ canShowUploadModal: true });
       if (this.state.checked) {
         this.props.onSubmit();
         return;
@@ -178,6 +181,9 @@ class AddFilesForm extends React.Component {
   };
 
   render() {
+    const showUploadModal =
+      this.props.uploading && this.state.canShowUploadModal;
+
     return (
       <>
         <div className="add-files-form">
@@ -292,10 +298,8 @@ class AddFilesForm extends React.Component {
             this.setState({ checked: event.detail.checked });
           }}
         />
-        <va-button
+        <VaButton
           id="submit"
-          submit
-          uswds
           text="Submit files for review"
           onClick={this.submit}
         />
@@ -308,9 +312,8 @@ class AddFilesForm extends React.Component {
         </va-additional-info>
         <VaModal
           id="upload-status"
-          onCloseEvent={() => true}
-          visible={Boolean(this.props.uploading)}
-          uswds="false"
+          onCloseEvent={() => this.setState({ canShowUploadModal: false })}
+          visible={showUploadModal}
         >
           <UploadStatus
             progress={this.props.progress}

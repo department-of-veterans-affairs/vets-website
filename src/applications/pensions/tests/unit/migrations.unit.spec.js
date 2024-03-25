@@ -237,4 +237,20 @@ describe('Pension migrations', () => {
     expect(formData).to.not.have.any.keys(['view:history', 'jobs']);
     expect(formData).to.eql(v4formData);
   });
+  it('should update from v6 to v7', () => {
+    const { formData, metadata } = migrations[6]({
+      formData: {
+        ...v4formData,
+        gender: 'M',
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(metadata.returnUrl).to.equal('/review-and-submit');
+    expect(formData).to.be.an('object');
+    expect(formData).to.not.have.key('gender');
+    expect(formData).to.eql(v4formData);
+  });
 });
