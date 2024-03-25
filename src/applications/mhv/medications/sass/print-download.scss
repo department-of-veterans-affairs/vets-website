@@ -5,8 +5,8 @@
 .print-download {
   width: 293px;
   button {
-    background-color: $color-white;
-    color: $color-primary;
+    background-color: var(--vads-color-white);
+    color: var(--vads-color-primary);
     width: 100%;
     box-shadow: none;
   }
@@ -17,22 +17,22 @@
   }
   button:active,
   button:focus {
-    background-color: $color-gray-cool-light;
-    color: $color-primary-darker;
+    background-color: var(--vads-color-gray-cool-light);
+    color: var(--vads-color-primary-dark);
   }
   button:hover {
-    background-color: $color-gray-cool-light;
-    color: $color-primary-darker;
+    background-color: var(--vads-color-gray-cool-light);
+    color: var(--vads-color-primary-dark);
   }
   button:hover i::before {
-    color: $color-primary-darker;
+    color: var(--vads-color-primary-dark);
   }
   button:active {
-    color: $color-primary;
+    color: var(--vads-color-primary);
     outline: none;
   }
   button:active i::before {
-    color: $color-primary;
+    color: var(--vads-color-primary);
   }
 
   .toggle-menu-button {
@@ -40,11 +40,11 @@
     align-items: center;
     margin: 0;
     border-radius: 5px;
-    border: 2px solid $color-primary;
+    border: 2px solid var(--vads-color-primary);
   }
   .toggle-menu-button-open {
     border-radius: 5px 5px 0px 0px;
-    border-bottom: 2px solid $color-primary;
+    border-bottom: 2px solid var(--vads-color-primary);
   }
 
   .menu-options {
@@ -57,9 +57,9 @@
       margin: 0px;
       padding: 0px;
       border-top: none;
-      border-right: 2px solid $color-primary;
-      border-bottom: 2px solid $color-primary;
-      border-left: 2px solid $color-primary;
+      border-right: 2px solid var(--vads-color-primary);
+      border-bottom: 2px solid var(--vads-color-primary);
+      border-left: 2px solid var(--vads-color-primary);
       border-radius: 0px;
 
       button {
@@ -71,9 +71,9 @@
     li:last-child {
       border-radius: 0px 0px 5px 5px;
       border-top: none;
-      border-right: 2px solid $color-primary;
-      border-bottom: 2px solid $color-primary;
-      border-left: 2px solid $color-primary;
+      border-right: 2px solid var(--vads-color-primary);
+      border-bottom: 2px solid var(--vads-color-primary);
+      border-left: 2px solid var(--vads-color-primary);
 
       button {
         border-radius: 0px 0px 5px 5px;

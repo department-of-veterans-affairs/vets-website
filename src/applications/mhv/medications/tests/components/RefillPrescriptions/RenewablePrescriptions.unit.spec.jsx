@@ -91,7 +91,7 @@ describe('Renew Prescriptions Component', () => {
       ({ prescriptionId }) => prescriptionId === 22217089,
     );
     expect(lastFilledEl).to.have.text(
-      `Last filled on ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
+      `Last filled on ${dateFormat(rx.rxRfRecords[0]?.dispensedDate)}`,
     );
   });
 
