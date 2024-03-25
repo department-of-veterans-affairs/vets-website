@@ -95,7 +95,7 @@ const testConfig = createTestConfig(
 
       'area-of-disagreement/:index': areaOfDisagreementPageHook,
 
-      'informal-conference/': ({ afterHook }) => {
+      'informal-conference': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
             const rep = testData.informalConference;
