@@ -3,6 +3,7 @@ import { Route, Navigate, Routes } from 'react-router-dom-v5-compat';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
+import TogglerRoute from './components/TogglerRoute';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import YourClaimLetters from './containers/YourClaimLetters';
 import ClaimPage from './containers/ClaimPage';
@@ -21,15 +22,16 @@ import OverviewPage from './containers/OverviewPage';
 
 const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
 
-const toggledRoutes = (
-  <Toggler toggleName={cstUseClaimDetailsV2}>
-    <Toggler.Enabled>
-      <Route path="overview" element={<OverviewPage />} />,
-    </Toggler.Enabled>
-    <Toggler.Disabled>
-      <Route path="details" element={<DetailsPage />} />,
-    </Toggler.Disabled>
-  </Toggler>
+const detailsRoute = (
+  <TogglerRoute toggleName={cstUseClaimDetailsV2} inverted>
+    <DetailsPage />
+  </TogglerRoute>
+);
+
+const overviewRoute = (
+  <TogglerRoute toggleName={cstUseClaimDetailsV2}>
+    <OverviewPage />
+  </TogglerRoute>
 );
 
 const routes = (
@@ -46,14 +48,14 @@ const routes = (
         <Route index element={<Navigate to="status" replace />} />
         <Route path="ask-va-to-decide" element={<AskVAPage />} />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
-        <Route path="details" element={<DetailsPage />} />
         <Route
           path="document-request/:trackedItemId"
           element={<DocumentRequestPage />}
         />
         <Route path="files" element={<FilesPage />} />
         <Route path="status" element={<ClaimStatusPage />} />
-        <Route element={toggledRoutes} />
+        <Route path="details" element={detailsRoute} />
+        <Route path="overview" element={overviewRoute} />
       </Route>
       <Route path="your-claim-letters" element={<YourClaimLetters />} />
       <Route path="your-stem-claims/:id">

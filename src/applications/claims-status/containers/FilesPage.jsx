@@ -64,7 +64,7 @@ class FilesPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, params } = this.props;
+    const { claim } = this.props;
 
     const {
       closeDate,
@@ -101,7 +101,7 @@ class FilesPage extends React.Component {
                 optionalFiles={optionalFiles}
               />
             )}
-            {showDecision && <AskVAToDecide id={params.id} />}
+            {showDecision && <AskVAToDecide />}
             <div className="submitted-files-list">
               <h2 className="claim-file-border">Documents filed</h2>
               {documentsTurnedIn.length === 0 ? (
@@ -123,7 +123,7 @@ class FilesPage extends React.Component {
           <Toggler.Enabled>
             <ClaimFileHeader isOpen={isOpen} />
             <AdditionalEvidencePage />
-            {showDecision && <AskVAToDecide id={params.id} />}
+            {showDecision && <AskVAToDecide />}
             <DocumentsFiled claim={claim} />
           </Toggler.Enabled>
         </Toggler>
@@ -189,11 +189,10 @@ FilesPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.shape({
-    body: PropTypes.string,
+    body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     title: PropTypes.string,
     type: PropTypes.string,
   }),
-  params: PropTypes.object,
   synced: PropTypes.bool,
 };
 

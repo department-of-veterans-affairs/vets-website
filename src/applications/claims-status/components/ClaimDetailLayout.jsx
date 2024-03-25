@@ -41,10 +41,8 @@ export default function ClaimDetailLayout(props) {
     clearNotification,
     currentTab,
     synced,
-    id,
   } = props;
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimsPath = `your-claims/${id}`;
 
   const claimType = getClaimType(claim).toLowerCase();
 
@@ -99,7 +97,7 @@ export default function ClaimDetailLayout(props) {
 
     bodyContent = (
       <div className="claim-container">
-        <TabNav id={props.claim.id} />
+        <TabNav id={claim.id} />
         {tabs.map(tab => (
           <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
@@ -130,7 +128,7 @@ export default function ClaimDetailLayout(props) {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>
+              <Link to="../status">
                 {getBreadcrumbText(currentTab, claimType)}
               </Link>
             </ClaimsBreadcrumbs>
@@ -163,7 +161,6 @@ ClaimDetailLayout.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   currentTab: PropTypes.string,
-  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
   synced: PropTypes.bool,
