@@ -84,4 +84,3 @@ export const ageWarning = (
     </div>
   </div>
 );
-
