@@ -387,7 +387,7 @@ export const getClaim = (id, navigate) => {
           });
         }
 
-        return navigate('your-claims', { replace: true });
+        return navigate('/your-claims', { replace: true });
       });
   };
 };
