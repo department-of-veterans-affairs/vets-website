@@ -132,7 +132,7 @@
 /**
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
- * @property {string | ({ formData }: { formData?: Object }) => string} [title]
+ * @property {string | (formData) => string} [title]
  * @property {boolean} [hideFormNavProgress]
  * @property {React.ReactNode} [reviewDescription]
  */
