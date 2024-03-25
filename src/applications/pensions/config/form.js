@@ -79,7 +79,7 @@ import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 import { marriages, defaultDefinitions } from './definitions';
-import { additionalInformation } from './chapters/06-additional-information/chapter';
+import { additionalInformation } from './chapters/06-additional-information';
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
