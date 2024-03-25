@@ -11,7 +11,9 @@ import {
   checkboxGroupSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
+const { placeOfSeparation } = fullSchemaPensions.properties;
 const { dateRange } = fullSchemaPensions.definitions;
 
 import { serviceBranchLabels } from '../../../labels';
@@ -34,6 +36,13 @@ export default {
       'Date initially entered active duty must be before final date released from active duty',
     ),
     serviceNumber: serviceNumberUI('Military Service number if you have one'),
+    placeOfSeparation: {
+      'ui:title': 'Place of your last separation',
+      'ui:options': {
+        hint: 'City and state or foreign country',
+      },
+      'ui:webComponentField': VaTextInputField,
+    },
     'ui:validations': [validateServiceBirthDates],
     'view:wartimeWarning': (() => {
       const hideWartimeWarning = createSelector(
@@ -70,6 +79,7 @@ export default {
         required: ['from', 'to'],
       },
       serviceNumber: serviceNumberSchema,
+      placeOfSeparation,
       'view:wartimeWarning': {
         type: 'object',
         properties: {},
