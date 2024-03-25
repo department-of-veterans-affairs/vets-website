@@ -131,7 +131,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   return (
     <article id="claim-letters" className="row vads-u-margin-bottom--5">
       <div className="usa-width-two-thirds medium-8 columns">
-        <ClaimsBreadcrumbs crumbs={crumb} />
+        <ClaimsBreadcrumbs crumbs={[crumb]} />
         {content}
       </div>
     </article>

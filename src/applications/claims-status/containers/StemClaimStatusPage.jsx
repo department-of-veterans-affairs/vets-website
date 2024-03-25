@@ -60,7 +60,7 @@ class StemClaimStatusPage extends React.Component {
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs crumbs={crumb} />
+              <ClaimsBreadcrumbs crumbs={[crumb]} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
