@@ -111,6 +111,7 @@ import {
   depends18f5,
   depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
+import { ApplicantAddressCopyPage } from '../pages/ApplicantAddressPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
 import { fileTypes, fileWithMetadataSchema } from './attachments';
@@ -738,6 +739,25 @@ const formConfig = {
             'view:description': blankSchema,
             applicantSSN: ssnOrVaFileNumberNoHintSchema,
           }),
+        },
+        page15a: {
+          path: 'applicant-information/:index/pre-address',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          keepInPageOnReview: false,
+          title: item => `${applicantWording(item)} address screener`,
+          depends: (formData, index) => index === undefined || index > 0,
+          CustomPage: ApplicantAddressCopyPage,
+          CustomPageReview: null,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {}),
         },
         page15: {
           path: 'applicant-information/:index/address',
