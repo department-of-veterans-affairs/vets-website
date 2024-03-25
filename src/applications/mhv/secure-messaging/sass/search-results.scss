@@ -3,7 +3,7 @@
 .search-results {
   .search-results-count {
     border-style: solid none;
-    border-color: $color-gray-light;
+    border-color: var(--vads-color-base-light);
     border-width: 1px;
     margin: 12.5px 0 0;
     line-height: 40px;
