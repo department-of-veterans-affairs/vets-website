@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
 import React from 'react';
-import moment from 'moment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import moment from 'moment/moment';
 
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
@@ -57,6 +57,7 @@ export const buildSubmitEventData = formData => {
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
 };
+
 export const eighteenOrOver = birthday => {
   return (
     birthday === undefined ||
@@ -83,3 +84,4 @@ export const ageWarning = (
     </div>
   </div>
 );
+

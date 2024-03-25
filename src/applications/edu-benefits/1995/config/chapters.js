@@ -17,6 +17,7 @@ import {
 } from '../pages';
 
 import { isProductionOfTestProdEnv } from '../helpers';
+import guardianInformation from '../pages/guardianInformation';
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
@@ -90,6 +91,12 @@ export const chapters = {
     title: 'Applicant information',
     pages: {
       applicantInformation: applicantInformationField(),
+    },
+  },
+  guardianInformation: {
+    title: 'Guardian information',
+    pages: {
+      guardianInformation: guardianInformation(fullSchema1995, {}),
     },
   },
   benefitSelection: {
