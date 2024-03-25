@@ -8,7 +8,6 @@ import migrations from '../migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
 
 import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
@@ -70,6 +69,7 @@ import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence, focusUploads } from '../utils/focus';
 
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
 import { appStateSelector } from '../../shared/utils/issues';
