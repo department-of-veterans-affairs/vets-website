@@ -144,7 +144,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {(error || validationError) && (
               <Alert
                 status="error"
-                message="Sorry, something went wrong. Please try again Later"
+                message="Alert:
+                We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
               />
             )}
             {response?.ok && (
