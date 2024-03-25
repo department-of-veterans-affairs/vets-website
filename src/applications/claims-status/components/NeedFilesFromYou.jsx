@@ -15,7 +15,7 @@ function NeedFilesFromYou({ files }) {
           <Link
             aria-label="View details about items that need your attention"
             title="View details about items that need your attention"
-            to={`../files`}
+            to="../files"
             className="usa-button usa-button-secondary view-details-button"
           >
             View Details

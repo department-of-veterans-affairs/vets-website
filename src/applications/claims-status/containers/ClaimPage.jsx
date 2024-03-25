@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 
 import { getClaim as getClaimAction } from '../actions';
 
-export const ClaimPage = ({ getClaim }) => {
+export function ClaimPage({ getClaim }) {
   const params = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     getClaim(params.id, navigate);
-  });
+  }, []);
 
   return <Outlet />;
-};
+}
 
 const mapDispatchToProps = {
   getClaim: getClaimAction,

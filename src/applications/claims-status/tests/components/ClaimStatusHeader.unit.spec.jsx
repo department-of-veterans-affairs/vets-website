@@ -1,15 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { buildDateFormatter } from '../../utils/helpers';
 
 import ClaimStatusHeader from '../../components/ClaimStatusHeader';
-
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
+import { buildDateFormatter } from '../../utils/helpers';
 
 const getLastUpdated = claim => {
-  const updatedOn = formatDate(
+  const updatedOn = buildDateFormatter()(
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 

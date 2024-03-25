@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import {
   getClaimType,
   buildDateFormatter,
@@ -9,7 +8,7 @@ import {
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
-const formatDate = date => buildDateFormatter(DATE_FORMATS.LONG_DATE)(date);
+const formatDate = buildDateFormatter();
 
 const getTitle = claim => {
   return `Claim for ${getClaimType(claim).toLowerCase()}`;

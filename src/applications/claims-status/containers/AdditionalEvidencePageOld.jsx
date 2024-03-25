@@ -39,6 +39,8 @@ const scrollToError = () => {
 
 const { Element } = Scroll;
 
+const filesPath = '../files';
+
 class AdditionalEvidencePageOld extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
@@ -74,11 +76,10 @@ class AdditionalEvidencePageOld extends React.Component {
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
-    this.props.navigate('../files');
+    this.props.navigate(filesPath);
   }
 
   render() {
-    const filesPath = '../files';
     let content;
 
     if (this.props.loading) {
@@ -90,7 +91,7 @@ class AdditionalEvidencePageOld extends React.Component {
         />
       );
     } else {
-      const { message } = this.props;
+      const { lastPage, message } = this.props;
 
       content = (
         <div className="claim-container">
@@ -110,7 +111,7 @@ class AdditionalEvidencePageOld extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            backUrl={`/${this.props.lastPage}` || filesPath}
+            backUrl={lastPage ? `/${lastPage}` : filesPath}
             onSubmit={() => {
               // START lighthouse_migration
               if (this.props.documentsUseLighthouse) {

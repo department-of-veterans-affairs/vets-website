@@ -1,26 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setUpPage } from '../utils/page';
+import PropTypes from 'prop-types';
 
+import { getStemClaims } from '../actions';
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
-import { getStemClaims } from '../actions';
+import { setUpPage } from '../utils/page';
+import withRouter from '../utils/withRouter';
+
+const setTitle = () => {
+  document.title = 'Your Edith Nourse Rogers STEM Scholarship application';
+};
 
 class StemClaimStatusPage extends React.Component {
   componentDidMount() {
-    this.setTitle();
+    setTitle();
     setUpPage();
     this.props.getStemClaims();
   }
 
-  setTitle() {
-    document.title = 'Your Edith Nourse Rogers STEM Scholarship application';
-  }
-
   render() {
-    const { claim, loading, params } = this.props;
+    const { claim, loading } = this.props;
     let content;
     if (loading) {
       content = (
@@ -49,7 +51,7 @@ class StemClaimStatusPage extends React.Component {
     }
 
     const crumb = {
-      href: `your-stem-claims/${params.id}`,
+      href: `../status`,
       label: 'Your Rogers STEM Scholarship application status details',
       isRouterLink: true,
     };
@@ -77,10 +79,10 @@ class StemClaimStatusPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const claim = claimsState.claimsV2.stemClaims.filter(
-    stemClaim => stemClaim.id === props.params.id,
+    stemClaim => stemClaim.id === ownProps.params.id,
   )[0];
   return {
     loading: claimsState.claimsV2.stemClaimsLoading,
@@ -92,9 +94,17 @@ const mapDispatchToProps = {
   getStemClaims,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StemClaimStatusPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StemClaimStatusPage),
+);
+
+StemClaimStatusPage.propTypes = {
+  claim: PropTypes.object,
+  getStemClaims: PropTypes.func,
+  loading: PropTypes.bool,
+};
 
 export { StemClaimStatusPage };

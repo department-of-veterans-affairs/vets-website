@@ -23,14 +23,13 @@ import {
   isClaimOpen,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import { DATE_FORMATS } from '../constants';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 class FilesPage extends React.Component {
   componentDidMount() {

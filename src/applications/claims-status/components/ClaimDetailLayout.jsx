@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -60,7 +59,7 @@ export default function ClaimDetailLayout(props) {
 
     const isOpen = status !== 'COMPLETE' && closeDate === null;
 
-    const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+    const formatDate = buildDateFormatter();
     const formattedClaimDate = formatDate(claim.attributes.claimDate);
     const claimSubheader = `Received on ${formattedClaimDate}`;
 

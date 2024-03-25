@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -16,6 +16,7 @@ import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import { setUpPage } from '../utils/page';
+import withRouter from '../utils/withRouter';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -43,7 +44,7 @@ class AskVAPage extends React.Component {
   }
 
   goToStatusPage() {
-    this.props.router.push(`your-claims/${this.props.params.id}`);
+    this.props.navigate('../status');
   }
 
   render() {
@@ -178,8 +179,8 @@ AskVAPage.propTypes = {
   decisionRequested: PropTypes.bool,
   getClaim: PropTypes.func,
   loadingDecisionRequest: PropTypes.bool,
+  navigate: PropTypes.func,
   params: PropTypes.object,
-  router: PropTypes.object,
   // START lighthouse_migration
   submit5103: PropTypes.func,
   submitRequest: PropTypes.func,

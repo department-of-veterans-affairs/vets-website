@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import { buildDateFormatter, isClaimOpen } from '../utils/helpers';
 
 const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
+const formatDate = buildDateFormatter();
 
 const getLastUpdated = claim => {
   const updatedOn = formatDate(

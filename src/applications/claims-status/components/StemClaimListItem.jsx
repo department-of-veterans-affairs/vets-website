@@ -6,7 +6,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { buildDateFormatter } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
-const formatDate = buildDateFormatter('MMMM d, yyyy');
+const formatDate = buildDateFormatter();
 
 export default function StemClaimListItem({ claim }) {
   if (!claim.attributes.automatedDenial) {
@@ -32,7 +32,7 @@ export default function StemClaimListItem({ claim }) {
   };
 
   const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
-  const href = `your-stem-claims/${claim.id}/status`;
+  const href = `/your-stem-claims/${claim.id}/status`;
 
   return (
     <ClaimCard

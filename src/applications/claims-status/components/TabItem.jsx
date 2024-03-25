@@ -1,17 +1,11 @@
 import React, { useEffect } from 'react';
-import {
-  useLocation,
-  useNavigate,
-  useResolvedPath,
-} from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import NavLink from './NavLink';
 
 export default function TabItem({ className, id, shortcut, tabpath, title }) {
-  const { pathname: locationPathname } = useLocation();
   const navigate = useNavigate();
-  const { pathname: toPathname } = useResolvedPath(tabpath);
 
   const tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + shortcut) {
@@ -27,13 +21,10 @@ export default function TabItem({ className, id, shortcut, tabpath, title }) {
     };
   });
 
-  const isActive = locationPathname === toPathname;
-
   return (
     <li className={className}>
       <NavLink
         id={`tab${id || title}`}
-        aria-current={isActive ? 'page' : null}
         activeClassName="tab--current"
         className="tab"
         to={tabpath}

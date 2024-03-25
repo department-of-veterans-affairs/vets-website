@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
-import { buildDateFormatter, getTrackedItemId } from '../../utils/helpers';
-import { ITEMS_PER_PAGE } from '../../constants';
 
-const getOldestDocuentDate = item => {
+import { ITEMS_PER_PAGE } from '../../constants';
+import { buildDateFormatter } from '../../utils/helpers';
+
+const getOldestDocumentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };
 
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
+const formatDate = buildDateFormatter();
 
 const getTrackedItemDateFromStatus = item => {
   switch (item.status) {
@@ -21,7 +21,7 @@ const getTrackedItemDateFromStatus = item => {
     case 'NO_LONGER_REQUIRED':
       return item.closedDate;
     case 'SUBMITTED_AWAITING_REVIEW':
-      return getOldestDocuentDate(item);
+      return getOldestDocumentDate(item);
     case 'INITIAL_REVIEW_COMPLETE':
     case 'ACCEPTED':
       return item.receivedDate;
@@ -66,11 +66,11 @@ const getSortedItems = claim => {
   const items = [...trackedItems, ...phaseItems];
 
   return items.sort((item1, item2) => {
-    return moment(item2.date) - moment(item1.date);
+    return item2.date > item1.date ? 1 : -1;
   });
 };
 
-function RecentActivity({ claim }) {
+export default function RecentActivity({ claim }) {
   const [currentPage, setCurrentPage] = useState(1);
   const items = getSortedItems(claim);
   const pageLength = items.length;
@@ -145,9 +145,7 @@ function RecentActivity({ claim }) {
                   <Link
                     aria-label={`Add information for ${item.displayName}`}
                     className="add-your-claims-link"
-                    to={`your-claims/${
-                      item.id
-                    }/document-request/${getTrackedItemId(item)}`}
+                    to={`../document-request/${item.id}`}
                   >
                     add it here.
                   </Link>
@@ -173,5 +171,3 @@ function RecentActivity({ claim }) {
 RecentActivity.propTypes = {
   claim: PropTypes.object,
 };
-
-export default RecentActivity;

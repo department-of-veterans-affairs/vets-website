@@ -8,7 +8,6 @@ import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -21,7 +20,7 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 const STATUSES = getStatusMap();
 

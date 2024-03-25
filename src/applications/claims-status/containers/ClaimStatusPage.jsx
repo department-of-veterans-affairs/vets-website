@@ -19,7 +19,6 @@ import NextSteps from '../components/claim-status-tab/NextSteps';
 import Payments from '../components/claim-status-tab/Payments';
 import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
-import { DATE_FORMATS } from '../constants';
 import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
@@ -35,7 +34,7 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 const STATUSES = getStatusMap();
 
