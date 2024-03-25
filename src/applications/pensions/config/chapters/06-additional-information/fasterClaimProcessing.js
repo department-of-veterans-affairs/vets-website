@@ -48,7 +48,9 @@ export const NoFDCWarning = (
   </div>
 );
 
-export default {
+export const fasterClaimProcessing = {
+  title: 'Faster claim processing',
+  path: 'additional-information/faster-claim-processing',
   uiSchema: {
     ...titleUI('Faster claim processing', Description),
     noRapidProcessing: yesNoUI({

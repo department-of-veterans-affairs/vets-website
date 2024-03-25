@@ -65,7 +65,9 @@ const UploadMessage = (
   </div>
 );
 
-export default {
+export const documentUpload = {
+  title: 'Document upload',
+  path: 'additional-information/document-upload',
   uiSchema: {
     ...titleUI('Submit your supporting documents'),
     'ui:description': Description,

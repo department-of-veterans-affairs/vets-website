@@ -159,7 +159,9 @@ function Description({ formData }) {
   );
 }
 
-export default {
+export const supportingDocuments = {
+  title: 'Supporting documents',
+  path: 'additional-information/supporting-documents',
   uiSchema: {
     ...titleUI('Supporting documents'),
     'ui:description': Description,

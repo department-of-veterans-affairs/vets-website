@@ -44,8 +44,6 @@ import dependentChildInformation from './chapters/04-household-information/depen
 import dependentChildAddress from './chapters/04-household-information/dependentChildAddress';
 import hasDependents from './chapters/04-household-information/hasDependents';
 import dependentChildren from './chapters/04-household-information/dependentChildren';
-import documentUpload from './chapters/06-additional-information/documentUpload';
-import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
 import previousNames from './chapters/02-military-history/previousNames';
@@ -71,23 +69,17 @@ import servicePeriod from './chapters/02-military-history/servicePeriod';
 import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
 import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
 import spouseInfo from './chapters/04-household-information/spouseInfo';
-import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 import landMarketable from './chapters/05-financial-information/landMarketable';
-import {
-  usingDirectDeposit,
-  directDeposit,
-  accountInformation,
-  otherPaymentOptions,
-} from './chapters/06-additional-information';
 
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
 
 import { marriages, defaultDefinitions } from './definitions';
+import { additionalInformation } from './chapters/06-additional-information/chapter';
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
@@ -279,9 +271,7 @@ const formConfig = {
         applicantInformation: {
           path: 'applicant/information',
           title: 'Applicant information',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
-          updateFormData: applicantInformation.updateFormData,
+          ...applicantInformation,
         },
         mailingAddress: {
           title: 'Mailing address',
@@ -679,49 +669,7 @@ const formConfig = {
         },
       },
     },
-    additionalInformation: {
-      title: 'Additional information',
-      pages: {
-        directDeposit: {
-          title: 'Direct deposit for Veterans Pension benefits',
-          path: 'additional-information/direct-deposit',
-          initialData: {},
-          ...directDeposit,
-        },
-        accountInformation: {
-          title: 'Account information for direct deposit',
-          path: 'additional-information/account-information',
-          initialData: {},
-          depends: usingDirectDeposit,
-          ...accountInformation,
-        },
-        otherPaymentOptions: {
-          title: 'Other payment options',
-          path: 'additional-information/other-payment-options',
-          initialData: {},
-          depends: formData => !usingDirectDeposit(formData),
-          ...otherPaymentOptions,
-        },
-        aidAttendance: {
-          title: 'Supporting documents',
-          path: 'additional-information/supporting-documents',
-          uiSchema: supportingDocuments.uiSchema,
-          schema: supportingDocuments.schema,
-        },
-        documentUpload: {
-          title: 'Document upload',
-          path: 'additional-information/document-upload',
-          uiSchema: documentUpload.uiSchema,
-          schema: documentUpload.schema,
-        },
-        expedited: {
-          title: 'Faster claim processing',
-          path: 'additional-information/faster-claim-processing',
-          uiSchema: fasterClaimProcessing.uiSchema,
-          schema: fasterClaimProcessing.schema,
-        },
-      },
-    },
+    additionalInformation,
   },
 };
 
