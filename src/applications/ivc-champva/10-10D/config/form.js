@@ -622,7 +622,7 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
-                maxItems: 'A maximum of three applicants may be added.',
+                maxItems: `You can add up to ${MAX_APPLICANTS} in a single application. If you need to add more than ${MAX_APPLICANTS} applicants, you need to submit a separate application for them.`,
               },
               items: {
                 applicantName: fullNameUI(),
@@ -719,8 +719,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
-          title: item => `${applicantWording(item)} address screener`,
-          depends: (formData, index) => index === undefined || index > 0,
+          title: item => `${applicantWording(item)} mailing address`,
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -737,7 +736,8 @@ const formConfig = {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          title: item =>
+            `${applicantWording(item)} mailing address (continued)`,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
