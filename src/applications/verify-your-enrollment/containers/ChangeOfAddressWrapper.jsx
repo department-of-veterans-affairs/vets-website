@@ -39,6 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     scrollToElement('Contact information');
   };
 
+  // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(
     () => {
       setNewAddress(mailingAddress);
@@ -104,6 +105,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       setEditFormData({});
     }
   };
+
+  // This Effcet to close form after loading is done
   useEffect(
     () => {
       if (!isLoading && !isLoadingValidateAddress) {
@@ -118,6 +121,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       setNewAddress(value);
     }
   };
+
+  // This effect to reset setEditFormData and remove address from sessionStorage
+  // When there is error, resonse or validationError
   useEffect(
     () => {
       setEditFormData({});

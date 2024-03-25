@@ -30,6 +30,7 @@ const SuggestedAddress = ({
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
+  // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
     handleAddNewClick(event);
     setFormData({});
@@ -46,6 +47,8 @@ const SuggestedAddress = ({
   const handleChange = event => {
     setIsEnteredAddress(event.target.value);
   };
+
+  // get calls when suggested address or entered address is selected
   const onUpdateClicked = async () => {
     const addressState = {
       ...stateAndZip,
@@ -55,10 +58,10 @@ const SuggestedAddress = ({
       setIsvalidate(true);
       try {
         dispatch(validateAddress(address, formData?.fullName));
-        setFormData({});
       } catch (err) {
-        setFormData({});
         throw new Error(err);
+      } finally {
+        setFormData({});
       }
     } else {
       try {
@@ -73,11 +76,11 @@ const SuggestedAddress = ({
             ...addressState,
           }),
         );
+      } catch (err) {
+        throw new Error(err);
+      } finally {
         dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
         setFormData({});
-      } catch (err) {
-        setFormData({});
-        throw new Error(err);
       }
       setAddressToUI({
         street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
@@ -86,6 +89,7 @@ const SuggestedAddress = ({
       });
     }
   };
+
   return (
     <div className="address-change-form-container">
       {(isLoadingValidateAddress || isLoading) && (
