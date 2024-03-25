@@ -40,7 +40,7 @@ describe('directDeposit actions', () => {
     server.close();
   });
 
-  it('should dispatch DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED with response on success', async () => {
+  it('should dispatch DIRECT_DEPOSIT_FETCH_SUCCEEDED with response on success', async () => {
     server = setupServer(
       rest.get(`${endpointUrl}`, (_, res, ctx) => {
         return res(ctx.json(base), ctx.status(500));
@@ -66,7 +66,7 @@ describe('directDeposit actions', () => {
     expect(recordApiEventStub.calledTwice).to.be.true;
   });
 
-  it('should dispatch DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED with response on error', async () => {
+  it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
     server = setupServer(
       rest.get(`${endpointUrl}`, (req, res, ctx) => {
         return res(ctx.json(error500), ctx.status(500));
