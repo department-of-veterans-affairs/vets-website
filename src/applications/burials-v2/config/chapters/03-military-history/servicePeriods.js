@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import format from 'date-fns-tz/format';
-import {
-  currentOrPastDateUI,
-  numberSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   VaTextInputField,
   VaSelectField,
 } from 'platform/forms-system/src/js/web-component-fields';
 
+import {
+  serviceNumberSchema,
+  serviceNumberUI,
+} from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
 import ReviewRowView from '../../../components/ReviewRowView';
@@ -67,11 +68,10 @@ export default {
       pageClass: 'service-period-view',
     },
     militaryServiceNumber: {
-      'ui:title': 'Military Service number',
+      ...serviceNumberUI('Military Service number'),
       'ui:description': generateHelpText(
         'Enter this only if the deceased Veteran has one',
       ),
-      'ui:webComponentField': VaTextInputField,
       'ui:reviewField': ReviewRowView,
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
@@ -149,7 +149,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      militaryServiceNumber: numberSchema,
+      militaryServiceNumber: serviceNumberSchema,
       toursOfDuty,
     },
   },

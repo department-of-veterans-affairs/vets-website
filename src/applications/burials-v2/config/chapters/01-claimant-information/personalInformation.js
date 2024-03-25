@@ -5,6 +5,7 @@ import {
   ssnUI,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import PrefillMessage from '../../../components/PrefillMessage';
 import { generateTitle } from '../../../utils/helpers';
 
 const {
@@ -17,21 +18,7 @@ const {
 export default {
   uiSchema: {
     'ui:title': generateTitle('Personal information'),
-    'ui:description': () => (
-      <>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          uswds
-          visible
-        >
-          <p className="vads-u-margin-y--0">
-            We’ve prefilled some of your information from your account. If you
-            need to correct anything, you can edit the form fields below.
-          </p>
-        </va-alert>
-      </>
-    ),
+    'ui:description': PrefillMessage,
     claimantFullName: fullNameUI(),
     claimantSocialSecurityNumber: {
       ...ssnUI('Social Security number'),
