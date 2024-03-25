@@ -15,7 +15,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': POW_DESCRIPTION,
+    'ui:description': () => POW_DESCRIPTION,
     'ui:objectViewField': PowViewField,
     powDocuments: {
       'ui:title': 'Upload additional evidence',
