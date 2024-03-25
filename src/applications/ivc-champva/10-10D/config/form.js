@@ -184,7 +184,7 @@ const formConfig = {
               labels: {
                 applicant: 'I’m applying for benefits for myself',
                 sponsor:
-                  'I’m a Veteran applying for benefits for my spouse, dependents, or caretaker',
+                  'I’m a Veteran applying for benefits for my spouse or dependents',
                 other:
                   'I’m a representative applying for benefits on behalf of someone else',
               },
@@ -206,10 +206,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI(
-              'Your information',
-              'We use this information to contact you and verify other details',
-            ),
+            ...titleUI('Your name'),
             certifierName: fullNameUI(),
           },
           schema: {
@@ -230,7 +227,7 @@ const formConfig = {
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
-            ...homelessInfo.uiSchema,
+            // ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
           },
           schema: {
@@ -238,7 +235,7 @@ const formConfig = {
             required: ['certifierAddress'],
             properties: {
               titleSchema,
-              ...homelessInfo.schema,
+              // ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
@@ -270,7 +267,10 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI('Your relationship to the applicant'),
+            ...titleUI(
+              'Your relationship to the applicant',
+              `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
+            ),
             certifierRelationship: {
               relationshipToVeteran: checkboxGroupUI({
                 title: 'Which of these best describes you?',
