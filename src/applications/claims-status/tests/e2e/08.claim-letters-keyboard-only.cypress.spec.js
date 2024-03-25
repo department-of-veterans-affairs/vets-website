@@ -3,16 +3,16 @@ import claimLetters from './fixtures/mocks/claim-letters/list.json';
 
 describe('Claim Letters Page', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
+    cy.intercept('GET', '/v0/claim_letters', claimLetters.data).as(
+      'claimLetters',
+    );
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
       'featureToggleEnabled',
     );
 
     cy.login();
     cy.visit('track-claims/your-claim-letters');
-    // adds .focus() so tests are able to work with the va-loading-indicator web component
-    // cy.get('.va-header-logo').focus();
-    // TO DO: remove this comment block, as it is not needed.
+    cy.wait(['@claimLetters', '@featureToggleEnabled'], 100);
     cy.injectAxe();
   });
 
