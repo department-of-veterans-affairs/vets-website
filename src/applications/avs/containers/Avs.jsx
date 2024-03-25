@@ -97,7 +97,7 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <BreadCrumb />
-        <h1>After-visit summary</h1>
+        <h1 className="vads-u-padding-top--2">After-visit summary</h1>
         {avs.meta?.pageHeader && (
           <p>
             <AvsPageHeader text={avs.meta.pageHeader} />
