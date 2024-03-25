@@ -22,6 +22,8 @@ import {
   showsCorrectOtherReasonsLabels,
 } from './e2eHelpers';
 import mockUploadResponse from './fixtures/mocks/upload.json';
+import sipPut from './fixtures/mocks/sip-put.json';
+import sipGet from './fixtures/mocks/sip-get.json';
 
 // Skip in CI
 const testSuite = Cypress.env('CI') ? describe.skip : describe;
@@ -71,7 +73,9 @@ testSuite('PP 10207 - Veteran', () => {
   };
 
   beforeEach(() => {
-    cy.intercept('/v0//v0/feature_toggles', featureToggles);
+    cy.intercept('/v0/feature_toggles*', featureToggles);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-10207', sipPut);
+    cy.intercept('GET', '/v0/in_progress_forms/20-10207', sipGet);
     cy.visit('/');
   });
 

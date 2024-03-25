@@ -138,7 +138,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('/v0/api', { status: 200 });
-      cy.intercept('/v0/feature_toggles', featureToggles);
+      cy.intercept('/v0/feature_toggles*', featureToggles);
       cy.intercept('PUT', '/v0/in_progress_forms/20-10207', sipPut);
       cy.intercept('GET', '/v0/in_progress_forms/20-10207', sipGet);
       cy.intercept(formConfig.submitUrl, mockSubmit);
@@ -147,7 +147,7 @@ const testConfig = createTestConfig(
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
