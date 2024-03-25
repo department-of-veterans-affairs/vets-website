@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Sent Folder checks', () => {
@@ -52,7 +52,7 @@ describe('Secure Messaging Sent Folder checks', () => {
       FolderLoadPage.navigateToLastPage(lastPageIndex);
       cy.get('.endOfThreads').should(
         'have.text',
-        'End of conversations in this folder',
+        Data.END_CONVERSATION_IN_FOLDER,
       );
     });
     FolderLoadPage.verifyPaginationElements();

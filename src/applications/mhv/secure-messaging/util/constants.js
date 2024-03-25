@@ -391,3 +391,9 @@ export const CernerTransitioningFacilities = {
     facilityId: '556',
   },
 };
+
+export const filterDescription = {
+  noMsgId: 'Enter information from one of these fields: To, from, or subject',
+  withMsgId:
+    'Enter information from one of these fields: To, from, message ID, or subject',
+};

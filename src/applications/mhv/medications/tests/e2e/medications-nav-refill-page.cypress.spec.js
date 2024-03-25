@@ -1,5 +1,5 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import prescriptions from './fixtures/prescriptions.json';
+import prescriptions from './fixtures/listOfPrescriptions.json';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
 
 describe('Medications Refill Page', () => {

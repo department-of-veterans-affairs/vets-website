@@ -64,7 +64,7 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -275,7 +275,19 @@ const PrescriptionDetails = () => {
           generatePDF(buildAllergiesPDFList(allergies));
         } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
           generateTXT(buildAllergiesTXT(allergies));
+        } else {
+          setPdfTxtGenerateStatus({
+            status: PDF_TXT_GENERATE_STATUS.NotStarted,
+            format: 'print',
+          });
         }
+      }
+      if (
+        allergies &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
+        pdfTxtGenerateStatus.format === 'print'
+      ) {
+        window.print();
       }
     },
     [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
@@ -285,7 +297,7 @@ const PrescriptionDetails = () => {
     () => {
       if (!prescription) return;
       const cmopNdcNumber =
-        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription?.rxRfRecords?.[0]?.cmopNdcNumber ??
         prescription.cmopNdcNumber;
       if (cmopNdcNumber) {
         getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
@@ -310,22 +322,19 @@ const PrescriptionDetails = () => {
     if (nonVaPrescription) {
       return (
         <>
-          Documented on {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+          Documented on {dateFormat(prescription?.orderedDate, 'MMMM D, YYYY')}
         </>
       );
     }
     return (
       <>
         {prescription.dispensedDate ||
-        prescription.rxRfRecords?.[0]?.[1].find(
-          record => record.dispensedDate,
-        ) ? (
+        prescription.rxRfRecords?.find(record => record?.dispensedDate) ? (
           <span>
             Last filled on{' '}
             {dateFormat(
-              prescription.rxRfRecords?.[0]?.[1]?.find(
-                record => record.dispensedDate,
-              )?.dispensedDate || prescription.dispensedDate,
+              prescription.rxRfRecords?.find(record => record?.dispensedDate)
+                ?.dispensedDate || prescription?.dispensedDate,
               'MMMM D, YYYY',
             )}
           </span>
@@ -349,6 +358,9 @@ const PrescriptionDetails = () => {
       generatePDF();
     } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
       generateTXT(buildAllergiesTXT());
+    } else {
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted });
+      setTimeout(() => window.print(), 1);
     }
     dispatch(clearAllergiesError());
   };
@@ -366,6 +378,7 @@ const PrescriptionDetails = () => {
               onCloseButtonClick={handleModalClose}
               onDownloadButtonClick={handleModalDownloadButton}
               onCancelButtonClick={handleModalClose}
+              isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
               visible={Boolean(
                 pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.InProgress && allergiesError,

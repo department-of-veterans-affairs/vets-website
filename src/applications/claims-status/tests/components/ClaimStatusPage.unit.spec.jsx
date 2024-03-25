@@ -133,7 +133,7 @@ describe('<ClaimStatusPage>', () => {
               },
             };
 
-            const { container } = render(
+            const { container, getByText } = render(
               <Provider store={getStore()}>
                 <ClaimStatusPage
                   claim={claim}
@@ -149,7 +149,7 @@ describe('<ClaimStatusPage>', () => {
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
+            getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert', container)).not.to.exist;
             expect($('.need-files-alert', container)).not.to.exist;
@@ -186,7 +186,7 @@ describe('<ClaimStatusPage>', () => {
                 ],
               },
             };
-            const { container } = render(
+            const { container, getByText } = render(
               <Provider store={getStore()}>
                 <ClaimStatusPage
                   claim={claim}
@@ -202,7 +202,7 @@ describe('<ClaimStatusPage>', () => {
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
+            getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert', container)).to.exist;
           });
