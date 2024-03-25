@@ -248,7 +248,7 @@ export const buildVAPrescriptionPDFList = (
   prescription,
   prescriptionImage = null,
 ) => {
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -266,7 +266,7 @@ export const buildVAPrescriptionPDFList = (
               title: 'Last filled on',
               value: dateFormat(
                 (prescription.rxRfRecords?.length &&
-                  prescription.rxRfRecords?.[0]?.[1].dispensedDate) ||
+                  prescription.rxRfRecords[0].dispensedDate) ||
                   prescription.dispensedDate,
                 'MMMM D, YYYY',
               ),
@@ -383,13 +383,16 @@ export const buildVAPrescriptionPDFList = (
         {
           items: refillHistory
             .map((entry, i) => {
+              const index = refillHistory.length - i - 1;
               return [
                 {
                   value: [
                     {
-                      value: `${i === 0 ? 'First fill' : `Refill ${i}`}`,
+                      value: `${
+                        index === 0 ? 'First fill' : `Refill ${index}`
+                      }`,
                       weight: 'bold',
-                      itemSeperator: i !== refillHistory.length - 1,
+                      itemSeperator: index !== refillHistory.length - 1,
                       itemSeperatorOptions: {
                         spaceFromEdge: 16,
                         linesAbove: 0.5,
@@ -417,7 +420,6 @@ export const buildVAPrescriptionPDFList = (
                 },
               ];
             })
-            .reverse()
             .flat(),
         },
       ],

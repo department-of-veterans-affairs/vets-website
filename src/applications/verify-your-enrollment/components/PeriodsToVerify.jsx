@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
 import { getPeriodsToVerify } from '../helpers';
-import Loader from './Loader';
 
 const PeriodsToVerify = ({
   enrollmentData,
   loggedInEnenrollmentData,
   isUserLoggedIn,
-  loading,
   link,
   toggleEnrollmentSuccess,
 }) => {
@@ -88,18 +86,13 @@ const PeriodsToVerify = ({
             <VerifiedSuccessStatement />
           </div>
         )}
-
-      {loading ? (
-        <Loader />
-      ) : (
-        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-          .length === 0 &&
+      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
+        .length === 0 &&
         !justVerified && (
           <div className="vads-u-margin-top--2">
             <UpToDateVerificationStatement />
           </div>
-        )
-      )}
+        )}
     </div>
   );
 };
