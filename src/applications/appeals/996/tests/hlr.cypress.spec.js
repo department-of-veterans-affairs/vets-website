@@ -50,6 +50,17 @@ const testConfig = createTestConfig(
         });
       },
 
+      homeless: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { homeless } = testData;
+            cy.get(`va-radio-option[value="${homeless ? 'y' : 'n'}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
