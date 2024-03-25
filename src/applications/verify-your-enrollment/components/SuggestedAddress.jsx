@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { isValid } from 'date-fns';
 import { postMailingAddress, validateAddress } from '../actions';
 import Loader from './Loader';
 import ButtonsGroup from './Buttons';
@@ -87,7 +88,9 @@ const SuggestedAddress = ({
   };
   return (
     <div className="address-change-form-container">
-      {(isLoadingValidateAddress || isLoading) && <Loader className="loader" />}
+      {(isLoadingValidateAddress || isLoading) && (
+        <Loader className="loader" message="updating..." />
+      )}
       <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
         Mailing address
       </p>
@@ -157,8 +160,9 @@ const SuggestedAddress = ({
         onPrimaryClick={onUpdateClicked}
         onSecondaryClick={onBackToEditClick}
         primaryLabel={
-          deliveryPointValidation !== undefined &&
-          deliveryPointValidation === 'CONFIRMED'
+          (deliveryPointValidation !== undefined &&
+            deliveryPointValidation === 'CONFIRMED') ||
+          isValid
             ? 'Update'
             : 'Use this address'
         }
@@ -174,7 +178,8 @@ SuggestedAddress.propTypes = {
   setFormData: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
-  handleCloseForm: PropTypes.func,
+  isavlaidate: PropTypes.bool,
+  setIsvalidate: PropTypes.func,
 };
 
 export default SuggestedAddress;

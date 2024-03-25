@@ -121,6 +121,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   useEffect(
     () => {
       setEditFormData({});
+      sessionStorage.removeItem('address');
     },
     [error, response, validationError],
   );
@@ -266,7 +267,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           <div className="address-change-form-container">
             <p className="vads-u-font-weight--bold">Change mailing address</p>
             {(isLoadingValidateAddress || isLoading) && (
-              <Loader className="loader" />
+              <Loader className="loader" message="updating..." />
             )}
             <ChangeOfAddressForm
               applicantName={applicantName}
