@@ -468,7 +468,6 @@ export function updateUiSchema(schema, uiSchema, formData) {
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
-  // debugger;
   // this can happen if you import a field that doesn’t exist from a schema
   if (!schema) {
     throw new Error(`Schema is undefined at ${path}`);
