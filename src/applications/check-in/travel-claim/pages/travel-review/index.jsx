@@ -55,7 +55,7 @@ const TravelReview = props => {
         i18nKey="if-you-choose-to-file-later"
         components={[<span key="bold" className="vads-u-font-weight--bold" />]}
       />
-      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+      {/* <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claim-informaiton')}</h2>
         <a
           className="vads-u-margin-left--auto"
@@ -78,6 +78,60 @@ const TravelReview = props => {
         </dd>
         <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
         <dd className="vads-u-margin-top--0p5">{t('in-your-own-vehicle')}</dd>
+        <dt className="vads-u-margin-top--2p5">
+          {t('where-you-traveled-from')}
+        </dt>
+        <dd className="vads-u-margin-top--0p5">{address}</dd>
+      </dl> */}
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-mileage"
+          onClick={e => onEditClick(e)}
+          data-testid="review-edit-link-mileage"
+        >
+          {t('Edit')}
+        </a>
+      </div>
+      <dl className="vads-u-font-family--sans">
+        <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
+        <dd
+          className="vads-u-margin-top--0p5"
+          data-testid={`claiming-${facilitiesToFile.length}-facilities`}
+        >
+          <span data-testid="claim-list">
+            {t('mileage-only-reimbursement-for')} {claimList}
+          </span>
+        </dd>
+      </dl>
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('travel-method')}</h2>
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-vehicle"
+          onClick={e => onEditClick(e)}
+          data-testid="review-edit-link"
+        >
+          {t('Edit')}
+        </a>
+      </div>
+      <dl className="vads-u-font-family--sans">
+        <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
+        <dd className="vads-u-margin-top--0p5">{t('in-your-own-vehicle')}</dd>
+      </dl>
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('starting-address')}</h2>
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-address"
+          onClick={e => onEditClick(e)}
+          data-testid="review-edit-link"
+        >
+          {t('Edit')}
+        </a>
+      </div>
+      <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">
           {t('where-you-traveled-from')}
         </dt>

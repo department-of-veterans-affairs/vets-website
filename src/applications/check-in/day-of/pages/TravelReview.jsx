@@ -38,11 +38,35 @@ const TravelQuestion = props => {
     dispatch(recordAnswer({ 'travel-question': 'no' }));
     goToNextPage();
   };
+  const agreementLink = e => {
+    e.preventDefault();
+    jumpToPage('/travel-agreement');
+  };
+
   const bodyText = (
     <>
       <p>{t('review-body-text')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
-        <h2>{t('claim-informaiton')}</h2>
+        <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-mileage"
+          onClick={e => onEditClick(e)}
+          data-testid="review-edit-link-mileage"
+        >
+          {t('Edit')}
+        </a>
+      </div>
+      <dl className="vads-u-font-family--sans">
+        <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
+        <dd className="vads-u-margin-top--0p5" data-testid="claim-list">
+          <span data-testid="claim-list">
+            {t('mileage-reimbursement-only')}
+          </span>
+        </dd>
+      </dl>
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('travel-method')}</h2>
         <a
           className="vads-u-margin-left--auto"
           href="travel-vehicle"
@@ -53,12 +77,21 @@ const TravelQuestion = props => {
         </a>
       </div>
       <dl className="vads-u-font-family--sans">
-        <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
-        <dd className="vads-u-margin-top--0p5">
-          {t('mileage-reimbursement-only')}
-        </dd>
         <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
         <dd className="vads-u-margin-top--0p5">{t('in-your-own-vehicle')}</dd>
+      </dl>
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('starting-address')}</h2>
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-address"
+          onClick={e => onEditClick(e)}
+          data-testid="review-edit-link"
+        >
+          {t('Edit')}
+        </a>
+      </div>
+      <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">
           {t('where-you-traveled-from')}
         </dt>
@@ -89,22 +122,20 @@ const TravelQuestion = props => {
           uswds
         >
           <div slot="description">
-            <p>{t('by-submitting-claim')}</p>
-            <va-additional-info
-              uswds
-              trigger={t('beneficiary-travel-agreement')}
-              class="vads-u-margin-bottom--3"
-            >
-              <span className="vads-u-font-weight--bold">
-                {t('please-review')}
-              </span>
-              <ul>
-                <Trans
-                  i18nKey="certify-statements"
-                  components={[<li key="list-item" />]}
-                />
-              </ul>
-            </va-additional-info>
+            <p>
+              <Trans
+                i18nKey="by-submitting-this-claim"
+                components={[
+                  <a
+                    data-testid="travel-agreement-link"
+                    key="link"
+                    aria-label={t('beneficiary-travel-agreement')}
+                    href="travel-agreement"
+                    onClick={e => agreementLink(e)}
+                  />,
+                ]}
+              />
+            </p>
           </div>
         </VaCheckbox>
       </div>
