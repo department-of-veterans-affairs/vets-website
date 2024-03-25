@@ -4,22 +4,22 @@
   margin-bottom: 10px;
   .left-button {
     border-radius: 4px 0 0 4px;
-    box-shadow: -1px 0 0 2px $color-primary;
+    box-shadow: -1px 0 0 2px var(--vads-color-primary);
     margin: 0px;
   }
   .right-button {
     border-radius: 0 4px 4px 0;
-    box-shadow: 1px 0 0 2px $color-primary;
+    box-shadow: 1px 0 0 2px var(--vads-color-primary);
     margin: 0px;
   }
 }
 
 .folder-link {
   a {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
   a:visited {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
 }
 
@@ -56,7 +56,7 @@
       align-items: center;
     }
     i {
-      color: $color-link-default;
+      color: var(--vads-color-link);
       margin-right: 10px;
     }
   }

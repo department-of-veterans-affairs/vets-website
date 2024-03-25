@@ -11,7 +11,7 @@ import { selectRefillContentFlag } from '../../util/selectors';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -21,7 +21,7 @@ const VaPrescription = prescription => {
 
   const hasBeenDispensed =
     prescription?.dispensedDate ||
-    prescription?.rxRfRecords?.[0]?.[1].find(record => record.dispensedDate);
+    prescription?.rxRfRecords.find(record => record.dispensedDate);
   const shippedOn = prescription?.trackingList?.[0]?.[1];
   const content = () => {
     if (prescription) {
@@ -129,7 +129,7 @@ const VaPrescription = prescription => {
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => (
                 <div
-                  key={entry.id}
+                  key={i}
                   className={
                     i + 1 < refillHistory.length
                       ? 'vads-u-margin-bottom--3 refill-entry'

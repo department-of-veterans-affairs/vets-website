@@ -102,4 +102,22 @@ describe('Yellow Ribbon container <SearchResults>', () => {
     expect(tree.find('VaPagination')).to.have.lengthOf(1);
     tree.unmount();
   });
+
+  it('correctly extracts search params from a given search string', () => {
+    const tree = shallow(<SearchResults />);
+    const searchResultsInstance = tree.instance();
+    const mockSearchString =
+      '?city=berkeley&name=university+of+california&state=CA';
+    const expectedParams = {
+      name: 'university of california',
+      stateOrTerritory: 'CA',
+      city: 'berkeley',
+      contributionAmount: '',
+      numberOfStudents: '',
+    };
+    const result = searchResultsInstance.getSearchParams(mockSearchString);
+
+    expect(result).to.deep.equal(expectedParams);
+    tree.unmount();
+  });
 });
