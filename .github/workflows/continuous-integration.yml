@@ -577,7 +577,10 @@ jobs:
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      credentials:
+        username: AWS
+        password: ${{ steps.login-ecr.outputs.ecr-password }}
 
     strategy:
       fail-fast: false
@@ -612,6 +615,10 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: Download production build artifact
         if: needs.tests-prep.outputs.cypress-tests != '[]'
