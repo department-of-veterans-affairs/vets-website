@@ -22,7 +22,7 @@ const modifiedPreviousNames = merge(previousNames, {
 export function PreviousNamesView({ formData }) {
   return (
     <>
-      <ListItemView title={formData?.first} />
+      <ListItemView title={`${formData?.first} ${formData?.last}`} />
     </>
   );
 }
@@ -30,6 +30,7 @@ export function PreviousNamesView({ formData }) {
 PreviousNamesView.propTypes = {
   formData: PropTypes.shape({
     first: PropTypes.string,
+    last: PropTypes.string,
   }),
 };
 

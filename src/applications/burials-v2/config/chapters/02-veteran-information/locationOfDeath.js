@@ -13,10 +13,10 @@ export default {
     locationOfDeath: {
       location: {
         ...radioUI({
-          title: `Where did the Veteran's death occur?`,
+          title: `Where did the Veteran’s death occur?`,
           labels: locationOfDeathLabels,
           errorMessages: {
-            required: `Select your relationship to the Veteran`,
+            required: `Select where the Veteran’s death happened`,
           },
           labelHeaderLevel: '',
         }),

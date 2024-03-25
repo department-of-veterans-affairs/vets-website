@@ -99,15 +99,6 @@ const IntroductionPage = ({ route }) => {
         downtime={route.formConfig.downtime}
         startText="Start the Burial Benefits Application"
       />
-      <p>
-        If you don’t want to sign in, you can{' '}
-        <va-link
-          href="/records/get-military-service-records/"
-          text="apply using the paper form"
-        />
-        . Please expect longer processing time for decisions when opting for
-        this method.
-      </p>
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
         <va-omb-info
           res-burden={30}

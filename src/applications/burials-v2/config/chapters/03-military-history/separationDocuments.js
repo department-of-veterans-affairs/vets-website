@@ -18,8 +18,9 @@ export default {
           <li>Answer questions about the Veteran’s military history</li>
         </ul>
         <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          Uploading a copy can help us process your application faster. We’ll
-          ask you to upload a copy later in this form.
+          Uploading a copy can help us process your application faster and
+          you’ll skip certain questions about the deceased Veteran’s military
+          service history.
         </p>
         <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
           If you don’t have a copy and need these documents to answer questions

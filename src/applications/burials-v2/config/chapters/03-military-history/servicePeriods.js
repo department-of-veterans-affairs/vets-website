@@ -104,6 +104,7 @@ export default {
         serviceBranch: {
           'ui:title': 'Branch of service',
           'ui:webComponentField': VaSelectField,
+          'ui:required': () => true,
           'ui:options': {
             uswds: true,
           },
