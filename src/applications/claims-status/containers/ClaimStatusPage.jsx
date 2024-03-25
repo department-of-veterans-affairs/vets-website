@@ -236,9 +236,7 @@ class ClaimStatusPage extends React.Component {
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
           <Toggler.Disabled>
-            {showDocsNeeded && (
-              <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            )}
+            {showDocsNeeded && <NeedFilesFromYou files={filesNeeded} />}
             {status &&
               isOpen && (
                 <ClaimTimeline

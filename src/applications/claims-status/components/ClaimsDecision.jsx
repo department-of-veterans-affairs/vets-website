@@ -29,7 +29,7 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
 
       {showClaimLettersLink && (
         <p>
-          <Link className="vads-c-action-link--blue" to="your-claim-letters">
+          <Link className="vads-c-action-link--blue" to="/your-claim-letters">
             Get your claim letters
           </Link>
         </p>

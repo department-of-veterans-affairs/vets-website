@@ -1,7 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import { merge } from 'lodash';
-import { Link } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -111,9 +110,9 @@ class DocumentRequestPage extends React.Component {
   }
 
   render() {
-    let content;
-    const filesPath = `your-claims/${this.props.params.id}/files`;
     const { trackedItem } = this.props;
+    const filesPath = '../files';
+    let content;
 
     if (this.props.loading) {
       content = (
@@ -144,7 +143,7 @@ class DocumentRequestPage extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            backUrl={this.props.lastPage || filesPath}
+            backUrl={`/${this.props.lastPage}` || filesPath}
             onSubmit={() => {
               // START lighthouse_migration
               if (this.props.documentsUseLighthouse) {
@@ -172,17 +171,20 @@ class DocumentRequestPage extends React.Component {
       );
     }
 
-    const docRequest = this.props.loading ? (
-      <span>Document request</span>
-    ) : (
-      <Link
-        to={`your-claims/${this.props.params.id}/document-request/${
-          trackedItem.id
-        }`}
-      >
-        Document request
-      </Link>
-    );
+    const crumbs = [
+      {
+        href: filesPath,
+        label: 'Status details',
+        isRouterLink: true,
+      },
+      {
+        href: `your-claims/${this.props.params.id}/document-request/${
+          this.props.params.trackedItemId
+        }`,
+        label: 'Document request',
+        isRouterLink: true,
+      },
+    ];
 
     return (
       <div>
@@ -190,10 +192,7 @@ class DocumentRequestPage extends React.Component {
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={filesPath}>Status details</Link>
-                {docRequest}
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={crumbs} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">

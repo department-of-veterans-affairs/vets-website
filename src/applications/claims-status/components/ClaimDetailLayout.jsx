@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { DATE_FORMATS } from '../constants';
@@ -42,8 +41,8 @@ export default function ClaimDetailLayout(props) {
     currentTab,
     synced,
   } = props;
-  const tabs = ['Status', 'Files', 'Details', 'Overview'];
 
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
@@ -53,7 +52,6 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
-        uswds="false"
       />
     );
   } else if (claim !== null) {
@@ -121,17 +119,19 @@ export default function ClaimDetailLayout(props) {
     );
   }
 
+  const crumb = {
+    href: `../status`,
+    label: getBreadcrumbText(currentTab, claimType),
+    isRouterLink: true,
+  };
+
   return (
     <div>
       <div name="topScrollElement" />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to="../status">
-                {getBreadcrumbText(currentTab, claimType)}
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={[crumb]} />
           </div>
         </div>
         {!!headingContent && (
