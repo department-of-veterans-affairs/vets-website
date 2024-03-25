@@ -41,9 +41,17 @@ class PatientComposePage {
   };
 
   clickSendMessageButton = () => {
-    cy.get(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .click({ waitForAnimations: true, force: true });
+    cy.get(Locators.BUTTONS.SEND).click({
+      waitForAnimations: true,
+      force: true,
+    });
+  };
+
+  clickSaveDraftButton = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({
+      waitForAnimations: true,
+      force: true,
+    });
   };
 
   verifySendMessageConfirmationMessageText = () => {
