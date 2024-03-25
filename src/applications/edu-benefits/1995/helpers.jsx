@@ -1,4 +1,5 @@
 import environment from 'platform/utilities/environment';
+import moment from 'moment/moment';
 
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
@@ -54,4 +55,12 @@ export const buildSubmitEventData = formData => {
     'direct-deposit-method': directDepositMethod(formData),
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
+};
+
+export const eighteenOrOver = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
 };
