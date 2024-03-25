@@ -22,32 +22,32 @@
 }
 
 .secondary-button {
-    background-color: $color-white;
-    border: 2px solid $color-primary;
-    color: $color-primary;
+    background-color: var(--vads-color-white);
+    border: 2px solid var(--vads-color-primary);
+    color: var(--vads-color-primary);
     max-width: 210px
 
 }
 .secondary-button:hover {
-    border: 2px solid $color-primary-darker;
-    color: $color-primary-darker;
-    background-color: $color-gray-cool-light;
+    border: 2px solid var(--vads-color-primary-dark);
+    color: var(--vads-color-primary-dark);
+    background-color: var(--vads-color-gray-cool-light)
 }
 .secondary-button:visited {
-    color: $color-primary;
+    color: var(--vads-color-primary);
 }
 .secondary-button:visited:hover {
-    color: $color-primary-darker;
+    color: var(--vads-color-primary-dark);
 }
 
 .primary-button {
-    border: 2px solid $color-primary;
+    border: 2px solid var(--vads-color-primary);
     max-width: 210;
 }
 .primary-button:visited {
-    color: $color-white;
-    border: 2px solid $color-primary;
+    color: var(--vads-color-white);
+    border: 2px solid var(--vads-color-primary);
 }
 .primary-button:hover {
-    border: 2px solid $color-primary-darker;
+    border: 2px solid var(--vads-color-primary-dark);
 }

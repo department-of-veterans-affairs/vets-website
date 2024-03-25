@@ -3,6 +3,8 @@ import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash';
 import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { AppealInfo } from '../../../containers/AppealInfo';
 import { mockData } from '../../../utils/helpers';
 import {
@@ -42,10 +44,9 @@ describe('<AppealInfo/>', () => {
   });
 
   it('should render the breadcrumbs', () => {
-    const wrapper = shallow(<AppealInfo {...defaultProps} />);
-    const breadcrumbs = wrapper.find('ClaimsBreadcrumbs');
-    expect(breadcrumbs.length).to.equal(1);
-    wrapper.unmount();
+    const { container } = render(<AppealInfo {...defaultProps} />);
+    const breadcrumbs = $('va-breadcrumbs', container);
+    expect(breadcrumbs.breadcrumbList.length).to.equal(3);
   });
 
   it('should render a header', () => {
