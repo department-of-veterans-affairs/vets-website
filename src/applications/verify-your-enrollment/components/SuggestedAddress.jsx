@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { isValid } from 'date-fns';
 import { postMailingAddress, validateAddress } from '../actions';
 import Loader from './Loader';
 import ButtonsGroup from './Buttons';
@@ -14,8 +13,8 @@ const SuggestedAddress = ({
   handleAddNewClick,
   setAddressToUI,
   setFormData,
-  setIsvalidate,
-  isavlaidate,
+  setSuggestedAddressPicked,
+  suggestedAddressPicked,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -23,7 +22,7 @@ const SuggestedAddress = ({
   );
   const { loading: isLoading } = useSelector(state => state.updateAddress);
 
-  const [isEnteredAddress, setIsEnteredAddress] = useState('suggested');
+  const [chooseAddress, setChooseAddress] = useState('suggested');
   const deliveryPointValidation =
     addressValidationData?.addresses[0]?.addressMetaData
       ?.deliveryPointValidation;
@@ -35,17 +34,17 @@ const SuggestedAddress = ({
     handleAddNewClick(event);
     setFormData({});
   };
-  const isUSA = isEnteredAddress
+  const isUSA = chooseAddress
     ? formData.countryCodeIso3 === 'USA'
     : address.countryCodeIso3 === 'USA';
-  const source = isEnteredAddress ? formData : address;
+  const source = chooseAddress ? formData : address;
 
   const stateAndZip = {
     stateCode: isUSA ? source.stateCode : source.province,
     zipCode: isUSA ? source.zipCode : source.internationalPostalCode,
   };
   const handleChange = event => {
-    setIsEnteredAddress(event.target.value);
+    setChooseAddress(event.target.value);
   };
 
   // get calls when suggested address or entered address is selected
@@ -54,8 +53,8 @@ const SuggestedAddress = ({
       ...stateAndZip,
       state: stateAndZip.stateCode,
     };
-    if (isEnteredAddress === 'suggested') {
-      setIsvalidate(true);
+    if (chooseAddress === 'suggested') {
+      setSuggestedAddressPicked(true);
       try {
         dispatch(validateAddress(address, formData?.fullName));
       } catch (err) {
@@ -104,12 +103,12 @@ const SuggestedAddress = ({
           confidenceScore={confidenceScore}
           formData={formData}
           onChange={handleChange}
-          setIsEnteredAddress={setIsEnteredAddress}
+          setChooseAddress={setChooseAddress}
         />
       </div>
       {((deliveryPointValidation !== undefined &&
         deliveryPointValidation === 'CONFIRMED') ||
-        isavlaidate) && (
+        suggestedAddressPicked) && (
         <>
           <Alert
             status="warning"
@@ -166,7 +165,7 @@ const SuggestedAddress = ({
         primaryLabel={
           (deliveryPointValidation !== undefined &&
             deliveryPointValidation === 'CONFIRMED') ||
-          isValid
+          suggestedAddressPicked
             ? 'Update'
             : 'Use this address'
         }
@@ -182,8 +181,8 @@ SuggestedAddress.propTypes = {
   setFormData: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
-  isavlaidate: PropTypes.bool,
-  setIsvalidate: PropTypes.func,
+  setSuggestedAddressPicked: PropTypes.func,
+  suggestedAddressPicked: PropTypes.bool,
 };
 
 export default SuggestedAddress;

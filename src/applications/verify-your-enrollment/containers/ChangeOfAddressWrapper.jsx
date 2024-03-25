@@ -30,7 +30,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
-  const [isavlaidate, setIsvalidate] = useState(false);
+  const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
@@ -111,7 +111,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       if (!isLoading && !isLoadingValidateAddress) {
         handleCloseForm();
-        setIsvalidate(false);
+        setSuggestedAddressPicked(false);
       }
     },
     [handleCloseForm, isLoading, isLoadingValidateAddress],
@@ -227,15 +227,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 || isavlaidate ? (
+            {confidenceScore < 100 || suggestedAddressPicked ? (
               <SuggestedAddress
                 formData={editFormData}
                 address={JSON.parse(sessionStorage.getItem('address'))}
                 handleAddNewClick={event => handleAddNewClick(event)}
                 setFormData={setFormData}
                 setAddressToUI={setAddressToUI}
-                setIsvalidate={setIsvalidate}
-                isavlaidate={isavlaidate}
+                setSuggestedAddressPicked={setSuggestedAddressPicked}
+                suggestedAddressPicked={suggestedAddressPicked}
               />
             ) : (
               <>
