@@ -71,9 +71,9 @@ FileFieldCustom.propTypes = {
   onChange: PropTypes.func,
   // eslint-disable-next-line react/sort-prop-types
   onReviewPage: PropTypes.bool,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.any,
   schema: PropTypes.object,
-  title: PropTypes.string || PropTypes.func,
+  title: PropTypes.any,
   trackingPrefix: PropTypes.string,
   uiSchema: PropTypes.object,
   contentAfterButtons: PropTypes.any,
