@@ -5,7 +5,7 @@
 }
 
 .homepage-hub {
-  @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
+  @include linear-gradient-background(var(--vads-color-primary), var(--vads-color-primary-darker));
   padding-top: 1.5em;
 
   @include media($medium-screen) {
@@ -28,7 +28,7 @@
 }
 
 .homepage-heading {
-  color: $color-white;
+  color: var(--vads-color-white);
   text-align: center;
   margin-top: 0;
   margin-bottom: 1em;
@@ -48,7 +48,7 @@
   }
 
   &-container {
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     margin: 0 0.5em 0.5em;
     padding: 1.5em 1.5em 2.125em 1.5em;
 
@@ -120,8 +120,8 @@
   padding: 0;
   margin: 0 0 16px;
   display: inline-block;
-  color: $color-white;
-  background-color: $color-primary;
+  color: var(--vads-color-white);
+  background-color: var(--vads-color-primary);
   text-decoration: none;
   border-radius: 5px;
   font-weight: 700;
@@ -135,27 +135,27 @@
   transition-property: background-color;
 
   &:hover, &:active {
-    background-color: $color-primary-darker;
+    background-color: var(--vads-color-primary-dark);
     outline-offset: 2px;
     .icon-wrapper {
-      background-color: $color-primary-darkest;
+      background-color: var(--vads-color-primary-darker);
     }
   }
 
   &:hover, &:focus, &:visited {
-    color: $color-white;
+    color: var(--vads-color-white);
     text-decoration: none;
-    // background-color: $color-primary;
+    // background-color: var(--vads-color-primary);
     outline-offset: 2px;
   }
 
   &.vcl {
-    background-color: $color-secondary-dark;
+    background-color: var(--vads-color-secondary-dark);
     &:hover, &:active {
-      background-color: $color-secondary-darkest;
+      background-color: var(--vads-color-secondary-darkest);
       outline-offset: 2px;
       .icon-wrapper {
-        background-color: $color-secondary-dark;
+        background-color: var(--vads-color-secondary-dark);
         outline-offset: 2px;
       }
     }
@@ -165,7 +165,7 @@
     width: 55px;
     height: 100%;
     float: left;
-    background-color: $color-primary-darker;
+    background-color: var(--vads-color-primary-dark);
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
 
@@ -178,7 +178,7 @@
       background: url(/img/VCL-icon-white.svg) no-repeat;
       background-size: 2em auto;
       background-position: center;
-      background-color: $color-secondary-darkest;
+      background-color: var(--vads-color-secondary-darkest);
     }
   }
 
