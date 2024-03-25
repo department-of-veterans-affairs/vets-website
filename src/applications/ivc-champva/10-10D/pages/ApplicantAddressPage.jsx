@@ -78,7 +78,6 @@ export function ApplicantAddressCopyPage({
       }
       return isValid;
     },
-
     selectUpdate: event => {
       const { target = {} } = event;
       const value = event.detail?.value || target.value || '';
