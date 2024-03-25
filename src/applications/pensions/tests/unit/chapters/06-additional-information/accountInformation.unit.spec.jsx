@@ -6,14 +6,14 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import fullSchemaPensions from '../../../config/form';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import fullSchemaPensions from '../../../../config/form';
 
-describe('Pensions directDeposit', () => {
+describe('Pensions accountInformation', () => {
   const {
     schema,
     uiSchema,
-  } = fullSchemaPensions.chapters.additionalInformation.pages.directDeposit;
+  } = fullSchemaPensions.chapters.additionalInformation.pages.accountInformation;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -22,29 +22,23 @@ describe('Pensions directDeposit', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(6);
-  });
-
-  it('should render stop message', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
-    );
-
-    const formDOM = getFormDOM(form);
-    formDOM.setCheckbox('#root_view\\:noDirectDeposit', true);
-
-    expect(formDOM.querySelector('.pension-dd-warning')).to.not.be.null;
-    expect(formDOM.querySelectorAll('input').length).to.equal(1);
+    expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
 
   it('should require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{
+          'view:usingDirectDeposit': true,
+        }}
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input').length).to.equal(5);
 
     formDOM.submitForm(form);
 
