@@ -4,9 +4,13 @@ import { differenceInCalendarDays, parseISO } from 'date-fns';
 import { api } from '../api';
 import { useStorage } from './useStorage';
 import { makeSelectForm, makeSelectCurrentContext } from '../selectors';
+import { useFormRouting } from './useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
+import { URLS } from '../utils/navigation';
 
-const usePostTravelClaims = () => {
+const usePostTravelClaims = props => {
+  const { router } = props;
+  const { jumpToPage } = useFormRouting(router);
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
@@ -31,6 +35,14 @@ const usePostTravelClaims = () => {
   );
   useEffect(
     () => {
+      if (
+        !data['travel-vehicle'] ||
+        !data['travel-address'] ||
+        !data['travel-review']
+      ) {
+        jumpToPage(URLS.TRAVEL_INTRO);
+        return;
+      }
       const markTravelPayClaimSent = facilities => {
         facilities.forEach(facility => {
           travelPaySent[facility.stationNo] = new Date();
@@ -63,6 +75,8 @@ const usePostTravelClaims = () => {
       isComplete,
       faciltiesToPost,
       travelPaySent,
+      data,
+      jumpToPage,
     ],
   );
 
