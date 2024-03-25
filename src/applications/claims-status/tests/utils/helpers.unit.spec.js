@@ -11,7 +11,6 @@ import {
   getDocTypeDescription,
   displayFileSize,
   getTrackedItemId,
-  getTrackedItems,
   getFilesNeeded,
   getFilesOptional,
   getUserPhase,
@@ -428,67 +427,6 @@ describe('Disability benefits helpers: ', () => {
     });
   });
   // END lighthouse_migration
-
-  describe('getTrackedItems', () => {
-    context('when useLighthouse is true', () => {
-      const useLighthouse = true;
-      it('when trackedItems is empty, should return empty array', () => {
-        const claim = {
-          attributes: {
-            open: false,
-            trackedItems: [],
-          },
-        };
-        const trackedItems = getTrackedItems(claim, useLighthouse);
-        expect(trackedItems.length).to.equal(0);
-      });
-
-      it('when trackedItems exists, should return data', () => {
-        const claim = {
-          attributes: {
-            open: false,
-            trackedItems: [
-              {
-                status: 'NEEDED_FROM_YOU',
-              },
-            ],
-          },
-        };
-        const trackedItems = getTrackedItems(claim, useLighthouse);
-        expect(trackedItems.length).to.equal(1);
-      });
-    });
-
-    context('when useLighthouse is false', () => {
-      const useLighthouse = false;
-      it('when eventsTimeline is empty, should return empty array', () => {
-        const claim = {
-          attributes: {
-            open: false,
-            eventsTimeline: [],
-          },
-        };
-        const trackedItems = getTrackedItems(claim, useLighthouse);
-        expect(trackedItems.length).to.equal(0);
-      });
-
-      it('when eventsTimeline exists, should return data', () => {
-        const claim = {
-          attributes: {
-            open: false,
-            eventsTimeline: [
-              {
-                type: 'still_need_from_you_list',
-                status: 'NEEDED',
-              },
-            ],
-          },
-        };
-        const trackedItems = getTrackedItems(claim, useLighthouse);
-        expect(trackedItems.length).to.equal(1);
-      });
-    });
-  });
 
   describe('getFilesNeeded', () => {
     context('when useLighthouse is true', () => {

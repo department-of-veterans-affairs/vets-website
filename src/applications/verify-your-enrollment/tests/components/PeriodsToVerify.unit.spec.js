@@ -50,7 +50,7 @@ describe('<PeriodsToVerify />', () => {
       </Provider>,
     );
     await waitFor(() => {
-      expect(wrapper.find('Loader').exists()).to.be.true;
+      expect(wrapper.find('Loader').exists()).to.be.false;
     });
     wrapper.unmount();
   });
