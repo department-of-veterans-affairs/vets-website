@@ -67,7 +67,7 @@ const BenefitsProfileWrapper = ({ children }) => {
               mailingAddress={{
                 street: `${addressLine3} ${addressLine2}`,
                 city: addressLine4,
-                state: addressLine5,
+                stateCode: addressLine5,
                 zipCode: addressLine6,
               }}
             />
