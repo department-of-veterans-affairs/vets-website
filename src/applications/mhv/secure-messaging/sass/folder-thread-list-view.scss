@@ -4,7 +4,7 @@
   font-weight: normal;
 }
 .thread-list-draft {
-  color: $color-secondary-darkest;
+  color: var(--vads-color-secondary-darkest);
   font-weight: 700;
 
 }
@@ -36,22 +36,22 @@
   }
 
   .keyword-highlight {
-    background-color: $color-gold-lightest;
+    background-color: var(--vads-color-gold-lightest);
   }
 
   .thread-list-item {
     width: 100%;
     a.message-subject-link:visited {
-      color: $color-primary;
+      color: var(--vads-color-primary);
     }
     p.received-date {
-      color: $color-gray-medium;
+      color: var(--vads-color-gray-medium);
       i {
-        color: $color-black;
+        color: var(--vads-color-black);
       }
     }
     .keyword-highlight {
-      background-color: $color-gold-lightest;
+      background-color: var(--vads-color-gold-lightest);
     }
   }
 }
