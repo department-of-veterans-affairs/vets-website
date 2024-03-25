@@ -77,7 +77,7 @@ export const extractProviderNote = condition => {
 
 export const convertCondition = condition => {
   return {
-    id: 'SCT161891005',
+    id: '6a2be107-501e-458f-8f17-0ada297d34d8',
     date: condition?.recordedDate
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
