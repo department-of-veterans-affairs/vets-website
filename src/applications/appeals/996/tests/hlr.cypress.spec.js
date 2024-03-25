@@ -54,7 +54,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(testData => {
             const { homeless } = testData;
-            cy.get(`va-radio-option[value="${homeless ? 'y' : 'n'}"]`).click();
+            cy.get(`va-radio-option[value="${homeless ? 'Y' : 'N'}"]`).click();
             cy.axeCheck();
             cy.findByText('Continue', { selector: 'button' }).click();
           });
