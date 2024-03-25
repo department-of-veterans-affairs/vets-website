@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { focusElement } from '../ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const ShowPdfPassword = ({
   file,
   index,
   onSubmitPassword,
   passwordLabel = null,
+  cancelButton,
   testVal = '', // for testing
 }) => {
   const [value, setValue] = useState(testVal);
@@ -20,8 +20,6 @@ const ShowPdfPassword = ({
   const setFocus = () => {
     if (inputRef?.current) {
       focusElement('input', {}, inputRef.current.shadowRoot);
-    } else {
-      focusElement(`#root_additionalDocuments_file_${index}`);
     }
   };
 
@@ -50,7 +48,7 @@ const ShowPdfPassword = ({
         uswds
       />
       <va-button
-        class="vads-u-width--auto vads-u-margin-top--2"
+        class="add-password vads-u-width--auto vads-u-margin-top--2"
         text="Add password"
         onClick={() => {
           if (value) {
@@ -64,11 +62,13 @@ const ShowPdfPassword = ({
         label={passwordLabel}
         uswds
       />
+      {cancelButton}
     </div>
   );
 };
 
 ShowPdfPassword.propTypes = {
+  cancelButton: PropTypes.element,
   file: PropTypes.shape({}),
   index: PropTypes.number,
   passwordLabel: PropTypes.string,
@@ -76,18 +76,4 @@ ShowPdfPassword.propTypes = {
   onSubmitPassword: PropTypes.func,
 };
 
-const PasswordLabel = () => (
-  <p>
-    This is an encrypted PDF document. In order for us to be able to view the
-    document, we will need the password to decrypt it.
-  </p>
-);
-
-const PasswordSuccess = () => (
-  <>
-    <p className="vads-u-margin-top--2">PDF password</p>
-    <strong>The PDF password has been added.</strong>
-  </>
-);
-
-export { ShowPdfPassword, PasswordLabel, PasswordSuccess };
+export { ShowPdfPassword };
