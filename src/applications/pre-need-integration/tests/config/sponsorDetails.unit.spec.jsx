@@ -9,11 +9,11 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need sponsor contact info', () => {
+describe('Pre-need sponsor details', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.sponsorInformation.pages.sponsorInfo;
+  } = formConfig.chapters.sponsorInformation.pages.sponsorDetails;
 
   it('should render', () => {
     const form = mount(

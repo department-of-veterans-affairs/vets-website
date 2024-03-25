@@ -8,6 +8,7 @@ export const URL = {
   ADDRESS_VALIDATION: '',
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
+  GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
 };
 
 export const requireSignInCategories = [

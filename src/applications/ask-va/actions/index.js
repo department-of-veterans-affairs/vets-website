@@ -3,6 +3,7 @@ export const SET_TOPIC_ID = 'SET_TOPIC_ID';
 export const SET_UPDATED_IN_REVIEW = 'SET_UPDATED_IN_REVIEW';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+export const SET_LOCATION_SEARCH = 'SET_LOCATION_SEARCH';
 
 export function setCategoryID(id) {
   return { type: SET_CATEGORY_ID, payload: id };
@@ -29,4 +30,8 @@ export function openReviewChapter(openedChapter) {
     type: OPEN_REVIEW_CHAPTER,
     openedChapter,
   };
+}
+
+export function setLocationInput(searchInput) {
+  return { type: SET_LOCATION_SEARCH, payload: searchInput };
 }

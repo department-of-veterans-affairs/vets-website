@@ -160,7 +160,7 @@ Provider notes: ${validateField(item.notes)}
  * Return VA prescription TXT
  */
 export const buildVAPrescriptionTXT = prescription => {
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -183,7 +183,7 @@ About your prescription
 
 Last filled on: ${dateFormat(
     (prescription.rxRfRecords?.length &&
-      prescription.rxRfRecords?.[0]?.[1].dispensedDate) ||
+      prescription.rxRfRecords?.[0]?.dispensedDate) ||
       prescription.dispensedDate,
     'MMMM D, YYYY',
   )}

@@ -13,10 +13,10 @@
   .unread-messages {
     margin-top: 24px;
     padding: 19px 15px 40px 24px;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
 
     .vads-c-action-link--blue:visited {
-      color: $color-link-default;
+      color: var(--vads-color-link);
     }
 
     h2 {
@@ -55,7 +55,7 @@
     &-card {
       margin-top: 20px;
       padding: 5px 15px;
-      background-color: $color-gray-lightest;
+      background-color: var(--vads-color-base-lightest);
       ::part(label) {
         margin-top: 0;
       }
@@ -99,7 +99,7 @@
     &-card {
       padding: 40px 20px 15px 33px;
       margin: 14px 0 25px 0;
-      background-color: $color-gray-lightest;
+      background-color: var(--vads-color-base-lightest);
       font-weight: $font-bold;
       font-size: 16px;
       .folder-link {
