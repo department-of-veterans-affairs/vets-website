@@ -12,12 +12,11 @@ describe('Claim Letters Page', () => {
 
     cy.login();
     cy.visit('track-claims/your-claim-letters');
-    cy.wait(['@claimLetters', '@featureToggleEnabled'], 100);
     cy.injectAxe();
   });
 
   it('Can tab to download link and pagination', () => {
-    cy.tabToElement('va-link').should('exist');
+    cy.tabToElement('#claim-letter-list va-link').should('exist');
     cy.tabToElement('va-pagination').should('exist');
     cy.axeCheck();
   });
@@ -60,7 +59,7 @@ describe('Claim Letters Page', () => {
         'applications/claims-status/tests/e2e/fixtures/mocks/claim-letters/letter.txt',
     }).as('downloadFile');
 
-    cy.tabToElement('va-link').realPress('Enter');
+    cy.tabToElement('#claim-letter-list va-link').realPress('Enter');
 
     cy.wait('@downloadFile')
       .its('response.statusCode')
