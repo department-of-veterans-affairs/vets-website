@@ -134,20 +134,16 @@ const SmBreadcrumbs = () => {
       }`}
     >
       {crumbs && (
-        <ul className={breadcrumbSize()}>
-          <li>
-            <span className="breadcrumb-angle vads-u-padding-right--1">
-              {'\u2039'}{' '}
-            </span>
-            <Link
-              to={crumbs.path?.toLowerCase()}
-              label="Breadcrumb"
-              aria-label="Breadcrumb"
-            >
-              {crumbs.label}
-            </Link>
-          </li>
-        </ul>
+        <nav aria-label="Breadcrumb">
+          <ul className={breadcrumbSize()}>
+            <li>
+              <span className="breadcrumb-angle vads-u-padding-right--1">
+                {'\u2039'}{' '}
+              </span>
+              <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
+            </li>
+          </ul>
+        </nav>
       )}
     </div>
   );
