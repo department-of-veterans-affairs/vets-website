@@ -66,25 +66,11 @@ const testConfig = createTestConfig(
       'veteran-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get(
-              'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
-            )
-              .should('be.visible')
-              .then(() => {
-                cy.get('[name="root_veteranMailingAddress_state"]')
-                  .should('not.have.attr', 'disabled')
-                  .then(() => {
-                    // callback to avoid field-disabled errors, but
-                    // even now we must wait a bit!
-                    // eslint-disable-next-line cypress/no-unnecessary-waiting
-                    cy.wait(500);
-                    fillAddressWebComponentPattern(
-                      'veteranMailingAddress',
-                      data.veteranMailingAddress,
-                    );
-                    cy.findByText(/continue/i, { selector: 'button' }).click();
-                  });
-              });
+            fillAddressWebComponentPattern(
+              'veteranMailingAddress',
+              data.veteranMailingAddress,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
