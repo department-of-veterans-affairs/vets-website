@@ -4,7 +4,7 @@ export const thirdPartyInfoUiSchema = {
   'view:additionalInfo': {
     'ui:description': (
       <va-additional-info
-        trigger="Who can be a third-party representative or power of attorney?"
+        trigger="What to know if you’re filling out this application for someone else"
         class="vads-u-margin-bottom--4"
       >
         <p className="vads-u-margin-y--0">
