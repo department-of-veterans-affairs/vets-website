@@ -42,6 +42,7 @@ export const applicantInformationField = (automatedTest = false) => {
         'view:noSSN',
         'vaFileNumber',
         'dateOfBirth',
+        'minorHighSchoolQuestions',
         'applicantGender',
       ],
       required: [
