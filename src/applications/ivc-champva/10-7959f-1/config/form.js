@@ -84,7 +84,7 @@ const formConfig = {
           },
         },
         page2: {
-          path: 'veteran-information/ssn',
+          path: 'identification-information',
           title: 'Veteran SSN and VA file number',
           uiSchema: {
             ...titleUI(
@@ -103,7 +103,7 @@ const formConfig = {
           },
         },
         page3: {
-          path: 'physical-address',
+          path: 'home-address',
           title: 'Physical Address',
           uiSchema: {
             ...titleUI(

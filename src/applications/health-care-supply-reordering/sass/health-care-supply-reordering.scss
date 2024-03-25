@@ -8,8 +8,8 @@
 
 .address-page {
   [type=radio]:checked + label::before {
-    background-color: $color-white;
-    box-shadow: 0 0 0 2px $color-primary, 0 0 0 4px $color-white;
+    background-color: var(--vads-color-white);
+    box-shadow: 0 0 0 2px var(--vads-color-primary), 0 0 0 4px var(--vads-color-white);
   }
   .schemaform-first-field .schemaform-label {
     margin-top: 3rem;
@@ -17,8 +17,8 @@
 }
 .battery-page, .accessory-page {
   [type=checkbox]:checked + label::before {
-    background-color: $color-white;
-    color: $color-primary;
+    background-color: var(--vads-color-white);
+    color: var(--vads-color-primary);
     content: "\f00c";
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
@@ -60,7 +60,7 @@
     display: none;
   }
   .usa-alert-success::before {
-    color: $color-black;
+    color: var(--vads-color-black);
   }
   .submission-error-alert {
     .usa-alert {
@@ -84,12 +84,12 @@ dt {
 }
 
 div.review {
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
   .review-row {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid var(--vads-color-base-light);
     padding: 1.5rem;
     padding-left: 0;
 
