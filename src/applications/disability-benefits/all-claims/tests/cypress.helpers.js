@@ -17,7 +17,9 @@ import {
   FORM_STATUS_BDD,
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
+  SHOW_TOXIC_EXPOSURE,
 } from '../constants';
+import { conditionsPageTitle } from '../content/toxicExposure';
 
 const todayPlus120 = moment()
   .add(120, 'days')
@@ -82,12 +84,13 @@ export const mockItf = {
   },
 };
 
-export const setup = cy => {
+export const setup = (cy, toggles = mockFeatureToggles) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
+  window.sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
 
-  cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+  cy.intercept('GET', '/v0/feature_toggles*', toggles);
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -144,103 +147,122 @@ export const setup = cy => {
   });
 };
 
-export const pageHooks = cy => ({
-  start: () => {
-    // skip wizard
-    cy.findByText(/apply now/i).click();
-  },
+export const pageHooks = (cy, toggles = mockFeatureToggles) => {
+  const hooks = {
+    start: () => {
+      // skip wizard
+      cy.findByText(/apply now/i).click();
+    },
 
-  introduction: () => {
-    cy.get('@testData').then(data => {
-      if (data['view:isBddData']) {
-        window.sessionStorage.setItem(
-          SAVED_SEPARATION_DATE,
-          todayPlus120.join('-'),
-        );
-      } else {
-        window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
-      }
-      // Start form
-      cy.findAllByText(/start the/i, { selector: 'a' })
-        .first()
-        .click();
-    });
-  },
-
-  'veteran-information': () => {
-    cy.get('.itf-wrapper')
-      .should('be.visible')
-      .then(() => {
-        // Click past the ITF message
-        cy.findByText(/continue/i, { selector: 'button' }).click();
-      });
-
-    // veteran info page continue button
-    cy.findByText(/continue/i, { selector: 'button' })
-      .should('be.visible')
-      .click();
-  },
-
-  'review-veteran-details/military-service-history': () => {
-    cy.get('@testData').then(data => {
-      cy.fillPage();
-      if (data['view:isBddData']) {
-        cy.get('select[name$="_dateRange_toMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="_dateRange_toYear"]')
-          .clear()
-          .type(todayPlus120[0]);
-      }
-    });
-  },
-
-  'review-veteran-details/military-service-history/federal-orders': () => {
-    cy.get('@testData').then(data => {
-      cy.fillPage();
-      if (
-        data.serviceInformation.reservesNationalGuardService[
-          'view:isTitle10Activated'
-        ]
-      ) {
-        // active title 10 activation puts this into BDD flow
-        cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="SeparationDateYear"]')
-          .clear()
-          .type(todayPlus120[0]);
-      }
-    });
-  },
-
-  'review-veteran-details/separation-location': () => {
-    cy.get('@testData').then(data => {
-      cy.get('input[name="root_serviceInformation_separationLocation"]').type(
-        data.serviceInformation.separationLocation.label,
-      );
-    });
-  },
-
-  'disabilities/rated-disabilities': () => {
-    cy.get('@testData').then(data => {
-      data.ratedDisabilities.forEach((disability, index) => {
-        if (disability['view:selected']) {
-          cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
+    introduction: () => {
+      cy.get('@testData').then(data => {
+        if (data['view:isBddData']) {
+          window.sessionStorage.setItem(
+            SAVED_SEPARATION_DATE,
+            todayPlus120.join('-'),
+          );
+        } else {
+          window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
         }
+        // Start form
+        cy.findAllByText(/start the/i, { selector: 'a' })
+          .first()
+          .click();
       });
-    });
-  },
+    },
 
-  'payment-information': () => {
-    cy.get('@testData').then(data => {
-      if (data['view:bankAccount']) {
-        cy.get('form.rjsf').then($form => {
-          const editButton = $form.find('.usa-button-primary.edit-button');
-          if (editButton) editButton.click();
+    'veteran-information': () => {
+      cy.get('.itf-wrapper')
+        .should('be.visible')
+        .then(() => {
+          // Click past the ITF message
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
 
+      // veteran info page continue button
+      cy.findByText(/continue/i, { selector: 'button' })
+        .should('be.visible')
+        .click();
+    },
+
+    'review-veteran-details/military-service-history': () => {
+      cy.get('@testData').then(data => {
         cy.fillPage();
-        cy.findByText(/save/i, { selector: 'button' }).click();
-      }
-    });
-  },
-});
+        if (data['view:isBddData']) {
+          cy.get('select[name$="_dateRange_toMonth"]').select(todayPlus120[1]);
+          cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
+          cy.get('input[name$="_dateRange_toYear"]')
+            .clear()
+            .type(todayPlus120[0]);
+        }
+      });
+    },
+
+    'review-veteran-details/military-service-history/federal-orders': () => {
+      cy.get('@testData').then(data => {
+        cy.fillPage();
+        if (
+          data.serviceInformation.reservesNationalGuardService[
+            'view:isTitle10Activated'
+          ]
+        ) {
+          // active title 10 activation puts this into BDD flow
+          cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
+          cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
+          cy.get('input[name$="SeparationDateYear"]')
+            .clear()
+            .type(todayPlus120[0]);
+        }
+      });
+    },
+
+    'review-veteran-details/separation-location': () => {
+      cy.get('@testData').then(data => {
+        cy.get('input[name="root_serviceInformation_separationLocation"]').type(
+          data.serviceInformation.separationLocation.label,
+        );
+      });
+    },
+
+    'disabilities/rated-disabilities': () => {
+      cy.get('@testData').then(data => {
+        data.ratedDisabilities.forEach((disability, index) => {
+          if (disability['view:selected']) {
+            cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
+          }
+        });
+      });
+    },
+
+    'payment-information': () => {
+      cy.get('@testData').then(data => {
+        if (data['view:bankAccount']) {
+          cy.get('form.rjsf').then($form => {
+            const editButton = $form.find('.usa-button-primary.edit-button');
+            if (editButton) editButton.click();
+          });
+
+          cy.fillPage();
+          cy.findByText(/save/i, { selector: 'button' }).click();
+        }
+      });
+    },
+  };
+
+  // Check for TE toggle. If not enabled, verify conditions page doesn't display
+  if (
+    toggles.data.features.filter(
+      item => item.name === 'disability_526_toxic_exposure',
+    ).length === 0 ||
+    toggles.data.features.filter(
+      item =>
+        item.name === 'disability_526_toxic_exposure' && item.value === false,
+    )
+  ) {
+    hooks['toxic-exposure-conditions'] = () => {
+      cy.findByText(conditionsPageTitle).should('not.exist');
+    };
+  }
+
+  return hooks;
+};
