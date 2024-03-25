@@ -6,6 +6,7 @@ import { setupServer } from 'msw/node';
 import {
   fetchDirectDeposit,
   toggleDirectDepositEdit,
+  fetchDirectDepositArgs,
   DIRECT_DEPOSIT_FETCH_STARTED,
   DIRECT_DEPOSIT_FETCH_SUCCEEDED,
   DIRECT_DEPOSIT_FETCH_FAILED,
@@ -21,9 +22,18 @@ describe('directDeposit actions', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
 
   let server = null;
+  let recordApiEventStub = null;
+  let captureErrorStub = null;
+
+  beforeEach(() => {
+    recordApiEventStub = sinon.stub(fetchDirectDepositArgs, 'recordApiEvent');
+    captureErrorStub = sinon.stub(fetchDirectDepositArgs, 'captureError');
+  });
 
   afterEach(() => {
     server.resetHandlers();
+    recordApiEventStub.restore();
+    captureErrorStub.restore();
   });
 
   after(() => {
@@ -31,21 +41,15 @@ describe('directDeposit actions', () => {
   });
 
   it('should dispatch DIRECT_DEPOSIT_INFORMATION_FETCH_SUCCEEDED with response on success', async () => {
-    const createApiEventSpy = sinon.spy();
-    const captureErrorSpy = sinon.spy();
-
     server = setupServer(
-      rest.get(`${endpointUrl}`, (req, res, ctx) => {
+      rest.get(`${endpointUrl}`, (_, res, ctx) => {
         return res(ctx.json(base), ctx.status(500));
       }),
     );
 
     server.listen();
 
-    const actionCreator = fetchDirectDeposit({
-      captureDirectDepositError: captureErrorSpy,
-      recordDirectDepositEvent: createApiEventSpy,
-    });
+    const actionCreator = fetchDirectDeposit();
 
     const dispatchSpy = sinon.spy();
 
@@ -58,13 +62,11 @@ describe('directDeposit actions', () => {
       type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
       response: base,
     });
-    expect(createApiEventSpy.calledTwice).to.be.true;
+
+    expect(recordApiEventStub.calledTwice).to.be.true;
   });
 
   it('should dispatch DIRECT_DEPOSIT_INFORMATION_FETCH_FAILED with response on error', async () => {
-    const createApiEventSpy = sinon.spy();
-    const captureErrorSpy = sinon.spy();
-
     server = setupServer(
       rest.get(`${endpointUrl}`, (req, res, ctx) => {
         return res(ctx.json(error500), ctx.status(500));
@@ -73,10 +75,7 @@ describe('directDeposit actions', () => {
 
     server.listen();
 
-    const actionCreator = fetchDirectDeposit({
-      captureDirectDepositError: captureErrorSpy,
-      recordDirectDepositEvent: createApiEventSpy,
-    });
+    const actionCreator = fetchDirectDeposit();
 
     const dispatchSpy = sinon.spy();
 
@@ -90,8 +89,8 @@ describe('directDeposit actions', () => {
       response: error500,
     });
 
-    expect(createApiEventSpy.calledTwice).to.be.true;
-    expect(captureErrorSpy.calledOnce).to.be.true;
+    expect(recordApiEventStub.calledTwice).to.be.true;
+    expect(captureErrorStub.calledOnce).to.be.true;
   });
 
   describe('toggleDirectDepositInformationEdit', () => {

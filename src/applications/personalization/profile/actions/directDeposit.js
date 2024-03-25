@@ -24,11 +24,16 @@ export const DIRECT_DEPOSIT_EDIT_TOGGLED = 'DIRECT_DEPOSIT_EDIT_TOGGLED';
 // API endpoint for fetching and updating direct deposit information
 export const DIRECT_DEPOSIT_API_ENDPOINT = '/profile/direct_deposits';
 
+export const fetchDirectDepositArgs = {
+  captureError,
+  recordApiEvent,
+};
+
 // action creator to fetch direct deposit information
 export function fetchDirectDeposit({
-  captureDirectDepositError = captureError,
-  recordDirectDepositEvent = recordApiEvent,
-} = {}) {
+  captureError: captureDirectDepositError,
+  recordApiEvent: recordDirectDepositEvent,
+} = fetchDirectDepositArgs) {
   return async dispatch => {
     dispatch({ type: DIRECT_DEPOSIT_FETCH_STARTED });
 

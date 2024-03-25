@@ -61,7 +61,7 @@ class Profile extends Component {
     const {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
-      fetchDirectDepositInformation,
+      fetchDirectDeposit,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -86,7 +86,7 @@ class Profile extends Component {
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
-      fetchDirectDepositInformation();
+      fetchDirectDeposit();
     }
 
     if (shouldFetchTotalDisabilityRating) {
@@ -101,7 +101,7 @@ class Profile extends Component {
     const {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
-      fetchDirectDepositInformation,
+      fetchDirectDeposit,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -144,7 +144,7 @@ class Profile extends Component {
         shouldFetchDirectDeposit &&
         !prevProps.shouldFetchDirectDeposit)
     ) {
-      fetchDirectDepositInformation();
+      fetchDirectDeposit();
     }
 
     if (
@@ -275,7 +275,7 @@ Profile.propTypes = {
   connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
-  fetchDirectDepositInformation: PropTypes.func.isRequired,
+  fetchDirectDeposit: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
@@ -390,7 +390,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
-  fetchDirectDepositInformation: fetchDirectDepositAction,
+  fetchDirectDeposit: fetchDirectDepositAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,

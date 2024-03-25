@@ -134,8 +134,8 @@ const responses = {
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
     // this endpoint is used for the single form version of the direct deposit page
-    // return res.status(200).json(directDeposits.base);
-    return res.status(500).json(genericErrors.error500);
+    return res.status(200).json(directDeposits.base);
+    // return res.status(500).json(genericErrors.error500);
   },
   'PUT /v0/profile/direct_deposits': (_req, res) => {
     return res
