@@ -73,7 +73,7 @@ function getContent({ data, flowType, formData }) {
 
   return (
     <>
-      <h2 className="vads-u-font-size--base vaos-appts__block-label">
+      <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
         Your contact information
       </h2>
       <span>
