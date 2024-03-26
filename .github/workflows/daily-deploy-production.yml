@@ -1,17 +1,18 @@
 name: Daily Production Deploy
 
 on:
-  workflow_dispatch:
-    inputs:
-      release_wait:
-        description: Minutes to wait before creating release
-        required: false
-        default: '5'
-      commit_sha:
-        description: Deploy specific commit
-        required: false
-  schedule:
-    - cron: 0 19 * * 1-5
+  # workflow_dispatch:
+  #   inputs:
+  #     release_wait:
+  #       description: Minutes to wait before creating release
+  #       required: false
+  #       default: '5'
+  #     commit_sha:
+  #       description: Deploy specific commit
+  #       required: false
+  # schedule:
+  #   - cron: 0 19 * * 1-5
+  push
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
