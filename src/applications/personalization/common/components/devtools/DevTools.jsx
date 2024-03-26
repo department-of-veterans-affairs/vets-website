@@ -14,7 +14,7 @@ export const DevTools = ({
   alwaysShowChildren = true,
   showIcon = true,
   panel = false,
-  children,
+  children = null,
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -81,8 +81,11 @@ export const DevTools = ({
 };
 
 DevTools.propTypes = {
+  alwaysShowChildren: PropTypes.bool,
   children: PropTypes.node,
   devToolsData: PropTypes.object,
+  open: PropTypes.bool,
+  panel: PropTypes.bool,
   showChildren: PropTypes.bool,
   showHighlight: PropTypes.bool,
   showIcon: PropTypes.bool,

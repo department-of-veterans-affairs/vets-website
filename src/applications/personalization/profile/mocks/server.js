@@ -136,6 +136,13 @@ const responses = {
     // this endpoint is used for the single form version of the direct deposit page
     return res.status(200).json(directDeposits.base);
     // return res.status(500).json(genericErrors.error500);
+    // user with no dd data but is eligible
+    // return res.json(directDeposits.isEligible);
+    // direct deposit blocked edge cases
+    // return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isFiduciary);
+    // return res.json(directDeposits.isNotCompetent);
+    // return res.json(directDeposits.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits': (_req, res) => {
     return res
