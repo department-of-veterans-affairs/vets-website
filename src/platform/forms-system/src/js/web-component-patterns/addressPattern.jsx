@@ -31,6 +31,7 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
   USA: 'Enter a valid 5-digit ZIP code',
 };
 
+const MILITARY_CITY_TITLE = 'APO/FPO/DPO';
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
 const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
 
@@ -239,9 +240,9 @@ export function addressUI(options) {
       if (!(isAA || isAE || isAP)) {
         errors.postalCode.addError(
           `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema.isMilitary.title
+            uiSchema.isMilitary['ui:title']
           }". If your mailing address is an ${
-            uiSchema.city.title
+            uiSchema.city['ui:title']
           } address, enter the postal code for the military base.`,
         );
       }
@@ -402,13 +403,15 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:title'] = MILITARY_CITY_TITLE;
             return {
               type: 'string',
-              title: 'APO/FPO/DPO',
+              title: MILITARY_CITY_TITLE,
               enum: MILITARY_CITY_VALUES,
               enumNames: MILITARY_CITY_NAMES,
             };
           }
+
           ui['ui:webComponentField'] = VaTextInputField;
           return {
             type: 'string',
