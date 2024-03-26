@@ -14,6 +14,7 @@ import {
   startDateApproximate,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../constants';
+import { TE_URL_PREFIX } from './toxicExposurePages';
 
 /**
  * Make the uiSchema for each gulf war 1990 location with dates page
@@ -100,7 +101,7 @@ function makeSchema(locationId) {
 export function makePages() {
   const gulfWar1990LocationPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
     locationId => {
-      const pageName = `gulf-war-1990-location-${locationId}`;
+      const pageName = `${TE_URL_PREFIX}/gulf-war-1990-location-${locationId}`;
       return {
         [pageName]: {
           title: gulfWar1990PageTitle,

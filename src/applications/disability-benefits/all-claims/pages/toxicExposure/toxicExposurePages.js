@@ -10,17 +10,19 @@ import {
   showToxicExposurePages,
 } from '../../content/toxicExposure';
 
+export const TE_URL_PREFIX = 'toxic-exposure';
+
 export const toxicExposurePages = {
   toxicExposureConditions: {
     title: conditionsPageTitle,
-    path: 'toxic-exposure-conditions',
+    path: `${TE_URL_PREFIX}/conditions`,
     depends: formData => showToxicExposurePages(formData),
     uiSchema: toxicExposureConditions.uiSchema,
     schema: toxicExposureConditions.schema,
   },
   gulfWar1990Locations: {
     title: gulfWar1990PageTitle,
-    path: 'gulf-war-hazard-1990',
+    path: `${TE_URL_PREFIX}/gulf-war-hazard-1990`,
     depends: formData => isClaimingTECondition(formData),
     uiSchema: gulfWar1990Locations.uiSchema,
     schema: gulfWar1990Locations.schema,
