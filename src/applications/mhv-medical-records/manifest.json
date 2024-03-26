@@ -2,6 +2,6 @@
   "appName": "MHV Medical Records test",
   "entryFile": "./app-entry.jsx",
   "entryName": "medical-records-test",
-  "rootUrl": "/my-health/medical-records",
+  "rootUrl": "/my-health/medical-records-test",
   "productId": "c054e1e8-7be2-11ed-a1eb-0242ac120002-test"
 }
