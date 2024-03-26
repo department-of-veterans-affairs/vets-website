@@ -5,7 +5,11 @@ import { isEqual } from 'lodash';
 
 import { accountTitleLabels } from '../constants';
 import { srSubstitute, viewifyFields } from '../utils';
-import { viewAccountAlert } from '../content/paymentInformation';
+import {
+  viewAccountAlert,
+  viewAccountAlertForModifiedPrefill,
+  viewAccountAlertForNoPrefill,
+} from '../content/paymentInformation';
 
 const mask = (string, unmaskedLength) => {
   // If no string is given, tell the screen reader users the account or routing number is blank
@@ -53,15 +57,8 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   return (
     <>
       {!dataChanged && (
-        <p>We’re currently paying your compensation to this account</p>
+        <p>We’re currently paying your compensation to this account.</p>
       )}
-      {hasPrefill &&
-        hasNewData && (
-          <p>
-            If we approve your application for disability benefits, we’ll use
-            this account for all your VA benefit payments.
-          </p>
-        )}
       <div className="blue-bar-block">
         <p>
           <strong>
@@ -74,6 +71,8 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
       </div>
 
       {!dataChanged && viewAccountAlert}
+      {!hasPrefill && hasNewData && viewAccountAlertForNoPrefill}
+      {hasPrefill && hasNewData && viewAccountAlertForModifiedPrefill}
     </>
   );
 };
