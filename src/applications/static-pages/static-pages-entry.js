@@ -94,6 +94,7 @@ import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 import create400247Access from './simple-forms/40-0247/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
+import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -141,13 +142,13 @@ createBTSSSLogin(store);
 createCallToActionWidget(store, widgetTypes.CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
-createApplicationStatus(store, {
-  formId: VA_FORM_IDS.FORM_21P_530,
-  applyHeading: 'How do I apply?',
-  additionalText: 'You can apply online right now.',
-  applyText: 'Apply for burial benefits',
-  widgetType: widgetTypes.BURIALS_APP_STATUS,
-});
+// createApplicationStatus(store, {
+//   formId: VA_FORM_IDS.FORM_21P_530,
+//   applyHeading: 'How do I apply?',
+//   additionalText: 'You can apply online right now.',
+//   applyText: 'Apply for burial benefits',
+//   widgetType: widgetTypes.BURIALS_APP_STATUS,
+// });
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createDisabilityRatingCalculator(
   store,
@@ -235,6 +236,8 @@ create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 create400247Access(store, widgetTypes.FORM_400247_CTA);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
+// createBurialsV2HowDoIApplyWidget(store, widgetTypes.BURIALS_V2_HOW_DO_I_APPLY_WIDGET);
+createBurialsV2HowDoIApplyWidget(store, widgetTypes.BURIALS_APP_STATUS);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
