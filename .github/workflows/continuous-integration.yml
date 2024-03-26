@@ -609,6 +609,9 @@ jobs:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
       options: --user 1001:1001
+      volumes:
+        - /usr/local/share:/share
+        - /etc/ssl/certs:/etc/ssl/certs
 
     strategy:
       fail-fast: false
