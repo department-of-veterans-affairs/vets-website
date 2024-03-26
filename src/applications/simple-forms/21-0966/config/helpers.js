@@ -153,6 +153,37 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
   };
 };
 
+export const goPathAfterGettingITF = (
+  { compensationIntent, pensionIntent },
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+) => {
+  const formDataToSet = {
+    ...formData,
+    'view:activeCompensationITF':
+      compensationIntent?.status === 'active' ? compensationIntent : {},
+    'view:activePensionITF':
+      pensionIntent?.status === 'active' ? pensionIntent : {},
+  };
+
+  setFormData(formDataToSet);
+
+  if (
+    hasActiveCompensationITF({ formData: formDataToSet }) &&
+    hasActivePensionITF({ formData: formDataToSet })
+  ) {
+    goPath('confirmation');
+  } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-pension');
+  } else if (hasActivePensionITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-compensation');
+  } else {
+    goNextPath();
+  }
+};
+
 export const getIntentsToFile = ({
   formData,
   goPath,
@@ -167,30 +198,13 @@ export const getIntentsToFile = ({
         environment.API_URL
       }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
     )
-      .then(({ compensationIntent, pensionIntent }) => {
-        const formDataToSet = {
-          ...formData,
-          'view:activeCompensationITF':
-            compensationIntent?.status === 'active' ? compensationIntent : {},
-          'view:activePensionITF':
-            pensionIntent?.status === 'active' ? pensionIntent : {},
-        };
-
-        setFormData(formDataToSet);
-
-        if (
-          hasActiveCompensationITF({ formData: formDataToSet }) &&
-          hasActivePensionITF({ formData: formDataToSet })
-        ) {
-          goPath('confirmation');
-        } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
-          goPath('veteran-benefit-selection-pension');
-        } else if (hasActivePensionITF({ formData: formDataToSet })) {
-          goPath('veteran-benefit-selection-compensation');
-        } else {
-          goNextPath();
-        }
-      })
+      .then(({ compensationIntent, pensionIntent }) =>
+        goPathAfterGettingITF(
+          { compensationIntent, pensionIntent },
+          formData,
+          setFormData,
+        ),
+      )
       .catch(() => goNextPath());
   } else {
     goNextPath();
