@@ -253,7 +253,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
 
   const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
   const mebAutoPopulateRelinquishmentDate =
-    state?.featureToggles.mebAutoPopulateRelinquishmentDate;
+    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
 
   let firstName;
   let middleName;
