@@ -18,31 +18,6 @@ export const DevTools = ({
 }) => {
   const [visible, setVisible] = useState(false);
 
-  if (!window?.showDevTools) {
-    window.showDevTools = () => {
-      document.dispatchEvent(
-        new CustomEvent('devToolsActivate', { detail: true }),
-      );
-    };
-  }
-
-  if (!window?.hideDevTools) {
-    window.hideDevTools = () => {
-      document.dispatchEvent(
-        new CustomEvent('devToolsActivate', { detail: false }),
-      );
-    };
-  }
-
-  document.addEventListener('devToolsActivate', event => {
-    if (event.detail === true) {
-      setVisible(true);
-      return;
-    }
-
-    setVisible(false);
-  });
-
   const {
     TOGGLE_NAMES,
     useToggleLoadingValue,
