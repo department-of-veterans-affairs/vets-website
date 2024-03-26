@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { has } from 'lodash';
 import {
@@ -15,6 +15,7 @@ import {
 } from '~/platform/user/selectors';
 
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
+import { toggleDirectDepositEdit } from '../actions/directDeposit';
 
 const getIsBlocked = controlInformation => {
   if (!controlInformation) return false;
@@ -33,6 +34,7 @@ const getIsBlocked = controlInformation => {
 };
 
 export const useDirectDeposit = () => {
+  const dispatch = useDispatch();
   const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
   const [formIsDirty, setFormIsDirty] = useState(false);
 
@@ -70,10 +72,14 @@ export const useDirectDeposit = () => {
   }, []);
 
   // page setup effects
-  useEffect(() => {
-    focusElement('[data-focus-target]');
-    document.title = `Direct Deposit Information | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      focusElement('[data-focus-target]');
+      document.title = `Direct Deposit Information | Veterans Affairs`;
+      dispatch(toggleDirectDepositEdit(false));
+    },
+    [dispatch],
+  );
 
   // effects to trigger the success alert
   useEffect(
@@ -104,6 +110,18 @@ export const useDirectDeposit = () => {
       };
     },
     [formIsDirty],
+  );
+
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (formIsDirty && isIdentityVerified) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+      window.onbeforeunload = undefined;
+    },
+    [formIsDirty, isIdentityVerified],
   );
 
   return {
