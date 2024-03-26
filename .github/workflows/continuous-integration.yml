@@ -104,6 +104,18 @@ jobs:
           # Save the path of the build directory to an output
           echo "build_path=build/${{ matrix.buildtype }}" >> $GITHUB_OUTPUT
 
+      - name: Prepare build artifacts
+        run: |
+          # Prepare build artifacts
+          mkdir -p $GITHUB_WORKSPACE/build
+          mv build/vagovprod $GITHUB_WORKSPACE/build/vagovprod
+
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: vagovprod
+      #     path: build/vagovprod
+
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-latest
@@ -156,13 +168,6 @@ jobs:
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: vagovprod
-          path: build/vagovprod
-
 
   tests-prep:
     name: Tests Prep
@@ -654,12 +659,18 @@ jobs:
       #     # Copy build directory from the build job output
       #     cp -r ${{ needs.build.outputs.build_path }} build/vagovprod
 
-      - name: Download build artifact
+      # - name: Download build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: vagovprod
+      #     path: build/vagovprod
+
+      - name: Use build artifacts from the build job
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/download-artifact@v2
-        with:
-          name: vagovprod
-          path: build/vagovprod
+        run: |
+          # Use build artifacts from the build job
+          cp -r $GITHUB_WORKSPACE/build/vagovprod build/vagovprod
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
