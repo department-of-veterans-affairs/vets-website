@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 
-import PaymentHistory from '../../../../components/direct-deposit/PaymentHistoryCard';
+import { PaymentHistoryCard } from '../../../../components/direct-deposit/PaymentHistoryCard';
 
 import { renderWithProfileReducers } from '../../../unit-test-helpers';
 
 describe('PaymentHistory', () => {
   it('should render the payment history link', async () => {
-    const tree = renderWithProfileReducers(<PaymentHistory />, {
+    const tree = renderWithProfileReducers(<PaymentHistoryCard />, {
       initialState: {
         featureToggles: {
           loading: false,
@@ -27,7 +27,7 @@ describe('PaymentHistory', () => {
     const recordEventSpy = sinon.spy();
 
     const tree = renderWithProfileReducers(
-      <PaymentHistory recordEvent={recordEventSpy} />,
+      <PaymentHistoryCard recordEvent={recordEventSpy} />,
       {
         initialState: {
           featureToggles: {
