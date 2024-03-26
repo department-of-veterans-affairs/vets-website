@@ -90,6 +90,7 @@ function getContent({ data, flowType, formData }) {
           flowType === FLOW_TYPES.REQUEST && (
             <>
               <br />
+              <strong>Best time to call: </strong>
               <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
             </>
           )}

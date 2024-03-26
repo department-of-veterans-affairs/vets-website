@@ -5,6 +5,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import { useHistory } from 'react-router-dom';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { getFlowType, getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -70,40 +71,6 @@ const initialSchema = {
   },
 };
 
-const uiSchema = {
-  default: {
-    reasonForAppointment: {
-      'ui:widget': 'radio',
-      'ui:title': ' ',
-      'ui:errorMessages': {
-        required: 'Select a reason for your appointment',
-      },
-    },
-    reasonAdditionalInfo: {
-      'ui:widget': TextareaWidget,
-      'ui:options': {
-        rows: 5,
-      },
-      'ui:validations': [validComment],
-      'ui:errorMessages': {
-        required:
-          'Provide more details about why you are requesting this appointment',
-      },
-    },
-  },
-  cc: {
-    reasonAdditionalInfo: {
-      'ui:widget': TextareaWidget,
-      'ui:title':
-        'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
-      'ui:options': {
-        rows: 5,
-      },
-      'ui:validations': [validateWhiteSpace],
-    },
-  },
-};
-
 const pageKey = 'reasonForAppointment';
 
 export default function ReasonForAppointmentPage({ changeCrumb }) {
@@ -119,7 +86,6 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   );
   const history = useHistory();
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
-  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
@@ -128,6 +94,44 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
       ? 'Tell us the reason for this appointment'
       : 'What’s the reason for this appointment?';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
+  const uiSchema = {
+    default: {
+      reasonForAppointment: {
+        'ui:widget': 'radio', // Required
+        'ui:webComponentField': VaRadioField,
+        'ui:title': pageTitle,
+        'ui:errorMessages': {
+          required: 'Select a reason for your appointment',
+        },
+        'ui:options': {
+          labelHeaderLevel: '1',
+        },
+      },
+      reasonAdditionalInfo: {
+        'ui:widget': TextareaWidget,
+        'ui:options': {
+          rows: 5,
+        },
+        'ui:validations': [validComment],
+        'ui:errorMessages': {
+          required:
+            'Provide more details about why you are requesting this appointment',
+        },
+      },
+    },
+    cc: {
+      reasonAdditionalInfo: {
+        'ui:widget': TextareaWidget,
+        'ui:title':
+          'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+        'ui:options': {
+          rows: 5,
+        },
+        'ui:validations': [validateWhiteSpace],
+      },
+    },
+  };
+  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -142,7 +146,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {isCommunityCare && <h1 className="vads-u-font-size--h2">{pageTitle}</h1>}
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"

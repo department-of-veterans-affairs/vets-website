@@ -71,3 +71,7 @@ h1:focus {
     width: auto;
   }
 }
+
+va-radio::part(header) {
+  font-size: 30px;
+}
