@@ -1,5 +1,5 @@
 {
-  "appName": "MHV Medical Records test",
+  "appName": "MHV Medical Records isolated app test",
   "entryFile": "./app-entry.jsx",
   "entryName": "medical-records-test",
   "rootUrl": "/my-health/medical-records-test",
