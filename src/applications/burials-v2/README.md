@@ -59,6 +59,7 @@ The original form system is used to build this application and follows a pretty 
 Active toggle names: 
 - `burial_form_enabled`
 - `burial_form_v2` (temporary for rollout)
+- `va_burial_v2` (temporary for rollout)
 
 The form is built using `/config/form.js` which is imported and used inside `/BurialsApp.jsx` with the `<RoutedSavableApp />` component from the platform. 
 In `/BurialsApp.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we check the `BurialFormEnabled` feature toggle boolean to decide whether we show the form or not. 
