@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import PostFormFieldContent from '../../../components/PostFormFieldContent';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';

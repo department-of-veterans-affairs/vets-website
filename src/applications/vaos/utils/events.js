@@ -1,4 +1,4 @@
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { GA_PREFIX } from './constants';
 
 export function recordVaosError(errorKey) {

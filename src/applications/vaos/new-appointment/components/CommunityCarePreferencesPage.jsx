@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { useHistory } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import FormButtons from '../../components/FormButtons';
 import { LANGUAGES, GA_PREFIX } from '../../utils/constants';
 import * as actions from '../redux/actions';

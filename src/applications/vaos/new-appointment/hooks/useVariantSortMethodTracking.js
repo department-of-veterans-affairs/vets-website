@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { GA_PREFIX } from '../../utils/constants';
 import {
   selectFacilityPageSortMethod,
