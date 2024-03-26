@@ -12,15 +12,22 @@ import WarningNotification from '../../components/WarningNotification';
 import { getFormData, getNewAppointment } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 
-function getFormTitle(flowType, facilityType) {
-  if (!flowType || FLOW_TYPES.DIRECT === flowType) {
+function getFormTitle({ flowType, facilityType, location }) {
+  if (
+    !flowType ||
+    FLOW_TYPES.DIRECT === flowType ||
+    location.pathname.endsWith('type-of-care')
+  ) {
     return 'New appointment';
   }
 
-  if (FACILITY_TYPES.COMMUNITY_CARE === facilityType)
-    return 'Request community care';
+  if (FLOW_TYPES.REQUEST === flowType) {
+    if (FACILITY_TYPES.COMMUNITY_CARE === facilityType)
+      return 'Request community care';
 
-  return 'Request an appointment';
+    return 'Request an appointment';
+  }
+  return 'New appointment';
 }
 
 export default function FormLayout({ children, pageTitle }) {
@@ -45,7 +52,7 @@ export default function FormLayout({ children, pageTitle }) {
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-            {getFormTitle(flowType, facilityType)}
+            {getFormTitle({ flowType, facilityType, location })}
           </span>
           <ErrorBoundary>{children}</ErrorBoundary>
           <NeedHelp />
