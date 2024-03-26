@@ -12,13 +12,15 @@ const IntroductionPage = ({ route }) => {
   return (
     <div className="schemaform-intro">
       <FormTitle title="Apply for burial benefits" />
-      <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
+      <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg3">
+        VA Form 21P-530
+      </p>
       <h2 className="vads-u-font-size--h2">
         Follow these steps below to apply for burial benefits
       </h2>
       <va-process-list uswds>
         <va-process-list-item header="Check to be sure you can request a Board Appeal">
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Make sure you meet our eligibility requirements before you apply.
           </p>
           <va-link

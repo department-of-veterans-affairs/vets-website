@@ -2,10 +2,11 @@ export const relationshipLabels = {
   spouse: 'Spouse',
   child: 'Child',
   parent: 'Parent',
-  executor: 'Executor/Administrator of estate',
-  funeralDirector: 'Funeral director or cemetery owner',
+  executor:
+    'Executor of the Veteran’s estate or someone else acting for the Veteran’s estate',
+  funeralDirector: 'Funeral home,cemetery, or other organization',
   otherFamily:
-    'Someone else acting for the Veteran’s estate (including a family member or friend who paid for burial or funeral expenses)',
+    'Other family member or friend who isn’t the executor of the Veteran’s estate',
 };
 
 export const locationOfDeathLabels = {

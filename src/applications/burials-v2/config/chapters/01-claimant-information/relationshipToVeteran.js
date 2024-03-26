@@ -13,7 +13,7 @@ export const relationshipToVeteranUI = options => {
   return {
     relationshipToVeteran: {
       ...radioUI({
-        title: `Whats your relationship to the ${person}?`,
+        title: `What’s your relationship to the ${person}?`,
         labels: relationshipLabels,
         errorMessages: {
           required: `Select your relationship to the ${person}`,
