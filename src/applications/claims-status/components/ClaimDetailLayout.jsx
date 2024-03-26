@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   buildDateFormatter,
   getClaimType,
+  isClaimOpen,
   isPopulatedClaim,
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
@@ -55,12 +56,11 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
-    const { closeDate, contentions, status } = claim.attributes || {};
+    const { claimDate, closeDate, contentions, status } =
+      claim.attributes || {};
 
-    const isOpen = status !== 'COMPLETE' && closeDate === null;
-
-    const formatDate = buildDateFormatter();
-    const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const isOpen = isClaimOpen(status, closeDate);
+    const formattedClaimDate = buildDateFormatter()(claimDate);
     const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (

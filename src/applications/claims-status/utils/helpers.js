@@ -7,6 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+
 import { SET_UNAUTHORIZED } from '../actions/types';
 import { DATE_FORMATS } from '../constants';
 

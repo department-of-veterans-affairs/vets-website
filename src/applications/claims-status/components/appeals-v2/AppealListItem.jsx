@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ClaimCard from '../ClaimCard';
 import {
   APPEAL_TYPES,
   EVENT_TYPES,
@@ -9,7 +10,6 @@ import {
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
 import { buildDateFormatter } from '../../utils/helpers';
-import ClaimCard from '../ClaimCard';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();

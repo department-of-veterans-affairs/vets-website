@@ -4,16 +4,7 @@ import { expect } from 'chai';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import ClaimStatusHeader from '../../components/ClaimStatusHeader';
-import { buildDateFormatter } from '../../utils/helpers';
-
-const getLastUpdated = claim => {
-  const updatedOn = buildDateFormatter()(
-    claim.attributes.claimPhaseDates?.phaseChangeDate,
-  );
-
-  return `Last updated: ${updatedOn}`;
-};
+import ClaimStatusHeader, { getLastUpdated } from '../../components/ClaimStatusHeader';
 
 describe('<ClaimStatusHeader>', () => {
   it('should render a ClaimStatusHeader section for an In Progress claim', () => {

@@ -9,12 +9,14 @@ import ClaimCard from './ClaimCard';
 const formatDate = buildDateFormatter();
 
 export default function StemClaimListItem({ claim }) {
-  if (!claim.attributes.automatedDenial) {
+  const { automatedDenial, deniedAt, submittedAt } = claim.attributes;
+
+  if (!automatedDenial) {
     return null;
   }
 
-  const formattedDeniedAtDate = formatDate(claim.attributes.deniedAt);
-  const formattedReceiptDate = formatDate(claim.attributes.submittedAt);
+  const formattedDeniedAtDate = formatDate(deniedAt);
+  const formattedReceiptDate = formatDate(submittedAt);
 
   const handlers = {
     onClick: () => {

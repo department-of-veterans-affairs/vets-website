@@ -29,8 +29,6 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
-const formatDate = buildDateFormatter();
-
 class FilesPage extends React.Component {
   componentDidMount() {
     this.setTitle();
@@ -134,7 +132,7 @@ class FilesPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Files For ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);

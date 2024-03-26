@@ -11,8 +11,6 @@ const getOldestDocumentDate = item => {
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };
 
-const formatDate = buildDateFormatter();
-
 const getTrackedItemDateFromStatus = item => {
   switch (item.status) {
     case 'NEEDED_FROM_YOU':
@@ -115,7 +113,9 @@ export default function RecentActivity({ claim }) {
               key={item.id}
               className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
             >
-              <h4 className="vads-u-margin-y--0">{formatDate(item.date)}</h4>
+              <h4 className="vads-u-margin-y--0">
+                {buildDateFormatter()(item.date)}
+              </h4>
               {hasRequestType(item.status) ? (
                 <>
                   <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">

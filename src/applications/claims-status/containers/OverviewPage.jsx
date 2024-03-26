@@ -20,8 +20,6 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter();
-
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
@@ -204,7 +202,7 @@ class OverviewPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Overview Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
