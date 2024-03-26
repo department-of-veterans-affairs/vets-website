@@ -1,55 +1,6 @@
 import React from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   isProfileLoading,
-//   isLoggedIn,
-// } from '@department-of-veterans-affairs/platform-user/selectors';
-
-import PropTypes from 'prop-types';
-// import BreadCrumbs from '../components/Breadcrumbs';
-// import TravelClaimCard from '../components/TravelClaimCard';
-// import { getTravelClaims, getUnauthPing } from '../redux/actions';
 
 export default function App() {
-  // const dispatch = useDispatch();
-  // const profileLoading = useSelector(state => isProfileLoading(state));
-  // const userLoggedIn = useSelector(state => isLoggedIn(state));
-
-  // TODO: utilize user info for authenticated requests
-  // and validating logged in status
-  // const user = useSelector(selectUser);
-
-  // const {
-  //   isLoading,
-  //   travelClaims,
-  //   isFetchingUnauthPing,
-  //   unauthPingResponse,
-  // } = useSelector(state => state.travelPay);
-
-  // async function handleUnauthButtonClick() {
-  //   dispatch(getUnauthPing());
-  // }
-
-  // useEffect(
-  //   () => {
-  //     if (userLoggedIn) {
-  //       dispatch(getTravelClaims());
-  //     }
-  //   },
-  //   [dispatch, userLoggedIn],
-  // );
-
-  // if (profileLoading && !userLoggedIn) {
-  //   return (
-  //     <div className="vads-l-grid-container vads-u-padding-y--3">
-  //       <va-loading-indicator
-  //         label="Loading"
-  //         message="Please wait while we load the application for you."
-  //       />
-  //     </div>
-  //   );
-  // }
-
   return (
     // Micah's cool stuff
     // You can reference the design here https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1708602401825/9786edc7ee2a5b6c4efd1a895d067a07ae2a7f27?wid=0-1711399201475
@@ -247,10 +198,3 @@ export default function App() {
     </article>
   );
 }
-
-App.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
