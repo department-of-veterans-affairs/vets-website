@@ -4,7 +4,7 @@ import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { objectHaNoUndefinedValues, scrollToElement } from '../helpers';
+import { objectHasNoUndefinedValues, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
@@ -70,6 +70,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   // called when submitting form
   const saveAddressInfo = async () => {
+    if (Object.keys(formData).length === 0) {
+      Object.assign(formData, editFormData);
+    }
+
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
       stateAndZip = {
@@ -144,8 +148,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {(error || validationError) && (
               <Alert
                 status="error"
-                message="Alert:
-                We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
+                message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
               />
             )}
             {response?.ok && (
@@ -158,7 +161,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               Mailing address
             </p>
             <p>
-              {objectHaNoUndefinedValues(newAddress) && (
+              {objectHasNoUndefinedValues(newAddress) && (
                 <>
                   <span className="vads-u-display--block">
                     {`${newAddress?.street}`}
@@ -179,10 +182,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   const handleAddNewClick = event => {
     event?.preventDefault();
+    setFormData({});
     setToggleAddressForm(true);
     scrollToTopOfForm();
-    setFormData({});
     dispatch({ type: 'RESET_ERROR' });
+  };
+  const onCancleButtonClicked = () => {
+    setEditFormData({});
+    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+    handleCloseForm();
   };
   const updateAddressData = data => {
     const tempData = { ...data };
@@ -296,10 +304,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 text="Cancel"
                 secondary
                 label="cancel updating your bank information for GI Bill benefits"
-                onClick={() => {
-                  setEditFormData({});
-                  handleCloseForm();
-                }}
+                onClick={onCancleButtonClicked}
                 data-qa="cancel-button"
                 data-testid={`${PREFIX}form-cancel-button`}
               />

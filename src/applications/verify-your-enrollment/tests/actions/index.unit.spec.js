@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import configureMockStore from 'redux-mock-store';
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitFor } from '@testing-library/react';
 import {
@@ -19,7 +20,22 @@ import {
   postMailingAddress,
   VERIFY_ENROLLMENT_SUCCESS,
   verifyEnrollmentAction,
+  VERIFY_ENROLLMENT_FAILURE,
+  UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
+  updateToggleEnrollmentSuccess,
+  UPDATE_TOGGLE_ENROLLMENT_ERROR,
+  updateToggleEnrollmentError,
+  TOGGLE_ENROLLMENT_ERROR_STATEMENT,
+  updateToggleEnrollmentCard,
+  UPDATE_PENDING_VERIFICATIONS,
+  updatePendingVerifications,
+  UPDATE_VERIFICATIONS,
+  updateVerifications,
+  validateAddress,
 } from '../../actions';
+
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 const mockData = { user: 'user' };
 describe('getData, creator', () => {
@@ -29,6 +45,7 @@ describe('getData, creator', () => {
   beforeEach(() => {
     dispatch = sinon.spy();
     apiRequestStub = sinon.stub(apiModule, 'apiRequest');
+    store.clearActions();
   });
 
   afterEach(() => {
@@ -36,6 +53,54 @@ describe('getData, creator', () => {
   });
   let mockDispatch;
   let clock;
+
+  // ENROLLMENTS
+  it('should disptach UPDATE_TOGGLE_ENROLLMENT_SUCCESS action', () => {
+    const mockPayload = { payload: 'some payload' };
+    const expectedAction = [
+      { type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS, payload: mockPayload },
+    ];
+    store.dispatch(updateToggleEnrollmentSuccess(mockPayload));
+
+    expect(store.getActions()).to.eql(expectedAction);
+  });
+  it('should disptach UPDATE_TOGGLE_ENROLLMENT_ERROR action', () => {
+    const mockPayload = { payload: 'some payload' };
+    const expectedAction = [
+      { type: UPDATE_TOGGLE_ENROLLMENT_ERROR, payload: mockPayload },
+    ];
+    store.dispatch(updateToggleEnrollmentError(mockPayload));
+
+    expect(store.getActions()).to.eql(expectedAction);
+  });
+  it('should disptach TOGGLE_ENROLLMENT_ERROR_STATEMENT action', () => {
+    const mockPayload = { payload: 'some payload' };
+    const expectedAction = [
+      { type: TOGGLE_ENROLLMENT_ERROR_STATEMENT, payload: mockPayload },
+    ];
+    store.dispatch(updateToggleEnrollmentCard(mockPayload));
+
+    expect(store.getActions()).to.eql(expectedAction);
+  });
+  it('should disptach UPDATE_PENDING_VERIFICATIONS action', () => {
+    const mockPayload = { payload: 'some payload' };
+    const expectedAction = [
+      { type: UPDATE_PENDING_VERIFICATIONS, payload: mockPayload },
+    ];
+    store.dispatch(updatePendingVerifications(mockPayload));
+
+    expect(store.getActions()).to.eql(expectedAction);
+  });
+
+  it('should disptach UPDATE_VERIFICATIONS action', () => {
+    const mockPayload = { payload: 'some payload' };
+    const expectedAction = [
+      { type: UPDATE_VERIFICATIONS, payload: mockPayload },
+    ];
+    store.dispatch(updateVerifications(mockPayload));
+
+    expect(store.getActions()).to.eql(expectedAction);
+  });
 
   it('should dispatch  GET_DATA, GET_DATA_SUCCESS', async () => {
     mockDispatch = sinon.spy();
@@ -163,4 +228,65 @@ describe('getData, creator', () => {
       }),
     ).to.be.true;
   });
+  it('dispatch VERIFY_ENROLLMENT_FAILURE after a failure api request', async () => {
+    const errors = {
+      status: 500,
+      error: 'error',
+    };
+    apiRequestStub.rejects(errors);
+    try {
+      await verifyEnrollmentAction({
+        type: VERIFY_ENROLLMENT_FAILURE,
+        errors,
+      })(dispatch);
+    } catch (error) {
+      expect(
+        dispatch.calledWith({
+          type: VERIFY_ENROLLMENT_FAILURE,
+          errors,
+        }),
+      ).to.be.true;
+    }
+  });
+
+  it('should dispatch ADDRESS_VALIDATION_START', async () => {
+    await validateAddress({}, 'John Doe')(dispatch);
+    expect(dispatch.calledWith({ type: 'ADDRESS_VALIDATION_START' })).to.be
+      .true;
+  });
+
+  it('should dispatch ADDRESS_VALIDATION_SUCCESS with the validation response', async () => {
+    const validationResponse = {
+      addresses: [{ address: {}, addressMetaData: { confidenceScore: 100 } }],
+    };
+    apiRequestStub.resolves(validationResponse);
+    await validateAddress({}, 'John Doe')(dispatch);
+    expect(
+      dispatch.calledWith({
+        type: 'ADDRESS_VALIDATION_SUCCESS',
+        payload: validationResponse,
+      }),
+    ).to.be.true;
+  });
+
+  it('should dispatch ADDRESS_VALIDATION_FAIL if the API request fails', async () => {
+    const error = new Error('API request failed');
+    apiRequestStub.rejects(error);
+    await validateAddress({}, 'John Doe')(dispatch);
+    expect(
+      dispatch.calledWith({
+        type: 'ADDRESS_VALIDATION_FAIL',
+        payload: error.toString(),
+      }),
+    ).to.be.true;
+  });
+
+  // it('should dispatch postMailingAddress if the confidenceScore is 100', async () => {
+  //   const validationResponse = {
+  //     addresses: [{ address: {}, addressMetaData: { confidenceScore: 100 } }],
+  //   };
+  //   apiRequestStub.resolves(validationResponse);
+  //   await validateAddress({}, 'John Doe')(dispatch);
+  //   expect(postMailingAddress).to.be.true;
+  // });
 });

@@ -32,7 +32,6 @@ const SuggestedAddress = ({
   // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
     handleAddNewClick(event);
-    setFormData({});
   };
   const isUSA = chooseAddress
     ? formData.countryCodeIso3 === 'USA'

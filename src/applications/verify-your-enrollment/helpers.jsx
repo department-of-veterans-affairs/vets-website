@@ -234,7 +234,7 @@ export const isMobileDevice = () => {
     navigator.userAgent,
   );
 };
-export const objectHaNoUndefinedValues = obj => {
+export const objectHasNoUndefinedValues = obj => {
   return Object.values(obj).every(value => value !== undefined);
 };
 export const noSuggestedAddress = deliveryPointValidation => {
