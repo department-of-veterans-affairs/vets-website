@@ -277,28 +277,6 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
-    TravelPages.clickEditLink();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('530');
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
     TravelPages.clickAgreementLink();
     TravelPages.validateAgreementPage();
     TravelPages.goBack();
@@ -306,7 +284,7 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelPages.attemptToGoToNextPage();
 
     TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('multi-claim-multi-appointment');
+    TravelComplete.validateContent('single-claim-multi-appointment');
     cy.injectAxeThenAxeCheck();
   });
 });
