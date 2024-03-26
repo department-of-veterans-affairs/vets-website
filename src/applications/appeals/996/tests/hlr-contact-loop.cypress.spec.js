@@ -56,8 +56,7 @@ describe('HLR contact info loop', () => {
 
     // Homeless question
     cy.location('pathname').should('eq', `${BASE_URL}/homeless`);
-    cy.tabToElement('input[name="root_homeless"]');
-    cy.chooseRadio('N');
+    cy.get(`va-radio-option[value="N"]`).click();
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
