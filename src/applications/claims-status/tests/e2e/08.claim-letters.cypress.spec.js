@@ -24,8 +24,8 @@ describe('Claim Letters Page', () => {
     it('Displays a list of letters', () => {
       cy.visit('track-claims/your-claim-letters');
       cy.get('h1').should('have.text', 'Your VA claim letters');
-      cy.get('ol').should('exist');
-      cy.get('ol > li').should('have.length', 10);
+      cy.get('ol#claim-letter-list').should('exist');
+      cy.get('ol#claim-letter-list > li').should('have.length', 10);
 
       cy.get('va-pagination').should('exist');
 
@@ -34,7 +34,7 @@ describe('Claim Letters Page', () => {
 
     it('Paginates when there are more than 10 letters', () => {
       cy.visit('track-claims/your-claim-letters');
-      cy.get('ol > li').should('have.length', 10);
+      cy.get('ol#claim-letter-list > li').should('have.length', 10);
 
       // TODO: Check the number of pages in the va-pagination component
       // We should know ahead of time how many pages should appear
@@ -46,7 +46,7 @@ describe('Claim Letters Page', () => {
     it("Doesn't show va-pagination if there are less than 10 letters", () => {
       cy.intercept('GET', '/v0/claim_letters', claimLetters.data.slice(0, 8));
       cy.visit('track-claims/your-claim-letters');
-      cy.get('ol > li').should('have.length', 8);
+      cy.get('ol#claim-letter-list > li').should('have.length', 8);
 
       cy.get('va-pagination').should('not.exist');
 
@@ -83,7 +83,7 @@ describe('Claim Letters Page', () => {
       cy.findByText(/No claim letters/i).should('exist');
 
       // List shouldn't show
-      cy.get('ol').should('not.exist');
+      cy.get('ol#claim-letter-list').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
