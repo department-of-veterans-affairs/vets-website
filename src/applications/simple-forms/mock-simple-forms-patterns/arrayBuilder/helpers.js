@@ -53,49 +53,39 @@ export function onNavBackKeepUrlParams({ goPreviousPath, urlParams }) {
 }
 
 /**
- * Gets the query params from the URL and parses them as an object
- *
- * @param {string} [queryString] optional e.g. `?add=true`
- * @returns {object} e.g. `{ add: 'true' }`
- */
-export function parseQueryParams(queryString = window.location?.search) {
-  return queryString?.split('?')?.reduce((acc, query) => {
-    const [key, value] = query.split('=');
-    return { ...acc, [key]: value };
-  }, {});
-}
-
-/**
  * Creates a path with a `add` query param
  * @param {Object} props
- * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.path e.g. `/path-item/:index`
  * @param {string | number} props.index
- * @returns {string} e.g. `/path-summary/0?add=true`
+ * @returns {string} e.g. `/path-item/0?add=true`
  */
-export function createArrayBuilderItemAddPath({ basePath, index }) {
-  return `${basePath}/${index}?add=true`;
+export function createArrayBuilderItemAddPath({ path, index }) {
+  return `${path.replace(':index', index)}?add=true`;
 }
 
 /**
  * Creates a path with a `edit` query param
  * @param {Object} props
- * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.path e.g. `/path-item/:index`
  * @param {string | number} props.index
- * @returns {string} e.g. `/path-summary/0?edit=true`
+ * @param {boolean} [props.isReview] if coming from the review page
+ * @returns {string} e.g. `/path-item/0?edit=true`
  */
-export function createArrayBuilderItemEditPath({ basePath, index }) {
-  return `${basePath}/${index}?edit=true`;
+export function createArrayBuilderItemEditPath({ path, index, isReview }) {
+  return `${path.replace(':index', index)}?edit=true${
+    isReview ? '&review=true' : ''
+  }`;
 }
 
 /**
  * Creates a path with a `updated` query param
  * @param {Object} props
- * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.path e.g. `/path-summary`
  * @param {string} props.nounSingular e.g. `employer`
  * @param {string | number} props.index
  * @returns {string} e.g. `/path-summary?updated=employer-0`
  */
-export function createArrayBuilderSummaryUpdatedPath({
+export function createArrayBuilderUpdatedPath({
   basePath,
   nounSingular,
   index,

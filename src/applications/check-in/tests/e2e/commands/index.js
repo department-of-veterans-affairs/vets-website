@@ -1,9 +1,9 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
-const checkInUUID = sharedData.get.defaultUUID;
+const { defaultUUID } = sharedData.get;
 
-Cypress.Commands.add('visitWithUUID', (uuid = checkInUUID, language = 'en') => {
+Cypress.Commands.add('visitWithUUID', (uuid = defaultUUID, language = 'en') => {
   cy.visit(`/health-care/appointment-check-in/?id=${uuid}`, {
     onBeforeLoad(win) {
       Object.defineProperty(win.navigator, 'language', {
@@ -20,10 +20,12 @@ Cypress.Commands.add('visitWithUUID', (uuid = checkInUUID, language = 'en') => {
   });
 });
 
-const preCheckInUUID = sharedData.get.defaultUUID;
-
-Cypress.Commands.add('visitPreCheckInWithUUID', (uuid = preCheckInUUID) => {
+Cypress.Commands.add('visitPreCheckInWithUUID', (uuid = defaultUUID) => {
   cy.visit(`/health-care/appointment-pre-check-in/?id=${uuid}`);
+});
+
+Cypress.Commands.add('visitTravelClaimWithUUID', (uuid = defaultUUID) => {
+  cy.visit(`/my-health/appointment-travel-claim/?id=${uuid}`);
 });
 
 Cypress.Commands.add('createScreenshots', filename => {

@@ -1,11 +1,10 @@
-// declare alert types for enrollment status helpers
-export const DASHBOARD_ALERT_TYPES = Object.freeze({
-  closed: 'closed', // Black, exclamation mark
-  decision: 'decision', // Red, exclamation mark
-  enrolled: 'enrolled', // Green, checkmark
-  inProgress: 'in-progress', // Blue, pause (TBD)
-  update: 'update', // Gold, exclamation
-});
+import { getAppUrl } from '~/platform/utilities/registry-helpers';
+
+export const APP_URLS = {
+  dischargeWizard: getAppUrl('discharge-upgrade-instructions'),
+  ezr: getAppUrl('ezr'),
+  facilities: getAppUrl('facilities'),
+};
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
@@ -46,7 +45,22 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
   RESET_ENROLLMENT_STATUS: 'RESET_ENROLLMENT_STATUS',
   SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
-  SHOW_HCA_REAPPLY_CONTENT: 'SHOW_HCA_REAPPLY_CONTENT',
+};
+
+// declare initial state fetching enrollment status
+export const ENROLLMENT_STATUS_INIT_STATE = {
+  applicationDate: null,
+  enrollmentDate: null,
+  preferredFacility: null,
+  enrollmentStatus: null,
+  enrollmentStatusEffectiveDate: null,
+  dismissedNotificationDate: null,
+  hasServerError: false,
+  isLoadingApplicationStatus: false,
+  isLoadingDismissedNotification: false,
+  isUserInMVI: false,
+  loginRequired: false,
+  noESRRecordFound: false,
 };
 
 // declare enrollment status strings
@@ -79,6 +93,17 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedScWrongEntry: 'rejected_sc_wrongentry',
   rejectedRightEntry: 'rejected_rightentry',
 });
+
+// declare enrollment status codes that permit apply/reapply action
+export const HCA_APPLY_ALLOWED_STATUSES = new Set([
+  null,
+  HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+  HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
+  HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+  HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+  HCA_ENROLLMENT_STATUSES.canceledDeclined,
+  HCA_ENROLLMENT_STATUSES.closed,
+]);
 
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;

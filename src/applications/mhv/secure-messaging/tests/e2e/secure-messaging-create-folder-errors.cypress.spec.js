@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('create folder errors check', () => {
@@ -19,11 +19,11 @@ describe('create folder errors check', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.loadFoldersList();
     folderPage.createANewFolderButton().click({ waitForAnimations: true });
-    const createFolderName = 'create folder test';
+    const createFolderName = Data.CREATE_FOLDER_TEST;
     folderPage
       .createFolderTextBox()
       .type(createFolderName, { waitforanimations: true, force: true });
-    cy.intercept('POST', '/my_health/v1/messaging/folder', {
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGE_FOLDER, {
       statusCode: 400,
       body: {
         alertType: 'error',
@@ -51,6 +51,6 @@ describe('create folder errors check', () => {
     cy.get(Locators.FOLDER_MANE)
       .shadow()
       .find('#input-error-message')
-      .should('contain', 'Folder name cannot be blank');
+      .should('contain', Data.FOLDER_NAME_CANNOT_BLANKAN);
   });
 });

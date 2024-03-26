@@ -4,13 +4,22 @@ import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 
-export const getVaccinesList = () => async dispatch => {
+export const getVaccinesList = (isCurrent = false) => async dispatch => {
+  dispatch({
+    type: Actions.Vaccines.UPDATE_LIST_STATE,
+    payload: Constants.loadStates.FETCHING,
+  });
   try {
     const response = await getVaccineList();
 
-    dispatch({ type: Actions.Vaccines.GET_LIST, response });
+    dispatch({
+      type: Actions.Vaccines.GET_LIST,
+      response,
+      isCurrent,
+    });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
@@ -26,6 +35,7 @@ export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 

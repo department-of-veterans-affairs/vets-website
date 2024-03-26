@@ -56,6 +56,7 @@ const CreateFolderModal = props => {
 
   return (
     <VaModal
+      uswds={false}
       className="modal"
       visible={isCreateNewModalVisible}
       large="true"
@@ -82,12 +83,14 @@ const CreateFolderModal = props => {
         charcount
       />
       <va-button
+        uswds={false}
         text="Create"
         onClick={confirmNewFolder}
         data-testid="create-folder-button"
         data-dd-action-name="Confirm Create New Folder Button"
       />
       <va-button
+        uswds={false}
         secondary="true"
         text="Cancel"
         onClick={closeNewModal}

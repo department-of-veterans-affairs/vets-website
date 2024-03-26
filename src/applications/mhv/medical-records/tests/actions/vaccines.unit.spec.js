@@ -17,6 +17,9 @@ describe('Get vaccines action', () => {
     const dispatch = sinon.spy();
     return getVaccinesList()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vaccines.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
         Actions.Vaccines.GET_LIST,
       );
     });

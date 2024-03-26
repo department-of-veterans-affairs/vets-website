@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
   radioUI,
@@ -80,8 +81,16 @@ export default {
           title: 'Choose the type of care:',
           labels: careOptions,
         }),
-        ratePerHour: currencyUI(
-          'If this is an in-home provider, what is the rate per hour?',
+        ratePerHour: merge(
+          {},
+          currencyUI(
+            'If this is an in-home provider, what is the rate per hour?',
+          ),
+          {
+            'ui:options': {
+              classNames: 'schemaform-currency-input-v3',
+            },
+          },
         ),
         hoursPerWeek: numberUI({
           title: 'How many hours per week does the care provider work?',
@@ -102,7 +111,11 @@ export default {
           title: 'How often are the payments?',
           labels: frequencyOptions,
         }),
-        paymentAmount: currencyUI('How much is each payment?'),
+        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
+        }),
       },
     },
   },

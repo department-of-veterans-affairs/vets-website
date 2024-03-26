@@ -1,6 +1,6 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
 
 describe('Secure Messaging Compose with No Provider', () => {
   it('can not send message', () => {
@@ -10,7 +10,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     landingPage.loadPageForNoProvider();
     cy.get(Locators.ALERTS.TRIAGE_GROUP).should(
       'contain',
-      "You can't send messages to your care teams right now",
+      Data.CANNOT_SEND_MSG_TO_CARE_TEAM,
     );
     cy.contains(
       'p',
@@ -20,7 +20,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     cy.get(Locators.ALERTS.TRIAGE_ALERT).should(
       'have.attr',
       'href',
-      '/find-locations/',
+      Paths.FIND_LOCATIONS,
     );
 
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');

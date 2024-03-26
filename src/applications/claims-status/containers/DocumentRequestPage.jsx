@@ -1,7 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
-import { withRouter, Link } from 'react-router';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -9,7 +9,7 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import AddFilesFormOld from '../components/AddFilesFormOld';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import DueDateOld from '../components/DueDateOld';
 import Notification from '../components/Notification';
@@ -171,17 +171,20 @@ class DocumentRequestPage extends React.Component {
       );
     }
 
-    const docRequest = this.props.loading ? (
-      <span>Document request</span>
-    ) : (
-      <Link
-        to={`your-claims/${this.props.params.id}/document-request/${
-          trackedItem.id
-        }`}
-      >
-        Document request
-      </Link>
-    );
+    const crumbs = [
+      {
+        href: filesPath,
+        label: 'Status details',
+        isRouterLink: true,
+      },
+      {
+        href: `your-claims/${this.props.params.id}/document-request/${
+          this.props.params.trackedItemId
+        }`,
+        label: 'Document request',
+        isRouterLink: true,
+      },
+    ];
 
     return (
       <div>
@@ -189,18 +192,17 @@ class DocumentRequestPage extends React.Component {
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={filesPath}>Status details</Link>
-                {docRequest}
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={crumbs} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               {content}
             </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-              <AskVAQuestions />
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <NeedHelp />
             </div>
           </div>
         </div>

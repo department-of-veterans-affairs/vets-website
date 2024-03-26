@@ -1,32 +1,15 @@
-import React from 'react';
 import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import ArrayBuilderCards from '../arrayBuilder/components/ArrayBuilderCards';
 
 /** @type {PageSchema} */
-export default {
+export const arrayMultiPageBuilderSummary = {
   uiSchema: {
-    'ui:description': (
-      <ArrayBuilderCards
-        cardDescription={itemData =>
-          `${itemData?.dateStart} - ${itemData?.dateEnd}`
-        }
-        arrayPath="employers"
-        nounSingular="employer"
-        nounPlural="employers"
-        isIncomplete={item =>
-          !item?.name ||
-          !item?.address?.country ||
-          !item?.address?.city ||
-          !item?.address?.street ||
-          !item?.address?.postalCode
-        }
-        editItemBasePathUrl="/array-multiple-page-builder-item-page-1"
-      />
-    ),
-    hasEmployment: yesNoUI({
+    'view:hasEmployment': yesNoUI({
+      errorMessages: {
+        required: 'Select yes if you have another employer to add',
+      },
       updateUiSchema: formData => {
         return formData?.employers?.length
           ? {
@@ -58,8 +41,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      hasEmployment: yesNoSchema,
+      'view:hasEmployment': yesNoSchema,
     },
-    required: ['hasEmployment'],
+    required: ['view:hasEmployment'],
   },
 };

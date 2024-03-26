@@ -1,13 +1,14 @@
 import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import TravelPage from '../../../components/pages/TravelPage';
 
 const TravelVehicle = props => {
   const { router } = props;
   const { t } = useTranslation();
-
+  const { updateError } = useUpdateError();
   const additionalInfoItems = [
     {
       info: (
@@ -21,13 +22,17 @@ const TravelVehicle = props => {
       trigger: t('if-you-didnt-travel-in-your-own-vehicle'),
     },
   ];
-
+  const noFunction = () => {
+    updateError('cant-file-claim-type');
+  };
   return (
     <TravelPage
       header={t('did-you-travel-in-your-own-vehicle')}
       additionalInfoItems={additionalInfoItems}
       pageType="travel-vehicle"
       router={router}
+      noFunction={noFunction}
+      testID="travel-claim-vehicle-page"
     />
   );
 };

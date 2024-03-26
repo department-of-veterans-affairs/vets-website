@@ -6,8 +6,8 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
-import { ErrorMessages, Paths } from '../../util/constants';
-import { DateRangeValues } from '../../util/inputContants';
+import { ErrorMessages, Paths, filterDescription } from '../../util/constants';
+import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
@@ -35,12 +35,6 @@ const SearchForm = props => {
       }
     },
     [dateRange, category, customFilter],
-  );
-  useEffect(
-    () => {
-      setSearchTerm(keyword);
-    },
-    [keyword],
   );
 
   useEffect(
@@ -73,6 +67,12 @@ const SearchForm = props => {
     let fromDateTime;
     let toDateTime;
 
+    const queryData = {
+      category,
+      range: DateRangeOptions.find(item => dateRange === item.value),
+      searchTerm,
+    };
+
     if (
       dateRange === DateRangeValues.LAST3 ||
       dateRange === DateRangeValues.LAST6 ||
@@ -96,11 +96,12 @@ const SearchForm = props => {
       runAdvancedSearch(
         folder,
         {
-          category,
+          category: category.value,
           fromDate: relativeFromDate || fromDateTime,
           toDate: relativeToDate || toDateTime,
         },
         searchTerm.toLowerCase(),
+        queryData,
       ),
     );
   };
@@ -118,6 +119,13 @@ const SearchForm = props => {
   };
 
   const queryItem = (key, value) => {
+    if (key?.label) {
+      return (
+        <li>
+          "<strong>{`${key.label}`}</strong>, <strong>{value}</strong>"
+        </li>
+      );
+    }
     return (
       <li>
         {key && `${key}: `}"<strong>{value}</strong>"
@@ -126,9 +134,16 @@ const SearchForm = props => {
   };
 
   const dateRangeDisplay = () => {
+    const rangeQueryText =
+      query.queryData?.range?.value === DateRangeValues.LAST3 ||
+      query.queryData?.range?.value === DateRangeValues.LAST6 ||
+      query.queryData?.range?.value === DateRangeValues.LAST12
+        ? query.queryData?.range
+        : null;
+
     if (query.fromDate && query.toDate) {
       return queryItem(
-        null,
+        rangeQueryText,
         `${moment.utc(query.fromDate).format('MMMM Do YYYY')} to ${moment
           .utc(query.toDate)
           .format('MMMM Do YYYY')}`,
@@ -149,11 +164,12 @@ const SearchForm = props => {
         in <strong>{folderName}</strong> for{' '}
         {keyword && (
           <>
-            "<strong>{keyword}</strong>"
+            "<strong>{query.queryData?.searchTerm}</strong>"
           </>
         )}
         <ul>
-          {query.category && queryItem('Category', query.category)}
+          {query.category &&
+            queryItem('Category', query.queryData?.category?.label)}
           {dateRangeDisplay()}
         </ul>
       </>
@@ -194,11 +210,9 @@ const SearchForm = props => {
   const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
   let filterLabelBody;
   if (location.pathname.includes('/drafts')) {
-    filterLabelBody =
-      'Enter information from one of these fields: to, from, or subject';
+    filterLabelBody = filterDescription.noMsgId;
   } else {
-    filterLabelBody =
-      'Enter information from one of these fields: to, from, message ID, or subject';
+    filterLabelBody = filterDescription.withMsgId;
   }
 
   return (

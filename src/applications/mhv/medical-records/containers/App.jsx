@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -22,11 +19,13 @@ import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
   flagsLoadedAndMhvEnabled,
+  selectConditionsFlag,
+  selectLabsAndTestsFlag,
+  selectNotesFlag,
   selectSidenavFlag,
   selectVaccinesFlag,
-  selectNotesFlag,
+  selectVitalsFlag,
 } from '../util/selectors';
-import { resetPagination } from '../actions/pagination';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
@@ -38,13 +37,15 @@ const App = ({ children }) => {
     state => state.featureToggles,
   );
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   // Individual feature flags
   const showSideNav = useSelector(selectSidenavFlag);
-  const showVaccines = useSelector(selectVaccinesFlag);
+  const showConditions = useSelector(selectConditionsFlag);
+  const showLabsAndTests = useSelector(selectLabsAndTestsFlag);
   const showNotes = useSelector(selectNotesFlag);
+  const showVaccines = useSelector(selectVaccinesFlag);
+  const showVitals = useSelector(selectVitalsFlag);
 
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
@@ -97,14 +98,14 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(resetPagination(history.location.pathname));
-      };
-    },
-    [dispatch, history.location.pathname],
-  );
+  const addSideNavItem = (navPaths, isDisplayed, path, label) => {
+    if (isDisplayed)
+      navPaths[0].subpaths.push({
+        path,
+        label,
+        datatestid: `${path.replace(/\//, '')}-sidebar`,
+      });
+  };
 
   useEffect(
     () => {
@@ -114,21 +115,6 @@ const App = ({ children }) => {
           label: 'Medical records',
           datatestid: 'about-va-medical-records-sidebar',
           subpaths: [
-            // {
-            //   path: '/labs-and-tests',
-            //   label: 'Lab and test results',
-            //   datatestid: 'labs-and-tests-sidebar',
-            // },
-            // {
-            //   path: '/conditions',
-            //   label: 'Health conditions',
-            //   datatestid: 'health-conditions-sidebar',
-            // },
-            // {
-            //   path: '/vitals',
-            //   label: 'Vitals',
-            //   datatestid: 'vitals-sidebar',
-            // },
             // {
             //   path: '/download-all',
             //   label: 'Download all medical records',
@@ -142,26 +128,31 @@ const App = ({ children }) => {
           ],
         },
       ];
-      if (showNotes)
-        navPaths[0].subpaths.push({
-          path: '/summaries-and-notes',
-          label: 'Care summaries and notes',
-          datatestid: 'care-summaries-and-notes-sidebar',
-        });
-      if (showVaccines)
-        navPaths[0].subpaths.push({
-          path: '/vaccines',
-          label: 'Vaccines',
-          datatestid: 'vaccines-sidebar',
-        });
-      navPaths[0].subpaths.push({
-        path: '/allergies',
-        label: 'Allergies and reactions',
-        datatestid: 'allergies-sidebar',
-      });
+      addSideNavItem(
+        navPaths,
+        showLabsAndTests,
+        '/labs-and-tests',
+        'Lab and test results',
+      );
+      addSideNavItem(
+        navPaths,
+        showNotes,
+        '/summaries-and-notes',
+        'Care summaries and notes',
+      );
+      addSideNavItem(navPaths, showVaccines, '/vaccines', 'Vaccines');
+      addSideNavItem(navPaths, true, '/allergies', 'Allergies and reactions');
+      addSideNavItem(
+        navPaths,
+        showConditions,
+        '/conditions',
+        'Health conditions',
+      );
+      addSideNavItem(navPaths, showVitals, '/vitals', 'Vitals');
+
       setPaths(navPaths);
     },
-    [showNotes, showVaccines],
+    [showConditions, showLabsAndTests, showNotes, showVaccines, showVitals],
   );
 
   useEffect(

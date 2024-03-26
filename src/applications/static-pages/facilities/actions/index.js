@@ -123,3 +123,25 @@ export function fetchMultiFacility(id) {
       .catch(() => dispatch(fetchMultiFacilityFailed(id)));
   };
 }
+
+export function multiTypeQuery(facilityType, queryString) {
+  return dispatch => {
+    // With fetchMultiFacility started creates an empty object for the facility data
+    dispatch(fetchMultiFacilityStarted(facilityType));
+    return apiRequest(queryString, { apiVersion: 'v1' })
+      .then(res => {
+        dispatch(
+          // success action will populate the facility data object with data key/value
+          fetchMultiFacilitySuccess(
+            {
+              data:
+                res.data.map(datum => ({ ...datum, source: facilityType })) ||
+                [],
+            },
+            facilityType,
+          ),
+        );
+      })
+      .catch(() => dispatch(fetchMultiFacilityFailed(facilityType)));
+  };
+}
