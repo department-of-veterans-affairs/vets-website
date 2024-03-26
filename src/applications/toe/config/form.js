@@ -50,6 +50,7 @@ import {
   hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
+  applicantIsaMinor,
 } from '../helpers';
 
 import { transformTOEForm } from '../utils/form-submit-transform';
@@ -301,7 +302,7 @@ const formConfig = {
                 hideIf: formData => {
                   if (!formData.toeHighSchoolInfoChange) return true;
 
-                  if (!applicantIsChildOfSponsor(formData)) return true;
+                  if (!applicantIsaMinor(formData)) return true;
 
                   return false;
                 },
@@ -309,7 +310,7 @@ const formConfig = {
               'ui:required': formData => {
                 if (!formData.toeHighSchoolInfoChange) return false;
 
-                if (applicantIsChildOfSponsor(formData)) return true;
+                if (applicantIsaMinor(formData)) return true;
 
                 return false;
               },
@@ -323,7 +324,7 @@ const formConfig = {
                   if (!formData.toeHighSchoolInfoChange) return true;
 
                   if (
-                    applicantIsChildOfSponsor(formData) &&
+                    applicantIsaMinor(formData) &&
                     formData[formFields.highSchoolDiploma] === 'Yes'
                   )
                     return false;
@@ -335,7 +336,7 @@ const formConfig = {
                 if (!formData.toeHighSchoolInfoChange) return false;
 
                 if (
-                  applicantIsChildOfSponsor(formData) &&
+                  applicantIsaMinor(formData) &&
                   formData[formFields.highSchoolDiploma] === 'Yes'
                 )
                   return true;
