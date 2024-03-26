@@ -14,7 +14,7 @@ const {
 } = formConfig.chapters.additionalInformation.pages.paymentInformation;
 
 describe('526 -- paymentInformation', () => {
-  it('should render', () => {
+  it('should render with no prefill', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -24,9 +24,15 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    expect(form.find('va-alert')).to.exist;
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(1);
+
+    const alert = form.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll use this bank account for all your VA benefit payments',
+    );
+
     form.unmount();
   });
 
@@ -48,9 +54,15 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    expect(form.find('va-alert')).to.exist;
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(1);
+
+    const alert = form.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll use this bank account for all your VA benefit payments',
+    );
+
     form.unmount();
   });
 
@@ -82,11 +94,16 @@ describe('526 -- paymentInformation', () => {
       </Provider>,
     );
 
-    expect(form.find('va-alert')).to.exist;
-
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+
+    const alert = form.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll use this bank account for all your VA benefit payments',
+    );
+
     form.unmount();
   });
 

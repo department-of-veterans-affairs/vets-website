@@ -24,7 +24,13 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('va-alert').length).to.equal(0);
+
+    const alert = tree.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'If we approve your application for disability benefits, we’ll also use this account for any VA education benefits you already receive.',
+    );
+
     tree.unmount();
   });
 
@@ -38,13 +44,19 @@ describe('AllClaims PaymentView', () => {
     const tree = shallow(<PaymentView originalData={originalData} />);
     const text = tree.text();
     expect(text).to.contain(
-      'We’re currently paying your compensation to this account',
+      'We’re currently paying your compensation to this account.',
     );
     expect(text).to.contain('Checking Account');
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('va-alert').length).to.equal(1);
+
+    const alert = tree.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll also use this account for any VA education benefits you already receive.',
+    );
+
     tree.unmount();
   });
 
@@ -66,14 +78,17 @@ describe('AllClaims PaymentView', () => {
       <PaymentView formData={formData} originalData={originalData} />,
     );
     const text = tree.text();
-    expect(text).to.contain(
-      'If we approve your application for disability benefits',
-    );
     expect(text).to.contain('Checking Account');
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('va-alert').length).to.equal(0);
+
+    const alert = tree.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.text()).to.contain(
+      'Until then, we’ll deposit your current disability payments',
+    );
+
     tree.unmount();
   });
 });
