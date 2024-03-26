@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import sinon from 'sinon';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import {
+  bypassFormCheck,
   survivingDependentContactInformationChapterTitle,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
@@ -22,6 +25,7 @@ import {
   confirmationPageAlertHeadline,
   confirmationPageAlertParagraph,
   confirmationPageNextStepsParagraph,
+  getIntentsToFile,
 } from '../../config/helpers';
 import {
   preparerIdentifications,
@@ -222,6 +226,137 @@ describe('form helper functions', () => {
     };
 
     expect(noActiveITF({ formData })).to.equal(true);
+  });
+
+  describe('getting the Intents to File mid-form', () => {
+    describe('user is a veteran', () => {
+      it('uses goPath', () => {
+        const goPath = sinon.spy();
+        const goNextPath = sinon.spy();
+        const setFormData = sinon.spy();
+        const formData = {
+          preparerIdentification: preparerIdentifications.veteran,
+        };
+
+        getIntentsToFile({
+          formData,
+          goPath,
+          goNextPath,
+          setFormData,
+        });
+
+        expect(goPath.called).to.eq(true);
+        expect(goNextPath.called).to.eq(false);
+        expect(setFormData.called).to.eq(false);
+      });
+
+      it('calls the ITF endpoint', () => {
+        const compensationIntent = {};
+        const pensionIntent = {};
+        mockApiRequest({ compensationIntent, pensionIntent });
+        const goPath = sinon.spy();
+        const goNextPath = sinon.spy();
+        const setFormData = sinon.spy();
+        const formData = {
+          preparerIdentification: preparerIdentifications.veteran,
+        };
+
+        getIntentsToFile({
+          formData,
+          goPath,
+          goNextPath,
+          setFormData,
+        });
+
+        expect(setFormData.called).to.eq(true);
+      });
+    });
+
+    it('uses goNextPath when user is not a veteran', () => {
+      const goPath = sinon.spy();
+      const goNextPath = sinon.spy();
+      const setFormData = sinon.spy();
+      const formData = {
+        preparerIdentification: 'not-a-veteran',
+      };
+
+      getIntentsToFile({
+        formData,
+        goPath,
+        goNextPath,
+        setFormData,
+      });
+
+      expect(goNextPath.called).to.eq(true);
+      expect(goPath.called).to.eq(false);
+      expect(setFormData.called).to.eq(false);
+    });
+  });
+
+  describe('navigates to the correct page based on form data', () => {
+    it('uses goNextPath when benefitSelectionPension is true', () => {
+      const goPath = sinon.spy();
+      const goNextPath = sinon.spy();
+      const formData = {
+        benefitSelectionPension: true,
+      };
+
+      bypassFormCheck('benefitSelectionPension', {
+        formData,
+        goPath,
+        goNextPath,
+      });
+
+      expect(goNextPath.called).to.eq(true);
+      expect(goPath.called).to.eq(false);
+    });
+
+    it('uses goPath when benefitSelectionPension is not true', () => {
+      const goPath = sinon.spy();
+      const goNextPath = sinon.spy();
+      const formData = {};
+
+      bypassFormCheck('benefitSelectionPension', {
+        formData,
+        goPath,
+        goNextPath,
+      });
+
+      expect(goPath.called).to.eq(true);
+      expect(goNextPath.called).to.eq(false);
+    });
+
+    it('uses goNextPath when benefitSelectionCompensation is true', () => {
+      const goPath = sinon.spy();
+      const goNextPath = sinon.spy();
+      const formData = {
+        benefitSelectionCompensation: true,
+      };
+
+      bypassFormCheck('benefitSelectionCompensation', {
+        formData,
+        goPath,
+        goNextPath,
+      });
+
+      expect(goNextPath.called).to.eq(true);
+      expect(goPath.called).to.eq(false);
+    });
+
+    it('uses goPath when benefitSelectionCompensation is not true', () => {
+      const goPath = sinon.spy();
+      const goNextPath = sinon.spy();
+      const formData = {};
+
+      bypassFormCheck('benefitSelectionCompensation', {
+        formData,
+        goPath,
+        goNextPath,
+      });
+
+      expect(goPath.called).to.eq(true);
+      expect(goNextPath.called).to.eq(false);
+    });
   });
 });
 

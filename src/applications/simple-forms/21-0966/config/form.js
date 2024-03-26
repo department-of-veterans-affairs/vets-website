@@ -1,6 +1,5 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
 import manifest from '../manifest.json';
 
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
@@ -20,6 +19,7 @@ import survivingDependentIdentificationInformation from '../pages/survivingDepen
 import survivingDependentMailingAddress from '../pages/survivingDependentMailingAddress';
 import survivingDependentPhoneAndEmailAddress from '../pages/survivingDependentPhoneAndEmailAddress';
 import {
+  bypassFormCheck,
   preparerIsVeteran,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
@@ -35,6 +35,7 @@ import {
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
+  getIntentsToFile,
 } from './helpers';
 import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
 import thirdPartySurvivingDependentBenefitSelection from '../pages/thirdPartySurvivingDependentBenefitSelection';
@@ -121,48 +122,8 @@ const formConfig = {
               : undefined,
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
-          onNavForward: ({ formData, goPath, goNextPath, setFormData }) => {
-            if (preparerIsVeteran({ formData })) {
-              goPath('get-itf-status');
-
-              apiRequest(
-                `${
-                  environment.API_URL
-                }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
-              )
-                .then(({ compensationIntent, pensionIntent }) => {
-                  const formDataToSet = {
-                    ...formData,
-                    'view:activeCompensationITF':
-                      compensationIntent?.status === 'active'
-                        ? compensationIntent
-                        : {},
-                    'view:activePensionITF':
-                      pensionIntent?.status === 'active' ? pensionIntent : {},
-                  };
-
-                  setFormData(formDataToSet);
-
-                  if (
-                    hasActiveCompensationITF({ formData: formDataToSet }) &&
-                    hasActivePensionITF({ formData: formDataToSet })
-                  ) {
-                    goPath('confirmation');
-                  } else if (
-                    hasActiveCompensationITF({ formData: formDataToSet })
-                  ) {
-                    goPath('veteran-benefit-selection-pension');
-                  } else if (hasActivePensionITF({ formData: formDataToSet })) {
-                    goPath('veteran-benefit-selection-compensation');
-                  } else {
-                    goNextPath();
-                  }
-                })
-                .catch(() => goNextPath());
-            } else {
-              goNextPath();
-            }
-          },
+          onNavForward: ({ formData, goPath, goNextPath, setFormData }) =>
+            getIntentsToFile({ formData, goPath, goNextPath, setFormData }),
           updateFormData: (oldFormData, newFormData) =>
             initializeFormDataWithPreparerIdentificationAndPrefill(
               newFormData.preparerIdentification,
@@ -208,13 +169,12 @@ const formConfig = {
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelectionCompensation.uiSchema,
           schema: veteranBenefitSelectionCompensation.schema,
-          onNavForward: ({ formData, goPath, goNextPath }) => {
-            if (formData?.benefitSelectionCompensation) {
-              goNextPath();
-            } else {
-              goPath('confirmation');
-            }
-          },
+          onNavForward: ({ formData, goPath, goNextPath }) =>
+            bypassFormCheck('benefitSelectionCompensation', {
+              formData,
+              goPath,
+              goNextPath,
+            }),
         },
         veteranBenefitSelectionPension: {
           path: 'veteran-benefit-selection-pension',
@@ -224,13 +184,12 @@ const formConfig = {
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelectionPension.uiSchema,
           schema: veteranBenefitSelectionPension.schema,
-          onNavForward: ({ formData, goPath, goNextPath }) => {
-            if (formData?.benefitSelectionPension) {
-              goNextPath();
-            } else {
-              goPath('confirmation');
-            }
-          },
+          onNavForward: ({ formData, goPath, goNextPath }) =>
+            bypassFormCheck('benefitSelectionPension', {
+              formData,
+              goPath,
+              goNextPath,
+            }),
         },
         thirdPartyVeteranBenefitSelection: {
           path: 'third-party-veteran-benefit-selection',

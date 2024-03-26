@@ -1,6 +1,8 @@
 import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import { format } from 'date-fns';
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   preparerIdentifications,
   veteranBenefits,
@@ -149,6 +151,58 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
     preparerIdentification,
     'view:veteranPrefillStore': veteranPrefillStore,
   };
+};
+
+export const getIntentsToFile = ({
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+}) => {
+  if (preparerIsVeteran({ formData })) {
+    goPath('get-itf-status');
+
+    apiRequest(
+      `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
+    )
+      .then(({ compensationIntent, pensionIntent }) => {
+        const formDataToSet = {
+          ...formData,
+          'view:activeCompensationITF':
+            compensationIntent?.status === 'active' ? compensationIntent : {},
+          'view:activePensionITF':
+            pensionIntent?.status === 'active' ? pensionIntent : {},
+        };
+
+        setFormData(formDataToSet);
+
+        if (
+          hasActiveCompensationITF({ formData: formDataToSet }) &&
+          hasActivePensionITF({ formData: formDataToSet })
+        ) {
+          goPath('confirmation');
+        } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
+          goPath('veteran-benefit-selection-pension');
+        } else if (hasActivePensionITF({ formData: formDataToSet })) {
+          goPath('veteran-benefit-selection-compensation');
+        } else {
+          goNextPath();
+        }
+      })
+      .catch(() => goNextPath());
+  } else {
+    goNextPath();
+  }
+};
+
+export const bypassFormCheck = (type, { formData, goPath, goNextPath }) => {
+  if (formData?.[type]) {
+    goNextPath();
+  } else {
+    goPath('confirmation');
+  }
 };
 
 export const confirmationPageFormBypassed = formData => {
