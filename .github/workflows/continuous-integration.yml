@@ -157,6 +157,13 @@ jobs:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: vagovprod
+          path: build/vagovprod
+
+
   tests-prep:
     name: Tests Prep
     needs: [fetch-allow-lists]
@@ -641,11 +648,18 @@ jobs:
       #     mkdir -p build/vagovprod
       #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Use build from the build job
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
-        run: |
-          # Copy build directory from the build job output
-          cp -r ${{ needs.build.outputs.build_path }} build/vagovprod
+      # - name: Use build from the build job
+      #   if: needs.cypress-tests-prep.outputs.tests != '[]'
+      #   run: |
+      #     # Copy build directory from the build job output
+      #     cp -r ${{ needs.build.outputs.build_path }} build/vagovprod
+
+      - name: Download build artifact
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/download-artifact@v2
+        with:
+          name: vagovprod
+          path: build/vagovprod
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
