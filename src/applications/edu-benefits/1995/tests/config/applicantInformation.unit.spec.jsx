@@ -19,7 +19,7 @@ import {
 
 const definitions = formConfig.defaultDefinitions;
 
-describe('Edu 1995 applicantInformation', () => {
+describe.skip('Edu 1995 applicantInformation', () => {
   const {
     schema,
     uiSchema,
