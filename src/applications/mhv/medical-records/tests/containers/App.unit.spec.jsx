@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -355,18 +356,21 @@ describe('App', () => {
 
   describe('Redirection of disallowed users', async () => {
     it('redirects unauthenticated users to /health-care/get-medical-records', async () => {
-      renderWithStoreAndRouter(<App />, {
-        initialState: {
-          ...initialState,
-          user: {
-            ...initialState.user,
-            login: { currentlyLoggedIn: false },
-          },
+      const customState = {
+        ...initialState,
+        user: {
+          ...initialState.user,
+          login: { currentlyLoggedIn: false },
         },
-        path: `/`,
+      };
+      renderWithStoreAndRouter(<App />, {
+        initialState: customState,
         reducers: reducer,
+        path: `/`,
       });
-      expect(window.location.replace.called).to.be.true;
+      await waitFor(() => {
+        expect(window.location.replace.called).to.be.true;
+      });
     });
 
     it('redirects Basic users to /health-care/get-medical-records', async () => {
@@ -384,7 +388,9 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      expect(window.location.replace.called).to.be.true;
+      await waitFor(() => {
+        expect(window.location.replace.called).to.be.true;
+      });
     });
 
     it('does not redirect authenticated Premium users', async () => {
@@ -393,7 +399,9 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      expect(window.location.replace.called).to.be.false;
+      await waitFor(() => {
+        expect(window.location.replace.called).to.be.false;
+      });
     });
   });
 });
