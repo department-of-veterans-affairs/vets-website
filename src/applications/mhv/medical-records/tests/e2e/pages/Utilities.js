@@ -33,4 +33,4 @@ class Utilities {
   };
 }
 
-export default new Utilities();
+export default Utilities;
