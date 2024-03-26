@@ -22,16 +22,16 @@ const VaPrescription = prescription => {
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
-  const shippedOn = prescription?.trackingList?.[0]?.[1];
+  const latestTrackingStatus = prescription?.trackingList?.[0];
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
       return (
         <>
           <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
-            {shippedOn?.[0] && (
+            {latestTrackingStatus && (
               <TrackingInfo
-                {...shippedOn[0]}
+                {...latestTrackingStatus}
                 prescriptionName={prescription.prescriptionName}
               />
             )}
@@ -166,7 +166,7 @@ const VaPrescription = prescription => {
                     className="vads-u-margin--0 vads-u-margin-bottom--1"
                     data-testid="shipped-on"
                   >
-                    {dateFormat(shippedOn?.[i]?.completeDateTime)}
+                    {dateFormat(latestTrackingStatus?.completeDateTime)}
                   </p>
                   <h4
                     className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
