@@ -1,16 +1,13 @@
-import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import moment from 'moment';
 
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+
 import {
   titleUI,
   yesNoUI,
@@ -20,7 +17,6 @@ import {
 import {
   getDependentChildTitle,
   getMarriageTitleWithCurrent,
-  DirectDepositWarning,
   isMarried,
   submit,
   isHomeAcreageMoreThanTwo,
@@ -80,24 +76,18 @@ import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 import landMarketable from './chapters/05-financial-information/landMarketable';
+import {
+  usingDirectDeposit,
+  directDeposit,
+  accountInformation,
+  otherPaymentOptions,
+} from './chapters/06-additional-information';
 
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
 
-const {
-  fullName,
-  usaPhone,
-  dateRange,
-  date,
-  monthlyIncome,
-  netWorth,
-  marriages,
-  expectedIncome,
-  ssn,
-  centralMailVaFile,
-  bankAccount,
-} = fullSchemaPensions.definitions;
+import { marriages, defaultDefinitions } from './definitions';
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
@@ -217,10 +207,6 @@ export function isCurrentMarriage(formData, index) {
   return isMarried(formData) && numMarriages - 1 === index;
 }
 
-function usingDirectDeposit(formData) {
-  return formData['view:noDirectDeposit'] !== true;
-}
-
 export function doesHaveDependents(formData) {
   return get(['view:hasDependents'], formData) === true;
 }
@@ -251,7 +237,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 6,
+  version: 7,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -285,18 +271,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  defaultDefinitions: {
-    address: address.schema(fullSchemaPensions),
-    date,
-    dateRange,
-    usaPhone,
-    fullName,
-    ssn,
-    centralMailVaFile,
-    monthlyIncome,
-    expectedIncome,
-    netWorth,
-  },
+  defaultDefinitions,
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
@@ -707,57 +682,24 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         directDeposit: {
-          title: 'Direct deposit',
+          title: 'Direct deposit for Veterans Pension benefits',
           path: 'additional-information/direct-deposit',
           initialData: {},
-          uiSchema: {
-            ...titleUI('Direct deposit'),
-            'view:noDirectDeposit': {
-              'ui:title': 'I don’t want to use direct deposit',
-            },
-            bankAccount: merge({}, bankAccountUI, {
-              'ui:order': [
-                'accountType',
-                'bankName',
-                'accountNumber',
-                'routingNumber',
-              ],
-              'ui:options': {
-                hideIf: formData => !usingDirectDeposit(formData),
-              },
-              bankName: {
-                'ui:title': 'Bank name',
-              },
-              accountType: {
-                'ui:required': usingDirectDeposit,
-              },
-              accountNumber: {
-                'ui:required': usingDirectDeposit,
-              },
-              routingNumber: {
-                'ui:required': usingDirectDeposit,
-              },
-            }),
-            'view:stopWarning': {
-              'ui:description': DirectDepositWarning,
-              'ui:options': {
-                hideIf: usingDirectDeposit,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:noDirectDeposit': {
-                type: 'boolean',
-              },
-              bankAccount,
-              'view:stopWarning': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          ...directDeposit,
+        },
+        accountInformation: {
+          title: 'Account information for direct deposit',
+          path: 'additional-information/account-information',
+          initialData: {},
+          depends: usingDirectDeposit,
+          ...accountInformation,
+        },
+        otherPaymentOptions: {
+          title: 'Other payment options',
+          path: 'additional-information/other-payment-options',
+          initialData: {},
+          depends: formData => !usingDirectDeposit(formData),
+          ...otherPaymentOptions,
         },
         aidAttendance: {
           title: 'Supporting documents',

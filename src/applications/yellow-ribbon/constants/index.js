@@ -1,6 +1,10 @@
+export const CONTRIBUTION_AMOUNT_SUMMARY_TEXT =
+  '"Schools that provide maximum funding"';
 export const FETCH_RESULTS = 'yellow-ribbon/FETCH_RESULTS';
 export const FETCH_RESULTS_FAILURE = 'yellow-ribbon/FETCH_RESULTS_FAILURE';
 export const FETCH_RESULTS_SUCCESS = 'yellow-ribbon/FETCH_RESULTS_SUCCESS';
+export const NUMBER_OF_STUDENTS_SUMMARY_TEXT =
+  '"Schools that provide funding to all eligible students"';
 export const TOGGLE_SHOW_MOBILE_FORM = 'yellow-ribbon/TOGGLE_SHOW_MOBILE_FORM';
 export const TOGGLE_TOOL_TIP = 'yellow-ribbon/TOGGLE_TOOL_TIP';
 export const TOOL_TIP_LABEL = 'Tips to improve search results';
