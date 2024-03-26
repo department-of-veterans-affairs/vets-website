@@ -86,8 +86,6 @@ jobs:
         run: |
           ls -la
           ls -la build/
-          ls -al build/vagovprod
-          ls -al build/vagovprod/* # If there are files inside
 
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
