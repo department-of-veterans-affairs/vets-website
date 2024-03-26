@@ -78,7 +78,7 @@ export const useDirectDeposit = () => {
   // effects to trigger the success alert
   useEffect(
     () => {
-      if (!ui.isSaving && !error) {
+      if (!ui.isSaving && !error && wasSaving) {
         setShowUpdateSuccess(true);
         removeBankInfoUpdatedAlert();
       }

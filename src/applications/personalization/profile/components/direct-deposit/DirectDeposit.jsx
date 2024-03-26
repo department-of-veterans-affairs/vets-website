@@ -1,23 +1,27 @@
 import React from 'react';
+import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import LoadFail from '@@profile/components/alerts/LoadFail';
+import { handleDowntimeForSection } from '@@profile/components/alerts/DowntimeBanner';
+import Headline from '@@profile/components/ProfileSectionHeadline';
 import { useDirectDeposit } from '@@profile/hooks';
 
-import { Prompt } from 'react-router-dom';
-import Headline from '../ProfileSectionHeadline';
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
-import { FraudVictimSummary } from './FraudVictimSummary';
-import LoadFail from '../alerts/LoadFail';
-import VerifyIdentity from './alerts/VerifyIdentity';
-import { PaymentHistoryCard } from './PaymentHistoryCard';
+
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { BankInfo } from './BankInfo';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+
+import VerifyIdentity from './alerts/VerifyIdentity';
 import { TemporaryOutage } from './alerts/TemporaryOutage';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
+import { AccountInfoView } from './AccountInfoView';
+import { AccountUpdateView } from './AccountUpdateView';
+import { FraudVictimSummary } from './FraudVictimSummary';
+import { PaymentHistoryCard } from './PaymentHistoryCard';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 // layout wrapper for common styling
 const Wrapper = ({ children }) => {
@@ -30,6 +34,7 @@ Wrapper.propTypes = {
 
 export const DirectDeposit = () => {
   const {
+    ui,
     paymentAccount,
     controlInformation,
     error,
@@ -37,6 +42,7 @@ export const DirectDeposit = () => {
     isIdentityVerified,
     isBlocked,
     useOAuth,
+    showUpdateSuccess,
   } = useDirectDeposit();
 
   const {
@@ -89,6 +95,15 @@ export const DirectDeposit = () => {
     );
   }
 
+  const cardDataValue = ui.isEditing ? (
+    <AccountUpdateView isSaving={ui.isSaving} error={error} />
+  ) : (
+    <AccountInfoView
+      showUpdateSuccess={showUpdateSuccess}
+      paymentAccount={paymentAccount}
+    />
+  );
+
   return (
     <div>
       <Headline dataTestId="unified-direct-deposit">
@@ -106,7 +121,10 @@ export const DirectDeposit = () => {
           render={handleDowntimeForSection('direct deposit')}
           dependencies={[externalServices.vaProfile]}
         >
-          <BankInfo />
+          <ProfileInfoCard
+            title="Bank account information"
+            data={[{ value: cardDataValue }]}
+          />
         </DowntimeNotification>
 
         <FraudVictimSummary />
