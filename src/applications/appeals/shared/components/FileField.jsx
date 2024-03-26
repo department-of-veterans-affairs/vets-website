@@ -27,8 +27,10 @@ import { usePreviousValue } from '~/platform/forms-system/src/js/helpers';
 
 import {
   MISSING_PASSWORD_ERROR,
+  FILE_NAME_TOO_LONG_ERROR,
   createContent,
   reMapErrorMessage,
+  checkIsNameTooLong,
 } from '../utils/upload';
 
 import { ShowPdfPassword } from './ShowPdfPassword';
@@ -220,6 +222,16 @@ const FileField = props => {
       let checkResults;
       const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
 
+      allFiles[idx] = {
+        file: currentFile,
+        name: currentFile.name,
+      };
+      if (checkIsNameTooLong(currentFile.name)) {
+        allFiles[idx].errorMessage = FILE_NAME_TOO_LONG_ERROR;
+        props.onChange(allFiles);
+        return;
+      }
+
       if (currentFile.type === 'testing') {
         // Skip read file for Cypress testing
         checkResults = {
@@ -235,11 +247,7 @@ const FileField = props => {
       }
 
       if (!checkResults.checkTypeAndExtensionMatches) {
-        allFiles[idx] = {
-          file: currentFile,
-          name: currentFile.name,
-          errorMessage: FILE_TYPE_MISMATCH_ERROR,
-        };
+        allFiles[idx].errorMessage = FILE_TYPE_MISMATCH_ERROR;
         props.onChange(allFiles);
         return;
       }
@@ -250,11 +258,7 @@ const FileField = props => {
         !password &&
         checkResults.checkIsEncryptedPdf
       ) {
-        allFiles[idx] = {
-          file: currentFile,
-          name: currentFile.name,
-          isEncrypted: true,
-        };
+        allFiles[idx].isEncrypted = true;
         props.onChange(allFiles);
         // wait for user to enter a password before uploading
         return;

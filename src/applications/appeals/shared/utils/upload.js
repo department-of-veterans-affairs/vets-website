@@ -9,6 +9,10 @@ export const MISSING_PASSWORD_ERROR = [
   'Document is locked with a user password',
 ];
 
+// Lighthouse limits file names to 255 characters
+export const MAX_FILE_NAME_LENGTH = 255;
+export const FILE_NAME_TOO_LONG_ERROR = `Your file name can’t exceed ${MAX_FILE_NAME_LENGTH} characters. Rename your file and try again.`;
+
 export const errormessageMaps = {
   'exceeds the page size limit':
     'Your file can’t have a width and height larger than 78 inches by 101 inches. Follow the instructions for your device on how to resize the file and try again.',
@@ -20,6 +24,9 @@ export const reMapErrorMessage = error => {
   );
   return errormessageMaps?.[result] ?? error;
 };
+
+export const checkIsNameTooLong = (name = '') =>
+  name.length > MAX_FILE_NAME_LENGTH;
 
 export const createPayload = (file, _formId, password) => {
   const payload = new FormData();
