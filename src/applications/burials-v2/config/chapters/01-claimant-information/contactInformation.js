@@ -10,7 +10,7 @@ export default {
   uiSchema: {
     'ui:title': generateTitle('Contact information'),
     claimantEmail: {
-      ...emailUI(),
+      ...emailUI('Your email address'),
       'ui:options': {
         uswds: true,
       },
