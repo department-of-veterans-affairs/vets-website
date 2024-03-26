@@ -63,7 +63,7 @@ function validateLength(errors, email) {
 
   if (email && email?.length > MAX_LENGTH) {
     errors.addError(
-      `We don’t support email addresses that exceeds ${MAX_LENGTH} characters`,
+      `We don’t support email addresses that exceed ${MAX_LENGTH} characters`,
     );
   }
 }
