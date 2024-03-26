@@ -2,10 +2,12 @@ import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import {
   allergiesReducer,
+  convertAllergy,
   extractLocation,
   extractObservedReported,
 } from '../../reducers/allergies';
-import allergies from '../../../medical-records/tests/fixtures/allergies.json';
+import allergies from '../fixtures/allergies.json';
+import allergy from '../fixtures/allergy.json';
 import { allergyTypes, EMPTY_FIELD } from '../../util/constants';
 
 describe('extractLocation function', () => {
@@ -130,35 +132,69 @@ describe('Allergies reducer', () => {
 
 describe('extractObservedReported function', () => {
   it('should return OBSERVED when valueCode is "o"', () => {
-    const allergy = {
+    const allergyWithObserved = {
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'o' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(allergyTypes.OBSERVED);
+    expect(extractObservedReported(allergyWithObserved)).to.equal(
+      allergyTypes.OBSERVED,
+    );
   });
 
   it('should return REPORTED when valueCode is "h"', () => {
-    const allergy = {
+    const allergyWithReported = {
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'h' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(allergyTypes.REPORTED);
+    expect(extractObservedReported(allergyWithReported)).to.equal(
+      allergyTypes.REPORTED,
+    );
   });
 
   it('should return EMPTY_FIELD when extension array is empty', () => {
-    const allergy = { extension: [] };
-    expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+    const allergyWithEmptyArray = { extension: [] };
+    expect(extractObservedReported(allergyWithEmptyArray)).to.equal(
+      EMPTY_FIELD,
+    );
   });
 
   it('should return EMPTY_FIELD when extension does not contain the target url', () => {
-    const allergy = {
+    const allergyWithNotTargetUrl = {
       extension: [{ url: 'differentUrl', valueCode: 'o' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+    expect(extractObservedReported(allergyWithNotTargetUrl)).to.equal(
+      EMPTY_FIELD,
+    );
   });
 
   it('should return EMPTY_FIELD when valueCode is neither "o" nor "h"', () => {
-    const allergy = {
+    const allergyWithInvalidValueCode = {
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'x' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+    expect(extractObservedReported(allergyWithInvalidValueCode)).to.equal(
+      EMPTY_FIELD,
+    );
+  });
+});
+
+describe('convertAllergy function', () => {
+  it('should return EMPTY_FIELD values', () => {
+    const emptyFieldsAllergy = {
+      ...allergy,
+      category: null,
+      code: { text: null },
+      recordedDate: null,
+      note: null,
+    };
+    const convertedAllergy = convertAllergy(emptyFieldsAllergy);
+    expect(convertedAllergy.type).to.equal(EMPTY_FIELD);
+    expect(convertedAllergy.name).to.equal(EMPTY_FIELD);
+    expect(convertedAllergy.date).to.equal(EMPTY_FIELD);
+    expect(convertedAllergy.notes).to.equal(EMPTY_FIELD);
+  });
+
+  it('should contain allergy name and id', () => {
+    const convertedAllergy = convertAllergy(allergy);
+    const allergyName = allergy.code.text;
+    expect(convertedAllergy.name).to.equal(allergyName);
+    expect(convertedAllergy.id).to.equal(allergy.id);
   });
 });
