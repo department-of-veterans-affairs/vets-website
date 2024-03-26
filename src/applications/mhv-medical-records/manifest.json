@@ -1,0 +1,7 @@
+{
+  "appName": "MHV Medical Records",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "medical-records",
+  "rootUrl": "/my-health/medical-records",
+  "productId": "c054e1e8-7be2-11ed-a1eb-0242ac120002"
+}
