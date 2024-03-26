@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -57,12 +56,11 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
-    const { closeDate, contentions, status } = claim.attributes || {};
+    const { claimDate, closeDate, contentions, status } =
+      claim.attributes || {};
 
     const isOpen = status !== 'COMPLETE' && closeDate === null;
-
-    const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-    const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const formattedClaimDate = buildDateFormatter()(claimDate);
     const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
