@@ -574,8 +574,8 @@ jobs:
     timeout-minutes: 10
     needs: [build] 
     outputs:
-      ecr_user: ${{ steps.configure-aws.outputs.ecr_user }}
-      ecr_password: ${{ steps.configure-aws.outputs.ecr_password }}
+      ecr_user: ${{ steps.login-ecr.outputs.ecr_user }}
+      ecr_password: ${{ steps.login-ecr.outputs.ecr_password }}
         
     steps:
       - name: Checkout vets-website
