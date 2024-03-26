@@ -189,7 +189,6 @@ class FolderManagementPage {
     );
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
     cy.get(Locators.ALERTS.MOVE_MODAL)
-
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
       })
