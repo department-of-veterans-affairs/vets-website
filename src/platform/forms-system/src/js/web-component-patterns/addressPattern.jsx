@@ -413,6 +413,7 @@ export function addressUI(options) {
           }
 
           ui['ui:webComponentField'] = VaTextInputField;
+          ui['ui:title'] = 'City';
           return {
             type: 'string',
             title: 'City',
