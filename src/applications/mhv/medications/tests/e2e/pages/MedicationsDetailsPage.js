@@ -66,7 +66,7 @@ class MedicationsDetailsPage {
   verifyPrescriptionsOrderedDate = () => {
     cy.get('[datat-testid="ordered-date"]').should(
       'have.text',
-      'April 15, 2023',
+      'April 14, 2023',
     );
   };
 

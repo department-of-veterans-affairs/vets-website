@@ -2,6 +2,10 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useTranslation } from 'react-i18next';
+import {
+  sortAppointmentsByStartTime,
+  utcToFacilityTimeZone,
+} from '../../../utils/appointment';
 
 const MultipleFacilityBody = props => {
   const {
@@ -18,10 +22,13 @@ const MultipleFacilityBody = props => {
       const stationNo = e.target.value;
       const { checked } = e.detail;
       const appointments = appointmentsByFacility[stationNo];
-      const firstAppointment = appointments[0];
+      const firstAppointment = sortAppointmentsByStartTime(appointments)[0];
       const value = {
         stationNo: firstAppointment.stationNo,
-        startTime: firstAppointment.startTime,
+        startTime: utcToFacilityTimeZone(
+          firstAppointment.startTime,
+          firstAppointment.timezone,
+        ),
         facility: firstAppointment.facility,
         appointmentCount: appointments.length,
       };
