@@ -568,19 +568,44 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
+  fetch-ecr-credentials:
+    name: Fetch ECR Credentials
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [build] 
+    outputs:
+      ecr_user: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+      ecr_password: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+        
+    steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v4
+    
+      - name: Configure AWS credentials
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2    
+
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 60
-    needs: [build, tests-prep]
+    needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
       credentials:
-        username: ${{ job.steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
-        password: ${{ job.steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+        username: ${{ needs.fetch-ecr-credentials.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.ecr_password }}
 
     strategy:
       fail-fast: false
@@ -615,10 +640,6 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Download production build artifact
         if: needs.tests-prep.outputs.cypress-tests != '[]'
