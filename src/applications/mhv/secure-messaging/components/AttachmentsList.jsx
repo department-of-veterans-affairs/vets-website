@@ -183,7 +183,7 @@ const AttachmentsList = props => {
                       alt="Attachment icon"
                       aria-hidden="true"
                     />
-                    <span>{file.name} </span>(
+                    <span className="attachment-name-text">{file.name}</span>(
                     {getSize(file.size || file.attachmentSize)})
                   </span>
                   <button
@@ -230,6 +230,7 @@ const AttachmentsList = props => {
                       alt="Attachment icon"
                     />
                     <span
+                      className="attachment-name-text"
                       id={attachmentNameId(file.id)}
                       data-testid={attachmentNameId(file.id)}
                       ref={attachmentReference}
