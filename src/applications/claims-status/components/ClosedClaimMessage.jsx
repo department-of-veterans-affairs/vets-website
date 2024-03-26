@@ -90,7 +90,6 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         status="warning"
         closeable
         onCloseEvent={onClose}
-        uswds="false"
       >
         <h4 slot="headline">Recently closed:</h4>
         <div>
