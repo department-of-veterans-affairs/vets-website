@@ -48,14 +48,6 @@ const TravelQuestion = props => {
       <p>{t('review-body-text')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-mileage"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link-mileage"
-        >
-          {t('Edit')}
-        </a>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
@@ -67,14 +59,6 @@ const TravelQuestion = props => {
       </dl>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('travel-method')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-vehicle"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link"
-        >
-          {t('Edit')}
-        </a>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
@@ -82,14 +66,6 @@ const TravelQuestion = props => {
       </dl>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('starting-address')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-address"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link"
-        >
-          {t('Edit')}
-        </a>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">
@@ -138,6 +114,16 @@ const TravelQuestion = props => {
             </p>
           </div>
         </VaCheckbox>
+      </div>
+      <div className="vads-u-margin-top--2p5">
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-address"
+          onClick={e => onEditClick(e)}
+          data-testid="review-edit-link"
+        >
+          {t('start-travel-claim-over')}
+        </a>
       </div>
     </>
   );

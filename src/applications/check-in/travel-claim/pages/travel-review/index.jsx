@@ -19,10 +19,6 @@ const TravelReview = props => {
   const [error, setError] = useState(false);
   const selectVeteranAddress = useMemo(makeSelectVeteranAddress, []);
   const address = useSelector(selectVeteranAddress);
-  const onEditClick = e => {
-    e.preventDefault();
-    jumpToPage('/travel-pay');
-  };
   const agreementLink = e => {
     e.preventDefault();
     jumpToPage('/travel-agreement');
@@ -85,14 +81,6 @@ const TravelReview = props => {
       </dl> */}
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-mileage"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link-mileage"
-        >
-          {t('Edit')}
-        </a>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
@@ -107,14 +95,6 @@ const TravelReview = props => {
       </dl>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('travel-method')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-vehicle"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link"
-        >
-          {t('Edit')}
-        </a>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
@@ -122,14 +102,6 @@ const TravelReview = props => {
       </dl>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('starting-address')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-address"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link"
-        >
-          {t('Edit')}
-        </a>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">
@@ -187,7 +159,7 @@ const TravelReview = props => {
       router={router}
       yesButtonText={t('file-claim')}
       yesFunction={validation}
-      noButtonText={t('back')}
+      noButtonText={t('start-over')}
       noFunction={() => goToPreviousPage()}
       testID="travel-claim-review-page"
     />

@@ -340,5 +340,6 @@
   "claims": "Claims",
   "travel-method": "Travel method",
   "starting-address": "Starting address",
-  "start-over": "Start over"
+  "start-over": "Start over",
+  "start-travel-claim-over": "Start travel claim over"
 }

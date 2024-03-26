@@ -245,67 +245,6 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelComplete.validateContent('multi-claim-multi-appointment');
     cy.injectAxeThenAxeCheck();
   });
-  it('should successfully file a travel claim after going back by clicking edit to change the facility', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
-    );
-    cy.visitTravelClaimWithUUID();
-
-    ValidateVeteran.validatePage.travelClaim();
-    cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validateVeteran();
-    ValidateVeteran.attemptToGoToNextPage();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('500');
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.acceptTerms();
-    TravelPages.clickEditLink();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('530');
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageLoaded('vehicle');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageLoaded('address');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageLoaded('review');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.acceptTerms();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('multi-claim-multi-appointment');
-    cy.injectAxeThenAxeCheck();
-  });
   it('should successfully file a travel claim after viewing the travel agreement', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
       sharedData.get.multiApptMultiFacilityUUID,
