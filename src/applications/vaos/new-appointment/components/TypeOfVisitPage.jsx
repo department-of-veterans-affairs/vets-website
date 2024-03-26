@@ -79,7 +79,7 @@ export default function TypeOfVisitPage({ changeCrumb }) {
   }, []);
 
   return (
-    <div>
+    <div className="vads-u-margin-top--neg3">
       {!!schema && (
         <SchemaForm
           name="Type of visit"

@@ -145,7 +145,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   }, []);
 
   return (
-    <div>
+    <div className="vads-u-margin-top--neg3">
       {isCommunityCare && <h1 className="vads-u-font-size--h2">{pageTitle}</h1>}
       {!!schema && (
         <SchemaForm
