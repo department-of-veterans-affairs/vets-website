@@ -41,6 +41,7 @@ const InterstitialPage = props => {
           data-testid="continue-button"
           onClick={acknowledge}
           text={continueButtonText}
+          data-dd-action-name={continueButtonText}
         />
 
         <h2 className="vads-u-font-size--h3">
