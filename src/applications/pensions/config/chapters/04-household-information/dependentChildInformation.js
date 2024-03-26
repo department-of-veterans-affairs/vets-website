@@ -24,6 +24,7 @@ import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
+  AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
 
 const childRelationshipOptions = {
@@ -52,6 +53,10 @@ function isEligibleForDisabilitySupport(childDOB) {
     .isBefore(childDOB);
 }
 
+function isAdopted(childRelationship) {
+  return childRelationship === 'ADOPTED';
+}
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -74,6 +79,16 @@ export default {
           title: "What's your relationship?",
           labels: childRelationshipOptions,
         }),
+        'view:adoptionDocs': {
+          'ui:description': AdoptionEvidenceAlert,
+          'ui:options': {
+            expandUnder: 'childRelationship',
+            hideIf: (formData, index) =>
+              !isAdopted(
+                get(['dependents', index, 'childRelationship'], formData),
+              ),
+          },
+        },
         attendingCollege: yesNoUI({
           title: 'Is your child in school?',
           hideIf: (formData, index) =>
@@ -148,6 +163,7 @@ export default {
             childRelationship: radioSchema(
               Object.keys(childRelationshipOptions),
             ),
+            'view:adoptionDocs': { type: 'object', properties: {} },
             attendingCollege: yesNoSchema,
             'view:schoolWarning': { type: 'object', properties: {} },
             disabled: yesNoSchema,
