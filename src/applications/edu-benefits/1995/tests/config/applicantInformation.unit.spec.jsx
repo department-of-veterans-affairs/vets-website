@@ -3,7 +3,6 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import {
   DefinitionTester,
   submitForm,
@@ -20,7 +19,7 @@ import {
 
 const definitions = formConfig.defaultDefinitions;
 
-describe.skip('Edu 1995 applicantInformation', () => {
+describe('Edu 1995 applicantInformation', () => {
   const {
     schema,
     uiSchema,
