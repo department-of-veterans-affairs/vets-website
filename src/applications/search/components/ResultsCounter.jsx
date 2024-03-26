@@ -34,11 +34,9 @@ const ResultsCounter = (
         </h2>
         <hr className="vads-u-margin-y--3" aria-hidden="true" />
       </>
-    )
+    );
   }
 
-  // regular display for how many search results total are available.
-  /* eslint-disable prettier/prettier */
   if (results && results.length > 0) {
     return (
       <>
@@ -61,7 +59,6 @@ const ResultsCounter = (
   }
 
   return null;
-  /* eslint-enable prettier/prettier */
 };
 
 ResultsCounter.propTypes = {

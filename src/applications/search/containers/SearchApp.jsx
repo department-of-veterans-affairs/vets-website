@@ -406,6 +406,8 @@ class SearchApp extends React.Component {
     const hasErrors = !!(errors && errors.length > 0);
     const { userInput } = this.state;
 
+    console.log('what is this: ', this.props.searchDropdownComponentEnabled);
+
     // Reusable search input
     const searchInput = (
       <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
@@ -492,9 +494,7 @@ class SearchApp extends React.Component {
     );
   }
 
-  /* eslint-enable react/no-danger */
   render() {
-    console.log('here!');
     return (
       <div className="search-app" data-e2e-id="search-app">
         <Breadcrumbs />
@@ -505,7 +505,7 @@ class SearchApp extends React.Component {
             </h1>
           </div>
         </div>
-        {/* <div className="search-row">
+        <div className="search-row">
           <div className="usa-width-three-fourths columns">
             <DowntimeNotification
               appTitle="Search App"
@@ -520,7 +520,7 @@ class SearchApp extends React.Component {
             </h2>
             <MoreVASearchTools />
           </div>
-        </div> */}
+        </div>
       </div>
     );
   }
