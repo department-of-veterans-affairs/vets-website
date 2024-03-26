@@ -3,11 +3,15 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "ezrProdEnabled",
+        "name": "ezr_prod_enabled",
         "value": true
       },
       {
-        "name": "hcaSigiEnabled",
+        "name": "hca_sigi_enabled",
+        "value": false
+      },
+      {
+        "name": "ezr_tera_enabled",
         "value": false
       }
     ]

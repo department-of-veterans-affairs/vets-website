@@ -99,7 +99,7 @@ export function validateAgentOrangeExposureDates(
     errors.agentOrangeStartDate.addError(messages.format);
   }
 
-  if (toDate.month && !toDate.year) {
+  if (toDate.month.value && !toDate.year.value) {
     errors.agentOrangeEndDate.addError(messages.format);
   }
 }
@@ -123,7 +123,7 @@ export function validateExposureDates(
     errors.toxicExposureStartDate.addError(messages.format);
   }
 
-  if (toDate.month && !toDate.year) {
+  if (toDate.month.value && !toDate.year.value) {
     errors.toxicExposureEndDate.addError(messages.format);
   }
 }
