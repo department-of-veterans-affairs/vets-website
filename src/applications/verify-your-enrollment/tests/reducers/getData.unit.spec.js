@@ -44,4 +44,56 @@ describe('getDataReducer', () => {
     };
     expect(getDataReducer(undefined, action)).to.deep.equal(newState);
   });
+  it('should handle UPDATE_PENDING_VERIFICATIONS', () => {
+    const state = {
+      data: {
+        'vye::UserInfo': {
+          pendingVerifications: [],
+        },
+      },
+    };
+
+    const action = {
+      type: 'UPDATE_PENDING_VERIFICATIONS',
+      payload: ['1'],
+    };
+
+    const expectedState = {
+      data: {
+        'vye::UserInfo': {
+          pendingVerifications: ['1'],
+        },
+      },
+    };
+
+    const newState = getDataReducer(state, action);
+
+    expect(newState).to.deep.equal(expectedState);
+  });
+  it('should handle UPDATE_VERIFICATIONS', () => {
+    const state = {
+      data: {
+        'vye::UserInfo': {
+          verifications: [],
+        },
+      },
+    };
+
+    const action = {
+      type: 'UPDATE_VERIFICATIONS',
+      payload: ['1'],
+    };
+
+    const expectedState = {
+      data: {
+        'vye::UserInfo': {
+          verifications: ['1'],
+        },
+      },
+    };
+
+    const newState = getDataReducer(state, action);
+
+    expect(newState).to.deep.equal(expectedState);
+  });
 });

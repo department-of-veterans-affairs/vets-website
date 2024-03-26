@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -10,7 +10,7 @@ import {
   // END lighthouse_migration
   getClaim as getClaimAction,
 } from '../actions';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 // START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
@@ -50,6 +50,7 @@ class AskVAPage extends React.Component {
     const {
       loadingDecisionRequest,
       decisionRequestError,
+      params,
       submit5103,
       submitRequest,
       useLighthouse5103,
@@ -68,29 +69,35 @@ class AskVAPage extends React.Component {
       buttonMsg = 'Something went wrong...';
     }
 
+    const crumbs = [
+      {
+        href: `your-claims/${params.id}/status`,
+        label: 'Status details',
+        isRouterLink: true,
+      },
+      {
+        href: `your-claims/${params.id}/ask-va-to-decide`,
+        label: 'Ask for your claim decision',
+        isRouterLink: true,
+      },
+    ];
+
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0  vads-u-margin-bottom--7">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={`your-claims/${this.props.params.id}`}>
-                Status details
-              </Link>
-              <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
-                Ask for your claim decision
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={crumbs} />
           </div>
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            <div>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--4">
               <h1>Ask for your claim decision</h1>
               <p className="first-of-type">
                 We sent you a letter in the mail asking for more evidence to
-                support your claim. We’ll wait 30 days for your evidence. If you
-                don’t have anything more you want to submit, let us know and
-                we’ll go ahead and make a decision on your claim.
+                your claim. We’ll wait 30 days for your evidence. If you don’t
+                don’t have anything more you want to submit, let us know and go
+                ahead and make a decision on your claim.
               </p>
               <p>Taking the full 30 days won’t affect:</p>
               <ul>
@@ -117,7 +124,7 @@ class AskVAPage extends React.Component {
                 uswds
                 class="button-primary vads-u-margin-top--1"
                 text={buttonMsg}
-                onClick={() => submitFunc(this.props.params.id)}
+                onClick={() => submitFunc(params.id)}
               />
               {!loadingDecisionRequest ? (
                 <va-button
@@ -129,9 +136,9 @@ class AskVAPage extends React.Component {
                 />
               ) : null}
             </div>
-          </div>
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            <AskVAQuestions />
+            <div className="vads-u-padding-x--2p5">
+              <NeedHelp />
+            </div>
           </div>
         </div>
       </div>

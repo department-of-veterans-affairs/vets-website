@@ -13,7 +13,6 @@ import { onFormLoaded } from '../utils/redirect';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
 import AddContestableIssue from '../components/AddContestableIssue';
 
 import {
@@ -51,6 +50,7 @@ import {
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
 import { focusRadioH3 } from '../../shared/utils/focus';
 
@@ -199,6 +199,7 @@ const formConfig = {
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceIntro: {
           title: 'Additional evidence',
@@ -220,6 +221,7 @@ const formConfig = {
           depends: needsHearingType,
           uiSchema: hearingType.uiSchema,
           schema: hearingType.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },

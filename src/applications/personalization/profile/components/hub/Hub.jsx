@@ -12,7 +12,7 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { EduMigrationAlert } from '../direct-deposit/alerts/EduMigrationAlert';
+import { EduMigrationAlert } from '../direct-deposit/legacy/alerts/EduMigrationAlert';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();

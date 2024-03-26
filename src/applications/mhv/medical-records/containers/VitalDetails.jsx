@@ -156,11 +156,11 @@ ${records
       .map(
         vital =>
           `${txtLine}\n\n
-Date entered: ${vital.date}\n
+Date entered: ${vital.dateTime}\n
 Details about this test\n
 Result: ${vital.measurement}\n
 Location: ${vital.location}\n
-Provider Notes: ${vital.notes}\n\n`,
+Provider notes: ${vital.notes}\n\n`,
       )
       .join('')}`;
     generateTextFile(content, `VA-Vitals-details-${getNameDateAndTime(user)}`);
@@ -172,15 +172,10 @@ Provider Notes: ${vital.notes}\n\n`,
   }
   if (records?.length) {
     const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
-    const vitalDisplayNameLowerCase = vitalDisplayName.toLowerCase();
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--1 no-print">{vitalDisplayName}</h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3 no-print">
-          Your VA providers check your {vitalDisplayNameLowerCase} at
-          appointments. Review your {vitalDisplayNameLowerCase} results here.
-        </p>
+        <h1 className="vads-u-margin-bottom--3 no-print">{vitalDisplayName}</h1>
         <PrintDownload
           download={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
@@ -208,10 +203,10 @@ Provider Notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
-                  {vital.date}
+                  {vital.dateTime}
                 </h3>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Measurement:
+                  Result
                 </h4>
                 <p
                   data-testid="vital-result"
@@ -221,7 +216,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   {vital.measurement}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Location:
+                  Location
                 </h4>
                 <p
                   data-testid="vital-location"
@@ -231,7 +226,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   {vital.location}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Provider notes:
+                  Provider notes
                 </h4>
                 <p
                   data-testid="vital-provider-note"
@@ -267,7 +262,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
-                  {vital.date}
+                  {vital.dateTime}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
                   <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">

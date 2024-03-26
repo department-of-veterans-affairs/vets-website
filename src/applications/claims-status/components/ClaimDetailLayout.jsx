@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { DATE_FORMATS } from '../constants';
@@ -10,7 +9,7 @@ import {
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
-import AskVAQuestions from './AskVAQuestions';
+import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
@@ -43,9 +42,8 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimsPath = `your-claims/${id}`;
 
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
@@ -55,7 +53,6 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
-        uswds="false"
       />
     );
   } else if (claim !== null) {
@@ -123,17 +120,19 @@ export default function ClaimDetailLayout(props) {
     );
   }
 
+  const crumb = {
+    href: `your-claims/${id}`,
+    label: getBreadcrumbText(currentTab, claimType),
+    isRouterLink: true,
+  };
+
   return (
     <div>
       <div name="topScrollElement" />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>
-                {getBreadcrumbText(currentTab, claimType)}
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={[crumb]} />
           </div>
         </div>
         {!!headingContent && (
@@ -147,8 +146,10 @@ export default function ClaimDetailLayout(props) {
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             {bodyContent}
           </div>
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            <AskVAQuestions />
+        </div>
+        <div className="vads-l-row vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <NeedHelp />
           </div>
         </div>
       </div>

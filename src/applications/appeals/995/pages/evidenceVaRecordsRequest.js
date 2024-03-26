@@ -1,4 +1,9 @@
 import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
   requestVaRecordsTitle,
   requestVaRecordsInfo,
 } from '../content/evidenceVaRecordsRequest';
@@ -7,32 +12,30 @@ import { EVIDENCE_VA, errorMessages } from '../constants';
 
 export default {
   uiSchema: {
-    'ui:title': ' ',
-    'ui:options': {
-      forceDivWrapper: true,
-    },
-    [EVIDENCE_VA]: {
-      'ui:title': requestVaRecordsTitle,
-      'ui:widget': 'yesNo',
-      'ui:errorMessages': {
+    [EVIDENCE_VA]: yesNoUI({
+      title: requestVaRecordsTitle,
+      enableAnalytics: true,
+      labelHeaderLevel: '3',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+      },
+      required: () => true,
+      errorMessages: {
         required: errorMessages.requiredYesNo,
       },
-      'ui:options': {
-        hideOnReview: true,
-        enableAnalytics: true,
-      },
-    },
+      hideOnReview: true,
+    }),
+
     'view:vaEvidenceInfo': {
       'ui:description': requestVaRecordsInfo,
     },
   },
+
   schema: {
     type: 'object',
-    required: [EVIDENCE_VA],
     properties: {
-      [EVIDENCE_VA]: {
-        type: 'boolean',
-      },
+      [EVIDENCE_VA]: yesNoSchema,
       'view:vaEvidenceInfo': {
         type: 'object',
         properties: {},

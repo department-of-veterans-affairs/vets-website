@@ -6,15 +6,16 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
   veteranUI,
-  ssnDashesUI,
   sponsorDetailsSubHeader,
+  ssnDashesUI,
   sponsorDetailsGuidingText,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
-  'ui:title': sponsorDetailsSubHeader,
+  'ui:title': (formContext, formData) =>
+    sponsorDetailsSubHeader(formContext, formData),
   application: {
     veteran: merge({}, veteranUI, {
       'view:sponsorDetailsDescription': {

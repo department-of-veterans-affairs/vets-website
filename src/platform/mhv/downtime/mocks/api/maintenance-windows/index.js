@@ -33,6 +33,16 @@ const responses = {
           description: '',
         },
       },
+      {
+        id: '002',
+        type: 'maintenance_windows',
+        attributes: {
+          externalService: 'mhv_meds',
+          startTime: soonStartTime.toISOString(),
+          endTime: soonEndTime.toISOString(),
+          description: '',
+        },
+      },
     ],
   },
 };

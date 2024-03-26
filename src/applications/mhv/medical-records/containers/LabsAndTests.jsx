@@ -11,9 +11,11 @@ import {
   accessAlertTypes,
   pageTitles,
   recordType,
+  refreshExtractTypes,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -21,13 +23,20 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const activeAlert = useAlerts(dispatch);
-
-  useEffect(
-    () => {
-      dispatch(getLabsAndTestsList());
-    },
-    [dispatch],
+  const listState = useSelector(state => state.mr.labsAndTests.listState);
+  const refresh = useSelector(state => state.mr.refresh);
+  const labsAndTestsCurrentAsOf = useSelector(
+    state => state.mr.labsAndTests.listCurrentAsOf,
   );
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: labsAndTestsCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getLabsAndTestsList,
+    dispatch,
+  });
 
   useEffect(
     () => {

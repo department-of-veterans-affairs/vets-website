@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose with No Subject or Body', () => {
   const landingPage = new PatientInboxPage();
@@ -15,12 +15,12 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage
       .getCategory('COVID')
       .first()
-      .click();
-    composePage.attachMessageFromFile('test_image.jpg');
+      .click({ force: true });
+    composePage.attachMessageFromFile(Data.TEST_IMAGE);
   });
 
   it('empty message body error', () => {
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage.clickOnSendMessageButton();
     composePage.verifyBodyErrorMessage();
     cy.injectAxe();
@@ -29,7 +29,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   it('empty message subject error', () => {
     composePage
       .getMessageBodyField()
-      .type('Test message body', { force: true });
+      .type(Data.TEST_MESSAGE_BODY, { force: true });
     composePage.clickOnSendMessageButton();
     // composePage.verifySubjectErrorMessage();
     cy.injectAxe();

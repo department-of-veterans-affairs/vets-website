@@ -19,6 +19,7 @@
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.config.js",
     "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
+    "cy:open-codespaces": "/usr/local/share/desktop-init.sh && cypress install && cypress open --config-file config/cypress.config.js --e2e --browser chrome",
     "cy:run": "cypress run --config-file config/cypress.config.js --browser chrome",
     "cy:run:localreports": "node script/run-local-cy-with-reports.js",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
@@ -121,7 +122,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/register": "^7.17.7",
-    "@babel/traverse": "^7.17.3",
+    "@babel/traverse": "^7.23.2",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.11.0",
     "@department-of-veterans-affairs/eslint-plugin": "^1.13.0",
@@ -250,7 +251,7 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^37.2.0",
+    "@department-of-veterans-affairs/component-library": "^38.0.2",
     "@department-of-veterans-affairs/css-library": "^0.3.0",
     "@department-of-veterans-affairs/formation": "^10.1.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
@@ -318,7 +319,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#cc171e91f7a4c43caf2e3abc3e324f662af8505d"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d6918c7e0dce104ae9b06382a44df5deb56e2adf"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

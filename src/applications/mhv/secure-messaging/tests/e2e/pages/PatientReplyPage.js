@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
-import { Locators } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientReplyPage {
   sendReplyMessage = messageId => {
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/messages/${messageId}/reply`,
+      `${Paths.INTERCEPT.MESSAGES}/${messageId}/reply`,
       mockMessage,
     ).as('replyMessage');
     cy.get(Locators.BUTTONS.SEND).click();
@@ -17,7 +17,7 @@ class PatientReplyPage {
   sendReplyMessageDetails = mockReplyMessage => {
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessage.data.attributes.messageId
       }/reply`,
       mockReplyMessage,
@@ -80,7 +80,7 @@ class PatientReplyPage {
     );
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockMessage.data.attributes.messageId
       }/reply`,
       mockMessage,
@@ -109,8 +109,8 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('va-alert').should(
-      'have.text',
+    cy.get('[data-testid="alert-text"]').should(
+      'contain.text',
       'Secure message was successfully sent.',
     );
   };

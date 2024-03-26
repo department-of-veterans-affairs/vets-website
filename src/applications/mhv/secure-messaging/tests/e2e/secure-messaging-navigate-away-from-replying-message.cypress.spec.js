@@ -4,7 +4,7 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -19,7 +19,7 @@ describe('Secure Messaging Reply', () => {
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    PatientReplyPage.getMessageBodyField().type('Test message body', {
+    PatientReplyPage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
     });
 

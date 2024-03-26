@@ -7,7 +7,7 @@ import particularFolderResponse from '../fixtures/drafts-response.json';
 import mockSearchMessages from '../fixtures/search-COVID-results.json';
 import mockSearchCustomMessages from '../fixtures/search-advanced-custom-folder-results.json';
 import mockTrashFolder from '../fixtures/trashResponse/folder-deleted-metadata.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 
 describe(manifest.appName, () => {
@@ -19,7 +19,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'POST',
-        '/my_health/v1/messaging/folders/*/search',
+        Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       );
       landingPage.openAdvancedSearch();
@@ -42,7 +42,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -59,11 +59,7 @@ describe(manifest.appName, () => {
       const landingPage = new PatientInboxPage();
       site.login();
       landingPage.loadInboxMessages();
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/-2*',
-        mockDraftsFolder,
-      );
+      cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDERS_2, mockDraftsFolder);
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/-2/threads?**',
@@ -72,7 +68,7 @@ describe(manifest.appName, () => {
       cy.get(Locators.FOLDERS.DRAFTS).click();
       cy.intercept(
         'POST',
-        '/my_health/v1/messaging/folders/*/search',
+        Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       );
       landingPage.openAdvancedSearch();
@@ -95,7 +91,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -125,7 +121,7 @@ describe(manifest.appName, () => {
       cy.get(Locators.FOLDERS.SENT).click();
       cy.intercept(
         'POST',
-        '/my_health/v1/messaging/folders/*/search',
+        Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       ).as('advancedSearchRequest');
       landingPage.openAdvancedSearch();
@@ -148,7 +144,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -178,7 +174,7 @@ describe(manifest.appName, () => {
       cy.get(Locators.FOLDERS.TRASH).click();
       cy.intercept(
         'POST',
-        '/my_health/v1/messaging/folders/*/search',
+        Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       );
       landingPage.openAdvancedSearch();
@@ -201,7 +197,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -223,7 +219,7 @@ describe(manifest.appName, () => {
 
       cy.intercept(
         'POST',
-        '/my_health/v1/messaging/folders/*/search',
+        Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchCustomMessages,
       ).as('customFolderSearchResults');
 
@@ -250,7 +246,7 @@ describe(manifest.appName, () => {
     it('Check the search results label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '2')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
