@@ -262,26 +262,9 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {
-      let vaFacility;
-      let clinicId;
-
-      if (action.facilityType === 'communityCare') {
-        vaFacility = undefined;
-        clinicId = undefined;
-      }
-
       return {
         ...state,
-        data: {
-          ...state.data,
-          clinicId,
-          vaFacility,
-          facilityType: action.facilityType,
-        },
-        flowType:
-          FACILITY_TYPES.VAMC === action.facilityType
-            ? FLOW_TYPES.DIRECT
-            : FLOW_TYPES.REQUEST,
+        data: { ...state.data, facilityType: action.facilityType },
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -576,7 +559,6 @@ export default function formReducer(state = initialState, action) {
         data: {
           ...state.data,
           selectedDates: [],
-          facilityType: 'vamc',
         },
         flowType: FLOW_TYPES.DIRECT,
       };
