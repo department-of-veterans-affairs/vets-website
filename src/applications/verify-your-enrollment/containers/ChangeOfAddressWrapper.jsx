@@ -189,7 +189,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
   const onCancleButtonClicked = () => {
     setEditFormData({});
-    dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+    dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     handleCloseForm();
   };
   const updateAddressData = data => {

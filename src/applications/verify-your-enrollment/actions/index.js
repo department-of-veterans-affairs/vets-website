@@ -204,7 +204,7 @@ export const validateAddress = (formData, fullName) => async dispatch => {
           payload: validationResponse,
         });
       } catch (error) {
-        await dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+        await dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
         throw new Error(error);
       }
     } else {

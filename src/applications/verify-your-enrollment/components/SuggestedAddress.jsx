@@ -77,7 +77,7 @@ const SuggestedAddress = ({
       } catch (err) {
         throw new Error(err);
       } finally {
-        dispatch({ type: 'RESER_ADDRESS_VALIDATIONS' });
+        dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
         setFormData({});
       }
       setAddressToUI({

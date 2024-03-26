@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitFor } from '@testing-library/react';
@@ -32,9 +33,12 @@ import {
   UPDATE_VERIFICATIONS,
   updateVerifications,
   validateAddress,
+  ADDRESS_VALIDATION_SUCCESS,
+  ADDRESS_VALIDATION_START,
 } from '../../actions';
 
-const mockStore = configureMockStore();
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 const store = mockStore({});
 
 const mockData = { user: 'user' };
@@ -280,13 +284,164 @@ describe('getData, creator', () => {
       }),
     ).to.be.true;
   });
+  it('should dispatch the correct actions on success with confidence score 100', async () => {
+    const formData = {};
+    const fullName = 'John Doe';
 
-  // it('should dispatch postMailingAddress if the confidenceScore is 100', async () => {
-  //   const validationResponse = {
-  //     addresses: [{ address: {}, addressMetaData: { confidenceScore: 100 } }],
-  //   };
-  //   apiRequestStub.resolves(validationResponse);
-  //   await validateAddress({}, 'John Doe')(dispatch);
-  //   expect(postMailingAddress).to.be.true;
-  // });
+    apiRequestStub.resolves({
+      addresses: [
+        {
+          address: {
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 4B',
+            stateCode: 'NY',
+            zipCode: '10001',
+            countryCodeIso3: 'USA',
+          },
+          addressMetaData: {
+            confidenceScore: 100,
+          },
+        },
+      ],
+    });
+
+    await store.dispatch(validateAddress(formData, fullName));
+
+    const actions = store.getActions();
+
+    expect(actions[0]).to.deep.equal({ type: ADDRESS_VALIDATION_START });
+    expect(actions[1]).to.deep.equal({ type: UPDATE_ADDRESS });
+    expect(actions[2]).to.deep.equal({
+      type: ADDRESS_VALIDATION_SUCCESS,
+      payload: {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 4B',
+              stateCode: 'NY',
+              zipCode: '10001',
+              countryCodeIso3: 'USA',
+            },
+            addressMetaData: {
+              confidenceScore: 100,
+            },
+          },
+        ],
+      },
+    });
+  });
+  it('should not call  postMailingAddress action when confidence score is less than 100', async () => {
+    const formData = {};
+    const fullName = 'John Doe';
+
+    apiRequestStub.resolves({
+      addresses: [
+        {
+          address: {
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 4B',
+            stateCode: 'NY',
+            zipCode: '10001',
+            countryCodeIso3: 'USA',
+          },
+          addressMetaData: {
+            confidenceScore: 94,
+          },
+        },
+      ],
+    });
+
+    await store.dispatch(validateAddress(formData, fullName));
+
+    const actions = store.getActions();
+
+    expect(actions[0]).to.deep.equal({ type: ADDRESS_VALIDATION_START });
+    expect(actions[1]).to.deep.equal({
+      type: ADDRESS_VALIDATION_SUCCESS,
+      payload: {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 Main St',
+              addressLine2: 'Apt 4B',
+              stateCode: 'NY',
+              zipCode: '10001',
+              countryCodeIso3: 'USA',
+            },
+            addressMetaData: {
+              confidenceScore: 94,
+            },
+          },
+        ],
+      },
+    });
+  });
+  it('should dispatch the correct actions on error', async () => {
+    const formData = {};
+    const fullName = 'John Doe';
+
+    // Make the API request throw an error
+    apiRequestStub.rejects(new Error('Network error'));
+
+    try {
+      await store.dispatch(validateAddress(formData, fullName));
+    } catch (error) {
+      const actions = store.getActions();
+
+      expect(actions[0]).to.deep.equal({ type: 'ADDRESS_VALIDATION_START' });
+      expect(actions[1]).to.deep.equal({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      expect(error).to.be.an('error');
+      expect(error.message).to.equal('Network error');
+    }
+  });
+
+  it('should dispatch the correct actions when postMailingAddress throws an error', async () => {
+    const formData = {};
+    const fullName = 'John Doe';
+
+    apiRequestStub.resolves({
+      addresses: [
+        {
+          address: {
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 4B',
+            stateCode: 'NY',
+            zipCode: '10001',
+            countryCodeIso3: 'USA',
+          },
+          addressMetaData: {
+            confidenceScore: 100,
+          },
+        },
+      ],
+    });
+
+    await store.dispatch(validateAddress(formData, fullName));
+
+    const actions = store.getActions();
+
+    expect(actions[0]).to.deep.equal({ type: ADDRESS_VALIDATION_START });
+    expect(actions[1]).to.deep.equal({ type: UPDATE_ADDRESS });
+    try {
+      await store.dispatch(
+        postMailingAddress({
+          addressLine1: '123 Main St',
+          addressLine2: 'Apt 4B',
+          stateCode: 'NY',
+          zipCode: '10001',
+          countryCodeIso3: 'USA',
+        }),
+      );
+    } catch (error) {
+      const errors = {
+        status: 500,
+        error: 'Failed to update address',
+      };
+      apiRequestStub.rejects(errors);
+
+      expect(actions[0]).to.deep.equal({ type: 'ADDRESS_VALIDATION_START' });
+      expect(actions[1]).to.deep.equal({ type: 'RESET_ADDRESS_VALIDATIONS' });
+    }
+  });
 });

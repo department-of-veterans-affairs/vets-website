@@ -36,7 +36,7 @@ function addressReducer(state = initialState, action) {
         validationError: action.payload,
         validationSuccess: false,
       };
-    case 'RESER_ADDRESS_VALIDATIONS':
+    case 'RESET_ADDRESS_VALIDATIONS':
       return {
         ...state,
         isLoadingValidateAddress: false,
