@@ -13,6 +13,7 @@ import {
 import { applyFocus } from '../../../../utilities/page-setup';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
 import { updateFormStore } from '../../../../actions';
+import { determineErrorMessage } from '../../../../utilities/shared';
 
 const RadioGroup = ({
   formError,
@@ -45,7 +46,7 @@ const RadioGroup = ({
   };
 
   const onBackClick = () => {
-    navigateBackward(shortName, formValue, router);
+    navigateBackward(router);
   };
 
   const onValueChange = value => {
@@ -81,7 +82,7 @@ const RadioGroup = ({
         data-testid={testId}
         form-heading={H1}
         form-heading-level={1}
-        error={formError ? 'Select a response.' : null}
+        error={formError ? determineErrorMessage(shortName) : null}
         id="duw-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
         onLoad={applyFocus('duw-radio', headerHasFocused, setHeaderHasFocused)}

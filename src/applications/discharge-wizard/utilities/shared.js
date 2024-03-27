@@ -1,4 +1,4 @@
-import { ROUTES } from '../constants';
+import { ROUTES, errorTextMap } from '../constants';
 
 export const printErrorMessage = message =>
   // eslint-disable-next-line no-console
@@ -11,4 +11,10 @@ export const pushToRoute = (shortName, router) => {
   } else {
     printErrorMessage('Unable to determine page to display');
   }
+};
+
+export const determineErrorMessage = shortName => {
+  return errorTextMap[shortName]
+    ? errorTextMap[shortName]
+    : 'Select a response';
 };

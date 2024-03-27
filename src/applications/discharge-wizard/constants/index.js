@@ -122,3 +122,9 @@ export const questionsToClearMap = Object.freeze({
   DISCHARGE_MONTH: [],
   DISCHARGE_REASON: [],
 });
+
+export const errorTextMap = Object.freeze({
+  SERVICE_BRANCH: 'Select a branch',
+  DISCHARGE_YEAR: 'Select a year',
+  DISCHARGE_MONTH: 'Select a month',
+});

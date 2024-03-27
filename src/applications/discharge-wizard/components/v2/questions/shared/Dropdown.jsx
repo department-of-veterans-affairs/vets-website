@@ -12,6 +12,7 @@ import {
 } from '../../../../utilities/page-navigation';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
 import { updateFormStore } from '../../../../actions';
+import { determineErrorMessage } from '../../../../utilities/shared';
 
 const Dropdown = ({
   shortName,
@@ -55,7 +56,7 @@ const Dropdown = ({
   };
 
   const onBackClick = () => {
-    navigateBackward();
+    navigateBackward(router);
   };
 
   return (
@@ -66,7 +67,7 @@ const Dropdown = ({
           data-testid={testId}
           enable-analytics={false}
           label={H1}
-          error={formError ? 'Select a response.' : null}
+          error={formError ? determineErrorMessage(shortName) : null}
           name={`${shortName}_dropdown`}
           value={formValue}
           onVaSelect={e => onValueChange(e.detail.value)}
