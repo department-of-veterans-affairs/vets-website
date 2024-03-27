@@ -104,11 +104,16 @@ jobs:
           # Save the path of the build directory to an output
           echo "build_path=build/${{ matrix.buildtype }}" >> $GITHUB_OUTPUT
 
-      - name: Prepare build artifacts
+      - name: Use build artifacts in subsequent steps
         run: |
-          # Prepare build artifacts
-          mkdir -p $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
-          mv build/${{ matrix.buildtype }}/* $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}/
+          # Example: List files in the build directory
+          ls -la $GITHUB_WORKSPACE/build
+
+      # - name: Prepare build artifacts
+      #   run: |
+      #     # Prepare build artifacts
+      #     mkdir -p $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
+      #     mv build/${{ matrix.buildtype }}/* $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}/
 
 
       # - name: Upload build artifact
