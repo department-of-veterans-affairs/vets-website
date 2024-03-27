@@ -2,9 +2,9 @@
 
 /* Adds additional extensions to .usa-button */
 .usa-button-darker {
-  background: var(--vads-color-primary-dark);
+  background: $color-primary-darker;
   &:hover,
   &:focus {
-    background: var(--vads-color-primary-darker);
+    background: $color-primary-darkest;
   }
 }
