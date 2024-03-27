@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -13,6 +14,7 @@ import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import checkboxGroup from '../pages/mockCheckboxGroup';
+import checkboxGroupArray from '../pages/mockCheckboxGroupArray';
 import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
@@ -50,6 +52,57 @@ const chapterSelectInitialData = {
 function includeChapter(page) {
   return formData => formData?.chapterSelect[page];
 }
+
+const arrayItems = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
+
+const pageItems = itemName => ({
+  uiSchema: {
+    'ui:title': 'Checkbox group array',
+    allTheItems: {
+      type: 'object',
+      properties: {
+        [itemName]: {
+          'ui:title': 'Checkbox group array item A',
+          'ui:webComponentField': VaTextInputField,
+        },
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      allTheItems: {
+        type: 'object',
+        properties: {
+          [itemName]: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
+});
+
+const checkboxGroupArrayItemPagesList = arrayItems.map(itemName => {
+  const pageName = `checkboxGroupArrayItem${itemName.toUpperCase()}`;
+  const page = pageItems(itemName);
+  return {
+    [pageName]: {
+      title: `Checkbox group array item ${itemName}`,
+      path: `checkbox-group-array-item-${itemName}`,
+      uiSchema: page.uiSchema,
+      schema: page.schema,
+      depends: formData =>
+        formData?.allTheItemsCheckbox &&
+        formData?.allTheItemsCheckbox?.[itemName],
+    },
+  };
+});
+
+const checkboxGroupArrayItemPages = Object.assign(
+  {},
+  ...checkboxGroupArrayItemPagesList,
+);
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -184,6 +237,14 @@ const formConfig = {
           schema: checkboxGroup.schema,
           depends: includeChapter('checkbox'),
         },
+        checkboxGroupArray: {
+          title: 'Checkbox group array',
+          path: 'checkbox-group-array',
+          uiSchema: checkboxGroupArray.uiSchema,
+          schema: checkboxGroupArray.schema,
+          depends: includeChapter('checkbox'),
+        },
+        ...checkboxGroupArrayItemPages,
       },
     },
     select: {
