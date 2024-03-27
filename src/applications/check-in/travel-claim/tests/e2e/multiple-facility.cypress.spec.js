@@ -19,7 +19,7 @@ describe('A patient with appointments at multiple facilities', () => {
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
-    initializeBtsssPost.withSuccess();
+    initializeBtsssPost.withSuccess(2);
   });
   it('should successfully file a travel claim for a single facility', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(

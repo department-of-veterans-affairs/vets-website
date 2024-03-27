@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
   currentOrPastDateUI,
@@ -75,7 +76,11 @@ export default {
           labels: frequencyOptions,
           classNames: 'vads-u-margin-bottom--2',
         }),
-        paymentAmount: currencyUI('How much is each payment?'),
+        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
+        }),
       },
     },
   },

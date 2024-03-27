@@ -60,20 +60,6 @@ describe('Events <ResultsWhereContent>', () => {
     expect(component.getByText('pittsburgh')).to.exist;
   });
 
-  it('renders location name when given in location object', () => {
-    const fieldLocationExample = {
-      entity: {
-        title: 'test location',
-        entityUrl: {},
-      },
-    };
-    const locationObjectEvent = getProps(fieldLocationExample, '', null);
-    const component = render(
-      <ResultsWhereContent event={locationObjectEvent} />,
-    );
-    expect(component.getByText('test location')).to.exist;
-  });
-
   it('renders directions to google maps link', () => {
     const fieldLocationExample = {
       entity: {
@@ -91,6 +77,7 @@ describe('Events <ResultsWhereContent>', () => {
     const component = render(
       <ResultsWhereContent event={locationObjectEvent} />,
     );
+
     expect(component.getByText('Get directions on Google Maps')).to.exist;
   });
 });

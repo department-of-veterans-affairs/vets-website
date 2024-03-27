@@ -23,7 +23,7 @@ describe('getRoutesForNav', () => {
       route => route.name === PROFILE_PATH_NAMES.CONTACTS,
     );
     expect(phccRoute).to.exist;
-    const routes = getRoutesForNav(true);
+    const routes = getRoutesForNav({ profileContacts: true });
     expect(routes).to.include(phccRoute);
   });
 
@@ -32,7 +32,7 @@ describe('getRoutesForNav', () => {
       route => route.name === PROFILE_PATH_NAMES.CONTACTS,
     );
     expect(phccRoute).to.exist;
-    const routes = getRoutesForNav(false);
+    const routes = getRoutesForNav({ profileContacts: false });
     expect(routes).to.not.include(phccRoute);
   });
 });

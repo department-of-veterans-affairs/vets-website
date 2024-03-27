@@ -93,7 +93,7 @@ article[data-location$="va-medical-records"] {
     margin-top: 0;
   }
   .va-growable-background {
-    border-bottom: solid 1px $color-gray-light;
+    border-bottom: solid 1px var(--vads-color-base-light);
   }
 }
 
@@ -105,7 +105,7 @@ article[data-location="review-and-submit"] {
 
   .review-fieldset {
     legend {
-      border-top: 1px solid $color-gray-light;
+      border-top: 1px solid var(--vads-color-base-light);
       padding-top: 2rem;
     }
   }
