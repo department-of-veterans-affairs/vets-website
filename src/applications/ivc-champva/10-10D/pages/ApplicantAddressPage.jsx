@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  VaRadio,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { applicantWording } from '../helpers/wordingCustomization';
 
 export function ApplicantAddressCopyPage({
   contentBeforeButtons,
@@ -19,22 +17,9 @@ export function ApplicantAddressCopyPage({
   onReviewPage,
 }) {
   const currentApp = data?.applicants?.[pagePerItemIndex];
-  const [radioValue, setRadioValue] = useState(currentApp.hasSharedAddress);
   const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
   const [address, setAddress] = useState(currentApp?.applicantAddress);
-
-  // TODO: Do we want/need this functionality? Commenting out for now.
-  // If we copied an address but then edited on next screen, track that
-  // info if the user ever comes back to this screen and we want to notify.
-  /*
-  const [hasEditedAddress, setHasEditedAddress] = useState(
-    currentApp?.hasSharedAddress &&
-      JSON.stringify(currentApp?.applicantAddress) !==
-        currentApp?.sharesAddressWith.originatorAddress,
-  );
-  */
-
-  const [radioError, setRadioError] = useState(undefined);
+  // const [radioError, setRadioError] = useState(undefined);
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -42,19 +27,8 @@ export function ApplicantAddressCopyPage({
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
 
-  const options = [
-    {
-      value: true,
-      label: 'Yes',
-    },
-    {
-      value: false,
-      label: 'No',
-    },
-  ];
-
   function fullName(name) {
-    return `${name.first} ${name?.middle || ''} ${name.last}, ${name?.suffix ||
+    return `${name.first} ${name?.middle || ''} ${name.last} ${name?.suffix ||
       ''}`;
   }
 
@@ -67,25 +41,42 @@ export function ApplicantAddressCopyPage({
     );
   }
 
+  // Gets the veteran/sponsor address and third party address
+  // (if available), as well as any addresses belonging to other
+  // applicants so we can display in <select> down below
+  function getSelectOptions() {
+    const allAddresses = [];
+
+    if (data.certifierAddress?.country)
+      allAddresses.push({
+        originatorName: fullName(data.certifierName),
+        originatorAddress: data.certifierAddress,
+      });
+    if (data.sponsorAddress?.country)
+      allAddresses.push({
+        originatorName: fullName(data.veteransFullName),
+        originatorAddress: data.sponsorAddress,
+      });
+
+    data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
+      allAddresses.push({
+        originatorName: fullName(app.applicantName),
+        originatorAddress: app.applicantAddress,
+      }),
+    );
+    return allAddresses;
+  }
+
   const handlers = {
     validate() {
       let isValid = true;
-      if (radioValue === undefined) {
-        setRadioError('This field is required');
-        isValid = false;
-      } else if (radioValue && selectValue === undefined) {
-        setRadioError(null);
+      if (selectValue === undefined) {
         setSelectError('This field is required');
         isValid = false;
       } else {
-        setRadioError(null);
         setSelectError(null);
       }
       return isValid;
-    },
-    radioUpdate: ({ detail }) => {
-      setRadioValue(detail.value === 'true'); // convert from string to bool
-      setDirty(true);
     },
     selectUpdate: event => {
       const { target = {} } = event;
@@ -103,6 +94,9 @@ export function ApplicantAddressCopyPage({
         setAddress(parsedAddress.originatorAddress);
         setSelectValue(value);
       }
+      if (value === 'not-shared') {
+        setSelectValue(value);
+      }
       setDirty(true);
     },
     onGoForward: event => {
@@ -110,9 +104,8 @@ export function ApplicantAddressCopyPage({
       if (!handlers.validate()) return;
       const tmpVal = { ...data };
       const tmpApp = tmpVal.applicants[pagePerItemIndex];
-      tmpApp.hasSharedAddress = radioValue;
-      if (radioValue) {
-        tmpApp.sharesAddressWith = selectValue;
+      tmpApp.sharesAddressWith = selectValue;
+      if (selectValue !== 'not-shared') {
         tmpApp.applicantAddress = address;
       }
       setFormData(tmpVal);
@@ -126,73 +119,44 @@ export function ApplicantAddressCopyPage({
       if (dirty) handlers.validate();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, radioValue, selectValue],
+    [data, selectValue],
   );
+
+  // We use this a few times, so compute now.
+  const curAppFullName = fullName(currentApp.applicantName);
+  const selectWording = `${
+    pagePerItemIndex === 0 && data.certifierRole === 'applicant'
+      ? 'Do you'
+      : `Does ${curAppFullName}`
+  } have the same address as another person listed in this application?`;
+
   return (
     <>
-      {titleUI('Address screener')['ui:title']}
+      {
+        titleUI(
+          `${applicantWording(currentApp)} mailing address`,
+          'We’ll send any important information about your application to this address.',
+        )['ui:title']
+      }
 
       <form onSubmit={handlers.onGoForward}>
-        <VaRadio
-          class="vads-u-margin-y--2"
-          label="Do you share an address with another applicant?"
-          hint="If yes, you will need to tell us whose address you share."
+        <VaSelect
+          onVaSelect={handlers.selectUpdate}
+          error={selectError}
           required
-          error={radioError}
-          onVaValueChange={handlers.radioUpdate}
-          value={radioValue}
+          value={selectValue}
+          label={selectWording}
+          name="shared-address-select"
         >
-          {options.map(option => (
-            <va-radio-option
-              key={option.value}
-              name="pre-address-info"
-              label={option.label}
-              value={option.value}
-              checked={radioValue === option.value}
-              uswds
-              aria-describedby={
-                radioValue === option.value ? option.value : null
-              }
-            />
+          <option value="not-shared">
+            No, {curAppFullName} has a different address
+          </option>
+          {getSelectOptions().map(el => (
+            <option key={el.originatorName} value={JSON.stringify(el)}>
+              Yes, {curAppFullName} has the same address as {el.originatorName}
+            </option>
           ))}
-        </VaRadio>
-        {radioValue && (
-          <div
-            className={
-              radioValue ? 'form-expanding-group form-expanding-group-open' : ''
-            }
-          >
-            <div className="form-expanding-group-inner-enter-done">
-              <div className="schemaform-expandUnder-indent">
-                <VaSelect
-                  onVaSelect={handlers.selectUpdate}
-                  error={selectError}
-                  required
-                  value={selectValue}
-                  label="Select the applicant with whom you share an address"
-                  name="shared-address-select"
-                >
-                  {data.applicants
-                    .filter(person => isValidOrigin(person))
-                    .map(el => (
-                      <option
-                        key={`${el.applicantName.first}${
-                          el.applicantName.last
-                        }`}
-                        value={JSON.stringify({
-                          originatorName: fullName(el.applicantName),
-                          originatorAddress: el.applicantAddress,
-                        })}
-                      >
-                        {fullName(el.applicantName)} -{' '}
-                        {el.applicantAddress.street}
-                      </option>
-                    ))}
-                </VaSelect>
-              </div>
-            </div>
-          </div>
-        )}
+        </VaSelect>
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
           {onReviewPage ? updateButton : navButtons}
