@@ -19,14 +19,13 @@ Applications wishing to use typescript should inherit from the base-tsconfig.jso
 }
 ```
 
-
+Additional documentation on Typescript
+https://www.typescriptlang.org/tsconfig
+https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html
+https://www.typescriptlang.org/docs/handbook/project-references.html
 
 ### Cypress
 
-
-
 ### Mocha
 
-
-
-### Webpack 
+### Webpack
