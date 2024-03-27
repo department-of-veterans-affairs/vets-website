@@ -1249,15 +1249,15 @@ const formConfig = {
                   ]?.receiveTextMessages
                     ?.slice(0, 4)
                     ?.includes('Yes');
-                  const noDuplicates = formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false,
+                  const duplicatesDetected = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === true,
                   );
                   const mobilePhone =
                     formData[(formFields?.viewPhoneNumbers)]?.[
                       formFields?.mobilePhoneNumber
                     ]?.phone;
-                  // Return true if isYes is false, noDuplicates is not false, or mobilePhone is undefined
-                  return !isYes || !noDuplicates || !mobilePhone;
+
+                  return !isYes || !duplicatesDetected || !mobilePhone;
                 },
               },
             },
