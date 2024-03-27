@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { LoginContainer } from 'platform/user/authentication/components';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
@@ -18,15 +18,16 @@ export default class SignInModal extends React.Component {
 
   render() {
     return (
-      <Modal
-        cssClass="va-modal-large new-modal-design"
+      <VaModal
+        large
         visible={this.props.visible}
-        focusSelector="button"
-        onClose={this.props.onClose}
+        initialFocusSelector="button"
+        onCloseEvent={this.props.onClose}
         id="signin-signup-modal"
+        uswds
       >
         <LoginContainer />
-      </Modal>
+      </VaModal>
     );
   }
 }
