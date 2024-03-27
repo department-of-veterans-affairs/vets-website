@@ -3,43 +3,32 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import { VaPagination, VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { focusElement } from 'platform/utilities/ui';
 import { apiRequest } from 'platform/utilities/api';
-
-import {
-  VaPagination,
-  VaSearchInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { isSearchStrInvalid } from '../utils';
 import { fetchSearchResults } from '../actions';
 
 import Breadcrumbs from '../components/Breadcrumbs';
-import Typeahead from '../components/Typeahead';
-import MoreVASearchTools from '../components/MoreVASearchTools';
-import MaintenanceWindow, { isWithinMaintenanceWindow } from '../components/MaintenanceWindow';
 import Errors from '../components/Errors';
+import MaintenanceWindow, { isWithinMaintenanceWindow } from '../components/MaintenanceWindow';
+import MoreVASearchTools from '../components/MoreVASearchTools';
+import RecommendedResults from '../components/RecommendedResults';
 import ResultsCounter from '../components/ResultsCounter';
 import ResultsList from '../components/ResultsList';
-import RecommendedResults from '../components/RecommendedResults';
+import Typeahead from '../components/Typeahead';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
 class SearchApp extends React.Component {
-  static propTypes = {
-    search: PropTypes.shape({
-      results: PropTypes.array,
-    }).isRequired,
-    fetchSearchResults: PropTypes.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
 
@@ -65,6 +54,7 @@ class SearchApp extends React.Component {
       if (isSearchStrInvalid(userInput)) {
         return;
       }
+
       this.props.fetchSearchResults(userInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
@@ -160,73 +150,6 @@ class SearchApp extends React.Component {
         t: options?.typeaheadUsed || false,
       },
     });
-  };
-
-  onSearchResultClick = ({ bestBet, title, index, url }) => e => {
-    e.preventDefault();
-
-    // clear the &t query param which is used to track typeahead searches
-    // removing this will better reflect how many typeahead searches result in at least one click
-    window.history.replaceState(
-      null,
-      document.title,
-      `${window.location.href.replace('&t=true', '')}`,
-    );
-
-    const bestBetPosition = index + 1;
-    const normalResultPosition =
-      index + (this.props.search?.recommendedResults?.length || 0) + 1;
-    const searchResultPosition = bestBet
-      ? bestBetPosition
-      : normalResultPosition;
-
-    const query = this.props.router?.location?.query?.query || '';
-
-    const encodedUrl = encodeURIComponent(url);
-    const userAgent = encodeURIComponent(navigator.userAgent);
-    const encodedQuery = encodeURIComponent(query);
-    const apiRequestOptions = {
-      method: 'POST',
-    };
-    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
-
-    // By implementing in this fashion (i.e. a promise chain), code that follows is not blocked by this api request. Following the link at the end of the
-    // function should happen regardless of the result of this api request, and it can happen before this request resolves.
-    apiRequest(
-      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
-      apiRequestOptions,
-    ).catch(error => {
-      Sentry.captureException(error);
-      Sentry.captureMessage('search_click_tracking_error');
-    });
-
-    if (bestBet) {
-      recordEvent({
-        event: 'nav-searchresults',
-        'nav-path': `Recommended Results -> ${title}`,
-      });
-    }
-
-    recordEvent({
-      event: 'onsite-search-results-click',
-      'search-page-path': document.location.pathname,
-      'search-query': query,
-      'search-result-chosen-page-url': url,
-      'search-result-chosen-title': title,
-      'search-results-n-current-page': this.props.search?.currentPage,
-      'search-results-position': searchResultPosition,
-      'search-results-total-count': this.props.search?.totalEntries,
-      'search-results-total-pages': Math.ceil(
-        this.props.search?.totalEntries / 10,
-      ),
-      'search-results-top-recommendation': bestBet,
-      'search-result-type': 'title',
-      'search-selection': 'All VA.gov',
-      'search-typeahead-used': this.state.typeaheadUsed,
-    });
-
-    // relocate to clicked link page
-    window.location.href = url;
   };
 
   onInputSubmit = componentState => {
@@ -360,54 +283,21 @@ class SearchApp extends React.Component {
     });
   };
 
-  renderResultsCounter() {
-    const {
-      currentPage,
-      perPage,
-      totalPages,
-      totalEntries,
-      loading,
-      results,
-    } = this.props.search;
-
-    let resultRangeEnd = currentPage * perPage;
-
-    if (currentPage === totalPages) {
-      resultRangeEnd = totalEntries;
-    }
-
-    const resultRangeStart = (currentPage - 1) * perPage + 1;
-
-    if (loading || !totalEntries) {
-      return null;
-    }
-
-    return (
-      <ResultsCounter
-        query={this.props.router.location.query.query}
-        resultRangeEnd={resultRangeEnd}
-        resultRangeStart={resultRangeStart}
-        results={results}
-        spellingCorrection={this.props.search.spellingCorrection}
-        totalEntries={totalEntries}
-      />
-    );
-  }
-
   renderResults() {
     const {
       loading,
       errors,
       currentPage,
-      totalPages,
-      results,
+      perPage,
       recommendedResults,
+      results,
+      spellingCorrection,
+      totalEntries,
+      totalPages,
     } = this.props.search;
 
     const hasErrors = !!(errors && errors.length > 0);
     const { userInput } = this.state;
-
-    console.log('what is this: ', this.props.searchDropdownComponentEnabled);
 
     // Reusable search input
     const searchInput = (
@@ -458,26 +348,31 @@ class SearchApp extends React.Component {
       return <Errors userInput={userInput} searchInput={searchInput} />;
     }
 
+    const query = this.props.router?.location?.query?.query || '';
+
     return (
       <div>
         {searchInput}
-        {this.renderResultsCounter()}
-        <RecommendedResults 
+        <ResultsCounter
+          currentPage={currentPage}
+          loading={loading}
+          perPage={perPage}
+          query={query}
+          results={results}
+          spellingCorrection={spellingCorrection}
+          totalPages={totalPages}
+          totalEntries={totalEntries}
+        />
+        {/* <RecommendedResults 
           loading={loading}
           recommendedResults={recommendedResults}
-        />
-        {this.renderRecommendedResults()}
-        <ResultsList
-          loading={loading}
-          query={this.props.router?.location?.query?.query || ''}
-          results={results}
-        />
+        /> */}
+        {/* <ResultsList results={results} /> */}
         <hr
           aria-hidden="true"
           id="hr-search-bottom"
           className="vads-u-margin-y--3"
         />
-
         <div className="va-flex results-footer">
           {results &&
             results.length > 0 && (
@@ -538,6 +433,32 @@ const mapDispatchToProps = {
   fetchSearchResults,
 };
 
+SearchApp.propTypes = {
+  fetchSearchResults: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        page: PropTypes.string,
+        query: PropTypes.string,
+        t: PropTypes.string
+      })
+    }),
+    push: PropTypes.func,
+  }),
+  search: PropTypes.shape({
+    currentPage: PropTypes.number,
+    errors: PropTypes.array,
+    loading: PropTypes.bool,
+    perPage: PropTypes.number,
+    recommendedResults: PropTypes.array,
+    results: PropTypes.array,
+    spellingCorrection: PropTypes.bool,
+    totalEntries: PropTypes.number,
+    totalPages: PropTypes.number
+  }).isRequired,
+  searchDropdownComponentEnabled: PropTypes.bool
+};
+
 const SearchAppContainer = withRouter(
   connect(
     mapStateToProps,
@@ -550,3 +471,4 @@ export default SearchAppContainer;
 SearchAppContainer.defaultProps = {
   searchDropdownComponentEnabled: false,
 };
+ 

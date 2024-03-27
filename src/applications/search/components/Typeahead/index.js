@@ -1,17 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-class Typeahead extends React.Component {
-  static propTypes = {
-    id: PropTypes.string,
-    fetchInputValue: PropTypes.func,
-    fetchSuggestions: PropTypes.func.isRequired,
-    onInputSubmit: PropTypes.func,
-    onSuggestionSubmit: PropTypes.func,
-    startingValue: PropTypes.string,
-  };
-
+class Typeahead extends Component {
   constructor(props) {
     super(props);
 
@@ -100,5 +91,14 @@ class Typeahead extends React.Component {
     );
   }
 }
+
+Typeahead.propTypes = {
+  fetchSuggestions: PropTypes.func.isRequired,
+  onInputSubmit: PropTypes.func,
+  onSuggestionSubmit: PropTypes.func,
+  fetchInputValue: PropTypes.func,
+  id: PropTypes.string,
+  startingValue: PropTypes.string,
+};
 
 export default Typeahead;

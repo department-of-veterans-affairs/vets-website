@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Result from './Result';
 
-const RecommendedResults = (loading, recommendedResults) => {
+const RecommendedResults = ({ loading, recommendedResults }) => {
   if (!loading && recommendedResults && recommendedResults.length > 0) {
     return (
       <div>
@@ -10,7 +11,13 @@ const RecommendedResults = (loading, recommendedResults) => {
         </h3>
         <ul className="results-list">
           {recommendedResults.map((result, index) =>
-            this.renderWebResult(result, 'description', true, index),
+          <p>hello</p>
+            // <Result
+            //   isBestBet={true}
+            //   result={result}
+            //   index={index}
+            //   snippetKey="description"
+            // />
           )}
         </ul>
         <hr aria-hidden="true" />

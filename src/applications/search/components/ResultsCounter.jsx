@@ -3,14 +3,28 @@ import PropTypes from 'prop-types';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
-const ResultsCounter = (
+const ResultsCounter = ({
+  currentPage,
+  loading,
+  perPage,
   query,
-  resultRangeEnd,
-  resultRangeStart,
   results,
   spellingCorrection,
+  totalPages,
   totalEntries,
-) => {
+}) => {
+  let resultRangeEnd = currentPage * perPage;
+
+  if (currentPage === totalPages) {
+    resultRangeEnd = totalEntries;
+  }
+
+  const resultRangeStart = (currentPage - 1) * perPage + 1;
+
+  if (loading || !totalEntries) {
+    return null;
+  }
+
   if (spellingCorrection) {
     return (
       <>
@@ -54,12 +68,14 @@ const ResultsCounter = (
 };
 
 ResultsCounter.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
+  perPage: PropTypes.number.isRequired,
   query: PropTypes.string.isRequired,
-  resultRangeEnd: PropTypes.string.isRequired,
-  resultRangeStart: PropTypes.string.isRequired,
   results: PropTypes.array.isRequired,
   spellingCorrection: PropTypes.bool.isRequired,
   totalEntries: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired
 };
 
 export default ResultsCounter;
