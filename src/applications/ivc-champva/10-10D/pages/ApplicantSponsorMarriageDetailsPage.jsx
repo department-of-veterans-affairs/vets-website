@@ -188,6 +188,73 @@ export function depends18f6(formData, index) {
   );
 }
 
+function marriageTitle(text, subtitle) {
+  return {
+    viewField: ApplicantField,
+    updateSchema: formData => {
+      return {
+        title: context => {
+          return titleUI(
+            `${applicantWording(formData, context, true, true)} ${text}`,
+            subtitle,
+          )['ui:title'];
+        },
+      };
+    },
+  };
+}
+
+const dateOfMarriageToSponsor = {
+  ...currentOrPastDateUI({
+    title: 'Date of marriage',
+    errorMessages: {
+      pattern: 'Please provide a valid date',
+      required: 'Please provide the date of marriage',
+    },
+  }),
+  /* Using the depends functions to prevent silent validation failures
+          on the review page */
+  'ui:required': (formData, index) =>
+    depends18f3(formData, index) ||
+    depends18f4(formData, index) ||
+    depends18f5(formData, index) ||
+    depends18f6(formData, index),
+};
+
+const dateOfSeparationFromSponsor = {
+  ...currentOrPastDateUI({
+    title: 'Date of legal separation of the marriage',
+    errorMessages: {
+      pattern: 'Please provide a valid date',
+      required: 'Please provide the date of separation',
+    },
+  }),
+  'ui:required': (formData, index) => depends18f6(formData, index),
+};
+
+const dateOfMarriageToOtherSpouse = {
+  ...currentOrPastDateUI({
+    title: 'Date of remarriage',
+    errorMessages: {
+      pattern: 'Please provide a valid date',
+      required: 'Please provide the date of remarriage',
+    },
+  }),
+  'ui:required': (formData, index) =>
+    depends18f4(formData, index) || depends18f2(formData, index),
+};
+
+const dateOfSeparationFromOtherSpouse = {
+  ...currentOrPastDateUI({
+    title: 'Date of legal separation of the remarriage',
+    errorMessages: {
+      pattern: 'Please provide a valid date',
+      required: 'Please provide the date of separation',
+    },
+  }),
+  'ui:required': (formData, index) => depends18f5(formData, index),
+};
+
 /*
 Dates for marriage/remarriage - we use this uiSchema across multiple pages, and
 control the visibility/required state of individual fields by using different 
@@ -195,73 +262,42 @@ schemas and `depends` functions. Tried using updateSchema to facilitate this
 but was still getting silent validation failures on review page.
 */
 export const marriageDatesSchema = {
-  uiSchema: {
+  noRemarriageUiSchema: {
     applicants: {
       items: {
-        'ui:options': {
-          viewField: ApplicantField,
-          updateSchema: formData => {
-            return {
-              title: context =>
-                titleUI(
-                  `${applicantWording(
-                    formData,
-                    context,
-                    true,
-                    true,
-                  )} marriage dates`,
-                  '',
-                )['ui:title'],
-            };
-          },
-        },
-        dateOfMarriageToSponsor: {
-          ...currentOrPastDateUI({
-            title: 'Date of marriage',
-            errorMessages: {
-              pattern: 'Please provide a valid date',
-              required: 'Please provide the date of marriage',
-            },
-          }),
-          /* Using the depends functions to prevent silent validation failures
-          on the review page */
-          'ui:required': (formData, index) =>
-            depends18f3(formData, index) ||
-            depends18f4(formData, index) ||
-            depends18f5(formData, index) ||
-            depends18f6(formData, index),
-        },
-        dateOfSeparationFromSponsor: {
-          ...currentOrPastDateUI({
-            title: 'Date of legal separation of the marriage',
-            errorMessages: {
-              pattern: 'Please provide a valid date',
-              required: 'Please provide the date of separation',
-            },
-          }),
-          'ui:required': (formData, index) => depends18f6(formData, index),
-        },
-        dateOfMarriageToOtherSpouse: {
-          ...currentOrPastDateUI({
-            title: 'Date of remarriage',
-            errorMessages: {
-              pattern: 'Please provide a valid date',
-              required: 'Please provide the date of remarriage',
-            },
-          }),
-          'ui:required': (formData, index) =>
-            depends18f4(formData, index) || depends18f2(formData, index),
-        },
-        dateOfSeparationFromOtherSpouse: {
-          ...currentOrPastDateUI({
-            title: 'Date of legal separation of the remarriage',
-            errorMessages: {
-              pattern: 'Please provide a valid date',
-              required: 'Please provide the date of separation',
-            },
-          }),
-          'ui:required': (formData, index) => depends18f5(formData, index),
-        },
+        'ui:options': marriageTitle(
+          ' date of marriage to sponsor',
+          'If you don’t know the exact date, enter your best guess',
+        ),
+        dateOfMarriageToSponsor,
+      },
+    },
+  },
+  separatedUiSchema: {
+    applicants: {
+      items: {
+        'ui:options': marriageTitle(' marriage and legal separation dates', ''),
+        dateOfMarriageToSponsor,
+        dateOfSeparationFromSponsor,
+      },
+    },
+  },
+  remarriageUiSchema: {
+    applicants: {
+      items: {
+        'ui:options': marriageTitle(' marriage dates', ''),
+        dateOfMarriageToSponsor,
+        dateOfMarriageToOtherSpouse,
+      },
+    },
+  },
+  remarriageSeparatedUiSchema: {
+    applicants: {
+      items: {
+        'ui:options': marriageTitle(' marriage and legal separation dates', ''),
+        dateOfMarriageToSponsor,
+        dateOfMarriageToOtherSpouse,
+        dateOfSeparationFromOtherSpouse,
       },
     },
   },

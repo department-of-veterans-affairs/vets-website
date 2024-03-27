@@ -1218,7 +1218,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f3(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
         },
         // Applicant remarried after sponsor died
@@ -1228,7 +1228,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f4(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.remarriageUiSchema,
           schema: marriageDatesSchema.remarriageSchema,
         },
         // Applicant remarried after sponsor died but separated from 2nd spouse
@@ -1238,7 +1238,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f5(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.remarriageSeparatedUiSchema,
           schema: marriageDatesSchema.remarriageSeparatedSchema,
         },
         // Applicant separated from sponsor before sponsor's death
@@ -1248,7 +1248,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f6(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.separatedUiSchema,
           schema: marriageDatesSchema.separatedSchema,
         },
         page18f: {
