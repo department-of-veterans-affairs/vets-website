@@ -8,7 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 // import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
+import { selectIsCernerOnlyPatient } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { selectIsNewAppointmentStarted } from './redux/selectors';
 import newAppointmentReducer from './redux/reducer';

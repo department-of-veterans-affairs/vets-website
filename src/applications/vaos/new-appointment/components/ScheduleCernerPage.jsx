@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getCernerURL } from '@department-of-veterans-affairs/platform-utilities/cerner';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 import { routeToPreviousAppointmentPage } from '../redux/actions';
 import { getChosenFacilityInfo } from '../redux/selectors';
 import FacilityAddress from '../../components/FacilityAddress';
-import { getCernerURL } from 'platform/utilities/cerner';
 import FacilityPhone from '../../components/FacilityPhone';
 
 const pageKey = 'scheduleCerner';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getCernerURL } from 'platform/utilities/cerner';
+import { getCernerURL } from '@department-of-veterans-affairs/platform-utilities/cerner';
 import { selectRegisteredCernerFacilities } from '../redux/selectors';
 import { GA_PREFIX } from '../utils/constants';
 
