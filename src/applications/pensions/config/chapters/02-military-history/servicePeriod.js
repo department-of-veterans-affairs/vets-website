@@ -20,9 +20,13 @@ import { serviceBranchLabels } from '../../../labels';
 import { WartimeWarningAlert } from '../../../components/FormAlerts';
 import { servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
+import ServicePeriodReview from '../../../components/ServicePeriodReview';
 
 /** @type {PageSchema} */
 export default {
+  path: 'military/history',
+  title: 'Service period',
+  CustomPageReview: ServicePeriodReview,
   uiSchema: {
     ...titleUI('Service period'),
     serviceBranch: checkboxGroupUI({

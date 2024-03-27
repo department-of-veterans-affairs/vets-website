@@ -5,7 +5,7 @@ import { supportingDocuments } from './supportingDocuments';
 import { documentUpload } from './documentUpload';
 import { fasterClaimProcessing } from './fasterClaimProcessing';
 
-export const additionalInformation = {
+export default {
   title: 'Additional information',
   pages: {
     directDeposit,

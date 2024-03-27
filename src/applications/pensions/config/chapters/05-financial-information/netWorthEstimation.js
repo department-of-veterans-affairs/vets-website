@@ -12,6 +12,9 @@ export const hideIfUnder25000 = formData =>
 
 /** @type {PageSchema} */
 export default {
+  title: 'Net worth estimation',
+  path: 'financial/net-worth-estimation',
+  depends: formData => formData.totalNetWorth === false,
   uiSchema: {
     ...titleUI(
       'Income and assets',

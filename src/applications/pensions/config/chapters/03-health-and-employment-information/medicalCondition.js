@@ -4,9 +4,13 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MedicalEvidenceAlert } from '../../../components/FormAlerts';
+import { hasNoSocialSecurityDisability } from './helpers';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Medical condition',
+  path: 'medical/history/condition',
+  depends: hasNoSocialSecurityDisability,
   uiSchema: {
     ...titleUI('Medical condition'),
     medicalCondition: yesNoUI({
