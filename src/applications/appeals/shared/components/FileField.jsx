@@ -20,17 +20,20 @@ import {
   PasswordSuccess,
   readAndCheckFile,
   checkTypeAndExtensionMatches,
-  checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from '~/platform/forms-system/src/js/utilities/file';
 import { usePreviousValue } from '~/platform/forms-system/src/js/helpers';
 
+import { focusAddAnotherButton, focusCancelButton } from '../utils/focus';
 import {
   MISSING_PASSWORD_ERROR,
+  INCORRECT_PASSWORD_ERROR,
   FILE_NAME_TOO_LONG_ERROR,
   createContent,
   reMapErrorMessage,
   checkIsFileNameTooLong,
+  hasSomeUploading,
+  checkUploadVisibility,
 } from '../utils/upload';
 
 import { ShowPdfPassword } from './ShowPdfPassword';
@@ -91,9 +94,7 @@ const FileField = props => {
   const files = formData || [];
   const [progress, setProgress] = useState(0);
   const [uploadRequest, setUploadRequest] = useState(null);
-  const [isUploading, setIsUploading] = useState(
-    files.some(file => file.uploading),
-  );
+  const [isUploading, setIsUploading] = useState(hasSomeUploading(files));
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
   const [initialized, setInitialized] = useState(false);
@@ -123,34 +124,10 @@ const FileField = props => {
 
   const getFileListId = index => `${idSchema.$id}_file_${index}`;
 
-  // Do not show upload if any error exist
-  const checkUploadVisibility = () =>
-    !files.some((file, index) => {
-      const errors =
-        errorSchema?.[index]?.__errors ||
-        [file.errorMessage].filter(error => error);
-      return errors.length > 0;
-    });
-
   const showUpload =
     (maxItems === null || files.length < maxItems) &&
     // Prevent additional upload if any upload has error state
-    checkUploadVisibility();
-
-  const focusAddAnotherButton = () => {
-    // Add a timeout to allow for the upload button to reappear in the DOM
-    // before trying to focus on it
-    setTimeout(() => {
-      scrollTo('upload-wrap');
-      // focus on upload button, not the label
-      focusElement(
-        // including `#upload-button` because RTL can't access the shadowRoot
-        'button, #upload-button',
-        {},
-        $(`#upload-button`)?.shadowRoot,
-      );
-    }, 100);
-  };
+    checkUploadVisibility(files, errorSchema);
 
   const updateProgress = percent => {
     setProgress(percent);
@@ -161,17 +138,17 @@ const FileField = props => {
       const prevFiles = previousValue || [];
       fileButtonRef?.current?.classList?.toggle(
         'vads-u-display--none',
-        !checkUploadVisibility(),
+        !checkUploadVisibility(files, errorSchema),
       );
-      if (initialized && files.length !== prevFiles.length) {
-        focusAddAnotherButton();
-      }
 
-      const hasUploading = files.some(file => file.uploading);
-      const wasUploading = prevFiles.some(file => file.uploading);
+      const hasUploading = hasSomeUploading(files);
+      const wasUploading = hasSomeUploading(prevFiles);
       setIsUploading(hasUploading);
       if (hasUploading && !wasUploading) {
         setProgress(0);
+        focusCancelButton();
+      } else if (initialized && files.length !== prevFiles.length) {
+        focusAddAnotherButton();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,14 +165,18 @@ const FileField = props => {
         // keep - file may not exist (already uploaded)
         // keep - file may contain File object; ensure name isn't empty
         // remove - file may be an empty object
-        data => !data.file || (data.file?.name || '') !== '',
+        // remove - file without confirmationCode & an error
+        data =>
+          (!data.file &&
+            (initialized || (!initialized && !data.errorMessage))) ||
+          (data.file?.name || '') !== '',
       );
       if (newData.length !== files.length) {
         onChange(newData);
       }
       setInitialized(true);
     },
-    [files, onChange],
+    [files, onChange, initialized],
   );
 
   /**
@@ -208,6 +189,8 @@ const FileField = props => {
    */
   const onAddFile = async (event, index = null, password) => {
     if (event.target?.files?.length) {
+      // Only upload the first file; when va-file-input v3 supports multiple
+      // files, we'll need to update this entire component
       const currentFile = event.target.files[0];
       const allFiles = props.formData || [];
       const addUiOptions = props.uiSchema['ui:options'];
@@ -220,12 +203,16 @@ const FileField = props => {
       }
 
       let checkResults;
-      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+      // no longer checking if the PDF is encrypted on the frontend. Detection
+      // was not differentiating user and owner password - user requires that
+      // a password is used to unlock, an owner password does not
+      const checks = { checkTypeAndExtensionMatches };
 
       allFiles[idx] = {
         file: currentFile,
         name: currentFile.name,
       };
+
       if (checkIsFileNameTooLong(currentFile.name)) {
         allFiles[idx].errorMessage = FILE_NAME_TOO_LONG_ERROR;
         props.onChange(allFiles);
@@ -236,7 +223,6 @@ const FileField = props => {
         // Skip read file for Cypress testing
         checkResults = {
           checkTypeAndExtensionMatches: true,
-          checkIsEncryptedPdf: false,
         };
       } else {
         // read file mock for unit testing
@@ -253,15 +239,9 @@ const FileField = props => {
       }
 
       // Check if the file is an encrypted PDF
-      if (
-        currentFile.name?.endsWith('pdf') &&
-        !password &&
-        checkResults.checkIsEncryptedPdf
-      ) {
-        allFiles[idx].isEncrypted = true;
+      if (currentFile.name?.endsWith('pdf')) {
+        allFiles[idx].isEncrypted = !!password;
         props.onChange(allFiles);
-        // wait for user to enter a password before uploading
-        return;
       }
 
       setUploadRequest(
@@ -274,10 +254,8 @@ const FileField = props => {
             const newData = props.formData || [];
             newData[idx] = { ...file, isEncrypted: !!password };
             onChange(newData);
-            // Focus on the 'Cancel' button when a file is being uploaded
-            if (file.uploading) {
-              $('.schemaform-file-uploading .cancel-upload')?.focus();
-            }
+            focusCancelButton();
+
             // Focus on the file card after the file has finished uploading
             if (!file.uploading) {
               $(getFileListId(idx))?.focus();
@@ -398,7 +376,6 @@ const FileField = props => {
         onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
         onSecondaryButtonClick={closeRemoveModal}
         visible={showRemoveModal}
-        uswds
       >
         <p>
           {removeIndex !== null
@@ -412,6 +389,13 @@ const FileField = props => {
             const errors =
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
+
+            const showPasswordInput =
+              file.name?.endsWith('pdf') &&
+              [...MISSING_PASSWORD_ERROR, INCORRECT_PASSWORD_ERROR].includes(
+                errors[0],
+              ) &&
+              !file.password;
 
             // Don't show missing password error in the card (above the input
             // label), but we are adding an error for missing password to
@@ -435,8 +419,6 @@ const FileField = props => {
               errorSchema,
             );
             const attachmentNameErrors = get([index, 'name'], errorSchema);
-            const showPasswordInput =
-              file.isEncrypted && !file.confirmationCode;
             const showPasswordSuccess =
               file.isEncrypted && file.confirmationCode;
             const description =
@@ -448,7 +430,10 @@ const FileField = props => {
             if (hasVisibleError) {
               setTimeout(() => {
                 scrollTo(fileListId);
-                if (showPasswordInput) {
+                const retryButton = $(`[name="retry_upload_${index}"]`);
+                if (retryButton) {
+                  focusElement('button', {}, retryButton?.shadowRoot);
+                } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
                   focusElement(ERROR_ELEMENTS.join(','));
@@ -490,7 +475,6 @@ const FileField = props => {
                   file.name,
                 )}
                 text={deleteButtonText}
-                uswds
               />
             );
 
@@ -520,7 +504,6 @@ const FileField = props => {
                       {file.name}
                     </strong>
                     <br />
-                    {/* no USWDS v3 "activity progress bar" */}
                     <va-progress-bar percent={progress} />
                     <va-button
                       secondary
@@ -530,7 +513,6 @@ const FileField = props => {
                       }}
                       label={content.cancelLabel(file.name)}
                       text={content.cancel}
-                      uswds
                     />
                   </div>
                 )}
@@ -608,7 +590,7 @@ const FileField = props => {
                   />
                 )}
                 {!formContext.reviewMode &&
-                  !isUploading && (
+                  !file.uploading && (
                     <div className="vads-u-margin-top--2">
                       {hasVisibleError &&
                         !showPasswordInput && (
@@ -626,7 +608,6 @@ const FileField = props => {
                                 : content.newFile
                             }
                             text={retryButtonText}
-                            uswds
                           />
                         )}
                       {!showPasswordInput && cancelButton}
@@ -658,7 +639,6 @@ const FileField = props => {
               onClick={() => fileInputRef?.current?.click()}
               label={`${uploadText} ${titleString || ''}`}
               text={uploadText}
-              uswds
             />
           </label>
           {/* eslint-enable jsx-a11y/label-has-associated-control */}
