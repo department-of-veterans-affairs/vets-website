@@ -9,12 +9,10 @@ describe('Medical Records View Conditions', () => {
     cy.visit('my-health/medical-records/conditions');
 
     ConditionsListPage.verifyConditionsPageTitle();
-    ConditionsListPage.clickConditionsDetailsLink(1);
-    ConditionDetailsPage.verifyConditionStatus('active');
-    ConditionDetailsPage.verifyProvider('None noted');
-    ConditionDetailsPage.verifyLocation('SLC10.FO-BAYPINES.MED.VA.GOV');
-    ConditionDetailsPage.verifySnomed('RED MEAT');
-    ConditionDetailsPage.verifyProviderNotes("JOHN's test");
+    ConditionsListPage.clickConditionsDetailsLink(0);
+    ConditionDetailsPage.verifyProvider('Dr. John');
+    ConditionDetailsPage.verifyLocation("chiropractor's office");
+    ConditionDetailsPage.verifyProviderNotes('A note');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

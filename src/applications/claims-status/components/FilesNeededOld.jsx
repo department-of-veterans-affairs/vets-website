@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { getTrackedItemId, truncateDescription } from '../utils/helpers';
+
+import { truncateDescription } from '../utils/helpers';
 import DueDateOld from './DueDateOld';
 
 function FilesNeededOld({ id, item }) {
@@ -19,7 +20,7 @@ function FilesNeededOld({ id, item }) {
           aria-label={`View Details for ${item.displayName}`}
           title={`View Details for ${item.displayName}`}
           className="usa-button usa-button-secondary view-details-button"
-          to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
+          to={`your-claims/${id}/document-request/${item.id}`}
         >
           View Details
         </Link>

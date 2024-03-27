@@ -50,8 +50,14 @@ const ProfileWrapper = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
+  const profileShowDirectDepositSingleFormToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleForm,
+  );
 
-  const routesForNav = getRoutesForNav(profileContactsToggle);
+  const routesForNav = getRoutesForNav({
+    profileContacts: profileContactsToggle,
+    profileShowDirectDepositSingleForm: profileShowDirectDepositSingleFormToggle,
+  });
 
   const layout = useMemo(
     () => {

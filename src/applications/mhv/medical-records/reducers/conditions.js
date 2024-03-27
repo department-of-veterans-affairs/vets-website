@@ -81,12 +81,10 @@ export const convertCondition = condition => {
     date: condition?.recordedDate
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
-    name: condition?.code?.text || EMPTY_FIELD,
-    clinicalTerm: condition?.code?.coding?.code || EMPTY_FIELD,
-    active: condition?.clinicalStatus?.coding[0]?.code || EMPTY_FIELD,
-    provider: extractProvider(condition),
-    facility: extractLocation(condition),
-    comments: extractProviderNote(condition),
+    name: condition.code?.text || EMPTY_FIELD,
+    provider: condition.asserter || EMPTY_FIELD,
+    facility: condition.facility,
+    comments: condition.note || EMPTY_FIELD,
   };
 };
 
