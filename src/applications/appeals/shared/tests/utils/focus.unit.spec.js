@@ -230,7 +230,7 @@ describe('focusCancelButton', () => {
       </div>,
     );
 
-  it('should focus on add another button', async () => {
+  it('should focus on cancel button', async () => {
     const { container } = await renderPage();
 
     await focusCancelButton(container);
