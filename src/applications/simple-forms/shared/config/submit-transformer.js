@@ -1,12 +1,16 @@
-import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit as formsSystemTransformForSubmit } from '@department-of-veterans-affairs/platform-forms-system';
 
 const escapedCharacterReplacer = (_key, value) => {
   if (typeof value === 'string') {
-    return value
-      .replaceAll('"', "'")
-      .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
-      .replace(/(?:\t|\f|\b)/g, '')
-      .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
+    return (
+      value
+        .replaceAll('"', "'")
+        .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
+        .replace(/(?:\t|\f|\b)/g, '')
+        /* eslint-disable-next-line no-control-regex */
+        .replace(/([^\x00-\x7F])/g, '')
+        .replaceAll('\\', '/')
+    );
   }
 
   return value;
