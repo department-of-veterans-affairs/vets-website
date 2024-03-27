@@ -1,5 +1,6 @@
 import featureToggles from '../../../mocks/feature-toggles';
 import user from '../../../mocks/user';
+import { rootUrl } from '../../../manifest.json';
 
 describe('health-care-supplies-reordering - api failures - other', () => {
   beforeEach(() => {
@@ -24,7 +25,7 @@ describe('health-care-supplies-reordering - api failures - other', () => {
   });
   it('Form handles other error from in_progress_forms', () => {
     cy.login(user.defaultUser);
-    cy.visit('/health-care/order-hearing-aid-or-CPAP-supplies-form');
+    cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
     cy.get('[slot=headline]').contains(
       'We’re sorry. Something went wrong on our end.',

@@ -1,6 +1,7 @@
 import featureToggles from '../../../mocks/feature-toggles';
 import user from '../../../mocks/user';
 import mdot from '../../../mocks/mdot';
+import { rootUrl } from '../../../manifest.json';
 
 describe('health-care-supplies-reordering - api failures - 404', () => {
   beforeEach(() => {
@@ -28,7 +29,7 @@ describe('health-care-supplies-reordering - api failures - 404', () => {
   });
   it('Form handles 404 error from in_progress_forms', () => {
     cy.login(user.defaultUser);
-    cy.visit('/health-care/order-hearing-aid-or-CPAP-supplies-form');
+    cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
     cy.get('[slot=headline]').contains(
       'We can’t find your records in our system',
