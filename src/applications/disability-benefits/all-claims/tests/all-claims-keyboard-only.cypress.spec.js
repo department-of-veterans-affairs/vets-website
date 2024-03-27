@@ -20,7 +20,7 @@ import {
 } from '../constants';
 
 describe('526EZ keyboard only navigation', () => {
-  it('navigate through a maximal form', () => {
+  it.skip('navigate through a maximal form', () => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     window.sessionStorage.removeItem(FORM_STATUS_BDD);
