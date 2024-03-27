@@ -5,13 +5,10 @@ import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cyp
 import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-example.json';
 import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
 
-import loggedInUser from '../fixtures/mocks/loggedInUser.json';
-import featuresDisabled from '../fixtures/mocks/featuresDisabled.json';
-import featuresEnabled from '../fixtures/mocks/featuresEnabled.json';
-import mockStatus from '../fixtures/mocks/profile-status.json';
 import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import setupCypress, { cypressBeforeAllSetup } from './cypress.setup';
 
 import {
   fillAddressWebComponentPattern,
@@ -19,69 +16,6 @@ import {
 } from './helpers';
 
 import pagePaths from './pagePaths';
-
-const TEST_URL = '/pension/application/527EZ/introduction';
-const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-527EZ';
-const PENSIONS_CLAIMS_URL = '/v0/pension_claims';
-const SUBMISSION_DATE = new Date().toISOString();
-
-const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
-
-export const setup = ({ authenticated, isEnabled = true } = {}) => {
-  const features = isEnabled ? featuresEnabled : featuresDisabled;
-  cy.intercept('GET', '/v0/feature_toggles*', features);
-
-  cy.get('@testData').then(testData => {
-    cy.intercept('GET', IN_PROGRESS_URL, {
-      formData: {},
-      metadata: {
-        version: 0,
-        prefill: true,
-        returnUrl: '/applicant/information',
-      },
-    });
-    cy.intercept('PUT', IN_PROGRESS_URL, testData);
-  });
-
-  cy.intercept('POST', PENSIONS_CLAIMS_URL, {
-    data: {
-      id: '8',
-      type: 'saved_claim_pensions',
-      attributes: {
-        submittedAt: SUBMISSION_DATE,
-        regionalOffice: [
-          'Attention:  Philadelphia Pension Center',
-          'P.O. Box 5206',
-          'Janesville, WI 53547-5206',
-        ],
-        confirmationNumber: SUBMISSION_CONFIRMATION_NUMBER,
-        guid: '01e77e8d-79bf-4991-a899-4e2defff11e0',
-        form: '21P-527EZ',
-      },
-    },
-  }).as('submitApplication');
-
-  cy.intercept(
-    'GET',
-    `${PENSIONS_CLAIMS_URL}/${SUBMISSION_CONFIRMATION_NUMBER}`,
-    {
-      data: {
-        attributes: {
-          submittedAt: SUBMISSION_DATE,
-          state: 'success',
-        },
-      },
-    },
-  ).as('pollSubmission');
-
-  if (!authenticated) {
-    cy.visit(TEST_URL);
-    return;
-  }
-  cy.intercept('GET', '/v0/profile/status', mockStatus).as('loggedIn');
-  cy.login(loggedInUser);
-  cy.visit(TEST_URL);
-};
 
 export const pageHooks = cy => ({
   introduction: () => {
@@ -154,9 +88,12 @@ const testConfig = createTestConfig(
       { title: 'simple', data: simpleFixture },
     ],
     pageHooks: pageHooks(cy),
+    setup: () => {
+      cypressBeforeAllSetup();
+    },
     setupPerTest: () => {
       cy.login(mockUser);
-      setup(cy);
+      setupCypress(cy);
     },
 
     // skip: [],

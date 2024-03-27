@@ -10,9 +10,9 @@ describe('applicantWording helper', () => {
   it('should concatenate first and last names', () => {
     expect(
       applicantWording({
-        applicantName: { first: 'firstname', last: 'lastname' },
+        applicantName: { first: 'Firstname', last: 'Lastname' },
       }),
-    ).to.equal('firstname lastname’s');
+    ).to.equal('Firstname Lastname’s');
   });
 });
 

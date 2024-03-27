@@ -25,7 +25,7 @@
 
 .dashboard-alert {
   background: none;
-  background-color: var(--vads-color-base-lightest);
+  background-color: $color-gray-lightest;
   font-family: $font-sans;
   padding: units(2);
 
@@ -51,7 +51,7 @@
         display: inline-block;
         width: units(2.5);
         height: units(2.5);
-        color: var(--vads-color-white);
+        color: $color-white;
         border-radius: 50%;
 
         &::before {
@@ -82,17 +82,17 @@
 
   @include make-status-styles(
     $status: "closed",
-    $color: var(--vads-color-black),
+    $color: $color-black,
   );
 
   @include make-status-styles(
     $status: "decision",
-    $color: var(--vads-color-secondary),
+    $color: $color-red,
   );
 
   @include make-status-styles(
     $status: "enrolled",
-    $color: var(--vads-color-success-dark),
+    $color: $color-green,
     $icon: $fa-var-check,
     $top: 1px,
     $left: 2.5px,
@@ -101,7 +101,7 @@
 
   @include make-status-styles(
     $status: "in-progress",
-    $color: var(--vads-color-primary),
+    $color: $color-light-blue,
     $icon: $fa-var-file,
     $top: 2px,
     $left: 6px,
@@ -110,7 +110,7 @@
 
   @include make-status-styles(
     $status: "update",
-    $color: var(--vads-color-action-focus-on-light)
+    $color: $color-gold-light,
   );
 
   section.content {

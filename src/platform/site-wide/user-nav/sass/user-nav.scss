@@ -38,7 +38,7 @@ span.sidelines {
     width: 50%;
     height: 2px;
     content: "\a0";
-    background-color: var(--vads-color-gray-light-alt);
+    background-color: $color-gray-light-alt;
   }
 
   &:before {
@@ -54,7 +54,7 @@ span.sidelines {
 #signin-signup-modal {
   .va-modal-body {
     // Overwrite white header color.
-    color: var(--vads-color-base-darker);
+    color: $color-gray-dark;
     padding-top: 0;
     margin-right: 0;
   }
@@ -118,53 +118,53 @@ span.sidelines {
     white-space: normal !important;
 
     &.dslogon-button {
-      background: var(--vads-color-primary-dark);
+      background: $color-primary-darker;
 
       &:hover {
-        background: var(--vads-color-primary-darker);
+        background: $color-primary-darkest;
       }
     }
 
     &.dslogon {
-      background: var(--vads-color-primary-dark);
+      background: $color-primary-darker;
 
       &:hover {
-        background: var(--vads-color-primary-darker);
+        background: $color-primary-darkest;
       }
     }
 
     &.idme-create {
-      box-shadow: inset 0 0 0 2px var(--vads-color-success-dark);
-      color: var(--vads-color-success-dark);
+      box-shadow: inset 0 0 0 2px $color-green;
+      color: $color-green;
       margin-bottom: 0;
 
       &:hover {
-        box-shadow: inset 0 0 0 2px var(--vads-button-color-background-primary-alt-active-on-light);
-        color: var(--vads-button-color-background-primary-alt-active-on-light);
+        box-shadow: inset 0 0 0 2px $color-green-darker;
+        color: $color-green-darker;
       }
     }
 
     &.idme-button {
-      background: var(--vads-color-success-dark);
+      background: $color-green;
 
       &:hover {
-        background: var(--vads-button-color-background-primary-alt-active-on-light);
+        background: $color-green-darker;
       }
     }
 
     &.logingov-button {
-      background: var(--vads-color-secondary);
+      background: $color-secondary;
 
       &:hover {
-        background: var(--vads-color-secondary-darkest);
+        background: $color-secondary-darkest;
       }
     }
 
     &.mhv-button {
-      background: var(--vads-color-primary);
+      background: $color-primary;
 
       &:hover {
-        background: var(--vads-color-primary-dark);
+        background: $color-primary-darker;
       }
     }
 
@@ -176,13 +176,13 @@ span.sidelines {
   }
 
   .container {
-    color: var(--vads-color-base);
+    color: $color-base;
     padding: 2em 0;
   }
 
   .logo {
     text-align: center;
-    border-bottom: solid 2px var(--vads-color-gray-light-alt);
+    border-bottom: solid 2px $color-gray-light-alt;
     padding: 1em 0;
 
     a {
@@ -219,10 +219,10 @@ span.sidelines {
 
 .login,
 .verify {
-  background: var(--vads-color-white);
+  background: $color-white;
 
   hr {
-    border-color: var(--vads-color-base-lighter);
+    border-color: $color-gray-lighter;
   }
 
   .mobile-explanation {
@@ -256,10 +256,10 @@ span.sidelines {
     }
 
     div:first-child {
-      background: var(--vads-color-gray-light-alt);
+      background: $color-gray-light-alt;
     }
 
-    border: solid 2px var(--vads-color-gray-light-alt);
+    border: solid 2px $color-gray-light-alt;
 
     .top-banner {
       text-align: center;
@@ -295,7 +295,7 @@ span.sidelines {
 
         p:first-of-type {
           margin-top: 0.5em;
-          color: var(--vads-color-base-darker);
+          color: $color-gray-dark;
         }
       }
     }
@@ -303,7 +303,7 @@ span.sidelines {
 }
 
 .sign-in-nav {
-  color: var(--vads-color-white);
+  color: $color-white;
   white-space: nowrap;
 
   a {
@@ -332,13 +332,13 @@ span.sidelines {
   text-decoration: none;
 
   &:hover {
-    color: var(--vads-color-warning) !important;
+    color: $color-gold !important;
     text-decoration: underline;
   }
 }
 
 .sign-in-spacer {
-  color: var(--vads-color-white);
+  color: $color-white;
   margin: 0 0.6em;
 }
 
@@ -347,8 +347,8 @@ span.sidelines {
 }
 
 #create-account a {
-  border-top: 1px solid var(--vads-color-base-light);
-  border-bottom: 1px solid var(--vads-color-base-light);
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
   line-height: 100%;
 
   &:before {
@@ -368,7 +368,7 @@ span.sidelines {
 
 .button-styled-as-link {
   background-color: transparent;
-  color: var(--vads-color-base);
+  color: $color-base;
   font-weight: normal;
   padding: unset;
   margin: unset;
@@ -379,7 +379,7 @@ span.sidelines {
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
-    color: var(--vads-color-base);
+    color: $color-base;
     text-decoration: none;
     border-bottom: 0;
   }

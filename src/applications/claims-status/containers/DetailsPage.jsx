@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -14,7 +13,7 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 class DetailsPage extends React.Component {
   componentDidMount() {

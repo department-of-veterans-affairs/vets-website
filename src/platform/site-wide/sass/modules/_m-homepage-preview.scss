@@ -4,9 +4,9 @@
   &__wrapper {
     background: linear-gradient(
       to left,
-      var(--vads-color-primary) 30%,
-      var(--vads-color-primary-dark) 60%,
-      var(--vads-color-primary-darker)
+      $color-primary 30%,
+      $color-primary-darker 60%,
+      $color-primary-darkest
     );
   }
 
@@ -34,19 +34,19 @@
 
   // these styles overwrite USWDS button styles and are specific to the homepage hero
   &__button {
-    color: var(--vads-color-primary);
-    background-color: var(--vads-color-white);
+    color: $color-primary;
+    background-color: $color-white;
 
     &:hover,
     &:active {
-      background-color: var(--vads-color-primary-dark);
+      background-color: $color-primary-darker;
       outline-offset: 2px;
     }
 
     &:hover,
     &:focus,
     &:visited {
-      color: var(--vads-color-white);
+      color: $color-white;
       text-decoration: none;
       outline-offset: 2px;
     }
@@ -56,9 +56,9 @@
 .homepage-hero__wrapper.fallback {
   background: linear-gradient(
     to right,
-    var(--vads-color-primary) 30%,
-    var(--vads-color-primary-dark) 60%,
-    var(--vads-color-primary-darker)
+    $color-primary 30%,
+    $color-primary-darker 60%,
+    $color-primary-darkest
   );
 
   .homepage-hero__create-account {
@@ -161,8 +161,8 @@
   &__wrapper {
     background: linear-gradient(
       to bottom,
-      var(--vads-color-white) 0 40%,
-      var(--vads-color-primary-alt-lightest) 40% 100%
+      $color-white 0 40%,
+      $color-primary-alt-lightest 40% 100%
     );
   }
 
@@ -174,8 +174,8 @@
     &__wrapper {
       background: linear-gradient(
         to right,
-        var(--vads-color-white) 0 50%,
-        var(--vads-color-primary-alt-lightest) 50% 100%
+        $color-white 0 50%,
+        $color-primary-alt-lightest 50% 100%
       );
     }
     &__list {

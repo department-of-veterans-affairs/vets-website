@@ -13,10 +13,8 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     landingPage.navigateToComposePage();
     draftsPage.clickDeleteButton();
     draftsPage.verifyDeleteConfirmationMessage();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.FOLDERS.INBOX);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

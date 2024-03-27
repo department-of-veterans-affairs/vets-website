@@ -7,7 +7,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { informalConferenceTimeSelectTitleRep } from '../../content/InformalConference';
 
 describe('HLR conference times page', () => {
   const {
@@ -26,7 +25,7 @@ describe('HLR conference times page', () => {
       />,
     );
 
-    expect($$('input[type="radio"]', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 
   it('should allow submit', () => {
@@ -41,10 +40,12 @@ describe('HLR conference times page', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    fireEvent.click($('input[value="time0800to1200"]', container));
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: 'time0800to1200' },
+    });
+    $('va-radio', container).__events.vaValueChange(changeEvent);
     fireEvent.submit($('form', container));
-    expect($('.usa-input-error-message', container)).to.not.exist;
+    expect($('[error]', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
 
@@ -63,31 +64,7 @@ describe('HLR conference times page', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error-message', container).length).to.equal(1);
+    expect($$('[error]', container).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-  });
-
-  it('should capture google analytics', () => {
-    global.window.dataLayer = [];
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={() => {}}
-      />,
-    );
-
-    fireEvent.click($('input[value="time0800to1200"]', container));
-
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'int-radio-button-option-click',
-      'radio-button-label': informalConferenceTimeSelectTitleRep,
-      'radio-button-optionLabel': '8:00 a.m. to noon ET',
-      'radio-button-required': true,
-    });
   });
 });

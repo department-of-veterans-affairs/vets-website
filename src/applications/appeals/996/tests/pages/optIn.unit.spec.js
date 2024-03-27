@@ -3,10 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import {
-  DefinitionTester,
-  selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -24,7 +21,7 @@ describe('HLR opt-in page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(1);
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 
@@ -40,8 +37,9 @@ describe('HLR opt-in page', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    selectCheckbox(form, 'root_socOptIn', true);
+    form.find('va-checkbox').simulate('change', {
+      target: { checked: true },
+    });
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     form.unmount();

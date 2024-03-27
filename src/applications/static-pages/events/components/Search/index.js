@@ -215,15 +215,12 @@ export const Search = ({ onSearch }) => {
 
     recordGAEvent('events-apply-filter-click');
 
-    onSearch({ ...event, filterList });
+    onSearch(event, filterList, selectedOption.value);
     resetErrorState();
   };
 
   return (
-    <form
-      className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--3 medium-screen:vads-u-padding-x--3"
-      onSubmit={onSubmitHandler}
-    >
+    <div className="vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-bottom--1p5 medium-screen:vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--3">
       <FilterBy
         filterByOptions={filterByOptions}
         onChange={onFilterByChange}
@@ -248,13 +245,15 @@ export const Search = ({ onSearch }) => {
           startDateFull={startDateFull}
         />
       )}
-      <button
-        className="usa-button usa-button-primary vads-u-margin--0 vads-u-margin-top--1"
+      <va-button
+        className="vads-u-margin--0"
+        id="events-apply-filter-button"
         type="submit"
-      >
-        Apply filter
-      </button>
-    </form>
+        text="Apply filter"
+        onClick={onSubmitHandler}
+        uswds
+      />
+    </div>
   );
 };
 

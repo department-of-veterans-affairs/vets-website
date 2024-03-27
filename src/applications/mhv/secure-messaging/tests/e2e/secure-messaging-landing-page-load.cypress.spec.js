@@ -46,7 +46,7 @@ describe('SM main page', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
-    cy.location('pathname').should('contain', Assertions.INBOX);
+    cy.location('pathname').should('contain', 'inbox');
   });
 });
 

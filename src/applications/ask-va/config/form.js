@@ -106,7 +106,7 @@ const formConfig = {
     yourQuestion: {
       title: CHAPTER_2.CHAPTER_TITLE,
       pages: {
-        whatsYourQuestionAbout: {
+        whoIsYourQuestionAbout: {
           path: CHAPTER_2.PAGE_1.PATH,
           title: CHAPTER_2.PAGE_1.TITLE,
           uiSchema: questionAboutPage.uiSchema,
@@ -147,12 +147,12 @@ const formConfig = {
             // TODO: Refactor this when we know what the other category flows will look like.
             if (
               formData.personalRelationship === 'VETERAN' &&
-              formData.questionAbout === 'MY_OWN'
+              formData.questionAbout === 'MYSELF'
             ) {
               goPath(`/${flowPaths.myOwnBenVet}-1`);
             } else if (
               formData.personalRelationship === 'FAMILY_MEMBER' &&
-              formData.questionAbout === 'MY_OWN'
+              formData.questionAbout === 'MYSELF'
             ) {
               goPath(`/${flowPaths.myOwnBenFam}-1`);
             } else if (

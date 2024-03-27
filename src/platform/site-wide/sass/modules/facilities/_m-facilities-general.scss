@@ -1,11 +1,11 @@
 /* The brightest duo-tone color */
 .darken::before {
-  background-color: var(--vads-color-primary-darker);
+  background-color: $color-primary-darkest;
 }
 
 /* The darkest duo-tone color */
 .lighten::after {
-  background-color: var(--vads-color-black);
+  background-color: $color-black;
 }
 
 /* Duo-tone effect */
@@ -202,20 +202,20 @@
 }
 
 .expand-image-button {
-  background-color: var(--vads-color-primary);
+  background-color: $color-primary;
   border-radius: 5px;
-  color: var(--vads-color-white);
+  color: $color-white;
   height: 32px;
   width: 32px;
 
   &:visited {
-    background-color: var(--vads-color-primary);
-    color: var(--vads-color-white);
+    background-color: $color-primary;
+    color: $color-white;
   }
 
   &:hover {
-    background-color: var(--vads-color-primary-dark);
-    color: var(--vads-color-white);
+    background-color: $color-primary-darker;
+    color: $color-white;
   }
 }
 

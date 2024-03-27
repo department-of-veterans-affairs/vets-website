@@ -7,7 +7,7 @@ import { ITEMS_PER_PAGE } from '../../constants';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
+const formatDate = buildDateFormatter();
 
 const getTrackedItemText = item => {
   if (item.status === 'INITIAL_REVIEW_COMPLETE' || item.status === 'ACCEPTED') {

@@ -18,16 +18,7 @@ describe('Secure Messaging Delete Draft', () => {
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDraftMessageBannerTextHasFocus();

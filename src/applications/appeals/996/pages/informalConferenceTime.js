@@ -1,3 +1,5 @@
+import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { checkConferenceTimes } from '../validations';
 import { errorMessages, CONFERENCE_TIMES_V2 } from '../constants';
 
@@ -13,16 +15,15 @@ export default {
     'ui:title': InformalConferenceTimesTitle,
     'ui:description': InformalConferenceTimesDescription,
     informalConferenceTime: {
-      'ui:title': informalConferenceTimeSelectTitle,
-      'ui:widget': 'radio',
-      'ui:required': formData => formData?.informalConference !== 'no',
-      'ui:validations': [checkConferenceTimes],
-      'ui:errorMessages': {
-        required: errorMessages.informalConferenceTimes,
-      },
-      'ui:options': {
+      ...radioUI({
+        title: informalConferenceTimeSelectTitle,
+        required: formData => formData?.informalConference !== 'no',
+        errorMessages: {
+          required: errorMessages.informalConferenceTimes,
+        },
         enableAnalytics: true,
-      },
+      }),
+      'ui:validations': [checkConferenceTimes],
     },
   },
   schema: {

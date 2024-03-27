@@ -24,7 +24,7 @@ $teamsite-large-screen: 1008px;
 }
 
 .login .container h1 {
-  color: var(--vads-color-black) !important;
+  color: $color-black !important;
 }
 
 .usa-banner-content p {
@@ -67,7 +67,7 @@ header.merger {
 
       // HACK: override rules from benefits.va.gov
       .va-crisis-line-text {
-        color: var(--vads-color-white);
+        color: $color-white;
       }
     }
   }
@@ -191,16 +191,16 @@ footer.footer {
 }
 
 .footer-lastupdated {
-  background: var(--vads-color-white);
-  color: var(--vads-color-base-darker);
+  background: $color-white;
+  color: $color-gray-dark;
   font-size: 1em;
-  border: 2px solid var(--vads-color-base-light);
+  border: 2px solid $color-gray-light;
   padding: 5px 0;
 }
 
 .sign-in-nav {
   .sign-in-links {
-    color: var(--vads-color-white);
+    color: $color-white;
   }
 }
 
