@@ -10,7 +10,7 @@ describe('Medical Records View Conditions', () => {
 
     ConditionsListPage.verifyConditionsPageTitle();
     ConditionsListPage.clickConditionsDetailsLink(1);
-    ConditionDetailsPage.verifyProvider('None noted');
+    ConditionDetailsPage.verifyProvider('SMITH,JOHN');
     ConditionDetailsPage.verifyLocation('SLC10.FO-BAYPINES.MED.VA.GOV');
     ConditionDetailsPage.verifyProviderNotes("JOHN's test");
     // Axe check
