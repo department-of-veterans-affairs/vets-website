@@ -5,7 +5,7 @@ import { mockPOARequests } from '../mocks/mockPOARequests';
 const POARequests = () => {
   return (
     <>
-      <h1>Power of attorney requests</h1>
+      <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
       <POARequestsTable poaRequests={mockPOARequests} />
     </>
   );

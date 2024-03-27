@@ -1,0 +1,26 @@
+import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+
+import PermissionsPage from '../../containers/PermissionsPage';
+
+describe('PermissionsPage', () => {
+  it('renders heading', () => {
+    const { getByTestId } = render(<PermissionsPage />);
+    expect(getByTestId('permissions-page-heading').textContent).to.eq(
+      'Permissions',
+    );
+  });
+
+  it('renders buttons', () => {
+    const { getByTestId } = render(<PermissionsPage />);
+    expect(getByTestId('permissions-page-add-button')).to.have.attribute(
+      'text',
+      'Add',
+    );
+    expect(getByTestId('permissions-page-upload-csv-button')).to.have.attribute(
+      'text',
+      'Upload CSV',
+    );
+  });
+});
