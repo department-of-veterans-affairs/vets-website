@@ -1,5 +1,5 @@
 import React from 'react';
-import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
+import { externalServiceStatus } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import PropTypes from 'prop-types';
 import InfoAlert from './InfoAlert';
 
