@@ -76,4 +76,35 @@ describe('686 add child - child information', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  it('should display an error if the first name is longer than 30 characters', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    fillData(
+      form,
+      'input#root_childrenToAdd_0_fullName_first',
+      'Supercalifragilisticexpialidocious',
+    );
+    fillData(form, 'input#root_childrenToAdd_0_fullName_middle', 'Bill');
+    fillData(form, 'input#root_childrenToAdd_0_fullName_last', 'Bob');
+    fillData(form, 'input#root_childrenToAdd_0_ssn', '555555551');
+    changeDropdown(form, 'select#root_childrenToAdd_0_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_childrenToAdd_0_birthDateDay', 1);
+    fillData(form, 'input#root_childrenToAdd_0_birthDateYear', '2002');
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'This field should be less than 30 characters',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });

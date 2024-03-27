@@ -90,4 +90,31 @@ describe('686 spouse former partner names', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  it('should display an error if the last name is longer than 30 characters', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectRadio(form, 'root_spouseWasMarriedBefore', 'Y');
+    fillData(form, 'input#root_spouseMarriageHistory_0_fullName_first', 'jane');
+    fillData(form, 'input#root_spouseMarriageHistory_0_fullName_middle', 'doe');
+    fillData(
+      form,
+      'input#root_spouseMarriageHistory_0_fullName_last',
+      'Supercalifragilisticexpialidocious',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'This field should be less than 30 characters',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });

@@ -202,6 +202,10 @@ export const SCHEMAS = {
               minLength: 1,
               maxLength: 30,
             },
+            middle: {
+              type: 'string',
+              maxLength: 30,
+            },
             last: {
               type: 'string',
               minLength: 1,
