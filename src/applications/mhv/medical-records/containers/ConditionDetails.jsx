@@ -56,14 +56,14 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
-  const activeAlert = useAlerts(dispatch);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/conditions',
+            url: '/my-health/medical-records/conditions',
             label: 'Conditions',
           },
         ]),
@@ -171,12 +171,6 @@ SNOMED Clinical term: ${record.name} \n`;
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Status of health condition
-            </h2>
-            <p data-dd-privacy="mask" data-testid="condition-status">
-              {record.active}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
             </h2>
             <p data-dd-privacy="mask" data-testid="condition-provider">
@@ -187,12 +181,6 @@ SNOMED Clinical term: ${record.name} \n`;
             </h2>
             <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              SNOMED Clinical term
-            </h2>
-            <p data-dd-privacy="mask" data-testid="condition-snomed">
-              {record.name}
             </p>
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList
