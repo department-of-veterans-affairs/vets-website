@@ -252,7 +252,7 @@ class TrackClaimsPageV2 {
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
-    cy.get('.usa-alert-success').should('be.visible');
+    cy.get('va-alert').should('be.visible');
     cy.axeCheck();
   }
 
