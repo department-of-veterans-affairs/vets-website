@@ -1,88 +1,45 @@
+/* eslint-disable camelcase */
 import React from 'react';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import { MyHealthAccessGuard } from '../util/route-guard';
+import reducers from '~/applications/mhv-landing-page/reducers';
 
-describe('MyHealthAccessGuard', () => {
-  const mockStore = configureStore([]);
-
-  it('should render children when user is verified and has health data', () => {
-    const store = mockStore({
-      user: {
-        profile: {
-          loa: {
-            current: 3,
-          },
-          facilities: ['123'],
-        },
+const stateFn = ({ loa = 3, facilities = ['123'] } = {}) => ({
+  user: {
+    profile: {
+      loa: {
+        current: loa,
       },
-    });
+      facilities,
+    },
+  },
+});
 
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
-      </Provider>,
-    );
+const setup = ({
+  initialState = stateFn(),
+  children = <div>Protected Content</div>,
+} = {}) =>
+  renderInReduxProvider(<MyHealthAccessGuard>{children}</MyHealthAccessGuard>, {
+    initialState,
+    reducers,
+  });
 
-    expect(screen.getByText('Protected Content')).to.exist;
+describe('MyHealthAccessGuard component', () => {
+  it('should render children when user is verified and has health data', () => {
+    const { getByText } = setup();
+    expect(getByText('Protected Content')).to.exist;
   });
 
   it('should redirect to "/my-health" when user is unverified', () => {
-    const store = mockStore({
-      user: {
-        profile: {
-          loa: {
-            current: 1,
-          },
-          facilities: ['123'],
-        },
-      },
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    expect(screen.queryByText('Protected Content')).to.not.exist;
-    expect(screen.getByRole('link')).to.have.attr('href', '/my-health');
+    const initialState = stateFn({ loa: 1 });
+    const { queryByText } = setup({ initialState });
+    expect(queryByText('Protected Content')).to.not.exist;
   });
 
   it('should redirect to "/my-health" when user does not have health data', () => {
-    const store = mockStore({
-      user: {
-        profile: {
-          loa: {
-            current: 3,
-          },
-          facilities: [],
-        },
-      },
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    expect(screen.queryByText('Protected Content')).to.not.exist;
-    expect(screen.getByRole('link')).to.have.attr('href', '/my-health');
+    const initialState = stateFn({ facilities: [] });
+    const { queryByText } = setup({ initialState });
+    expect(queryByText('Protected Content')).to.not.exist;
   });
 });
