@@ -133,7 +133,7 @@ const formConfig = {
   },
   submissionError: SubmissionErrorAlert,
   downtime: {
-    dependencies: [externalServices.es],
+    dependencies: [externalServices['1010ezr']],
     message: DowntimeWarning,
   },
   introduction: IntroductionPage,

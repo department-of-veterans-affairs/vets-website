@@ -7,14 +7,14 @@
     font-size: 20px;
   }
   a:visited {
-    color: $color-link-default;
+    color: var(--vads-color-link);
     text-decoration: underline;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
     transition-property: color, background-color, border-color;
   }
   i {
-    color: $color-primary-darker;
+    color: var(--vads-color-primary-dark);
   }
   .unread-icon {
     padding-top: 9px;

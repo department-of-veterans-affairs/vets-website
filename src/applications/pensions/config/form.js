@@ -1,18 +1,13 @@
-import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import moment from 'moment';
 
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import fullNameUI from 'platform/forms/definitions/fullName';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+
 import {
   titleUI,
   yesNoUI,
@@ -22,11 +17,8 @@ import {
 import {
   getDependentChildTitle,
   getMarriageTitleWithCurrent,
-  DirectDepositWarning,
   isMarried,
-  MarriageTitle,
   submit,
-  HelpText,
   isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
@@ -43,6 +35,7 @@ import applicantInformation from './chapters/01-applicant-information/applicantI
 import careExpenses from './chapters/05-financial-information/careExpenses';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
+import marriageHistory from './chapters/04-household-information/marriageHistory';
 import currentSpouseAddress from './chapters/04-household-information/currentSpouseAddress';
 import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
@@ -83,26 +76,18 @@ import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 import landMarketable from './chapters/05-financial-information/landMarketable';
+import {
+  usingDirectDeposit,
+  directDeposit,
+  accountInformation,
+  otherPaymentOptions,
+} from './chapters/06-additional-information';
 
-import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
-const {
-  fullName,
-  usaPhone,
-  dateRange,
-  date,
-  monthlyIncome,
-  netWorth,
-  marriages,
-  expectedIncome,
-  ssn,
-  centralMailVaFile,
-  bankAccount,
-} = fullSchemaPensions.definitions;
+import { marriages, defaultDefinitions } from './definitions';
 
 const vaMedicalCenters = generateMedicalCentersSchemas(
   'vaMedicalCenters',
@@ -152,11 +137,11 @@ export function isUnder65(formData, currentDate) {
   );
 }
 
-export function showSpouseAddress(form) {
+export function showSpouseAddress(formData) {
   return (
-    isMarried(form) &&
-    (form.maritalStatus === 'SEPARATED' ||
-      get(['view:liveWithSpouse'], form) === false)
+    isMarried(formData) &&
+    (formData.maritalStatus === 'SEPARATED' ||
+      get(['view:liveWithSpouse'], formData) === false)
   );
 }
 
@@ -216,13 +201,10 @@ export function doesHaveMedicalExpenses(formData) {
   return formData.hasMedicalExpenses === true;
 }
 
-function isCurrentMarriage(form, index) {
-  const numMarriages = form && form.marriages ? form.marriages.length : 0;
-  return isMarried(form) && numMarriages - 1 === index;
-}
-
-function usingDirectDeposit(formData) {
-  return formData['view:noDirectDeposit'] !== true;
+export function isCurrentMarriage(formData, index) {
+  const numMarriages =
+    formData && formData.marriages ? formData.marriages.length : 0;
+  return isMarried(formData) && numMarriages - 1 === index;
 }
 
 export function doesHaveDependents(formData) {
@@ -237,18 +219,6 @@ export function dependentIsOutsideHousehold(formData, index) {
     !get(['dependents', index, 'childInHousehold'], formData)
   );
 }
-
-const marriageProperties = marriages.items.properties;
-
-const marriageType = {
-  ...marriageProperties.marriageType,
-  enum: Object.keys(marriageTypeLabels),
-};
-
-const reasonForSeparation = {
-  ...marriageProperties.reasonForSeparation,
-  enum: Object.keys(separationTypeLabels),
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -267,7 +237,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 6,
+  version: 7,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -301,18 +271,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  defaultDefinitions: {
-    address: address.schema(fullSchemaPensions),
-    date,
-    dateRange,
-    usaPhone,
-    fullName,
-    ssn,
-    centralMailVaFile,
-    monthlyIncome,
-    expectedIncome,
-    netWorth,
-  },
+  defaultDefinitions,
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
@@ -511,166 +470,8 @@ const formConfig = {
           depends: isMarried,
           showPagePerItem: true,
           arrayPath: 'marriages',
-          uiSchema: {
-            marriages: {
-              items: {
-                'ui:options': {
-                  updateSchema: (form, schema, uiSchema, index) => {
-                    return {
-                      title: MarriageTitle(
-                        getMarriageTitleWithCurrent(form, index),
-                      ),
-                    };
-                  },
-                },
-                spouseFullName: merge({}, fullNameUI, {
-                  first: {
-                    'ui:title': 'Spouse’s first name',
-                  },
-                  last: {
-                    'ui:title': 'Spouse’s last name',
-                  },
-                  middle: {
-                    'ui:title': 'Spouse’s middle name',
-                  },
-                  suffix: {
-                    'ui:title': 'Spouse’s suffix',
-                  },
-                }),
-                'view:currentMarriage': {
-                  'ui:options': {
-                    hideIf: (form, index) => !isCurrentMarriage(form, index),
-                  },
-                  dateOfMarriage: merge(
-                    {},
-                    currentOrPastDateUI('Date of marriage'),
-                    { 'ui:required': (...args) => isCurrentMarriage(...args) },
-                  ),
-                  locationOfMarriage: {
-                    'ui:title':
-                      'Place of marriage (city and state or foreign country)',
-                    'ui:required': (...args) => isCurrentMarriage(...args),
-                  },
-                  marriageType: {
-                    'ui:title': 'How did you get married?',
-                    'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: marriageTypeLabels,
-                    },
-                    'ui:required': (...args) => isCurrentMarriage(...args),
-                  },
-                  otherExplanation: {
-                    'ui:title': 'Please specify',
-                    'ui:description': HelpText(
-                      'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
-                    ),
-                    'ui:required': (form, index) =>
-                      get(
-                        [
-                          'marriages',
-                          index,
-                          'view:currentMarriage',
-                          'marriageType',
-                        ],
-                        form,
-                      ) === 'OTHER',
-                    'ui:options': {
-                      expandUnder: 'marriageType',
-                      expandUnderCondition: 'OTHER',
-                    },
-                  },
-                },
-                'view:pastMarriage': {
-                  'ui:options': {
-                    hideIf: isCurrentMarriage,
-                  },
-                  reasonForSeparation: {
-                    'ui:title': 'How did the marriage end?',
-                    'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: separationTypeLabels,
-                    },
-                    'ui:required': (...args) => !isCurrentMarriage(...args),
-                  },
-                  otherExplanation: {
-                    'ui:title': 'Please specify',
-                    'ui:required': (form, index) =>
-                      get(
-                        [
-                          'marriages',
-                          index,
-                          'view:pastMarriage',
-                          'reasonForSeparation',
-                        ],
-                        form,
-                      ) === 'OTHER',
-                    'ui:options': {
-                      expandUnder: 'reasonForSeparation',
-                      expandUnderCondition: 'OTHER',
-                    },
-                  },
-                  dateOfMarriage: merge(
-                    {},
-                    currentOrPastDateUI('Date of marriage'),
-                    { 'ui:required': (...args) => !isCurrentMarriage(...args) },
-                  ),
-                  dateOfSeparation: {
-                    ...currentOrPastDateUI('Date marriage ended'),
-                    'ui:required': (...args) => !isCurrentMarriage(...args),
-                    'ui:validations': [validateAfterMarriageDate],
-                  },
-                  locationOfMarriage: {
-                    'ui:title':
-                      'Place of marriage (city and state or foreign country)',
-                    'ui:required': (...args) => !isCurrentMarriage(...args),
-                  },
-                  locationOfSeparation: {
-                    'ui:title':
-                      'Place marriage ended (city and state or foreign country)',
-                    'ui:required': (...args) => !isCurrentMarriage(...args),
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              marriages: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['spouseFullName'],
-                  properties: {
-                    spouseFullName: marriageProperties.spouseFullName,
-                    'view:currentMarriage': {
-                      type: 'object',
-                      properties: {
-                        dateOfMarriage: marriageProperties.dateOfMarriage,
-                        locationOfMarriage:
-                          marriageProperties.locationOfMarriage,
-                        marriageType,
-                        otherExplanation: marriageProperties.otherExplanation,
-                      },
-                    },
-                    'view:pastMarriage': {
-                      type: 'object',
-                      properties: {
-                        reasonForSeparation,
-                        otherExplanation: marriageProperties.otherExplanation,
-                        dateOfMarriage: marriageProperties.dateOfMarriage,
-                        dateOfSeparation: marriageProperties.dateOfSeparation,
-                        locationOfMarriage:
-                          marriageProperties.locationOfMarriage,
-                        locationOfSeparation:
-                          marriageProperties.locationOfSeparation,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: marriageHistory.uiSchema,
+          schema: marriageHistory.schema,
         },
         spouseInfo: {
           title: 'Spouse information',
@@ -882,57 +683,24 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         directDeposit: {
-          title: 'Direct deposit',
+          title: 'Direct deposit for Veterans Pension benefits',
           path: 'additional-information/direct-deposit',
           initialData: {},
-          uiSchema: {
-            ...titleUI('Direct deposit'),
-            'view:noDirectDeposit': {
-              'ui:title': 'I don’t want to use direct deposit',
-            },
-            bankAccount: merge({}, bankAccountUI, {
-              'ui:order': [
-                'accountType',
-                'bankName',
-                'accountNumber',
-                'routingNumber',
-              ],
-              'ui:options': {
-                hideIf: formData => !usingDirectDeposit(formData),
-              },
-              bankName: {
-                'ui:title': 'Bank name',
-              },
-              accountType: {
-                'ui:required': usingDirectDeposit,
-              },
-              accountNumber: {
-                'ui:required': usingDirectDeposit,
-              },
-              routingNumber: {
-                'ui:required': usingDirectDeposit,
-              },
-            }),
-            'view:stopWarning': {
-              'ui:description': DirectDepositWarning,
-              'ui:options': {
-                hideIf: usingDirectDeposit,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:noDirectDeposit': {
-                type: 'boolean',
-              },
-              bankAccount,
-              'view:stopWarning': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          ...directDeposit,
+        },
+        accountInformation: {
+          title: 'Account information for direct deposit',
+          path: 'additional-information/account-information',
+          initialData: {},
+          depends: usingDirectDeposit,
+          ...accountInformation,
+        },
+        otherPaymentOptions: {
+          title: 'Other payment options',
+          path: 'additional-information/other-payment-options',
+          initialData: {},
+          depends: formData => !usingDirectDeposit(formData),
+          ...otherPaymentOptions,
         },
         aidAttendance: {
           title: 'Supporting documents',

@@ -1,4 +1,4 @@
-import medicationsList from '../fixtures/prescriptions.json';
+import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 
 class MedicationsRefillPage {
