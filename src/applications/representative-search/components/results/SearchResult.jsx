@@ -265,7 +265,7 @@ const SearchResult = ({
               text="Report outdated information"
               label={`Report outdated information for ${officer}`}
               uswds
-              disableAnalytics
+              disable-analytics
             />
           </div>
         </div>
