@@ -38,11 +38,9 @@ const calculateCurrentMaintenanceWindow = () => {
   end = utcToZonedTime(end, timeZone); // Ensure the end time is also adjusted to the specified timezone
 
   // Format start and end dates to include timezone offset correctly
-  const startFormatted = tzFormat(
-    start,
-    "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX",
-    { timeZone },
-  );
+  const startFormatted = tzFormat(start, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
+    timeZone,
+  });
   const endFormatted = tzFormat(end, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
     timeZone,
   });
@@ -53,7 +51,7 @@ const calculateCurrentMaintenanceWindow = () => {
   };
 };
 
-const MaintenanceWindow = searchInput => {
+const MaintenanceWindow = ({ searchInput }) => {
   const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
 
   return (
@@ -66,9 +64,9 @@ const MaintenanceWindow = searchInput => {
         isError
       >
         <div slot="maintenance-content">
-          We’re working on Search VA.gov right now. If you have trouble
-          using the search tool, check back after we’re finished. Thank you
-          for your patience.
+          We’re working on Search VA.gov right now. If you have trouble using
+          the search tool, check back after we’re finished. Thank you for your
+          patience.
         </div>
       </va-maintenance-banner>
       {searchInput}
@@ -77,7 +75,7 @@ const MaintenanceWindow = searchInput => {
 };
 
 MaintenanceWindow.propTypes = {
-  searchInput: PropTypes.node.isRequired
+  searchInput: PropTypes.node.isRequired,
 };
 
 export default MaintenanceWindow;
