@@ -11,16 +11,10 @@ import DowntimeNotification, {
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { focusElement } from 'platform/utilities/ui';
 import { apiRequest } from 'platform/utilities/api';
 
-import {
-  formatResponseString,
-  truncateResponseString,
-  removeDoubleBars,
-  isSearchStrInvalid,
-} from '../utils';
+import { isSearchStrInvalid } from '../utils';
 import { fetchSearchResults } from '../actions';
 
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -33,7 +27,6 @@ import ResultsList from '../components/ResultsList';
 import Typeahead from '../components/Typeahead';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
-const MAX_DESCRIPTION_LENGTH = 186;
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -429,6 +422,8 @@ class SearchApp extends React.Component {
       return <Errors userInput={userInput} searchInput={searchInput} />;
     }
 
+    const query = this.props.router?.location?.query?.query || '';
+
     return (
       <div>
         {searchInput}
@@ -436,7 +431,7 @@ class SearchApp extends React.Component {
           currentPage={currentPage}
           loading={loading}
           perPage={perPage}
-          query={this.props.router.location.query.query}
+          query={query}
           results={results}
           spellingCorrection={spellingCorrection}
           totalPages={totalPages}
@@ -448,7 +443,8 @@ class SearchApp extends React.Component {
         />
         <ResultsList
           loading={loading}
-          query={this.props.router?.location?.query?.query || ''}
+          onSearchResultClick={this.onSearchResultClick}
+          query={query}
           results={results}
         />
         <hr
@@ -471,95 +467,6 @@ class SearchApp extends React.Component {
           <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
-    );
-  }
-
-  renderResultsList() {
-    const { results, loading } = this.props.search;
-    const query = this.props.router?.location?.query?.query || '';
-    if (loading) {
-      return <va-loading-indicator message="Loading results..." />;
-    }
-
-    if (results && results.length > 0) {
-      return (
-        <>
-          <h3 className="sr-only">More search results</h3>
-          <ul className="results-list" data-e2e-id="search-results">
-            {results.map((result, index) =>
-              this.renderWebResult(result, undefined, undefined, index),
-            )}
-          </ul>
-        </>
-      );
-    }
-    if (query) {
-      return (
-        <p
-          className={`${SCREENREADER_FOCUS_CLASSNAME}`}
-          data-e2e-id="search-results-empty"
-        >
-          We didn't find any results for "<strong>{query}</strong>
-          ." Try using different words or checking the spelling of the words
-          you're using.
-        </p>
-      );
-    }
-    return (
-      <p
-        className={`${SCREENREADER_FOCUS_CLASSNAME}`}
-        data-e2e-id="search-results-empty"
-      >
-        We didn't find any results. Enter a keyword in the search box to try
-        again.
-      </p>
-    );
-  }
-
-  /* eslint-disable react/no-danger */
-  renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
-    const strippedTitle = removeDoubleBars(
-      formatResponseString(result.title, true),
-    );
-    return (
-      <li
-        key={result.url}
-        className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
-      >
-        <a
-          className="result-title"
-          href={replaceWithStagingDomain(result.url)}
-          onClick={this.onSearchResultClick({
-            bestBet: isBestBet,
-            title: strippedTitle,
-            index,
-            url: replaceWithStagingDomain(result.url),
-            // Trigger a new build
-          })}
-        >
-          <h4
-            className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
-            data-e2e-id="result-title"
-            dangerouslySetInnerHTML={{
-              __html: strippedTitle,
-            }}
-          />
-        </a>
-        <p className="result-url vads-u-color--green vads-u-font-size--base">
-          {replaceWithStagingDomain(result.url)}
-        </p>
-        <p
-          className="result-desc"
-          dangerouslySetInnerHTML={{
-            __html: formatResponseString(
-              truncateResponseString(
-                result[snippetKey],
-                MAX_DESCRIPTION_LENGTH,
-              ),
-            ),
-          }}
-        />
-      </li>
     );
   }
 
