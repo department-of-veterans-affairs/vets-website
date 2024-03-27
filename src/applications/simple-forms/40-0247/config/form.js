@@ -18,15 +18,13 @@ import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
 import addlCertsReqPg from '../pages/additionalCertificatesRequest';
 import transformForSubmit from './submit-transformer';
-import { getInitialData, pageFocusScroll } from '../helpers';
+import { getInitialData } from '../helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
 
 const mockData = testData.data;
 
-// TODO: remove useCustomScrollAndFocus & scrollAndFocusTarget props once
-// FormNav's default focus issue's resolved
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -35,6 +33,7 @@ const formConfig = {
   trackingPrefix: '0247-pmc',
   dev: {
     showNavLinks: !window.Cypress,
+    collapsibleNavLinks: true,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -73,7 +72,6 @@ const formConfig = {
       enum: [true],
     },
   },
-  useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
       title: 'Veteran’s or Reservist’s personal information',
@@ -87,7 +85,6 @@ const formConfig = {
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
           pageClass: 'veteran-personal-information',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -100,7 +97,6 @@ const formConfig = {
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -113,7 +109,6 @@ const formConfig = {
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -126,7 +121,6 @@ const formConfig = {
           uiSchema: requestTypePg.uiSchema,
           schema: requestTypePg.schema,
           pageClass: 'request-type',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -139,7 +133,6 @@ const formConfig = {
           uiSchema: appPersInfoPg.uiSchema,
           schema: appPersInfoPg.schema,
           pageClass: 'applicant-personal-information',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -152,7 +145,6 @@ const formConfig = {
           uiSchema: appAddrPg.uiSchema,
           schema: appAddrPg.schema,
           pageClass: 'applicant-address',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -165,7 +157,6 @@ const formConfig = {
           uiSchema: appContactInfoPg.uiSchema,
           schema: appContactInfoPg.schema,
           pageClass: 'applicant-contact-information',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -178,7 +169,6 @@ const formConfig = {
           uiSchema: certsPg.uiSchema,
           schema: certsPg.schema,
           pageClass: 'certificates',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -191,7 +181,6 @@ const formConfig = {
           uiSchema: addlCertsYNPg.uiSchema,
           schema: addlCertsYNPg.schema,
           pageClass: 'additional-certificates-yes-no',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
         additionalCertificatesRequestPage: {
           path: 'additional-certificates-request',
@@ -200,7 +189,6 @@ const formConfig = {
           uiSchema: addlCertsReqPg.uiSchema,
           schema: addlCertsReqPg.schema,
           pageClass: 'additional-certificates-request',
-          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },

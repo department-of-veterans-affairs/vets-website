@@ -1,6 +1,5 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-import { scrollAndFocus } from 'platform/utilities/ui';
 
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -22,11 +21,7 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 import transformForSubmit from './submit-transformer';
-import {
-  getFocusSelectorFromPath,
-  getFullNamePath,
-  witnessHasOtherRelationship,
-} from '../utils';
+import { getFullNamePath, witnessHasOtherRelationship } from '../utils';
 
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
@@ -38,18 +33,6 @@ import {
 import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
 const mockData = testData.data;
-
-const pageScrollAndFocus = () => {
-  return () => {
-    const { pathname } = document.location;
-
-    const focusSelector = getFocusSelectorFromPath(pathname);
-
-    if (!window.Cypress) {
-      scrollAndFocus(document.querySelector(focusSelector));
-    }
-  };
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -121,7 +104,8 @@ const formConfig = {
           // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
           // so using a function here to ensure correct focusSelector is used
           // regardless of which page FormNav thinks current page is.
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget:
+            '#react-root .form-panel .schemaform-first-field legend',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
@@ -135,7 +119,8 @@ const formConfig = {
           path: 'claimant-type',
           title: 'Veteran status',
           // see comment for scrollAndFocusTarget in claimOwnershipPage above
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget:
+            '#react-root .form-panel .schemaform-first-field legend',
           uiSchema: claimantType.uiSchema,
           schema: claimantType.schema,
         },
@@ -153,7 +138,7 @@ const formConfig = {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.VETERAN,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: witnessPersInfo.uiSchemaA,
           schema: witnessPersInfo.schema,
         },
@@ -165,7 +150,7 @@ const formConfig = {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: witnessPersInfo.uiSchemaB,
           schema: witnessPersInfo.schema,
         },
@@ -173,7 +158,7 @@ const formConfig = {
           path: 'witness-other-relationship',
           title: 'Relationship description',
           depends: witnessHasOtherRelationship,
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: witnessOtherRelationship.uiSchema,
           schema: witnessOtherRelationship.schema,
         },
@@ -189,7 +174,7 @@ const formConfig = {
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: witnessContInfo.uiSchema,
           schema: witnessContInfo.schema,
         },
@@ -208,7 +193,7 @@ const formConfig = {
           path: 'statement-a',
           title:
             'Tell us about the claimed issue that you’re addressing on behalf of the Veteran',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: statement.uiSchema,
           schema: statement.schema,
         },
@@ -226,7 +211,7 @@ const formConfig = {
           },
           path: 'statement-b',
           title: 'Please indicate the claimed issue that you are addressing',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: statement.uiSchema,
           schema: statement.schema,
         },
@@ -245,7 +230,7 @@ const formConfig = {
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: claimantPersInfo.uiSchema,
           schema: claimantPersInfo.schema,
         },
@@ -264,7 +249,7 @@ const formConfig = {
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: claimantIdInfo.uiSchema,
           schema: claimantIdInfo.schema,
         },
@@ -283,7 +268,7 @@ const formConfig = {
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: claimantAddrInfo.uiSchema,
           schema: claimantAddrInfo.schema,
         },
@@ -302,7 +287,7 @@ const formConfig = {
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: claimantContInfo.uiSchema,
           schema: claimantContInfo.schema,
         },
@@ -320,7 +305,7 @@ const formConfig = {
           },
           path: 'statement-c',
           title: 'Tell us about the claimed issue that you’re addressing',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: statement.uiSchema,
           schema: statement.schema,
         },
@@ -337,7 +322,7 @@ const formConfig = {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
           title: 'Personal information',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: vetPersInfo.uiSchema,
           schema: vetPersInfo.schema,
         },
@@ -354,7 +339,7 @@ const formConfig = {
         veteranIdentificationInfo1: {
           path: 'veteran-identification-information',
           title: 'Identification information',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: vetIdInfo.uiSchema,
           schema: vetIdInfo.schema,
         },
@@ -371,7 +356,7 @@ const formConfig = {
         veteranMailingAddressInfo1: {
           path: 'veteran-mailing-address',
           title: 'Mailing address',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: vetAddrInfo.uiSchema,
           schema: vetAddrInfo.schema,
         },
@@ -388,7 +373,7 @@ const formConfig = {
         veteranContactInfo1: {
           path: 'veteran-contact-information',
           title: 'Contact information',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: vetContInfo.uiSchema,
           schema: vetContInfo.schema,
         },
@@ -406,7 +391,7 @@ const formConfig = {
           },
           path: 'statement-d',
           title: 'Provide your statement',
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: '.usa-step-indicator__heading',
           uiSchema: statement.uiSchema,
           schema: statement.schema,
         },
