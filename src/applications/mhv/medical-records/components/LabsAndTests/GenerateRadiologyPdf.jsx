@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
+import { generatePdfScaffold } from '@department-of-veterans-affairs/mhv/exports';
 import { getNameDateAndTime, makePdf } from '../../util/helpers';
 import {
   generateLabsIntro,
   generateRadiologyContent,
 } from '../../util/pdfHelpers/labsAndTests';
-import { generatePdfScaffold } from '../../../shared/util/helpers';
 
 const GenerateRadiologyPdf = async (record, user, runningUnitTest) => {
   const { title, subject, preface } = generateLabsIntro(record);

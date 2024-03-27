@@ -4,6 +4,15 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  formatName,
+  updatePageTitle,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
@@ -19,24 +28,15 @@ import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
+
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../shared/util/constants';
+
 import {
   generateAllergiesIntro,
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Allergies = props => {
   const { runningUnitTest } = props;

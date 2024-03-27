@@ -7,6 +7,15 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -23,24 +32,13 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
 } from '../util/constants';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
-import {
-  txtLine,
-  crisisLineHeader,
-  reportGeneratedBy,
-} from '../../shared/util/constants';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
   generateVitalsContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
