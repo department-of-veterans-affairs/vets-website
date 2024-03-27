@@ -1,6 +1,6 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
-import { base } from '../../../mocks/endpoints/direct-deposit';
+import { base } from '../../../mocks/endpoints/direct-deposits';
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 const defaults = {
@@ -24,9 +24,11 @@ class DirectDepositPage {
 
     cy.login(user);
 
-    cy.intercept('GET', '/v0/profile/direct_deposit', directDepositResponse).as(
-      'getDirectDeposit',
-    );
+    cy.intercept(
+      'GET',
+      '/v0/profile/direct_deposits',
+      directDepositResponse,
+    ).as('getDirectDeposits');
 
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'getFeatureToggles',

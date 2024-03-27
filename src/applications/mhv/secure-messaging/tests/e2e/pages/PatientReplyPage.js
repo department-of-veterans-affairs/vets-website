@@ -39,7 +39,7 @@ class PatientReplyPage {
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT_BUTTON).click({
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({
       waitForAnimations: true,
     });
     cy.wait('@replyDraftMessage').then(xhr => {

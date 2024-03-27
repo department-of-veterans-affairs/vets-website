@@ -1,7 +1,7 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import ClaimCard from '../ClaimCard';
 import {
   APPEAL_TYPES,
   EVENT_TYPES,
@@ -10,14 +10,13 @@ import {
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
 import { buildDateFormatter } from '../../utils/helpers';
-import ClaimCard from '../ClaimCard';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
-const formatDate = buildDateFormatter('MMMM d, yyyy');
+const formatDate = buildDateFormatter();
 
 export default function AppealListItem({ appeal, name }) {
   let requestEventType;
@@ -81,10 +80,7 @@ export default function AppealListItem({ appeal, name }) {
   return (
     <ClaimCard
       title={appealTitle}
-      subtitle={
-        requestEvent &&
-        `Received on ${moment(requestEvent.date).format('MMMM D, YYYY')}`
-      }
+      subtitle={requestEvent && `Received on ${formatDate(requestEvent.date)}`}
     >
       <div className="card-status">
         {appeal.attributes.description && (

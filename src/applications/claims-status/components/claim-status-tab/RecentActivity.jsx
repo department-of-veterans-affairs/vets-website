@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
+
 import { buildDateFormatter, getTrackedItemId } from '../../utils/helpers';
 import { ITEMS_PER_PAGE } from '../../constants';
 
@@ -10,8 +11,6 @@ const getOldestDocuentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };
-
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
 
 const getTrackedItemDateFromStatus = item => {
   switch (item.status) {
@@ -115,7 +114,9 @@ function RecentActivity({ claim }) {
               key={item.id}
               className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
             >
-              <h4 className="vads-u-margin-y--0">{formatDate(item.date)}</h4>
+              <h4 className="vads-u-margin-y--0">
+                {buildDateFormatter()(item.date)}
+              </h4>
               {hasRequestType(item.status) ? (
                 <>
                   <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
