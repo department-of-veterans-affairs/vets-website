@@ -2,19 +2,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
+import { scrollTo } from 'platform/utilities/ui/scroll';
 import {
   getChaptersLengthDisplay,
   createFormPageList,
   createPageList,
   getActiveExpandedPages,
   getCurrentChapterDisplay,
+  handleFormNavFocus,
 } from '../helpers';
-
-import {
-  focusByOrder,
-  customScrollAndFocus,
-  defaultFocusSelector,
-} from '../../../../utilities/ui';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -111,35 +107,19 @@ export default function FormNav(props) {
       } else if (current === index) {
         setIndex(index - 1);
       }
-
-      return () => {
-        // Check main toggle to enable custom focus; the unmounting of the page
-        // before the review & submit page may cause the customScrollAndFocus
-        // function to be called inadvertently
-        if (
-          !(
-            page.chapterKey === 'review' ||
-            window.location.pathname.endsWith('review-and-submit')
-          )
-        ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
-          } else {
-            focusByOrder([defaultFocusSelector, 'h2']);
-          }
-        } else {
-          // h2 fallback for confirmation page
-          focusByOrder([defaultFocusSelector, 'h2']);
-        }
-      };
+      if (
+        !(
+          window.location.pathname.endsWith('introduction') ||
+          window.location.pathname.endsWith('confirmation')
+        )
+      ) {
+        scrollTo('vaSegmentedProgressBar', { offset: -20 });
+      }
+      handleFormNavFocus(page, formConfig, index);
     },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-    ],
+    // only current & index should be included in the dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [current, index],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
@@ -152,7 +132,7 @@ export default function FormNav(props) {
           current={currentChapterDisplay}
           uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
-          name="v3SegmentedProgressBar"
+          name="vaSegmentedProgressBar"
           {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
         />
       )}

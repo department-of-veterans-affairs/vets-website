@@ -38,6 +38,14 @@ export function isWebComponentReady(el, root) {
 }
 
 /**
+ * Checks if an element is inside shadow-DOM
+ * @param {HTMLElement} el
+ */
+export function isInShadowDOM(el) {
+  return el.getRootNode() instanceof ShadowRoot;
+}
+
+/**
  * Web components initially render as 0 width / 0 height with no
  * shadow dom content, so this waits until it contains a shadowRoot
  * and a class "hydrated" and is visually rendered

@@ -1,0 +1,12 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "form210966",
+        "value": true
+      },
+      { "name": "profile_show_profile_2.0", "value": false }
+    ]
+  }
+}
