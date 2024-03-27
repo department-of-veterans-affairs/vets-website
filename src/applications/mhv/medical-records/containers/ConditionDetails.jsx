@@ -6,6 +6,15 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -21,11 +30,6 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
-import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
@@ -33,13 +37,7 @@ import {
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import {
-  txtLine,
-  crisisLineHeader,
-  reportGeneratedBy,
-} from '../../shared/util/constants';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
