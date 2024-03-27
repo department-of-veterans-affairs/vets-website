@@ -316,7 +316,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
 
     env:
       TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
@@ -568,17 +568,45 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
+  fetch-ecr-credentials:
+    name: Fetch ECR Credentials
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [build] 
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          mask-aws-account-id: true
+          output-credentials: true
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2    
+        with:
+          mask-password: false
+
+    outputs:
+      ecr_user: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+      ecr_password: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+      
   cypress-tests:
     name: Cypress E2E Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
     timeout-minutes: 60
-    needs: [build, tests-prep]
+    needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
-      options: -u 1001:1001 -v /usr/local/share:/share
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
@@ -587,8 +615,6 @@ jobs:
         ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
 
     env:
-      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
 
     steps:
@@ -679,7 +705,7 @@ jobs:
 
   stress-test-cypress-tests:
     name: E2E Test Stability Review
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     needs: [build, tests-prep]
     if: |
@@ -689,7 +715,6 @@ jobs:
       github.ref != 'refs/heads/main'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
-      options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
@@ -698,8 +723,6 @@ jobs:
         ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     env:
-      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
 
     steps:

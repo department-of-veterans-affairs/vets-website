@@ -13,9 +13,9 @@
   }
 
   .search-box {
-    border-bottom: 2px solid $color-gray-light;
-    border-left: 2px solid $color-gray-light;
-    border-right: 2px solid $color-gray-light;
+    border-bottom: 2px solid var(--vads-color-base-light);
+    border-left: 2px solid var(--vads-color-base-light);
+    border-right: 2px solid var(--vads-color-base-light);
     padding: 0px 48px 24px 48px;
 
     .usa-input-error {
@@ -50,7 +50,7 @@
   }
 
   .active-search-tab {
-    border-top: 4px solid $color-primary;
+    border-top: 4px solid var(--vads-color-primary);
     border-bottom: none;
     border-radius: 0%;
     height: 2.8em;
@@ -58,8 +58,8 @@
   }
 
   .inactive-search-tab {
-    border-top: 2px solid $color-gray-light;
-    border-bottom: 2px solid $color-gray-light;
+    border-top: 2px solid var(--vads-color-base-light);
+    border-bottom: 2px solid var(--vads-color-base-light);
     border-radius: 0%;
     margin-bottom: -1px;
   }
@@ -76,13 +76,13 @@
   }
 
   .name-search-tab {
-    border-left: 2px solid $color-gray-light;
-    border-right: 1px solid $color-gray-light;
+    border-left: 2px solid var(--vads-color-base-light);
+    border-right: 1px solid var(--vads-color-base-light);
   }
 
   .location-search-tab {
-    border-left: 1px solid $color-gray-light;
-    border-right: 2px solid $color-gray-light;
+    border-left: 1px solid var(--vads-color-base-light);
+    border-right: 2px solid var(--vads-color-base-light);
   }
 
   input:placeholder-shown {

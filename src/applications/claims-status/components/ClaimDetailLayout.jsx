@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -43,9 +41,8 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimsPath = `your-claims/${id}`;
 
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
@@ -55,17 +52,15 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
-        uswds="false"
       />
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
-    const { closeDate, contentions, status } = claim.attributes || {};
+    const { claimDate, closeDate, contentions, status } =
+      claim.attributes || {};
 
     const isOpen = status !== 'COMPLETE' && closeDate === null;
-
-    const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-    const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const formattedClaimDate = buildDateFormatter()(claimDate);
     const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
@@ -123,17 +118,19 @@ export default function ClaimDetailLayout(props) {
     );
   }
 
+  const crumb = {
+    href: `your-claims/${id}`,
+    label: getBreadcrumbText(currentTab, claimType),
+    isRouterLink: true,
+  };
+
   return (
     <div>
       <div name="topScrollElement" />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>
-                {getBreadcrumbText(currentTab, claimType)}
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={[crumb]} />
           </div>
         </div>
         {!!headingContent && (
