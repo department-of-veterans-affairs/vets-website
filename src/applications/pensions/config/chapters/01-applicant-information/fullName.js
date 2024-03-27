@@ -1,16 +1,9 @@
 import moment from 'moment';
 
 import {
-  dateOfBirthUI,
-  dateOfBirthSchema,
   fullNameUI,
   fullNameSchema,
-  ssnUI,
-  ssnSchema,
-  vaFileNumberUI,
-  vaFileNumberSchema,
-  yesNoUI,
-  yesNoSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
@@ -46,41 +39,21 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 export default {
   updateFormData: setDefaultIsOver65,
   uiSchema: {
-    'ui:description': applicantDescription,
+    ...titleUI('Your full name', applicantDescription),
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
     veteranFullName: fullNameUI(),
-    veteranSocialSecurityNumber: ssnUI(),
-    vaClaimsHistory: yesNoUI({
-      title: 'Have you ever filed a claim with VA?',
-      classNames: 'vads-u-margin-bottom--2',
-    }),
-    vaFileNumber: {
-      ...vaFileNumberUI(),
-      'ui:options': {
-        hint: 'Enter your VA file number if it doesn’t match your SSN',
-      },
-    },
-    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
-    required: [
-      'veteranFullName',
-      'veteranSocialSecurityNumber',
-      'veteranDateOfBirth',
-    ],
+    required: ['veteranFullName'],
     properties: {
       'view:warningAlert': {
         type: 'object',
         properties: {},
       },
       veteranFullName: fullNameSchema,
-      veteranSocialSecurityNumber: ssnSchema,
-      vaClaimsHistory: yesNoSchema,
-      vaFileNumber: vaFileNumberSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
     },
   },
 };
