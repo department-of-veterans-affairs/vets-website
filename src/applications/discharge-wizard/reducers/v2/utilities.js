@@ -20,6 +20,5 @@ export const setShortNameValue = (SHORT_NAME, newFormContents, state) => {
 };
 
 export const updateFormValue = (SHORT_NAME, state, action) => {
-  // Radio button responses
   return setShortNameValue(SHORT_NAME, action.payload, state);
 };

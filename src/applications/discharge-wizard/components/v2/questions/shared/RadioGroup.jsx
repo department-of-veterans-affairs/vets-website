@@ -10,33 +10,25 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../../../utilities/page-navigation';
-// import { updateFormStore } from '../../actions';
-// import { cleanUpAnswers } from '../../utilities/answer-cleanup';
-// import { SHORT_NAME_MAP } from '../../constants/question-data-map';
-import { applyFocus } from '../../../../../pact-act/utilities/page-setup';
+import { applyFocus } from '../../../../utilities/page-setup';
+import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
+import { updateFormStore } from '../../../../actions';
 
-/**
- * Produces a set of radio options
- * @param {string} formValue - The response for this question in the Redux store
- * @param {array[string]} responses - The responses available for this question
- * @param {string} shortName - Question short name (SNAKE_CASE)
- */
 const RadioGroup = ({
   formError,
   formResponses,
   formValue,
-  h1,
-  locationList,
+  H1,
   responses,
   router,
   setFormError,
   shortName,
   testId,
-  //   updateCleanedFormStore,
   valueSetter,
+  updateCleanedFormStore,
 }) => {
-  const [valueHasChanged, setValueHasChanged] = useState(false);
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
+  const [valueHasChanged, setValueHasChanged] = useState(false);
 
   const onContinueClick = () => {
     if (!formValue) {
@@ -44,21 +36,20 @@ const RadioGroup = ({
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
-        // cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+        cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      navigateForward(shortName, formValue, router, formResponses);
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router);
+    navigateBackward(shortName, formValue, router);
   };
 
   const onValueChange = value => {
     valueSetter(value);
-
     if (formValue) {
       setValueHasChanged(true);
     }
@@ -88,7 +79,7 @@ const RadioGroup = ({
     <>
       <VaRadio
         data-testid={testId}
-        form-heading={h1}
+        form-heading={H1}
         form-heading-level={1}
         error={formError ? 'Select a response.' : null}
         id="duw-radio"
@@ -98,7 +89,6 @@ const RadioGroup = ({
         uswds
       >
         {renderRadioOptions()}
-        <div slot="form-description">{locationList}</div>
       </VaRadio>
       <VaButtonPair
         class="vads-u-margin-top--3"
@@ -112,14 +102,11 @@ const RadioGroup = ({
   );
 };
 
-const mapDispatchToProps = {
-  //   updateCleanedFormStore: updateFormStore,
-};
-
 RadioGroup.propTypes = {
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
-  h1: PropTypes.string.isRequired,
+  formValue: PropTypes.string,
+  H1: PropTypes.string.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
   router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,
@@ -127,8 +114,10 @@ RadioGroup.propTypes = {
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
-  formValue: PropTypes.string,
-  locationList: PropTypes.node,
+};
+
+const mapDispatchToProps = {
+  updateCleanedFormStore: updateFormStore,
 };
 
 export default connect(

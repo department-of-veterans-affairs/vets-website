@@ -4,6 +4,7 @@ import {
   DUW_UPDATE_SERVICE_BRANCH,
   DUW_UPDATE_DISCHARGE_YEAR,
   DUW_UPDATE_DISCHARGE_MONTH,
+  DUW_UPDATE_FORM_STORE,
 } from '../constants';
 
 export const updateField = (key, value) => {
@@ -38,6 +39,13 @@ export const updateDischargeYear = value => {
 export const updateDischargeMonth = value => {
   return {
     type: DUW_UPDATE_DISCHARGE_MONTH,
+    payload: value,
+  };
+};
+
+export const updateFormStore = value => {
+  return {
+    type: DUW_UPDATE_FORM_STORE,
     payload: value,
   };
 };

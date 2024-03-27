@@ -14,7 +14,7 @@ export default function DischargeWizardApp({ children }) {
     );
   }
   return (
-    <div className="row discharge-wizard-v2 vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+    <div className="row discharge-wizard-v2 vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs />
       <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>

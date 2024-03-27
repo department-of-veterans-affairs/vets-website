@@ -52,6 +52,7 @@ const DischargeMonth = ({
     <Dropdown
       H1={H1}
       formError={formError}
+      formResponses={formResponses}
       formValue={dischargeMonth}
       router={router}
       setFormError={setFormError}

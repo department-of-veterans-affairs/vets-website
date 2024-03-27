@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import Scroll from 'react-scroll';
 import {
   QUESTION_MAP,
   RESPONSES,
@@ -14,8 +13,6 @@ import { ROUTES } from '../../../constants';
 
 const ServiceBranch = ({
   formResponses,
-  //   handleKeyDown,
-  //   scrollToLast,
   setServiceBranch,
   router,
   viewedIntroPage,
@@ -49,7 +46,7 @@ const ServiceBranch = ({
         formError={formError}
         formResponses={formResponses}
         formValue={serviceBranch}
-        h1={H1}
+        H1={H1}
         responses={[ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS]}
         router={router}
         setFormError={setFormError}

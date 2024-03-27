@@ -104,12 +104,21 @@ export const DUW_UPDATE_DISCHARGE_YEAR =
   'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_YEAR';
 export const DUW_UPDATE_DISCHARGE_MONTH =
   'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_MONTH';
+export const DUW_UPDATE_FORM_STORE =
+  'discharge-upgrade-wizard/DUW_UPDATE_FORM_STORE';
 
-// Except for HOME and results pages, left side must match
-// short name codes in constants/question-data-map
 export const ROUTES = Object.freeze({
   HOME: 'introduction',
   SERVICE_BRANCH: 'service-branch',
   DISCHARGE_YEAR: 'discharge-year',
   DISCHARGE_MONTH: 'discharge-month',
+  DISCHARGE_REASON: 'discharge-reason',
+  RESULT: 'result',
+});
+
+export const questionsToClearMap = Object.freeze({
+  SERVICE_BRANCH: [],
+  DISCHARGE_YEAR: ['DISCHARGE_MONTH'],
+  DISCHARGE_MONTH: [],
+  DISCHARGE_REASON: [],
 });

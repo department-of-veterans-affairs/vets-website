@@ -61,11 +61,12 @@ const DischargeYear = ({
     <Dropdown
       H1={H1}
       formError={formError}
+      formResponses={formResponses}
       formValue={dischargeYear}
       router={router}
       setFormError={setFormError}
       shortName={shortName}
-      testId="duw-service_year"
+      testId="duw-discharge_year"
       options={yearOptions}
       valueSetter={setDischargeYear}
     />

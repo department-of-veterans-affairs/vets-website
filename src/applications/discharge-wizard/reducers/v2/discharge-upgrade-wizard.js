@@ -3,6 +3,7 @@ import {
   DUW_UPDATE_SERVICE_BRANCH,
   DUW_UPDATE_DISCHARGE_YEAR,
   DUW_UPDATE_DISCHARGE_MONTH,
+  DUW_UPDATE_FORM_STORE,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -29,11 +30,15 @@ export default (state = initialState, action) => {
         ...state,
         viewedIntroPage: action.payload,
       };
+    case DUW_UPDATE_FORM_STORE:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          ...action.payload,
+        },
+      };
     default:
       return state;
   }
 };
-
-// export default {
-//   dischargeUpgradeWizard,
-// };

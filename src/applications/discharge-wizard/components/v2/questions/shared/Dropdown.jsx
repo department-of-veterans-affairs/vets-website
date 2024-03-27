@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // import Scroll from 'react-scroll';
 import {
   VaSelect,
@@ -10,9 +11,8 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../../../utilities/page-navigation';
-
-// Relative Imports
-// import { shouldShowQuestion } from '../../helpers';
+import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
+import { updateFormStore } from '../../../../actions';
 
 const Dropdown = ({
   shortName,
@@ -24,6 +24,7 @@ const Dropdown = ({
   H1,
   valueSetter,
   setFormError,
+  updateCleanedFormStore,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
@@ -45,16 +46,16 @@ const Dropdown = ({
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
-        // cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+        cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      navigateForward(shortName, formValue, router, formResponses);
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router);
+    navigateBackward(shortName, formValue, router);
   };
 
   return (
@@ -87,4 +88,11 @@ Dropdown.propTypes = {
   options: PropTypes.array.isRequired,
 };
 
-export default Dropdown;
+const mapDispatchToProps = {
+  updateCleanedFormStore: updateFormStore,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Dropdown);
