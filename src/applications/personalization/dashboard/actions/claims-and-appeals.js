@@ -1,9 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import {
-  apiRequest,
-  replacementFunctions as dataUtils,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import { roundToNearest } from '../utils/helpers';
 import {
@@ -31,8 +28,6 @@ export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
 export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
-
-const { get } = dataUtils;
 
 export function fetchAppealsSuccess(response) {
   const appeals = response.data;
@@ -69,7 +64,7 @@ const recordAppealsAPIEvent = ({
   recordEvent(event);
 };
 
-export function getAppealsV2() {
+export function getAppeals() {
   const startTimestampMs = Date.now();
 
   return dispatch => {
@@ -105,9 +100,7 @@ export function getAppealsV2() {
         }
         Sentry.withScope(scope => {
           scope.setFingerprint(['{{default}}', status]);
-          Sentry.captureException(
-            `va_dashboard_appeals_v2_err_get_appeals ${status}`,
-          );
+          Sentry.captureException(`my_va_appeals_err_get_appeals ${status}`);
         });
         recordAppealsAPIEvent({
           startTime: startTimestampMs,
@@ -127,10 +120,6 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function getSyncStatus(claimsAsyncResponse) {
-  return get('meta.syncStatus', claimsAsyncResponse, null);
-}
-
 const recordClaimsAPIEvent = ({
   startTime,
   success,
@@ -143,7 +132,7 @@ const recordClaimsAPIEvent = ({
     'api-status': success ? 'successful' : 'failed',
   };
   if (error) {
-    event['error-key'] = error;
+    event['error-key'] = `my_va_claims_api_failure_${error}`;
   }
   if (startTime) {
     const apiLatencyMs = roundToNearest({
@@ -153,11 +142,6 @@ const recordClaimsAPIEvent = ({
     event['api-latency-ms'] = apiLatencyMs;
   }
   recordEvent(event);
-  if (event['error-key']) {
-    recordEvent({
-      'error-key': undefined,
-    });
-  }
 };
 
 export function getClaims() {
@@ -179,13 +163,13 @@ export function getClaims() {
         Sentry.withScope(scope => {
           scope.setFingerprint(['{{default}}', errorCode]);
           Sentry.captureException(
-            `va-dashboard_claims_v2_err_get_lighthouse_claims ${errorCode}`,
+            `my_va_claims_err_get_lighthouse_claims ${errorCode}`,
           );
         });
         recordClaimsAPIEvent({
           startTime: startTimestampMs,
           success: false,
-          error: errorCode,
+          error: `${errorCode}`,
         });
         return dispatch({ type: FETCH_CLAIMS_ERROR });
       });
