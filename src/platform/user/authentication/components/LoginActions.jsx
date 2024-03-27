@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { signInPageAndModalExperimentLga } from 'platform/user/authentication/selectors';
+import { useSelector } from 'react-redux';
 import { externalApplicationsConfig } from '../usip-config';
 import {
   EXTERNAL_APPS,
@@ -8,6 +10,7 @@ import {
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
+import SignInAlertBox from './SignInAlertBox';
 
 export default function LoginActions({ externalApplication }) {
   const [useOAuth, setOAuth] = useState();
@@ -15,6 +18,9 @@ export default function LoginActions({ externalApplication }) {
   const { allowedSignInProviders, allowedSignUpProviders, OAuthEnabled } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
+  const showsignInPageAndModalExperiment = useSelector(state =>
+    signInPageAndModalExperimentLga(state),
+  );
 
   useEffect(
     () => {
@@ -34,6 +40,8 @@ export default function LoginActions({ externalApplication }) {
 
   return (
     <div className="row">
+      {!externalApplication &&
+        showsignInPageAndModalExperiment && <SignInAlertBox />}
       <div className="columns small-12" id="sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
           csp => (
