@@ -35,7 +35,6 @@ import {
   getAlertContent,
   getStatusContents,
   getNextEvents,
-  makeDurationText,
   makeDecisionReviewContent,
   addStatusToIssues,
   isolateAppeal,
@@ -862,57 +861,6 @@ describe('Disability benefits helpers: ', () => {
 
         descText.unmount();
       });
-    });
-  });
-
-  describe('makeDurationText', () => {
-    const inputs = {
-      exactSingular: [1, 1],
-      exactPlural: [2, 2],
-      range: [1, 8],
-      empty: [],
-      nonsense: 'danger, danger',
-    };
-
-    it('should return an object with header and description properties', () => {
-      const testText = makeDurationText(inputs.exactSingular);
-      expect(!!testText.header && !!testText.description).to.be.true;
-    });
-
-    it('should return an object with header and description properties with nonsense input', () => {
-      const testText = makeDurationText(inputs.nonsense);
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
-    });
-
-    it('should return an object with header and description properties with empty array input', () => {
-      const testText = makeDurationText(inputs.empty);
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
-    });
-
-    it('should return an object with header and description properties with no input', () => {
-      const testText = makeDurationText();
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
-    });
-
-    it('should format exact singular time estimates', () => {
-      const testText = makeDurationText(inputs.exactSingular);
-      expect(testText.header).to.equal('1 month');
-      expect(testText.description).to.equal('about 1 month');
-    });
-
-    it('should format exact plural time estimates', () => {
-      const testText = makeDurationText(inputs.exactPlural);
-      expect(testText.header).to.equal('2 months');
-      expect(testText.description).to.equal('about 2 months');
-    });
-
-    it('should format range time estimates', () => {
-      const testText = makeDurationText(inputs.range);
-      expect(testText.header).to.equal('1–8 months');
-      expect(testText.description).to.equal('between 1 and 8 months');
     });
   });
 
