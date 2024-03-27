@@ -113,9 +113,9 @@ export function FilterBeforeResults({
 
   const recordCheckboxEvent = e => {
     recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': e.target.name,
-      'gibct-form-value': e.target.checked,
+      event: 'gibct-homepage-form-change',
+      'gibct-homepage-form-field': e.target.name,
+      'gibct-homepage-form-value': e.target.checked,
     });
   };
 
@@ -391,82 +391,62 @@ export function FilterBeforeResults({
         name: 'specialMissionHbcu',
         dataTestId: 'special-mission-hbcu',
         checked: specialMissionHbcu,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Historically Black Colleges and Universities'
-          : 'Historically Black college or university',
+        optionLabel: 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         dataTestId: 'special-mission-menonly',
         checked: specialMissionMenonly,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Men’s colleges and universities'
-          : 'Men-only',
+        optionLabel: 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         dataTestId: 'special-mission-womenonly',
         checked: specialMissionWomenonly,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Women’s colleges and universities'
-          : 'Women-only',
-        // optionLabel: 'Women-only',
+        optionLabel: 'Women’s colleges and universities',
       },
       {
         name: 'specialMissionRelaffil',
         dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Religiously affiliated institutions'
-          : 'Religious affiliation',
+        optionLabel: 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         dataTestId: 'special-mission-hsi',
         checked: specialMissionHSI,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Hispanic-Serving Institutions'
-          : 'Hispanic-serving institutions',
+        optionLabel: 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         dataTestId: 'special-mission-nanti',
         checked: specialMissionNANTI,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Native American-Serving Nontribal Institutions'
-          : 'Native American-serving institutions',
+        optionLabel: 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         dataTestId: 'special-mission-annhi',
         checked: specialMissionANNHI,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Alaska Native-Serving Institutions'
-          : 'Alaska Native-serving institutions',
+        optionLabel: 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         dataTestId: 'special-mission-aanapii',
         checked: specialMissionAANAPII,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Asian American and Native American Pacific Islander-Serving Institutions'
-          : 'Asian American Native American Pacific Islander-serving institutions',
+        optionLabel:
+          'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         dataTestId: 'special-mission-pbi',
         checked: specialMissionPBI,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Predominantly Black Institutions'
-          : 'Predominantly Black institutions',
+        optionLabel: 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         dataTestId: 'special-mission-tribal',
         checked: specialMissionTRIBAL,
-        optionLabel: isProductionOrTestProdEnv()
-          ? 'Tribal Colleges and Universities'
-          : 'Tribal college and university',
+        optionLabel: 'Tribal Colleges and Universities',
       },
     ];
 
