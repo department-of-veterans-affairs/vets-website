@@ -18,3 +18,13 @@ const ALLOW_LIST =
 console.log('TESTS', TESTS);
 console.log('TESTS_PROPERTY', TESTS_PROPERTY);
 console.log('ALLOW_LIST', ALLOW_LIST);
+
+const disallowedTests = ALLOW_LIST.filter(test => test.allowed === false);
+
+console.log('disallowed tests: ', disallowedTests);
+
+const newDisallowedTests = disallowedTests.filter(test =>
+  TESTS.includes(test.spec_path),
+);
+
+console.log('new disallowed tests: ', newDisallowedTests);
