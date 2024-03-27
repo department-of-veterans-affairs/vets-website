@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 /**
@@ -8,14 +9,15 @@ import PropTypes from 'prop-types';
  * @param {Object} children The children to render
  * @returns {Node} The children to render if the user is authenticated
  */
-
 export const MyHealthAccessGuard = ({ children }) => {
-  const hasMHVAccountState = state => {
+  const hasMHVAccountState = useSelector(state => {
     return ['OK', 'MULTIPLE'].includes(state?.user?.profile?.mhvAccountState);
-  };
+  });
+
   if (!hasMHVAccountState) {
     return <Redirect to="/my-health" />;
   }
+
   return children;
 };
 
