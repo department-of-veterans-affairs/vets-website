@@ -1,15 +1,14 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { AdditionalEvidencePageOld } from '../../containers/AdditionalEvidencePageOld';
-
-const getRouter = () => ({ push: sinon.spy() });
 
 const params = { id: 1 };
 
@@ -110,16 +109,25 @@ describe('<AdditionalEvidencePageOld>', () => {
     const mainDiv = document.createElement('div');
     mainDiv.classList.add('va-nav-breadcrumbs');
     document.body.appendChild(mainDiv);
-    ReactTestUtils.renderIntoDocument(
+    const elem = (
       <Provider store={uploadStore}>
         <AdditionalEvidencePageOld
+          clearAdditionalEvidenceNotification={() => {}}
           params={params}
           claim={claim}
           files={[]}
-          uploadField={{ value: null, dirty: false }}
           resetUploads={resetUploads}
+          uploadField={{ value: null, dirty: false }}
         />
-      </Provider>,
+      </Provider>
+    );
+
+    render(
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={elem} />
+        </Routes>
+      </MemoryRouter>,
     );
 
     expect(document.title).to.equal('Additional Evidence');
@@ -128,8 +136,7 @@ describe('<AdditionalEvidencePageOld>', () => {
 
   it('should set details and go to files page if complete', () => {
     const getClaim = sinon.spy();
-    const resetUploads = sinon.spy();
-    const router = getRouter();
+    const navigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePageOld
@@ -138,9 +145,9 @@ describe('<AdditionalEvidencePageOld>', () => {
         files={[]}
         uploadComplete
         uploadField={{ value: null, dirty: false }}
-        router={router}
         getClaim={getClaim}
-        resetUploads={resetUploads}
+        navigate={navigate}
+        resetUploads={() => {}}
       />,
     );
 
@@ -148,6 +155,6 @@ describe('<AdditionalEvidencePageOld>', () => {
       .getMountedInstance()
       .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
     expect(getClaim.calledWith(1)).to.be.true;
-    expect(router.push.calledWith('your-claims/1/files')).to.be.true;
+    expect(navigate.calledWith('../files')).to.be.true;
   });
 });

@@ -24,7 +24,6 @@ function ClaimsBreadcrumbs({ crumbs = [] }) {
 
 ClaimsBreadcrumbs.propTypes = {
   crumbs: PropTypes.array,
-  router: PropTypes.object,
 };
 
 export default ClaimsBreadcrumbs;

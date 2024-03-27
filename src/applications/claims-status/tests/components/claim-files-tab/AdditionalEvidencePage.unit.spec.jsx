@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
@@ -172,7 +173,7 @@ describe('<AdditionalEvidencePage>', () => {
     it('should set details and go to files page if complete', () => {
       const getClaim = sinon.spy();
       const resetUploads = sinon.spy();
-      const router = getRouter();
+      const navigate = sinon.spy();
 
       const tree = SkinDeep.shallowRender(
         <AdditionalEvidencePage
@@ -181,7 +182,7 @@ describe('<AdditionalEvidencePage>', () => {
           files={[]}
           uploadComplete
           uploadField={{ value: null, dirty: false }}
-          router={router}
+          navigate={navigate}
           getClaim={getClaim}
           resetUploads={resetUploads}
           filesNeeded={[]}
@@ -193,7 +194,7 @@ describe('<AdditionalEvidencePage>', () => {
         .getMountedInstance()
         .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
       expect(getClaim.calledWith(1)).to.be.true;
-      expect(router.push.calledWith('your-claims/1/files')).to.be.true;
+      expect(navigate.calledWith('../files')).to.be.true;
     });
 
     it('shows va-alerts when files are needed', () => {
@@ -228,7 +229,14 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container } = render(
-        <AdditionalEvidencePage {...props} {...fileFormProps} />,
+        <MemoryRouter>
+          <Routes>
+            <Route
+              index
+              element={<AdditionalEvidencePage {...props} {...fileFormProps} />}
+            />
+          </Routes>
+        </MemoryRouter>,
       );
 
       expect($('.primary-alert', container)).to.exist;

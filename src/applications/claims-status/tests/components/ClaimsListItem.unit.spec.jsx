@@ -122,7 +122,7 @@ describe('<ClaimsListItem>', () => {
       .find('ClaimCardLink')
       .first()
       .props();
-    expect(linkProps.href).to.equal(`your-claims/${claim.id}/status`);
+    expect(linkProps.href).to.equal(`/your-claims/${claim.id}/status`);
     tree.unmount();
   });
 

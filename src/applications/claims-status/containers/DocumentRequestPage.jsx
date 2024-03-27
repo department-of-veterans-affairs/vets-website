@@ -61,7 +61,9 @@ class DocumentRequestPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
-      this.props.router.replace(`/your-claims/${this.props.params.id}/status`);
+      this.props.navigate(`../status`, {
+        replace: true,
+      });
     }
     if (props.uploadComplete) {
       this.goToFilesPage();
@@ -108,7 +110,7 @@ class DocumentRequestPage extends React.Component {
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
-    this.props.router.push(filesPath);
+    this.props.navigate(filesPath);
   }
 
   render() {
@@ -179,9 +181,7 @@ class DocumentRequestPage extends React.Component {
         isRouterLink: true,
       },
       {
-        href: `your-claims/${this.props.params.id}/document-request/${
-          this.props.params.trackedItemId
-        }`,
+        href: `../document-request/${this.props.params.trackedItemId}`,
         label: 'Document request',
         isRouterLink: true,
       },
@@ -278,10 +278,10 @@ DocumentRequestPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
+  navigate: PropTypes.func,
   params: PropTypes.object,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
   // START lighthouse_migration

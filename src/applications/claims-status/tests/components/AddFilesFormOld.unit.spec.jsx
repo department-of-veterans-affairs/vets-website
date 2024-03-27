@@ -3,14 +3,14 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import sinon from 'sinon';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   fileTypeSignatures,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
+} from '~/platform/forms-system/src/js/utilities/file';
 
 import AddFilesFormOld from '../../components/AddFilesFormOld';
 import {
@@ -163,16 +163,25 @@ describe('<AddFilesFormOld>', () => {
       removeFile: () => {},
       onDirtyFields: () => {},
       uploading: false,
+      backUrl: '../files',
     };
     const onSubmit = sinon.spy();
     const onDirtyFields = sinon.spy();
 
-    const { container, rerender } = render(
+    const elem = (
       <AddFilesFormOld
         {...fileFormProps}
         onSubmit={onSubmit}
         onDirtyFields={onDirtyFields}
-      />,
+      />
+    );
+
+    const { container, rerender } = render(
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={elem} />
+        </Routes>
+      </MemoryRouter>,
     );
 
     // Check the checkbox
@@ -192,14 +201,22 @@ describe('<AddFilesFormOld>', () => {
       isEncrypted: false,
     };
 
-    rerender(
+    const elem2 = (
       <AddFilesFormOld
         {...fileFormProps}
         files={[file]}
         onSubmit={onSubmit}
         onDirtyFields={onDirtyFields}
         uploading
-      />,
+      />
+    );
+
+    rerender(
+      <MemoryRouter>
+        <Routes>
+          <Route path="/" element={elem2} />
+        </Routes>
+      </MemoryRouter>,
     );
 
     fireEvent.click($('.submit-files-button', container));

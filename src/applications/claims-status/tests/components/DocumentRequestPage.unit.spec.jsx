@@ -187,12 +187,11 @@ describe('<DocumentRequestPage>', () => {
       status: 'NEEDED_FROM_YOU',
       displayName: 'Testing',
     };
-    const router = getRouter();
     const parameters = {
       id: 339,
     };
     const getClaim = sinon.spy();
-    const resetUploads = sinon.spy();
+    const navigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
@@ -201,10 +200,10 @@ describe('<DocumentRequestPage>', () => {
         uploadComplete
         uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
-        router={router}
+        navigate={navigate}
         params={parameters}
         getClaim={getClaim}
-        resetUploads={resetUploads}
+        resetUploads={() => {}}
       />,
     );
 
@@ -212,6 +211,6 @@ describe('<DocumentRequestPage>', () => {
       .getMountedInstance()
       .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
     expect(getClaim.calledWith(1)).to.be.true;
-    expect(router.push.calledWith('your-claims/1/files')).to.be.true;
+    expect(navigate.calledWith('../files')).to.be.true;
   });
 });

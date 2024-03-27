@@ -4,7 +4,11 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { render, within } from '@testing-library/react';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import ClaimDetailLayout from '../../components/ClaimDetailLayout';
+import { renderWithRouter } from '../utils';
 
 const store = createStore(() => ({}));
 
@@ -15,8 +19,6 @@ const getStore = (cstUseClaimDetailsV2Enabled = false) =>
       cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
     },
   }));
-
-import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
@@ -55,7 +57,8 @@ describe('<ClaimDetailLayout>', () => {
         contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
-    const screen = render(
+
+    const screen = renderWithRouter(
       <Provider store={store}>
         <ClaimDetailLayout claim={claim} />
       </Provider>,
@@ -107,7 +110,7 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const { container } = render(
+    const { container } = renderWithRouter(
       <Provider store={getStore()}>
         <ClaimDetailLayout currentTab="Files" claim={claim} />
       </Provider>,
@@ -126,7 +129,7 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const { container } = render(
+    const { container } = renderWithRouter(
       <Provider store={getStore(true)}>
         <ClaimDetailLayout currentTab="Files" claim={claim} />
       </Provider>,

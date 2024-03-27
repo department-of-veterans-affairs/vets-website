@@ -9,7 +9,7 @@ describe('<NeedFilesFromYou>', () => {
     const tree = SkinDeep.shallowRender(<NeedFilesFromYou files={1} />);
 
     expect(tree.text()).to.contain('item needs');
-    expect(tree.subTree('Link').props.to).to.equal('your-claims/2/files');
+    expect(tree.subTree('Link').props.to).to.equal('../files');
   });
 
   it('should render multiple files needed', () => {

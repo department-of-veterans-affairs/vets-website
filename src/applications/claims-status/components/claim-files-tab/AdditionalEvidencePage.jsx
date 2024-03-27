@@ -46,6 +46,8 @@ const scrollToError = () => {
 
 const { Element } = Scroll;
 
+const filesPath = `../files`;
+
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
@@ -81,12 +83,11 @@ class AdditionalEvidencePage extends React.Component {
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
-    this.props.navigate(`your-claims/${this.props.claim.id}/files`);
+    this.props.navigate(filesPath);
   }
 
   render() {
     const { claim, lastPage } = this.props;
-    const filesPath = `../files`;
     let content;
 
     const isOpen = isClaimOpen(
