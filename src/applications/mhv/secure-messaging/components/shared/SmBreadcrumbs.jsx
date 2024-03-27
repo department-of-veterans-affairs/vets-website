@@ -136,10 +136,7 @@ const SmBreadcrumbs = () => {
       {crumbs && (
         <nav aria-label="Breadcrumb">
           <ul className={breadcrumbSize()}>
-            <li>
-              <span className="breadcrumb-angle vads-u-padding-right--1">
-                {'\u2039'}{' '}
-              </span>
+            <li className="sm-breadcrumb-list-item">
               <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
             </li>
           </ul>
