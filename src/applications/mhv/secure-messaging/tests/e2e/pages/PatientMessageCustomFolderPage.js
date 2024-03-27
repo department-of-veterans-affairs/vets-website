@@ -152,7 +152,7 @@ class PatientMessageCustomFolderPage {
       `/my_health/v1/messaging/folders/${folderId}/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   verifySorting = () => {

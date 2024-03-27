@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { getTrackedItemId, truncateDescription } from '../../utils/helpers';
+
+import { truncateDescription } from '../../utils/helpers';
 
 function FilesOptional({ id, item }) {
   return (
@@ -21,7 +22,7 @@ function FilesOptional({ id, item }) {
         <Link
           aria-label={`Add information for ${item.displayName}`}
           className="add-your-claims-link"
-          to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
+          to={`your-claims/${id}/document-request/${item.id}`}
         >
           add it here.
         </Link>

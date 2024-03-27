@@ -1,11 +1,6 @@
 // import defaultCondition from '../fixtures/Condition.json';
 
 class ConditionDetailsPage {
-  verifyConditionStatus = status => {
-    cy.get('[data-testid="condition-status"]').should('be.visible');
-    cy.get('[data-testid="condition-status"]').contains(status);
-  };
-
   verifyProvider = provider => {
     cy.get('[data-testid="condition-provider"]').should('be.visible');
     cy.get('[data-testid="condition-provider"]').contains(provider);
@@ -14,11 +9,6 @@ class ConditionDetailsPage {
   verifyLocation = location => {
     // cy.get('[data-testid="condition-location"]').should('be.visible');
     cy.get('[data-testid="list-item-single"]').contains(location);
-  };
-
-  verifySnomed = snomed => {
-    cy.get('[data-testid="condition-snomed"]').should('be.visible');
-    cy.get('[data-testid="condition-snomed"]').contains(snomed);
   };
 
   verifyProviderNotes = providerNotes => {

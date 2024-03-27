@@ -82,8 +82,6 @@ export const convertCondition = condition => {
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
     name: condition?.code?.text || EMPTY_FIELD,
-    clinicalTerm: condition?.code?.coding?.code || EMPTY_FIELD,
-    active: condition?.clinicalStatus?.coding[0]?.code || EMPTY_FIELD,
     provider: extractProvider(condition),
     facility: extractLocation(condition),
     comments: extractProviderNote(condition),
