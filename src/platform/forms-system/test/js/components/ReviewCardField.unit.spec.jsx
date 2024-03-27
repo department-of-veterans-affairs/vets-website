@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import flow from 'lodash/flow';
 
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 

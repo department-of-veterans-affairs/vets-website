@@ -7,7 +7,7 @@ import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 
 import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 
 /**
  * PATTERNS

@@ -10,7 +10,7 @@ import {
 import recordEvent from 'platform/monitoring/record-event';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import { isReactComponent } from 'platform/utilities/ui';

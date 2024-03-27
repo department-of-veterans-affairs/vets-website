@@ -14,7 +14,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import {
   scrollToFirstError,
   focusElement,

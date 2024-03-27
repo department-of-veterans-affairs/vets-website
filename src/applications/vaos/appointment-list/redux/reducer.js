@@ -1,5 +1,5 @@
 import moment from 'moment';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 
 import {
   FETCH_FUTURE_APPOINTMENTS,

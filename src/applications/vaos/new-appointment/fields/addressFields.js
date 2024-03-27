@@ -1,7 +1,7 @@
 import { validateWhiteSpace } from 'platform/forms/validations';
 import { states, isValidUSZipCode } from 'platform/forms/address';
 import { createSelector } from 'reselect';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import get from 'platform/utilities/data/get';
 
 function validateAddress(errors, addr) {
