@@ -36,7 +36,7 @@ const initialState = {
   stemClaimsLoading: false,
 };
 
-export default function claimsV2Reducer(state = initialState, action) {
+export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_CLAIMS_PENDING:
       return set('claimsLoading', true, state);
@@ -59,32 +59,32 @@ export default function claimsV2Reducer(state = initialState, action) {
         appeals: action.appeals,
         appealsLoading: false,
         available: true,
-        v2Availability: appealsAvailability.AVAILABLE,
+        appealsAvailability: appealsAvailability.AVAILABLE,
       });
     case USER_FORBIDDEN_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.USER_FORBIDDEN_ERROR,
+        appealsAvailability: appealsAvailability.USER_FORBIDDEN_ERROR,
       });
     case RECORD_NOT_FOUND_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.RECORD_NOT_FOUND_ERROR,
+        appealsAvailability: appealsAvailability.RECORD_NOT_FOUND_ERROR,
       });
     case VALIDATION_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.VALIDATION_ERROR,
+        appealsAvailability: appealsAvailability.VALIDATION_ERROR,
       });
     case BACKEND_SERVICE_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.BACKEND_SERVICE_ERROR,
+        appealsAvailability: appealsAvailability.BACKEND_SERVICE_ERROR,
       });
     case FETCH_APPEALS_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.FETCH_APPEALS_ERROR,
+        appealsAvailability: appealsAvailability.FETCH_APPEALS_ERROR,
       });
 
     case CHANGE_INDEX_PAGE:

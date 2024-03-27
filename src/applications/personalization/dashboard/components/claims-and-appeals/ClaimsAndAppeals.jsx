@@ -10,7 +10,7 @@ import {
 } from '~/platform/user/selectors';
 import IconCTALink from '../IconCTALink';
 import {
-  getAppealsV2 as getAppealsAction,
+  getAppeals as getAppealsAction,
   getClaims as getClaimsAction,
 } from '../../actions/claims-and-appeals';
 import { appealsAvailability } from '../../utils/appeals-helpers';

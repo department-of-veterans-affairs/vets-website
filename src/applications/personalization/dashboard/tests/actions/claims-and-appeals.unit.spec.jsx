@@ -9,7 +9,7 @@ import {
 
 import { createClaimsSuccess } from '../../mocks/claims';
 import { createAppealsSuccess } from '../../mocks/appeals';
-import { getAppealsV2, getClaims } from '../../actions/claims-and-appeals';
+import { getAppeals, getClaims } from '../../actions/claims-and-appeals';
 
 import {
   FETCH_CLAIMS_PENDING,
@@ -27,14 +27,14 @@ import {
 } from '../../utils/appeals-helpers';
 
 describe('/actions/claims-and-appeals', () => {
-  describe('getAppealsV2', () => {
+  describe('getAppeals', () => {
     let dispatchSpy;
     beforeEach(() => {
       mockFetch();
       dispatchSpy = sinon.spy();
     });
     it('should dispatch FETCH_APPEALS_PENDING action', () => {
-      getAppealsV2()(dispatchSpy);
+      getAppeals()(dispatchSpy);
       expect(dispatchSpy.firstCall.args[0].type).to.equal(
         FETCH_APPEALS_PENDING,
       );
@@ -42,7 +42,7 @@ describe('/actions/claims-and-appeals', () => {
 
     it('should dispatch a FETCH_APPEALS_SUCCESS action', () => {
       setFetchJSONResponse(global.fetch.onCall(0), createAppealsSuccess());
-      const thunk = getAppealsV2();
+      const thunk = getAppeals();
 
       const dispatch = action => {
         dispatchSpy(action);
@@ -70,7 +70,7 @@ describe('/actions/claims-and-appeals', () => {
         setFetchJSONFailure(global.fetch.onCall(0), {
           errors: [{ status: `${code}` }],
         });
-        const thunk = getAppealsV2();
+        const thunk = getAppeals();
         const dispatch = sinon.spy();
         thunk(dispatch)
           .then(() => {

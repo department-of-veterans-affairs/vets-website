@@ -1,7 +1,7 @@
 import profile from '@@profile/reducers';
 import { combineReducers } from 'redux';
 import notifications from '../../common/reducers/notifications';
-import claimsV2 from './claimsV2';
+import claims from './claims';
 import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
@@ -12,7 +12,7 @@ import payments from './payments';
 
 export default {
   ...profile,
-  claims: claimsV2,
+  claims,
   notifications,
   allPayments: payments,
   allDebts: debts,
