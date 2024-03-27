@@ -44,7 +44,7 @@
   {
     "appName": "How To Apply For A Veterans Burial Allowance",
     "rootUrl": "/burials-memorials/veterans-burial-allowance",
-    "widgetType": "burials-app-status"
+    "widgetType": "burials-v2-how-do-i-apply-widget"
   },
   {
     "appName": "How To Apply For A VA Pension As A Veteran",
