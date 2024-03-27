@@ -893,9 +893,9 @@ describe('Disability benefits helpers: ', () => {
       expect(events.length).to.equal(2);
       const firstEvent = events[0];
       const secondEvent = events[1];
-      // each of the 2 'remandSsoc' nextEvents has 4 properties
-      expect(Object.keys(firstEvent).length).to.equal(4);
-      expect(Object.keys(secondEvent).length).to.equal(4);
+      // each of the 2 'remandSsoc' nextEvents has 2 properties
+      expect(Object.keys(firstEvent).length).to.equal(2);
+      expect(Object.keys(secondEvent).length).to.equal(2);
     });
   });
 
