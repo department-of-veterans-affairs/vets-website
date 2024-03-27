@@ -6,6 +6,7 @@ import {
   defineCustomElementVaButtonPair,
   defineCustomElementVaCheckbox,
   defineCustomElementVaCheckboxGroup,
+  defineCustomElementVaIcon,
   defineCustomElementVaMemorableDate,
   defineCustomElementVaModal,
   defineCustomElementVaNumberInput,
@@ -24,6 +25,7 @@ defineCustomElementVaButton();
 defineCustomElementVaButtonPair();
 defineCustomElementVaCheckbox();
 defineCustomElementVaCheckboxGroup();
+defineCustomElementVaIcon();
 defineCustomElementVaMemorableDate();
 defineCustomElementVaModal();
 defineCustomElementVaNumberInput();
