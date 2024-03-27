@@ -28,8 +28,7 @@ jobs:
     steps:
       - name: Check environment
         id: check-environment
-        run: |
-            echo env_name='production' >> $GITHUB_OUTPUT
+        run: echo env_name='production' >> $GITHUB_OUTPUT
 
   set-env:
     name: Set Env Variables
