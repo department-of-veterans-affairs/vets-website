@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 import { getAppealsV2 as getAppealsV2Action } from '../actions';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
@@ -157,16 +156,18 @@ export class AppealInfo extends React.Component {
       appealContent = appealsDownMessage;
     }
 
+    const crumb = {
+      href: `appeals/${params.id}`,
+      label: 'Status details',
+      isRouterLink: true,
+    };
+
     return (
       <div>
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={`appeals/${params.id}`} key="claims-appeal">
-                  Status details
-                </Link>
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={[crumb]} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">

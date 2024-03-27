@@ -11,7 +11,6 @@ import submitForm from './submitForm';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
 import AddContestableIssue from '../components/AddContestableIssue';
 
 // Pages
@@ -33,6 +32,7 @@ import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
