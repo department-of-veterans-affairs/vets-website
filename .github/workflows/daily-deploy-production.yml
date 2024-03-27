@@ -29,11 +29,8 @@ jobs:
       - name: Check environment
         id: check-environment
         run: |
-          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             echo env_name='production' >> $GITHUB_OUTPUT
-          else
-            echo env_name='' >> $GITHUB_OUTPUT
-          fi
+
   set-env:
     name: Set Env Variables
     runs-on: ubuntu-latest
