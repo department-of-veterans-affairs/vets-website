@@ -4,6 +4,14 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  formatName,
+  updatePageTitle,
+  crisisLineHeader,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -13,19 +21,13 @@ import {
   getNameDateAndTime,
   generateTextFile,
 } from '../../util/helpers';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine, crisisLineHeader } from '../../../shared/util/constants';
+
 import {
   generateLabsIntro,
   generatePathologyContent,
 } from '../../util/pdfHelpers/labsAndTests';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;

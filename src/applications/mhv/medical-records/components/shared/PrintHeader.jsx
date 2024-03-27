@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { formatName } from '../../../shared/util/helpers';
+import { formatName } from '@department-of-veterans-affairs/mhv/exports';
 
 const PrintHeader = () => {
   const user = useSelector(state => state.user);

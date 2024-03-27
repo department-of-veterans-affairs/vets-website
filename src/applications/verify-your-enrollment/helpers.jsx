@@ -1,6 +1,10 @@
 import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
-import { TIMS_DOCUMENTS } from './constants';
+import {
+  BAD_UNIT_NUMBER,
+  MISSING_UNIT_NUMBER,
+  TIMS_DOCUMENTS,
+} from './constants';
 
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
@@ -230,6 +234,13 @@ export const isMobileDevice = () => {
     navigator.userAgent,
   );
 };
-export const objectHaNoUndefinedValues = obj => {
+export const objectHasNoUndefinedValues = obj => {
   return Object.values(obj).every(value => value !== undefined);
+};
+export const noSuggestedAddress = deliveryPointValidation => {
+  return (
+    deliveryPointValidation === BAD_UNIT_NUMBER ||
+    deliveryPointValidation === MISSING_UNIT_NUMBER ||
+    deliveryPointValidation === 'MISSING_ZIP'
+  );
 };
