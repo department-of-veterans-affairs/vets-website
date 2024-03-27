@@ -1,18 +1,27 @@
 {
-  "plugins": ["stylelint-scss", "stylelint-order"],
+  "plugins": [
+    "stylelint-scss",
+    "stylelint-order"
+  ],
   "ignoreFiles": [
-    "src/applications/proxy-rewrite/sass/style-consolidated.scss",
+    "src/applications/proxy-rewrite/sass/styleConsolidated.scss",
     "src/applications/vaos/docs/styles/*.css",
     "mochawesome-report/**/*.css"
   ],
   "rules": {
-    "at-rule-disallowed-list": ["debug", "extend"],
+    "at-rule-disallowed-list": [
+      "debug",
+      "extend"
+    ],
     "block-no-empty": true,
     "color-named": "never",
     "color-no-hex": true,
     "declaration-colon-space-after": "always-single-line",
     "declaration-colon-space-before": "never",
-    "function-url-scheme-disallowed-list": ["ftp", "/^http/"],
+    "function-url-scheme-disallowed-list": [
+      "ftp",
+      "/^http/"
+    ],
     "no-eol-whitespace": true,
     "order/order": [
       {
@@ -30,7 +39,9 @@
     "scss/at-function-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/at-mixin-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/at-import-no-partial-leading-underscore": true,
-    "scss/at-import-partial-extension-blacklist": ["scss"],
+    "scss/at-import-partial-extension-blacklist": [
+      "scss"
+    ],
     "scss/dollar-variable-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/percent-placeholder-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "string-quotes": "double"
