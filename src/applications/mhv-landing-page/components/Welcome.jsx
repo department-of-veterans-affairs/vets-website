@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const Welcome = ({ loading, name }) => (
+const Welcome = ({ name }) => (
   <div
     className={classnames(
       'vads-u-display--flex',
@@ -10,7 +10,6 @@ const Welcome = ({ loading, name }) => (
       'vads-u-border-color--gray-light',
       'vads-u-border-bottom--2px',
       'vads-u-margin-bottom--3',
-      { 'visibility:hidden': loading },
     )}
   >
     <div>
@@ -34,12 +33,7 @@ const Welcome = ({ loading, name }) => (
   </div>
 );
 
-Welcome.defaultProps = {
-  loading: true,
-};
-
 Welcome.propTypes = {
-  loading: PropTypes.bool,
   name: PropTypes.string,
 };
 

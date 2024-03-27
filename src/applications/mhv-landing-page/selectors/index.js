@@ -14,10 +14,7 @@ import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 import { hasHealthData } from './hasHealthData';
 import { selectHasMHVAccountState } from './hasMHVAccountState';
-import {
-  selectGreetingName,
-  selectPersonalInformation,
-} from './personalInformation';
+import { selectGreetingName } from './personalInformation';
 
 const selectVamcEhrData = state =>
   selectDrupalStaticData(state)?.vamcEhrData || {};
@@ -33,7 +30,6 @@ export {
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
-  selectPersonalInformation,
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
