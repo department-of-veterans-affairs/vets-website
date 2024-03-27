@@ -1,53 +1,38 @@
 const featureIsEnabled = value => {
-  beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'accredited_representative_portal_frontend', value },
-        ],
-      },
-    });
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      features: [{ name: 'accredited_representative_portal_frontend', value }],
+    },
   });
 };
 
 describe('Accredited Representative Portal', () => {
-  beforeEach(() => {
-    cy.visit('/representative');
-  });
+  describe('Feature toggle not enabled', () => {
+    beforeEach(function skipOutsideCI() {
+      if (!Cypress.env('CI')) {
+        this.skip();
+      }
+      featureIsEnabled(false);
+    });
 
-  describe('Feature toggling', () => {
     it('does not allow navigation to the Portal when feature is not enabled', () => {
       // During CI, the environment is production, so we can test our global
       // feature toggling behavior there. But when running this test locally, the
       // environment is localhost, so we can't test our global feature toggling
       // behavior there without doing some more complex test setup.
-      if (!Cypress.env('CI')) {
-        this.skip();
-      }
-      featureIsEnabled(false);
+      cy.visit('/representative');
 
       cy.injectAxe();
       cy.axeCheck();
 
       cy.location('pathname').should('equal', '/');
     });
-
-    // In CI, the feature toggle applies so we need to toggle it on to test
-    // behavior past the guard. On localhost, the feature toggle doesn't apply so
-    // toggling the feature on is redundant.
-
-    it('allows navigation to the Portal when feature is enabled', () => {
-      featureIsEnabled(true);
-
-      cy.injectAxe();
-      cy.axeCheck();
-      cy.location('pathname').should('equal', '/representative/');
-    });
   });
 
-  describe('Navigation from Landing Page to pages and back', () => {
+  describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
     beforeEach(() => {
       featureIsEnabled(true);
+      cy.visit('/representative');
     });
 
     it('allows navigation from the Landing Page to unified sign-in page', () => {
