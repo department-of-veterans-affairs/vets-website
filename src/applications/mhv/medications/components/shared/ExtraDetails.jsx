@@ -10,10 +10,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 const ExtraDetails = rx => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
-  let noRefillRemaining = false;
-  if (refillRemaining === 0 && dispStatus === 'Active') {
-    noRefillRemaining = true;
-  }
+  const noRefillRemaining = refillRemaining === 0 && dispStatus === 'Active';
   return (
     <div className="shipping-info" id="status-description">
       {dispStatus === dispStatusObj.unknown && (

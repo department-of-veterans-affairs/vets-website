@@ -63,10 +63,10 @@ export class SessionTimeoutModal extends React.Component {
   expireSession = () => {
     recordEvent({ event: 'logout-session-expired' });
     teardownProfileSession();
-    if (!this.props.authenticatedWithOAuth) {
-      IAMLogout();
-    } else {
+    if (this.props.authenticatedWithOAuth) {
       window.location = logoutUrlSiS();
+    } else {
+      IAMLogout();
     }
   };
 
@@ -87,10 +87,10 @@ export class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
-    if (!this.props.authenticatedWithOAuth) {
-      IAMLogout();
-    } else {
+    if (this.props.authenticatedWithOAuth) {
       window.location = logoutUrlSiS();
+    } else {
+      IAMLogout();
     }
   };
 
