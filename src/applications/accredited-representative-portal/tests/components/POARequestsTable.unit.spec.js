@@ -1,11 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import POARequestsTable from '../../components/POARequestsTable/POARequestsTable';
 import { mockPOARequests } from '../../mocks/mockPOARequests';
 
-describe('POARequestsTable', () => {
+describe('POARequestsTable content', () => {
   it('renders table', () => {
     const { getByTestId } = render(
       <POARequestsTable poaRequests={mockPOARequests} />,
@@ -60,5 +61,51 @@ describe('POARequestsTable', () => {
         ).to.have.attribute('text', 'Decline');
       }
     });
+  });
+});
+
+describe('POARequestsTable accept and decline functionality', () => {
+  it('calls acceptPOARequest with correct id when accept button is clicked', () => {
+    const acceptPOARequest = sinon.spy();
+    const declinePOARequest = sinon.spy();
+    const { getByTestId } = render(
+      <POARequestsTable
+        poaRequests={mockPOARequests}
+        acceptPOARequest={acceptPOARequest}
+        declinePOARequest={declinePOARequest}
+      />,
+    );
+    const pendingRequest = mockPOARequests.find(
+      request => request.status === 'Pending',
+    );
+    if (pendingRequest) {
+      fireEvent.click(
+        getByTestId(`poa-requests-table-${pendingRequest.id}-accept-button`),
+      );
+      expect(acceptPOARequest.callCount).to.eq(1);
+      expect(acceptPOARequest.lastCall.args[0]).to.eq(pendingRequest.id);
+    }
+  });
+
+  it('calls declinePOARequest with correct id when decline button is clicked', () => {
+    const acceptPOARequest = sinon.spy();
+    const declinePOARequest = sinon.spy();
+    const { getByTestId } = render(
+      <POARequestsTable
+        poaRequests={mockPOARequests}
+        acceptPOARequest={acceptPOARequest}
+        declinePOARequest={declinePOARequest}
+      />,
+    );
+    const pendingRequest = mockPOARequests.find(
+      request => request.status === 'Pending',
+    );
+    if (pendingRequest) {
+      fireEvent.click(
+        getByTestId(`poa-requests-table-${pendingRequest.id}-decline-button`),
+      );
+      expect(declinePOARequest.callCount).to.eq(1);
+      expect(declinePOARequest.lastCall.args[0]).to.eq(pendingRequest.id);
+    }
   });
 });

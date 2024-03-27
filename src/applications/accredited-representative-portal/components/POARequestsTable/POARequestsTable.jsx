@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { acceptPOARequest, declinePOARequest } from '../../actions/poaRequests';
-
 const isActionable = status => status === 'Pending';
 
-const POARequestsTable = ({ poaRequests }) => {
+const POARequestsTable = ({
+  acceptPOARequest,
+  declinePOARequest,
+  poaRequests,
+}) => {
   return (
     <va-table data-testid="poa-requests-table" sort-column={1}>
       <va-table-row slot="headers">
@@ -52,6 +54,8 @@ const POARequestsTable = ({ poaRequests }) => {
 };
 
 POARequestsTable.propTypes = {
+  acceptPOARequest: PropTypes.func.isRequired,
+  declinePOARequest: PropTypes.func.isRequired,
   poaRequests: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
