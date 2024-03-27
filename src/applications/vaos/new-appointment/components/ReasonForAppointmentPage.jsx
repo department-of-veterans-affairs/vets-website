@@ -6,6 +6,7 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import { useHistory } from 'react-router-dom';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 import { getFlowType, getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -145,7 +146,9 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   }, []);
 
   return (
-    <div className="vads-u-margin-top--neg3">
+    <div
+      className={classNames({ 'vads-u-margin-top--neg3': !isCommunityCare })}
+    >
       {isCommunityCare && <h1 className="vads-u-font-size--h2">{pageTitle}</h1>}
       {!!schema && (
         <SchemaForm
