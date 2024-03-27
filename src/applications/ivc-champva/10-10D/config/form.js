@@ -791,20 +791,21 @@ const formConfig = {
                             formData,
                             context,
                           )} contact information`,
+                          'This information helps us contact you faster if we need to follow up with you about your application',
                         )['ui:title'],
                     };
                   },
                 },
                 ...noPhoneInfo.uiSchema,
-                applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
+                applicantEmailAddress: emailUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantPhone'], {
             ...noPhoneInfo.schema,
-            applicantEmailAddress: emailSchema,
             applicantPhone: phoneSchema,
+            applicantEmailAddress: emailSchema,
           }),
         },
         page17: {
