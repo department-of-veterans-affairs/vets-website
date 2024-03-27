@@ -40,6 +40,20 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
+            <div
+              className="vads-u-padding-left--2 vads-u-padding-right--3 vads-u-padding-top--5
+            vads-u-padding-bottom--3
+            small-desktop-screen:vads-u-padding-bottom--8"
+            >
+              <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl small-desktop-screen:vads-u-font-size--2xl">
+                Apply for accreditation
+              </h2>
+              <a href="/form21a/" className="vads-c-action-link--white">
+                Start your application here
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
