@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-const formatDate = closedDate => moment(closedDate).format('MMMM D, YYYY');
+import { buildDateFormatter } from '../../utils/helpers';
 
 const headerText = closeDate => {
   return closeDate
-    ? `We closed your claim on ${formatDate(closeDate)}`
+    ? `We closed your claim on ${buildDateFormatter()(closeDate)}`
     : 'We closed your claim';
 };
 function ClosedClaimAlert({ closeDate, decisionLetterSent = false }) {
