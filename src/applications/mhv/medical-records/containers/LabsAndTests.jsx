@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -12,7 +13,6 @@ import {
   recordType,
   refreshExtractTypes,
 } from '../util/constants';
-import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';

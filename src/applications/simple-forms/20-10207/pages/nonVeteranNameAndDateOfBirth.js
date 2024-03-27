@@ -18,7 +18,9 @@ export default {
       ({ formData }) => getNameAndDobPageTitle(formData),
       ({ formData }) => getNameAndDobPageDescription(formData),
     ),
-    nonVeteranFullName: fullNameNoSuffixUI(label => getFullNameLabels(label)),
+    nonVeteranFullName: fullNameNoSuffixUI(label =>
+      getFullNameLabels(label, true),
+    ),
     nonVeteranDateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {
