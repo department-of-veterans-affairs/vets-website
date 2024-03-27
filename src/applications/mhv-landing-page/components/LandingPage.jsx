@@ -37,7 +37,6 @@ const LandingPage = ({ data = {} }) => {
   ) : (
     <NoHealthAlert />
   );
-
   return (
     <div
       className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"

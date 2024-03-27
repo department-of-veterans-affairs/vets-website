@@ -9,7 +9,7 @@ import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
 import PrescriptionsPrintOnly from './containers/PrescriptionsPrintOnly';
 import RefillPrescriptions from './containers/RefillPrescriptions';
-import { AuthGuard } from '~/platform/mhv/util/route-guard';
+import { MyHealthAccessGuard } from '~/platform/mhv/util/route-guard';
 
 /**
  * Route that wraps its children within the application component.
@@ -17,13 +17,13 @@ import { AuthGuard } from '~/platform/mhv/util/route-guard';
 const AppRoute = ({ children, ...rest }) => {
   return (
     <Route {...rest}>
-      <AuthGuard>
+      <MyHealthAccessGuard>
         <App>
           <RxBreadcrumbs />
           <div>{children}</div>
           <PrescriptionsPrintOnly />
         </App>
-      </AuthGuard>
+      </MyHealthAccessGuard>
     </Route>
   );
 };
