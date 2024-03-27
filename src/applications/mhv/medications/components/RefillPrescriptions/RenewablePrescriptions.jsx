@@ -115,6 +115,17 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                   'MMMM D, YYYY',
                 )}
               </span>
+              <>
+                <br />
+                <span>
+                  <i className="fas fa-truck vads-u-margin-right--1p5" />
+                  Last refill shipped on{' '}
+                  {dateFormat(
+                    prescription.trackingList[0].completeDateTime,
+                    'MMMM D, YYYY',
+                  )}
+                </span>
+              </>
             </p>
           </div>
         ))}
