@@ -16,10 +16,7 @@ const ResultsCounter = (
       <>
         <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5">
           No results for "
-          <span className="vads-u-font-weight--bold">
-            {query}
-          </span>
-          "
+          <span className="vads-u-font-weight--bold">{query}</span>"
         </p>
         <h2
           className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5`}
@@ -27,9 +24,7 @@ const ResultsCounter = (
           Showing{' '}
           {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
           of {totalEntries} results for "
-          <span className="vads-u-font-weight--bold">
-            {spellingCorrection}
-          </span>
+          <span className="vads-u-font-weight--bold">{spellingCorrection}</span>
           "
         </h2>
         <hr className="vads-u-margin-y--3" aria-hidden="true" />
@@ -48,10 +43,7 @@ const ResultsCounter = (
           Showing{' '}
           {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
           of {totalEntries} results for "
-          <span className="vads-u-font-weight--bold">
-            {query}
-          </span>
-          "
+          <span className="vads-u-font-weight--bold">{query}</span>"
         </h2>
         <hr className="vads-u-margin-y--3" aria-hidden="true" />
       </>
@@ -67,7 +59,7 @@ ResultsCounter.propTypes = {
   resultRangeStart: PropTypes.string.isRequired,
   results: PropTypes.array.isRequired,
   spellingCorrection: PropTypes.bool.isRequired,
-  totalEntries: PropTypes.number.isRequired
+  totalEntries: PropTypes.number.isRequired,
 };
 
-export default SearchResults;
+export default ResultsCounter;
