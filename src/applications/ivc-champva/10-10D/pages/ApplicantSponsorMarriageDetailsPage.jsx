@@ -41,30 +41,24 @@ function generateOptions({ data, pagePerItemIndex }) {
     useFirstPerson ? `Your` : `${applicant}’s`
   } marriage to the ${personTitle}`;
 
-  const description = `What was ${
+  const description = `Which of these best describes ${
     useFirstPerson ? `your` : `${applicant}’s`
-  } marriage status to the ${personTitle}?`;
+  } marriage to ${useFirstPerson ? `your` : 'their'} ${personTitle}?`;
 
   const options = [
     {
-      label: `${relative} was married to the ${personTitle} at the time of their death and did not remarry`,
+      label: `${relative} was married to the ${personTitle} at the time of their death and didn’t remarry`,
       value: 'marriedTillDeathNoRemarriage',
     },
     {
-      label: `${relative} was married to the ${personTitle} at the time of ${personTitle}’s death and remarried someone else on or after ${
-        useFirstPerson ? 'my' : relativePossessive
-      } 55th birthday`,
-      value: 'marriedTillDeathRemarriedAfter55',
-    },
-    {
-      label: `${relative} was legally separated from ${personTitle} before ${personTitle} died`,
+      label: `${relative} was legally separated from ${personTitle} before their death`,
       value: 'marriageDissolved',
     },
     {
-      label: `${
-        applicant && !useFirstPerson ? `${applicant}` : 'My'
-      } relationship is not listed here`,
-      value: 'other',
+      label: `${relative} was married to the ${personTitle} at the time of their death and remarried someone else on or after ${
+        useFirstPerson ? 'my' : relativePossessive
+      } 55th birthday`,
+      value: 'marriedTillDeathRemarriedAfter55',
     },
   ];
 
@@ -206,7 +200,7 @@ function marriageTitle(text, subtitle) {
 
 const dateOfMarriageToSponsor = {
   ...currentOrPastDateUI({
-    title: 'Date of marriage',
+    title: 'Date of marriage to sponsor',
     errorMessages: {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of marriage',
@@ -234,7 +228,7 @@ const dateOfSeparationFromSponsor = {
 
 const dateOfMarriageToOtherSpouse = {
   ...currentOrPastDateUI({
-    title: 'Date of remarriage',
+    title: 'Date of marriage to current spouse',
     errorMessages: {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of remarriage',
@@ -246,7 +240,7 @@ const dateOfMarriageToOtherSpouse = {
 
 const dateOfSeparationFromOtherSpouse = {
   ...currentOrPastDateUI({
-    title: 'Date of legal separation of the remarriage',
+    title: 'Date of legal separation from current spouse',
     errorMessages: {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of separation',
@@ -339,7 +333,7 @@ export const remarriageDetailsSchema = {
                     context,
                     true,
                     true,
-                  )} remarriage status`,
+                  )} remarriage details`,
                   '',
                 )['ui:title'],
             };
@@ -347,12 +341,14 @@ export const remarriageDetailsSchema = {
         },
         remarriageIsViable: {
           ...yesNoUI({
-            title: 'Is the remarriage still viable?',
+            title:
+              'Did the remarriage legally end (including divorce or annulment)?',
             hint: additionalFilesHint,
             labels: {
-              Y: 'Yes, second marriage is viable',
-              N: 'No, second marriage has legally ended',
+              Y: 'Yes',
+              N: 'No',
             },
+            yesNoReverse: true,
           }),
           'ui:required': (formData, index) => depends18f2(formData, index),
         },

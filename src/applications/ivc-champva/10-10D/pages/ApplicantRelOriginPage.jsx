@@ -21,19 +21,20 @@ function generateOptions({ data, pagePerItemIndex }) {
   } relationship to the ${personTitle}`;
 
   const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
+  const surv = data.sponsorIsDeceased ? 'surviving' : '';
 
   // Create dynamic radio labels based on above phrasing
   const options = [
     {
-      label: `${relativeBeingVerb} the ${personTitle}’s biological child`,
+      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} biological child`,
       value: 'blood',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}’s step child`,
+      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} step child`,
       value: 'step',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}’s adopted child`,
+      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} adopted child`,
       value: 'adoption',
     },
   ];
