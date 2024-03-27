@@ -1,6 +1,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .covid-screener {
+
+  va-featured-content {
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    h2 {
+      margin-top: 0;
+    }
+  }
+
   ​ *:not(.fas) {
     font-family: Source Sans Pro, Helvetica Neue, Helvetica, Roboto, Arial,
       sans-serif;
