@@ -10,11 +10,12 @@ import PropTypes from 'prop-types';
  * @returns {Node} The children to render if the user is authenticated
  */
 export const MyHealthAccessGuard = ({ children }) => {
-  const hasMHVAccountState = useSelector(state => {
-    return ['OK', 'MULTIPLE'].includes(state?.user?.profile?.mhvAccountState);
+  const hasMHVAccount = useSelector(state => {
+    const mhvAccountState = state?.user?.profile?.mhvAccountState;
+    return ['OK', 'MULTIPLE'].includes(mhvAccountState);
   });
 
-  if (!hasMHVAccountState) {
+  if (!hasMHVAccount) {
     return <Redirect to="/my-health" />;
   }
 
