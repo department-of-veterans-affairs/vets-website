@@ -122,18 +122,10 @@ class AdditionalEvidencePage extends React.Component {
           {isOpen ? (
             <>
               {this.props.filesNeeded.map(item => (
-                <FilesNeeded
-                  key={item.id}
-                  id={this.props.claim.id}
-                  item={item}
-                />
+                <FilesNeeded key={item.id} id={claim.id} item={item} />
               ))}
               {this.props.filesOptional.map(item => (
-                <FilesOptional
-                  key={item.id}
-                  id={this.props.claim.id}
-                  item={item}
-                />
+                <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <AddFilesForm
                 field={this.props.uploadField}
@@ -145,16 +137,12 @@ class AdditionalEvidencePage extends React.Component {
                   // START lighthouse_migration
                   if (this.props.documentsUseLighthouse) {
                     this.props.submitFilesLighthouse(
-                      this.props.claim.id,
+                      claim.id,
                       null,
                       this.props.files,
                     );
                   } else {
-                    this.props.submitFiles(
-                      this.props.claim.id,
-                      null,
-                      this.props.files,
-                    );
+                    this.props.submitFiles(claim.id, null, this.props.files);
                   }
                   // END lighthouse_migration
                 }}

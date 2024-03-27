@@ -1,14 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 
 import { buildDateFormatter } from '../../utils/helpers';
 
-const formatDate = buildDateFormatter();
-
 const headerText = closeDate => {
   return closeDate
-    ? `We closed your claim on ${formatDate(closeDate)}`
+    ? `We closed your claim on ${buildDateFormatter()(closeDate)}`
     : 'We closed your claim';
 };
 

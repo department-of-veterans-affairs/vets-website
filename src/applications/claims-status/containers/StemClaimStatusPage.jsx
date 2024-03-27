@@ -107,4 +107,10 @@ StemClaimStatusPage.propTypes = {
   loading: PropTypes.bool,
 };
 
+StemClaimStatusPage.propTypes = {
+  claim: PropTypes.object,
+  getStemClaims: PropTypes.func,
+  loading: PropTypes.bool,
+};
+
 export { StemClaimStatusPage };

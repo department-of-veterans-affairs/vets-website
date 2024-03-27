@@ -61,6 +61,7 @@ export default {
             }),
             startDate: currentOrPastDateSchema,
           },
+          required: ['facilityName', 'facilityAddress', 'startDate'],
         },
       },
     },

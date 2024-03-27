@@ -4,7 +4,9 @@ import { expect } from 'chai';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import ClaimStatusHeader, { getLastUpdated } from '../../components/ClaimStatusHeader';
+import ClaimStatusHeader, {
+  getLastUpdated,
+} from '../../components/ClaimStatusHeader';
 
 describe('<ClaimStatusHeader>', () => {
   it('should render a ClaimStatusHeader section for an In Progress claim', () => {

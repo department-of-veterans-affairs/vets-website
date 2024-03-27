@@ -6,6 +6,7 @@ import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
 import NoSuggestedAddress from './NoSuggestedAddress';
+import { prepareAddressData } from '../helpers';
 
 const SuggestedAddress = ({
   formData,
@@ -52,10 +53,14 @@ const SuggestedAddress = ({
       ...stateAndZip,
       state: stateAndZip.stateCode,
     };
+    const addressData = prepareAddressData(address);
+    const fields = {
+      address: addressData,
+    };
     if (chooseAddress === 'suggested') {
       setSuggestedAddressPicked(true);
       try {
-        dispatch(validateAddress(address, formData?.fullName));
+        dispatch(validateAddress(fields, formData?.fullName));
       } catch (err) {
         throw new Error(err);
       } finally {
