@@ -27,7 +27,21 @@ describe('<Alert />', () => {
       wrapper.unmount();
     });
   });
-
+  it('should renders title props', async () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <Alert
+          status="warning"
+          message="some warring message"
+          title="some title"
+        />
+      </Provider>,
+    );
+    await waitFor(() => {
+      expect(wrapper.find('h2').text()).to.equal('some title');
+      wrapper.unmount();
+    });
+  });
   it('dispatches RESET_ERROR and RESET_SUCCESS_MESSAGE after 15 seconds', () => {
     clock = sinon.useFakeTimers({
       toFake: ['setTimeout', 'clearTimeout'],
