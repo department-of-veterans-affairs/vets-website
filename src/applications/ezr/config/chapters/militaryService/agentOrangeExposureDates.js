@@ -5,22 +5,27 @@ import ServiceDateRangeDescription from '../../../components/FormDescriptions/Se
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateAgentOrangeExposureDates } from '../../../utils/validation';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 const { agentOrangeStartDate, agentOrangeEndDate } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      'Service dates for Agent Orange locations',
-      'Enter any date range you served in a location where the military used Agent Orange. You don\u2019t need to have exact dates.',
+      content['military-service-agent-orange-service-date-title'],
+      content['military-service-agent-orange-service-date-description'],
     ),
     'view:agentOrangeExposureDates': {
       agentOrangeStartDate: {
-        ...currentOrPastMonthYearUI('Service start date'),
+        ...currentOrPastMonthYearUI(
+          content['military-service-agent-orange-start-date'],
+        ),
         'ui:description': ServiceDateRangeDescription,
       },
       agentOrangeEndDate: {
-        ...currentOrPastMonthYearUI('Service end date'),
+        ...currentOrPastMonthYearUI(
+          content['military-service-agent-orange-end-date'],
+        ),
         'ui:description': ServiceDateRangeDescription,
       },
       'ui:validations': [validateAgentOrangeExposureDates],

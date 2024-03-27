@@ -3,9 +3,7 @@ import EnhancedEligibilityDescription from './EnhancedEligibilityDescription';
 
 const ToxicExposureDescription = (
   <>
-    <p>
-      Next we’ll ask you more questions about your military service history.
-    </p>
+    <p>Next we’ll ask you questions about your military service history.</p>
     <p>
       It’s your choice whether you want to answer these questions. Before you
       decide, here’s what you should know about how we’ll use this information.

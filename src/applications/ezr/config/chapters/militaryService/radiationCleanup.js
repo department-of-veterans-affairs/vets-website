@@ -1,14 +1,14 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import RadiationCleanupDescription from '../../../components/FormDescriptions/RadiationCleanupDescription';
+import content from '../../../locales/en/content.json';
 
 const { radiationCleanupEfforts } = ezrSchema.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Cleanup or response efforts',
+    'ui:title': content['military-service-radiation-exposure-title-2'],
     radiationCleanupEfforts: {
-      'ui:title':
-        'Did you take part in any of these clean up or response efforts while serving in any of these locations?',
+      'ui:title': content['military-service-radiation-exposure-description'],
       'ui:description': RadiationCleanupDescription,
       'ui:widget': 'yesNo',
     },

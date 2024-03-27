@@ -63,8 +63,8 @@ export function validateGulfWarDates(
   const fromDate = convertToDateField(gulfWarStartDate);
   const toDate = convertToDateField(gulfWarEndDate);
   const messages = {
-    range: 'Service end date must be after the service start date',
-    format: 'Enter a date that includes a month and year',
+    range: content['military-service-validation-gulf-war-range'],
+    format: content['military-service-validation-toxic-exposure-format'],
   };
 
   if (!isValidDateRange(fromDate, toDate)) {
@@ -87,8 +87,8 @@ export function validateAgentOrangeExposureDates(
   const fromDate = convertToDateField(agentOrangeStartDate);
   const toDate = convertToDateField(agentOrangeEndDate);
   const messages = {
-    range: 'Exposure end date must be after the exposure start date',
-    format: 'Enter a date that includes a month and year',
+    range: content['military-service-validation-exposure-range'],
+    format: content['military-service-validation-toxic-exposure-format'],
   };
 
   if (!isValidDateRange(fromDate, toDate)) {
@@ -111,8 +111,8 @@ export function validateExposureDates(
   const fromDate = convertToDateField(toxicExposureStartDate);
   const toDate = convertToDateField(toxicExposureEndDate);
   const messages = {
-    range: 'Exposure end date must be after the exposure start date',
-    format: 'Enter a date that includes a month and year',
+    range: content['military-service-validation-exposure-range'],
+    format: content['military-service-validation-toxic-exposure-format'],
   };
 
   if (!isValidDateRange(fromDate, toDate)) {

@@ -5,22 +5,27 @@ import ServiceDateRangeDescription from '../../../components/FormDescriptions/Se
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateExposureDates } from '../../../utils/validation';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 const { toxicExposureStartDate, toxicExposureEndDate } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      'Dates of exposure',
-      'Enter any date range when you were exposed to other toxins or hazards. You don\u2019t need to have exact dates.',
+      content['military-service-other-exposure-dates-title'],
+      content['military-service-other-exposure-dates-description'],
     ),
     'view:toxicExposureDates': {
       toxicExposureStartDate: {
-        ...currentOrPastMonthYearUI('Exposure start date'),
+        ...currentOrPastMonthYearUI(
+          content['military-service-other-exposure-dates-start'],
+        ),
         'ui:description': ServiceDateRangeDescription,
       },
       toxicExposureEndDate: {
-        ...currentOrPastMonthYearUI('Exposure end date'),
+        ...currentOrPastMonthYearUI(
+          content['military-service-other-exposure-dates-end'],
+        ),
         'ui:description': ServiceDateRangeDescription,
       },
       'ui:validations': [validateExposureDates],

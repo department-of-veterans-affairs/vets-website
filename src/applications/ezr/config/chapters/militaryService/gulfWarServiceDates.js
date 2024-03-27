@@ -5,22 +5,27 @@ import ServiceDateRangeDescription from '../../../components/FormDescriptions/Se
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateGulfWarDates } from '../../../utils/validation';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 const { gulfWarStartDate, gulfWarEndDate } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      'Service dates for Gulf War locations',
-      'Enter any date range you served in a Gulf War location. You don\u2019t need to have exact dates.',
+      content['military-service-gulf-war-service-date-title'],
+      content['military-service-gulf-war-service-date-description'],
     ),
     'view:gulfWarServiceDates': {
       gulfWarStartDate: {
-        ...currentOrPastMonthYearUI('Service start date'),
+        ...currentOrPastMonthYearUI(
+          content['military-service-gulf-war-start-date'],
+        ),
         'ui:description': ServiceDateRangeDescription,
       },
       gulfWarEndDate: {
-        ...currentOrPastMonthYearUI('Service end date'),
+        ...currentOrPastMonthYearUI(
+          content['military-service-gulf-war-end-date'],
+        ),
         'ui:description': ServiceDateRangeDescription,
       },
       'ui:validations': [validateGulfWarDates],

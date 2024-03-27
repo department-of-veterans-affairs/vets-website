@@ -1,5 +1,6 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import content from '../../../locales/en/content.json';
 
 const {
   exposureToAirPollutants,
@@ -17,43 +18,39 @@ const {
 export default {
   uiSchema: {
     ...titleUI(
-      'Other toxic exposures',
-      'Have you been exposed to any of these toxins or hazards? Check any that you\u2019ve been exposed to.',
+      content['military-service-other-toxic-exposure-title'],
+      content['military-service-other-toxic-exposure-descriptions'],
     ),
     'view:otherToxicExposures': {
       exposureToAirPollutants: {
-        'ui:title':
-          'Air pollutants (like burn pits, sand, oil wells, or sulfur fires)',
+        'ui:title': content['military-service-air-pollutants-exposure-title'],
       },
       exposureToAsbestos: {
-        'ui:title': 'Asbestos',
+        'ui:title': content['military-service-asbestos-exposure-title'],
       },
       exposureToChemicals: {
-        'ui:title':
-          'Chemicals (like pesticides, herbicides, or contaminated water)',
+        'ui:title': content['military-service-chemicals-exposure-title'],
       },
       exposureToContaminatedWater: {
-        'ui:title': 'Contaminated Water at Camp Lejeune',
+        'ui:title': content['military-service-water-exposure-title'],
       },
       exposureToMustardGas: {
-        'ui:title': 'Mustard gas',
+        'ui:title': content['military-service-gas-exposure-title'],
       },
       exposureToOccupationalHazards: {
-        'ui:title':
-          'Occupational hazards (jet fuel, industrial solvents, lead, firefighting foams)',
+        'ui:title': content['military-service-occupational-exposure-title'],
       },
       exposureToRadiation: {
-        'ui:title': 'Radiation',
+        'ui:title': content['military-service-radiation-exposure-title'],
       },
       exposureToShad: {
-        'ui:title': 'SHAD (Shipboard Hazard and Defense)',
+        'ui:title': content['military-service-shad-exposure-title'],
       },
       exposureToWarfareAgents: {
-        'ui:title':
-          'Warfare agents (like nerve agents or chemical and biological weapons)',
+        'ui:title': content['military-service-warfare-agents-exposure-title'],
       },
       exposureToOther: {
-        'ui:title': 'Other toxins or hazards not listed here',
+        'ui:title': content['military-service-other-exposure-title'],
       },
     },
   },

@@ -1,14 +1,14 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import AgentOrangeExposureDescription from '../../../components/FormDescriptions/AgentOrangeExposureDescription';
+import content from '../../../locales/en/content.json';
 
 const { exposedToAgentOrange } = ezrSchema.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Agent Orange locations',
+    'ui:title': content['military-service-agent-orange-locations-title'],
     exposedToAgentOrange: {
-      'ui:title':
-        'Did you serve in any of these locations where the military used the herbicide Agent Orange?',
+      'ui:title': content['military-service-agent-orange-exposed-title'],
       'ui:description': AgentOrangeExposureDescription,
       'ui:widget': 'yesNo',
     },

@@ -1,20 +1,21 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import OtherToxicExposureDescription from '../../../components/FormDescriptions/OtherToxicExposureDescription';
+import content from '../../../locales/en/content.json';
 
 const { otherToxicExposure } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      'Other toxic exposure',
-      'You selected that you were exposed to other toxins or hazards.',
+      content['military-service-other-exposure-title-2'],
+      content['military-service-other-exposure-description'],
     ),
     'ui:description': OtherToxicExposureDescription,
     otherToxicExposure: {
-      'ui:title': 'Enter any toxins or hazards you\u2019ve been exposed to',
+      'ui:title': content['military-service-other-exposure-description-2'],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid toxin or hazard',
+        pattern: content['military-service-other-exposure-error-message'],
       },
     },
   },
