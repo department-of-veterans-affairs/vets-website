@@ -2,7 +2,7 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import {
   updateSchemasAndData,
   updateItemsSchema,
-} from 'platform/forms-system/src/js/state/helpers';
+} from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 
 import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import debounce from 'platform/utilities/data/debounce';
+import debounce from '@department-of-veterans-affairs/platform-utilities/data';
 import CalendarOptions from './CalendarOptions';
 
 const CalendarCell = ({

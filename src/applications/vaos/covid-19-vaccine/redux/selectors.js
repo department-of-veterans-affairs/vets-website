@@ -1,4 +1,4 @@
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import { FETCH_STATUS } from '../../utils/constants';
 import {
   getTimezoneByFacilityId,
@@ -40,7 +40,7 @@ export function getSiteIdForChosenFacility(state) {
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = selectCovid19VaccineNewBooking(state).availableSlots;
+  const { availableSlots } = selectCovid19VaccineNewBooking(state);
   const selectedTime = selectCovid19VaccineFormData(state).date1?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
@@ -57,10 +57,10 @@ export function getChosenFacilityInfo(state) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newBooking = selectCovid19VaccineNewBooking(state);
-  const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
+  const { appointmentSlotsStatus } = newBooking;
   const data = selectCovid19VaccineFormData(state);
   const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
-  const availableSlots = newBooking.availableSlots;
+  const { availableSlots } = newBooking;
 
   const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
   const timezone = getTimezoneByFacilityId(data.vaFacility);
@@ -119,7 +119,7 @@ export function getFacilityPageInfo(state) {
 export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getCovid19VaccineFormPageInfo(state, pageKey);
   const newBooking = selectCovid19VaccineNewBooking(state);
-  const facilities = newBooking.facilities;
+  const { facilities } = newBooking;
 
   return {
     ...formPageInfo,
@@ -131,7 +131,7 @@ export function getClinicPageInfo(state, pageKey) {
 
 export function getChosenClinicInfo(state) {
   const data = selectCovid19VaccineFormData(state);
-  const clinics = selectCovid19VaccineNewBooking(state).clinics;
+  const { clinics } = selectCovid19VaccineNewBooking(state);
 
   return (
     clinics[data.vaFacility]?.find(clinic => clinic.id === data.clinicId) ||

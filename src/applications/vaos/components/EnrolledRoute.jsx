@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectUser } from 'platform/user/selectors';
-import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors.js';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import NoRegistrationMessage from './NoRegistrationMessage';
 import { useDatadogRum } from '../utils/useDatadogRum';

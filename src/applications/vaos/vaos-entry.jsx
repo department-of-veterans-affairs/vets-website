@@ -1,7 +1,7 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/vaos.scss';
 
-import startApp from 'platform/startup/router';
+import startApp from '@department-of-veterans-affairs/platform-startup/index';
 import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
 import reducer from './redux/reducer';

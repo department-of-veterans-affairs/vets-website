@@ -4,9 +4,9 @@
 import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 
-import utilsOmit from 'platform/utilities/data/omit';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import utilsOmit from '@department-of-veterans-affairs/platform-utilities/data';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';

@@ -7,7 +7,7 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import {
   updateSchemasAndData,
   updateItemsSchema,
-} from 'platform/forms-system/src/js/state/helpers';
+} from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
