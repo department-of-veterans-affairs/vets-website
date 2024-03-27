@@ -36,7 +36,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['deathCertificate'],
+    // required: ['deathCertificate'],
     properties: {
       deathCertificate: {
         ...files,

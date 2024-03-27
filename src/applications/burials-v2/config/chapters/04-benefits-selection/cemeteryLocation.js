@@ -7,6 +7,10 @@ export default {
     cemeteryLocation: {
       'ui:description':
         'You selected that the deceased Veteran was buried in a state cemetery. Enter additional information here.',
+      'ui:options': {
+        classNames:
+          'vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans',
+      },
       name: {
         'ui:title': 'Name of state cemetery',
         'ui:webComponentField': VaTextInputField,

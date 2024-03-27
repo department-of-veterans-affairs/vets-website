@@ -21,37 +21,36 @@ export default {
           labelHeaderLevel: '',
         }),
       },
-      // Uncomment to enable once Schema is merged and updated in VW
-      // nursingHomeUnpaid: {
-      //   facilityName: {
-      //     'ui:title':
-      //       'Name of the facility or nursing home that VA doesn’t pay for',
-      //     'ui:required': form =>
-      //       get('locationOfDeath.location', form) === 'nursingHomeUnpaid' &&
-      //       !form.facilityName,
-      //     'ui:errorMessages': {
-      //       required:
-      //         'Enter the name of the facility or nursing home that VA doesn’t pay for',
-      //     },
-      //     'ui:webComponentField': VaTextInputField,
-      //   },
-      //   facilityLocation: {
-      //     'ui:title':
-      //       'City and state of the facility or nursing home that VA doesn’t pay for',
-      //     'ui:required': form =>
-      //       get('locationOfDeath.location', form) === 'nursingHomeUnpaid' &&
-      //       !form.facilityLocation,
-      //     'ui:errorMessages': {
-      //       required:
-      //         'Enter the city and state of the facility or nursing home that VA doesn’t pay for',
-      //     },
-      //     'ui:webComponentField': VaTextInputField,
-      //   },
-      //   'ui:options': {
-      //     hideIf: form =>
-      //       get('locationOfDeath.location', form) !== 'nursingHomeUnpaid',
-      //   },
-      // },
+      nursingHomeUnpaid: {
+        facilityName: {
+          'ui:title':
+            'Name of the facility or nursing home that VA doesn’t pay for',
+          'ui:required': form =>
+            get('locationOfDeath.location', form) === 'nursingHomeUnpaid' &&
+            !form.facilityName,
+          'ui:errorMessages': {
+            required:
+              'Enter the name of the facility or nursing home that VA doesn’t pay for',
+          },
+          'ui:webComponentField': VaTextInputField,
+        },
+        facilityLocation: {
+          'ui:title':
+            'City and state of the facility or nursing home that VA doesn’t pay for',
+          'ui:required': form =>
+            get('locationOfDeath.location', form) === 'nursingHomeUnpaid' &&
+            !form.facilityLocation,
+          'ui:errorMessages': {
+            required:
+              'Enter the city and state of the facility or nursing home that VA doesn’t pay for',
+          },
+          'ui:webComponentField': VaTextInputField,
+        },
+        'ui:options': {
+          hideIf: form =>
+            get('locationOfDeath.location', form) !== 'nursingHomeUnpaid',
+        },
+      },
       nursingHomePaid: {
         facilityName: {
           'ui:title': 'Name of the facility or nursing home that VA pays for',

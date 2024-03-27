@@ -10,8 +10,7 @@ export default {
     'ui:title': generateTitle('Burial allowance'),
     burialAllowanceRequested: {
       ...checkboxGroupUI({
-        title:
-          'Are you claiming a burial allowance for a service-connected or non-service connected death?',
+        title: 'What type of burial allowance are you claiming?',
         required: true,
         labels: allowanceLabels,
       }),

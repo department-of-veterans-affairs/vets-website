@@ -44,6 +44,9 @@ export default {
                 'Burial date must be on or after the Veterans date of death',
               );
             }
+            // if (burial.getFullYear() > death.getFullYear()) {
+            //   errors.addError('Burial date must be in the same year');
+            // }
           }
           return errors;
         },

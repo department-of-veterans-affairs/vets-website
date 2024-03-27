@@ -16,10 +16,10 @@ const IntroductionPage = ({ route }) => {
         VA Form 21P-530
       </p>
       <h2 className="vads-u-font-size--h2">
-        Follow these steps below to apply for burial benefits
+        Follow these steps to apply for burial benefits
       </h2>
       <va-process-list uswds>
-        <va-process-list-item header="Check to be sure you can request a Board Appeal">
+        <va-process-list-item header="Check your eligibility">
           <p className="vads-u-margin-bottom--0">
             Make sure you meet our eligibility requirements before you apply.
           </p>

@@ -25,7 +25,7 @@ export default {
         <p className="vads-u-font-size--md vads-u-font-family--sans">
           If you paid for transportation costs for the Veteran’s remains, you’ll
           need to upload an itemized receipt. We’ll ask you to upload this later
-          in this form
+          in this form.
         </p>
       </>
     ),

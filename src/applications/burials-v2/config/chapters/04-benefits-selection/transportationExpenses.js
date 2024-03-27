@@ -10,7 +10,7 @@ export default {
     transportationExpenses: {
       ...yesNoUI({
         title:
-          'Are you responsible for the for the transportation of the Veteran’s remains to the final resting place?',
+          'Are you responsible for the transportation of the Veteran’s remains to the final resting place?',
       }),
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',

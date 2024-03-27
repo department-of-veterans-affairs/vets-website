@@ -26,6 +26,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['nationalOrFederal'],
     properties: {
       nationalOrFederal: {
         type: 'boolean',

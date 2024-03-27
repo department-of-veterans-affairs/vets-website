@@ -319,7 +319,9 @@ const formConfig = {
           title: 'Cemetery location',
           reviewTitle: ' ',
           path: 'benefits/cemetery-location',
-          depends: form => get('view:claimedBenefits.burialAllowance', form),
+          depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) &&
+            !get('nationalOrFederal', form),
           uiSchema: cemeteryLocationQuestion.uiSchema,
           schema: cemeteryLocationQuestion.schema,
         },

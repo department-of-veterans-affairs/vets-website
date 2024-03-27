@@ -7,6 +7,10 @@ export default {
     tribalLandLocation: {
       'ui:description':
         'You selected that the deceased Veteran was buried on tribal trust land. Enter additional information here.',
+      'ui:options': {
+        classNames:
+          'vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans',
+      },
       name: {
         'ui:title': 'Name of tribal trust land',
         'ui:webComponentField': VaTextInputField,

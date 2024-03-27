@@ -1,5 +1,5 @@
 export const relationshipLabels = {
-  spouse: 'Spouse',
+  spouse: 'Surviving spouse or partner from a legal union',
   child: 'Child',
   parent: 'Parent',
   executor:
