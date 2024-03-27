@@ -123,6 +123,9 @@ export const Locators = {
     DELETE_CANCEL: '[text="No, continue editing"]',
     DELETE_CONFIRM: '[text="Yes, delete this draft"]',
   },
+  ALERTS: {
+    SAVE_DRAFT: '#messagetext',
+  },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     PREFER_LINK: '[data-testid="edit-preferences-link"]',
