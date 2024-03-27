@@ -27,6 +27,7 @@ import MoreVASearchTools from '../components/MoreVASearchTools';
 import MaintenanceWindow, { isWithinMaintenanceWindow } from '../components/MaintenanceWindow';
 import Errors from '../components/Errors';
 import ResultsCounter from '../components/ResultsCounter';
+import ResultsList from '../components/ResultsList';
 import RecommendedResults from '../components/RecommendedResults';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
