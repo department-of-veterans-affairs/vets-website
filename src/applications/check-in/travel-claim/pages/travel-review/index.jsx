@@ -14,7 +14,7 @@ const TravelReview = props => {
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
   const { facilitiesToFile } = data;
-  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const selectVeteranAddress = useMemo(makeSelectVeteranAddress, []);
@@ -51,34 +51,6 @@ const TravelReview = props => {
         i18nKey="if-you-choose-to-file-later"
         components={[<span key="bold" className="vads-u-font-weight--bold" />]}
       />
-      {/* <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
-        <h2 className="vads-u-margin-top--2p5">{t('claim-informaiton')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-vehicle"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link"
-        >
-          {t('Edit')}
-        </a>
-      </div>
-      <dl className="vads-u-font-family--sans">
-        <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
-        <dd
-          className="vads-u-margin-top--0p5"
-          data-testid={`claiming-${facilitiesToFile.length}-facilities`}
-        >
-          <span data-testid="claim-list">
-            {t('mileage-only-reimbursement-for')} {claimList}
-          </span>
-        </dd>
-        <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
-        <dd className="vads-u-margin-top--0p5">{t('in-your-own-vehicle')}</dd>
-        <dt className="vads-u-margin-top--2p5">
-          {t('where-you-traveled-from')}
-        </dt>
-        <dd className="vads-u-margin-top--0p5">{address}</dd>
-      </dl> */}
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
       </div>
@@ -107,7 +79,9 @@ const TravelReview = props => {
         <dt className="vads-u-margin-top--2p5">
           {t('where-you-traveled-from')}
         </dt>
-        <dd className="vads-u-margin-top--0p5">{address}</dd>
+        <dd className="vads-u-margin-top--0p5 vads-u-margin-bottom--5">
+          {address}
+        </dd>
       </dl>
       <div
         className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-bottom--4 vads-u-font-family--sans"
@@ -149,6 +123,16 @@ const TravelReview = props => {
           </div>
         </VaCheckbox>
       </div>
+      <div className="vads-u-margin-top--2p5">
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-mileage"
+          onClick={() => jumpToPage('/travel-mileage')}
+          data-testid="review-edit-link"
+        >
+          {t('start-travel-claim-over')}
+        </a>
+      </div>
     </div>
   );
   return (
@@ -160,7 +144,7 @@ const TravelReview = props => {
       yesButtonText={t('file-claim')}
       yesFunction={validation}
       noButtonText={t('start-over')}
-      noFunction={() => goToPreviousPage()}
+      noFunction={() => jumpToPage('/travel-mileage')}
       testID="travel-claim-review-page"
     />
   );

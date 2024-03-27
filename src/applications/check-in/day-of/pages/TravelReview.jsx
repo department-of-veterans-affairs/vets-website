@@ -19,10 +19,6 @@ const TravelQuestion = props => {
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
-  const onEditClick = e => {
-    e.preventDefault();
-    jumpToPage('/travel-vehicle');
-  };
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
@@ -71,7 +67,7 @@ const TravelQuestion = props => {
         <dt className="vads-u-margin-top--2p5">
           {t('where-you-traveled-from')}
         </dt>
-        <dd className="vads-u-margin-top--0p5">
+        <dd className="vads-u-margin-top--0p5 vads-u-margin-bottom--5">
           <AddressBlock address={demographics.homeAddress} />
         </dd>
       </dl>
@@ -118,8 +114,8 @@ const TravelQuestion = props => {
       <div className="vads-u-margin-top--2p5">
         <a
           className="vads-u-margin-left--auto"
-          href="travel-address"
-          onClick={e => onEditClick(e)}
+          href="travel-mileage"
+          onClick={() => jumpToPage('/travel-mileage')}
           data-testid="review-edit-link"
         >
           {t('start-travel-claim-over')}
