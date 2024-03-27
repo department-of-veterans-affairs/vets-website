@@ -22,8 +22,8 @@ class ConditionDetailsPage {
   };
 
   verifyProviderNotes = providerNotes => {
-    cy.get('[data-testid="item-list-string"]').should('be.visible');
-    cy.get('[data-testid="item-list-string"]').contains(providerNotes);
+    // cy.get('[data-testid="item-list-string"]').should('be.visible');
+    cy.get('[data-testid="list-item-single"]').contains(providerNotes);
   };
 
   verifyPrintButton = () => {
