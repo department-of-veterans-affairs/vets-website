@@ -279,11 +279,13 @@ class TrackClaimsPageV2 {
     cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
       body: {},
     }).as('documents');
-    cy.get('#fileInputField')
-      .selectFile(
-        'src/applications/claims-status/tests/e2e/fixtures/file-upload-test.txt',
-        { action: 'drag-drop' },
-      )
+    cy.get('.usa-file-input input')
+      .selectFile({
+        contents: Cypress.Buffer.from('test file contents'),
+        fileName: 'file-upload-test.txt',
+        mimeType: 'text/plain',
+        lastModified: Date.now(),
+      })
       .then(() => {
         cy.get('.document-item-container va-select')
           .shadow()
@@ -299,7 +301,7 @@ class TrackClaimsPageV2 {
       .find('button')
       .click();
     cy.wait('@documents');
-    cy.get('.usa-alert-heading').should('contain', 'We have your evidence');
+    cy.get('va-alert h2').should('contain', 'We have your evidence');
   }
 
   submitFilesShowsError() {
