@@ -4,7 +4,7 @@ import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { objectHaNoUndefinedValues, scrollToElement } from '../helpers';
+import { objectHasNoUndefinedValues, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
@@ -15,24 +15,23 @@ import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
-  const [toggleAddressForm, setToggleAddressForm] = useState(false);
-  const [goBcak, setGoBack] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [editFormData, setEditFormData] = useState({});
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
-  const [newAddress, setNewAddress] = useState({});
   const {
     addressValidationData,
     validationError,
     isLoadingValidateAddress,
-    addressLoader,
   } = useSelector(state => state.addressValidation);
   const address = addressValidationData?.addresses[0]?.address;
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
+  const [toggleAddressForm, setToggleAddressForm] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [editFormData, setEditFormData] = useState({});
+  const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
+  const [newAddress, setNewAddress] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
 
@@ -40,11 +39,12 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     scrollToElement('Contact information');
   };
 
+  // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(
     () => {
       setNewAddress(mailingAddress);
     },
-    [error, mailingAddress],
+    [mailingAddress],
   );
   const handleCloseForm = useCallback(
     () => {
@@ -61,17 +61,19 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           ...stateAndZip,
         });
       }
-
+      sessionStorage.setItem('address', JSON.stringify(address));
       setToggleAddressForm(false);
       scrollToTopOfForm();
     },
-    [address, confidenceScore, response],
+    [confidenceScore, response, address],
   );
-  const goBackToAddressDescription = val => {
-    setGoBack(val);
-  };
+
   // called when submitting form
-  const saveAddressInfo = () => {
+  const saveAddressInfo = async () => {
+    if (Object.keys(formData).length === 0) {
+      Object.assign(formData, editFormData);
+    }
+
     let stateAndZip = {};
     if (formData.countryCodeIso3 === 'USA') {
       stateAndZip = {
@@ -103,24 +105,33 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     } catch (err) {
       throw new Error(err);
     }
+    if (validationError) {
+      setEditFormData({});
+    }
   };
+
+  // This Effcet to close form after loading is done
   useEffect(
     () => {
-      if (!addressLoader || !isLoadingValidateAddress) {
+      if (!isLoading && !isLoadingValidateAddress) {
         handleCloseForm();
+        setSuggestedAddressPicked(false);
       }
     },
-
-    [handleCloseForm, addressLoader, isLoadingValidateAddress],
+    [handleCloseForm, isLoading, isLoadingValidateAddress],
   );
   const setAddressToUI = value => {
-    if (!error) {
+    if (response) {
       setNewAddress(value);
     }
   };
+
+  // This effect to reset setEditFormData and remove address from sessionStorage
+  // When there is error, resonse or validationError
   useEffect(
     () => {
       setEditFormData({});
+      sessionStorage.removeItem('address');
     },
     [error, response, validationError],
   );
@@ -134,10 +145,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           />
         ) : (
           <div className="vads-u-margin-bottom--1">
-            {error && (
+            {(error || validationError) && (
               <Alert
                 status="error"
-                message="Sorry, something went wrong. Please try again Later"
+                message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
               />
             )}
             {response?.ok && (
@@ -150,7 +161,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               Mailing address
             </p>
             <p>
-              {objectHaNoUndefinedValues(newAddress) && (
+              {objectHasNoUndefinedValues(newAddress) && (
                 <>
                   <span className="vads-u-display--block">
                     {`${newAddress?.street}`}
@@ -171,11 +182,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   const handleAddNewClick = event => {
     event?.preventDefault();
-    if (!isLoadingValidateAddress && !isLoading) {
-      setToggleAddressForm(prevState => !prevState);
-      scrollToTopOfForm();
-      setGoBack(false);
-    }
+    setFormData({});
+    setToggleAddressForm(true);
+    scrollToTopOfForm();
+    dispatch({ type: 'RESET_ERROR' });
+  };
+  const onCancleButtonClicked = () => {
+    setEditFormData({});
+    dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+    handleCloseForm();
   };
   const updateAddressData = data => {
     const tempData = { ...data };
@@ -221,18 +236,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 && !goBcak ? (
+            {confidenceScore < 100 || suggestedAddressPicked ? (
               <SuggestedAddress
                 formData={editFormData}
-                address={address}
-                setBackToEdit={() => {}}
+                address={JSON.parse(sessionStorage.getItem('address'))}
                 handleAddNewClick={event => handleAddNewClick(event)}
-                saveAddressInfo={saveAddressInfo}
                 setFormData={setFormData}
                 setAddressToUI={setAddressToUI}
-                goBackToAddressDescription={goBackToAddressDescription}
-                isLoading={isLoading}
-                error={error}
+                setSuggestedAddressPicked={setSuggestedAddressPicked}
+                suggestedAddressPicked={suggestedAddressPicked}
               />
             ) : (
               <>
@@ -270,7 +282,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           <div className="address-change-form-container">
             <p className="vads-u-font-weight--bold">Change mailing address</p>
             {(isLoadingValidateAddress || isLoading) && (
-              <Loader className="loader" />
+              <Loader className="loader" message="updating..." />
             )}
             <ChangeOfAddressForm
               applicantName={applicantName}
@@ -292,11 +304,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 text="Cancel"
                 secondary
                 label="cancel updating your bank information for GI Bill benefits"
-                onClick={() => {
-                  setEditFormData({});
-                  setGoBack(true);
-                  handleCloseForm();
-                }}
+                onClick={onCancleButtonClicked}
                 data-qa="cancel-button"
                 data-testid={`${PREFIX}form-cancel-button`}
               />
