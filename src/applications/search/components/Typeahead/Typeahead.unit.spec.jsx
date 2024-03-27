@@ -2,14 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-// Relative imports.
-import SearchDropdownComponent from './SearchDropdownComponent';
+import Typeahead from '.';
 
-describe('Search Dropdown Component <SearchDropdownComponent/>', () => {
+describe('Typeahead', () => {
   it('renders what we expect', () => {
     const fetchSuggestions = sinon.spy();
     const wrapper = mount(
-      <SearchDropdownComponent
+      <Typeahead
         buttonText="Search"
         className="dropdown"
         startingValue="Starting Value"

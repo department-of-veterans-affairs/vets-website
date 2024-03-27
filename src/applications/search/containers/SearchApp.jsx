@@ -2,23 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
-import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
-
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
-import recordEvent from 'platform/monitoring/record-event';
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
-
-import { focusElement } from 'platform/utilities/ui';
+import * as Sentry from '@sentry/browser';
+import { VaPagination, VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import * as Sentry from '@sentry/browser';
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import { focusElement } from 'platform/utilities/ui';
 import { apiRequest } from 'platform/utilities/api';
+
 import {
   formatResponseString,
   truncateResponseString,
@@ -31,7 +27,10 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import Errors from '../components/Errors';
 import MaintenanceWindow, { isWithinMaintenanceWindow } from '../components/MaintenanceWindow';
 import MoreVASearchTools from '../components/MoreVASearchTools';
-import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
+import RecommendedResults from '../components/RecommendedResults';
+import ResultsCounter from '../components/ResultsCounter';
+import ResultsList from '../components/ResultsList';
+import Typeahead from '../components/Typeahead';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 const MAX_DESCRIPTION_LENGTH = 186;
@@ -57,16 +56,19 @@ class SearchApp extends React.Component {
       currentResultsQuery: userInputFromURL,
       page: pageFromURL,
       typeaheadUsed,
+      formWasSubmitted: false,
     };
   }
 
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
+    
     if (userInput) {
       if (isSearchStrInvalid(userInput)) {
         return;
       }
+
       this.props.fetchSearchResults(userInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
@@ -99,8 +101,13 @@ class SearchApp extends React.Component {
   };
 
   handleSearch = e => {
-    if (e) e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
+
     const { userInput, currentResultsQuery, page } = this.state;
+
+    this.setState({ formWasSubmitted: true });
 
     const userInputFromURL = this.props.router?.location?.query?.query;
     const rawPageFromURL = this.props.router?.location?.query?.page;
@@ -345,6 +352,10 @@ class SearchApp extends React.Component {
     this.setState({
       userInput: e.target.value,
     });
+
+    if (this.state.formWasSubmitted) {
+      this.setState({ formWasSubmitted: false });
+    }
   };
 
   fetchInputValue = input => {
@@ -358,20 +369,47 @@ class SearchApp extends React.Component {
       loading,
       errors,
       currentPage,
-      totalPages,
+      perPage,
+      recommendedResults,
       results,
+      spellingCorrection,
+      totalEntries,
+      totalPages,
     } = this.props.search;
+
     const hasErrors = !!(errors && errors.length > 0);
     const { userInput } = this.state;
 
     // Reusable search input
     const searchInput = (
-      <div
-        className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
-        role="search"
-        aria-labelledby="h1-search-title"
-      >
-        
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
+        <p className="vads-u-margin-top--0">
+          Enter a keyword, phrase, or question
+        </p>
+        <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
+          {!this.props.searchDropdownComponentEnabled && (
+            <VaSearchInput
+              aria-labelledby="h1-search-title"
+              submitButtonText="Search"
+              className="vads-u-width--full"
+              label="Enter a keyword, phrase, or question"
+              onInput={this.handleInputChange}
+              onSubmit={this.handleSearch}
+              uswds
+              value={userInput}
+            />
+          )}
+          {this.props.searchDropdownComponentEnabled && (
+            <Typeahead
+              id="search-results-page-dropdown"
+              fetchInputValue={this.fetchInputValue}
+              fetchSuggestions={this.fetchSuggestions}
+              onInputSubmit={this.onInputSubmit}
+              onSuggestionSubmit={this.onSuggestionSubmit}
+              startingValue={userInput}
+            />
+          )}
+        </div>
       </div>
     );
 
@@ -394,8 +432,20 @@ class SearchApp extends React.Component {
     return (
       <div>
         {searchInput}
-        {this.renderResultsInformation()}
-        {this.renderRecommendedResults()}
+        <ResultsCounter
+          currentPage={currentPage}
+          loading={loading}
+          perPage={perPage}
+          query={this.props.router.location.query.query}
+          results={results}
+          spellingCorrection={spellingCorrection}
+          totalPages={totalPages}
+          totalEntries={totalEntries}
+        />
+        <RecommendedResults 
+          loading={loading}
+          recommendedResults={recommendedResults}
+        />
         <ResultsList
           loading={loading}
           query={this.props.router?.location?.query?.query || ''}
@@ -414,7 +464,7 @@ class SearchApp extends React.Component {
                 onPageSelect={e => this.handlePageChange(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
-                maxPageListLength={5}
+                maxPageListLength={7}
                 uswds
               />
             )}
@@ -422,101 +472,6 @@ class SearchApp extends React.Component {
         </div>
       </div>
     );
-  }
-
-  renderRecommendedResults() {
-    const { loading, recommendedResults } = this.props.search;
-    if (!loading && recommendedResults && recommendedResults.length > 0) {
-      return (
-        <div>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold">
-            Our top recommendations for you
-          </h3>
-          <ul className="results-list">
-            {recommendedResults.map((result, index) =>
-              this.renderWebResult(result, 'description', true, index),
-            )}
-          </ul>
-          <hr aria-hidden="true" />
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  renderResultsInformation() {
-    const {
-      currentPage,
-      perPage,
-      totalPages,
-      totalEntries,
-      loading,
-      results,
-    } = this.props.search;
-
-    let resultRangeEnd = currentPage * perPage;
-
-    if (currentPage === totalPages) {
-      resultRangeEnd = totalEntries;
-    }
-
-    const resultRangeStart = (currentPage - 1) * perPage + 1;
-
-    if (loading || !totalEntries) return null;
-
-    // if there is a spelling correction, change the information message displayed
-    if (this.props.search.spellingCorrection) {
-      return (
-        <>
-          <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5">
-            No results for "
-            <span className="vads-u-font-weight--bold">
-              {this.props.router.location.query.query}
-            </span>
-            "
-          </p>
-          <h2
-            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5`}
-          >
-            Showing{' '}
-            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
-            of {totalEntries} results for "
-            <span className="vads-u-font-weight--bold">
-              {this.props.search.spellingCorrection}
-            </span>
-            "
-          </h2>
-          <hr className="vads-u-margin-y--3" aria-hidden="true" />
-        </>
-      );
-    }
-
-    // regular display for how many search results total are available.
-    /* eslint-disable prettier/prettier */
-    if (results && results.length > 0) {
-      return (
-        <>
-          <h2
-            aria-live="polite"
-            aria-relevant="additions text"
-            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
-          >
-            Showing{' '}
-            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
-            of {totalEntries} results for "
-            <span className="vads-u-font-weight--bold">
-              {this.props.router.location.query.query}
-            </span>
-            "
-          </h2>
-          <hr className="vads-u-margin-y--3" aria-hidden="true" />
-        </>
-      );
-    }
-
-    return null;
-    /* eslint-enable prettier/prettier */
   }
 
   renderResultsList() {
