@@ -26,6 +26,13 @@ import {
   confirmationPageNextStepsParagraph,
   getIntentsToFile,
   goPathAfterGettingITF,
+  shouldSeeVeteranBenefitSelection,
+  shouldSeeVeteranBenefitSelectionCompensation,
+  shouldSeeVeteranBenefitSelectionPension,
+  preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent,
+  preparerIsVeteranAndHasPrefill,
+  shouldSeeVeteranPersonalInformation,
+  shouldSeeVeteranIdentificationInformation,
 } from '../../config/helpers';
 import {
   preparerIdentifications,
@@ -226,6 +233,298 @@ describe('form helper functions', () => {
     };
 
     expect(noActiveITF({ formData })).to.equal(true);
+  });
+
+  describe('shouldSeeVeteranBenefitSelection', () => {
+    it('returns true when veteran has no active ITFs', () => {
+      const formData = {
+        preparerIdentification: 'VETERAN',
+      };
+
+      expect(shouldSeeVeteranBenefitSelection({ formData })).to.equal(true);
+    });
+
+    it('returns false when veteran has active ITFs', () => {
+      const formData = {
+        preparerIdentification: 'VETERAN',
+        'view:activeCompensationITF': { status: 'active' },
+      };
+
+      expect(shouldSeeVeteranBenefitSelection({ formData })).to.equal(false);
+    });
+
+    it('returns false when non-veteran', () => {
+      const formData = {
+        preparerIdentification: 'THIRD_PARTY_SURVIVING_DEPENDENT',
+      };
+
+      expect(shouldSeeVeteranBenefitSelection({ formData })).to.equal(false);
+    });
+  });
+
+  describe('shouldSeeVeteranBenefitSelectionCompensation', () => {
+    it('returns true when veteran has active Pension ITFs', () => {
+      const formData = {
+        preparerIdentification: 'VETERAN',
+        'view:activePensionITF': { status: 'active' },
+      };
+
+      expect(
+        shouldSeeVeteranBenefitSelectionCompensation({ formData }),
+      ).to.equal(true);
+    });
+
+    it('returns false when veteran has no active ITFs', () => {
+      const formData = {
+        preparerIdentification: 'VETERAN',
+      };
+
+      expect(
+        shouldSeeVeteranBenefitSelectionCompensation({ formData }),
+      ).to.equal(false);
+    });
+
+    it('returns false when non-veteran', () => {
+      const formData = {
+        preparerIdentification: 'THIRD_PARTY_SURVIVING_DEPENDENT',
+      };
+
+      expect(
+        shouldSeeVeteranBenefitSelectionCompensation({ formData }),
+      ).to.equal(false);
+    });
+  });
+
+  describe('shouldSeeVeteranBenefitSelectionPension', () => {
+    it('returns true when veteran has active Compensation ITFs', () => {
+      const formData = {
+        preparerIdentification: 'VETERAN',
+        'view:activeCompensationITF': { status: 'active' },
+      };
+
+      expect(shouldSeeVeteranBenefitSelectionPension({ formData })).to.equal(
+        true,
+      );
+    });
+
+    it('returns false when veteran has no active ITFs', () => {
+      const formData = {
+        preparerIdentification: 'VETERAN',
+      };
+
+      expect(shouldSeeVeteranBenefitSelectionPension({ formData })).to.equal(
+        false,
+      );
+    });
+
+    it('returns false when non-veteran', () => {
+      const formData = {
+        preparerIdentification: 'THIRD_PARTY_SURVIVING_DEPENDENT',
+      };
+
+      expect(shouldSeeVeteranBenefitSelectionPension({ formData })).to.equal(
+        false,
+      );
+    });
+  });
+
+  describe('preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent', () => {
+    it('returns true when preparer is surviving dependent', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.survivingDependent,
+      };
+
+      expect(
+        preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns true when preparer is third party to surviving dependent', () => {
+      const formData = {
+        preparerIdentification:
+          preparerIdentifications.thirdPartySurvivingDependent,
+      };
+
+      expect(
+        preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns false when preparer is not third party or third party to surviving dependent', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+      };
+
+      expect(
+        preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+          formData,
+        }),
+      ).to.equal(false);
+    });
+  });
+
+  describe('preparerIsVeteranAndHasPrefill', () => {
+    it('returns true when preparer is veteran and has prefill', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+        'view:veteranPrefillStore': {
+          fullName: {
+            first: 'Marty',
+            last: 'McFly',
+          },
+          ssn: '111519551',
+          dateOfBirth: '1955-11-15',
+        },
+      };
+
+      expect(
+        preparerIsVeteranAndHasPrefill({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns false when preparer is veteran and does not have prefill', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+      };
+
+      expect(
+        preparerIsVeteranAndHasPrefill({
+          formData,
+        }),
+      ).to.equal(false);
+    });
+
+    it('returns false when preparer is not veteran and has prefill', () => {
+      const formData = {
+        preparerIdentification:
+          preparerIdentifications.thirdPartySurvivingDependent,
+        'view:veteranPrefillStore': {
+          fullName: {
+            first: 'Marty',
+            last: 'McFly',
+          },
+          ssn: '111519551',
+          dateOfBirth: '1955-11-15',
+        },
+      };
+
+      expect(
+        preparerIsVeteranAndHasPrefill({
+          formData,
+        }),
+      ).to.equal(false);
+    });
+  });
+
+  describe('shouldSeeVeteranPersonalInformation', () => {
+    it('returns true if preparer is third party to veteran', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.thirdPartyVeteran,
+      };
+
+      expect(
+        shouldSeeVeteranPersonalInformation({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns true if preparer is veteran and does not have prefill', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+      };
+
+      expect(
+        shouldSeeVeteranPersonalInformation({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns false if preparer is veteran and has prefill', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+        'view:veteranPrefillStore': {
+          fullName: {
+            first: 'Marty',
+            last: 'McFly',
+          },
+          ssn: '111519551',
+          dateOfBirth: '1955-11-15',
+        },
+      };
+
+      expect(
+        shouldSeeVeteranPersonalInformation({
+          formData,
+        }),
+      ).to.equal(false);
+    });
+
+    it('returns false if preparer is not veteran or third party to veteran', () => {
+      const formData = {
+        preparerIdentification:
+          preparerIdentifications.thirdPartySurvivingDependent,
+      };
+
+      expect(
+        shouldSeeVeteranPersonalInformation({
+          formData,
+        }),
+      ).to.equal(false);
+    });
+  });
+
+  describe('shouldSeeVeteranIdentificationInformation', () => {
+    it('returns true if preparer is not veteran', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.thirdPartyVeteran,
+      };
+
+      expect(
+        shouldSeeVeteranIdentificationInformation({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns true if preparer is veteran and does not have prefill', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+      };
+
+      expect(
+        shouldSeeVeteranIdentificationInformation({
+          formData,
+        }),
+      ).to.equal(true);
+    });
+
+    it('returns false if preparer is veteran and has prefill', () => {
+      const formData = {
+        preparerIdentification: preparerIdentifications.veteran,
+        'view:veteranPrefillStore': {
+          fullName: {
+            first: 'Marty',
+            last: 'McFly',
+          },
+          ssn: '111519551',
+          dateOfBirth: '1955-11-15',
+        },
+      };
+
+      expect(
+        shouldSeeVeteranIdentificationInformation({
+          formData,
+        }),
+      ).to.equal(false);
+    });
   });
 
   describe('getting the Intents to File mid-form', () => {

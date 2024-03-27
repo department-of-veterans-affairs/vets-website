@@ -44,6 +44,15 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
   );
 };
 
+export const preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent = ({
+  formData,
+}) => {
+  return (
+    preparerIsSurvivingDependent({ formData }) ||
+    preparerIsThirdPartyToASurvivingDependent({ formData })
+  );
+};
+
 export const hasActiveCompensationITF = ({ formData } = {}) => {
   return !isEmpty(formData?.['view:activeCompensationITF']);
 };
@@ -59,11 +68,43 @@ export const noActiveITF = ({ formData } = {}) => {
   );
 };
 
+export const shouldSeeVeteranBenefitSelection = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && noActiveITF({ formData });
+};
+
+export const shouldSeeVeteranBenefitSelectionCompensation = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && hasActivePensionITF({ formData });
+};
+
+export const shouldSeeVeteranBenefitSelectionPension = ({ formData }) => {
+  return (
+    preparerIsVeteran({ formData }) && hasActiveCompensationITF({ formData })
+  );
+};
+
 export const hasVeteranPrefill = ({ formData } = {}) => {
   return (
     !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
     !isEmpty(formData?.['view:veteranPrefillStore']?.ssn) &&
     !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth)
+  );
+};
+
+export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
+};
+
+export const shouldSeeVeteranPersonalInformation = ({ formData }) => {
+  return (
+    (preparerIsVeteran({ formData }) && !hasVeteranPrefill({ formData })) ||
+    preparerIsThirdPartyToTheVeteran({ formData })
+  );
+};
+
+export const shouldSeeVeteranIdentificationInformation = ({ formData }) => {
+  return (
+    !preparerIsVeteran({ formData }) ||
+    (preparerIsVeteran({ formData }) && !hasVeteranPrefill({ formData }))
   );
 };
 
