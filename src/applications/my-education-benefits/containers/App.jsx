@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -361,7 +362,13 @@ export const App = ({
       };
       fetchAndUpdateDirectDepositInfo();
 
-      if (!benefitEffectiveDate) {
+      const currentDate = moment();
+      const oneYearAgo = currentDate.subtract(1, 'y');
+      if (
+        !benefitEffectiveDate ||
+        (mebAutoPopulateRelinquishmentDate &&
+          moment(benefitEffectiveDate).isBefore(oneYearAgo))
+      ) {
         setFormData({
           ...formData,
           benefitEffectiveDate: checkDate(
