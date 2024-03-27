@@ -20,7 +20,6 @@ const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
-    vaOnlineSchedulingStatusImprovement: true,
   },
 };
 
