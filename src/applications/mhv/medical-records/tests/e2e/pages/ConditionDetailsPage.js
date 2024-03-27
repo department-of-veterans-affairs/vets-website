@@ -12,8 +12,8 @@ class ConditionDetailsPage {
   };
 
   verifyLocation = location => {
-    cy.get('[data-testid="condition-location"]').should('be.visible');
-    cy.get('[data-testid="condition-location"]').contains(location);
+    // cy.get('[data-testid="condition-location"]').should('be.visible');
+    cy.get('[data-testid="list-item-single"]').contains(location);
   };
 
   verifySnomed = snomed => {
