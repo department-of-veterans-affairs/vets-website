@@ -8,7 +8,9 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import {
   DowntimeNotification,
   externalServices,
+  externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { MHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { medicationsUrls } from '../util/constants';
 
@@ -24,6 +26,7 @@ const App = ({ children }) => {
     },
     state => state.featureToggles,
   );
+
   const datadogRumConfig = {
     applicationId: '2b875bc2-034a-445b-868c-d43bec8928d1',
     clientToken: 'pubb9b9c833770797060110a821283a0892',
@@ -67,6 +70,18 @@ const App = ({ children }) => {
       <DowntimeNotification
         appTitle="Medications"
         dependencies={[externalServices.mhvPlatform, externalServices.mhvMeds]}
+        render={(downtimeProps, downtimeChildren) => (
+          <>
+            {downtimeProps.status === externalServiceStatus.down && (
+              <h1 className="vads-u-margin-top--4">Medications</h1>
+            )}
+            {downtimeProps.status ===
+              externalServiceStatus.downtimeApproaching && (
+              <div className="vads-u-margin-top--4" />
+            )}
+            <MHVDowntime {...downtimeProps}>{downtimeChildren}</MHVDowntime>
+          </>
+        )}
       >
         {children}
       </DowntimeNotification>

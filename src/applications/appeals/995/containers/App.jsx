@@ -33,6 +33,8 @@ import {
   processContestableIssues,
 } from '../../shared/utils/issues';
 
+import { data995 } from '../../shared/props';
+
 export const App = ({
   loggedIn,
   location,
@@ -189,13 +191,7 @@ App.propTypes = {
     issues: PropTypes.array,
     legacyCount: PropTypes.number,
   }),
-  formData: PropTypes.shape({
-    additionalIssues: PropTypes.array,
-    areaOfDisagreement: PropTypes.array,
-    benefitType: PropTypes.string,
-    contestedIssues: PropTypes.array,
-    legacyCount: PropTypes.number,
-  }),
+  formData: data995,
   inProgressFormId: PropTypes.number,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({

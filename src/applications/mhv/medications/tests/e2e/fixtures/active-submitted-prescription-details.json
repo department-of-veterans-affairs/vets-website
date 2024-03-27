@@ -1,38 +1,38 @@
 {
     "data": {
-        "id": "22545166",
+        "id": "22377955",
         "type": "prescription_details",
         "attributes": {
-            "prescriptionId": 22545166,
-            "prescriptionNumber": "2720605",
-            "prescriptionName": "GABAPENTIN 600MG TAB",
+            "prescriptionId": 22377955,
+            "prescriptionNumber": "2720553",
+            "prescriptionName": "MEGESTROL ACETATE 200MG/5ML ORAL SUSP",
             "refillStatus": "submitted",
-            "refillSubmitDate": "2023-10-04T20:46:54.000Z",
-            "refillDate": "2023-09-04T04:00:00.000Z",
-            "refillRemaining": 3,
+            "refillSubmitDate": null,
+            "refillDate": "2023-07-18T04:00:00.000Z",
+            "refillRemaining": 5,
             "facilityName": "DAYT29",
-            "orderedDate": "2023-09-04T04:00:00.000Z",
-            "quantity": 30,
-            "expirationDate": "2024-09-04T04:00:00.000Z",
+            "orderedDate": "2023-07-17T04:00:00.000Z",
+            "quantity": 1,
+            "expirationDate": "2024-07-17T04:00:00.000Z",
             "dispensedDate": null,
             "stationNumber": "989",
-            "isRefillable": false,
+            "isRefillable": true,
             "isTrackable": false,
             "cmopNdcNumber": null,
             "inCernerTransition": false,
             "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
-            "sig": "TAKE ONE TABLET DAILY FOR 30 DAYS TEST --AVOID ANTACIDS--",
+            "sig": "TAKE 1 TEASPOONFUL DAILY FOR 30 DAYS",
             "cmopDivisionPhone": null,
-            "userId": 17621060,
+            "userId": 16955936,
             "providerFirstName": "MOHAMMAD",
             "providerLastName": "ISLAM",
             "remarks": null,
             "divisionName": "DAYTON",
-            "modifiedDate": "2023-10-04T20:46:54.000Z",
+            "modifiedDate": "2023-08-11T15:56:58.000Z",
             "institutionId": null,
             "dialCmopDivisionPhone": "",
             "dispStatus": "Active: Submitted",
-            "ndc": "00071-0513-24",
+            "ndc": "00015-0508-42",
             "reason": null,
             "prescriptionNumberIndex": "RX",
             "prescriptionSource": "RX",
@@ -45,7 +45,7 @@
             "tracking": false
         },
         "links": {
-            "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22545166"
+            "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22377955"
         }
     }
 }

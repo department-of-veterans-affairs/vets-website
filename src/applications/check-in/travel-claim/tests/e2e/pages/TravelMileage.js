@@ -34,6 +34,12 @@ class TravelMileage {
       expectedCount,
     );
   };
+
+  checkForValidationError = () => {
+    cy.get('va-checkbox')
+      .shadow()
+      .find('#checkbox-error-message');
+  };
 }
 
 export default new TravelMileage();

@@ -42,7 +42,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -91,7 +91,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -144,7 +144,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -197,7 +197,7 @@ describe(manifest.appName, () => {
     it('Check the search message label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '4')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -246,7 +246,7 @@ describe(manifest.appName, () => {
     it('Check the search results label', () => {
       cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
         .should('contain', '2')
-        .and('contain', 'Category: "covid"');
+        .and('contain', 'Category: "COVID"');
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
