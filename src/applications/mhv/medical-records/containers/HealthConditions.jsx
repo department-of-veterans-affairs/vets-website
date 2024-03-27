@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
@@ -11,7 +12,6 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
-import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import useAlerts from '../hooks/use-alerts';

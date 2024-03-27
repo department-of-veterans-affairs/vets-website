@@ -133,7 +133,6 @@ export default class ClaimPhase extends React.Component {
                 secondary
                 text={`${showOlder ? 'Hide' : 'Show'} past updates`}
                 onClick={this.showOlderActivity}
-                uswds
               />
             </>
           ) : null}
