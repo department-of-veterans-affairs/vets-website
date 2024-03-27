@@ -89,7 +89,10 @@ Cypress.Commands.add('chooseSelectOptionByTyping', text => {
  * This command types in the focused input or textarea.
  * */
 Cypress.Commands.add('typeInFocused', text => {
-  cy.get(':focus').type(text, { delay: timeoutDuration });
+  // cy.get(':focus') returns 2 elements when focused on a web component
+  cy.get(':focus')
+    .first()
+    .type(text, { delay: timeoutDuration });
 });
 
 /**

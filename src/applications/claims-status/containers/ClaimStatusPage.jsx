@@ -19,7 +19,6 @@ import NextSteps from '../components/claim-status-tab/NextSteps';
 import Payments from '../components/claim-status-tab/Payments';
 import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
-import { DATE_FORMATS } from '../constants';
 import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
@@ -35,8 +34,6 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
@@ -267,7 +264,7 @@ class ClaimStatusPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
