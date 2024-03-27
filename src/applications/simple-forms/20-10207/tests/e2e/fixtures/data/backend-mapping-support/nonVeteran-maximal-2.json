@@ -33,7 +33,6 @@
       "ssn": "321540987",
       "vaFileNumber": "123456789"
     },
-    "veteranInsuranceFileNumber": "987654321",
     "otherReasons": {
       "FINANCIAL_HARDSHIP": true,
       "ALS": true,
