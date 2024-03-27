@@ -92,7 +92,7 @@ const RadioGroup = ({
       </VaRadio>
       <VaButtonPair
         class="vads-u-margin-top--3"
-        data-testid="paw-buttonPair"
+        data-testid="duw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
