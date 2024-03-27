@@ -25,7 +25,7 @@ export const reMapErrorMessage = error => {
   return errormessageMaps?.[result] ?? error;
 };
 
-export const checkIsNameTooLong = (name = '') =>
+export const checkIsFileNameTooLong = (name = '') =>
   name.length > MAX_FILE_NAME_LENGTH;
 
 export const createPayload = (file, _formId, password) => {

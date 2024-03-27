@@ -4,7 +4,7 @@ import {
   createPayload,
   parseResponse,
   MAX_FILE_NAME_LENGTH,
-  checkIsNameTooLong,
+  checkIsFileNameTooLong,
   createContent,
 } from '../../utils/upload';
 
@@ -47,19 +47,21 @@ describe('parseResponse', () => {
   });
 });
 
-describe('checkIsNameTooLong', () => {
+describe('checkIsFileNameTooLong', () => {
   it('should return false for file names under the size limit', () => {
-    expect(checkIsNameTooLong()).to.be.false;
-    expect(checkIsNameTooLong('')).to.be.false;
-    expect(checkIsNameTooLong('abcd')).to.be.false;
-    expect(checkIsNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH / 2))).to.be
+    expect(checkIsFileNameTooLong()).to.be.false;
+    expect(checkIsFileNameTooLong('')).to.be.false;
+    expect(checkIsFileNameTooLong('abcd')).to.be.false;
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH / 2))).to.be
       .false;
-    expect(checkIsNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH - 1))).to.be
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH - 1))).to.be
       .false;
   });
   it('should return true for file names over the size limit', () => {
-    expect(checkIsNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH + 1))).to.be.true;
-    expect(checkIsNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH * 2))).to.be.true;
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH + 1))).to.be
+      .true;
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH * 2))).to.be
+      .true;
   });
 });
 

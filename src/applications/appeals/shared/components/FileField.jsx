@@ -30,7 +30,7 @@ import {
   FILE_NAME_TOO_LONG_ERROR,
   createContent,
   reMapErrorMessage,
-  checkIsNameTooLong,
+  checkIsFileNameTooLong,
 } from '../utils/upload';
 
 import { ShowPdfPassword } from './ShowPdfPassword';
@@ -226,7 +226,7 @@ const FileField = props => {
         file: currentFile,
         name: currentFile.name,
       };
-      if (checkIsNameTooLong(currentFile.name)) {
+      if (checkIsFileNameTooLong(currentFile.name)) {
         allFiles[idx].errorMessage = FILE_NAME_TOO_LONG_ERROR;
         props.onChange(allFiles);
         return;
