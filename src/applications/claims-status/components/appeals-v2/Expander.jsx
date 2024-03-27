@@ -28,7 +28,6 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
         class="view-events-button"
         text={title}
         onClick={onToggle}
-        uswds
       />
       <div className="appeal-event-date vads-u-margin-top--1">{dateRange}</div>
       {alert}
