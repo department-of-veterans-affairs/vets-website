@@ -26,19 +26,14 @@ function SponsorSelectionPage({
   setFormData,
   sponsors,
   updatePage,
-  showMebEnhancements08,
 }) {
   const [dirty, setDirty] = useState(false);
-
   if (!sponsors?.sponsors.length) {
-    return <></>;
+    return <></>; // or any other placeholder for empty sponsors
   }
-
   const { anySelectedOptions, options } = mapSponsorsToCheckboxOptions(
     sponsors,
-    showMebEnhancements08,
   );
-
   const onValueChange = event => {
     const {
       target: { id, checked },
@@ -49,11 +44,9 @@ function SponsorSelectionPage({
       id,
       checked,
     );
-
     setDirty(true);
     setFormData(mapFormSponsors(formData, _sponsors));
   };
-
   const onSubmit = (_formData, formsSystem) => {
     if (!anySelectedOptions) {
       setDirty(true);
@@ -61,7 +54,6 @@ function SponsorSelectionPage({
     }
     return updatePage(_formData, formsSystem);
   };
-
   return (
     <Formik initialValues={data} onSubmit={onSubmit}>
       <Form>
@@ -85,9 +77,9 @@ function SponsorSelectionPage({
             />
           ))}
         </VaCheckboxGroup>
-        <button className="vads-u-margin-y--2" type="submit">
+        <va-button className="vads-u-margin-y--2" type="submit">
           Update page
-        </button>
+        </va-button>
       </Form>
     </Formik>
   );
@@ -100,7 +92,6 @@ SponsorSelectionPage.propTypes = {
   formContext: PropTypes.object,
   formData: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements08: PropTypes.bool,
   sponsors: PropTypes.object,
   updatePage: PropTypes.func,
 };

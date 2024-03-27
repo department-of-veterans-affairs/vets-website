@@ -24,9 +24,6 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
-  showMebEnhancements,
-  showMebEnhancements06,
-  showMebEnhancements08,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -76,42 +73,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements08],
-  );
-
-  useEffect(
-    () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
@@ -150,8 +111,6 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,

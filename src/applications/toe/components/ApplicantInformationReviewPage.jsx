@@ -9,7 +9,6 @@ function ordinalSuffix(num) {
     num + (suffixes[(mod100 - 20) % 10] || suffixes[mod100] || suffixes[0])
   );
 }
-
 function formatDateString(dateString) {
   const dateObj = new Date(dateString);
   const year = dateObj.getUTCFullYear();
@@ -20,11 +19,8 @@ function formatDateString(dateString) {
   const day = ordinalSuffix(dateObj.getUTCDate());
   return `${month} ${day}, ${year}`;
 }
-
 const ApplicantInformationReviewPage = ({
-  data,
   dateOfBirth,
-  editPage,
   title,
   userFullName,
 }) => {
@@ -36,59 +32,27 @@ const ApplicantInformationReviewPage = ({
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
             {title}
           </h4>
-          {!data.showMebEnhancements06 && (
-            <button
-              aria-label={`Edit ${title}`}
-              className="edit-btn primary-outline"
-              onClick={editPage}
-              type="button"
-            >
-              Edit
-            </button>
-          )}
         </div>
-        {data.showMebEnhancements06 ? (
-          <p className="va-address-block">
-            {userFullName.first} {userFullName.middle} {userFullName.last}
-            <br />
-            Date of birth: {formattedDateOfBirth}
-          </p>
-        ) : (
-          <dl className="review">
-            <div className="review-row">
-              <dt>Full Name</dt>
-              <dd>
-                {data['view:userFullName'].userFullName.first}{' '}
-                {data['view:userFullName'].userFullName.middle}{' '}
-                {data['view:userFullName'].userFullName.last}{' '}
-              </dd>
-            </div>
-            <div className="review-row">
-              <dt>Date of birth</dt>
-              <dd>{data.dateOfBirth}</dd>
-            </div>
-          </dl>
-        )}
+        <p className="va-address-block">
+          {userFullName.first} {userFullName.middle} {userFullName.last}
+          <br />
+          Date of birth: {formattedDateOfBirth}
+        </p>
       </div>
     </>
   );
 };
-
 ApplicantInformationReviewPage.propTypes = {
-  data: PropTypes.object,
-  dateOfBirth: PropTypes.string,
-  editPage: PropTypes.func,
-  title: PropTypes.string,
+  dateOfBirth: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   userFullName: PropTypes.shape({
-    first: PropTypes.string,
+    first: PropTypes.string.isRequired,
     middle: PropTypes.string,
-    last: PropTypes.string,
-  }),
+    last: PropTypes.string.isRequired,
+  }).isRequired,
 };
-
 const mapStateToProps = state => ({
   userFullName: state.user.profile?.userFullName,
   dateOfBirth: state.user.profile?.dob,
 });
-
 export default connect(mapStateToProps)(ApplicantInformationReviewPage);
