@@ -1,6 +1,13 @@
 import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
+import {
+  dataDogLog,
+  STATUS_TYPE,
+  LOG_NAME,
+  newPayload,
+  DD_SESSION_STORAGE_KEY,
+} from 'platform/user/authentication/datadog/utilities';
 import { CSP_IDS, POLICY_TYPES } from 'platform/user/authentication/constants';
 import { SENTRY_TAGS } from 'platform/user/authentication/errors';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -15,6 +22,7 @@ export default class AuthMetrics {
     this.userProfile = get('data.attributes.profile', payload, {});
     this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
+    this.authBroker = get('signIn.authBroker', this.userProfile, null);
   }
 
   compareLoginPolicy = () => {
@@ -32,8 +40,25 @@ export default class AuthMetrics {
   };
 
   recordGAAuthEvents = () => {
+    const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY) || {
+      authLocation: 'unknown',
+      application: 'unknown',
+    };
+    const ddPayload = newPayload({
+      csp: this.serviceName,
+      authBroker: this.authBroker || 'unknown',
+      authLocation: ddSessionStorage.authLocation,
+      application: ddSessionStorage.application,
+      level: this.loaCurrent || 'unknown',
+    });
+
     switch (this.type) {
       case POLICY_TYPES.SIGNUP:
+        dataDogLog({
+          name: LOG_NAME.REGISTER_SUCCESS,
+          payload: ddPayload,
+          status: STATUS_TYPE.INFO,
+        });
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
       case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
@@ -43,11 +68,21 @@ export default class AuthMetrics {
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
       case CSP_IDS.VAMOCK:
+        dataDogLog({
+          name: LOG_NAME.LOGIN_SUCCESS,
+          payload: {
+            ...ddPayload,
+            ...(this.type === POLICY_TYPES.CUSTOM && { autoSSO: true }),
+          },
+          status: STATUS_TYPE.INFO,
+        });
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
       default:
-        recordEvent({ event: `login-or-register-success-${this.serviceName}` });
+        recordEvent({
+          event: `login-or-register-success-${this.serviceName}`,
+        });
         Sentry.withScope(scope => {
           scope.setExtra(SENTRY_TAGS.REQUEST_ID, this.requestId);
           scope.setExtra(SENTRY_TAGS.ERROR_CODE, this.errorCode);
