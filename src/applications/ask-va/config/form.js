@@ -29,6 +29,7 @@ import {
   generalQuestionPages,
   myOwnBenFamPages,
   myOwnBenVetPages,
+  someoneElseBen3rdPartyEducationPages,
   someoneElseBen3rdPartyPages,
   someoneElseBenFamPages,
   someoneElseBenVetPages,
@@ -167,6 +168,13 @@ const formConfig = {
               goPath(`/${flowPaths.someoneElseBenVet}-1`);
             } else if (
               formData.personalRelationship === 'WORK' &&
+              formData.questionAbout === 'SOMEONE_ELSE' &&
+              formData.selectCategory ===
+                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+            ) {
+              goPath(`/${flowPaths.someoneElseBen3rdPartyEducation}-1`);
+            } else if (
+              formData.personalRelationship === 'WORK' &&
               formData.questionAbout === 'SOMEONE_ELSE'
             ) {
               goPath(`/${flowPaths.someoneElseBen3rdParty}-1`);
@@ -181,6 +189,7 @@ const formConfig = {
         ...someoneElseBenVetPages,
         ...someoneElseBenFamPages,
         ...someoneElseBen3rdPartyPages,
+        ...someoneElseBen3rdPartyEducationPages,
       },
     },
     review: {
