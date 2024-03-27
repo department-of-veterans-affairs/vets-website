@@ -40,7 +40,7 @@ export const fileUploadUi = content => {
     hideLabelText: !content.label,
     fileUploadUrl: uploadUrl,
     addAnotherLabel,
-    buttonText: 'Upload file',
+    buttonText: content.buttonText || 'Upload file',
     fileTypes,
     maxSize,
     minSize,

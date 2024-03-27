@@ -1,5 +1,11 @@
 import React from 'react';
-import { fileTypes, maxSize, minSize } from '../../config/attachments';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { fileTypes, maxSize } from '../../config/attachments';
+import { fileUploadUi as fileUploadUI } from '../File/upload';
+import { sponsorWording } from '../../helpers/wordingCustomization';
+
+export const mailOrFaxLaterMsg =
+  'If you don’t have a copy to upload now, you can send one by mail or fax.';
 
 const marriagePapers = [
   'Marriage certificate',
@@ -82,6 +88,7 @@ function makeUl(points) {
 }
 
 export function acceptableFileList(list) {
+  if (list.length === 0) return <></>;
   const parseItem = (item, idx) => {
     // If we have nested items (we allow one layer deep nesting)
     // then make a <ul> to nest
@@ -115,33 +122,20 @@ export const fileUploadBlurb = {
   'view:fileUploadBlurb': {
     'ui:description': (
       <>
-        <va-additional-info
-          trigger="Tips for uploading"
-          class="vads-u-margin-bottom--4"
-        >
+        <div className="vads-u-margin-bottom--4">
+          <b>How to upload files</b>
           <ul>
             <li>
-              You can upload your files as one of these file types:{' '}
-              {fileTypes.join(', .')}
+              Use a .{fileTypes.slice(0, -1).join(', .')}, or .
+              {fileTypes.slice(-1)} file format
             </li>
+            <li>Make sure that file size is {maxSize} or less.</li>
             <li>
-              Upload one or more files that add up to at least {minSize} but no
-              more than {maxSize} total.
-            </li>
-            <li>
-              If you don’t have a digital copy of a file, you can scan or take a
-              photo of it and then upload the image from your computer or phone.
-            </li>
-            <li>
-              If you don’t want to upload your supporting files now, you’ll have
-              the option to upload again at the end of this application.
-            </li>
-            <li>
-              If you don’t upload your supporting files, we’ll provide you
-              instructions for how to mail or fax in your file(s).
+              If you only have a paper copy, scan or take a photo and upload the
+              image.
             </li>
           </ul>
-        </va-additional-info>
+        </div>
       </>
     ),
   },
@@ -190,48 +184,107 @@ export function uploadWithInfoComponent(
       'view:additionalResources': {
         'ui:description': (
           <>
-            <p>
-              <b>Resources regarding {category}</b>
-            </p>
-            <ul>
-              {resources &&
-                resources.map((resource, index) => (
-                  <li key={`link-${resource}-${index}`}>
-                    {makeLink(resource)}
-                  </li>
-                ))}
-            </ul>
+            {resources ? (
+              <>
+                <p>
+                  <b>Resources regarding {category}</b>
+                </p>
+                <ul>
+                  {resources.map((resource, index) => (
+                    <li key={`link-${resource}-${index}`}>
+                      {makeLink(resource)}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              ''
+            )}
           </>
         ),
       },
-      'view:fileUploadMessage': isOptional
-        ? { ...optionalFileUploadMessage }
-        : { ...requiredFileUploadMessage },
+      // 'view:fileUploadMessage': isOptional
+      //   ? { ...optionalFileUploadMessage }
+      //   : { ...requiredFileUploadMessage },
       ...fileUploadBlurb,
     },
     schema: {
       'view:acceptableFilesList': blankSchema,
       'view:additionalResources': blankSchema,
-      'view:fileUploadMessage': blankSchema,
+      // 'view:fileUploadMessage': blankSchema,
       'view:fileUploadBlurb': blankSchema,
     },
   };
 }
 
 export const sponsorDisabilityRatingConfig = uploadWithInfoComponent(
-  acceptableFiles.disabilityCert,
+  undefined, // acceptableFiles.disabilityCert,
   'disability rating',
   true,
 );
 
+export const sponsorDisabilityRatingUploadUiSchema = {
+  ...titleUI('Upload disability rating decision letter', ({ formData }) => (
+    <>
+      To help us process this application faster, you can submit a copy of a
+      document showing proof of {sponsorWording(formData, true, false)} rating.
+      <br />
+      {mailOrFaxLaterMsg}
+    </>
+  )),
+  ...sponsorDisabilityRatingConfig.uiSchema,
+  sponsorDisabilityRating: fileUploadUI({
+    label: 'Upload disability rating decision letter',
+  }),
+};
+
 export const sponsorDischargePapersConfig = uploadWithInfoComponent(
-  acceptableFiles.dischargeCert,
+  undefined, // acceptableFiles.dischargeCert,
   'discharge papers',
   true,
 );
 
+export const sponsorDischargePapersUploadUiSchema = {
+  ...titleUI('Upload discharge papers', ({ formData }) => (
+    <>
+      To help us process this application faster, you can submit a copy of{' '}
+      {sponsorWording(formData, true, false)} discharge papers.
+      <br />
+      {mailOrFaxLaterMsg}
+    </>
+  )),
+  ...sponsorDischargePapersConfig.uiSchema,
+  sponsorDischargePapers: fileUploadUI({
+    label: 'Upload discharge papers',
+  }),
+};
+
 export const sponsorCasualtyReportConfig = uploadWithInfoComponent(
-  acceptableFiles.casualtyCert,
+  undefined, // acceptableFiles.casualtyCert,
   'casualty report',
   false,
 );
+
+export const sponsorCasualtyUploadUiSchema = {
+  ...titleUI('Upload DD 1300 (Report of Casualty)', () => (
+    <>
+      You’ll need to submit a copy of the sponsor’s DD 1300 (Report of
+      Casualty).
+      <br />
+      If you don’t have a copy to upload now, you can request one and send it by
+      mail.
+      <br />
+      <a
+        target="_blank"
+        rel="noreferrer noopener"
+        href="https://www.va.gov/survivors/faqs.asp#FAQ17"
+      >
+        Learn how to request service records (opens in new tab)
+      </a>
+    </>
+  )),
+  ...sponsorCasualtyReportConfig.uiSchema,
+  sponsorCasualtyReport: fileUploadUI({
+    label: 'Upload DD 1300 (Report of Casualty)',
+  }),
+};
