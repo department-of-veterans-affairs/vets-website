@@ -107,8 +107,9 @@ jobs:
       - name: Prepare build artifacts
         run: |
           # Prepare build artifacts
-          mkdir -p $GITHUB_WORKSPACE/build
-          mv build/vagovprod $GITHUB_WORKSPACE/build/vagovprod
+          mkdir -p $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
+          mv build/${{ matrix.buildtype }}/* $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}/
+
 
       # - name: Upload build artifact
       #   uses: actions/upload-artifact@v2
