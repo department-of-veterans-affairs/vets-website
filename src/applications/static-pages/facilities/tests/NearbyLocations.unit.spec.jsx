@@ -423,12 +423,13 @@ describe('NearbyVALocations', () => {
       // wait for useEffect
       setTimeout(() => {
         wrapper.update();
-        expect(
-          wrapper
-            .find('h3')
-            .first() // it does 3 requests and gets back 1 facility (that is the mock) for Health, VetCenter, and Cemetery
-            .text(),
-        ).to.equal('Cleveland VA Clinic-Euclid');
+        const el = wrapper.find('va-link').first();
+        const props = el.props();
+        expect(props).to.deep.equal({
+          href:
+            'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
+          text: 'Cleveland VA Clinic-Euclid',
+        });
         wrapper.unmount();
         done();
       }, 100);

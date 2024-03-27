@@ -13,7 +13,7 @@ describe('verify deeplinking sending the draft', () => {
   });
 
   it('verify modal appears and has a link', () => {
-    cy.get(Locators.BUTTONS.PREFER_BUTTON).click();
+    cy.get(Locators.BUTTONS.PREFERENCES).click();
 
     cy.get('.va-modal-alert-body')
       .find(Locators.HEADER2)

@@ -90,7 +90,7 @@ $medium-phone-screen: 375px;
 
   .menu-rule,
   #menu-rule {
-    border-bottom: 1px solid var(--vads-color-white);
+    border-bottom: 1px solid $color-white;
     margin-left: -0.55em;
     padding-bottom: 1em;
     padding-right: 1.2em;
@@ -458,7 +458,7 @@ $medium-phone-screen: 375px;
   }
 
   .white {
-    color: var(--vads-color-white);
+    color: $color-white;
   }
 
   .sidenav-previous-page {
@@ -491,7 +491,7 @@ $medium-phone-screen: 375px;
 
       &:hover,
       &:active {
-        background-color: var(--vads-color-primary-dark);
+        background-color: $color-primary-darker;
         color: inherit !important;
         text-decoration: none;
       }
@@ -507,7 +507,7 @@ $medium-phone-screen: 375px;
     @media (max-width: $medium-screen - 1) {
       @include button-link;
       font-weight: 600;
-      color: var(--vads-color-white) !important;
+      color: $color-white !important;
       text-decoration: none;
       -webkit-font-smoothing: antialiased;
     }
@@ -575,7 +575,7 @@ $medium-phone-screen: 375px;
 }
 
 ._acs._acsbadge--default {
-  background-color: var(--vads-color-black) !important;
+  background-color: $color-black !important;
 }
 
 .media-list-images {
