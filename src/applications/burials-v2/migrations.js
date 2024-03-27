@@ -46,10 +46,11 @@ export default [
       };
     }
 
-    // ['ssn', 'claimantSocialSecurityNumber'],
-    // ['date', 'claimantDateOfBirth'],
-    // ['files', 'militarySeparationDocuments'],
-
-    return { newFormData, newMetadata };
+    // Multiple additional fields must be filled from the beginning
+    return {
+      newFormData,
+      newMetadata,
+      returnUrl: '/claimant-contact-information',
+    };
   },
 ];
