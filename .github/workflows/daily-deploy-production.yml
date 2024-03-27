@@ -221,7 +221,7 @@ jobs:
   
   create-release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     needs: [set-env, notify-start, validate-build-status, archive]
     steps:
       - name: Configure AWS Credentials
@@ -278,7 +278,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     needs: [set-env, create-release, get-workflow-environment]
     environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
@@ -324,7 +324,7 @@ jobs:
 
   notify-success:
     name: Notify Success
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     needs: deploy
 
     steps:
@@ -342,7 +342,7 @@ jobs:
 
   notify-failure:
     name: Notify Failure
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     if: ${{ failure() || cancelled() }}
     needs: deploy
 
