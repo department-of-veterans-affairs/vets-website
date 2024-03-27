@@ -136,7 +136,7 @@ jobs:
     name: Build
     runs-on: [NexGenLab]
     # needs: [set-env, notify-start, validate-build-status]
-    needs: [set-env, validate-build-status]
+    needs: [set-env,  notify-start, validate-build-status]
 
     steps:
       - name: Checkout
