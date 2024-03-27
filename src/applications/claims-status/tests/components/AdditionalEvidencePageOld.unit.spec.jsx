@@ -1,14 +1,13 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { AdditionalEvidencePageOld } from '../../containers/AdditionalEvidencePageOld';
+import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -109,7 +108,7 @@ describe('<AdditionalEvidencePageOld>', () => {
     const mainDiv = document.createElement('div');
     mainDiv.classList.add('va-nav-breadcrumbs');
     document.body.appendChild(mainDiv);
-    const elem = (
+    renderWithRouter(
       <Provider store={uploadStore}>
         <AdditionalEvidencePageOld
           clearAdditionalEvidenceNotification={() => {}}
@@ -119,15 +118,7 @@ describe('<AdditionalEvidencePageOld>', () => {
           resetUploads={resetUploads}
           uploadField={{ value: null, dirty: false }}
         />
-      </Provider>
-    );
-
-    render(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={elem} />
-        </Routes>
-      </MemoryRouter>,
+      </Provider>,
     );
 
     expect(document.title).to.equal('Additional Evidence');

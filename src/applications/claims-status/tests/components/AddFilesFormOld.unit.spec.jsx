@@ -2,9 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
-import { render } from '@testing-library/react';
 import sinon from 'sinon';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
@@ -19,6 +17,7 @@ import {
   MAX_PDF_SIZE_BYTES,
   MAX_PDF_SIZE_MB,
 } from '../../utils/validations';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 // NOTE: Trying to extract the web components that use React bindings with skin-deep is
 // a nightmare. Normally you can use something like the name of the component
@@ -168,20 +167,12 @@ describe('<AddFilesFormOld>', () => {
     const onSubmit = sinon.spy();
     const onDirtyFields = sinon.spy();
 
-    const elem = (
+    const { container, rerender } = renderWithRouter(
       <AddFilesFormOld
         {...fileFormProps}
         onSubmit={onSubmit}
         onDirtyFields={onDirtyFields}
-      />
-    );
-
-    const { container, rerender } = render(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={elem} />
-        </Routes>
-      </MemoryRouter>,
+      />,
     );
 
     // Check the checkbox
@@ -201,22 +192,15 @@ describe('<AddFilesFormOld>', () => {
       isEncrypted: false,
     };
 
-    const elem2 = (
+    rerenderWithRouter(
+      rerender,
       <AddFilesFormOld
         {...fileFormProps}
         files={[file]}
         onSubmit={onSubmit}
         onDirtyFields={onDirtyFields}
         uploading
-      />
-    );
-
-    rerender(
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={elem2} />
-        </Routes>
-      </MemoryRouter>,
+      />,
     );
 
     fireEvent.click($('.submit-files-button', container));

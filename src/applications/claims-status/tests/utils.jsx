@@ -11,3 +11,13 @@ export const renderWithRouter = element => {
     </MemoryRouter>,
   );
 };
+
+export const rerenderWithRouter = (rerender, element) => {
+  return rerender(
+    <MemoryRouter>
+      <Routes>
+        <Route index element={element} />
+      </Routes>
+    </MemoryRouter>,
+  );
+};

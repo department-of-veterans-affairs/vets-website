@@ -17,6 +17,7 @@ import {
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
 } from '../../../actions/types';
+import { renderWithRouter } from '../../utils';
 
 const appealIdParam = mockData.data[0].id;
 
@@ -64,13 +65,8 @@ describe('<AppealInfo>', () => {
   });
 
   it('should render the breadcrumbs', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Routes>
-          <Route index element={<AppealInfo {...defaultProps} />} />
-        </Routes>
-      </MemoryRouter>,
-    );
+    const { container } = renderWithRouter(<AppealInfo {...defaultProps} />);
+
     const breadcrumbs = $('va-breadcrumbs', container);
     expect(breadcrumbs.breadcrumbList.length).to.equal(3);
   });

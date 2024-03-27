@@ -5,13 +5,13 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
 import * as AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
+import { renderWithRouter } from '../../utils';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -228,15 +228,8 @@ describe('<AdditionalEvidencePage>', () => {
         },
       ];
 
-      const { container } = render(
-        <MemoryRouter>
-          <Routes>
-            <Route
-              index
-              element={<AdditionalEvidencePage {...props} {...fileFormProps} />}
-            />
-          </Routes>
-        </MemoryRouter>,
+      const { container } = renderWithRouter(
+        <AdditionalEvidencePage {...props} {...fileFormProps} />,
       );
 
       expect($('.primary-alert', container)).to.exist;
