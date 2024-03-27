@@ -7,7 +7,7 @@ export default function NoRegistrationMessage() {
     <FullWidthLayout>
       <InfoAlert
         status="error"
-        headline="We’re sorry. We’re sorry. We can’t find any VA medical facility registrations for you"
+        headline="We’re sorry. We can’t find any VA medical facility registrations for you"
       >
         <p>
           To schedule an appointment online or to request Community Care
