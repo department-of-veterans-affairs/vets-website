@@ -1,7 +1,14 @@
+// March 2024: This file is duplicated from the search application (src/applications/search) because we
+// converted the search app used on the page in /search/?query={query} to use web components
+// The header cannot support web components yet due to its integration with TeamSites, so this is the original
+// non-web-component version of the Search app
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isSearchStrInvalid } from '../../utils';
+function isSearchStrInvalid(str) {
+  const formattedStr = str.trim();
+  return !formattedStr.length || formattedStr.length > 255;
+}
 
 const Keycodes = {
   Backspace: 8,

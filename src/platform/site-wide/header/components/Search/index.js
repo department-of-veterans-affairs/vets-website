@@ -6,7 +6,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import recordEvent from '~/platform/monitoring/record-event';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import SearchDropdownComponent from '~/applications/search/components/SearchDropdown/SearchDropdownComponent';
+import SearchDropdownComponent from './SearchDropdownComponent';
 import { replaceWithStagingDomain } from '../../../../utilities/environment/stagingDomains';
 
 export const Search = ({ searchDropdownComponentEnabled }) => {
