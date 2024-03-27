@@ -79,7 +79,7 @@ export const getRoutesForNav = (
 ) => {
   return routesForNav.reduce((acc, route) => {
     // don't include the contacts route if the profileContacts flag is false
-    if (!profileContacts && route.path === PROFILE_PATHS.CONTACTS) {
+    if (!profileContacts && route.name === PROFILE_PATH_NAMES.CONTACTS) {
       return acc;
     }
 
