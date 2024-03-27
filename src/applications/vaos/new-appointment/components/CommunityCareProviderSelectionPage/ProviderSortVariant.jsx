@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
@@ -8,8 +9,8 @@ import {
   updateCCProviderSortMethod,
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
+import NoAddressNote from '../NoAddressNote';
 
 export default function ProviderSortVariant({
   currentlyShownProvidersList,
@@ -113,12 +114,12 @@ export default function ProviderSortVariant({
             aria-live="polite"
             aria-atomic="true"
           >
-            Displaying 1 to {currentlyShownProvidersList.length} of{' '}
+            Displaying {currentlyShownProvidersList.length} of{' '}
             {communityCareProviderList.length} providers
           </p>
         )}
       <VaSelect
-        label="Show providers closest to"
+        label="Show providers nearest to this location:"
         name="sort"
         onVaSelect={onValueChange}
         value={selectedSortMethod}
@@ -127,13 +128,7 @@ export default function ProviderSortVariant({
       >
         {hasUserAddress ? options : options.slice(1)}
       </VaSelect>
-      {!hasUserAddress && (
-        <p>
-          Note: To show providers near your home, you need to add your home
-          address to{' '}
-          <NewTabAnchor href="/profile">your VA profile</NewTabAnchor>.
-        </p>
-      )}
+      {!hasUserAddress && <NoAddressNote />}
       {requestLocationStatusFailed && (
         <div
           id="providerSelectionBlockedLocation"
@@ -167,3 +162,8 @@ export default function ProviderSortVariant({
     </div>
   );
 }
+
+ProviderSortVariant.propTypes = {
+  currentlyShownProvidersList: PropTypes.array,
+  notLoading: PropTypes.bool,
+};

@@ -10,10 +10,8 @@ describe('Medical Records View Conditions', () => {
 
     ConditionsListPage.verifyConditionsPageTitle();
     ConditionsListPage.clickConditionsDetailsLink(0);
-    ConditionDetailsPage.verifyConditionStatus('abc123');
     ConditionDetailsPage.verifyProvider('Dr. John');
     ConditionDetailsPage.verifyLocation("chiropractor's office");
-    ConditionDetailsPage.verifySnomed('Back pain (SCT 161891005)');
     ConditionDetailsPage.verifyProviderNotes('A note');
     // Axe check
     cy.injectAxe();

@@ -18,6 +18,7 @@ export const getVitals = (isCurrent = false) => async dispatch => {
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
@@ -29,6 +30,7 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
     dispatch({ type: Actions.Vitals.GET, vitalType });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 

@@ -3,8 +3,6 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-
 import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
@@ -29,10 +27,9 @@ function getClasses(phase, current) {
 }
 
 export default class ClaimPhase extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
-    this.state = { open: props.current === props.phase, showOlder: false };
-    this.expandCollapse = this.expandCollapse.bind(this);
+    this.state = { showOlder: false };
     this.displayActivity = this.displayActivity.bind(this);
     this.showOlderActivity = this.showOlderActivity.bind(this);
     this.getEventDescription = this.getEventDescription.bind(this);
@@ -136,7 +133,6 @@ export default class ClaimPhase extends React.Component {
                 secondary
                 text={`${showOlder ? 'Hide' : 'Show'} past updates`}
                 onClick={this.showOlderActivity}
-                uswds
               />
             </>
           ) : null}
@@ -164,17 +160,6 @@ export default class ClaimPhase extends React.Component {
   showOlderActivity(event) {
     event.stopPropagation();
     this.setState(prev => ({ showOlder: !prev.showOlder }));
-  }
-
-  expandCollapse() {
-    recordEvent({
-      event: 'claims-expandcollapse',
-    });
-    const { phase, current } = this.props;
-    const { open } = this.state;
-    if (phase <= current) {
-      this.setState({ open: !open });
-    }
   }
 
   render() {

@@ -465,7 +465,7 @@ class PatientInboxPage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.get(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
+    cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
     cy.get(Locators.MESSAGE_SUBJECT)
@@ -560,7 +560,7 @@ class PatientInboxPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   getInboxHeader = text => {

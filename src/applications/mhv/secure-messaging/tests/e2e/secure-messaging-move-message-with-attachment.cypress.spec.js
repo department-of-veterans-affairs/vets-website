@@ -42,7 +42,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
       })
-      .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
+      .find('[for = "radiobutton-Deletedinput"]', { includeShadowDom: true })
       .click();
     cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('va-button[text="Confirm"]')

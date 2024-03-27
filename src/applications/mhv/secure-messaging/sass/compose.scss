@@ -6,7 +6,7 @@
   }
   va-select.composeSelect::part(label)::after {
     content: " (*Required)";
-    color: $color-secondary-dark;
+    color: var(--vads-color-secondary-dark);
   }
   va-select.composeSelect::part(select) {
     max-width: 100%;
@@ -38,9 +38,9 @@
     text-overflow: ellipsis;
   }
   .compose-form {
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     .required {
-      color: $color-secondary-dark;
+      color: var(--vads-color-secondary-dark);
     }
     .compose-form-div {
       margin-bottom: 24px;
@@ -65,16 +65,16 @@
   }
   .reply-form {
     margin: 2rem 0 1rem 0;
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     .required {
-      color: $color-secondary-dark;
+      color: var(--vads-color-secondary-dark);
     }
     .compose-form-div {
       margin-bottom: 24px;
     }
     va-text-input#message-subject::part(input) {
       max-width: 100%;
-      // background-color: $color-gray-dark;
+      // background-color: var(--vads-color-base-darker);
     }
     va-textarea#reply-message-body::part(textarea) {
       max-width: 100%;
@@ -83,7 +83,7 @@
     }
 
     .compose-inputs-container {
-      border: 2px solid $color-gray-lightest;
+      border: 2px solid var(--vads-color-base-lightest);
       border-radius: 0 0 4px 4px;
       padding: 0 14px 14px;
       @media (min-width: $medium-screen) {
@@ -134,13 +134,13 @@
 }
 
 .edit-preferences-button {
-  box-shadow: inset 0 0 0 2px $color-gray-dark;
-  color: $color-gray-dark;
+  box-shadow: inset 0 0 0 2px var(--vads-color-base-darker);
+  color: var(--vads-color-base-darker);
   height: 36px;
 
   &:hover {
-    color: $color-gray-dark;
-    background-color: $color-gray-cool-light !important;
+    color: var(--vads-color-base-darker);
+    background-color: var(--vads-color-gray-cool-light) !important;
   }
   @media (max-width: $small-screen) {
     width: 100%;
@@ -155,8 +155,8 @@
   }
 
   .attach-file-button::part(button) {
-    box-shadow: inset 0 0 0 2px $color-gray-dark;
-    color: $color-gray-dark;
+    box-shadow: inset 0 0 0 2px var(--vads-color-base-darker);
+    color: var(--vads-color-base-darker);
     height: 36px;
     width: 100%;
 

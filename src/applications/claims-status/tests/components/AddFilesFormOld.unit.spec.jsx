@@ -1,6 +1,10 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
+import { render } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import sinon from 'sinon';
 
 import {
@@ -35,6 +39,7 @@ describe('<AddFilesFormOld>', () => {
     const onFieldChange = sinon.spy();
     const onCancel = sinon.spy();
     const onDirtyFields = sinon.spy();
+    const uploading = false;
 
     const tree = SkinDeep.shallowRender(
       <AddFilesFormOld
@@ -46,6 +51,7 @@ describe('<AddFilesFormOld>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
+        uploading={uploading}
       />,
     );
 
@@ -56,34 +62,6 @@ describe('<AddFilesFormOld>', () => {
 
     // VaModal has an id of `upload-status` so we can use that as the selector here
     expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.false;
-  });
-
-  it('should show uploading modal', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesFormOld
-        uploading
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-
-    // VaModal has an id of `upload-status` so we can use that as the selector here
-    expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.true;
   });
 
   it('should include mail info additional info', () => {
@@ -171,6 +149,62 @@ describe('<AddFilesFormOld>', () => {
     tree.getMountedInstance().submit();
     expect(onSubmit.called).to.be.false;
     expect(onDirtyFields.called).to.be.true;
+  });
+
+  it('should add a valid file and submit', async () => {
+    const fileFormProps = {
+      field: { value: '', dirty: false },
+      files: [],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+      uploading: false,
+    };
+    const onSubmit = sinon.spy();
+    const onDirtyFields = sinon.spy();
+
+    const { container, rerender } = render(
+      <AddFilesFormOld
+        {...fileFormProps}
+        onSubmit={onSubmit}
+        onDirtyFields={onDirtyFields}
+      />,
+    );
+
+    // Check the checkbox
+    $('va-checkbox', container).__events.vaChange({
+      detail: { checked: true },
+    });
+
+    // Rerender component with new props and submit the file upload
+    const file = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+
+    rerender(
+      <AddFilesFormOld
+        {...fileFormProps}
+        files={[file]}
+        onSubmit={onSubmit}
+        onDirtyFields={onDirtyFields}
+        uploading
+      />,
+    );
+
+    fireEvent.click($('.submit-files-button', container));
+    expect(onSubmit.called).to.be.true;
+    expect($('#upload-status', container).visible).to.be.true;
   });
 
   it('should not add an invalid file type', () => {
