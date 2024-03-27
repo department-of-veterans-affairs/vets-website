@@ -21,7 +21,7 @@ env:
 
 jobs:
   get-workflow-environment:
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     outputs:
       environment_name: ${{ steps.check-environment.outputs.env_name }}
     steps:
@@ -35,7 +35,7 @@ jobs:
           fi
   set-env:
     name: Set Env Variables
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     outputs:
       LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
@@ -76,7 +76,7 @@ jobs:
 
   validate-build-status:
     name: Validate Build Status
-    runs-on: ubuntu-latest
+    runs-on: [NexGenLab]
     needs: set-env
     steps:
       - name: Checkout
