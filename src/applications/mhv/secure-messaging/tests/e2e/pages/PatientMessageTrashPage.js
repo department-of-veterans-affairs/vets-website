@@ -77,7 +77,7 @@ class PatientMessageTrashPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   verifySorting = () => {

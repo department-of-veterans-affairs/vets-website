@@ -29,8 +29,12 @@ describe('Direct Deposit - Happy Path', () => {
 
       directDeposit.confirmDirectDepositIsAvailable();
 
-      // main placeholder for new page should exist
-      cy.findByText(/new Direct deposit page/i).should('exist');
+      // exclusive to new unified page
+      cy.findAllByTestId('unified-direct-deposit').should('exist');
+
+      cy.findByRole('heading', { name: 'Direct deposit information' }).should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
@@ -44,7 +48,9 @@ describe('Direct Deposit - Happy Path', () => {
 
       directDeposit.confirmDirectDepositIsAvailable();
 
-      // main heading for legacy page should exist
+      // exclusive to legacy page
+      cy.findAllByTestId('legacy-direct-deposit').should('exist');
+
       cy.findByRole('heading', { name: 'Direct deposit information' }).should(
         'exist',
       );
