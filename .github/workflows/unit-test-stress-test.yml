@@ -162,8 +162,10 @@ jobs:
           name: unit-test-allow-list
           path: .
 
-      - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+      - name: Run unit tests with pseudorandom file order
+        run: |
+          FILES=$(find {script,$APP_FOLDERS} -name "*.unit.spec.js" -o -name "*.unit.spec.jsx" | shuf)
+          yarn test:unit $FILES --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
