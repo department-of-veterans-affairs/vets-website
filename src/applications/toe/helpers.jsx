@@ -482,6 +482,29 @@ export function mapSponsorsToCheckboxOptions(sponsors, showMebEnhancements08) {
   };
 }
 
+export const applicantIsaMinor = formData => {
+  if (!formData || !formData[formFields.dateOfBirth]) {
+    return true;
+  }
+
+  const dateParts = formData && formData[formFields.dateOfBirth].split('-');
+
+  if (!dateParts || dateParts.length !== 3) {
+    return true;
+  }
+  const birthday = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+  const today18YearsAgo = new Date(
+    new Date(new Date().setFullYear(new Date().getFullYear() - 18)).setHours(
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+
+  return birthday.getTime() >= today18YearsAgo.getTime();
+};
+
 export const applicantIsChildOfSponsor = formData => {
   const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
 

@@ -27,6 +27,7 @@ function ToeApp({
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  toeHighSchoolInfoChange,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -109,6 +110,13 @@ function ToeApp({
     },
     [formData, setFormData, showMebEnhancements08],
   );
+
+  if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
+    setFormData({
+      ...formData,
+      toeHighSchoolInfoChange,
+    });
+  }
 
   useEffect(
     () => {

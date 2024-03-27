@@ -50,6 +50,7 @@ import {
   hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
+  applicantIsaMinor,
 } from '../helpers';
 
 import { transformTOEForm } from '../utils/form-submit-transform';
@@ -296,10 +297,64 @@ const formConfig = {
                 required: 'Please enter a parent/guardian signature',
               },
             },
+            [formFields.highSchoolDiploma]: {
+              'ui:options': {
+                hideIf: formData => {
+                  if (!formData.toeHighSchoolInfoChange) return true;
+
+                  if (!applicantIsaMinor(formData)) return true;
+
+                  return false;
+                },
+              },
+              'ui:required': formData => {
+                if (!formData.toeHighSchoolInfoChange) return false;
+
+                if (applicantIsaMinor(formData)) return true;
+
+                return false;
+              },
+              'ui:title':
+                'Did you earn a high school diploma or equivalency certificate?',
+              'ui:widget': 'radio',
+            },
+            [formFields.highSchoolDiplomaDate]: {
+              'ui:options': {
+                hideIf: formData => {
+                  if (!formData.toeHighSchoolInfoChange) return true;
+
+                  if (
+                    applicantIsaMinor(formData) &&
+                    formData[formFields.highSchoolDiploma] === 'Yes'
+                  )
+                    return false;
+
+                  return true;
+                },
+              },
+              'ui:required': formData => {
+                if (!formData.toeHighSchoolInfoChange) return false;
+
+                if (
+                  applicantIsaMinor(formData) &&
+                  formData[formFields.highSchoolDiploma] === 'Yes'
+                )
+                  return true;
+
+                return false;
+              },
+              ...currentOrPastDateUI(
+                'When did you earn your high school diploma or equivalency certificate?',
+              ),
+            },
           },
           schema: {
             type: 'object',
-            required: [formFields.dateOfBirth],
+            required: [
+              formFields.dateOfBirth,
+              formFields.highSchoolDiploma,
+              formFields.highSchoolDiplomaDate,
+            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -332,6 +387,11 @@ const formConfig = {
               [formFields.parentGuardianSponsor]: {
                 type: 'string',
               },
+              [formFields.highSchoolDiploma]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
@@ -624,7 +684,9 @@ const formConfig = {
         highSchool: {
           title: 'Verify your high school education',
           path: 'high-school',
-          depends: formData => applicantIsChildOfSponsor(formData),
+          depends: formData =>
+            applicantIsChildOfSponsor(formData) &&
+            !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -671,7 +733,8 @@ const formConfig = {
           path: 'high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
-            formData[formFields.highSchoolDiploma] === 'Yes',
+            formData[formFields.highSchoolDiploma] === 'Yes' &&
+            !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
