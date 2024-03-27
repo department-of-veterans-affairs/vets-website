@@ -2,12 +2,12 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
+import { renderWithRouter } from '../utils';
 
 const claim = {
   id: 1,
@@ -15,11 +15,6 @@ const claim = {
 };
 
 const params = { id: 1 };
-
-const getRouter = () => ({
-  push: sinon.spy(),
-  replace: sinon.spy(),
-});
 
 describe('<DocumentRequestPage>', () => {
   it('should render loading div', () => {
@@ -165,9 +160,10 @@ describe('<DocumentRequestPage>', () => {
     const mainDiv = document.createElement('div');
     mainDiv.classList.add('va-nav-breadcrumbs');
     document.body.appendChild(mainDiv);
-    ReactTestUtils.renderIntoDocument(
+    renderWithRouter(
       <Provider store={uploadStore}>
         <DocumentRequestPage
+          clearNotification={() => {}}
           params={params}
           claim={claim}
           files={[]}

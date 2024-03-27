@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
 import FilesOptionalOld from '../../components/FilesOptionalOld';
+import { renderWithRouter } from '../utils';
 
 describe('<FilesOptionalOld>', () => {
   it('should render alert with item data', () => {
@@ -10,7 +10,7 @@ describe('<FilesOptionalOld>', () => {
       displayName: 'Request 1',
       description: 'This is a alert',
     };
-    const screen = render(<FilesOptionalOld id={id} item={item} />);
+    const screen = renderWithRouter(<FilesOptionalOld id={id} item={item} />);
 
     screen.getByText(item.displayName);
     screen.getByText(item.description);
