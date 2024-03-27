@@ -61,9 +61,7 @@ describe('IntroductionPage', () => {
 
     expect(screen.queryByText('Apply for burial benefits')).to.exist;
     expect(
-      screen.queryByText(
-        'Follow these steps below to apply for burial benefits',
-      ),
+      screen.queryByText('Follow these steps to apply for burial benefits'),
     ).to.exist;
   });
 });
