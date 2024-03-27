@@ -23,6 +23,7 @@ describe('ShowPdfPassword', () => {
     onSubmitPassword = () => {},
     cancelCallback = () => {},
   ) => ({
+    file: { name: 'foo' },
     index: 0,
     onSubmitPassword,
     cancelButton: cancelButton(cancelCallback),
@@ -75,6 +76,10 @@ describe('ShowPdfPassword', () => {
 
     expect($('va-text-input', container)).to.not.have.attr('error');
     expect(props.onSubmitPassword.calledOnce).to.be.true;
-    expect(props.onSubmitPassword.args[0]).to.deep.equal([0, '1234']);
+    expect(props.onSubmitPassword.args[0]).to.deep.equal([
+      { name: 'foo' },
+      0,
+      '1234',
+    ]);
   });
 });

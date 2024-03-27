@@ -186,7 +186,7 @@ const FileField = props => {
    * @listens
    */
   const onAddFile = async (event, index = null, password) => {
-    if (fileInputRef?.current.files?.length) {
+    if (event.target?.files?.length) {
       // Only upload the first file; when va-file-input v3 supports multiple
       // files, we'll need to update this entire component
       const currentFile = event.target.files[0];
@@ -264,10 +264,7 @@ const FileField = props => {
     }
   };
 
-  const onSubmitPassword = (index, password) => {
-    // The last uploaded file must be the encrypted PDF - upload button is
-    // hidden, and we're not yet supporting multiple simultaneous selections
-    const file = fileInputRef.current.files[0];
+  const onSubmitPassword = (file, index, password) => {
     if (file && password) {
       onAddFile({ target: { files: [file] } }, index, password);
     }
@@ -577,6 +574,7 @@ const FileField = props => {
                   )}
                 {showPasswordInput && (
                   <ShowPdfPassword
+                    file={file.file}
                     index={index}
                     onSubmitPassword={onSubmitPassword}
                     passwordLabel={content.passwordLabel(file.name)}

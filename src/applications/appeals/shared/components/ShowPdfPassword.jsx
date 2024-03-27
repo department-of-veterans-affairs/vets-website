@@ -4,6 +4,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const ShowPdfPassword = ({
+  file,
   index,
   onSubmitPassword,
   passwordLabel = null,
@@ -50,7 +51,7 @@ const ShowPdfPassword = ({
         text="Add password"
         onClick={() => {
           if (value) {
-            onSubmitPassword(index, value);
+            onSubmitPassword(file, index, value);
           } else {
             setValue('');
             setDirty(true);

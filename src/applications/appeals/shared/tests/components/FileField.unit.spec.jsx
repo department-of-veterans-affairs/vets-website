@@ -1313,7 +1313,7 @@ describe('Schemaform <FileField>', () => {
     );
   });
 
-  it('should render cancel button with secondary class', () => {
+  it('should render secondary cancel button', () => {
     const schema = {
       additionalItems: {},
       items: [
@@ -1346,11 +1346,11 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    const cancelButton = $('.cancel-upload', container);
+    const cancelButton = $('.cancel-upload[secondary]', container);
     expect(cancelButton.getAttribute('text')).to.equal('Cancel');
   });
 
-  describe('enableShortWorkflow is true', () => {
+  describe('errors & delete', () => {
     const mockSchema = {
       additionalItems: {},
       items: [
