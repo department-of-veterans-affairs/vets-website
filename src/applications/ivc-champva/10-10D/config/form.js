@@ -941,7 +941,7 @@ const formConfig = {
           path: 'applicant-information/:index/school-age',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} dependent status`,
+          title: item => `${applicantWording(item)} status`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -971,7 +971,8 @@ const formConfig = {
               type: 'object',
               properties: {
                 status: radioSchema([
-                  'enrolledOrIntendsToEnroll',
+                  'enrolled',
+                  'intendsToEnroll',
                   'over18HelplessChild',
                 ]),
                 otherStatus: { type: 'string' },
@@ -994,8 +995,9 @@ const formConfig = {
                 18,
                 23,
               ) &&
-              formData.applicants[index]?.applicantDependentStatus?.status ===
-                'enrolledOrIntendsToEnroll'
+              ['enrolled', 'intendsToEnroll'].includes(
+                formData.applicants[index]?.applicantDependentStatus?.status,
+              )
             );
           },
           CustomPage: FileFieldCustom,
