@@ -87,7 +87,7 @@ const uiSchema = {
       'ui:validations': [validComment],
       'ui:errorMessages': {
         required:
-          'Provide more details about why you are requesting this appointment',
+          'Provide more information about why you are requesting this appointment',
       },
     },
   },
