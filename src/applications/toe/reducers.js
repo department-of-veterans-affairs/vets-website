@@ -2,6 +2,7 @@ import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress
 import formConfig from './config/form';
 
 import {
+  ACKNOWLEDGE_DUPLICATE,
   UPDATE_SPONSORS,
   FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -12,6 +13,11 @@ import {
   FETCH_CLAIM_STATUS,
   FETCH_CLAIM_STATUS_SUCCESS,
   FETCH_CLAIM_STATUS_FAILURE,
+  FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+  FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+  UPDATE_GLOBAL_EMAIL,
+  UPDATE_GLOBAL_PHONE_NUMBER,
+  TOGGLE_MODAL,
 } from './actions';
 import { formFields } from './constants';
 
@@ -25,6 +31,7 @@ const initialState = {
   form: {
     data: {},
   },
+  openModal: false,
 };
 
 const handleDirectDepositApi = action => {
@@ -127,6 +134,34 @@ export default {
           ...state,
           fetchDirectDepositInProgress: false,
           bankInformation: handleDirectDepositApi(action),
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
+        return {
+          ...state,
+          duplicateEmail: action?.response?.data?.attributes?.email,
+          duplicatePhone: action?.response?.data?.attributes?.phone,
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_FAILURE:
+      case UPDATE_GLOBAL_EMAIL:
+        return {
+          ...state,
+          email: action?.email,
+        };
+      case UPDATE_GLOBAL_PHONE_NUMBER:
+        return {
+          ...state,
+          mobilePhone: action?.mobilePhone,
+        };
+      case ACKNOWLEDGE_DUPLICATE:
+        return {
+          ...state,
+          duplicateEmail: action?.contactInfo?.email,
+          duplicatePhone: action?.contactInfo?.phone,
+        };
+      case TOGGLE_MODAL:
+        return {
+          ...state,
+          openModal: action.toggle,
         };
       default:
         return state;
