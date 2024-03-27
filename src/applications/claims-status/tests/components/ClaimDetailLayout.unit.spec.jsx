@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { render, within } from '@testing-library/react';
+import { within } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 

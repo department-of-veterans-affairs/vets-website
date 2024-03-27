@@ -7,7 +7,7 @@ import { getUserPhase } from '../utils/helpers';
 
 const LAST_EVIDENCE_GATHERING_PHASE = 6;
 
-export default function ClaimTimeline({ currentPhaseBack, id, events, phase }) {
+export default function ClaimTimeline({ currentPhaseBack, events, phase }) {
   const userPhase = getUserPhase(phase);
   const activityByPhase = events;
 
@@ -44,7 +44,6 @@ export default function ClaimTimeline({ currentPhaseBack, id, events, phase }) {
 }
 
 ClaimTimeline.propTypes = {
-  id: PropTypes.string.isRequired,
   phase: PropTypes.number.isRequired,
   currentPhaseBack: PropTypes.bool,
   events: PropTypes.object,
