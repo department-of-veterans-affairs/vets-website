@@ -4,6 +4,16 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  txtLineDotted,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
@@ -16,24 +26,12 @@ import {
   generateTextFile,
   getNameDateAndTime,
 } from '../../util/helpers';
-import {
-  generatePdfScaffold,
-  updatePageTitle,
-  formatName,
-} from '../../../shared/util/helpers';
-import {
-  txtLine,
-  txtLineDotted,
-  crisisLineHeader,
-  reportGeneratedBy,
-} from '../../../shared/util/constants';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateLabsIntro,
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
