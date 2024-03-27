@@ -39,7 +39,6 @@ import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   getAgeInYears,
   isInRange,
-  getParts,
   onReviewPage,
   MAX_APPLICANTS,
   applicantListSchema,
@@ -84,7 +83,8 @@ import {
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
 } from '../pages/ApplicantRelationshipPage';
-import ApplicantMedicareStatusContinuedPage, {
+import {
+  ApplicantMedicareStatusContinuedPage,
   ApplicantMedicareStatusContinuedReviewPage,
 } from '../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage, {
@@ -1445,7 +1445,13 @@ const formConfig = {
           CustomPage: ApplicantMedicareStatusContinuedPage,
           CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
           schema: applicantListSchema([], {
-            applicantMedicarePart: { type: 'string' },
+            applicantMedicarePartD: {
+              type: 'object',
+              properties: {
+                enrollment: { type: 'string' },
+                otherEnrollment: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
@@ -1464,13 +1470,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled' &&
-              ['partA', 'partB'].some(part =>
-                get(
-                  'applicantMedicarePart',
-                  formData?.applicants?.[index],
-                )?.includes(part),
-              )
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
@@ -1485,9 +1485,7 @@ const formConfig = {
                   ({ formData }) =>
                     `Upload ${formData?.applicantName?.first} ${
                       formData?.applicantName?.last
-                    }'s copy of Medicare ${getParts(
-                      formData?.applicantMedicarePart,
-                    )} card(s).`,
+                    }'s copy of Medicare part A and B card(s).`,
                 ),
                 ...applicantMedicarePartAPartBCardsConfig.uiSchema,
                 applicantMedicarePartAPartBCard: fileUploadUI(
@@ -1517,9 +1515,9 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'enrolled' &&
               get(
-                'applicantMedicarePart',
+                'applicantMedicarePartD.enrollment',
                 formData?.applicants?.[index],
-              )?.includes('partD')
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
