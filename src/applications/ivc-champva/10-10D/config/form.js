@@ -5,8 +5,7 @@ import {
   checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberNoHintSchema,
-  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberSchema,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -29,6 +28,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
+import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -184,7 +184,7 @@ const formConfig = {
               labels: {
                 applicant: 'I’m applying for benefits for myself',
                 sponsor:
-                  'I’m a Veteran applying for benefits for my spouse, dependents, or caretaker',
+                  'I’m a Veteran applying for benefits for my spouse or dependents',
                 other:
                   'I’m a representative applying for benefits on behalf of someone else',
               },
@@ -206,10 +206,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI(
-              'Your information',
-              'We use this information to contact you and verify other details',
-            ),
+            ...titleUI('Your name'),
             certifierName: fullNameUI(),
           },
           schema: {
@@ -230,7 +227,7 @@ const formConfig = {
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
-            ...homelessInfo.uiSchema,
+            // ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
           },
           schema: {
@@ -238,7 +235,7 @@ const formConfig = {
             required: ['certifierAddress'],
             properties: {
               titleSchema,
-              ...homelessInfo.schema,
+              // ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
@@ -270,7 +267,10 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI('Your relationship to the applicant'),
+            ...titleUI(
+              'Your relationship to the applicant',
+              `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
+            ),
             certifierRelationship: {
               relationshipToVeteran: checkboxGroupUI({
                 title: 'Which of these best describes you?',
@@ -369,16 +369,15 @@ const formConfig = {
             ...titleUI(
               ({ formData }) =>
                 `${sponsorWording(formData)} identification information`,
-              'You must enter either a Social Security number or VA File number',
             ),
-            ssn: ssnOrVaFileNumberNoHintUI(),
+            ssn: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberNoHintSchema,
+              ssn: ssnOrVaFileNumberSchema,
             },
           },
         },
@@ -429,7 +428,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['sponsorDOD'],
+            required: ['sponsorDOD', 'sponsorDeathConditions'],
             properties: {
               sponsorInfoTitle: titleSchema,
               sponsorDOD: dateOfDeathSchema,
@@ -476,7 +475,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
-              'We’ll send any important information about this application to your address.',
+              'We’ll send any important information about this application to this address.',
             ),
             ...homelessInfo.uiSchema,
             sponsorAddress: {
@@ -506,7 +505,12 @@ const formConfig = {
             ...titleUI(
               ({ formData }) =>
                 `${sponsorWording(formData)} contact information`,
-              'Having this information helps us contact the sponsor faster if we have questions about their information.',
+              ({ formData }) => {
+                const base = sponsorWording(formData);
+                const first = base === 'Your' ? 'you' : 'the sponsor';
+                const second = base === 'Your' ? 'your' : 'their';
+                return `Having this information helps us contact ${first} faster if we have questions about ${second} information.`;
+              },
             ),
             ...noPhoneInfo.uiSchema,
             sponsorPhone: {
@@ -618,7 +622,7 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
-                maxItems: 'A maximum of three applicants may be added.',
+                maxItems: `You can add up to ${MAX_APPLICANTS} in a single application. If you need to add more than ${MAX_APPLICANTS} applicants, you need to submit a separate application for them.`,
               },
               items: {
                 applicantName: fullNameUI(),
@@ -686,11 +690,7 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                'view:description': {
-                  'ui:description':
-                    'You must enter either a VA file number or Social Security number',
-                },
-                applicantSSN: ssnOrVaFileNumberNoHintUI(),
+                applicantSSN: ssnOrVaFileNumberCustomUI(),
                 // Dynamic title (uses "your" if certifierRole is applicant and
                 // this is applicant[0])
                 'ui:options': {
@@ -711,8 +711,7 @@ const formConfig = {
           },
           schema: applicantListSchema([], {
             titleSchema,
-            'view:description': blankSchema,
-            applicantSSN: ssnOrVaFileNumberNoHintSchema,
+            applicantSSN: ssnOrVaFileNumberSchema,
           }),
         },
         page15a: {
@@ -720,8 +719,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
-          title: item => `${applicantWording(item)} address screener`,
-          depends: (formData, index) => index === undefined || index > 0,
+          title: item => `${applicantWording(item)} mailing address`,
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -738,7 +736,8 @@ const formConfig = {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          title: item =>
+            `${applicantWording(item)} mailing address (continued)`,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
