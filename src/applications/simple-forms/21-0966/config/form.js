@@ -120,6 +120,7 @@ const formConfig = {
           path: 'preparer-identification',
           title: 'Your identity',
           initialData:
+            /* istanbul ignore next */
             !!mockData && environment.isLocalhost() && !window.Cypress
               ? mockData
               : undefined,
