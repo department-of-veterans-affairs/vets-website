@@ -37,4 +37,17 @@ describe('Breadcrumbs', () => {
       'Permissions',
     );
   });
+
+  it('correctly renders breadcrumbs for a deeply nested path', () => {
+    const { getByTestId } = render(
+      <Breadcrumbs pathname="/representative/poa-requests/a-deeply-nested-page" />,
+    );
+    expect(getByTestId('breadcrumbs-home').textContent).to.eq('Home');
+    expect(getByTestId('breadcrumbs-poa-requests').textContent).to.eq(
+      'POA requests',
+    );
+    expect(getByTestId('breadcrumbs-a-deeply-nested-page').textContent).to.eq(
+      'A deeply nested page',
+    );
+  });
 });
