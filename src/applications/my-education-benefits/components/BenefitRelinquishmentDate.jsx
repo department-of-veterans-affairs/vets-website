@@ -22,7 +22,9 @@ const BenefitRelinquishmentDate = props => {
   };
 
   const [dateValue, setDateValue] = useState(
-    formData?.mebAutoPopulateRelinquishmentDate ? populateDate() : '',
+    formData?.mebAutoPopulateRelinquishmentDate
+      ? populateDate()
+      : formData?.benefitEffectiveDate,
   );
 
   useEffect(() => {
