@@ -10,82 +10,79 @@ import NoSuggestedAddress from './NoSuggestedAddress';
 const SuggestedAddress = ({
   formData,
   address,
-  setBackToEdit,
   handleAddNewClick,
   setAddressToUI,
-  goBackToAddressDescription,
   setFormData,
+  setSuggestedAddressPicked,
+  suggestedAddressPicked,
 }) => {
   const dispatch = useDispatch();
-  const {
-    isLoadingValidateAddress,
-    addressValidationData,
-    addressLoader,
-  } = useSelector(state => state.addressValidation);
-  const { loading: isLoading, error } = useSelector(
-    state => state.updateAddress,
+  const { isLoadingValidateAddress, addressValidationData } = useSelector(
+    state => state.addressValidation,
   );
+  const { loading: isLoading } = useSelector(state => state.updateAddress);
 
-  const [isEnteredAddress, setIsEnteredAddress] = useState(false);
+  const [chooseAddress, setChooseAddress] = useState('suggested');
   const deliveryPointValidation =
     addressValidationData?.addresses[0]?.addressMetaData
       ?.deliveryPointValidation;
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
+  // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
     handleAddNewClick(event);
-    setBackToEdit(true);
-    setFormData({});
   };
-  const isUSA = isEnteredAddress
+  const isUSA = chooseAddress
     ? formData.countryCodeIso3 === 'USA'
     : address.countryCodeIso3 === 'USA';
-  const source = isEnteredAddress ? formData : address;
+  const source = chooseAddress ? formData : address;
 
   const stateAndZip = {
     stateCode: isUSA ? source.stateCode : source.province,
     zipCode: isUSA ? source.zipCode : source.internationalPostalCode,
   };
-
   const handleChange = event => {
-    setIsEnteredAddress(event.target.value === 'entered');
+    setChooseAddress(event.target.value);
   };
-  const onUpdateClicked = () => {
-    try {
-      if (!isEnteredAddress) {
+
+  // get calls when suggested address or entered address is selected
+  const onUpdateClicked = async () => {
+    const addressState = {
+      ...stateAndZip,
+      state: stateAndZip.stateCode,
+    };
+    if (chooseAddress === 'suggested') {
+      setSuggestedAddressPicked(true);
+      try {
         dispatch(validateAddress(address, formData?.fullName));
-      } else {
-        const addressState = {
-          ...stateAndZip,
-          state: stateAndZip.stateCode,
-        };
-        dispatch(
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        setFormData({});
+      }
+    } else {
+      try {
+        await dispatch(
           postMailingAddress({
             veteranName: formData.fullName,
             address1: formData.addressLine1,
             address2: formData.addressLine2,
             address3: formData.addressLine3,
             address4: formData.addressLine4,
-            Validation: 'true',
             city: formData.city,
             ...addressState,
           }),
         );
-        goBackToAddressDescription(true);
-        if (!isLoading) {
-          setFormData({});
-        }
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+        setFormData({});
       }
-    } catch (err) {
-      throw new Error(err);
-    }
-    if (!error) {
       setAddressToUI({
-        street: isEnteredAddress
-          ? `${formData.addressLine1} ${formData.addressLine2 || ''}`
-          : `${address.addressLine1} ${address.addressLine2 || ''}`,
-        city: isEnteredAddress ? formData.city : address.city,
+        street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
+        city: formData.city,
         ...stateAndZip,
       });
     }
@@ -93,8 +90,8 @@ const SuggestedAddress = ({
 
   return (
     <div className="address-change-form-container">
-      {(isLoadingValidateAddress || addressLoader) && (
-        <Loader className="loader" />
+      {(isLoadingValidateAddress || isLoading) && (
+        <Loader className="loader" message="updating..." />
       )}
       <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
         Mailing address
@@ -105,10 +102,12 @@ const SuggestedAddress = ({
           confidenceScore={confidenceScore}
           formData={formData}
           onChange={handleChange}
-          setIsEnteredAddress={setIsEnteredAddress}
+          setChooseAddress={setChooseAddress}
         />
       </div>
-      {deliveryPointValidation === 'CONFIRMED' && (
+      {((deliveryPointValidation !== undefined &&
+        deliveryPointValidation === 'CONFIRMED') ||
+        suggestedAddressPicked) && (
         <>
           <Alert
             status="warning"
@@ -130,9 +129,9 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
+              {`${formData?.addressLine1} ${formData?.addressLine2 || ''}`}
               <br />
-              {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
+              {`${formData?.city}, ${formData?.stateCode} ${formData?.zipCode}`}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
@@ -152,9 +151,9 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="suggested-address"
             >
-              {`${address.addressLine1} ${address.addressLine2 || ''}`}
+              {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
               <br />
-              {`${address.city}, ${address.stateCode} ${address.zipCode}`}
+              {`${address?.city}, ${address?.stateCode} ${address?.zipCode}`}
             </label>
           </div>
         </>
@@ -163,7 +162,9 @@ const SuggestedAddress = ({
         onPrimaryClick={onUpdateClicked}
         onSecondaryClick={onBackToEditClick}
         primaryLabel={
-          deliveryPointValidation === 'CONFIRMED'
+          (deliveryPointValidation !== undefined &&
+            deliveryPointValidation === 'CONFIRMED') ||
+          suggestedAddressPicked
             ? 'Update'
             : 'Use this address'
         }
@@ -174,14 +175,13 @@ const SuggestedAddress = ({
 };
 
 SuggestedAddress.propTypes = {
-  address: PropTypes.object.isRequired,
-  formData: PropTypes.object.isRequired,
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
-  setBackToEdit: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  goBackToAddressDescription: PropTypes.func,
-  handleCloseForm: PropTypes.func,
+  address: PropTypes.object,
+  formData: PropTypes.object,
+  setSuggestedAddressPicked: PropTypes.func,
+  suggestedAddressPicked: PropTypes.bool,
 };
 
 export default SuggestedAddress;
