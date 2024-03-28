@@ -7,11 +7,16 @@ import {
   fullNameSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { dependentIsOutsideHousehold } from '../../form';
+import { getDependentChildTitle, dependentIsOutsideHousehold } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 /** @type {PageSchema} */
 export default {
+  path: 'household/dependents/children/address/:index',
+  title: item => getDependentChildTitle(item, 'address'),
+  depends: dependentIsOutsideHousehold,
+  showPagePerItem: true,
+  arrayPath: 'dependents',
   uiSchema: {
     dependents: {
       items: {

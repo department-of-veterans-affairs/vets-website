@@ -27,6 +27,7 @@ import {
   validateAfterMarriageDates,
   validateUniqueMarriageDates,
 } from '../../../validation';
+import { currentSpouseHasFormerMarriages } from './helpers';
 
 const { marriages } = fullSchemaPensions.definitions;
 
@@ -52,6 +53,9 @@ SpouseMarriageView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Spouse’s former marriages',
+  path: 'household/marital-status/spouse-marriages',
+  depends: currentSpouseHasFormerMarriages,
   uiSchema: {
     ...titleUI(SpouseMarriageTitle),
     'view:contactWarning': {

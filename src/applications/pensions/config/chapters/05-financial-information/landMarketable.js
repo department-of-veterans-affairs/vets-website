@@ -9,6 +9,7 @@ import {
   IncomeAssetStatementFormAlert,
   LandMarketableAlert,
 } from '../../../components/FormAlerts';
+import { isHomeAcreageMoreThanTwo } from '../../../helpers';
 
 const LandMarketableDescription = () => (
   <div>
@@ -19,6 +20,9 @@ const LandMarketableDescription = () => (
 
 /** @type {PageSchema} */
 export default {
+  title: 'Land marketable',
+  path: 'financial/land-marketable',
+  depends: isHomeAcreageMoreThanTwo,
   uiSchema: {
     ...titleUI('Income and assets'),
     'ui:description': LandMarketableDescription,

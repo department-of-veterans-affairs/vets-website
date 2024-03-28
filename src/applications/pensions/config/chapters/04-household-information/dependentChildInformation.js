@@ -26,6 +26,8 @@ import {
   SchoolAttendanceAlert,
 } from '../../../components/FormAlerts';
 
+import { doesHaveDependents, getDependentChildTitle } from './helpers';
+
 const childRelationshipOptions = {
   BIOLOGICAL: "They're my biological child",
   ADOPTED: "They're my adopted child",
@@ -54,6 +56,11 @@ function isEligibleForDisabilitySupport(childDOB) {
 
 /** @type {PageSchema} */
 export default {
+  path: 'household/dependents/children/information/:index',
+  title: item => getDependentChildTitle(item, 'information'),
+  depends: doesHaveDependents,
+  showPagePerItem: true,
+  arrayPath: 'dependents',
   uiSchema: {
     dependents: {
       items: {

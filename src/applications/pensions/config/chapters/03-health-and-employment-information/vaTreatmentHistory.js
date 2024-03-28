@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Treatment from a VA medical center',
+  path: 'medical/history/va-treatment',
   uiSchema: {
     ...titleUI('Treatment from a VA medical center'),
     vaTreatmentHistory: yesNoUI({

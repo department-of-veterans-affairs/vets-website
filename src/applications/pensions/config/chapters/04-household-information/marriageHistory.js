@@ -12,13 +12,14 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateAfterMarriageDate } from '../../../validation';
+import { marriageTypeLabels, separationTypeLabels } from '../../../labels';
 import {
   getMarriageTitleWithCurrent,
   MarriageTitle,
-} from '../../../helpers.jsx';
-import { validateAfterMarriageDate } from '../../../validation';
-import { marriageTypeLabels, separationTypeLabels } from '../../../labels';
-import { isCurrentMarriage } from '../../form';
+  isCurrentMarriage,
+  isMarried,
+} from './helpers';
 
 const dateSchema = {
   pattern: '^\\d{4}-\\d{2}-\\d{2}$',
@@ -27,6 +28,12 @@ const dateSchema = {
 
 /** @type {PageSchema} */
 export default {
+  title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
+    getMarriageTitleWithCurrent(form, pagePerItemIndex),
+  path: 'household/marriages/:index',
+  depends: isMarried,
+  showPagePerItem: true,
+  arrayPath: 'marriages',
   uiSchema: {
     marriages: {
       items: {

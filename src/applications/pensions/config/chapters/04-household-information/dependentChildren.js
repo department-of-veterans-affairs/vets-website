@@ -10,6 +10,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 import { DependentsMinItem, formatFullName } from '../../../helpers';
+import { doesHaveDependents } from './helpers';
 
 const DependentNameView = ({ formData }) => (
   <ListItemView title={formatFullName(formData.fullName)} />
@@ -23,6 +24,9 @@ DependentNameView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Dependent children',
+  path: 'household/dependents/add',
+  depends: doesHaveDependents,
   uiSchema: {
     ...titleUI('Dependent children'),
     dependents: {

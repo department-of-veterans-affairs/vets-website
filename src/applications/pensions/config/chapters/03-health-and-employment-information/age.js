@@ -5,6 +5,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Age',
+  path: 'medical/history/age',
   uiSchema: {
     isOver65: yesNoUI({
       title: 'Are you 65 years old or older?',

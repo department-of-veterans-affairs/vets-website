@@ -14,6 +14,8 @@ const maritalStatusOptions = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Marital status',
+  path: 'household/marital-status',
   uiSchema: {
     ...titleUI('Marital status'),
     maritalStatus: radioUI({

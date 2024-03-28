@@ -3,9 +3,13 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { ownsHome } from './helpers';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Home acreage size',
+  path: 'financial/home-ownership/acres',
+  depends: ownsHome,
   uiSchema: {
     ...titleUI('Income and assets'),
     homeAcreageMoreThanTwo: yesNoUI({

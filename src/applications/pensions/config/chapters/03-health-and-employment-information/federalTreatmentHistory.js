@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Treatment from federal medical facilities',
+  path: 'medical/history/federal-treatment',
   uiSchema: {
     ...titleUI('Treatment from federal medical facilities'),
     federalTreatmentHistory: yesNoUI({
