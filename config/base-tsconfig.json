@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "commonJS",
+    "lib": ["esnext"],
+    "target": "esnext",
+    "jsx": "react"
+  },
+  "exclude": ["node_modules"]
+}
