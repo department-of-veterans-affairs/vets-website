@@ -20,6 +20,7 @@ export const DIRECT_DEPOSIT_SAVE_FAILED = 'DIRECT_DEPOSIT_SAVE_FAILED';
 
 // edit actions for ui state
 export const DIRECT_DEPOSIT_EDIT_TOGGLED = 'DIRECT_DEPOSIT_EDIT_TOGGLED';
+export const DIRECT_DEPOSIT_ERROR_CLEARED = 'DIRECT_DEPOSIT_ERROR_CLEARED';
 
 // API endpoint for fetching and updating direct deposit information
 export const DIRECT_DEPOSIT_API_ENDPOINT = '/profile/direct_deposits';
@@ -75,4 +76,8 @@ export function fetchDirectDeposit({
 export const toggleDirectDepositEdit = open => ({
   type: DIRECT_DEPOSIT_EDIT_TOGGLED,
   open,
+});
+
+export const clearDirectDepositError = () => ({
+  type: DIRECT_DEPOSIT_ERROR_CLEARED,
 });

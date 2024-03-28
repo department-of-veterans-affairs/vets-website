@@ -5,6 +5,7 @@ import {
   DIRECT_DEPOSIT_SAVE_SUCCEEDED,
   DIRECT_DEPOSIT_SAVE_FAILED,
   DIRECT_DEPOSIT_EDIT_TOGGLED,
+  DIRECT_DEPOSIT_ERROR_CLEARED,
 } from '@@profile/actions/directDeposit';
 
 const initialState = {
@@ -42,11 +43,17 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_EDIT_TOGGLED: {
       return {
         ...state,
-        error: null,
         ui: {
           ...state.ui,
           isEditing: action.open ?? !state.ui.isEditing,
         },
+      };
+    }
+
+    case DIRECT_DEPOSIT_ERROR_CLEARED: {
+      return {
+        ...state,
+        error: null,
       };
     }
 
