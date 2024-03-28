@@ -72,12 +72,12 @@ class AskVAPage extends React.Component {
 
     const crumbs = [
       {
-        href: `your-claims/${params.id}/status`,
+        href: `../status`,
         label: 'Status details',
         isRouterLink: true,
       },
       {
-        href: `your-claims/${params.id}/ask-va-to-decide`,
+        href: `../ask-va-to-decide`,
         label: 'Ask for your claim decision',
         isRouterLink: true,
       },
