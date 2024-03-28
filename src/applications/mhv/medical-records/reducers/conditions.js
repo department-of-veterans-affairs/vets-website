@@ -82,9 +82,9 @@ export const convertCondition = condition => {
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
     name: condition.code?.text || EMPTY_FIELD,
-    provider: extractProvider(condition),
-    facility: extractLocation(condition),
-    comments: extractProviderNote(condition),
+    provider: condition.asserter || EMPTY_FIELD,
+    facility: condition.facility,
+    comments: condition.note || EMPTY_FIELD,
   };
 };
 
