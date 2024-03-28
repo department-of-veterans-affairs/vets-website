@@ -20,7 +20,7 @@ describe('Start a new message With Attacments and Errors', () => {
       .click({ force: true });
     composePage.attachMessageFromFile(Data.TEST_VIDEO);
     composePage.verifyAttachmentErrorMessage(
-      "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
+      "We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.",
     );
     composePage.attachMessageFromFile('empty.txt');
     composePage.verifyAttachmentErrorMessage(
