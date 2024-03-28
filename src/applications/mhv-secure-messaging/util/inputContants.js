@@ -16,10 +16,6 @@ export const DateRangeOptions = [
 
 export const SelectCategories = [
   {
-    value: '',
-    label: ' ',
-  },
-  {
     value: 'general',
     label: 'General',
   },
