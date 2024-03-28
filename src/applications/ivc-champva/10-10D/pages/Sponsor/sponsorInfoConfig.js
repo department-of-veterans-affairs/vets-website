@@ -9,14 +9,30 @@ import {
 
 import { sponsorWording } from '../../helpers/wordingCustomization';
 
+function descriptionText(formData) {
+  // Base: if sponsor
+  let wording =
+    'Please provide your information. We use this information to identify eligibility.';
+
+  // Adjust text if is applicant or third party
+  if (formData.certifierRole !== 'sponsor') {
+    const isApp = formData.certifierRole === 'applicant';
+    wording = `Enter the personal information for ${
+      isApp ? 'your' : 'the'
+    } sponsor (the Veteran or service member that ${
+      isApp ? 'you’re' : 'the applicant is'
+    } connected to). We’ll use the sponsor’s information to confirm ${
+      isApp ? 'your' : 'their'
+    } eligibility for CHAMPVA benefits.`;
+  }
+  return wording;
+}
+
 export const sponsorNameDobConfig = {
   uiSchema: {
     ...titleUI(
       ({ formData }) => `${sponsorWording(formData)} name and date of birth`,
-      ({ formData }) =>
-        formData?.certifierRole === 'sponsor'
-          ? 'Please provide your information. We use this information to identify eligibility.'
-          : `Enter the information for your sponsor (this is the Veteran or service member that you’re connected to). We’ll use the sponsor’s information to confirm your eligibility for CHAMPVA benefits.`,
+      ({ formData }) => descriptionText(formData),
     ),
     veteransFullName: fullNameUI(),
     sponsorDOB: dateOfBirthUI(),

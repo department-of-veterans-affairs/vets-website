@@ -6,6 +6,15 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -21,11 +30,6 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
-import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
@@ -33,13 +37,7 @@ import {
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import {
-  txtLine,
-  crisisLineHeader,
-  reportGeneratedBy,
-} from '../../shared/util/constants';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -63,7 +61,7 @@ const ConditionDetails = props => {
       dispatch(
         setBreadcrumbs([
           {
-            url: '/conditions',
+            url: '/my-health/medical-records/conditions',
             label: 'Conditions',
           },
         ]),
@@ -171,12 +169,6 @@ SNOMED Clinical term: ${record.name} \n`;
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Status of health condition
-            </h2>
-            <p data-dd-privacy="mask" data-testid="condition-status">
-              {record.active}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
             </h2>
             <p data-dd-privacy="mask" data-testid="condition-provider">
@@ -187,12 +179,6 @@ SNOMED Clinical term: ${record.name} \n`;
             </h2>
             <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              SNOMED Clinical term
-            </h2>
-            <p data-dd-privacy="mask" data-testid="condition-snomed">
-              {record.name}
             </p>
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList

@@ -1,16 +1,16 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 import { getData } from '../../fixtures/data/mock-form-data';
+import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 
 const {
   schema,
@@ -59,7 +59,7 @@ describe('aboutTheVeteranPage', () => {
       'A gender not listed here',
     ];
 
-    expect($('h3', container).textContent).to.eq('Tell us about the Veteran');
+    expect($('h2', container).textContent).to.eq('Tell us about the Veteran');
 
     labels.forEach(
       label =>
