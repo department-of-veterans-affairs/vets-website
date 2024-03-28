@@ -7,15 +7,14 @@ import PropTypes from 'prop-types';
  * MyHealthAccessGuard component that will redirect the user to the my-health page if they do not have an MHV account
  *
  * @param {Object} children The children to render
- * @returns {Node} The children to render if the user is authenticated
+ * @returns {Object} The children to render if the user is authenticated
  */
 export const MyHealthAccessGuard = ({ children }) => {
-  const hasMHVAccount = useSelector(state => {
-    const mhvAccountState = state?.user?.profile?.mhvAccountState;
-    return ['OK', 'MULTIPLE'].includes(mhvAccountState);
-  });
+  const mhvAccountState = useSelector(
+    state => state?.user?.profile?.mhvAccountState,
+  );
 
-  if (!hasMHVAccount) {
+  if (mhvAccountState === 'NONE') {
     return <Redirect to="/my-health" />;
   }
 
