@@ -63,7 +63,7 @@ const propsNoIntroPage = {
     DISCHARGE_YEAR: null,
     DISCHARGE_MONTH: null,
   },
-  setServicePeriod: () => {},
+  setDischargeYear: () => {},
   router: {
     push: pushStub,
   },

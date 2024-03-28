@@ -13,7 +13,7 @@ const { ARMY } = RESPONSES;
 describe('answer cleanup utilities', () => {
   it('should call the updateCleanedFormStore action with the correct arguments', () => {
     const responsesInStore = {
-      SERVICE_PERIOD: ARMY,
+      SERVICE_BRANCH: ARMY,
       DISCHARGE_YEAR: 2009,
       DISCHARGE_MONTH: '2',
     };
@@ -28,7 +28,7 @@ describe('answer cleanup utilities', () => {
 
     expect(
       updateCleanedFormStoreSpy.calledWith({
-        SERVICE_PERIOD: ARMY,
+        SERVICE_BRANCH: ARMY,
         DISCHARGE_YEAR: 2009,
         DISCHARGE_MONTH: null,
       }),

@@ -50,7 +50,7 @@ const propsStandard = {
     DISCHARGE_YEAR: 2009,
     DISCHARGE_MONTH: null,
   },
-  setServicePeriod: () => {},
+  setDischargeMonth: () => {},
   router: {
     push: pushStub,
   },
