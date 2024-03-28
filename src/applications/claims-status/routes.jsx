@@ -48,14 +48,14 @@ const routes = (
         <Route index element={<Navigate to="status" replace />} />
         <Route path="ask-va-to-decide" element={<AskVAPage />} />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
+        <Route path="details" element={detailsRoute} />
         <Route
           path="document-request/:trackedItemId"
           element={<DocumentRequestPage />}
         />
         <Route path="files" element={<FilesPage />} />
-        <Route path="status" element={<ClaimStatusPage />} />
-        <Route path="details" element={detailsRoute} />
         <Route path="overview" element={overviewRoute} />
+        <Route path="status" element={<ClaimStatusPage />} />
       </Route>
       <Route path="your-claim-letters" element={<YourClaimLetters />} />
       <Route path="your-stem-claims/:id">
