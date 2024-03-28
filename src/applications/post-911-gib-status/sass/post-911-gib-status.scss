@@ -8,14 +8,14 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   margin-bottom: 5em;
 
   h3 {
-    border-bottom: 1px solid $color-gray-light;
+    border-bottom: 1px solid var(--vads-color-base-light);
     margin: 1em 0 .5em 0;
     padding: 0 0 .25em 0;
   }
 
   hr {
     border-style: solid;
-    border-color: $color-gray-light;
+    border-color: var(--vads-color-base-light);
     border-width: 1px 0 0 0;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -60,7 +60,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   }
 
   .print-status {
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     position: fixed;
     top: 0;
     left: 0;
@@ -87,7 +87,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
     @media print {
       font: $font-serif;
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       padding: 0;
       a {
         text-decoration: none;
@@ -111,7 +111,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   hr {
     margin-top: 0;
     margin-bottom: 0;
-    border-color: $color-primary;
+    border-color: var(--vads-color-primary);
   }
 
   .gi-phone-nowrap {
