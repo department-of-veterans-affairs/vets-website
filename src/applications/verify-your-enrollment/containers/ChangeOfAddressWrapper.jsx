@@ -4,7 +4,11 @@ import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { objectHasNoUndefinedValues, scrollToElement } from '../helpers';
+import {
+  objectHasNoUndefinedValues,
+  prepareAddressData,
+  scrollToElement,
+} from '../helpers';
 import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
@@ -74,31 +78,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       Object.assign(formData, editFormData);
     }
 
-    let stateAndZip = {};
-    if (formData.countryCodeIso3 === 'USA') {
-      stateAndZip = {
-        stateCode: formData.stateCode,
-        zipCode: formData.zipCode,
-      };
-    } else {
-      stateAndZip = {
-        stateCode: formData.province,
-        zipCode: formData.internationalPostalCode,
-      };
-    }
+    const addressData = prepareAddressData(formData);
     const fields = {
-      address: {
-        veteranName: formData.fullName,
-        addressLine1: formData.addressLine1,
-        addressLine2: formData.addressLine2,
-        addressLine3: formData.addressLine3,
-        addressLine4: formData.addressLine4,
-        addressPou: 'CORRESPONDENCE',
-        addressType: 'DOMESTIC',
-        countryCodeIso3: formData.countryCodeIso3,
-        city: formData.city,
-        ...stateAndZip,
-      },
+      address: addressData,
     };
     try {
       dispatch(validateAddress(fields, formData.fullName));

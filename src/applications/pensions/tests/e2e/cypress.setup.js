@@ -4,7 +4,8 @@ import featuresEnabled from '../fixtures/mocks/featuresEnabled.json';
 import mockStatus from '../fixtures/mocks/profile-status.json';
 import mockVamc from '../fixtures/mocks/vamc-ehr.json';
 
-const TEST_URL = '/pension/application/527EZ/introduction';
+const TEST_URL =
+  '/pension/apply-for-veteran-pension-form-21p-527ez/introduction';
 const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-527EZ';
 const PENSIONS_CLAIMS_URL = '/v0/pension_claims';
 const SUBMISSION_DATE = new Date().toISOString();
