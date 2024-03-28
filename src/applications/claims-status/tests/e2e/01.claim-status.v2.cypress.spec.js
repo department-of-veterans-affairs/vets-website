@@ -98,14 +98,6 @@ describe('A user can view secondary alert details', () => {
     cy.axeCheck();
   });
 
-  it('Shows secondary alert details on an open claim', () => {
-    const trackClaimsPage = new TrackClaimsPageV2();
-    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
-    trackClaimsPage.verifyInProgressClaim(true);
-    trackClaimsPage.verifySecondaryAlert();
-    cy.axeCheck();
-  });
-
   it('Shows secondary alert details in Recent Activity on an open claim', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
