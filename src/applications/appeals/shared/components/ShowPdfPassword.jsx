@@ -45,7 +45,6 @@ const ShowPdfPassword = ({
         onInput={({ target }) => setValue(target.value || '')}
         onBlur={() => setDirty(true)}
         messageAriaDescribedby={passwordLabel}
-        uswds
       />
       <va-button
         class="add-password vads-u-width--auto vads-u-margin-top--2"
@@ -60,7 +59,6 @@ const ShowPdfPassword = ({
           }
         }}
         label={passwordLabel}
-        uswds
       />
       {cancelButton}
     </div>

@@ -88,28 +88,40 @@ export const showsCorrectErrorMessage = message => {
 
 export const fillNameAndDateOfBirthPage = story => {
   const data = getTestData(story);
-  const dob = data.dateOfBirth.split('-');
+  const dob = data.veteranDateOfBirth.split('-');
 
-  cy.get('input[name="root_fullName_first"]').type(data.fullName.first, {
-    force: true,
-  });
-  cy.get('input[name="root_fullName_last"]').type(data.fullName.last, {
-    force: true,
-  });
-  cy.get('select[name="root_dateOfBirthMonth"]').select(
+  // TODO: refactor based on story if adding new stories
+  cy.get('input[name="root_veteranFullName_first"]').type(
+    data.veteranFullName.first,
+    {
+      force: true,
+    },
+  );
+  cy.get('input[name="root_veteranFullName_last"]').type(
+    data.veteranFullName.last,
+    {
+      force: true,
+    },
+  );
+  cy.get('select[name="root_veteranDateOfBirthMonth"]').select(
     parseInt(dob[1], 10).toString(),
   );
-  cy.get('input[name="root_dateOfBirthDay"]').type(
+  cy.get('input[name="root_veteranDateOfBirthDay"]').type(
     parseInt(dob[2], 10).toString(),
     { force: true },
   );
-  cy.get('input[name="root_dateOfBirthYear"]').type(dob[0], { force: true });
+  cy.get('input[name="root_veteranDateOfBirthYear"]').type(dob[0], {
+    force: true,
+  });
 };
 
 export const fillIdInfoPage = story => {
   const data = getTestData(story);
 
-  cy.get('input[name="root_id_ssn"]').type(data.id.ssn, { force: true });
+  // TODO: refactor based on story if adding new stories
+  cy.get('input[name="root_veteranId_ssn"]').type(data.veteranId.ssn, {
+    force: true,
+  });
 };
 
 export const fillLivingSituationPage = story => {

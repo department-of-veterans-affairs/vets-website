@@ -1,0 +1,40 @@
+{
+  "id": "957",
+  "meta": {
+      "versionId": "1",
+      "lastUpdated": "2023-06-02T19:37:18.810-04:00",
+      "source": "#d1cbc83754740901"
+  },
+  "identifier": [
+      {
+          "system": "urn:oid:2.16.840.1.113883.4.349",
+          "value": "984.124685"
+      }
+  ],
+  "status": "completed",
+  "vaccineCode": {
+      "coding": [
+          {
+              "code": "90688",
+              "display": "IIV4 VACCINE SPLT 0.5 ML IM"
+          }
+      ],
+      "text": "INFLUENZA, INJECTABLE, QUADRIVALENT"
+  },
+  "patient": {
+      "reference": "Patient/952"
+  },
+  "occurrenceDateTime": "",
+  "location": {
+      "reference": "Location/953"
+  },
+  "note": [],
+  "reaction": [
+      {
+          "detail": {
+              "display": "FEVER"
+          }
+      }
+  ],
+  "resourceType": "Immunization"
+}

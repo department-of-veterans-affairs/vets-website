@@ -88,6 +88,28 @@ describe('Check-in experience', () => {
         );
         expect(updateErrorSpy.calledOnce).to.be.true;
       });
+      it('redirects to intro if questions are skipped', () => {
+        const skippedQuestionsStore = {
+          app: 'travelClaim',
+          facilitiesToFile: [
+            {
+              stationNo: '500',
+              startTime: '2024-03-12T10:18:02.422Z',
+              appointmentCount: 1,
+            },
+          ],
+          travelAddress: '',
+          travelVehicle: '',
+          travelReview: '',
+        };
+        const push = sinon.spy();
+        render(
+          <CheckInProvider store={skippedQuestionsStore} router={{ push }}>
+            <Complete />
+          </CheckInProvider>,
+        );
+        expect(push.calledOnce).to.be.true;
+      });
       it.skip('does not call API on reload or already filed', () => {
         MockDate.set('2024-03-12T10:18:02.422Z');
         sandbox.stub(useStorageModule, 'useStorage').returns({

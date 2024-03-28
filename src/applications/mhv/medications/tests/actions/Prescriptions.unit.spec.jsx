@@ -3,7 +3,7 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import sinon from 'sinon';
 import { prescriptions } from '../fixtures/prescriptions.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
-import { allergies } from '../../../medical-records/tests/fixtures/allergies.json';
+import { allergies } from '../fixtures/allergies.json';
 import { Actions } from '../../util/actionTypes';
 import {
   getPrescriptionsPaginatedSortedList,

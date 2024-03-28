@@ -20,7 +20,7 @@ export default function Notification({ body, title, type, onClose }) {
 }
 
 Notification.propTypes = {
-  body: PropTypes.string.isRequired,
+  body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string,
   onClose: PropTypes.func,

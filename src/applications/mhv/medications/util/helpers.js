@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
-import { imageRootUri } from './constants';
+import { EMPTY_FIELD, imageRootUri } from './constants';
 
 /**
  * @param {*} timestamp
@@ -14,7 +14,7 @@ export const dateFormat = (timestamp, format = null) => {
       .tz(timestamp, 'America/New_York')
       .format(format || 'MMMM D, YYYY');
   }
-  return 'None noted';
+  return EMPTY_FIELD;
 };
 
 /**
@@ -43,7 +43,7 @@ export const validateField = fieldValue => {
   if (fieldValue || fieldValue === 0) {
     return fieldValue;
   }
-  return 'None noted';
+  return EMPTY_FIELD;
 };
 
 /**
@@ -77,4 +77,57 @@ export const generateTextFile = (content, fileName) => {
   a.click();
   window.URL.revokeObjectURL(url);
   a.remove();
+};
+
+/**
+ * @param {Array} list
+ * @returns {String} array of strings, separated by a comma
+ */
+export const processList = list => {
+  if (Array.isArray(list)) {
+    if (list?.length > 1) return list.join('. ');
+    if (list?.length === 1) return list.toString();
+  }
+  return EMPTY_FIELD;
+};
+
+/**
+ * @param {Any} obj
+ * @returns {Boolean} true if obj is an array and has at least one item
+ */
+export const isArrayAndHasItems = obj => {
+  return Array.isArray(obj) && obj.length;
+};
+
+/**
+ * @param {Object} record
+ * @returns {Array of Strings} array of reactions
+ */
+export const getReactions = record => {
+  const reactions = [];
+  if (!record || !record.reaction) return reactions;
+  record.reaction.forEach(reaction => {
+    reaction.manifestation.forEach(manifestation => {
+      reactions.push(manifestation.text);
+    });
+  });
+  return reactions;
+};
+
+/**
+ * Extract a contained resource from a FHIR resource's "contained" array.
+ * @param {Object} resource a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} referenceId an internal ID referencing a contained resource
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedResource = (resource, referenceId) => {
+  if (resource && isArrayAndHasItems(resource.contained) && referenceId) {
+    // Strip the leading "#" from the reference.
+    const strippedRefId = referenceId.substring(1);
+    const containedResource = resource.contained.find(
+      containedItem => containedItem.id === strippedRefId,
+    );
+    return containedResource || null;
+  }
+  return null;
 };

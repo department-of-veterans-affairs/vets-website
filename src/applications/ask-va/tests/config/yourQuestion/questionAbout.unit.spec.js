@@ -24,7 +24,7 @@ describe('questionAboutPage', () => {
       />,
     );
 
-    expect($('h3', container).textContent).to.eq('Who is your question about?');
+    expect($('h2', container).textContent).to.eq('Who is your question about?');
     expect($$('va-radio-option', container).length).to.equal(3);
   });
 

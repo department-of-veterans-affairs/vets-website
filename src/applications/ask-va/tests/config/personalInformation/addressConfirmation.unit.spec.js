@@ -1,9 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
 
@@ -61,7 +61,7 @@ describe('addressConfirmationPage', () => {
       </Provider>,
     );
 
-    expect($('h3', container).textContent).to.eq(
+    expect($('h2', container).textContent).to.eq(
       'Veteran Address Confirmation',
     );
     expect($('span', container).textContent).to.eq('You entered:');

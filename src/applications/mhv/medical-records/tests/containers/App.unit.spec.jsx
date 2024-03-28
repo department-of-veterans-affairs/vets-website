@@ -1,8 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import App from '../../containers/App';
@@ -16,6 +22,7 @@ describe('App', () => {
   let oldLocation;
 
   beforeEach(() => {
+    mockFetch();
     oldLocation = global.window.location;
     delete global.window.location;
     global.window.location = {
@@ -24,24 +31,9 @@ describe('App', () => {
   });
 
   afterEach(() => {
+    resetFetch();
     global.window.location = oldLocation;
   });
-
-  // it('user is not logged in', () => {
-  //   // expected behavior is be redirected to the home page with next in the url
-  //   renderWithStoreAndRouter(<App />, {
-  //     initialState: {
-  //       user: {
-  //         login: {
-  //           currentlyLoggedIn: false,
-  //         },
-  //       },
-  //     },
-  //     path: `/`,
-  //     reducers: reducer,
-  //   });
-  //   expect(window.location.replace.calledOnce).to.be.true;
-  // });
 
   const initialState = {
     user: {
@@ -362,7 +354,25 @@ describe('App', () => {
     });
   });
 
-  describe('Service-based redirection', async () => {
+  describe('Redirection of disallowed users', async () => {
+    it('redirects unauthenticated users to /health-care/get-medical-records', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          ...initialState.user,
+          login: { currentlyLoggedIn: false },
+        },
+      };
+      renderWithStoreAndRouter(<App />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `/`,
+      });
+      await waitFor(() => {
+        expect(window.location.replace.called).to.be.true;
+      });
+    });
+
     it('redirects Basic users to /health-care/get-medical-records', async () => {
       const customState = {
         ...initialState,
@@ -378,16 +388,20 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      expect(window.location.replace.called).to.be.true;
+      await waitFor(() => {
+        expect(window.location.replace.called).to.be.true;
+      });
     });
 
-    it('does not redirect Premium users', async () => {
+    it('does not redirect authenticated Premium users', async () => {
       renderWithStoreAndRouter(<App />, {
         initialState,
         reducers: reducer,
         path: `/`,
       });
-      expect(window.location.replace.called).to.be.false;
+      await waitFor(() => {
+        expect(window.location.replace.called).to.be.false;
+      });
     });
   });
 });

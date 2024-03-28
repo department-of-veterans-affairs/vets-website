@@ -189,7 +189,6 @@ class AddFilesFormOld extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
-          uswds="false"
         >
           {mailMessage}
         </va-additional-info>
@@ -238,7 +237,6 @@ class AddFilesFormOld extends React.Component {
                       secondary
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                      uswds
                     />
                   </div>
                 </div>
@@ -251,7 +249,6 @@ class AddFilesFormOld extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds="false"
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -267,7 +264,6 @@ class AddFilesFormOld extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds="false"
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -294,7 +290,6 @@ class AddFilesFormOld extends React.Component {
           ),
         )}
         <VaCheckbox
-          uswds="false"
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}

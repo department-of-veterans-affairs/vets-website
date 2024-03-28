@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import TabItem from './TabItem';
+
+const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
 
 export default function TabNav({ id }) {
   return (
@@ -18,7 +20,7 @@ export default function TabNav({ id }) {
           tabpath={`your-claims/${id}/files`}
           title="Files"
         />
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+        <Toggler toggleName={cstUseClaimDetailsV2}>
           <Toggler.Disabled>
             <TabItem
               shortcut={3}
@@ -28,7 +30,7 @@ export default function TabNav({ id }) {
           </Toggler.Disabled>
           <Toggler.Enabled>
             <TabItem
-              shortcut={4}
+              shortcut={3}
               tabpath={`your-claims/${id}/overview`}
               title="Overview"
             />

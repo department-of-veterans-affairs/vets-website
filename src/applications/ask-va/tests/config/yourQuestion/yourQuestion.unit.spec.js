@@ -24,6 +24,6 @@ describe('yourQuestionPage', () => {
       />,
     );
 
-    expect($('h3', container).textContent).to.eq('Your question');
+    expect($('h2', container).textContent).to.eq('Your question');
   });
 });

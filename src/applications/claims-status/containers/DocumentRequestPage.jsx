@@ -1,6 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import { merge } from 'lodash';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -29,14 +29,14 @@ import {
   setFieldsDirty,
   clearNotification,
 } from '../actions';
-import { scrubDescription } from '../utils/helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
+import { scrubDescription } from '../utils/helpers';
+import { setPageFocus, setUpPage } from '../utils/page';
 
 const scrollToError = () => {
-  const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
+  const options = merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
 };
 const { Element } = Scroll;

@@ -16,7 +16,7 @@ describe('ShowPdfPassword', () => {
   });
 
   const cancelButton = (callback = () => {}) => (
-    <va-button class="cancel" text="Cancel" onClick={callback} uswds />
+    <va-button class="cancel" text="Cancel" onClick={callback} />
   );
 
   const getProps = (
@@ -35,8 +35,8 @@ describe('ShowPdfPassword', () => {
     expect($('va-text-input', container)).to.exist;
     expect($('va-button.add-password', container)).to.exist;
     expect($('va-button.cancel', container)).to.exist;
-    expect($('va-text-input[uswds]', container)).to.exist;
-    expect($$('va-button[uswds]', container).length).to.eq(2);
+    expect($('va-text-input', container)).to.exist;
+    expect($$('va-button', container).length).to.eq(2);
   });
   it('should show validation error', () => {
     const props = getProps();

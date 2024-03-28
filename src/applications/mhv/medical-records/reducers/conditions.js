@@ -31,8 +31,6 @@ export const convertCondition = condition => {
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
     name: condition.code?.text || EMPTY_FIELD,
-    clinicalTerm: condition.code?.coding?.code || EMPTY_FIELD,
-    active: condition.clinicalStatus?.coding?.code || EMPTY_FIELD,
     provider: condition.asserter || EMPTY_FIELD,
     facility: condition.facility,
     comments: condition.note || EMPTY_FIELD,

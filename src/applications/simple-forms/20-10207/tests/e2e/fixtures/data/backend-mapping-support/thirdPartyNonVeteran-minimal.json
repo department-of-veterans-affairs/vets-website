@@ -32,7 +32,7 @@
     },
     "medicalTreatments": [
       {
-        "facilityName": "Guido’s Trailer",
+        "facilityName": "Facility Name",
         "facilityAddress": {
           "country": "USA",
           "street": "123 Any St",

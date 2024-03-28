@@ -84,7 +84,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL,
     deriveToolUrlDetails: () => ({
       url: '/manage-va-debt/summary',
-      redirect: false,
+      redirect: true,
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,

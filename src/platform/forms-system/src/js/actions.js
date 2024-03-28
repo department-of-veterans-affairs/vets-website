@@ -309,8 +309,9 @@ export function uploadFile(
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange({ ...fileData, size: file.size, isEncrypted: !!password });
+        onChange({ ...fileData, isEncrypted: !!password });
       } else {
+        const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
         try {
           // detail contains a better error message
@@ -327,15 +328,9 @@ export function uploadFile(
         }
 
         if (password) {
-          onChange({
-            file, // return file object to allow resubmit
-            name: file.name,
-            size: file.size,
-            errorMessage,
-            isEncrypted: true,
-          });
+          onChange({ ...fileObj, errorMessage, isEncrypted: true });
         } else {
-          onChange({ name: file.name, size: file.size, errorMessage });
+          onChange({ ...fileObj, errorMessage });
         }
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();

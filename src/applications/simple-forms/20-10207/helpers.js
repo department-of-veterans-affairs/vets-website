@@ -26,8 +26,8 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
-export function getFullNameLabels(label) {
-  if (label === 'middle name') {
+export function getFullNameLabels(label, skipMiddleCheck = false) {
+  if (label === 'middle name' && !skipMiddleCheck) {
     return 'Middle initial';
   }
 

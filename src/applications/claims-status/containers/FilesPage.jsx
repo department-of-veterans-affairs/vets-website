@@ -186,7 +186,7 @@ FilesPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.shape({
-    body: PropTypes.string,
+    body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     title: PropTypes.string,
     type: PropTypes.string,
   }),

@@ -24,9 +24,10 @@
     "otherReasons": {
       "OVER_85": true
     },
+    "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
       {
-        "facilityName": "Guido’s Trailer",
+        "facilityName": "Facility Name",
         "facilityAddress": {
           "country": "USA",
           "street": "123 Any St",

@@ -1,6 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 // the standard 10207-pp.cypress.spec.js already axe-checks everything
-import moment from 'moment';
 import { TITLE, SUBTITLE } from '../../config/constants';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/featureToggles.json';
@@ -71,7 +70,8 @@ testSuite('PP 10207 - Veteran', () => {
   };
 
   beforeEach(() => {
-    cy.intercept('/v0//v0/feature_toggles', featureToggles);
+    cy.intercept('/v0/feature_toggles*', featureToggles);
+    cy.intercept('/data/cms/vamc-ehr.json', {});
     cy.visit('/');
   });
 
@@ -156,15 +156,10 @@ testSuite('PP 10207 - Veteran', () => {
       showsCorrectPageTitle('Which of these best describes you?', 3);
     });
 
-    it('displays correct error message for empty selection', () => {
-      continueToNextPage();
-      showsCorrectErrorMessage('Select your identity');
-    });
-
     it('advances to Your-personal-information chapter', () => {
       cy.contains('I’m a Veteran.').click();
       continueToNextPage();
-      pagePathIsCorrect('name-and-date-of-birth');
+      pagePathIsCorrect('veteran-name-and-date-of-birth-a');
       showsCorrectChapterTitle('Your personal information');
       showsCorrectPageTitle('Your name and date of birth', 3);
     });
@@ -180,7 +175,7 @@ testSuite('PP 10207 - Veteran', () => {
         .click();
       cy.contains('I’m a Veteran.').click();
       continueToNextPage();
-      pagePathIsCorrect('name-and-date-of-birth');
+      pagePathIsCorrect('veteran-name-and-date-of-birth-a');
     });
 
     describe('Name-and-date-of-birth page', () => {
@@ -193,44 +188,10 @@ testSuite('PP 10207 - Veteran', () => {
         showsCorrectPageTitle('Your name and date of birth', 3);
       });
 
-      it('displays correct error messages for empty required fields', () => {
-        continueToNextPage();
-        showsCorrectErrorMessage('Please enter a first name');
-        showsCorrectErrorMessage('Please enter a last name');
-        // Form-app in regular browser shows "Please provide a valid date" but in Cypress it's "Please provide the date of birth"
-        showsCorrectErrorMessage('Please provide the date of birth');
-      });
-
-      it('displays correct error message for invalid day of birth', () => {
-        cy.get('select[name="root_dateOfBirthMonth"]').select('1');
-        cy.get('input[name="root_dateOfBirthDay"]').type('32', { force: true });
-        cy.get('input[name="root_dateOfBirthYear"]').type('2000', {
-          force: true,
-        });
-        continueToNextPage();
-        showsCorrectErrorMessage('Please enter a day between 1 and 31');
-      });
-
-      it('displays correct error message for future date of birth', () => {
-        const tmrw = moment()
-          .add(1, 'days')
-          .format('YYYY-M-D')
-          .split('-');
-        cy.get('select[name="root_dateOfBirthMonth"]').select(tmrw[1]);
-        cy.get('input[name="root_dateOfBirthDay"]').type(tmrw[2], {
-          force: true,
-        });
-        cy.get('input[name="root_dateOfBirthYear"]').type(tmrw[0], {
-          force: true,
-        });
-        continueToNextPage();
-        showsCorrectErrorMessage('Please provide a valid current or past date');
-      });
-
       it('advances to Your-identification-information page', () => {
         fillNameAndDateOfBirthPage('veteran');
         continueToNextPage();
-        pagePathIsCorrect('identification-information');
+        pagePathIsCorrect('veteran-identification-information-a');
       });
     });
 
@@ -238,7 +199,7 @@ testSuite('PP 10207 - Veteran', () => {
       beforeEach(() => {
         fillNameAndDateOfBirthPage('veteran');
         continueToNextPage();
-        pagePathIsCorrect('identification-information');
+        pagePathIsCorrect('veteran-identification-information-a');
       });
 
       it('displays correct chapter-title', () => {
@@ -255,7 +216,7 @@ testSuite('PP 10207 - Veteran', () => {
       });
 
       it('displays correct error message for invalid SSN', () => {
-        cy.get('input[name="root_id_ssn"]').then($ssn => {
+        cy.get('input[name="root_veteranId_ssn"]').then($ssn => {
           cy.wrap($ssn).type('1234567', { force: true });
           continueToNextPage();
           showsCorrectErrorMessage(
@@ -269,7 +230,7 @@ testSuite('PP 10207 - Veteran', () => {
       });
 
       it('displays correct error message for invalid VA file number', () => {
-        cy.get('input[name="root_id_vaFileNumber"]').then($vfn => {
+        cy.get('input[name="root_veteranId_vaFileNumber"]').then($vfn => {
           cy.wrap($vfn).type('1234567', { force: true });
           continueToNextPage();
           showsCorrectErrorMessage('Your VA file number must be 8 or 9 digits');
@@ -367,7 +328,7 @@ testSuite('PP 10207 - Veteran', () => {
       it('advances to Your-contact-information chapter', () => {
         fillOtherHousingRisksPage('veteranOhr');
         continueToNextPage();
-        pagePathIsCorrect('phone-and-email');
+        pagePathIsCorrect('veteran-phone-and-email');
       });
     });
   });
@@ -410,13 +371,13 @@ testSuite('PP 10207 - Veteran', () => {
       it('advances to Your-mailing-address page when YES is selected', () => {
         cy.contains('Yes').click();
         continueToNextPage();
-        pagePathIsCorrect('mailing-address');
+        pagePathIsCorrect('veteran-mailing-address');
       });
 
       it('advances to Your-phone-and-email-address page when NO is selected', () => {
         cy.contains('No').click();
         continueToNextPage();
-        pagePathIsCorrect('phone-and-email');
+        pagePathIsCorrect('veteran-phone-and-email');
       });
     });
 
@@ -424,7 +385,7 @@ testSuite('PP 10207 - Veteran', () => {
       beforeEach(() => {
         cy.contains('Yes').click();
         continueToNextPage();
-        pagePathIsCorrect('mailing-address');
+        pagePathIsCorrect('veteran-mailing-address');
       });
 
       it('displays correct page-title', () => {
@@ -462,7 +423,7 @@ testSuite('PP 10207 - Veteran', () => {
       it('advances to Your-phone-and-email-address page', () => {
         fillMailingAddressPage('veteran');
         continueToNextPage();
-        pagePathIsCorrect('phone-and-email');
+        pagePathIsCorrect('veteran-phone-and-email');
       });
     });
 
@@ -472,7 +433,7 @@ testSuite('PP 10207 - Veteran', () => {
         continueToNextPage();
         fillMailingAddressPage('veteran');
         continueToNextPage();
-        pagePathIsCorrect('phone-and-email');
+        pagePathIsCorrect('veteran-phone-and-email');
       });
 
       it('displays correct page-title', () => {

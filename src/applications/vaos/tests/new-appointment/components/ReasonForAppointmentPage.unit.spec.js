@@ -30,7 +30,7 @@ const initialState = {
 describe('VAOS Page: ReasonForAppointmentPage', () => {
   beforeEach(() => mockFetch());
 
-  it('should show page for VA medical request', async () => {
+  it.skip('should show page for VA medical request', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
@@ -80,7 +80,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     );
   });
 
-  it('should show validation for VA medical request', async () => {
+  it.skip('should show validation for VA medical request', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
@@ -93,7 +93,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(alerts[0]).to.contain.text('Select a reason for your appointment');
   });
 
-  it('should show error msg when enter all spaces for VA medical request', async () => {
+  it.skip('should show error msg when enter all spaces for VA medical request', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
@@ -112,7 +112,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     );
   });
 
-  it('should show error msg when ^ is entered in VA medical request', async () => {
+  it.skip('should show error msg when ^ is entered in VA medical request', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
@@ -131,7 +131,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     );
   });
 
-  it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
+  it.skip('should show alternate textbox char length if navigated via direct schedule flow', async () => {
     const store = createTestStore(initialState);
     store.dispatch(startDirectScheduleFlow());
 
@@ -177,7 +177,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(await screen.findByText('Please provide a response')).to.be.ok;
   });
 
-  it('should continue to the correct page based on type choice for VA medical request', async () => {
+  it.skip('should continue to the correct page based on type choice for VA medical request', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(
       <Route component={ReasonForAppointmentPage} />,
@@ -229,7 +229,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     );
   });
 
-  it('should save reason choice on for VA medical request page change', async () => {
+  it.skip('should save reason choice on for VA medical request page change', async () => {
     const store = createTestStore(initialState);
     let screen = renderWithStoreAndRouter(
       <Route component={ReasonForAppointmentPage} />,

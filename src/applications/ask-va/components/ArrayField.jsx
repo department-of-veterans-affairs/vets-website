@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import Scroll from 'react-scroll';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import {
   getDefaultFormState,
   toIdSchema,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Scroll from 'react-scroll';
 
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -413,13 +413,13 @@ class ArrayField extends React.Component {
 export default ArrayField;
 
 ArrayField.propTypes = {
-  schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  trackingPrefix: PropTypes.string.isRequired,
   pageKey: PropTypes.string.isRequired,
   path: PropTypes.array.isRequired,
-  formData: PropTypes.object,
-  arrayData: PropTypes.array,
+  schema: PropTypes.object.isRequired,
+  trackingPrefix: PropTypes.string.isRequired,
   appStateData: PropTypes.object,
+  arrayData: PropTypes.array,
+  formData: PropTypes.object,
   pageTitle: PropTypes.string,
+  uiSchema: PropTypes.object,
 };

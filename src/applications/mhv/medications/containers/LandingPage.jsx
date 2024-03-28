@@ -6,11 +6,11 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { medicationsUrls } from '../util/constants';
-import { updatePageTitle } from '../../shared/util/helpers';
 import { selectRefillContentFlag } from '../util/selectors';
 
 const LandingPage = () => {

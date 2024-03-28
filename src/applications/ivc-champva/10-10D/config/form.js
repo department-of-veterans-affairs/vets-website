@@ -114,14 +114,10 @@ import {
 import { ApplicantAddressCopyPage } from '../pages/ApplicantAddressPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
-import { fileTypes, fileWithMetadataSchema } from './attachments';
+import { fileWithMetadataSchema } from './attachments';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
-
-const uploadUrl = `${
-  environment.API_URL
-}/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -1589,16 +1585,6 @@ const formConfig = {
                 ...appMedicareOver65IneligibleConfig.uiSchema,
                 applicantMedicareIneligibleProof: fileUploadUI(
                   'Upload the applicant’s letter from the Social Security Administration.',
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
                 ),
               },
             },

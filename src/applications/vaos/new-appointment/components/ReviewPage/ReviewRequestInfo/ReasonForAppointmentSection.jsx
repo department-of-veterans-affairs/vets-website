@@ -36,7 +36,7 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             {FLOW_TYPES.DIRECT === flowType && (
-              <h2 className="vads-u-font-size--base vaos-appts__block-label">
+              <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
                 {PURPOSE_TEXT_V2.find(
                   purpose => purpose.id === reasonForAppointment,
                 )?.short || 'Additional details'}
@@ -44,7 +44,7 @@ export default function ReasonForAppointmentSection({ data }) {
             )}
             {FLOW_TYPES.REQUEST === flowType && (
               <>
-                <h2 className="vads-u-font-size--base vaos-appts__block-label">
+                <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
                   Details you’d like to share with your provider
                 </h2>
                 {reasonForAppointment && (

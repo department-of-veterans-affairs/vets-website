@@ -9,8 +9,8 @@ import {
   updateCCProviderSortMethod,
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
+import NoAddressNote from '../NoAddressNote';
 
 export default function ProviderSortVariant({
   currentlyShownProvidersList,
@@ -128,15 +128,7 @@ export default function ProviderSortVariant({
       >
         {hasUserAddress ? options : options.slice(1)}
       </VaSelect>
-      {!hasUserAddress && (
-        <p>
-          Note: To show providers near your home, you need to add your home
-          address to your VA profile.{' '}
-          <NewTabAnchor href="/profile/contact-information">
-            Go to your VA.gov profile
-          </NewTabAnchor>
-        </p>
-      )}
+      {!hasUserAddress && <NoAddressNote />}
       {requestLocationStatusFailed && (
         <div
           id="providerSelectionBlockedLocation"
