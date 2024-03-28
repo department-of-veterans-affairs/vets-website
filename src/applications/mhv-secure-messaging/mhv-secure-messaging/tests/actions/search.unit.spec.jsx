@@ -42,7 +42,7 @@ describe('search actions', () => {
     const store = mockStore();
     mockApiRequest(searchResponse);
     const keyword = 'test';
-    const query = { category: 'covid' };
+    const query = { category: 'covid', queryData: {} };
     const matches = findByKeyword(keyword, searchResponse.data);
     await store.dispatch(runAdvancedSearch(inbox, query, keyword));
     expect(store.getActions()).to.deep.include({ type: Actions.Search.START });
@@ -56,7 +56,7 @@ describe('search actions', () => {
     const store = mockStore();
     mockApiRequest(searchResponse);
     const keyword = 'SM_CERNER';
-    const query = { category: 'covid' };
+    const query = { category: 'covid', queryData: {} };
     const matches = findByKeyword(keyword, searchResponse.data);
     await store.dispatch(runAdvancedSearch(inbox, query, keyword));
     expect(store.getActions()).to.deep.include({ type: Actions.Search.START });
@@ -70,7 +70,7 @@ describe('search actions', () => {
     const store = mockStore();
     mockFetch(customErrorResponse, false);
     const keyword = 'test';
-    const query = { category: 'covid' };
+    const query = { category: 'covid', queryData: {} };
     await store.dispatch(runAdvancedSearch(inbox, query, keyword));
     expect(store.getActions()).to.deep.include({
       type: Actions.Search.START,
@@ -85,7 +85,7 @@ describe('search actions', () => {
     const store = mockStore();
     mockFetch(errorResponse, false);
     const keyword = 'test';
-    const query = { category: 'covid' };
+    const query = { category: 'covid', queryData: {} };
     await store.dispatch(runAdvancedSearch(inbox, query, keyword));
     expect(store.getActions()).to.deep.include({
       type: Actions.Search.START,

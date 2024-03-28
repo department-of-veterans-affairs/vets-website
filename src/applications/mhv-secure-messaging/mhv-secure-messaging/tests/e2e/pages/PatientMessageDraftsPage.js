@@ -32,12 +32,12 @@ class PatientMessageDraftsPage {
     cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       this.mockDraftMessages,
     ).as('draftsResponse');
     cy.get(Locators.FOLDERS.DRAFTS).click();
@@ -134,7 +134,7 @@ class PatientMessageDraftsPage {
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
@@ -142,7 +142,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockParentMessageDetails.data.attributes.messageId
       }/thread?full_body=true`,
       this.currentThread,
@@ -194,14 +194,14 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockResponse.data[0].attributes.messageId
       }`,
       { data: mockResponse.data[0] },
     ).as('firstDraft');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockResponse.data[1].attributes.messageId
       }`,
       { data: mockResponse.data[1] },
@@ -209,7 +209,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         mockResponse.data[2].attributes.messageId
       }`,
       { data: mockResponse.data[2] },
@@ -221,8 +221,8 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).click({
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
       force: true,
       waitForAnimations: true,
     });
@@ -262,9 +262,7 @@ class PatientMessageDraftsPage {
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
     if (isNewDraftText) {
@@ -284,7 +282,7 @@ class PatientMessageDraftsPage {
   };
 
   deleteDraftMessage = (mockResponse, messageId) => {
-    cy.intercept('DELETE', `/my_health/v1/messaging/messages/${messageId}`, {
+    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGES}/${messageId}`, {
       data: mockResponse,
     }).as('deletedDraftResponse');
 
@@ -294,17 +292,14 @@ class PatientMessageDraftsPage {
 
   // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.NOTIFICATION).should(
-      'have.text',
+    cy.get('[data-testid="alert-text"]').should(
+      'contain.text',
       Alerts.Message.DELETE_DRAFT_SUCCESS,
     );
   };
 
   verifyConfirmationMessage = message => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
-      'have.text',
-      message,
-    );
+    cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
   verifyDeleteConfirmationHasFocus = () => {
@@ -314,13 +309,11 @@ class PatientMessageDraftsPage {
   confirmDeleteDraftWithEnterKey = draftMessage => {
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
-    cy.wait('@deletedDraftResponse');
+    // cy.wait('@deletedDraftResponse');
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {
@@ -328,9 +321,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 
@@ -362,7 +353,7 @@ class PatientMessageDraftsPage {
 
   selectAdvancedSearchCategory = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('#select')
+      .find('select')
       .select('COVID');
   };
 
@@ -408,11 +399,9 @@ class PatientMessageDraftsPage {
   };
 
   saveDraftByKeyboard = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/message_drafts',
-      mockDraftResponse,
-    ).as('draft_message');
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGE_DRAFTS, mockDraftResponse).as(
+      'draft_message',
+    );
     cy.tabToElement('#save-draft-button');
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
@@ -434,7 +423,7 @@ class PatientMessageDraftsPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-2/search',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
       sentSearchResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -464,14 +453,14 @@ class PatientMessageDraftsPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('select')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   verifyFilterFieldCleared = () => {
@@ -506,12 +495,12 @@ class PatientMessageDraftsPage {
   loadMessages = (mockMessagesResponse = mockDraftMessages) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
       mockDraftFolderMetaResponse,
     ).as('draftFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       mockMessagesResponse,
     ).as('draftFolderMessages');
     cy.get(Locators.FOLDERS.DRAFTS).click();

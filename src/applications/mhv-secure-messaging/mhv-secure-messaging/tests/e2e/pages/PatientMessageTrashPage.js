@@ -4,18 +4,18 @@ import mockThreadResponse from '../fixtures/trashResponse/trash-thread-response.
 import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
 import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
 import mockSortedMessages from '../fixtures/trashResponse/sorted-trash-message-response.json';
-import { Locators } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientMessageTrashPage {
   loadMessages = (mockMessagesResponse = mockTrashMessages) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3*',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3*`,
       mockTrashFolderMetaResponse,
     ).as('trashFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/threads**`,
       mockMessagesResponse,
     ).as('trashFolderMessages');
     cy.get(Locators.FOLDERS.TRASH).click();
@@ -26,7 +26,7 @@ class PatientMessageTrashPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }/thread`,
       mockThreadResponse,
@@ -34,7 +34,7 @@ class PatientMessageTrashPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.INTERCEPT.MESSAGES}/${
         detailedMessage.data.attributes.messageId
       }`,
       mockSingleMessageResponse,
@@ -55,7 +55,7 @@ class PatientMessageTrashPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-3/search',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/search`,
       trashSearchResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -70,14 +70,14 @@ class PatientMessageTrashPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('select')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3/threads**',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   verifySorting = () => {

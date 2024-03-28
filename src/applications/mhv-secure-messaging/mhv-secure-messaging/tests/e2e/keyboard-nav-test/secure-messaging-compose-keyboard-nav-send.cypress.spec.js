@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Data } from '../utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
@@ -19,14 +19,16 @@ describe('Secure Messaging Compose', () => {
         },
       },
     });
-    composePage.selectRecipient();
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.selectCategory();
-    composePage.attachMessageFromFile('test_image.jpg');
+    composePage.attachMessageFromFile(Data.TEST_IMAGE);
     composePage.getMessageSubjectField().click();
-    composePage.getMessageSubjectField().type('Test Subject', { force: true });
+    composePage
+      .getMessageSubjectField()
+      .type(Data.TEST_SUBJECT, { force: true });
     composePage
       .getMessageBodyField()
-      .type('Test message body', { force: true });
+      .type(Data.TEST_MESSAGE_BODY, { force: true });
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifySendMessageConfirmationMessageText();
     composePage.verifySendMessageConfirmationMessageHasFocus();

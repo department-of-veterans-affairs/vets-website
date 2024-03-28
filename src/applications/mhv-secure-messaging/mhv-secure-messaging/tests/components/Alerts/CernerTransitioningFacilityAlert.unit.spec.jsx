@@ -22,12 +22,17 @@ describe('CernerTransitioningFacilityAlert', () => {
         },
       },
     },
-    featureToggles: [],
     user: {
       profile: {
         facilities: [],
       },
     },
+  };
+
+  const initialProps = {
+    t5: false,
+    t30: false,
+    facilityId: '556',
   };
 
   const alertT30 = {
@@ -47,10 +52,13 @@ describe('CernerTransitioningFacilityAlert', () => {
     alertContent2: 'To contact your care team now, call your facility.',
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<CernerTransitioningFacilityAlert />, {
-      initialState: state,
-    });
+  const setup = (state = initialState, props = initialProps) => {
+    return renderWithStoreAndRouter(
+      <CernerTransitioningFacilityAlert {...props} />,
+      {
+        initialState: state,
+      },
+    );
   };
 
   afterEach(() => {
@@ -72,10 +80,9 @@ describe('CernerTransitioningFacilityAlert', () => {
         },
       },
     };
-    customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
-    customState.featureToggles[`${'cerner_transition_556_t5'}`] = false;
+    const customProps = { ...initialProps, t30: true };
 
-    const { findByText, container } = setup(customState);
+    const { findByText, container } = setup(customState, customProps);
 
     expect(findByText(alertT30.alertTitle)).to.exist;
     expect(container.textContent).to.contain(alertT30.alertContent);
@@ -97,10 +104,9 @@ describe('CernerTransitioningFacilityAlert', () => {
         },
       },
     };
-    customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
-    customState.featureToggles[`${'cerner_transition_556_t5'}`] = true;
+    const customProps = { t30: true, facilityId: null };
 
-    const { queryByText, container } = setup(customState);
+    const { queryByText, container } = setup(customState, customProps);
     expect(queryByText(alertT30.alertTitle)).to.be.null;
     expect(container.textContent).to.not.contain(alertT30.alertContent);
     expect(container.textContent).to.not.contain(alertT30.alertContent2);
@@ -110,16 +116,15 @@ describe('CernerTransitioningFacilityAlert', () => {
   it('should not render when no facilites are fetched', async () => {
     const customState = {
       ...initialState,
-      featureToggles: [],
       user: {
         profile: {
           facilities: [],
         },
       },
     };
-    customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
+    const customProps = { ...initialProps, t30: true };
 
-    const { queryByText, container } = setup(customState);
+    const { queryByText, container } = setup(customState, customProps);
     expect(queryByText(alertT30.alertTitle)).to.be.null;
     expect(container.textContent).to.not.contain(alertT30.alertContent);
     expect(container.textContent).to.not.contain(alertT30.alertContent2);
@@ -141,9 +146,12 @@ describe('CernerTransitioningFacilityAlert', () => {
         },
       },
     };
-    customState.featureToggles[`${'cerner_transition_556_t5'}`] = true;
+    const customProps = { t5: true, facilityId: '556' };
 
-    const { findByText, queryByText, container } = setup(customState);
+    const { findByText, queryByText, container } = setup(
+      customState,
+      customProps,
+    );
 
     expect(findByText(alertT5.alertTitle)).to.exist;
     expect(container.textContent).to.contain(alertT5.alertContent);

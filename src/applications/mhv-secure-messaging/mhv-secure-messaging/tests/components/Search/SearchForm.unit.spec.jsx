@@ -25,7 +25,7 @@ describe('Search form', () => {
     folder,
     keyword: 'test',
     resultsCount: searchResults.length,
-    query: {},
+    query: { queryData: {} },
   };
 
   const setup = (props = defaultProps) => {
@@ -56,15 +56,17 @@ describe('Search form', () => {
   });
 
   it('renders displays a query summary containing the number of results, searched keyword, and folder', async () => {
+    const searchTerm = 'test';
     const query = {
       category: 'other',
       fromDate: '2022-09-19T00:00:00-07:00',
       toDate: '2022-12-19T21:55:17.766Z',
+      queryData: { searchTerm },
     };
     const screen = renderWithStoreAndRouter(
       <SearchForm
         folder={folder}
-        keyword="test"
+        keyword={searchTerm}
         resultsCount={searchResults.length}
         query={query}
         threadCount={threadList.length}
@@ -92,6 +94,7 @@ describe('Search form', () => {
       category: 'other',
       fromDate: '2022-09-19T00:00:00-07:00',
       toDate: '2022-12-19T21:55:17.766Z',
+      queryData: {},
     };
     const screen = renderWithStoreAndRouter(
       <SearchForm
@@ -122,6 +125,7 @@ describe('Search form', () => {
   it('returns error message on invalid custom start date', async () => {
     const query = {
       category: 'other',
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -146,6 +150,7 @@ describe('Search form', () => {
   it('returns error message on invalid custom end date', async () => {
     const query = {
       category: 'other',
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -170,6 +175,7 @@ describe('Search form', () => {
   it('returns error message on start date beyond end date', async () => {
     const query = {
       category: 'other',
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -204,6 +210,7 @@ describe('Search form', () => {
   it('returns error message when end date year is greater then current year', async () => {
     const query = {
       category: 'other',
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -240,6 +247,12 @@ describe('Search form', () => {
       category: 'other',
       fromDate: '2022-01-01T00:00:00-07:00',
       toDate: '2022-12-31T23:59:00.000Z',
+      queryData: {
+        range: {
+          value: DateRangeValues.LAST12,
+          label: 'Last 12 months',
+        },
+      },
     };
     const customProps = {
       ...defaultProps,
@@ -254,6 +267,12 @@ describe('Search form', () => {
       'va-select[name="dateRange"]',
     );
     fireEvent.click(document.querySelector('va-button[text="Filter"]'));
+    expect(
+      screen.getByText('Last 12 months', {
+        selector: 'strong',
+        exact: true,
+      }),
+    );
     expect(screen.getByText('January 1st 2022 to December 31st 2022'));
   });
 });
