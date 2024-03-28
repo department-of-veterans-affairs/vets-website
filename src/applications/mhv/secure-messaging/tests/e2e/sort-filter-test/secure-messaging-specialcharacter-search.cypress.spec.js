@@ -19,7 +19,7 @@ describe('Secure Messaging Basic Search Tests', () => {
 
   it('Basic Search Highlight Inbox Check', () => {
     basicSearchPage.typeSearchInputFieldText(searchText);
-    basicSearchPage.submitInboxSearch();
+    basicSearchPage.clickInboxSearchButton();
     basicSearchPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
@@ -35,7 +35,7 @@ describe('Secure Messaging Basic Search Tests', () => {
   it('Basic Search Highlight Drafts Check', () => {
     patientMessageDraftsPage.loadDraftMessages();
     basicSearchPage.typeSearchInputFieldText(searchText);
-    basicSearchPage.submitDraftSearch();
+    basicSearchPage.clickDraftSearchButton();
     basicSearchPage.verifyHighlightedText(searchText);
     cy.injectAxe();
 

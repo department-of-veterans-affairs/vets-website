@@ -55,6 +55,7 @@ export const Locators = {
   ATTACHMENT_COUNT: '[data-testid="attachments-count"]',
   MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
   MESSAGES_BODY: '[data-testid="message-body-field"]',
+  MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
   DROPDOWN: '#sort-order-dropdown',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',

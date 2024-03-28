@@ -511,6 +511,26 @@ class PatientMessageDraftsPage {
   verifyDraftMessageBannerTextHasFocus = () => {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
+
+  verifyMessagesBodyText = MessageBody => {
+    cy.get(Locators.MESSAGES_BODY)
+      .should('have.attr', 'value')
+      .and('eq', MessageBody);
+  };
+
+  verifyDraftMessageBodyText = MessagesBodyDraft => {
+    cy.get(Locators.MESSAGES_BODY_DRAFT).should(
+      'have.text',
+      `${MessagesBodyDraft}`,
+    );
+  };
+
+  verifySavedMessageAlertText = MESSAGE_WAS_SAVED => {
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
+      'include.text',
+      MESSAGE_WAS_SAVED,
+    );
+  };
 }
 
 export default PatientMessageDraftsPage;

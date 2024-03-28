@@ -35,7 +35,6 @@ describe('handle multiple drafts in one thread', () => {
       }),
     };
   };
-
   const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);
 
   beforeEach(() => {
@@ -83,29 +82,24 @@ describe('handle multiple drafts in one thread', () => {
         },
       },
     });
-
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
+    draftPage.verifyMessagesBodyText(
+      updatedMultiDraftResponse.data[0].attributes.body,
+    );
 
     cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', updatedMultiDraftResponse.data[1].attributes.body);
-
-    cy.get('.message-body-draft-preview').should(
-      'have.text',
-      `${updatedMultiDraftResponse.data[0].attributes.body}`,
+    draftPage.verifyMessagesBodyText(
+      updatedMultiDraftResponse.data[1].attributes.body,
+    );
+    draftPage.verifyDraftMessageBodyText(
+      updatedMultiDraftResponse.data[0].attributes.body,
     );
 
     cy.get('[text="Edit draft 2"]').click();
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
-
-    cy.get('.message-body-draft-preview').should(
-      'have.text',
-      `${updatedMultiDraftResponse.data[1].attributes.body}`,
+    draftPage.verifyMessagesBodyText(
+      updatedMultiDraftResponse.data[0].attributes.body,
+    );
+    draftPage.verifyDraftMessageBodyText(
+      updatedMultiDraftResponse.data[1].attributes.body,
     );
   });
 });
