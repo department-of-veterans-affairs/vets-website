@@ -4,9 +4,9 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import TabItem from './TabItem';
 
-export default function TabNav() {
-  const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
+const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
 
+export default function TabNav() {
   return (
     <nav aria-label="Claim">
       <ul className="tabs">

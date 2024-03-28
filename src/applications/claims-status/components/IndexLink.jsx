@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { NavLink as BaseNavLink } from 'react-router-dom-v5-compat';
+import { NavLink } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-const NavLink = React.forwardRef(
+const IndexLink = React.forwardRef(
   ({ activeClassName, activeStyle, ...props }, ref) => {
     return (
-      <BaseNavLink
+      <NavLink
         ref={ref}
         {...props}
         className={({ isActive }) =>
@@ -22,11 +22,11 @@ const NavLink = React.forwardRef(
   },
 );
 
-NavLink.propTypes = {
+IndexLink.propTypes = {
   activeClassName: PropTypes.string,
   activeStyle: PropTypes.object,
   className: PropTypes.string,
   style: PropTypes.object,
 };
 
-export default NavLink;
+export default IndexLink;
