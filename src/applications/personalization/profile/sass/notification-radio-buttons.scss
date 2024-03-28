@@ -15,17 +15,17 @@ input[type="checkbox"] {
 }
 
 [type="radio"]:disabled + label {
-  color: $color-gray-lighter;
+  color: var(--vads-color-base-lighter);
 }
 
 [type="radio"]:disabled + label::before {
-  background-color: $color-white;
-  box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-gray-lighter;
+  background-color: var(--vads-color-white);
+  box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-base-lighter);
 }
 
 [type="radio"]:checked:disabled + label::before {
-  background-color: $color-primary-alt-light;
-  box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-primary-alt-light;
+  background-color: var(--vads-color-primary-alt-light);
+  box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 4px var(--vads-color-primary-alt-light);
 }
 
 .rb-fieldset-input {
@@ -54,27 +54,27 @@ input[type="checkbox"] {
 
 //warning
 .rb-input-warning {
-  border-left-color: $color-gold;
+  border-left-color: var(--vads-color-warning);
 }
 
 .rb-input-message-warning {
-  background: $color-gold-lightest;
+  background: var(--vads-color-gold-lightest);
 }
 
 //error
 .rb-input-error {
-  border-left-color: $color-red;
+  border-left-color: var(--vads-color-secondary);
 }
 
 .rb-input-message-error {
-  background: $color-red-lightest;
+  background: var(--vads-color-secondary-lightest);
 }
 
 //success
 .rb-input-success {
-  border-left-color: $color-green;
+  border-left-color: var(--vads-color-success-dark);
 }
 
 .rb-input-message-success {
-  background: $color-green-lightest;
+  background: var(--vads-color-success-lighter);
 }

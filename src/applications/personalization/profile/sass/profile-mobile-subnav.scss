@@ -1,17 +1,17 @@
 .mobile-nav {
   .menu-wrapper {
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     left: 0;
     right: 0;
     margin: units(1) units(1) units(2);
-    color: $color-primary;
-    border: 1px solid $color-primary;
+    color: var(--vads-color-primary);
+    border: 1px solid var(--vads-color-primary);
     border-radius: 4px;
 
     button {
       margin: 0;
-      background-color: $color-white;
-      color: $color-primary;
+      background-color: var(--vads-color-white);
+      color: var(--vads-color-primary);
       border: 0;
       padding: units(1.5);
 
@@ -46,9 +46,9 @@
 
     ul {
       padding: units(1) 0;
-      background-color: $color-white;
+      background-color: var(--vads-color-white);
       margin: 0 units(1) units(1);
-      border-top: 1px solid $color-gray-lighter;
+      border-top: 1px solid var(--vads-color-base-lighter);
 
       li {
         @include subnav-item;
