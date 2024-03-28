@@ -365,7 +365,10 @@ class TrackClaimsPageV2 {
       .shadow()
       .get('va-alert.primary-alert:first-of-type a')
       .click();
-    cy.url().should('not.contain', '/your-claims/189685/status');
+    cy.url().should(
+      'contain',
+      '/track-claims/your-claims/189685/document-request/5',
+    );
   }
 
   verifySecondaryAlert() {
@@ -382,7 +385,7 @@ class TrackClaimsPageV2 {
       .shadow()
       .get('va-alert[status="info"]:first-of-type a')
       .click();
-    cy.url().should('not.contain', '/your-claims/189685/status');
+    cy.url().should('contain', '/track-claims/your-claim-letters');
   }
 
   verifyOverviewOfTheProcess() {
@@ -428,10 +431,7 @@ class TrackClaimsPageV2 {
       .first()
       .get('va-alert[status="info"] .add-your-claims-link')
       .should('contain', 'add it here');
-    cy.get('va-alert[status="info"]')
-      .first()
-      .get('va-alert[status="info"] .add-your-claims-link')
-      .click();
+    cy.get('va-alert[status="info"] .add-your-claims-link').click();
     cy.url().should('contain', '/your-claims/189685/document-request/51');
   }
 
