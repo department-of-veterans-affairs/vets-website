@@ -34,5 +34,5 @@ export function parseResponseErrors(response = {}) {
   if (error) {
     return { code: status, detail: error };
   }
-  return null;
+  return { code: null, detail: null };
 }
