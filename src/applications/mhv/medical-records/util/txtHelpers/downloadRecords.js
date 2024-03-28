@@ -185,8 +185,8 @@ Provider notes: ${record.notes}
     )}
 `;
   };
-  //  health conditions parse
 
+  //  health conditions parse
   const parseHealthConditions = records => {
     return `
 ${txtLine}
@@ -209,7 +209,6 @@ SNOMED Clinical term: ${record.name}
   };
 
   //  vitals parse
-
   const parseVitals = records => {
     return `
 ${txtLine}
