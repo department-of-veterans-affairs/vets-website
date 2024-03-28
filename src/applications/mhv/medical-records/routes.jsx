@@ -21,17 +21,24 @@ import DownloadRecordsPage from './containers/DownloadRecordsPage';
 import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
+import { MyHealthAccessGuard } from '~/platform/mhv/util/route-guard';
 
 const routes = (
   <Switch>
     <AppRoute exact path="/" key="Medical Records Home">
-      <LandingPage />
+      <MyHealthAccessGuard>
+        <LandingPage />
+      </MyHealthAccessGuard>
     </AppRoute>
     <AppRoute exact path="/allergies" key="Allergies">
-      <Allergies />
+      <MyHealthAccessGuard>
+        <Allergies />
+      </MyHealthAccessGuard>
     </AppRoute>
     <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
-      <AllergyDetails />
+      <MyHealthAccessGuard>
+        <AllergyDetails />
+      </MyHealthAccessGuard>
     </AppRoute>
     <FeatureFlagRoute
       exact
@@ -39,7 +46,9 @@ const routes = (
       key="Vaccines"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
     >
-      <Vaccines />
+      <MyHealthAccessGuard>
+        <Vaccines />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -47,7 +56,9 @@ const routes = (
       key="Vaccine"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
     >
-      <VaccineDetails />
+      <MyHealthAccessGuard>
+        <VaccineDetails />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -55,7 +66,9 @@ const routes = (
       key="CareSummariesAndNotes"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
     >
-      <CareSummariesAndNotes />
+      <MyHealthAccessGuard>
+        <CareSummariesAndNotes />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -63,7 +76,9 @@ const routes = (
       key="CareSummaryAndNotesDetails"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
     >
-      <CareSummariesDetails />
+      <MyHealthAccessGuard>
+        <CareSummariesDetails />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -71,7 +86,9 @@ const routes = (
       key="Health Conditions"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
     >
-      <HealthConditions />
+      <MyHealthAccessGuard>
+        <HealthConditions />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -79,7 +96,9 @@ const routes = (
       key="Condition Details"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
     >
-      <ConditionDetails />
+      <MyHealthAccessGuard>
+        <ConditionDetails />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -87,7 +106,9 @@ const routes = (
       key="Vitals"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
     >
-      <Vitals />
+      <MyHealthAccessGuard>
+        <Vitals />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -95,7 +116,9 @@ const routes = (
       key="VitalDetails"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
     >
-      <VitalDetails />
+      <MyHealthAccessGuard>
+        <VitalDetails />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -103,7 +126,9 @@ const routes = (
       key="LabsAndTests"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <LabsAndTests />
+      <MyHealthAccessGuard>
+        <LabsAndTests />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -111,7 +136,9 @@ const routes = (
       key="LabAndTestDetails"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <LabAndTestDetails />
+      <MyHealthAccessGuard>
+        <LabAndTestDetails />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -119,7 +146,9 @@ const routes = (
       key="RadiologyImagesList"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <RadiologyImagesList />
+      <MyHealthAccessGuard>
+        <RadiologyImagesList />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <FeatureFlagRoute
       exact
@@ -127,16 +156,24 @@ const routes = (
       key="RadiologySingleImage"
       featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
     >
-      <RadiologySingleImage />
+      <MyHealthAccessGuard>
+        <RadiologySingleImage />
+      </MyHealthAccessGuard>
     </FeatureFlagRoute>
     <AppRoute exact path="/download-all" key="DownloadRecords">
-      <DownloadRecordsPage />
+      <MyHealthAccessGuard>
+        <DownloadRecordsPage />
+      </MyHealthAccessGuard>
     </AppRoute>
     <AppRoute exact path="/settings" key="Settings">
-      <SettingsPage />
+      <MyHealthAccessGuard>
+        <SettingsPage />
+      </MyHealthAccessGuard>
     </AppRoute>
     <Route>
-      <PageNotFound />
+      <MyHealthAccessGuard>
+        <PageNotFound />
+      </MyHealthAccessGuard>
     </Route>
   </Switch>
 );
