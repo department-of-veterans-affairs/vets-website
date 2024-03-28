@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import {
   createPayload,
   parseResponse,
+  MAX_FILE_NAME_LENGTH,
+  checkIsFileNameTooLong,
   hasSomeUploading,
   checkUploadVisibility,
   createContent,
@@ -44,6 +46,24 @@ describe('parseResponse', () => {
       confirmationCode: 'uuid-1234',
       attachmentId: '',
     });
+  });
+});
+
+describe('checkIsFileNameTooLong', () => {
+  it('should return false for file names under the size limit', () => {
+    expect(checkIsFileNameTooLong()).to.be.false;
+    expect(checkIsFileNameTooLong('')).to.be.false;
+    expect(checkIsFileNameTooLong('abcd')).to.be.false;
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH / 2))).to.be
+      .false;
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH - 1))).to.be
+      .false;
+  });
+  it('should return true for file names over the size limit', () => {
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH + 1))).to.be
+      .true;
+    expect(checkIsFileNameTooLong('a'.repeat(MAX_FILE_NAME_LENGTH * 2))).to.be
+      .true;
   });
 });
 

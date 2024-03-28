@@ -24,6 +24,8 @@ import FileField from '../../components/FileField';
 
 import {
   errormessageMaps,
+  FILE_NAME_TOO_LONG_ERROR,
+  MAX_FILE_NAME_LENGTH,
   MISSING_PASSWORD_ERROR,
   INCORRECT_PASSWORD_ERROR,
 } from '../../utils/upload';
@@ -535,6 +537,54 @@ describe('Schemaform <FileField>', () => {
       'Error Bad error',
     );
     expect($('div.usa-input-error-message', container)).to.exist;
+  });
+
+  it('should render file name too long error', async () => {
+    const onChangeSpy = sinon.spy();
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const fileWithLongName = new File(
+      ['test 123'],
+      'a'.repeat(MAX_FILE_NAME_LENGTH + 1),
+      {
+        type: fileTypeSignatures.pdf.mime,
+      },
+    );
+    const errorSchema = {};
+    const registry = {
+      fields: {
+        SchemaField: () => <div />,
+      },
+    };
+    const { container } = render(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        errorSchema={errorSchema}
+        formData={[]}
+        formContext={formContext}
+        onChange={onChangeSpy}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    fireEvent.change($('input[type="file"]', container), {
+      target: { files: [fileWithLongName] },
+    });
+
+    expect(onChangeSpy.calledOnce).to.be.true;
+    expect(onChangeSpy.args[0][0][0].errorMessage).to.eq(
+      FILE_NAME_TOO_LONG_ERROR,
+    );
   });
 
   it('should remap PDF dimension error', () => {
