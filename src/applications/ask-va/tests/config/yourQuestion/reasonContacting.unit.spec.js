@@ -12,7 +12,7 @@ const {
   uiSchema,
 } = formConfig.chapters.yourQuestion.pages.reasonYoureContactingUs;
 
-describe('yourQuestionPage', () => {
+describe('reasonContactingPage', () => {
   it('should render', () => {
     const { container } = render(
       <DefinitionTester
@@ -24,7 +24,7 @@ describe('yourQuestionPage', () => {
       />,
     );
 
-    expect($('h3', container).textContent).to.eq("Reason you're contacting us");
+    expect($('h2', container).textContent).to.eq("Reason you're contacting us");
   });
 
   it('should allow selecting a reason', () => {
