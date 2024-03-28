@@ -137,9 +137,9 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           vitals,
         };
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-        const content = getTxtContent(recordData);
+        const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName);
+        generateTextFile(content, pdfName, user);
       }
     },
     [

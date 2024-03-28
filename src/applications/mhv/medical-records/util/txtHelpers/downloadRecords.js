@@ -6,12 +6,12 @@ import { txtLine, txtLineDotted } from '../../../shared/util/constants';
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
-export const getTxtContent = data => {
+export const getTxtContent = (data, { userFullName, dob }) => {
   //  Labs and test parse
   const parseLabsAndTests = records => {
     return `
 ${txtLine}
-Lab and test results
+1) Lab and test results
 
 If your results are outside the reference range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health.
 
@@ -19,46 +19,77 @@ ${records.map(
       record => `
 ${record.name} on ${record.date}
 ${txtLineDotted}
+${
+        record.name !== 'Electrocardiogram (EKG)'
+          ? `${`
 Details about this test
-
-${'type' in record ? `Type of test: ${record.type}` : ''}
+${
+              'type' in record && record.type !== 'radiology'
+                ? `Type of test: ${record.type}`
+                : ''
+            }
 ${'sampleTested' in record ? `Sample tested: ${record.sampleTested}` : ''}
+${'reason' in record ? `Reason for test: ${record.reason}` : ''}
+${
+              'clinicalHistory' in record
+                ? `Clinical history: ${record.clinicalHistory}`
+                : ''
+            }
+${
+              'imagingLocation' in record
+                ? `Imaging location: ${record.imagingLocation}`
+                : ''
+            }
+${
+              'imagingProvider' in record
+                ? `Imaging provider: ${record.imagingProvider}`
+                : ''
+            }
+${'sampleFrom' in record ? `Sample from: ${record.sampleFrom}` : ''}
 ${'orderedBy' in record ? `Ordered by: ${record.orderedBy}` : ''}
 ${
-        'orderingLocation' in record
-          ? `Ordering location: ${record.orderingLocation}`
-          : ''
-      }
+              'orderingLocation' in record
+                ? `Ordering location: ${record.orderingLocation}`
+                : ''
+            }
 ${
-        'collectingLocation' in record
-          ? `Collecting location: ${record.collectingLocation}`
-          : ''
-      }
+              'collectingLocation' in record
+                ? `Collecting location: ${record.collectingLocation}`
+                : ''
+            }
+${'date' in record ? `Date collected: ${record.date}` : ''}
 ${
-        'comments' in record
-          ? `Provider notes ${record.comments.map(comment => `\n${comment}`)}`
-          : ''
-      }
+              'comments' in record
+                ? `Provider notes ${record.comments.map(
+                    comment => `\n${comment}`,
+                  )}`
+                : ''
+            }
 
 Results
-
 ${
-        'results' in record
-          ? `${
-              Array.isArray(record.results)
-                ? `${record.results.map(
-                    result =>
-                      `${'name' in result ? `${result.name}` : ''}
+              'results' in record
+                ? `${
+                    Array.isArray(record.results)
+                      ? `${record.results.map(
+                          result =>
+                            `\n\n${'name' in result ? `${result.name}` : ''}
+  ${'result' in result ? `Result: ${result.result}` : ''}                      
   ${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
   ${'status' in result ? `Staus: ${result.status}` : ''}
   ${'labLocation' in result ? `Lab location: ${result.labLocation}` : ''}
   ${
     'interpretation' in result ? `Interpretation: ${result.interpretation}` : ''
   }`,
-                  )}`
-                : `${record.results}`
-            }`
-          : ''
+                        )}\n`
+                      : `${record.results}\n`
+                  }`
+                : ''
+            }`}\n`
+          : `
+${'date' in record ? `Date: ${record.date}` : ''}
+${'facility' in record ? `Location: ${record.facility}` : ''}
+${'orderedBy' in record ? `Provider: ${record.orderedBy}` : ''}\n`
       }
 `,
     )}`;
@@ -68,7 +99,7 @@ ${
   const parseCareSummariesAndNotes = records => {
     return `
 ${txtLine}
-Care summaries and notes
+2) Care summaries and notes
 
 This report only includes care summaries and notes from 2013 and later.
 For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.
@@ -114,7 +145,7 @@ Summary
   const parseVaccines = records => {
     return `
 ${txtLine}
-Vaccines
+3) Vaccines
 
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.
 For complete records of your allergies and reactions to vaccines, review your allergy records in this report.
@@ -137,7 +168,7 @@ ${record.notes.map(note => `${note}`)}
   const parseAllergies = records => {
     return `
 ${txtLine}
-Allergies
+4) Allergies
 
 If you have allergies that are missing from this list, send a secure message to your care team.
 ${records.map(
@@ -159,7 +190,7 @@ Provider notes: ${record.notes}
   const parseHealthConditions = records => {
     return `
 ${txtLine}
-Health conditions
+5) Health conditions
 
 This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.
 ${records.map(
@@ -182,7 +213,7 @@ SNOMED Clinical term: ${record.name}
   const parseVitals = records => {
     return `
 ${txtLine}
-Vitals
+6) Vitals
 
 This list includes vitals and other basic health numbers your providers check at your appointments.
 ${records.map(
@@ -201,7 +232,8 @@ Location: ${record.location}
 Blue Button report
 
 This report includes key information from your VA medical records.
-Date of birth: ${data.dob}\n
+${userFullName.last}, ${userFullName.first}\n
+Date of birth: ${dob}\n
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.
@@ -211,6 +243,16 @@ What to know about your Blue Button report
 Need help?
 - If you have questions about this report or you need to add information to your records, send a secure message to your care team.
 - If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.
+
+${txtLine}
+The following records have been downloaded:
+${txtLineDotted}
+  1. Labs and Tests
+  2. Care Summaries and Notes
+  3. Vaccines
+  4. Allergies
+  5. Health Conditions
+  6. Vitals
 
 ${parseLabsAndTests(data.labsAndTests)}
 ${parseCareSummariesAndNotes(data.notes)}
