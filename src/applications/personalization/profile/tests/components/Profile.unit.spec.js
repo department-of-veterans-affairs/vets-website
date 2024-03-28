@@ -282,6 +282,7 @@ describe('mapStateToProps', () => {
       'isInMVI',
       'isLOA3',
       'shouldFetchCNPDirectDepositInformation',
+      'shouldFetchDirectDeposit',
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',

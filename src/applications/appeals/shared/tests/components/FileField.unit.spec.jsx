@@ -22,7 +22,11 @@ import fileUploadUI, {
 } from '~/platform/forms-system/src/js/definitions/file';
 import FileField from '../../components/FileField';
 
-import { errormessageMaps } from '../../utils/upload';
+import {
+  errormessageMaps,
+  MISSING_PASSWORD_ERROR,
+  INCORRECT_PASSWORD_ERROR,
+} from '../../utils/upload';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -105,7 +109,7 @@ describe('Schemaform <FileField>', () => {
       .exist;
   });
 
-  it('should render uswds components', () => {
+  it('should render components', () => {
     const schema = {
       additionalItems: {},
       items: [
@@ -114,7 +118,7 @@ describe('Schemaform <FileField>', () => {
         },
       ],
     };
-    const uiSchema = fileUploadUI('Files', { uswds: true });
+    const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         confirmationCode: 'abcdef',
@@ -139,8 +143,8 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect($('.delete-upload[uswds]', container)).to.exist;
-    expect($('#upload-button[uswds]', container)).to.exist;
+    expect($('.delete-upload', container)).to.exist;
+    expect($('#upload-button', container)).to.exist;
   });
 
   it('should remove files with empty file object when initializing', async () => {
@@ -153,6 +157,7 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files');
+    const test4 = new File([1, 2, 3], 'Test4.jpg');
     const formData = [
       {
         confirmationCode: 'abcdef',
@@ -169,8 +174,12 @@ describe('Schemaform <FileField>', () => {
         name: 'Test3.txt',
       },
       {
-        file: new File([1, 2, 3], 'Test4.jpg'),
+        file: test4,
         name: 'Test4.jpg',
+      },
+      {
+        file: {},
+        errorMessage: 'error!',
       },
     ];
     const registry = {
@@ -192,15 +201,21 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
+    const result = [
+      { confirmationCode: 'abcdef', name: 'Test1.png' },
+      { file: { name: 'fake' }, name: 'Test3.txt' },
+      { file: test4, name: 'Test4.jpg' },
+    ];
     await waitFor(() => {
-      expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[0].length).to.equal(3);
+      expect(onChange.callCount).to.eq(2);
+      expect(onChange.firstCall.args[0]).to.deep.equal(result);
       // empty file object was removed;
       expect(onChange.firstCall.args[0][1].name).to.equal('Test3.txt');
+      expect(onChange.secondCall.args[0]).to.deep.equal(result);
     });
   });
 
-  it('should show the password input if the file is encrypted', async () => {
+  it('should not initially show the password input if the file is encrypted', async () => {
     const schema = {
       additionalItems: {},
       items: [
@@ -219,6 +234,102 @@ describe('Schemaform <FileField>', () => {
         ),
         name: 'test.pdf',
         isEncrypted: true,
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: () => <div />,
+      },
+    };
+    const onChange = sinon.spy();
+
+    const { container } = render(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={data}
+        formContext={formContext}
+        onChange={onChange}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    await waitFor(() => {
+      const passwordInput = $('va-text-input[label="PDF password"]', container);
+      expect(passwordInput).to.not.exist;
+    });
+  });
+
+  it('should show the password input if the file is encrypted after the server returns a password error', async () => {
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Evidence');
+    const data = [
+      {
+        file: new File(
+          [`${fileTypeSignatures.pdf.sig} /Encrypt test`],
+          'test.pdf',
+          { type: fileTypeSignatures.pdf.mime },
+        ),
+        name: 'test.pdf',
+        isEncrypted: true,
+        errorMessage: MISSING_PASSWORD_ERROR[1],
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: () => <div />,
+      },
+    };
+    const onChange = sinon.spy();
+
+    const { container } = render(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={data}
+        formContext={formContext}
+        onChange={onChange}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    await waitFor(() => {
+      const passwordInput = $('va-text-input[label="PDF password"]', container);
+      expect(passwordInput).to.exist;
+    });
+  });
+
+  it('should still show the password input if the file is encrypted after the server returns an incorrect password error', async () => {
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Evidence');
+    const data = [
+      {
+        file: new File(
+          [`${fileTypeSignatures.pdf.sig} /Encrypt test`],
+          'test.pdf',
+          { type: fileTypeSignatures.pdf.mime },
+        ),
+        name: 'test.pdf',
+        isEncrypted: true,
+        errorMessage: INCORRECT_PASSWORD_ERROR,
       },
     ];
     const registry = {
@@ -1202,7 +1313,7 @@ describe('Schemaform <FileField>', () => {
     );
   });
 
-  it('should render cancel button with secondary class', () => {
+  it('should render secondary cancel button', () => {
     const schema = {
       additionalItems: {},
       items: [
@@ -1235,11 +1346,11 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    const cancelButton = $('.cancel-upload', container);
+    const cancelButton = $('.cancel-upload[secondary]', container);
     expect(cancelButton.getAttribute('text')).to.equal('Cancel');
   });
 
-  describe('enableShortWorkflow is true', () => {
+  describe('errors & delete', () => {
     const mockSchema = {
       additionalItems: {},
       items: [
