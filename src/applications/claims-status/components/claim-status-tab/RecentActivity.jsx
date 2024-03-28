@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import moment from 'moment';
 
 import { ITEMS_PER_PAGE } from '../../constants';
 import { buildDateFormatter } from '../../utils/helpers';
@@ -64,7 +65,7 @@ const getSortedItems = claim => {
   const items = [...trackedItems, ...phaseItems];
 
   return items.sort((item1, item2) => {
-    return item2.date > item1.date ? 1 : -1;
+    return moment(item2) - moment(item1.date);
   });
 };
 
