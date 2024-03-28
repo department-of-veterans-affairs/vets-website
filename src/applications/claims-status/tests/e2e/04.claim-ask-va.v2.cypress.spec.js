@@ -1,6 +1,6 @@
 import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
-import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail.json';
+import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
 
 describe('"Ask For Your Claim Decision" card', () => {
   it('A user can click "view details"', () => {

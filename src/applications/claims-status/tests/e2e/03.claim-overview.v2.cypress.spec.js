@@ -1,7 +1,7 @@
 import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetails from './fixtures/mocks/lighthouse/claim-detail-closed.json';
-import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail.json';
+import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
 
 describe('When a claim is closed', () => {
   it("shows the user's timeline on the Overview tab", () => {
