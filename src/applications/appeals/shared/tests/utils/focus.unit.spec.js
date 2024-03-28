@@ -9,6 +9,8 @@ import * as focusUtils from '~/platform/utilities/ui/focus';
 import {
   focusIssue,
   focusFileCard,
+  focusAddAnotherButton,
+  focusCancelButton,
   focusRadioH3,
   focusAlertH3,
 } from '../../utils/focus';
@@ -107,7 +109,6 @@ describe('focusFileCard', () => {
                 class="delete-upload vads-u-width--auto"
                 label="Delete Test1.pdf"
                 text="Delete file"
-                uswds
               />
             </div>
           </li>
@@ -120,7 +121,6 @@ describe('focusFileCard', () => {
                 class="delete-upload vads-u-width--auto"
                 label="Delete Test2.pdf"
                 text="Delete file"
-                uswds
               />
             </div>
           </li>
@@ -134,7 +134,6 @@ describe('focusFileCard', () => {
                 label="Document type"
                 name="root_additionalDocuments_0_attachmentId"
                 required
-                uswds
               >
                 <option value="L015">Buddy/Lay Statement</option>
                 <option value="L018">Civilian Police Reports</option>
@@ -146,7 +145,6 @@ describe('focusFileCard', () => {
                 class="delete-upload vads-u-width--auto"
                 label="Delete Test2.pdf"
                 text="Delete file"
-                uswds
               />
             </div>
           </li>
@@ -182,6 +180,117 @@ describe('focusFileCard', () => {
     const { container } = await renderPage();
 
     await focusFileCard('Test4.pdf', container);
+    await waitFor(() => {
+      expect(focusElementSpy.notCalled).to.be.true;
+    });
+  });
+});
+
+describe('focusCancelButton', () => {
+  let focusElementSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.spy(focusUtils, 'focusElement');
+  });
+
+  afterEach(() => {
+    focusElementSpy.restore();
+    focusElementSpy = null;
+  });
+
+  const renderPage = (showUpload = true) =>
+    render(
+      <div id="main">
+        <h3>Title</h3>
+        <ul className="schemaform-file-list">
+          <li id="root_evidence_file_0" className="va-growable-background">
+            {showUpload && (
+              <div className="schemaform-file-uploading">
+                <strong id="root_evidence_file_name_0">Test.pdf</strong>
+                <br />
+                <va-progress-bar percent="80" />
+                <va-button
+                  secondary
+                  class="cancel-upload vads-u-width--auto"
+                  label="Cancel upload of Test.pdf"
+                  text="Cancel"
+                />
+              </div>
+            )}
+          </li>
+        </ul>
+        <div id="upload-wrap">
+          <va-button
+            id="upload-button"
+            secondary
+            class="vads-u-padding-x--0 vads-u-padding-y--1"
+            label="Add another file evidence to be reviewed by the Board"
+            text="Add another file"
+          />
+        </div>
+      </div>,
+    );
+
+  it('should focus on cancel button', async () => {
+    const { container } = await renderPage();
+
+    await focusCancelButton(container);
+    await waitFor(() => {
+      expect(focusElementSpy.called).to.be.true;
+      expect(focusElementSpy.args[0][0]).to.eq('button');
+    });
+  });
+  it('should not call focus', async () => {
+    const { container } = await renderPage(false);
+
+    await focusCancelButton(container);
+    await waitFor(() => {
+      expect(focusElementSpy.notCalled).to.be.true;
+    });
+  });
+});
+
+describe('focusAddAnotherButton', () => {
+  let focusElementSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.spy(focusUtils, 'focusElement');
+  });
+
+  afterEach(() => {
+    focusElementSpy.restore();
+    focusElementSpy = null;
+  });
+
+  const renderPage = (showButton = true) =>
+    render(
+      <div id="main">
+        <h3>Title</h3>
+        <ul className="schemaform-file-list" />
+        <div id="upload-wrap">
+          {showButton && (
+            <va-button
+              id="upload-button"
+              secondary
+              class="vads-u-padding-x--0 vads-u-padding-y--1"
+              label="Add another file evidence to be reviewed by the Board"
+              text="Add another file"
+            />
+          )}
+        </div>
+      </div>,
+    );
+
+  it('should focus on add another button', async () => {
+    const { container } = await renderPage();
+
+    await focusAddAnotherButton(container);
+    await waitFor(() => {
+      expect(focusElementSpy.args[0][0]).to.eq('button, #upload-button');
+    });
+  });
+  it('should not call focus', async () => {
+    const { container } = await renderPage();
+
+    await focusAddAnotherButton(container);
     await waitFor(() => {
       expect(focusElementSpy.notCalled).to.be.true;
     });

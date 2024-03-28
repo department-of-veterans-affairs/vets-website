@@ -48,10 +48,16 @@ import powConfinementPg from '../pages/evidenceConfinement';
 import powConfinement2Pg from '../pages/evidenceConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
 import medalAwardPg from '../pages/evidenceMedalAward';
+import hasReceivedMedicalTreatmentPg from '../pages/medicalTreatmentYesNo';
 import medTreatmentPg from '../pages/medicalTreatment';
 import medTreatment3rdPtyVetPg from '../pages/medicalTreatmentThirdPartyVeteran';
 import medTreatment3rdPtyNonVetPg from '../pages/medicalTreatmentThirdPartyNonVeteran';
-import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
+import {
+  PREPARER_TYPES,
+  SUBTITLE,
+  TITLE,
+  hasMedicalTreatmentTitle,
+} from './constants';
 import {
   getMockData,
   getPersonalInformationChapterTitle,
@@ -518,10 +524,17 @@ const formConfig = {
     medicalTreatmentChapter: {
       title: 'Medical treatment',
       pages: {
+        hasReceivedMedicalTreatmentPage: {
+          title: hasMedicalTreatmentTitle,
+          path: 'has-received-medical-treatment',
+          uiSchema: hasReceivedMedicalTreatmentPg.uiSchema,
+          schema: hasReceivedMedicalTreatmentPg.schema,
+        },
         medicalTreatmentPage: {
           depends: formData =>
-            formData.preparerType === PREPARER_TYPES.VETERAN ||
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
+            formData['view:hasReceivedMedicalTreatment'] &&
+            (formData.preparerType === PREPARER_TYPES.VETERAN ||
+              formData.preparerType === PREPARER_TYPES.NON_VETERAN),
           title: 'Where did you receive medical treatment?', // for review page (has to be more than one word)
           path: 'medical-treatment',
           uiSchema: medTreatmentPg.uiSchema,
@@ -530,6 +543,7 @@ const formConfig = {
         },
         medicalTreatmentThirdPartyVeteranPage: {
           depends: formData =>
+            formData['view:hasReceivedMedicalTreatment'] &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           title: 'Where did the veteran receive medical treatment?',
           path: 'medical-treatment-third-party-veteran',
@@ -539,6 +553,7 @@ const formConfig = {
         },
         medicalTreatmentThirdPartyNonVeteranPage: {
           depends: formData =>
+            formData['view:hasReceivedMedicalTreatment'] &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           title: 'Where did the claimant receive medical treatment?',
           path: 'medical-treatment-third-party-non-veteran',

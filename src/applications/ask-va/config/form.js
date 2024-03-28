@@ -29,6 +29,7 @@ import {
   generalQuestionPages,
   myOwnBenFamPages,
   myOwnBenVetPages,
+  someoneElseBen3rdPartyEducationPages,
   someoneElseBen3rdPartyPages,
   someoneElseBenFamPages,
   someoneElseBenVetPages,
@@ -106,7 +107,7 @@ const formConfig = {
     yourQuestion: {
       title: CHAPTER_2.CHAPTER_TITLE,
       pages: {
-        whatsYourQuestionAbout: {
+        whoIsYourQuestionAbout: {
           path: CHAPTER_2.PAGE_1.PATH,
           title: CHAPTER_2.PAGE_1.TITLE,
           uiSchema: questionAboutPage.uiSchema,
@@ -147,12 +148,12 @@ const formConfig = {
             // TODO: Refactor this when we know what the other category flows will look like.
             if (
               formData.personalRelationship === 'VETERAN' &&
-              formData.questionAbout === 'MY_OWN'
+              formData.questionAbout === 'MYSELF'
             ) {
               goPath(`/${flowPaths.myOwnBenVet}-1`);
             } else if (
               formData.personalRelationship === 'FAMILY_MEMBER' &&
-              formData.questionAbout === 'MY_OWN'
+              formData.questionAbout === 'MYSELF'
             ) {
               goPath(`/${flowPaths.myOwnBenFam}-1`);
             } else if (
@@ -165,6 +166,13 @@ const formConfig = {
               formData.questionAbout === 'SOMEONE_ELSE'
             ) {
               goPath(`/${flowPaths.someoneElseBenVet}-1`);
+            } else if (
+              formData.personalRelationship === 'WORK' &&
+              formData.questionAbout === 'SOMEONE_ELSE' &&
+              formData.selectCategory ===
+                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+            ) {
+              goPath(`/${flowPaths.someoneElseBen3rdPartyEducation}-1`);
             } else if (
               formData.personalRelationship === 'WORK' &&
               formData.questionAbout === 'SOMEONE_ELSE'
@@ -181,6 +189,7 @@ const formConfig = {
         ...someoneElseBenVetPages,
         ...someoneElseBenFamPages,
         ...someoneElseBen3rdPartyPages,
+        ...someoneElseBen3rdPartyEducationPages,
       },
     },
     review: {
