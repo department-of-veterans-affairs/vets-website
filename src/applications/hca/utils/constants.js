@@ -21,9 +21,16 @@ export const DISABILITY_PREFIX = 'disability-ratings';
 
 // declare action statuses for fetching disability rating
 export const DISABILITY_RATING_ACTIONS = {
-  FETCH_TOTAL_RATING_STARTED: 'FETCH_TOTAL_RATING_STARTED',
-  FETCH_TOTAL_RATING_SUCCEEDED: 'FETCH_TOTAL_RATING_SUCCEEDED',
-  FETCH_TOTAL_RATING_FAILED: 'FETCH_TOTAL_RATING_FAILED',
+  FETCH_DISABILITY_RATING_STARTED: 'FETCH_DISABILITY_RATING_STARTED',
+  FETCH_DISABILITY_RATING_FAILED: 'FETCH_DISABILITY_RATING_FAILED',
+  FETCH_DISABILITY_RATING_SUCCEEDED: 'FETCH_DISABILITY_RATING_SUCCEEDED',
+};
+
+// declare initial state for disability rating reducer
+export const DISABILITY_RATING_INIT_STATE = {
+  totalRating: null,
+  loading: true,
+  error: null,
 };
 
 // declare labels for discharge type select box
