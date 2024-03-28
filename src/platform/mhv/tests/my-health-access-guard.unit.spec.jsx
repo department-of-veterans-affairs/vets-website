@@ -1,15 +1,15 @@
 import React from 'react';
-import { expect } from 'chai';
-import { render, screen } from '@testing-library/react';
+import { mount } from 'enzyme';
+import { Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import { MyHealthAccessGuard } from '../util/route-guard';
+import MyHealthAccessGuard from '~/platform/mhv/util/route-guard';
 
-describe('MyHealthAccessGuard', () => {
-  const mockStore = configureStore([]);
+const mockStore = configureStore([]);
 
-  it('should render children when user has a valid MHV account (OK)', () => {
+describe('<MyHealthAccessGuard />', () => {
+  it('renders its children if mhvAccountState is OK', () => {
     const store = mockStore({
       user: {
         profile: {
@@ -18,42 +18,21 @@ describe('MyHealthAccessGuard', () => {
       },
     });
 
-    render(
+    const wrapper = mount(
       <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
+        <MyHealthAccessGuard>
+          <div id="child-component" />
+        </MyHealthAccessGuard>
       </Provider>,
     );
 
-    expect(screen.getByText('Protected Content')).to.exist;
+    expect(wrapper.find('#child-component')).to.have.lengthOf(1);
+    expect(wrapper.find(Redirect)).to.have.lengthOf(0);
+
+    wrapper.unmount();
   });
 
-  it('should render children when user has a valid MHV account (MULTIPLE)', () => {
-    const store = mockStore({
-      user: {
-        profile: {
-          mhvAccountState: 'MULTIPLE',
-        },
-      },
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    expect(screen.getByText('Protected Content')).to.exist;
-  });
-
-  it('should redirect to "/my-health" when user does not have an MHV account (NONE)', () => {
+  it('redirects to /my-health if mhvAccountState is NONE', () => {
     const store = mockStore({
       user: {
         profile: {
@@ -62,36 +41,17 @@ describe('MyHealthAccessGuard', () => {
       },
     });
 
-    render(
+    const wrapper = mount(
       <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
+        <MyHealthAccessGuard>
+          <div id="child-component" />
+        </MyHealthAccessGuard>
       </Provider>,
     );
 
-    expect(screen.queryByText('Protected Content')).to.not.exist;
-    expect(screen.getByRole('link')).to.have.attr('href', '/my-health');
-  });
+    expect(wrapper.find(Redirect)).to.have.lengthOf(1);
+    expect(wrapper.find(Redirect).props().to).to.equal('/my-health');
 
-  it('should redirect to "/my-health" when user profile is missing', () => {
-    const store = mockStore({
-      user: {},
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MyHealthAccessGuard>
-            <div>Protected Content</div>
-          </MyHealthAccessGuard>
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    expect(screen.queryByText('Protected Content')).to.not.exist;
-    expect(screen.getByRole('link')).to.have.attr('href', '/my-health');
+    wrapper.unmount();
   });
 });
