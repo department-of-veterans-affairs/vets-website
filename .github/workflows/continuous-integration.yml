@@ -293,8 +293,8 @@ jobs:
         env:
           TEST_TYPE: unit_test
       
-      - name: Check for newly added disallowed tests
-        run: yarn allow-list-double-check
+      # - name: Check for newly added disallowed tests
+      #   run: yarn allow-list-double-check
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -661,6 +661,11 @@ jobs:
       
       - name: Check for newly added disallowed tests
         run: yarn allow-list-double-check
+        env:
+          TEST_TYPE: e2e
+          TEST_PROPERTY: TESTS
+          TESTS: TESTS
+          
 
       - name: Download production build artifact
         if: needs.tests-prep.outputs.cypress-tests != '[]'
