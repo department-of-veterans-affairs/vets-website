@@ -29,6 +29,9 @@ const defaultUser = {
       },
       in_progress_forms: [],
       prefills_available: ['21-526EZ'],
+      account: {
+        accountUuid: 'b18ba04a-b9c3-464b-813e-49045a4cc68e',
+      },
       services: [
         'facilities',
         'hca',

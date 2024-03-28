@@ -97,17 +97,7 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
-    () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUUid,
-      };
-    },
-    [user],
-  );
-  useDatadogRum(datadogRumConfig, userDetails);
-
+  useDatadogRum(datadogRumConfig);
   if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
