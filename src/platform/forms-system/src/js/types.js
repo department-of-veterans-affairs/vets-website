@@ -132,7 +132,7 @@
 /**
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
- * @property {string | ({ formData }: { formData?: Object }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
  * @property {React.ReactNode} [reviewDescription]
  */
@@ -156,7 +156,7 @@
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem] if true, will show an additional page for each item in the array at `'name-of-path/:index'`
- * @property {string | ({ formData }) => string} [title] Will show on review page (may require more than one word to show)
+ * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */

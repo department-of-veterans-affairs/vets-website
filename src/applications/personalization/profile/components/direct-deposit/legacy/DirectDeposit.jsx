@@ -138,7 +138,9 @@ const DirectDeposit = ({
 
   return (
     <>
-      <Headline>Direct deposit information</Headline>
+      <Headline dataTestId="legacy-direct-deposit">
+        Direct deposit information
+      </Headline>
 
       <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
         <Prompt
