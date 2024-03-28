@@ -65,7 +65,7 @@ const getSortedItems = claim => {
   const items = [...trackedItems, ...phaseItems];
 
   return items.sort((item1, item2) => {
-    return moment(item2) - moment(item1.date);
+    return moment(item2.date) - moment(item1.date);
   });
 };
 
