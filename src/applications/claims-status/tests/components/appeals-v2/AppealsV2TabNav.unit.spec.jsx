@@ -13,7 +13,7 @@ describe('<AppealsV2TabNav>', () => {
     expect($('ul.tabs', container)).to.exist;
   });
 
-  it('should render 2 tabs: Status and Detail', () => {
+  it('should render 2 tabs: Status and Issues', () => {
     const screen = renderWithRouter(<AppealsV2TabNav />);
 
     screen.getByText('Status');

@@ -17,7 +17,7 @@ describe('<AppContent>', () => {
     expect(screen.queryByTestId('children')).to.not.exist;
   });
 
-  it('should render children if feature toggles are available', () => {
+  it('should render nested route if feature toggles are available', () => {
     const screen = render(
       <MemoryRouter>
         <Routes>
