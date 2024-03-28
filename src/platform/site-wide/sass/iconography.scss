@@ -146,7 +146,7 @@
 @include make-hub(
   $hub-name: "records",
   $icon: $fa-var-id-card,
-  $color: var(--$vads-color-hub-records),
+  $color: var(--vads-color-hub-records),
   $top-small: 7px,
   $left-small: 6px,
   $top-large: 10.25px,
