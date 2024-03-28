@@ -2889,10 +2889,10 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.13.0.tgz#1bf84fa6eb4b1a6b602b2c77ce23921bab5a0f87"
-  integrity sha512-s4ovnPp+VbI0qqMqdhV391mw25X3T1cpizinLyuoC7msvwdW9e+UcFIO7XK4LCWKoG5kkx4nCLjAKhcKcFj/yA==
+"@department-of-veterans-affairs/eslint-plugin@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.15.0.tgz#9176d50f00bd41118ee6ce3cb823a3fae4a02c85"
+  integrity sha512-hSg9JI9lpBb4bvJsa4hKz4Q4bepBqGUqh6qeKE69w9K8UDy7H2hO33lSWXB/WfYcPjF/8yOS89t8ghev6D9djA==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
