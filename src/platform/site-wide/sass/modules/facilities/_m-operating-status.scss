@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .collapsible {
-  color: $color-gray-dark;
+  color: var(--vads-color-base-darker);
   cursor: pointer;
   width: 303px;
   height: 42px;
@@ -21,17 +21,17 @@
 }
 
 .collapsible:hover {
-  color: $color-gray-dark;
+  color: var(--vads-color-base-darker);
   background-color: transparent;
 }
 
 .collapsible:active {
-  color: $color-gray-dark;
+  color: var(--vads-color-base-darker);
   background-color: transparent;
 }
 
 .status-label {
-  text-decoration: underline $color-light-blue dotted;
+  text-decoration: underline var(--vads-color-primary) dotted;
   text-underline-position: under;
 
   &:active {
@@ -80,40 +80,40 @@
 }
 
 .limited, .warning {
-  background-color: $color-primary-alt-lightest !important;
+  background-color: var(--vads-color-primary-alt-lightest) !important;
 
   span.status-label:hover {
-    background-color: $color-primary-alt-light !important;
+    background-color: var(--vads-color-primary-alt-light) !important;
   }
 
   span.status-label:active {
-    background-color: $color-primary-alt-light !important;
+    background-color: var(--vads-color-primary-alt-light) !important;
   }
 
 }
 
 .closed, .error {
-  background-color: $color-red-lightest !important;
+  background-color: var(--vads-color-secondary-lightest) !important;
 
   span.status-label:hover {
-    background-color: $color-secondary-light !important;
+    background-color: var(--vads-color-secondary-light) !important;
   }
 
   span.status-label:active {
-    background-color: $color-secondary-light !important;
+    background-color: var(--vads-color-secondary-light) !important;
   }
 
 }
 
 .notice, .info {
-  background-color: $color-aqua-lightest !important;
+  background-color: var(--vads-color-primary-alt-lightest) !important;
 
   span.status-label:hover {
-    background-color: $color-primary-alt-light !important;
+    background-color: var(--vads-color-primary-alt-light) !important;
   }
 
   span.status-label:active {
-    background-color: $color-primary-alt-light !important;
+    background-color: var(--vads-color-primary-alt-light) !important;
   }
 }
 
