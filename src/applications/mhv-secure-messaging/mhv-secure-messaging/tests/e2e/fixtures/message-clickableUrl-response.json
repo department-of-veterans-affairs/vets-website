@@ -1,0 +1,27 @@
+{
+    "data": {
+        "id": "2585368",
+        "type": "messages",
+        "attributes": {
+            "messageId": 2585368,
+            "category": "EDUCATION",
+            "subject": "clickable url test",
+            "body": "https://www.va.gov/",
+            "attachment": false,
+            "sentDate": "2022-12-21T20:15:07.000Z",
+            "senderId": 406227,
+            "senderName": "MHVTP, SAFARI ",
+            "recipientId": 1899698,
+            "recipientName": "SM_CERNER_SLC10",
+            "readReceipt": "READ"
+        },
+        "relationships": {
+            "attachments": {
+                "data": []
+            }
+        },
+        "links": {
+            "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/2585368"
+        }
+    }
+}

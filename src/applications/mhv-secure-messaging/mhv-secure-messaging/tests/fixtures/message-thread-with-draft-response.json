@@ -1,0 +1,144 @@
+{
+  "data": [
+    {
+      "id": "2990440",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2990440,
+        "category": "OTHER",
+        "subject": "Thomas Jefferson TEST RESPONSE",
+        "body": "First Draft Replysss\n\n\nDemo Name\nDemo Title",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 2710520,
+        "recipientName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "readReceipt": null,
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2951184,
+        "folderId": -2,
+        "messageBody": "First Draft Replysss\n\n\nDemo Name\nDemo Title",
+        "draftDate": "2023-08-30T19:55:38.000+00:00",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2990440"
+      }
+    },
+    {
+      "id": "3002892",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3002892,
+        "category": "OTHER",
+        "subject": "Thomas Jefferson TEST RESPONSE",
+        "body": "Second reply draft\n\n\nDemo Name\nDemo Title",
+        "attachment": null,
+        "sentDate": "2023-09-06T18:23:54.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 2710520,
+        "recipientName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "readReceipt": null,
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2951184,
+        "folderId": -1,
+        "messageBody": "Second reply draft\n\n\nDemo Name\nDemo Title",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": true
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3002892"
+      }
+    },
+    {
+      "id": "2987427",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2987427,
+        "category": "OTHER",
+        "subject": "Thomas Jefferson TEST RESPONSE",
+        "body": "test reply error\n\nDemo Name\nDemo Title",
+        "attachment": null,
+        "sentDate": "2023-08-28T22:08:44.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 2710520,
+        "recipientName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "readReceipt": null,
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2951184,
+        "folderId": -1,
+        "messageBody": "test reply error\n\nDemo Name\nDemo Title",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2987427"
+      }
+    },
+    {
+      "id": "2951196",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2951196,
+        "category": "OTHER",
+        "subject": "Thomas Jefferson TEST RESPONSE",
+        "body": "confirm response",
+        "attachment": null,
+        "sentDate": "2023-08-09T18:46:56.000Z",
+        "senderId": 2935111,
+        "senderName": "CARDWELL, KYLE ",
+        "recipientId": 251391,
+        "recipientName": "MHVDAYMARK, MARK ",
+        "readReceipt": "READ",
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2951184,
+        "folderId": 0,
+        "messageBody": "confirm response",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2951196"
+      }
+    },
+    {
+      "id": "2951185",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2951185,
+        "category": "OTHER",
+        "subject": "Thomas Jefferson TEST RESPONSE",
+        "body": "Thomas Jefferson TEST RESPONSE\n\n\nMHV Mark Test Changed Name\nProud Veteran",
+        "attachment": null,
+        "sentDate": "2023-08-09T18:45:52.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 2710520,
+        "recipientName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "readReceipt": "READ",
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2951184,
+        "folderId": -1,
+        "messageBody": "Thomas Jefferson TEST RESPONSE\n\n\nMHV Mark Test Changed Name\nProud Veteran",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2951185"
+      }
+    }
+  ]
+}

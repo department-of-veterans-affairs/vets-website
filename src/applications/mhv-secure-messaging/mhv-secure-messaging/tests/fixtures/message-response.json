@@ -1,0 +1,23 @@
+{
+  "messageId": 7155731,
+  "category": "APPOINTMENTS",
+  "subject": "Appointment Inquiry",
+  "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
+  "attachment": true,
+  "attachments": [
+    {
+      "id": 7169749,
+      "name": "test.pdf",
+      "attachmentSize": 25632
+    },
+    { "id": 7169750, "name": "test2.pdf", "attachmentSize": 25632 }
+  ],
+  "sentDate": "Fri, 15 Jul 2022 15:11:16 GMT",
+  "senderId": 6177,
+  "senderName": "MANIVASAGAM, RAJESH",
+  "recipientId": 7107671,
+  "recipientName": "Jeasmitha's dist group.",
+  "readReceipt": "READ",
+  "triageGroupName": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
+  "proxySenderName": null
+}

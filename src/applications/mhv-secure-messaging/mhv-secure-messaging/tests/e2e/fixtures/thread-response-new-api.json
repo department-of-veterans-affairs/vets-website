@@ -1,0 +1,116 @@
+{
+  "data": [
+    {
+      "id": "7179613",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7179613,
+        "category": "50",
+        "subject": "Covid-Inquiry",
+        "body": "REPLY\r\nFROM ESCALATED FOLDER\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
+        "attachment": null,
+        "sentDate": "2022-09-12T14:34:28.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null,
+        "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": -3,
+        "messageBody": "REPLY\r\nFROM ESCALATED FOLDER\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179613"
+      }
+    },
+    {
+      "id": "7177164",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7177164,
+        "category": "50",
+        "subject": "Covid-Inquiry",
+        "body": "Draft2",
+        "attachment": null,
+        "sentDate": "2022-09-07T15:04:37.000Z",
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null,
+        "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": 0,
+        "messageBody": "Draft2",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7177164"
+      }
+    },
+    {
+      "id": "7176701",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7176701,
+        "category": "50",
+        "subject": "Covid-Inquiry",
+        "body": "replying",
+        "attachment": null,
+        "sentDate": "2022-09-06T20:06:15.000Z",
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null,
+        "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": 0,
+        "messageBody": "replying",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7176701"
+      }
+    },
+    {
+      "id": "7176616",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7176616,
+        "category": "50",
+        "subject": "Covid-Inquiry",
+        "body": "Send message Api testing 39",
+        "attachment": null,
+        "sentDate": "2022-09-06T19:31:18.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6910405,
+        "recipientName": "***Jeasmitha-Cardio-Clinic***",
+        "readReceipt": null,
+        "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": -1,
+        "messageBody": "Send message Api testing 39",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7176616"
+      }
+    }
+  ]
+}

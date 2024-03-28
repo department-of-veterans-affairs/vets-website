@@ -1,0 +1,49 @@
+{
+  "draftMessageHistory": [
+    {
+      "messageId": 2609285,
+      "category": "OTHER",
+      "subject": "PT2CL MESSAGE: REASSIGN OUTSIDE FACILITY",
+      "body": "<script>alert(1);</script>\n\n\n\n\n",
+      "attachment": true,
+      "sentDate": "2023-01-10T17:23:20.000Z",
+      "senderId": 523757,
+      "senderName": "FREEMAN, MELVIN  V",
+      "recipientId": 1930436,
+      "recipientName": "EXTRA_LONG_CHARACTER_TRIAGE_GROUP_DAYT29",
+      "readReceipt": "READ",
+      "triageGroupName": null,
+      "proxySenderName": null
+    },
+    {
+      "messageId": 2609175,
+      "category": "OTHER",
+      "subject": "PT2CL MESSAGE: REASSIGN OUTSIDE FACILITY",
+      "body": "MESSAGE B\n\nhttps://www.va.gov/\nhttps://www.va.gov/health/\nhttps://www.whitehouse.gov/\n\n",
+      "attachment": true,
+      "sentDate": "2023-01-10T17:18:18.000Z",
+      "senderId": 257555,
+      "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+      "recipientId": 523757,
+      "recipientName": "FREEMAN, MELVIN  V",
+      "readReceipt": "READ",
+      "triageGroupName": null,
+      "proxySenderName": null
+    },
+    {
+      "messageId": 2609012,
+      "category": "OTHER",
+      "subject": "PT2CL MESSAGE: REASSIGN OUTSIDE FACILITY",
+      "body": "MESSAGE A\n\n@@@ 12:06\n\nhttps://mhvidp-intb.myhealth.va.gov/mhv-portal-web/c/portal/saml/sso?SAMLRequest=hZLLbtswFER%2FReCeoqT6JcIyYNgNYKApUrfoIpuClq4iAnyovJQT%2F31JxYaNJk134mPuzBlxiUKrnq8H35k9%2FB4AffKilUEeDyoyOMOtQIncCA3Ifc2%2Fr%2B%2B%2F8CLNuEAE56U15EbSf6zpnfW2took22AljYj6inTe98gZ091RNj2Vxh9SfepAKN%2BlR5E%2B2WM8o711Xij6DAdWs9cFi64M0ZLkzroaRpSKtEIhkGS3rcjd7n7%2F%2BduvtpzOFmU5p1m%2BKGiezyd00c5ntCnaWTZtDhMoowAfApc8wnUE4gA7g14YX5EiKwqalWHIj%2FwTn854PnkkyU9wOIIERrJaxkh81LkYSgv%2FcStxRza0Ha9yMF76E1ldSgltpCCGaxMyzGfY44heZNifP5bsxvg1Rc%2B%2Fhtm77YNVsj4la6Xs88aB8Fe%2B%2FwXM0%2FzvgFpItW4aB4iBlr01upifnxQ041%2FZWOPhxZ%2F7ud3aqFD6HtqROSI3WhjxBDp0MSIbZOHG4ISpgSkrWHGGfXfKJdI%2F7NnbR7%2F6Aw%3D%3D&RelayState=uuidbf095e54-34ad-45c8-94c3-faeacdc3910c&SigAlg=http%3A%2F%2Fwww.w3.org%2F2001%2F04%2Fxmldsig-more%23rsa-sha256&Signature=joQbxKrSdGNM%2F6eSKqkmZgCl6GOhVk4qM8Ir%2FS6rX%2BnSyKuFFPjofBTWwmcfJOgpLq5JdHhR10lSM1mvWSB08vFM7DTy%2FIuzYiqbT6mNbpvQLaB0x6%2BVDk97jcPgX3HHajY5eUfRuKvI%2FktsAIHuZcSAsyk8VQnjI54Vy%2B3cbyKVyq%2B656TPsyhjffNFqtRAHqFBw00%2F3FlMRxfLk8He7qxFZqg%2BXIVz5g8FRV5VZ3TWR7YKCzO%2F1%2BJxRR69XznJmW3008zrUJA%2BvDpa3pVn5hCYBI3lO2OR3zVRpemV6dCpgAlfbkWXcEHRiBWqdrMPWh0DebELAvCc4PPOd4ndXpN5WjthxndRjtlAB4ZEY73Q9kUOtbel6Eyqx1BPrAVIcJLQZLzkLd9pSC4ExsVdOPd65a6dX9MV2NSyMQ7yR9u1LD1zA3OxfGOK1KvMkyOdqMWPr2cwYrJDOvZuLMLh48LweTSosAPoQOiTU%2Bp63udRz%2Fg%2B6JJNDnfa02h2qc2SNAOtOY%2BTbsH2HMTeiZaruL1CrvR%2FfgM%2FcmtivCSDm2RMP0PRTTFewsYoQ%2BctCX51kN%2BU09jqwLJ4iXNPYKcNWfzAQw4aSlsMqCjlpIslRnOHCGOxrNTkLd4luMUQbl5xwtiy1AaWciT00tkusEgh1q3fum3NSZX6tAdfwIhfeMk%3D\n\n\n\nMelvin Freeman\nUSMC Veteran",
+      "attachment": true,
+      "sentDate": "2023-01-10T17:09:20.000Z",
+      "senderId": 523757,
+      "senderName": "FREEMAN, MELVIN  V",
+      "recipientId": 1930436,
+      "recipientName": "EXTRA_LONG_CHARACTER_TRIAGE_GROUP_369258@#%_DAYT29",
+      "readReceipt": "READ",
+      "triageGroupName": null,
+      "proxySenderName": null
+    }
+  ]
+}
