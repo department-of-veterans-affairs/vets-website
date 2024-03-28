@@ -27,7 +27,7 @@ const IntroductionPage = ({ route }) => {
     <div className="schemaform-intro">
       <DowntimeNotification
         appTitle={content['form-title']}
-        dependencies={[externalServices.es]}
+        dependencies={[externalServices['1010ez']]}
       >
         {isLoadingApplicationStatus ? (
           <va-loading-indicator

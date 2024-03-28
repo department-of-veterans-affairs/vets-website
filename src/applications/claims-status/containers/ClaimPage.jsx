@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { getClaim as getClaimAction } from '../actions';
 
-class ClaimPage extends React.Component {
-  componentDidMount() {
-    const { getClaim, params, router } = this.props;
-
+export function ClaimPage({ children, getClaim, params, router }) {
+  useEffect(() => {
     getClaim(params.id, router);
-  }
+  }, []);
 
-  render() {
-    return this.props.children;
-  }
+  // This doesn't need to be wrapped in a fragment, but the linter
+  // gets upset about us importing React if it's not like this
+  return <>{children}</>;
 }
 
 const mapDispatchToProps = {
@@ -34,5 +32,3 @@ ClaimPage.propTypes = {
   params: PropTypes.object,
   router: PropTypes.object,
 };
-
-export { ClaimPage };

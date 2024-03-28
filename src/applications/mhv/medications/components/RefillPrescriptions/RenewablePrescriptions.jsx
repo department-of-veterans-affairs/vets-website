@@ -110,9 +110,8 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
               <span data-testid={`renew-last-filled-${idx}`}>
                 Last filled on{' '}
                 {dateFormat(
-                  prescription.rxRfRecords?.[0]?.[1]?.find(
-                    record => record.dispensedDate,
-                  )?.dispensedDate || prescription.dispensedDate,
+                  prescription.rxRfRecords.find(record => record.dispensedDate)
+                    ?.dispensedDate || prescription.dispensedDate,
                   'MMMM D, YYYY',
                 )}
               </span>

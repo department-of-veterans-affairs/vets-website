@@ -11,7 +11,6 @@
       "ssn": "321540987",
       "vaFileNumber": "123456789"
     },
-    "veteranInsuranceFileNumber": "987654321",
     "livingSituation": {
       "NONE": true
     },
@@ -42,7 +41,7 @@
     "powConfinement2EndDate": "2013-01-04",
     "medicalTreatments": [
       {
-        "facilityName": "Guido’s Trailer",
+        "facilityName": "Facility Name",
         "facilityAddress": {
           "country": "USA",
           "street": "123 Any St",

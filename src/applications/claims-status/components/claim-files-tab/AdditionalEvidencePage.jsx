@@ -30,8 +30,6 @@ import {
   clearAdditionalEvidenceNotification,
 } from '../../actions';
 import {
-  getTrackedItemId,
-  getTrackedItems,
   getFilesNeeded,
   getFilesOptional,
   isClaimOpen,
@@ -90,9 +88,11 @@ class AdditionalEvidencePage extends React.Component {
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
+    const { claim, lastPage } = this.props;
+
     const isOpen = isClaimOpen(
-      this.props.claim.attributes.status,
-      this.props.claim.attributes.closeDate,
+      claim.attributes.status,
+      claim.attributes.closeDate,
     );
 
     if (this.props.loading) {
@@ -122,39 +122,27 @@ class AdditionalEvidencePage extends React.Component {
           {isOpen ? (
             <>
               {this.props.filesNeeded.map(item => (
-                <FilesNeeded
-                  key={getTrackedItemId(item)}
-                  id={this.props.claim.id}
-                  item={item}
-                />
+                <FilesNeeded key={item.id} id={claim.id} item={item} />
               ))}
               {this.props.filesOptional.map(item => (
-                <FilesOptional
-                  key={getTrackedItemId(item)}
-                  id={this.props.claim.id}
-                  item={item}
-                />
+                <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <AddFilesForm
                 field={this.props.uploadField}
                 progress={this.props.progress}
                 uploading={this.props.uploading}
                 files={this.props.files}
-                backUrl={this.props.lastPage || filesPath}
+                backUrl={lastPage || filesPath}
                 onSubmit={() => {
                   // START lighthouse_migration
                   if (this.props.documentsUseLighthouse) {
                     this.props.submitFilesLighthouse(
-                      this.props.claim.id,
+                      claim.id,
                       null,
                       this.props.files,
                     );
                   } else {
-                    this.props.submitFiles(
-                      this.props.claim.id,
-                      null,
-                      this.props.files,
-                    );
+                    this.props.submitFiles(claim.id, null, this.props.files);
                   }
                   // END lighthouse_migration
                 }}
@@ -187,7 +175,7 @@ class AdditionalEvidencePage extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claim = claimsState.claimDetail.detail;
-  const trackedItems = getTrackedItems(claim);
+  const { trackedItems } = claim.attributes;
 
   return {
     loading: claimsState.claimDetail.loading,

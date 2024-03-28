@@ -1,11 +1,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
 import {
+  checkboxGroupSchema,
+  checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberNoHintSchema,
-  ssnOrVaFileNumberNoHintUI,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -23,13 +23,12 @@ import {
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
-import {
-  relationshipToVeteranUI,
-  customRelationshipSchema,
-} from '../components/CustomRelationshipPattern';
+import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
+import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -50,6 +49,7 @@ import {
   applicantWording,
   additionalFilesHint,
 } from '../helpers/wordingCustomization';
+import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
@@ -111,40 +111,13 @@ import {
   depends18f5,
   depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
+import { ApplicantAddressCopyPage } from '../pages/ApplicantAddressPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
-import { fileTypes, fileWithMetadataSchema } from './attachments';
+import { fileWithMetadataSchema } from './attachments';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
-import FileViewField, {
-  AppBirthCertReviewField,
-  AppSchoolDocReviewField,
-  AppHelplessChildReviewField,
-  AppAdoptionDocReviewField,
-  AppStepDocReviewField,
-  AppMarriageDocReviewField,
-  AppMedicareABDocReviewField,
-  AppMedicareDDocReviewField,
-  AppMedicareOver65IneligibleReviewField,
-  AppOhiDocReviewField,
-  App107959cDocReviewField,
-} from '../components/File/FileViewField';
-
-const uploadUrl = `${
-  environment.API_URL
-}/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
-
-const fileWithTextConfigBoilerPlate = {
-  fileTypes,
-  fileUploadUrl: uploadUrl,
-  attachmentSchema: {
-    'ui:title': 'Document type',
-  },
-  attachmentName: {
-    'ui:title': 'Document name',
-  },
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -200,16 +173,16 @@ const formConfig = {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
-            ...titleUI('Your relationship to this form'),
+            ...titleUI('Your information'),
             certifierRole: radioUI({
               title: 'Which of these best describes you?',
               required: () => true,
               labels: {
-                applicant: "I'm an applicant applying for CHAMPVA benefits",
+                applicant: 'I’m applying for benefits for myself',
                 sponsor:
-                  "I'm a Veteran applying for my spouse, dependents, or caretaker",
+                  'I’m a Veteran applying for benefits for my spouse or dependents',
                 other:
-                  "I'm a third party representative, power of attorney or VSO (Veterans Service Officer)",
+                  'I’m a representative applying for benefits on behalf of someone else',
               },
             }),
             ...thirdPartyInfoUiSchema,
@@ -229,10 +202,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI(
-              'Your name',
-              'We use this information to contact the signer of this form and verify other details',
-            ),
+            ...titleUI('Your name'),
             certifierName: fullNameUI(),
           },
           schema: {
@@ -251,9 +221,9 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Your mailing address',
-              'We’ll send any updates about your signer certification to this address',
+              'We’ll send any important information about this application to your address',
             ),
-            ...homelessInfo.uiSchema,
+            // ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
           },
           schema: {
@@ -261,7 +231,7 @@ const formConfig = {
             required: ['certifierAddress'],
             properties: {
               titleSchema,
-              ...homelessInfo.schema,
+              // ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
@@ -273,7 +243,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Your contact information',
-              'We use this information to contact the signer of this form and verify other details.',
+              'We use this information to contact you if we have more questions.',
             ),
             ...noPhoneInfo.uiSchema,
             certifierPhone: phoneUI(),
@@ -294,31 +264,84 @@ const formConfig = {
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI(
-              "What's your relationship to the Applicant(s)?",
-              additionalFilesHint,
+              'Your relationship to the applicant',
+              `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
             ),
-            certifierRelationship: relationshipToVeteranUI({
-              personTitle: 'Applicant(s)',
-              labelHeaderLevel: 0,
-              customLabels: {
-                spouse: `I’m the spouse of an Applicant`,
-                child: 'I’m the child of an Applicant',
-                caretaker: 'I’m the caretaker of an Applicant',
-                other: 'A relationship not listed',
+            certifierRelationship: {
+              relationshipToVeteran: checkboxGroupUI({
+                title: 'Which of these best describes you?',
+                hint: 'Select all that apply',
+                required: () => true,
+                labels: {
+                  spouse: 'I’m an applicant’s spouse',
+                  child: 'I’m an applicant’s child',
+                  parent: 'I’m an applicant’s parent',
+                  thirdParty:
+                    'I’m a third-party representative who isn’t a family member',
+                  other: 'My relationship is not listed',
+                },
+              }),
+              otherRelationshipToVeteran: {
+                'ui:title':
+                  'Since your relationship with the applicant was not listed, please describe it here',
+                'ui:webComponentField': VaTextInputField,
+                'ui:options': {
+                  expandUnder: 'relationshipToVeteran',
+                  expandUnderCondition: 'other',
+                  expandedContentFocus: true,
+                },
+                'ui:errorMessages': {
+                  required: 'Please enter your relationship to the applicant',
+                },
               },
-            }),
+              'ui:options': {
+                updateSchema: (formData, formSchema) => {
+                  const fs = formSchema;
+                  if (
+                    formData.certifierRelationship.relationshipToVeteran.other
+                  )
+                    fs.properties.otherRelationshipToVeteran[
+                      'ui:collapsed'
+                    ] = false;
+                  if (
+                    fs.properties.otherRelationshipToVeteran['ui:collapsed']
+                  ) {
+                    return {
+                      ...fs,
+                      required: ['relationshipToVeteran'],
+                    };
+                  }
+                  return {
+                    ...fs,
+                    required: [
+                      'relationshipToVeteran',
+                      'otherRelationshipToVeteran',
+                    ],
+                  };
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
             required: ['certifierRelationship'],
             properties: {
               titleSchema,
-              certifierRelationship: customRelationshipSchema([
-                'spouse',
-                'child',
-                'caretaker',
-                'other',
-              ]),
+              certifierRelationship: {
+                type: 'object',
+                properties: {
+                  relationshipToVeteran: checkboxGroupSchema([
+                    'spouse',
+                    'child',
+                    'parent',
+                    'thirdParty',
+                    'other',
+                  ]),
+                  otherRelationshipToVeteran: {
+                    type: 'string',
+                  },
+                },
+              },
             },
           },
         },
@@ -331,27 +354,8 @@ const formConfig = {
           path: 'sponsor-information/name-dob',
           title: formData =>
             `${sponsorWording(formData)} name and date of birth`,
-          uiSchema: {
-            ...titleUI(
-              ({ formData }) =>
-                `${sponsorWording(formData)} name and date of birth`,
-              ({ formData }) =>
-                formData?.certifierRole === 'sponsor'
-                  ? 'Please provide your information. We use this information to identify eligibility.'
-                  : `Please provide the information for the Veteran that you're connected to (called your "Sponsor"). We use this information to identify eligibility.`,
-            ),
-            veteransFullName: fullNameUI(),
-            sponsorDOB: dateOfBirthUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorDOB'],
-            properties: {
-              titleSchema,
-              veteransFullName: fullNameSchema,
-              sponsorDOB: dateOfBirthSchema,
-            },
-          },
+          uiSchema: sponsorNameDobConfig.uiSchema,
+          schema: sponsorNameDobConfig.schema,
         },
         page7: {
           path: 'sponsor-information/ssn',
@@ -361,16 +365,14 @@ const formConfig = {
             ...titleUI(
               ({ formData }) =>
                 `${sponsorWording(formData)} identification information`,
-              'You must enter either a Social Security number or VA File number',
             ),
-            ssn: ssnOrVaFileNumberNoHintUI(),
+            ssn: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              // TODO: remove description from above va file number
               ssn: ssnOrVaFileNumberSchema,
             },
           },
@@ -380,14 +382,16 @@ const formConfig = {
           title: 'Sponsor status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
-            sponsorInfoTitle: titleUI('Sponsor status'),
+            sponsorInfoTitle: titleUI(
+              'Sponsor status',
+              'Now we’ll ask you questions about the death of the sponsor (if they died). Fill this out to the best of your knowledge.',
+            ),
             sponsorIsDeceased: yesNoUI({
-              title: 'Is sponsor still living?',
+              title: 'Has the sponsor died?',
               labels: {
-                Y: 'Yes, sponsor is alive',
-                N: 'No, sponsor is deceased',
+                yes: 'Yes',
+                no: 'No',
               },
-              yesNoReverse: true,
             }),
           },
           schema: {
@@ -407,9 +411,10 @@ const formConfig = {
             get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: titleUI('Sponsor status (continued)'),
-            sponsorDOD: dateOfDeathUI(),
+            sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
-              title: 'Did sponsor pass away on active military service?',
+              title: 'Did sponsor die during active military service?',
+              hint: additionalFilesHint,
               labels: {
                 yes: 'Yes, sponsor passed away during active military service',
                 no:
@@ -419,7 +424,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['sponsorDOD'],
+            required: ['sponsorDOD', 'sponsorDeathConditions'],
             properties: {
               sponsorInfoTitle: titleSchema,
               sponsorDOD: dateOfDeathSchema,
@@ -434,11 +439,7 @@ const formConfig = {
             get('sponsorIsDeceased', formData) &&
             get('sponsorDeathConditions', formData),
           CustomPage: FileFieldCustom,
-          CustomPageReview: props =>
-            FileViewField(
-              props?.data.sponsorCasualtyReport || [],
-              `${sponsorWording(props?.data)} casualty report`,
-            ),
+          CustomPageReview: null,
           uiSchema: {
             ...titleUI(
               'Required supporting file upload',
@@ -450,7 +451,6 @@ const formConfig = {
             ...sponsorCasualtyReportConfig.uiSchema,
             sponsorCasualtyReport: fileUploadUI(
               "Upload Sponsor's casualty report",
-              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -471,14 +471,14 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
-              "We'll send any important information about your application to this address. Any updates you make here to your address will apply only to this application",
+              'We’ll send any important information about this application to this address.',
             ),
             ...homelessInfo.uiSchema,
             sponsorAddress: {
               ...addressUI({
                 labels: {
                   militaryCheckbox:
-                    'Address is on a United States military base outside the country.',
+                    'Address is on a U.S. military base outside of the United States.',
                 },
               }),
             },
@@ -501,7 +501,12 @@ const formConfig = {
             ...titleUI(
               ({ formData }) =>
                 `${sponsorWording(formData)} contact information`,
-              'This information helps us contact you faster if we need to follow up with you about your application.',
+              ({ formData }) => {
+                const base = sponsorWording(formData);
+                const first = base === 'Your' ? 'you' : 'the sponsor';
+                const second = base === 'Your' ? 'your' : 'their';
+                return `Having this information helps us contact ${first} faster if we have questions about ${second} information.`;
+              },
             ),
             ...noPhoneInfo.uiSchema,
             sponsorPhone: {
@@ -525,11 +530,7 @@ const formConfig = {
           path: 'sponsor-information/disability',
           title: 'Sponsor disability rating',
           CustomPage: FileFieldCustom,
-          CustomPageReview: props =>
-            FileViewField(
-              props?.data.sponsorDisabilityRating || [],
-              `${sponsorWording(props?.data)} disability rating`,
-            ),
+          CustomPageReview: null,
           uiSchema: {
             ...titleUI(
               'Optional supporting file upload',
@@ -541,7 +542,6 @@ const formConfig = {
             ...sponsorDisabilityRatingConfig.uiSchema,
             sponsorDisabilityRating: fileUploadUI(
               "Upload Sponsor's disability rating",
-              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -559,11 +559,7 @@ const formConfig = {
           path: 'sponsor-information/discharge-papers',
           title: 'Sponsor discharge papers',
           CustomPage: FileFieldCustom,
-          CustomPageReview: props =>
-            FileViewField(
-              props?.data.sponsorDischargePapers || [],
-              `${sponsorWording(props?.data)} discharge papers`,
-            ),
+          CustomPageReview: null,
           uiSchema: {
             ...titleUI(
               'Optional supporting file upload',
@@ -575,7 +571,6 @@ const formConfig = {
             ...sponsorDischargePapersConfig.uiSchema,
             sponsorDischargePapers: fileUploadUI(
               "Upload Sponsor's discharge papers",
-              fileWithTextConfigBoilerPlate,
             ),
           },
           schema: {
@@ -623,7 +618,7 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
-                maxItems: 'A maximum of three applicants may be added.',
+                maxItems: `You can add up to ${MAX_APPLICANTS} in a single application. If you need to add more than ${MAX_APPLICANTS} applicants, you need to submit a separate application for them.`,
               },
               items: {
                 applicantName: fullNameUI(),
@@ -691,11 +686,7 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                'view:description': {
-                  'ui:description':
-                    'You must enter either a VA file number or Social Security number',
-                },
-                applicantSSN: ssnOrVaFileNumberNoHintUI(),
+                applicantSSN: ssnOrVaFileNumberCustomUI(),
                 // Dynamic title (uses "your" if certifierRole is applicant and
                 // this is applicant[0])
                 'ui:options': {
@@ -716,15 +707,33 @@ const formConfig = {
           },
           schema: applicantListSchema([], {
             titleSchema,
-            'view:description': blankSchema,
-            applicantSSN: ssnOrVaFileNumberNoHintSchema,
+            applicantSSN: ssnOrVaFileNumberSchema,
           }),
+        },
+        page15a: {
+          path: 'applicant-information/:index/pre-address',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          keepInPageOnReview: false,
+          title: item => `${applicantWording(item)} mailing address`,
+          CustomPage: ApplicantAddressCopyPage,
+          CustomPageReview: null,
+          uiSchema: {
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
+          },
+          schema: applicantListSchema([], {}),
         },
         page15: {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          title: item =>
+            `${applicantWording(item)} mailing address (continued)`,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -835,7 +844,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
           CustomPage: ApplicantRelationshipPage,
-          CustomPageReview: ApplicantRelationshipReviewPage, // CustomReviewField,
+          CustomPageReview: ApplicantRelationshipReviewPage,
           schema: applicantListSchema([], {
             applicantRelationshipToSponsor: {
               type: 'object',
@@ -899,7 +908,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppBirthCertReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -915,7 +924,6 @@ const formConfig = {
                 ...applicantBirthCertConfig.uiSchema,
                 applicantBirthCertOrSocialSecCard: fileUploadUI(
                   "Upload the applicant's birth certificate",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -990,7 +998,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppSchoolDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1006,7 +1014,6 @@ const formConfig = {
                 ...applicantSchoolCertConfig.uiSchema,
                 applicantSchoolCert: fileUploadUI(
                   "Upload the applicant's school certification",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1035,7 +1042,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppHelplessChildReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1051,7 +1058,6 @@ const formConfig = {
                 ...applicantHelplessChildConfig.uiSchema,
                 applicantHelplessCert: fileUploadUI(
                   'Upload VBA decision rating for the applicant',
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1083,7 +1089,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppAdoptionDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1099,7 +1105,6 @@ const formConfig = {
                 ...applicantAdoptedConfig.uiSchema,
                 applicantAdoptionPapers: fileUploadUI(
                   "Upload the applicant's adoption papers",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1132,7 +1137,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppStepDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1150,7 +1155,6 @@ const formConfig = {
                 ...applicantStepChildConfig.uiSchema,
                 applicantStepMarriageCert: fileUploadUI(
                   "Upload marriage certificate between applicant's parent and the sponsor",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1272,7 +1276,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMarriageDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1288,7 +1292,6 @@ const formConfig = {
                 ...applicantMarriageCertConfig.uiSchema,
                 applicantMarriageCert: fileUploadUI(
                   "Upload the applicant's marriage certificate",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1320,7 +1323,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMarriageDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1336,7 +1339,6 @@ const formConfig = {
                 ...applicantMarriageCertConfig.uiSchema,
                 applicantSecondMarriageCert: fileUploadUI(
                   "Upload the applicant's second marriage certificate",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1372,7 +1374,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMarriageDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1388,7 +1390,6 @@ const formConfig = {
                 ...applicantSecondMarriageDivorceCertConfig.uiSchema,
                 applicantSecondMarriageDivorceCert: fileUploadUI(
                   "Upload the applicant's second marriage dissolution document",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1470,7 +1471,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMedicareABDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1488,7 +1489,6 @@ const formConfig = {
                 ...applicantMedicarePartAPartBCardsConfig.uiSchema,
                 applicantMedicarePartAPartBCard: fileUploadUI(
                   "Upload the applicant's copy of Medicare Parts A or B card(s)",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1520,7 +1520,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMedicareDDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1536,7 +1536,6 @@ const formConfig = {
                 ...applicantMedicarePartDCardsConfig.uiSchema,
                 applicantMedicarePartDCard: fileUploadUI(
                   "Upload the applicant's copy of Medicare Part D",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1568,7 +1567,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppMedicareOver65IneligibleReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1586,16 +1585,6 @@ const formConfig = {
                 ...appMedicareOver65IneligibleConfig.uiSchema,
                 applicantMedicareIneligibleProof: fileUploadUI(
                   'Upload the applicant’s letter from the Social Security Administration.',
-                  {
-                    fileTypes,
-                    fileUploadUrl: uploadUrl,
-                    attachmentSchema: {
-                      'ui:title': 'Document type',
-                    },
-                    attachmentName: {
-                      'ui:title': 'Document name',
-                    },
-                  },
                 ),
               },
             },
@@ -1636,7 +1625,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: AppOhiDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1654,7 +1643,6 @@ const formConfig = {
                 ...applicantOhiCardsConfig.uiSchema,
                 applicantOhiCard: fileUploadUI(
                   "Upload front and back of the applicant's health insurance card",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
@@ -1683,7 +1671,7 @@ const formConfig = {
             );
           },
           CustomPage: FileFieldCustom,
-          CustomPageReview: App107959cDocReviewField,
+          CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: {
             applicants: {
@@ -1692,14 +1680,11 @@ const formConfig = {
                 ...titleUI(
                   'Required supporting file upload',
                   ({ formData }) =>
-                    `Upload ${formData?.applicantName?.first} ${
-                      formData?.applicantName?.last
-                    }'s VA form 10-7959c.`,
+                    `Upload ${applicantWording(formData)} VA form 10-7959c.`,
                 ),
                 ...applicant107959cConfig.uiSchema,
                 applicant107959c: fileUploadUI(
                   "Upload the applicant's VA form 10-7959c",
-                  fileWithTextConfigBoilerPlate,
                 ),
               },
             },
