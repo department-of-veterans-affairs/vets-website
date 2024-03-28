@@ -3,7 +3,7 @@ import { render, cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
-import VerifyIdentity from '../../../../../components/direct-deposit/legacy/alerts/VerifyIdentity';
+import VerifyIdentity from '../../../../../components/direct-deposit/alerts/VerifyIdentity';
 
 const oldCrypto = global.window.crypto;
 

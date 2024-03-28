@@ -14,34 +14,9 @@ export const DevTools = ({
   alwaysShowChildren = true,
   showIcon = true,
   panel = false,
-  children,
+  children = null,
 }) => {
   const [visible, setVisible] = useState(false);
-
-  if (!window?.showDevTools) {
-    window.showDevTools = () => {
-      document.dispatchEvent(
-        new CustomEvent('devToolsActivate', { detail: true }),
-      );
-    };
-  }
-
-  if (!window?.hideDevTools) {
-    window.hideDevTools = () => {
-      document.dispatchEvent(
-        new CustomEvent('devToolsActivate', { detail: false }),
-      );
-    };
-  }
-
-  document.addEventListener('devToolsActivate', event => {
-    if (event.detail === true) {
-      setVisible(true);
-      return;
-    }
-
-    setVisible(false);
-  });
 
   const {
     TOGGLE_NAMES,
@@ -81,8 +56,11 @@ export const DevTools = ({
 };
 
 DevTools.propTypes = {
+  alwaysShowChildren: PropTypes.bool,
   children: PropTypes.node,
   devToolsData: PropTypes.object,
+  open: PropTypes.bool,
+  panel: PropTypes.bool,
   showChildren: PropTypes.bool,
   showHighlight: PropTypes.bool,
   showIcon: PropTypes.bool,
