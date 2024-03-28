@@ -167,3 +167,12 @@ export const PDF_TXT_GENERATE_STATUS = {
 export const defaultSelectedSortOption =
   sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) ??
   Object.keys(rxListSortingOptions)[0];
+
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const EMPTY_FIELD = 'None noted';

@@ -32,16 +32,26 @@ class PatientComposePage {
       });
   };
 
-  getCategory = (category = 'COVID') => {
-    return cy.get(`#compose-message-categories${category}input`);
-  };
-
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
     // cy.wait(Locators.INFO.MESSAGE);
+  };
+
+  clickSendMessageButton = () => {
+    cy.get(Locators.BUTTONS.SEND).click({
+      waitForAnimations: true,
+      force: true,
+    });
+  };
+
+  clickSaveDraftButton = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({
+      waitForAnimations: true,
+      force: true,
+    });
   };
 
   verifySendMessageConfirmationMessageText = () => {
@@ -61,6 +71,10 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(recipient, { force: true });
+  };
+
+  getCategory = (category = 'COVID') => {
+    return cy.get(`#compose-message-categories${category}input`);
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -103,22 +117,8 @@ class PatientComposePage {
       .should('have.focus');
   };
 
-  verifyFocusOnErrorMessageToSelectRecipient = () => {
-    return cy
-      .focused()
-      .should('have.attr', 'error', Data.PLEASE_SELECT_RECIPIENT);
-  };
-
-  verifyFocusOnErrorMessageToSelectCategory = () => {
-    cy.focused().should('have.attr', 'error', Data.PLEASE_SELECT_CATEGORY);
-  };
-
-  verifyFocusOnErrorEmptyMessageSubject = () => {
-    cy.focused().should('have.attr', 'error', Data.SUBJECT_CANNOT_BLANK);
-  };
-
-  verifyFocusOnErrorEmptyMessageBody = () => {
-    cy.focused().should('have.attr', 'error', Data.MESSAGE_CANNOT_BLANK);
+  verifyFocusOnErrorMessage = text => {
+    return cy.focused().should('have.attr', 'error', text);
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter
@@ -244,12 +244,12 @@ class PatientComposePage {
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
-      cy.get(Locators.BUTTONS.ATTACH_FILE_BUTTON)
+      cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_FILE);
     } else {
-      cy.get(Locators.BUTTONS.ATTACH_FILE_BUTTON)
+      cy.get(Locators.BUTTONS.ATTACH_FILE)
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_ADDITIONAL_FILE);
