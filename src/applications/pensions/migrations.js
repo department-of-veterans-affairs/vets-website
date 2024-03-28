@@ -281,4 +281,12 @@ export default [
     }
     return { formData: newFormData, metadata: newMetadata };
   },
+  // 6 > 7, remove gender
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData.gender) {
+      delete newFormData.gender;
+    }
+    return { formData: newFormData, metadata };
+  },
 ];
