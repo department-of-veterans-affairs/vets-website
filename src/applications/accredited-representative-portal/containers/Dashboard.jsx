@@ -7,8 +7,8 @@ import { mockPOARequests } from '../mocks/mockPOARequests';
 const Dashboard = () => {
   return (
     <>
-      <h1>Accredited Representative Portal</h1>
-      <div className="placeholder-container">
+      <h1 data-testid="dashboard-heading">Accredited Representative Portal</h1>
+      <div data-testid="dashboard-content" className="placeholder-container">
         <div className="dash-container">
           <div className="vads-u-display--flex">
             <article className="vads-l-col--11 vads-u-background-color--gray-lightest vads-u-padding--4 rounded-corners">
