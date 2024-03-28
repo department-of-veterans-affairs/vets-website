@@ -14,12 +14,12 @@ class MedicationsListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     ).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
@@ -32,7 +32,12 @@ class MedicationsListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       emptyPrescriptionsList,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
@@ -96,7 +101,7 @@ class MedicationsListPage {
       .first()
       .should(
         'have.text',
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
       );
   };
 
@@ -391,6 +396,35 @@ class MedicationsListPage {
       .should(
         'have.text',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+      );
+  };
+
+  clickSortLastFilledFirst = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      prescriptions,
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      prescriptions,
+    );
+
+    cy.get('[data-testid="sort-button"]').should('be.visible');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+  };
+
+  verifyPaginationDisplayedforSortLastFilledFirst = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]')
+      .first()
+      .should(
+        'have.text',
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
       );
   };
 
