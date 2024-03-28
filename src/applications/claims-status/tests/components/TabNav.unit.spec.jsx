@@ -1,12 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-
-import { render } from '@testing-library/react';
-
 import { expect } from 'chai';
-
 import { createStore } from 'redux';
+
 import TabNav from '../../components/TabNav';
+import { renderWithRouter } from '../utils';
 
 const getStore = (cstUseClaimDetailsV2Enabled = false) =>
   createStore(() => ({
@@ -19,7 +17,7 @@ const getStore = (cstUseClaimDetailsV2Enabled = false) =>
 describe('<TabNav>', () => {
   context('cstUseClaimDetailsV2 feature toggle false', () => {
     it('should render three tabs', () => {
-      const screen = render(
+      const screen = renderWithRouter(
         <Provider store={getStore()}>
           <TabNav id={1} />
         </Provider>,
@@ -31,7 +29,7 @@ describe('<TabNav>', () => {
 
   context('cstUseClaimDetailsV2 feature toggle true', () => {
     it('should render three tabs', () => {
-      const screen = render(
+      const screen = renderWithRouter(
         <Provider store={getStore(true)}>
           <TabNav id={1} />
         </Provider>,

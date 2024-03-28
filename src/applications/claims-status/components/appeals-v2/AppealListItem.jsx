@@ -75,7 +75,7 @@ export default function AppealListItem({ appeal, name }) {
   updatedOn = formatDate(updatedEventDateString);
 
   const ariaLabel = `View details for ${appealTitle}`;
-  const href = `appeals/${appeal.id}/status`;
+  const href = `/appeals/${appeal.id}/status`;
 
   return (
     <ClaimCard

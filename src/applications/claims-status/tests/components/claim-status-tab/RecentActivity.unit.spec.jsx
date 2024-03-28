@@ -1,12 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import RecentActivity from '../../../components/claim-status-tab/RecentActivity';
+import { renderWithRouter } from '../../utils';
 
 describe('<RecentActivity>', () => {
-  context('when claim doesnt have trackedItems', () => {
+  context('when claim doesn’t have trackedItems', () => {
     const claim = {
       attributes: {
         open: false,
@@ -36,7 +38,9 @@ describe('<RecentActivity>', () => {
           ],
         },
       };
+
       const { container, getByText } = render(<RecentActivity claim={claim} />);
+
       getByText('Recent activity');
       getByText('Request for you');
       getByText('We opened a request for "Needed from you Request"');
@@ -58,7 +62,11 @@ describe('<RecentActivity>', () => {
           ],
         },
       };
-      const { container, getByText } = render(<RecentActivity claim={claim} />);
+
+      const { container, getByText } = renderWithRouter(
+        <RecentActivity claim={claim} />,
+      );
+
       getByText('Recent activity');
       getByText('Request for others');
       getByText('We opened a request for "Needed from others Request"');
@@ -235,7 +243,11 @@ describe('<RecentActivity>', () => {
           ],
         },
       };
-      const { container, getByText } = render(<RecentActivity claim={claim} />);
+
+      const { container, getByText } = renderWithRouter(
+        <RecentActivity claim={claim} />,
+      );
+
       getByText('Recent activity');
       expect($('ol', container)).to.exist;
       expect($('va-pagination', container)).to.exist;

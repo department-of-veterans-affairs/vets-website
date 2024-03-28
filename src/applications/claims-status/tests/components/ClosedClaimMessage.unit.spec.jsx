@@ -5,6 +5,7 @@ import { format, formatISO, subDays } from 'date-fns';
 
 import ClosedClaimMessage from '../../components/ClosedClaimMessage';
 import { DATE_FORMATS } from '../../constants';
+import { renderWithRouter } from '../utils';
 
 // HELPERS
 const formatString = DATE_FORMATS.LONG_DATE;
@@ -35,7 +36,7 @@ describe('<ClosedClaimMessage>', () => {
         },
       ];
 
-      const screen = render(<ClosedClaimMessage claims={claims} />);
+      const screen = renderWithRouter(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component was rendered
       expect(screen.getByText('Recently closed:')).to.exist;
@@ -94,7 +95,7 @@ describe('<ClosedClaimMessage>', () => {
         },
       ];
 
-      const screen = render(<ClosedClaimMessage claims={claims} />);
+      const screen = renderWithRouter(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component rendered
       expect(screen.getByText('Recently closed:')).to.exist;

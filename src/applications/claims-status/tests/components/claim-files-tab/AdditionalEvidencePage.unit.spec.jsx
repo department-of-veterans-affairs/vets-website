@@ -11,6 +11,7 @@ import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
 import * as AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
+import { renderWithRouter } from '../../utils';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -172,7 +173,7 @@ describe('<AdditionalEvidencePage>', () => {
     it('should set details and go to files page if complete', () => {
       const getClaim = sinon.spy();
       const resetUploads = sinon.spy();
-      const router = getRouter();
+      const navigate = sinon.spy();
 
       const tree = SkinDeep.shallowRender(
         <AdditionalEvidencePage
@@ -181,7 +182,7 @@ describe('<AdditionalEvidencePage>', () => {
           files={[]}
           uploadComplete
           uploadField={{ value: null, dirty: false }}
-          router={router}
+          navigate={navigate}
           getClaim={getClaim}
           resetUploads={resetUploads}
           filesNeeded={[]}
@@ -193,7 +194,7 @@ describe('<AdditionalEvidencePage>', () => {
         .getMountedInstance()
         .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
       expect(getClaim.calledWith(1)).to.be.true;
-      expect(router.push.calledWith('your-claims/1/files')).to.be.true;
+      expect(navigate.calledWith('../files')).to.be.true;
     });
 
     it('shows va-alerts when files are needed', () => {
@@ -227,7 +228,7 @@ describe('<AdditionalEvidencePage>', () => {
         },
       ];
 
-      const { container } = render(
+      const { container } = renderWithRouter(
         <AdditionalEvidencePage {...props} {...fileFormProps} />,
       );
 

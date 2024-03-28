@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
 
@@ -65,7 +65,7 @@ const getSortedItems = claim => {
   const items = [...trackedItems, ...phaseItems];
 
   return items.sort((item1, item2) => {
-    return moment(item2.date) - moment(item1.date);
+    return moment(item2) - moment(item1.date);
   });
 };
 
@@ -146,7 +146,7 @@ export default function RecentActivity({ claim }) {
                   <Link
                     aria-label={`Add information for ${item.displayName}`}
                     className="add-your-claims-link"
-                    to={`your-claims/${claim.id}/document-request/${item.id}`}
+                    to={`../document-request/${item.id}`}
                   >
                     add it here.
                   </Link>

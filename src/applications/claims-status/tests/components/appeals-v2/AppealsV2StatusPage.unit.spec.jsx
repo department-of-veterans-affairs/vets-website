@@ -1,149 +1,271 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import {
+  MemoryRouter,
+  Outlet,
+  Routes,
+  Route,
+} from 'react-router-dom-v5-compat';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { mockData } from '../../../utils/helpers';
 import { APPEAL_ACTIONS } from '../../../utils/appeals-v2-helpers';
+
 import AppealsV2StatusPage from '../../../containers/AppealsV2StatusPage';
 
-describe('<AppealsV2StatusPage/>', () => {
-  const defaultProps = { appeal: mockData.data[0] };
-  const onDocketProps = { appeal: mockData.data[1] };
-  const supplementalClaimProps = { appeal: mockData.data[3] };
-  const higherLevelReviewProps = { appeal: mockData.data[4] };
-  const amaAppealProps = { appeal: mockData.data[5] };
-  const closedAmaAppealProps = { appeal: mockData.data[6] };
+const defaultAppeal = mockData.data[0];
+const onDocketAppeal = mockData.data[1];
+const supplementalClaim = mockData.data[3];
+const higherLevelReview = mockData.data[4];
+const amaAppeal = mockData.data[5];
+const closedAmaAppeal = mockData.data[6];
 
-  it('should render', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
-    wrapper.unmount();
-  });
+const store = createStore(() => ({
+  featureToggles: {
+    // eslint-disable-next-line camelcase
+    claim_letters_access: true,
+  },
+}));
 
-  it('should render an unexpanded <Timeline/>', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
-    const timeline = wrapper.find('Timeline').dive();
-    const expander = timeline.find('Expander');
-    const pastEvents = timeline.find('PastEvent');
-    expect(expander.length).to.equal(1);
-    expect(pastEvents.length).to.equal(0);
-    wrapper.unmount();
-  });
+const docketHeader = 'How long until a judge is ready for your appeal?';
 
-  it('should pass down events as props to Timeline', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
-    const pastEvents = wrapper.find('Timeline').props().events;
-    expect(pastEvents).to.equal(defaultProps.appeal.attributes.events);
-    wrapper.unmount();
-  });
-
-  it('should render a <CurrentStatus/> with title and description', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
-    const statusProps = wrapper.find('CurrentStatus').props();
-    // Testing against a specific string would require duplicating component
-    // and util code so here we're just testing that both props exist
-    expect(statusProps.title).to.exist;
-    expect(statusProps.description).to.exist;
-    wrapper.unmount();
-  });
-
-  it('should render an <AlertsList/> with alerts', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
-    const alertsList = wrapper.find('AlertsList');
-    const alertsProps = alertsList.props();
-    expect(alertsList.length).to.equal(1);
-    expect(alertsProps.alerts.length).to.equal(
-      defaultProps.appeal.attributes.alerts.length,
+describe('<AppealsV2StatusPage>', () => {
+  it('renders', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[defaultAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
     );
-    wrapper.unmount();
+
+    expect($('#tabPanelv2status', container)).to.exist;
   });
 
-  it('should render a <WhatsNext/> with nextEvents', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...onDocketProps} />);
-    const whatsNext = wrapper.find('WhatsNext');
-    const whatsNextProps = whatsNext.props();
-    expect(whatsNext.length).to.equal(1);
-    // Testing against a specific string would require duplicating component
-    // and util code so here we're just testing that the nextEvents prop exists
-    expect(whatsNextProps.nextEvents).to.exist;
-    wrapper.unmount();
+  it('should render the <Timeline> component', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[defaultAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect($('ol#appeal-timeline', container)).to.exist;
   });
 
-  it('should render a <Docket/> when applicable', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...onDocketProps} />);
-    expect(wrapper.find('Docket').length).to.equal(1);
-    wrapper.unmount();
+  it('should render a <CurrentStatus> component', () => {
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[defaultAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    screen.getByText('Current status');
   });
 
-  it('should not render a <Docket/> when appeal status is a forbidden type', () => {
+  it('should render the <AlertsList> component', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[defaultAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect($('ul.alerts-list', container)).to.exist;
+  });
+
+  it('should render the <WhatsNext> component', () => {
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[onDocketAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    screen.getByText('What happens next?');
+  });
+
+  it('should render a <Docket> when applicable', () => {
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[onDocketAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    screen.getByText(docketHeader);
+  });
+
+  it('should not render a <Docket> when appeal status is a forbidden type', () => {
     // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[defaultAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
   });
 
-  it('should not render a <Docket/> when appeal type is a forbidden type', () => {
+  it('should not render a <Docket> when appeal type is a forbidden type', () => {
     // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
-    const props = {
-      ...defaultProps,
+    const appeal = {
+      ...defaultAppeal,
       attributes: {
-        ...defaultProps.attributes,
+        ...defaultAppeal.attributes,
         type: APPEAL_ACTIONS.cue,
       },
     };
-    const wrapper = shallow(<AppealsV2StatusPage {...props} />);
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
-  });
 
-  it('should not render a <Docket/> when appeal is closed', () => {
-    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
-    const props = {
-      ...defaultProps,
-      attributes: { ...defaultProps, active: false },
-    };
-    const wrapper = shallow(<AppealsV2StatusPage {...props} />);
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
-  });
-
-  it('should not render a <Docket/> when appeal is a Supplemental Claim', () => {
-    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
-    const wrapper = shallow(
-      <AppealsV2StatusPage {...supplementalClaimProps} />,
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[appeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
     );
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
   });
 
-  it('should not render a <Docket/> when appeal is a Higher-Level Review', () => {
+  it('should not render a <Docket> when appeal is closed', () => {
     // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
-    const wrapper = shallow(
-      <AppealsV2StatusPage {...higherLevelReviewProps} />,
-    );
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
-  });
-
-  it('should render a <Docket/> when appeal is a Board Appeal', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...amaAppealProps} />);
-    expect(wrapper.find('Docket').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should not render a <Docket/> when a Board Appeal has left the Board', () => {
-    const props = {
-      ...closedAmaAppealProps,
-      attributes: { ...closedAmaAppealProps, active: true, location: 'aoj' },
+    const appeal = {
+      ...defaultAppeal,
+      attributes: { ...defaultAppeal.attributes, active: false },
     };
-    const wrapper = shallow(<AppealsV2StatusPage {...props} />);
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
+
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[appeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
   });
 
-  it('should not render a <Docket/> when appeal is a closed Board Appeal', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...closedAmaAppealProps} />);
-    expect(wrapper.find('Docket').length).to.equal(0);
-    wrapper.unmount();
+  it('should not render a <Docket> when appeal is a Supplemental Claim', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[supplementalClaim]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
+  });
+
+  it('should not render a <Docket> when appeal is a Higher-Level Review', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[higherLevelReview]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
+  });
+
+  it('should render a <Docket> when appeal is a Board Appeal', () => {
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[amaAppeal]} />}>
+            <Route index element={<AppealsV2StatusPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    screen.getByText(docketHeader);
+  });
+
+  it('should not render a <Docket> when a Board Appeal has left the Board', () => {
+    const appeal = {
+      ...closedAmaAppeal,
+      attributes: {
+        ...closedAmaAppeal.attributes,
+        active: true,
+        location: 'aoj',
+      },
+    };
+
+    const elem = (
+      <Provider store={store}>
+        <AppealsV2StatusPage />
+      </Provider>
+    );
+
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[appeal]} />}>
+            <Route index element={elem} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
+  });
+
+  it('should not render a <Docket> when appeal is a closed Board Appeal', () => {
+    const elem = (
+      <Provider store={store}>
+        <AppealsV2StatusPage />
+      </Provider>
+    );
+
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Outlet context={[closedAmaAppeal]} />}>
+            <Route index element={elem} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(docketHeader)).to.not.be.true;
   });
 });

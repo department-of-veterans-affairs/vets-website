@@ -3,11 +3,13 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { createStore } from 'redux';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
+import { renderWithRouter } from '../utils';
 
 const getStore = (cstUseClaimDetailsV2Enabled = true) =>
   createStore(() => ({
@@ -55,7 +57,7 @@ describe('<FilesPage>', () => {
           },
         };
 
-        const { container, getByTestId } = render(
+        const { container, getByTestId } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
@@ -105,7 +107,7 @@ describe('<FilesPage>', () => {
             ],
           },
         };
-        const { container, getByTestId } = render(
+        const { container, getByTestId } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
@@ -149,7 +151,7 @@ describe('<FilesPage>', () => {
           },
         };
 
-        const { container, getByTestId } = render(
+        const { container, getByTestId } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}

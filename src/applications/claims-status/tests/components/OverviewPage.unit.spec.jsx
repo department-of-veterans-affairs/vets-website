@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { OverviewPage } from '../../containers/OverviewPage';
+import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -35,7 +35,7 @@ describe('<OverviewPage>', () => {
     };
 
     it('should render empty content when loading', () => {
-      const { container } = render(
+      const { container } = renderWithRouter(
         <Provider store={store}>
           <OverviewPage
             claim={claim}
@@ -51,7 +51,7 @@ describe('<OverviewPage>', () => {
     });
 
     it('should render overview header and timeline', () => {
-      const { container, getByText } = render(
+      const { container, getByText } = renderWithRouter(
         <Provider store={store}>
           <OverviewPage
             claim={claim}
@@ -89,7 +89,7 @@ describe('<OverviewPage>', () => {
     };
 
     it('should render empty content when loading', () => {
-      const { container } = render(
+      const { container } = renderWithRouter(
         <Provider store={store}>
           <OverviewPage
             claim={claim}
@@ -105,7 +105,7 @@ describe('<OverviewPage>', () => {
     });
 
     it('should render overview header and timeline', () => {
-      const { container, getByText } = render(
+      const { container, getByText } = renderWithRouter(
         <Provider store={store}>
           <OverviewPage
             claim={claim}

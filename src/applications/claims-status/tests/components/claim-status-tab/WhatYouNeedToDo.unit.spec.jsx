@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import WhatYouNeedToDo from '../../../components/claim-status-tab/WhatYouNeedToDo';
+import { renderWithRouter } from '../../utils';
 
 const nothingNeededText =
   'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
@@ -33,7 +34,7 @@ describe('<WhatYouNeedToDo>', () => {
       },
     };
 
-    const { container, queryByText } = render(
+    const { container, queryByText } = renderWithRouter(
       <WhatYouNeedToDo claim={claim} />,
     );
 

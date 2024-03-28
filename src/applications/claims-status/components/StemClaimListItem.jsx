@@ -34,7 +34,7 @@ export default function StemClaimListItem({ claim }) {
   };
 
   const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
-  const href = `your-stem-claims/${claim.id}/status`;
+  const href = `/your-stem-claims/${claim.id}/status`;
 
   return (
     <ClaimCard

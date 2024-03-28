@@ -40,7 +40,6 @@ export default function ClaimDetailLayout(props) {
     clearNotification,
     currentTab,
     synced,
-    id,
   } = props;
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
@@ -120,7 +119,7 @@ export default function ClaimDetailLayout(props) {
   }
 
   const crumb = {
-    href: `your-claims/${id}`,
+    href: `../status`,
     label: getBreadcrumbText(currentTab, claimType),
     isRouterLink: true,
   };
@@ -161,7 +160,6 @@ ClaimDetailLayout.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   currentTab: PropTypes.string,
-  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
   synced: PropTypes.bool,

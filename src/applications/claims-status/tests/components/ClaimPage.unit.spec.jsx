@@ -1,18 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
 
 import { ClaimPage } from '../../containers/ClaimPage';
+import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
-const router = {
-  push: () => sinon.spy(),
-};
 
 const props = {
   params,
-  router,
 };
 
 describe('<ClaimPage>', () => {
@@ -20,7 +16,7 @@ describe('<ClaimPage>', () => {
     // Reset sinon spies / set up props
     props.getClaim = sinon.spy();
 
-    render(
+    renderWithRouter(
       <ClaimPage {...props}>
         <div />
       </ClaimPage>,

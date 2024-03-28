@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimsDecision from '../../components/ClaimsDecision';
+import { renderWithRouter } from '../utils';
 
 describe('<ClaimsDecision>', () => {
   it('should render message without date sentence', () => {
@@ -27,7 +28,7 @@ describe('<ClaimsDecision>', () => {
   });
 
   it('should render a link to the claim letters page', () => {
-    const { container, getByText } = render(
+    const { container, getByText } = renderWithRouter(
       <ClaimsDecision showClaimLettersLink />,
     );
     const nextStepsSection = $('.next-steps-container', container);

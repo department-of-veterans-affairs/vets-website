@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClosedClaimAlert from '../../../components/claim-status-tab/ClosedClaimAlert';
+import { renderWithRouter } from '../../utils';
 
 describe('<ClosedClaimAlert>', () => {
   context('when closeDate null', () => {
@@ -13,14 +14,16 @@ describe('<ClosedClaimAlert>', () => {
         const { container, queryByText } = render(
           <ClosedClaimAlert closeDate={date} />,
         );
+
         const link = $('.link-action-container', container);
         expect(link).not.to.exist;
         expect(queryByText('We closed your claim')).to.exist;
       });
     });
+
     context('when decisionLetterSent true', () => {
       it('should render message without date and with a link', () => {
-        const { container, queryByText } = render(
+        const { container, queryByText } = renderWithRouter(
           <ClosedClaimAlert closeDate={date} decisionLetterSent="true" />,
         );
         const link = $('.link-action-container', container);
@@ -29,6 +32,7 @@ describe('<ClosedClaimAlert>', () => {
       });
     });
   });
+
   context('when closeDate exists', () => {
     const date = '2010-03-01';
     context('when decisionLetterSent false', () => {
@@ -41,9 +45,10 @@ describe('<ClosedClaimAlert>', () => {
         expect(queryByText('We closed your claim on March 1, 2010')).to.exist;
       });
     });
+
     context('when decisionLetterSent true', () => {
       it('should render message with date and with a link', () => {
-        const { container, queryByText } = render(
+        const { container, queryByText } = renderWithRouter(
           <ClosedClaimAlert closeDate={date} decisionLetterSent="true" />,
         );
         const link = $('.link-action-container', container);
