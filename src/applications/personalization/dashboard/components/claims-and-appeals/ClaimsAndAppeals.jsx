@@ -9,10 +9,8 @@ import {
   selectProfile,
 } from '~/platform/user/selectors';
 import IconCTALink from '../IconCTALink';
-import {
-  getAppeals as getAppealsAction,
-  getClaims as getClaimsAction,
-} from '../../actions/claims-and-appeals';
+import { getAppeals as getAppealsAction } from '../../actions/appeals';
+import { getClaims as getClaimsAction } from '../../actions/claims';
 import { appealsAvailability } from '../../utils/appeals-helpers';
 import { claimsAvailability } from '../../utils/claims-helpers';
 import { canAccess } from '../../../common/selectors';

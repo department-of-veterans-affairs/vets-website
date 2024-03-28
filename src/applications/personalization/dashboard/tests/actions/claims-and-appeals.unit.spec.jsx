@@ -9,14 +9,8 @@ import {
 
 import { createClaimsSuccess } from '../../mocks/claims';
 import { createAppealsSuccess } from '../../mocks/appeals';
-import { getAppeals, getClaims } from '../../actions/claims-and-appeals';
-
 import {
-  FETCH_CLAIMS_PENDING,
-  FETCH_CLAIMS_ERROR,
-  FETCH_CLAIMS_SUCCESS,
-} from '../../utils/claims-helpers';
-import {
+  getAppeals,
   FETCH_APPEALS_PENDING,
   FETCH_APPEALS_SUCCESS,
   USER_FORBIDDEN_ERROR,
@@ -24,7 +18,13 @@ import {
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
-} from '../../utils/appeals-helpers';
+} from '../../actions/appeals';
+import {
+  getClaims,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_ERROR,
+  FETCH_CLAIMS_SUCCESS,
+} from '../../actions/claims';
 
 describe('/actions/claims-and-appeals', () => {
   describe('getAppeals', () => {
