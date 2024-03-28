@@ -40,15 +40,14 @@ describe('hca disability rating reducer', () => {
     const action = { type: FETCH_DISABILITY_RATING_FAILED, error: response };
     const { loading, error, totalRating } = reducer(state, action);
     expect(loading).to.be.false;
-    expect(error.code).to.eq(error.code);
-    expect(error.detail).to.eq(error.detail);
+    expect(error.code).to.eq(response.code);
+    expect(error.detail).to.eq(response.detail);
     expect(totalRating).to.be.null;
   });
 
   it('should properly handle the response when `FETCH_DISABILITY_RATING_SUCCEEDED` executes', () => {
     const { FETCH_DISABILITY_RATING_SUCCEEDED } = DISABILITY_RATING_ACTIONS;
     const response = {
-      disabilityDecisionTypeName: 'Service Connected',
       userPercentOfDisability: 80,
     };
     const action = { type: FETCH_DISABILITY_RATING_SUCCEEDED, response };
