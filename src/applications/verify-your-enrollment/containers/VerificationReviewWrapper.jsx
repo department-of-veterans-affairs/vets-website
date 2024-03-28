@@ -154,11 +154,6 @@ const VerificationReviewWrapper = ({
                     />
                   </VaRadio>
                 </div>
-                <p className="vye-text-block vads-u-margin-top--3">
-                  If you select “No, this information isn’t correct”, work with
-                  your School Certifying Official (SCO) to ensure your
-                  enrollment information is updated with VA.
-                </p>
                 <div
                   style={{
                     paddingLeft: '8px',
@@ -200,7 +195,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(VerificationReviewWrapper);
-
-// To the best of your knowledge, is this enrollment information correct?  (*Required)
-// If the above enrollment information isn’t correct, please do not submit the form. Instead, work with your School Certifying Official (SCO) to ensure your enrollment information is updated with the VA before submitting this form.
-// Note: Please note that providing false reports concerning your benefits may result in a fine, imprisonment or both.
