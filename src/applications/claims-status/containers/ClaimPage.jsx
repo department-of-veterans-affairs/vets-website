@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { getClaim as getClaimAction } from '../actions';
 
 export function ClaimPage({ getClaim }) {
-  const params = useParams();
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     getClaim(params.id, navigate);
