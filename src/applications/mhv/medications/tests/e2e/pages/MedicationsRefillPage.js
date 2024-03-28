@@ -93,10 +93,10 @@ class MedicationsRefillPage {
     });
   };
 
-  verifyShippedMedicationOnRefillPage = prescription => {
+  verifyShippedMedicationOnRefillPage = () => {
     cy.get('[data-testid="medications-last-shipped-3"]').should(
       'contain',
-      `Last refill shipped on ${prescription.data.attributes.dispensedDate}`,
+      'Last refill shipped on September 24, 2023',
     );
   };
 }

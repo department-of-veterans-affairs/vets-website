@@ -1,7 +1,6 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import prescriptions from './fixtures/listOfPrescriptions.json';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
-import shippedRx from './fixtures/prescription-tracking-details.json';
 
 describe('Medications Refill Page Shipped Rx', () => {
   it('visits Medications Refill Page Shipped Rx Info', () => {
@@ -12,6 +11,6 @@ describe('Medications Refill Page Shipped Rx', () => {
     refillPage.loadRefillPage(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
-    refillPage.verifyShippedMedicationOnRefillPage(shippedRx);
+    refillPage.verifyShippedMedicationOnRefillPage();
   });
 });
