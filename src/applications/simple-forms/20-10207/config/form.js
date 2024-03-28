@@ -100,7 +100,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
+  hideUnauthedStartLink: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for priority processing request.',
     noAuth:

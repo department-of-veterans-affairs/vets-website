@@ -13,7 +13,7 @@ export default function TypeOfAppointmentSection({ data, flowType }) {
 
     return (
       <>
-        <h2 className="vads-u-font-size--base vads-u-margin-top--0">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           {typeOfAppt}
         </h2>
         <span className="vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
@@ -25,7 +25,7 @@ export default function TypeOfAppointmentSection({ data, flowType }) {
 
   return (
     <>
-      <h2 className="vads-u-font-size--base vads-u-margin-top--0">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
         {typeOfAppt}
       </h2>
       <span className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
