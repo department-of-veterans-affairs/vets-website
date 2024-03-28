@@ -35,8 +35,8 @@ const VaFacilityResult = ({
           distance={location.distance}
           markerText={location.markerText}
         />
-        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
-        <span onClick={clickHandler} onKeyUp={clickHandler} role="link">
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions */}
+        <span onClick={clickHandler} onKeyUp={clickHandler}>
           {isVADomain(website) ? (
             <h3 className="vads-u-font-size--h5 no-marg-top">
               <a href={website}>{name}</a>

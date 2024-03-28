@@ -17,8 +17,14 @@ describe('Facility Search - CCP (community care providers) enabled', () => {
 
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
-    cy.get('#facility-type-dropdown').should('exist');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(CC_PROVIDER);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .should('exist');
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
       expect(optionsWithoutCCP).to.include(CC_PROVIDER);
@@ -31,8 +37,14 @@ describe('Facility Search - CCP (community care providers) enabled', () => {
 
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
-    cy.get('#facility-type-dropdown').should('exist');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(CC_PROVIDER);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .should('exist');
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
       expect(optionsWithoutCCP).to.include(CC_PROVIDER);

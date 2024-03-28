@@ -12,12 +12,7 @@ describe('SearchAreaControl', () => {
 
     const wrapper = shallow(<SearchAreaControl query={query} />);
 
-    expect(
-      wrapper
-        .render()
-        .find('button#search-area-control')
-        .text(),
-    ).to.equal('Zoom in to search');
+    expect(wrapper.render().find('.mapboxgl-zoomed-out')).to.exist;
     wrapper.unmount();
   });
 
@@ -28,12 +23,7 @@ describe('SearchAreaControl', () => {
 
     const wrapper = shallow(<SearchAreaControl query={query} />);
 
-    expect(
-      wrapper
-        .render()
-        .find('button#search-area-control')
-        .text(),
-    ).to.equal('Search this area of the map');
+    expect(wrapper.render().find('.mapboxgl-zoomed-in')).to.exist;
     wrapper.unmount();
   });
 
@@ -46,7 +36,7 @@ describe('SearchAreaControl', () => {
       />,
     );
 
-    const button = wrapper.find('button#search-area-control');
+    const button = wrapper.find('va-button#search-area-control');
     button.simulate('click');
 
     expect(handleSearchArea.called).to.be.false;
@@ -59,7 +49,7 @@ describe('SearchAreaControl', () => {
       <SearchAreaControl isEnabled handleSearchArea={handleSearchArea} />,
     );
 
-    const button = wrapper.find('button#search-area-control');
+    const button = wrapper.find('va-button#search-area-control');
     button.simulate('click');
 
     expect(handleSearchArea.called).to.be.true;
