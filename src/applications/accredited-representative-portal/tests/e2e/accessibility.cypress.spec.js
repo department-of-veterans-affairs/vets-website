@@ -10,19 +10,19 @@ describe('Accessibility', () => {
   });
 
   it('has accessible landing page', () => {
-    cy.visit('/representatives');
+    cy.visit('/representative');
     cy.injectAxe();
     cy.axeCheck();
   });
 
   it('has accessible dashboard', () => {
-    cy.visit('/representatives/dashboard');
+    cy.visit('/representative/dashboard');
     cy.injectAxe();
     cy.axeCheck();
   });
 
   it('has accessible POA requests page', () => {
-    cy.visit('/representatives/poa-requests');
+    cy.visit('/representative/poa-requests');
     cy.injectAxe();
     cy.axeCheck();
   });

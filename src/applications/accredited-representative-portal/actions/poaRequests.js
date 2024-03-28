@@ -1,29 +1,22 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
-const settings = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
-
-const handlePOARequest = async (veteranId, action) => {
+const handlePOARequest = async (poaId, action) => {
   try {
-    const resource = `/poa_requests/${veteranId}/${action}`;
-    const response = await apiRequest(resource, settings);
-
-    if (!response.ok) {
-      throw new Error(`Server responded with status: ${response.status}`);
-    }
-
-    return { status: 'success' };
+    const resource = `/accredited_representative_portal/v0/power_of_attorney_requests/${poaId}/${action}`;
+    return await apiRequest(resource, { method: 'POST' });
   } catch (error) {
-    const errorMessage = error.message || 'An unexpected error occurred.';
-    return { status: 'error', error: errorMessage };
+    return error;
   }
 };
 
-export const acceptPOARequest = veteranId =>
-  handlePOARequest(veteranId, 'accept');
-export const declinePOARequest = veteranId =>
-  handlePOARequest(veteranId, 'decline');
+export const getPOARequestsByCode = async poaCode => {
+  try {
+    const resource = `/accredited_representative_portal/v0/power_of_attorney_requests?poaCode=${poaCode}`;
+    return await apiRequest(resource);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const acceptPOARequest = poaId => handlePOARequest(poaId, 'accept');
+export const declinePOARequest = poaId => handlePOARequest(poaId, 'decline');
