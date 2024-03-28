@@ -24,15 +24,11 @@ function generateOptions({ data, pagePerItemIndex }) {
 
   const options = [
     {
-      label: `Yes, ${
-        useFirstPerson ? 'I have' : `${applicant} has `
-      } other health insurance`,
+      label: 'Yes',
       value: 'yes',
     },
     {
-      label: `No, ${
-        useFirstPerson ? "I don't have" : `${applicant} doesn't have `
-      } other health insurance`,
+      label: 'No',
       value: 'no',
     },
   ];
@@ -126,7 +122,7 @@ export default function ApplicantOhiStatusPage({
           class="vads-u-margin-y--2"
           label={`${
             useFirstPerson ? 'Do you' : `Does ${applicant}`
-          } have other health insurance (that is not Medicare)?`}
+          } have other health insurance (other than Medicare)?`}
           hint={additionalFilesHint}
           required
           error={error}
