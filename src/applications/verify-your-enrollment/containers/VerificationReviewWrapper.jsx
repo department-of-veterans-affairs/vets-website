@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -114,6 +113,22 @@ const VerificationReviewWrapper = ({
             ) : (
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
+                <div className="vye-max-width-480px">
+                  <p className="vads-u-margin-top--3">
+                    <span className="vads-u-font-weight--bold">
+                      If the above enrollment information isn’t correct,
+                    </span>{' '}
+                    please do not submit the form. Instead, work with your
+                    School Certifying Official (SCO) to ensure your enrollment
+                    information is updated with the VA before submitting this
+                    form.
+                  </p>
+                  <p className="vads-u-margin-top--3">
+                    <span className="vads-u-font-weight--bold">Note:</span>{' '}
+                    Please note that providing false reports concerning your
+                    benefits may result in a fine, imprisonment or both.
+                  </p>
+                </div>
                 <div className="vads-u-margin-top--3">
                   <VaRadio
                     error={errorStatement}
@@ -176,8 +191,8 @@ const mapDispatchToProps = {
 };
 
 VerificationReviewWrapper.propTypes = {
-  dispatchupdateToggleEnrollmentCard: PropTypes.func,
   children: PropTypes.any,
+  dispatchupdateToggleEnrollmentCard: PropTypes.func,
   enrollmentData: PropTypes.object,
   link: PropTypes.func,
 };
@@ -185,3 +200,7 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(VerificationReviewWrapper);
+
+// To the best of your knowledge, is this enrollment information correct?  (*Required)
+// If the above enrollment information isn’t correct, please do not submit the form. Instead, work with your School Certifying Official (SCO) to ensure your enrollment information is updated with the VA before submitting this form.
+// Note: Please note that providing false reports concerning your benefits may result in a fine, imprisonment or both.
