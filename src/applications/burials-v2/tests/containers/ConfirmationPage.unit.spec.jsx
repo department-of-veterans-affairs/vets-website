@@ -50,6 +50,7 @@ describe('<ConfirmationPage>', () => {
         },
         submission: {
           submittedAt: testDate,
+          timestamp: testDate.getTime(),
           response: {
             confirmationNumber: 'V-EBC-177',
             regionalOffice: [

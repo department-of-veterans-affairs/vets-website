@@ -119,6 +119,7 @@ class ReviewCollapsibleChapter extends React.Component {
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
+    typeof pageTitle === 'string' &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
   hasValidationError = (key, index) => {
