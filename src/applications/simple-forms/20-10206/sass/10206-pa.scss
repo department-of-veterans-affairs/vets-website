@@ -28,6 +28,6 @@ va-textarea[name="root_otherBenefitDetails"]::part(input-type-textarea) {
 // has a gray color hint text, the hint text compared to
 // the background color is too low contrast.
 .rjsf-array-field .va-growable-background {
-  border: 1px solid $color-gray-medium;
-  background-color: $color-white;
+  border: 1px solid var(--vads-color-gray-medium);
+  background-color: var(--vads-color-white);
 }
