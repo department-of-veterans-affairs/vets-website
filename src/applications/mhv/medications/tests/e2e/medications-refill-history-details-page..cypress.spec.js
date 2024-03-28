@@ -2,7 +2,7 @@ import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import refillHistoryDetails from './fixtures/prescription-refill-history-details.json';
+import refillHistoryDetails from './fixtures/prescription-tracking-details.json';
 
 describe('Medications Refill History on Details Page', () => {
   it('visits prescription refill history on details page', () => {

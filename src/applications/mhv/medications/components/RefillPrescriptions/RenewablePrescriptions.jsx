@@ -115,6 +115,19 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                   'MMMM D, YYYY',
                 )}
               </span>
+              {prescription?.trackingList?.[0]?.completeDateTime && (
+                <>
+                  <br />
+                  <span data-testid={`medications-last-shipped-${idx}`}>
+                    <i className="fas fa-truck vads-u-margin-right--1p5" />
+                    Last refill shipped on{' '}
+                    {dateFormat(
+                      prescription.trackingList[0].completeDateTime,
+                      'MMMM D, YYYY',
+                    )}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         ))}

@@ -317,6 +317,11 @@ class MedicationsDetailsPage {
   };
 
   verifyImageOfMedicationFieldOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="med-image"]').should(
       'contain',
       'Image of the medication or supply',

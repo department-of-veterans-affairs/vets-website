@@ -193,10 +193,8 @@ const PrescriptionPrintOnly = props => {
                       </p>
                       <p>
                         <strong>Shipped on:</strong>{' '}
-                        {entry?.trackingList?.[0]?.[1]?.completeDateTime
-                          ? dateFormat(
-                              entry.trackingList[0][1].completeDateTime,
-                            )
+                        {entry?.trackingList?.[0]?.completeDateTime
+                          ? dateFormat(entry.trackingList[0].completeDateTime)
                           : 'None noted'}
                       </p>
                       <div className="line-break" />
