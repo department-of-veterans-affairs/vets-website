@@ -86,7 +86,7 @@ describe('Burial Information', () => {
         container,
       );
 
-      const burialDateEvent = { target: { value: '2023-12-29' } };
+      const burialDateEvent = { target: { value: '2020-01-29' } };
 
       deathDateInput.__events.dateChange(deathDateEvent);
       burialDateInput.__events.dateChange(burialDateEvent);
