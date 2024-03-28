@@ -45,7 +45,7 @@ function transformApplicants(applicants) {
         app?.applicantMedicarePartDCard,
         app?.applicantMedicareIneligibleProof,
         app?.applicantOhiCard,
-        app?.applicant107959c,
+        app?.applicantOtherInsuranceCertification,
         app?.applicantHelplessCert,
       ],
       address: app.applicantAddress ?? '',

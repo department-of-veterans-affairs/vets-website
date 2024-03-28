@@ -19,6 +19,7 @@ export function applicantWording(
   context,
   isPosessive = true,
   cap = true,
+  index,
 ) {
   let retVal = '';
   if (context) {
@@ -39,6 +40,8 @@ export function applicantWording(
       formData?.applicantName?.last
     }` || 'Applicant'}${isPosessive ? '’s' : ''}`;
   }
+  // Another edge case - if we don't have context, but we do have an index:
+  if (index && +index === 0) retVal = isPosessive ? 'your' : 'you';
 
   // Optionally capitalize first letter and return
   return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
