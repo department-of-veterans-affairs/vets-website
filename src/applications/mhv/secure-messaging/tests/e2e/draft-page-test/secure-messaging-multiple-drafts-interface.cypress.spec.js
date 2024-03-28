@@ -35,9 +35,20 @@ describe('handle multiple drafts in one thread', () => {
       }),
     };
   };
-
   const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);
 
+  const verifyMessagesBodyAttrValue = (field, index) => {
+    cy.get(field)
+      .should('have.attr', 'value')
+      .and('eq', updatedMultiDraftResponse.data[index].attributes.body);
+  };
+
+  const verifyMessagesBodyDraftAttrValue = (field, index) => {
+    cy.get(field).should(
+      'have.text',
+      `${updatedMultiDraftResponse.data[index].attributes.body}`,
+    );
+  };
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
@@ -83,29 +94,14 @@ describe('handle multiple drafts in one thread', () => {
         },
       },
     });
-
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
+    verifyMessagesBodyAttrValue(Locators.MESSAGES_BODY, 0);
 
     cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', updatedMultiDraftResponse.data[1].attributes.body);
-
-    cy.get('.message-body-draft-preview').should(
-      'have.text',
-      `${updatedMultiDraftResponse.data[0].attributes.body}`,
-    );
+    verifyMessagesBodyAttrValue(Locators.MESSAGES_BODY, 1);
+    verifyMessagesBodyDraftAttrValue(Locators.MESSAGES_BODY_DRAFT, 0);
 
     cy.get('[text="Edit draft 2"]').click();
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
-
-    cy.get('.message-body-draft-preview').should(
-      'have.text',
-      `${updatedMultiDraftResponse.data[1].attributes.body}`,
-    );
+    verifyMessagesBodyAttrValue(Locators.MESSAGES_BODY, 0);
+    verifyMessagesBodyDraftAttrValue(Locators.MESSAGES_BODY_DRAFT, 1);
   });
 });
