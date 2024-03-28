@@ -18,15 +18,15 @@ describe('SM main page', () => {
   it('verify headers', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    SecureMessagingLandingPage.verifyHeader();
-    SecureMessagingLandingPage.verifyUnreadMessagesNote();
+    SecureMessagingLandingPage.verifyHeaderText();
+    SecureMessagingLandingPage.verifyUnreadMessagesNoteText();
   });
 
   it('verify main topics', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    SecureMessagingLandingPage.verifyWelcomeMessage();
-    SecureMessagingLandingPage.verifyFaqMessage();
+    SecureMessagingLandingPage.verifyWelcomeMessageText();
+    SecureMessagingLandingPage.verifyFaqMessageText();
   });
 
   it('verify faq accordions', () => {
