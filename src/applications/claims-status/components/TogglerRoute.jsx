@@ -8,10 +8,10 @@ const redirect = <Navigate to="../status" replace />;
 
 export default function TogglerRoute({
   children,
-  inverted = false,
+  redirectWhenToggleEnabled = false,
   toggleName,
 }) {
-  if (inverted) {
+  if (redirectWhenToggleEnabled) {
     return (
       <Toggler toggleName={toggleName}>
         <Toggler.Enabled>{redirect}</Toggler.Enabled>
@@ -31,5 +31,5 @@ export default function TogglerRoute({
 TogglerRoute.propTypes = {
   children: PropTypes.node.isRequired,
   toggleName: PropTypes.string.isRequired,
-  inverted: PropTypes.bool,
+  redirectWhenToggleEnabled: PropTypes.bool,
 };

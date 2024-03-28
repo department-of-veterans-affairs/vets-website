@@ -23,7 +23,7 @@ import OverviewPage from './containers/OverviewPage';
 const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
 
 const detailsRoute = (
-  <TogglerRoute toggleName={cstUseClaimDetailsV2} inverted>
+  <TogglerRoute toggleName={cstUseClaimDetailsV2} redirectWhenToggleEnabled>
     <DetailsPage />
   </TogglerRoute>
 );
