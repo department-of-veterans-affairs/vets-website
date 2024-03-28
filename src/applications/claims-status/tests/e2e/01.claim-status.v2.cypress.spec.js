@@ -21,11 +21,21 @@ describe('A user can navigate to their claim details of an open claim', () => {
   });
 });
 
-describe('A user with more than 3 contentions can click "Show full list" button and see more contentions', () => {
+describe('On a closed claim, a user with more than 3 contentions can click "Show full list" button and see more contentions', () => {
   it('Has "Show full list" button which reveals more contentions when clicked', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetails);
     trackClaimsPage.verifyInProgressClaim(false);
+    trackClaimsPage.verifyContentions();
+    cy.axeCheck();
+  });
+});
+
+describe('On an open claim, a user with more than 3 contentions can click "Show full list" button and see more contentions', () => {
+  it('Has "Show full list" button which reveals more contentions when clicked', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
     trackClaimsPage.verifyContentions();
     cy.axeCheck();
   });
@@ -41,11 +51,21 @@ describe('A user that has tracked items can view recent activity', () => {
   });
 });
 
-describe('A user that has more than 10 tracked items gets pagination on recent activity page', () => {
+describe('On a closed claim, a user that has more than 10 tracked items gets pagination on recent activity page', () => {
   it('Shows pagination for a user with more than 10 tracked items', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetails);
     trackClaimsPage.verifyInProgressClaim(false);
+    trackClaimsPage.verifyRecentActivityPagination();
+    cy.axeCheck();
+  });
+});
+
+describe('On an open claim, a user that has more than 10 tracked items gets pagination on recent activity page', () => {
+  it('Shows pagination for a user with more than 10 tracked items', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
     trackClaimsPage.verifyRecentActivityPagination();
     cy.axeCheck();
   });
@@ -62,11 +82,27 @@ describe('A user can view primary alert details', () => {
 });
 
 describe('A user can view secondary alert details', () => {
-  it('Shows secondary alert details', () => {
+  it('Shows secondary alert details on a closed claim', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetails);
     trackClaimsPage.verifyInProgressClaim(false);
+    trackClaimsPage.verifyClosedClaimSecondaryAlert();
+    cy.axeCheck();
+  });
+
+  it('Shows secondary alert details on an open claim', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
     trackClaimsPage.verifySecondaryAlert();
+    cy.axeCheck();
+  });
+
+  it('Shows secondary alert details in Recent Activity on an open claim', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.verifyOpenClaimSecondaryAlertInRecentActivity();
     cy.axeCheck();
   });
 });

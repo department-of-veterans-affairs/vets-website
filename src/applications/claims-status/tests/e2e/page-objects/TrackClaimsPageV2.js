@@ -371,7 +371,7 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifySecondaryAlert() {
+  verifyClosedClaimSecondaryAlert() {
     cy.get('va-alert[status="info"]')
       .first()
       .should('be.visible');
@@ -386,6 +386,49 @@ class TrackClaimsPageV2 {
       .get('va-alert[status="info"]:first-of-type a')
       .click();
     cy.url().should('contain', '/track-claims/your-claim-letters');
+  }
+
+  verifySecondaryAlert() {
+    cy.get('va-alert[status="info"]')
+      .first()
+      .should('be.visible');
+    cy.get('va-alert[status="info"]')
+      .first()
+      .shadow()
+      .get('va-alert[status="info"] a')
+      .first()
+      .should('contain', 'add it here');
+    cy.get('va-alert[status="info"]')
+      .first()
+      .shadow()
+      .get('va-alert[status="info"] a')
+      .first()
+      .click();
+    cy.url().should(
+      'contain',
+      '/track-claims/your-claims/189685/document-request/51',
+    );
+  }
+
+  verifyOpenClaimSecondaryAlertInRecentActivity() {
+    cy.get('.recent-activity-container va-alert[status="info"]')
+      .first()
+      .should('be.visible');
+    cy.get('.recent-activity-container va-alert[status="info"]')
+      .first()
+      .shadow()
+      .get('.recent-activity-container va-alert[status="info"]:first-of-type a')
+      .should('contain', 'add it here');
+    cy.get('.recent-activity-container va-alert[status="info"]')
+      .first()
+      .shadow()
+      .get('.recent-activity-container va-alert[status="info"]:first-of-type a')
+      .first()
+      .click();
+    cy.url().should(
+      'contain',
+      '/track-claims/your-claims/189685/document-request/51',
+    );
   }
 
   verifyOverviewOfTheProcess() {
@@ -421,18 +464,6 @@ class TrackClaimsPageV2 {
   navigateToFilesTab() {
     cy.get('#tabFiles').click();
     cy.url().should('contain', '/your-claims/189685/files');
-  }
-
-  verifyFilesSecondaryAlert() {
-    cy.get('va-alert[status="info"]')
-      .first()
-      .should('be.visible');
-    cy.get('va-alert[status="info"]')
-      .first()
-      .get('va-alert[status="info"] .add-your-claims-link')
-      .should('contain', 'add it here');
-    cy.get('va-alert[status="info"] .add-your-claims-link').click();
-    cy.url().should('contain', '/your-claims/189685/document-request/51');
   }
 
   verifyNeedToMailFiles() {

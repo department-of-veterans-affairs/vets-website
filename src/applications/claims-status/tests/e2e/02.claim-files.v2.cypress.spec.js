@@ -32,7 +32,7 @@ describe('Secondary Alert Test', () => {
     trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
     trackClaimsPage.verifyInProgressClaim(false);
     trackClaimsPage.navigateToFilesTab();
-    trackClaimsPage.verifyFilesSecondaryAlert();
+    trackClaimsPage.verifySecondaryAlert();
     cy.axeCheck();
   });
 });
