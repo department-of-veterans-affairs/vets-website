@@ -42,10 +42,18 @@ describe('On an open claim, a user with more than 3 contentions can click "Show 
 });
 
 describe('A user that has tracked items can view recent activity', () => {
-  it('Shows recent activity for a user with tracked items', () => {
+  it('Shows recent activity for a user with tracked items on a closed claim', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetails);
     trackClaimsPage.verifyInProgressClaim(false);
+    trackClaimsPage.verifyRecentActivity();
+    cy.axeCheck();
+  });
+
+  it('Shows recent activity for a user with tracked items on a open claim', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.verifyInProgressClaim(true);
     trackClaimsPage.verifyRecentActivity();
     cy.axeCheck();
   });
