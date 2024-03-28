@@ -25,9 +25,32 @@ export default [
 
     return { formData, metadata: newMetadata };
   },
-  // Prevent test failure when migrations don't match version number
-  // (see src/platform/forms/tests/form.unit.spec.js validMigrations)
+  // NOTICE: All versions above are for previous FORM_21P_530, below is for "V2" of FORM_21P_530
+  //         These start with internal form version "3". Since the forms still use the same formId,
+  //         the internal mapping for InProgressForm and thus migrations are the same still
+  // 2 > 3, Initial V2 migration
   ({ formData, metadata }) => {
-    return { formData, metadata };
+    let newFormData = { ...formData };
+    const newMetadata = metadata;
+    if (formData.relationship.type === 'other') {
+      newFormData = {
+        ...newFormData,
+        relationship: { ...newFormData.relationship, type: null },
+      };
+    }
+
+    if (formData.locationOfDeath.location === 'other') {
+      newFormData = {
+        ...newFormData,
+        locationOfDeath: { ...newFormData.locationOfDeath, location: null },
+      };
+    }
+
+    // Multiple additional fields must be filled from the beginning
+    return {
+      newFormData,
+      newMetadata,
+      returnUrl: '/claimant-contact-information',
+    };
   },
 ];
