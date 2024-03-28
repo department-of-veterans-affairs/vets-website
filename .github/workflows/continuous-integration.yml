@@ -660,12 +660,12 @@ jobs:
           TEST_TYPE: e2e
       
       - name: Check for newly added disallowed tests
-        run: yarn allow-list-double-check
+        run: node script/github-actions/allow-list-double-check.js
         env:
           TEST_TYPE: e2e
           TEST_PROPERTY: TESTS
           TESTS: TESTS
-          
+
 
       - name: Download production build artifact
         if: needs.tests-prep.outputs.cypress-tests != '[]'
