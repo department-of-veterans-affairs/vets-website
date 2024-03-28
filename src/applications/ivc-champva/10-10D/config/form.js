@@ -39,7 +39,6 @@ import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   getAgeInYears,
   isInRange,
-  getParts,
   onReviewPage,
   MAX_APPLICANTS,
   applicantListSchema,
@@ -84,7 +83,8 @@ import {
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
 } from '../pages/ApplicantRelationshipPage';
-import ApplicantMedicareStatusContinuedPage, {
+import {
+  ApplicantMedicareStatusContinuedPage,
   ApplicantMedicareStatusContinuedReviewPage,
 } from '../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage, {
@@ -791,20 +791,21 @@ const formConfig = {
                             formData,
                             context,
                           )} contact information`,
+                          'This information helps us contact you faster if we need to follow up with you about your application',
                         )['ui:title'],
                     };
                   },
                 },
                 ...noPhoneInfo.uiSchema,
-                applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
+                applicantEmailAddress: emailUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantPhone'], {
             ...noPhoneInfo.schema,
-            applicantEmailAddress: emailSchema,
             applicantPhone: phoneSchema,
+            applicantEmailAddress: emailSchema,
           }),
         },
         page17: {
@@ -940,7 +941,7 @@ const formConfig = {
           path: 'applicant-information/:index/school-age',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} dependent status`,
+          title: item => `${applicantWording(item)} status`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -970,7 +971,8 @@ const formConfig = {
               type: 'object',
               properties: {
                 status: radioSchema([
-                  'enrolledOrIntendsToEnroll',
+                  'enrolled',
+                  'intendsToEnroll',
                   'over18HelplessChild',
                 ]),
                 otherStatus: { type: 'string' },
@@ -993,8 +995,9 @@ const formConfig = {
                 18,
                 23,
               ) &&
-              formData.applicants[index]?.applicantDependentStatus?.status ===
-                'enrolledOrIntendsToEnroll'
+              ['enrolled', 'intendsToEnroll'].includes(
+                formData.applicants[index]?.applicantDependentStatus?.status,
+              )
             );
           },
           CustomPage: FileFieldCustom,
@@ -1217,7 +1220,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f3(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
         },
         // Applicant remarried after sponsor died
@@ -1227,7 +1230,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f4(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.remarriageUiSchema,
           schema: marriageDatesSchema.remarriageSchema,
         },
         // Applicant remarried after sponsor died but separated from 2nd spouse
@@ -1237,7 +1240,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f5(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.remarriageSeparatedUiSchema,
           schema: marriageDatesSchema.remarriageSeparatedSchema,
         },
         // Applicant separated from sponsor before sponsor's death
@@ -1247,7 +1250,7 @@ const formConfig = {
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
           depends: (formData, index) => depends18f6(formData, index),
-          uiSchema: marriageDatesSchema.uiSchema,
+          uiSchema: marriageDatesSchema.separatedUiSchema,
           schema: marriageDatesSchema.separatedSchema,
         },
         page18f: {
@@ -1442,7 +1445,13 @@ const formConfig = {
           CustomPage: ApplicantMedicareStatusContinuedPage,
           CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
           schema: applicantListSchema([], {
-            applicantMedicarePart: { type: 'string' },
+            applicantMedicarePartD: {
+              type: 'object',
+              properties: {
+                enrollment: { type: 'string' },
+                otherEnrollment: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
@@ -1461,13 +1470,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled' &&
-              ['partA', 'partB'].some(part =>
-                get(
-                  'applicantMedicarePart',
-                  formData?.applicants?.[index],
-                )?.includes(part),
-              )
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
@@ -1482,9 +1485,7 @@ const formConfig = {
                   ({ formData }) =>
                     `Upload ${formData?.applicantName?.first} ${
                       formData?.applicantName?.last
-                    }'s copy of Medicare ${getParts(
-                      formData?.applicantMedicarePart,
-                    )} card(s).`,
+                    }'s copy of Medicare part A and B card(s).`,
                 ),
                 ...applicantMedicarePartAPartBCardsConfig.uiSchema,
                 applicantMedicarePartAPartBCard: fileUploadUI(
@@ -1514,9 +1515,9 @@ const formConfig = {
                 formData?.applicants?.[index],
               ) === 'enrolled' &&
               get(
-                'applicantMedicarePart',
+                'applicantMedicarePartD.enrollment',
                 formData?.applicants?.[index],
-              )?.includes('partD')
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldCustom,
