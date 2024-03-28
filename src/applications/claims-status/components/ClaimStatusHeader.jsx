@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import { buildDateFormatter, isClaimOpen } from '../utils/helpers';
 
-const getLastUpdated = claim => {
-  const updatedOn = buildDateFormatter(DATE_FORMATS.LONG_DATE)(
+export const getLastUpdated = claim => {
+  const updatedOn = buildDateFormatter()(
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
