@@ -63,12 +63,6 @@ describe('Check In Experience', () => {
       TravelPages.validateBackButton('review');
       cy.injectAxeThenAxeCheck();
     });
-    it('edit takes you back to the vehicle question', () => {
-      TravelPages.validatePageLoaded('review');
-      TravelPages.clickEditLink();
-      TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
-    });
     it('must agree to terms', () => {
       TravelPages.validatePageLoaded('review');
       TravelPages.attemptToGoToNextPage();

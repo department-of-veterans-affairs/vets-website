@@ -3,8 +3,8 @@ import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import Wrapper from '../../../components/layout/Wrapper';
-import BackButton from '../../../components/BackButton';
+import Wrapper from '../../layout/Wrapper';
+import BackButton from '../../BackButton';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { URLS } from '../../../utils/navigation';
 

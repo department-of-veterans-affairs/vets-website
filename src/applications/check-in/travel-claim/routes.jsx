@@ -18,7 +18,7 @@ import TravelMileage from './pages/travel-mileage';
 import TravelVehiclePage from './pages/travel-vehicle';
 import TravelAddressPage from './pages/travel-address';
 import TravelReviewPage from './pages/travel-review';
-import TravelAgreement from './pages/travel-agreement';
+import TravelAgreement from '../components/pages/travel-agreement';
 import Complete from './pages/complete';
 import Error from './pages/error';
 
@@ -49,14 +49,6 @@ const routes = [
   {
     path: URLS.TRAVEL_MILEAGE,
     component: TravelMileage,
-    permissions: {
-      requireAuthorization: true,
-    },
-    reloadable: true,
-  },
-  {
-    path: URLS.TRAVEL_AGREEMENT,
-    component: TravelAgreement,
     permissions: {
       requireAuthorization: true,
     },
@@ -100,6 +92,14 @@ const routes = [
     permissions: {
       requireAuthorization: false,
     },
+  },
+  {
+    path: URLS.TRAVEL_AGREEMENT,
+    component: TravelAgreement,
+    permissions: {
+      requireAuthorization: true,
+    },
+    reloadable: true,
   },
 ];
 
