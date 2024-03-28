@@ -138,6 +138,7 @@ const VaPrescription = prescription => {
                 >
                   <h3
                     className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
+                    data-testid="rx-refill"
                     id={`h3-refill-${refillHistory.length - i - 1}`}
                   >
                     {i + 1 === refillHistory.length
@@ -181,6 +182,7 @@ const VaPrescription = prescription => {
                           1}`}
                         aria-labelledby="prescription-name"
                         className="vads-u-margin-top--1"
+                        data-testid="rx-image"
                         src={getImageUri(entry.cmopNdcNumber)}
                         alt={entry.prescriptionName}
                         width="350"
