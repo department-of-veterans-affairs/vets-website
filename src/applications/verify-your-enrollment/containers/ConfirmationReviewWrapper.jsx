@@ -160,13 +160,15 @@ const mapDispatchToProps = {
 };
 
 ConfirmationReviewWrapper.propTypes = {
+  children: PropTypes.any,
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  children: PropTypes.any,
   enrollmentData: PropTypes.object,
+  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
+  loggedIEnenrollmentData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,
