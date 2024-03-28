@@ -38,6 +38,10 @@ const TravelQuestion = props => {
     e.preventDefault();
     jumpToPage('/travel-agreement');
   };
+  const startOverAction = e => {
+    e.preventDefault();
+    jumpToPage('/travel-question');
+  };
 
   const bodyText = (
     <>
@@ -115,7 +119,7 @@ const TravelQuestion = props => {
         <a
           className="vads-u-margin-left--auto"
           href="travel-mileage"
-          onClick={() => jumpToPage('/travel-mileage')}
+          onClick={() => startOverAction()}
           data-testid="review-edit-link"
         >
           {t('start-travel-claim-over')}

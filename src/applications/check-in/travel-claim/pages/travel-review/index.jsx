@@ -123,16 +123,6 @@ const TravelReview = props => {
           </div>
         </VaCheckbox>
       </div>
-      <div className="vads-u-margin-top--2p5">
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-mileage"
-          onClick={() => jumpToPage('/travel-mileage')}
-          data-testid="review-edit-link"
-        >
-          {t('start-travel-claim-over')}
-        </a>
-      </div>
     </div>
   );
   return (
