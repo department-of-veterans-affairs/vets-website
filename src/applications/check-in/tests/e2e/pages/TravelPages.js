@@ -127,6 +127,12 @@ class TravelPages {
     });
   };
 
+  clickContinueButton = () => {
+    cy.get('[data-testid="continue-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   clickAgreementLink = () => {
     cy.get(`[data-testid="travel-agreement-link"]`).click();
   };

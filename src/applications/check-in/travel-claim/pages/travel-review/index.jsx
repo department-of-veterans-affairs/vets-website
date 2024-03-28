@@ -33,6 +33,9 @@ const TravelReview = props => {
       setError(true);
     }
   };
+  const startOverAction = () => {
+    jumpToPage('/travel-mileage');
+  };
 
   const claimList = formatList(
     facilitiesToFile.map(facility => {
@@ -134,7 +137,7 @@ const TravelReview = props => {
       yesButtonText={t('file-claim')}
       yesFunction={validation}
       noButtonText={t('start-over')}
-      noFunction={() => jumpToPage('/travel-mileage')}
+      noFunction={startOverAction}
       testID="travel-claim-review-page"
     />
   );
