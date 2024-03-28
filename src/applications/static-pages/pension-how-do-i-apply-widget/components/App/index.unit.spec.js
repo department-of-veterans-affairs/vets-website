@@ -73,7 +73,8 @@ describe('Pension Widget <App>', () => {
       </Provider>,
     );
 
-    const selector = 'va-link[href="/pension/application/527EZ/introduction"]';
+    const selector =
+      'va-link[href="/pension/apply-for-veteran-pension-form-21p-527ez/introduction"]';
     expect($(selector, container)).to.not.be.null;
   });
 

@@ -12,7 +12,7 @@ const pensionLocation = {
   hash: '',
   action: 'POP',
   key: null,
-  basename: '/pension/application/527EZ',
+  basename: '/pension/apply-for-veteran-pension-form-21p-527ez',
   query: '{}',
 };
 
