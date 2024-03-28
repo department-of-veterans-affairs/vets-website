@@ -18,7 +18,7 @@ class PatientBasicSearchPage {
   };
 
   // This method clicks the Filter button on the Inbox page.
-  submitInboxSearch = () => {
+  clickInboxSearch = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -29,7 +29,7 @@ class PatientBasicSearchPage {
     this.clickSearchMessage();
   };
 
-  submitDraftSearch = () => {
+  clickDraftSearch = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -40,7 +40,7 @@ class PatientBasicSearchPage {
     this.clickSearchMessage();
   };
 
-  submitCustomFolderSearch = () => {
+  clickCustomFolderSearch = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
