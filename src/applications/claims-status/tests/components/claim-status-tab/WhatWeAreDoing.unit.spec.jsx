@@ -30,9 +30,11 @@ const claim = {
 
 describe('<WhatWeAreDoing>', () => {
   it('should render a WhatWereDoing section', () => {
-    const screen = renderWithRouter(<WhatWeAreDoing claim={claim} />);
+    const { status } = claim.attributes;
 
-    screen.getByText(getStatusDescription(claim.attributes.status));
-    screen.getByText(getClaimStatusDescription(claim.attributes.status));
+    const screen = renderWithRouter(<WhatWeAreDoing status={status} />);
+
+    screen.getByText(getStatusDescription(status));
+    screen.getByText(getClaimStatusDescription(status));
   });
 });

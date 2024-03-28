@@ -218,7 +218,7 @@ class ClaimStatusPage extends React.Component {
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing claim={claim} />
+                <WhatWeAreDoing status={status} />
               </>
             ) : (
               <>

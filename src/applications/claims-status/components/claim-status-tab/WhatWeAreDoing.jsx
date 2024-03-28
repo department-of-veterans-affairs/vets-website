@@ -7,8 +7,7 @@ import {
   getClaimStatusDescription,
 } from '../../utils/helpers';
 
-function WhatWeAreDoing({ claim }) {
-  const { status } = claim.attributes;
+export default function WhatWeAreDoing({ status }) {
   const humanStatus = getStatusDescription(status);
   const description = getClaimStatusDescription(status);
 
@@ -36,8 +35,5 @@ function WhatWeAreDoing({ claim }) {
 }
 
 WhatWeAreDoing.propTypes = {
-  claim: PropTypes.object,
-  status: PropTypes.bool,
+  status: PropTypes.string,
 };
-
-export default WhatWeAreDoing;
