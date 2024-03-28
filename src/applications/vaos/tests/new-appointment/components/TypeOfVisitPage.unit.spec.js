@@ -21,7 +21,7 @@ const initialState = {
     },
   },
 };
-describe.skip('VAOS Page: TypeOfVisitPage ', () => {
+describe('VAOS Page: TypeOfVisitPage ', () => {
   beforeEach(() => mockFetch());
   it('should show page', async () => {
     const store = createTestStore(initialState);

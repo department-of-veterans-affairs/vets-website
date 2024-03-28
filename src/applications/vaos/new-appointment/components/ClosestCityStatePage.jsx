@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { useHistory } from 'react-router-dom';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import {
   routeToNextAppointmentPage,
@@ -18,24 +17,23 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import useFormState from '../../hooks/useFormState';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
-const pageTitle = 'What’s the nearest city to you?';
 const uiSchema = {
   communityCareSystemId: {
-    'ui:title': pageTitle,
-    'ui:widget': 'radio', // Required
-    'ui:webComponentField': VaRadioField,
+    'ui:title': ' ',
+    'ui:widget': 'radio',
     'ui:errorMessages': {
       required: 'Select a city',
     },
     'ui:options': {
       classNames: 'vads-u-margin-top--neg2',
       showFieldLabel: false,
-      labelHeaderLevel: '1',
+      widgetClassNames: 'foobar2',
     },
   },
 };
 
 const pageKey = 'ccClosestCity';
+const pageTitle = 'What’s the nearest city to you?';
 
 export default function ClosestCityStatePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -77,6 +75,9 @@ export default function ClosestCityStatePage({ changeCrumb }) {
 
   return (
     <div>
+      <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--0">
+        {pageTitle}
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Closest city and state"

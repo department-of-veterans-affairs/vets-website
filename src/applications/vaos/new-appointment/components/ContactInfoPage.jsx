@@ -99,15 +99,6 @@ function recordChangedEvents(email, phone, data) {
   }
 }
 
-function ContactInformationParagraph() {
-  return (
-    <p>
-      We’ll use this information if we need to contact you about this
-      appointment. For most other VA communications, we'll use the contact
-      information in your VA.gov profile.
-    </p>
-  );
-}
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 
@@ -115,7 +106,11 @@ function Description({ flowType, userData }) {
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
-        <ContactInformationParagraph />
+        <p>
+          We’ll use this information to contact you about your appointment. Any
+          updates you make here will only apply to VA online appointment
+          scheduling.
+        </p>
         <p className="vads-u-margin-y--2">
           Want to update your contact information for more VA benefits and
           services?
@@ -129,7 +124,13 @@ function Description({ flowType, userData }) {
     );
 
   if (userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
-    return <ContactInformationParagraph />;
+    return (
+      <p>
+        We’ll use this information if we need to contact you about this
+        appointment. For most other VA communications, we'll use the contact
+        information in your VA.gov profile.
+      </p>
+    );
 
   return (
     <p>

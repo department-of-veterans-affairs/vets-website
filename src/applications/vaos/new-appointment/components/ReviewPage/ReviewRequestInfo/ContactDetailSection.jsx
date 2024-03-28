@@ -73,7 +73,7 @@ function getContent({ data, flowType, formData }) {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
+      <h2 className="vads-u-font-size--base vaos-appts__block-label">
         Your contact information
       </h2>
       <span>
@@ -90,7 +90,6 @@ function getContent({ data, flowType, formData }) {
           flowType === FLOW_TYPES.REQUEST && (
             <>
               <br />
-              <strong>Best time to call: </strong>
               <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
             </>
           )}

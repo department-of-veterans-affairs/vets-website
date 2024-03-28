@@ -72,7 +72,7 @@ export default class PageObject {
     cy.get(element)
       .shadow()
       .findByText(text)
-      .should(exist ? 'exist' : 'not.exist');
+      .should(exist ? 'exist' : 'not.existF');
 
     return this;
   }

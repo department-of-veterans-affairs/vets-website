@@ -1,13 +1,6 @@
 import PageObject from './PageObject';
 
 export class ClosestCityStatePageObject extends PageObject {
-  assertHeading({ name }) {
-    return this.assertShadow({
-      element: 'va-radio',
-      text: name,
-    });
-  }
-
   assertUrl() {
     cy.url().should('include', 'closest-city');
     cy.axeCheckBestPractice();
@@ -16,12 +9,7 @@ export class ClosestCityStatePageObject extends PageObject {
   }
 
   selectFacility({ label }) {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .findByText(label)
-      .click();
-
+    cy.findByLabelText(label).check();
     return this;
   }
 }
