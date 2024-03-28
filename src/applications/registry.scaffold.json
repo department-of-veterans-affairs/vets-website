@@ -134,7 +134,7 @@
   },
   {
     "appName": "Representative Status",
-    "rootUrl": "/get-help-from-accredited-representative",
+    "rootUrl": "/representative-status",
     "widgetType": "representative-status"
   }
 ]
