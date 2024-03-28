@@ -7,10 +7,10 @@ This is also where GA events may be fired for successful / unsuccessful api call
 
 // import recordEvent from 'platform/monitoring/record-event';
 // import { apiRequest } from 'platform/utilities/api';
-import allMessages from '../mhv-secure-messaging/tests/fixtures/messages-response.json';
-import messageDraft from '../mhv-secure-messaging/tests/fixtures/message-draft-response.json';
-import message from '../mhv-secure-messaging/tests/fixtures/message-response.json';
-import mockFolderData from '../mhv-secure-messaging/tests/fixtures/folder-response.json';
+import allMessages from '../main/tests/fixtures/messages-response.json';
+import messageDraft from '../main/tests/fixtures/message-draft-response.json';
+import message from '../main/tests/fixtures/message-response.json';
+import mockFolderData from '../main/tests/fixtures/folder-response.json';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
