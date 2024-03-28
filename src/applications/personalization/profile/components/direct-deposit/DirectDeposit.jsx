@@ -112,7 +112,7 @@ export const DirectDeposit = () => {
 
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-        when={!formIsDirty}
+        when={formIsDirty}
       />
 
       <Wrapper>

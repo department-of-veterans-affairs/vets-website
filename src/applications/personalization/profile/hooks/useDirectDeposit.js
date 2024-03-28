@@ -95,26 +95,6 @@ export const useDirectDeposit = () => {
   // effect to show an alert when the form is dirty and navigating away
   useEffect(
     () => {
-      const handleBeforeUnload = event => {
-        if (formIsDirty) {
-          event.preventDefault();
-          // eslint-disable-next-line no-param-reassign
-          event.returnValue = '';
-        }
-      };
-
-      window.addEventListener('beforeunload', handleBeforeUnload);
-
-      return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-      };
-    },
-    [formIsDirty],
-  );
-
-  useEffect(
-    () => {
-      // Show alert when navigating away
       if (formIsDirty && isIdentityVerified) {
         window.onbeforeunload = () => true;
         return;
