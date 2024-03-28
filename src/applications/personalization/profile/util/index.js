@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 
 // error keys for profile/direct_deposits/disability_compensations endpoint
@@ -185,3 +186,22 @@ export const createCNPDirectDepositAnalyticsDataObject = ({
     'error-key': `${errorCode}${isEnrolling ? '-enroll' : '-update'}`,
   });
 };
+
+export function recordApiEvent(
+  { endpoint, status, method = 'GET', extraProperties = {} },
+  recordAnalyticsEvent = recordEvent,
+) {
+  const payload = {
+    event: 'api_call',
+    'api-name': `${method} ${endpoint}`,
+    'api-status': status,
+  };
+
+  const errorKey = extraProperties?.['error-key'];
+
+  if (errorKey) {
+    payload['error-key'] = errorKey;
+  }
+
+  recordAnalyticsEvent(payload);
+}

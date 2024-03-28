@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   getPrescriptionDetails,
   getAllergiesList,
@@ -18,7 +19,6 @@ import PrintDownload, {
   DOWNLOAD_FORMAT,
 } from '../components/shared/PrintDownload';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { updatePageTitle } from '../../shared/util/helpers';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';

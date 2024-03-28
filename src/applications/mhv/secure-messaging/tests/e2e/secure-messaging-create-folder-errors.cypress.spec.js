@@ -44,13 +44,13 @@ describe('create folder errors check', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.loadFoldersList();
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
-    cy.get(Locators.BUTTONS.CREAT_FOLDER_BUTTON).click({
+    cy.get(Locators.BUTTONS.CREATE_FOLDER).click({
       waitForAnimations: true,
       force: true,
     });
-    cy.get(Locators.FOLDER_MANE)
+    cy.get(Locators.FOLDER_NAME)
       .shadow()
       .find('#input-error-message')
-      .should('contain', Data.FOLDER_NAME_CANNOT_BLANKAN);
+      .should('contain', Data.FOLDER_NAME_CANNOT_BLANK);
   });
 });
