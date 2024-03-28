@@ -138,10 +138,10 @@ const VaPrescription = prescription => {
                 >
                   <h3
                     className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
-                    data-testid="refill"
+                    id={`h3-refill-${refillHistory.length - i - 1}`}
                   >
                     {i + 1 === refillHistory.length
-                      ? 'First fill'
+                      ? 'Original fill'
                       : `Refill ${refillHistory.length - i - 1}`}
                   </h3>
                   <h4
@@ -172,25 +172,23 @@ const VaPrescription = prescription => {
                     className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                     data-testid="med-image"
                   >
-                    Image of the medication or supply
+                    Image
                   </h4>
                   <div className="no-print">
                     {entry.cmopNdcNumber ? (
-                      <va-additional-info
-                        trigger="Review image"
-                        data-testid="review-rx-image"
-                        uswds
-                      >
-                        <img
-                          src={getImageUri(entry.cmopNdcNumber)}
-                          alt={entry.prescriptionName}
-                          width="350"
-                          height="350"
-                        />
-                      </va-additional-info>
+                      <img
+                        aria-describedby={`prescription-name h3-refill-${i +
+                          1}`}
+                        aria-labelledby="prescription-name"
+                        className="vads-u-margin-top--1"
+                        src={getImageUri(entry.cmopNdcNumber)}
+                        alt={entry.prescriptionName}
+                        width="350"
+                        height="350"
+                      />
                     ) : (
                       <p className="vads-u-margin--0" data-testid="no-image">
-                        No image available
+                        Image not available
                       </p>
                     )}
                   </div>
