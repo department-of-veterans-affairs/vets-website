@@ -135,7 +135,7 @@ export const reasonOptions = {
   COMPLAINT: 'I had a complaint about a service',
   SUGGESTION: 'I had a suggestion',
   TOWN_HALL: 'I had a question after attending a Town Hall',
-  OHER: 'Other',
+  OTHER: 'Other',
 };
 
 // Reason options
