@@ -660,7 +660,7 @@ jobs:
           TEST_TYPE: e2e
       
       - name: Check for newly added disallowed tests
-        run: node script/github-actions/allow-list-double-check.js
+        run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
           TEST_PROPERTY: TESTS
