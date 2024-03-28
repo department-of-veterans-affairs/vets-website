@@ -8,6 +8,7 @@ const selectFeatureToggles = createSelector(
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled
     ],
+    isTeraEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.ezrTeraEnabled],
   }),
   toggles => toggles,
 );
