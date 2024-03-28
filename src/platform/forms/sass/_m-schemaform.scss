@@ -510,7 +510,7 @@ legend.schemaform-label.schemaform-file-label {
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
     margin: -1em -1.2em 0 -1.2em;
-    background-color: var(--color-secondary-lightest);
+    background-color: $color-secondary-lightest;
     &:before {
       display: block;
       content: " ";
@@ -535,18 +535,14 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+/* Highlight accordion item with content that needs attention */
 va-accordion-item[data-unviewed-pages="true"] {
-  --item-border: 3px solid var(--color-secondary-lightest) !important;
-
   &::part(accordion-header) {
-    background-color: var(--color-secondary-lightest);
-    border-color: var(--color-secondary-lightest);
+    background-color: #{$color-secondary-lightest};
   }
-}
-
-.form-review-panel .accordion-header > button.usa-button-unstyled {
-  padding: 2.5rem 4.5rem 2.5rem 2.5rem;
-  line-height: 2.2rem;
+  &::part(accordion-content) {
+    border-color: #{$color-secondary-lightest};
+  }
 }
 
 .usa-alert-no-color {
