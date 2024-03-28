@@ -25,7 +25,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-// import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -60,12 +59,10 @@ import {
   blankSchema,
   acceptableFiles,
   sponsorCasualtyUploadUiSchema,
-  // mailOrFaxLaterMsg,
   sponsorDisabilityRatingUploadUiSchema,
   sponsorDischargePapersUploadUiSchema,
 } from '../components/Sponsor/sponsorFileUploads';
 import {
-  // marriageDocumentList,
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
   applicantSchoolCertUploadUiSchema,
@@ -1455,17 +1452,23 @@ const formConfig = {
             ),
           }),
         },
-      },
-    },
-    uploadFiles: {
-      title: 'Upload files',
-      keepInPageOnReview: false,
-      pages: {
         page23: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
+          depends: formData => {
+            try {
+              return (
+                hasReq(formData.applicants, true, true) ||
+                hasReq(formData.applicants, false, true) ||
+                hasReq(formData, true, true) ||
+                hasReq(formData, false, true)
+              );
+            } catch {
+              return false;
+            }
+          },
           uiSchema: {
             'ui:options': {
               keepInPageOnReview: false,
@@ -1479,10 +1482,10 @@ const formConfig = {
           depends: formData => {
             try {
               return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
+                hasReq(formData.applicants, true, true) ||
+                hasReq(formData.applicants, false, true) ||
+                hasReq(formData, true, true) ||
+                hasReq(formData, false, true)
               );
             } catch {
               return false;
