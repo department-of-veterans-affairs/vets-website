@@ -113,7 +113,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: test-key
+          key: vagovprod-${{ runner.os }}-${{ hashFiles('**/vagovprod/**') }}
 
       # - name: Prepare build artifacts
       #   run: |
@@ -690,7 +690,9 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: test-key
+          key: vagovprod-${{ runner.os }}-${{ hashFiles('**/vagovprod/**') }}
+          restore-keys: |
+            vagovprod-${{ runner.os }}-
 
 
       - name: Run Cypress tests
