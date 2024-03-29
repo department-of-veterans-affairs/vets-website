@@ -25,21 +25,21 @@ describe('Secure Messaging Reply', () => {
 
     landingPage.loadInboxMessages(mockMessagesPageOne);
     cy.get('va-pagination').should('be.visible');
-    site.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
-    site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
+    site.clickAndLoadVAPaginationNextMessagesButton(2, mockMessagesPageTwo);
+    site.verifyPaginationMessagesDisplayedText(11, 20, threadLength);
     FolderLoadPage.verifyPaginationElements();
-    site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
+    site.clickAndLoadVAPaginationPreviousMessagesButton(1, mockMessagesPageOne);
+    site.verifyPaginationMessagesDisplayedText(1, 10, threadLength);
     FolderLoadPage.verifyPaginationElements();
 
-    site.loadVAPaginationPageMessages(2, mockMessagesPageTwo);
-    site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
-    site.loadVAPaginationPageMessages(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
+    site.clickAndLoadVAPaginationPageMessagesLink(2, mockMessagesPageTwo);
+    site.verifyPaginationMessagesDisplayedText(11, 20, threadLength);
+    site.clickAndLoadVAPaginationPageMessagesLink(1, mockMessagesPageOne);
+    site.verifyPaginationMessagesDisplayedText(1, 10, threadLength);
 
     cy.get('.usa-pagination__list li').then(pagesList => {
       const lastPageIndex = pagesList.length - 2;
-      FolderLoadPage.navigateToLastPage(lastPageIndex);
+      FolderLoadPage.clickAndNavigateToLastPage(lastPageIndex);
       cy.get('.endOfThreads').should(
         'have.text',
         Data.END_CONVERSATION_IN_FOLDER,
@@ -64,7 +64,10 @@ describe('Secure Messaging Reply', () => {
     };
 
     landingPage.loadInboxMessages(mockMessagesPageOne);
-    site.loadVAPaginationLastPage(pageNumber, mockSingleMessageThread);
+    site.clickAndLoadVAPaginationLastPageButton(
+      pageNumber,
+      mockSingleMessageThread,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

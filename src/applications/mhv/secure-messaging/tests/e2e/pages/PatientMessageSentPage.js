@@ -45,14 +45,14 @@ class PatientMessageSentPage {
       .click();
   };
 
-  inputFilterData = text => {
+  inputFilterDataText = text => {
     cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = () => {
+  clickFilterMessagesButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/search`,
@@ -61,13 +61,16 @@ class PatientMessageSentPage {
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
-  clearFilter = () => {
-    this.inputFilterData('any');
-    this.filterMessages();
+  clickClearFilterButton = () => {
+    this.inputFilterDataText('any');
+    this.clickFilterMessagesButton();
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
-  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+  clickSortMessagesByDateButton = (
+    text,
+    sortedResponse = mockSortedMessages,
+  ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
@@ -90,7 +93,7 @@ class PatientMessageSentPage {
         cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
-        this.sortMessagesByDate('Oldest to newest');
+        this.clickSortMessagesByDateButton('Oldest to newest');
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -102,7 +105,7 @@ class PatientMessageSentPage {
       });
   };
 
-  verifyFolderHeader = text => {
+  verifyFolderHeaderText = text => {
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
@@ -113,7 +116,10 @@ class PatientMessageSentPage {
     );
   };
 
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+  verifyFilterResultsText = (
+    filterValue,
+    responseData = sentSearchResponse,
+  ) => {
     cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,

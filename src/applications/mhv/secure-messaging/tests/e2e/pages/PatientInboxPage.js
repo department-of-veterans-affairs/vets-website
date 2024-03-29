@@ -453,7 +453,7 @@ class PatientInboxPage {
       .select('Medication');
   };
 
-  submitSearchButton = () => {
+  clickSubmitSearchButtonButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click({
       waitForAnimations: true,
       force: true,
@@ -488,7 +488,7 @@ class PatientInboxPage {
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
-        this.sortMessagesByDate('Oldest to newest');
+        this.clickSortMessagesByDateButton('Oldest to newest');
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -506,14 +506,14 @@ class PatientInboxPage {
       .and('not.be.empty');
   };
 
-  inputFilterData = text => {
+  inputFilterDataText = text => {
     cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = mockFilterResponse => {
+  clickFilterMessagesButton = mockFilterResponse => {
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
@@ -523,7 +523,7 @@ class PatientInboxPage {
     cy.wait('@filterResult');
   };
 
-  verifyFilterResults = (filterValue, responseData) => {
+  verifyFilterResultsText = (filterValue, responseData) => {
     cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
@@ -539,7 +539,7 @@ class PatientInboxPage {
     });
   };
 
-  clearFilter = () => {
+  clickClearFilterButton = () => {
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
@@ -550,7 +550,10 @@ class PatientInboxPage {
       .should('be.empty');
   };
 
-  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+  clickSortMessagesByDateButton = (
+    text,
+    sortedResponse = mockSortedMessages,
+  ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')

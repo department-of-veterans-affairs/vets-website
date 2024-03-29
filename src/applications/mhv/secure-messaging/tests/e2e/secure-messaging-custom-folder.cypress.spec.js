@@ -14,7 +14,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   });
 
   it('Verify folder header', () => {
-    PatientMessageCustomFolderPage.verifyFolderHeader();
+    PatientMessageCustomFolderPage.verifyFolderHeaderText();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.verifyResponseBodyLength();

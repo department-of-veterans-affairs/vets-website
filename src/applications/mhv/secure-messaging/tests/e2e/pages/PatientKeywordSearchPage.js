@@ -83,7 +83,7 @@ class PatientKeywordSearchPage {
   };
 
   // This method clicks the Search button.
-  submitSearch = () => {
+  clickSubmitSearchButton = () => {
     cy.get('.search-button > .fas').realClick();
   };
 

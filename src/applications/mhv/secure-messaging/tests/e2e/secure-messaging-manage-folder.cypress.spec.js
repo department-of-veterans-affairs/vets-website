@@ -52,7 +52,7 @@ describe('manage folders', () => {
       );
       folderPage.deleteFolderButton().click();
       folderPage.confirmDeleteFolder(folderId);
-      folderPage.verifyDeleteSuccessMessage();
+      folderPage.verifyDeleteSuccessMessageText();
       folderPage.verifyDeleteSuccessMessageHasFocus();
     });
   });

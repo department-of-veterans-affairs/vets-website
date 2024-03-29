@@ -398,7 +398,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
+  verifyExpandedMessageDateDisplayText = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="message-date"]')
       .eq(messageIndex)
       .should(

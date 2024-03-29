@@ -357,7 +357,7 @@ class PatientMessageDraftsPage {
       .select('COVID');
   };
 
-  submitSearchButton = () => {
+  clickSubmitSearchButtonButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
   };
 
@@ -413,14 +413,14 @@ class PatientMessageDraftsPage {
     cy.get('.last-save-time').should('have.focus');
   };
 
-  inputFilterData = text => {
+  inputFilterDataText = text => {
     cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = () => {
+  clickFilterMessagesButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
@@ -429,13 +429,16 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
-  clearFilter = () => {
-    this.inputFilterData('any');
-    this.filterMessages();
+  clickClearFilterButton = () => {
+    this.inputFilterDataText('any');
+    this.clickFilterMessagesButton();
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+  verifyFilterResultsText = (
+    filterValue,
+    responseData = sentSearchResponse,
+  ) => {
     cy.get(Locators.MESS_LIST).should(
       'have.length',
       `${responseData.data.length}`,
@@ -450,7 +453,10 @@ class PatientMessageDraftsPage {
     });
   };
 
-  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+  clickSortMessagesByDateButton = (
+    text,
+    sortedResponse = mockSortedMessages,
+  ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
@@ -480,7 +486,7 @@ class PatientMessageDraftsPage {
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
-        this.sortMessagesByDate('Oldest to newest');
+        this.clickSortMessagesByDateButton('Oldest to newest');
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {

@@ -24,7 +24,7 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
     });
 
     cy.get(Locators.FOLDERS.INBOX).click();
-    PatientReplyPage.verifyModalMessageDisplayAndBuddontsCantSaveDraft();
+    PatientReplyPage.verifyModalMessageDisplayAndBuddontsCantSaveDraftText();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

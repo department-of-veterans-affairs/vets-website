@@ -4,7 +4,7 @@ import { Locators, Paths } from '../utils/constants';
 
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
-  clickSearchMessage = () => {
+  clickSearchMessageButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
   };
 
@@ -26,7 +26,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('inboxSearchResults');
-    this.clickSearchMessage();
+    this.clickSearchMessageButton();
   };
 
   clickDraftSearchButton = () => {
@@ -37,7 +37,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('DraftSearchResults');
-    this.clickSearchMessage();
+    this.clickSearchMessageButton();
   };
 
   clickCustomFolderSearchButton = () => {
@@ -48,7 +48,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('CustomSearchResults');
-    this.clickSearchMessage();
+    this.clickSearchMessageButton();
   };
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.

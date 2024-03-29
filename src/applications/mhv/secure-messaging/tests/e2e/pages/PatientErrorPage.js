@@ -37,7 +37,7 @@ class PatienErrorPage {
     });
   };
 
-  verifyAlertMessage = () => {
+  verifyAlertMessageText = () => {
     cy.get('[data-testid="alert-text"]')
       .should('be.visible')
       .and('contain.text', Alerts.OUTAGE);
