@@ -31,7 +31,7 @@ import {
   attachmentsSchema,
 } from '../../shared/components/attachments';
 
-import { signerClassification } from '../../shared/schemas/thirdPartySigner';
+import { certifierRole, certifierAddress } from '../pages/thirdPartyCertifier';
 
 const uploadUrl = `${
   environment.API_URL
@@ -70,14 +70,21 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
-    signerInformation: {
+    certifierInformation: {
       title: 'Signer information',
       pages: {
-        signerClass: {
+        role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          uiSchema: signerClassification.uiSchema,
-          schema: signerClassification.schema,
+          uiSchema: certifierRole.uiSchema,
+          schema: certifierRole.schema,
+        },
+        address: {
+          path: 'your-information/address',
+          title: 'Your mailing address',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: certifierAddress.uiSchema,
+          schema: certifierAddress.schema,
         },
       },
     },

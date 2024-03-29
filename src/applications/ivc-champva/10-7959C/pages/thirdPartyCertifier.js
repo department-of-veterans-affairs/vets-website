@@ -1,15 +1,20 @@
 import {
-  titleUI,
-  titleSchema,
+  addressUI,
+  addressSchema,
+  fullNameUI,
+  fullNameSchema,
   radioUI,
   radioSchema,
+  titleUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import {
   thirdPartyInfoSchema,
   thirdPartyInfoUiSchema,
-} from '../components/ThirdPartyInfo';
+} from '../../shared/components/ThirdPartyInfo';
 
-export const signerClassification = {
+export const certifierRole = {
   uiSchema: {
     ...titleUI('Your information'),
     certifierRole: radioUI({
@@ -32,6 +37,39 @@ export const signerClassification = {
       titleSchema,
       certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
       ...thirdPartyInfoSchema,
+    },
+  },
+};
+
+export const certifierAddress = {
+  uiSchema: {
+    ...titleUI(
+      'Your mailing address',
+      'We’ll send any important information about this application to your address',
+    ),
+    certifierAddress: addressUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierAddress'],
+    properties: {
+      titleSchema,
+      certifierAddress: addressSchema(),
+    },
+  },
+};
+
+export const certifierName = {
+  uiSchema: {
+    ...titleUI('Your name'),
+    certifierName: fullNameUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierName'],
+    properties: {
+      titleSchema,
+      certifierName: fullNameSchema,
     },
   },
 };
