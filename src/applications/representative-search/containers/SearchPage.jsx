@@ -55,7 +55,9 @@ const SearchPage = props => {
   const store = useStore();
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  const repStatusEnabled = useToggleValue(TOGGLE_NAMES.representativeStatus);
+  const repStatusEnabled = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnabled,
+  );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
