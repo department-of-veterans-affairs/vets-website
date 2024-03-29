@@ -5,16 +5,12 @@ import {
 } from '../utils/constants';
 
 function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
-  const { data = {}, response = {}, type } = action;
+  const { data = {}, type } = action;
   const {
     FETCH_ENROLLMENT_STATUS_STARTED,
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
     FETCH_ENROLLMENT_STATUS_FAILED,
     RESET_ENROLLMENT_STATUS,
-    FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-    FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-    FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-    SET_DISMISSED_HCA_NOTIFICATION,
   } = ENROLLMENT_STATUS_ACTIONS;
 
   const actionMap = {
@@ -64,28 +60,6 @@ function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
       };
     },
     [RESET_ENROLLMENT_STATUS]: () => ({ ...ENROLLMENT_STATUS_INIT_STATE }),
-    [FETCH_DISMISSED_HCA_NOTIFICATION_STARTED]: () => ({
-      ...state,
-      isLoadingDismissedNotification: true,
-    }),
-    [FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED]: () => {
-      const {
-        statusEffectiveAt: dismissedNotificationDate,
-      } = response.data.attributes;
-      return {
-        ...state,
-        dismissedNotificationDate,
-        isLoadingDismissedNotification: false,
-      };
-    },
-    [FETCH_DISMISSED_HCA_NOTIFICATION_FAILED]: () => ({
-      ...state,
-      isLoadingDismissedNotification: false,
-    }),
-    [SET_DISMISSED_HCA_NOTIFICATION]: () => ({
-      ...state,
-      dismissedNotificationDate: data,
-    }),
   };
 
   return actionMap[type] ? actionMap[type]() : state;
