@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { find, get, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
@@ -511,7 +511,7 @@ export function getStatusContents(appeal, name = {}) {
                 get other letters related to your claims and appeals.
                 <Link
                   className="ddl-link vads-c-action-link--blue"
-                  to="your-claim-letters"
+                  to="/your-claim-letters"
                 >
                   Get your decision letters
                 </Link>
@@ -686,7 +686,7 @@ export function getStatusContents(appeal, name = {}) {
                 get other letters related to your claims and appeals.
                 <Link
                   className="ddl-link vads-c-action-link--blue"
-                  to="your-claim-letters"
+                  to="/your-claim-letters"
                 >
                   Get your decision letters
                 </Link>
