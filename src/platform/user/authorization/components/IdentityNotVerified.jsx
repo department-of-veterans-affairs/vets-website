@@ -96,11 +96,11 @@ const IdentityNotVerified = ({
 };
 
 IdentityNotVerified.propTypes = {
+  signInService: PropTypes.string.isRequired,
   additionalInfoClickHandler: PropTypes.func,
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,
-  signInService: PropTypes.string,
 };
 
 export { IdentityNotVerified as default };
