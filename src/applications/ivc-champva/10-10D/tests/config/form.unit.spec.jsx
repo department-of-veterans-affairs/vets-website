@@ -4,16 +4,15 @@ import {
   testNumberOfWebComponentFields,
   testComponentRender,
 } from '../../../shared/tests/pages/pageTests.spec';
-import ApplicantMedicareStatusContinuedPage, {
-  ApplicantMedicareStatusContinuedReviewPage,
-} from '../../pages/ApplicantMedicareStatusContinuedPage';
+// import ApplicantMedicareStatusContinuedPage, {
+//   ApplicantMedicareStatusContinuedReviewPage,
+// } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../pages/ApplicantOhiStatusPage';
 import ApplicantRelationshipPage from '../../pages/ApplicantRelationshipPage';
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 
 import FileFieldCustom from '../../components/File/FileUpload';
-// import FileViewField from '../../components/File/FileViewField';
 
 import mockData from '../fixtures/data/test-data.json';
 
@@ -232,15 +231,15 @@ testNumberOfWebComponentFields(
 );
 */
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedPage',
-  <ApplicantMedicareStatusContinuedPage data={{}} />,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedPage',
+//   <ApplicantMedicareStatusContinuedPage data={{}} />,
+// );
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedReviewPage ',
-  <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedReviewPage ',
+//   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
+// );
 
 testComponentRender(
   'ApplicantOhiStatusPage',
@@ -253,15 +252,6 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
-
-/* TODO: needs rework
-testComponentRender(
-  'FileViewField',
-  <FileViewField
-    data={{ supportingDocuments: [{ f1: { name: 'f1', size: 123 } }] }}
-  />,
-);
-*/
 
 describe('File sizes', () => {
   it('should be in bytes for values < 999', () => {

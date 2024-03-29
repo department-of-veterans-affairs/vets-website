@@ -32,6 +32,7 @@ const TravelVehicle = props => {
       pageType="travel-vehicle"
       router={router}
       noFunction={noFunction}
+      testID="travel-claim-vehicle-page"
     />
   );
 };

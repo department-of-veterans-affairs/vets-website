@@ -144,6 +144,7 @@ const ManageFolderButtons = props => {
       )}
       {isEmptyWarning && (
         <VaModal
+          uswds={false}
           className="modal"
           data-testid="error-folder-not-empty"
           visible={isEmptyWarning}
@@ -156,6 +157,7 @@ const ManageFolderButtons = props => {
         >
           <p>{Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY}</p>
           <va-button
+            uswds={false}
             ref={emptyFolderConfirmBtn}
             text="Ok"
             onClick={() => {
@@ -190,6 +192,7 @@ const ManageFolderButtons = props => {
         </VaModal>
       )}
       <VaModal
+        uswds={false}
         className="modal"
         data-testid="rename-folder-modal"
         visible={renameModal}
@@ -215,11 +218,13 @@ const ManageFolderButtons = props => {
           charcount
         />
         <va-button
+          uswds={false}
           text="Save"
           onClick={confirmRenameFolder}
           data-dd-action-name="Save Rename Folder Button"
         />
         <va-button
+          uswds={false}
           secondary="true"
           text="Cancel"
           onClick={closeRenameModal}

@@ -32,7 +32,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       <p>You can apply online right now.</p>
       <a
         className="vads-c-action-link--green"
-        href="/pension/application/527EZ/introduction"
+        href="/pension/apply-for-veteran-pension-form-21p-527ez/introduction"
       >
         Apply for Veteran Pension benefits
       </a>
@@ -141,7 +141,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
             saved information when you fill out the PDF form.
           </p>
           <va-link
-            href="/pension/application/527EZ/introduction"
+            href="/pension/apply-for-veteran-pension-form-21p-527ez/introduction"
             text="Refer to your saved form"
           />
           <p>Then submit your completed form in 1 of these ways:</p>

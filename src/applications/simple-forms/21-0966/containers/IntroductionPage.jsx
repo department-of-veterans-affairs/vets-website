@@ -196,8 +196,8 @@ class IntroductionPage extends React.Component {
 
         <va-omb-info
           res-burden="5"
-          omb-number="2900-0858"
-          exp-date="07/31/2024"
+          omb-number="2900-0826"
+          exp-date="02/28/2026"
         />
       </article>
     );

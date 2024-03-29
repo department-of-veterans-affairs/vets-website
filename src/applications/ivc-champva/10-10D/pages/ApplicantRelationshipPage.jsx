@@ -8,9 +8,20 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import { applicantWording } from '../helpers/wordingCustomization';
+import {
+  applicantWording,
+  additionalFilesHint,
+} from '../helpers/wordingCustomization';
 
+/*
+Overriding these allows us to set custom property titles.
+This is part of the slow advance towards converting this component
+into a generally custom "Radio options + other dropdown" since it's
+needed in multiple places in this form.
+*/
 const KEYNAME = 'applicantRelationshipToSponsor';
+const PRIMARY = 'relationshipToVeteran';
+const SECONDARY = 'otherRelationshipToVeteran';
 
 export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
@@ -51,39 +62,25 @@ function generateOptions({ data, pagePerItemIndex }) {
     personTitle,
     applicant,
     useFirstPerson,
-    relative,
-    beingVerbPresent,
     relativePossessive,
   } = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const marriedDeceased = `${relative} was married to the ${personTitle} at any time`;
-  const marriedLiving = `${relative} ${beingVerbPresent} the ${personTitle}’s spouse`;
-  const marriedLivingDivorced = `${relative} was the ${personTitle}’s spouse, but ${beingVerbPresent} no longer married to the ${personTitle}`;
-
-  const marriageOptions = [];
-  if (data.sponsorIsDeceased) {
-    marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
-  } else {
-    marriageOptions.push({ label: marriedLiving, value: 'spouse' });
-    marriageOptions.push({
-      label: marriedLivingDivorced,
-      value: 'spouseSeparated',
-    });
-  }
-
   // Create dynamic radio labels based on above phrasing
   const options = [
-    ...marriageOptions,
     {
-      label: `${relative} ${beingVerbPresent} the ${personTitle}’s ${
-        data.sponsorIsDeceased ? 'surviving' : ''
-      } child (including adopted children and stepchildren)`,
-      value: 'child',
+      label: `${
+        data.sponsorIsDeceased ? 'Surviving s' : 'S'
+      }pouse or partner from a legal union (including a civil union or common-law marriage`,
+      value: 'spouse',
     },
     {
       label: `${
-        useFirstPerson ? 'Our' : `${applicant}’s`
-      } relationship is not listed here`,
+        data.sponsorIsDeceased ? 'Surviving c' : 'C'
+      }hild (including adopted children or step children)`,
+      value: 'child',
+    },
+    {
+      label: 'Other relationship',
       value: 'other',
     },
   ];
@@ -96,27 +93,26 @@ function generateOptions({ data, pagePerItemIndex }) {
     personTitle,
     keyname,
     currentListItem,
-    description: `Relationship to ${personTitle}`,
+    description: `What’s ${
+      useFirstPerson ? `your` : `${applicant}’s`
+    } relationship to the ${personTitle}?`,
   };
 }
 
-const relationshipStructure = {
-  relationshipToVeteran: undefined,
-  otherRelationshipToVeteran: undefined,
-};
-
 export function ApplicantRelationshipReviewPage(props) {
-  const { data, keyname = KEYNAME } = props || {};
+  const { data, keyname = KEYNAME, primary = PRIMARY, secondary = SECONDARY } =
+    props || {};
   const genOps = props.genOp || generateOptions;
   const {
     currentListItem,
     options,
+    customOtherDescription,
     description,
     useFirstPerson,
     applicant,
     personTitle,
   } = genOps(props);
-  const other = currentListItem?.[keyname]?.otherRelationshipToVeteran;
+  const other = currentListItem?.[keyname]?.[secondary];
   return data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
@@ -131,7 +127,7 @@ export function ApplicantRelationshipReviewPage(props) {
           <dd>
             {options.map(
               opt =>
-                opt.value === currentListItem?.[keyname]?.relationshipToVeteran
+                opt.value === currentListItem?.[keyname]?.[primary]
                   ? opt.label
                   : '',
             )}
@@ -141,8 +137,13 @@ export function ApplicantRelationshipReviewPage(props) {
         {other ? (
           <div className="review-row">
             <dt>
-              Since {useFirstPerson ? 'your' : `${applicant}’s `} relationship
-              with the {personTitle} was not listed, please describe it here
+              {customOtherDescription || (
+                <>
+                  Since {useFirstPerson ? 'your' : `${applicant}’s `}{' '}
+                  relationship with the {personTitle} was not listed, please
+                  describe it here
+                </>
+              )}
             </dt>
             <dd>{other}</dd>
           </div>
@@ -159,10 +160,16 @@ export default function ApplicantRelationshipPage({
   goBack,
   goForward,
   keyname = KEYNAME,
+  primary = PRIMARY,
+  secondary = SECONDARY,
   pagePerItemIndex,
   updatePage,
   onReviewPage,
 }) {
+  const relationshipStructure = {
+    [primary]: undefined,
+    [secondary]: undefined,
+  };
   const [checkValue, setCheckValue] = useState(
     data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
   );
@@ -181,6 +188,7 @@ export default function ApplicantRelationshipPage({
     personTitle,
     customTitle,
     description,
+    customOtherDescription,
   } = genOps({
     data,
     pagePerItemIndex,
@@ -189,16 +197,13 @@ export default function ApplicantRelationshipPage({
   const handlers = {
     validate() {
       let isValid = true;
-      if (!checkValue.relationshipToVeteran) {
+      if (!checkValue[primary]) {
         setCheckError('This field is required');
         isValid = false;
       } else {
         setCheckError(null); // Clear any existing err msg
       }
-      if (
-        checkValue.relationshipToVeteran === 'other' &&
-        !checkValue.otherRelationshipToVeteran
-      ) {
+      if (checkValue[primary] === 'other' && !checkValue[secondary]) {
         setInputError('This field is required');
         isValid = false;
       } else {
@@ -210,17 +215,17 @@ export default function ApplicantRelationshipPage({
       const val =
         detail.value === 'other'
           ? {
-              relationshipToVeteran: detail.value,
-              otherRelationshipToVeteran: undefined,
+              [primary]: detail.value,
+              [secondary]: undefined,
             }
-          : { relationshipToVeteran: detail.value };
+          : { [primary]: detail.value };
       setDirty(true);
       setCheckValue(val);
       handlers.validate();
     },
     inputUpdate: ({ target }) => {
       const val = checkValue;
-      val.otherRelationshipToVeteran = target.value;
+      val[secondary] = target.value;
       setDirty(true);
       setCheckValue(val);
       handlers.validate();
@@ -263,7 +268,7 @@ export default function ApplicantRelationshipPage({
               useFirstPerson ? `your` : `${applicant}’s`
             } relationship to the ${personTitle}?`
           }
-          hint="Depending on your response, you may need to submit additional documents with this application."
+          hint={additionalFilesHint}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
@@ -274,20 +279,18 @@ export default function ApplicantRelationshipPage({
               name="describes-you"
               label={option.label}
               value={option.value}
-              checked={checkValue.relationshipToVeteran === option.value}
+              checked={checkValue[primary] === option.value}
               uswds
               aria-describedby={
-                checkValue.relationshipToVeteran === option.value
-                  ? option.value
-                  : null
+                checkValue[primary] === option.value ? option.value : null
               }
             />
           ))}
         </VaRadio>
-        {checkValue.relationshipToVeteran === 'other' && (
+        {checkValue[primary] === 'other' && (
           <div
             className={
-              checkValue.relationshipToVeteran === 'other'
+              checkValue[primary] === 'other'
                 ? 'form-expanding-group form-expanding-group-open'
                 : ''
             }
@@ -295,11 +298,14 @@ export default function ApplicantRelationshipPage({
             <div className="form-expanding-group-inner-enter-done">
               <div className="schemaform-expandUnder-indent">
                 <VaTextInput
-                  label={`Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`}
+                  label={
+                    customOtherDescription ||
+                    `Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`
+                  }
                   onInput={handlers.inputUpdate}
-                  required={checkValue.relationshipToVeteran === 'other'}
+                  required={checkValue[primary] === 'other'}
                   error={inputError}
-                  value={checkValue.otherRelationshipToVeteran}
+                  value={checkValue[secondary]}
                   uswds
                 />
               </div>
@@ -327,6 +333,8 @@ ApplicantRelationshipPage.propTypes = {
   goForward: PropTypes.func,
   keyname: PropTypes.string,
   pagePerItemIndex: PropTypes.string || PropTypes.number,
+  primary: PropTypes.string,
+  secondary: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
