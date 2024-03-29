@@ -1,40 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { has } from 'lodash';
 import {
   isAuthenticatedWithOAuth,
   signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { usePrevious } from '~/platform/utilities/react-hooks';
-import { focusElement } from '~/platform/utilities/ui';
 import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
 
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
-import { toggleDirectDepositEdit } from '../actions/directDeposit';
-
-const getIsBlocked = controlInformation => {
-  if (!controlInformation) return false;
-
-  const propertiesToCheck = [
-    'isCompetent',
-    'hasNoFiduciaryAssigned',
-    'isNotDeceased',
-  ];
-
-  // if any flag is false, the user is blocked
-  // but first we have to determine if that particular flag property exists
-  return propertiesToCheck.some(
-    flag => has(controlInformation, flag) && !controlInformation[flag],
-  );
-};
+import { getIsBlocked } from '../selectors';
 
 export const useDirectDeposit = () => {
-  const dispatch = useDispatch();
   const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
   const [formIsDirty, setFormIsDirty] = useState(false);
 
@@ -71,16 +52,6 @@ export const useDirectDeposit = () => {
     }, DIRECT_DEPOSIT_ALERT_SETTINGS.TIMEOUT);
   }, []);
 
-  // page setup effects
-  useEffect(
-    () => {
-      focusElement('[data-focus-target]');
-      document.title = `Direct Deposit Information | Veterans Affairs`;
-      dispatch(toggleDirectDepositEdit(false));
-    },
-    [dispatch],
-  );
-
   // effects to trigger the success alert
   useEffect(
     () => {
@@ -90,18 +61,6 @@ export const useDirectDeposit = () => {
       }
     },
     [wasSaving, ui.isSaving, error, removeBankInfoUpdatedAlert],
-  );
-
-  // effect to show an alert when the form is dirty and navigating away
-  useEffect(
-    () => {
-      if (formIsDirty && isIdentityVerified) {
-        window.onbeforeunload = () => true;
-        return;
-      }
-      window.onbeforeunload = undefined;
-    },
-    [formIsDirty, isIdentityVerified],
   );
 
   return {
