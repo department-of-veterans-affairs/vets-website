@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useOutletContext } from 'react-router-dom-v5-compat';
 
 import {
   getAlertContent,
@@ -20,7 +20,8 @@ import Docket from '../components/appeals-v2/Docket';
 /**
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
-const AppealsV2StatusPage = ({ appeal, fullName }) => {
+export default function AppealsV2StatusPage() {
+  const [appeal, fullName] = useOutletContext();
   const {
     events,
     alerts,
@@ -114,25 +115,6 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
       {afterNextAlerts}
     </div>
   );
-};
+}
 
-AppealsV2StatusPage.propTypes = {
-  appeal: PropTypes.shape({
-    attributes: PropTypes.shape({
-      events: PropTypes.array,
-      alerts: PropTypes.array,
-      status: PropTypes.shape({
-        type: PropTypes.string,
-        details: PropTypes.object,
-      }).isRequired,
-      docket: PropTypes.object,
-    }).isRequired,
-  }),
-  fullName: PropTypes.shape({
-    first: PropTypes.string,
-    middle: PropTypes.string,
-    last: PropTypes.string,
-  }),
-};
-
-export default AppealsV2StatusPage;
+AppealsV2StatusPage.propTypes = {};

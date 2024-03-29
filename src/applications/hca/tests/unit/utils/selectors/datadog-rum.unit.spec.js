@@ -6,8 +6,8 @@ describe('hca DatadogRUM selector', () => {
     hcaEnrollmentStatus: {
       enrollmentStatus: 'noneOfTheAbove',
     },
-    totalRating: {
-      totalDisabilityRating: 0,
+    disabilityRating: {
+      totalRating: 0,
     },
     user: {
       profile: {

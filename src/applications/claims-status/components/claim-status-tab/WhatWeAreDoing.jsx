@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom-v5-compat';
 
 import {
   getStatusDescription,
   getClaimStatusDescription,
 } from '../../utils/helpers';
 
-function WhatWeAreDoing({ claim }) {
-  const { status } = claim.attributes;
+export default function WhatWeAreDoing({ status }) {
   const humanStatus = getStatusDescription(status);
   const description = getClaimStatusDescription(status);
 
@@ -25,7 +24,7 @@ function WhatWeAreDoing({ claim }) {
         <Link
           aria-label="Overview of the process"
           className="vads-u-margin-top--1 active-va-link"
-          to={`your-claims/${claim.id}/overview`}
+          to="../overview"
         >
           Overview of the process
           <i aria-hidden="true" />
@@ -36,8 +35,5 @@ function WhatWeAreDoing({ claim }) {
 }
 
 WhatWeAreDoing.propTypes = {
-  claim: PropTypes.object,
-  status: PropTypes.bool,
+  status: PropTypes.string,
 };
-
-export default WhatWeAreDoing;
