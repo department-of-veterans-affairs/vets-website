@@ -8,6 +8,7 @@ import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
 import { setUpPage } from '../utils/page';
+import withRouter from '../utils/withRouter';
 
 const setTitle = () => {
   document.title = 'Your Edith Nourse Rogers STEM Scholarship application';
@@ -21,7 +22,7 @@ class StemClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, params } = this.props;
+    const { claim, loading } = this.props;
     let content;
     if (loading) {
       content = (
@@ -49,7 +50,7 @@ class StemClaimStatusPage extends React.Component {
     }
 
     const crumb = {
-      href: `your-stem-claims/${params.id}`,
+      href: `../status`,
       label: 'Your Rogers STEM Scholarship application status details',
       isRouterLink: true,
     };
@@ -92,15 +93,18 @@ const mapDispatchToProps = {
   getStemClaims,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StemClaimStatusPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StemClaimStatusPage),
+);
 
 StemClaimStatusPage.propTypes = {
   claim: PropTypes.object,
   getStemClaims: PropTypes.func,
   loading: PropTypes.bool,
+  params: PropTypes.object,
 };
 
 export { StemClaimStatusPage };

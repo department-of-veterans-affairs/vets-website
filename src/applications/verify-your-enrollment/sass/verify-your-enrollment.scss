@@ -1,11 +1,11 @@
 @import "@department-of-veterans-affairs/platform-site-wide/style";
 
 .vye-top-border{
-    border-top: 1px solid $color-gray-lighter;
+    border-top: 1px solid var(--vads-color-base-lighter);
 }
 
 .vye-left-border{
-    border-color: $color-primary-alt-dark;
+    border-color: var(--vads-color-primary-alt-dark);
     border-left-style: solid;
     border-left-width: 8px;
 }
@@ -28,9 +28,9 @@
 .vye-mimic-va-button{
     display: flex;
     align-items: center;
-    background-color: $color-primary;
+    background-color: var(--vads-color-primary);
     border-radius: 5px;
-    color: $color-white !important;
+    color: var(--vads-color-white) !important;
     font-size: 1.6rem;
     justify-content: center;
     margin: 0.5em 0.5em 0.5em 0px;
@@ -47,8 +47,8 @@
 }
 
 .vye-mimic-va-button:hover{
-    background-color: $color-primary-darker !important;
-    color: $color-white !important;
+    background-color: var(--vads-color-primary-dark) !important;
+    color: var(--vads-color-white) !important;
     text-decoration: none;
 }
 
@@ -58,14 +58,14 @@
 }
 
 .vye-highlighted-title-container {
-	background-color: $color-gray-lightest;
+	background-color: var(--vads-color-base-lightest);
 	margin: 0;
 	padding: 8px;
     padding-left: 16px;
     font-size: 2rem !important;
 }
 .vye-highlighted-content-container {
-	border: 1px solid $color-gray-lightest;
+	border: 1px solid var(--vads-color-base-lightest);
 	border-top: 0;
 	padding: 1em;
     font-size: 16.96px;
@@ -78,4 +78,8 @@
 
 .vye-h2-style-as-h3{
     font-size: 20px !important;
+}
+
+.vye-max-width-480px{
+    max-width: 480px;
 }
