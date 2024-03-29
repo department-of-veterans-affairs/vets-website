@@ -307,13 +307,15 @@ describe('Vitals list container with no vitals of a type', () => {
   });
 
   it('displays a no vitals message for blood pressure', () => {
-    expect(
-      screen.getAllByText(
-        'There are no blood pressure results in your VA medical records.',
-        {
-          exact: true,
-        },
-      ).length,
-    ).to.eq(2);
+    waitFor(() => {
+      expect(
+        screen.getAllByText(
+          'There are no blood pressure results in your VA medical records.',
+          {
+            exact: true,
+          },
+        ).length,
+      ).to.eq(2);
+    });
   });
 });
