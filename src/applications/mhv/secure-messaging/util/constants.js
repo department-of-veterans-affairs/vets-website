@@ -320,8 +320,9 @@ export const threadSortingOptions = {
 };
 
 export const BreadcrumbViews = {
-  DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
-  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
+  DESKTOP_VIEW:
+    'desktop-view vads-u-margin-left--neg7 vads-u-font-weight--bold vads-u-font-size--md vads-u-padding-y--2',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
 export const PageTitles = {
