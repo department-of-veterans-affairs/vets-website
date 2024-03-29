@@ -67,7 +67,7 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
       FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
-      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.`,
+      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
       FILE_DUPLICATE: 'You have already attached this file.',
       FILE_TOO_LARGE:
         'Your file is too large. Try attaching a file smaller than 6MB.',
@@ -257,6 +257,9 @@ export const acceptedFileTypes = {
   txt: 'text/plain',
   xls: 'application/vnd.ms-excel',
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  jfif: 'image/jfif',
+  pjpeg: 'image/pjpeg',
+  pjp: 'image/pjp',
 };
 
 export const Attachments = {
@@ -317,8 +320,9 @@ export const threadSortingOptions = {
 };
 
 export const BreadcrumbViews = {
-  DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
-  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
+  DESKTOP_VIEW:
+    'desktop-view vads-u-margin-left--neg7 vads-u-font-weight--bold vads-u-font-size--md vads-u-padding-y--2',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
 export const PageTitles = {

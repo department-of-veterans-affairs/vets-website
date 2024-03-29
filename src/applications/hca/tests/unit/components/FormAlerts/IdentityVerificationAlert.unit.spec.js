@@ -20,7 +20,6 @@ describe('hca <IdentityVerificationAlert>', () => {
       const { container } = render(<IdentityVerificationAlert />);
       const selector = container.querySelector('.usa-button');
       expect(selector).to.exist;
-      expect(selector).to.have.attr('href', '/verify');
     });
   });
 

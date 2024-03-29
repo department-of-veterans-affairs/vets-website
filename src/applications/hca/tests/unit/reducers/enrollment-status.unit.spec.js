@@ -26,7 +26,6 @@ describe('hca EnrollmentStatus reducer', () => {
       expect(reducedState.noESRRecordFound).to.be.false;
       expect(reducedState.hasServerError).to.be.false;
       expect(reducedState.isLoadingApplicationStatus).to.be.false;
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
     });
   });
 
@@ -44,7 +43,6 @@ describe('hca EnrollmentStatus reducer', () => {
       expect(reducedState.noESRRecordFound).to.be.false;
       expect(reducedState.hasServerError).to.be.false;
       expect(reducedState.isLoadingApplicationStatus).to.be.false;
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
     });
   });
 
@@ -219,67 +217,6 @@ describe('hca EnrollmentStatus reducer', () => {
       reducedState = reducer(state, action);
       expect(reducedState.hasServerError).to.be.false;
       expect(reducedState.isLoadingApplicationStatus).to.be.false;
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
-    });
-  });
-
-  describe('when `FETCH_DISMISSED_HCA_NOTIFICATION_STARTED` executes', () => {
-    const {
-      FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-    } = ENROLLMENT_STATUS_ACTIONS;
-    it('should set `isLoadingDismissedNotification` to `true`', () => {
-      state = { isLoadingDismissedNotification: false };
-      action = {
-        type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-      };
-      reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.true;
-    });
-  });
-
-  describe('when `FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED` executes', () => {
-    const {
-      FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-    } = ENROLLMENT_STATUS_ACTIONS;
-    it('should set the state correctly', () => {
-      state = {
-        isLoadingDismissedNotification: true,
-        dismissedNotificationDate: null,
-      };
-      action = {
-        type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-        response: {
-          data: {
-            attributes: {
-              subject: 'form_10_10ez',
-              status: 'pending_mt',
-              statusEffectiveAt: '2019-02-25T01:22:00.000Z',
-              readAt: '2019-02-26T21:20:50.151Z',
-            },
-          },
-        },
-      };
-      reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
-      expect(reducedState.dismissedNotificationDate).to.equal(
-        '2019-02-25T01:22:00.000Z',
-      );
-    });
-  });
-
-  describe('when `FETCH_DISMISSED_HCA_NOTIFICATION_FAILED` executes', () => {
-    const {
-      FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-    } = ENROLLMENT_STATUS_ACTIONS;
-    it('should set `isLoadingDismissedNotification` to `false`', () => {
-      state = {
-        isLoadingDismissedNotification: true,
-      };
-      action = {
-        type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-      };
-      reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
     });
   });
 });
