@@ -75,7 +75,7 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
             'links-list-section-header': 'Claims and appeals',
           });
         }}
-        testId="file-claims-and-appeals-link-v2"
+        testId="file-claims-and-appeals-link"
       />
       {!isLOA1 && (
         <IconCTALink
