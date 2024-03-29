@@ -31,5 +31,15 @@ class BaseDetailsPage {
   clickDownloadTxtFile = () => {
     cy.get('[data-testid="printButton-2"]').click();
   };
+
+  verifyExpandUnderstandResults = () => {
+    // Expand "help to be able to understand results"
+    cy.get('[data-testid="understanding-result"]').should('be.visible');
+  };
+
+  clickExpandUnderstandResults = () => {
+    // Expand "help to be able to understand results"
+    cy.get('[data-testid="understanding-result"]').click();
+  };
 }
 export default BaseDetailsPage;

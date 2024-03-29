@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
+import BaseDetailsPage from './BaseDetailsPage';
 
-class ChemHemDetailsPage {
+class ChemHemDetailsPage extends BaseDetailsPage {
   downloadTime1sec = '';
 
   downloadTime2sec = '';
@@ -46,29 +47,29 @@ class ChemHemDetailsPage {
     cy.get('[data-testid="list-item-single"]').should('contain', notes);
   };
 
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
-  };
+  // verifyPrintButton = () => {
+  //   // should display print button for a list "Print this list"
+  //   cy.get('[data-testid="printButton-0"]').should('be.visible');
+  // };
 
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-  };
+  // verifyPrintOrDownload = () => {
+  //   cy.get('[data-testid="print-records-button"]').should('be.visible');
+  // };
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
+  // clickPrintOrDownload = () => {
+  //   cy.get('[data-testid="print-records-button"]').click({ force: true });
+  // };
 
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
+  // verifyDownloadPDF = () => {
+  //   // should display a download pdf file button "Download PDF of this page"
+  //   cy.get('[data-testid="printButton-1"]').should('be.visible');
+  // };
 
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
-    // cy.get('[data-testid="printButton-2').click();
-  };
+  // verifyDownloadTextFile = () => {
+  //   // should display a download text file button "Download list as a text file"
+  //   cy.get('[data-testid="printButton-2"]').should('be.visible');
+  //   // cy.get('[data-testid="printButton-2').click();
+  // };
 
   verifyDownloadTextFileHeadless = (
     userFirstName = 'Safari',
@@ -119,26 +120,26 @@ class ChemHemDetailsPage {
     });
   };
 
-  clickDownloadTextFile = () => {
-    cy.get('[data-testid="printButton-2').click();
-    this.downloadTime = moment().format('M-D-YYYY_hhmmssa');
-    cy.log(`download time = ${this.downloadTime}`);
-  };
+  // clickDownloadTextFile = () => {
+  //   cy.get('[data-testid="printButton-2').click();
+  //   this.downloadTime = moment().format('M-D-YYYY_hhmmssa');
+  //   cy.log(`download time = ${this.downloadTime}`);
+  // };
 
-  clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-1"]').click();
-  };
+  // clickDownloadPDFFile = () => {
+  //   // should display a download text file button "Download list as a text file"
+  //   cy.get('[data-testid="printButton-1"]').click();
+  // };
 
-  verifyEpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').should('be.visible');
-  };
+  // verifyEpnadUnderstandResultsBtton = () => {
+  //   // Expand "help to be able to understand results"
+  //   cy.get('[data-testid="understanding-result"]').should('be.visible');
+  // };
 
-  clickExpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').click();
-  };
+  // clickExpnadUnderstandResultsBtton = () => {
+  //   // Expand "help to be able to understand results"
+  //   cy.get('[data-testid="understanding-result"]').click();
+  // };
 
   verifyResultDropdownReferance = resultDropdownReferance => {
     // should display  "If your results are outside the reference range"

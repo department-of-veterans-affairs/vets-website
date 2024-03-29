@@ -1,6 +1,8 @@
 // import defaultRadiology from '../fixtures/Radiology.json';
 
-class RadiologyDetailsPage {
+import BaseDetailsPage from './BaseDetailsPage';
+
+class RadiologyDetailsPage extends BaseDetailsPage {
   verifyTitle = recordName => {
     cy.get('[data-testid="radiology-record-name"]').should('be.visible');
     cy.get('[data-testid="radiology-record-name"]').contains(recordName);
@@ -41,15 +43,15 @@ class RadiologyDetailsPage {
     cy.get('[data-testid="printButton-1"]').click();
   };
 
-  verifyEpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').should('be.visible');
-  };
+  // verifyEpnadUnderstandResultsBtton = () => {
+  //   // Expand "help to be able to understand results"
+  //   cy.get('[data-testid="understanding-result"]').should('be.visible');
+  // };
 
-  clickExpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').click();
-  };
+  // clickExpnadUnderstandResultsBtton = () => {
+  //   // Expand "help to be able to understand results"
+  //   cy.get('[data-testid="understanding-result"]').click();
+  // };
 
   verifyResultDropdownReferance = resultDropdownReferance => {
     // should display  "If your results are outside the reference range"

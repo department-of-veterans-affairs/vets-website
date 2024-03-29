@@ -1,6 +1,8 @@
 // import defaultPathology from '../fixtures/Pathology.json';
 
-class PathologyDetailsPage {
+import BaseDetailsPage from './BaseDetailsPage';
+
+class PathologyDetailsPage extends BaseDetailsPage {
   verifyLabName = name => {
     cy.get('[data-testid="pathology-name"]').should('contain', name);
   };
@@ -56,15 +58,15 @@ class PathologyDetailsPage {
     cy.get('[data-testid="printButton-1"]').click();
   };
 
-  verifyEpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').should('be.visible');
-  };
+  // verifyEpnadUnderstandResultsBtton = () => {
+  //   // Expand "help to be able to understand results"
+  //   cy.get('[data-testid="understanding-result"]').should('be.visible');
+  // };
 
-  clickExpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').click();
-  };
+  // clickExpnadUnderstandResultsBtton = () => {
+  //   // Expand "help to be able to understand results"
+  //   cy.get('[data-testid="understanding-result"]').click();
+  // };
 
   verifyResultDropdownReferance = resultDropdownReferance => {
     // should display  "If your results are outside the reference range"
