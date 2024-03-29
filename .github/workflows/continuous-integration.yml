@@ -109,6 +109,12 @@ jobs:
           # Example: List files in the build directory
           ls -la $GITHUB_WORKSPACE/build
 
+      - name: vaprod cache
+        uses: actions/cache@v4
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: test-key
+
       # - name: Prepare build artifacts
       #   run: |
       #     # Prepare build artifacts
@@ -632,12 +638,6 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
-      
-          
-
-      - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -672,11 +672,31 @@ jobs:
       #     name: vagovprod
       #     path: build/vagovprod
 
-      - name: Use build artifacts from the build job
+      # - name: Use build artifacts from the build job
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     # Use build artifacts from the build job
+      #     cp -r $GITHUB_WORKSPACE/build/vagovprod build/vagovprod
+
+
+      # - name: Restore cached vagovprod folder
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: $GITHUB_WORKSPACE/build/vagovprod
+      #     key: vagovprod-${{ runner.os }}-${{ hashFiles('**/vagovprod/**') }}
+
+      - name: Restore cached docker image
+        uses: actions/cache/restore@v4
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: test-key
+
+
+      - name: Run Cypress tests
         run: |
-          # Use build artifacts from the build job
-          cp -r $GITHUB_WORKSPACE/build/vagovprod build/vagovprod
+          # Example command using vagovprod folder
+          ls -la $GITHUB_WORKSPACE/build/
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
