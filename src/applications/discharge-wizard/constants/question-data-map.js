@@ -1,8 +1,8 @@
 export const QUESTION_MAP = Object.freeze({
   HOME: 'How to Apply for a Discharge Upgrade',
-  SERVICE_BRANCH: 'In which branch of service did you serve?',
+  SERVICE_BRANCH: 'What was your branch of service?',
   DISCHARGE_YEAR: 'What year were you discharged from the military?',
-  DISCHARGE_MONTH: 'What month were you discharged from the military?',
+  DISCHARGE_MONTH: 'What month were you discharged?',
 });
 
 export const SHORT_NAME_MAP = Object.freeze({
