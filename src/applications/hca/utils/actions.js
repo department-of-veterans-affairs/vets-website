@@ -15,10 +15,6 @@ const {
   FETCH_ENROLLMENT_STATUS_FAILED,
   FETCH_ENROLLMENT_STATUS_SUCCEEDED,
   RESET_ENROLLMENT_STATUS,
-  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-  SET_DISMISSED_HCA_NOTIFICATION,
 } = ENROLLMENT_STATUS_ACTIONS;
 
 /**
@@ -162,64 +158,5 @@ export function getEnrollmentStatus(formData) {
 export function resetEnrollmentStatus() {
   return dispatch => {
     dispatch({ type: RESET_ENROLLMENT_STATUS });
-  };
-}
-
-/**
- * Action to fetch dismissed enrollment status notifications
- * @returns {Promise} - resolves to calling the reducer to set the correct state variables
- * for enrollment status
- */
-export function getDismissedHCANotification() {
-  return dispatch => {
-    dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
-    const url = `/notifications/dismissed_statuses/form_10_10ez`;
-    return apiRequest(url)
-      .then(response =>
-        dispatch({
-          type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-          response,
-        }),
-      )
-      .catch(({ errors }) =>
-        dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED, errors }),
-      );
-  };
-}
-
-/**
- * Action to set dismissed enrollment status notifications
- * @param {String} status - current enrollment status value
- * @param {Number} statusEffectiveAt - timestamp for effective date
- * @returns {Promise} - resolves to calling the reducer to set the correct state variables
- * for enrollment status
- */
-export function setDismissedHCANotification(status, statusEffectiveAt) {
-  return (dispatch, getState) => {
-    const { dismissedNotificationDate } = selectEnrollmentStatus(getState());
-    const hasPreviouslyDismissedNotification = !!dismissedNotificationDate;
-    dispatch({
-      type: SET_DISMISSED_HCA_NOTIFICATION,
-      data: statusEffectiveAt,
-    });
-    if (hasPreviouslyDismissedNotification) {
-      return apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status,
-          statusEffectiveAt,
-        }),
-      });
-    }
-    return apiRequest('/notifications/dismissed_statuses', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        subject: 'form_10_10ez',
-        status,
-        statusEffectiveAt,
-      }),
-    });
   };
 }
