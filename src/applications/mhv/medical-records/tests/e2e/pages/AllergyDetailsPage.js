@@ -1,6 +1,7 @@
-import DetailsPage from './DetailsPage';
+// import DetailsPage from './DetailsPage';
+import BaseDetailsPage from './BaseDetailsPage';
 
-class AllergyDetailsPage extends DetailsPage {
+class AllergyDetailsPage extends BaseDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
       'If you print this page, it won’t include your allergies and reactions to allergies.',

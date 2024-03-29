@@ -1,7 +1,8 @@
 // import Utilities from './Utilities';
-import DetailsPage from './DetailsPage';
+// import DetailsPage from './DetailsPage';
+import BaseDetailsPage from './BaseDetailsPage';
 
-class EKGDetailsPage extends DetailsPage {
+class EKGDetailsPage extends BaseDetailsPage {
   // verifyPrintOrDownload = () => {
   //   cy.get('[data-testid="print-records-button"]').should('be.visible');
   // };
