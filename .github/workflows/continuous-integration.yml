@@ -717,7 +717,7 @@ jobs:
         env:
           TEST_TYPE: e2e
           TEST_PROPERTY: TESTS
-          TESTS: TESTS
+          TESTS: ${{ env.TESTS }}
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
