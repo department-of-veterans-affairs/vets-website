@@ -221,7 +221,7 @@ export const App = () => {
           <h3 className="vads-u-margin-top--0">We updated our online form</h3>
           <p>
             <strong>
-              If you started applying online before April 8, 2024,
+              If you started applying online before April 9, 2024,
             </strong>{' '}
             we have some new questions for you to answer. And we changed some
             questions, so you may need to provide certain information again.
