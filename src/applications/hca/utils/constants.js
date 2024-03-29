@@ -1,10 +1,13 @@
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
-// declare internal apps we link to to gather their root URLs
+// declare global app URLs for use with content links
 export const APP_URLS = {
   dischargeWizard: getAppUrl('discharge-upgrade-instructions'),
   ezr: getAppUrl('ezr'),
   facilities: getAppUrl('facilities'),
+  hca: getAppUrl('hca'),
+  profile: getAppUrl('profile'),
+  verify: getAppUrl('verify'),
 };
 
 // declare view fields for use in household section
@@ -42,17 +45,10 @@ export const DISCHARGE_TYPE_LABELS = {
 
 // declare action statuses for fetching enrollment status
 export const ENROLLMENT_STATUS_ACTIONS = {
-  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED:
-    'FETCH_DISMISSED_HCA_NOTIFICATION_STARTED',
-  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED:
-    'FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED',
-  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED:
-    'FETCH_DISMISSED_HCA_NOTIFICATION_FAILED',
   FETCH_ENROLLMENT_STATUS_STARTED: 'FETCH_ENROLLMENT_STATUS_STARTED',
   FETCH_ENROLLMENT_STATUS_SUCCEEDED: 'FETCH_ENROLLMENT_STATUS_SUCCEEDED',
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
   RESET_ENROLLMENT_STATUS: 'RESET_ENROLLMENT_STATUS',
-  SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
 };
 
 // declare initial state fetching enrollment status
@@ -62,10 +58,8 @@ export const ENROLLMENT_STATUS_INIT_STATE = {
   preferredFacility: null,
   enrollmentStatus: null,
   enrollmentStatusEffectiveDate: null,
-  dismissedNotificationDate: null,
   hasServerError: false,
   isLoadingApplicationStatus: false,
-  isLoadingDismissedNotification: false,
   isUserInMVI: false,
   loginRequired: false,
   noESRRecordFound: false,
