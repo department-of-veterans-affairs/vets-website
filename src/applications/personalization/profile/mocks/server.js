@@ -105,9 +105,14 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
-    // but couldn't be directly imported due to export default vs module.exports
     return res.json(maintenanceWindows.noDowntime);
+
+    // downtime for VA Profile aka Vet360 (according to service name in response)
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //   ]),
+    // );
   },
 
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
@@ -136,6 +141,13 @@ const responses = {
     // this endpoint is used for the single form version of the direct deposit page
     return res.status(200).json(directDeposits.base);
     // return res.status(500).json(genericErrors.error500);
+    // user with no dd data but is eligible
+    // return res.json(directDeposits.isEligible);
+    // direct deposit blocked edge cases
+    // return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isFiduciary);
+    // return res.json(directDeposits.isNotCompetent);
+    // return res.json(directDeposits.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits': (_req, res) => {
     return res
