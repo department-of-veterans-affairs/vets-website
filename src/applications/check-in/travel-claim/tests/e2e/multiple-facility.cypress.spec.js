@@ -90,6 +90,28 @@ describe('A patient with appointments at multiple facilities', () => {
     cy.injectAxeThenAxeCheck();
     TravelPages.acceptTerms();
     TravelPages.clickBackButton();
+
+    TravelMileage.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelMileage.selectFacility('500');
+    TravelMileage.selectFacility('530');
+    TravelMileage.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-address-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-review-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.acceptTerms();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelComplete.validatePageLoaded();
+    TravelComplete.validateContent('single-claim-multi-appointment');
   });
   it('should successfully file a travel claim for multiple facilities', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
