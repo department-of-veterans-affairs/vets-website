@@ -40,11 +40,15 @@ class ComboBox extends Component {
     this.disabilitiesArr = Object.values(DISABILITIES_OBJECT);
     this.listRef = createRef();
     this.state = {
+      bump: false,
+      ariaLive1: '',
+      ariaLive2: '',
       searchTerm: value || '',
       filteredOptions: [],
       value: value || '',
       // highlightedIndex: -2, // New state to track the highlighted option index
     };
+    this.inputRef = createRef()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -58,10 +62,14 @@ class ComboBox extends Component {
   
   componentDidMount() {
     document.addEventListener('click', this.handleClickEvent);
+    if (this.props.shouldFocus){
+      this.inputRef.current.focus()
+    }
   }
   
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickEvent);
+    
   }
   
   handleClickEvent = (evt) => {
@@ -78,6 +86,8 @@ class ComboBox extends Component {
   handleKeyDownFromInput(evt) {
     switch (evt.key) {
       case 'Tab':
+        this.setState({ searchTerm: ''})
+        break;
       case 'ArrowDown':
       case 'ArrowUp':
         const liElem = this.listRef.current.querySelector('.usa-combo-box__list-option');
@@ -111,27 +121,28 @@ class ComboBox extends Component {
           nextOptionEl.focus();
           // nextOptionEl.classList.add('usa-combo-box-highlight');
         }
-        else {
-          this.setState({ searchTerm: '' });
-        }
         break;
       case 'ArrowUp':
         evt.preventDefault();
         const focusedOptionElUpArrow = evt.target;
         const prevOptionEl = focusedOptionElUpArrow.previousSibling;
-
+        console.log(prevOptionEl)
         if (prevOptionEl) {
           prevOptionEl.focus();
-        }
-        else {
-          this.setState({ searchTerm: '' });
-        }
+        } 
+        // else {
+        //   this.inputRef.current.focus()
+        // }
         break;
       case 'Enter':
         this.selectOption(option);
         break;
       case 'Tab':
-        this.setState({ searchTerm: '' });
+        this.selectOption(option);
+        break;
+      case ' ':
+        this.selectOption(option);
+        evt.preventDefault();
         break;
       default:
         console.log('default');
@@ -145,9 +156,11 @@ class ComboBox extends Component {
   }
 
   filterOptions = () => {
-    const { searchTerm, value } = this.state;
+    const { searchTerm, value, bump } = this.state;
     const options = this.disabilitiesArr;
+    let startsWith = options.filter(a => a.toLowerCase().startsWith(searchTerm.toLowerCase()))
     let filtered = substringCountLCS(searchTerm, options, THRESHOLD)
+    filtered = Array.from(new Set([...startsWith, ...filtered]))
     filtered = filtered.splice(0, MAX_NUM_DISABILITY_SUGGESTIONS);
     if (searchTerm.length === 0) {
       filtered = [];
@@ -155,12 +168,30 @@ class ComboBox extends Component {
     if (searchTerm == value) {
       filtered = [];
     }
-    this.setState({ filteredOptions: filtered });
+    let ariaLive1;
+    let ariaLive2;
+    if (bump) {
+      ariaLive1 = this.getScreenReaderResults(searchTerm, value, filtered.length);
+      ariaLive2 = '';
+    }
+    else {
+      ariaLive1 = '';
+      ariaLive2 = this.getScreenReaderResults(searchTerm, value, filtered.length);
+    }
+    this.setState({
+      filteredOptions: filtered,
+      ariaLive1: ariaLive1,
+      ariaLive2: ariaLive2,
+    });
   };
 
   handleSearchChange = (e) => {
+    const { bump } = this.state;
     const updatedTerm = e.target.value;
-    this.setState({ searchTerm: updatedTerm });
+    this.setState({
+      searchTerm: updatedTerm,
+      bump: !bump,
+    });
   };
 
   handleClearTextEntry = () => {
@@ -206,8 +237,21 @@ class ComboBox extends Component {
     onChange(option);
   }
 
+  getScreenReaderResults(searchTerm, value, numResults) {
+    // const { searchTerm, filteredOptions, value } = this.state;
+    // let numResults = filteredOptions.length;
+    const isFreeTextDrawn = searchTerm.length && searchTerm !== value;
+    if (isFreeTextDrawn) {
+      numResults += 1;
+    }
+    if (numResults === 1) {
+      return '1 result available.';
+    }
+    return `${numResults} results available.`
+  }
   render() {
-    const { searchTerm, filteredOptions, value } = this.state;
+    const { searchTerm, filteredOptions, value, ariaLive1, ariaLive2 } = this.state;
+
 
     return (
       <div className="usa-combo-box prototype-combobox-class" data-enhanced="true">
@@ -218,6 +262,8 @@ class ComboBox extends Component {
           value={searchTerm}
           onChange={this.handleSearchChange}
           onKeyDown={(evt) => { this.handleKeyDownFromInput(evt) }}
+          style={{width: '100%'}}
+          ref={this.inputRef}
         />
         { searchTerm.length || value.length ? this.drawCloseButton() : null }
         <ul className={'usa-combo-box__list'} style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }} ref={this.listRef}>
@@ -237,6 +283,18 @@ class ComboBox extends Component {
             </li>
           ))}
         </ul>
+
+
+        <div class="usa-combo-box__status sr-only-view" role="alert" aria-live="polite" aria-atomic="true" id="1">
+          { ariaLive1 }
+        </div>
+        <div class="usa-combo-box__status sr-only-view" role="alert" aria-live="polite" aria-atomic="true" id="live_sr_results2">
+          { ariaLive2 }
+        </div>
+        <span className="sr-only-view">
+          When autocomplete results are available use up and down arrows to review and enter to select.
+          Touch device users, explore by touch or with swipe gestures.
+        </span>
       </div>
     );
   }
