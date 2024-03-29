@@ -43,6 +43,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  FROM_TO_DATES_CONTAINER: '.fromToDatesContainer',
   MESSAGE_FAQ: '.secure-messaging-faq',
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
@@ -92,6 +93,7 @@ export const Locators = {
     FOLDER_DROPDOWN: '[data-testid="folder-dropdown"]',
   },
   BUTTONS: {
+    ADDITIONAL_FILTER: '#additional-filter-accordion',
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
@@ -181,6 +183,7 @@ export const Locators = {
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
+    DATE_RANGE_DROPDOWN: '#date-range-dropdown',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',

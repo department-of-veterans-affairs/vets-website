@@ -626,6 +626,19 @@ class PatientInboxPage {
       }
     }
   }
+
+  clickAdditionalFilterButton = () => {
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER)
+      .shadow()
+      .find('h3 button')
+      .click();
+  };
+
+  selectDateRange = dropDownValue => {
+    cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
+      .find('select')
+      .select(dropDownValue);
+  };
 }
 
 export default PatientInboxPage;
