@@ -221,7 +221,7 @@ export const App = () => {
           <h3 className="vads-u-margin-top--0">We updated our online form</h3>
           <p>
             <strong>
-              If you started applying online before April 5, 2024,
+              If you started applying online before April 8, 2024,
             </strong>{' '}
             we have some new questions for you to answer. And we changed some
             questions, so you may need to provide certain information again.
@@ -405,7 +405,8 @@ export const App = () => {
         within 2 years after the Veteran’s burial. If a Veteran’s discharge was
         changed after death from dishonorable to another status, you must file
         for an allowance claim within 2 years after the discharge update.
-        <br />
+      </p>
+      <p>
         There’s no time limit to file for a service-connected burial, plot, or
         interment allowance.
       </p>
