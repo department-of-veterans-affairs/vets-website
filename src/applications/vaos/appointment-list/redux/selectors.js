@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
+import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import moment from 'moment';
-import { selectIsCernerOnlyPatient } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
-import { selectCernerFacilityIds } from '@department-of-veterans-affairs/platform-site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,

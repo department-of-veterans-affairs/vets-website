@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getCernerURL } from '@department-of-veterans-affairs/platform-utilities/cerner';
-import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { getCernerURL } from 'platform/utilities/cerner';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 import { routeToPreviousAppointmentPage } from '../redux/actions';

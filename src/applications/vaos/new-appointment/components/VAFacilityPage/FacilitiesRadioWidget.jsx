@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { getCernerURL } from '@department-of-veterans-affairs/platform-utilities/cerner';
+import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
