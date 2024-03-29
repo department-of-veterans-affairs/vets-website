@@ -15,65 +15,67 @@ ${txtLine}
 
 If your results are outside the reference range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health.
 
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name} on ${record.date}
 ${txtLineDotted}
 ${
-        record.name !== 'Electrocardiogram (EKG)'
-          ? `${`
+          record.name !== 'Electrocardiogram (EKG)'
+            ? `${`
 Details about this test
 ${
-              'type' in record && record.type !== 'radiology'
-                ? `Type of test: ${record.type}`
-                : ''
-            }
+                'type' in record && record.type !== 'radiology'
+                  ? `Type of test: ${record.type}`
+                  : ''
+              }
 ${'sampleTested' in record ? `Sample tested: ${record.sampleTested}` : ''}
 ${'reason' in record ? `Reason for test: ${record.reason}` : ''}
 ${
-              'clinicalHistory' in record
-                ? `Clinical history: ${record.clinicalHistory}`
-                : ''
-            }
+                'clinicalHistory' in record
+                  ? `Clinical history: ${record.clinicalHistory}`
+                  : ''
+              }
 ${
-              'imagingLocation' in record
-                ? `Imaging location: ${record.imagingLocation}`
-                : ''
-            }
+                'imagingLocation' in record
+                  ? `Imaging location: ${record.imagingLocation}`
+                  : ''
+              }
 ${
-              'imagingProvider' in record
-                ? `Imaging provider: ${record.imagingProvider}`
-                : ''
-            }
+                'imagingProvider' in record
+                  ? `Imaging provider: ${record.imagingProvider}`
+                  : ''
+              }
 ${'sampleFrom' in record ? `Sample from: ${record.sampleFrom}` : ''}
 ${'orderedBy' in record ? `Ordered by: ${record.orderedBy}` : ''}
 ${
-              'orderingLocation' in record
-                ? `Ordering location: ${record.orderingLocation}`
-                : ''
-            }
+                'orderingLocation' in record
+                  ? `Ordering location: ${record.orderingLocation}`
+                  : ''
+              }
 ${
-              'collectingLocation' in record
-                ? `Collecting location: ${record.collectingLocation}`
-                : ''
-            }
+                'collectingLocation' in record
+                  ? `Collecting location: ${record.collectingLocation}`
+                  : ''
+              }
 ${'date' in record ? `Date collected: ${record.date}` : ''}
 ${
-              'comments' in record
-                ? `Provider notes ${record.comments.map(
-                    comment => `\n${comment}`,
-                  )}`
-                : ''
-            }
+                'comments' in record
+                  ? `Provider notes ${record.comments
+                      .map(comment => `\n${comment}`)
+                      .join('')}`
+                  : ''
+              }
 
 Results
 ${
-              'results' in record
-                ? `${
-                    Array.isArray(record.results)
-                      ? `${record.results.map(
-                          result =>
-                            `\n\n${'name' in result ? `${result.name}` : ''}
+                'results' in record
+                  ? `${
+                      Array.isArray(record.results)
+                        ? `${record.results
+                            .map(
+                              result =>
+                                `\n\n${'name' in result ? `${result.name}` : ''}
   ${'result' in result ? `Result: ${result.result}` : ''}                      
   ${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
   ${'status' in result ? `Staus: ${result.status}` : ''}
@@ -81,18 +83,20 @@ ${
   ${
     'interpretation' in result ? `Interpretation: ${result.interpretation}` : ''
   }`,
-                        )}\n`
-                      : `${record.results}\n`
-                  }`
-                : ''
-            }`}\n`
-          : `
+                            )
+                            .join('')}\n`
+                        : `${record.results}\n`
+                    }`
+                  : ''
+              }`}\n`
+            : `
 ${'date' in record ? `Date: ${record.date}` : ''}
 ${'facility' in record ? `Location: ${record.facility}` : ''}
 ${'orderedBy' in record ? `Provider: ${record.orderedBy}` : ''}\n`
-      }
+        }
 `,
-    )}`;
+      )
+      .join('')}`;
   };
 
   //  care summaries and notes parse
@@ -104,11 +108,12 @@ ${txtLine}
 This report only includes care summaries and notes from 2013 and later.
 For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.
 
-${records.map(
-      record =>
-        `${
-          record.name === 'Progress note'
-            ? `
+${records
+      .map(
+        record =>
+          `${
+            record.name === 'Progress note'
+              ? `
 ${record.name}
 ${txtLineDotted}
 
@@ -122,7 +127,7 @@ Details
 Notes
   ${record.note}
 `
-            : `
+              : `
 
 ${record.name}
 ${txtLineDotted}
@@ -135,8 +140,9 @@ Details
 Summary
   ${record.summary}
               `
-        }`,
-    )}
+          }`,
+      )
+      .join('')}
 
 `;
   };
@@ -150,9 +156,10 @@ ${txtLine}
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.
 For complete records of your allergies and reactions to vaccines, review your allergy records in this report.
 
-${records.map(
-      record =>
-        `
+${records
+      .map(
+        record =>
+          `
 ${record.name}
 ${txtLineDotted}
 ${`Date received: ${record.date}`}
@@ -160,7 +167,8 @@ ${`Location: ${record.location}`}
 Provider notes
 ${record.notes.map(note => `${note}`)}
             `,
-    )}
+      )
+      .join('')}
     `;
   };
 
@@ -171,18 +179,20 @@ ${txtLine}
 4) Allergies
 
 If you have allergies that are missing from this list, send a secure message to your care team.
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name}
 ${txtLineDotted}
 Date entered: ${record.date}
-Signs and symptoms: ${record.reaction.map(reaction => `${reaction}`)}
+Signs and symptoms: ${record.reaction.map(reaction => `${reaction}`).join('')}
 Type of allergy: ${record.type}
 Location: ${record.location}
 Observed or historical: ${record.observedOrReported}
 Provider notes: ${record.notes}
 `,
-    )}
+      )
+      .join('')}
 `;
   };
 
@@ -193,8 +203,9 @@ ${txtLine}
 5) Health conditions
 
 This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name}
 ${txtLineDotted}
 Date entered: ${record.date}
@@ -204,7 +215,8 @@ Status of health condition: ${record.active}
 Location: ${record.facility}
 SNOMED Clinical term: ${record.name}
 `,
-    )}
+      )
+      .join('')}
 `;
   };
 
@@ -215,15 +227,17 @@ ${txtLine}
 6) Vitals
 
 This list includes vitals and other basic health numbers your providers check at your appointments.
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name}
 ${txtLineDotted}
 Result: ${record.measurement}
 Provider Notes: ${record.notes}
 Location: ${record.location}
 `,
-    )}
+      )
+      .join('')}
 `;
   };
 
