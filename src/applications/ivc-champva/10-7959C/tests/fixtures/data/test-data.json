@@ -1,5 +1,9 @@
 {
   "data": {
-    "certifierRole": "other"
+    "certifierRole": "other",
+    "certifierRelationship": {
+      "relationshipToApplicants": "other",
+      "otherRelationshipToApplicants": "Some value"
+    }
   }
 }

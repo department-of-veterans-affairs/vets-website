@@ -20,3 +20,21 @@ testNumberOfWebComponentFields(
   'Certifier address',
   { ...mockData.data },
 );
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.certifierInformation.pages.phoneEmail.schema,
+  formConfig.chapters.certifierInformation.pages.phoneEmail.uiSchema,
+  2,
+  'Certifier phone/email',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.certifierInformation.pages.relationship.schema,
+  formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
+  6,
+  'Certifier relationship',
+  { ...mockData.data },
+);

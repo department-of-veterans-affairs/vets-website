@@ -31,7 +31,12 @@ import {
   attachmentsSchema,
 } from '../../shared/components/attachments';
 
-import { certifierRole, certifierAddress } from '../pages/thirdPartyCertifier';
+import {
+  certifierRole,
+  certifierAddress,
+  certifierPhoneEmail,
+  certifierRelationship,
+} from '../pages/thirdPartyCertifier';
 
 const uploadUrl = `${
   environment.API_URL
@@ -85,6 +90,20 @@ const formConfig = {
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: certifierAddress.uiSchema,
           schema: certifierAddress.schema,
+        },
+        phoneEmail: {
+          path: 'your-information/phone-email',
+          title: 'Your phone number',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: certifierPhoneEmail.uiSchema,
+          schema: certifierPhoneEmail.schema,
+        },
+        relationship: {
+          path: 'your-information/relationship',
+          title: 'Your relationship to the applicant',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: certifierRelationship.uiSchema,
+          schema: certifierRelationship.schema,
         },
       },
     },
