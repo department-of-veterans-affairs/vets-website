@@ -23,7 +23,7 @@
 
   & + label {
     &:hover {
-      background: $color-gray-lightest;
+      background: var(--vads-color-base-lightest);
     }
   }
 
@@ -38,8 +38,8 @@
 }
 
 .msg-move-to-options {
-  background: $color-white;
-  border: 1px solid $color-gray;
+  background: var(--vads-color-white);
+  border: 1px solid var(--vads-color-base-dark);
   list-style: none;
   margin: -1px 0 0 0;
   padding-left: 0;
