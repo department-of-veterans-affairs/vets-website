@@ -57,6 +57,40 @@ describe('A patient with appointments at multiple facilities', () => {
     TravelComplete.validateContent('single-claim-multi-appointment');
     cy.injectAxeThenAxeCheck();
   });
+  it('should successfully file a travel claim after going back by clicking start over to change the facility', () => {
+    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
+      sharedData.get.multiApptMultiFacilityUUID,
+    );
+    cy.visitTravelClaimWithUUID();
+
+    ValidateVeteran.validatePage.travelClaim();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.validateVeteran();
+    ValidateVeteran.attemptToGoToNextPage();
+
+    TravelIntro.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelIntro.attemptToGoToNextPage();
+
+    TravelMileage.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    TravelMileage.validateFacilityCount(3);
+    TravelMileage.selectFacility('500');
+    TravelMileage.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-address-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.attemptToGoToNextPage();
+
+    TravelPages.validatePageWrapper('travel-claim-review-page');
+    cy.injectAxeThenAxeCheck();
+    TravelPages.acceptTerms();
+    TravelPages.clickBackButton();
+  });
   it('should successfully file a travel claim for multiple facilities', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
       sharedData.get.multiApptMultiFacilityUUID,

@@ -102,6 +102,12 @@ class TravelPages {
     });
   };
 
+  clickStartOver = () => {
+    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
   acceptTerms = () => {
     cy.get(`va-checkbox`)
       .shadow()
