@@ -186,7 +186,6 @@ const EmploymentRecord = props => {
         </div>
         <div className="vads-u-margin-bottom--2">
           <VaTextInput
-            className="no-wrap"
             error={employerNameError ? 'Please enter your employer name.' : ''}
             id="employer-name"
             label="Employer name"

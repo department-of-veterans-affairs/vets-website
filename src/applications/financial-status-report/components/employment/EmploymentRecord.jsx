@@ -124,7 +124,7 @@ const EmploymentRecord = ({
 
   return (
     <>
-      <div className="input-size-5">
+      <div className="input-size-7">
         <VaSelect
           name="type"
           data-test-id="employment-type"
