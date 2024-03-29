@@ -62,7 +62,7 @@ export default function ClaimsListItem({ claim }) {
   const showAlert = showPrecomms && documentsNeeded;
 
   const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
-  const href = `your-claims/${claim.id}/status`;
+  const href = `/your-claims/${claim.id}/status`;
 
   return (
     <ClaimCard
