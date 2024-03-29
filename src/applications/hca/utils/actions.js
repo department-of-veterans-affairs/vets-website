@@ -1,11 +1,7 @@
 import appendQuery from 'append-query';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
-import recordEvent from '~/platform/monitoring/record-event';
-import { getData, isServerError, isClientError } from '.';
 import {
-  DISABILITY_PREFIX,
-  DISABILITY_RATING_ACTIONS,
   ENROLLMENT_STATUS_ACTIONS,
   HCA_ENROLLMENT_STATUSES,
 } from './constants';
@@ -110,23 +106,6 @@ function callAPI(dispatch, formData = {}) {
     .catch(({ errors }) =>
       dispatch({ type: FETCH_ENROLLMENT_STATUS_FAILED, errors }),
     );
-}
-
-/**
- * Parse error details on failure of total disability rating fetch
- * @param {Object} response - object containing either an array of errors or a
- * single error object
- */
-function getResponseError(response) {
-  const { errors = null, error, status } = response;
-  if (errors?.length) {
-    const { code, detail } = errors[0];
-    return { code, detail };
-  }
-  if (error) {
-    return { code: status, detail: error };
-  }
-  return null;
 }
 
 /**
@@ -242,48 +221,5 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
         statusEffectiveAt,
       }),
     });
-  };
-}
-
-/**
- * Action to fetch users total disability rating
- * @returns {Promise} - resolves to calling the reducer to set the correct state variables
- * for disability rating
- */
-export function fetchTotalDisabilityRating() {
-  const {
-    FETCH_TOTAL_RATING_STARTED,
-    FETCH_TOTAL_RATING_FAILED,
-    FETCH_TOTAL_RATING_SUCCEEDED,
-  } = DISABILITY_RATING_ACTIONS;
-  return async dispatch => {
-    dispatch({ type: FETCH_TOTAL_RATING_STARTED });
-    const response = await getData('/health_care_applications/rating_info');
-    const error = getResponseError(response);
-
-    if (error) {
-      const errorCode = error.code;
-      if (isServerError(errorCode)) {
-        recordEvent({
-          event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': `${errorCode} internal error`,
-        });
-      } else if (isClientError(errorCode)) {
-        recordEvent({
-          event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': `${errorCode} no combined rating found`,
-        });
-      }
-      dispatch({
-        type: FETCH_TOTAL_RATING_FAILED,
-        error,
-      });
-    } else {
-      recordEvent({ event: `${DISABILITY_PREFIX}-combined-load-success` });
-      dispatch({
-        type: FETCH_TOTAL_RATING_SUCCEEDED,
-        response,
-      });
-    }
   };
 }
