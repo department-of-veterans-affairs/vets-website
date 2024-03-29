@@ -4,7 +4,8 @@ const path = require('path');
 const core = require('@actions/core');
 
 const TESTS =
-  process.env.TESTS.map(test => test.slice(test.indexOf('src'))) || [];
+  JSON.parse(process.env.TESTS).map(test => test.slice(test.indexOf('src'))) ||
+  [];
 const TESTS_PROPERTY = process.env.TESTS_PROPERTY || TESTS;
 
 const ALLOW_LIST =
