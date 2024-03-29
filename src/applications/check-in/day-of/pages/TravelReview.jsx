@@ -119,7 +119,7 @@ const TravelQuestion = props => {
         <a
           className="vads-u-margin-left--auto"
           href="travel-mileage"
-          onClick={() => startOverAction()}
+          onClick={e => startOverAction(e)}
           data-testid="review-edit-link"
         >
           {t('start-travel-claim-over')}
