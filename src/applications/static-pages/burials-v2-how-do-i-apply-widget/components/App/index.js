@@ -8,8 +8,8 @@ export const App = () => {
   if (burialFormV2) {
     return (
       <>
-        <va-alert status="info">
-          <h2>
+        <va-summary-box>
+          <h2 className="vads-u-margin-top--0">
             Am I eligible for allowances to help pay for a Veteran’s burial and
             funeral costs?
           </h2>
@@ -28,32 +28,32 @@ export const App = () => {
           <ul>
             <li>
               You’re the Veteran’s surviving spouse (<strong>Note:</strong> We
-              recognize same-sex marriages.)
-              <strong>, or</strong>
+              recognize same-sex marriages.),
+              <strong> or</strong>
             </li>
             <li>
               You’re the surviving partner from a legal union (a relationship
               made formal in a document issued by the state recognizing the
-              union)
-              <strong>, or</strong>
+              union),
+              <strong> or</strong>
             </li>
             <li>
-              You’re a surviving child of the Veteran
-              <strong>, or</strong>
+              You’re a surviving child of the Veteran,
+              <strong> or</strong>
             </li>
             <li>
-              You’re a parent of the Veteran
-              <strong>, or</strong>
+              You’re a parent of the Veteran,
+              <strong> or</strong>
             </li>
             <li>
               You’re the executor or administrator of the Veteran’s estate
-              (someone who officially represents the Veteran)
-              <strong>, or</strong>
+              (someone who officially represents the Veteran),
+              <strong> or</strong>
             </li>
             <li>
               You’re a family member or friend who isn’t the executor of the
-              Veteran’s estate
-              <strong>, or</strong>
+              Veteran’s estate,
+              <strong> or</strong>
             </li>
             <li>
               You’re a representative from a funeral home, cemetery, or other
@@ -69,40 +69,44 @@ export const App = () => {
           <ul>
             <li>
               The Veteran died as a result of a service-connected disability (a
-              disability related to service)
-              <strong>, or</strong>
+              disability related to service),
+              <strong> or</strong>
             </li>
             <li>
               The Veteran died while getting VA care, either at a VA facility or
-              at a facility contracted by VA
-              <strong>, or</strong>
+              at a facility contracted by VA,
+              <strong> or</strong>
             </li>
             <li>
               The Veteran died while traveling with proper authorization, and at
               VA’s expense, either to or from a facility for an examination, or
-              to receive treatment or care
-              <strong>, or</strong>
+              to receive treatment or care,
+              <strong> or</strong>
             </li>
             <li>
               The Veteran died with an original or reopened claim for VA
               compensation or pension pending at the time of death, and they
-              would’ve been entitled to benefits before the time of death
-              <strong>, or</strong>
+              would’ve been entitled to benefits before the time of death,
+              <strong> or</strong>
             </li>
             <li>
-              The Veteran died while receiving a VA pension or compensation
-              <strong>, or</strong>
+              The Veteran died while receiving a VA pension or compensation,
+              <strong> or</strong>
             </li>
             <li>
               The Veteran died while eligible for a VA pension or compensation
               at their time of death, but instead received full military
               retirement or disability pay
-              <strong>, or</strong>
             </li>
+          </ul>
+          <p>
+            <strong>Or:</strong>
+          </p>
+          <ul>
             <li>
               The Veteran had been getting compensation or a VA pension when
-              they died
-              <strong>, or</strong>
+              they died,
+              <strong> or</strong>
             </li>
             <li>
               The Veteran had chosen to get military retired pay instead of
@@ -121,16 +125,16 @@ export const App = () => {
           </p>
           <ul>
             <li>
-              On active duty
-              <strong>, or</strong>
+              On active duty,
+              <strong> or</strong>
             </li>
             <li>
-              While serving as a member of Congress
-              <strong>, or</strong>
+              While serving as a member of Congress,
+              <strong> or</strong>
             </li>
             <li>While serving a federal prison sentence</li>
           </ul>
-        </va-alert>
+        </va-summary-box>
         <h2>What kind of burial benefits can I get?</h2>
         <p>If you’re eligible, you may receive these benefits:</p>
         <ul>
@@ -213,8 +217,8 @@ export const App = () => {
         <h2>How do I apply?</h2>
         <p>You can apply online or by mail.</p>
         <h3>Option 1: Online</h3>
-        <div className="alert alert-info">
-          <strong>We updated our online form</strong>
+        <va-alert>
+          <h3 className="vads-u-margin-top--0">We updated our online form</h3>
           <p>
             <strong>
               If you started applying online before April 5, 2024,
@@ -222,7 +226,8 @@ export const App = () => {
             we have some new questions for you to answer. And we changed some
             questions, so you may need to provide certain information again.
           </p>
-        </div>
+        </va-alert>
+        <p>You can apply online right now.</p>
         <p>
           <a
             className="vads-c-action-link--green"
@@ -238,7 +243,7 @@ export const App = () => {
           <br />
           <va-link
             href="https://www.va.gov/find-forms/about-form-21p-530ez/"
-            text="Get VA Form 21P-530EZ to download."
+            text="Get VA Form 21P-530EZ to download"
           />
         </p>
 
@@ -260,8 +265,8 @@ export const App = () => {
   }
   return (
     <>
-      <va-alert status="info">
-        <h2>
+      <va-summary-box>
+        <h2 className="vads-u-margin-top--0">
           Am I eligible for allowances to help pay for a Veteran’s burial and
           funeral costs?
         </h2>
@@ -280,21 +285,21 @@ export const App = () => {
         <ul>
           <li>
             You’re the Veteran’s surviving spouse (<strong>Note:</strong> We
-            recognize same-sex marriages.)
-            <strong>, or</strong>
+            recognize same-sex marriages.),
+            <strong> or</strong>
           </li>
           <li>
             You’re the surviving partner from a legal union (a relationship made
-            formal in a document issued by the state recognizing the union)
-            <strong>, or</strong>
+            formal in a document issued by the state recognizing the union),
+            <strong> or</strong>
           </li>
           <li>
-            You’re a surviving child of the Veteran
-            <strong>, or</strong>
+            You’re a surviving child of the Veteran,
+            <strong> or</strong>
           </li>
           <li>
-            You’re a parent of the Veteran
-            <strong>, or</strong>
+            You’re a parent of the Veteran,
+            <strong> or</strong>
           </li>
           <li>
             You’re the executor or administrator of the Veteran’s estate
@@ -310,40 +315,44 @@ export const App = () => {
         <ul>
           <li>
             The Veteran died as a result of a service-connected disability (a
-            disability related to service)
-            <strong>, or</strong>
+            disability related to service),
+            <strong> or</strong>
           </li>
           <li>
             The Veteran died while getting VA care, either at a VA facility or
-            at a facility contracted by VA
-            <strong>, or</strong>
+            at a facility contracted by VA,
+            <strong> or</strong>
           </li>
           <li>
             The Veteran died while traveling with proper authorization, and at
             VA’s expense, either to or from a facility for an examination, or to
-            receive treatment or care
-            <strong>, or</strong>
+            receive treatment or care,
+            <strong> or</strong>
           </li>
           <li>
             The Veteran died with an original or reopened claim for VA
             compensation or pension pending at the time of death, and they
-            would’ve been entitled to benefits before the time of death
-            <strong>, or</strong>
+            would’ve been entitled to benefits before the time of death,
+            <strong> or</strong>
           </li>
           <li>
-            The Veteran died while receiving a VA pension or compensation
-            <strong>, or</strong>
+            The Veteran died while receiving a VA pension or compensation,
+            <strong> or</strong>
           </li>
           <li>
             The Veteran died while eligible for compensation or a VA pension at
             their time of death, but instead received full military retirement
             or disability pay
-            <strong>, or</strong>
           </li>
+        </ul>
+        <p>
+          <strong>Or:</strong>
+        </p>
+        <ul>
           <li>
             The Veteran had been getting a VA pension or compensation when they
-            died
-            <strong>, or</strong>
+            died,
+            <strong> or</strong>
           </li>
           <li>
             The Veteran had chosen to get military retired pay instead of
@@ -361,16 +370,16 @@ export const App = () => {
         </p>
         <ul>
           <li>
-            On active duty
-            <strong>, or</strong>
+            On active duty,
+            <strong> or</strong>
           </li>
           <li>
-            While serving as a member of Congress
-            <strong>, or</strong>
+            While serving as a member of Congress,
+            <strong> or</strong>
           </li>
           <li>While serving a federal prison sentence</li>
         </ul>
-      </va-alert>
+      </va-summary-box>
       <h2>What kind of burial benefits can I get?</h2>
       <p>If you’re eligible, you may receive these benefits:</p>
       <ul>
@@ -396,6 +405,7 @@ export const App = () => {
         within 2 years after the Veteran’s burial. If a Veteran’s discharge was
         changed after death from dishonorable to another status, you must file
         for an allowance claim within 2 years after the discharge update.
+        <br />
         There’s no time limit to file for a service-connected burial, plot, or
         interment allowance.
       </p>
@@ -445,6 +455,7 @@ export const App = () => {
       <h2>How do I apply?</h2>
       <p>You can apply online or by mail.</p>
       <h3>Option 1: Online</h3>
+      <p>You can apply online right now.</p>
       <p>
         <a
           className="vads-c-action-link--green"
@@ -459,7 +470,7 @@ export const App = () => {
         <br />
         <va-link
           href="https:www.va.gov/find-forms/about-form-21p-530ez/"
-          text="Get VA Form 21P-530EZ to download."
+          text="Get VA Form 21P-530EZ to download"
         />
       </p>
 
@@ -469,7 +480,7 @@ export const App = () => {
         <br />
         <va-link
           href="https:www.va.gov/find-locations/?facilityType=benefits"
-          text="Find your nearest VA regional office."
+          text="Find your nearest VA regional office"
         />
       </p>
     </>
