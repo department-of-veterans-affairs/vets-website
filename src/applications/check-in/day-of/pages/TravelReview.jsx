@@ -118,7 +118,7 @@ const TravelQuestion = props => {
       <div className="vads-u-margin-top--2p5">
         <a
           className="vads-u-margin-left--auto"
-          href="travel-mileage"
+          href="travel-pay"
           onClick={e => startOverAction(e)}
           data-testid="review-edit-link"
         >
