@@ -26,7 +26,6 @@ export default function ClaimSyncWarning({ olderVersion }) {
           class="vads-u-margin-top--1"
           text="Refresh the page"
           onClick={handleClick}
-          uswds
         />
       </div>
     </div>

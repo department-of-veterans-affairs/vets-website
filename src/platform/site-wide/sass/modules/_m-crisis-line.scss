@@ -1,7 +1,7 @@
 .va-crisis-line-container {
   position: relative;
   margin: auto;
-  background-color: var(--vads-color-secondary-dark);
+  background-color: $color-red-dark;
 
   @include media($small-desktop-screen) {
     max-width: 97.5rem;
@@ -10,10 +10,10 @@
 }
 
 button.va-crisis-line {
-  background-color: var(--vads-color-secondary-dark);
+  background-color: $color-red-dark;
   display: block;
   border-radius: 0;
-  color: var(--vads-color-white);
+  color: $color-white;
   font-size: 16px;
   font-weight: normal;
   text-decoration: none;
@@ -31,10 +31,10 @@ button.va-crisis-line {
 
   &:hover,
   &:active {
-    background-color: var(--vads-color-secondary-darkest);
+    background-color: $color-secondary-darkest;
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
-        background-color: var(--vads-color-secondary-dark);
+        background-color: $color-red-dark;
       }
     }
   }
@@ -45,7 +45,7 @@ button.va-crisis-line {
     right: 0;
     bottom: -12px;
     border-radius: 0 0 0.2em 0.2em;
-    box-shadow: 0 2px 5px var(--vads-color-base);
+    box-shadow: 0 2px 5px $color-base;
   }
 }
 
@@ -75,7 +75,7 @@ button.va-crisis-line {
   transition-property: background-color;
 
   @include media($small-desktop-screen) {
-    background-color: var(--vads-color-secondary-darkest);
+    background-color: $color-secondary-darkest;
     background-position: 0.4em 0.5em;
     border-bottom-left-radius: 0.2em;
   }
@@ -93,13 +93,13 @@ button.va-crisis-line {
 }
 
 .va-crisis-panel {
-  color: var(--vads-color-base);
+  color: $color-base;
   &-body {
     padding: 1.5em;
     max-height: 100%;
   }
   &-title {
-    color: var(--vads-color-base);
+    color: $color-base;
     padding-left: 41px;
     background: url(/img/vcl-logo.png) no-repeat left;
     background-position: left 5px;
@@ -114,28 +114,28 @@ button.va-crisis-line {
       display: flex;
       min-height: 56px;
       margin-bottom: 0;
-      border-top: 1px solid var(--vads-color-base-light);
+      border-top: 1px solid $color-gray-light;
       &:last-child {
-        border-bottom: 1px solid var(--vads-color-base-light);
+        border-bottom: 1px solid $color-gray-light;
       }
       > a {
-        color: var(--vads-color-link);
+        color: $color-link-default;
         text-decoration: underline;
         align-self: center;
       }
       > p {
-        color: var(--vads-color-link);
+        color: $color-link-default;
         text-decoration: underline;
         margin-bottom: 0;
       }
       > p > a {
-        color: var(--vads-color-link);
+        color: $color-link-default;
         padding: 0;
       }
     }
   }
   &-icon {
-    color: var(--vads-color-base) !important;
+    color: $color-base !important;
     font-size: 26px;
     width: 46px;
     padding: 0.4em 0.3em;
@@ -149,10 +149,10 @@ button.va-crisis-line {
   }
   &-close.va-modal-close {
     font-size: 4rem;
-    color: var(--vads-color-link);
+    color: $color-link-default;
     padding-top: 0.1rem;
     &:hover {
-      color: var(--vads-color-black);
+      color: $color-black;
       background-color: transparent;
     }
   }

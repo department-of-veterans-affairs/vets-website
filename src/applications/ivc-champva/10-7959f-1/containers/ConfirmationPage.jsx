@@ -48,7 +48,13 @@ export class ConfirmationPage extends React.Component {
               <br />
             </p>
           ) : null}
-
+          {data.statementOfTruthSignature ? (
+            <span className="veterans-full-name">
+              <strong>Confirmation number</strong>
+              <br />
+              {form.submission?.response?.confirmationNumber || ''}
+            </span>
+          ) : null}
           {isValid(submitDate) ? (
             <p>
               <strong>Date submitted</strong>
@@ -74,6 +80,11 @@ export class ConfirmationPage extends React.Component {
           conditions that we'll cover. Then you can file FMP claims for care
           related to the covered conditions.{' '}
         </p>
+        <div>
+          <a className="vads-c-action-link--green" href="https://www.va.gov/">
+            Go back to VA.gov
+          </a>
+        </div>
       </div>
     );
   }
@@ -91,6 +102,7 @@ ConfirmationPage.propTypes = {
       },
     }),
     formId: PropTypes.string,
+    response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
     submission: PropTypes.shape({
       timestamp: PropTypes.string,
     }),

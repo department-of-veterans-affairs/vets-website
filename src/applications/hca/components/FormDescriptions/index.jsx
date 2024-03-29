@@ -1,4 +1,5 @@
 import React from 'react';
+import { APP_URLS } from '../../utils/constants';
 
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (
@@ -545,7 +546,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       OR{' '}
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+      <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>

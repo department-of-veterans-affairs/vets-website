@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -36,8 +36,8 @@ export default class ClaimPhase extends React.Component {
   }
 
   getEventDescription(event) {
-    const { id, phase } = this.props;
-    const filesPath = `your-claims/${id}/document-request/${event.id}`;
+    const { phase } = this.props;
+    const filesPath = `../document-request/${event.id}`;
     const file = event.originalFileName || event.documentTypeLabel || '';
 
     switch (event.type) {
@@ -133,7 +133,6 @@ export default class ClaimPhase extends React.Component {
                 secondary
                 text={`${showOlder ? 'Hide' : 'Show'} past updates`}
                 onClick={this.showOlderActivity}
-                uswds
               />
             </>
           ) : null}
@@ -181,7 +180,6 @@ export default class ClaimPhase extends React.Component {
 }
 
 ClaimPhase.propTypes = {
-  id: PropTypes.string.isRequired,
   phase: PropTypes.number.isRequired,
   activity: PropTypes.object,
   children: PropTypes.any,

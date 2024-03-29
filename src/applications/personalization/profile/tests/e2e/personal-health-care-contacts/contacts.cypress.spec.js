@@ -25,6 +25,22 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
   });
 
+  it('links from the hub page', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('links from the nav', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   it("displays a Veteran's Next of kin and Emergency contacts", () => {
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
