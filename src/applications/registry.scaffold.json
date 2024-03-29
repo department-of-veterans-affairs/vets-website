@@ -136,5 +136,10 @@
     "appName": "Find a VA Accredited Representative or VSO",
     "rootUrl": "/get-help-from-accredited-representative",
     "widgetType": "find-a-rep-landing-content"
+  },
+  {
+    "appName": "Representative Status",
+    "rootUrl": "/representative-status",
+    "widgetType": "representative-status"
   }
 ]

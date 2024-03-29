@@ -14,7 +14,7 @@ const {
 } = formConfig.chapters.additionalInformation.pages.paymentInformation;
 
 describe('526 -- paymentInformation', () => {
-  it('should render', () => {
+  it('should render with no prefill', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -26,6 +26,43 @@ describe('526 -- paymentInformation', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(1);
+
+    const alert = form.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll use this bank account for all your VA benefit payments',
+    );
+
+    form.unmount();
+  });
+
+  it('should render with prefill', () => {
+    const formData = {
+      'view:originalBankAccount': {
+        'view:bankAccountType': 'Checking',
+        'view:bankAccountNumber': '*********1234',
+        'view:bankRoutingNumber': '*****2115',
+        'view:bankName': 'Comerica',
+      },
+    };
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        formData={formData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(3);
+    expect(form.find('select').length).to.equal(1);
+
+    const alert = form.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll use this bank account for all your VA benefit payments',
+    );
+
     form.unmount();
   });
 
@@ -60,6 +97,13 @@ describe('526 -- paymentInformation', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+
+    const alert = form.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.find('strong').text()).to.contain(
+      'We’ll use this bank account for all your VA benefit payments',
+    );
+
     form.unmount();
   });
 
