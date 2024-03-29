@@ -11,7 +11,7 @@ describe('reducer', () => {
 
     it('should correctly populate the store with all of the question short names', () => {
       expect(createFormStore(SHORT_NAME_MAP)).to.deep.equal({
-        SERVICE_PERIOD: null,
+        SERVICE_BRANCH: null,
         DISCHARGE_YEAR: null,
         DISCHARGE_MONTH: null,
       });

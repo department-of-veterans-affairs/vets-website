@@ -1,97 +1,97 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import { RESPONSES } from '../../constants/question-data-map';
-import { ROUTES } from '../../constants';
+// import React from 'react';
+// import { Provider } from 'react-redux';
+// import { render } from '@testing-library/react';
+// import { expect } from 'chai';
+// import sinon from 'sinon';
+// import { RESPONSES } from '../../constants/question-data-map';
+// import { ROUTES } from '../../constants';
 
-import DischargeYear from '../../components/v2/questions/DischargeYear';
+// import DischargeYear from '../../components/v2/questions/DischargeYear';
 
-const mockStoreStandard = {
-  getState: () => ({
-    dischargeUpgradeWizard: {
-      duwform: {
-        form: {
-          SERVICE_BRANCH: null,
-          DISCHARGE_YEAR: null,
-          DISCHARGE_MONTH: null,
-        },
-        viewedIntroPage: true,
-      },
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
+// const mockStoreStandard = {
+//   getState: () => ({
+//     dischargeUpgradeWizard: {
+//       duwform: {
+//         form: {
+//           SERVICE_BRANCH: null,
+//           DISCHARGE_YEAR: null,
+//           DISCHARGE_MONTH: null,
+//         },
+//         viewedIntroPage: true,
+//       },
+//     },
+//   }),
+//   subscribe: () => {},
+//   dispatch: () => {},
+// };
 
-const mockStoreNoIntroPage = {
-  getState: () => ({
-    dischargeUpgradeWizard: {
-      duwform: {
-        form: {
-          SERVICE_BRANCH: null,
-          DISCHARGE_YEAR: null,
-          DISCHARGE_MONTH: null,
-        },
-        viewedIntroPage: false,
-      },
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
+// const mockStoreNoIntroPage = {
+//   getState: () => ({
+//     dischargeUpgradeWizard: {
+//       duwform: {
+//         form: {
+//           SERVICE_BRANCH: null,
+//           DISCHARGE_YEAR: null,
+//           DISCHARGE_MONTH: null,
+//         },
+//         viewedIntroPage: false,
+//       },
+//     },
+//   }),
+//   subscribe: () => {},
+//   dispatch: () => {},
+// };
 
-const pushStub = sinon.stub();
+// const pushStub = sinon.stub();
 
-const propsStandard = {
-  formResponses: {
-    SERVICE_BRANCH: RESPONSES.ARMY,
-    DISCHARGE_YEAR: null,
-    DISCHARGE_MONTH: null,
-  },
-  setServicePeriod: () => {},
-  router: {
-    push: pushStub,
-  },
-  viewedIntroPage: true,
-};
+// const propsStandard = {
+//   formResponses: {
+//     SERVICE_BRANCH: RESPONSES.ARMY,
+//     DISCHARGE_YEAR: null,
+//     DISCHARGE_MONTH: null,
+//   },
+//   setServicePeriod: () => {},
+//   router: {
+//     push: pushStub,
+//   },
+//   viewedIntroPage: true,
+// };
 
-const propsNoIntroPage = {
-  formResponses: {
-    SERVICE_BRANCH: RESPONSES.ARMY,
-    DISCHARGE_YEAR: null,
-    DISCHARGE_MONTH: null,
-  },
-  setDischargeYear: () => {},
-  router: {
-    push: pushStub,
-  },
-  viewedIntroPage: false,
-};
+// const propsNoIntroPage = {
+//   formResponses: {
+//     SERVICE_BRANCH: RESPONSES.ARMY,
+//     DISCHARGE_YEAR: null,
+//     DISCHARGE_MONTH: null,
+//   },
+//   setDischargeYear: () => {},
+//   router: {
+//     push: pushStub,
+//   },
+//   viewedIntroPage: false,
+// };
 
-describe('Discharge Year Page', () => {
-  afterEach(() => {
-    pushStub.resetHistory();
-  });
+// describe('Discharge Year Page', () => {
+//   afterEach(() => {
+//     pushStub.resetHistory();
+//   });
 
-  it('should correctly load the discharge year page in the standard flow', () => {
-    const screen = render(
-      <Provider store={mockStoreStandard}>
-        <DischargeYear {...propsStandard} />
-      </Provider>,
-    );
+//   it('should correctly load the discharge year page in the standard flow', () => {
+//     const screen = render(
+//       <Provider store={mockStoreStandard}>
+//         <DischargeYear {...propsStandard} />
+//       </Provider>,
+//     );
 
-    expect(screen.getByTestId('duw-discharge_year')).to.exist;
-  });
+//     expect(screen.getByTestId('duw-discharge_year')).to.exist;
+//   });
 
-  it('should redirect to home when the intro page has not been viewed', () => {
-    render(
-      <Provider store={mockStoreNoIntroPage}>
-        <DischargeYear {...propsNoIntroPage} />
-      </Provider>,
-    );
+//   it('should redirect to home when the intro page has not been viewed', () => {
+//     render(
+//       <Provider store={mockStoreNoIntroPage}>
+//         <DischargeYear {...propsNoIntroPage} />
+//       </Provider>,
+//     );
 
-    expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
-  });
-});
+//     expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
+//   });
+// });

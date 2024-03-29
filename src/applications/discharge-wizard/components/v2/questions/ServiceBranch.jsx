@@ -18,7 +18,6 @@ const ServiceBranch = ({
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
-
   const shortName = SHORT_NAME_MAP.SERVICE_BRANCH;
   const H1 = QUESTION_MAP[shortName];
   const serviceBranch = formResponses[shortName];
@@ -59,10 +58,12 @@ const ServiceBranch = ({
 };
 
 ServiceBranch.propTypes = {
-  formValues: PropTypes.object,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  setServiceBranch: PropTypes.func,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  viewedIntroPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

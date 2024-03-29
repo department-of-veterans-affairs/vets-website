@@ -77,7 +77,7 @@ DischargeYear.propTypes = {
   formResponses: PropTypes.object,
   handleKeyDown: PropTypes.func,
   scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  setDischargeYear: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
