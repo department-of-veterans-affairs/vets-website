@@ -5,7 +5,7 @@ import recipientsReducer from '../../reducers/recipients';
 import {
   FETCH_RECIPIENTS_FAILURE,
   FETCH_RECIPIENTS_SUCCESS,
-} from '../../utils/constants';
+} from '../../actions/messaging';
 
 import { recipients } from '../../mocks/messaging';
 

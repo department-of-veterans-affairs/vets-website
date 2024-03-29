@@ -8,11 +8,6 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
-  fetchUnreadMessagesCount,
-  fetchFolder,
-  fetchRecipients,
-} from '../../actions/messaging';
-import {
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   LOADING_FOLDER,
@@ -22,7 +17,10 @@ import {
   FETCH_UNREAD_MESSAGES_COUNT_SUCCESS,
   FETCH_UNREAD_MESSAGES_COUNT_ERROR,
   LOADING_UNREAD_MESSAGES_COUNT,
-} from '../../utils/constants';
+  fetchUnreadMessagesCount,
+  fetchFolder,
+  fetchRecipients,
+} from '../../actions/messaging';
 import {
   messagesSuccess,
   messagesError,
