@@ -207,14 +207,16 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
-// returns true if claimsV2.v2Availability is set to a value other than
+// returns true if claimsAndAppealsRoot.appealsAvailability is set to a value other than
 // appealsAvailability.AVAILABLE or appealsAvailability.RECORD_NOT_FOUND_ERROR
 const hasAppealsErrorSelector = state => {
-  const claimsV2Root = state.claims;
+  const claimsAndAppealsRoot = state.claims;
   return (
-    claimsV2Root.v2Availability &&
-    claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE &&
-    claimsV2Root.v2Availability !== appealsAvailability.RECORD_NOT_FOUND_ERROR
+    claimsAndAppealsRoot.appealsAvailability &&
+    claimsAndAppealsRoot.appealsAvailability !==
+      appealsAvailability.AVAILABLE &&
+    claimsAndAppealsRoot.appealsAvailability !==
+      appealsAvailability.RECORD_NOT_FOUND_ERROR
   );
 };
 
