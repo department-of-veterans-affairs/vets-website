@@ -183,9 +183,8 @@ const EmploymentRecord = ({
         }
         uswds
       />
-      <div className="input-size-6 vads-u-margin-bottom--2">
+      <div className="vads-u-margin-bottom--2">
         <VaTextInput
-          className="no-wrap input-size-6"
           error={(submitted && employerError) || null}
           label="Employer name"
           name="employerName"
@@ -193,6 +192,7 @@ const EmploymentRecord = ({
           required
           type="text"
           value={employerName || ''}
+          width="xl"
           uswds
         />
       </div>

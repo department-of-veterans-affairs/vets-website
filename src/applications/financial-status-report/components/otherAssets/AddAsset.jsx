@@ -103,7 +103,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             Add your additional assets
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-asset-name"
             label="What is the asset?"
@@ -117,7 +117,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             charcount
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && amountError) || null}
             id="add-other-asset-amount"
             inputmode="decimal"
