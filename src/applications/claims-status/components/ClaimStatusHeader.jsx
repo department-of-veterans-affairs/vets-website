@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { buildDateFormatter, isClaimOpen } from '../utils/helpers';
 
-const getLastUpdated = claim => {
+export const getLastUpdated = claim => {
   const updatedOn = buildDateFormatter()(
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
