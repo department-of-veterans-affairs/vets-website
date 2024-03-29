@@ -119,7 +119,6 @@ class DocumentRequestPage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
-          uswds="false"
         />
       );
     } else {
