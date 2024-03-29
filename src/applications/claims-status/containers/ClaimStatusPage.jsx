@@ -218,7 +218,7 @@ class ClaimStatusPage extends React.Component {
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing claim={claim} />
+                <WhatWeAreDoing status={status} />
               </>
             ) : (
               <>
@@ -233,9 +233,7 @@ class ClaimStatusPage extends React.Component {
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
           <Toggler.Disabled>
-            {showDocsNeeded && (
-              <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            )}
+            {showDocsNeeded && <NeedFilesFromYou files={filesNeeded} />}
             {status &&
               isOpen && (
                 <ClaimTimeline
@@ -283,11 +281,10 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
         claim={claim}
-        loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Status"
+        loading={loading}
         message={message}
         synced={synced}
       >
@@ -301,10 +298,10 @@ function mapStateToProps(state) {
   const claimsState = state.disability.status;
 
   return {
-    loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
-    message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
+    loading: claimsState.claimDetail.loading,
+    message: claimsState.notifications.message,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
   };
@@ -320,7 +317,6 @@ ClaimStatusPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.string,
-  params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
 };

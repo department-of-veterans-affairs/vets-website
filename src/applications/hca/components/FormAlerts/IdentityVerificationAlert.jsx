@@ -2,6 +2,7 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from '~/platform/monitoring/record-event';
 import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
+import { APP_URLS } from '../../utils/constants';
 
 const IdentityVerificationAlert = () => {
   const onVerify = () => recordEvent({ event: AUTH_EVENTS.VERIFY });
@@ -51,7 +52,7 @@ const IdentityVerificationAlert = () => {
         </li>
       </ul>
       <p>
-        <a href="/verify" className="usa-button" onClick={onVerify}>
+        <a href={APP_URLS.verify} className="usa-button" onClick={onVerify}>
           Verify your identity
         </a>
       </p>
