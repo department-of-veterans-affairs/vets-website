@@ -31,6 +31,8 @@ import {
   attachmentsSchema,
 } from '../../shared/components/attachments';
 
+import { signerClassification } from '../../shared/schemas/thirdPartySigner';
+
 const uploadUrl = `${
   environment.API_URL
 }/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
@@ -68,6 +70,17 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
+    signerInformation: {
+      title: 'Signer information',
+      pages: {
+        signerClass: {
+          path: 'your-information/description',
+          title: 'Which of these best describes you?',
+          uiSchema: signerClassification.uiSchema,
+          schema: signerClassification.schema,
+        },
+      },
+    },
     chapter1: {
       title: 'Beneficiary Information',
       pages: {
