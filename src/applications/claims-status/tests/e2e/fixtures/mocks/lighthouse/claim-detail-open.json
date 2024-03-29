@@ -7,28 +7,29 @@
       "claimPhaseDates": {
         "phaseChangeDate": "2022-01-01",
         "currentPhaseBack": false,
-        "latestPhaseType": "COMPLETE",
+        "latestPhaseType": "GATHERING_OF_EVIDENCE",
         "previousPhases": {
-          "phase7CompleteDate": "2022-10-10"
+          "phase1CompleteDate": "2022-01-01",
+          "phase2CompleteDate": "2022-01-01"
         }
       },
       "claimType": "Compensation",
-      "closeDate": "2022-10-10",
+      "closeDate": null,
       "contentions": [
         {
           "name": "tinnitus (New)"
         },
         {
-          "name": "contention 2"
+          "name": "tinnitus (New)"
         },
         {
-          "name": "contention 3"
+          "name": "tinnitus (New)"
         },
         {
-          "name": "contention 4"
+          "name": "tinnitus (New)"
         }
       ],
-      "decisionLetterSent": true,
+      "decisionLetterSent": false,
       "developmentLetterSent": false,
       "documentsNeeded": false,
       "endProductCode": "020",
@@ -38,7 +39,7 @@
       "lighthouseId": null,
       "maxEstClaimDate": "2022-02-02",
       "minEstClaimDate": null,
-      "status": "COMPLETE",
+      "status": "EVIDENCE_GATHERING_REVIEW_DECISION",
       "submitterApplicationCode": "EBN",
       "submitterRoleCode": "VET",
       "supportingDocuments": [
@@ -166,12 +167,12 @@
           "requestedDate": null,
           "suspenseDate": null,
           "id": 4,
-          "status": "ACCEPTED",
+          "status": "INITIAL_REVIEW_COMPLETE",
           "uploaded": true,
           "uploadsAllowed": false
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "Submit Buddy Statement(s)",
           "displayName": "Submit Buddy Statement(s)",
           "overdue": true,
@@ -179,12 +180,12 @@
           "requestedDate": null,
           "suspenseDate": "2022-02-04",
           "id": 5,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": false
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "Please provide Form ZZ-1234",
           "displayName": "Please provide Form ZZ-1234",
           "overdue": true,
@@ -192,12 +193,12 @@
           "requestedDate": null,
           "suspenseDate": "2010-03-25",
           "id": 50,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": true
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "21-4142",
           "displayName": "Need form 21-4142",
           "overdue": true,
@@ -205,7 +206,7 @@
           "requestedDate": null,
           "suspenseDate": null,
           "id": 51,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
         },
@@ -218,12 +219,12 @@
           "requestedDate": null,
           "suspenseDate": null,
           "id": 4,
-          "status": "ACCEPTED",
+          "status": "INITIAL_REVIEW_COMPLETE",
           "uploaded": true,
           "uploadsAllowed": false
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "Submit Buddy Statement(s)",
           "displayName": "Submit Buddy Statement(s)",
           "overdue": true,
@@ -231,12 +232,12 @@
           "requestedDate": null,
           "suspenseDate": "2022-02-04",
           "id": 5,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": false
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "Please provide Form ZZ-1234",
           "displayName": "Please provide Form ZZ-1234",
           "overdue": true,
@@ -244,12 +245,12 @@
           "requestedDate": null,
           "suspenseDate": "2010-03-25",
           "id": 50,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": true
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "21-4142",
           "displayName": "Need form 21-4142",
           "overdue": true,
@@ -257,7 +258,7 @@
           "requestedDate": null,
           "suspenseDate": null,
           "id": 51,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
         },
@@ -270,12 +271,12 @@
           "requestedDate": null,
           "suspenseDate": null,
           "id": 4,
-          "status": "ACCEPTED",
+          "status": "INITIAL_REVIEW_COMPLETE",
           "uploaded": true,
           "uploadsAllowed": false
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "Submit Buddy Statement(s)",
           "displayName": "Submit Buddy Statement(s)",
           "overdue": true,
@@ -283,12 +284,12 @@
           "requestedDate": null,
           "suspenseDate": "2022-02-04",
           "id": 5,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": false
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "Please provide Form ZZ-1234",
           "displayName": "Please provide Form ZZ-1234",
           "overdue": true,
@@ -296,12 +297,12 @@
           "requestedDate": null,
           "suspenseDate": "2010-03-25",
           "id": 50,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_YOU",
           "uploaded": false,
           "uploadsAllowed": true
         },
         {
-          "closedDate": "2022-02-04",
+          "closedDate": null,
           "description": "21-4142",
           "displayName": "Need form 21-4142",
           "overdue": true,
@@ -309,7 +310,7 @@
           "requestedDate": null,
           "suspenseDate": null,
           "id": 51,
-          "status": "NO_LONGER_REQUIRED",
+          "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
         }
