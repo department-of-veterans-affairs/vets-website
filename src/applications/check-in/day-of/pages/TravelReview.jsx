@@ -40,7 +40,7 @@ const TravelQuestion = props => {
   };
   const startOverAction = e => {
     e.preventDefault();
-    jumpToPage('/travel-question');
+    jumpToPage('/travel-pay');
   };
 
   const bodyText = (
