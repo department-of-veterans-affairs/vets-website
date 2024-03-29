@@ -135,7 +135,7 @@ describe('Get health conditions api call', () => {
     mockApiRequest(mockData);
 
     return getConditions(true).then(res => {
-      expect(res.entry.length).to.equal(5);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });

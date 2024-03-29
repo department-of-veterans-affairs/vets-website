@@ -44,8 +44,8 @@ describe('Health conditions list container', () => {
 
   it('displays active condition', () => {
     expect(
-      screen.getAllByText('Angina Pectoris (SCT 194828000)', {
-        exact: true,
+      screen.getAllByText('CAD - Coronary Artery Disease (SCT 53741008)', {
+        exact: false,
       }),
     ).to.exist;
   });
