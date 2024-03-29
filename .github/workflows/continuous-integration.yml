@@ -644,6 +644,7 @@ jobs:
 
     env:
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
+      TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
 
     steps:
       # The following statement is included in each step because of a bug in
@@ -717,7 +718,6 @@ jobs:
         env:
           TEST_TYPE: e2e
           TEST_PROPERTY: TESTS
-          TESTS: ${{ env.TESTS }}
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -730,7 +730,6 @@ jobs:
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
