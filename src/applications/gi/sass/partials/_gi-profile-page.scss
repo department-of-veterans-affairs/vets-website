@@ -3,8 +3,8 @@
     margin-top: 0;
   }
   .info-flag {
-    color: $color-gray-dark;
-    background-color: $color-gray-lighter;
+    color: var(--vads-color-base-darker);
+    background-color: var(--vads-color-base-lighter);
     font-size: 0.9em;
     display: inline-block;
     padding: 0.1em 0.5em;
@@ -217,7 +217,7 @@
   }
 
   button.usa-accordion-button-ratings:hover {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
   }
 
   .calculate-your-benefits {
@@ -241,29 +241,29 @@
     }
 
     .calculate-button:disabled {
-      color: $color-white;
-      background-color: $color-gray-lighter;
+      color: var(--vads-color-white);
+      background-color: var(--vads-color-base-lighter);
     }
   }
 
   .programs.row {
     .fa-check {
-      color: $color-green;
+      color: var(--vads-color-success-dark);
     }
 
     .fa-remove {
-      color: $color-gray-medium;
+      color: var(--vads-color-gray-medium);
     }
   }
 
   .your-estimated-benefits {
-    background: $color-gray-lightest;
+    background: var(--vads-color-base-lightest);
     padding: 1.5rem 1.5rem 0rem 1.5rem;
     overflow-wrap: break-word;
 
     hr {
       border-bottom: none;
-      border-top: 1px solid $color-primary-darkest;
+      border-top: 1px solid var(--vads-color-primary-darker);
     }
     .eyb-value-header {
       margin-top: 22.5px;
@@ -568,7 +568,7 @@
   $shadow: rgba(0, 0, 0, 0.15);
 
   .eyb-sheet {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -614,9 +614,9 @@
 
     button.calculate-button {
       background-image: none;
-      background-color: $color-primary;
+      background-color: var(--vads-color-primary);
       border-radius: $button-border-radius;
-      color: $color-white;
+      color: var(--vads-color-white);
       width: auto;
       text-align: inherit;
 
@@ -654,7 +654,7 @@
   }
 
   .profile-section {
-    border: 3px solid $color-gray-lightest;
+    border: 3px solid var(--vads-color-base-lightest);
     margin-bottom: 50px;
 
     h2 {
@@ -662,7 +662,7 @@
       padding-top: 12px;
       padding-left: 20px;
       padding-bottom: 18px;
-      border-bottom: 3px solid $color-gray-lightest;
+      border-bottom: 3px solid var(--vads-color-base-lightest);
     }
 
     .section-body {
@@ -670,7 +670,7 @@
     }
 
     .subsection {
-      border-bottom: 1px solid $color-black;
+      border-bottom: 1px solid var(--vads-color-black);
       width: 100%;
       font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
         serif;

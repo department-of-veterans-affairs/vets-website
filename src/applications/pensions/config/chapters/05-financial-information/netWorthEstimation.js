@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -19,7 +20,15 @@ export default {
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },
-    netWorthEstimation: currencyUI('Estimate the total value of your assets'),
+    netWorthEstimation: merge(
+      {},
+      currencyUI('Estimate the total value of your assets'),
+      {
+        'ui:options': {
+          classNames: 'schemaform-currency-input-v3',
+        },
+      },
+    ),
     'view:warningAlertOnHighValue': {
       'ui:description': TotalNetWorthOverTwentyFiveThousandAlert,
       'ui:options': {

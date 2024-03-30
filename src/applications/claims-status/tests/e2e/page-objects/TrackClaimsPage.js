@@ -41,8 +41,8 @@ class TrackClaimsPage {
     }
 
     cy.get('va-breadcrumbs').should('be.visible');
-    cy.get('.va-breadcrumbs-li').should('be.visible');
-    cy.get('a[aria-current="page"').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 2);
+    cy.get('li[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
@@ -245,7 +245,7 @@ class TrackClaimsPage {
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
-    cy.get('.usa-alert-success').should('be.visible');
+    cy.get('va-alert').should('be.visible');
     cy.axeCheck();
   }
 

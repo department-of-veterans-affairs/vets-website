@@ -4,6 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import {
+  usePrintTitle,
+  updatePageTitle,
+  reportGeneratedBy,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
   clearAllergiesError,
@@ -36,9 +41,6 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import { updatePageTitle } from '../../shared/util/helpers';
-import { reportGeneratedBy } from '../../shared/util/constants';
-import usePrintTitle from '../components/shared/usePrintTitle';
 import { selectRefillContentFlag } from '../util/selectors';
 
 const Prescriptions = () => {
@@ -296,6 +298,7 @@ const Prescriptions = () => {
       if (
         prescriptionsFullList?.length &&
         allergies &&
+        !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
         if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
@@ -308,21 +311,41 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
+        } else if (pdfTxtGenerateStatus.format === 'print') {
+          if (!isLoading && loadingMessage === '') {
+            setPdfTxtGenerateStatus({
+              status: PDF_TXT_GENERATE_STATUS.NotStarted,
+            });
+            window.print();
+          }
+          updateLoadingStatus(false, '');
         }
+      } else if (
+        prescriptionsFullList?.length &&
+        allergiesError &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+      ) {
+        updateLoadingStatus(false, '');
       }
     },
     [
       allergies,
+      allergiesError,
       prescriptionsFullList,
       pdfTxtGenerateStatus.status,
       pdfTxtGenerateStatus.format,
+      isLoading,
+      loadingMessage,
       generatePDF,
       generateTXT,
     ],
   );
 
   const handleFullListDownload = async format => {
-    updateLoadingStatus(true, 'Downloading your file...');
+    if (format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT) {
+      updateLoadingStatus(true, 'Downloading your file...');
+    } else if (!allergies)
+      updateLoadingStatus(true, 'Downloading your file...');
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
@@ -346,6 +369,12 @@ const Prescriptions = () => {
         buildPrescriptionsTXT(prescriptionsFullList),
         buildAllergiesTXT(),
       );
+    } else {
+      updateLoadingStatus(false, '');
+      setPdfTxtGenerateStatus({
+        status: PDF_TXT_GENERATE_STATUS.NotStarted,
+      });
+      setTimeout(() => window.print(), 1);
     }
     dispatch(clearAllergiesError());
   };
@@ -392,7 +421,13 @@ const Prescriptions = () => {
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
             onCancelButtonClick={handleModalClose}
-            visible={Boolean(prescriptionsFullList?.length && allergiesError)}
+            isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
+            visible={Boolean(
+              prescriptionsFullList?.length &&
+                pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.InProgress &&
+                allergiesError,
+            )}
           />
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">

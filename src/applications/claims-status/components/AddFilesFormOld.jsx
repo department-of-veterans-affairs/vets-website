@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import Scroll from 'react-scroll';
 
 import {
@@ -9,6 +9,7 @@ import {
   VaSelect,
   VaTextInput,
   VaCheckbox,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -71,6 +72,7 @@ class AddFilesFormOld extends React.Component {
       errorMessage: null,
       checked: false,
       errorMessageCheckbox: null,
+      canShowUploadModal: false,
     };
   }
 
@@ -166,6 +168,8 @@ class AddFilesFormOld extends React.Component {
           : 'Please confirm these documents apply to this claim only',
       });
 
+      this.setState({ canShowUploadModal: true });
+
       if (this.state.checked) {
         this.props.onSubmit();
         return;
@@ -177,12 +181,14 @@ class AddFilesFormOld extends React.Component {
   };
 
   render() {
+    const showUploadModal =
+      this.props.uploading && this.state.canShowUploadModal;
+
     return (
       <>
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
-          uswds="false"
         >
           {mailMessage}
         </va-additional-info>
@@ -231,7 +237,6 @@ class AddFilesFormOld extends React.Component {
                       secondary
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                      uswds
                     />
                   </div>
                 </div>
@@ -244,7 +249,6 @@ class AddFilesFormOld extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds="false"
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -260,7 +264,6 @@ class AddFilesFormOld extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds="false"
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -287,7 +290,6 @@ class AddFilesFormOld extends React.Component {
           ),
         )}
         <VaCheckbox
-          uswds="false"
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
@@ -302,12 +304,10 @@ class AddFilesFormOld extends React.Component {
           <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
         </div>
         <div>
-          <va-button
-            primary
+          <VaButton
             text="Submit Files for Review"
             class="submit-files-button"
             onClick={this.submit}
-            uswds
           />
           <Link to={this.props.backUrl} className="claims-files-cancel">
             Cancel
@@ -315,9 +315,8 @@ class AddFilesFormOld extends React.Component {
         </div>
         <VaModal
           id="upload-status"
-          onCloseEvent={() => true}
-          visible={Boolean(this.props.uploading)}
-          uswds="false"
+          onCloseEvent={() => this.setState({ canShowUploadModal: false })}
+          visible={showUploadModal}
         >
           <UploadStatus
             progress={this.props.progress}

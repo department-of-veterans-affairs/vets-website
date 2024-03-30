@@ -32,13 +32,9 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     day,
     loading,
     isUserLoggedIn,
-    enrollmentData,
   } = useData();
 
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
-  // const toggleEnrollmentError = useSelector(getToggleEnrollmentError);
-
-  const data = toggleEnrollmentSuccess ? mockData : enrollmentData;
 
   return (
     <>
@@ -57,9 +53,8 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             ) : (
               <>
                 <PeriodsToVerify
-                  enrollmentData={data}
+                  enrollmentData={mockData}
                   isUserLoggedIn={isUserLoggedIn}
-                  loading={loading}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"
@@ -87,7 +82,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={data} />
+            <PreviousEnrollmentVerifications enrollmentData={mockData} />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your benefits profile"

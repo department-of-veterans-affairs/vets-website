@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
-import { getTrackedItemId, truncateDescription } from '../../utils/helpers';
+import { Link } from 'react-router-dom-v5-compat';
+import PropTypes from 'prop-types';
+
+import { truncateDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 
-function FilesNeeded({ id, item }) {
+function FilesNeeded({ item }) {
   return (
     <va-alert
       class="primary-alert vads-u-margin-bottom--2"
@@ -23,7 +24,7 @@ function FilesNeeded({ id, item }) {
           aria-label={`View details for ${item.displayName}`}
           title={`View details for ${item.displayName}`}
           className="vads-c-action-link--blue"
-          to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
+          to={`../document-request/${item.id}`}
         >
           View details
         </Link>
@@ -33,7 +34,6 @@ function FilesNeeded({ id, item }) {
 }
 
 FilesNeeded.propTypes = {
-  id: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
 };
 

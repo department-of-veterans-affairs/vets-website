@@ -19,7 +19,12 @@ export const findByKeyword = (keyword, messages) => {
   });
 };
 
-export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
+export const runAdvancedSearch = (
+  folder,
+  query,
+  keyword,
+  queryData = {},
+) => async dispatch => {
   dispatch({ type: Actions.Search.START });
   try {
     const response = await searchFolderAdvanced(folder.folderId, query);
@@ -27,14 +32,19 @@ export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
 
     dispatch({
       type: Actions.Search.RUN_ADVANCED,
-      response: { folder, keyword, query, data: matches },
+      response: {
+        folder,
+        keyword,
+        query: { ...query, queryData },
+        data: matches,
+      },
     });
   } catch (error) {
     const err = error.errors[0];
     if (err.code === 'SM99' && err.status === '502') {
       dispatch({
         type: Actions.Search.RUN_ADVANCED,
-        response: { folder, query, data: [] },
+        response: { folder, query: { ...query, queryData }, data: [] },
       });
     } else {
       dispatch({

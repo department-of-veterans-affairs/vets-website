@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 
@@ -30,7 +29,9 @@ export default function SelectedProviderSection({ data, vaCityState }) {
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="vads-l-row vads-u-justify-content--space-between">
         <div className="vads-u-flex--1 vads-u-padding-right--1">
-          <h3 className="vaos-appts__block-label">Preferred provider</h3>
+          <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
+            Preferred provider
+          </h2>
           {!hasProvider && <>No provider specified</>}
           <span className="vaos-u-word-break--break-word">
             {!!hasProvider && (
@@ -48,14 +49,13 @@ export default function SelectedProviderSection({ data, vaCityState }) {
                 {provider.address.postalCode}
               </>
             )}
-            <br />
-            <br />
-            Prefers provider to speak{' '}
-            {
-              LANGUAGES.find(language => language.id === data.preferredLanguage)
-                ?.value
-            }
-            {vaCityState && <>Closest VA health system: {vaCityState}</>}
+            {vaCityState && (
+              <>
+                We’ll choose the provider nearest to you who is closest to your
+                prferred time.
+                {vaCityState}
+              </>
+            )}
           </span>
         </div>
         <div>

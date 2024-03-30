@@ -103,11 +103,6 @@
     "entryName": "dhp-consent-flow"
   },
   {
-    "appName": "Transfer Account",
-    "rootUrl": "/transfer-account",
-    "entryName": "mhv-inherited-proofing"
-  },
-  {
     "appName": "Notice of Disagreement",
     "rootUrl": "/decision-reviews/board-appeal/",
     "entryName": "form-10182-cta"
@@ -136,5 +131,10 @@
     "appName": "Find a VA Accredited Representative or VSO",
     "rootUrl": "/get-help-from-accredited-representative",
     "widgetType": "find-a-rep-landing-content"
+  },
+  {
+    "appName": "Representative Status",
+    "rootUrl": "/representative-status",
+    "widgetType": "representative-status"
   }
 ]

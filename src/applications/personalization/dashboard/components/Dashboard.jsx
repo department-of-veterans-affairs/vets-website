@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import {
@@ -54,6 +54,7 @@ import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import BenefitApplicationDrafts from './benefit-application-drafts/BenefitApplicationDrafts';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 
 const DashboardHeader = ({ showNotifications }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -89,11 +90,15 @@ const DashboardHeader = ({ showNotifications }) => {
 };
 
 const LOA1Content = ({ isLOA1, isVAPatient }) => {
+  const signInService = useSelector(signInServiceName);
   return (
     <>
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
+          <IdentityNotVerified
+            headline="Verify your identity to access more VA.gov tools and features"
+            signInService={signInService}
+          />
         </div>
       </div>
 
