@@ -196,7 +196,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
         tempData.stateCode = '';
       }
     }
-
     setFormData(tempData);
     setEditFormData(tempData);
   };

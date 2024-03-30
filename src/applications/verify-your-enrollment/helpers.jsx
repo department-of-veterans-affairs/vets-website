@@ -246,15 +246,17 @@ export const noSuggestedAddress = deliveryPointValidation => {
 };
 
 export const prepareAddressData = formData => {
-  const stateAndZip =
+  const restVals =
     formData.countryCodeIso3 === 'USA'
       ? {
           stateCode: formData.stateCode,
           zipCode: formData.zipCode,
+          addressType: 'DOMESTIC',
         }
       : {
-          stateCode: formData.province,
-          zipCode: formData.internationalPostalCode,
+          province: formData.province,
+          internationalPostalCode: formData.internationalPostalCode,
+          addressType: 'INTERNATIONAL',
         };
 
   return {
@@ -264,9 +266,8 @@ export const prepareAddressData = formData => {
     addressLine3: formData.addressLine3,
     addressLine4: formData.addressLine4,
     addressPou: 'CORRESPONDENCE',
-    addressType: 'DOMESTIC',
     countryCodeIso3: formData.countryCodeIso3,
     city: formData.city,
-    ...stateAndZip,
+    ...restVals,
   };
 };
