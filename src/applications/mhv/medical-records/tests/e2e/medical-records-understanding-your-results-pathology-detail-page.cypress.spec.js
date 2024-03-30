@@ -18,7 +18,7 @@ describe('Medical Records Understanding Your Results Pathology Detail Page', () 
     PathologyDetailsPage.clickExpandUnderstandResults();
     // Results section will be styled to better help the user understand his test results
     // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
-    PathologyDetailsPage.verifyResultDropdownReviw(
+    PathologyDetailsPage.verifyResultDropdownReview(
       'Your provider will review your results. If you need to do anything, your provider will contact you.',
     );
     // should display  "If you have any questions, send a message to the care team that ordered this test"
