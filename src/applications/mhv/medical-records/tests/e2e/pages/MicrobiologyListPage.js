@@ -1,6 +1,7 @@
 // import defaultMicrobiology from './fixtures/microbiology.json';
+import BaseListPage from './BaseListPage';
 
-class MicrobiologyListPage {
+class MicrobiologyListPage extends BaseListPage {
   /*
   clickGotoMicrobiologyLink = (
    Microbiology = defaultMicrobiology,

@@ -1,4 +1,3 @@
-// import DetailsPage from './DetailsPage';
 import BaseDetailsPage from './BaseDetailsPage';
 
 class AllergyDetailsPage extends BaseDetailsPage {
