@@ -41,5 +41,27 @@ class BaseDetailsPage {
     // Expand "help to be able to understand results"
     cy.get('[data-testid="understanding-result"]').click();
   };
+
+  verifyResultDropdownReference = resultDropdownReference => {
+    // should display  "If your results are outside the reference range"
+    cy.get('[data-testid="result-dropdown-1"]').should('be.visible');
+    cy.get('[data-testid="result-dropdown-1"]').contains(
+      resultDropdownReference,
+    );
+  };
+
+  verifyResultDropdownReview = resultDropdownReview => {
+    // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
+    cy.get('[data-testid="result-dropdown-2"]').should('be.visible');
+    cy.get('[data-testid="result-dropdown-2"]').contains(resultDropdownReview);
+  };
+
+  verifyResultDropdownQuestion = resultDropdownQuestion => {
+    // should display  "If you have any questions, send a message to the care team that ordered this test"
+    cy.get('[data-testid="result-dropdown-3"]').should('be.visible');
+    cy.get('[data-testid="result-dropdown-3"]').contains(
+      resultDropdownQuestion,
+    );
+  };
 }
 export default BaseDetailsPage;

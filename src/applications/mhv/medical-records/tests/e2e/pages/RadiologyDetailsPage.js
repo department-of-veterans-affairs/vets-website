@@ -53,27 +53,27 @@ class RadiologyDetailsPage extends BaseDetailsPage {
   //   cy.get('[data-testid="understanding-result"]').click();
   // };
 
-  verifyResultDropdownReferance = resultDropdownReferance => {
-    // should display  "If your results are outside the reference range"
-    cy.get('[data-testid="result-dropdown-1"]').should('be.visible');
-    cy.get('[data-testid="result-dropdown-1"]').contains(
-      resultDropdownReferance,
-    );
-  };
+  // verifyResultDropdownReferance = resultDropdownReferance => {
+  //   // should display  "If your results are outside the reference range"
+  //   cy.get('[data-testid="result-dropdown-1"]').should('be.visible');
+  //   cy.get('[data-testid="result-dropdown-1"]').contains(
+  //     resultDropdownReferance,
+  //   );
+  // };
 
-  verifyResultDropdownReviw = resultDropdownReviw => {
-    // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
-    cy.get('[data-testid="result-dropdown-2"]').should('be.visible');
-    cy.get('[data-testid="result-dropdown-2"]').contains(resultDropdownReviw);
-  };
+  // verifyResultDropdownReviw = resultDropdownReviw => {
+  //   // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
+  //   cy.get('[data-testid="result-dropdown-2"]').should('be.visible');
+  //   cy.get('[data-testid="result-dropdown-2"]').contains(resultDropdownReviw);
+  // };
 
-  verifyResultDropdownQuestion = resultDropdownQuestion => {
-    // should display  "If you have any questions, send a message to the care team that ordered this test"
-    cy.get('[data-testid="result-dropdown-3"]').should('be.visible');
-    cy.get('[data-testid="result-dropdown-3"]').contains(
-      resultDropdownQuestion,
-    );
-  };
+  // verifyResultDropdownQuestion = resultDropdownQuestion => {
+  //   // should display  "If you have any questions, send a message to the care team that ordered this test"
+  //   cy.get('[data-testid="result-dropdown-3"]').should('be.visible');
+  //   cy.get('[data-testid="result-dropdown-3"]').contains(
+  //     resultDropdownQuestion,
+  //   );
+  // };
 
   verifyComposeMessageLink = composeMessageLink => {
     // verify compose a message on the My Healthvet website
