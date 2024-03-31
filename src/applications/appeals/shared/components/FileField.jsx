@@ -28,8 +28,10 @@ import { focusAddAnotherButton, focusCancelButton } from '../utils/focus';
 import {
   MISSING_PASSWORD_ERROR,
   INCORRECT_PASSWORD_ERROR,
+  FILE_NAME_TOO_LONG_ERROR,
   createContent,
   reMapErrorMessage,
+  checkIsFileNameTooLong,
   hasSomeUploading,
   checkUploadVisibility,
 } from '../utils/upload';
@@ -210,6 +212,12 @@ const FileField = props => {
         file: currentFile,
         name: currentFile.name,
       };
+
+      if (checkIsFileNameTooLong(currentFile.name)) {
+        allFiles[idx].errorMessage = FILE_NAME_TOO_LONG_ERROR;
+        props.onChange(allFiles);
+        return;
+      }
 
       if (currentFile.type === 'testing') {
         // Skip read file for Cypress testing
