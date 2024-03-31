@@ -1,11 +1,7 @@
 import appendQuery from 'append-query';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
-import recordEvent from '~/platform/monitoring/record-event';
-import { getData, isServerError, isClientError } from '.';
 import {
-  DISABILITY_PREFIX,
-  DISABILITY_RATING_ACTIONS,
   ENROLLMENT_STATUS_ACTIONS,
   HCA_ENROLLMENT_STATUSES,
 } from './constants';
@@ -19,10 +15,6 @@ const {
   FETCH_ENROLLMENT_STATUS_FAILED,
   FETCH_ENROLLMENT_STATUS_SUCCEEDED,
   RESET_ENROLLMENT_STATUS,
-  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-  SET_DISMISSED_HCA_NOTIFICATION,
 } = ENROLLMENT_STATUS_ACTIONS;
 
 /**
@@ -113,23 +105,6 @@ function callAPI(dispatch, formData = {}) {
 }
 
 /**
- * Parse error details on failure of total disability rating fetch
- * @param {Object} response - object containing either an array of errors or a
- * single error object
- */
-function getResponseError(response) {
-  const { errors = null, error, status } = response;
-  if (errors?.length) {
-    const { code, detail } = errors[0];
-    return { code, detail };
-  }
-  if (error) {
-    return { code: status, detail: error };
-  }
-  return null;
-}
-
-/**
  * Action to fetch the current enrollment status based on the provided user data
  * NOTE: based on the value of the `simulateServerLocally` variable, the API call will
  * either be mocked or real.
@@ -183,107 +158,5 @@ export function getEnrollmentStatus(formData) {
 export function resetEnrollmentStatus() {
   return dispatch => {
     dispatch({ type: RESET_ENROLLMENT_STATUS });
-  };
-}
-
-/**
- * Action to fetch dismissed enrollment status notifications
- * @returns {Promise} - resolves to calling the reducer to set the correct state variables
- * for enrollment status
- */
-export function getDismissedHCANotification() {
-  return dispatch => {
-    dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
-    const url = `/notifications/dismissed_statuses/form_10_10ez`;
-    return apiRequest(url)
-      .then(response =>
-        dispatch({
-          type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-          response,
-        }),
-      )
-      .catch(({ errors }) =>
-        dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED, errors }),
-      );
-  };
-}
-
-/**
- * Action to set dismissed enrollment status notifications
- * @param {String} status - current enrollment status value
- * @param {Number} statusEffectiveAt - timestamp for effective date
- * @returns {Promise} - resolves to calling the reducer to set the correct state variables
- * for enrollment status
- */
-export function setDismissedHCANotification(status, statusEffectiveAt) {
-  return (dispatch, getState) => {
-    const { dismissedNotificationDate } = selectEnrollmentStatus(getState());
-    const hasPreviouslyDismissedNotification = !!dismissedNotificationDate;
-    dispatch({
-      type: SET_DISMISSED_HCA_NOTIFICATION,
-      data: statusEffectiveAt,
-    });
-    if (hasPreviouslyDismissedNotification) {
-      return apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status,
-          statusEffectiveAt,
-        }),
-      });
-    }
-    return apiRequest('/notifications/dismissed_statuses', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        subject: 'form_10_10ez',
-        status,
-        statusEffectiveAt,
-      }),
-    });
-  };
-}
-
-/**
- * Action to fetch users total disability rating
- * @returns {Promise} - resolves to calling the reducer to set the correct state variables
- * for disability rating
- */
-export function fetchTotalDisabilityRating() {
-  const {
-    FETCH_TOTAL_RATING_STARTED,
-    FETCH_TOTAL_RATING_FAILED,
-    FETCH_TOTAL_RATING_SUCCEEDED,
-  } = DISABILITY_RATING_ACTIONS;
-  return async dispatch => {
-    dispatch({ type: FETCH_TOTAL_RATING_STARTED });
-    const response = await getData('/health_care_applications/rating_info');
-    const error = getResponseError(response);
-
-    if (error) {
-      const errorCode = error.code;
-      if (isServerError(errorCode)) {
-        recordEvent({
-          event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': `${errorCode} internal error`,
-        });
-      } else if (isClientError(errorCode)) {
-        recordEvent({
-          event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': `${errorCode} no combined rating found`,
-        });
-      }
-      dispatch({
-        type: FETCH_TOTAL_RATING_FAILED,
-        error,
-      });
-    } else {
-      recordEvent({ event: `${DISABILITY_PREFIX}-combined-load-success` });
-      dispatch({
-        type: FETCH_TOTAL_RATING_SUCCEEDED,
-        response,
-      });
-    }
   };
 }
