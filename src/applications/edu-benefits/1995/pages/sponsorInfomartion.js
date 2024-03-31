@@ -70,9 +70,9 @@ export function sponsorInfo(schema) {
         ...ssnUI,
         'ui:title': "Sponsor's Social Security number",
         'ui:required': formData => !formData['view:noSSN'],
-        'ui:errorMessages': {
-          required: 'Please enter a Social Security number',
-        },
+        // 'ui:errorMessages': {
+        //   required: 'Please enter a Social Security number',
+        // },
       },
       'view:noSSN': {
         'ui:title': 'I don’t have a Social Security number',
