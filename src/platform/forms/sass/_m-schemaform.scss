@@ -606,8 +606,8 @@ va-accordion-item[data-unviewed-pages="true"] {
   background: $color-white;
   border: 1px solid $color-gray;
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px $color-focus, -3px 3px 3px -3px $color-focus,
-    7px 7px 7px -7px $color-focus, -7px 7px 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
   margin-top: -0.5rem;
   max-width: 46rem;
