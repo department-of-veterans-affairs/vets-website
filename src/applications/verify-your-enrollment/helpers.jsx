@@ -263,7 +263,7 @@ export const prepareAddressData = formData => {
       addressType: 'DOMESTIC',
     };
     if (formData['view:livesOnMilitaryBase']) {
-      baseUSAData.addressType = 'INTERNATIONAL';
+      baseUSAData.addressType = '"OVERSEAS MILITARY"';
     }
     addressData = { ...addressData, ...baseUSAData };
   } else {
