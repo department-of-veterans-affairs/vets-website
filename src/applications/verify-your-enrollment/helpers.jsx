@@ -246,20 +246,7 @@ export const noSuggestedAddress = deliveryPointValidation => {
 };
 
 export const prepareAddressData = formData => {
-  const restVals =
-    formData.countryCodeIso3 === 'USA'
-      ? {
-          stateCode: formData.stateCode,
-          zipCode: formData.zipCode,
-          addressType: 'DOMESTIC',
-        }
-      : {
-          province: formData.province,
-          internationalPostalCode: formData.internationalPostalCode,
-          addressType: 'INTERNATIONAL',
-        };
-
-  return {
+  let addressData = {
     veteranName: formData.fullName,
     addressLine1: formData.addressLine1,
     addressLine2: formData.addressLine2,
@@ -268,6 +255,24 @@ export const prepareAddressData = formData => {
     addressPou: 'CORRESPONDENCE',
     countryCodeIso3: formData.countryCodeIso3,
     city: formData.city,
-    ...restVals,
   };
+  if (formData.countryCodeIso3 === 'USA') {
+    const baseUSAData = {
+      stateCode: formData.stateCode,
+      zipCode: formData.zipCode,
+      addressType: 'DOMESTIC',
+    };
+    if (formData['view:livesOnMilitaryBase']) {
+      baseUSAData.addressType = 'INTERNATIONAL';
+    }
+    addressData = { ...addressData, ...baseUSAData };
+  } else {
+    const internationalData = {
+      province: formData.province,
+      internationalPostalCode: formData.internationalPostalCode,
+      addressType: 'INTERNATIONAL',
+    };
+    addressData = { ...addressData, ...internationalData };
+  }
+  return addressData;
 };
