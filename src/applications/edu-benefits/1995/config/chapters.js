@@ -14,6 +14,7 @@ import {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  sponsorInfo,
 } from '../pages';
 
 import { isProductionOfTestProdEnv } from '../helpers';
@@ -108,6 +109,12 @@ export const chapters = {
         uiSchema: benefitSelectionUiSchema(),
         schema: benefitSelectionSchema(),
       },
+    },
+  },
+  sponsorInformation: {
+    title: 'Sponsor information',
+    pages: {
+      sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
   militaryService: {
