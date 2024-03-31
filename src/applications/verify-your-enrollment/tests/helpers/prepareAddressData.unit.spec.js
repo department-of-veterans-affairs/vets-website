@@ -24,7 +24,7 @@ describe('prepareAddressData', () => {
 
     const result = prepareAddressData(formData);
 
-    expect(result).to.have.property('stateCode', 'ON');
-    expect(result).to.have.property('zipCode', 'K1A 0B1');
+    expect(result).to.have.property('province', 'ON');
+    expect(result).to.have.property('internationalPostalCode', 'K1A 0B1');
   });
 });

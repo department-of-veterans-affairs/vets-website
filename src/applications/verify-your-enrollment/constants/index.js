@@ -98,7 +98,7 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
   </p>
 );
 
-export const errorAddressAlrt = deliveryPointValidation => {
+export const errorAddressAlert = deliveryPointValidation => {
   if (deliveryPointValidation === BAD_UNIT_NUMBER) {
     return (
       <Alert
