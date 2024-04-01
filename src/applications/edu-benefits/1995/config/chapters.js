@@ -14,6 +14,7 @@ import {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  servicePeriodsUpdate,
   sponsorInfo,
 } from '../pages';
 
@@ -67,6 +68,18 @@ export const benefitSelectionSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? benefitSelection.schema
     : benefitSelectionUpdate.schema;
+};
+
+export const servicePeriodsUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? servicePeriods.uiSchema
+    : servicePeriodsUpdate.uiSchema;
+};
+
+export const servicePeriodsSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? servicePeriods.schema
+    : servicePeriodsUpdate.schema;
 };
 
 export const newSchoolUiSchema = (automatedTest = false) => {
@@ -123,8 +136,8 @@ export const chapters = {
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        uiSchema: servicePeriods.uiSchema,
-        schema: servicePeriods.schema,
+        uiSchema: servicePeriodsUiSchema(),
+        schema: servicePeriodsSchema(),
       },
       militaryHistory: {
         title: 'Military history',

@@ -7,9 +7,9 @@ import IdentityVerificationForm from '../../../../components/IdentityPage/Verifi
 
 describe('hca <IdentityVerificationForm>', () => {
   const getData = ({
-    loginRequired = false,
+    vesRecordFound = false,
     hasServerError = false,
-    isLoadingApplicationStatus = false,
+    loading = false,
   }) => ({
     props: {
       data: {},
@@ -20,9 +20,9 @@ describe('hca <IdentityVerificationForm>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          loginRequired,
+          vesRecordFound,
           hasServerError,
-          isLoadingApplicationStatus,
+          loading,
         },
       }),
       subscribe: () => {},
@@ -59,7 +59,7 @@ describe('hca <IdentityVerificationForm>', () => {
   });
 
   context('when the form has been submitted', () => {
-    const { mockStore, props } = getData({ isLoadingApplicationStatus: true });
+    const { mockStore, props } = getData({ loading: true });
 
     it('should render the loading indicator', () => {
       const { container } = render(
@@ -87,7 +87,7 @@ describe('hca <IdentityVerificationForm>', () => {
   });
 
   context('when login is required after form submission', () => {
-    const { mockStore, props } = getData({ loginRequired: true });
+    const { mockStore, props } = getData({ vesRecordFound: true });
 
     it('should render the login required alert', () => {
       const { container } = render(
