@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -45,8 +45,15 @@ export default function TypeOfCarePage({ changeCrumb }) {
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
-  const showUpdateAddressAlert =
-    !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
+  const showUpdateAddressAlert = useMemo(
+    () => {
+      return (
+        !hideUpdateAddressAlert &&
+        (!addressLine1 || addressLine1.match(/^PO Box/))
+      );
+    },
+    [addressLine1, hideUpdateAddressAlert],
+  );
 
   useEffect(
     () => {
@@ -64,11 +71,14 @@ export default function TypeOfCarePage({ changeCrumb }) {
     [showUpdateAddressAlert, dispatch],
   );
 
-  useEffect(() => {
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (featureBreadcrumbUrlUpdate) {
+        changeCrumb(pageTitle);
+      }
+    },
+    [changeCrumb, featureBreadcrumbUrlUpdate],
+  );
 
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
