@@ -246,27 +246,33 @@ export const noSuggestedAddress = deliveryPointValidation => {
 };
 
 export const prepareAddressData = formData => {
-  const stateAndZip =
-    formData.countryCodeIso3 === 'USA'
-      ? {
-          stateCode: formData.stateCode,
-          zipCode: formData.zipCode,
-        }
-      : {
-          stateCode: formData.province,
-          zipCode: formData.internationalPostalCode,
-        };
-
-  return {
+  let addressData = {
     veteranName: formData.fullName,
     addressLine1: formData.addressLine1,
     addressLine2: formData.addressLine2,
     addressLine3: formData.addressLine3,
     addressLine4: formData.addressLine4,
     addressPou: 'CORRESPONDENCE',
-    addressType: 'DOMESTIC',
     countryCodeIso3: formData.countryCodeIso3,
     city: formData.city,
-    ...stateAndZip,
   };
+  if (formData.countryCodeIso3 === 'USA') {
+    const baseUSAData = {
+      stateCode: formData.stateCode,
+      zipCode: formData.zipCode,
+      addressType: 'DOMESTIC',
+    };
+    if (formData['view:livesOnMilitaryBase']) {
+      baseUSAData.addressType = 'OVERSEAS MILITARY';
+    }
+    addressData = { ...addressData, ...baseUSAData };
+  } else {
+    const internationalData = {
+      province: formData.province,
+      internationalPostalCode: formData.internationalPostalCode,
+      addressType: 'INTERNATIONAL',
+    };
+    addressData = { ...addressData, ...internationalData };
+  }
+  return addressData;
 };
