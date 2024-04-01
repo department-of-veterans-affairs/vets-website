@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import {
   getClaimType,
   buildDateFormatter,
@@ -9,7 +8,7 @@ import {
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
-const formatDate = date => buildDateFormatter(DATE_FORMATS.LONG_DATE)(date);
+const formatDate = buildDateFormatter();
 
 const getTitle = claim => {
   return `Claim for ${getClaimType(claim).toLowerCase()}`;
@@ -63,7 +62,7 @@ export default function ClaimsListItem({ claim }) {
   const showAlert = showPrecomms && documentsNeeded;
 
   const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
-  const href = `your-claims/${claim.id}/status`;
+  const href = `/your-claims/${claim.id}/status`;
 
   return (
     <ClaimCard
@@ -88,7 +87,7 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim uswds>
+        <va-alert status="warning" slim>
           An item in the claim needs your attention
         </va-alert>
       )}
