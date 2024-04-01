@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimPhase from '../../components/ClaimPhase';
+import { renderWithRouter } from '../utils';
 
 describe('<ClaimPhase>', () => {
   const activity = {
@@ -51,9 +52,10 @@ describe('<ClaimPhase>', () => {
       ],
     };
 
-    const { container, getByText } = render(
+    const { container, getByText } = renderWithRouter(
       <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
     );
+
     expect($('.claims-evidence-item', container)).to.exist;
     getByText('We added a notice for:');
     getByText(newActivity[1][0].displayName);
@@ -100,7 +102,7 @@ describe('<ClaimPhase>', () => {
         },
       ],
     };
-    const { container } = render(
+    const { container } = renderWithRouter(
       <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
     );
     expect($('va-button', container).getAttribute('text')).to.eq(
@@ -217,7 +219,9 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('We added a notice for: <Link />');
+      expect(descTree.text()).to.equal(
+        'We added a notice for: <Link />Request 1',
+      );
     });
 
     it('should show never received from you description', () => {
