@@ -676,6 +676,11 @@ jobs:
         run: |
           mkdir -p build/
 
+      - name: Unpack build
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: |
+          mkdir -p build/vagovprod
+
       - name: ensure vagovprod folder is present #DELETE
         run: |
           # Example command using vagovprod folder
