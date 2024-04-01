@@ -25,7 +25,7 @@ describe('Facility Locator error handling', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
-    cy.get('h4.usa-alert-heading').contains(
+    cy.get('h2.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
     cy.get('#search-result-emergency-care-info').should('not.exist');
@@ -51,7 +51,7 @@ describe('Facility Locator error handling', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
-    cy.get('h4.usa-alert-heading').contains(
+    cy.get('h2.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
     cy.get('#search-result-emergency-care-info')
