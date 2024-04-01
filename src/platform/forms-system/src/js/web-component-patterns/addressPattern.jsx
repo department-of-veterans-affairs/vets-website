@@ -50,6 +50,12 @@ const filteredStates = constants.states.USA.filter(
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
 
+const CAN_STATE_VALUES = constants.states.CAN.map(state => state.value);
+const CAN_STATE_NAMES = constants.states.CAN.map(state => state.label);
+
+const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
+const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
+
 const schemaCrossXRef = {
   isMilitary: 'isMilitary',
   'view:militaryBaseDescription': 'view:militaryBaseDescription',
@@ -419,7 +425,13 @@ export function addressUI(options) {
          * If the country value is USA and the military base checkbox is de-selected,
          * use the States dropdown.
          *
-         * If the country value is anything other than USA, change the title and default to string.
+         * If the country value is Canada and the military base checkbox is de-selected,
+         * use the Canadian "States" dropdown.
+         *
+         * If the country value is Mexico and the military base checkbox is de-selected,
+         * use the Mexican "States" dropdown.
+         *
+         * If the country value is anything other than USA, Canada, or Mexico, change the title and default to string.
          */
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
@@ -444,6 +456,24 @@ export function addressUI(options) {
               title: 'State',
               enum: STATE_VALUES,
               enumNames: STATE_NAMES,
+            };
+          }
+          if (!isMilitary && country === 'CAN') {
+            ui['ui:webComponentField'] = VaSelectField;
+            return {
+              type: 'string',
+              title: 'State/Province/Region',
+              enum: CAN_STATE_VALUES,
+              enumNames: CAN_STATE_NAMES,
+            };
+          }
+          if (!isMilitary && country === 'MEX') {
+            ui['ui:webComponentField'] = VaSelectField;
+            return {
+              type: 'string',
+              title: 'State/Province/Region',
+              enum: MEX_STATE_VALUES,
+              enumNames: MEX_STATE_NAMES,
             };
           }
           ui['ui:webComponentField'] = VaTextInputField;

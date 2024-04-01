@@ -77,7 +77,7 @@ export default function MissingFileList({
 
   return (
     <div>
-      <h4>{title || ''}</h4>
+      <h3 className="vads-u-font-size--h4">{title || ''}</h3>
       <p>{description || ''}</p>
       {wrapped.map((entry, idx) => {
         if (entry?.missingUploads.filter(f => inSubset(f)).length === 0)
