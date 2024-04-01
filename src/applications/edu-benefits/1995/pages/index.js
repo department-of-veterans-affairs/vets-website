@@ -5,6 +5,7 @@ import * as militaryHistory from './militaryHistory';
 import * as newSchool from './newSchool';
 import * as newSchoolUpdate from './newSchoolUpdate';
 import * as servicePeriods from './servicePeriods';
+import * as servicePeriodsUpdate from './servicePeriodsUpdate';
 import * as applicantInformationUpdate from './applicantInformationUpdate';
 import { sponsorInfo } from './sponsorInfomartion';
 
@@ -17,5 +18,6 @@ export {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  servicePeriodsUpdate,
   sponsorInfo,
 };
