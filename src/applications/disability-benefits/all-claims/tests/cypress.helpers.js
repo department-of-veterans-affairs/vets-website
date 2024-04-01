@@ -84,13 +84,17 @@ export const mockItf = {
   },
 };
 
-export const setup = cy => {
+function getToggleValue(toggles, name) {
+  return toggles.data.features.find(item => item.name === name)?.value;
+}
+
+export const setup = (cy, toggles) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
   window.sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
 
-  cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+  cy.intercept('GET', '/v0/feature_toggles*', toggles);
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -155,15 +159,7 @@ export const setup = cy => {
  */
 function getUnreleasedPages(toggles) {
   // if toxic exposure toggle is disabled, add those pages to the unreleased pages list
-  if (
-    toggles.data.features.filter(
-      item => item.name === 'disability_526_toxic_exposure',
-    ).length === 0 ||
-    toggles.data.features.filter(
-      item =>
-        item.name === 'disability_526_toxic_exposure' && item.value === false,
-    )
-  ) {
+  if (getToggleValue(toggles, 'disability_526_toxic_exposure') !== true) {
     return Object.keys(toxicExposurePages).map(page => {
       return toxicExposurePages[page].path;
     });

@@ -136,6 +136,10 @@
     "view:needsCarHelp": {
       "view:alreadyClaimedVehicleAllowance": false
     },
+    "toxicExposureConditions": {
+      "asthma": true,
+      "heartattackmyocardialinfarction": true
+    },
     "view:powStatus": true,
     "view:isPow": {
       "confinements": [
