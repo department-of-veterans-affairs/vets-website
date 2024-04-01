@@ -76,7 +76,7 @@ class MedicationsSite {
   loadVAPaginationNextPrescriptions = (interceptedPage = 2, mockRx) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
+      `my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
     cy.intercept(
@@ -114,7 +114,7 @@ class MedicationsSite {
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
       'contain',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, last filled first`,
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
     );
   };
 
