@@ -3,13 +3,13 @@ import { format, isValid, parse } from 'date-fns';
 
 const parseFormatStr = 'MM/dd/yyyy';
 
-const isValidDate = dateString => {
+export const isValidDate = dateString => {
   const parsedDate = parse(dateString, parseFormatStr, new Date());
 
   return isValid(parsedDate);
 };
 
-const formatDate = dateString => {
+export const formatDate = dateString => {
   const formatString = 'MMMM d, yyyy';
   const parsedDate = parse(dateString, parseFormatStr, new Date());
 
