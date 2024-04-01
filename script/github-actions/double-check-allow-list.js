@@ -28,11 +28,11 @@ const ALLOW_LIST =
 
 console.log('TESTS', TESTS);
 console.log('TESTS_PROPERTY', TESTS_PROPERTY);
-console.log('ALLOW_LIST', ALLOW_LIST);
 
 const disallowedTests = ALLOW_LIST.filter(test => test.allowed === false).map(
   test => test.spec_path,
 );
+console.log(disallowedTests);
 
 if (process.env.TEST_TYPE === 'e2e') {
   const newDisallowedTests = disallowedTests.filter(test =>
