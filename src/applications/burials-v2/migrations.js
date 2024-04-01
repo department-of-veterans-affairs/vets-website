@@ -31,7 +31,7 @@ export default [
   // 2 > 3, Initial V2 migration
   ({ formData, metadata }) => {
     let newFormData = { ...formData };
-    const newMetadata = metadata;
+    let newMetadata = metadata;
     if (formData.relationship.type === 'other') {
       newFormData = {
         ...newFormData,
@@ -47,10 +47,14 @@ export default [
     }
 
     // Multiple additional fields must be filled from the beginning
+    newMetadata = {
+      ...metadata,
+      returnUrl: '/claimant-information',
+    };
+
     return {
-      newFormData,
-      newMetadata,
-      returnUrl: '/claimant-contact-information',
+      formData: newFormData,
+      metadata: newMetadata,
     };
   },
 ];
