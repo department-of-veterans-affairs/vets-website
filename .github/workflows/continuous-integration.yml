@@ -103,6 +103,9 @@ jobs:
       - name: test paths #DELETE
         run: ls $GITHUB_WORKSPACE/build/
 
+      - name: test paths #DELETE
+        run: ls $GITHUB_WORKSPACE/build/vagovprod
+
       - name: vaprod cache
         id: vaprod-cache
         uses: actions/cache@v2
@@ -694,10 +697,9 @@ jobs:
 
       - name: ensure vagovprod folder is present #DELETE
         run: |
-          # Example command using vagovprod folder
-          ls -la
-          echo "TEST------------------------------------------------TEST"
           ls -la $GITHUB_WORKSPACE
+          echo "--------------------------------------------------------"
+          ls -la $GITHUB_WORKSPACE/build/
 
 
       # - name: Download production build artifact
