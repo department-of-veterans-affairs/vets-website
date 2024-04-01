@@ -91,6 +91,9 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+      - name: test paths
+        run: ls $GITHUB_WORKSPACE/build/
+
       - name: vaprod cache
         id: vaprod-cache
         uses: actions/cache@v2
@@ -671,9 +674,7 @@ jobs:
           # Example command using vagovprod folder
           ls -la
           echo "TEST------------------------------------------------TEST"
-          ls -la $GITHUB_WORKSPACE/build/
-          echo "TEST2------------------------------------------------TEST2"
-          ls -la build
+          ls -la $GITHUB_WORKSPACE
 
 
       # - name: Download production build artifact
