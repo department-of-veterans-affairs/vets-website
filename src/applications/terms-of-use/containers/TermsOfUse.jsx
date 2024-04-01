@@ -17,7 +17,7 @@ import {
 import { touStyles, errorMessages } from '../constants';
 import touData from '../touData';
 
-const touUpdatedDate = `September 2023`;
+const touUpdatedDate = `March 2024`;
 
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
