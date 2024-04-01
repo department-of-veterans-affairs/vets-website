@@ -61,7 +61,7 @@ export default function TypeOfCarePage({ changeCrumb }) {
 
       dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
     },
-    [showUpdateAddressAlert],
+    [showUpdateAddressAlert, dispatch],
   );
 
   useEffect(() => {
