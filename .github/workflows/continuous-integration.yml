@@ -39,7 +39,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: check path again #DELETE
-        run: ls -la
+        run: ls -la $GITHUB_WORKSPACE/
               
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -52,7 +52,7 @@ jobs:
             node_modules
 
       - name: check path again #DELETE
-        run: ls -la
+        run: ls -la $GITHUB_WORKSPACE/
 
       - name: Get changed applications
         id: get-changed-apps
@@ -73,6 +73,9 @@ jobs:
         timeout-minutes: 30
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
+
+      - name: check path again #DELETE
+        run: ls -la $GITHUB_WORKSPACE/
 
       - name: Generate build details
         run: |
@@ -674,6 +677,9 @@ jobs:
         run: |
           # Example command using vagovprod folder
           ls -la
+
+      - name: check path again #DELETE
+        run: ls -la $GITHUB_WORKSPACE/
 
       - name: Restore cached vagovprod folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
