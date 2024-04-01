@@ -10,7 +10,7 @@ describe('Medical Records View Conditions', () => {
 
     ConditionsListPage.verifyConditionsPageTitle();
     ConditionsListPage.clickConditionsDetailsLink(0);
-    ConditionDetailsPage.verifyProvider('MARCUS OPURUM,MAUREEN N');
+    ConditionDetailsPage.verifyProvider('JOHN, DOE');
     ConditionDetailsPage.verifyLocation('DAYTON');
     ConditionDetailsPage.verifyProviderNotes('test');
     // Axe check
