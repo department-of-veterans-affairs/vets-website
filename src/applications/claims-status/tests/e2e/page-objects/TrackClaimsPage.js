@@ -237,9 +237,8 @@ class TrackClaimsPage {
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
-      .get('input')
-      .first()
-      .check()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
       .then(() => {
         cy.get('.main .button-primary').click();
         cy.wait('@askVA');

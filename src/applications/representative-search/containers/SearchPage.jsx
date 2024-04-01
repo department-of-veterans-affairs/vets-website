@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useStore } from 'react-redux';
 import {
   VaBreadcrumbs,
   VaModal,
@@ -11,6 +11,9 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
+import repStatusLoader from 'applications/static-pages/representative-status';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
@@ -48,6 +51,13 @@ const SearchPage = props => {
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
+
+  const store = useStore();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const repStatusEnabled = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnabled,
+  );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
@@ -305,6 +315,15 @@ const SearchPage = props => {
     handleSearchViaUrl();
   }, []);
 
+  useEffect(
+    () => {
+      if (repStatusEnabled) {
+        repStatusLoader(store, 'representative-status');
+      }
+    },
+    [repStatusEnabled],
+  );
+
   const renderBreadcrumbs = () => {
     const breadcrumbs = [
       {
@@ -332,6 +351,11 @@ const SearchPage = props => {
       <div className="row search-section">
         <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
+
+          {!environment.isProduction() && (
+            <div data-widget-type="representative-status" />
+          )}
+
           <p>
             An accredited attorney, claims agent, or Veterans Service Officer
             (VSO) can help you file a claim or request a decision review. Use
@@ -494,6 +518,7 @@ SearchPage.propTypes = {
   fetchRepresentatives: PropTypes.func,
   geocodeUserAddress: PropTypes.func,
   geolocateUser: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
   isErrorFetchRepresentatives: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
@@ -530,8 +555,8 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  reportedResults: PropTypes.array,
   reportSubmissionStatus: PropTypes.string,
+  reportedResults: PropTypes.array,
   results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
@@ -539,7 +564,6 @@ SearchPage.propTypes = {
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
-  initializeRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
