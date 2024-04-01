@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import manifest from '../manifest.json';
+import Alert from '../components/Alert';
 
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const BENEFITS_PROFILE_URL_SEGMENT = 'benefits-profile';
@@ -26,6 +27,10 @@ export const PENDING_DOCUMENTS_TITLE = 'Pending documents';
 export const ADDRESS_BUTTON_TEXT = 'Edit';
 export const SMALL_SCREEN = 481;
 export const ENROLLMETS_PER_PAGE = 6;
+export const BAD_UNIT_NUMBER = 'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER';
+export const MISSING_UNIT_NUMBER =
+  'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER';
+
 export const howToChangeLegalNameInfoLink =
   'https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/';
 
@@ -92,6 +97,37 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
     been recently completed.
   </p>
 );
+
+export const errorAddressAlert = deliveryPointValidation => {
+  if (deliveryPointValidation === BAD_UNIT_NUMBER) {
+    return (
+      <Alert
+        status="warning"
+        title="Confirm your address"
+        message="U.S. Postal Service records show that there may be a problem with the unit number for this address. Confirm that you want us to use this address as you entered it. Or, cancel to edit the address."
+      />
+    );
+  }
+  if (deliveryPointValidation === MISSING_UNIT_NUMBER) {
+    return (
+      <Alert
+        status="warning"
+        title="Confirm your address"
+        message="U.S. Postal Service records show this address may need a unit number. Confirm that you want us to use this address as you entered it. Or, go back to edit and add a unit number."
+      />
+    );
+  }
+  if (deliveryPointValidation === 'MISSING_ZIP') {
+    return (
+      <Alert
+        status="warning"
+        title="Confirm your address"
+        message="We can’t confirm the address you entered with the U.S. Postal Service. Confirm that you want us to use this address as you entered it. Or, go back to edit it."
+      />
+    );
+  }
+  return null;
+};
 
 export const TIMS_DOCUMENTS = {
   '1990': {

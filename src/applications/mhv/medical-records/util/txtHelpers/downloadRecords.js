@@ -1,4 +1,7 @@
-import { txtLine, txtLineDotted } from '../../../shared/util/constants';
+import {
+  txtLine,
+  txtLineDotted,
+} from '@department-of-veterans-affairs/mhv/exports';
 
 /**
  * Helper function to parse consolidated downloads data for txt files.

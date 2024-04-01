@@ -8,8 +8,6 @@
   "burialFormEnabled": "burial_form_enabled",
   "caregiverBrowserMonitoringEnabled": "caregiver_browser_monitoring_enabled",
   "caregiverUseFacilitiesApi": "caregiver_use_facilities_API",
-  "cernerTransition556T30": "cerner_transition_556_t30",
-  "cernerTransition556T5": "cerner_transition_556_t5",
   "cernerOverride653": "cerner_override_653",
   "cernerOverride668": "cerner_override_668",
   "cernerOverride687": "cerner_override_687",
@@ -58,6 +56,7 @@
   "dischargeWizardFeatures": "discharge_wizard_features",
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
+  "ezrTeraEnabled": "ezr_tera_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressCommunityCare": "facilities_ppms_suppress_community_care",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
@@ -146,6 +145,7 @@
   "ratedDisabilitiesSortAbTest": "rated_disabilities_sort_ab_test",
   "ratedDisabilitiesDetectDiscrepancies": "rated_disabilities_detect_discrepancies",
   "ratedDisabilitiesUseLighthouse": "rated_disabilities_use_lighthouse",
+  "representativeStatus": "representative_status",
   "scBrowserMonitoringEnabled": "sc_browser_monitoring_enabled",
   "searchRepresentative": "search_representative",
   "searchDropdownComponentEnabled": "search_dropdown_component_enabled",
@@ -228,7 +228,5 @@
   "virtualAgentUpgradeWebchat14158": "virtual_agent_upgrade_webchat_14_15_8",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
-  "yellowRibbonDegreeFilter": "yellow_ribbon_degree_filter",
-  "yellowRibbonEnhancements": "yellow_ribbon_mvp_enhancement",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search"
 }

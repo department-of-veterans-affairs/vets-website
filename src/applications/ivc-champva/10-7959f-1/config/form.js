@@ -1,3 +1,5 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberNoHintUI,
@@ -24,9 +26,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -83,8 +85,13 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    identificationInformation: {
+      title: 'Identification Information',
+      pages: {
         page2: {
-          path: 'veteran-information/ssn',
+          path: 'identification-information',
           title: 'Veteran SSN and VA file number',
           uiSchema: {
             ...titleUI(
@@ -102,8 +109,13 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    physicalAddress: {
+      title: 'Physical Address',
+      pages: {
         page3: {
-          path: 'physical-address',
+          path: 'home-address',
           title: 'Physical Address',
           uiSchema: {
             ...titleUI(
@@ -160,11 +172,19 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
         page5: {
           path: 'contact-info',
           title: "Veteran's contact information",
           uiSchema: {
-            ...titleUI("Veteran's contact information"),
+            ...titleUI(
+              'Phone and email address',
+              'Please include this information so that we can contact you with questions or updates',
+            ),
             phoneNumber: phoneUI(),
             emailAddress: emailUI(),
           },

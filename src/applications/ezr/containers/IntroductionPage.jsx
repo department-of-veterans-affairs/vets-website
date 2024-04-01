@@ -40,7 +40,7 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
       <div className="ezr-intro schemaform-intro">
         <DowntimeNotification
           appTitle={content['form-title']}
-          dependencies={[externalServices.es]}
+          dependencies={[externalServices['1010ezr']]}
         >
           {isLoading ? (
             <va-loading-indicator message={content['load-enrollment-status']} />

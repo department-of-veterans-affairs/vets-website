@@ -8,6 +8,7 @@ import {
   VaSelect,
   VaTextInput,
   VaCheckbox,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -72,6 +73,7 @@ class AddFilesForm extends React.Component {
       errorMessage: null,
       checked: false,
       errorMessageCheckbox: null,
+      canShowUploadModal: false,
     };
   }
 
@@ -167,6 +169,7 @@ class AddFilesForm extends React.Component {
           : 'Please confirm these documents apply to this claim only',
       });
 
+      this.setState({ canShowUploadModal: true });
       if (this.state.checked) {
         this.props.onSubmit();
         return;
@@ -178,6 +181,9 @@ class AddFilesForm extends React.Component {
   };
 
   render() {
+    const showUploadModal =
+      this.props.uploading && this.state.canShowUploadModal;
+
     return (
       <>
         <div className="add-files-form">
@@ -201,7 +207,7 @@ class AddFilesForm extends React.Component {
             error={this.getErrorMessage()}
             label="Upload additional evidence"
             hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
             onVaChange={e => this.add(e.detail.files)}
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
@@ -224,7 +230,6 @@ class AddFilesForm extends React.Component {
                   <div className="remove-document-button">
                     <va-button
                       secondary
-                      uswds
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
                     />
@@ -239,7 +244,6 @@ class AddFilesForm extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -255,7 +259,6 @@ class AddFilesForm extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -287,30 +290,25 @@ class AddFilesForm extends React.Component {
           message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
-          uswds
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
         />
-        <va-button
+        <VaButton
           id="submit"
-          submit
-          uswds
           text="Submit files for review"
           onClick={this.submit}
         />
         <va-additional-info
           class="vads-u-margin-y--3"
           trigger="Need to mail your files?"
-          uswds
         >
           {mailMessage}
         </va-additional-info>
         <VaModal
           id="upload-status"
-          onCloseEvent={() => true}
-          visible={Boolean(this.props.uploading)}
-          uswds="false"
+          onCloseEvent={() => this.setState({ canShowUploadModal: false })}
+          visible={showUploadModal}
         >
           <UploadStatus
             progress={this.props.progress}

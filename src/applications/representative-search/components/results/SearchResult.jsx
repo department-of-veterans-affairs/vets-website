@@ -6,11 +6,14 @@ import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
   officer,
+  key,
   addressLine1,
   addressLine2,
   addressLine3,
@@ -26,6 +29,7 @@ const SearchResult = ({
   reportSubmissionStatus,
   reports,
   representativeId,
+  searchResults,
   query,
   setReportModalTester,
 }) => {
@@ -52,6 +56,46 @@ const SearchResult = ({
     setReportModalIsShowing(false);
   };
 
+  const recordContactLinkClick = () => {
+    recordEvent({
+      // prettier-ignore
+      'event': 'far-search-results-click',
+      'search-query': query?.locationQueryString,
+      'search-filters-list': {
+        'representative-type': query?.representativeType,
+        'search-radius': query?.searchArea,
+        'representative-name': query?.representativeQueryString,
+      },
+      'search-selection': 'Find VA Accredited Rep',
+      'search-results-id': representativeId,
+      'search-results-total-count':
+        searchResults?.meta?.pagination?.totalEntries,
+      'search-results-total-pages': searchResults?.meta?.pagination?.totalPages,
+      'search-result-position': key,
+      'search-result-page': searchResults?.meta?.pagination?.currentPage,
+    });
+  };
+
+  const recordReportButtonClick = () => {
+    recordEvent({
+      // prettier-ignore
+      'event': 'far-search-results-outdated',
+      'search-query': query?.locationQueryString,
+      'search-filters-list': {
+        'representative-type': query?.representativeType,
+        'search-radius': query?.searchArea,
+        'representative-name': query?.representativeQueryString,
+      },
+      'search-selection': 'Find VA Accredited Rep',
+      'search-results-id': representativeId,
+      'search-results-total-count':
+        searchResults?.meta?.pagination?.totalEntries,
+      'search-results-total-pages': searchResults?.meta?.pagination?.totalPages,
+      'search-result-position': key,
+      'search-result-page': searchResults?.meta?.pagination?.currentPage,
+    });
+  };
+
   useEffect(
     () => {
       if (reportSubmissionStatus === 'SUCCESS') {
@@ -75,7 +119,10 @@ const SearchResult = ({
           id="open-modal-test-button"
           label="open-modal-test-button"
           type="button"
-          onClick={() => setReportModalIsShowing(true)}
+          onClick={() => {
+            recordReportButtonClick();
+            setReportModalIsShowing(true);
+          }}
         />
       ) : null}
 
@@ -96,7 +143,10 @@ const SearchResult = ({
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
             {distance && (
-              <div className="vads-u-font-weight--bold vads-u-font-family--serif">
+              <div
+                id={`representative-${representativeId}`}
+                className="vads-u-font-weight--bold vads-u-font-family--serif"
+              >
                 {parseFloat(JSON.parse(distance).toFixed(2))} Mi
               </div>
             )}
@@ -145,6 +195,8 @@ const SearchResult = ({
                     query?.context?.location
                   }&daddr=${address}`}
                   tabIndex="0"
+                  className="address-anchor"
+                  onClick={() => recordContactLinkClick()}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${address} (opens in a new tab)`}
@@ -162,12 +214,22 @@ const SearchResult = ({
             )}
             {phone && (
               <div className="vads-u-margin-top--1p5">
-                <va-telephone contact={contact} extension={extension} />
+                <va-telephone
+                  contact={contact}
+                  extension={extension}
+                  onClick={() => recordContactLinkClick()}
+                  disable-analytics
+                />
               </div>
             )}
             {email && (
               <div className="vads-u-margin-top--1p5">
-                <a href={`mailto:${email}`}>{email}</a>
+                <a
+                  href={`mailto:${email}`}
+                  onClick={() => recordContactLinkClick()}
+                >
+                  {email}
+                </a>
               </div>
             )}
           </div>
@@ -194,6 +256,7 @@ const SearchResult = ({
           <div className="report-outdated-information-button">
             <va-button
               onClick={() => {
+                recordReportButtonClick();
                 setReportModalIsShowing(true);
               }}
               tabIndex={-1}
@@ -202,6 +265,7 @@ const SearchResult = ({
               text="Report outdated information"
               label={`Report outdated information for ${officer}`}
               uswds
+              disable-analytics
             />
           </div>
         </div>
@@ -219,9 +283,18 @@ SearchResult.propTypes = {
   distance: PropTypes.string,
   email: PropTypes.string,
   initializeRepresentativeReport: PropTypes.func,
+  key: PropTypes.number,
   officer: PropTypes.string,
   phone: PropTypes.string,
-  query: PropTypes.object,
+  query: PropTypes.shape({
+    context: PropTypes.shape({
+      location: PropTypes.string,
+    }),
+    locationQueryString: PropTypes.string,
+    representativeType: PropTypes.string,
+    searchArea: PropTypes.string,
+    representativeQueryString: PropTypes.string,
+  }),
   reportSubmissionStatus: PropTypes.string,
   reports: PropTypes.shape({
     phone: PropTypes.string,
@@ -230,6 +303,15 @@ SearchResult.propTypes = {
     other: PropTypes.string,
   }),
   representativeId: PropTypes.string,
+  searchResults: PropTypes.shape({
+    meta: PropTypes.shape({
+      pagination: PropTypes.shape({
+        totalEntries: PropTypes.number,
+        totalPages: PropTypes.number,
+        currentPage: PropTypes.number,
+      }),
+    }),
+  }),
   setReportModalTester: PropTypes.func,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,

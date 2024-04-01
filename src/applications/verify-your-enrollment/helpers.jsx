@@ -1,6 +1,10 @@
 import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
-import { TIMS_DOCUMENTS } from './constants';
+import {
+  BAD_UNIT_NUMBER,
+  MISSING_UNIT_NUMBER,
+  TIMS_DOCUMENTS,
+} from './constants';
 
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
@@ -223,4 +227,52 @@ export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
     }
   });
   return combineMonths;
+};
+
+export const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+};
+export const objectHasNoUndefinedValues = obj => {
+  return Object.values(obj).every(value => value !== undefined);
+};
+export const noSuggestedAddress = deliveryPointValidation => {
+  return (
+    deliveryPointValidation === BAD_UNIT_NUMBER ||
+    deliveryPointValidation === MISSING_UNIT_NUMBER ||
+    deliveryPointValidation === 'MISSING_ZIP'
+  );
+};
+
+export const prepareAddressData = formData => {
+  let addressData = {
+    veteranName: formData.fullName,
+    addressLine1: formData.addressLine1,
+    addressLine2: formData.addressLine2,
+    addressLine3: formData.addressLine3,
+    addressLine4: formData.addressLine4,
+    addressPou: 'CORRESPONDENCE',
+    countryCodeIso3: formData.countryCodeIso3,
+    city: formData.city,
+  };
+  if (formData.countryCodeIso3 === 'USA') {
+    const baseUSAData = {
+      stateCode: formData.stateCode,
+      zipCode: formData.zipCode,
+      addressType: 'DOMESTIC',
+    };
+    if (formData['view:livesOnMilitaryBase']) {
+      baseUSAData.addressType = 'OVERSEAS MILITARY';
+    }
+    addressData = { ...addressData, ...baseUSAData };
+  } else {
+    const internationalData = {
+      province: formData.province,
+      internationalPostalCode: formData.internationalPostalCode,
+      addressType: 'INTERNATIONAL',
+    };
+    addressData = { ...addressData, ...internationalData };
+  }
+  return addressData;
 };

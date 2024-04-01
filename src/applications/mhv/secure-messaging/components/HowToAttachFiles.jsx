@@ -13,7 +13,7 @@ const HowToAttachFiles = () => {
           <li>You may attach up to 4 files to each message</li>
           <li>
             You can attach only these file types: doc, docx, gif, jpg, pdf, png,
-            rtf, txt, xls, xlsx
+            rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp
           </li>
           <li>The maximum size for each file is 6 MB</li>
           <li>

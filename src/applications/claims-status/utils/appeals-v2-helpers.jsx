@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import _ from 'lodash';
+import { find, get, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
-import { Link } from 'react-router';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Link } from 'react-router-dom-v5-compat';
+
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import Decision from '../components/appeals-v2/Decision';
 import { ITEMS_PER_PAGE } from '../constants';
@@ -243,9 +244,9 @@ export function addStatusToIssues(issues) {
  * @returns {object} One appeal object or undefined if not found in the array
  */
 export function isolateAppeal(state, id) {
-  return _.find(
+  return find(
     state.disability.status.claimsV2.appeals,
-    a => a.id === id || (_.get(a, 'attributes.appealIds') || []).includes(id),
+    a => a.id === id || (get(a, 'attributes.appealIds') || []).includes(id),
   );
 }
 
@@ -282,7 +283,7 @@ export function getStatusContents(appeal, name = {}) {
   const appealType = appeal.type;
   const statusType = status.type || status;
   const details = status.details || {};
-  const amaDocket = _.get(appeal, 'attributes.docket.type');
+  const amaDocket = get(appeal, 'attributes.docket.type');
   const aojDescription = getAojDescription(aoj);
 
   const contents = {};
@@ -510,7 +511,7 @@ export function getStatusContents(appeal, name = {}) {
                 get other letters related to your claims and appeals.
                 <Link
                   className="ddl-link vads-c-action-link--blue"
-                  to="your-claim-letters"
+                  to="/your-claim-letters"
                 >
                   Get your decision letters
                 </Link>
@@ -580,7 +581,7 @@ export function getStatusContents(appeal, name = {}) {
       contents.title = 'The appeal was closed';
       contents.description = (
         <p>
-          VA records indicate that {_.startCase(_.toLower(nameString))} is
+          VA records indicate that {startCase(nameString.toLowerCase())} is
           deceased, so this appeal has been closed. If this information is
           incorrect, please contact your Veterans Service Organization or
           representative as soon as possible.
@@ -685,7 +686,7 @@ export function getStatusContents(appeal, name = {}) {
                 get other letters related to your claims and appeals.
                 <Link
                   className="ddl-link vads-c-action-link--blue"
-                  to="your-claim-letters"
+                  to="/your-claim-letters"
                 >
                   Get your decision letters
                 </Link>
@@ -1148,87 +1149,29 @@ export const makeDecisionReviewContent = ({
 );
 
 /**
- * Translates an array of two ints into a string that conveys a duration estimate
- * @typedef {Object} durationText contains strings to fill in time snippets in NextEvents
- * @property {string} header formatted time string to be used in the duration card header
- * @property {string} description formatted time string to be used in the duration card description
- * @param {number[]} timeliness two integers that represent the low and high time durations
- * (in months) of a given thing
- * @returns {durationText} formatted to convey the estimated duration range, in months
- */
-export const makeDurationText = timeliness => {
-  const durationText = {
-    header: '',
-    description: '',
-  };
-
-  if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
-    const durationError = new Error(
-      'vets_appeals_v2_helpers_makeDurationText_bad_timeliness_input',
-    );
-    Sentry.captureException(durationError);
-    return durationText;
-  }
-
-  const lowEst = timeliness[0];
-  const highEst = timeliness[1];
-  const estIsExact = lowEst === highEst;
-
-  if (estIsExact && lowEst === 1) {
-    durationText.header = '1 month';
-    durationText.description = 'about 1 month';
-  } else if (estIsExact) {
-    durationText.header = `${lowEst} months`;
-    durationText.description = `about ${lowEst} months`;
-  } else {
-    durationText.header = `${lowEst}–${highEst} months`;
-    durationText.description = `between ${lowEst} and ${highEst} months`;
-  }
-  return durationText;
-};
-
-/**
  * Gets 'what's next' content for a given current status type
  * @typedef {Object} nextEvent
  * @property {string} title header for each NextEvent
  * @property {HTMLElement} description formatted content for each NextEvent
- * @property {string} durationText descriptor of how long this NextEvent usually takes
- * @property {string} cardDescription info about why this NextEvent takes as long as it does
- * ----------------------------------------------------------------------------------------------
- * @typedef {Object} headerCard some NextEvent sections have one card displayed above the event list
- * @property {string} durationText descriptor of how long these NextEvents usually take
- * @property {string} cardDescription info about why these NextEvents take as long as they does
  * ----------------------------------------------------------------------------------------------
  * @typedef {Object} allNextEvents
  * @property {string} header a short description to introduce all of the nextEvents
- * @property {headerCard} [headerCard] containing info for top-level duration cards
  * @property {nextEvent[]} events each contain text content for a NextEvent component
  * ----------------------------------------------------------------------------------------------
  * @param {Object} appeal
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
-/**
- * ****** NOTE ******
- * Duration info (at the DurationCard level) has been hidden since 07/01/2020
- * https://github.com/department-of-veterans-affairs/va.gov-team/issues/10293
- */
+
 export function getNextEvents(appeal) {
   const { type: currentStatus, details } = appeal.attributes.status;
   const appealType = appeal.type;
 
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
-      const socDuration = makeDurationText(details.socTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough
           evidence to decide in your favor.`,
-        headerCard: {
-          durationText: socDuration.header,
-          cardDescription: `The Veterans Benefits Administration typically takes ${
-            socDuration.description
-          } to review new appeals.`,
-        },
         events: [
           {
             title:
@@ -1244,8 +1187,6 @@ export function getNextEvents(appeal) {
                 expect this change to be made in 1 to 2 months.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
           },
           {
             title:
@@ -1265,15 +1206,11 @@ export function getNextEvents(appeal) {
                 .
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
     }
     case STATUS_TYPES.pendingForm9: {
-      const certDuration = makeDurationText(details.certificationTimeliness);
-      const ssocDuration = makeDurationText(details.ssocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
@@ -1292,10 +1229,6 @@ export function getNextEvents(appeal) {
                 of Veterans’ Appeals.
               </p>
             ),
-            durationText: certDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              certDuration.description
-            } to send cases to the Board.`,
           },
           {
             title:
@@ -1312,17 +1245,11 @@ export function getNextEvents(appeal) {
                 and won’t be reviewed by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: ssocDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              ssocDuration.description
-            } to write Supplemental Statements of the Case.`,
           },
         ],
       };
     }
     case STATUS_TYPES.pendingCertification: {
-      const certDuration = makeDurationText(details.certificationTimeliness);
-      const ssocDuration = makeDurationText(details.ssocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
@@ -1339,10 +1266,6 @@ export function getNextEvents(appeal) {
                 of Veterans’ Appeals.
               </p>
             ),
-            durationText: certDuration.header,
-            cardDescription: `The Veterans Benefits Administration typically takes ${
-              certDuration.description
-            } to send cases to the Board.`,
           },
           {
             title:
@@ -1359,17 +1282,11 @@ export function getNextEvents(appeal) {
                 and won’t be reviewed by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: ssocDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              ssocDuration.description
-            } to write Supplemental Statements of the Case.`,
           },
         ],
       };
     }
     case STATUS_TYPES.pendingCertificationSsoc: {
-      const certDuration = makeDurationText(details.certificationTimeliness);
-      const ssocDuration = makeDurationText(details.ssocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
@@ -1386,10 +1303,6 @@ export function getNextEvents(appeal) {
                 case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: certDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              certDuration.description
-            } to send cases to the Board.`,
           },
           {
             title:
@@ -1407,17 +1320,11 @@ export function getNextEvents(appeal) {
                 reviewed by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: ssocDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              ssocDuration.description
-            } to write Supplemental Statements of the Case.`,
           },
         ],
       };
     }
     case STATUS_TYPES.remandSsoc: {
-      const returnSsocDuration = makeDurationText(details.returnTimeliness);
-      const remandSsocDuration = makeDurationText(details.remandSsocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
         'MMMM D, YYYY',
       );
@@ -1434,10 +1341,6 @@ export function getNextEvents(appeal) {
                 remand and return your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: returnSsocDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              returnSsocDuration.description
-            } to return cases to the Board.`,
           },
           {
             title:
@@ -1453,16 +1356,12 @@ export function getNextEvents(appeal) {
                 Officer will send your appeal to the Board.
               </p>
             ),
-            durationText: remandSsocDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              remandSsocDuration.description
-            } to write Supplemental Statements of the Case.`,
           },
         ],
       };
     }
     case STATUS_TYPES.pendingHearingScheduling: {
-      const eligibleToSwitch = _.get(
+      const eligibleToSwitch = get(
         appeal,
         'attributes.docket.eligibleToSwitch',
       );
@@ -1507,8 +1406,6 @@ export function getNextEvents(appeal) {
                 )}
               </div>
             ),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
@@ -1539,24 +1436,6 @@ export function getNextEvents(appeal) {
                 hearing.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
-          },
-        ],
-      };
-    }
-    case STATUS_TYPES.onDocket: {
-      return {
-        header: '', // intentionally empty
-        events: [
-          {
-            title: 'The Board will make a decision',
-            description: makeDecisionReviewContent({
-              isAma: appeal.type === APPEAL_TYPES.appeal,
-              aoj: appeal.attributes.aoj,
-            }),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
@@ -1573,8 +1452,6 @@ export function getNextEvents(appeal) {
               prop:
                 'Once the 90 day time period for submitting new evidence is closed, your case will be ready to go to a Veterans Law Judge. Before it’s reviewed by a judge, some Veterans Service Organizations will ask for time to make additional arguments in support of your case.',
             }),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
@@ -1591,15 +1468,12 @@ export function getNextEvents(appeal) {
               prop:
                 'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
             }),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
     }
+    case STATUS_TYPES.onDocket:
     case STATUS_TYPES.decisionInProgress: {
-      const decisionTimeliness = details.decisionTimeliness || [1, 2];
-      const decisionDuration = makeDurationText(decisionTimeliness);
       return {
         header: '', // intentionally empty
         events: [
@@ -1609,10 +1483,6 @@ export function getNextEvents(appeal) {
               isAma: appeal.type === APPEAL_TYPES.appeal,
               aoj: appeal.attributes.aoj,
             }),
-            durationText: decisionDuration.header,
-            cardDescription: `The Board of Veterans’ Appeals usually takes ${
-              decisionDuration.description
-            } to decide appeals once a judge starts their review.`,
           },
         ],
       };
@@ -1625,13 +1495,10 @@ export function getNextEvents(appeal) {
           {
             title: 'The Board will make a decision',
             description: makeDecisionReviewContent(),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
     case STATUS_TYPES.remand: {
-      const remandDuration = makeDurationText(details.remandTimeliness);
       return {
         header: '', // intentionally empty
         events: [
@@ -1647,10 +1514,6 @@ export function getNextEvents(appeal) {
                 for a new decision.
               </p>
             ),
-            durationText: remandDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${
-              remandDuration.description
-            } to complete remand instructions.`,
           },
         ],
       };
@@ -1670,13 +1533,10 @@ export function getNextEvents(appeal) {
                 ask for more evidence or to schedule a new medical exam.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
     case STATUS_TYPES.scReceived: {
-      const duration = makeDurationText([4, 5]);
       return {
         header: '', // intentionally empty
         events: [
@@ -1688,15 +1548,11 @@ export function getNextEvents(appeal) {
                 new decision in the mail.
               </p>
             ),
-            durationText: duration.header,
-            cardDescription:
-              'VA’s goal for completing Supplemental Claims is 125 days.',
           },
         ],
       };
     }
     case STATUS_TYPES.hlrReceived: {
-      const duration = makeDurationText([4, 5]);
       return {
         header: '', // intentionally empty
         events: [
@@ -1710,9 +1566,6 @@ export function getNextEvents(appeal) {
                 error.
               </p>
             ),
-            durationText: duration.header,
-            cardDescription:
-              'VA’s goal for completing Higher-Level Reviews is 125 days.',
           },
         ],
       };
@@ -1731,8 +1584,6 @@ export function getNextEvents(appeal) {
                 completing its review.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
           },
         ],
       };
