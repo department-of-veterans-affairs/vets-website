@@ -280,7 +280,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
               formData={editFormData}
-              toggleAddressForm={toggleAddressForm}
             >
               <LoadingButton
                 aria-label="save your Mailing address for GI Bill benefits"
