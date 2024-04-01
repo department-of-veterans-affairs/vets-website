@@ -63,7 +63,7 @@ describe('hca EnrollmentStatus reducer', () => {
       it('should set the state correctly', () => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-          data: {
+          response: {
             parsedStatus: 'enrolled',
             effectiveDate: '2019-01-02T21:58:55.000-06:00',
             applicationDate: '2018-12-27T00:00:00.000-06:00',
@@ -73,19 +73,19 @@ describe('hca EnrollmentStatus reducer', () => {
         };
         reducedState = reducer(state, action);
         expect(reducedState.enrollmentStatus).to.equal(
-          action.data.parsedStatus,
+          action.response.parsedStatus,
         );
         expect(reducedState.applicationDate).to.equal(
-          action.data.applicationDate,
+          action.response.applicationDate,
         );
         expect(reducedState.enrollmentDate).to.equal(
-          action.data.enrollmentDate,
+          action.response.enrollmentDate,
         );
         expect(reducedState.enrollmentStatusEffectiveDate).to.equal(
-          action.data.effectiveDate,
+          action.response.effectiveDate,
         );
         expect(reducedState.preferredFacility).to.equal(
-          action.data.preferredFacility,
+          action.response.preferredFacility,
         );
         expect(reducedState.isLoadingApplicationStatus).to.be.false;
         expect(reducedState.isUserInMVI).to.be.true;
@@ -96,9 +96,7 @@ describe('hca EnrollmentStatus reducer', () => {
       beforeEach(() => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-          data: {
-            parsedStatus: 'none_of_the_above',
-          },
+          response: { parsedStatus: 'none_of_the_above' },
         };
         reducedState = reducer(state, action);
       });
@@ -114,9 +112,7 @@ describe('hca EnrollmentStatus reducer', () => {
       beforeEach(() => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-          data: {
-            parsedStatus: 'enrolled',
-          },
+          response: { parsedStatus: 'enrolled' },
         };
         reducedState = reducer(state, action);
       });
