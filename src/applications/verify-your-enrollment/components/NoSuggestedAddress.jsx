@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { errorAddressAlrt } from '../constants';
+import { errorAddressAlert } from '../constants';
 import { noSuggestedAddress } from '../helpers';
 
 const NoSuggestedAddress = ({
@@ -26,7 +26,7 @@ const NoSuggestedAddress = ({
       {deliveryPointValidation !== undefined &&
         deliveryPointValidation !== 'CONFIRMED' && (
           <>
-            {errorAddressAlrt(deliveryPointValidation)}
+            {errorAddressAlert(deliveryPointValidation)}
             <div className="usa-radio vads-u-margin-top--2p5 12px vads-u-margin-bottom--2">
               <span className="vads-u-font-weight--bold">You entered:</span>
               <label

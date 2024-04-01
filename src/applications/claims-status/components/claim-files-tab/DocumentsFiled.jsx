@@ -182,7 +182,6 @@ function DocumentsFiled({ claim }) {
           )}
           {shouldPaginate && (
             <VaPagination
-              uswds
               className="vads-u-border--0"
               page={currentPage}
               pages={numPages}
