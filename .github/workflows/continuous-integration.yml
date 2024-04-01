@@ -293,8 +293,13 @@ jobs:
         env:
           TEST_TYPE: unit_test
       
-      # - name: Check for newly added disallowed tests
-      #   run: yarn allow-list-double-check
+      - name: Check for newly added disallowed tests
+        run: yarn allow-list-double-check
+        env:
+          TEST_TYPE: unit_test
+          TESTS: ${{ env.DISALLOWED_TESTS }}
+          TESTS_PROPERTY: DISALLOWED_TESTS
+          
 
       - name: Create test results folder
         run: mkdir -p test-results

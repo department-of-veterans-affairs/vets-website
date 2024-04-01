@@ -34,16 +34,22 @@ const disallowedTests = ALLOW_LIST.filter(test => test.allowed === false).map(
   test => test.spec_path,
 );
 
-console.log('disallowed tests: ', disallowedTests);
+if (process.env.TEST_TYPE === 'e2e') {
+  const newDisallowedTests = disallowedTests.filter(test =>
+    TESTS.includes(test),
+  );
 
-const newDisallowedTests = disallowedTests.filter(test => TESTS.includes(test));
+  if (disallowedTests.length > 0 && newDisallowedTests.length > 0) {
+    console.log('new disallowed tests: ', newDisallowedTests);
 
-if (disallowedTests.length > 0) {
-  console.log('new disallowed tests: ', newDisallowedTests);
+    const newTests = TESTS.filter(test => disallowedTests.indexOf(test) === -1);
 
-  const newTests = TESTS.filter(test => disallowedTests.indexOf(test) === -1);
+    console.log('new tests: ', newTests);
 
-  console.log('new tests: ', newTests);
+    core.exportVariable(TESTS_PROPERTY, newTests);
+  }
+}
 
-  core.exportVariable(TESTS_PROPERTY, newTests);
+if (process.env.TEST_TYPE === 'unit_test') {
+  core.exportVariable(TESTS_PROPERTY, disallowedTests);
 }
