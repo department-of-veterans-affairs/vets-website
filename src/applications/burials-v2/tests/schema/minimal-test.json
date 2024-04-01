@@ -30,6 +30,30 @@
     }
   ],
   "view:separationDocuments": true,
+  "toursOfDuty": [
+    {
+      "serviceBranch": "Air Force",
+      "dateRange": {
+        "from": "2005-07-19",
+        "to": "2009-04-02"
+      },
+      "placeOfEntry": "Los Angeles, CA",
+      "placeOfSeparation": "Dallas, TX",
+      "rank": "Sergeant",
+      "unit": "Unit test AF"
+    },
+    {
+      "serviceBranch": "Coast Guard",
+      "dateRange": {
+        "from": "2011-03-05",
+        "to": "2016-04-15"
+      },
+      "placeOfEntry": "Dallas, TX",
+      "placeOfSeparation": "San Francisco, CA",
+      "rank": "Chief",
+      "unit": "Unit test CG"
+    }
+  ],
   "locationOfDeath": {
     "location": "nursingHomeUnpaid"
   },
@@ -67,5 +91,6 @@
   },
   "finalRestingPlace": {},
   "cemeteryLocation": {},
-  "tribalLandLocation": {}
+  "tribalLandLocation": {},
+  "nationalOrFederal": false
 }
