@@ -293,6 +293,11 @@ class MedicationsDetailsPage {
   };
 
   verifyRefillHistoryHeaderOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="refill-History"]').should(
       'contain',
       'Refill history',
@@ -328,16 +333,16 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyRxFilledByPharmacyDateOnDetailsPage = dispensedDate => {
+  verifyRxFilledByPharmacyDateOnDetailsPage = () => {
     cy.get('[data-testid="dispensedDate"]')
       // .first()
-      .should('contain', dispensedDate);
+      .should('contain', 'September 24, 2023');
   };
 
-  verifyRxShippedOnDateOnDetailsPage = shippedDate => {
+  verifyRxShippedOnDateOnDetailsPage = () => {
     cy.get('[data-testid="shipped-on"]')
       .first()
-      .should('contain', shippedDate);
+      .should('contain', 'September 24, 2023');
   };
 
   verifyNoImageFieldMessageOnDetailsPage = () => {
