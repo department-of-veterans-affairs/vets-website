@@ -134,7 +134,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "nursingHomeUnpaid"
+    "location": "stateVeteransHome",
+    "stateVeteransHome": {
+      "facilityName": "CA State facility",
+      "facilityLocation": "Modesto, CA"
+    }
   },
   "claimantAddress": {
     "view:militaryBaseDescription": {},
