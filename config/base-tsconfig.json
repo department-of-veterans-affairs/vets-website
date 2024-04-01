@@ -6,11 +6,13 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
+    "allowUnreachableCode": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "commonJS",
-    "lib": ["esnext"],
-    "target": "esnext",
+    "lib": ["es2020"],
+    "strictNullChecks": true,
+    "target": "es2020",
     "jsx": "react"
   },
   "exclude": ["node_modules"]
