@@ -666,6 +666,15 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: ensure vagovprod folder is present
+        run: |
+          # Example command using vagovprod folder
+          ls -la
+          echo "TEST------------------------------------------------TEST"
+          ls -la $GITHUB_WORKSPACE/build/
+          echo "TEST2------------------------------------------------TEST2"
+          ls -la build
+
 
       # - name: Download production build artifact
       #   if: needs.tests-prep.outputs.cypress-tests != '[]'
