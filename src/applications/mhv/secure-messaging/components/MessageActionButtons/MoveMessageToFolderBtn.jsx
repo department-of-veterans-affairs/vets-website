@@ -166,13 +166,12 @@ const MoveMessageToFolderBtn = props => {
           <p /> {/* to create extra margin between radio and action buttons */}
           {/* For creating a new folder and moving the thread */}
           <va-button
-            uswds={false}
+            class="vads-u-margin-right--1 small-screen:vads-u-margin-right--0"
             text="Confirm"
             onClick={handleConfirmMoveFolderTo}
             data-dd-action-name="Confirm Move to Button"
           />
           <va-button
-            uswds={false}
             secondary
             text="Cancel"
             onClick={closeModal}
