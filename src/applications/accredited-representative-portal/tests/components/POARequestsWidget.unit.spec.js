@@ -6,26 +6,23 @@ import POARequestsWidget from '../../components/POARequestsWidget/POARequestsWid
 import { mockPOARequests } from '../../mocks/mockPOARequests';
 
 describe('POARequestsWidget', () => {
+  const getPOARequestsWidget = () =>
+    render(<POARequestsWidget poaRequests={mockPOARequests} />);
+
   it('renders View all link', () => {
-    const { getByTestId } = render(
-      <POARequestsWidget poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsWidget();
     expect(getByTestId(`poa-requests-widget-view-all-link`).textContent).to.eq(
       'View all',
     );
   });
 
   it('renders table', () => {
-    const { getByTestId } = render(
-      <POARequestsWidget poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsWidget();
     expect(getByTestId('poa-requests-widget-table')).to.exist;
   });
 
   it('renders table headers', () => {
-    const { getByTestId } = render(
-      <POARequestsWidget poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsWidget();
     expect(
       getByTestId('poa-requests-widget-table-headers-claimant').textContent,
     ).to.eq('Claimant');
@@ -38,9 +35,7 @@ describe('POARequestsWidget', () => {
   });
 
   it('renders POA requests in table', () => {
-    const { getByTestId } = render(
-      <POARequestsWidget poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsWidget();
     mockPOARequests.forEach(({ id, name, date }) => {
       expect(
         getByTestId(`poa-requests-widget-table-${id}-claimant`).textContent,

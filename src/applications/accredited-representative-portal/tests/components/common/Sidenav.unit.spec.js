@@ -5,13 +5,15 @@ import { expect } from 'chai';
 import Sidenav from '../../../components/common/Sidenav';
 
 describe('Sidenav', () => {
+  const getSidenav = () => render(<Sidenav />);
+
   it('renders Sidenav heading', () => {
-    const { getByTestId } = render(<Sidenav />);
+    const { getByTestId } = getSidenav();
     expect(getByTestId('sidenav-heading')).to.exist;
   });
 
   it('renders Sidenav', () => {
-    const { getByTestId } = render(<Sidenav />);
+    const { getByTestId } = getSidenav();
     expect(getByTestId('sidenav-dashboard-item').textContent).to.eq(
       'Dashboard',
     );

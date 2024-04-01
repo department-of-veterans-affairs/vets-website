@@ -7,17 +7,16 @@ import POARequestsTable from '../../components/POARequestsTable/POARequestsTable
 import { mockPOARequests } from '../../mocks/mockPOARequests';
 
 describe('POARequestsTable content', () => {
+  const getPOARequestsTable = () =>
+    render(<POARequestsTable poaRequests={mockPOARequests} />);
+
   it('renders table', () => {
-    const { getByTestId } = render(
-      <POARequestsTable poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsTable();
     expect(getByTestId('poa-requests-table')).to.exist;
   });
 
   it('renders headers', () => {
-    const { getByTestId } = render(
-      <POARequestsTable poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsTable();
     expect(
       getByTestId('poa-requests-table-headers-claimant').textContent,
     ).to.eq('Claimant');
@@ -36,9 +35,7 @@ describe('POARequestsTable content', () => {
   });
 
   it('renders POA requests', () => {
-    const { getByTestId } = render(
-      <POARequestsTable poaRequests={mockPOARequests} />,
-    );
+    const { getByTestId } = getPOARequestsTable();
     mockPOARequests.forEach(({ id, name, date, description, status }) => {
       expect(
         getByTestId(`poa-requests-table-${id}-claimant`).textContent,
@@ -65,19 +62,27 @@ describe('POARequestsTable content', () => {
 });
 
 describe('POARequestsTable accept and decline functionality', () => {
-  it('calls acceptPOARequest with correct id when accept button is clicked', () => {
-    const acceptPOARequest = sinon.spy();
-    const declinePOARequest = sinon.spy();
-    const { getByTestId } = render(
+  const getPOARequestsTable = (acceptPOARequest, declinePOARequest) =>
+    render(
       <POARequestsTable
         poaRequests={mockPOARequests}
         acceptPOARequest={acceptPOARequest}
         declinePOARequest={declinePOARequest}
       />,
     );
+
+  it('calls acceptPOARequest with correct id when accept button is clicked', () => {
+    const acceptPOARequest = sinon.spy();
+    const declinePOARequest = sinon.spy();
+    const { getByTestId } = getPOARequestsTable(
+      acceptPOARequest,
+      declinePOARequest,
+    );
+
     const pendingRequest = mockPOARequests.find(
       request => request.status === 'Pending',
     );
+
     if (pendingRequest) {
       fireEvent.click(
         getByTestId(`poa-requests-table-${pendingRequest.id}-accept-button`),
@@ -90,16 +95,15 @@ describe('POARequestsTable accept and decline functionality', () => {
   it('calls declinePOARequest with correct id when decline button is clicked', () => {
     const acceptPOARequest = sinon.spy();
     const declinePOARequest = sinon.spy();
-    const { getByTestId } = render(
-      <POARequestsTable
-        poaRequests={mockPOARequests}
-        acceptPOARequest={acceptPOARequest}
-        declinePOARequest={declinePOARequest}
-      />,
+    const { getByTestId } = getPOARequestsTable(
+      acceptPOARequest,
+      declinePOARequest,
     );
+
     const pendingRequest = mockPOARequests.find(
       request => request.status === 'Pending',
     );
+
     if (pendingRequest) {
       fireEvent.click(
         getByTestId(`poa-requests-table-${pendingRequest.id}-decline-button`),
