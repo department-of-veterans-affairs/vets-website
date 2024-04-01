@@ -695,10 +695,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: ensure vagovprod folder is present #DELETE
+      - name: ensure vagovprod folder is present2 #DELETE
         run: |
           ls -la $GITHUB_WORKSPACE
-          echo "--------------------------------------------------------"
+
+      - name: ensure vagovprod build folder is present #DELETE
+        run: |
           ls -la $GITHUB_WORKSPACE/build/
 
 
