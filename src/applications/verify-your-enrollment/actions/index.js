@@ -105,9 +105,8 @@ export function postMailingAddress(mailingAddress) {
     } catch (error) {
       dispatch({
         type: UPDATE_ADDRESS_FAILURE,
-        errors: error,
+        errors: error.toString(),
       });
-      throw error;
     }
   };
 }
@@ -153,9 +152,8 @@ export const verifyEnrollmentAction = () => {
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,
-        errors: error,
+        errors: error.toString(),
       });
-      throw error;
     }
   };
 };
@@ -168,11 +166,12 @@ export const validateAddress = (formData, fullName) => async dispatch => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
-    dispatch({ type: ADDRESS_VALIDATION_SUCCESS, payload: validationResponse });
+
     const {
       address,
       addressMetaData: { confidenceScore },
     } = validationResponse.addresses[0];
+
     let stateAndZip = {};
     if (address.countryCodeIso3 === 'USA') {
       stateAndZip = {
@@ -190,12 +189,26 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         veteranName: fullName,
         address1: address.addressLine1,
         address2: address.addressLine2,
-        address3: formData.addressLine3,
-        address4: formData.addressLine4,
-        city: formData.city,
+        address3: address.addressLine3,
+        address4: address.addressLine4,
+        city: address.city,
         ...stateAndZip,
       };
-      await dispatch(postMailingAddress(fields));
+      try {
+        dispatch(postMailingAddress(fields));
+        dispatch({
+          type: ADDRESS_VALIDATION_SUCCESS,
+          payload: validationResponse,
+        });
+      } catch (error) {
+        await dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+        throw new Error(error);
+      }
+    } else {
+      dispatch({
+        type: ADDRESS_VALIDATION_SUCCESS,
+        payload: validationResponse,
+      });
     }
   } catch (error) {
     dispatch({

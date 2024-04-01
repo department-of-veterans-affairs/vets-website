@@ -7,10 +7,8 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { selectProfile } from '~/platform/user/selectors';
 
-import {
-  fetchTotalDisabilityRating,
-  getEnrollmentStatus as getEnrollmentStatusAction,
-} from '../utils/actions';
+import { fetchEnrollmentStatus } from '../utils/actions/enrollment-status';
+import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
@@ -23,8 +21,8 @@ const App = props => {
     children,
     location,
     setFormData,
+    getDisabilityRating,
     getEnrollmentStatus,
-    getTotalDisabilityRating,
   } = props;
 
   const {
@@ -34,7 +32,7 @@ const App = props => {
     isTeraEnabled,
   } = useSelector(selectFeatureToggles);
   const { dob: veteranDob } = useSelector(selectProfile);
-  const { totalDisabilityRating } = useSelector(state => state.totalRating);
+  const { totalRating } = useSelector(state => state.disabilityRating);
   const { data: formData } = useSelector(state => state.form);
   const { isUserLOA3, isLoggedIn, isLoadingProfile } = useSelector(
     selectAuthStatus,
@@ -46,7 +44,7 @@ const App = props => {
   useEffect(
     () => {
       if (isUserLOA3) {
-        getTotalDisabilityRating();
+        getDisabilityRating();
         getEnrollmentStatus();
       }
     },
@@ -71,7 +69,7 @@ const App = props => {
         'view:isSigiEnabled': isSigiEnabled,
         'view:isTeraEnabled': isTeraEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
-        'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
+        'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
 
       if (isLoggedIn) {
@@ -96,7 +94,7 @@ const App = props => {
       isSigiEnabled,
       isTeraEnabled,
       isFacilitiesApiEnabled,
-      totalDisabilityRating,
+      totalRating,
     ],
   );
 
@@ -144,16 +142,16 @@ App.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  getDisabilityRating: PropTypes.func,
   getEnrollmentStatus: PropTypes.func,
-  getTotalDisabilityRating: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getEnrollmentStatus: getEnrollmentStatusAction,
-  getTotalDisabilityRating: fetchTotalDisabilityRating,
+  getEnrollmentStatus: fetchEnrollmentStatus,
+  getDisabilityRating: fetchTotalDisabilityRating,
 };
 
 export default connect(

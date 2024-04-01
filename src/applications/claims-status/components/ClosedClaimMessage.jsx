@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { getUnixTime, isAfter, parseISO, startOfDay, subDays } from 'date-fns';
 import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
@@ -97,8 +97,8 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               <Link
                 to={
                   isAppeal(claim)
-                    ? `appeals/${claim.id}/status`
-                    : `your-claims/${claim.id}/status`
+                    ? `/appeals/${claim.id}/status`
+                    : `${claim.id}/status`
                 }
                 onClick={() => {
                   recordEvent({ event: 'claims-closed-alert-clicked' });
