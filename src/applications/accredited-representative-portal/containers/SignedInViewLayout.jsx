@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Sidenav from '../components/Sidenav';
+import Sidenav from '../components/common/Sidenav';
 import Breadcrumbs from '../components/common/Breadcrumbs';
 
 const SignedInViewLayout = ({ children, poaPermissions = true }) => {
@@ -12,7 +12,11 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
     content = (
-      <va-alert status="info" visible>
+      <va-alert
+        data-testid="signed-in-view-layout-permissions-alert"
+        status="info"
+        visible
+      >
         <h2 slot="headline">You are missing some permissions</h2>
         <div>
           <p className="vads-u-margin-y--0">
