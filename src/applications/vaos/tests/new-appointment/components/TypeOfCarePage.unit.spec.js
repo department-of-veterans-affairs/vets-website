@@ -303,7 +303,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     expect(global.window.dataLayer[2].alertBoxHeading).to.equal(undefined);
   });
 
-  it.skip('should display alert message when residental address is a PO Box', async () => {
+  it('should display alert message when residental address is a PO Box', async () => {
     const stateWithPOBox = set(
       'user.profile.vapContactInfo.residentialAddress',
       {
