@@ -34,8 +34,9 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       uswds
       background-only
       show-icon
-      status={alertClass}
+      slim
       visible
+      status={alertClass}
       data-testid={`${operatingStatus.code.toLowerCase()}-message`}
       class="vads-u-margin-y--2"
     >

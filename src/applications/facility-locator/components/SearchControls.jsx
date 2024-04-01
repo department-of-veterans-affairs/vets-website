@@ -253,9 +253,6 @@ const SearchControls = props => {
           'input-clear',
           'vads-u-margin--0',
           `facility-type-dropdown-val-${facilityType || 'none'}`,
-          {
-            'usa-input-error': showError,
-          },
         )}
       >
         <VaSelect
@@ -264,7 +261,6 @@ const SearchControls = props => {
           id="facility-type-dropdown"
           label="Facility Type"
           value={facilityType || ''}
-          className="bor-rad"
           onVaSelect={e => handleFacilityTypeChange(e)}
           error={showError ? 'Please choose a facility type.' : null}
         >
@@ -304,11 +300,13 @@ const SearchControls = props => {
         break;
       case LocationType.CC_PROVIDER:
         return (
-          <ServiceTypeAhead
-            handleServiceTypeChange={handleServiceTypeChange}
-            initialSelectedServiceType={serviceType}
-            showError={showError}
-          />
+          <div className="typeahead">
+            <ServiceTypeAhead
+              handleServiceTypeChange={handleServiceTypeChange}
+              initialSelectedServiceType={serviceType}
+              showError={showError}
+            />
+          </div>
         );
       default:
         services = {};
@@ -325,8 +323,8 @@ const SearchControls = props => {
       <span>
         <VaSelect
           uswds
-          required
           id="service-type-dropdown"
+          disabled={disabled || !facilityType}
           label="Service Type"
           value={serviceType || ''}
           className="bor-rad"

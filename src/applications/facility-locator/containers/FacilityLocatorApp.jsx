@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import React from 'react';
 import appendQuery from 'append-query';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { validateIdString } from '../utils/helpers';
 
 class FacilityLocatorApp extends React.Component {
@@ -31,33 +31,29 @@ class FacilityLocatorApp extends React.Component {
     };
 
     const crumbs = [
-      <a href="/" key="home">
-        Home
-      </a>,
-      <Link to={appendQuery('/', searchQueryObj)} key="facility-locator">
-        Find Locations
-      </Link>,
+      {
+        href: '/',
+        label: 'Home',
+      },
+      {
+        href: appendQuery('/', searchQueryObj),
+        label: 'Find Locations',
+      },
     ];
 
     if (validateIdString(location.pathname, '/facility') && selectedResult) {
-      crumbs.push(
-        <li>
-          <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
-            {selectedResult.attributes?.name}
-          </Link>
-        </li>,
-      );
+      crumbs.push({
+        href: `/${selectedResult.id}`,
+        label: selectedResult.attributes?.name,
+      });
     } else if (
       validateIdString(location.pathname, '/provider') &&
       selectedResult
     ) {
-      crumbs.push(
-        <li>
-          <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
-            Provider Details
-          </Link>
-        </li>,
-      );
+      crumbs.push({
+        href: `/${selectedResult.id}`,
+        label: 'Provider Details',
+      });
     }
 
     return crumbs;
@@ -67,18 +63,20 @@ class FacilityLocatorApp extends React.Component {
     const { location, selectedResult } = this.props;
 
     return (
-      <div>
-        <va-breadcrumbs uswds>
-          {this.renderBreadcrumbs(location, selectedResult)}
-        </va-breadcrumbs>
-        <div className="row">
-          <DowntimeNotification
-            appTitle="facility locator tool"
-            dependencies={[externalServices.arcgis]}
-          >
-            <div className="facility-locator">{this.props.children}</div>
-          </DowntimeNotification>
+      <div className="row">
+        <div className="facility-locator">
+          <VaBreadcrumbs
+            uswds
+            label="Breadcrumbs"
+            breadcrumbList={this.renderBreadcrumbs(location, selectedResult)}
+          />
         </div>
+        <DowntimeNotification
+          appTitle="facility locator tool"
+          dependencies={[externalServices.arcgis]}
+        >
+          <div className="facility-locator">{this.props.children}</div>
+        </DowntimeNotification>
       </div>
     );
   }
