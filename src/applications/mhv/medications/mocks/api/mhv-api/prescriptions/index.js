@@ -37,6 +37,7 @@ function mockPrescription(n = 0, attrs = {}) {
       modifiedDate: null,
       institutionId: null,
       dialCmopDivisionPhone: null,
+      dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
       prescriptionNumberIndex: null,
@@ -61,7 +62,14 @@ function mockPrescription(n = 0, attrs = {}) {
           viewImageDisplayed: false,
         },
       ],
-      rxRfRecords: [],
+      rxRfRecords: [
+        {
+          shape: 'OVAL',
+          color: 'WHITE',
+          frontImprint: '9,3',
+          backImprint: '72,14',
+        },
+      ],
       tracking: null,
       orderableItem: null,
       sortedDispensedDate: '2024-02-25T10:30:00-05:00',
@@ -117,5 +125,6 @@ function generateMockPrescriptions(n = 20) {
 }
 
 module.exports = {
+  mockPrescription,
   generateMockPrescriptions,
 };
