@@ -1,7 +1,7 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
-// import createOldSchoolPage from '../../pages/oldSchool';
+import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
@@ -141,7 +141,6 @@ export const chapters = {
         uiSchema: newSchoolUiSchema(),
         schema: newSchoolSchema(),
       },
-      // oldSchool: createOldSchoolPage(fullSchema1995),
     },
   },
   personalInformation: {
@@ -164,3 +163,8 @@ export const chapters = {
     },
   },
 };
+if (isProductionOfTestProdEnv()) {
+  chapters.schoolSelection.pages.oldSchool = createOldSchoolPage(
+    fullSchema1995,
+  );
+}
