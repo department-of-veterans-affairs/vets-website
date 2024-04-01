@@ -6,7 +6,7 @@ import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
 import NoSuggestedAddress from './NoSuggestedAddress';
-import { prepareAddressData } from '../helpers';
+import { noSuggestedAddress, prepareAddressData } from '../helpers';
 
 const SuggestedAddress = ({
   formData,
@@ -106,8 +106,7 @@ const SuggestedAddress = ({
           setChooseAddress={setChooseAddress}
         />
       </div>
-      {((deliveryPointValidation !== undefined &&
-        deliveryPointValidation === 'CONFIRMED') ||
+      {(!noSuggestedAddress(deliveryPointValidation) ||
         suggestedAddressPicked) && (
         <>
           <Alert
@@ -132,7 +131,9 @@ const SuggestedAddress = ({
             >
               {`${formData?.addressLine1} ${formData?.addressLine2 || ''}`}
               <br />
-              {`${formData?.city}, ${formData?.stateCode} ${formData?.zipCode}`}
+              {`${formData?.city}, ${formData?.province ||
+                formData?.stateCode} ${formData?.internationalPostalCode ||
+                formData?.zipCode}`}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
