@@ -2,6 +2,7 @@ const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
+  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   // TODO: Add address validation endpoint
@@ -204,7 +205,7 @@ export const CHAPTER_2 = {
     PATH: 'question-3',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: "What's your question?",
+    QUESTION_1: 'What is your question?',
   },
 };
 
