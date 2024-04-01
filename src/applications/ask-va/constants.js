@@ -131,12 +131,12 @@ export const questionAboutDescriptions = {
 
 // Reason options
 export const reasonOptions = {
-  QUESTION: 'I have a question',
-  NICE: 'I want to say something nice',
-  COMPLAINT: 'I have a complaint about a service',
-  SUGGESTION: 'I have a suggestion',
-  TOWN_HALL: 'I attended a Town Hall and now I have a question',
-  SOMETHING_ELSE: 'I want to say something else',
+  QUESTION: 'I had a question',
+  NICE: 'I wanted to say something nice',
+  COMPLAINT: 'I had a complaint about a service',
+  SUGGESTION: 'I had a suggestion',
+  TOWN_HALL: 'I had a question after attending a Town Hall',
+  OTHER: 'Other',
 };
 
 // Reason options
@@ -197,9 +197,9 @@ export const CHAPTER_2 = {
   },
   PAGE_2: {
     PATH: 'question-2',
-    TITLE: "Reason you're contacting us",
+    TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+    QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
     PATH: 'question-3',
