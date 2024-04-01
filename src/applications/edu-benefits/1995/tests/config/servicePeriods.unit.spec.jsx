@@ -45,7 +45,7 @@ describe('Edu 1995 servicePeriods', () => {
     // just yes/no
     expect(
       ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length,
-    ).to.equal(6);
+    ).to.equal(2);
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')).to
       .be.empty;
 
@@ -66,6 +66,7 @@ describe('Edu 1995 servicePeriods', () => {
       <DefinitionTester
         schema={schema}
         data={{
+          applicantServed: 'Yes',
           'view:newService': true,
           toursOfDuty: [
             {
