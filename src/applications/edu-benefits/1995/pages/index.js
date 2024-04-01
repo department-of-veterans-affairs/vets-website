@@ -7,6 +7,7 @@ import * as newSchoolUpdate from './newSchoolUpdate';
 import * as servicePeriods from './servicePeriods';
 import * as servicePeriodsUpdate from './servicePeriodsUpdate';
 import * as applicantInformationUpdate from './applicantInformationUpdate';
+import { sponsorInfo } from './sponsorInfomartion';
 
 export {
   applicantInformationUpdate,
@@ -18,4 +19,5 @@ export {
   newSchoolUpdate,
   servicePeriods,
   servicePeriodsUpdate,
+  sponsorInfo,
 };
