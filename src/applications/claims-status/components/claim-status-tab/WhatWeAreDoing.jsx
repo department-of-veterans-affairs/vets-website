@@ -14,7 +14,7 @@ export default function WhatWeAreDoing({ status }) {
   return (
     <div className="what-were-doing-container vads-u-margin-bottom--4">
       <h3 className="vads-u-margin-bottom--3">What we’re doing</h3>
-      <va-card uswds="false">
+      <va-card>
         <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           {humanStatus}
         </h4>
