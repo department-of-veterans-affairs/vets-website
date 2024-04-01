@@ -43,6 +43,7 @@ export const DirectDeposit = () => {
     paymentAccount,
     controlInformation,
     error,
+    hasLoadError,
     formIsDirty,
     isIdentityVerified,
     isBlocked,
@@ -100,7 +101,7 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (error) {
+  if (hasLoadError) {
     return (
       <Wrapper>
         <LoadFail />

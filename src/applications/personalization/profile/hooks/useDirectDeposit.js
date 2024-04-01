@@ -13,7 +13,11 @@ import {
 } from '~/platform/user/selectors';
 
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
-import { getIsBlocked } from '../selectors';
+import {
+  getIsBlocked,
+  selectHasDirectDepositLoadError,
+  selectHasDirectDepositSaveError,
+} from '../selectors';
 
 export const useDirectDeposit = () => {
   const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
@@ -23,6 +27,9 @@ export const useDirectDeposit = () => {
   const { ui, error, paymentAccount, controlInformation } = useSelector(
     state => state.directDeposit,
   );
+
+  const hasLoadError = useSelector(selectHasDirectDepositLoadError);
+  const hasSaveError = useSelector(selectHasDirectDepositSaveError);
 
   const wasSaving = usePrevious(ui.isSaving);
 
@@ -55,17 +62,19 @@ export const useDirectDeposit = () => {
   // effects to trigger the success alert
   useEffect(
     () => {
-      if (!ui.isSaving && !error && wasSaving) {
+      if (!ui.isSaving && !hasSaveError && wasSaving) {
         setShowUpdateSuccess(true);
         removeBankInfoUpdatedAlert();
       }
     },
-    [wasSaving, ui.isSaving, error, removeBankInfoUpdatedAlert],
+    [wasSaving, ui.isSaving, hasSaveError, removeBankInfoUpdatedAlert],
   );
 
   return {
     ui: useMemo(() => ui, [ui]),
     error: useMemo(() => error, [error]),
+    hasLoadError,
+    hasSaveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),
     controlInformation: useMemo(() => controlInformation, [controlInformation]),
     formIsDirty,

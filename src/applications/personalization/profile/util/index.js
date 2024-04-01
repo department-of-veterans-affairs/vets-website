@@ -2,23 +2,37 @@ import cloneDeep from 'lodash/cloneDeep';
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 
+export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
+  ACCOUNT_FLAGGED_FOR_FRAUD: '.payment.account.number.fraud',
+  PAYMENT_RESTRICTIONS_PRESENT: '.payment.restriction.indicators.present',
+  ROUTING_NUMBER_FLAGGED_FOR_FRAUD: '.payment.routing.number.fraud',
+  ROUTING_NUMBER_INVALID_CHECKSUM: '.payment.routing.number.invalid.checksum',
+  ROUTING_NUMBER_INVALID: '.payment.routing.number.invalid',
+  DAY_PHONE_NUMBER_INVALID: '.payment.day.phone.number.invalid',
+  DAY_PHONE_AREA_INVALID: '.payment.day.area.number.invalid',
+  NIGHT_PHONE_NUMBER_INVALID: '.payment.night.phone.number.invalid',
+  NIGHT_PHONE_AREA_INVALID: '.payment.night.area.number.invalid',
+  MAILING_ADDRESS_INVALID: '.payment.mailing.address.invalid',
+  UNSPECIFIED_ERROR: '.payment.unspecified.error',
+  GENERIC_ERROR: '.payment.generic.error',
+};
+
 // error keys for profile/direct_deposits/disability_compensations endpoint
 // easier to export and use than importing one by one constants
-export const LIGHTHOUSE_ERROR_KEYS = {
-  ACCOUNT_FLAGGED_FOR_FRAUD: 'cnp.payment.account.number.fraud',
-  PAYMENT_RESTRICTIONS_PRESENT: 'cnp.payment.restriction.indicators.present',
-  ROUTING_NUMBER_FLAGGED_FOR_FRAUD: 'cnp.payment.routing.number.fraud',
-  ROUTING_NUMBER_INVALID_CHECKSUM:
-    'cnp.payment.routing.number.invalid.checksum',
-  ROUTING_NUMBER_INVALID: 'cnp.payment.routing.number.invalid',
-  DAY_PHONE_NUMBER_INVALID: 'cnp.payment.day.phone.number.invalid',
-  DAY_PHONE_AREA_INVALID: 'cnp.payment.day.area.number.invalid',
-  NIGHT_PHONE_NUMBER_INVALID: 'cnp.payment.night.phone.number.invalid',
-  NIGHT_PHONE_AREA_INVALID: 'cnp.payment.night.area.number.invalid',
-  MAILING_ADDRESS_INVALID: 'cnp.payment.mailing.address.invalid',
-  UNSPECIFIED_ERROR: 'cnp.payment.unspecified.error',
-  GENERIC_ERROR: 'cnp.payment.generic.error',
-};
+// add cnp to the front of each base error key
+export const LIGHTHOUSE_ERROR_KEYS = Object.keys(
+  BASE_DIRECT_DEPOSIT_ERROR_KEYS,
+).reduce((acc, key) => {
+  acc[key] = `cnp${BASE_DIRECT_DEPOSIT_ERROR_KEYS[key]}`;
+  return acc;
+}, {});
+
+export const DIRECT_DEPOSIT_ERROR_KEYS = Object.keys(
+  BASE_DIRECT_DEPOSIT_ERROR_KEYS,
+).reduce((acc, key) => {
+  acc[key] = `direct.deposit${BASE_DIRECT_DEPOSIT_ERROR_KEYS[key]}`;
+  return acc;
+}, {});
 
 const OTHER_ERROR_GA_KEY = 'other-error';
 
@@ -68,7 +82,10 @@ export const hasErrorCombos = ({
 export const hasAccountFlaggedError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD],
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
+      DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
+    ],
   });
 
 export const hasRoutingNumberFlaggedError = errors =>
@@ -77,12 +94,19 @@ export const hasRoutingNumberFlaggedError = errors =>
     errorKeys: [LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD],
   });
 
+// the cases for invalid routing number include:
+// - invalid routing number checksum error code
+// - invalid routing number error code
+// - unspecified error code with error text 'Invalid Routing Number' in the error detail
+// - generic error code with error text 'Invalid Routing Number' in the error detail
 export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
       LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
+      DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID,
     ],
   }) ||
   hasErrorCombos({
@@ -90,26 +114,48 @@ export const hasInvalidRoutingNumberError = errors =>
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['Invalid Routing Number'],
   });
 
+// the cases for invalid address include:
+// - unspecified error code with error text 'address update' in the error detail
+// - generic error code with error text 'address update' in the error detail
+// - mailing address invalid error code
 export const hasInvalidAddressError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['address update'],
-  }) || hasErrorMessage(errors, LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID);
+  }) ||
+  hasErrorCombos({
+    errors,
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.MAILING_ADDRESS_INVALID,
+    ],
+  });
 
+// the cases for invalid phone number include:
+// - unspecified error code with error text 'night phone number' or 'night area number' in the error detail
+// - generic error code with error text 'night phone number' or 'night area number' in the error detail
+// - night phone number invalid error code
+// - night area number invalid error code
 export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['night phone number', 'night area number'],
   }) ||
@@ -118,15 +164,24 @@ export const hasInvalidHomePhoneNumberError = errors =>
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
       LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
     ],
   });
 
+// the cases for invalid phone number include:
+// - unspecified error code with error text 'day phone number' or 'day area number' in the error detail
+// - generic error code with error text 'day phone number' or 'day area number' in the error detail
+// - day phone number invalid error code
+// - day area number invalid error code
 export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
+      DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
     errorTexts: ['day phone number', 'day area number'],
   }) ||
@@ -135,15 +190,23 @@ export const hasInvalidWorkPhoneNumberError = errors =>
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
       LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
     ],
   });
 
+// the cases for payment restriction indicators present include:
+// - payment restrictions present error code
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT],
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
+      DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
+    ],
   });
 
+// BEGIN TODO: remove this once the direct deposit form is updated to use single form
 export const cnpDirectDepositBankInfo = apiData => {
   return apiData?.paymentAccount;
 };
@@ -162,6 +225,7 @@ export const isSignedUpForCNPDirectDeposit = apiData =>
 
 export const isSignedUpForEDUDirectDeposit = apiData =>
   !!eduDirectDepositAccountNumber(apiData);
+// END TODO: remove this once the direct deposit form is updated to use single form
 
 const getLighthouseErrorCode = (errors = []) => {
   // there should only be one error code in the errors array, but just in case

@@ -13,6 +13,7 @@ import {
 
 import { PROFILE_TOGGLES } from './constants';
 
+// START OF TODO: remove this once the direct deposit form is updated to use single form
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
 
@@ -58,7 +59,19 @@ export const eduDirectDepositLoadError = state => {
 export const cnpDirectDepositIsEligible = state =>
   !!cnpDirectDepositInformation(state)?.controlInformation
     ?.canUpdateDirectDeposit;
+// END OF TODO: remove this once the direct deposit form is updated to use single form
 
+// if there is no account information but and error, we can assume the user has
+// encountered an error while trying to load their direct deposit information
+export const selectHasDirectDepositLoadError = state =>
+  state.directDeposit?.error && !state.directDeposit?.paymentAccount;
+
+// if there is an error and account information, we can assume the user has
+// encountered an error while trying to save new direct deposit information
+export const selectHasDirectDepositSaveError = state =>
+  state.directDeposit?.error && state.directDeposit?.paymentAccount;
+
+// used specifically for direct deposit control information
 export const getIsBlocked = controlInformation => {
   if (!controlInformation) return false;
 
@@ -113,6 +126,7 @@ export const selectProfileToggles = createSelector(toggleValues, values => {
   );
 });
 
+// TODO: update this to use a more universal toggle for single form direct deposit
 export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
 
