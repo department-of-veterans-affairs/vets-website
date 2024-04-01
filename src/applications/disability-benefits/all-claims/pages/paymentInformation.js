@@ -4,7 +4,10 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 import { bankFieldsHaveInput } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentViewObjectField from '../components/PaymentViewObjectField';
-import { paymentInformationTitle } from '../content/paymentInformation';
+import {
+  addAccountAlert,
+  paymentInformationTitle,
+} from '../content/paymentInformation';
 
 const {
   bankAccountType,
@@ -28,6 +31,9 @@ export const uiSchema = {
       itemName: 'account',
       startInEdit: formData => !formData['view:hasPrefilledBank'],
       volatileData: true,
+    },
+    'view:newAccountAlert': {
+      'ui:description': addAccountAlert,
     },
     bankAccountType: {
       'ui:title': 'Account type',
@@ -66,6 +72,10 @@ export const schema = {
     'view:bankAccount': {
       type: 'object',
       properties: {
+        'view:newAccountAlert': {
+          type: 'object',
+          properties: {},
+        },
         bankAccountType,
         bankAccountNumber,
         bankRoutingNumber,
