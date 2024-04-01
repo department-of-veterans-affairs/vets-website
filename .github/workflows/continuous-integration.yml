@@ -655,6 +655,18 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
+      - name: Restore cached vagovprod folder
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/cache@v2
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: ${{ runner.os }}-build-vagovprod-dependency-${{ hashFiles('**/vagovprod/**') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+
       # - name: Download production build artifact
       #   if: needs.tests-prep.outputs.cypress-tests != '[]'
       #   uses: ./.github/workflows/download-artifact
@@ -666,17 +678,6 @@ jobs:
       #   run: |
       #     mkdir -p build/vagovprod
       #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
-
-     - name: Restore cached vagovprod folder
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/cache@v2
-        with:
-          path: $GITHUB_WORKSPACE/build/vagovprod
-          key: ${{ runner.os }}-build-vagovprod-dependency-${{ hashFiles('**/vagovprod/**') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
