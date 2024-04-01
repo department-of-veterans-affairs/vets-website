@@ -11,7 +11,7 @@ const requiredFiles = [
   'applicantMedicarePartDCard',
   'over65IneligibleCert', // TODO: make form page for this
   'applicantOhiCard',
-  'applicant107959c',
+  'applicantOtherInsuranceCertification',
 ];
 
 /**

@@ -420,7 +420,11 @@ describe('getData, creator', () => {
     await store.dispatch(validateAddress(formData, fullName));
 
     const actions = store.getActions();
-
+    const errors = {
+      status: 500,
+      error: 'Failed to update address',
+    };
+    apiRequestStub.rejects(errors);
     expect(actions[0]).to.deep.equal({ type: ADDRESS_VALIDATION_START });
     expect(actions[1]).to.deep.equal({ type: UPDATE_ADDRESS });
     try {
@@ -434,14 +438,9 @@ describe('getData, creator', () => {
         }),
       );
     } catch (error) {
-      const errors = {
-        status: 500,
-        error: 'Failed to update address',
-      };
-      apiRequestStub.rejects(errors);
-
       expect(actions[0]).to.deep.equal({ type: 'ADDRESS_VALIDATION_START' });
-      expect(actions[1]).to.deep.equal({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      expect(actions[1]).to.deep.equal({ type: 'UPDATE_ADDRESS' });
+      expect(error.message).to.include('Failed to update address');
     }
   });
 });
