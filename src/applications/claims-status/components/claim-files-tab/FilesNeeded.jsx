@@ -1,17 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import { truncateDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 
-function FilesNeeded({ id, item }) {
+function FilesNeeded({ item }) {
   return (
-    <va-alert
-      class="primary-alert vads-u-margin-bottom--2"
-      status="warning"
-      uswds
-    >
+    <va-alert class="primary-alert vads-u-margin-bottom--2" status="warning">
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>
@@ -24,7 +20,7 @@ function FilesNeeded({ id, item }) {
           aria-label={`View details for ${item.displayName}`}
           title={`View details for ${item.displayName}`}
           className="vads-c-action-link--blue"
-          to={`your-claims/${id}/document-request/${item.id}`}
+          to={`../document-request/${item.id}`}
         >
           View details
         </Link>
@@ -34,7 +30,6 @@ function FilesNeeded({ id, item }) {
 }
 
 FilesNeeded.propTypes = {
-  id: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
 };
 
