@@ -148,7 +148,6 @@ export const chapters = {
         uiSchema: newSchoolUiSchema(),
         schema: newSchoolSchema(),
       },
-      oldSchool: createOldSchoolPage(fullSchema1995),
     },
   },
   personalInformation: {
@@ -171,3 +170,8 @@ export const chapters = {
     },
   },
 };
+if (isProductionOfTestProdEnv()) {
+  chapters.schoolSelection.pages.oldSchool = createOldSchoolPage(
+    fullSchema1995,
+  );
+}
