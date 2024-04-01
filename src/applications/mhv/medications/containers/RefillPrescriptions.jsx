@@ -64,11 +64,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
         const reduceBy = ([refillable, renewable], rx) => {
           if (
-            rx.isRefillable ||
-            ([dispStatusObj.active, dispStatusObj.activeParked].includes(
-              rx.dispStatus,
-            ) &&
-              rx.refillRemaining > 0)
+            (rx.dispStatus === dispStatusObj.active &&
+              rx.refillRemaining > 0) ||
+            (rx.dispStatus === dispStatusObj.activeParked &&
+              (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
           ) {
             return [[...refillable, rx], renewable];
           }

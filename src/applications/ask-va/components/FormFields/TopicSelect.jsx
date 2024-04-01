@@ -64,9 +64,9 @@ const TopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${environment.API_URL}${URL.GET_CATEGORIES}/${categoryID}${
+        `${environment.API_URL}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${
           URL.GET_TOPICS
-        }?mock=true`,
+        }`,
       );
     },
     [loggedIn],

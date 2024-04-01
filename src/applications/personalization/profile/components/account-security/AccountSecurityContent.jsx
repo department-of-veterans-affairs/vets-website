@@ -20,15 +20,17 @@ import {
 } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
 import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 
 const IdNotVerifiedContent = () => {
+  const signInService = useSelector(signInServiceName);
   const showCredRetirementMessaging = useSelector(
     selectShowCredRetirementMessaging,
   );
   return showCredRetirementMessaging ? (
     <AccountSecurityLoa1CredAlert />
   ) : (
-    <IdentityNotVerified />
+    <IdentityNotVerified signInService={signInService} />
   );
 };
 
