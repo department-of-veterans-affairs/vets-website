@@ -110,6 +110,7 @@ jobs:
           ls -la $GITHUB_WORKSPACE/build
 
       - name: vaprod cache
+        id: vaprod-cache
         uses: actions/cache@v2
         env:
           cache-name: vagovprod-dependency
@@ -117,7 +118,7 @@ jobs:
           path: $GITHUB_WORKSPACE/build/vagovprod
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/vagovprod/**') }}
           restore-keys: |
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
@@ -691,14 +692,21 @@ jobs:
       #     path: $GITHUB_WORKSPACE/build/vagovprod
       #     key: vagovprod-${{ runner.os }}-${{ hashFiles('**/vagovprod/**') }}
 
-      - name: Restore cached docker image
-        uses: actions/cache/restore@v4
+      - name: Restore cached vagovprod folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/cache@v2
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: vagovprod-${{ runner.os }}-${{ hashFiles('**/vagovprod/**') }}
+          key: ${{ runner.os }}-build-vagovprod-dependency-${{ hashFiles('**/vagovprod/**') }}
           restore-keys: |
-            vagovprod-${{ runner.os }}-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Run Cypress tests
+        run: |
+          # Example command using vagovprod folder
+          ls -la $GITHUB_WORKSPACE/build/
 
 
       - name: Run Cypress tests
