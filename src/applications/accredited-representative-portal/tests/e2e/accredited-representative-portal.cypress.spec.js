@@ -13,6 +13,8 @@ describe('Accredited Representative Portal', () => {
         this.skip();
       }
       featureIsEnabled(false);
+
+      cy.injectAxe();
     });
 
     it('does not allow navigation to the Portal when feature is not enabled', () => {
@@ -21,8 +23,6 @@ describe('Accredited Representative Portal', () => {
       // environment is localhost, so we can't test our global feature toggling
       // behavior there without doing some more complex test setup.
       cy.visit('/representative');
-
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.location('pathname').should('equal', '/');
@@ -33,10 +33,11 @@ describe('Accredited Representative Portal', () => {
     beforeEach(() => {
       featureIsEnabled(true);
       cy.visit('/representative');
+
+      cy.injectAxe();
     });
 
     it('allows navigation from the Landing Page to unified sign-in page', () => {
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-sign-in-link]')
@@ -46,7 +47,6 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('allows navigation from the Landing Page to the Dashboard Page and back', () => {
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-heading]').should(
@@ -71,7 +71,6 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('allows navigation from the Landing Page to the Dashboard Page to the POA Requests Page and back', () => {
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-heading]').should(
@@ -103,7 +102,6 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('allows navigation from the Landing Page to the Dashboard Page to the Permissions Page and back', () => {
-      cy.injectAxe();
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-heading]').should(
