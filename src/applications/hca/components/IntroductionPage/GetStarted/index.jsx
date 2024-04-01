@@ -11,12 +11,12 @@ import OMBInfo from './OMBInfo';
 
 const GetStarted = ({ route }) => {
   const { isESOverrideEnabled } = useSelector(selectFeatureToggles);
-  const { noESRRecordFound, hasServerError, hasApplyStatus } = useSelector(
+  const { vesRecordFound, hasServerError, hasApplyStatus } = useSelector(
     selectEnrollmentStatus,
   );
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const showEnrollmentDetails =
-    isLoggedIn && (!noESRRecordFound || hasServerError) && !isESOverrideEnabled;
+    isLoggedIn && (vesRecordFound || hasServerError) && !isESOverrideEnabled;
   const showOmbInfo = showEnrollmentDetails
     ? !hasServerError && hasApplyStatus
     : true;
