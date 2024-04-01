@@ -2,7 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  reportGeneratedBy,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   getPrescriptionDetails,
   getAllergiesList,
@@ -35,7 +38,6 @@ import {
 import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
-import { reportGeneratedBy } from '../../shared/util/constants';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
 import usePrintTitle from '../components/shared/usePrintTitle';

@@ -230,7 +230,6 @@ class AddFilesForm extends React.Component {
                   <div className="remove-document-button">
                     <va-button
                       secondary
-                      uswds
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
                     />
@@ -245,7 +244,6 @@ class AddFilesForm extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -261,7 +259,6 @@ class AddFilesForm extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -293,7 +290,6 @@ class AddFilesForm extends React.Component {
           message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
-          uswds
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
@@ -306,7 +302,6 @@ class AddFilesForm extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--3"
           trigger="Need to mail your files?"
-          uswds
         >
           {mailMessage}
         </va-additional-info>
