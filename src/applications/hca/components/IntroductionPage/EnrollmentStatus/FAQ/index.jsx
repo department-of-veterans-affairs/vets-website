@@ -8,7 +8,7 @@ import GeneralFAQs from '../ContentBlocks/GeneralFAQs';
 import ReapplyFAQs from '../ContentBlocks/ReapplyFAQs';
 
 const EnrollmentStatusFAQ = () => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
+  const { statusCode } = useSelector(selectEnrollmentStatus);
 
   // Declare content blocks for use
   const {
@@ -117,7 +117,7 @@ const EnrollmentStatusFAQ = () => {
   const contentMap = createLiteralMap(contentDictionary);
 
   // Render based on enrollment status
-  return contentMap[enrollmentStatus] || null;
+  return contentMap[statusCode] || null;
 };
 
 export default EnrollmentStatusFAQ;
