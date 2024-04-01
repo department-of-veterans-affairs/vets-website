@@ -13,8 +13,6 @@ describe('Accredited Representative Portal', () => {
         this.skip();
       }
       featureIsEnabled(false);
-
-      cy.injectAxe();
     });
 
     it('does not allow navigation to the Portal when feature is not enabled', () => {
@@ -23,6 +21,7 @@ describe('Accredited Representative Portal', () => {
       // environment is localhost, so we can't test our global feature toggling
       // behavior there without doing some more complex test setup.
       cy.visit('/representative');
+      cy.injectAxe();
       cy.axeCheck();
 
       cy.location('pathname').should('equal', '/');
