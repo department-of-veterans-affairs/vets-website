@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import content from '../../locales/en/content.json';
+import { APP_URLS } from '../../utils/constants';
 import ServerErrorAlert from './ServerErrorAlert';
 
 const EnrollmentStatusAlert = ({ showError }) => {
@@ -9,10 +10,7 @@ const EnrollmentStatusAlert = ({ showError }) => {
       <h3 slot="headline">{content['alert-enrollment-title']}</h3>
       <div>
         <p>{content['alert-enrollment-message']}</p>
-        <a
-          className="vads-c-action-link--green"
-          href="/health-care/apply/application"
-        >
+        <a className="vads-c-action-link--green" href={APP_URLS.hca}>
           {content['alert-enrollment-action']}
         </a>
       </div>
