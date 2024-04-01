@@ -8,7 +8,7 @@ import { fileTypes, maxSize, minSize } from '../../config/attachments';
 
 const uploadUrl = `${
   environment.API_URL
-}/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
+}/ivc_champva/v1/forms/submit_supporting_documents`;
 
 function createPayload(file, _formId, password) {
   const payload = new FormData();

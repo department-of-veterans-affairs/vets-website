@@ -125,7 +125,7 @@ const formConfig = {
   urlPrefix: '/',
   transformForSubmit,
   showReviewErrors: !environment.isProduction(),
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   // submit: () =>
   // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',
