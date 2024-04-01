@@ -37,8 +37,7 @@ const InfoAlert = ({ highLowResults, fullState }) => (
           Compose a message on the My HealtheVet website
         </a>
       </p>
-      <p>
-        data-testid="result-Alert-note"
+      <p data-testid="result-Alert-note">
         <strong>Note:</strong> If you have questions about more than 1 test
         ordered by the same care team, send 1 message with all of your
         questions.

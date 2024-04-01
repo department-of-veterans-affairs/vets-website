@@ -146,7 +146,7 @@
   "ratedDisabilitiesSortAbTest": "rated_disabilities_sort_ab_test",
   "ratedDisabilitiesDetectDiscrepancies": "rated_disabilities_detect_discrepancies",
   "ratedDisabilitiesUseLighthouse": "rated_disabilities_use_lighthouse",
-  "representativeStatus": "representative_status",
+  "representativeStatusEnabled": "representative_status_enabled",
   "scBrowserMonitoringEnabled": "sc_browser_monitoring_enabled",
   "searchRepresentative": "search_representative",
   "searchDropdownComponentEnabled": "search_dropdown_component_enabled",
