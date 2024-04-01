@@ -5,7 +5,7 @@ import {
 } from '../utils/constants';
 
 function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
-  const { data = {}, type } = action;
+  const { response = {}, type } = action;
   const {
     FETCH_ENROLLMENT_STATUS_STARTED,
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
@@ -25,7 +25,7 @@ function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
         effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
-      } = data;
+      } = response;
       const enrollmentStatus = parsedStatus;
       const isInESR =
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
