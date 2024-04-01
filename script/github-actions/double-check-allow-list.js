@@ -6,7 +6,7 @@ const core = require('@actions/core');
 const TESTS =
   JSON.parse(process.env.TESTS).map(test => test.slice(test.indexOf('src'))) ||
   [];
-const TESTS_PROPERTY = process.env.TESTS_PROPERTY || TESTS;
+const TESTS_PROPERTY = process.env.TEST_PROPERTY || 'TESTS';
 
 const ALLOW_LIST =
   process.env.TEST_TYPE &&
