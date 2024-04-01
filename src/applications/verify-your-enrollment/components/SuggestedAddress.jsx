@@ -77,17 +77,17 @@ const SuggestedAddress = ({
             ...addressState,
           }),
         );
+        setAddressToUI({
+          street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
+          city: formData.city,
+          ...stateAndZip,
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
         dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
         setFormData({});
       }
-      setAddressToUI({
-        street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
-        city: formData.city,
-        ...stateAndZip,
-      });
     }
   };
 
@@ -155,7 +155,9 @@ const SuggestedAddress = ({
             >
               {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
               <br />
-              {`${address?.city}, ${address?.stateCode} ${address?.zipCode}`}
+              {`${address?.city}, ${formData?.province ||
+                address?.stateCode} ${formData?.internationalPostalCode ||
+                address?.zipCode}`}
             </label>
           </div>
         </>

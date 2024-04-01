@@ -104,9 +104,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     [handleCloseForm, isLoading, isLoadingValidateAddress],
   );
   const setAddressToUI = value => {
-    if (response) {
-      setNewAddress(value);
-    }
+    setNewAddress(value);
   };
 
   // This effect to reset setEditFormData and remove address from sessionStorage
@@ -280,7 +278,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
               formData={editFormData}
-              toggleAddressForm={toggleAddressForm}
             >
               <LoadingButton
                 aria-label="save your Mailing address for GI Bill benefits"
