@@ -62,39 +62,25 @@ function generateOptions({ data, pagePerItemIndex }) {
     personTitle,
     applicant,
     useFirstPerson,
-    relative,
-    beingVerbPresent,
     relativePossessive,
   } = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const marriedDeceased = `${relative} was married to the ${personTitle} at any time`;
-  const marriedLiving = `${relative} ${beingVerbPresent} the ${personTitle}’s spouse`;
-  const marriedLivingDivorced = `${relative} was the ${personTitle}’s spouse, but ${beingVerbPresent} no longer married to the ${personTitle}`;
-
-  const marriageOptions = [];
-  if (data.sponsorIsDeceased) {
-    marriageOptions.push({ label: marriedDeceased, value: 'spouse' });
-  } else {
-    marriageOptions.push({ label: marriedLiving, value: 'spouse' });
-    marriageOptions.push({
-      label: marriedLivingDivorced,
-      value: 'spouseSeparated',
-    });
-  }
-
   // Create dynamic radio labels based on above phrasing
   const options = [
-    ...marriageOptions,
     {
-      label: `${relative} ${beingVerbPresent} the ${personTitle}’s ${
-        data.sponsorIsDeceased ? 'surviving' : ''
-      } child (including adopted children and stepchildren)`,
-      value: 'child',
+      label: `${
+        data.sponsorIsDeceased ? 'Surviving s' : 'S'
+      }pouse or partner from a legal union (including a civil union or common-law marriage`,
+      value: 'spouse',
     },
     {
       label: `${
-        useFirstPerson ? 'Our' : `${applicant}’s`
-      } relationship is not listed here`,
+        data.sponsorIsDeceased ? 'Surviving c' : 'C'
+      }hild (including adopted children or step children)`,
+      value: 'child',
+    },
+    {
+      label: 'Other relationship',
       value: 'other',
     },
   ];
@@ -107,7 +93,9 @@ function generateOptions({ data, pagePerItemIndex }) {
     personTitle,
     keyname,
     currentListItem,
-    description: `Relationship to ${personTitle}`,
+    description: `What’s ${
+      useFirstPerson ? `your` : `${applicant}’s`
+    } relationship to the ${personTitle}?`,
   };
 }
 

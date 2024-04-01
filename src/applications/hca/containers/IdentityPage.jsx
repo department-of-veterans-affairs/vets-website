@@ -10,9 +10,9 @@ import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide
 import { isLoggedIn } from '~/platform/user/selectors';
 
 import {
-  getEnrollmentStatus,
+  fetchEnrollmentStatus,
   resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions';
+} from '../utils/actions/enrollment-status';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
@@ -153,7 +153,7 @@ IdentityPage.propTypes = {
 const mapDispatchToProps = {
   resetEnrollmentStatus: resetEnrollmentStatusAction,
   setFormData: setData,
-  submitIDForm: getEnrollmentStatus,
+  submitIDForm: fetchEnrollmentStatus,
   toggleLoginModal: toggleLoginModalAction,
 };
 

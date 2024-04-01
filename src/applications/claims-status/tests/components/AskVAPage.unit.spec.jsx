@@ -90,7 +90,7 @@ describe('<AskVAPage>', () => {
   });
 
   it('should update claims and redirect after success', () => {
-    const router = getRouter();
+    const navigate = sinon.spy();
     const submitRequest = sinon.spy();
     const getClaim = sinon.spy();
 
@@ -98,7 +98,7 @@ describe('<AskVAPage>', () => {
       <AskVAPage
         params={{ id: 1 }}
         submitRequest={submitRequest}
-        router={router}
+        navigate={navigate}
       />,
     );
     tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
@@ -106,11 +106,11 @@ describe('<AskVAPage>', () => {
       getClaim,
     });
     expect(getClaim.calledWith(1)).to.be.true;
-    expect(router.push.calledWith('your-claims/1')).to.be.true;
+    expect(navigate.calledWith('../status')).to.be.true;
   });
 
   // START lighthouse_migration
-  context('cst_use_lighthouse feature toggle', () => {
+  context('cst_use_lighthouse_5103 feature toggle', () => {
     const params = { id: 1 };
 
     const props = {

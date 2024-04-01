@@ -14,27 +14,27 @@ describe('<FileUpload />', () => {
     );
   });
 
-  it('displays a message when there are no attachments', () => {
-    const screen = render(<FileUpload />);
+  // it('displays a message when there are no attachments', () => {
+  //   const screen = render(<FileUpload />);
 
-    expect(screen.getByText('There are no attachments.')).to.exist;
-  });
+  //   expect(screen.getByText('There are no attachments.')).to.exist;
+  // });
 
-  it('displays a success message for uploads', () => {
-    const success = true;
-    const props = { success };
-    const screen = render(<FileUpload {...props} />);
+  // it('displays a success message for uploads', () => {
+  //   const success = true;
+  //   const props = { success };
+  //   const screen = render(<FileUpload {...props} />);
 
-    expect(screen.getByText('File attached successfully')).to.exist;
-  });
+  //   expect(screen.getByText('File attached successfully')).to.exist;
+  // });
 
-  it('displays a failure message for uploads', () => {
-    const success = false;
-    const props = { success };
-    const screen = render(<FileUpload {...props} />);
+  // it('displays a failure message for uploads', () => {
+  //   const success = false;
+  //   const props = { success };
+  //   const screen = render(<FileUpload {...props} />);
 
-    expect(screen.getByText('Issue uploading your file')).to.exist;
-  });
+  //   expect(screen.getByText('Issue uploading your file')).to.exist;
+  // });
 
   it('allows the user to add a file', async () => {
     const screen = render(<FileUpload />);

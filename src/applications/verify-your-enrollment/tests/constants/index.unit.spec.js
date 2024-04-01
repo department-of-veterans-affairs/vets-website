@@ -7,7 +7,7 @@ import {
   BAD_UNIT_NUMBER,
   MISSING_UNIT_NUMBER,
   Paragraph,
-  errorAddressAlrt,
+  errorAddressAlert,
 } from '../../constants';
 
 const mockStore = configureMockStore();
@@ -19,10 +19,10 @@ describe('when <Paragraph/> renders', () => {
     expect(wrapper.exists()).to.be.ok;
     wrapper.unmount();
   });
-  describe('errorAddressAlrt', () => {
+  describe('errorAddressAlert', () => {
     it('should return the correct alert for BAD_UNIT_NUMBER', () => {
       const wrapper = shallow(
-        <Provider store={store}>{errorAddressAlrt(BAD_UNIT_NUMBER)}</Provider>,
+        <Provider store={store}>{errorAddressAlert(BAD_UNIT_NUMBER)}</Provider>,
       );
       expect(wrapper.find('Alert')).to.have.length(1);
       expect(wrapper.find('Alert').prop('title')).to.equal(
@@ -37,7 +37,7 @@ describe('when <Paragraph/> renders', () => {
     it('should return the correct alert for MISSING_UNIT_NUMBER', () => {
       const wrapper = shallow(
         <Provider store={store}>
-          {errorAddressAlrt(MISSING_UNIT_NUMBER)}
+          {errorAddressAlert(MISSING_UNIT_NUMBER)}
         </Provider>,
       );
       expect(wrapper.find('Alert')).to.have.length(1);
@@ -52,7 +52,7 @@ describe('when <Paragraph/> renders', () => {
 
     it('should return the correct alert for MISSING_ZIP', () => {
       const wrapper = shallow(
-        <Provider store={store}>{errorAddressAlrt('MISSING_ZIP')}</Provider>,
+        <Provider store={store}>{errorAddressAlert('MISSING_ZIP')}</Provider>,
       );
       expect(wrapper.find('Alert')).to.have.length(1);
       expect(wrapper.find('Alert').prop('title')).to.equal(
@@ -65,7 +65,7 @@ describe('when <Paragraph/> renders', () => {
     });
 
     it('should return null for other values', () => {
-      expect(errorAddressAlrt('OTHER_VALUE')).to.be.null;
+      expect(errorAddressAlert('OTHER_VALUE')).to.be.null;
     });
   });
 });
