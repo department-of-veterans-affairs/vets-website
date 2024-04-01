@@ -91,6 +91,19 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+      - name: vaprod cache
+        id: vaprod-cache
+        uses: actions/cache@v2
+        env:
+          cache-name: vagovprod-dependency
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/vagovprod/**') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-latest
@@ -642,17 +655,28 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
-      - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: vagovprod.tar.bz2
+      # - name: Download production build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: ./.github/workflows/download-artifact
+      #   with:
+      #     name: vagovprod.tar.bz2
 
-      - name: Unpack build
+      # - name: Unpack build
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     mkdir -p build/vagovprod
+      #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+     - name: Restore cached vagovprod folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+        uses: actions/cache@v2
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: ${{ runner.os }}-build-vagovprod-dependency-${{ hashFiles('**/vagovprod/**') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
