@@ -832,7 +832,7 @@ describe('Disability benefits helpers: ', () => {
           .find('Link');
 
         expect(linkToDDL.length).to.equal(1);
-        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+        expect(linkToDDL.props().to).to.equal('/your-claim-letters');
 
         descText.unmount();
       });
@@ -857,7 +857,7 @@ describe('Disability benefits helpers: ', () => {
           .find('Link');
 
         expect(linkToDDL.length).to.equal(1);
-        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+        expect(linkToDDL.props().to).to.equal('/your-claim-letters');
 
         descText.unmount();
       });
