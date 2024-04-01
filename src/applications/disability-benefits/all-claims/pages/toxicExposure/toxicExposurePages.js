@@ -1,16 +1,15 @@
 import {
-  toxicExposureConditions,
   gulfWar1990Locations,
+  toxicExposureConditions,
   gulfWar1990LocationDates,
 } from '..';
+import { TE_URL_PREFIX } from '../../constants';
 import {
   conditionsPageTitle,
   gulfWar1990PageTitle,
   isClaimingTECondition,
   showToxicExposurePages,
 } from '../../content/toxicExposure';
-
-export const TE_URL_PREFIX = 'toxic-exposure';
 
 export const toxicExposurePages = {
   toxicExposureConditions: {

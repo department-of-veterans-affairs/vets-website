@@ -13,8 +13,7 @@ import {
   showGulfWar1990LocationDatesPage,
   startDateApproximate,
 } from '../../content/toxicExposure';
-import { GULF_WAR_1990_LOCATIONS } from '../../constants';
-import { TE_URL_PREFIX } from './toxicExposurePages';
+import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
 /**
  * Make the uiSchema for each gulf war 1990 location with dates page

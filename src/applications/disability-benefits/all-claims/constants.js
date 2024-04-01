@@ -343,6 +343,8 @@ export const OMB_CONTROL = '2900-0747';
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
 
+export const TE_URL_PREFIX = 'toxic-exposure';
+
 export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   afghanistan: 'Afghanistan',
   bahrain: 'Bahrain',
