@@ -9,6 +9,25 @@ import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 
+const rxRefillDescription = rxRefill => {
+  const {
+    shape = '',
+    color = '',
+    frontImprint = '',
+    backImprint = '',
+  } = rxRefill;
+  if (
+    shape !== '' &&
+    color !== '' &&
+    frontImprint !== '' &&
+    backImprint !== ''
+  ) {
+    const desc = `${color}, ${shape} with ${frontImprint} on the front and ${backImprint} on the back`;
+    return `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}`;
+  }
+  return 'Description not available. Call the pharmacy.';
+};
+
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const refillHistory = [...(prescription?.rxRfRecords || [])];
@@ -194,6 +213,8 @@ const VaPrescription = prescription => {
                       </p>
                     )}
                   </div>
+                  <h4>Description</h4>
+                  <p>{rxRefillDescription(entry)}</p>
                 </div>
               ))}
             {refillHistory.length <= 1 &&
