@@ -1,5 +1,10 @@
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
+// declare API endpoint routes
+export const API_ENDPOINTS = {
+  enrollmentStatus: '/health_care_applications/enrollment_status',
+};
+
 // declare global app URLs for use with content links
 export const APP_URLS = {
   dischargeWizard: getAppUrl('discharge-upgrade-instructions'),
@@ -110,6 +115,15 @@ export const HCA_APPLY_ALLOWED_STATUSES = new Set([
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
 
+// declare a valid response for the enrollment status endpoint
+export const MOCK_ENROLLMENT_RESPONSE = {
+  applicationDate: '2019-04-24T00:00:00.000-06:00',
+  enrollmentDate: '2019-04-30T00:00:00.000-06:00',
+  preferredFacility: '463 - CHEY6',
+  parsedStatus: 'enrolled',
+  effectiveDate: '2019-04-25T00:00:00.000-06:00',
+};
+
 // declare labels for last service branch select box
 export const SERVICE_BRANCH_LABELS = {
   'air force': 'Air Force',
@@ -131,9 +145,7 @@ export const SERVICE_BRANCH_LABELS = {
 // declare name to use for window session storage item
 export const SESSION_ITEM_NAME = 'hcaDependentIndex';
 
-/**
- * declare routes that are shared between custom form pages
- */
+// declare routes that are shared between custom form pages
 export const SHARED_PATHS = {
   dependents: {
     summary: 'household-information/dependents',
