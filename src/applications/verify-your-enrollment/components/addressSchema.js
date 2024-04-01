@@ -30,6 +30,7 @@ export const getFormSchema = (defaultVeteranName, formData = {}) => {
       'view:livesOnMilitaryBaseInfo': {
         type: 'object',
         properties: {},
+        default: formData['view:livesOnMilitaryBas'],
       },
       fullName: {
         type: 'string',
