@@ -35,6 +35,7 @@ const disallowedTests = ALLOW_LIST.filter(test => test.allowed === false).map(
 console.log(disallowedTests);
 
 if (process.env.TEST_TYPE === 'e2e') {
+  console.log('e2e tests');
   const newDisallowedTests = disallowedTests.filter(test =>
     TESTS.includes(test),
   );
