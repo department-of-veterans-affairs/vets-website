@@ -37,6 +37,9 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+
+      - name: check path again #DELETE
+        run: ls -la
               
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -47,6 +50,9 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: check path again #DELETE
+        run: ls -la
 
       - name: Get changed applications
         id: get-changed-apps
@@ -91,7 +97,7 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
-      - name: test paths
+      - name: test paths #DELETE
         run: ls $GITHUB_WORKSPACE/build/
 
       - name: vaprod cache
@@ -646,7 +652,6 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
       
-          
 
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -660,6 +665,16 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
+      - name: Unpack build
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: |
+          mkdir -p build/
+
+      - name: ensure vagovprod folder is present #DELETE
+        run: |
+          # Example command using vagovprod folder
+          ls -la
+
       - name: Restore cached vagovprod folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/cache@v2
@@ -671,7 +686,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: ensure vagovprod folder is present
+      - name: ensure vagovprod folder is present #DELETE
         run: |
           # Example command using vagovprod folder
           ls -la
