@@ -51,7 +51,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: check path again #DELETE
+      - name: check path again #DELETE2
         run: ls -la $GITHUB_WORKSPACE/
 
       - name: Get changed applications
