@@ -36,11 +36,13 @@ const createInitialState = ({
   const state = {
     directDeposit: {
       controlInformation,
-      paymentAccount: {
-        name: 'TEST BANK NAME',
-        accountNumber: 'test acount number',
-        routingNumber: 'test routing number',
-      },
+      paymentAccount: error
+        ? null
+        : {
+            name: 'TEST BANK NAME',
+            accountNumber: 'test acount number',
+            routingNumber: 'test routing number',
+          },
       error: null,
       ui: {
         isEditing: false,
