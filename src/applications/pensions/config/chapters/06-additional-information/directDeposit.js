@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { DirectDepositWarning } from '../../../helpers';
 
-export const directDeposit = {
+export default {
   title: 'Direct deposit for Veterans Pension benefits',
   path: 'additional-information/direct-deposit',
   initialData: {},

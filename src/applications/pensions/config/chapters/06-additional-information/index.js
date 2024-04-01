@@ -1,9 +1,9 @@
-import { directDeposit } from './directDeposit';
-import { accountInformation } from './accountInformation';
-import { otherPaymentOptions } from './otherPaymentOptions';
-import { supportingDocuments } from './supportingDocuments';
-import { documentUpload } from './documentUpload';
-import { fasterClaimProcessing } from './fasterClaimProcessing';
+import directDeposit from './directDeposit';
+import accountInformation from './accountInformation';
+import otherPaymentOptions from './otherPaymentOptions';
+import supportingDocuments from './supportingDocuments';
+import documentUpload from './documentUpload';
+import fasterClaimProcessing from './fasterClaimProcessing';
 
 export default {
   title: 'Additional information',

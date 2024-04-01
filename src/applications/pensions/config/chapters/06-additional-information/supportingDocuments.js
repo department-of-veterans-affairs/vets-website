@@ -159,7 +159,7 @@ function Description({ formData }) {
   );
 }
 
-export const supportingDocuments = {
+export default {
   title: 'Supporting documents',
   path: 'additional-information/supporting-documents',
   uiSchema: {

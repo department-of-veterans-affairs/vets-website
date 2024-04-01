@@ -5,6 +5,7 @@ import {
   AssetInformationAlert,
   TotalNetWorthOverTwentyFiveThousandAlert,
 } from '../../../components/FormAlerts';
+import { netWorthEstimation } from '../../definitions';
 
 export const hideIfUnder25000 = formData =>
   formData.netWorthEstimation === undefined ||
@@ -43,9 +44,7 @@ export default {
     type: 'object',
     required: ['netWorthEstimation'],
     properties: {
-      netWorthEstimation: {
-        type: 'number',
-      },
+      netWorthEstimation,
       'view:warningAlertOnHighValue': {
         type: 'object',
         properties: {},

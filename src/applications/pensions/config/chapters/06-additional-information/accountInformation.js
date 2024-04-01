@@ -5,7 +5,7 @@ import { AccountInformationAlert } from '../../../components/FormAlerts';
 import { bankAccount } from '../../definitions';
 import { usingDirectDeposit } from './helper';
 
-export const accountInformation = {
+export default {
   title: 'Account information for direct deposit',
   path: 'additional-information/account-information',
   initialData: {},

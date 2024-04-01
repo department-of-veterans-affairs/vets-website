@@ -1,11 +1,10 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 
-const { files } = fullSchemaPensions.definitions;
+import { files } from '../../definitions';
 
 const Description = (
   <div>
@@ -65,7 +64,7 @@ const UploadMessage = (
   </div>
 );
 
-export const documentUpload = {
+export default {
   title: 'Document upload',
   path: 'additional-information/document-upload',
   uiSchema: {
