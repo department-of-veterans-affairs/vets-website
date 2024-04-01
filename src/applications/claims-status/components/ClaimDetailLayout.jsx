@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   buildDateFormatter,
   getClaimType,
+  isClaimOpen,
   isPopulatedClaim,
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
@@ -39,7 +40,6 @@ export default function ClaimDetailLayout(props) {
     clearNotification,
     currentTab,
     synced,
-    id,
   } = props;
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
@@ -59,7 +59,7 @@ export default function ClaimDetailLayout(props) {
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};
 
-    const isOpen = status !== 'COMPLETE' && closeDate === null;
+    const isOpen = isClaimOpen(status, closeDate);
     const formattedClaimDate = buildDateFormatter()(claimDate);
     const claimSubheader = `Received on ${formattedClaimDate}`;
 
@@ -94,7 +94,7 @@ export default function ClaimDetailLayout(props) {
 
     bodyContent = (
       <div className="claim-container">
-        <TabNav id={props.claim.id} />
+        <TabNav id={claim.id} />
         {tabs.map(tab => (
           <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
@@ -119,7 +119,7 @@ export default function ClaimDetailLayout(props) {
   }
 
   const crumb = {
-    href: `your-claims/${id}`,
+    href: `../status`,
     label: getBreadcrumbText(currentTab, claimType),
     isRouterLink: true,
   };
@@ -160,7 +160,6 @@ ClaimDetailLayout.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   currentTab: PropTypes.string,
-  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
   synced: PropTypes.bool,

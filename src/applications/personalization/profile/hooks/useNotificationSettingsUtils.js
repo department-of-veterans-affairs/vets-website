@@ -139,35 +139,6 @@ export const useNotificationSettingsUtils = () => {
     });
   };
 
-  // unused at the moment, but this gets the unavailable items by group
-  // the thought being that we could show the user what items are unavailable in
-  //  a list showing the group name and the unavailable items nested within the group
-  const useUnavailableItemsByGroup = () => {
-    const { groups, items, channels } = getEntities(communicationPreferences);
-
-    const groupIds = Object.keys(groups);
-
-    return groupIds.reduce((acc, groupId) => {
-      const group = groups[groupId];
-      const groupItems = group.items.map(itemId => items[itemId]);
-
-      const unavailableItems = groupItems.filter(item => {
-        const itemChannels = item.channels.map(
-          channelId => channels[channelId],
-        );
-        return !itemChannels.some(channel =>
-          channelsWithContactInfo.includes(channel.channelType),
-        );
-      });
-
-      if (unavailableItems.length > 0) {
-        acc.push({ group: group.name, items: unavailableItems });
-      }
-
-      return acc;
-    }, []);
-  };
-
   // creates a list of unavailable items
   // also filters out any items that are blocked by feature toggles
   // can be greatly simplified once the feature toggles are removed
@@ -237,7 +208,6 @@ export const useNotificationSettingsUtils = () => {
     missingChannels,
     useAvailableGroups,
     useUnavailableItems,
-    useUnavailableItemsByGroup,
     useFilteredItemsForMHVNotifications,
   };
 };

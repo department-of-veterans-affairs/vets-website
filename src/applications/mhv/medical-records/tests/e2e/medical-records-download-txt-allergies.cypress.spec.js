@@ -32,7 +32,6 @@ describe('Medical Records View Allergies', () => {
 
     // should display a download text file button "Download a text file (.txt) of this list"
     AllergyDetailsPage.verifyDownloadTextFile();
-
-    cy.reload({ force: true });
+    // cy.reload({ force: true });
   });
 });
