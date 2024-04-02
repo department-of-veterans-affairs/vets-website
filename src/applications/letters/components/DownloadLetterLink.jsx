@@ -93,20 +93,11 @@ export class DownloadLetterLink extends React.Component {
           </TransitionGroup>
         </div>
         <VaButton
-          data-cy="view-letters-button"
           className="vads-u-margin-top--1 vads-u-margin-bottom--3"
           disabled={buttonDisabled}
           text={buttonText}
           onClick={this.downloadLetter}
         />
-        {/* <button
-          type="button"
-          onClick={this.downloadLetter}
-          disabled={buttonDisabled}
-          className={buttonClasses}
-        >
-          {buttonText}
-        </button> */}
       </div>
     );
   }
