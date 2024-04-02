@@ -9,7 +9,7 @@ import {
 } from './e2e/fixtures/mocks/letters';
 
 describe('Authed Letter Test', () => {
-  it.skip('confirms authed letter functionality', () => {
+  it('confirms authed letter functionality', () => {
     cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
       'benefitSummaryOptions',
     );
@@ -30,14 +30,25 @@ describe('Authed Letter Test', () => {
     cy.realPress('Space');
 
     // go to letters page
-    cy.tabToElement('.view-letters-button');
+    cy.tabToElement('[data-cy="view-letters-button"]');
     cy.realPress('Space');
 
     cy.get('va-accordion-item').should('exist');
     cy.get('va-accordion-item').should('have.length', 5);
 
     // -- Go to letters list -- //
-    cy.tabToElement('va-accordion-item:nth-of-type(4)');
+    cy.get('va-accordion-item:nth-of-type(4)')
+      .shadow()
+      .find('button')
+      .realPress('Tab');
+    // cy.tabToElement('va-accordion-item:nth-of-type(4)');
+    // cy.tabToElement('va-accordion-item:nth-of-type(4)')
+    //   .shadow()
+    //   .find('button');
+    // cy.tabToElement('va-accordion-item:nth-of-type(4)').should(
+    //   'contain',
+    //   'Benefit Summary and Service Verification Letter',
+    // );
     cy.realPress('Enter');
     cy.axeCheck();
 
