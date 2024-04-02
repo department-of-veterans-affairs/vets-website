@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
@@ -37,7 +37,7 @@ describe('Terminally Ill', () => {
 
   it('should be allowed to submit if no answers are provided', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, queryByRole } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -48,15 +48,16 @@ describe('Terminally Ill', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    userEvent.click(getByText(/submit/i));
     expect(onSubmit.called).to.be.true;
-    form.unmount();
+    // Check for absence of an error message.
+    const alert = queryByRole('alert');
+    expect(alert).to.be.null;
   });
 
   it('should submit if question answered with a no', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, queryByRole } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -69,9 +70,10 @@ describe('Terminally Ill', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    userEvent.click(getByText(/submit/i));
     expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
+    // Check for absence of an error message.
+    const alert = queryByRole('alert');
+    expect(alert).to.be.null;
   });
 });
