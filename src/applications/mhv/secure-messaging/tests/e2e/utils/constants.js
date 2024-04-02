@@ -89,6 +89,7 @@ export const Locators = {
     NOT_EMP_FOLDER: '[data-testid="error-folder-not-empty"] p',
     FOLDER_INPUT_LABEL: '[data-testid="search-message-folder-input-label"]',
     FOLDER_DROPDOWN: '[data-testid="folder-dropdown"]',
+    FOLDER_NOT_EMPTY: '[data-testid="error-folder-not-empty"]',
   },
   BUTTONS: {
     TRASH_TEXT: '[data-testid=trash-button-text]',
@@ -244,6 +245,7 @@ export const Data = {
   ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
+  REMOVE_FOLDER: 'Remove folder',
 };
 export const Assertions = {
   MESSAGES: 'Messages',
@@ -265,4 +267,5 @@ export const Assertions = {
   SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
   NEW_MESSAGE: 'new-message',
   ARIA_EXPANDED: 'aria-expanded',
+  EMPTY_THIS_FOLDER: 'Empty this folder',
 };

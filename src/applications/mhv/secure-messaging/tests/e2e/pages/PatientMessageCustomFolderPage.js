@@ -3,7 +3,7 @@ import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-
 import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
-import { Paths, Locators } from '../utils/constants';
+import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 
@@ -239,6 +239,48 @@ class PatientMessageCustomFolderPage {
     cy.get('[text="Save"]')
       .should('be.visible')
       .click();
+  };
+
+  verifyRemoveFolder = () => {
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .and('have.text', Data.REMOVE_FOLDER);
+  };
+
+  tabAndPressToRemoveFolderButton = () => {
+    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('have.text', Data.REMOVE_FOLDER)
+      .realPress('Enter');
+  };
+
+  verifyEmptyFolderText = () => {
+    cy.get(Locators.FOLDERS.FOLDER_NOT_EMPTY)
+      .shadow()
+      .find('.va-modal-alert-title')
+      .should('have.text', Assertions.EMPTY_THIS_FOLDER);
+  };
+
+  verifyFocusToCloseIcon = () => {
+    cy.focused()
+      .shadow()
+      .find('button')
+      .should('contain.class', 'va-modal-close');
+  };
+
+  clickOnCloseIcon = () => {
+    cy.get(Locators.FOLDERS.FOLDER_NOT_EMPTY)
+      .shadow()
+      .find('button')
+      .eq(0)
+      .click();
+  };
+
+  verifyFocusOnRemoveFolderButton = () => {
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .and('have.text', Data.REMOVE_FOLDER)
+      .as('RemoveFolder');
+    cy.focused().should('have.text', Data.REMOVE_FOLDER);
   };
 }
 
