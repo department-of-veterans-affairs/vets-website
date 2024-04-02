@@ -19,7 +19,11 @@ export default function CommunityCareSection({ data, facility, vaCityState }) {
       <PreferredLanguageSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <hr
+        data-dd-privacy="mask"
+        aria-hidden="true"
+        className="vads-u-margin-y--2"
+      />
       <ContactDetailSection data={data} />
     </>
   );

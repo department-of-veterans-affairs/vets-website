@@ -32,7 +32,10 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             {FLOW_TYPES.DIRECT === flowType && (
-              <h2 className="vads-u-font-size--base vaos-appts__block-label">
+              <h2
+                className="vads-u-font-size--base vaos-appts__block-label"
+                data-dd-privacy="mask"
+              >
                 {PURPOSE_TEXT_V2.find(
                   purpose => purpose.id === reasonForAppointment,
                 )?.short || 'Additional details'}
@@ -45,7 +48,7 @@ export default function ReasonForAppointmentSection({ data }) {
                 </h2>
                 {reasonForAppointment && (
                   <>
-                    <span>
+                    <span data-dd-privacy="mask">
                       {
                         PURPOSE_TEXT_V2.find(
                           purpose => purpose.id === reasonForAppointment,
@@ -59,7 +62,10 @@ export default function ReasonForAppointmentSection({ data }) {
                   !reasonAdditionalInfo && <span>No details shared</span>}
               </>
             )}
-            <span className="vaos-u-word-break--break-word">
+            <span
+              className="vaos-u-word-break--break-word"
+              data-dd-privacy="mask"
+            >
               {reasonAdditionalInfo}
             </span>
           </div>
