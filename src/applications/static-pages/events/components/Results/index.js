@@ -86,7 +86,7 @@ export const Results = ({
                 key={`${title}-${entityUrl?.path}-${index}`}
               >
                 <h3 className="vads-u-margin--0 vads-u-font-size--h4">
-                  <a href={entityUrl.path}>{title}</a>
+                  <va-link href={entityUrl.path} text={title} />
                 </h3>
                 <p className="vads-u-margin--0 vads-u-margin-y--1">
                   {fieldDescription}

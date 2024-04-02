@@ -6,24 +6,41 @@ const POARequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
     <Link
       className="view-all-link vads-u-margin-bottom--neg4"
-      data-testid="view-all-poa-requests-link"
+      data-testid="poa-requests-widget-view-all-link"
       to="/poa-requests"
     >
       View all
     </Link>
-    <va-table sort-column={1} table-title="POA requests">
+    <va-table
+      data-testid="poa-requests-widget-table"
+      sort-column={1}
+      table-title="POA requests"
+    >
       <va-table-row slot="headers">
-        <span>Claimant</span>
-        <span>Submitted</span>
-        <span>Accept/ decline</span>
+        <span data-testid="poa-requests-widget-table-headers-claimant">
+          Claimant
+        </span>
+        <span data-testid="poa-requests-widget-table-headers-submitted">
+          Submitted
+        </span>
+        <span data-testid="poa-requests-widget-table-headers-actions">
+          Actions
+        </span>
       </va-table-row>
-      {poaRequests.map(request => {
+      {poaRequests.map(({ id, name, date }) => {
         return (
-          <va-table-row key={request.id}>
+          <va-table-row key={id}>
             <span>
-              <Link to={`/poa-requests/${request.id}`}>{request.name}</Link>
+              <Link
+                data-testid={`poa-requests-widget-table-${id}-claimant`}
+                to={`/poa-requests/${id}`}
+              >
+                {name}
+              </Link>
             </span>
-            <span>{request.date}</span>
+            <span data-testid={`poa-requests-widget-table-${id}-submitted`}>
+              {date}
+            </span>
             <span />
           </va-table-row>
         );

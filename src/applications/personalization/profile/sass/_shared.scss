@@ -31,6 +31,6 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
 // util to make sure a focus ring is visible
 .focus-ring:focus {
   outline: 2px solid !important;
-  outline-color: var(--vads-color-action-focus-on-light)!important;
+  outline-color: var(--vads-color-action-focus-on-light) !important;
   outline-offset: 0;
 }

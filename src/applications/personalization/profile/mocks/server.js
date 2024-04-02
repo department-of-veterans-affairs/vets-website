@@ -21,6 +21,7 @@ const {
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
+const directDeposits = require('./endpoints/direct-deposits');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -83,10 +84,10 @@ const responses = {
   'GET /v0/user': (_req, res) => {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
-    // return res.json(user.loa1User); // LOA1 user w/id.me
+    return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
@@ -104,9 +105,14 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
-    // but couldn't be directly imported due to export default vs module.exports
     return res.json(maintenanceWindows.noDowntime);
+
+    // downtime for VA Profile aka Vet360 (according to service name in response)
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //   ]),
+    // );
   },
 
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
@@ -129,6 +135,24 @@ const responses = {
     return res
       .status(200)
       .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
+    // return res.status(200).json(disabilityComps.updates.success);
+  },
+  'GET /v0/profile/direct_deposits': (_req, res) => {
+    // this endpoint is used for the single form version of the direct deposit page
+    return res.status(200).json(directDeposits.base);
+    // return res.status(500).json(genericErrors.error500);
+    // user with no dd data but is eligible
+    // return res.json(directDeposits.isEligible);
+    // direct deposit blocked edge cases
+    // return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isFiduciary);
+    // return res.json(directDeposits.isNotCompetent);
+    // return res.json(directDeposits.isNotEligible);
+  },
+  'PUT /v0/profile/direct_deposits': (_req, res) => {
+    return res
+      .status(200)
+      .json(directDeposits.updates.errors.invalidAccountNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,

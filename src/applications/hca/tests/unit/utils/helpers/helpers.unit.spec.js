@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  didEnrollmentStatusChange,
   transformAttachments,
   prefillTransformer,
   getInsuranceAriaLabel,
@@ -204,48 +203,6 @@ describe('hca helpers', () => {
         };
         const transformedData = transformAttachments(inputData);
         expect(transformedData).to.deep.equal(expectedOutputData);
-      });
-    });
-  });
-
-  describe('when `didEnrollmentStatusChange` executes', () => {
-    const defaultProps = {
-      enrollmentStatus: null,
-      noESRRecordFound: false,
-      shouldRedirect: false,
-    };
-    let prevProps;
-    let newProps;
-
-    describe('when none of the declared props have changed', () => {
-      it('should return `false`', () => {
-        prevProps = { ...defaultProps };
-        newProps = { ...defaultProps };
-        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.false;
-      });
-    });
-
-    describe('when `enrollmentStatus` changes', () => {
-      it('should return `true`', () => {
-        prevProps = { ...defaultProps };
-        newProps = { ...defaultProps, enrollmentStatus: 'enrolled' };
-        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.true;
-      });
-    });
-
-    describe('when `noESRRecordFound` changes', () => {
-      it('should return `true`', () => {
-        prevProps = { ...defaultProps };
-        newProps = { ...defaultProps, noESRRecordFound: true };
-        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.true;
-      });
-    });
-
-    describe('when `shouldRedirect` changes', () => {
-      it('should return `true`', () => {
-        prevProps = { ...defaultProps };
-        newProps = { ...defaultProps, shouldRedirect: true };
-        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.true;
       });
     });
   });

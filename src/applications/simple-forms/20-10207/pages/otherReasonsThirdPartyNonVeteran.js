@@ -25,5 +25,6 @@ export default {
         Object.keys(OTHER_REASONS_3RD_PTY_NON_VET),
       ),
     },
+    required: ['otherReasons'],
   },
 };

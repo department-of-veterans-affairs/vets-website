@@ -303,6 +303,18 @@ module.exports = async (env = {}) => {
           },
         },
         {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'babel-loader',
+            },
+            {
+              loader: 'ts-loader',
+            },
+          ],
+          exclude: /node_modules/,
+        },
+        {
           test: /\.(sa|sc|c)ss$/,
           use: [
             MiniCssExtractPlugin.loader,
@@ -395,7 +407,7 @@ module.exports = async (env = {}) => {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
       },
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
         fs: false,
         assert: require.resolve('assert/'),
