@@ -22,6 +22,12 @@ import {
   applicantContactInfoSchema,
 } from '../chapters/applicantInformation';
 
+import { applicantHasMedicareABSchema } from '../chapters/medicareInformation';
+import {
+  ApplicantMedicareStatusPage,
+  ApplicantMedicareStatusReviewPage,
+} from '../components/ApplicantMedicareStatusPage';
+
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
 // import mockdata from '../tests/fixtures/data/test-data.json';
@@ -146,6 +152,21 @@ const formConfig = {
           title: item => `${applicantWording(item)} contact information`,
           uiSchema: applicantContactInfoSchema.uiSchema,
           schema: applicantContactInfoSchema.schema,
+        },
+      },
+    },
+    medicareInformation: {
+      title: 'Medicare information',
+      pages: {
+        hasMedicareAB: {
+          path: ':index/medicare-ab',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare status`,
+          CustomPage: ApplicantMedicareStatusPage,
+          CustomPageReview: ApplicantMedicareStatusReviewPage,
+          uiSchema: applicantHasMedicareABSchema.uiSchema,
+          schema: applicantHasMedicareABSchema.schema,
         },
       },
     },
