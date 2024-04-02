@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
@@ -13,7 +13,6 @@ import {
   fetchEnrollmentStatus,
   resetEnrollmentStatus as resetEnrollmentStatusAction,
 } from '../utils/actions/enrollment-status';
-import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
@@ -22,21 +21,14 @@ import VerificationPageDescription from '../components/IdentityPage/Verification
 const IdentityPage = props => {
   const { router } = props;
   const {
-    enrollmentStatus,
-    noESRRecordFound,
-    isUserInMVI,
-    shouldRedirect,
+    statusCode,
+    vesRecordFound,
+    fetchAttempted,
+    isUserInMPI,
   } = useSelector(selectEnrollmentStatus);
   const { data: formData } = useSelector(state => state.form);
   const loggedIn = useSelector(isLoggedIn);
-  const esProps = {
-    noESRRecordFound,
-    enrollmentStatus,
-    shouldRedirect,
-  };
-
   const [localData, setLocalData] = useState({});
-  const esPropsRef = useRef(esProps);
 
   /**
    * declare event handlers
@@ -80,7 +72,7 @@ const IdentityPage = props => {
       } = localData;
       setFormData({
         ...formData,
-        'view:isUserInMvi': isUserInMVI,
+        'view:isUserInMvi': isUserInMPI,
         'view:veteranInformation': {
           veteranFullName: fullName,
           veteranDateOfBirth,
@@ -114,17 +106,17 @@ const IdentityPage = props => {
   // trigger prefill and navigation if enrollment status criteria is met
   useEffect(
     () => {
-      if (didEnrollmentStatusChange(esPropsRef.current, esProps)) {
+      if (fetchAttempted) {
         const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
-        if (noESRRecordFound || enrollmentStatus === noneOfTheAbove) {
+        const canGoToNext = !vesRecordFound || statusCode === noneOfTheAbove;
+        if (canGoToNext) {
           handlers.triggerPrefill();
           handlers.goToNextPage();
         }
       }
-      esPropsRef.current = esProps;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [noESRRecordFound, enrollmentStatus, shouldRedirect],
+    [fetchAttempted],
   );
 
   return (

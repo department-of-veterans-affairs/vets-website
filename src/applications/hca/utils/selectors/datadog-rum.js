@@ -1,6 +1,6 @@
 export const selectRumUser = state => {
   const { user, hcaEnrollmentStatus, disabilityRating } = state;
-  const { enrollmentStatus } = hcaEnrollmentStatus;
+  const { statusCode } = hcaEnrollmentStatus;
   const { totalRating } = disabilityRating;
   const {
     profile: { loa, signIn },
@@ -11,6 +11,6 @@ export const selectRumUser = state => {
     isSignedIn: currentlyLoggedIn,
     serviceProvider: signIn?.serviceName,
     loa: loa?.current,
-    enrollmentStatus,
+    enrollmentStatus: statusCode,
   };
 };

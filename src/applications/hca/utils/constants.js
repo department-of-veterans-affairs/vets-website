@@ -61,13 +61,11 @@ export const ENROLLMENT_STATUS_INIT_STATE = {
   applicationDate: null,
   enrollmentDate: null,
   preferredFacility: null,
-  enrollmentStatus: null,
-  enrollmentStatusEffectiveDate: null,
+  statusCode: null,
   hasServerError: false,
-  isLoadingApplicationStatus: false,
-  isUserInMVI: false,
-  loginRequired: false,
-  noESRRecordFound: false,
+  loading: false,
+  isUserInMPI: false,
+  fetchAttempted: false,
 };
 
 // declare enrollment status strings
@@ -110,6 +108,12 @@ export const HCA_APPLY_ALLOWED_STATUSES = new Set([
   HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
   HCA_ENROLLMENT_STATUSES.canceledDeclined,
   HCA_ENROLLMENT_STATUSES.closed,
+]);
+
+// declare enrollment status codes that indicate no VES record is present
+export const HCA_NULL_STATUSES = new Set([
+  null,
+  HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
 ]);
 
 // declare the minimum percentage value to be considered high disability
