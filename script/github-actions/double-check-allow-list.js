@@ -27,7 +27,6 @@ const ALLOW_LIST =
     : [];
 
 console.log('TESTS', TESTS);
-console.log('TESTS_PROPERTY', TESTS_PROPERTY);
 
 const disallowedTests = ALLOW_LIST.filter(test => test.allowed === false).map(
   test => test.spec_path,
@@ -35,8 +34,6 @@ const disallowedTests = ALLOW_LIST.filter(test => test.allowed === false).map(
 console.log(disallowedTests);
 
 if (process.env.TEST_TYPE === 'e2e') {
-  console.log('e2e tests');
-
   disallowedTests.push(
     'src/applications/pre-check-in/tests/e2e/errors/post-pre-check-in/non.200.status.code.cypress.spec.js',
   );
@@ -48,7 +45,16 @@ if (process.env.TEST_TYPE === 'e2e') {
       test =>
         !disallowedTests.some(disallowedTest => test.includes(disallowedTest)),
     );
-    console.log('tests length:', TESTS.length);
+    console.log(
+      'tests index of disallowed spec:',
+      TESTS.indexOf(
+        TESTS.filter(test =>
+          test.includes(
+            'src/applications/pre-check-in/tests/e2e/errors/post-pre-check-in/non.200.status.code.cypress.spec.js',
+          ),
+        ),
+      ),
+    );
     console.log('new tests length:', newTests.length);
     console.log('new tests: ', newTests);
 
