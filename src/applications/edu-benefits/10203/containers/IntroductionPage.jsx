@@ -1,17 +1,18 @@
+import { FEATURE_FLAG_NAMES } from '@department-of-veterans-affairs/platform-utilities/feature-toggles/featureFlagNames';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/src/js/components/FormTitle';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
       focusElement('.va-nav-breadcrumbs-list');
-      this.props.getRemainingEntitlement();
+      this.props.getRemainingEntitlement(this.props.apiVersion);
     }
   }
 
@@ -251,11 +252,27 @@ export class IntroductionPage extends React.Component {
   }
 }
 
+IntroductionPage.propTypes = {
+  apiVersion: PropTypes.object,
+  getRemainingEntitlement: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  remainingEntitlement: PropTypes.object,
+  route: PropTypes.object,
+  useEvss: PropTypes.bool,
+};
+
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
     useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
+    apiVersion: {
+      apiVersion: toggleValues(state)[
+        FEATURE_FLAG_NAMES.benefitsEducationUseLighthouse
+      ]
+        ? 'v1'
+        : 'v0',
+    },
   };
 };
 
