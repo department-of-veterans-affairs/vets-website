@@ -44,7 +44,7 @@ if (process.env.TEST_TYPE === 'e2e') {
     'src/applications/pre-check-in/tests/e2e/errors/post-pre-check-in/non.200.status.code.cypress.spec.js',
   );
 
-  if (disallowedTests.length > 0 && newDisallowedTests.length > 0) {
+  if (newDisallowedTests.length > 0) {
     console.log('new disallowed tests: ', newDisallowedTests);
 
     const newTests = TESTS.filter(test => disallowedTests.indexOf(test) === -1);
