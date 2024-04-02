@@ -1,5 +1,5 @@
-import 'platform/polyfills';
-import startApp from 'platform/startup';
+import '@department-of-veterans-affairs/platform-polyfills';
+import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import './sass/claims-status.scss';
 

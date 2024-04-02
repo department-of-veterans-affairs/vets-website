@@ -24,15 +24,15 @@ const LandingPage = ({ data = {} }) => {
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
-
   const showCards = hasHealth && !isUnverified;
-
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = isUnverified ? (
     <IdentityNotVerified
       headline={unVerifiedHeadline}
       showHelpContent={false}
+      showVerifyIdenityHelpInfo
+      signInService={signInService}
     />
   ) : (
     <NoHealthAlert />

@@ -55,7 +55,6 @@ const updateFormPages = (
   });
 
   const travelPayPages = [
-    URLS.TRAVEL_AGREEMENT,
     URLS.TRAVEL_QUESTION,
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,
@@ -101,6 +100,7 @@ const URLS = Object.freeze({
   TRAVEL_MILEAGE: 'travel-mileage',
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  ARRIVED: 'arrived',
 });
 
 export { updateFormPages, URLS };

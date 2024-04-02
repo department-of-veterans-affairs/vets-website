@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  VaAlert,
-  VaCheckboxGroup,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
@@ -14,6 +11,10 @@ import MissingFileList from './MissingFileList';
 
 export const mailInfo = (
   <>
+    Write the applicant’s name and confirmation number on each page of the
+    document.
+    <br />
+    <br />
     Mail your files to:
     <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
       <p className="vads-u-padding-x--10px vads-u-margin-left--1">
@@ -30,14 +31,16 @@ export const mailInfo = (
     </address>
     Or fax your documents here:
     <br />
-    VHA Office of Community Care CHAMPVA Eligibility, 303-331-7809
+    VHA Office of Community Care CHAMPVA Eligibility,{' '}
+    <span aria-label="Fax Number">303-331-7809</span>
+    <br />
   </>
 );
 
 export const optionalDescription =
-  'These files are not required to complete your application, but may prevent delays in your processing time.';
+  'These documents help us process this application faster.';
 export const requiredDescription =
-  'These files are required to complete your application';
+  'We require these documents in order to process this application.';
 
 // Return a boolean if there are any missing uploads where 'required'
 // matches expectedVal. Optionally use dropUploaded if you want to ignore
@@ -45,7 +48,7 @@ export const requiredDescription =
 export function hasReq(data, expectedVal, dropUploaded = false) {
   const wrapped = Array.isArray(data) ? data : [data];
   return wrapped.some(el =>
-    el.missingUploads.some(
+    el?.missingUploads?.some(
       file =>
         file.required === expectedVal && (dropUploaded ? !file.uploaded : true),
     ),
@@ -205,21 +208,9 @@ export default function MissingFileOverview({
 
   const defaultHeading = (
     <>
-      {titleUI('Upload your supporting files')['ui:title']}
+      {titleUI('Upload your supporting documents')['ui:title']}
       {filesAreMissing ? (
-        <>
-          <p>
-            <i>
-              Any required supporting files that are not uploaded will need to
-              be mailed in before your application is considered complete
-            </i>
-          </p>
-          <p>
-            If you choose not to upload your files, we’ll provide instructions
-            on how to send them to us by mail or fax.
-          </p>
-          <p>Uploading may result in a faster processing time.</p>
-        </>
+        <p>Upload these documents now or you can send them by mail or fax.</p>
       ) : null}
     </>
   );
@@ -242,20 +233,9 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Required"
+              title="Required documents (Sponsor)"
               subset="required"
               description={requiredDescription}
-              disableLinks={disableLinks}
-            />
-          ) : null}
-
-          {hasReq(sponsorMiss, false, showConsent) ? (
-            <MissingFileList
-              data={sponsorMiss}
-              nameKey="name"
-              title="Optional"
-              subset="optional"
-              description={optionalDescription}
               disableLinks={disableLinks}
             />
           ) : null}
@@ -263,9 +243,19 @@ export default function MissingFileOverview({
             <MissingFileList
               data={apps}
               nameKey="applicantName"
-              title="Required"
+              title="Required documents"
               subset="required"
               description={requiredDescription}
+              disableLinks={disableLinks}
+            />
+          ) : null}
+          {hasReq(sponsorMiss, false, showConsent) ? (
+            <MissingFileList
+              data={sponsorMiss}
+              nameKey="name"
+              title="Optional documents (Sponsor)"
+              subset="optional"
+              description={optionalDescription}
               disableLinks={disableLinks}
             />
           ) : null}
@@ -273,18 +263,13 @@ export default function MissingFileOverview({
             <MissingFileList
               data={apps}
               nameKey="applicantName"
-              title="Optional"
+              title="Optional documents"
               subset="optional"
               description={optionalDescription}
               disableLinks={disableLinks}
             />
           ) : null}
-          {requiredFilesStillMissing && showMail ? (
-            <>
-              {mailInfo}
-              Your application will be considered complete upon submission
-            </>
-          ) : null}
+          {requiredFilesStillMissing && showMail ? <>{mailInfo}</> : null}
           {requiredFilesStillMissing && showConsent ? (
             <>
               <h3>Supporting files acknowledgement</h3>
@@ -307,22 +292,6 @@ export default function MissingFileOverview({
           ) : null}
         </>
       ) : null}
-      {goForward && !filesAreMissing ? (
-        <>
-          <VaAlert status="success" uswds>
-            <h2>All supporting files uploaded</h2>
-            <p>
-              You will not need to mail or fax in any files. Your application
-              will be considered complete upon submission
-            </p>
-          </VaAlert>
-          <p>
-            You will not need to take any further action after submission of
-            your application.
-          </p>
-        </>
-      ) : null}
-
       {goForward ? navButtons : null}
     </form>
   );

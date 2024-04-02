@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 import { isValidDateString } from '~/platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
 import content from '../../../../locales/en/content.json';
 
 const WarningStatus = () => {
   const {
-    enrollmentStatus,
+    statusCode,
     applicationDate,
     enrollmentDate,
     preferredFacility,
@@ -23,7 +23,7 @@ const WarningStatus = () => {
   const hasNullStatus = new Set([
     HCA_ENROLLMENT_STATUSES.deceased,
     HCA_ENROLLMENT_STATUSES.nonMilitary,
-  ]).has(enrollmentStatus);
+  ]).has(statusCode);
 
   const hasValueToRender = [
     isValidDateString(applicationDate),
@@ -31,8 +31,7 @@ const WarningStatus = () => {
     facilityName,
   ].some(v => !!v);
 
-  const showEnrolledDetails =
-    enrollmentStatus === HCA_ENROLLMENT_STATUSES.enrolled;
+  const showEnrolledDetails = statusCode === HCA_ENROLLMENT_STATUSES.enrolled;
 
   // Render based on enrollment status
   return hasValueToRender && !hasNullStatus ? (

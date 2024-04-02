@@ -8,15 +8,13 @@ import IntroductionPage from '../../../containers/IntroductionPage';
 
 describe('hca IntroductionPage', () => {
   const getData = ({
-    showLoader = false,
-    loaState = null,
-    showLoginAlert = false,
-    enrollmentOverrideEnabled = false,
-    applicationDate = '',
-    enrollmentDate = '',
-    enrollmentStatus = '',
-    preferredFacility = '',
+    isLoading = false,
+    loaState = 3,
+    loggedIn = true,
+    hasError = false,
     hasESRecord = false,
+    overrideEnabled = false,
+    statusCode = null,
   } = {}) => ({
     props: {
       route: {
@@ -27,15 +25,14 @@ describe('hca IntroductionPage', () => {
     mockStore: {
       getState: () => ({
         featureToggles: {
-          hcaEnrollmentStatusOverrideEnabled: enrollmentOverrideEnabled,
+          // eslint-disable-next-line camelcase
+          hca_enrollment_status_override_enabled: overrideEnabled,
         },
         hcaEnrollmentStatus: {
-          isLoadingApplicationStatus: showLoader,
-          applicationDate,
-          enrollmentDate,
-          enrollmentStatus,
-          preferredFacility,
-          noESRRecordFound: !hasESRecord,
+          loading: isLoading,
+          hasServerError: hasError,
+          vesRecordFound: hasESRecord,
+          statusCode,
         },
         form: {
           formId: formConfig.formId,
@@ -49,10 +46,10 @@ describe('hca IntroductionPage', () => {
         },
         user: {
           login: {
-            currentlyLoggedIn: !showLoginAlert,
+            currentlyLoggedIn: loggedIn,
           },
           profile: {
-            loading: showLoader,
+            loading: false,
             loa: { current: loaState },
             savedForms: [],
             prefillsAvailable: [],
@@ -73,103 +70,95 @@ describe('hca IntroductionPage', () => {
     },
   });
 
-  context('when the page renders', () => {
-    it('should render loading indicator', () => {
-      const { mockStore, props } = getData({ showLoader: true });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <IntroductionPage {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('va-loading-indicator');
-      expect(selector).to.exist;
-    });
+  it('should render `va-loading-indicator` when enrollment status is loading', () => {
+    const { mockStore, props } = getData({ isLoading: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('va-loading-indicator');
+    expect(selector).to.exist;
   });
 
-  context('when the user is not logged in', () => {
-    it('should show sign in button', () => {
-      const { mockStore, props } = getData({ showLoginAlert: true });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <IntroductionPage {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector(
-        '[data-testid="hca-login-alert-button"]',
-      );
-      expect(selector).to.exist;
-    });
-  });
-
-  context('when the user is Loa1 status', () => {
+  it('should show identity verification alert when the user is LOA1 status', () => {
     const { mockStore, props } = getData({ loaState: 1 });
-
-    it('should show verification required alert', () => {
-      const { container } = render(
-        <Provider store={mockStore}>
-          <IntroductionPage {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector(
-        '[data-testid="hca-identity-alert"]',
-      );
-      expect(selector).to.exist;
-    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector(
+      '[data-testid="hca-identity-alert"]',
+    );
+    expect(selector).to.exist;
   });
 
-  context('when the user is not enrolled', () => {
-    it('should show start application button', () => {
-      const { mockStore, props } = getData({ loaState: 3 });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <IntroductionPage {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('a.vads-c-action-link--green');
-      expect(selector).to.exist;
-    });
+  it('should show process description when no enrollment record exists', () => {
+    const { mockStore, props } = getData({});
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('va-process-list');
+    expect(selector).to.exist;
   });
 
-  context('when the user is enrolled & override feature is disabled', () => {
-    it('should show enrollment status', () => {
-      const { mockStore, props } = getData({
-        loaState: 3,
-        hasESRecord: true,
-        applicationDate: '2018-07-17T10:32:52.000-05:00',
-        enrollmentDate: '2018-07-17T10:32:53.000-05:00',
-        enrollmentStatus: 'enrolled',
-        preferredFacility: '463GA - FAIRBANKS VA CLINIC',
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <IntroductionPage {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector(
-        '[data-testid="hca-enrollment-alert-heading"]',
-      );
-      expect(selector).to.exist;
+  it('should show process description when override is enabled', () => {
+    const { mockStore, props } = getData({
+      hasESRecord: true,
+      overrideEnabled: true,
     });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('va-process-list');
+    expect(selector).to.exist;
   });
 
-  context('when the user is enrolled & override feature is enabled', () => {
-    it('should show start application button', () => {
-      const { mockStore, props } = getData({
-        loaState: 3,
-        hasESRecord: true,
-        enrollmentOverrideEnabled: true,
-        applicationDate: '2018-07-17T10:32:52.000-05:00',
-        enrollmentDate: '2018-07-17T10:32:53.000-05:00',
-        enrollmentStatus: 'enrolled',
-        preferredFacility: '463GA - FAIRBANKS VA CLINIC',
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <IntroductionPage {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('a.vads-c-action-link--green');
-      expect(selector).to.exist;
-    });
+  it('should show process description when user is logged out', () => {
+    const { mockStore, props } = getData({ loggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selectors = {
+      list: container.querySelector('va-process-list'),
+      ombInfo: container.querySelector('va-omb-info'),
+    };
+    expect(selectors.list).to.exist;
+    expect(selectors.ombInfo).to.exist;
+  });
+
+  it('should show enrollment status alert when record exists', () => {
+    const { mockStore, props } = getData({ hasESRecord: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector(
+      '[data-testid="hca-enrollment-alert"]',
+    );
+    expect(selector).to.exist;
+  });
+
+  it('should show server error alert when error occurs', () => {
+    const { mockStore, props } = getData({ hasError: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const selectors = {
+      alert: container.querySelector('[data-testid="hca-server-error-alert"]'),
+      ombInfo: container.querySelector('va-omb-info'),
+    };
+    expect(selectors.alert).to.exist;
+    expect(selectors.ombInfo).to.not.exist;
   });
 });

@@ -56,6 +56,6 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   afterEach(() => {
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   });
 });

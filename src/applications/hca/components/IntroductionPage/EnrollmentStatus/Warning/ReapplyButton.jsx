@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import content from '../../../../locales/en/content.json';
 
 const ReapplyButton = ({ route }) => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
+  const { statusCode } = useSelector(selectEnrollmentStatus);
   const {
     formConfig: { savedFormMessages, downtime },
     pageList,
@@ -22,11 +23,11 @@ const ReapplyButton = ({ route }) => {
     HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
     HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
     HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
-  ]).has(enrollmentStatus);
+  ]).has(statusCode);
 
   // set props for the Save In Progress button
   const sipProps = {
-    startText: 'Start the health care application',
+    startText: content['sip-start-form-text'],
     messages: savedFormMessages,
     buttonOnly: true,
     downtime,

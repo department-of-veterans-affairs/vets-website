@@ -126,12 +126,6 @@ describe('Appeals V2 Docket', () => {
     wrapper.unmount();
   });
 
-  it('should render a time estimate', () => {
-    const wrapper = shallow(<Docket {...amaProps} />);
-    expect(wrapper.find('DurationCard').length).to.equal(1);
-    wrapper.unmount();
-  });
-
   it('should include docket switch instructions if eligible', () => {
     const wrapper = shallow(<Docket {...amaProps} />);
     expect(wrapper.text()).to.contain(

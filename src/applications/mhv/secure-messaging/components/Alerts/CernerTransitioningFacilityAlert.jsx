@@ -13,36 +13,20 @@ After transitioning, need to ensure that CernerFacilityAlert is displayed to use
 */
 
 import React, { useMemo } from 'react';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import { CernerTransitioningFacilities } from '../../util/constants';
 
-const CernerTransitioningFacilityAlert = () => {
+/**
+ * @param {boolean} t5 - boolean flag to display the alert for 5 days before transition
+ * @param {boolean} t30 - boolean flag to display the alert for 30 days before transition
+ * @param {string} facilityId - facility id
+ */
+const CernerTransitioningFacilityAlert = ({ t5, t30, facilityId }) => {
   const user = useSelector(selectUser);
-  const { featureToggles } = useSelector(state => state);
-  const transitioningFacilityId =
-    CernerTransitioningFacilities.NORTH_CHICAGO.facilityId;
-
-  const cernerTransition556T30 = useMemo(
-    () => {
-      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        : false;
-    },
-    [featureToggles],
-  );
-  const cernerTransition556T5 = useMemo(
-    () => {
-      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T5]
-        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T5]
-        : false;
-    },
-    [featureToggles],
-  );
-
+  const transitioningFacilityId = facilityId;
   const userFacilities = user.profile.facilities;
   const ehrFacilities = useSelector(selectEhrDataByVhaId);
 
@@ -130,16 +114,18 @@ const CernerTransitioningFacilityAlert = () => {
   );
 
   const content = () => {
-    if (cernerTransition556T5) {
-      return contentT5;
-    }
-    if (cernerTransition556T30) {
-      return contentT30;
-    }
+    if (t5) return contentT5;
+    if (t30) return contentT30;
     return null;
   };
 
   return <>{content()}</>;
+};
+
+CernerTransitioningFacilityAlert.propTypes = {
+  facilityId: PropTypes.string,
+  t30: PropTypes.bool,
+  t5: PropTypes.bool,
 };
 
 export default CernerTransitioningFacilityAlert;

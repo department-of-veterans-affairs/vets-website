@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockMessagesPageOne from './fixtures/messages-response.json';
 import mockMessagesPageTwo from './fixtures/messages-response-page-2.json';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Reply', () => {
@@ -42,7 +42,7 @@ describe('Secure Messaging Reply', () => {
       FolderLoadPage.navigateToLastPage(lastPageIndex);
       cy.get('.endOfThreads').should(
         'have.text',
-        'End of conversations in this folder',
+        Data.END_CONVERSATION_IN_FOLDER,
       );
     });
     FolderLoadPage.verifyPaginationElements();
@@ -79,7 +79,7 @@ describe('Secure Messaging Reply', () => {
 
     cy.get('.endOfThreads').should(
       'have.text',
-      'End of conversations in this folder',
+      Data.END_CONVERSATION_IN_FOLDER,
     );
     cy.get('.usa-pagination__item').each(el => {
       cy.get(el).should('be.visible');

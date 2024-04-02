@@ -39,7 +39,7 @@ class PatientReplyPage {
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT_BUTTON).click({
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({
       waitForAnimations: true,
     });
     cy.wait('@replyDraftMessage').then(xhr => {
@@ -147,7 +147,7 @@ class PatientReplyPage {
 
   verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
     cy.get(Locators.REPLY_FORM)
-      .find('h2')
+      .find('h1')
       .should('have.text', "We can't save this message yet");
 
     cy.contains('Continue editing').should('be.visible');

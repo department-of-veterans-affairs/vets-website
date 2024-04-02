@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { usePostTravelClaims } from '../../../hooks/usePostTravelClaims';
@@ -8,13 +9,14 @@ import Wrapper from '../../../components/layout/Wrapper';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelClaimSuccessAlert from './TravelClaimSuccessAlert';
 
-const Complete = () => {
+const Complete = props => {
+  const { router } = props;
   const { t } = useTranslation();
   const selectForm = useMemo(makeSelectForm, []);
   const { updateError } = useUpdateError();
   const { data } = useSelector(selectForm);
   const { facilitiesToFile } = data;
-  const { isLoading, travelPayClaimError } = usePostTravelClaims();
+  const { isLoading, travelPayClaimError } = usePostTravelClaims({ router });
 
   useEffect(
     () => {
@@ -39,6 +41,7 @@ const Complete = () => {
           count: facilitiesToFile.length,
         })}
         classNames="travel-page"
+        testID="travel-complete-page"
       >
         <TravelClaimSuccessAlert claims={facilitiesToFile} />
         <div data-testid="travel-complete-content">
@@ -65,6 +68,10 @@ const Complete = () => {
       </Wrapper>
     </>
   );
+};
+
+Complete.propTypes = {
+  router: PropTypes.object.isRequired,
 };
 
 export default Complete;

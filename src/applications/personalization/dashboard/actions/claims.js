@@ -42,11 +42,47 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
+const recordAppealsAPIEvent = ({
+  startTime,
+  success,
+  errorStatus,
+  errorTitle,
+  apiName = 'GET appeals /v0/appeals',
+}) => {
+  const event = {
+    event: 'api_call',
+    'api-name': apiName,
+    'api-status': success ? 'successful' : 'failed',
+  };
+  if (errorStatus && errorTitle) {
+    event[
+      'error-key'
+    ] = `my_va_appeals_api_failure_${errorStatus}_${errorTitle}`;
+  }
+  if (startTime) {
+    const apiLatencyMs = roundToNearest({
+      interval: 5000,
+      value: Date.now() - startTime,
+    });
+    event['api-latency-ms'] = apiLatencyMs;
+  }
+  recordEvent(event);
+};
+
 export function getAppealsV2() {
+  const startTimestampMs = Date.now();
+
   return dispatch => {
     dispatch({ type: FETCH_APPEALS_PENDING });
+
     return apiRequest('/appeals')
-      .then(appeals => dispatch(fetchAppealsSuccess(appeals)))
+      .then(appeals => {
+        recordAppealsAPIEvent({
+          startTime: startTimestampMs,
+          success: true,
+        });
+        dispatch(fetchAppealsSuccess(appeals));
+      })
       .catch(error => {
         const status = getErrorStatus(error);
         const action = { type: '' };
@@ -72,6 +108,12 @@ export function getAppealsV2() {
           Sentry.captureException(
             `va_dashboard_appeals_v2_err_get_appeals ${status}`,
           );
+        });
+        recordAppealsAPIEvent({
+          startTime: startTimestampMs,
+          success: false,
+          errorStatus: `${status}`,
+          errorTitle: `${action.type}`,
         });
         return dispatch(action);
       });

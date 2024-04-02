@@ -36,9 +36,9 @@ const PrintDownload = props => {
     }
   };
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
     setMenuOpen(!menuOpen);
-    window.print();
+    await download('print');
   };
 
   const closeMenu = e => {

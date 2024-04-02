@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
@@ -24,11 +24,11 @@ describe('Start a new message With Attacments and Errors', () => {
     // composePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage
       .getMessageBodyField()
-      .type('Test message body', { force: true, waitforanimations: true });
-    composePage.attachMessageFromFile('sample_pdf.pdf');
+      .type(Data.TEST_MESSAGE_BODY, { force: true, waitforanimations: true });
+    composePage.attachMessageFromFile(Data.SAMPLE_PDF);
     composePage.sendMessage();
 
     composePage.verifySendMessageConfirmationMessageText();

@@ -15,15 +15,13 @@ describe('getRoutes', () => {
       expect(hasDirectDepositRoute).to.be.true;
     });
   });
-});
 
-describe('getRoutesForNav', () => {
   it('enables contacts route when true', () => {
     const phccRoute = routesForNav.find(
       route => route.name === PROFILE_PATH_NAMES.CONTACTS,
     );
     expect(phccRoute).to.exist;
-    const routes = getRoutesForNav(true);
+    const routes = getRoutes({ profileContacts: true });
     expect(routes).to.include(phccRoute);
   });
 
@@ -32,7 +30,27 @@ describe('getRoutesForNav', () => {
       route => route.name === PROFILE_PATH_NAMES.CONTACTS,
     );
     expect(phccRoute).to.exist;
-    const routes = getRoutesForNav(false);
+    const routes = getRoutes({ profileContacts: false });
+    expect(routes).to.not.include(phccRoute);
+  });
+});
+
+describe('getRoutesForNav', () => {
+  it('enables contacts route when true', () => {
+    const phccRoute = routesForNav.find(
+      route => route.name === PROFILE_PATH_NAMES.CONTACTS,
+    );
+    expect(phccRoute).to.exist;
+    const routes = getRoutesForNav({ profileContacts: true });
+    expect(routes).to.include(phccRoute);
+  });
+
+  it('disables contacts route when false', () => {
+    const phccRoute = routesForNav.find(
+      route => route.name === PROFILE_PATH_NAMES.CONTACTS,
+    );
+    expect(phccRoute).to.exist;
+    const routes = getRoutesForNav({ profileContacts: false });
     expect(routes).to.not.include(phccRoute);
   });
 });

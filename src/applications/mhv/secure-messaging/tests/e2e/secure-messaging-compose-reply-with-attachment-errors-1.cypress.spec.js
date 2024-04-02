@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
@@ -18,9 +18,9 @@ describe('Start a new message With Attacments and Errors', () => {
       .getCategory('COVID')
       .first()
       .click({ force: true });
-    composePage.attachMessageFromFile('test_video.mp4');
+    composePage.attachMessageFromFile(Data.TEST_VIDEO);
     composePage.verifyAttachmentErrorMessage(
-      "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
+      "We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.",
     );
     composePage.attachMessageFromFile('empty.txt');
     composePage.verifyAttachmentErrorMessage(
@@ -31,10 +31,10 @@ describe('Start a new message With Attacments and Errors', () => {
     // TO DO: remove attachment
     composePage.removeAttachMessageFromFile();
 
-    composePage.getMessageSubjectField().type('Test Subject');
+    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage
       .getMessageBodyField()
-      .type('Test message body', { force: true, waitforanimations: true });
+      .type(Data.TEST_MESSAGE_BODY, { force: true, waitforanimations: true });
     composePage.sendMessage();
     composePage.verifySendMessageConfirmationMessageText();
     composePage.verifySendMessageConfirmationMessageHasFocus();

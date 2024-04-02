@@ -69,7 +69,7 @@ export class LetterList extends React.Component {
       }
 
       return (
-        <va-accordion-item key={`panel-${index}`} uswds="false">
+        <va-accordion-item key={`panel-${index}`}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           {conditionalDownloadButton}
@@ -84,7 +84,7 @@ export class LetterList extends React.Component {
       AVAILABILITY_STATUSES.letterEligibilityError
     ) {
       eligibilityMessage = (
-        <va-alert status="warning" visible uswds="false">
+        <va-alert status="warning" visible>
           <h4 slot="headline">Some letters may not be available</h4>
           <p>
             One of our systems appears to be down. If you believe you’re missing
@@ -123,9 +123,7 @@ export class LetterList extends React.Component {
           <Link to="/confirm-address">Go back to edit address</Link>
         </p>
         {letterItems.length !== 0 && (
-          <va-accordion bordered uswds="false">
-            {letterItems}
-          </va-accordion>
+          <va-accordion bordered>{letterItems}</va-accordion>
         )}
         {eligibilityMessage}
 
@@ -165,8 +163,8 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <va-telephone contact="8008271000" uswds="false" />, Monday &#8211;
-            Friday, 8 a.m. &#8211; 9 p.m. ET
+            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
+            &#8211; 9 p.m. ET
           </div>
         </div>
       </div>
