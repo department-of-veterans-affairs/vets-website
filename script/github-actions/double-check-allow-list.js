@@ -48,7 +48,8 @@ if (process.env.TEST_TYPE === 'e2e') {
       test =>
         !disallowedTests.some(disallowedTest => test.includes(disallowedTest)),
     );
-
+    console.log('tests length:', TESTS.length);
+    console.log('new tests length:', newTests.length);
     console.log('new tests: ', newTests);
 
     core.exportVariable(TESTS_PROPERTY, newTests);
