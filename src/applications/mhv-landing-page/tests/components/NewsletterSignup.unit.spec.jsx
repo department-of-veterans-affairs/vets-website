@@ -11,6 +11,7 @@ describe('MHV landing page', () => {
 
       expect(getByRole('heading')).to.exist;
       expect(getByRole('link')).to.exist;
+      expect(getByRole('link').href).to.exist;
     });
   });
 });
