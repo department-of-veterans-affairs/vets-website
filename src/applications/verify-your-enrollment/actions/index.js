@@ -93,7 +93,7 @@ export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
     try {
-      const response = await apiRequest(`/address`, {
+      const response = await apiRequest(`${API_URL}/address`, {
         method: 'POST',
         body: JSON.stringify(mailingAddress),
         headers: { 'Content-Type': 'application/json' },
@@ -107,7 +107,7 @@ export function postMailingAddress(mailingAddress) {
         type: UPDATE_ADDRESS_FAILURE,
         errors: error.toString(),
       });
-      throw new Error('something went wrong');
+      throw error;
     }
   };
 }
@@ -162,11 +162,14 @@ export const verifyEnrollmentAction = () => {
 export const validateAddress = (formData, fullName) => async dispatch => {
   dispatch({ type: ADDRESS_VALIDATION_START });
   try {
-    const validationResponse = await apiRequest('/profile/address_validation', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    const validationResponse = await apiRequest(
+      'http://localhost:8080/profile/address_validation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      },
+    );
 
     const {
       address,

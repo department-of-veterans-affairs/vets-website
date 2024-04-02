@@ -6,7 +6,11 @@ import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
 import NoSuggestedAddress from './NoSuggestedAddress';
-import { noSuggestedAddress, prepareAddressData } from '../helpers';
+import {
+  addressLabel,
+  noSuggestedAddress,
+  prepareAddressData,
+} from '../helpers';
 
 const SuggestedAddress = ({
   formData,
@@ -129,11 +133,8 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {`${formData?.addressLine1} ${formData?.addressLine2 || ''}`}
-              <br />
-              {`${formData?.city}, ${formData?.province ||
-                formData?.stateCode} ${formData?.internationalPostalCode ||
-                formData?.zipCode}`}
+              {' '}
+              {addressLabel(formData)}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
@@ -153,11 +154,7 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="suggested-address"
             >
-              {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
-              <br />
-              {`${address?.city}, ${address?.province ||
-                address?.stateCode} ${address?.internationalPostalCode ||
-                address?.zipCode}`}
+              {addressLabel(address)}
             </label>
           </div>
         </>
