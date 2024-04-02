@@ -147,7 +147,6 @@ const ManageFolderButtons = props => {
           className="modal"
           data-testid="error-folder-not-empty"
           visible={isEmptyWarning}
-          large
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
