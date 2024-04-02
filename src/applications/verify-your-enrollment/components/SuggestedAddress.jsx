@@ -6,7 +6,11 @@ import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
 import NoSuggestedAddress from './NoSuggestedAddress';
-import { prepareAddressData } from '../helpers';
+import {
+  addressLabel,
+  noSuggestedAddress,
+  prepareAddressData,
+} from '../helpers';
 
 const SuggestedAddress = ({
   formData,
@@ -27,8 +31,6 @@ const SuggestedAddress = ({
   const deliveryPointValidation =
     addressValidationData?.addresses[0]?.addressMetaData
       ?.deliveryPointValidation;
-  const confidenceScore =
-    addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
   // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
@@ -79,17 +81,17 @@ const SuggestedAddress = ({
             ...addressState,
           }),
         );
+        setAddressToUI({
+          street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
+          city: formData.city,
+          ...stateAndZip,
+        });
       } catch (err) {
         throw new Error(err);
       } finally {
         dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
         setFormData({});
       }
-      setAddressToUI({
-        street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
-        city: formData.city,
-        ...stateAndZip,
-      });
     }
   };
 
@@ -104,14 +106,11 @@ const SuggestedAddress = ({
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
-          confidenceScore={confidenceScore}
           formData={formData}
-          onChange={handleChange}
           setChooseAddress={setChooseAddress}
         />
       </div>
-      {((deliveryPointValidation !== undefined &&
-        deliveryPointValidation === 'CONFIRMED') ||
+      {(!noSuggestedAddress(deliveryPointValidation) ||
         suggestedAddressPicked) && (
         <>
           <Alert
@@ -134,9 +133,8 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {`${formData?.addressLine1} ${formData?.addressLine2 || ''}`}
-              <br />
-              {`${formData?.city}, ${formData?.stateCode} ${formData?.zipCode}`}
+              {' '}
+              {addressLabel(formData)}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
@@ -156,9 +154,7 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="suggested-address"
             >
-              {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
-              <br />
-              {`${address?.city}, ${address?.stateCode} ${address?.zipCode}`}
+              {addressLabel(address)}
             </label>
           </div>
         </>
