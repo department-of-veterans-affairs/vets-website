@@ -34,7 +34,7 @@ EmployerView.propTypes = {
  * @param {boolean} showJobDateField - Optional job date field in UI
  * @returns {Object} - Object containing uiSchema and schema
  */
-const generateEmployersSchemas = (
+const generateEmployersSchemas = ({
   employersKey = 'employers',
   employersTitle = 'Default Employers Title',
   employerMessage = 'Default Message',
@@ -44,7 +44,7 @@ const generateEmployersSchemas = (
   employersReviewTitle = 'Default Review Title',
   maxEmployersAmount = 2,
   showJobDateField = false,
-) => {
+}) => {
   return {
     uiSchema: {
       ...titleUI(employersTitle),

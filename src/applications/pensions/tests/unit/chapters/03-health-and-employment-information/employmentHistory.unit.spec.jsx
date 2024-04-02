@@ -10,7 +10,7 @@ import generateEmployersSchemas, {
   EmployerView,
 } from '../../../../config/chapters/03-health-and-employment-information/employmentHistory';
 
-const { schema, uiSchema } = generateEmployersSchemas();
+const { schema, uiSchema } = generateEmployersSchemas({});
 
 describe('pensions employment history', () => {
   const pageTitle = 'employment history';
