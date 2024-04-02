@@ -10,8 +10,8 @@ import {
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { isAuthenticatedWithOAuth } from '~/platform/user/authentication/selectors';
 
-import VerifyIdentity from './alerts/VerifyIdentity';
-import DirectDepositBlocked from './alerts/DirectDepositBlocked';
+import VerifyIdentity from '../alerts/VerifyIdentity';
+import DirectDepositBlocked from '../alerts/DirectDepositBlocked';
 import LoadFail from '../../alerts/LoadFail';
 
 const DirectDepositWrapper = props => {

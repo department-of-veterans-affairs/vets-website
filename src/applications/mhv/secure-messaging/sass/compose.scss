@@ -48,7 +48,7 @@
     va-text-input#message-subject::part(input) {
       max-width: 100%;
     }
-    va-textarea#compose-message-body::part(textarea) {
+    va-textarea#compose-message-body::part(input-type-textarea) {
       max-width: 100%;
       resize: vertical;
       box-sizing: border-box;
@@ -76,7 +76,7 @@
       max-width: 100%;
       // background-color: var(--vads-color-base-darker);
     }
-    va-textarea#reply-message-body::part(textarea) {
+    va-textarea#reply-message-body::part(input-type-textarea) {
       max-width: 100%;
       resize: vertical;
       box-sizing: border-box;

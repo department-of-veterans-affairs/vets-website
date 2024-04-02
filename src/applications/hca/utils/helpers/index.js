@@ -236,25 +236,6 @@ export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
 );
 
 /**
- * Helper that takes two sets of props and returns true if any of its relevant
- * props are different.
- * @param {Object} prevProps - first set of props to compare
- * @param {Object} props - second set of props to compare
- * @returns {boolean} - true if any relevant props differ between the two sets
- * of props; otherwise returns false
- */
-export function didEnrollmentStatusChange(prevProps, props) {
-  const relevantProps = [
-    'enrollmentStatus',
-    'noESRRecordFound',
-    'shouldRedirect',
-  ];
-  return relevantProps.some(
-    propName => prevProps[propName] !== props[propName],
-  );
-}
-
-/**
  * Helper that maps an array to an object literal to allow for
  * multiple keys to have the same value
  * @param {Array} arrayToMap - an array of arrays that defines the keys/values to map

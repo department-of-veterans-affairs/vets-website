@@ -34,6 +34,7 @@ describe('transformForSubmit', () => {
         veteranFullName: fullNameTruncated,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -53,6 +54,7 @@ describe('transformForSubmit', () => {
         nonVeteranFullName: fullNameTruncated,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -81,6 +83,7 @@ describe('transformForSubmit', () => {
         ...fixtureVet.data,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -99,6 +102,7 @@ describe('transformForSubmit', () => {
         ...fixtureNonVet.data,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -111,6 +115,7 @@ describe('transformForSubmit', () => {
         ...fixture3rdPtyVet.data,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, fixture3rdPtyVet),
@@ -123,6 +128,7 @@ describe('transformForSubmit', () => {
         ...fixture3rdPtyNonVet.data,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, fixture3rdPtyNonVet),
@@ -161,6 +167,7 @@ describe('transformForSubmit', () => {
         veteranMailingAddress: addressTruncated,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -180,6 +187,7 @@ describe('transformForSubmit', () => {
         nonVeteranMailingAddress: addressTruncated,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -200,6 +208,7 @@ describe('transformForSubmit', () => {
         ...fixtureVet.data,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),
@@ -274,6 +283,7 @@ describe('transformForSubmit', () => {
         otherReasons: otherReasonsOver85,
         formNumber: '20-10207',
       };
+      delete transformedData['view:hasReceivedMedicalTreatment'];
 
       const transformedResult = JSON.parse(
         transformForSubmit(formConfig, data),

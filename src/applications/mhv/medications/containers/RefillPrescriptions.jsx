@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { updatePageTitle } from '../../shared/util/helpers';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
@@ -64,11 +64,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
         const reduceBy = ([refillable, renewable], rx) => {
           if (
-            rx.isRefillable ||
-            ([dispStatusObj.active, dispStatusObj.activeParked].includes(
-              rx.dispStatus,
-            ) &&
-              rx.refillRemaining > 0)
+            (rx.dispStatus === dispStatusObj.active &&
+              rx.refillRemaining > 0) ||
+            (rx.dispStatus === dispStatusObj.activeParked &&
+              (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
           ) {
             return [[...refillable, rx], renewable];
           }

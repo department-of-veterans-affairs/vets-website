@@ -6,7 +6,9 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 // import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+
 import { SET_UNAUTHORIZED } from '../actions/types';
+import { DATE_FORMATS } from '../constants';
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
@@ -1012,7 +1014,7 @@ export const setDocumentTitle = title => {
 
 // Takes a format string and returns a function that formats the given date
 // `date` must be in ISO format ex. 2020-01-28
-export const buildDateFormatter = formatString => {
+export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   return date => {
     const parsedDate = parseISO(date);
 

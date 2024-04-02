@@ -110,7 +110,7 @@
 
   @include make-status-styles(
     $status: "update",
-    $color: var(--vads-color-action-focus-on-light)
+    $color: var(--vads-color-action-focus-on-light),
   );
 
   section.content {

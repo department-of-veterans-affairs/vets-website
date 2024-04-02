@@ -11,7 +11,7 @@ describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
   const inboxPage = new PatientInboxPage();
   const draftsPage = new PatientMessageDraftsPage();
-  it(' Delete Drafts', () => {
+  it(' Delete Existing Draft', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);

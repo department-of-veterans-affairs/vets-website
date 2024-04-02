@@ -6,7 +6,7 @@ import {
   buildNonVAPrescriptionPDFList,
 } from '../../util/pdfConfigs';
 import prescriptions from '../fixtures/prescriptions.json';
-import allergies from '../../../medical-records/tests/fixtures/allergies.json';
+import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
 import { pdfDefaultStatusDefinition } from '../../util/constants';

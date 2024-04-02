@@ -510,7 +510,7 @@ legend.schemaform-label.schemaform-file-label {
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
     margin: -1em -1.2em 0 -1.2em;
-    background-color: var(--color-secondary-lightest);
+    background-color: var(--vads-color-secondary-lightest);
     &:before {
       display: block;
       content: " ";
@@ -535,18 +535,14 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+/* Highlight accordion item with content that needs attention */
 va-accordion-item[data-unviewed-pages="true"] {
-  --item-border: 3px solid var(--color-secondary-lightest) !important;
-
   &::part(accordion-header) {
-    background-color: var(--color-secondary-lightest);
-    border-color: var(--color-secondary-lightest);
+    background-color: #{var(--vads-color-secondary-lightest)};
   }
-}
-
-.form-review-panel .accordion-header > button.usa-button-unstyled {
-  padding: 2.5rem 4.5rem 2.5rem 2.5rem;
-  line-height: 2.2rem;
+  &::part(accordion-content) {
+    border-color: #{var(--vads-color-secondary-lightest)};
+  }
 }
 
 .usa-alert-no-color {
@@ -610,8 +606,8 @@ va-accordion-item[data-unviewed-pages="true"] {
   background: var(--vads-color-white);
   border: 1px solid var(--vads-color-base-dark);
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px $color-focus, -3px 3px 3px -3px $color-focus,
-    7px 7px 7px -7px $color-focus, -7px 7px 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
   margin-top: -0.5rem;
   max-width: 46rem;

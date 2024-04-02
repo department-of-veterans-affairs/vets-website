@@ -23,14 +23,11 @@ import {
   isClaimOpen,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import { DATE_FORMATS } from '../constants';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
-
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 class FilesPage extends React.Component {
   componentDidMount() {
@@ -64,7 +61,7 @@ class FilesPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, params } = this.props;
+    const { claim } = this.props;
 
     const {
       closeDate,
@@ -101,7 +98,7 @@ class FilesPage extends React.Component {
                 optionalFiles={optionalFiles}
               />
             )}
-            {showDecision && <AskVAToDecide id={params.id} />}
+            {showDecision && <AskVAToDecide />}
             <div className="submitted-files-list">
               <h2 className="claim-file-border">Documents filed</h2>
               {documentsTurnedIn.length === 0 ? (
@@ -123,7 +120,7 @@ class FilesPage extends React.Component {
           <Toggler.Enabled>
             <ClaimFileHeader isOpen={isOpen} />
             <AdditionalEvidencePage />
-            {showDecision && <AskVAToDecide id={params.id} />}
+            {showDecision && <AskVAToDecide />}
             <DocumentsFiled claim={claim} />
           </Toggler.Enabled>
         </Toggler>
@@ -135,7 +132,7 @@ class FilesPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Files For ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -189,11 +186,10 @@ FilesPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.shape({
-    body: PropTypes.string,
+    body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     title: PropTypes.string,
     type: PropTypes.string,
   }),
-  params: PropTypes.object,
   synced: PropTypes.bool,
 };
 
