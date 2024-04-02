@@ -11,8 +11,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 
+import { getJobTitleOrType } from '../../../helpers';
+
 export const EmployerView = ({ formData }) => (
-  <ListItemView title={formData.jobTitle} />
+  <ListItemView title={getJobTitleOrType(formData)} />
 );
 
 EmployerView.propTypes = {
@@ -44,6 +46,7 @@ const generateEmployersSchemas = ({
   employersReviewTitle = 'Default Review Title',
   maxEmployersAmount = 2,
   showJobDateField = false,
+  showJobTitleField = false,
 }) => {
   return {
     uiSchema: {
@@ -52,7 +55,7 @@ const generateEmployersSchemas = ({
         'ui:title': employerMessage,
         'ui:options': {
           itemName: 'Job',
-          itemAriaLabel: data => data.jobTitle,
+          itemAriaLabel: data => getJobTitleOrType(data.jobTitle),
           viewField: EmployerView,
           reviewTitle: employersReviewTitle,
           keepInPageOnReview: true,
@@ -74,10 +77,12 @@ const generateEmployersSchemas = ({
             min: 1,
             max: 168,
           }),
-          jobTitle: {
-            'ui:title': jobTitleFieldLabel,
-            'ui:webComponentField': VaTextInputField,
-          },
+          ...(showJobTitleField && {
+            jobTitle: {
+              'ui:title': jobTitleFieldLabel,
+              'ui:webComponentField': VaTextInputField,
+            },
+          }),
         },
       },
     },
@@ -90,16 +95,20 @@ const generateEmployersSchemas = ({
           maxItems: maxEmployersAmount,
           items: {
             type: 'object',
-            required: ['jobType', 'jobHoursWeek', 'jobTitle'],
+            required: showJobTitleField
+              ? ['jobType', 'jobHoursWeek', 'jobTitle']
+              : ['jobType', 'jobHoursWeek'],
             properties: {
               ...(showJobDateField && { jobDate: currentOrPastDateSchema }),
               jobType: {
                 type: 'string',
               },
               jobHoursWeek: numberSchema,
-              jobTitle: {
-                type: 'string',
-              },
+              ...(showJobTitleField && {
+                jobTitle: {
+                  type: 'string',
+                },
+              }),
             },
           },
         },
