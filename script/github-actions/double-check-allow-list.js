@@ -36,16 +36,13 @@ console.log(disallowedTests);
 
 if (process.env.TEST_TYPE === 'e2e') {
   console.log('e2e tests');
-  const newDisallowedTests = disallowedTests.filter(test =>
-    TESTS.includes(test),
-  );
 
-  newDisallowedTests.push(
+  disallowedTests.push(
     'src/applications/pre-check-in/tests/e2e/errors/post-pre-check-in/non.200.status.code.cypress.spec.js',
   );
 
-  if (newDisallowedTests.length > 0) {
-    console.log('new disallowed tests: ', newDisallowedTests);
+  if (disallowedTests.length > 0) {
+    console.log('new disallowed tests: ', disallowedTests);
 
     const newTests = TESTS.filter(
       test =>
