@@ -35,7 +35,7 @@ console.log(disallowedTests);
 
 if (process.env.TEST_TYPE === 'e2e') {
   disallowedTests.push(
-    'src/applications/pre-check-in/tests/e2e/errors/post-pre-check-in/non.200.status.code.cypress.spec.js',
+    'src/applications/check-in/pre-check-in/tests/e2e/routing/browser.back.button.cypress.spec.js',
   );
 
   if (disallowedTests.length > 0) {
