@@ -64,7 +64,7 @@ const TravelReview = props => {
           data-testid={`claiming-${facilitiesToFile.length}-facilities`}
         >
           <span data-testid="claim-list">
-            {t('mileage-only-reimbursement')} {claimList}
+            {t('mileage-only-reimbursement-for')} {claimList}
           </span>
         </dd>
       </dl>
