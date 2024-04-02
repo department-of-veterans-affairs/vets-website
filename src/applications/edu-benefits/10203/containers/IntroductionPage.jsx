@@ -1,12 +1,38 @@
-import { FEATURE_FLAG_NAMES } from '@department-of-veterans-affairs/platform-utilities/feature-toggles/featureFlagNames';
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/src/js/components/FormTitle';
-import PropTypes from 'prop-types';
 import React from 'react';
-import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+
+const withFeatureToggle = Component => {
+  return props => {
+    const {
+      useToggleValue,
+      useToggleLoadingValue,
+      TOGGLE_NAMES,
+    } = useFeatureToggle();
+
+    const toggleValue = useToggleValue(
+      TOGGLE_NAMES.benefitsEducationUseLighthouse,
+    );
+    const togglesLoading = useToggleLoadingValue();
+
+    if (togglesLoading) {
+      return null;
+    }
+
+    const apiVersion = { apiVersion: toggleValue ? 'v1' : 'v0' };
+
+    return <Component {...props} apiVersion={apiVersion} />;
+  };
+};
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -266,13 +292,6 @@ const mapStateToProps = state => {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
     useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
-    apiVersion: {
-      apiVersion: toggleValues(state)[
-        FEATURE_FLAG_NAMES.benefitsEducationUseLighthouse
-      ]
-        ? 'v1'
-        : 'v0',
-    },
   };
 };
 
@@ -283,4 +302,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IntroductionPage);
+)(withFeatureToggle(IntroductionPage));
