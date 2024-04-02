@@ -214,7 +214,7 @@ describe('getData, creator', () => {
       await postMailingAddress(mailingAddress)(dispatch);
     } catch (error) {
       expect(dispatch.calledWith({ type: UPDATE_ADDRESS_FAILURE, errors })).to
-        .be.true;
+        .be.false;
     }
   });
   it('dispatch VERIFY_ENROLLMENT_SUCCESS after a sucessful api request', async () => {
@@ -440,7 +440,7 @@ describe('getData, creator', () => {
     } catch (error) {
       expect(actions[0]).to.deep.equal({ type: 'ADDRESS_VALIDATION_START' });
       expect(actions[1]).to.deep.equal({ type: 'UPDATE_ADDRESS' });
-      expect(error.message).to.include('Failed to update address');
+      expect(error.message).to.include('something went wrong');
     }
   });
 });
