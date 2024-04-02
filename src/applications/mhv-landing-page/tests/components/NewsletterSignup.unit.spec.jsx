@@ -10,8 +10,10 @@ describe('MHV landing page', () => {
       const { getByRole } = render(<NewsletterSignup />);
 
       expect(getByRole('heading')).to.exist;
-      expect(getByRole('link')).to.exist;
-      expect(getByRole('link').href).to.exist;
+      const link = getByRole('link');
+      expect(link).to.exist;
+      expect(link.href).to.exist;
+      expect(link.target).to.equal('_blank');
     });
   });
 });
