@@ -53,10 +53,6 @@ function isEligibleForDisabilitySupport(childDOB) {
     .isBefore(childDOB);
 }
 
-function isAdopted(childRelationship) {
-  return childRelationship === 'ADOPTED';
-}
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -83,10 +79,7 @@ export default {
           'ui:description': AdoptionEvidenceAlert,
           'ui:options': {
             expandUnder: 'childRelationship',
-            hideIf: (formData, index) =>
-              !isAdopted(
-                get(['dependents', index, 'childRelationship'], formData),
-              ),
+            expandUnderCondition: 'ADOPTED',
           },
         },
         attendingCollege: yesNoUI({
