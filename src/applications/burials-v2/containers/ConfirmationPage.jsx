@@ -154,38 +154,34 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
             Check the status of your claim
           </a>
           <br />
-          <a
-            className="vads-c-action-link--blue vads-u-margin-bottom--9"
-            href="https://www.va.gov/"
-          >
+          <a className="vads-c-action-link--blue" href="https://www.va.gov/">
             Go back to VA.gov
           </a>
         </>
       )}
       {!isLoggedIn && (
         <>
-          <a
-            className="vads-c-action-link--green vads-u-margin-bottom--9"
-            href="https://www.va.gov/"
-          >
+          <a className="vads-c-action-link--green" href="https://www.va.gov/">
             Go back to VA.gov
           </a>
         </>
       )}
 
-      <va-need-help>
-        <div slot="content">
-          <p>
-            For help filling out this form, or if the form isn’t working right,
-            please call VA Benefits and Services at{' '}
-            <va-telephone contact="8008271000" />
-          </p>
-          <p>
-            If you have hearing loss, call{' '}
-            <va-telephone contact="711" tty="true" />.
-          </p>
-        </div>
-      </va-need-help>
+      <div className="vads-u-margin-top--9">
+        <va-need-help>
+          <div slot="content">
+            <p>
+              For help filling out this form, or if the form isn’t working
+              right, please call VA Benefits and Services at{' '}
+              <va-telephone contact="8008271000" />
+            </p>
+            <p>
+              If you have hearing loss, call{' '}
+              <va-telephone contact="711" tty="true" />.
+            </p>
+          </div>
+        </va-need-help>
+      </div>
     </div>
   );
 };
