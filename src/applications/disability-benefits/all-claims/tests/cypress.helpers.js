@@ -286,5 +286,26 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       }
     });
   },
+  'toxic-exposure/conditions': () => {
+    cy.get('va-checkbox[label="Asthma"]')
+      .shadow()
+      .find('input')
+      .first()
+      .click({ force: true });
+  },
+  'toxic-exposure/gulf-war-hazard-1990': () => {
+    cy.get('va-checkbox[label="Afghanistan"]')
+      .shadow()
+      .find('input')
+      .first()
+      .click({ force: true });
+  },
+  'toxic-exposure/gulf-war-1990-location-afghanistan': () => {
+    cy.fillDate(
+      'root_gulfWar1990Locations_afghanistan_startDate',
+      '1990-01-01',
+    );
+    cy.fillDate('root_gulfWar1990Locations_afghanistan_endDate', '1990-12-31');
+  },
   ...makeUnreleasedPageHooks(toggles),
 });

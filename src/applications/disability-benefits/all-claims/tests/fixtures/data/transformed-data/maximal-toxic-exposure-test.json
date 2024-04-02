@@ -34,8 +34,16 @@
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
     "toxicExposureConditions": {
-      "asthma": true,
-      "heartattackmyocardialinfarction": true
+      "asthma": true
+    },
+    "gulfWar1990": {
+      "airspace": true
+    },
+    "gulfWar1990Locations": {
+      "afghanistan": {
+        "startDate": "1990-01-01",
+        "endDate": "1990-12-31"
+      }
     },
     "vaTreatmentFacilities": [
       {

@@ -137,8 +137,16 @@
       "view:alreadyClaimedVehicleAllowance": false
     },
     "toxicExposureConditions": {
-      "asthma": true,
-      "heartattackmyocardialinfarction": true
+      "asthma": true
+    },
+    "gulfWar1990": {
+      "airspace": true
+    },
+    "gulfWar1990Locations": {
+      "afghanistan": {
+        "startDate": "1990-01-01",
+        "endDate": "1990-12-31"
+      }
     },
     "view:powStatus": true,
     "view:isPow": {
