@@ -5,23 +5,32 @@ import ApplicantRelationshipPage, {
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
-const KEYNAME = 'applicantMedicareStatus';
-const PRIMARY = 'enrollment';
-const SECONDARY = 'otherEnrollment';
+const KEYNAME = 'applicantMedicareStatusContinued';
+const PRIMARY = 'medicareContext';
+const SECONDARY = 'otherMedicareContext';
 
 export function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `${
-    bp.useFirstPerson ? 'Do you' : `Does ${bp.applicant}`
-  } have Medicare Parts A & B to add or update?`;
+  const haveOrHas = bp.relative === 'I' ? 'have' : 'has';
+  const prompt = `Which of these best describes ${
+    bp.useFirstPerson ? 'you' : `${bp.applicant}`
+  }?`;
   const options = [
     {
-      label: 'Yes',
-      value: 'yes',
+      label: `${bp.relative} ${bp.beingVerbPresent} not eligible for Medicare`,
+      value: 'ineligible',
     },
     {
-      label: 'No',
-      value: 'no',
+      label: `${
+        bp.relative
+      } ${haveOrHas} Medicare but no updates to add at this time`,
+      value: 'enrolledNoUpdates',
+    },
+    {
+      label: `No, ${bp.relative} ${
+        bp.beingVerbPresent
+      } eligible for Medicare but ${haveOrHas} not signed up for it yet`,
+      value: 'eligibleNotEnrolled',
     },
   ];
 
@@ -41,7 +50,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
 
 // Using the widely customizable ApplicantRelationshipPage
 // as it now functions like a generic radioUI + other text field:
-export function ApplicantMedicareStatusPage(props) {
+export function ApplicantMedicareStatusContinuedPage(props) {
   const newProps = {
     ...props,
     keyname: KEYNAME,
@@ -51,7 +60,7 @@ export function ApplicantMedicareStatusPage(props) {
   };
   return ApplicantRelationshipPage(newProps);
 }
-export function ApplicantMedicareStatusReviewPage(props) {
+export function ApplicantMedicareStatusContinuedReviewPage(props) {
   const newProps = {
     ...props,
     keyname: KEYNAME,
@@ -62,5 +71,5 @@ export function ApplicantMedicareStatusReviewPage(props) {
   return ApplicantRelationshipReviewPage(newProps);
 }
 
-ApplicantMedicareStatusReviewPage.propTypes = reviewPageProps;
-ApplicantMedicareStatusPage.propTypes = pageProps;
+ApplicantMedicareStatusContinuedReviewPage.propTypes = reviewPageProps;
+ApplicantMedicareStatusContinuedPage.propTypes = pageProps;

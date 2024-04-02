@@ -22,11 +22,18 @@ import {
   applicantContactInfoSchema,
 } from '../chapters/applicantInformation';
 
-import { applicantHasMedicareABSchema } from '../chapters/medicareInformation';
+import {
+  applicantHasMedicareABSchema,
+  applicantMedicareABContextSchema,
+} from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
   ApplicantMedicareStatusReviewPage,
 } from '../components/ApplicantMedicareStatusPage';
+import {
+  ApplicantMedicareStatusContinuedPage,
+  ApplicantMedicareStatusContinuedReviewPage,
+} from '../components/ApplicantMedicareStatusContinuedPage';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
@@ -167,6 +174,26 @@ const formConfig = {
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           uiSchema: applicantHasMedicareABSchema.uiSchema,
           schema: applicantHasMedicareABSchema.schema,
+        },
+        // If 'no' to previous question:
+        medicareABContext: {
+          path: ':index/no-medicare-ab',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare status`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatus.enrollment',
+                formData?.applicants?.[index],
+              ) === 'no'
+            );
+          },
+          CustomPage: ApplicantMedicareStatusContinuedPage,
+          CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
+          uiSchema: applicantMedicareABContextSchema.uiSchema,
+          schema: applicantMedicareABContextSchema.schema,
         },
       },
     },
