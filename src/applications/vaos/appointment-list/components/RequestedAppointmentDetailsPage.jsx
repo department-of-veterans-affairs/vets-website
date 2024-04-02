@@ -209,7 +209,7 @@ export default function RequestedAppointmentDetailsPage() {
           </li>
         ))}
       </ul>
-      <div className="vaos-u-word-break--break-word">
+      <div className="vaos-u-word-break--break-word" data-dd-privacy="mask">
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
           You shared these details about your concern
         </h2>
@@ -222,12 +222,15 @@ export default function RequestedAppointmentDetailsPage() {
         <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
           Email:{' '}
         </h3>
-        <span>{getPatientTelecom(appointment, 'email')}</span>
+        <span data-dd-privacy="mask">
+          {getPatientTelecom(appointment, 'email')}
+        </span>
         <br />
         <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
           Phone number:{' '}
         </h3>
         <VaTelephone
+          data-dd-privacy="mask"
           notClickable
           contact={getPatientTelecom(appointment, 'phone')}
           data-testid="patient-telephone"
