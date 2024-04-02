@@ -155,8 +155,8 @@ const SuggestedAddress = ({
             >
               {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
               <br />
-              {`${address?.city}, ${formData?.province ||
-                address?.stateCode} ${formData?.internationalPostalCode ||
+              {`${address?.city}, ${address?.province ||
+                address?.stateCode} ${address?.internationalPostalCode ||
                 address?.zipCode}`}
             </label>
           </div>
