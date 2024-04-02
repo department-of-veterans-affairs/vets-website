@@ -178,8 +178,9 @@ describe('getData, creator', () => {
     await waitFor(() => {
       postMailingAddress(mailingAddress)(dispatch);
     });
-
-    expect(dispatch.calledWith({ type: UPDATE_ADDRESS })).to.be.true;
+    await waitFor(() => {
+      expect(dispatch.calledWith({ type: UPDATE_ADDRESS })).to.be.true;
+    });
   });
 
   it('dispatches UPDATE_ADDRESS_SUCCESS action when API request succeeds', async () => {
@@ -193,9 +194,10 @@ describe('getData, creator', () => {
     apiRequestStub.resolves(response);
 
     await postMailingAddress(mailingAddress)(dispatch);
-
-    expect(dispatch.calledWith({ type: UPDATE_ADDRESS_SUCCESS, response })).to
-      .be.true;
+    await waitFor(() => {
+      expect(dispatch.calledWith({ type: UPDATE_ADDRESS_SUCCESS, response })).to
+        .be.true;
+    });
   });
 
   it('dispatches UPDATE_ADDRESS_FAILURE action when API request fails', async () => {
