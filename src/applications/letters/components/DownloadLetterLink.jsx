@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
@@ -28,18 +29,18 @@ export class DownloadLetterLink extends React.Component {
   };
 
   render() {
-    let buttonClasses;
+    // let buttonClasses;
     let buttonText;
     let buttonDisabled;
     let message;
     switch (this.props.downloadStatus) {
       case DOWNLOAD_STATUSES.downloading:
-        buttonClasses = 'usa-button-disabled';
+        // buttonClasses = 'usa-button-disabled';
         buttonText = 'Downloading...';
         buttonDisabled = true;
         break;
       case DOWNLOAD_STATUSES.success:
-        buttonClasses = 'usa-button-primary';
+        // buttonClasses = 'usa-button-primary';
         buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
@@ -53,7 +54,7 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       case DOWNLOAD_STATUSES.failure:
-        buttonClasses = 'usa-button-primary';
+        // buttonClasses = 'usa-button-primary';
         buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
@@ -67,7 +68,7 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       default:
-        buttonClasses = 'usa-button-primary';
+        // buttonClasses = 'usa-button-primary';
         buttonText = 'Download letter';
         buttonDisabled = false;
     }
@@ -91,16 +92,21 @@ export class DownloadLetterLink extends React.Component {
             ) : null}
           </TransitionGroup>
         </div>
-        <div className="download-button">
-          <button
-            type="button"
-            onClick={this.downloadLetter}
-            disabled={buttonDisabled}
-            className={buttonClasses}
-          >
-            {buttonText}
-          </button>
-        </div>
+        <VaButton
+          data-cy="view-letters-button"
+          className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+          disabled={buttonDisabled}
+          text={buttonText}
+          onClick={this.downloadLetter}
+        />
+        {/* <button
+          type="button"
+          onClick={this.downloadLetter}
+          disabled={buttonDisabled}
+          className={buttonClasses}
+        >
+          {buttonText}
+        </button> */}
       </div>
     );
   }
