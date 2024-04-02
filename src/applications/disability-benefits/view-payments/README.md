@@ -54,7 +54,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-04-01T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -67,7 +67,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-04-02T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -80,7 +80,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-04-03T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -93,7 +93,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-04-04T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Paper Check',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -106,7 +106,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-12-01T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -119,7 +119,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-04-05T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Paper Check',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -132,7 +132,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-05-06T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Paper Check',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -145,9 +145,9 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-06-02T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
-                            account_number: '123456',
+                            account_numbe: '123456',
                             account_type: 'Checking',
                             bank_name: 'BANK OF AMERICA, N.A.',
                             routing_number: '111000025'
@@ -158,7 +158,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-07-03T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -171,7 +171,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-08-04T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Paper Check',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -184,7 +184,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-09-05T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -197,7 +197,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-07-03T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
@@ -210,7 +210,7 @@ When the front end calls [/profile/payment_history](https://github.com/departmen
                         payment_amount: 3261.10,
                         payment_date: '2019-07-04T00:00:00.000-06:00',
                         payment_type: 'Compensation & Pension - Recurring',
-                        payment_method: ' Direct Deposit',
+                        payment_method: 'Direct Deposit',
                         address_eft: {
                             account_number: '123456',
                             account_type: 'Checking',
