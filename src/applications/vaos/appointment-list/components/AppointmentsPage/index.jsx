@@ -99,6 +99,9 @@ export default function AppointmentsPage() {
   } else {
     pageTitle = 'Appointments';
   }
+
+  // Commenting this out for now until we have another migration.
+
   // const registeredFacilities = useSelector(selectPatientFacilities);
   // const hasRegisteredOHTransitionSite = registeredFacilities?.find(
   //   ({ facilityId }) => facilityId === OH_TRANSITION_SITES.siteName.id,
