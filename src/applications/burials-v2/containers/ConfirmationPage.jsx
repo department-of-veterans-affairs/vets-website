@@ -155,7 +155,7 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
           </a>
           <br />
           <a
-            className="vads-c-action-link--blue vads-u-margin-bottom--8"
+            className="vads-c-action-link--blue vads-u-margin-bottom--9"
             href="https://www.va.gov/"
           >
             Go back to VA.gov
@@ -165,7 +165,7 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
       {!isLoggedIn && (
         <>
           <a
-            className="vads-c-action-link--green vads-u-margin-bottom--8"
+            className="vads-c-action-link--green vads-u-margin-bottom--9"
             href="https://www.va.gov/"
           >
             Go back to VA.gov
