@@ -107,6 +107,7 @@ export function postMailingAddress(mailingAddress) {
         type: UPDATE_ADDRESS_FAILURE,
         errors: error.toString(),
       });
+      throw new Error('something went wrong');
     }
   };
 }
