@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from '~/platform/utilities/ui';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
@@ -19,10 +19,8 @@ import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
+  LAST_YEAR,
 } from '../../utils/constants';
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -49,7 +47,7 @@ const SUB_PAGES = [
   },
   {
     id: 'income',
-    title: `%s\u2019s annual income from ${lastYear}`,
+    title: `%s\u2019s annual income from ${LAST_YEAR}`,
     depends: { key: 'view:dependentIncome', value: true },
   },
 ];

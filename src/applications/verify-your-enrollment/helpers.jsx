@@ -276,3 +276,13 @@ export const prepareAddressData = formData => {
   }
   return addressData;
 };
+
+export const addressLabel = address => (
+  <span>
+    {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
+    <br />
+    {`${address?.city}, ${address?.province ||
+      address?.stateCode} ${address?.internationalPostalCode ||
+      address?.zipCode}`}
+  </span>
+);
