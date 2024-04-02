@@ -1,17 +1,15 @@
 import React from 'react';
-import { format, isValid, parse } from 'date-fns';
-
-const parseFormatStr = 'MM/dd/yyyy';
+import { format, isValid, parseISO } from 'date-fns';
 
 export const isValidDate = dateString => {
-  const parsedDate = parse(dateString, parseFormatStr, new Date());
+  const parsedDate = parseISO(dateString);
 
   return isValid(parsedDate);
 };
 
 export const formatDate = dateString => {
   const formatString = 'MMMM d, yyyy';
-  const parsedDate = parse(dateString, parseFormatStr, new Date());
+  const parsedDate = parseISO(dateString);
 
   return isValid(parsedDate)
     ? format(parsedDate, formatString)

@@ -43,7 +43,7 @@ describe('helper functions', () => {
   describe('formatDate', () => {
     context('when given a valid date in the correct format', () => {
       it('returns a date in the correct format', () => {
-        const input = '04/12/2019';
+        const input = '2019-04-12T00:00:00.000-06:00';
 
         const output = formatDate(input);
         expect(output).to.equal('April 12, 2019');
@@ -52,7 +52,7 @@ describe('helper functions', () => {
 
     context('when given a valid date in an incorrect format', () => {
       it('returns ’Invalid date’', () => {
-        const input = '2019-04-12';
+        const input = '04/12/2019';
 
         const output = formatDate(input);
         expect(output).to.equal('Invalid date');
@@ -72,7 +72,7 @@ describe('helper functions', () => {
   describe('isValidDate', () => {
     context('when given a valid date', () => {
       it('returns ’true’', () => {
-        const input = '04/12/2019';
+        const input = '2019-04-12T00:00:00.000-06:00';
 
         const output = isValidDate(input);
         expect(output).to.be.true;
@@ -81,7 +81,7 @@ describe('helper functions', () => {
 
     context('when given a valid date in an incorrect format', () => {
       it('returns ’false’', () => {
-        const input = '2019-04-12';
+        const input = '04/12/2019';
 
         const output = isValidDate(input);
         expect(output).to.be.false;
