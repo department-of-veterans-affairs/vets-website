@@ -4,7 +4,7 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { benefitsLabels } from '../utils/labels';
 
-const ConfirmationPage = ({ form }) => {
+const ConfirmationPage = ({ form, isLoggedIn }) => {
   useEffect(() => {
     focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
@@ -136,38 +136,43 @@ const ConfirmationPage = ({ form }) => {
         If we have more questions or need more information, we’ll contact you by
         phone, email, or mail.
       </p>
-      <h2>What if my claim is denied and I disagree with my decision?</h2>
-      <p>
-        If your claim is denied and you disagree with your decision, you can
-        request a decision review.
-      </p>
-      <p>
-        We’ll send you a letter with the reason why we denied your claim. This
-        letter will include instructions on how to request a decision review.
-      </p>
-      <a
-        href="/decision-reviews/"
-        rel="noopener noreferrer"
-        target="_blank"
-        aria-label="Learn more about VA decision reviews and appeals (opens on new tab)"
-      >
-        Learn more about VA decision reviews and appeals (opens on new tab)
-      </a>
-      <h2>How can I check the status of my claim?</h2>
-      <p>
-        You can check the status of your claim online. <br />
-        <strong>Note:</strong> It may take 7 to 10 days after you apply for the
-        status of your claim to show online.
-      </p>
-      <a
-        href="/claim-or-appeal-status/"
-        rel="noopener noreferrer"
-        target="_blank"
-        aria-label="Check the status of your claim"
-        className="vads-c-action-link--green vads-u-margin-bottom--4"
-      >
-        Check the status of your claim
-      </a>
+      {isLoggedIn && (
+        <>
+          <h2>How can I check the status of my claim?</h2>
+          <p>
+            You can check the status of your claim online. <br />
+            <strong>Note:</strong> It may take 7 to 10 days after you apply for
+            the status of your claim to show online.
+          </p>
+          <a
+            href="/claim-or-appeal-status/"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Check the status of your claim"
+            className="vads-c-action-link--green vads-u-margin-bottom--4"
+          >
+            Check the status of your claim
+          </a>
+          <br />
+          <a
+            className="vads-c-action-link--blue vads-u-margin-bottom--8"
+            href="https://www.va.gov/"
+          >
+            Go back to VA.gov
+          </a>
+        </>
+      )}
+      {!isLoggedIn && (
+        <>
+          <a
+            className="vads-c-action-link--green vads-u-margin-bottom--8"
+            href="https://www.va.gov/"
+          >
+            Go back to VA.gov
+          </a>
+        </>
+      )}
+
       <va-need-help>
         <div slot="content">
           <p>
@@ -188,6 +193,7 @@ const ConfirmationPage = ({ form }) => {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    isLoggedIn: state.user?.login?.currentlyLoggedIn,
   };
 }
 
