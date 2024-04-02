@@ -29,7 +29,7 @@ describe('hca enrollment status actions', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
       getState = () => ({
-        hcaEnrollmentStatus: { isLoadingApplicationStatus: false },
+        hcaEnrollmentStatus: { loading: false },
       });
       mockData = { data: 'data' };
     });
@@ -84,7 +84,7 @@ describe('hca enrollment status actions', () => {
       context('when fetch operation is already in progress', () => {
         it('should not dispatch anything', done => {
           getState = () => ({
-            hcaEnrollmentStatus: { isLoadingApplicationStatus: true },
+            hcaEnrollmentStatus: { loading: true },
           });
           expect(thunk(dispatch, getState)).to.be.null;
           expect(dispatch.notCalled).to.be.true;

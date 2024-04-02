@@ -7,7 +7,7 @@ import { createLiteralMap } from '../../../../utils/helpers';
 import content from '../../../../locales/en/content.json';
 
 const WarningHeadline = () => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
+  const { statusCode } = useSelector(selectEnrollmentStatus);
 
   // Declare enrollment status content dictionary
   const contentDictionary = [
@@ -77,7 +77,7 @@ const WarningHeadline = () => {
   // Render based on enrollment status
   return (
     <h2 slot="headline" data-testid="hca-enrollment-alert-heading">
-      {contentMap[enrollmentStatus]}
+      {contentMap[statusCode]}
     </h2>
   );
 };

@@ -60,7 +60,6 @@ import {
   blankSchema,
   acceptableFiles,
   sponsorCasualtyUploadUiSchema,
-  // mailOrFaxLaterMsg,
   sponsorDisabilityRatingUploadUiSchema,
   sponsorDischargePapersUploadUiSchema,
 } from '../components/Sponsor/sponsorFileUploads';
