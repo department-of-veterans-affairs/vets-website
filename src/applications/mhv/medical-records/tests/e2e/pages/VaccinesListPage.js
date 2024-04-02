@@ -1,8 +1,9 @@
 // import defaultVaccines from '../fixtures/Vaccines.json';
 import defaultVaccines from '../fixtures/vaccines/vaccines.json';
 import defaultVaccineDetail from '../fixtures/vaccines/vaccine-8261.json';
+import BaseListPage from './BaseListPage';
 
-class VaccinesListPage {
+class VaccinesListPage extends BaseListPage {
   clickGotoVaccinesLink = (
     Vaccines = defaultVaccines,
     waitForVaccines = false,

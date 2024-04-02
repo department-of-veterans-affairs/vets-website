@@ -206,7 +206,7 @@ export const getClaims = () => {
   };
 };
 
-export const getClaim = (id, router) => {
+export const getClaim = (id, navigate) => {
   return dispatch => {
     dispatch({ type: GET_CLAIM_DETAIL });
 
@@ -219,14 +219,14 @@ export const getClaim = (id, router) => {
         });
       })
       .catch(error => {
-        if (error.status !== 404 || !router) {
+        if (error.status !== 404 || !navigate) {
           return dispatch({
             type: SET_CLAIMS_UNAVAILABLE,
             error: error.message,
           });
         }
 
-        return router.replace('your-claims');
+        return navigate('/your-claims', { replace: true });
       });
   };
 };

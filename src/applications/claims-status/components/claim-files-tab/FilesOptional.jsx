@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { truncateDescription } from '../../utils/helpers';
 
-function FilesOptional({ id, item }) {
+function FilesOptional({ item }) {
   return (
-    <va-alert
-      class="optional-alert vads-u-margin-bottom--2"
-      status="info"
-      uswds
-    >
+    <va-alert class="optional-alert vads-u-margin-bottom--2" status="info">
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>
@@ -22,7 +18,7 @@ function FilesOptional({ id, item }) {
         <Link
           aria-label={`Add information for ${item.displayName}`}
           className="add-your-claims-link"
-          to={`your-claims/${id}/document-request/${item.id}`}
+          to={`../document-request/${item.id}`}
         >
           add it here.
         </Link>
@@ -32,7 +28,6 @@ function FilesOptional({ id, item }) {
 }
 
 FilesOptional.propTypes = {
-  id: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
 };
 

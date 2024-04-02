@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "commonJS",
+    "lib": ["es2020"],
+    "target": "es2020",
+    "strictNullChecks": true,
+    "jsx": "react"
+  },
+  "exclude": ["node_modules"]
+}
