@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import {
   applicantWording,
   additionalFilesHint,
-} from '../helpers/wordingCustomization';
+} from '../../../10-10D/helpers/wordingCustomization';
 
 /*
 Overriding these allows us to set custom property titles.

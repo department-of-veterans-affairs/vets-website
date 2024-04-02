@@ -11,7 +11,7 @@ import {
   certifierAddress,
   certifierPhoneEmail,
   certifierRelationship,
-} from '../pages/thirdPartyCertifier';
+} from '../chapters/certifierInformation';
 
 import {
   applicantNameDobSchema,
@@ -20,9 +20,11 @@ import {
   applicantPreAddressSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
-} from '../pages/applicantInformation';
+} from '../chapters/applicantInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+
+// import mockdata from '../tests/fixtures/data/test-data.json';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -63,6 +65,7 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
+          // initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
         },
