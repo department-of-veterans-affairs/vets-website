@@ -12,9 +12,9 @@ Applications wishing to use typescript should inherit from the base-tsconfig.jso
 
 ```
 {
-  "extends": "./config/base-tsconfig.json",
+  "extends": "../../../config/base-tsconfig.json",
   "compilerOptions": {
-    "strictNullChecks": false
+    "strictNullChecks": false // example of an override
   }
 }
 ```
