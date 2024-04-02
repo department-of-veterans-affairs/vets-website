@@ -47,7 +47,12 @@ if (process.env.TEST_TYPE === 'e2e') {
   if (newDisallowedTests.length > 0) {
     console.log('new disallowed tests: ', newDisallowedTests);
 
-    const newTests = TESTS.filter(test => disallowedTests.indexOf(test) === -1);
+    const newTests = TESTS.filter(
+      test =>
+        !disallowedTests.some(disallowedTest =>
+          test.includes(disallowedTest),
+        ) === -1,
+    );
 
     console.log('new tests: ', newTests);
 
