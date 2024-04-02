@@ -37,18 +37,9 @@ describe('Authed Letter Test', () => {
     cy.get('va-accordion-item').should('have.length', 5);
 
     // -- Go to letters list -- //
-    cy.get('va-accordion-item:nth-of-type(4)')
+    cy.tabToElement('va-accordion-item:nth-of-type(4)')
       .shadow()
-      .find('button')
-      .realPress('Tab');
-    // cy.tabToElement('va-accordion-item:nth-of-type(4)');
-    // cy.tabToElement('va-accordion-item:nth-of-type(4)')
-    //   .shadow()
-    //   .find('button');
-    // cy.tabToElement('va-accordion-item:nth-of-type(4)').should(
-    //   'contain',
-    //   'Benefit Summary and Service Verification Letter',
-    // );
+      .find('button');
     cy.realPress('Enter');
     cy.axeCheck();
 
