@@ -180,7 +180,6 @@ const VaPrescription = prescription => {
                       <img
                         aria-describedby={`prescription-name h3-refill-${i +
                           1}`}
-                        aria-labelledby="prescription-name"
                         className="vads-u-margin-top--1"
                         data-testid="rx-image"
                         src={getImageUri(entry.cmopNdcNumber)}
