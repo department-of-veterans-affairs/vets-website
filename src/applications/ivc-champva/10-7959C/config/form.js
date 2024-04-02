@@ -31,6 +31,13 @@ import {
   attachmentsSchema,
 } from '../../shared/components/attachments';
 
+import {
+  certifierRole,
+  certifierAddress,
+  certifierPhoneEmail,
+  certifierRelationship,
+} from '../pages/thirdPartyCertifier';
+
 const uploadUrl = `${
   environment.API_URL
 }/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
@@ -68,6 +75,38 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
+    certifierInformation: {
+      title: 'Signer information',
+      pages: {
+        role: {
+          path: 'your-information/description',
+          title: 'Which of these best describes you?',
+          uiSchema: certifierRole.uiSchema,
+          schema: certifierRole.schema,
+        },
+        address: {
+          path: 'your-information/address',
+          title: 'Your mailing address',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: certifierAddress.uiSchema,
+          schema: certifierAddress.schema,
+        },
+        phoneEmail: {
+          path: 'your-information/phone-email',
+          title: 'Your phone number',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: certifierPhoneEmail.uiSchema,
+          schema: certifierPhoneEmail.schema,
+        },
+        relationship: {
+          path: 'your-information/relationship',
+          title: 'Your relationship to the applicant',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: certifierRelationship.uiSchema,
+          schema: certifierRelationship.schema,
+        },
+      },
+    },
     chapter1: {
       title: 'Beneficiary Information',
       pages: {

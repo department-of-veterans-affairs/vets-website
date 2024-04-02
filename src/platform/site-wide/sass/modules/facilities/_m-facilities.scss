@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 // Facilities Hub
 .vads-facility-hub-cta {
-  border-top: 1px solid $color-primary-alt-light;
+  border-top: 1px solid var(--vads-color-primary-alt-light);
   height: 73px;
   line-height: 73px;
   position: relative;
@@ -18,10 +18,10 @@
   margin-left: 48px;
 }
 .vads-facility-hub-cta-circle {
-  color: $color-primary-darker;
+  color: var(--vads-color-primary-dark);
   height: 32px;
   width: 32px;
-  background-color: $color-primary-alt-lightest;
+  background-color: var(--vads-color-primary-alt-lightest);
   border-radius: 50%;
   position: absolute;
   top: 20px;
@@ -41,7 +41,7 @@
 }
 
 .vads-facility-hub-cta-last-line {
-  border-bottom: 1px solid $color-primary-alt-light;
+  border-bottom: 1px solid var(--vads-color-primary-alt-light);
 }
 
 .vads-facility-hub-button > a {

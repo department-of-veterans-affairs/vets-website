@@ -14,7 +14,7 @@ describe('hca IntroductionPage', () => {
     hasError = false,
     hasESRecord = false,
     overrideEnabled = false,
-    enrollmentStatus = null,
+    statusCode = null,
   } = {}) => ({
     props: {
       route: {
@@ -29,10 +29,10 @@ describe('hca IntroductionPage', () => {
           hca_enrollment_status_override_enabled: overrideEnabled,
         },
         hcaEnrollmentStatus: {
-          isLoadingApplicationStatus: isLoading,
+          loading: isLoading,
           hasServerError: hasError,
-          noESRRecordFound: !hasESRecord,
-          enrollmentStatus,
+          vesRecordFound: hasESRecord,
+          statusCode,
         },
         form: {
           formId: formConfig.formId,

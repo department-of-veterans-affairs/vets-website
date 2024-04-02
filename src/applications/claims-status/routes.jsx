@@ -1,7 +1,9 @@
 import React from 'react';
-import { Route, IndexRedirect, Redirect } from 'react-router';
+import { Route, Navigate, Routes } from 'react-router-dom-v5-compat';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+
+import TogglerRoute from './components/TogglerRoute';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import YourClaimLetters from './containers/YourClaimLetters';
 import ClaimPage from './containers/ClaimPage';
@@ -18,58 +20,50 @@ import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
 
+const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
+
+const detailsRoute = (
+  <TogglerRoute toggleName={cstUseClaimDetailsV2} redirectWhenToggleEnabled>
+    <DetailsPage />
+  </TogglerRoute>
+);
+
+const overviewRoute = (
+  <TogglerRoute toggleName={cstUseClaimDetailsV2}>
+    <OverviewPage />
+  </TogglerRoute>
+);
+
 const routes = (
-  <Route path="/" component={ClaimsStatusApp}>
-    <IndexRedirect to="/your-claims" />
-    <Redirect
-      key="/track-claims/your-claims"
-      from="/disability-benefits/track-claims*"
-      to="/your-claims"
-    />
-    <Route
-      component={YourClaimsPageV2}
-      key="/your-claims"
-      path="/your-claims"
-    />
-    <Route
-      component={YourClaimLetters}
-      key="/your-claim-letters"
-      path="/your-claim-letters"
-    />
-    <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
-      <IndexRedirect to="status" />
-      <Route component={AppealsV2StatusPage} key="status" path="status" />
-      <Route component={AppealsV2DetailPage} key="detail" path="detail" />
+  <Routes>
+    <Route path="/" element={<ClaimsStatusApp />}>
+      <Route index element={<Navigate to="your-claims" replace />} />
+      <Route path="appeals/:id" element={<AppealInfo />}>
+        <Route index element={<Navigate to="status" replace />} />
+        <Route path="detail" element={<AppealsV2DetailPage />} />
+        <Route path="status" element={<AppealsV2StatusPage />} />
+      </Route>
+      <Route path="your-claims" element={<YourClaimsPageV2 />} />
+      <Route path="your-claims/:id" element={<ClaimPage />}>
+        <Route index element={<Navigate to="status" replace />} />
+        <Route path="ask-va-to-decide" element={<AskVAPage />} />
+        <Route path="claim-estimate" element={<ClaimEstimationPage />} />
+        <Route path="details" element={detailsRoute} />
+        <Route
+          path="document-request/:trackedItemId"
+          element={<DocumentRequestPage />}
+        />
+        <Route path="files" element={<FilesPage />} />
+        <Route path="overview" element={overviewRoute} />
+        <Route path="status" element={<ClaimStatusPage />} />
+      </Route>
+      <Route path="your-claim-letters" element={<YourClaimLetters />} />
+      <Route path="your-stem-claims/:id">
+        <Route index element={<Navigate to="status" replace />} />
+        <Route path="status" element={<StemClaimStatusPage />} />
+      </Route>
     </Route>
-    <Route component={ClaimPage} key="/your-claims/:id" path="/your-claims/:id">
-      <IndexRedirect to="status" />
-      <Route component={ClaimStatusPage} path="status" />,
-      <Route component={FilesPage} path="files" />,
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-        <Toggler.Enabled>
-          <Route component={OverviewPage} path="overview" />,
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <Route component={DetailsPage} path="details" />,
-        </Toggler.Disabled>
-      </Toggler>
-      <Route component={AskVAPage} path="ask-va-to-decide" />,
-      <Route
-        component={DocumentRequestPage}
-        path="document-request/:trackedItemId"
-      />
-      <Route
-        component={ClaimEstimationPage}
-        key="claim-estimate"
-        path="claim-estimate"
-      />
-    </Route>
-    <Route
-      component={StemClaimStatusPage}
-      key="/your-stem-claims/:id/status"
-      path="/your-stem-claims/:id/status"
-    />
-  </Route>
+  </Routes>
 );
 
 export default routes;

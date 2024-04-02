@@ -32,10 +32,6 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/permissions',
-    component: PermissionsPage,
-  },
 ];
 
 export default routes;
