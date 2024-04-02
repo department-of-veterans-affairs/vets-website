@@ -49,9 +49,7 @@ if (process.env.TEST_TYPE === 'e2e') {
 
     const newTests = TESTS.filter(
       test =>
-        !disallowedTests.some(disallowedTest =>
-          test.includes(disallowedTest),
-        ) === -1,
+        !disallowedTests.some(disallowedTest => test.includes(disallowedTest)),
     );
 
     console.log('new tests: ', newTests);
