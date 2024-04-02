@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   VaModal,
-  VaSelect,
+  VaRadio,
+  VaRadioOption,
+  // VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
@@ -17,7 +19,7 @@ import {
   messageSignatureFormatter,
   setCaretToPos,
   navigateToFolderByFolderId,
-  sortRecipients,
+  // sortRecipients,
   resetUserSession,
   updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
@@ -481,13 +483,13 @@ const ComposeForm = props => {
     ],
   );
 
-  const recipientHandler = e => {
-    setSelectedRecipient(e.detail.value);
-    if (e.detail.value !== '0') {
-      if (e.detail.value) setRecipientError('');
-      setUnsavedNavigationError();
-    }
-  };
+  // const recipientHandler = e => {
+  //   setSelectedRecipient(e.detail.value);
+  //   if (e.detail.value !== '0') {
+  //     if (e.detail.value) setRecipientError('');
+  //     setUnsavedNavigationError();
+  //   }
+  // };
 
   const subjectHandler = e => {
     setSubject(e.target.value);
@@ -621,26 +623,37 @@ const ComposeForm = props => {
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <>
-                <VaSelect
-                  uswds={false}
+                <VaRadio
+                  required
                   enable-analytics
-                  id="recipient-dropdown"
+                  data-testid="compose-message-categories"
                   label="To"
-                  name="to"
-                  value={selectedRecipient}
-                  onVaSelect={recipientHandler}
-                  class="composeSelect"
-                  data-testid="compose-recipient-select"
+                  className=" fieldset-input message-category"
                   error={recipientError}
-                  data-dd-privacy="mask"
-                  data-dd-action-name="Compose Recipient Dropdown List"
+                  // onVaValueChange={categoryChangeHandler}
                 >
-                  {sortRecipients(recipientsList)?.map(item => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </VaSelect>
+                  <h2>Facility #1</h2>
+                  <VaRadioOption label="Test 1" name="group" value="1" />
+                  <VaRadioOption label="Test 2" name="group" value="2" />
+                  <h3> Medical records triage groups</h3>
+                  <va-additional-info trigger="Additional Information">
+                    <div>Here are some popular pets to consider</div>
+                  </va-additional-info>
+                  <VaRadioOption label="Test 3" name="group" value="3" />
+                  <VaRadioOption label="Test 4" name="group" value="4" />
+                  <VaRadioOption label="Test 5" name="group" value="5" />
+
+                  <h2>Facility #2</h2>
+                  <VaRadioOption label="Test 6" name="group" value="6" />
+                  <VaRadioOption label="Test 7" name="group" value="7" />
+                  <h3> Medical records triage groups</h3>
+                  <va-additional-info trigger="Additional Information">
+                    <div>Here are some popular pets to consider</div>
+                  </va-additional-info>
+                  <VaRadioOption label="Test 8" name="group" value="8" />
+                  <VaRadioOption label="Test 9" name="group" value="9" />
+                  <VaRadioOption label="Test 10" name="group" value="10" />
+                </VaRadio>
               </>
             )}
 
