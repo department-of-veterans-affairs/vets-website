@@ -10,9 +10,11 @@ import {
   getServiceAvailability,
 } from '../../actions/post-911-gib-status';
 import {
+  BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
+  NO_CHAPTER33_RECORD_AVAILABLE,
   SET_SERVICE_AVAILABILITY,
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_UPTIME_REMAINING,
@@ -167,6 +169,48 @@ describe('getEnrollmentData', () => {
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(BACKEND_SERVICE_ERROR);
+      })
+      .then(done, done);
+  });
+
+  it('dispatches BACKEND_AUTHENTICATION_ERROR on 403 error code', done => {
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [{ status: '403' }],
+    });
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(BACKEND_AUTHENTICATION_ERROR);
+      })
+      .then(done, done);
+  });
+
+  it('dispatches BACKEND_AUTHENTICATION_ERROR on 404 error code', done => {
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [{ status: '404' }],
+    });
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(NO_CHAPTER33_RECORD_AVAILABLE);
+      })
+      .then(done, done);
+  });
+
+  it('dispatches GET_ENROLLMENT_DATA_FAILURE when no error codes are received', done => {
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [], // no errors received
+    });
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
       })
       .then(done, done);
   });
