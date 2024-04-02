@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
-function BurialsEntry({ location, children, toggleFeatures }) {
+function BurialsEntry({ location, children, toggleFeatures, profile }) {
   const {
     loading: isLoadingFeatures,
     burialFormEnabled,
@@ -25,7 +26,16 @@ function BurialsEntry({ location, children, toggleFeatures }) {
     return <NoFormPage />;
   }
 
-  if (burialFormV2) {
+  const metadataVersion2024 = 3;
+  const hasV2Form = profile.savedForms.some(form => {
+    return (
+      form.form === VA_FORM_IDS.FORM_21P_530 &&
+      form.metadata.version === metadataVersion2024
+    );
+  });
+
+  const shouldUseV2 = hasV2Form || burialFormV2;
+  if (shouldUseV2) {
     window.location.href = '/burials-and-memorials-v2/application/530/';
     return <></>;
   }
