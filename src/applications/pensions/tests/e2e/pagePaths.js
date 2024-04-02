@@ -10,6 +10,7 @@ export default {
 
   servicePeriod: formChapters.militaryHistory.pages.servicePeriod.path,
   general: formChapters.militaryHistory.pages.general.path,
+  previousNames: formChapters.militaryHistory.pages.previousNames.path,
   pow: formChapters.militaryHistory.pages.pow.path,
 
   age: formChapters.healthAndEmploymentInformation.pages.age.path,
