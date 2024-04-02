@@ -27,8 +27,6 @@ const SuggestedAddress = ({
   const deliveryPointValidation =
     addressValidationData?.addresses[0]?.addressMetaData
       ?.deliveryPointValidation;
-  const confidenceScore =
-    addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
 
   // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
@@ -104,9 +102,7 @@ const SuggestedAddress = ({
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
-          confidenceScore={confidenceScore}
           formData={formData}
-          onChange={handleChange}
           setChooseAddress={setChooseAddress}
         />
       </div>

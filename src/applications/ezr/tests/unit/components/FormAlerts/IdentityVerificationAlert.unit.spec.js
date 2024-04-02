@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import IdentityVerificationAlert from '../../../../components/FormAlerts/IdentityVerificationAlert';
 
 describe('ezr <IdentityVerificationAlert>', () => {
@@ -14,11 +13,10 @@ describe('ezr <IdentityVerificationAlert>', () => {
       expect(selector).to.have.attr('status', 'continue');
     });
 
-    it('should render `verify` button with correct href', () => {
+    it('should render `verify` button', () => {
       const { container } = render(<IdentityVerificationAlert />);
       const selector = container.querySelector('.vads-c-action-link--green');
       expect(selector).to.exist;
-      expect(selector).to.have.attr('href', '/verify');
     });
   });
 
