@@ -324,7 +324,7 @@ export const NoFormPage = () => {
             close-btn-aria-label="Close notification"
             status="info"
             visible
-            uswds="false"
+            uswds
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
               This online form isn’t working right now

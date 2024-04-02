@@ -30,6 +30,31 @@ describe('Location Of Death', () => {
     expect($$('va-radio-option', container).length).to.equal(6);
   });
 
+  it('should render text inputs for Unpaid Nursing Home', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            locationOfDeath: { location: 'nursingHomeUnpaid' },
+            facilityName: 'Welcome Wings Nursing Home',
+          }}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-radio-option[checked="true"]', container).length).to.eql(1);
+    expect($('va-radio-option[value="nursingHomeUnpaid"]', container)).to.exist;
+    expect(
+      $(
+        'va-text-input[name="root_locationOfDeath_nursingHomeUnpaid_facilityName"]',
+        container,
+      ),
+    ).to.exist;
+  });
+
   it('should render text inputs for Paid Nursing Home', () => {
     const { container } = render(
       <Provider store={defaultStore}>
