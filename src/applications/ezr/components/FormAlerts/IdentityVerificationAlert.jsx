@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { APP_URLS } from '../../utils/constants';
 
 export const IdentityVerificationAlert = ({ onVerify }) => (
   <va-alert
@@ -40,7 +41,7 @@ export const IdentityVerificationAlert = ({ onVerify }) => (
         <a
           className="vads-c-action-link--green"
           onClick={onVerify}
-          href="/verify"
+          href={APP_URLS.verify}
         >
           Verify your identity
         </a>

@@ -44,8 +44,7 @@ describe('vaPrescription details container', () => {
     const screen = setup();
     const shippedOn = screen.getAllByText(
       dateFormat(
-        rxDetailsResponse.data.attributes.trackingList[0][1][0]
-          .completeDateTime,
+        rxDetailsResponse.data.attributes.trackingList[0].completeDateTime,
       ),
       {
         exact: true,
@@ -61,7 +60,7 @@ describe('vaPrescription details container', () => {
 
     expect(trackingNumber).to.exist;
     expect(trackingNumber).to.have.text(
-      rxDetailsResponse.data.attributes.trackingList[0][1][0].trackingNumber,
+      rxDetailsResponse.data.attributes.trackingList[0].trackingNumber,
     );
   });
   it('displays none noted if no phone number is provided', () => {

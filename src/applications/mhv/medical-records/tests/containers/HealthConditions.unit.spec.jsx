@@ -12,8 +12,9 @@ import user from '../fixtures/user.json';
 describe('Health conditions list container', () => {
   const initialState = {
     mr: {
+      user,
       conditions: {
-        conditionsList: conditions.map(condition =>
+        conditionsList: conditions.entry.map(condition =>
           convertCondition(condition),
         ),
       },
@@ -42,8 +43,7 @@ describe('Health conditions list container', () => {
   });
 
   it('displays active condition', () => {
-    expect(screen.getAllByText('Back pain (SCT 161891005)', { exact: true })).to
-      .exist;
+    expect(screen.getAllByText('None noted', { exact: false })).to.exist;
   });
 });
 

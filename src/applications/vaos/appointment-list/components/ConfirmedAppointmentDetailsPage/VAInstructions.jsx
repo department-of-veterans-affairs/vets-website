@@ -20,7 +20,7 @@ export default function VAInstructions({ appointment }) {
         <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
           You shared these details about your concern
         </h2>
-        <div>{appointment.comment}</div>
+        <div data-dd-privacy="mask">{appointment.comment}</div>
       </div>
     </div>
   );
