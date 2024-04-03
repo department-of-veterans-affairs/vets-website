@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import {
   validateCurrency,
   validateDependentDate,
+  validateGulfWarDates,
   validatePolicyNumberGroupCode,
 } from '../../../utils/validation';
 
@@ -124,6 +125,67 @@ describe('ezr validation utils', () => {
         validatePolicyNumberGroupCode(errors, {});
         expect(errors.insuranceGroupCode.addError.called).to.be.true;
         expect(errors.insurancePolicyNumber.addError.called).to.be.true;
+      });
+    });
+  });
+
+  context('when `validateGulfWarDates` executes', () => {
+    const getData = ({
+      spy = () => {},
+      startDate = '1998-04-XX',
+      endDate = '1999-01-XX',
+      fieldName = 'gulfWarEndDate',
+    }) => ({
+      errors: {
+        [fieldName]: {
+          addError: spy,
+        },
+      },
+      fieldData: {
+        gulfWarStartDate: startDate,
+        gulfWarEndDate: endDate,
+      },
+    });
+
+    context('when valid data is provided', () => {
+      context('when the start date is prior to the end date', () => {
+        it('should not set an error message', () => {
+          const spy = sinon.spy();
+          const { errors, fieldData } = getData({ spy });
+
+          it('should not set error message', () => {
+            validateGulfWarDates(errors, fieldData);
+            expect(spy.called).to.be.false;
+          });
+        });
+
+        context('when the start date is the same as the end date', () => {
+          const spy = sinon.spy();
+          const { errors, fieldData } = getData({
+            endDate: '1998-04-XX',
+            spy,
+          });
+
+          it('should not set error message', () => {
+            validateGulfWarDates(errors, fieldData);
+            expect(spy.called).to.be.false;
+          });
+        });
+      });
+    });
+
+    context('when invalid data is provided', () => {
+      context('when end date is before start date', () => {
+        const spy = sinon.spy();
+        const { errors, fieldData } = getData({
+          endDate: '1998-03-XX',
+          spy,
+        });
+
+        it('should set an error message', () => {
+          validateGulfWarDates(errors, fieldData);
+          expect(spy.called).to.be.true;
+        });
       });
     });
   });
