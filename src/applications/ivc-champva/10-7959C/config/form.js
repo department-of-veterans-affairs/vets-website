@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from 'platform/utilities/data/get';
-
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,6 +24,7 @@ import {
 import {
   applicantHasMedicareABSchema,
   applicantMedicareABContextSchema,
+  applicantMedicarePartACarrierSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -194,6 +194,24 @@ const formConfig = {
           CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
           uiSchema: applicantMedicareABContextSchema.uiSchema,
           schema: applicantMedicareABContextSchema.schema,
+        },
+        // If 'yes' to previous question:
+        medicareCarrier1: {
+          path: ':index/carrier-a',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare Part A carrier`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatus.enrollment',
+                formData?.applicants?.[index],
+              ) === 'yes'
+            );
+          },
+          uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
+          schema: applicantMedicarePartACarrierSchema.schema,
         },
       },
     },

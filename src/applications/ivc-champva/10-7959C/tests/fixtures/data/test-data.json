@@ -17,7 +17,10 @@
           "first": "Jimmy",
           "last": "Alvin"
         },
-        "applicantDOB": "2001-01-01"
+        "applicantDOB": "2001-01-01",
+        "applicantMedicareStatus": {
+          "enrollment": "yes"
+        }
       }
     ],
     "certifierRelationship": {
