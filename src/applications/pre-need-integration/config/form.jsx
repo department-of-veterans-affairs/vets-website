@@ -99,7 +99,6 @@ import {
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
 import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
-import improvedMilitaryHistoryPage from './pages/improvedMilitaryHistoryPage';
 
 const {
   preneedAttachments,
@@ -144,7 +143,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -485,40 +484,6 @@ const formConfig = {
           depends: isVeteran,
           uiSchema: applicantMilitaryHistory.uiSchema,
           schema: applicantMilitaryHistory.schema,
-        },
-        improvedMilitaryHistory: {
-          title: 'Imporved Military History',
-          path: 'improved-military-history',
-          depends: isVeteran,
-          uiSchema: {
-            application: {
-              applicant: {
-                'view: militaryHistory': {
-                  'ui"title': 'Hello',
-                  'ui:field': improvedMilitaryHistoryPage,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  applicant: {
-                    type: 'object',
-                    properties: {
-                      'view: militaryHistory': {
-                        type: 'object',
-                        properties: {},
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
         },
         applicantMilitaryName: {
           path: 'applicant-military-name',

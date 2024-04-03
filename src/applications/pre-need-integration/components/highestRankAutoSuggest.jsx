@@ -3,15 +3,30 @@ import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
 import Papa from 'papaparse';
-import { serviceLabels } from '../../utils/labels';
-import AutoSuggest from '../../components/MyAutoSuggestField';
+import { serviceLabels } from '../utils/labels';
+import AutoSuggest from './MyAutoSuggestField';
 
 function ImprovedMilitaryHistoryPage({ formData }) {
   const dispatch = useDispatch();
   const [rankData, setRankData] = useState([]); // Initialized as an array
   const [branchOfService, setBranchOfService] = useState('');
-  const [highestRank, setHighestRank] = useState('');
-  const [rankOptions, setRankOptions] = useState({});
+  const [rankOptions, setRankOptions] = useState([]);
+
+  useEffect(
+    () => {
+      const serviceRecords = formData?.application?.veteran?.serviceRecords;
+      if (serviceRecords !== undefined && serviceRecords.length > 0) {
+        const bos = serviceRecords[0].serviceBranch;
+        // Check if 'bos' is one of the keys in 'serviceLabels'
+        if (bos && Object.keys(serviceLabels).includes(bos)) {
+          setBranchOfService(bos);
+        } else {
+          setBranchOfService('');
+        }
+      }
+    },
+    [formData, serviceLabels],
+  );
 
   useEffect(
     () => {
@@ -46,32 +61,10 @@ function ImprovedMilitaryHistoryPage({ formData }) {
     }
   };
 
-  /*
-  const onChangeServiceBranch = (newServiceBranch) => {
-    const updatedFormData = set(
-      'application.veteran.serviceRecords.serviceBranch',
-      newServiceBranch,
-      { ...formData }
-    );
-    dispatch(setData(updatedFormData));
-  };
-  */
-
-  const branchOfServiceChange = key => {
-    setBranchOfService(key);
-    const updatedFormData = set(
-      'application.veteran.serviceRecords.serviceBranch',
-      branchOfService,
-      { ...formData },
-    );
-    dispatch(setData(updatedFormData));
-  };
-
   const highestRankChange = key => {
-    setHighestRank(key);
     const updatedFormData = set(
-      'application.veteran.serviceRecords.highestRank',
-      highestRank,
+      'application.veteran.serviceRecords[0].highestRank',
+      key,
       { ...formData },
     );
     dispatch(setData(updatedFormData));
@@ -79,15 +72,8 @@ function ImprovedMilitaryHistoryPage({ formData }) {
 
   return (
     <div>
-      <h2>Upload Rank Data</h2>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
       {/* The AutosuggestField is always rendered; adjust this as needed */}
-      <AutoSuggest
-        title="Branch of service"
-        labels={serviceLabels}
-        onSelectionChange={branchOfServiceChange}
-        maxItems={5}
-      />
       {branchOfService !== '' &&
         rankData.length > 0 && (
           <AutoSuggest

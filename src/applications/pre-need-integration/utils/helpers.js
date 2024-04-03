@@ -26,6 +26,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
+import improvedMilitaryHistoryPage from '../components/highestRankAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -891,6 +892,7 @@ export const serviceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
+      'ui:field': improvedMilitaryHistoryPage,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
