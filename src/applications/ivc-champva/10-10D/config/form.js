@@ -33,7 +33,7 @@ import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
-import ApplicantField from '../components/Applicant/ApplicantField';
+import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
@@ -128,7 +128,7 @@ import {
   depends18f5,
   depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
-import { ApplicantAddressCopyPage } from '../pages/ApplicantAddressPage';
+import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
 import { hasReq } from '../components/File/MissingFileOverview';
 import { fileWithMetadataSchema } from './attachments';
