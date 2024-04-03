@@ -259,6 +259,7 @@ const SearchControls = props => {
           uswds
           required
           id="facility-type-dropdown"
+          className="vads-u-padding-x--0"
           label="Facility Type"
           value={facilityType || ''}
           onVaSelect={e => handleFacilityTypeChange(e)}
