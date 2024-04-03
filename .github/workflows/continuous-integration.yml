@@ -108,12 +108,12 @@ jobs:
 
       - name: vaprod cache
         id: vaprod-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: vagovprod-dependency
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: vjtestkey20242024
+          key: joshtestkey20242024
             
   #TEST
 
@@ -691,10 +691,10 @@ jobs:
 
       - name: Restore cached vagovprod folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: vjtestkey20242024
+          key: joshtestkey20242024
 
       - name: ensure vagovprod folder is present2 #DELETE
         run: |
