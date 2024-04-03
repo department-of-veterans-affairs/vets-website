@@ -10,9 +10,14 @@ describe('<EducationAndTraining />', () => {
 
     expect(tree.getByTestId('dashboard-section-education-and-training')).to
       .exist;
-    expect(tree.getByText(/Learn how to apply for VA education/i)).to.exist;
-    expect(tree.getByText(/Popular actions for education/i)).to.exist;
-    expect(tree.getByText(/Compare GI Bill benefits/i)).to.exist;
-    expect(tree.getByText(/Check your Post-9\/11 GI/i)).to.exist;
+    expect(tree.getByTestId('apply-education-benefits-from-cta')).to.exist;
+    expect(tree.getByTestId('compare-gi-benefits-from-cta')).to.exist;
+    expect(tree.getByTestId('check-gi-bill-benefits-from-cta')).to.exist;
+  });
+
+  it('renders expected LOA1 content', () => {
+    const tree = render(<EducationAndTraining isLOA1 />);
+    expect(tree.getByTestId('compare-gi-benefits-from-cta')).to.not.exist;
+    expect(tree.getByTestId('check-gi-bill-benefits-from-cta')).to.not.exist;
   });
 });

@@ -15,9 +15,6 @@ const EducationAndTraining = ({ isLOA1 }) => {
       </h2>
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
-          <h3 className="sr-only">
-            Popular actions for Education and training
-          </h3>
           <IconCTALink
             text="Learn how to apply for VA education benefits"
             icon="graduation-cap"
