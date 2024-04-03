@@ -4,6 +4,12 @@ function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
   const isRefillable = n % 3 === 0;
   const refillRemaining = isRefillable ? Math.ceil(Math.log(n + 1)) : 0;
+  const {
+    cmopNdcNumber,
+    cmopDivisionPhone = '(555) 555-5555',
+    dialCmopDivisionPhone = '5555555555',
+  } = attrs;
+  const prescriptionName = `Fake ${n}`;
 
   return {
     id: `fake-${n}`,
@@ -11,7 +17,7 @@ function mockPrescription(n = 0, attrs = {}) {
     attributes: {
       prescriptionId: n,
       prescriptionNumber: `${n}`,
-      prescriptionName: `Fake ${n}`,
+      prescriptionName,
       refillStatus: 'active',
       refillSubmitDate: '2024-02-21T10:30:00-05:00',
       refillDate: '2024-02-28T10:30:00-05:00',
@@ -25,7 +31,7 @@ function mockPrescription(n = 0, attrs = {}) {
       isRefillable,
       isTrackable: null,
       sig: null,
-      cmopDivisionPhone: null,
+      cmopDivisionPhone,
       inCernerTransition: null,
       notRefillableDisplayMessage: 'You cannot refill this!',
       cmopNdcNumber: null,
@@ -36,7 +42,7 @@ function mockPrescription(n = 0, attrs = {}) {
       divisionName: null,
       modifiedDate: null,
       institutionId: null,
-      dialCmopDivisionPhone: null,
+      dialCmopDivisionPhone,
       dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
@@ -68,6 +74,10 @@ function mockPrescription(n = 0, attrs = {}) {
           color: 'WHITE',
           frontImprint: '9,3',
           backImprint: '72,14',
+          cmopNdcNumber,
+          cmopDivisionPhone,
+          dialCmopDivisionPhone,
+          prescriptionName,
         },
       ],
       tracking: null,

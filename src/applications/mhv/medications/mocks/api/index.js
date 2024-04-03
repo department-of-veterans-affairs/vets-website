@@ -33,7 +33,9 @@ const responses = {
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
     const data = {
-      data: prescriptions.mockPrescription(id),
+      data: prescriptions.mockPrescription(id, {
+        cmopNdcNumber: '00093721410',
+      }),
       meta: {
         sort: {
           dispStatus: 'DESC',
