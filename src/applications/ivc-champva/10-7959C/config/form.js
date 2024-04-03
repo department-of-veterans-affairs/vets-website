@@ -29,6 +29,7 @@ import {
   applicantMedicarePartBCarrierSchema,
   applicantMedicarePartBEffectiveDateSchema,
   applicantMedicarePharmacySchema,
+  applicantMedicareAdvantageSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -42,6 +43,10 @@ import {
   ApplicantMedicarePharmacyPage,
   ApplicantMedicarePharmacyReviewPage,
 } from '../components/ApplicantMedicarePharmacyPage';
+import {
+  ApplicantMedicareAdvantagePage,
+  ApplicantMedicareAdvantageReviewPage,
+} from '../components/ApplicantMedicareAdvantagePage';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
@@ -242,6 +247,17 @@ const formConfig = {
           CustomPageReview: ApplicantMedicarePharmacyReviewPage,
           uiSchema: applicantMedicarePharmacySchema.uiSchema,
           schema: applicantMedicarePharmacySchema.schema,
+        },
+        advantagePlan: {
+          path: ':index/advantage',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare coverage`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          CustomPage: ApplicantMedicareAdvantagePage,
+          CustomPageReview: ApplicantMedicareAdvantageReviewPage,
+          uiSchema: applicantMedicareAdvantageSchema.uiSchema,
+          schema: applicantMedicareAdvantageSchema.schema,
         },
       },
     },

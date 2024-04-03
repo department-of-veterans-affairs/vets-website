@@ -180,3 +180,18 @@ export const applicantMedicarePharmacySchema = {
     },
   }),
 };
+
+export const applicantMedicareAdvantageSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantMedicareAdvantage: {
+      type: 'object',
+      properties: {
+        hasAdvantage: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};

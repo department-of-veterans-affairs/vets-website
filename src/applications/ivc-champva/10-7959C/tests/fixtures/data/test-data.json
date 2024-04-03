@@ -20,7 +20,13 @@
         "applicantDOB": "2001-01-01",
         "applicantMedicareStatus": {
           "enrollment": "yes"
-        }
+        },
+        "applicantMedicarePartACarrier": "Test A Carrier",
+        "applicantMedicarePartBCarrier": "Test B Carrier",
+        "applicantMedicarePartAEffectiveDate": "2010-01-01",
+        "applicantMedicarePartBEffectiveDate": "2010-01-01",
+        "applicantMedicarePharmacyBenefits": { "hasBenefits": "yes" },
+        "applicantMedicareAdvantage": { "hasAdvantage": "yes" }
       }
     ],
     "certifierRelationship": {
