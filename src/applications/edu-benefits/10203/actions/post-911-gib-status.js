@@ -1,4 +1,5 @@
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import { apiRequest } from 'platform/utilities/api';
 import { get } from 'lodash';
 
 const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';

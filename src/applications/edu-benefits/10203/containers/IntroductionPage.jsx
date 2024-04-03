@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress';
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
