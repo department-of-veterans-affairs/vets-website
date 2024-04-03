@@ -1,7 +1,8 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import {
   DeductibleExpensesDescription,
   EducationalExpensesDescription,
@@ -14,9 +15,6 @@ const {
   deductibleMedicalExpenses,
 } = fullSchemaHca.properties;
 
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
-
 export default {
   uiSchema: {
     'ui:title': DeductibleExpensesDescription,
@@ -25,7 +23,7 @@ export default {
       'ui:description': MedicalExpensesDescription,
       deductibleMedicalExpenses: {
         ...currencyUI(
-          `Enter the amount you or your spouse (if you’re married) paid in non-reimbursable medical expenses in ${lastYear}`,
+          `Enter the amount you or your spouse (if you’re married) paid in non-reimbursable medical expenses in ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
@@ -35,7 +33,7 @@ export default {
       'ui:description': EducationalExpensesDescription,
       deductibleEducationExpenses: {
         ...currencyUI(
-          `Enter the amount you paid for your own college or vocational education in ${lastYear}`,
+          `Enter the amount you paid for your own college or vocational education in ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
@@ -47,7 +45,7 @@ export default {
         'Funeral and burial expenses are any payments made by you, like prepaid expenses.',
       deductibleFuneralExpenses: {
         ...currencyUI(
-          `Enter the amount you paid in funeral or burial expenses in ${lastYear}`,
+          `Enter the amount you paid in funeral or burial expenses in ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },

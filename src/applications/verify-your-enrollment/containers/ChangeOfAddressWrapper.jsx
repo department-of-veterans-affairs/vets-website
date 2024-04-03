@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import {
@@ -38,7 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [newAddress, setNewAddress] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
-
+  const location = useLocation();
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
@@ -103,9 +104,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     [handleCloseForm, isLoading, isLoadingValidateAddress],
   );
   const setAddressToUI = value => {
-    if (response) {
-      setNewAddress(value);
-    }
+    setNewAddress(value);
   };
 
   // This effect to reset setEditFormData and remove address from sessionStorage
@@ -116,6 +115,13 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       sessionStorage.removeItem('address');
     },
     [error, response, validationError],
+  );
+
+  useEffect(
+    () => {
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+    },
+    [dispatch, location.pathname],
   );
   const addressDescription = () => {
     return (

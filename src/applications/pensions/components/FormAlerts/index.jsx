@@ -251,3 +251,12 @@ export const AccountInformationAlert = () => (
     </va-alert>
   </div>
 );
+
+export const AdoptionEvidenceAlert = () => (
+  <va-alert status="warning" uswds>
+    <p className="vads-u-margin-y--0">
+      You’ll need to submit adoption papers or amended birth certificate with
+      this application.
+    </p>
+  </va-alert>
+);
