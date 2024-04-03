@@ -1,7 +1,7 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../helpers/wordingCustomization';
-import ApplicantField from './ApplicantField';
+import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../File/upload';
 import {
   uploadWithInfoComponent,

@@ -1,3 +1,5 @@
+import { applicantWording as ApplicantWording } from '../../shared/utilities';
+
 // Extracting this to a function so there aren't a thousand identical
 // ternaries we have to change later
 export function sponsorWording(formData, isPosessive = true, cap = true) {
@@ -21,30 +23,10 @@ export function applicantWording(
   cap = true,
   index,
 ) {
-  let retVal = '';
-  if (context) {
-    // If we have additional context that means we have to dig for applicant
-    const idx = +context?.formContext?.pagePerItemIndex;
-    const isApplicant = formData?.certifierRole === 'applicant';
-    const name = `${formData?.applicants[idx]?.applicantName?.first} ${
-      formData?.applicants[idx]?.applicantName?.last
-    }`;
-
-    retVal =
-      idx === 0 && isApplicant
-        ? `you${isPosessive ? 'r ' : ''}`
-        : `${name}${isPosessive ? '’s' : ''}`;
-  } else {
-    // No context means we're directly accessing an applicant object
-    retVal = `${`${formData?.applicantName?.first || ''} ${
-      formData?.applicantName?.last
-    }` || 'Applicant'}${isPosessive ? '’s' : ''}`;
-  }
-  // Another edge case - if we don't have context, but we do have an index:
-  if (index && +index === 0) retVal = isPosessive ? 'your' : 'you';
-
-  // Optionally capitalize first letter and return
-  return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
+  // Using the applicantWording function in shared utils, but
+  // holding off on updating all the imports in 1010d to keep
+  // current PR concise - 1 APR 2024
+  return ApplicantWording(formData, context, isPosessive, cap, index);
 }
 
 export const additionalFilesHint =

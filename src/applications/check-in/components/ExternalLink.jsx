@@ -13,7 +13,7 @@ function ExternalLink({
   href,
   hrefLang,
   eventId = null,
-  eventPrefix = '',
+  eventPrefix = 'nav',
   dataTestId = 'external-link',
   target = null,
   rel = null,

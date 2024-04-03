@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { applicantWording } from '../../helpers/wordingCustomization';
 import { getAgeInYears, isInRange } from '../../helpers/utilities';
-import ApplicantField from '../../components/Applicant/ApplicantField';
+import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { testComponentRender } from '../../../shared/tests/pages/pageTests.spec';
 import mockData from '../fixtures/data/test-data.json';
 
