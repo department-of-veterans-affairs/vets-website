@@ -33,14 +33,19 @@ describe('Authed Letter Test', () => {
     cy.tabToElement('[data-cy="view-letters-button"]');
     cy.realPress('Space');
 
+    cy.location('pathname').should(
+      'equal',
+      '/records/download-va-letters/letters/letter-list',
+    );
+
     cy.get('va-accordion-item').should('exist');
     cy.get('va-accordion-item').should('have.length', 5);
 
     // -- Go to letters list -- //
     cy.tabToElement('va-accordion-item:nth-of-type(4)')
       .shadow()
-      .find('button');
-    cy.realPress('Enter');
+      .find('button')
+      .realPress('Enter');
     cy.axeCheck();
 
     cy.tabToElement('#militaryService');
