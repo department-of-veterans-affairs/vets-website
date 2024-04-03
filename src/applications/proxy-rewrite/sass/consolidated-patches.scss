@@ -13,6 +13,7 @@ $teamsite-large-screen: 1008px;
     .usa-banner-button-text {
       display: none;
     }
+
     .usa-banner-inner p {
       font-size: 1.5rem;
     }
@@ -51,6 +52,7 @@ $teamsite-large-screen: 1008px;
     padding-left: 1px;
     padding-right: 1px;
   }
+
   .usa-grid-full {
     width: $teamsite-width;
   }
@@ -62,6 +64,7 @@ header.merger {
 
   .va-crisis-line-container {
     box-sizing: border-box;
+
     button.va-crisis-line {
       background-image: none;
 
@@ -73,6 +76,7 @@ header.merger {
   }
 
   #vetnav-menu {
+
     // HACK: To override `content-box` on benefits site
     button.vetnav-level1 {
       box-sizing: border-box;
@@ -80,6 +84,7 @@ header.merger {
   }
 
   @media (min-width: $teamsite-large-screen) {
+
     .va-notice--banner-inner,
     .va-crisis-line-container {
       width: $teamsite-width;
@@ -95,6 +100,7 @@ header.merger {
 
     .vetnav-panel {
       box-sizing: border-box;
+
       .mm-links {
         font-family: $font-stack;
       }
@@ -102,6 +108,7 @@ header.merger {
   }
 
   @media (min-width: $large-screen) {
+
     .mega-menu,
     #mega-menu {
       .vetnav-panel {
@@ -140,6 +147,7 @@ header.merger {
   }
 
   @media (max-width: $large-screen - 1) {
+
     #vetnav-va-benefits-and-health-care,
     #vetnav-about-va {
       width: 100%;
@@ -156,12 +164,15 @@ header.merger {
   #login-root {
     .profile-nav {
       box-sizing: border-box;
+
       .va-dropdown {
+
         span,
         p {
           font-family: "Source Sans Pro";
           font-size: 16px;
         }
+
         p {
           padding-bottom: 0;
         }
@@ -178,6 +189,7 @@ header.merger {
       width: 768px !important;
     }
   }
+
   @include media($small-desktop-screen) {
     &.vetnav-submenu--expanded {
       width: 1008px !important;
@@ -215,5 +227,15 @@ footer.footer {
 .vetnav-panel--submenu {
   h3 {
     background-color: transparent;
+  }
+}
+
+#mega-menu #vetnav-va-benefits-and-health-care {
+
+  &,
+  & .vetnav-panel.vetnav-panel--submenu {
+    @media screen and (min-width: 768px) {
+      height: 490px !important;
+    }
   }
 }
