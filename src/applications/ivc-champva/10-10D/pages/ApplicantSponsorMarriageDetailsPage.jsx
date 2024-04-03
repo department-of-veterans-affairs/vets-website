@@ -16,7 +16,7 @@ import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
 } from './ApplicantRelationshipPage';
-import ApplicantField from '../components/Applicant/ApplicantField';
+import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 
 const KEYNAME = 'applicantSponsorMarriageDetails';
 
