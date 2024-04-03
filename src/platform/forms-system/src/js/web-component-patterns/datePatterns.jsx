@@ -1,7 +1,10 @@
 import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
-import { validateCurrentOrPastMemorableDate } from '../validation';
+import {
+  validateCurrentOrPastMemorableDate,
+  validateDateRange,
+} from '../validation';
 
 /**
  * Web component v3 uiSchema for current or past dates
@@ -60,6 +63,40 @@ const currentOrPastDateUI = options => {
     ),
   };
 };
+
+/**
+ * Web component v3 uiSchema for date range
+ *
+ * ```js
+ * exampleDateRange: dateRangeUI()
+ * exampleDateRange: dateRangeUI({
+ *   fromLabel: 'Start date',
+ *   toLabel: 'End date',
+ * })
+ * ```
+ * @param {string} [fromLabel] - Custom label for the start date field
+ * @param {string} [toLabel] - Custom label for the end date field
+ * @param {string} [errorMessage] - Custom error message for the date range validation
+ * @returns {UISchemaOptions} uiSchema
+ */
+const dateRangeUI = ({
+  fromLabel = 'From date',
+  toLabel = 'To date',
+  errorMessage,
+} = {}) => ({
+  'ui:validations': [
+    {
+      validator: (errors, fieldData, formData, schema, uiSchema) => {
+        validateDateRange(errors, fieldData, formData, schema, uiSchema, {
+          pattern: errorMessage,
+        });
+      },
+    },
+  ],
+  from: currentOrPastDateUI({ title: fromLabel }),
+  to: currentOrPastDateUI({ title: toLabel }),
+  ...(errorMessage && { 'ui:errorMessages': { pattern: errorMessage } }),
+});
 
 /**
  * Web component v3 uiSchema for current or past dates with digit select for month
@@ -173,13 +210,27 @@ const dateOfBirthSchema = commonDefinitions.date;
  */
 const dateOfDeathSchema = commonDefinitions.date;
 
+/**
+ * @returns `date range schema`
+ */
+const dateRangeSchema = {
+  type: 'object',
+  properties: {
+    from: currentOrPastDateSchema,
+    to: currentOrPastDateSchema,
+  },
+  required: ['from', 'to'],
+};
+
 export {
   currentOrPastDateUI,
   currentOrPastDateDigitsUI,
   dateOfBirthUI,
   dateOfDeathUI,
+  dateRangeUI,
   currentOrPastDateSchema,
   currentOrPastDateDigitsSchema,
   dateOfBirthSchema,
   dateOfDeathSchema,
+  dateRangeSchema,
 };
