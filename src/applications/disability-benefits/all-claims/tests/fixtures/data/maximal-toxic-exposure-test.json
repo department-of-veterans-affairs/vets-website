@@ -137,9 +137,11 @@
       "view:alreadyClaimedVehicleAllowance": false
     },
     "toxicExposureConditions": {
-      "asthma": true
+      "asthma": true,
+      "heartattackmyocardialinfarction": true
     },
     "gulfWar1990": {
+      "afghanistan": true,
       "airspace": true
     },
     "gulfWar1990Locations": {
