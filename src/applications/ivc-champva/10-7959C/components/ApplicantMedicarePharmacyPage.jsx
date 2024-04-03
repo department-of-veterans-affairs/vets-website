@@ -11,8 +11,8 @@ const SECONDARY = '_unused';
 
 export function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `${
-    bp.useFirstPerson ? 'Do your' : `Does ${bp.applicant}’s`
+  const prompt = `Do ${
+    bp.useFirstPerson ? 'your' : `${bp.applicant}’s`
   } Medicare Parts A & B provide pharmacy benefits?`;
   const options = [
     {
