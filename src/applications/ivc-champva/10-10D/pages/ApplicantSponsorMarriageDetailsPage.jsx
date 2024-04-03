@@ -7,15 +7,13 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  additionalFilesHint,
-  applicantWording,
-} from '../helpers/wordingCustomization';
+import { applicantWording } from '../../shared/utilities';
+import { additionalFilesHint } from '../helpers/wordingCustomization';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 
 const KEYNAME = 'applicantSponsorMarriageDetails';
