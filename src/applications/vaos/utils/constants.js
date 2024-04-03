@@ -472,10 +472,10 @@ export const SERVICE_CATEGORY = [
 ];
 
 export const OH_TRANSITION_SITES = {
-  Lovell: {
-    id: '556',
-    name: 'Lovell Federal Health Care Center',
-    transitionDate: 'March 9',
-    telephone: '8476881900',
+  siteName: {
+    id: '',
+    name: '',
+    transitionDate: '',
+    telephone: '',
   },
 };

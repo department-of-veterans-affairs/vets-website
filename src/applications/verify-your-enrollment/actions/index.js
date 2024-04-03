@@ -107,6 +107,7 @@ export function postMailingAddress(mailingAddress) {
         type: UPDATE_ADDRESS_FAILURE,
         errors: error.toString(),
       });
+      throw new Error('something went wrong');
     }
   };
 }
@@ -189,9 +190,9 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         veteranName: fullName,
         address1: address.addressLine1,
         address2: address.addressLine2,
-        address3: formData.addressLine3,
-        address4: formData.addressLine4,
-        city: formData.city,
+        address3: address.addressLine3,
+        address4: address.addressLine4,
+        city: address.city,
         ...stateAndZip,
       };
       try {

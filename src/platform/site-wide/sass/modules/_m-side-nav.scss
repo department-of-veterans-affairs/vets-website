@@ -1,6 +1,6 @@
 .va-sidenav-wrapper {
-  background: $color-white;
-  border: 1px solid $color-gray-lighter;
+  background: var(--vads-color-white);
+  border: 1px solid var(--vads-color-base-lighter);
   border-radius: 5px;
   padding: 10px 0;
   margin: 0 20px 0 0;
@@ -27,7 +27,7 @@
       width: 100%;
       display: block;
       margin: auto;
-      background: $color-gray-lighter;
+      background: var(--vads-color-base-lighter);
       position: relative;
       top: 15px;
     }
@@ -62,7 +62,7 @@
     button {
       background: none;
       border-radius: none;
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       font-size: 15px;
       font-weight: normal;
       letter-spacing: 0.3px;
@@ -75,17 +75,17 @@
     }
 
     .fa {
-      color: $color-primary;
+      color: var(--vads-color-primary);
     }
 
     .line {
-      background: $color-gray-lighter;
+      background: var(--vads-color-base-lighter);
       height: 1px;
       margin: 10px 23px;
     }
 
     .line-open {
-      background: $color-gray-dark;
+      background: var(--vads-color-base-darker);
       display: block;
       height: 0.5px;
       border: 0;
@@ -95,9 +95,9 @@
 
     .va-sidenav-toggle-expand {
       align-items: center;
-      background: $color-gray-lightest;
+      background: var(--vads-color-base-lightest);
       border-radius: 4px;
-      color: $color-primary;
+      color: var(--vads-color-primary);
       display: flex;
       height: 24px;
       justify-content: center;
@@ -108,7 +108,7 @@
       align-items: center;
       background: none;
       border-radius: 0;
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       display: flex;
       font-size: 15px;
       justify-content: space-between;
@@ -128,7 +128,7 @@
 
       &.grandchild-open {
         margin-left: 10px;
-        border-left: 10px solid $color-gray-lighter;
+        border-left: 10px solid var(--vads-color-base-lighter);
       }
     }
 
@@ -136,26 +136,26 @@
     // applying borders directly makes the inside content jump and this is not desirable
     // used backgrounds instead
     .open {
-      color: $color-gray-dark !important;
-      background: linear-gradient($color-gray-dark, $color-gray-dark) left/ 8px
+      color: var(--vads-color-base-darker) !important;
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px
           100%,
-        $color-gray-lightest;
+        var(--vads-color-base-lightest);
       background-repeat: no-repeat;
     }
 
     .expanded {
-      background: linear-gradient($color-gray-dark, $color-gray-dark) 100% top /
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top /
           100% 1px,
-        $color-white;
+        var(--vads-color-white);
       background-repeat: no-repeat;
     }
 
     a.selected {
-      color: $color-gray-dark !important;
-      background: linear-gradient($color-gray-dark, $color-gray-dark) 100% top /
+      color: var(--vads-color-base-darker) !important;
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top /
           100% 1px,
-        linear-gradient($color-gray-dark, $color-gray-dark) left/ 8px 100%,
-        $color-gray-lightest;
+        linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px 100%,
+        var(--vads-color-base-lightest);
       background-repeat: no-repeat;
     }
 
@@ -163,12 +163,12 @@
       font-weight: bold;
 
       &:hover {
-        background: $color-white;
+        background: var(--vads-color-white);
       }
     }
 
     .grandchild-left-line {
-      border-left: 2px solid $color-gray-lighter;
+      border-left: 2px solid var(--vads-color-base-lighter);
       padding-left: 15px;
     }
 
@@ -201,14 +201,14 @@
           width: calc(100% - 40px);
           display: block;
           margin: auto;
-          background: $color-gray-lighter;
+          background: var(--vads-color-base-lighter);
           position: relative;
           top: 15px;
         }
       }
       a,
       button {
-        color: $color-primary;
+        color: var(--vads-color-primary);
         font-weight: normal;
         letter-spacing: 0;
         line-height: 1.38;
@@ -216,26 +216,26 @@
         transition: color 0.5s ease;
         @include media($medium-screen) {
           &:hover {
-            color: $color-primary !important;
-            background: linear-gradient($color-primary, $color-primary) bottom /
+            color: var(--vads-color-primary) !important;
+            background: linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) bottom /
                 100% 2px,
-              linear-gradient($color-primary, $color-primary) 100% top / 100%
+              linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) 100% top / 100%
                 2px,
-              linear-gradient($color-primary, $color-primary) left/ 8px 100%,
-              linear-gradient($color-primary, $color-primary) right / 3px 100%,
-              $color-white;
+              linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) left/ 8px 100%,
+              linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) right / 3px 100%,
+              var(--vads-color-white);
             background-repeat: no-repeat;
           }
         }
         &:active {
-          color: $color-gray-dark !important;
-          background: linear-gradient($color-gray-dark, $color-gray-dark) bottom /
+          color: var(--vads-color-base-darker) !important;
+          background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) bottom /
               100% 2px,
-            linear-gradient($color-gray-dark, $color-gray-dark) 100% top / 100%
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top / 100%
               2px,
-            linear-gradient($color-gray-dark, $color-gray-dark) left/ 8px 100%,
-            linear-gradient($color-gray-dark, $color-gray-dark) right / 3px 100%,
-            $color-gray-lightest;
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px 100%,
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) right / 3px 100%,
+            var(--vads-color-base-lightest);
           background-repeat: no-repeat;
         }
       }
@@ -243,7 +243,7 @@
         &:last-child::after {
           display: none;
         }
-        border-bottom: thin solid $color-gray-dark;
+        border-bottom: thin solid var(--vads-color-base-darker);
         &.hasChildren {
           padding-bottom: 20px;
           margin-bottom: 20px;
