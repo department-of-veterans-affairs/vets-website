@@ -2,6 +2,8 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 import {
   titleUI,
   titleSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantListSchema } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
@@ -70,5 +72,34 @@ export const applicantMedicarePartACarrierSchema = {
   schema: applicantListSchema(['applicantMedicarePartACarrier'], {
     titleSchema,
     applicantMedicarePartACarrier: { type: 'string' },
+  }),
+};
+
+export const applicantMedicarePartAEffectiveDateSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        applicantMedicarePartAEffectiveDate: currentOrPastDateUI(
+          'Medicare Part A effective date',
+        ),
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(formData, context)} coverage information`,
+                )['ui:title'],
+            };
+          },
+        },
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantMedicarePartAEffectiveDate'], {
+    titleSchema,
+    applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
   }),
 };
