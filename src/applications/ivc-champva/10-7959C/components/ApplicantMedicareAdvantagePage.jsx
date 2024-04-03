@@ -36,7 +36,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
       bp.useFirstPerson ? `Your` : `${bp.applicant}’s`
     } Medicare coverage`,
     customHint:
-      'You can find this infromation on the front of your Medicare card.',
+      'You can find this information on the front of your Medicare card.',
     description: prompt,
   };
 }
