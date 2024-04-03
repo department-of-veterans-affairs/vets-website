@@ -29,7 +29,7 @@ describe('Personal health care contacts -- feature enabled', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/user', req => {
         req.reply(res => {
-          res.body.data.attributes.vaPatient = true;
+          res.body.data.attributes.vaProfile.vaPatient = true;
         });
       });
     });
