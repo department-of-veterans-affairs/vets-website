@@ -298,19 +298,5 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       }
     });
   },
-  'toxic-exposure/conditions': () => {
-    cy.get('va-checkbox[label="Asthma"]')
-      .shadow()
-      .find('input')
-      .first()
-      .click({ force: true });
-  },
-  'toxic-exposure/gulf-war-hazard-1990': () => {
-    cy.get('va-checkbox[label="Afghanistan"]')
-      .shadow()
-      .find('input')
-      .first()
-      .click({ force: true });
-  },
   ...makeUnreleasedPageHooks(toggles),
 });

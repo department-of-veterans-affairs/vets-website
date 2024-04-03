@@ -33,6 +33,8 @@ const testConfig = createTestConfig(
       setup(cy, toggles);
     },
 
+    useWebComponentFields: true,
+
     // skip: [],
   },
   manifest,
