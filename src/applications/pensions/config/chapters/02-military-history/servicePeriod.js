@@ -2,19 +2,19 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import { createSelector } from 'reselect';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { isFullDate } from 'platform/forms/validations';
 import {
+  dateRangeSchema,
+  dateRangeUI,
   serviceNumberSchema,
   serviceNumberUI,
   checkboxGroupUI,
+  checkboxGroupSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 const { placeOfSeparation } = fullSchemaPensions.properties;
-const { dateRange } = fullSchemaPensions.definitions;
-const { serviceBranch } = fullSchemaPensions.properties;
 
 import { serviceBranchLabels } from '../../../labels';
 import { WartimeWarningAlert } from '../../../components/FormAlerts';
@@ -34,11 +34,12 @@ export default {
       labels: serviceBranchLabels,
       required: true,
     }),
-    activeServiceDateRange: dateRangeUI(
-      'Date initially entered active duty',
-      'Final release date from active duty',
-      'Date initially entered active duty must be before final date released from active duty',
-    ),
+    activeServiceDateRange: dateRangeUI({
+      fromLabel: 'Date initially entered active duty',
+      toLabel: 'Final release date from active duty',
+      errorMessage:
+        'Date initially entered active duty must be before final date released from active duty',
+    }),
     serviceNumber: serviceNumberUI('Military Service number if you have one'),
     placeOfSeparation: {
       'ui:title': 'Place of your last separation',
@@ -77,11 +78,8 @@ export default {
     type: 'object',
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
-      serviceBranch,
-      activeServiceDateRange: {
-        ...dateRange,
-        required: ['from', 'to'],
-      },
+      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
+      activeServiceDateRange: dateRangeSchema,
       serviceNumber: serviceNumberSchema,
       placeOfSeparation,
       'view:wartimeWarning': {
