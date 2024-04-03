@@ -103,3 +103,80 @@ export const applicantMedicarePartAEffectiveDateSchema = {
     applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
   }),
 };
+
+export const applicantMedicarePartBCarrierSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        applicantMedicarePartBCarrier: {
+          'ui:title': 'Carrier’s name',
+          'ui:webComponentField': VaTextInputField,
+        },
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(
+                    formData,
+                    context,
+                  )} Medicare Part B carrier`,
+                )['ui:title'],
+            };
+          },
+        },
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantMedicarePartBCarrier'], {
+    titleSchema,
+    applicantMedicarePartBCarrier: { type: 'string' },
+  }),
+};
+
+export const applicantMedicarePartBEffectiveDateSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        applicantMedicarePartBEffectiveDate: currentOrPastDateUI(
+          'Medicare Part B effective date',
+        ),
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(formData, context)} coverage information`,
+                )['ui:title'],
+            };
+          },
+        },
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantMedicarePartBEffectiveDate'], {
+    titleSchema,
+    applicantMedicarePartBEffectiveDate: currentOrPastDateSchema,
+  }),
+};
+
+export const applicantMedicarePharmacySchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantMedicarePharmacyBenefits: {
+      type: 'object',
+      properties: {
+        hasBenefits: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};

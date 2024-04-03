@@ -26,6 +26,9 @@ import {
   applicantMedicareABContextSchema,
   applicantMedicarePartACarrierSchema,
   applicantMedicarePartAEffectiveDateSchema,
+  applicantMedicarePartBCarrierSchema,
+  applicantMedicarePartBEffectiveDateSchema,
+  applicantMedicarePharmacySchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -35,6 +38,10 @@ import {
   ApplicantMedicareStatusContinuedPage,
   ApplicantMedicareStatusContinuedReviewPage,
 } from '../components/ApplicantMedicareStatusContinuedPage';
+import {
+  ApplicantMedicarePharmacyPage,
+  ApplicantMedicarePharmacyReviewPage,
+} from '../components/ApplicantMedicarePharmacyPage';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
@@ -189,7 +196,7 @@ const formConfig = {
           schema: applicantMedicareABContextSchema.schema,
         },
         // If 'yes' to previous question:
-        medicareCarrier1: {
+        partACarrier: {
           path: ':index/carrier-a',
           arrayPath: 'applicants',
           showPagePerItem: true,
@@ -206,6 +213,35 @@ const formConfig = {
           depends: (formData, index) => hasMedicareAB(formData, index),
           uiSchema: applicantMedicarePartAEffectiveDateSchema.uiSchema,
           schema: applicantMedicarePartAEffectiveDateSchema.schema,
+        },
+        partBCarrier: {
+          path: ':index/carrier-b',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare Part B carrier`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          uiSchema: applicantMedicarePartBCarrierSchema.uiSchema,
+          schema: applicantMedicarePartBCarrierSchema.schema,
+        },
+        partBEffective: {
+          path: ':index/effective-b',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} coverage information`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          uiSchema: applicantMedicarePartBEffectiveDateSchema.uiSchema,
+          schema: applicantMedicarePartBEffectiveDateSchema.schema,
+        },
+        pharmacyBenefits: {
+          path: ':index/pharmacy',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare pharmacy benefits`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          CustomPage: ApplicantMedicarePharmacyPage,
+          CustomPageReview: ApplicantMedicarePharmacyReviewPage,
+          uiSchema: applicantMedicarePharmacySchema.uiSchema,
+          schema: applicantMedicarePharmacySchema.schema,
         },
       },
     },
