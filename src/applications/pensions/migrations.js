@@ -289,4 +289,30 @@ export default [
     }
     return { formData: newFormData, metadata };
   },
+  // 7 > 8, remove gender
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    newFormData.currentEmployers = newFormData.currentEmployers?.map(
+      currentEmployer => {
+        const newEmployer = { ...currentEmployer };
+        if (newEmployer.jobTitle) {
+          delete newEmployer.jobTitle;
+        }
+        return newEmployer;
+      },
+    );
+    newFormData.marriages?.forEach(marriage => {
+      const { spouseFullName } = marriage;
+      if (spouseFullName) {
+        delete spouseFullName.suffix;
+      }
+    });
+    newFormData.dependents?.forEach(dependent => {
+      const { fullName } = dependent;
+      if (fullName) {
+        delete fullName.suffix;
+      }
+    });
+    return { formData: newFormData, metadata };
+  },
 ];
