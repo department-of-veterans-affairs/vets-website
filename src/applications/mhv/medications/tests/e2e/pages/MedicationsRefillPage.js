@@ -8,7 +8,7 @@ class MedicationsRefillPage {
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
-    );
+    ).as('refillList');
   };
 
   verifyRefillPageTitle = () => {
@@ -98,6 +98,23 @@ class MedicationsRefillPage {
       'contain',
       'Last refill shipped on September 24, 2023',
     );
+  };
+
+  verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = () => {
+    cy.get('[data-testid="refill-prescription-checkbox-0"]').should(
+      'be.enabled',
+    );
+  };
+
+  verifyActiveRxWithRefillsRemainingIsDisplayedOnRefillPage = () => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[5].attributes).to.include({
+          refillStatus: 'active',
+          refillRemaining: 3,
+        });
+      });
   };
 }
 
