@@ -18,6 +18,7 @@ jobs:
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
+      build_path: ${{ steps.generate-build-path.outputs.build_path }}  # for build directory
 
     strategy:
       fail-fast: false
@@ -81,6 +82,11 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
+      - name: Check build directory contents
+        run: |
+          ls -la
+          ls -la build/
+
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
@@ -90,6 +96,44 @@ jobs:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
+
+      - name: Generate build details
+        id: generate-build-path
+        run: |
+          # Generate build details
+          # Save the path of the build directory to an output
+          echo "build_path=build/${{ matrix.buildtype }}" >> $GITHUB_OUTPUT
+
+      - name: Use build artifacts in subsequent steps
+        run: |
+          # Example: List files in the build directory
+          ls -la $GITHUB_WORKSPACE/build
+
+      - name: vaprod cache
+        id: vaprod-cache
+        uses: actions/cache@v2
+        env:
+          cache-name: vagovprod-dependency
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/vagovprod/**') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      # - name: Prepare build artifacts
+      #   run: |
+      #     # Prepare build artifacts
+      #     mkdir -p $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
+      #     mv build/${{ matrix.buildtype }}/* $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}/
+
+
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: vagovprod
+      #     path: build/vagovprod
 
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
@@ -627,12 +671,6 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
-      
-          
-
-      - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -642,17 +680,65 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
-      - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: vagovprod.tar.bz2
+      # - name: Download production build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: ./.github/workflows/download-artifact
+      #   with:
+      #     name: vagovprod.tar.bz2
 
-      - name: Unpack build
+      # - name: Unpack build
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     mkdir -p build/vagovprod
+      #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      # - name: Use build from the build job
+      #   if: needs.cypress-tests-prep.outputs.tests != '[]'
+      #   run: |
+      #     # Copy build directory from the build job output
+      #     cp -r ${{ needs.build.outputs.build_path }} build/vagovprod
+
+      # - name: Download build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: vagovprod
+      #     path: build/vagovprod
+
+      # - name: Use build artifacts from the build job
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     # Use build artifacts from the build job
+      #     cp -r $GITHUB_WORKSPACE/build/vagovprod build/vagovprod
+
+
+      # - name: Restore cached vagovprod folder
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: $GITHUB_WORKSPACE/build/vagovprod
+      #     key: vagovprod-${{ runner.os }}-${{ hashFiles('**/vagovprod/**') }}
+
+      - name: Restore cached vagovprod folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/cache@v2
+        with:
+          path: $GITHUB_WORKSPACE/build/vagovprod
+          key: ${{ runner.os }}-build-vagovprod-dependency-${{ hashFiles('**/vagovprod/**') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Run Cypress tests
         run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          # Example command using vagovprod folder
+          ls -la $GITHUB_WORKSPACE/build/
+
+
+      - name: Run Cypress tests
+        run: |
+          # Example command using vagovprod folder
+          ls -la $GITHUB_WORKSPACE/build/
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
