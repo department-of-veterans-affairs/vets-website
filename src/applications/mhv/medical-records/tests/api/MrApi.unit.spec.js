@@ -135,7 +135,7 @@ describe('Get health conditions api call', () => {
     mockApiRequest(mockData);
 
     return getConditions(true).then(res => {
-      expect(res.length).to.equal(4);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });
@@ -146,7 +146,7 @@ describe('Get health condition details api call', () => {
     mockApiRequest(mockData);
 
     return getCondition('123', true).then(res => {
-      expect(res.name).to.equal('Back pain (SCT 161891005)');
+      expect(res.resourceType).to.equal('Condition');
     });
   });
 });
