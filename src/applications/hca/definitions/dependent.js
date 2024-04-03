@@ -1,17 +1,15 @@
-import fullNameUI from 'platform/forms/definitions/fullName';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullNameUI from '~/platform/forms/definitions/fullName';
+import currentOrPastDateUI from '~/platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from '~/platform/forms-system/src/js/definitions/ssn';
+import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency, validateDependentDate } from '../utils/validation';
+import { LAST_YEAR } from '../utils/constants';
 import {
   DependentSupportDescription,
   GrossIncomeDescription,
   OtherIncomeDescription,
 } from '../components/FormDescriptions';
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
 
 // define uiSchemas for each page in dependent flow
 export const dependentUISchema = {
@@ -55,7 +53,7 @@ export const dependentUISchema = {
   },
   education: {
     attendedSchoolLastYear: {
-      'ui:title': `If your dependent is between 18 and 23 years old, were they enrolled as a full-time or part-time student in ${lastYear}?`,
+      'ui:title': `If your dependent is between 18 and 23 years old, were they enrolled as a full-time or part-time student in ${LAST_YEAR}?`,
       'ui:widget': 'yesNo',
     },
     dependentEducationExpenses: {
@@ -72,17 +70,17 @@ export const dependentUISchema = {
       'ui:widget': 'yesNo',
     },
     cohabitedLastYear: {
-      'ui:title': `Did your dependent live with you in ${lastYear}?`,
+      'ui:title': `Did your dependent live with you in ${LAST_YEAR}?`,
       'ui:widget': 'yesNo',
     },
     'view:dependentIncome': {
-      'ui:title': `Did your dependent earn income in ${lastYear}?`,
+      'ui:title': `Did your dependent earn income in ${LAST_YEAR}?`,
       'ui:widget': 'yesNo',
     },
   },
   support: {
     receivedSupportLastYear: {
-      'ui:title': `If your dependent didn\u2019t live with you in ${lastYear}, did you provide financial support?`,
+      'ui:title': `If your dependent didn\u2019t live with you in ${LAST_YEAR}, did you provide financial support?`,
       'ui:description': DependentSupportDescription,
       'ui:widget': 'yesNo',
     },
@@ -93,7 +91,7 @@ export const dependentUISchema = {
       'ui:description': GrossIncomeDescription,
       grossIncome: {
         ...currencyUI(
-          `Enter your dependent\u2019s gross annual income from ${lastYear}`,
+          `Enter your dependent\u2019s gross annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
@@ -104,7 +102,7 @@ export const dependentUISchema = {
         'Net income is income after any taxes and other deductions are subtracted.',
       netIncome: {
         ...currencyUI(
-          `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,
+          `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
         'ui:required': () => true,
@@ -115,7 +113,7 @@ export const dependentUISchema = {
       'ui:description': OtherIncomeDescription,
       otherIncome: {
         ...currencyUI(
-          `Enter your dependent\u2019s other annual income from ${lastYear}`,
+          `Enter your dependent\u2019s other annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
         'ui:required': () => true,
