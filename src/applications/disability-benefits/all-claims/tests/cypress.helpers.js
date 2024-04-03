@@ -99,7 +99,7 @@ function getToggleValue(toggles, name) {
  * @param {object} cy
  * @param {object} toggles - feature toggles object, based on api response
  */
-export const setup = (cy, toggles) => {
+export const setup = (cy, toggles = mockFeatureToggles) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
