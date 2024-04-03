@@ -1,4 +1,4 @@
-import { pageProps, reviewPageProps } from '../config/constants';
+import { pageProps, reviewPageProps, yesNoOptions } from '../config/constants';
 
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -14,24 +14,11 @@ export function generateOptions({ data, pagePerItemIndex }) {
   const prompt = `Did ${
     bp.useFirstPerson ? 'you' : `${bp.applicant}`
   } choose the advantage plan for coverage?`;
-  const options = [
-    {
-      label: `Yes`,
-      value: 'yes',
-    },
-    {
-      label: 'No',
-      value: 'no',
-    },
-  ];
 
   return {
     ...bp,
-    options,
+    options: yesNoOptions,
     relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
     customTitle: `${
       bp.useFirstPerson ? `Your` : `${bp.applicant}’s`
     } Medicare coverage`,

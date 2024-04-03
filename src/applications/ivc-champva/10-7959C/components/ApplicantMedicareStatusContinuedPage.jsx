@@ -38,9 +38,6 @@ export function generateOptions({ data, pagePerItemIndex }) {
     ...bp,
     options,
     relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
     customTitle: `${
       bp.useFirstPerson ? `Your` : `${bp.applicant}'s`
     } Medicare status`,

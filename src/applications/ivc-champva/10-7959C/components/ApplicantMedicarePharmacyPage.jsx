@@ -1,4 +1,4 @@
-import { pageProps, reviewPageProps } from '../config/constants';
+import { pageProps, reviewPageProps, yesNoOptions } from '../config/constants';
 
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -14,24 +14,11 @@ export function generateOptions({ data, pagePerItemIndex }) {
   const prompt = `Do ${
     bp.useFirstPerson ? 'your' : `${bp.applicant}’s`
   } Medicare Parts A & B provide pharmacy benefits?`;
-  const options = [
-    {
-      label: `Yes`,
-      value: 'yes',
-    },
-    {
-      label: 'No',
-      value: 'no',
-    },
-  ];
 
   return {
     ...bp,
-    options,
+    options: yesNoOptions,
     relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
     customTitle: `${
       bp.useFirstPerson ? `Your` : `${bp.applicant}’s`
     } Medicare pharmacy benefits`,

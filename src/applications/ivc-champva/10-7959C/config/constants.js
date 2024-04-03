@@ -39,3 +39,14 @@ export const reviewPageProps = {
   props: PropTypes.object,
   title: PropTypes.func,
 };
+
+export const yesNoOptions = [
+  {
+    label: 'Yes',
+    value: 'yes',
+  },
+  {
+    label: 'No',
+    value: 'no',
+  },
+];
