@@ -4,7 +4,7 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   getEnrollmentData,
   getServiceAvailability,
@@ -134,7 +134,7 @@ describe('getEnrollmentData', () => {
   });
 
   it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code', done => {
-    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject({}));
+    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject(new Error()));
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
