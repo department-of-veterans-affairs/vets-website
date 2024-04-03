@@ -60,12 +60,12 @@ class MedicationsRefillPage {
   clickGoToMedicationsListPage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       medicationsList,
     ).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -78,12 +78,12 @@ class MedicationsRefillPage {
   clickBackToMedicationsBreadcrumbOnRefillPage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       medicationsList,
     ).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
@@ -91,6 +91,13 @@ class MedicationsRefillPage {
     cy.get('[data-testid="back-to-medications-page-link"]').click({
       waitForAnimations: true,
     });
+  };
+
+  verifyShippedMedicationOnRefillPage = () => {
+    cy.get('[data-testid="medications-last-shipped-3"]').should(
+      'contain',
+      'Last refill shipped on September 24, 2023',
+    );
   };
 }
 

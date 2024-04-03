@@ -133,8 +133,8 @@ const responses = {
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     return res
-      .status(200)
-      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
+      .status(400)
+      .json(mockDisabilityCompensations.updates.errors.invalidRoutingNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
