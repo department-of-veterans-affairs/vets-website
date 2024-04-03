@@ -10,7 +10,7 @@ export const PaymentsCard = ({ lastPayment }) => {
   const content = (
     <>
       <p
-        className="vads-u-margin-top--0 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold"
         data-testid="deposit-header"
         aria-describedby="paycheck-type"
       >
