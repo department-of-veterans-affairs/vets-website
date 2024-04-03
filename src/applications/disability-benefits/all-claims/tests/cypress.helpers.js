@@ -84,10 +84,21 @@ export const mockItf = {
   },
 };
 
+/**
+ * Get the toggle value within a given list of toggles and for a given a name
+ * @param {object} toggles - feature toggles object, based on api response
+ * @param {string} name - unique name for the toggle
+ * @returns {boolean} true if the toggle is enabled, false otherwise
+ */
 function getToggleValue(toggles, name) {
   return toggles.data.features.find(item => item.name === name)?.value;
 }
 
+/**
+ * Setup for the e2e test, including any cleanup and mocking api responses
+ * @param {object} cy
+ * @param {object} toggles - feature toggles object, based on api response
+ */
 export const setup = (cy, toggles) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
@@ -154,8 +165,8 @@ export const setup = (cy, toggles) => {
 /**
  * Build a list of unreleased pages using the given toggles
  *
- * @param {object} toggles
- * @returns
+ * @param {object} toggles - feature toggles object, based on api response
+ * @returns {string[]} - list of paths for unreleased pages
  */
 function getUnreleasedPages(toggles) {
   // if toxic exposure toggle is disabled, add those pages to the unreleased pages list
@@ -170,7 +181,8 @@ function getUnreleasedPages(toggles) {
 
 /**
  * For each unreleased page, create the page hook to throw an error if the page loads
- * @returns page hooks
+ * @param {object} toggles - feature toggles object, based on api response
+ * @returns {object} object with page hook for each unreleased page
  */
 function makeUnreleasedPageHooks(toggles) {
   const pages = getUnreleasedPages(toggles);
