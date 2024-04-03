@@ -41,27 +41,6 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('handles a non-veteran user by displaying the non-va-patient-message ', () => {
-    cy.intercept('GET', '/v0/profile/contacts', contacts);
-    cy.login(nonVeteranUser);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('non-va-patient-message');
-    cy.injectAxeThenAxeCheck();
-  });
-});
-
-describe('with vaPatient: true', () => {
-  beforeEach(() => {
-    cy.intercept('GET', '/v0/user', req => {
-      req.reply(res => {
-        res.body.data.attributes.vaProfile.vaPatient = true;
-      });
-    });
-
-    featureToggles = generateFeatureToggles({ profileContacts: true });
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
-  });
-
   it("displays a Veteran's Next of kin and Emergency contacts", () => {
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
@@ -105,6 +84,14 @@ describe('with vaPatient: true', () => {
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
     cy.findByTestId('service-is-down-banner');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('handles a non-veteran user by displaying the non-va-patient-message ', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(nonVeteranUser);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('non-va-patient-message');
     cy.injectAxeThenAxeCheck();
   });
 });
