@@ -18,7 +18,8 @@ const baseToggles = generateFeatureTogglesState({
 // bank account information is set to a known value for cnp and edu
 const createInitialState = ({
   serviceType = CSP_IDS.ID_ME,
-  error,
+  saveError,
+  loadError,
   controlInformation = {
     canUpdateDirectDeposit: true,
     canUpdateAddress: true,
@@ -36,14 +37,15 @@ const createInitialState = ({
   const state = {
     directDeposit: {
       controlInformation,
-      paymentAccount: error
+      paymentAccount: loadError
         ? null
         : {
             name: 'TEST BANK NAME',
             accountNumber: 'test acount number',
             routingNumber: 'test routing number',
           },
-      error: null,
+      loadError: null,
+      saveError: saveError || null,
       ui: {
         isEditing: false,
         isSaving: false,
@@ -74,8 +76,8 @@ const createInitialState = ({
     },
   };
 
-  if (error) {
-    state.directDeposit.error = error;
+  if (loadError) {
+    state.directDeposit.loadError = loadError;
   }
 
   return state;
@@ -140,7 +142,7 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
         {
           initialState: createInitialState({
             serviceType: CSP_IDS.ID_ME,
-            error: 'Internal Server Error',
+            loadError: 'Internal Server Error',
           }),
           path: '/profile/direct-deposit',
         },
