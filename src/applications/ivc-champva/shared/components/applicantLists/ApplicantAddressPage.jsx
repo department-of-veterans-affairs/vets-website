@@ -3,7 +3,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-import { applicantWording } from '../helpers/wordingCustomization';
+import { applicantWording } from '../../utilities';
 
 export function ApplicantAddressCopyPage({
   contentBeforeButtons,
@@ -28,7 +28,7 @@ export function ApplicantAddressCopyPage({
   const updateButton = <button type="submit">Update page</button>;
 
   function fullName(name) {
-    return `${name.first} ${name?.middle || ''} ${name.last} ${name?.suffix ||
+    return `${name?.first} ${name?.middle || ''} ${name?.last} ${name?.suffix ||
       ''}`;
   }
 
@@ -46,13 +46,12 @@ export function ApplicantAddressCopyPage({
   // applicants so we can display in <select> down below
   function getSelectOptions() {
     const allAddresses = [];
-
-    if (data.certifierAddress?.country)
+    if (data.certifierAddress?.country && data.certifierName)
       allAddresses.push({
         originatorName: fullName(data.certifierName),
         originatorAddress: data.certifierAddress,
       });
-    if (data.sponsorAddress?.country)
+    if (data.sponsorAddress?.country && data.veteransFullName)
       allAddresses.push({
         originatorName: fullName(data.veteransFullName),
         originatorAddress: data.sponsorAddress,
