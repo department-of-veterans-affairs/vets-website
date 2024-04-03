@@ -43,9 +43,9 @@ import {
   MAX_APPLICANTS,
   applicantListSchema,
 } from '../helpers/utilities';
+import { applicantWording } from '../../shared/utilities';
 import {
   sponsorWording,
-  applicantWording,
   additionalFilesHint,
 } from '../helpers/wordingCustomization';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
@@ -99,7 +99,7 @@ import {
 } from '../pages/ApplicantMedicareStatusPage';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
-} from '../pages/ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import {
   ApplicantMedicareStatusContinuedPage,
   ApplicantMedicareStatusContinuedReviewPage,
