@@ -3,18 +3,18 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 
 export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
-  ACCOUNT_FLAGGED_FOR_FRAUD: '.payment.account.number.fraud',
-  PAYMENT_RESTRICTIONS_PRESENT: '.payment.restriction.indicators.present',
-  ROUTING_NUMBER_FLAGGED_FOR_FRAUD: '.payment.routing.number.fraud',
-  ROUTING_NUMBER_INVALID_CHECKSUM: '.payment.routing.number.invalid.checksum',
-  ROUTING_NUMBER_INVALID: '.payment.routing.number.invalid',
-  DAY_PHONE_NUMBER_INVALID: '.payment.day.phone.number.invalid',
-  DAY_PHONE_AREA_INVALID: '.payment.day.area.number.invalid',
-  NIGHT_PHONE_NUMBER_INVALID: '.payment.night.phone.number.invalid',
-  NIGHT_PHONE_AREA_INVALID: '.payment.night.area.number.invalid',
-  MAILING_ADDRESS_INVALID: '.payment.mailing.address.invalid',
-  UNSPECIFIED_ERROR: '.payment.unspecified.error',
-  GENERIC_ERROR: '.payment.generic.error',
+  ACCOUNT_FLAGGED_FOR_FRAUD: '.account.number.fraud',
+  PAYMENT_RESTRICTIONS_PRESENT: '.restriction.indicators.present',
+  ROUTING_NUMBER_FLAGGED_FOR_FRAUD: '.routing.number.fraud',
+  ROUTING_NUMBER_INVALID_CHECKSUM: '.routing.number.invalid.checksum',
+  ROUTING_NUMBER_INVALID: '.routing.number.invalid',
+  DAY_PHONE_NUMBER_INVALID: '.day.phone.number.invalid',
+  DAY_PHONE_AREA_INVALID: '.day.area.number.invalid',
+  NIGHT_PHONE_NUMBER_INVALID: '.night.phone.number.invalid',
+  NIGHT_PHONE_AREA_INVALID: '.night.area.number.invalid',
+  MAILING_ADDRESS_INVALID: '.mailing.address.invalid',
+  UNSPECIFIED_ERROR: '.unspecified.error',
+  GENERIC_ERROR: '.generic.error',
 };
 
 // error keys for profile/direct_deposits/disability_compensations endpoint
@@ -23,7 +23,7 @@ export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
 export const LIGHTHOUSE_ERROR_KEYS = Object.keys(
   BASE_DIRECT_DEPOSIT_ERROR_KEYS,
 ).reduce((acc, key) => {
-  acc[key] = `cnp${BASE_DIRECT_DEPOSIT_ERROR_KEYS[key]}`;
+  acc[key] = `cnp.payment${BASE_DIRECT_DEPOSIT_ERROR_KEYS[key]}`;
   return acc;
 }, {});
 
