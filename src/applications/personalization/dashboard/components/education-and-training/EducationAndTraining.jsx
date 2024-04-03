@@ -4,7 +4,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import IconCTALink from '../IconCTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
-const EducationAndTraining = ({ isLOA1 }) => {
+const EducationAndTraining = ({ isLOA1, rE = recordEvent }) => {
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -21,7 +21,7 @@ const EducationAndTraining = ({ isLOA1 }) => {
             href="/education/how-to-apply/"
             testId="apply-education-benefits-from-cta"
             onClick={() =>
-              recordEvent({
+              rE({
                 event: 'nav-linkslist',
                 'links-list-header':
                   'Learn how to apply for VA education benefits',
@@ -37,7 +37,7 @@ const EducationAndTraining = ({ isLOA1 }) => {
                 href="/education/gi-bill-comparison-tool"
                 testId="compare-gi-benefits-from-cta"
                 onClick={() =>
-                  recordEvent({
+                  rE({
                     event: 'nav-linkslist',
                     'links-list-header': 'Compare GI Bill benefits by school',
                     'links-list-section-header': 'Education and training',
@@ -50,7 +50,7 @@ const EducationAndTraining = ({ isLOA1 }) => {
                 href="/education/gi-bill/post-9-11/ch-33-benefit/status"
                 testId="check-gi-bill-benefits-from-cta"
                 onClick={() =>
-                  recordEvent({
+                  rE({
                     event: 'nav-linkslist',
                     'links-list-header':
                       'Check your Post-9/11 GI Bill benefits',
@@ -68,6 +68,7 @@ const EducationAndTraining = ({ isLOA1 }) => {
 
 EducationAndTraining.propTypes = {
   isLOA1: PropTypes.bool,
+  rE: PropTypes.func,
 };
 
 export default EducationAndTraining;
