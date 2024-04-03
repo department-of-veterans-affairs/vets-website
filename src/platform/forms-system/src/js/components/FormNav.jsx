@@ -128,7 +128,7 @@ export default function FormNav(props) {
           } else {
             focusByOrder([defaultFocusSelector, 'h2']);
           }
-        } else if (!formConfig.formId === '40-10007') {
+        } else if (formConfig.formId !== '40-10007') {
           // h2 fallback for confirmation page
           focusByOrder([defaultFocusSelector, 'h2']);
         }
