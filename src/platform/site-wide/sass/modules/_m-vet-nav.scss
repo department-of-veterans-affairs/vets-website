@@ -41,6 +41,7 @@ body.va-pos-fixed {
     #vetnav-menu {
       overflow: hidden;
       height: 0;
+
       @include media($medium-screen) {
         height: auto;
         overflow: visible;
@@ -110,6 +111,7 @@ body.va-pos-fixed {
     @include media($medium-screen) {
       display: inline-block;
       background-color: transparent;
+
       &.vetnav-level2-button-second {
         margin-left: 0;
       }
@@ -184,6 +186,7 @@ body.va-pos-fixed {
 
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
+
     @include media($medium-screen) {
       background-position: right 1.6rem center;
       padding-right: 3.2rem;
@@ -231,8 +234,7 @@ body.va-pos-fixed {
 }
 
 .vetnav-level2 {
-  background: var(--vads-color-primary-darker) url(/img/arrow-right-white.svg) right 2rem
-    center no-repeat;
+  background: var(--vads-color-primary-darker) url(/img/arrow-right-white.svg) right 2rem center no-repeat;
   background-size: 1.4rem auto;
   border-radius: 0;
   display: block;
@@ -245,8 +247,7 @@ body.va-pos-fixed {
   line-height: 1;
 
   @include media($medium-screen) {
-    background: transparent url(/img/arrow-right.svg) right 1rem center
-      no-repeat;
+    background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
     border-color: transparent;
     border-style: solid;
     border-width: 1px 0;
@@ -290,8 +291,7 @@ body.va-pos-fixed {
 }
 
 #vetnav .back-button {
-  background: var(--vads-color-primary-dark) url(/img/arrow-left-white.svg) right 3rem
-    center no-repeat;
+  background: var(--vads-color-primary-dark) url(/img/arrow-left-white.svg) right 3rem center no-repeat;
   background-position: left 1rem center;
   background-size: 1.4rem auto;
   border-radius: 0;
@@ -336,6 +336,16 @@ body.va-pos-fixed {
   }
 }
 
+#mega-menu #vetnav-va-benefits-and-health-care {
+
+  &,
+  & .vetnav-panel.vetnav-panel--submenu {
+    @media screen and (min-width: 768px) {
+      height: 490px !important;
+    }
+  }
+}
+
 #vetnav-va-benefits-and-health-care.vetnav-panel {
   width: 250px;
 
@@ -344,6 +354,7 @@ body.va-pos-fixed {
       width: 768px;
     }
   }
+
   @include media($small-desktop-screen) {
     &.vetnav-submenu--expanded {
       width: 1008px;

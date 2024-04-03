@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { errorAddressAlert } from '../constants';
-import { noSuggestedAddress } from '../helpers';
+import { addressLabel, noSuggestedAddress } from '../helpers';
 
 const NoSuggestedAddress = ({
   deliveryPointValidation,
@@ -10,7 +10,6 @@ const NoSuggestedAddress = ({
 }) => {
   // This Function checks if there suggested Address
   const isThereNoSuggestedAddress = noSuggestedAddress(deliveryPointValidation);
-
   // This Effect reset setChooseAddress to entered if there is no suggested address.
   useEffect(
     () => {
@@ -33,9 +32,7 @@ const NoSuggestedAddress = ({
                 className="usa-radio__label vads-u-margin-top--1"
                 htmlFor="entered-address"
               >
-                {`${formData.addressLine1} ${formData.addressLine2 || ''}`}
-                <br />
-                {`${formData.city}, ${formData.stateCode} ${formData.zipCode}`}
+                {addressLabel(formData)}
               </label>
             </div>
           </>
