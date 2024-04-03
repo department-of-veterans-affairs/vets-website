@@ -25,7 +25,7 @@ const usePostTravelClaims = props => {
   );
   const travelPaySent = getTravelPaySent(window);
   const now = new Date().getTime();
-  const timeToComplete = (now - startedTime) / 1000;
+  const timeToComplete = Math.round((now - startedTime) / 1000).toString();
   const faciltiesToPost = facilitiesToFile.filter(
     facility =>
       !(facility.stationNo in travelPaySent) ||
