@@ -10,10 +10,12 @@ import {
   formatCurrency,
   submit,
   replacer,
-  isMarried,
-  getMarriageTitleWithCurrent,
   isHomeAcreageMoreThanTwo,
 } from '../../helpers';
+import {
+  getMarriageTitleWithCurrent,
+  isMarried,
+} from '../../config/chapters/04-household-information/helpers';
 
 describe('Pensions helpers', () => {
   describe('submit', () => {
