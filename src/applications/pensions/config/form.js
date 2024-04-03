@@ -31,7 +31,10 @@ import createHouseholdMemberTitle from '../components/DisclosureTitle';
 
 // chapter-pages
 import age from './chapters/03-health-and-employment-information/age';
-import applicantInformation from './chapters/01-applicant-information/applicantInformation';
+import fullName from './chapters/01-applicant-information/fullName';
+import socialSecurityNumber from './chapters/01-applicant-information/socialSecurityNumber';
+import dateOfBirth from './chapters/01-applicant-information/dateOfBirth';
+import claimInformation from './chapters/01-applicant-information/claimInformation';
 import careExpenses from './chapters/05-financial-information/careExpenses';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
@@ -276,12 +279,30 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: {
-          path: 'applicant/information',
-          title: 'Applicant information',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
-          updateFormData: applicantInformation.updateFormData,
+        fullName: {
+          path: 'applicant/name',
+          title: 'Name',
+          uiSchema: fullName.uiSchema,
+          schema: fullName.schema,
+          updateFormData: fullName.updateFormData,
+        },
+        dateOfBirth: {
+          path: 'applicant/dob',
+          title: 'Date of birth',
+          uiSchema: dateOfBirth.uiSchema,
+          schema: dateOfBirth.schema,
+        },
+        socialSecurityNumber: {
+          path: 'applicant/ssn',
+          title: 'Social security number',
+          uiSchema: socialSecurityNumber.uiSchema,
+          schema: socialSecurityNumber.schema,
+        },
+        claimInformation: {
+          path: 'applicant/claim',
+          title: 'Claim information',
+          uiSchema: claimInformation.uiSchema,
+          schema: claimInformation.schema,
         },
         mailingAddress: {
           title: 'Mailing address',
