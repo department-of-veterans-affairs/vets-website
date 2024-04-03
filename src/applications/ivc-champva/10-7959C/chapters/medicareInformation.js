@@ -195,3 +195,80 @@ export const applicantMedicareAdvantageSchema = {
     },
   }),
 };
+
+export const applicantHasMedicareDSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantMedicareStatusD: {
+      type: 'object',
+      properties: {
+        enrollment: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};
+
+export const applicantMedicarePartDCarrierSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        applicantMedicarePartDCarrier: {
+          'ui:title': 'Carrier’s name',
+          'ui:webComponentField': VaTextInputField,
+        },
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(
+                    formData,
+                    context,
+                  )} Medicare Part D carrier`,
+                )['ui:title'],
+            };
+          },
+        },
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantMedicarePartDCarrier'], {
+    titleSchema,
+    applicantMedicarePartDCarrier: { type: 'string' },
+  }),
+};
+
+export const applicantMedicarePartDEffectiveDateSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        applicantMedicarePartDEffectiveDate: currentOrPastDateUI(
+          'Medicare Part D effective date',
+        ),
+        'ui:options': {
+          updateSchema: formData => {
+            return {
+              title: context =>
+                titleUI(
+                  `${applicantWording(formData, context)} coverage information`,
+                )['ui:title'],
+            };
+          },
+        },
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantMedicarePartDEffectiveDate'], {
+    titleSchema,
+    applicantMedicarePartDEffectiveDate: currentOrPastDateSchema,
+  }),
+};

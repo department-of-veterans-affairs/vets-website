@@ -15,6 +15,16 @@ export function hasMedicareAB(formData, index) {
   );
 }
 
+export function hasMedicareD(formData, index) {
+  if (index === undefined) return true;
+  return (
+    get(
+      'applicantMedicareStatusD.enrollment',
+      formData?.applicants?.[index],
+    ) === 'yes'
+  );
+}
+
 export function noMedicareAB(formData, index) {
   if (index === undefined) return true;
   return (

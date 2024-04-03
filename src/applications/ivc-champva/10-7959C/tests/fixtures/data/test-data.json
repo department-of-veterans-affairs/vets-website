@@ -26,7 +26,12 @@
         "applicantMedicarePartAEffectiveDate": "2010-01-01",
         "applicantMedicarePartBEffectiveDate": "2010-01-01",
         "applicantMedicarePharmacyBenefits": { "hasBenefits": "yes" },
-        "applicantMedicareAdvantage": { "hasAdvantage": "yes" }
+        "applicantMedicareAdvantage": { "hasAdvantage": "yes" },
+        "applicantMedicareStatusD": {
+          "enrollment": "yes"
+        },
+        "applicantMedicarePartDCarrier": "Test D Carrier",
+        "applicantMedicarePartDEffectiveDate": "2010-01-01"
       }
     ],
     "certifierRelationship": {

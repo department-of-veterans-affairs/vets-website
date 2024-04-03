@@ -30,6 +30,9 @@ import {
   applicantMedicarePartBEffectiveDateSchema,
   applicantMedicarePharmacySchema,
   applicantMedicareAdvantageSchema,
+  applicantHasMedicareDSchema,
+  applicantMedicarePartDCarrierSchema,
+  applicantMedicarePartDEffectiveDateSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -47,10 +50,14 @@ import {
   ApplicantMedicareAdvantagePage,
   ApplicantMedicareAdvantageReviewPage,
 } from '../components/ApplicantMedicareAdvantagePage';
+import {
+  ApplicantMedicareStatusDPage,
+  ApplicantMedicareStatusDReviewPage,
+} from '../components/ApplicantMedicareStatusDPage';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
-import { hasMedicareAB, noMedicareAB } from './conditionalPaths';
+import { hasMedicareAB, hasMedicareD, noMedicareAB } from './conditionalPaths';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -258,6 +265,37 @@ const formConfig = {
           CustomPageReview: ApplicantMedicareAdvantageReviewPage,
           uiSchema: applicantMedicareAdvantageSchema.uiSchema,
           schema: applicantMedicareAdvantageSchema.schema,
+        },
+        hasMedicareD: {
+          path: ':index/medicare-d',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare status`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          CustomPage: ApplicantMedicareStatusDPage,
+          CustomPageReview: ApplicantMedicareStatusDReviewPage,
+          uiSchema: applicantHasMedicareDSchema.uiSchema,
+          schema: applicantHasMedicareDSchema.schema,
+        },
+        partDCarrier: {
+          path: ':index/carrier-d',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare Part D carrier`,
+          depends: (formData, index) =>
+            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          uiSchema: applicantMedicarePartDCarrierSchema.uiSchema,
+          schema: applicantMedicarePartDCarrierSchema.schema,
+        },
+        partDEffective: {
+          path: ':index/effective-d',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} coverage information`,
+          depends: (formData, index) =>
+            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          uiSchema: applicantMedicarePartDEffectiveDateSchema.uiSchema,
+          schema: applicantMedicarePartDEffectiveDateSchema.schema,
         },
       },
     },
