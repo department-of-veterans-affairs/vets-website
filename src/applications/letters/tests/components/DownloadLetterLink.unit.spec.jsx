@@ -43,7 +43,7 @@ describe('<DownloadLetterLink>', () => {
       <DownloadLetterLink {...defaultProps} />,
     );
     const tree = getFormDOM(component);
-    expect(tree.getElement('button').textContent).to.equal('Download letter');
+    expect(tree.getElement('va-button').text).to.equal('Download letter');
   });
 
   it('should call getLetterPdf when clicked', () => {
@@ -62,7 +62,7 @@ describe('<DownloadLetterLink>', () => {
     );
     const button = ReactTestUtils.findRenderedDOMComponentWithTag(
       component,
-      'button',
+      'va-button',
     );
 
     ReactTestUtils.Simulate.click(button);
@@ -91,9 +91,9 @@ describe('<DownloadLetterLink>', () => {
       <DownloadLetterLink {...props} />,
     );
     const tree = getFormDOM(component);
-    const button = tree.getElement('button');
+    const button = tree.getElement('va-button');
 
-    expect(button.textContent).to.equal('Downloading...');
+    expect(button.text).to.equal('Downloading...');
     expect(button.disabled).to.be.true;
   });
 
@@ -106,6 +106,8 @@ describe('<DownloadLetterLink>', () => {
       <DownloadLetterLink {...props} />,
     );
     const tree = getFormDOM(component);
+
+    expect(tree.getElement('va-button').text).to.equal('Download letter');
     expect(tree.textContent).to.contain(
       'Your letter has successfully downloaded.',
     );
@@ -121,7 +123,7 @@ describe('<DownloadLetterLink>', () => {
     );
     const tree = getFormDOM(component);
 
-    expect(tree.textContent).to.contain('Retry download');
+    expect(tree.getElement('va-button').text).to.contain('Retry download');
     expect(tree.textContent).to.contain('Your letter didn’t download.');
   });
 });
