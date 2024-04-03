@@ -186,6 +186,7 @@ src/applications/mhv @department-of-veterans-affairs/vfs-mhv-medical-records @de
 src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv-medical-records @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/mhv-medications @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/secure-messaging-pilot @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv-secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
