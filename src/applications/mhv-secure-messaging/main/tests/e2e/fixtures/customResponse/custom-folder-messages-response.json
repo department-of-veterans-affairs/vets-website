@@ -1,0 +1,112 @@
+{
+  "data": [
+    {
+      "id": "2708300",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2708300,
+        "folderId": 7038175,
+        "messageId": 2708329,
+        "threadPageSize": 40,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "Test",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": "2023-07-07T19:57:15.000Z",
+        "draftDate": null,
+        "senderId": 694294,
+        "senderName": "MAMMADOV, FAZIL",
+        "recipientName": "MHVTP, SAFARI ",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2708300"
+      }
+    },
+    {
+      "id": "2649219",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2649219,
+        "folderId": 7038175,
+        "messageId": 2649220,
+        "threadPageSize": 40,
+        "messageCount": 2,
+        "category": "MEDICATIONS",
+        "subject": "Medication Inquiry",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": "2023-02-20T16:15:32.000Z",
+        "draftDate": null,
+        "senderId": 694294,
+        "senderName": "TZVETANOV, FAZIL  A",
+        "recipientName": "MAMMADOV, FAZIL",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649219"
+      }
+    },
+    {
+      "id": "2405196",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2405196,
+        "folderId": 7038175,
+        "messageId": 2405197,
+        "threadPageSize": 40,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "ALANA DG MESSAGE 001",
+        "triageGroupName": "SM Clinician Redesign TG***01_SLC10",
+        "sentDate": "2022-08-08T16:25:04.000Z",
+        "draftDate": null,
+        "senderId": 263530,
+        "senderName": "ISLAM, MAMMAD  FAZIL",
+        "recipientName": "DG_SLC10_MOMHV7388",
+        "recipientId": 1486187,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2405196"
+      }
+    },
+    {
+      "id": "2402990",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2402990,
+        "folderId": 7038175,
+        "messageId": 2402991,
+        "threadPageSize": 40,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "ALANA DG Message 2",
+        "triageGroupName": "SM Clinician Redesign TG***01_SLC10",
+        "sentDate": "2021-06-16T16:35:33.000Z",
+        "draftDate": null,
+        "senderId": 263530,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientName": "DG_SLC10_MOMHV7388",
+        "recipientId": 1486187,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2402990"
+      }
+    }
+  ]
+}
