@@ -16,12 +16,12 @@ const NewsletterSignup = () => {
         </p>
       </div>
       <div className="vads-l-row">
-        <a href={mhvNewsletterURL} rel="noopener noreferrer" target="_blank">
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-chevron-circle-right fa-lg vads-u-color--link-default vads-u-margin-right--1"
-          />
+        <a
+          className="vads-c-action-link--blue"
+          href={mhvNewsletterURL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           Subscribe to the My HealtheVet newsletter on GovDelivery.com (opens in
           new tab)
         </a>
