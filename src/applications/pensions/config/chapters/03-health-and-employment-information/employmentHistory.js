@@ -23,6 +23,88 @@ EmployerView.propTypes = {
   }),
 };
 
+const generateEmployersUISchema = ({
+  employersKey,
+  employersTitle,
+  employerMessage,
+  jobTypeFieldLabel,
+  jobHoursWeekFieldLabel,
+  jobTitleFieldLabel,
+  employersReviewTitle,
+  showJobDateField,
+  showJobTitleField,
+}) => ({
+  ...titleUI(employersTitle),
+  [employersKey]: {
+    'ui:title': employerMessage,
+    'ui:options': {
+      itemName: 'Job',
+      itemAriaLabel: data => getJobTitleOrType(data.jobTitle),
+      viewField: EmployerView,
+      reviewTitle: employersReviewTitle,
+      keepInPageOnReview: true,
+      customTitle: ' ',
+      confirmRemove: true,
+      useDlWrap: true,
+    },
+    items: {
+      ...(showJobDateField && {
+        jobDate: currentOrPastDateUI('When did you last work?'),
+      }),
+      jobType: {
+        'ui:title': jobTypeFieldLabel,
+        'ui:webComponentField': VaTextInputField,
+      },
+      jobHoursWeek: numberUI({
+        title: jobHoursWeekFieldLabel,
+        width: 'sm',
+        min: 1,
+        max: 168,
+      }),
+      ...(showJobTitleField && {
+        jobTitle: {
+          'ui:title': jobTitleFieldLabel,
+          'ui:webComponentField': VaTextInputField,
+        },
+      }),
+    },
+  },
+});
+
+const generateEmployersSchema = ({
+  employersKey,
+  maxEmployersAmount,
+  showJobTitleField,
+  showJobDateField,
+}) => ({
+  type: 'object',
+  properties: {
+    [employersKey]: {
+      type: 'array',
+      minItems: 1,
+      maxItems: maxEmployersAmount,
+      items: {
+        type: 'object',
+        required: showJobTitleField
+          ? ['jobType', 'jobHoursWeek', 'jobTitle']
+          : ['jobType', 'jobHoursWeek'],
+        properties: {
+          ...(showJobDateField && { jobDate: currentOrPastDateSchema }),
+          jobType: {
+            type: 'string',
+          },
+          jobHoursWeek: numberSchema,
+          ...(showJobTitleField && {
+            jobTitle: {
+              type: 'string',
+            },
+          }),
+        },
+      },
+    },
+  },
+});
+
 /**
  * Function to generate UI Schema and Schema for employment history
  * @param {string} employersKey - Key for employers in the schema
@@ -49,71 +131,23 @@ const generateEmployersSchemas = ({
   showJobTitleField = false,
 }) => {
   return {
-    uiSchema: {
-      ...titleUI(employersTitle),
-      [employersKey]: {
-        'ui:title': employerMessage,
-        'ui:options': {
-          itemName: 'Job',
-          itemAriaLabel: data => getJobTitleOrType(data.jobTitle),
-          viewField: EmployerView,
-          reviewTitle: employersReviewTitle,
-          keepInPageOnReview: true,
-          customTitle: ' ',
-          confirmRemove: true,
-          useDlWrap: true,
-        },
-        items: {
-          ...(showJobDateField && {
-            jobDate: currentOrPastDateUI('When did you last work?'),
-          }),
-          jobType: {
-            'ui:title': jobTypeFieldLabel,
-            'ui:webComponentField': VaTextInputField,
-          },
-          jobHoursWeek: numberUI({
-            title: jobHoursWeekFieldLabel,
-            width: 'sm',
-            min: 1,
-            max: 168,
-          }),
-          ...(showJobTitleField && {
-            jobTitle: {
-              'ui:title': jobTitleFieldLabel,
-              'ui:webComponentField': VaTextInputField,
-            },
-          }),
-        },
-      },
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        [employersKey]: {
-          type: 'array',
-          minItems: 1,
-          maxItems: maxEmployersAmount,
-          items: {
-            type: 'object',
-            required: showJobTitleField
-              ? ['jobType', 'jobHoursWeek', 'jobTitle']
-              : ['jobType', 'jobHoursWeek'],
-            properties: {
-              ...(showJobDateField && { jobDate: currentOrPastDateSchema }),
-              jobType: {
-                type: 'string',
-              },
-              jobHoursWeek: numberSchema,
-              ...(showJobTitleField && {
-                jobTitle: {
-                  type: 'string',
-                },
-              }),
-            },
-          },
-        },
-      },
-    },
+    uiSchema: generateEmployersUISchema({
+      employersKey,
+      employersTitle,
+      employerMessage,
+      jobTypeFieldLabel,
+      jobHoursWeekFieldLabel,
+      jobTitleFieldLabel,
+      employersReviewTitle,
+      showJobDateField,
+      showJobTitleField,
+    }),
+    schema: generateEmployersSchema({
+      employersKey,
+      maxEmployersAmount,
+      showJobTitleField,
+      showJobDateField,
+    }),
   };
 };
 
