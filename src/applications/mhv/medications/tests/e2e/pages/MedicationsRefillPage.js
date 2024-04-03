@@ -92,6 +92,13 @@ class MedicationsRefillPage {
       waitForAnimations: true,
     });
   };
+
+  verifyShippedMedicationOnRefillPage = () => {
+    cy.get('[data-testid="medications-last-shipped-3"]').should(
+      'contain',
+      'Last refill shipped on September 24, 2023',
+    );
+  };
 }
 
 export default MedicationsRefillPage;
