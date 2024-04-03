@@ -83,7 +83,7 @@ describe('DirectDepositClient', () => {
 
     it('records lighthouse analytics event', () => {
       const errorMessage = 'test-error-message';
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.FAILED,
         method: 'PUT',
         extraProperties: {
@@ -100,7 +100,7 @@ describe('DirectDepositClient', () => {
     });
 
     it('records lighthouse analytics event without error', () => {
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.SUCCESSFUL,
         method: 'PUT',
       });

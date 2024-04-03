@@ -586,7 +586,7 @@ $medium-phone-screen: 375px;
 
 .events {
   .form-left-error-bar {
-    background: $color-secondary;
+    background: var(--vads-color-secondary);
     height: 100%;
     left: -24px;
     top: 0;
