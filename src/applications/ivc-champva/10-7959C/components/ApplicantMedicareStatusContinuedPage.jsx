@@ -5,9 +5,11 @@ import ApplicantRelationshipPage, {
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
-const KEYNAME = 'applicantMedicareStatusContinued';
-const PRIMARY = 'medicareContext';
-const SECONDARY = 'otherMedicareContext';
+const PROPERTY_NAMES = {
+  keyname: 'applicantMedicareStatusContinued',
+  primary: 'medicareContext',
+  secondary: 'otherMedicareContext',
+};
 
 export function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
@@ -50,9 +52,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
 export function ApplicantMedicareStatusContinuedPage(props) {
   const newProps = {
     ...props,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
+    ...PROPERTY_NAMES,
     genOp: generateOptions,
   };
   return ApplicantRelationshipPage(newProps);
@@ -60,9 +60,7 @@ export function ApplicantMedicareStatusContinuedPage(props) {
 export function ApplicantMedicareStatusContinuedReviewPage(props) {
   const newProps = {
     ...props,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
+    ...PROPERTY_NAMES,
     genOp: generateOptions,
   };
   return ApplicantRelationshipReviewPage(newProps);
