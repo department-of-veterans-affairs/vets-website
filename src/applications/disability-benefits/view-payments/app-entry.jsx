@@ -1,7 +1,7 @@
-import 'platform/polyfills';
-import './sass/view-payments.scss';
+import '@department-of-veterans-affairs/platform-polyfills';
+import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import startApp from 'platform/startup';
+import './sass/view-payments.scss';
 
 import routes from './routes';
 import reducer from './reducers';

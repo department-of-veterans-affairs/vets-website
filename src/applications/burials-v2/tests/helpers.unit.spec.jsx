@@ -5,7 +5,7 @@ import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
-import { submit } from '../helpers.jsx';
+import { submit } from '../utils/helpers.jsx';
 
 describe('Burials helpers', () => {
   describe('submit', () => {

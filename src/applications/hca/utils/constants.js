@@ -119,6 +119,9 @@ export const HCA_NULL_STATUSES = new Set([
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
 
+// declare previous year for form questions and content
+export const LAST_YEAR = new Date().getFullYear() - 1;
+
 // declare a valid response for the enrollment status endpoint
 export const MOCK_ENROLLMENT_RESPONSE = {
   applicationDate: '2019-04-24T00:00:00.000-06:00',
