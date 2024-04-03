@@ -575,6 +575,9 @@ jobs:
     needs: [build] 
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
