@@ -175,7 +175,9 @@ Provider notes: ${vital.notes}\n\n`,
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--3 no-print">{vitalDisplayName}</h1>
+        <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
+          {vitalDisplayName}
+        </h1>
         <PrintDownload
           download={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
@@ -184,7 +186,8 @@ Provider notes: ${vital.notes}\n\n`,
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
-            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
+            vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
         >
           {`Displaying ${displayNums[0]}–${displayNums[1]} of ${
             records.length
@@ -196,11 +199,11 @@ Provider notes: ${vital.notes}\n\n`,
             currentVitals?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
+                className="vads-u-margin--0 vads-u-padding-y--3 small-screen:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
               >
                 <h3
                   data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
                   {vital.dateTime}
@@ -210,7 +213,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-result"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
@@ -220,7 +223,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-location"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.location}

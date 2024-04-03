@@ -9,7 +9,7 @@ import content from '../../../../../../locales/en/content.json';
 
 describe('hca <WarningStatus>', () => {
   const getData = ({
-    enrollmentStatus = null,
+    statusCode = null,
     applicationDate = null,
     enrollmentDate = null,
     preferredFacility = null,
@@ -17,7 +17,7 @@ describe('hca <WarningStatus>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          enrollmentStatus,
+          statusCode,
           applicationDate,
           enrollmentDate,
           preferredFacility,
@@ -43,7 +43,7 @@ describe('hca <WarningStatus>', () => {
 
   context('when enrollment status is on the `null` list', () => {
     const { mockStore } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.deceased,
+      statusCode: HCA_ENROLLMENT_STATUSES.deceased,
     });
 
     it('should not render any content', () => {
@@ -59,7 +59,7 @@ describe('hca <WarningStatus>', () => {
   context('when enrollment status is not `enrolled`', () => {
     const { mockStore } = getData({
       applicationDate: '2018-01-24T00:00:00.000-06:00',
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.closed,
+      statusCode: HCA_ENROLLMENT_STATUSES.closed,
     });
 
     it('should render the correct content', () => {
@@ -79,7 +79,7 @@ describe('hca <WarningStatus>', () => {
   context('when enrollment status is `enrolled`', () => {
     context('when enrollment date is omitted', () => {
       const { mockStore } = getData({
-        enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+        statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
         applicationDate: '2018-01-24T00:00:00.000-06:00',
         preferredFacility: 'FACILITY NAME',
       });
@@ -100,7 +100,7 @@ describe('hca <WarningStatus>', () => {
 
     context('when the `preferredFacility` is omitted', () => {
       const { mockStore } = getData({
-        enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+        statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
         applicationDate: '2018-01-24T00:00:00.000-06:00',
         enrollmentDate: '2018-01-24T00:00:00.000-06:00',
       });
@@ -121,7 +121,7 @@ describe('hca <WarningStatus>', () => {
 
     context('when all values are valid', () => {
       const { mockStore } = getData({
-        enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+        statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
         applicationDate: '2018-01-24T00:00:00.000-06:00',
         enrollmentDate: '2018-01-24T00:00:00.000-06:00',
         preferredFacility: 'FACILITY NAME',
