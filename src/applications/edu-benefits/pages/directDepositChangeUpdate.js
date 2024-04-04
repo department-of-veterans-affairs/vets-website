@@ -1,10 +1,7 @@
-import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
-
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-
 import React from 'react';
 import { bankAccountChangeLabelsUpdate } from '../utils/labels';
+import { isValidRoutingNumber } from '../utils/helpers';
 
 function isStartUpdate(form) {
   return get('bankAccountChangeUpdate', form) === 'startUpdate';
@@ -93,12 +90,42 @@ export default function createDirectDepositChangePage(schema) {
             formData.bankAccountChangeUpdate !== 'startUpdate',
         },
       },
-      bankAccount: merge({}, bankAccountUI, {
+      // bankAccount: merge({}, bankAccountUI, {
+      //   'ui:options': {
+      //     hideIf: formData => !isStartUpdate(formData),
+      //     expandUnder: 'view:directDepositImageAndText',
+      //   },
+      // }),
+      bankAccount: {
+        'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
         'ui:options': {
           hideIf: formData => !isStartUpdate(formData),
           expandUnder: 'view:directDepositImageAndText',
         },
-      }),
+        accountType: {
+          'ui:title': 'Account type',
+          'ui:widget': 'radio',
+          'ui:options': {
+            labels: {
+              checking: 'Checking',
+              savings: 'Savings',
+            },
+          },
+        },
+        accountNumber: {
+          'ui:title': 'Bank account number',
+          'ui:errorMessages': {
+            required: 'Please enter your bank’s 9-digit routing number',
+          },
+        },
+        routingNumber: {
+          'ui:title': 'Bank routing number',
+          'ui:validations': [isValidRoutingNumber],
+          'ui:errorMessages': {
+            pattern: 'Please enter your bank’s 9-digit routing number',
+          },
+        },
+      },
       'view:noneWarning': {
         'ui:description': bankInfoHelpText,
         'ui:options': {
