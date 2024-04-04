@@ -117,7 +117,7 @@ export const pageHooks = cy => ({
       fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
     });
   },
-  [pagePaths.spouseMarriageHistory]: () => {
+  [pagePaths.currentSpouseFormerMarriages]: () => {
     cy.get('@testData').then(data => {
       data.spouseMarriages.forEach((marriage, index) => {
         cy.fillFieldsInVaCardIfNeeded(
@@ -129,7 +129,7 @@ export const pageHooks = cy => ({
       });
     });
   },
-  [pagePaths.dependents]: () => {
+  [pagePaths.dependentChildren]: () => {
     cy.get('@testData').then(data => {
       data.dependents.forEach((dependent, index) => {
         cy.fillFieldsInVaCardIfNeeded(

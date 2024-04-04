@@ -62,6 +62,8 @@ export default {
   currentSpouseFormerMarriages:
     formChapters.householdInformation.pages.currentSpouseFormerMarriages.path,
   hasDependents: formChapters.householdInformation.pages.hasDependents.path,
+  dependentChildren:
+    formChapters.householdInformation.pages.dependentChildren.path,
   dependentChildInformation:
     formChapters.householdInformation.pages.dependentChildInformation.path,
   dependentChildAddress:
