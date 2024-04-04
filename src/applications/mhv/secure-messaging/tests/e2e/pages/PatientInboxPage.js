@@ -656,4 +656,4 @@ class PatientInboxPage {
     );
   };
 }
-export default new PatientInboxPage();
+export default PatientInboxPage;
