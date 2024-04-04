@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from './utils/constants';
+// import { cy } from 'date-fns/locale';
 
 describe('Secure Messaging Custom Folder AXE Check', () => {
   beforeEach(() => {
@@ -28,6 +29,17 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
 
   it('Verify Filter btn exists', () => {
     PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
+  });
+
+  it('Verify Remove folder btn exists and click on x button on pop-up', () => {
+    PatientMessageCustomFolderPage.verifyRemoveFolder();
+    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.verifyEmptyFolderText();
+    PatientMessageCustomFolderPage.verifyFocusToCloseIcon();
+    PatientMessageCustomFolderPage.clickOnCloseIcon();
+    PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
