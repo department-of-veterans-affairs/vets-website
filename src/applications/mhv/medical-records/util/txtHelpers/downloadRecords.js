@@ -188,7 +188,7 @@ ${records
 ${record.name}
 ${txtLineDotted}
 Date entered: ${record.date}
-Signs and symptoms: ${record.reaction.map(reaction => `${reaction}`).join('')}
+Signs and symptoms: ${record.reaction.map(reaction => `${reaction}`).join(', ')}
 Type of allergy: ${record.type}
 Location: ${record.location}
 Observed or historical: ${record.observedOrReported}
