@@ -33,6 +33,7 @@ export const employersOptions = {
 /** @returns {PageSchema} */
 export const employersSummaryPage = {
   uiSchema: {
+    // cards above this autopopulated by the array builder
     'view:hasEmployment': yesNoUI({
       errorMessages: {
         required: 'Select yes if you have another employer to add',

@@ -33,7 +33,6 @@ import ArrayBuilderCards from './ArrayBuilderCards';
  * nounSingular: "employer"
  * nounPlural: "employers"
  * ```
- * @property  {(item) => string} [getItemName] Used to get the name of the item for various text content. Defaults to `item => item?.name`
  * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. e.g. `item => !item?.name`
  * @property {string} [reviewPath] Will default to the last page. Specify this to manually set it e.g. `"/review-and-submit"`
  * @property {{
