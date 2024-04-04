@@ -12,16 +12,16 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+} from '~/platform/forms-system/src/js/utilities/file';
 
-import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { displayFileSize, DOC_TYPES } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
@@ -45,24 +45,7 @@ const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo(`documentScroll${position}`, options);
 };
-const scrollToError = () => {
-  const errors = document.querySelectorAll('.usa-input-error');
-  if (errors.length) {
-    const errorPosition = getTopPosition(errors[0]);
-    const options = getScrollOptions({ offset: -25 });
-    const errorID = errors[0].querySelector('label').getAttribute('for');
-    const errorInput = document.getElementById(`${errorID}`);
-    const inputType = errorInput.getAttribute('type');
-    scrollTo(errorPosition, options);
 
-    if (inputType === 'file') {
-      // Sends focus to the file input button
-      errors[0].querySelector('label[role="button"]').focus();
-    } else {
-      errorInput.focus();
-    }
-  }
-};
 const { Element } = Scroll;
 
 class AddFilesFormOld extends React.Component {
@@ -177,7 +160,6 @@ class AddFilesFormOld extends React.Component {
     }
 
     this.props.onDirtyFields();
-    setTimeout(scrollToError);
   };
 
   render() {
