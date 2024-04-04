@@ -5,6 +5,8 @@ import {
   validateCurrency,
   validateDependentDate,
   validateGulfWarDates,
+  validateAgentOrangeExposureDates,
+  validateExposureDates,
   validatePolicyNumberGroupCode,
 } from '../../../utils/validation';
 
@@ -129,64 +131,137 @@ describe('ezr validation utils', () => {
     });
   });
 
-  context('when `validateGulfWarDates` executes', () => {
-    const getData = ({
-      spy = () => {},
-      startDate = '1998-04-XX',
-      endDate = '1999-01-XX',
-      fieldName = 'gulfWarEndDate',
-    }) => ({
-      errors: {
-        [fieldName]: {
-          addError: spy,
+  context(
+    'when `validateGulfWarDates`, `validateAgentOrangeExposureDates`, and `validateExposureDates` executes',
+    () => {
+      const getData = ({
+        startDate = '1998-04-XX',
+        endDate = '1999-01-XX',
+        startDateField = '',
+        endDateField = '',
+      }) => {
+        const startDateSpy = sinon.spy();
+        const endDateSpy = sinon.spy();
+
+        return {
+          errors: {
+            [startDateField]: {
+              addError: startDateSpy,
+            },
+            [endDateField]: {
+              addError: endDateSpy,
+            },
+          },
+          fieldData: {
+            [startDateField]: startDate,
+            [endDateField]: endDate,
+          },
+          startDateSpy,
+          endDateSpy,
+        };
+      };
+
+      const testCases = [
+        {
+          validatorFn: validateGulfWarDates,
+          startDateField: 'gulfWarStartDate',
+          endDateField: 'gulfWarEndDate',
         },
-      },
-      fieldData: {
-        gulfWarStartDate: startDate,
-        gulfWarEndDate: endDate,
-      },
-    });
+        {
+          validatorFn: validateAgentOrangeExposureDates,
+          startDateField: 'agentOrangeStartDate',
+          endDateField: 'agentOrangeEndDate',
+        },
+        {
+          validatorFn: validateExposureDates,
+          startDateField: 'toxicExposureStartDate',
+          endDateField: 'toxicExposureEndDate',
+        },
+      ];
 
-    context('when valid data is provided', () => {
-      context('when the start date is prior to the end date', () => {
-        it('should not set an error message', () => {
-          const spy = sinon.spy();
-          const { errors, fieldData } = getData({ spy });
+      testCases.forEach(test => {
+        context('when valid data is provided', () => {
+          context('when the start date is prior to the end date', () => {
+            it('should not set an error message', () => {
+              const { errors, fieldData, startDateSpy, endDateSpy } = getData(
+                test,
+              );
 
-          it('should not set error message', () => {
-            validateGulfWarDates(errors, fieldData);
-            expect(spy.called).to.be.false;
+              it('should not set error message', () => {
+                test.validatorFn(errors, fieldData);
+                expect(startDateSpy.called).to.be.false;
+                expect(endDateSpy.called).to.be.false;
+              });
+            });
+
+            context('when the start date is the same as the end date', () => {
+              const { errors, fieldData, startDateSpy, endDateSpy } = getData({
+                ...test,
+                startDate: '1998-04-XX',
+                endDate: '1998-04-XX',
+              });
+
+              it('should not set error message', () => {
+                test.validatorFn(errors, fieldData);
+                expect(startDateSpy.called).to.be.false;
+                expect(endDateSpy.called).to.be.false;
+              });
+            });
+
+            context(
+              'when no month is given and the start year is the same as the end year',
+              () => {
+                const { errors, fieldData, startDateSpy, endDateSpy } = getData(
+                  {
+                    ...test,
+                    startDate: '1998-XX-XX',
+                    endDate: '1998-XX-XX',
+                  },
+                );
+
+                it('should not set error message', () => {
+                  test.validatorFn(errors, fieldData);
+                  expect(startDateSpy.called).to.be.false;
+                  expect(endDateSpy.called).to.be.false;
+                });
+              },
+            );
           });
         });
 
-        context('when the start date is the same as the end date', () => {
-          const spy = sinon.spy();
-          const { errors, fieldData } = getData({
-            endDate: '1998-04-XX',
-            spy,
+        context('when invalid data is provided', () => {
+          context('when end date is before start date', () => {
+            const { errors, fieldData, startDateSpy, endDateSpy } = getData({
+              ...test,
+              startDate: '1998-04-XX',
+              endDate: '1998-03-XX',
+            });
+
+            it('should set an error message', () => {
+              test.validatorFn(errors, fieldData);
+              expect(startDateSpy.called).to.be.false;
+              expect(endDateSpy.called).to.be.true;
+            });
           });
 
-          it('should not set error message', () => {
-            validateGulfWarDates(errors, fieldData);
-            expect(spy.called).to.be.false;
-          });
+          context(
+            'when only given the year and the end year is before the start year',
+            () => {
+              const { errors, fieldData, startDateSpy, endDateSpy } = getData({
+                ...test,
+                startDate: '1998-XX-XX',
+                endDate: '1997-XX-XX',
+              });
+
+              it('should set an error message', () => {
+                test.validatorFn(errors, fieldData);
+                expect(startDateSpy.called).to.be.false;
+                expect(endDateSpy.called).to.be.true;
+              });
+            },
+          );
         });
       });
-    });
-
-    context('when invalid data is provided', () => {
-      context('when end date is before start date', () => {
-        const spy = sinon.spy();
-        const { errors, fieldData } = getData({
-          endDate: '1998-03-XX',
-          spy,
-        });
-
-        it('should set an error message', () => {
-          validateGulfWarDates(errors, fieldData);
-          expect(spy.called).to.be.true;
-        });
-      });
-    });
-  });
+    },
+  );
 });
