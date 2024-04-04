@@ -62,11 +62,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   return (
     <div>
       <h2 className="vads-u-margin-top--4" data-testid="renew-section-subtitle">
-        If your prescription isn’t ready to refill
+        If you can’t find the prescription you’re looking for
       </h2>
       <p className="vads-u-margin-y--3">
-        You may need to renew it. Here are some recent prescriptions you may
-        need to renew.{' '}
+        You may need to renew it.{' '}
         <va-link
           href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
           text="Learn how to renew prescriptions"
@@ -74,7 +73,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         />
       </p>
       <p>
-        <strong>Note:</strong> If your prescription isn’t in this list, find it
+        <strong>Note:</strong> If your prescription isn’t listed here, find it
         in your medications list.{' '}
         <Link data-testid="medications-page-link" to="/">
           Go to your medications list
