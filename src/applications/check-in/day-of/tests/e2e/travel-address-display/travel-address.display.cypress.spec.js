@@ -45,7 +45,7 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
       TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('milage');
+      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
