@@ -44,8 +44,12 @@ const handleDirectDepositApi = (action, state) => {
     ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
     : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
 
+  const restOfAttributes = toeLightHouseDgiDirectDeposit
+    ? action?.response?.data?.attributes?.paymentAccount
+    : action?.response?.data?.attributes;
+
   return {
-    ...action?.response?.data?.attributes,
+    ...restOfAttributes,
     [formFields.originalAccountNumber]: accountNumber,
     [formFields.originalRoutingNumber]: originalRoutingNumber,
     [formFields.routingNumber]: routingNumber,
