@@ -47,6 +47,7 @@ class IntroductionPage extends React.Component {
       startText: 'Start your Claim',
       gaStartEventName: 'decision-reviews-va20-0995-start-form',
       useActionLinks: true,
+      pathname: '/introduction',
     };
 
     // Check LOA3 first, then check canApply (true when LOA3 & has SSN)
