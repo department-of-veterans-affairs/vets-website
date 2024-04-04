@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -101,7 +99,7 @@ function getToggleValue(toggles, name) {
  */
 export const setup = (cy, toggles = mockFeatureToggles) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
-  window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+  window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
   window.sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
 
