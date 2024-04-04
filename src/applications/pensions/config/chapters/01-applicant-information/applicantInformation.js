@@ -44,6 +44,8 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 
 /** @type {PageSchema} */
 export default {
+  path: 'applicant/information',
+  title: 'Applicant information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
     'ui:description': applicantDescription,

@@ -42,11 +42,11 @@ const handleDirectDepositApi = action => {
   return {
     ...action?.response?.data?.attributes,
     [formFields.originalAccountNumber]:
-      action?.response?.data?.attributes?.accountNumber,
+      action?.response?.data?.attributes?.paymentAccount?.accountNumber,
     [formFields.originalRoutingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+      action?.response?.data?.attributes?.paymentAccount?.routingNumber,
     [formFields.routingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+      action?.response?.data?.attributes?.paymentAccount?.routingNumber,
   };
 };
 
