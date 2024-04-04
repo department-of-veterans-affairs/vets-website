@@ -3,9 +3,13 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isUnder65 } from './helpers';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Current employment',
+  path: 'employment/current',
+  depends: isUnder65,
   uiSchema: {
     ...titleUI('Current employment'),
     currentEmployment: yesNoUI({

@@ -62,7 +62,7 @@ function mockPrescription(n = 0, attrs = {}) {
           isLocalTracking: false,
           ndc: '00113002240',
           othersInSamePackage: false,
-          rxNumber: 2_719_780,
+          rxNumber: 2719780,
           stationNumber: 995,
           trackingNumber: '332980271979930000002300',
           viewImageDisplayed: false,

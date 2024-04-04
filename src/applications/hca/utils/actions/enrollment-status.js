@@ -25,8 +25,8 @@ export function fetchEnrollmentStatus(
   simulate = false,
 ) {
   return (dispatch, getState) => {
-    const { isLoadingApplicationStatus } = selectEnrollmentStatus(getState());
-    if (isLoadingApplicationStatus) return null;
+    const { loading } = selectEnrollmentStatus(getState());
+    if (loading) return null;
 
     const simulateServerLocally = env.isLocalhost() && simulate;
     const { FETCH_ENROLLMENT_STATUS_STARTED } = ENROLLMENT_STATUS_ACTIONS;

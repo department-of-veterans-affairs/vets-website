@@ -51,11 +51,14 @@ function getContent({ data, flowType, formData }) {
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
-        <h3 className="vaos-appts__block-label">Your contact details</h3>
-        <span>
+        <h2 className="vads-u-font-size--base vaos-appts__block-label">
+          Your contact details
+        </h2>
+        <span data-dd-privacy="mask">
           {data.email}
           <br />
           <VaTelephone
+            data-dd-privacy="mask"
             notClickable
             contact={data.phoneNumber}
             data-testid="patient-telephone"
@@ -73,27 +76,27 @@ function getContent({ data, flowType, formData }) {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
         Your contact information
       </h2>
-      <span>
+      <span data-dd-privacy="mask">
         <strong>Email: </strong>
         {data.email}
         <br />
         <strong>Phone number: </strong>
         <VaTelephone
+          data-dd-privacy="mask"
           notClickable
           contact={data.phoneNumber}
           data-testid="patient-telephone"
         />
-        {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-          flowType === FLOW_TYPES.REQUEST && (
-            <>
-              <br />
-              <strong>Best time to call: </strong>
-              <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
-            </>
-          )}
+        {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE && (
+          <>
+            <br />
+            <strong>Best time to call: </strong>
+            <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+          </>
+        )}
       </span>
     </>
   );
@@ -109,7 +112,10 @@ export default function ContactDetailSection({ data }) {
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
-          <div className="vads-u-flex--1 vads-u-padding-right--1">
+          <div
+            className="vads-u-flex--1 vads-u-padding-right--1"
+            data-dd-privacy="mask"
+          >
             {getContent({ data, flowType, formData })}
           </div>
           <div>
