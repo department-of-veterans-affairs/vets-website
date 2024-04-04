@@ -27,6 +27,12 @@ export const UPDATE_TOGGLE_ENROLLMENT_ERROR = 'UPDATE_TOGGLE_ENROLLMENT_ERROR';
 export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
 export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
 export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
+export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
+
+export const handleSuggestedAddressPicked = value => ({
+  type: SET_SUGGESTED_ADDRESS_PICKED,
+  payload: value,
+});
 
 export const updateToggleEnrollmentSuccess = toggleEnrollmentSuccess => ({
   type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
@@ -159,18 +165,24 @@ export const verifyEnrollmentAction = () => {
   };
 };
 
-export const validateAddress = (formData, fullName) => async dispatch => {
+export const validateAddress = (formData, fullName) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: ADDRESS_VALIDATION_START });
   try {
-    const validationResponse = await apiRequest('/profile/address_validation', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    const validationResponse = await apiRequest(
+      'http://localhost:8080/profile/address_validation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      },
+    );
 
     const {
       address,
-      addressMetaData: { confidenceScore },
+      addressMetaData: { confidenceScore, addressType },
     } = validationResponse.addresses[0];
 
     let stateAndZip = {};
@@ -185,7 +197,13 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         zipCode: address.internationalPostalCode,
       };
     }
-    if (confidenceScore === 100) {
+    const {
+      suggestedAddress: { isSuggestedAddressPicked },
+    } = getState();
+    if (
+      confidenceScore === 100 ||
+      (isSuggestedAddressPicked && addressType === 'International')
+    ) {
       const fields = {
         veteranName: fullName,
         address1: address.addressLine1,

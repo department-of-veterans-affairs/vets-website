@@ -252,15 +252,9 @@ const ChangeOfAddressForm = ({
                   return result;
                 },
               );
-              // adds province as a requiredField
-              const updateAddressRequiredData = [
-                ...tempAddressRequiredData,
-                'province',
-                'internationalPostalCode',
-              ];
               setAddressSchema(
                 removeObjectKeys(
-                  createFormSchema(updateAddressRequiredData),
+                  createFormSchema([...tempAddressRequiredData]),
                   [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
                   'schema',
                 ),

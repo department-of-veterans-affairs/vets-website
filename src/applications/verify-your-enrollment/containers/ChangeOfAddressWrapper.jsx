@@ -113,8 +113,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setEditFormData({});
       sessionStorage.removeItem('address');
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     },
-    [error, response, validationError],
+    [dispatch, error, response, validationError],
   );
 
   useEffect(

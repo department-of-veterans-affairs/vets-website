@@ -178,10 +178,6 @@ export const getUiSchema = () => {
     province: {
       'ui:title': 'State/Province/Region',
       'ui:autocomplete': 'address-level1',
-      'ui:errorMessages': {
-        required: 'State/Province/Region is required',
-        pattern: `Please enter a valid state, province, or region`,
-      },
       'ui:validations': [validateAsciiCharacters],
     },
     zipCode: {
@@ -195,10 +191,6 @@ export const getUiSchema = () => {
     internationalPostalCode: {
       'ui:title': 'International postal code',
       'ui:autocomplete': 'postal-code',
-      'ui:errorMessages': {
-        required: 'Postal code is required',
-        pattern: 'Please enter a valid postal code',
-      },
       'ui:validations': [validateAsciiCharacters],
     },
   };
