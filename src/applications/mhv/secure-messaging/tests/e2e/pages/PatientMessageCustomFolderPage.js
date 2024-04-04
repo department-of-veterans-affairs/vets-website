@@ -249,9 +249,12 @@ class PatientMessageCustomFolderPage {
   };
 
   tabAndPressToRemoveFolderButton = () => {
-    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER)
-      .should('have.text', Data.REMOVE_FOLDER)
-      .realPress('Enter');
+    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER).should(
+      'have.text',
+      Data.REMOVE_FOLDER,
+    );
+
+    cy.realPress('Enter');
   };
 
   verifyEmptyFolderText = () => {
@@ -275,7 +278,7 @@ class PatientMessageCustomFolderPage {
       .shadow()
       .find('button')
       .eq(0)
-      .realClick();
+      .click();
   };
 
   verifyFocusOnRemoveFolderButton = () => {
