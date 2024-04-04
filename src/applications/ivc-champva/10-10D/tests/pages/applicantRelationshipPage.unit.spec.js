@@ -10,7 +10,7 @@ import {
 } from '../../../shared/tests/pages/pageTests.spec';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
-} from '../../pages/ApplicantRelationshipPage';
+} from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import mockData from '../fixtures/data/test-data.json';
 
 testComponentRender(
