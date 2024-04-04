@@ -110,10 +110,8 @@ const MoveMessageToFolderBtn = props => {
         data-testid="message-actions-buttons-modal"
       >
         <VaModal
-          uswds={false}
           id="move-to-modal"
           data-testid="move-to-modal"
-          large
           modalTitle="Move to:"
           onCloseEvent={closeModal}
           visible={isMoveModalVisible}
