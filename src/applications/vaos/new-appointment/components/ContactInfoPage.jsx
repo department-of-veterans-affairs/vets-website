@@ -111,7 +111,9 @@ function ContactInformationParagraph() {
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 
-function Description({ flowType, userData }) {
+function Description() {
+  const flowType = useSelector(getFlowType);
+
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
@@ -128,20 +130,8 @@ function Description({ flowType, userData }) {
       </>
     );
 
-  if (userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
-    return <ContactInformationParagraph />;
-
-  return (
-    <p>
-      We’ll use this information if we need to contact you about your
-      appointment.
-    </p>
-  );
+  return <ContactInformationParagraph />;
 }
-Description.propTypes = {
-  flowType: PropTypes.elementType,
-  userData: PropTypes.object,
-};
 
 export default function ContactInfoPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -171,7 +161,7 @@ export default function ContactInfoPage({ changeCrumb }) {
   }, []);
 
   const uiSchema = {
-    'ui:description': <Description flowType={flowType} userData={userData} />,
+    'ui:description': <Description />,
     phoneNumber: {
       ...phoneConfig,
       'ui:errorMessages': {
