@@ -64,7 +64,7 @@ class TravelPages {
         .should('have.attr', 'href')
         .and('contain', 'next-of-kin');
     }
-    if (page === 'vehicle') {
+    if (page === 'mileage') {
       cy.get('a[data-testid="back-button"]')
         .should('have.attr', 'href')
         .and('contain', 'travel-pay');
@@ -77,12 +77,12 @@ class TravelPages {
     if (page === 'mileage') {
       cy.get('a[data-testid="back-button"]')
         .should('have.attr', 'href')
-        .and('contain', 'travel-address');
+        .and('contain', 'travel-pay');
     }
     if (page === 'review') {
       cy.get('a[data-testid="back-button"]')
         .should('have.attr', 'href')
-        .and('contain', 'travel-mileage');
+        .and('contain', 'travel-address');
     }
   };
 
