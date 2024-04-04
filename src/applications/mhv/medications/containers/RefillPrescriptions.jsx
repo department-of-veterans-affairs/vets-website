@@ -22,6 +22,11 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [fullRefillList, setFullRefillList] = useState(refillList);
   const [fullRenewList, setFullRenewList] = useState(refillList);
+  const [refillResult, setRefillResult] = useState({
+    status: 'notStarted',
+    successfulIds: [],
+    failedIds: [],
+  });
 
   // Selectors
   const selectedSortOption = useSelector(
@@ -35,9 +40,18 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   ]);
 
   // Functions
-  const onRequestRefills = () => {
+  const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      fillRxs(selectedRefillList);
+      setRefillResult({ ...refillResult, status: 'inProgress' });
+      updateLoadingStatus(true);
+      const response = await fillRxs(selectedRefillList);
+      const failedIds = response?.failedIds || [];
+      const successfulIds = response?.successfulIds || [];
+      setRefillResult({
+        status: failedIds.length > 0 ? 'failed' : 'success',
+        failedIds,
+        successfulIds,
+      });
     }
   };
   const onSelectPrescription = id => {
@@ -58,29 +72,33 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       if (fullRefillList === undefined || fullRefillList.length === 0) {
         updateLoadingStatus(true);
       }
-      getRefillablePrescriptionList().then(({ data }) => {
-        const fullList = data
-          .map(({ attributes }) => attributes)
-          .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
-        const reduceBy = ([refillable, renewable], rx) => {
-          if (
-            (rx.dispStatus === dispStatusObj.active &&
-              rx.refillRemaining > 0) ||
-            (rx.dispStatus === dispStatusObj.activeParked &&
-              (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
-          ) {
-            return [[...refillable, rx], renewable];
-          }
-          return [refillable, [...renewable, rx]];
-        };
-        const [refillableList, renewableList] = fullList.reduce(reduceBy, [
-          [],
-          [],
-        ]);
-        setFullRefillList(refillableList);
-        setFullRenewList(renewableList);
-        updateLoadingStatus(false);
-      });
+      if (refillResult.status !== 'inProgress') {
+        getRefillablePrescriptionList().then(({ data }) => {
+          const fullList = data
+            .map(({ attributes }) => attributes)
+            .sort((a, b) =>
+              a.prescriptionName.localeCompare(b.prescriptionName),
+            );
+          const reduceBy = ([refillable, renewable], rx) => {
+            if (
+              (rx.dispStatus === dispStatusObj.active &&
+                rx.refillRemaining > 0) ||
+              (rx.dispStatus === dispStatusObj.activeParked &&
+                (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
+            ) {
+              return [[...refillable, rx], renewable];
+            }
+            return [refillable, [...renewable, rx]];
+          };
+          const [refillableList, renewableList] = fullList.reduce(reduceBy, [
+            [],
+            [],
+          ]);
+          setFullRefillList(refillableList);
+          setFullRenewList(renewableList);
+          updateLoadingStatus(false);
+        });
+      }
       dispatch(
         setBreadcrumbs(
           [
@@ -99,8 +117,109 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     },
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption],
+    [dispatch, location.pathname, selectedSortOption, refillResult],
   );
+
+  const failedNotification = () => {
+    if (refillResult.successfulIds.length === 0) {
+      return (
+        <div className="vads-u-margin-y--1">
+          <va-alert status="error" setFocus aria-live="polite" uswds>
+            <h3
+              className="vads-u-margin-y--0"
+              data-testid="success-message-title"
+            >
+              Request not submitted
+            </h3>
+            <p>We’re sorry. There’s a problem with our system.</p>
+            <p>
+              To request refills, call the pharmacy number on your prescription
+              label.
+            </p>
+          </va-alert>
+        </div>
+      );
+    }
+    return (
+      <div className="vads-u-margin-y--2">
+        <va-alert status="error" setFocus aria-live="polite" uswds>
+          <h3
+            className="vads-u-margin-y--0"
+            data-testid="success-message-title"
+          >
+            Only part of your request was submitted
+          </h3>
+          <p data-testid="success-message-description">
+            We’re sorry. There’s a problem with our system. We couldn’t submit
+            these refill requests:
+          </p>
+          <ul className="va-list--disc">
+            {fullRefillList?.map((prescription, idx) => {
+              return refillResult.failedIds.includes(
+                String(prescription.prescriptionId),
+              ) ? (
+                <li
+                  className="vads-u-padding-y--0 vads-u-font-weight--bold"
+                  key={idx}
+                >
+                  {prescription?.prescriptionName}
+                </li>
+              ) : (
+                <></>
+              );
+            })}
+          </ul>
+          <p
+            className="vads-u-margin-bottom--0"
+            data-testid="success-message-description"
+          >
+            Try requesting these refills again. If it still doesn’t work, call
+            your VA pharmacy.
+          </p>
+        </va-alert>
+      </div>
+    );
+  };
+  const successNotification = () => {
+    return (
+      <div className="vads-u-margin-y--2">
+        <va-alert status="success" setFocus aria-live="polite" uswds>
+          <h3
+            className="vads-u-margin-y--0"
+            data-testid="success-message-title"
+          >
+            Refill prescriptions
+          </h3>
+          <ul className="va-list--disc">
+            {fullRefillList?.map((prescription, idx) => {
+              if (
+                refillResult.successfulIds.includes(
+                  String(prescription.prescriptionId),
+                )
+              ) {
+                return (
+                  <li className="vads-u-padding-y--0" key={idx}>
+                    {prescription?.prescriptionName}
+                  </li>
+                );
+              }
+              return <></>;
+            })}
+          </ul>
+          <p
+            className="vads-u-margin-y--0"
+            data-testid="success-message-description"
+          >
+            For updates on your refill requests, go to your medications list.{' '}
+            <br />
+            <Link data-testid="back-to-medications-page-link" to="/">
+              Go to your medications list
+            </Link>
+          </p>
+        </va-alert>
+      </div>
+    );
+  };
 
   const content = () => {
     if (!showRefillContent) {
@@ -124,98 +243,109 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             Back to Medications
           </Link>
         </span>
-        <div>
-          <h1
-            className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
-            data-testid="refill-page-title"
-          >
-            Refill prescriptions
-          </h1>
-          <h2
-            className="vads-u-margin-top--3"
-            data-testid="refill-page-subtitle"
-          >
-            Ready to refill
-          </h2>
-          <p
-            className="vads-u-margin-y--3"
-            data-testid="refill-page-list-count"
-          >
-            You have {fullRefillList.length}{' '}
-            {`prescription${fullRefillList.length !== 1 ? 's' : ''}`} ready to
-            refill.
-          </p>
-          <VaButton
-            secondary
-            uswds
-            type="button"
-            style={{ fontWeight: 'bold' }}
-            className="vads-u-font-weight--bold vads-u-background-color--white vads-u-margin-bottom--3 vads-u-margin-x--0 vads-u-padding--0"
-            id="select-all-button"
-            aria-describedby="select-all-button"
-            data-testid="select-all-button"
-            onClick={() => onSelectAll()}
-            text="Select all"
-          />
+        {fullRefillList?.length > 0 && (
           <div>
-            {fullRefillList.slice().map((prescription, idx) => (
-              <div key={idx} className="vads-u-margin-bottom--2">
-                <input
-                  data-testid={`refill-prescription-checkbox-${idx}`}
-                  type="checkbox"
-                  checked={
-                    selectedRefillList.includes(prescription.prescriptionId) ||
-                    false
-                  }
-                  id={`checkbox-${prescription.prescriptionId}`}
-                  name={prescription.prescriptionId}
-                  className="vads-u-margin-y--0"
-                  onChange={e =>
-                    e.type === 'change' &&
-                    onSelectPrescription(prescription.prescriptionId)
-                  }
-                />
-                <label
-                  htmlFor={`checkbox-${prescription.prescriptionId}`}
-                  className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
-                >
-                  {prescription.prescriptionName}
-                </label>
-                <p
-                  className="vads-u-margin-left--4 vads-u-margin-top--0"
-                  data-testid={`refill-prescription-details-${
-                    prescription.prescriptionNumber
-                  }`}
-                >
-                  Prescription number: {prescription.prescriptionNumber}
-                  <br />
-                  <span data-testid={`refill-last-filled-${idx}`}>
-                    Last filled on{' '}
-                    {dateFormat(
-                      prescription.sortedDispensedDate ||
-                        prescription.dispensedDate,
-                      'MMMM D, YYYY',
-                    )}
-                  </span>
-                  <br />
-                  {prescription.refillRemaining} refills left
-                </p>
-              </div>
-            ))}
+            <h1
+              className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
+              data-testid="refill-page-title"
+            >
+              Refill prescriptions
+            </h1>
+            {refillResult.status === 'failed' && failedNotification()}
+            {refillResult.successfulIds.length > 0 && successNotification()}
+            <h2
+              className="vads-u-margin-top--3"
+              data-testid="refill-page-subtitle"
+            >
+              Ready to refill
+            </h2>
+            <p
+              className="vads-u-margin-y--3"
+              data-testid="refill-page-list-count"
+            >
+              You have {fullRefillList.length}{' '}
+              {`prescription${fullRefillList.length !== 1 ? 's' : ''}`} ready to
+              refill.
+            </p>
+            {fullRefillList?.length > 1 && (
+              <VaButton
+                secondary
+                uswds
+                type="button"
+                style={{ fontWeight: 'bold' }}
+                className="vads-u-font-weight--bold vads-u-background-color--white vads-u-margin-bottom--3 vads-u-margin-x--0 vads-u-padding--0"
+                id="select-all-button"
+                aria-describedby="select-all-button"
+                data-testid="select-all-button"
+                onClick={() => onSelectAll()}
+                text="Select all"
+              />
+            )}
+            <div>
+              {fullRefillList.slice().map((prescription, idx) => (
+                <div key={idx} className="vads-u-margin-bottom--2">
+                  <input
+                    data-testid={`refill-prescription-checkbox-${idx}`}
+                    type="checkbox"
+                    checked={
+                      selectedRefillList.includes(
+                        prescription.prescriptionId,
+                      ) || false
+                    }
+                    id={`checkbox-${prescription.prescriptionId}`}
+                    name={prescription.prescriptionId}
+                    className="vads-u-margin-y--0"
+                    onChange={e =>
+                      e.type === 'change' &&
+                      onSelectPrescription(prescription.prescriptionId)
+                    }
+                  />
+                  <label
+                    htmlFor={`checkbox-${prescription.prescriptionId}`}
+                    className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
+                  >
+                    {prescription.prescriptionName}
+                  </label>
+                  <p
+                    className="vads-u-margin-left--4 vads-u-margin-top--0"
+                    data-testid={`refill-prescription-details-${
+                      prescription.prescriptionNumber
+                    }`}
+                  >
+                    Prescription number: {prescription.prescriptionNumber}
+                    <br />
+                    <span data-testid={`refill-last-filled-${idx}`}>
+                      Last filled on{' '}
+                      {dateFormat(
+                        prescription.sortedDispensedDate ||
+                          prescription.dispensedDate,
+                        'MMMM D, YYYY',
+                      )}
+                    </span>
+                    <br />
+                    {prescription.refillRemaining} refills left
+                  </p>
+                </div>
+              ))}
+            </div>
+            <VaButton
+              uswds
+              type="button"
+              className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1"
+              id="request-refill-button"
+              aria-describedby="request-refill-button"
+              data-testid="request-refill-button"
+              onClick={() => onRequestRefills()}
+              text={`Request ${
+                selectedRefillListLength > 0 ? selectedRefillListLength : ''
+              } refill${
+                selectedRefillListLength === 1 || fullRefillList.length === 1
+                  ? ''
+                  : 's'
+              }`}
+            />
           </div>
-          <VaButton
-            uswds
-            type="button"
-            className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1"
-            id="request-refill-button"
-            aria-describedby="request-refill-button"
-            data-testid="request-refill-button"
-            onClick={() => onRequestRefills()}
-            text={`Request ${
-              selectedRefillListLength > 0 ? selectedRefillListLength : ''
-            } refill${selectedRefillListLength !== 1 ? 's' : ''}`}
-          />
-        </div>
+        )}
         <RenewablePrescriptions renewablePrescriptionsList={fullRenewList} />
       </div>
     );
