@@ -149,6 +149,30 @@ class MedicationsRefillPage {
       `[data-testid="refill-prescription-details-${prescription}"]`,
     ).should('contain', refillsRemaining);
   };
+
+  verifyRxRenewSectionSubHeadingOnRefillPage = () => {
+    cy.get('[data-testid="renew-section-subtitle"]').should(
+      'contain',
+      'prescription isn’t ready',
+    );
+  };
+
+  clickMedicationInRenewSection = expiredRx => {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00013264681',
+      expiredRx,
+    ).as('rxImage');
+    cy.get('[data-testid="medication-details-page-link-1"]').should('exist');
+    cy.get('[data-testid="medication-details-page-link-1"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyExpiredRxOnRenewSection = rxStatus => {
+    cy.get('[data-testid="status"]').should('contain', rxStatus);
+  };
 }
 
 export default MedicationsRefillPage;
