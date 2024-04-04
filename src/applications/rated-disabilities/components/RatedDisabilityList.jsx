@@ -65,11 +65,11 @@ const noDisabilityRatingContent = errorCode => {
   );
 };
 
-const RatedDisabilityList = ({
+export default function RatedDisabilityList({
   fetchRatedDisabilities,
   ratedDisabilities,
   sortToggle,
-}) => {
+}) {
   const [sortBy, setSortBy] = useState('effectiveDate.desc');
 
   useEffect(
@@ -141,7 +141,7 @@ const RatedDisabilityList = ({
       </div>
     </div>
   );
-};
+}
 
 RatedDisabilityList.propTypes = {
   fetchRatedDisabilities: PropTypes.func.isRequired,
@@ -151,5 +151,3 @@ RatedDisabilityList.propTypes = {
   }),
   sortToggle: PropTypes.bool,
 };
-
-export default RatedDisabilityList;
