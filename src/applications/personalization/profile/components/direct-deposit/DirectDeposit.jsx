@@ -21,6 +21,7 @@ import { TemporaryOutage } from './alerts/TemporaryOutage';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
 import { AccountInfoView } from './AccountInfoView';
 import { AccountUpdateView } from './AccountUpdateView';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { FraudVictimSummary } from './FraudVictimSummary';
 import { PaymentHistoryCard } from './PaymentHistoryCard';
 import { ProfileInfoCard } from '../ProfileInfoCard';
@@ -49,6 +50,8 @@ export const DirectDeposit = () => {
     isBlocked,
     useOAuth,
     showUpdateSuccess,
+    formData,
+    setFormData,
   } = useDirectDeposit();
 
   const {
@@ -126,7 +129,22 @@ export const DirectDeposit = () => {
   }
 
   const cardDataValue = ui.isEditing ? (
-    <AccountUpdateView isSaving={ui.isSaving} error={error} />
+    <AccountUpdateView
+      isSaving={ui.isSaving}
+      error={error}
+      formData={formData}
+      setFormData={setFormData}
+    >
+      <LoadingButton
+        aria-label="save your bank information for benefits"
+        type="submit"
+        loadingText="saving bank information"
+        className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
+        isLoading={ui.isSaving}
+      >
+        Save
+      </LoadingButton>
+    </AccountUpdateView>
   ) : (
     <AccountInfoView
       showUpdateSuccess={showUpdateSuccess}
