@@ -10,7 +10,7 @@ import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj } from '../util/constants';
+import { dispStatusObj, medicationsUrls } from '../util/constants';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -85,12 +85,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         setBreadcrumbs(
           [
             {
-              url: `/my-health/medications/1`,
+              url: `${medicationsUrls.MEDICATIONS_URL}/1`,
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/refill/`,
+            url: `${medicationsUrls.MEDICATIONS_REFILL}`,
             label: 'Refill',
           },
         ),
