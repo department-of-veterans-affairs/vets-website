@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
@@ -60,9 +61,9 @@ const bankInfoHelpText = (
 const directDepositDescription = (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
     <p>
-      Direct deposit information is not mandatory at this time. However,
-      benefits cannot be awarded without this information per U.S. Treasury
-      regulation 31 C.F.R. § 208.3.
+      Direct deposit information is required at this time. However, benefits
+      cannot be awarded without this information per U.S. Treasury regulation 31
+      C.F.R. § 208.3.
     </p>
     <img
       src="/img/direct-deposit-check-guide.svg"
@@ -70,6 +71,10 @@ const directDepositDescription = (
     />
   </div>
 );
+
+const isFieldRequired = formData => {
+  return formData.bankAccountChangeUpdate === 'startUpdate';
+};
 
 export default function createDirectDepositChangePage(schema) {
   const { bankAccountChangeUpdate, bankAccount } = schema.definitions;
@@ -81,6 +86,7 @@ export default function createDirectDepositChangePage(schema) {
       'ui:title': 'Direct deposit',
       bankAccountChangeUpdate: {
         'ui:title': 'Benefit payment method:',
+        'ui:required': formData => formData !== undefined,
         'ui:widget': 'radio',
         'ui:options': {
           labels: bankAccountChangeLabelsUpdate,
@@ -97,6 +103,14 @@ export default function createDirectDepositChangePage(schema) {
         'ui:options': {
           hideIf: formData => !isStartUpdate(formData),
           expandUnder: 'view:directDepositImageAndText',
+          updateSchema: (formData, _schema) =>
+            set(
+              'required',
+              isFieldRequired(formData)
+                ? ['accountType', 'routingNumber', 'accountNumber']
+                : [],
+              _schema,
+            ),
         },
       }),
       'view:noneWarning': {
