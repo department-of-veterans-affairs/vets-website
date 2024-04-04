@@ -56,10 +56,9 @@ const CreateFolderModal = props => {
 
   return (
     <VaModal
-      uswds={false}
       className="modal"
       visible={isCreateNewModalVisible}
-      large="true"
+      large
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
       data-testid="create-folder-modal"
@@ -69,7 +68,8 @@ const CreateFolderModal = props => {
         data-dd-privacy="mask"
         ref={folderNameInput}
         label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
-        className="input vads-u-margin--0"
+        className="input"
+        width="2xl"
         value={folderName}
         onInput={e => {
           setFolderName(e.target.value);
@@ -83,14 +83,14 @@ const CreateFolderModal = props => {
         charcount
       />
       <va-button
-        uswds={false}
+        class="vads-u-margin-top--1"
         text="Create"
         onClick={confirmNewFolder}
         data-testid="create-folder-button"
         data-dd-action-name="Confirm Create New Folder Button"
       />
       <va-button
-        uswds={false}
+        class="vads-u-margin-top--1"
         secondary="true"
         text="Cancel"
         onClick={closeNewModal}
