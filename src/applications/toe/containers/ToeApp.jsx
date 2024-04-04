@@ -31,6 +31,7 @@ function ToeApp({
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [lightHouseFlag, setLighthouseFlag] = useState(false);
 
   useEffect(
     () => {
@@ -108,8 +109,11 @@ function ToeApp({
         });
       }
       if (
-        toeLightHouseDgiDirectDeposit !== formData.toeLightHouseDgiDirectDeposit
+        toeLightHouseDgiDirectDeposit !==
+        formData?.toeLightHouseDgiDirectDeposit
       ) {
+        setLighthouseFlag(true);
+
         setFormData({
           ...formData,
           toeLightHouseDgiDirectDeposit,
@@ -129,12 +133,18 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-      if (!fetchedDirectDeposit) {
+
+      if (!fetchedDirectDeposit && lightHouseFlag) {
         setFetchedDirectDeposit(true);
-        getDirectDeposit(toeLightHouseDgiDirectDeposit);
+        getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+    [
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      user?.login?.currentlyLoggedIn,
+      lightHouseFlag,
+    ],
   );
 
   return (
@@ -174,16 +184,18 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: state.form?.data?.sponsors,
-  sponsorsInitial: state?.data?.sponsors,
-  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-  user: state.user,
-});
+const mapStateToProps = state => {
+  return {
+    ...getAppData(state),
+    formData: state.form?.data || {},
+    claimant: state.data?.formData?.data?.attributes?.claimant,
+    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+    sponsors: state.form?.data?.sponsors,
+    sponsorsInitial: state?.data?.sponsors,
+    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
