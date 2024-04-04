@@ -87,8 +87,8 @@ const FilterBox = forwardRef((props, ref) => {
         </VaModal>
       )}
 
-      <va-accordion uswds={false} open-single>
-        <va-accordion-item uswds={false} id="additional-filter-accordion">
+      <va-accordion open-single>
+        <va-accordion-item id="additional-filter-accordion">
           <h3 slot="headline" className="headline-text">
             Add filters
           </h3>
