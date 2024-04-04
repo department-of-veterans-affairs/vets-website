@@ -79,9 +79,9 @@ function makeSchema(locationId) {
 /**
  * Make all the page configurations for each Gulf War 1990 location + dates page. Example
  * {
- *    'gulfWar1990Locations-afghanistan': {
+ *    'toxic-exposure/gulf-war-1990-location-afghanistan': {
  *      title: 'Service after August 2, 1990',
- *      path: 'gulf-war-1990-location-afghanistan',
+ *      path: 'toxic-exposure/gulf-war-1990-location-afghanistan',
  *      uiSchema: {
  *        'ui:title': [Object],
  *        'ui:description': [Function: uiDescription],
@@ -91,7 +91,7 @@ function makeSchema(locationId) {
  *      schema: { type: 'object', properties: [Object] },
  *      depends: [Function: depends]
  *    },
- *    'gulfWar1990Locations-bahrain': {
+ *    'toxic-exposure/gulf-war-1990-location-bahrain': {
  *      ... // continue for the rest of the 17 locations
  * }
  *
