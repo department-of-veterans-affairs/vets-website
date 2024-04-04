@@ -27,6 +27,7 @@ function ToeApp({
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -106,8 +107,21 @@ function ToeApp({
           showMebEnhancements08,
         });
       }
+      if (
+        toeLightHouseDgiDirectDeposit !== formData.toeLightHouseDgiDirectDeposit
+      ) {
+        setFormData({
+          ...formData,
+          toeLightHouseDgiDirectDeposit,
+        });
+      }
     },
-    [formData, setFormData, showMebEnhancements08],
+    [
+      formData,
+      setFormData,
+      showMebEnhancements08,
+      toeLightHouseDgiDirectDeposit,
+    ],
   );
 
   useEffect(
@@ -117,7 +131,7 @@ function ToeApp({
       }
       if (!fetchedDirectDeposit) {
         setFetchedDirectDeposit(true);
-        getDirectDeposit();
+        getDirectDeposit(toeLightHouseDgiDirectDeposit);
       }
     },
     [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
@@ -156,6 +170,7 @@ ToeApp.propTypes = {
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
+  toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
 
