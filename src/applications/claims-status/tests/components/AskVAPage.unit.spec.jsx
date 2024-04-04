@@ -18,22 +18,24 @@ const store = createStore(() => ({
 }));
 
 describe('<AskVAPage>', () => {
-  it('should render disabled submit button', () => {
+  it('should render disabled submit button when va-checkbox not checked', () => {
     const router = getRouter();
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <AskVAPage
         decisionRequestError={null}
         params={{ id: 1 }}
         router={router}
       />,
     );
-    expect(tree.everySubTree('va-button')[0].props.disabled).to.be.true;
-    expect(tree.everySubTree('va-button')[0].props.text).to.equal('Submit');
+    expect($('va-checkbox', container).getAttribute('checked')).to.equal(
+      'false',
+    );
+    expect($('.button-primary', container).getAttribute('disabled')).to.exist;
     expect(router.push.called).to.be.false;
   });
 
-  it('should render enabled submit button', () => {
+  it('should render enabled submit button when va-checkbox checked', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
 
@@ -67,13 +69,13 @@ describe('<AskVAPage>', () => {
       .exist;
   });
 
-  it('should render disabled submitting button', () => {
+  it('should render disabled submit button when submitting', () => {
     const router = {
       push: sinon.spy(),
     };
     const submitRequest = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <AskVAPage
         loadingDecisionRequest
         decisionRequestError={null}
@@ -83,8 +85,8 @@ describe('<AskVAPage>', () => {
       />,
     );
 
-    expect(tree.everySubTree('va-button')[0].props.disabled).to.be.true;
-    expect(tree.everySubTree('va-button')[0].props.text).to.equal(
+    expect($('.button-primary', container).getAttribute('disabled')).to.exist;
+    expect($('.button-primary', container).getAttribute('text')).to.equal(
       'Submitting...',
     );
   });
