@@ -18,7 +18,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
     landingPage.loadInboxMessages();
   });
 
-  it('Verify filter works correctly', () => {
+  it('Verify filter works correctly and highlight the filter text', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -30,10 +30,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
     landingPage.inputFilterData('test');
     landingPage.filterMessages(mockFilterResults);
     landingPage.verifyFilterResults('test', mockFilterResults);
-    cy.get('[data-testid="highlighted-text"]').should(
-      'have.class',
-      'keyword-highlight',
-    );
+    landingPage.verifyFilterTextHighLightedInSearch();
   });
 
   it('Verify filter have no result', () => {
@@ -47,11 +44,6 @@ describe('Secure Messaging Inbox Folder checks', () => {
     });
     landingPage.inputFilterData('Functions');
     landingPage.filterMessages(mockFilterResults);
-    cy.get('[aria-live="polite"]')
-      .last()
-      .should('be.focus');
-    cy.get('[data-testid="search-messages"] h2')
-      .should('be.visible')
-      .and('have.text', 'We didn’t find any matches for these filters');
+    landingPage.verifyNoMatchFilterFocusAndText();
   });
 });
