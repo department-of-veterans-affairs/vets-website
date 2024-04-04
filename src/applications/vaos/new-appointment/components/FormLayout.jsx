@@ -3,11 +3,29 @@ import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { useSelector } from 'react-redux';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
+import { getFlowType, getFormData } from '../redux/selectors';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
+
+function Title() {
+  const flowType = useSelector(getFlowType);
+  const formData = useSelector(getFormData);
+
+  if (FLOW_TYPES.REQUEST === flowType) {
+    if (FACILITY_TYPES.COMMUNITY_CARE === formData.facilityType) {
+      return 'Request community care';
+    }
+
+    return 'Request an appointment';
+  }
+
+  return 'New appointment';
+}
 
 export default function FormLayout({ children, isReviewPage, pageTitle }) {
   const location = useLocation();
@@ -29,7 +47,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {!isReviewPage && (
             <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-              New appointment
+              <Title />
             </span>
           )}
           <ErrorBoundary>{children}</ErrorBoundary>
