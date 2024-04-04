@@ -4,14 +4,14 @@ class TravelPages {
   validatePageLoaded = page => {
     let title = 'Would you like to file a travel reimbursement claim?';
     switch (page) {
+      case 'mileage':
+        title = 'Are you claiming only mileage and no other expenses?';
+        break;
       case 'vehicle':
         title = 'Did you travel in your own vehicle?';
         break;
       case 'address':
         title = 'Did you travel from your home address?';
-        break;
-      case 'mileage':
-        title = 'Are you claiming only mileage and no other expenses?';
         break;
       case 'review':
         title = 'Review your travel claim';
