@@ -5,12 +5,15 @@ import {
   DIRECT_DEPOSIT_SAVE_SUCCEEDED,
   DIRECT_DEPOSIT_SAVE_FAILED,
   DIRECT_DEPOSIT_EDIT_TOGGLED,
+  DIRECT_DEPOSIT_LOAD_ERROR_CLEARED,
+  DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
 } from '@@profile/actions/directDeposit';
 
 const initialState = {
   controlInformation: null,
   paymentAccount: null,
-  error: null,
+  loadError: null,
+  saveError: null,
   ui: {
     isEditing: false,
     isSaving: false,
@@ -24,7 +27,8 @@ function directDeposit(state = initialState, action) {
       return {
         controlInformation: action.response?.controlInformation,
         paymentAccount: action.response?.paymentAccount,
-        error: null,
+        loadError: null,
+        saveError: null,
         ui: {
           isEditing: false,
           isSaving: false,
@@ -35,14 +39,15 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_FETCH_FAILED: {
       return {
         ...state,
-        error: action.response.error || true,
+        loadError: action.response.error || true,
+        saveError: null,
       };
     }
 
     case DIRECT_DEPOSIT_EDIT_TOGGLED: {
       return {
         ...state,
-        error: null,
+        saveError: null,
         ui: {
           ...state.ui,
           isEditing: action.open ?? !state.ui.isEditing,
@@ -50,12 +55,26 @@ function directDeposit(state = initialState, action) {
       };
     }
 
+    case DIRECT_DEPOSIT_LOAD_ERROR_CLEARED: {
+      return {
+        ...state,
+        saveError: null,
+      };
+    }
+
+    case DIRECT_DEPOSIT_SAVE_ERROR_CLEARED: {
+      return {
+        ...state,
+        loadError: null,
+      };
+    }
+
     case DIRECT_DEPOSIT_SAVE_STARTED: {
       return {
         ...state,
+        saveError: null,
         ui: {
           ...state.ui,
-          responseError: null,
           isSaving: true,
         },
       };
@@ -64,7 +83,7 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_SAVE_FAILED: {
       return {
         ...state,
-        error: action.response,
+        saveError: action.response.error || true,
         ui: {
           ...state.ui,
           isSaving: false,

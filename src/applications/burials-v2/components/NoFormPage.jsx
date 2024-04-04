@@ -71,7 +71,7 @@ const generateData = (type, formData) => {
         'Relationship to the deceased Veterans': formData?.relationship?.type
           ?.other
           ? formData?.relationship?.other
-          : relationshipType[(formData?.relationship.type)],
+          : relationshipType[(formData?.relationship?.type)],
       };
     case 'deceased-veteran-information':
       return {
@@ -293,8 +293,7 @@ export const NoFormPage = () => {
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
-    const resource = '/in_progress_forms/21P-530';
-
+    const resource = '/in_progress_forms/21P-530V2';
     apiRequest(resource)
       .then(responseData => {
         setData(responseData);
@@ -315,7 +314,6 @@ export const NoFormPage = () => {
   }
 
   const { formData } = data;
-
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
       <h1>Review burial benefits application</h1>

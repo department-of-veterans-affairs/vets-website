@@ -1,7 +1,8 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
@@ -13,18 +14,15 @@ const {
   spouseOtherIncome,
 } = fullSchemaHca.properties;
 
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
-
 export default {
   uiSchema: {
-    'ui:title': `Spouse\u2019s annual income from ${lastYear}`,
+    'ui:title': `Spouse\u2019s annual income from ${LAST_YEAR}`,
     'view:spouseGrossIncome': {
       'ui:title': 'Gross income from work',
       'ui:description': GrossIncomeDescription,
       spouseGrossIncome: {
         ...currencyUI(
-          `Enter your spouse\u2019s gross annual income from ${lastYear}`,
+          `Enter your spouse\u2019s gross annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
@@ -35,7 +33,7 @@ export default {
         'Net income is income after any taxes and other deductions are subtracted.',
       spouseNetIncome: {
         ...currencyUI(
-          `Enter your spouse\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,
+          `Enter your spouse\u2019s net annual income from a farm, ranch, property or business from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
@@ -45,7 +43,7 @@ export default {
       'ui:description': OtherIncomeDescription,
       spouseOtherIncome: {
         ...currencyUI(
-          `Enter your spouse\u2019s other annual income from ${lastYear}`,
+          `Enter your spouse\u2019s other annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },

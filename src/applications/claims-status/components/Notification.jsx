@@ -8,6 +8,7 @@ export default function Notification({ body, title, type, onClose }) {
   return (
     <VaAlert
       close-btn-aria-label="Close notification"
+      className="claims-alert"
       closeable={closeable}
       onCloseEvent={onClose}
       status={type}

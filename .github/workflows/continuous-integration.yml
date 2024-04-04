@@ -268,6 +268,38 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+      
+      - name: Check for newly added disallowed tests
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: unit_test
+          TESTS: ${{ env.DISALLOWED_TESTS }}
+          TESTS_PROPERTY: 'DISALLOWED_TESTS'
+          
       - name: Create test results folder
         run: mkdir -p test-results
 
@@ -617,6 +649,7 @@ jobs:
 
     env:
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
+      TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
 
     steps:
       # The following statement is included in each step because of a bug in
@@ -643,6 +676,24 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch E2E Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+
       - name: Download production build artifact
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
@@ -667,6 +718,12 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
 
+      - name: Check for newly added disallowed tests
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: e2e
+          TEST_PROPERTY: 'TESTS'
+
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
@@ -678,7 +735,6 @@ jobs:
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
