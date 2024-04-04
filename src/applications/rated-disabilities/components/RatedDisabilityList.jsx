@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import { isServerError } from '../util';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
 import SortSelect from './SortSelect';
-
-// Need to transform date string into a meaningful format and extract any special issues.
-const formalizeData = data => {
-  return data.map(d => {
-    // example effectiveDate: '2004-06-14T05:00:00.000+0000'
-    const effectiveDate = d.effectiveDate
-      ? moment(d.effectiveDate, 'YYYY-MM-DDThh:mm:ss.SSSZ')
-      : null;
-
-    return { ...d, effectiveDate };
-  });
-};
 
 const isServiceConnected = item => item.decisionText === 'Service Connected';
 
@@ -120,19 +107,10 @@ const RatedDisabilityList = ({
 
   const serviceConnected = getServiceConnectedDisabilities(
     ratedDisabilities?.ratedDisabilities,
-  );
-
+  ).sort(sortFunc);
   const nonServiceConnected = getNonServiceConnectedDisabilities(
     ratedDisabilities?.ratedDisabilities,
-  );
-
-  const formattedServiceConnected = formalizeData(serviceConnected).sort(
-    sortFunc,
-  );
-
-  const formattedNonServiceConnected = formalizeData(nonServiceConnected).sort(
-    sortFunc,
-  );
+  ).sort(sortFunc);
 
   return (
     <div>
@@ -143,7 +121,7 @@ const RatedDisabilityList = ({
       )}
       <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
       <div className="vads-l-row vads-u-flex-direction--column">
-        {formattedServiceConnected.map((disability, index) => (
+        {serviceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>
@@ -151,7 +129,7 @@ const RatedDisabilityList = ({
         Conditions VA determined aren’t service-connected
       </h3>
       <div className="vads-l-row vads-u-flex-direction--column">
-        {formattedNonServiceConnected.map((disability, index) => (
+        {nonServiceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>
