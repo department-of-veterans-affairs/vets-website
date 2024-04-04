@@ -131,12 +131,12 @@ class MedicationsRefillPage {
     );
   };
 
-  verifyActiveParkedRxWithRefillsRemainingIsDisplayedOnRefillPage = () => {
+  verifyActiveParkedRxWithRefillsStatus = status => {
     cy.get('@refillList')
       .its('response')
       .then(res => {
         expect(res.body.data[8].attributes).to.include({
-          refillStatus: 'activeParked',
+          refillStatus: status,
         });
       });
   };
@@ -157,21 +157,41 @@ class MedicationsRefillPage {
     );
   };
 
-  clickMedicationInRenewSection = expiredRx => {
+  clickMedicationInRenewSection = (prescription, listNumber) => {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions/get_prescription_image/00013264681',
-      expiredRx,
+      prescription,
     ).as('rxImage');
-    cy.get('[data-testid="medication-details-page-link-1"]').should('exist');
-    cy.get('[data-testid="medication-details-page-link-1"]').click({
+    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).should(
+      'exist',
+    );
+    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).click({
       waitForAnimations: true,
     });
   };
 
   verifyExpiredRxOnRenewSection = rxStatus => {
     cy.get('[data-testid="status"]').should('contain', rxStatus);
+  };
+
+  verifyActiveParkedZeroRefillStatus = rxStatus => {
+    cy.get('[data-testid="status"]').should('contain', rxStatus);
+  };
+
+  verifyActiveParkedZeroRefillsDispenseDate = activeParkedRx => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[11].attributes).to.include({
+          dispensedDate: activeParkedRx,
+        });
+      });
+  };
+
+  verifyRefillsRemainingForActiveParkedZeroRefills = refills => {
+    cy.get('[data-testid="refills-left"]').should('contain', refills);
   };
 }
 
