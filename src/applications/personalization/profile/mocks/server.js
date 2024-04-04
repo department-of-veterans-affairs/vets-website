@@ -84,10 +84,10 @@ const responses = {
   'GET /v0/user': (_req, res) => {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
-    return res.json(user.loa1User); // LOA1 user w/id.me
+    // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
@@ -133,8 +133,8 @@ const responses = {
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     return res
-      .status(200)
-      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
+      .status(400)
+      .json(mockDisabilityCompensations.updates.errors.invalidRoutingNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {

@@ -37,7 +37,7 @@ describe('Authed Letter Test', () => {
 
     cy.axeCheck();
 
-    cy.get('.view-letters-button')
+    cy.get('[data-cy="view-letters-button"]')
       .click()
       .then(() => {
         cy.get('va-accordion-item').should('exist');
@@ -57,7 +57,7 @@ describe('Authed Letter Test', () => {
     cy.get('div.step-content > p:nth-child(4) > a')
       .click() // link to go back to confirm-address
       .then(() => {
-        cy.get('.view-letters-button').click();
+        cy.get('[data-cy="view-letters-button"]').click();
         cy.url().should('contain', '/letters/letter-list');
         // open bsl accordion
         cy.get('.step-content va-accordion-item:nth-of-type(4)')

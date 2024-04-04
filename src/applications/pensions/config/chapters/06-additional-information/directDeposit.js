@@ -5,7 +5,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { DirectDepositWarning } from '../../../helpers';
 
-const directDeposit = {
+export default {
+  title: 'Direct deposit for Veterans Pension benefits',
+  path: 'additional-information/direct-deposit',
+  initialData: {},
   uiSchema: {
     ...titleUI(
       'Direct deposit for Veterans Pension benefits',
@@ -23,5 +26,3 @@ const directDeposit = {
     required: ['view:usingDirectDeposit'],
   },
 };
-
-export { directDeposit };

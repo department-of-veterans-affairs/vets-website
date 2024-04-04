@@ -412,8 +412,8 @@ export const buildVAPrescriptionPDFList = (
                 },
                 {
                   title: `Shipped on`,
-                  value: entry?.trackingList?.[0]?.[1]?.completeDateTime
-                    ? dateFormat(entry.trackingList[0][1].completeDateTime)
+                  value: entry?.trackingList?.[0]?.completeDateTime
+                    ? dateFormat(entry.trackingList[0].completeDateTime)
                     : 'None noted',
                   inline: true,
                 },
