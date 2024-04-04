@@ -60,6 +60,7 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--vehicle-question');
@@ -67,7 +68,6 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('address');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--address-question');
-      TravelPages.attemptToGoToNextPage();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');
       cy.injectAxeThenAxeCheck();

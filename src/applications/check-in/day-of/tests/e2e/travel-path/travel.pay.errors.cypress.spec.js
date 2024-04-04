@@ -110,11 +110,11 @@ describe('Check In Experience', () => {
     it('shows the correct error message for check in failed yes to all travel', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');
       TravelPages.acceptTerms();
