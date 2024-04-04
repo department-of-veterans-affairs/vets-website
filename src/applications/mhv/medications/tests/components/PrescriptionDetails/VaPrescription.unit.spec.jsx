@@ -53,6 +53,19 @@ describe('vaPrescription details container', () => {
     );
     expect(shippedOn).to.exist;
   });
+
+  it('displays sentence-cased description in Refill History', () => {
+    const screen = setup();
+    const medDesc = screen.getByText(
+      'Purple, hexagon with test on the front and fake on the back',
+      {
+        exact: true,
+        selector: 'p',
+      },
+    );
+    expect(medDesc).to.exist;
+  });
+
   it('displays the tracking number within Tracking Info', () => {
     const screen = setup();
 

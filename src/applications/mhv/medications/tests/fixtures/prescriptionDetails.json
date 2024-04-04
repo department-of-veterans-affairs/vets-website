@@ -98,7 +98,11 @@
           "category": "Rx Medication",
           "trackingList": null,
           "rxRfRecords": null,
-          "tracking": false
+          "tracking": false,
+          "color": "purple",
+          "shape": "hexagon",
+          "frontImprint": "test",
+          "backImprint": "fake"
         }
       ],
       "tracking": false
