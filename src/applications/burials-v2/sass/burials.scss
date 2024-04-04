@@ -11,8 +11,8 @@
 // has a gray color hint text, the hint text compared to
 // the background color is too low contrast.
 .rjsf-array-field .va-growable-background {
-    border: 1px solid $color-gray-medium !important;
-    background-color: $color-white !important;
+    border: 1px solid var(--vads-color-gray-medium) !important;
+    background-color: var(--vads-color-white) !important;
     padding: 0.5rem 1.5rem !important;
   }
 
