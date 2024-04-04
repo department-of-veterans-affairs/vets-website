@@ -4,6 +4,8 @@ import { expect } from 'chai';
 
 import RatedDisabilityList from '../../components/RatedDisabilityList';
 
+const fetchRatedDisabilities = () => {};
+const noRatingsHeading = 'We don’t have rated disabilities on file for you';
 const ratedDisabilities = {
   ratedDisabilities: [
     {
@@ -25,7 +27,6 @@ const ratedDisabilities = {
     },
   ],
 };
-const fetchRatedDisabilities = () => {};
 
 describe('<RatedDisabilityList>', () => {
   it('should convert disability data into a readable format', () => {
@@ -69,14 +70,14 @@ describe('<RatedDisabilityList>', () => {
         },
       ],
     };
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
         name: 'We’re sorry. Something went wrong on our end',
       }),
@@ -91,16 +92,16 @@ describe('<RatedDisabilityList>', () => {
         },
       ],
     };
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
-        name: 'We don’t have rated disabilities on file for you',
+        name: noRatingsHeading,
       }),
     ).to.exist;
   });
@@ -110,16 +111,16 @@ describe('<RatedDisabilityList>', () => {
       ratedDisabilities: [],
     };
 
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesEmpty}
       />,
     );
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
-        name: 'We don’t have rated disabilities on file for you',
+        name: noRatingsHeading,
       }),
     ).to.exist;
   });
