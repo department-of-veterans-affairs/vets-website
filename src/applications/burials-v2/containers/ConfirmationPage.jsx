@@ -128,7 +128,6 @@ const ConfirmationPage = ({ form }) => {
           className="usa-button screen-only"
           onClick={() => window.print()}
           text="Print this page"
-          uswds="false"
         />
       </div>
       <h2>What are my next steps?</h2>
