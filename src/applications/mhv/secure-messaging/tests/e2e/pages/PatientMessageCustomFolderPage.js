@@ -242,6 +242,7 @@ class PatientMessageCustomFolderPage {
   };
 
   verifyRemoveFolder = () => {
+    cy.scrollTo('top');
     cy.get(Locators.BUTTONS.REMOVE_FOLDER)
       .should('be.visible')
       .and('have.text', Data.REMOVE_FOLDER);
@@ -256,8 +257,10 @@ class PatientMessageCustomFolderPage {
   verifyEmptyFolderText = () => {
     cy.get(Locators.FOLDERS.FOLDER_NOT_EMPTY)
       .shadow()
-      .find('.va-modal-alert-title')
+      .find(Locators.ALERTS.MODEL_TITLE_ALERT)
       .should('have.text', Assertions.EMPTY_THIS_FOLDER);
+    cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
+    cy.contains('button', 'Ok');
   };
 
   verifyFocusToCloseIcon = () => {
@@ -272,14 +275,10 @@ class PatientMessageCustomFolderPage {
       .shadow()
       .find('button')
       .eq(0)
-      .click();
+      .realClick();
   };
 
   verifyFocusOnRemoveFolderButton = () => {
-    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
-      .should('be.visible')
-      .and('have.text', Data.REMOVE_FOLDER)
-      .as('RemoveFolder');
     cy.focused().should('have.text', Data.REMOVE_FOLDER);
   };
 }
