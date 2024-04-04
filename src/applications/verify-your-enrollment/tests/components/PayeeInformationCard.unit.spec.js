@@ -19,7 +19,7 @@ describe('PayeeInformationCard', () => {
     expect(wrapper.find('va-additional-info')).to.exist;
     wrapper.unmount();
   });
-  it('should render applicantChapter when showAdditionalInformation is false', () => {
+  it('should handle Chapter 1606 if applicantChapter is A', () => {
     const wrapper = shallow(
       <PayeeInformationCard
         showAdditionalInformation={false}
@@ -29,6 +29,19 @@ describe('PayeeInformationCard', () => {
     );
     expect(wrapper.find('div > div > p').text()).to.equal(
       'MGIB (Montgomery GI Bill) - (Chapter 1606)',
+    );
+    wrapper.unmount();
+  });
+  it('should handle Chapter 30 if applicantChapter is B', () => {
+    const wrapper = shallow(
+      <PayeeInformationCard
+        showAdditionalInformation={false}
+        applicantName="applicantName"
+        applicantChapter="B"
+      />,
+    );
+    expect(wrapper.find('div > div > p').text()).to.equal(
+      'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
     );
     wrapper.unmount();
   });
