@@ -685,6 +685,9 @@ const FileField = props => {
             id={idSchema.$id}
             name={idSchema.$id}
             onChange={onAddFile}
+            onClick={() => {
+              fileInputRef.current.value = '';
+            }}
           />
         </>
       )}
