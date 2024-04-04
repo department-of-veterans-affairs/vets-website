@@ -4,10 +4,10 @@ import { createSelector } from 'reselect';
 
 import { isFullDate } from 'platform/forms/validations';
 import {
-  dateRangeSchema,
   dateRangeUI,
-  serviceNumberSchema,
+  dateRangeSchema,
   serviceNumberUI,
+  serviceNumberSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
   titleUI,

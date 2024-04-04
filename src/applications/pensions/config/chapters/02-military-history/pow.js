@@ -1,14 +1,12 @@
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import set from 'platform/utilities/data/set';
 
 import {
+  dateRangeUI,
+  dateRangeSchema,
   titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-
-const { powDateRange } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -23,11 +21,11 @@ export default {
     powDateRange: set(
       'ui:options.expandUnder',
       'powStatus',
-      dateRangeUI(
-        'Start of confinement',
-        'End of confinement',
-        'Confinement start date must be before end date',
-      ),
+      dateRangeUI({
+        fromLabel: 'Start of confinement',
+        toLabel: 'End of confinement',
+        errorMessage: 'Confinement start date must be before end date',
+      }),
     ),
   },
   schema: {
@@ -35,7 +33,7 @@ export default {
     required: ['powStatus'],
     properties: {
       powStatus: yesNoSchema,
-      powDateRange,
+      powDateRange: dateRangeSchema,
     },
   },
 };
