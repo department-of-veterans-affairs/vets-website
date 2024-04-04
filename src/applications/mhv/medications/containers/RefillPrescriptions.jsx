@@ -11,6 +11,7 @@ import { selectRefillContentFlag } from '../util/selectors';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { dispStatusObj, medicationsUrls } from '../util/constants';
+import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -48,7 +49,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       const failedIds = response?.failedIds || [];
       const successfulIds = response?.successfulIds || [];
       setRefillResult({
-        status: failedIds.length > 0 ? 'failed' : 'success',
+        status: 'finished',
         failedIds,
         successfulIds,
       });
@@ -120,107 +121,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     [dispatch, location.pathname, selectedSortOption, refillResult],
   );
 
-  const failedNotification = () => {
-    if (refillResult.successfulIds.length === 0) {
-      return (
-        <div className="vads-u-margin-y--1">
-          <va-alert status="error" setFocus aria-live="polite" uswds>
-            <h3
-              className="vads-u-margin-y--0"
-              data-testid="success-message-title"
-            >
-              Request not submitted
-            </h3>
-            <p>We’re sorry. There’s a problem with our system.</p>
-            <p>
-              To request refills, call the pharmacy number on your prescription
-              label.
-            </p>
-          </va-alert>
-        </div>
-      );
-    }
-    return (
-      <div className="vads-u-margin-y--2">
-        <va-alert status="error" setFocus aria-live="polite" uswds>
-          <h3
-            className="vads-u-margin-y--0"
-            data-testid="success-message-title"
-          >
-            Only part of your request was submitted
-          </h3>
-          <p data-testid="success-message-description">
-            We’re sorry. There’s a problem with our system. We couldn’t submit
-            these refill requests:
-          </p>
-          <ul className="va-list--disc">
-            {fullRefillList?.map((prescription, idx) => {
-              return refillResult.failedIds.includes(
-                String(prescription.prescriptionId),
-              ) ? (
-                <li
-                  className="vads-u-padding-y--0 vads-u-font-weight--bold"
-                  key={idx}
-                >
-                  {prescription?.prescriptionName}
-                </li>
-              ) : (
-                <></>
-              );
-            })}
-          </ul>
-          <p
-            className="vads-u-margin-bottom--0"
-            data-testid="success-message-description"
-          >
-            Try requesting these refills again. If it still doesn’t work, call
-            your VA pharmacy.
-          </p>
-        </va-alert>
-      </div>
-    );
-  };
-  const successNotification = () => {
-    return (
-      <div className="vads-u-margin-y--2">
-        <va-alert status="success" setFocus aria-live="polite" uswds>
-          <h3
-            className="vads-u-margin-y--0"
-            data-testid="success-message-title"
-          >
-            Refill prescriptions
-          </h3>
-          <ul className="va-list--disc">
-            {fullRefillList?.map((prescription, idx) => {
-              if (
-                refillResult.successfulIds.includes(
-                  String(prescription.prescriptionId),
-                )
-              ) {
-                return (
-                  <li className="vads-u-padding-y--0" key={idx}>
-                    {prescription?.prescriptionName}
-                  </li>
-                );
-              }
-              return <></>;
-            })}
-          </ul>
-          <p
-            className="vads-u-margin-y--0"
-            data-testid="success-message-description"
-          >
-            For updates on your refill requests, go to your medications list.{' '}
-            <br />
-            <Link data-testid="back-to-medications-page-link" to="/">
-              Go to your medications list
-            </Link>
-          </p>
-        </va-alert>
-      </div>
-    );
-  };
-
   const content = () => {
     if (!showRefillContent) {
       return <PageNotFound />;
@@ -251,8 +151,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             >
               Refill prescriptions
             </h1>
-            {refillResult.status === 'failed' && failedNotification()}
-            {refillResult.successfulIds.length > 0 && successNotification()}
+            <RefillNotification
+              refillList={fullRefillList}
+              refillResult={refillResult}
+            />
             <h2
               className="vads-u-margin-top--3"
               data-testid="refill-page-subtitle"
