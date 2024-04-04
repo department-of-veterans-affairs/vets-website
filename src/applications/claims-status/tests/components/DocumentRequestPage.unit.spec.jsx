@@ -3,11 +3,15 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
+import { waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { fileTypeSignatures } from '~/platform/forms-system/src/js/utilities/file';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
-import { renderWithRouter } from '../utils';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const claim = {
   id: 1,
@@ -16,10 +20,60 @@ const claim = {
 
 const params = { id: 1 };
 
+const defaultProps = {
+  claim,
+  params,
+  resetUploads: () => {},
+  clearNotification: () => {},
+  loading: false,
+  navigate: () => {},
+  uploadField: { value: null, dirty: false },
+  files: [],
+};
+
 describe('<DocumentRequestPage>', () => {
+  it('when component mounts should set document title', () => {
+    renderWithRouter(<DocumentRequestPage {...defaultProps} loading />);
+
+    expect(document.title).to.equal('Document Request');
+  });
+
+  it('when component mounts should set document title', async () => {
+    const trackedItem = {
+      status: 'NEEDED_FROM_YOU',
+      displayName: 'Testing',
+    };
+
+    const { container, rerender } = renderWithRouter(
+      <DocumentRequestPage
+        {...defaultProps}
+        trackedItem={trackedItem}
+        loading
+      />,
+    );
+
+    rerenderWithRouter(
+      rerender,
+      <DocumentRequestPage
+        params={params}
+        trackedItem={trackedItem}
+        resetUploads={() => {}}
+        clearNotification={() => {}}
+        loading={false}
+        navigate={() => {}}
+        uploadField={{ value: null, dirty: false }}
+        files={[]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(document.activeElement).to.equal($('va-breadcrumbs', container));
+    });
+  });
+
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage params={params} loading />,
+      <DocumentRequestPage {...defaultProps} loading />,
     );
     expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
     expect(tree.everySubTree('.claim-container')).to.be.empty;
@@ -36,13 +90,39 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
         message={message}
       />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
+  });
+
+  it('should render upload error alert when rerendered', () => {
+    const trackedItem = {
+      status: 'NEEDED_FROM_YOU',
+    };
+
+    const { container, rerender } = renderWithRouter(
+      <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
+    );
+    expect($('va-alert', container)).not.to.exist;
+
+    const message = {
+      title: 'Test',
+      body: 'Testing',
+    };
+
+    rerenderWithRouter(
+      rerender,
+      <DocumentRequestPage
+        {...defaultProps}
+        trackedItem={trackedItem}
+        message={message}
+      />,
+    );
+    expect($('va-alert', container)).to.exist;
+    expect($('va-alert h2', container).textContent).to.equal(message.title);
   });
 
   it('should clear upload error when leaving', () => {
@@ -58,9 +138,8 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
         clearNotification={clearNotification}
         message={message}
       />,
@@ -83,9 +162,8 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
         uploadComplete
         clearNotification={clearNotification}
         message={message}
@@ -103,11 +181,7 @@ describe('<DocumentRequestPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        params={params}
-        claim={claim}
-        trackedItem={trackedItem}
-      />,
+      <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
 
     expect(tree.subTree('DueDateOld')).not.to.be.false;
@@ -123,11 +197,7 @@ describe('<DocumentRequestPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        params={params}
-        claim={claim}
-        trackedItem={trackedItem}
-      />,
+      <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
 
     expect(tree.subTree('.optional-upload')).not.to.be.false;
@@ -141,14 +211,65 @@ describe('<DocumentRequestPage>', () => {
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
-        claim={claim}
+        {...defaultProps}
         trackedItem={trackedItem}
         submitFiles={onSubmit}
       />,
     );
     tree.subTree('AddFilesFormOld').props.onSubmit();
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should handle submit files lighthouse', () => {
+    const submitFilesLighthouse = sinon.spy();
+
+    const trackedItem = {
+      status: 'NEEDED_FROM_YOU',
+      suspenseDate: '2010-05-10',
+    };
+    const { container, rerender } = renderWithRouter(
+      <DocumentRequestPage
+        {...defaultProps}
+        trackedItem={trackedItem}
+        submitFilesLighthouse={submitFilesLighthouse}
+        documentsUseLighthouse
+      />,
+    );
+
+    // Check the checkbox
+    $('va-checkbox', container).__events.vaChange({
+      detail: { checked: true },
+    });
+
+    // Create a file
+    const file = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+
+    rerenderWithRouter(
+      rerender,
+      <DocumentRequestPage
+        params={params}
+        claim={claim}
+        trackedItem={trackedItem}
+        submitFilesLighthouse={submitFilesLighthouse}
+        uploadField={{ value: null, dirty: false }}
+        resetUploads={() => {}}
+        files={[file]}
+        documentsUseLighthouse
+        clearNotification={() => {}}
+      />,
+    );
+
+    fireEvent.click($('.submit-files-button', container));
+    expect(submitFilesLighthouse.called).to.be.true;
   });
 
   it('should reset uploads and set title on mount', () => {
@@ -163,11 +284,7 @@ describe('<DocumentRequestPage>', () => {
     renderWithRouter(
       <Provider store={uploadStore}>
         <DocumentRequestPage
-          clearNotification={() => {}}
-          params={params}
-          claim={claim}
-          files={[]}
-          uploadField={{ value: null, dirty: false }}
+          {...defaultProps}
           trackedItem={trackedItem}
           resetUploads={resetUploads}
         />
@@ -191,15 +308,12 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        claim={claim}
-        files={[]}
+        {...defaultProps}
         uploadComplete
-        uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
         navigate={navigate}
         params={parameters}
         getClaim={getClaim}
-        resetUploads={() => {}}
       />,
     );
 
