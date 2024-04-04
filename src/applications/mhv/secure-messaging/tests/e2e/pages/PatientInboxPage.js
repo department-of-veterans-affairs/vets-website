@@ -639,8 +639,8 @@ class PatientInboxPage {
       .find('select')
       .select(dropDownValue);
   };
-  
-   verifyNoMatchFilterFocusAndText = () => {
+
+  verifyNoMatchFilterFocusAndText = () => {
     cy.get(Locators.FIELDS.SEARCH_MESSAGE)
       .last()
       .should('be.focus');
@@ -654,6 +654,6 @@ class PatientInboxPage {
       'have.class',
       'keyword-highlight',
     );
+  };
 }
-
-export default PatientInboxPage;
+export default new PatientInboxPage();
