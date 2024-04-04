@@ -89,8 +89,8 @@ const RatedDisabilityList = ({
     }
 
     return direction === 'asc'
-      ? new Date(a[sortKey]) - new Date(b[sortKey])
-      : new Date(b[sortKey]) - new Date(a[sortKey]);
+      ? a[sortKey].localeCompare(b[sortKey])
+      : b[sortKey].localeCompare(a[sortKey]);
   };
 
   if (!ratedDisabilities) {
