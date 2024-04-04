@@ -184,18 +184,16 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  return {
-    ...getAppData(state),
-    formData: state.form?.data || {},
-    claimant: state.data?.formData?.data?.attributes?.claimant,
-    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-    sponsors: state.form?.data?.sponsors,
-    sponsorsInitial: state?.data?.sponsors,
-    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-    user: state.user,
-  };
-};
+const mapStateToProps = state => ({
+  ...getAppData(state),
+  formData: state.form?.data || {},
+  claimant: state.data?.formData?.data?.attributes?.claimant,
+  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+  sponsors: state.form?.data?.sponsors,
+  sponsorsInitial: state?.data?.sponsors,
+  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+  user: state.user,
+});
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
