@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  dateRangeUI,
+  dateRangeSchema,
   radioUI,
   radioSchema,
   numberUI,
@@ -15,12 +16,9 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
-
-const { dateRange } = fullSchemaPensions.definitions;
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -103,11 +101,11 @@ export default {
           min: 1,
           max: 168,
         }),
-        careDateRange: dateRangeUI(
-          'Care start date',
-          'Care end date',
-          'End of care must be after start of care',
-        ),
+        careDateRange: dateRangeUI({
+          fromLabel: 'Care start date',
+          toLabel: 'Care end date',
+          errorMessage: 'End of care must be after start of care',
+        }),
         noCareEndDate: {
           'ui:title': 'No end date',
           'ui:webComponentField': VaCheckboxField,
@@ -146,10 +144,7 @@ export default {
             careType: radioSchema(Object.keys(careOptions)),
             ratePerHour: { type: 'number' },
             hoursPerWeek: numberSchema,
-            careDateRange: {
-              ...dateRange,
-              required: ['from'],
-            },
+            careDateRange: dateRangeSchema,
             noCareEndDate: { type: 'boolean' },
             paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
             paymentAmount: { type: 'number' },
