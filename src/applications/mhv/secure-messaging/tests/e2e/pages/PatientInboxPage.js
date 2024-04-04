@@ -9,7 +9,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { Assertions, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -465,7 +465,7 @@ class PatientInboxPage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.get(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
+    cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
     cy.get(Locators.MESSAGE_SUBJECT)
@@ -560,7 +560,7 @@ class PatientInboxPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   getInboxHeader = text => {
@@ -623,6 +623,22 @@ class PatientInboxPage {
       }
     }
   }
+
+  verifyNoMatchFilterFocusAndText = () => {
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE)
+      .last()
+      .should('be.focus');
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
+      .should('be.visible')
+      .and('have.text', Assertions.NO_MATCHES_SEARCH);
+  };
+
+  verifyFilterTextHighLightedInSearch = () => {
+    cy.get(Locators.ALERTS.HIGHLIGHTED).should(
+      'have.class',
+      'keyword-highlight',
+    );
+  };
 }
 
 export default PatientInboxPage;

@@ -5,7 +5,7 @@ import { createLiteralMap } from '../../../../utils/helpers';
 import WarningExplainations from '../ContentBlocks/WarningExplainations';
 
 const WarningExplanation = () => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
+  const { statusCode } = useSelector(selectEnrollmentStatus);
 
   // Declare content blocks for use
   const {
@@ -68,7 +68,7 @@ const WarningExplanation = () => {
   const contentMap = createLiteralMap(contentDictionary);
 
   // Render based on enrollment status
-  return contentMap[enrollmentStatus] || null;
+  return contentMap[statusCode] || null;
 };
 
 export default WarningExplanation;

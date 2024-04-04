@@ -4,11 +4,11 @@ import {
   testNumberOfWebComponentFields,
   testComponentRender,
 } from '../../../shared/tests/pages/pageTests.spec';
-import ApplicantMedicareStatusContinuedPage, {
-  ApplicantMedicareStatusContinuedReviewPage,
-} from '../../pages/ApplicantMedicareStatusContinuedPage';
+// import ApplicantMedicareStatusContinuedPage, {
+//   ApplicantMedicareStatusContinuedReviewPage,
+// } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../pages/ApplicantOhiStatusPage';
-import ApplicantRelationshipPage from '../../pages/ApplicantRelationshipPage';
+import ApplicantRelationshipPage from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 
@@ -231,15 +231,15 @@ testNumberOfWebComponentFields(
 );
 */
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedPage',
-  <ApplicantMedicareStatusContinuedPage data={{}} />,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedPage',
+//   <ApplicantMedicareStatusContinuedPage data={{}} />,
+// );
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedReviewPage ',
-  <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedReviewPage ',
+//   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
+// );
 
 testComponentRender(
   'ApplicantOhiStatusPage',

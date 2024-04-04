@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
 const KEYNAME = 'applicantMedicareStatus';
 const PRIMARY = 'eligibility';
@@ -23,7 +23,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
   const options = [
     {
       label: `Yes, ${
-        useFirstPerson ? "I'm" : `${applicant} is `
+        useFirstPerson ? 'I‘m' : `${applicant} is `
       } enrolled in Medicare`,
       value: 'enrolled',
     },
@@ -34,14 +34,18 @@ export function generateOptions({ data, pagePerItemIndex }) {
       value: 'ineligible',
     },
     {
-      label: 'No, other reason',
-      value: 'other',
+      label: `No, ${
+        useFirstPerson ? "I'm" : `${applicant} is `
+      } eligible for Medicare but ${
+        useFirstPerson ? 'have' : 'has'
+      } not been signed up for it yet`,
+      value: 'eligibleNotSignedUp',
     },
   ];
 
   const prompt = `${
     useFirstPerson ? 'Are you' : `Is ${applicant}`
-  } enrolled in Medicare?`;
+  } enrolled in Medicare Parts A & B?`;
 
   return {
     options,
@@ -57,8 +61,6 @@ export function generateOptions({ data, pagePerItemIndex }) {
     customTitle: `${
       useFirstPerson ? `Your` : `${applicant}'s`
     } Medicare status`,
-    customOtherDescription:
-      'Please explain the ineligibility or lack of enrollment',
     description: prompt,
   };
 }

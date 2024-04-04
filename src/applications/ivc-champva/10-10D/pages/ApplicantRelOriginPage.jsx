@@ -1,7 +1,7 @@
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
 const KEYNAME = 'applicantRelationshipOrigin';
 
@@ -18,29 +18,24 @@ function generateOptions({ data, pagePerItemIndex }) {
 
   const customTitle = `${
     useFirstPerson ? `Your` : `${applicant}’s`
-  } relationship to the ${personTitle} (continued)`;
+  } relationship to the ${personTitle}`;
 
   const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
+  const surv = data.sponsorIsDeceased ? 'surviving' : '';
 
   // Create dynamic radio labels based on above phrasing
   const options = [
     {
-      label: `${relativeBeingVerb} a biological child of the ${personTitle}`,
+      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} biological child`,
       value: 'blood',
     },
     {
-      label: `${relativeBeingVerb} a stepchild of the ${personTitle}`,
+      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} step child`,
       value: 'step',
     },
     {
-      label: `${relativeBeingVerb} an adopted child of the ${personTitle}`,
+      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} adopted child`,
       value: 'adoption',
-    },
-    {
-      label: `${
-        applicant && !useFirstPerson ? `${applicant} doesn’t` : 'We don’t'
-      } have a relationship that’s listed here`,
-      value: 'other',
     },
   ];
 
@@ -54,7 +49,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     currentListItem,
     customTitle,
-    description: customTitle,
+    description: `What’s ${customTitle}?`,
   };
 }
 

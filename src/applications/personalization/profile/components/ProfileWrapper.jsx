@@ -50,8 +50,14 @@ const ProfileWrapper = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
+  const profileShowDirectDepositSingleFormToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleForm,
+  );
 
-  const routesForNav = getRoutesForNav(profileContactsToggle);
+  const routesForNav = getRoutesForNav({
+    profileContacts: profileContactsToggle,
+    profileShowDirectDepositSingleForm: profileShowDirectDepositSingleFormToggle,
+  });
 
   const layout = useMemo(
     () => {
@@ -82,7 +88,10 @@ const ProfileWrapper = ({
           </div>
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
-            <ProfileBreadcrumbs className="medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 vads-u-margin-top--neg2 vads-u-margin-bottom--neg2" />
+            <ProfileBreadcrumbs
+              className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${isLOA3 &&
+                'vads-u-margin-top--neg2'} vads-u-margin-bottom--neg2`}
+            />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <ProfileSubNav

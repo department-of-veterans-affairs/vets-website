@@ -1,4 +1,5 @@
 import {
+  HCA_NULL_STATUSES,
   HCA_ENROLLMENT_STATUSES,
   HCA_APPLY_ALLOWED_STATUSES,
 } from '../constants';
@@ -10,10 +11,11 @@ import {
  */
 export const selectEnrollmentStatus = state => {
   const { hcaEnrollmentStatus } = state;
-  const { enrollmentStatus } = hcaEnrollmentStatus;
+  const { statusCode } = hcaEnrollmentStatus;
   return {
-    isEnrolledInESR: enrollmentStatus === HCA_ENROLLMENT_STATUSES.enrolled,
-    hasApplyStatus: HCA_APPLY_ALLOWED_STATUSES.has(enrollmentStatus),
+    isEnrolledInESR: statusCode === HCA_ENROLLMENT_STATUSES.enrolled,
+    hasApplyStatus: HCA_APPLY_ALLOWED_STATUSES.has(statusCode),
+    vesRecordFound: !HCA_NULL_STATUSES.has(statusCode),
     ...hcaEnrollmentStatus,
   };
 };

@@ -1,5 +1,4 @@
-import { processList } from '../../medical-records/util/helpers';
-import { dateFormat, validateField } from './helpers';
+import { dateFormat, processList, validateField } from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -413,8 +412,8 @@ export const buildVAPrescriptionPDFList = (
                 },
                 {
                   title: `Shipped on`,
-                  value: entry?.trackingList?.[0]?.[1]?.completeDateTime
-                    ? dateFormat(entry.trackingList[0][1].completeDateTime)
+                  value: entry?.trackingList?.[0]?.completeDateTime
+                    ? dateFormat(entry.trackingList[0].completeDateTime)
                     : 'None noted',
                   inline: true,
                 },

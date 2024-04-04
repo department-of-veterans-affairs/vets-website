@@ -31,10 +31,10 @@
 }
 .custom-required {
   // manually-injected required span.
-  color: $color-secondary-dark !important;
+  color: var(--vads-color-secondary-dark) !important;
 }
 .custom-hint {
-  color: $color-gray-medium !important;
+  color: var(--vads-color-gray-medium) !important;
 }
 .hide-following-required-span + .schemaform-required-span {
   // if manually injecting custom-required-span, hide forms-library's

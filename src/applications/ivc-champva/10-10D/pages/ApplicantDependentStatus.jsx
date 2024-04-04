@@ -1,7 +1,7 @@
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
 const KEYNAME = 'applicantDependentStatus';
 const PRIMARY = 'status';
@@ -18,32 +18,24 @@ function generateOptions({ data, pagePerItemIndex }) {
     relativePossessive,
   } = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const customTitle = `${
-    useFirstPerson ? `Your` : `${applicant}’s`
-  } dependent status`;
+  const customTitle = `${useFirstPerson ? `Your` : `${applicant}’s`} status`;
 
   const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
 
   const options = [
     {
-      label: `${relativeBeingVerb} age 18-23 and enrolled in, or intending to enroll in, college or another educational institution within the next term`,
-      value: 'enrolledOrIntendsToEnroll',
+      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and ${beingVerbPresent} enrolled as a student in a high school, college, or vocational school`,
+      value: 'enrolled',
+    },
+    {
+      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and plans to enroll as a student in a high school, college, or vocational school`,
+      value: 'intendsToEnroll',
     },
     {
       label: `${relativeBeingVerb} over the age of 18, permanently incapable of self-support and was rated as a helpless child`,
       value: 'over18HelplessChild',
     },
-    {
-      label: `${
-        applicant && !useFirstPerson ? `${applicant}` : 'My'
-      } dependent status is not listed`,
-      value: 'other',
-    },
   ];
-
-  const customOtherDescription = `Since ${
-    applicant && !useFirstPerson ? `${applicant}’s` : 'Your'
-  } status was not listed, please describe it here`;
 
   return {
     options,
@@ -57,8 +49,9 @@ function generateOptions({ data, pagePerItemIndex }) {
     secondary: SECONDARY,
     currentListItem,
     customTitle,
-    description: customTitle,
-    customOtherDescription,
+    description: `Which of these best describes ${
+      useFirstPerson ? 'you' : applicant
+    }?`,
   };
 }
 
