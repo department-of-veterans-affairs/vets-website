@@ -79,7 +79,7 @@ function makeSchema(locationId) {
 /**
  * Make all the page configurations for each Gulf War 1990 location + dates page. Example
  * {
- *    'toxic-exposure/gulf-war-1990-location-afghanistan': {
+ *    'gulf-war-1990-location-afghanistan': {
  *      title: 'Service after August 2, 1990',
  *      path: 'toxic-exposure/gulf-war-1990-location-afghanistan',
  *      uiSchema: {
@@ -91,7 +91,7 @@ function makeSchema(locationId) {
  *      schema: { type: 'object', properties: [Object] },
  *      depends: [Function: depends]
  *    },
- *    'toxic-exposure/gulf-war-1990-location-bahrain': {
+ *    'gulf-war-1990-location-bahrain': {
  *      ... // continue for the rest of the 17 locations
  * }
  *
@@ -100,11 +100,11 @@ function makeSchema(locationId) {
 export function makePages() {
   const gulfWar1990LocationPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
     locationId => {
-      const pageName = `${TE_URL_PREFIX}/gulf-war-1990-location-${locationId}`;
+      const pageName = `gulf-war-1990-location-${locationId}`;
       return {
         [pageName]: {
           title: gulfWar1990PageTitle,
-          path: pageName,
+          path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
           depends: formData =>

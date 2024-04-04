@@ -12,9 +12,8 @@ import {
   gulfWar1990PageTitle,
   startDateApproximate,
 } from '../../../content/toxicExposure';
-import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../../constants';
+import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
 
-const SCHEMA_PREFIX = `${TE_URL_PREFIX}/gulf-war-1990-location-`;
 /**
  * Unit tests for the gulf war 1990 location dates pages. Verifies each page can render and submit with
  * and without dates. Additionally, verifies the subtitles are built appropriately whether or not
@@ -35,8 +34,8 @@ describe('gulfWar1990LocationDates', () => {
       it(`should render for ${locationId}`, () => {
         const { container, getByText } = render(
           <DefinitionTester
-            schema={schemas[`${SCHEMA_PREFIX}${locationId}`]?.schema}
-            uiSchema={schemas[`${SCHEMA_PREFIX}${locationId}`]?.uiSchema}
+            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
             data={formData}
           />,
         );
@@ -67,8 +66,8 @@ describe('gulfWar1990LocationDates', () => {
         const onSubmit = sinon.spy();
         const { getByText } = render(
           <DefinitionTester
-            schema={schemas[`${SCHEMA_PREFIX}${locationId}`]?.schema}
-            uiSchema={schemas[`${SCHEMA_PREFIX}${locationId}`]?.uiSchema}
+            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
             data={formData}
             onSubmit={onSubmit}
           />,
