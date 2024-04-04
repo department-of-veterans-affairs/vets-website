@@ -8,7 +8,7 @@ import {
 //   ApplicantMedicareStatusContinuedReviewPage,
 // } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../pages/ApplicantOhiStatusPage';
-import ApplicantRelationshipPage from '../../pages/ApplicantRelationshipPage';
+import ApplicantRelationshipPage from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 

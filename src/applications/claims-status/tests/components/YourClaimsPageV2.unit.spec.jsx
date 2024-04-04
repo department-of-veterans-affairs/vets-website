@@ -2,10 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import cloneDeep from '~/platform/utilities/data/cloneDeep';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
+
+import { claimsAvailability } from '../../utils/appeals-v2-helpers';
+import { renderWithRouter } from '../utils';
 
 const localStorageMock = (() => {
   let store = {};
@@ -38,8 +42,8 @@ describe('<YourClaimsPageV2>', () => {
     appealsLoading: false,
     stemClaimsLoading: false,
     loading: false,
-    appealsAvailable: 'AVAILABLE',
-    claimsAvailable: 'AVAILABLE',
+    appealsAvailable: claimsAvailability.AVAILABLE,
+    claimsAvailable: claimsAvailability.AVAILABLE,
     claimsAuthorized: true,
     list: [
       {
@@ -49,6 +53,20 @@ describe('<YourClaimsPageV2>', () => {
           dateField: '2022-01-01',
           decisionLetterSent: true,
           phase: null,
+        },
+      },
+      {
+        id: '9043',
+        type: 'education_benefits_claims',
+        attributes: {
+          confirmationNumber: 'V-EBC-9043',
+          isEnrolledStem: true,
+          isPursuingTeachingCert: null,
+          benefitLeft: 'moreThanSixMonths',
+          remainingEntitlement: null,
+          automatedDenial: true,
+          deniedAt: '2022-01-31T15:08:20.489Z',
+          submittedAt: '2022-01-31T15:08:20.489Z',
         },
       },
       {
@@ -75,6 +93,18 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.type()).to.equal(React.Fragment);
     wrapper.unmount();
+  });
+
+  it('should render <ClaimsAppealsUnavailable/>', () => {
+    const { container } = renderWithRouter(
+      <YourClaimsPageV2
+        {...defaultProps}
+        appealsAvailable={claimsAvailability.UNAVAILABLE}
+        claimsAvailable={claimsAvailability.UNAVAILABLE}
+      />,
+    );
+
+    expect($('.claims-unavailable', container)).to.exist;
   });
 
   it('should render a loading indicator if all requests loading', () => {

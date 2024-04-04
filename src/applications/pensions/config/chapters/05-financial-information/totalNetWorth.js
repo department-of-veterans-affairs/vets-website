@@ -10,6 +10,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Total net worth',
+  path: 'financial/total-net-worth',
   uiSchema: {
     ...titleUI(
       'Income and assets',

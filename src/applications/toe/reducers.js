@@ -27,19 +27,28 @@ const initialState = {
   },
 };
 
-const handleDirectDepositApi = action => {
+const handleDirectDepositApi = (action, state) => {
   if (!action?.response?.data?.attributes) {
     return {};
   }
 
+  const toeLightHouseDgiDirectDeposit =
+    state?.featureToggles?.toeLightHouseDgiDirectDeposit;
+  const accountNumber = toeLightHouseDgiDirectDeposit
+    ? action?.response?.data?.attributes?.paymentAccount?.accountNumber
+    : action?.response?.data?.attributes?.accountNumber;
+  const originalRoutingNumber = toeLightHouseDgiDirectDeposit
+    ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
+    : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
+  const routingNumber = toeLightHouseDgiDirectDeposit
+    ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
+    : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
+
   return {
     ...action?.response?.data?.attributes,
-    [formFields.originalAccountNumber]:
-      action?.response?.data?.attributes?.accountNumber,
-    [formFields.originalRoutingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-    [formFields.routingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    [formFields.originalAccountNumber]: accountNumber,
+    [formFields.originalRoutingNumber]: originalRoutingNumber,
+    [formFields.routingNumber]: routingNumber,
   };
 };
 
@@ -126,7 +135,7 @@ export default {
         return {
           ...state,
           fetchDirectDepositInProgress: false,
-          bankInformation: handleDirectDepositApi(action),
+          bankInformation: handleDirectDepositApi(action, state),
         };
       default:
         return state;
