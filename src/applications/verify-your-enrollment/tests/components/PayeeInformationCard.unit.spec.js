@@ -24,10 +24,12 @@ describe('PayeeInformationCard', () => {
       <PayeeInformationCard
         showAdditionalInformation={false}
         applicantName="applicantName"
-        applicantChapter="applicantChapter"
+        applicantChapter="A"
       />,
     );
-    expect(wrapper.find('div > div > p').text()).to.equal('applicantChapter');
+    expect(wrapper.find('div > div > p').text()).to.equal(
+      'MGIB (Montgomery GI Bill) - (Chapter 1606)',
+    );
     wrapper.unmount();
   });
   it('should render va-loading-indicator when is loading for applicantName', () => {
