@@ -14,7 +14,7 @@ const alertContent = (
 
 export const BddEvidenceSubmitLater = () => {
   return (
-    <va-alert id="submit-evidence-later" status="warning" uswds>
+    <va-alert id="submit-evidence-later" status="warning">
       <h3 slot="headline">
         Submit your Separation Health Assessment - Part A Self-Assessment as
         soon as you can
