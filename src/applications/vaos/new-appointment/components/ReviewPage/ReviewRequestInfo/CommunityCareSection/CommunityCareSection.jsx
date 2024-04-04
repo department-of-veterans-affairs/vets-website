@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import ContactDetailSection from '../ContactDetailSection';
 import ReasonForAppointmentSection from '../ReasonForAppointmentSection';
 import PreferredDatesSection from '../PreferredDatesSection';
@@ -23,10 +22,7 @@ export default function CommunityCareSection({ data, facility, vaCityState }) {
       <hr
         data-dd-privacy="mask"
         aria-hidden="true"
-        className={classNames('vads-u-margin-y--2', {
-          'vads-u-display--none':
-            !data.reasonForAppointment && !data.reasonAdditionalInfo,
-        })}
+        className="vads-u-margin-y--2"
       />
       <ContactDetailSection data={data} />
     </>
