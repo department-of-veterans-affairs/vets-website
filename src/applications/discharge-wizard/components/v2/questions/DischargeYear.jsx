@@ -8,7 +8,7 @@ import {
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
 import { updateDischargeYear } from '../../../actions';
-import { pageSetup } from '../../../../pact-act/utilities/page-setup';
+import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
 import Dropdown from './shared/Dropdown';

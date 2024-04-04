@@ -101,17 +101,17 @@ const Dropdown = ({
 };
 
 Dropdown.propTypes = {
-  shortName: PropTypes.string.isRequired,
-  router: PropTypes.object.isRequired,
-  formResponses: PropTypes.object.isRequired,
-  formValue: PropTypes.string,
   formError: PropTypes.bool.isRequired,
-  options: PropTypes.array.isRequired,
+  formResponses: PropTypes.object.isRequired,
   H1: PropTypes.string.isRequired,
-  valueSetter: PropTypes.func.isRequired,
+  options: PropTypes.array.isRequired,
+  router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,
+  shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
+  valueSetter: PropTypes.func.isRequired,
+  formValue: PropTypes.string,
 };
 
 const mapDispatchToProps = {

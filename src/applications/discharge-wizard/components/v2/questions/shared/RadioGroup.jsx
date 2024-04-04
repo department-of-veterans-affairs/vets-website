@@ -108,7 +108,6 @@ const RadioGroup = ({
 RadioGroup.propTypes = {
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
-  formValue: PropTypes.string,
   H1: PropTypes.string.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
   router: PropTypes.object.isRequired,
@@ -117,6 +116,7 @@ RadioGroup.propTypes = {
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
+  formValue: PropTypes.string,
 };
 
 const mapDispatchToProps = {
