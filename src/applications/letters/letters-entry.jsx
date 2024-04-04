@@ -1,7 +1,7 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import './sass/letters.scss';
+import startApp from '@department-of-veterans-affairs/platform-startup/router';
 
-import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
+import './sass/letters.scss';
 
 import routes from './routes';
 import reducer from './reducers';
