@@ -82,9 +82,15 @@ const RatedDisabilityList = ({
   const sortFunc = (a, b) => {
     const [sortKey, direction] = sortBy.split('.');
 
+    if (sortKey === 'ratingPercentage') {
+      return direction === 'asc'
+        ? a[sortKey] - b[sortKey]
+        : b[sortKey] - a[sortKey];
+    }
+
     return direction === 'asc'
-      ? a[sortKey] - b[sortKey]
-      : b[sortKey] - a[sortKey];
+      ? new Date(a[sortKey]) - new Date(b[sortKey])
+      : new Date(b[sortKey]) - new Date(a[sortKey]);
   };
 
   if (!ratedDisabilities) {
