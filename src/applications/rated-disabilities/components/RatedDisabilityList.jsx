@@ -116,7 +116,7 @@ const RatedDisabilityList = ({
   ).sort(sortFunc);
   const nonServiceConnected = getNonServiceConnectedDisabilities(
     ratedDisabilities?.ratedDisabilities,
-  ).sort(sortFunc);
+  );
 
   return (
     <div>
