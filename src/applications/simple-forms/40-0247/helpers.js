@@ -4,12 +4,7 @@ import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import {
-  getScrollOptions,
-  focusElement,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { focusElement } from 'platform/utilities/ui';
 
 export function trackNoAuthStartLinkClick() {
   recordEvent({ event: 'no-login-start-form' });
@@ -20,18 +15,6 @@ export function getInitialData({ mockData, environment }) {
     ? mockData
     : undefined;
 }
-
-export const pageFocusScroll = () => {
-  const focusSelector =
-    'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
-  const scrollToName = 'v3SegmentedProgressBar';
-  return () => {
-    waitForRenderThenFocus(focusSelector);
-    setTimeout(() => {
-      scrollTo(scrollToName, getScrollOptions({ offset: 0 }));
-    }, 100);
-  };
-};
 
 export const supportingDocsDescription = (
   <div className="supp-docs-description">
