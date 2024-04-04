@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import prescriptions from './fixtures/list-refillable-prescriptions.json';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
+import activeRxWithRefills from './fixtures/active-rx-with-refills-remaining-on-refill-page.json';
 
 describe('Medications Refill Page with Active Rx', () => {
   it('visits Medications Refill Page Active Rx With Refills Remaining', () => {
@@ -14,5 +15,9 @@ describe('Medications Refill Page with Active Rx', () => {
     refillPage.verifyRefillPageTitle();
     refillPage.verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage();
     refillPage.verifyActiveRxWithRefillsRemainingIsDisplayedOnRefillPage();
+    refillPage.verifyRefillsRemainingForActiveRxOnRefillPage(
+      activeRxWithRefills.data.attributes.prescriptionNumber,
+      activeRxWithRefills.data.attributes.refillRemaining,
+    );
   });
 });

@@ -112,9 +112,42 @@ class MedicationsRefillPage {
       .then(res => {
         expect(res.body.data[5].attributes).to.include({
           refillStatus: 'active',
-          refillRemaining: 3,
         });
       });
+  };
+
+  verifyRefillsRemainingForActiveRxOnRefillPage = (
+    prescription,
+    refillsRemaining,
+  ) => {
+    cy.get(
+      `[data-testid="refill-prescription-details-${prescription}"]`,
+    ).should('contain', refillsRemaining);
+  };
+
+  verifyActiveParkedRxWithRefillsRemainingIsRefillableOnRefillPage = () => {
+    cy.get('[data-testid="refill-prescription-checkbox-1"]').should(
+      'be.enabled',
+    );
+  };
+
+  verifyActiveParkedRxWithRefillsRemainingIsDisplayedOnRefillPage = () => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[8].attributes).to.include({
+          refillStatus: 'activeParked',
+        });
+      });
+  };
+
+  verifyRefillsRemainingForActiveParkedRxOnRefillPage = (
+    prescription,
+    refillsRemaining,
+  ) => {
+    cy.get(
+      `[data-testid="refill-prescription-details-${prescription}"]`,
+    ).should('contain', refillsRemaining);
   };
 }
 
