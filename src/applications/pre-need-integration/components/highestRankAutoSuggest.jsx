@@ -8,7 +8,7 @@ import AutoSuggest from './MyAutoSuggestField';
 
 function ImprovedMilitaryHistoryPage({ formData }) {
   const dispatch = useDispatch();
-  const [rankData, setRankData] = useState([]); // Initialized as an array
+  const [rankData, setRankData] = useState([]);
   const [branchOfService, setBranchOfService] = useState('');
   const [rankOptions, setRankOptions] = useState([]);
 
@@ -37,13 +37,13 @@ function ImprovedMilitaryHistoryPage({ formData }) {
           rank => rank['Branch Of Service Code'] === branchOfService,
         );
 
-        // Map filtered ranks into an object {Rank Code: Rank Description}
+        // Map filtered ranks into an object
         const ranks = filteredRanks.reduce((acc, curr) => {
           acc[curr['Rank Code']] = curr['Rank Description'];
           return acc;
         }, {});
 
-        setRankOptions(ranks); // Update state with the mapped ranks
+        setRankOptions(ranks);
       }
     },
     [branchOfService, rankData],

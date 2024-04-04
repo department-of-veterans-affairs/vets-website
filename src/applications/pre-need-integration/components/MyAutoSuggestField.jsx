@@ -27,7 +27,7 @@ function AutoSuggest({ title, labels, onSelectionChange, maxItems }) {
     for (const inputWord of inputWords) {
       for (const labelWord of labelWords) {
         if (labelWord.startsWith(inputWord)) {
-          score += 1000; // High score for word starts match
+          score += 1000;
         }
       }
     }
@@ -44,7 +44,7 @@ function AutoSuggest({ title, labels, onSelectionChange, maxItems }) {
         sequenceMatch++;
         score += sequenceMatch; // Incremental score for consecutive matches
       } else {
-        // Attempt to skip non-alphanumeric characters in label when mismatches occur
+        // skip non-alphanumeric characters in label when mismatches occur
         while (
           j < labelNormalized.length &&
           /[^a-zA-Z0-9]/.test(labelNormalized[j])
@@ -59,7 +59,7 @@ function AutoSuggest({ title, labels, onSelectionChange, maxItems }) {
           sequenceMatch++;
           score += sequenceMatch;
         } else {
-          sequenceMatch = 0; // Reset sequence match counter if characters do not match
+          sequenceMatch = 0;
         }
       }
     }
@@ -100,7 +100,7 @@ function AutoSuggest({ title, labels, onSelectionChange, maxItems }) {
                     score: getMatchScore(inputValue, item.label),
                   }))
                   .sort((a, b) => b.score - a.score)
-                  .slice(0, maxItems) // Always show top 5 suggestions based on the score
+                  .slice(0, maxItems)
                   .map((item, index) => (
                     <div
                       key={item.value}
