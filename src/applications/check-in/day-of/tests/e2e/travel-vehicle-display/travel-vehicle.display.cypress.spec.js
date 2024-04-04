@@ -45,6 +45,8 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {
