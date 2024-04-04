@@ -33,5 +33,6 @@ export const Auth = ({ hasRepresentative, DynamicHeader }) => {
 };
 
 Auth.propTypes = {
+  DynamicHeader: PropTypes.string,
   hasRepresentative: PropTypes.bool,
 };
