@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 import { useDispatch } from 'react-redux';
 import { toggleDirectDepositEdit } from '../../actions/directDeposit';
@@ -14,6 +14,14 @@ const AccountWithInfo = ({
   editButtonRef,
   toggleEdit,
 }) => {
+  useEffect(
+    () => {
+      if (showUpdateSuccess) {
+        editButtonRef.current.focus();
+      }
+    },
+    [showUpdateSuccess, editButtonRef],
+  );
   return (
     <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
@@ -38,13 +46,14 @@ const AccountWithInfo = ({
               }}
             >
               <div data-testid="bankInfoUpdateSuccessAlert">
-                <UpdateSuccessAlert />
+                <ContactInformationUpdateSuccessAlert fieldName="direct-deposit" />
               </div>
             </CSSTransition>
           )}
         </TransitionGroup>
       </div>
       <button
+        data-field-name="direct-deposit"
         type="button"
         className="vads-u-margin--0 vads-u-margin-top--1p5"
         aria-label="Edit your direct deposit bank information"

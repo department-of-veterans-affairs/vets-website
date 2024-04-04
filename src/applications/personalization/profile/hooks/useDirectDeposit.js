@@ -24,9 +24,13 @@ export const useDirectDeposit = () => {
   const [formIsDirty, setFormIsDirty] = useState(false);
 
   // redux state for direct deposit form
-  const { ui, error, paymentAccount, controlInformation } = useSelector(
-    state => state.directDeposit,
-  );
+  const {
+    ui,
+    paymentAccount,
+    controlInformation,
+    saveError,
+    loadError,
+  } = useSelector(state => state.directDeposit);
 
   const hasLoadError = useSelector(selectHasDirectDepositLoadError);
   const hasSaveError = useSelector(selectHasDirectDepositSaveError);
@@ -72,7 +76,8 @@ export const useDirectDeposit = () => {
 
   return {
     ui: useMemo(() => ui, [ui]),
-    error: useMemo(() => error, [error]),
+    loadError,
+    saveError,
     hasLoadError,
     hasSaveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),

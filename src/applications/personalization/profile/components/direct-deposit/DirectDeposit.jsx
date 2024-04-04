@@ -42,8 +42,8 @@ export const DirectDeposit = () => {
     ui,
     paymentAccount,
     controlInformation,
-    error,
     hasLoadError,
+    hasSaveError,
     formIsDirty,
     isIdentityVerified,
     isBlocked,
@@ -126,7 +126,7 @@ export const DirectDeposit = () => {
   }
 
   const cardDataValue = ui.isEditing ? (
-    <AccountUpdateView isSaving={ui.isSaving} error={error} />
+    <AccountUpdateView isSaving={ui.isSaving} saveError={hasSaveError} />
   ) : (
     <AccountInfoView
       showUpdateSuccess={showUpdateSuccess}
@@ -165,7 +165,6 @@ export const DirectDeposit = () => {
           devToolsData={{
             paymentAccount,
             controlInformation,
-            error,
             isIdentityVerified,
             isBlocked,
           }}
