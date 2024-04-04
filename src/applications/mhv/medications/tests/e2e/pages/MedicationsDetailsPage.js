@@ -276,23 +276,21 @@ class MedicationsDetailsPage {
     );
   };
 
-  clickReviewImageDropDownOnDetailsPage = () => {
+  verifyMedicationImageVisibleOnDetailsPage = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions/get_prescription_image/00113002239',
       rxTracking,
     ).as('rxImage');
-    cy.get('[data-testid="review-rx-image"]').should('exist');
-    cy.get('[data-testid="review-rx-image"]').click({
-      waitForAnimations: true,
-    });
-  };
-
-  verifyMedicationImageVisibleOnDetailsPage = () => {
-    cy.get('[data-testid="review-rx-image"] > img').should('be.visible');
+    cy.get('[data-testid="rx-image"]').should('be.visible');
   };
 
   verifyRefillHistoryHeaderOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="refill-History"]').should(
       'contain',
       'Refill history',
@@ -300,7 +298,7 @@ class MedicationsDetailsPage {
   };
 
   verifyFirstRefillHeaderTextOnDetailsPage = () => {
-    cy.get('[data-testid="refill"]')
+    cy.get('[data-testid="rx-refill"]')
       .first()
       .should('contain', 'Refill 1');
   };
@@ -317,26 +315,31 @@ class MedicationsDetailsPage {
   };
 
   verifyImageOfMedicationFieldOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="med-image"]').should(
       'contain',
       'Image of the medication or supply',
     );
   };
 
-  verifyRxFilledByPharmacyDateOnDetailsPage = dispensedDate => {
+  verifyRxFilledByPharmacyDateOnDetailsPage = () => {
     cy.get('[data-testid="dispensedDate"]')
       // .first()
-      .should('contain', dispensedDate);
+      .should('contain', 'September 24, 2023');
   };
 
-  verifyRxShippedOnDateOnDetailsPage = shippedDate => {
+  verifyRxShippedOnDateOnDetailsPage = () => {
     cy.get('[data-testid="shipped-on"]')
       .first()
-      .should('contain', shippedDate);
+      .should('contain', 'September 24, 2023');
   };
 
   verifyNoImageFieldMessageOnDetailsPage = () => {
-    cy.get('[data-testid="no-image"]').should('contain', 'No image available');
+    cy.get('[data-testid="no-image"]').should('contain', 'Image not available');
   };
 
   verifyNonVaMedicationStatusOnDetailsPage = prescriptionDetails => {

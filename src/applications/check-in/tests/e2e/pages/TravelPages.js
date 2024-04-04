@@ -97,7 +97,13 @@ class TravelPages {
   };
 
   clickEditLink = () => {
-    cy.get(`a[data-testid="review-edit-link"]`).click({
+    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickStartOver = () => {
+    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
       waitForAnimations: true,
     });
   };
@@ -123,6 +129,12 @@ class TravelPages {
 
   clickBackButton = () => {
     cy.get('[data-testid="no-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickContinueButton = () => {
+    cy.get('[data-testid="continue-button"]').click({
       waitForAnimations: true,
     });
   };

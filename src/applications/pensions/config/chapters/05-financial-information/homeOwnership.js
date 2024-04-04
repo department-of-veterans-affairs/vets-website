@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Home ownership',
+  path: 'financial/home-ownership',
   uiSchema: {
     ...titleUI('Income and assets'),
     homeOwnership: yesNoUI({

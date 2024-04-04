@@ -6,11 +6,7 @@ import { truncateDescription } from '../../utils/helpers';
 
 function FilesOptional({ item }) {
   return (
-    <va-alert
-      class="optional-alert vads-u-margin-bottom--2"
-      status="info"
-      uswds
-    >
+    <va-alert class="optional-alert vads-u-margin-bottom--2" status="info">
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>

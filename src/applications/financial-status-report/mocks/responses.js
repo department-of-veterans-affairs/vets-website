@@ -1424,7 +1424,7 @@ module.exports = {
       },
     ],
   },
-  'POST /v0/financial_status_reports': {
+  'POST /debts_api/v0/financial_status_reports': {
     content: '',
   },
   'PUT /v0/in_progress_forms/5655': {
