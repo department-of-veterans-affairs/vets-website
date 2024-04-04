@@ -6,7 +6,6 @@ We no longer need to handle an additional expansion call
 import React, { useRef } from 'react';
 
 import PropType from 'prop-types';
-import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import MessageThreadItem from './MessageThreadItem';
 
 const MessageThread = props => {
@@ -37,7 +36,7 @@ const MessageThread = props => {
               messageHistory?.length > 1 ? 's' : ''
             } in this conversation`}
         </h2>
-        <VaAccordion
+        <va-accordion
           ref={accordionRef}
           data-testid="thread-expand-all"
           bordered
@@ -53,7 +52,7 @@ const MessageThread = props => {
               />
             );
           })}
-        </VaAccordion>
+        </va-accordion>
       </section>
     </>
   );
