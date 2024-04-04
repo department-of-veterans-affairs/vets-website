@@ -42,7 +42,7 @@ const PersonalHealthCareContacts = ({
       >
         Personal health care contacts
       </h1>
-      {!vaPatient ? (
+      {vaPatient ? (
         <>
           {error && <LoadFail />}
           {!error && loading && <Loading />}
