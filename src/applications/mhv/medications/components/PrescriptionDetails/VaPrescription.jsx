@@ -11,24 +11,19 @@ import { selectRefillContentFlag } from '../../util/selectors';
 
 const rxRefillDescription = rxRefill => {
   const {
-    shape = '',
-    color = '',
-    frontImprint = '',
-    backImprint = '',
-    cmopDivisionPhone = '',
-    dialCmopDivisionPhone = '',
+    shape = null,
+    color = null,
+    frontImprint = null,
+    backImprint = null,
+    cmopDivisionPhone = null,
+    dialCmopDivisionPhone = null,
   } = rxRefill;
-  if (
-    shape !== '' &&
-    color !== '' &&
-    frontImprint !== '' &&
-    backImprint !== ''
-  ) {
+  if (shape && color && frontImprint && backImprint) {
     const desc = `${color}, ${shape} with ${frontImprint} on the front and ${backImprint} on the back`;
     return `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}`;
   }
   const dialFragment =
-    cmopDivisionPhone !== '' ? (
+    dialCmopDivisionPhone || cmopDivisionPhone ? (
       <>
         {' '}
         at <va-telephone contact={dialCmopDivisionPhone || cmopDivisionPhone} />
