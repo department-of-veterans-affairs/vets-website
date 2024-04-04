@@ -8,7 +8,6 @@ import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -21,8 +20,6 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
@@ -205,12 +202,12 @@ class OverviewPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
-      const title = `Status Of ${claimDate} ${claimType} Claim`;
+      const title = `Overview Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
     } else {
-      setDocumentTitle('Status Of Your Claim');
+      setDocumentTitle('Overview Of Your Claim');
     }
   }
 
@@ -224,7 +221,6 @@ class OverviewPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}

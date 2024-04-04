@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { useHistory } from 'react-router-dom';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import {
   routeToNextAppointmentPage,
@@ -17,16 +18,24 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import useFormState from '../../hooks/useFormState';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
+const pageTitle = 'What’s the nearest city to you?';
 const uiSchema = {
   communityCareSystemId: {
-    'ui:title':
-      'Choose a city that is near you. This ensures that we send your community care request to your closest VA health system.',
-    'ui:widget': 'radio',
+    'ui:title': pageTitle,
+    'ui:widget': 'radio', // Required
+    'ui:webComponentField': VaRadioField,
+    'ui:errorMessages': {
+      required: 'Select a city',
+    },
+    'ui:options': {
+      classNames: 'vads-u-margin-top--neg2',
+      showFieldLabel: false,
+      labelHeaderLevel: '1',
+    },
   },
 };
 
 const pageKey = 'ccClosestCity';
-const pageTitle = 'What’s the closest city to you?';
 
 export default function ClosestCityStatePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -68,7 +77,6 @@ export default function ClosestCityStatePage({ changeCrumb }) {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
           name="Closest city and state"
@@ -81,6 +89,17 @@ export default function ClosestCityStatePage({ changeCrumb }) {
           onChange={newData => setData(newData)}
           data={data}
         >
+          <va-additional-info
+            trigger="Why we’re asking this"
+            class="vads-u-margin-bottom--4"
+            data-testid="additional-info"
+          >
+            <div>
+              We'll send your request to the VA medical center nearest to the
+              city you select. The medical center staff will help schedule your
+              community care appointment.{' '}
+            </div>
+          </va-additional-info>
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey, data))

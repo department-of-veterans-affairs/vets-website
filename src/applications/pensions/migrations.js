@@ -209,6 +209,9 @@ export default [
       if (transformedExpense.recipients === 'CHILD') {
         transformedExpense.recipients = 'DEPENDENT';
       }
+      if (transformedExpense.hoursPerWeek) {
+        transformedExpense.hoursPerWeek = transformedExpense.hoursPerWeek.toString();
+      }
       return transformedExpense;
     }
 
@@ -277,5 +280,13 @@ export default [
       delete newFormData['view:history'];
     }
     return { formData: newFormData, metadata: newMetadata };
+  },
+  // 6 > 7, remove gender
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData.gender) {
+      delete newFormData.gender;
+    }
+    return { formData: newFormData, metadata };
   },
 ];

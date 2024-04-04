@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import OMBInfo from '../components/IntroductionPage/OMBInfo';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -11,84 +14,125 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { route } = this.props;
+    const { route, loggedIn } = this.props;
     const { formConfig, pageList } = route;
 
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="10-7959C CHAMPVA Other Health Insurance Certification form"
-          subtitle="Equal to VA Form 10-7959C (10-7959C CHAMPVA Other Health Insurance Certification form)"
+          title="Apply for CHAMPVA Other Health Insurance Certification"
+          subTitle="Application for CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)"
         />
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the 10-7959C form to apply for CHAMPVA other health
-          insurance certification.
-        </SaveInProgressIntro>
+
+        <p>
+          If you’re the spouse or child of a Veteran with disabilities or a
+          Veteran who has died, you may be able to get health insurance through
+          the Civilian Health and Medical Program of the Department of Veterans
+          Affairs (CHAMPVA). Apply online now.
+        </p>
+
+        {!loggedIn && (
+          <VaAlert status="info" visible uswds>
+            <h2>Have you applied for VA health care before?</h2>
+            <SaveInProgressIntro
+              buttonOnly
+              headingLevel={2}
+              prefillEnabled={formConfig.prefillEnabled}
+              messages={formConfig.savedFormMessages}
+              pageList={pageList}
+              unauthStartText="Sign in to check your application status"
+              hideUnauthedStartLink
+            />
+          </VaAlert>
+        )}
+
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for CHAMPVA other health insurance
-          certification.
+          Follow the steps to get started
         </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
+        <va-process-list uswds>
+          <va-process-list-item header="Gather this information">
+            <p>
+              <b>Here’s what you’ll need to apply:</b>
+              Make sure you meet our eligibility requirements before you apply
+            </p>
             <ul>
-              <li>Social Security number (required)</li>
+              <li>
+                <b>Personal information about you</b> and anyone else you’re
+                applying for
+              </li>
             </ul>
             <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
+              You may also need to submit supporting documents, like copies of
+              your Medicare or other health insurance cards
             </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
+          </va-process-list-item>
+          <va-process-list-item header="Apply">
             <p>
-              Complete this CHAMPVA other health insurance certification form.
+              We’ll take you through each step of the process. This application
+              should take about [XX] minutes.
             </p>
+          </va-process-list-item>
+          <va-process-list-item header="After you apply">
             <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
+              We’ll contact you if we have questions or need more information.
             </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
+          </va-process-list-item>
         </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
+
+        {!loggedIn && (
+          <VaAlert status="info" visible uswds>
+            <h2>Sign in now to save time and save your work in progress</h2>
+            <p>Here’s how signing in now helps you:</p>
+            <ul>
+              <li>
+                We can fill in some of your information for you to save you
+                time.
+              </li>
+              <li>
+                You can save your work in progress. You’ll have 60 days from
+                when you start or make updates to your application to come back
+                and finish it.
+              </li>
+            </ul>
+            <p>
+              <strong>Note:</strong> You can sign in after you start your
+              application. But you’ll lose any information you already filled
+              in.
+            </p>
+            <SaveInProgressIntro
+              buttonOnly
+              headingLevel={2}
+              prefillEnabled={formConfig.prefillEnabled}
+              messages={formConfig.savedFormMessages}
+              pageList={pageList}
+              startText="Start the Application"
+            />
+          </VaAlert>
+        )}
+        {loggedIn && (
+          <Link
+            to="/your-information/description"
+            className="auth-start-link vads-c-action-link--green"
+          >
+            Start your application
+          </Link>
+        )}
+        <br />
+
+        <va-omb-info
+          res-burden={10}
+          omb-number="2900-0219"
+          exp-date="10/31/2024"
         />
-        <p />
-        <OMBInfo resBurden={10} ombNumber="2900-0219" expDate="10/31/2024" />
+
+        <GetFormHelp />
       </article>
     );
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => ({
+  loggedIn: state.user.login.currentlyLoggedIn,
+});
+
+export default connect(mapStateToProps)(IntroductionPage);

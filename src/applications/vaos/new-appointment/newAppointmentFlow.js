@@ -5,6 +5,7 @@ import {
 } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
+  getFlowType,
   getFormData,
   getNewAppointment,
   getTypeOfCare,
@@ -268,7 +269,7 @@ const flow = {
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
-    label: 'Choose an appointment day and time',
+    label: 'When would you like an appointment?',
     next(state) {
       const supportedSites = selectCommunityCareSupportedSites(state);
       if (isCCFacility(state) && supportedSites.length > 1) {
@@ -283,7 +284,7 @@ const flow = {
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
-    label: 'Choose a reason for this appointment',
+    label: 'What’s the reason for this appointment?',
     next(state) {
       if (
         isCCFacility(state) ||
@@ -297,7 +298,7 @@ const flow = {
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    label: 'Choose a type of appointment',
+    label: 'How do you want to attend this appointment?',
     next: 'contactInfo',
   },
   appointmentTime: {
@@ -326,6 +327,7 @@ const flow = {
  */
 export default function getNewAppointmentFlow(state) {
   const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+  const flowType = getFlowType(state);
 
   return {
     ...flow,
@@ -367,6 +369,10 @@ export default function getNewAppointmentFlow(state) {
     },
     contactInfo: {
       ...flow.contactInfo,
+      label:
+        FLOW_TYPES.DIRECT === flowType
+          ? 'Confirm your contact information'
+          : 'How should we contact you?',
       url: featureBreadcrumbUrlUpdate
         ? 'contact-information'
         : '/new-appointment/contact-info',
@@ -402,6 +408,10 @@ export default function getNewAppointmentFlow(state) {
     },
     review: {
       ...flow.review,
+      label:
+        FLOW_TYPES.DIRECT === flowType
+          ? 'Review your appointment details'
+          : 'Review and submit your request',
       url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
     },
     scheduleCerner: {
@@ -479,16 +489,16 @@ export default function getNewAppointmentFlow(state) {
   };
 }
 
-/* Function to get label from the flow
- * The URL displayed in the browser address bar is compared to the 
+/**
+ * Function to get label from the flow
+ * The URL displayed in the browser address bar is compared to the
  * flow URL
  *
  * @export
- * @param {object} state 
+ * @param {object} state
  * @param {string} location - the pathname
  * @returns {string} the label string
  */
-
 export function getUrlLabel(state, location) {
   const _flow = getNewAppointmentFlow(state);
   const home = '/';

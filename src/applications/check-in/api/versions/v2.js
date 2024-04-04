@@ -6,12 +6,17 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({ token, checkInType }) => {
+  getSession: async ({ token, checkInType, facilityType }) => {
     const url = '/check_in/v2/sessions/';
     let requestUrl = `${environment.API_URL}${url}${token}`;
     if (checkInType) {
       requestUrl = appendQuery(requestUrl, {
         checkInType,
+      });
+    }
+    if (facilityType) {
+      requestUrl = appendQuery(requestUrl, {
+        facilityType,
       });
     }
     const eventLabel = `${checkInType || 'day-of'}-get-current-session-dob`;
@@ -25,7 +30,13 @@ const v2 = {
       ...json,
     };
   },
-  postSession: async ({ lastName, dob, token, checkInType = '' }) => {
+  postSession: async ({
+    lastName,
+    dob,
+    token,
+    checkInType = '',
+    facilityType = '',
+  }) => {
     const url = '/check_in/v2/sessions/';
     const headers = { 'Content-Type': 'application/json' };
     const data = {
@@ -34,6 +45,7 @@ const v2 = {
         dob,
         lastName: lastName.trim(),
         checkInType,
+        facilityType,
       },
     };
     const body = JSON.stringify(data);
@@ -220,6 +232,43 @@ const v2 = {
       data.uuid,
       true,
     );
+    return {
+      ...json,
+    };
+  },
+  postTravelPayClaims: async (claims, uuid, timeToComplete) => {
+    const url = '/check_in/v0/travel_claims/';
+    const headers = { 'Content-Type': 'application/json' };
+
+    const posts = claims.map(claim => {
+      const travelClaimData = {
+        travelClaims: {
+          uuid,
+          appointmentDate: claim.startTime,
+          timeToComplete,
+          facilityType: 'oh',
+        },
+      };
+      const body = JSON.stringify(travelClaimData);
+
+      return {
+        headers,
+        body,
+        method: 'POST',
+        mode: 'cors',
+      };
+    });
+    const json = await Promise.all(
+      posts.map(post =>
+        makeApiCallWithSentry(
+          apiRequest(`${environment.API_URL}${url}`, post),
+          'travel-claim-submit-travel-pay-claim',
+          uuid,
+          true,
+        ),
+      ),
+    );
+
     return {
       ...json,
     };

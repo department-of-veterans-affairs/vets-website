@@ -52,7 +52,7 @@ class IntroductionPage extends React.Component {
           Follow these steps to get started
         </h2>
 
-        <va-process-list>
+        <va-process-list uswds="false">
           <li>
             <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
             <p>

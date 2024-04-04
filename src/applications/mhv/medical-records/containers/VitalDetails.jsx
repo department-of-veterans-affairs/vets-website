@@ -7,6 +7,15 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -23,24 +32,13 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
 } from '../util/constants';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
-import {
-  txtLine,
-  crisisLineHeader,
-  reportGeneratedBy,
-} from '../../shared/util/constants';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
   generateVitalsContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -158,11 +156,11 @@ ${records
       .map(
         vital =>
           `${txtLine}\n\n
-Date entered: ${vital.date}\n
+Date entered: ${vital.dateTime}\n
 Details about this test\n
 Result: ${vital.measurement}\n
 Location: ${vital.location}\n
-Provider Notes: ${vital.notes}\n\n`,
+Provider notes: ${vital.notes}\n\n`,
       )
       .join('')}`;
     generateTextFile(content, `VA-Vitals-details-${getNameDateAndTime(user)}`);
@@ -174,15 +172,12 @@ Provider Notes: ${vital.notes}\n\n`,
   }
   if (records?.length) {
     const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
-    const vitalDisplayNameLowerCase = vitalDisplayName.toLowerCase();
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--1 no-print">{vitalDisplayName}</h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3 no-print">
-          Your VA providers check your {vitalDisplayNameLowerCase} at
-          appointments. Review your {vitalDisplayNameLowerCase} results here.
-        </p>
+        <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
+          {vitalDisplayName}
+        </h1>
         <PrintDownload
           download={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
@@ -191,7 +186,8 @@ Provider Notes: ${vital.notes}\n\n`,
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
-            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
+            vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
         >
           {`Displaying ${displayNums[0]}–${displayNums[1]} of ${
             records.length
@@ -203,37 +199,37 @@ Provider Notes: ${vital.notes}\n\n`,
             currentVitals?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
+                className="vads-u-margin--0 vads-u-padding-y--3 small-screen:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
               >
                 <h3
                   data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
-                  {vital.date}
+                  {vital.dateTime}
                 </h3>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Measurement:
+                  Result
                 </h4>
                 <p
                   data-testid="vital-result"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Location:
+                  Location
                 </h4>
                 <p
                   data-testid="vital-location"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.location}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Provider notes:
+                  Provider notes
                 </h4>
                 <p
                   data-testid="vital-provider-note"
@@ -269,7 +265,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
-                  {vital.date}
+                  {vital.dateTime}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
                   <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">

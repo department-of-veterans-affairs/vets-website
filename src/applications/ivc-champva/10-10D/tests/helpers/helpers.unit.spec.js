@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import React from 'react';
-import { applicantWording } from '../../helpers/wordingCustomization';
-import { getAgeInYears, isInRange, getParts } from '../../helpers/utilities';
-import ApplicantField from '../../components/Applicant/ApplicantField';
+import { applicantWording } from '../../../shared/utilities';
+import { getAgeInYears, isInRange } from '../../helpers/utilities';
+import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { testComponentRender } from '../../../shared/tests/pages/pageTests.spec';
 import mockData from '../fixtures/data/test-data.json';
 
@@ -10,9 +10,9 @@ describe('applicantWording helper', () => {
   it('should concatenate first and last names', () => {
     expect(
       applicantWording({
-        applicantName: { first: 'firstname', last: 'lastname' },
+        applicantName: { first: 'Firstname', last: 'Lastname' },
       }),
-    ).to.equal("firstname lastname's ");
+    ).to.equal('Firstname Lastname’s');
   });
 });
 
@@ -38,11 +38,11 @@ describe('isInRange helper', () => {
   });
 });
 
-describe('getParts helper', () => {
-  it('should clean up presentation of medicare part text', () => {
-    expect(getParts('partA, partB, partD')).to.equal('Part A, Part B');
-  });
-});
+// describe('getParts helper', () => {
+//   it('should clean up presentation of medicare part text', () => {
+//     expect(getParts('partA, partB, partD')).to.equal('Part A, Part B');
+//   });
+// });
 
 testComponentRender(
   'ApplicantField',

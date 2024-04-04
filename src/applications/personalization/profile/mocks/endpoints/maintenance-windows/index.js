@@ -1,10 +1,10 @@
 const moment = require('moment');
 
 const SERVICES = {
-  EMIS: 'emis',
   EVSS: 'evss',
   MVI: 'mvi',
   GLOBAL: 'global',
+  VA_PROFILE: 'vet360',
 };
 
 const beforeNow = moment()

@@ -18,7 +18,7 @@ describe('MHVDown', () => {
 
     const { getByText } = render(<MHVDown {...props} />);
     getByText(/The maintenance will last TIME INTERVAL/i);
-    getByText(/you may have trouble using APPLICATION/i);
+    getByText(/We’re working on APPLICATION right now/i);
     getByText(startString);
     getByText(endString);
   });

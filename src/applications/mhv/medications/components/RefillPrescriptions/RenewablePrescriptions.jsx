@@ -110,12 +110,24 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
               <span data-testid={`renew-last-filled-${idx}`}>
                 Last filled on{' '}
                 {dateFormat(
-                  prescription.rxRfRecords?.[0]?.[1]?.find(
-                    record => record.dispensedDate,
-                  )?.dispensedDate || prescription.dispensedDate,
+                  prescription.rxRfRecords.find(record => record.dispensedDate)
+                    ?.dispensedDate || prescription.dispensedDate,
                   'MMMM D, YYYY',
                 )}
               </span>
+              {prescription?.trackingList?.[0]?.completeDateTime && (
+                <>
+                  <br />
+                  <span data-testid={`medications-last-shipped-${idx}`}>
+                    <i className="fas fa-truck vads-u-margin-right--1p5" />
+                    Last refill shipped on{' '}
+                    {dateFormat(
+                      prescription.trackingList[0].completeDateTime,
+                      'MMMM D, YYYY',
+                    )}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         ))}

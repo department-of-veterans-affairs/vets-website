@@ -3,6 +3,8 @@ import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import * as recordEventModule from '~/platform/monitoring/record-event';
+import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import IdentityVerificationAlert from '../../../../components/FormAlerts/IdentityVerificationAlert';
 
 describe('hca <IdentityVerificationAlert>', () => {
@@ -18,19 +20,18 @@ describe('hca <IdentityVerificationAlert>', () => {
       const { container } = render(<IdentityVerificationAlert />);
       const selector = container.querySelector('.usa-button');
       expect(selector).to.exist;
-      expect(selector).to.have.attr('href', '/verify');
     });
   });
 
   context('when the `verify` button is clicked', () => {
-    it('should trigger the `onVerify` spy', () => {
-      const verifySpy = sinon.spy();
-      const { container } = render(
-        <IdentityVerificationAlert onVerify={verifySpy} />,
-      );
+    it('should call recordEvent with correct argument', () => {
+      const recordEventStub = sinon.stub(recordEventModule, 'default');
+      const { container } = render(<IdentityVerificationAlert />);
       const selector = container.querySelector('.usa-button');
       fireEvent.click(selector);
-      expect(verifySpy.called).to.be.true;
+      expect(recordEventStub.calledWith({ event: AUTH_EVENTS.VERIFY })).to.be
+        .true;
+      recordEventStub.restore();
     });
   });
 });

@@ -1,41 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export default function Notification({ title, body, onClose, type }) {
-  const classes = classNames(
-    'usa-alert',
-    'claims-alert',
-    'claims-alert-status',
-    {
-      'usa-alert-success': type === 'success',
-      'usa-alert-error': type === 'error',
-    },
-  );
+export default function Notification({ body, title, type, onClose }) {
+  const closeable = !!onClose;
+
   return (
-    <div className={classes} role="alert">
-      {onClose && (
-        <button
-          className="va-alert-close notification-close"
-          onClick={onClose}
-          aria-label="Close notification"
-        >
-          <i className="fas fa-times-circle" aria-hidden="true" />
-        </button>
-      )}
-      <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">{title}</h4>
-        <p className="usa-alert-text">{body}</p>
-      </div>
-    </div>
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      className="claims-alert"
+      closeable={closeable}
+      onCloseEvent={onClose}
+      status={type}
+      visible
+    >
+      <h2 slot="headline">{title}</h2>
+      <p className="vads-u-margin-y--0">{body}</p>
+    </VaAlert>
   );
 }
 
 Notification.propTypes = {
+  body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  onClose: PropTypes.func,
   type: PropTypes.string,
+  onClose: PropTypes.func,
 };
 
 Notification.defaultProps = {

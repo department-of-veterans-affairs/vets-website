@@ -11,7 +11,7 @@ import { selectRefillContentFlag } from '../../util/selectors';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -21,17 +21,17 @@ const VaPrescription = prescription => {
 
   const hasBeenDispensed =
     prescription?.dispensedDate ||
-    prescription?.rxRfRecords?.[0]?.[1].find(record => record.dispensedDate);
-  const shippedOn = prescription?.trackingList?.[0]?.[1];
+    prescription?.rxRfRecords.find(record => record.dispensedDate);
+  const latestTrackingStatus = prescription?.trackingList?.[0];
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
       return (
         <>
           <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
-            {shippedOn?.[0] && (
+            {latestTrackingStatus && (
               <TrackingInfo
-                {...shippedOn[0]}
+                {...latestTrackingStatus}
                 prescriptionName={prescription.prescriptionName}
               />
             )}
@@ -129,7 +129,7 @@ const VaPrescription = prescription => {
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => (
                 <div
-                  key={entry.id}
+                  key={i}
                   className={
                     i + 1 < refillHistory.length
                       ? 'vads-u-margin-bottom--3 refill-entry'
@@ -138,10 +138,11 @@ const VaPrescription = prescription => {
                 >
                   <h3
                     className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
-                    data-testid="refill"
+                    data-testid="rx-refill"
+                    id={`h3-refill-${refillHistory.length - i - 1}`}
                   >
                     {i + 1 === refillHistory.length
-                      ? 'First fill'
+                      ? 'Original fill'
                       : `Refill ${refillHistory.length - i - 1}`}
                   </h3>
                   <h4
@@ -166,31 +167,29 @@ const VaPrescription = prescription => {
                     className="vads-u-margin--0 vads-u-margin-bottom--1"
                     data-testid="shipped-on"
                   >
-                    {dateFormat(shippedOn?.[i]?.completeDateTime)}
+                    {dateFormat(latestTrackingStatus?.completeDateTime)}
                   </p>
                   <h4
                     className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                     data-testid="med-image"
                   >
-                    Image of the medication or supply
+                    Image
                   </h4>
                   <div className="no-print">
                     {entry.cmopNdcNumber ? (
-                      <va-additional-info
-                        trigger="Review image"
-                        data-testid="review-rx-image"
-                        uswds
-                      >
-                        <img
-                          src={getImageUri(entry.cmopNdcNumber)}
-                          alt={entry.prescriptionName}
-                          width="350"
-                          height="350"
-                        />
-                      </va-additional-info>
+                      <img
+                        aria-describedby={`prescription-name h3-refill-${i +
+                          1}`}
+                        className="vads-u-margin-top--1"
+                        data-testid="rx-image"
+                        src={getImageUri(entry.cmopNdcNumber)}
+                        alt={entry.prescriptionName}
+                        width="350"
+                        height="350"
+                      />
                     ) : (
                       <p className="vads-u-margin--0" data-testid="no-image">
-                        No image available
+                        Image not available
                       </p>
                     )}
                   </div>

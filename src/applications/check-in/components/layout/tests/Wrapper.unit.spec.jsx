@@ -6,11 +6,18 @@ import { render } from '@testing-library/react';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { I18nextProvider } from 'react-i18next';
 import { addDays, subDays, format } from 'date-fns';
-import i18n from '../../../utils/i18n/i18n';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import Wrapper from '../Wrapper';
 
 describe('Wrapper component', () => {
+  let i18n;
+  beforeEach(() => {
+    i18n = setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   it('renders the passed in page title and child', () => {
     const { getByText, getByTestId } = render(
       <CheckInProvider store={{ app: 'PreCheckIn' }}>

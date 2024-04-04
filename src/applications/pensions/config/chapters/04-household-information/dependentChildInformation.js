@@ -24,7 +24,10 @@ import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
+  AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
+
+import { doesHaveDependents, getDependentChildTitle } from './helpers';
 
 const childRelationshipOptions = {
   BIOLOGICAL: "They're my biological child",
@@ -54,6 +57,11 @@ function isEligibleForDisabilitySupport(childDOB) {
 
 /** @type {PageSchema} */
 export default {
+  path: 'household/dependents/children/information/:index',
+  title: item => getDependentChildTitle(item, 'information'),
+  depends: doesHaveDependents,
+  showPagePerItem: true,
+  arrayPath: 'dependents',
   uiSchema: {
     dependents: {
       items: {
@@ -74,64 +82,65 @@ export default {
           title: "What's your relationship?",
           labels: childRelationshipOptions,
         }),
-        attendingCollege: merge(
-          {},
-          yesNoUI({
-            title: 'Is your child in school?',
-            hideIf: (formData, index) =>
-              !isBetween18And23(
-                get(['dependents', index, 'childDateOfBirth'], formData),
-              ),
-          }),
-          {
-            'ui:required': (formData, index) =>
-              isBetween18And23(
-                get(['dependents', index, 'childDateOfBirth'], formData),
-              ),
+        'view:adoptionDocs': {
+          'ui:description': AdoptionEvidenceAlert,
+          'ui:options': {
+            expandUnder: 'childRelationship',
+            expandUnderCondition: 'ADOPTED',
           },
-        ),
+        },
+        attendingCollege: yesNoUI({
+          title: 'Is your child in school?',
+          hideIf: (formData, index) =>
+            !isBetween18And23(
+              get(['dependents', index, 'childDateOfBirth'], formData),
+            ),
+          required: (formData, index) =>
+            isBetween18And23(
+              get(['dependents', index, 'childDateOfBirth'], formData),
+            ),
+        }),
         'view:schoolWarning': {
           'ui:description': SchoolAttendanceAlert,
           'ui:options': {
             expandUnder: 'attendingCollege',
           },
         },
-        // unable to use yesNoUI, because description is not being respected
-        disabled: {
-          'ui:title': 'Is your child seriously disabled?',
-          'ui:description': DependentSeriouslyDisabledDescription,
-          'ui:required': (formData, index) =>
+        disabled: yesNoUI({
+          title: 'Is your child seriously disabled?',
+          hideIf: (formData, index) =>
+            !isEligibleForDisabilitySupport(
+              get(['dependents', index, 'childDateOfBirth'], formData),
+            ),
+          required: (formData, index) =>
             isEligibleForDisabilitySupport(
               get(['dependents', index, 'childDateOfBirth'], formData),
             ),
-          'ui:options': {
-            hideIf: (formData, index) =>
-              !isEligibleForDisabilitySupport(
-                get(['dependents', index, 'childDateOfBirth'], formData),
-              ),
-          },
-          'ui:widget': 'yesNo',
-        },
+        }),
         'view:disabilityDocs': {
           'ui:description': DisabilityDocsAlert,
           'ui:options': {
             expandUnder: 'disabled',
           },
         },
+        'view:disabilityInformation': {
+          'ui:description': DependentSeriouslyDisabledDescription,
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !isEligibleForDisabilitySupport(
+                get(['dependents', index, 'childDateOfBirth'], formData),
+              ),
+          },
+        },
         previouslyMarried: yesNoUI({
           title: 'Has your child ever been married?',
         }),
-        married: merge(
-          {},
-          yesNoUI({
-            title: 'Are they currently married?',
-            expandUnder: 'previouslyMarried',
-          }),
-          {
-            'ui:required': (formData, index) =>
-              get(['dependents', index, 'previouslyMarried'], formData),
-          },
-        ),
+        married: yesNoUI({
+          title: 'Are they currently married?',
+          expandUnder: 'previouslyMarried',
+          required: (formData, index) =>
+            get(['dependents', index, 'previouslyMarried'], formData),
+        }),
       },
     },
   },
@@ -154,10 +163,12 @@ export default {
             childRelationship: radioSchema(
               Object.keys(childRelationshipOptions),
             ),
+            'view:adoptionDocs': { type: 'object', properties: {} },
             attendingCollege: yesNoSchema,
             'view:schoolWarning': { type: 'object', properties: {} },
             disabled: yesNoSchema,
             'view:disabilityDocs': { type: 'object', properties: {} },
+            'view:disabilityInformation': { type: 'object', properties: {} },
             previouslyMarried: yesNoSchema,
             married: yesNoSchema,
           },

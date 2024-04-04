@@ -1,73 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Outlet, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-// START lighthouse_migration
-import {
-  getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
-} from '../actions';
-import { cstUseLighthouse } from '../selectors';
-// END lighthouse_migration
+import { getClaim as getClaimAction } from '../actions';
 
-class ClaimPage extends React.Component {
-  componentDidMount() {
-    // START lighthouse_migration
-    const {
-      getClaimEVSS,
-      getClaimLighthouse,
-      params,
-      router,
-      useLighthouse,
-    } = this.props;
+export function ClaimPage({ getClaim }) {
+  const navigate = useNavigate();
+  const params = useParams();
 
-    if (useLighthouse) {
-      getClaimLighthouse(params.id, router);
-    } else {
-      getClaimEVSS(params.id, router);
-    }
-    // END lighthouse_migration
-  }
+  useEffect(() => {
+    getClaim(params.id, navigate);
+  }, []);
 
-  render() {
-    return this.props.children;
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state, 'show'),
-    // END lighthouse_migration
-  };
+  return <Outlet />;
 }
 
 const mapDispatchToProps = {
-  // START lighthouse_migration
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
-  // END lighthouse_migration
+  getClaim: getClaimAction,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ClaimPage),
-);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ClaimPage);
 
 ClaimPage.propTypes = {
-  children: PropTypes.node,
-  // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
-  // END lighthouse_migration
-  params: PropTypes.object,
-  router: PropTypes.object,
-  // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
-  // END lighthouse_migration
+  getClaim: PropTypes.func,
 };
-
-export { ClaimPage };

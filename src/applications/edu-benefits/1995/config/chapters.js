@@ -14,9 +14,12 @@ import {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  servicePeriodsUpdate,
+  sponsorInfo,
 } from '../pages';
 
 import { isProductionOfTestProdEnv } from '../helpers';
+import guardianInformation from '../pages/guardianInformation';
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
@@ -42,6 +45,7 @@ export const applicantInformationField = (automatedTest = false) => {
         'view:noSSN',
         'vaFileNumber',
         'dateOfBirth',
+        'minorHighSchoolQuestions',
         'applicantGender',
       ],
       required: [
@@ -64,6 +68,18 @@ export const benefitSelectionSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? benefitSelection.schema
     : benefitSelectionUpdate.schema;
+};
+
+export const servicePeriodsUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? servicePeriods.uiSchema
+    : servicePeriodsUpdate.uiSchema;
+};
+
+export const servicePeriodsSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? servicePeriods.schema
+    : servicePeriodsUpdate.schema;
 };
 
 export const newSchoolUiSchema = (automatedTest = false) => {
@@ -91,6 +107,12 @@ export const chapters = {
       applicantInformation: applicantInformationField(),
     },
   },
+  guardianInformation: {
+    title: 'Guardian information',
+    pages: {
+      guardianInformation: guardianInformation(fullSchema1995, {}),
+    },
+  },
   benefitSelection: {
     title: 'Education benefit',
     pages: {
@@ -102,14 +124,20 @@ export const chapters = {
       },
     },
   },
+  sponsorInformation: {
+    title: 'Sponsor information',
+    pages: {
+      sponsorInformation: sponsorInfo(fullSchema1995),
+    },
+  },
   militaryService: {
     title: 'Service history',
     pages: {
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        uiSchema: servicePeriods.uiSchema,
-        schema: servicePeriods.schema,
+        uiSchema: servicePeriodsUiSchema(),
+        schema: servicePeriodsSchema(),
       },
       militaryHistory: {
         title: 'Military history',
@@ -133,7 +161,6 @@ export const chapters = {
         uiSchema: newSchoolUiSchema(),
         schema: newSchoolSchema(),
       },
-      oldSchool: createOldSchoolPage(fullSchema1995),
     },
   },
   personalInformation: {
@@ -156,3 +183,8 @@ export const chapters = {
     },
   },
 };
+if (isProductionOfTestProdEnv()) {
+  chapters.schoolSelection.pages.oldSchool = createOldSchoolPage(
+    fullSchema1995,
+  );
+}

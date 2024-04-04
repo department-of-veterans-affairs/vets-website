@@ -46,11 +46,11 @@
   }
 
   .address-block {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     padding: 1em;
 
     h5 {
-      color: $color-primary-darker;
+      color: var(--vads-color-primary-dark);
       padding: 0;
 
       &:focus {
@@ -67,7 +67,7 @@
 
       &.address-help-btn {
         background-color: transparent;
-        color: $color-primary-darker;
+        color: var(--vads-color-primary-dark);
         display: block;
         font-weight: normal;
         margin: 1em 0;
@@ -96,10 +96,6 @@
     text-transform: capitalize;
   }
 
-  .view-letters-button {
-    margin: 2em 0;
-  }
-
   .accordion-header > button {
     min-height: 6rem;
     padding-bottom: 1.5rem;
@@ -111,8 +107,8 @@
 
     > button {
       &:disabled {
-        background-color: $color-gray-lighter;
-        color: $color-black;
+        background-color: var(--vads-color-base-lighter);
+        color: var(--vads-color-black);
       }
     }
   }
@@ -169,7 +165,7 @@
   }
 
   hr {
-    border-color: $color-primary;
+    border-color: var(--vads-color-primary);
     margin-bottom: 0;
     margin-top: 0;
   }

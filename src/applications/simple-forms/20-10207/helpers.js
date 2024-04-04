@@ -26,8 +26,8 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
-export function getFullNameLabels(label) {
-  if (label === 'middle name') {
+export function getFullNameLabels(label, skipMiddleCheck = false) {
+  if (label === 'middle name' && !skipMiddleCheck) {
     return 'Middle initial';
   }
 
@@ -195,7 +195,7 @@ export function powConfinement2DateRangeValidation(errors, fields) {
   }
 }
 
-export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+export const statementOfTruthFullNamePath = ({ formData }) => {
   const { preparerType } = formData;
   switch (preparerType) {
     case PREPARER_TYPES.VETERAN:

@@ -16,7 +16,7 @@ import {
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 
 const showLoading = (message, label) => (
-  <va-loading-indicator message={message} label={label} />
+  <va-loading-indicator set-focus message={message} label={label} />
 );
 
 const ITFWrapper = ({
@@ -166,7 +166,6 @@ const itfShape = {
 };
 
 ITFWrapper.propTypes = {
-  benefitType: PropTypes.string.isRequired,
   children: PropTypes.any.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired,
@@ -174,6 +173,7 @@ ITFWrapper.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   accountUuid: PropTypes.string,
+  benefitType: PropTypes.string,
   inProgressFormId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   itf: PropTypes.shape({
     fetchCallState: PropTypes.oneOf(requestStateEnum).isRequired,

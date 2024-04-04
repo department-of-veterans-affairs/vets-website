@@ -1,4 +1,13 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
+import { base } from '../../../mocks/endpoints/direct-deposits';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
+
+const defaults = {
+  user: mockUser,
+  directDepositResponse: base,
+  featureToggles: generateFeatureToggles(),
+};
 
 class DirectDepositPage {
   LINK_TEXT = 'Direct Deposit Information';
@@ -6,6 +15,27 @@ class DirectDepositPage {
   visitPage = () => {
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
   };
+
+  setup(opts = defaults) {
+    const user = opts.user || defaults.user;
+    const directDepositResponse =
+      opts.directDepositResponse || defaults.directDepositResponse;
+    const featureToggles = opts.featureToggles || defaults.featureToggles;
+
+    cy.login(user);
+
+    cy.intercept(
+      'GET',
+      '/v0/profile/direct_deposits',
+      directDepositResponse,
+    ).as('getDirectDeposits');
+
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
+      'getFeatureToggles',
+    );
+
+    this.visitPage();
+  }
 
   confirmDirectDepositIsAvailable = ({ visitPage = true } = {}) => {
     // the DD item should exist in the sub nav
@@ -29,12 +59,9 @@ class DirectDepositPage {
     cy.findByText(this.LINK_TEXT).should('not.exist');
   };
 
-  confirmIneligibleMessageIsDisplayedForCNP = () => {
+  // TODO: update test ID to not be disability specific for unified form
+  confirmIneligibleMessageIsDisplayed = () => {
     cy.findByTestId('disability-header').should('exist');
-  };
-
-  confirmIneligibleMessageIsDisplayedForEducation = () => {
-    cy.findByTestId('education-header').should('exist');
   };
 
   checkVerifyMessageIsShowing = () => {
@@ -61,4 +88,4 @@ class DirectDepositPage {
   };
 }
 
-export default new DirectDepositPage();
+export default DirectDepositPage;

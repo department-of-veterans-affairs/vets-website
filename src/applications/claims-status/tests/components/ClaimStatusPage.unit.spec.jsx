@@ -2,28 +2,43 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
+import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
 describe('<ClaimStatusPage>', () => {
   it('should render page with no alerts and a timeline', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
-        open: true,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: true,
+          phaseChangeDate: '2023-03-04',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+            phase2CompleteDate: '2023-03-04',
+          },
+        },
+        closeDate: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+        supportingDocuments: [],
+        trackedItems: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
           },
         ],
       },
@@ -32,24 +47,36 @@ describe('<ClaimStatusPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage claim={claim} params={params} />,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('NeedFilesFromYou')).to.be.false;
-    expect(content.subTree('ClaimsDecision')).to.be.false;
-    expect(content.subTree('ClaimsTimeline')).not.to.be.false;
+    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
+    expect(tree.subTree('ClaimsDecision')).to.be.false;
+    expect(tree.subTree('ClaimTimeline')).not.to.be.false;
   });
 
   it('should not render a timeline when closed', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
-        open: false,
-        documentsNeeded: false,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-12-12',
+          latestPhaseType: 'COMPLETE',
+          previousPhases: {
+            phase7CompleteDate: '2023-12-12',
+          },
+        },
+        closeDate: '2023-12-12',
+        documentsNeeded: true,
         decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'COMPLETE',
+        supportingDocuments: [],
+        trackedItems: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
           },
         ],
       },
@@ -58,10 +85,10 @@ describe('<ClaimStatusPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage claim={claim} params={params} />,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('ClaimsDecision')).to.be.false;
-    expect(content.subTree('ClaimComplete')).not.to.be.false;
-    expect(content.subTree('ClaimsTimeline')).to.be.false;
+
+    expect(tree.subTree('ClaimsDecision')).to.be.false;
+    expect(tree.subTree('ClaimComplete')).not.to.be.false;
+    expect(tree.subTree('ClaimTimeline')).to.be.false;
   });
 
   context('cstUseClaimDetailsV2 feature flag enabled', () => {
@@ -106,10 +133,10 @@ describe('<ClaimStatusPage>', () => {
                 ],
               },
             };
-            const { container } = render(
+
+            const { container, getByText } = renderWithRouter(
               <Provider store={getStore()}>
                 <ClaimStatusPage
-                  useLighthouse
                   claim={claim}
                   params={params}
                   clearNotification={() => {}}
@@ -123,7 +150,7 @@ describe('<ClaimStatusPage>', () => {
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
+            getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert', container)).not.to.exist;
             expect($('.need-files-alert', container)).not.to.exist;
@@ -160,10 +187,9 @@ describe('<ClaimStatusPage>', () => {
                 ],
               },
             };
-            const { container } = render(
+            const { container, getByText } = renderWithRouter(
               <Provider store={getStore()}>
                 <ClaimStatusPage
-                  useLighthouse
                   claim={claim}
                   params={params}
                   clearNotification={() => {}}
@@ -177,101 +203,9 @@ describe('<ClaimStatusPage>', () => {
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
+            getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert', container)).to.exist;
-          });
-        },
-      );
-
-      context(
-        'doesnt show ClaimStatusHeader, WhatWereDoing or RecentActivity sections',
-        () => {
-          it('shows WhatYouNeedToDo section without alerts when using evss', () => {
-            const claim = {
-              id: '1',
-              attributes: {
-                open: true,
-                phase: 3,
-                dateFiled: '2023-01-01',
-                documentsNeeded: true,
-                decisionLetterSent: false,
-                eventsTimeline: [],
-              },
-            };
-            const { container } = render(
-              <Provider store={getStore()}>
-                <ClaimStatusPage
-                  claim={claim}
-                  params={params}
-                  clearNotification={() => {}}
-                />
-                ,
-              </Provider>,
-            );
-            const statusPage = $('#tabPanelStatus', container);
-
-            expect(statusPage).to.exist;
-            expect(within(statusPage).queryByRole('list')).to.not.exist;
-            expect($('.claim-status-header-container', container)).to.not.exist;
-            expect($('.what-were-doing-container', container)).to.not.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
-            expect($('.recent-activity-container', container)).to.not.exist;
-            expect($('va-alert', container)).not.to.exist;
-            expect($('.need-files-alert', container)).not.to.exist;
-          });
-        },
-      );
-    });
-
-    context('should render status page with a timeline', () => {
-      context(
-        'doesnt show ClaimStatusHeader, WhatWereDoing or RecentActivity sections',
-        () => {
-          it('shows WhatYouNeedToDo section with alerts when using evss', () => {
-            const claim = {
-              id: '1',
-              attributes: {
-                open: true,
-                phase: 3,
-                dateFiled: '2023-01-01',
-                documentsNeeded: true,
-                decisionLetterSent: false,
-                eventsTimeline: [
-                  {
-                    trackedItemId: 1,
-                    type: 'still_need_from_you_list',
-                    status: 'NEEDED',
-                    displayName: 'Test',
-                    description: 'Test',
-                    suspenseDate: '2024-02-01',
-                    date: '2023-01-01',
-                  },
-                ],
-              },
-            };
-            const test = getStore();
-
-            const { container } = render(
-              <Provider store={test}>
-                <ClaimStatusPage
-                  claim={claim}
-                  params={params}
-                  clearNotification={() => {}}
-                />
-                ,
-              </Provider>,
-            );
-            const statusPage = $('#tabPanelStatus', container);
-
-            expect(statusPage).to.exist;
-            expect(within(statusPage).queryByRole('list')).to.not.exist;
-            expect($('.claim-status-header-container', container)).to.not.exist;
-            expect($('.what-were-doing-container', container)).to.not.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
-            expect($('.recent-activity-container', container)).to.not.exist;
-            expect($('va-alert', container)).to.exist;
-            expect($('.need-files-alert', container)).not.to.exist;
           });
         },
       );
@@ -280,32 +214,38 @@ describe('<ClaimStatusPage>', () => {
 
   context('DDL feature flag is enabled', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        open: false,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-12-12',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase7CompleteDate: '2023-12-12',
+          },
+        },
+        closeDate: '2023-12-12',
+        documentsNeeded: true,
         decisionLetterSent: true,
+        status: 'COMPLETE',
+        supportingDocuments: [],
+        trackedItems: [
+          {
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
+          },
+        ],
       },
     };
 
     const store = createStore(() => ({}));
 
     it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = render(
-        <Provider store={store}>
-          <ClaimStatusPage
-            claim={claim}
-            useLighthouse
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
-
-      screen.getByText('Get your claim letters');
-    });
-
-    it('should render a link to the claim letters page when using EVSS', () => {
-      const screen = render(
+      const screen = renderWithRouter(
         <Provider store={store}>
           <ClaimStatusPage
             claim={claim}
@@ -322,16 +262,29 @@ describe('<ClaimStatusPage>', () => {
 
   it('should not render ClaimComplete with decision letter', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
-        open: false,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-12-12',
+          latestPhaseType: 'COMPLETE',
+          previousPhases: {
+            phase7CompleteDate: '2023-12-12',
+          },
+        },
+        closeDate: '2023-12-12',
         documentsNeeded: false,
         decisionLetterSent: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'COMPLETE',
+        supportingDocuments: [],
+        trackedItems: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
           },
         ],
       },
@@ -340,24 +293,38 @@ describe('<ClaimStatusPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage claim={claim} params={params} />,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('ClaimsDecision')).to.exist;
-    expect(content.subTree('ClaimComplete')).to.be.false;
-    expect(content.subTree('ClaimsTimeline')).to.be.false;
+
+    expect(tree.subTree('ClaimsDecision')).to.exist;
+    expect(tree.subTree('ClaimComplete')).to.be.false;
+    expect(tree.subTree('ClaimTimeline')).to.be.false;
   });
 
   it('should render need files from you component', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-03-04',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+            phase2CompleteDate: '2023-03-04',
+          },
+        },
+        closeDate: null,
         documentsNeeded: true,
-        open: true,
         decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+        supportingDocuments: [],
+        trackedItems: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
           },
         ],
       },
@@ -366,22 +333,45 @@ describe('<ClaimStatusPage>', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage claim={claim} params={params} />,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('NeedFilesFromYou')).not.to.be.false;
+
+    expect(tree.subTree('NeedFilesFromYou')).not.to.be.false;
   });
 
   it('should not render need files from you when closed', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
-        documentsNeeded: true,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-12-12',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase7CompleteDate: '2023-12-12',
+          },
+        },
+        closeDate: '2023-12-12',
+        documentsNeeded: false,
         decisionLetterSent: false,
-        open: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [],
+        trackedItems: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: 1,
+            status: 'ACCEPTED',
+            displayName: 'Test',
+            description: 'Test',
+            suspenseDate: '2024-02-01',
+            date: '2023-01-01',
+          },
+          {
+            id: 2,
+            status: 'INITIAL_REVIEW_COMPLETE',
+            displayName: 'Test',
+            description: 'Test',
+            suspenseDate: '2024-02-01',
+            date: '2023-01-01',
           },
         ],
       },
@@ -395,16 +385,38 @@ describe('<ClaimStatusPage>', () => {
 
   it('should not render files needed from you when decision letter sent', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        phase: 2,
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
         documentsNeeded: true,
         decisionLetterSent: true,
-        open: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [
           {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+            id: '123456',
+            originalFileName: 'test.pdf',
+            documentTypeLabel: 'Buddy / Lay Statement',
+            uploadDate: '2023-03-04',
+          },
+        ],
+        trackedItems: [
+          {
+            id: 1,
+            status: 'NEEDED_FROM_YOU',
+            displayName: 'Test',
+            description: 'Test',
+            suspenseDate: '2024-02-01',
+            date: '2023-01-01',
           },
         ],
       },
@@ -414,51 +426,6 @@ describe('<ClaimStatusPage>', () => {
       <ClaimStatusPage claim={claim} params={params} />,
     );
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
-  });
-
-  it('should render claims decision alert', () => {
-    const claim = {
-      attributes: {
-        phase: 5,
-        documentsNeeded: false,
-        decisionLetterSent: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage claim={claim} params={params} />,
-    );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.everySubTree('ClaimsDecision')).not.to.be.empty;
-  });
-
-  it('should not render timeline without a phase', () => {
-    const claim = {
-      attributes: {
-        phase: null,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage claim={claim} params={params} />,
-    );
-    expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
   });
 
   it('should render empty content when loading', () => {
@@ -486,8 +453,31 @@ describe('<ClaimStatusPage>', () => {
 
   it('should clear alert', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        eventsTimeline: [],
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [
+          {
+            id: '123456',
+            originalFileName: 'test.pdf',
+            documentTypeLabel: 'Buddy / Lay Statement',
+            uploadDate: '2023-03-04',
+          },
+        ],
+        trackedItems: [],
       },
     };
     const clearNotification = sinon.spy();
@@ -511,10 +501,34 @@ describe('<ClaimStatusPage>', () => {
 
   it('should clear notification when leaving', () => {
     const claim = {
+      id: '1',
+      type: 'claim',
       attributes: {
-        eventsTimeline: [],
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-02-08',
+          latestPhaseType: 'INITIAL_REVIEW',
+          previousPhases: {
+            phase1CompleteDate: '2023-02-08',
+          },
+        },
+        closeDate: null,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        status: 'INITIAL_REVIEW',
+        supportingDocuments: [
+          {
+            id: '123456',
+            originalFileName: 'test.pdf',
+            documentTypeLabel: 'Buddy / Lay Statement',
+            uploadDate: '2023-03-04',
+          },
+        ],
+        trackedItems: [],
       },
     };
+
     const clearNotification = sinon.spy();
     const message = {
       title: 'Test',

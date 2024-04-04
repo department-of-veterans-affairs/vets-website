@@ -7,6 +7,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { genderLabels } from 'platform/static-data/labels';
 import { maskSSN, normalizeFullName } from '../../utils/helpers/general';
+import { APP_URLS } from '../../utils/constants';
 
 const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
   const { userFullName, dob, gender } = profile;
@@ -87,7 +88,7 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
           You can also call your VA health facility to get help changing your
           name on file with VA. Ask for the eligibility department.{' '}
           <va-link
-            href="/find-locations/"
+            href={APP_URLS.facilities}
             text="Find your nearest VA health facility"
           />
         </p>

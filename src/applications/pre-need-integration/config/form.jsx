@@ -15,11 +15,12 @@ import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
+import * as isSponsor from './pages/isSponsor';
 import * as sponsorDetails from './pages/sponsorDetails';
+import * as sponsorContactInfo from './pages/sponsorContactInfo';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
-import * as sponsorContactInfo from './pages/sponsorContactInfo';
 import * as sponsorRace from './pages/sponsorRace';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
@@ -90,6 +91,7 @@ import {
   nonVeteranApplicantDetailsSubHeader,
   nonVeteranApplicantDetailsDescription,
   nonVeteranApplicantDetailsDescriptionPreparer,
+  isApplicantTheSponsor,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -141,7 +143,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -408,6 +410,12 @@ const formConfig = {
     sponsorInformation: {
       title: 'Sponsor information',
       pages: {
+        isSponsor: {
+          path: 'is-sponsor',
+          depends: formData => !isVeteran(formData),
+          uiSchema: isSponsor.uiSchema,
+          schema: isSponsor.schema,
+        },
         sponsorDetails: {
           title: 'Sponsor details',
           path: 'sponsor-details',
@@ -417,14 +425,17 @@ const formConfig = {
         },
         sponsorDeceased: {
           path: 'sponsor-deceased',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isVeteran(formData) && !isApplicantTheSponsor(formData),
           uiSchema: sponsorDeceased.uiSchema,
           schema: sponsorDeceased.schema,
         },
         sponsorDateOfDeath: {
           path: 'sponsor-date-of-death',
           depends: formData =>
-            !isVeteran(formData) && isSponsorDeceased(formData),
+            !isVeteran(formData) &&
+            !isApplicantTheSponsor(formData) &&
+            isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
         },
@@ -432,7 +443,10 @@ const formConfig = {
         sponsorContactInfo: {
           path: 'sponsor-contact-info',
           depends: formData =>
-            !isVeteran(formData) && !isSponsorDeceased(formData),
+            !isVeteran(formData) &&
+            ((!isApplicantTheSponsor(formData) &&
+              !isSponsorDeceased(formData)) ||
+              isApplicantTheSponsor(formData)),
           uiSchema: sponsorContactInfo.uiSchema,
           schema: sponsorContactInfo.schema,
         },

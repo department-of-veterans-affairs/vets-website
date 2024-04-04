@@ -17,7 +17,10 @@ const ADDRESS_FORM_VALUES = {
 
 const STREET_LINE_MAX_LENGTH = 20;
 
-export const getFormSchema = defaultVeteranName => {
+export const getFormSchema = (defaultVeteranName, formData = {}) => {
+  const defaultCountry = countries.find(
+    country => country.countryCodeISO3 === formData?.countryCodeIso3,
+  )?.countryCodeISO3;
   return {
     type: 'object',
     properties: {
@@ -27,6 +30,7 @@ export const getFormSchema = defaultVeteranName => {
       'view:livesOnMilitaryBaseInfo': {
         type: 'object',
         properties: {},
+        default: formData['view:livesOnMilitaryBas'],
       },
       fullName: {
         type: 'string',
@@ -38,51 +42,61 @@ export const getFormSchema = defaultVeteranName => {
         type: 'string',
         enum: ADDRESS_FORM_VALUES.COUNTRY_ISO3_CODES,
         enumNames: ADDRESS_FORM_VALUES.COUNTRIES,
+        default: defaultCountry,
       },
       addressLine1: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
+        default: formData?.addressLine1,
       },
       addressLine2: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
+        default: formData?.addressLine2,
       },
       addressLine3: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
+        default: formData?.addressLine3,
       },
       addressLine4: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
+        default: formData?.addressLine4,
       },
       city: {
         type: 'string',
         pattern: blockURLsRegEx,
+        default: formData?.city,
       },
       stateCode: {
         type: 'string',
         enum: Object.keys(ADDRESS_DATA.states),
         enumNames: Object.values(ADDRESS_DATA.states),
+        default: formData?.stateCode,
       },
       province: {
         type: 'string',
         pattern: blockURLsRegEx,
+        default: formData?.province,
       },
       zipCode: {
         type: 'string',
         pattern: '^\\d{5}$',
+        default: formData?.zipCode,
       },
       internationalPostalCode: {
         type: 'string',
         pattern: blockURLsRegEx,
+        default: formData?.internationalPostalCode,
       },
     },
     required: ['countryCodeIso3', 'addressLine1', 'city'],

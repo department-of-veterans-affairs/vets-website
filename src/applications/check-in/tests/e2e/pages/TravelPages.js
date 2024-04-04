@@ -24,6 +24,11 @@ class TravelPages {
       .and('include.text', title);
   };
 
+  // @TODO: replace validatePageLoaded with this function
+  validatePageWrapper = testID => {
+    cy.get(`[data-testid="${testID}"]`).should('be.visible');
+  };
+
   validateHelpSection = () => {
     cy.get('[data-testid="for-help-using-this-tool"]').contains(
       'For help using this tool to prepare for your appointments',
@@ -92,7 +97,13 @@ class TravelPages {
   };
 
   clickEditLink = () => {
-    cy.get(`a[data-testid="review-edit-link"]`).click({
+    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickStartOver = () => {
+    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
       waitForAnimations: true,
     });
   };
@@ -108,6 +119,32 @@ class TravelPages {
     cy.get('va-checkbox')
       .shadow()
       .find('#checkbox-error-message');
+  };
+
+  goBack = () => {
+    cy.get('a[data-testid="back-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickBackButton = () => {
+    cy.get('[data-testid="no-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickContinueButton = () => {
+    cy.get('[data-testid="continue-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickAgreementLink = () => {
+    cy.get(`[data-testid="travel-agreement-link"]`).click();
+  };
+
+  validateAgreementPage = () => {
+    cy.get(`[data-testid="agreement-list-items"]`).should('be.visible');
   };
 }
 

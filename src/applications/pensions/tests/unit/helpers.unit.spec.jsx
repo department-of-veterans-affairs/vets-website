@@ -10,11 +10,12 @@ import {
   formatCurrency,
   submit,
   replacer,
-  isMarried,
-  getMarriageTitleWithCurrent,
-  validateWorkHours,
   isHomeAcreageMoreThanTwo,
 } from '../../helpers';
+import {
+  getMarriageTitleWithCurrent,
+  isMarried,
+} from '../../config/chapters/04-household-information/helpers';
 
 describe('Pensions helpers', () => {
   describe('submit', () => {
@@ -167,15 +168,6 @@ describe('Pensions helpers', () => {
       expect(formatCurrency(0.01)).to.equal('$0.01');
       expect(formatCurrency(1000)).to.equal('$1,000');
       expect(formatCurrency(12.75)).to.equal('$12.75');
-    });
-  });
-  describe('validateWorkHours', () => {
-    it('should not allow more tthat 168 hours of work', () => {
-      const errors = { addError() {} };
-      const spy = sinon.spy(errors, 'addError');
-      validateWorkHours(errors, 170);
-      expect(spy.withArgs('Enter a number less than 169').calledOnce).to.be
-        .true;
     });
   });
   describe('Pensions isHomeAcreageMoreThanTwo', () => {
