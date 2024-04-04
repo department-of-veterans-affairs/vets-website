@@ -34,9 +34,6 @@ export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
 export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
 export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
 export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
-export const DIRECT_DEPOSIT_ENDPOINT = `${
-  environment.API_URL
-}/v0/profile/ch33_bank_accounts`;
 export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${
   environment.API_URL
 }/v0/profile/direct_deposits`;
@@ -65,14 +62,10 @@ export function fetchPersonalInformation() {
   };
 }
 
-export function fetchDirectDeposit(toeLightHouseDgiDirectDeposit) {
-  const ddEndpoint = toeLightHouseDgiDirectDeposit
-    ? LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT
-    : DIRECT_DEPOSIT_ENDPOINT;
-
+export function fetchDirectDeposit() {
   return async dispatch => {
     dispatch({ type: FETCH_DIRECT_DEPOSIT });
-    return apiRequest(ddEndpoint)
+    return apiRequest(LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT)
       .then(response => {
         dispatch({
           type: FETCH_DIRECT_DEPOSIT_SUCCESS,
