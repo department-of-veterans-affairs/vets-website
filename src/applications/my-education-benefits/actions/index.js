@@ -32,7 +32,7 @@ export const EXCLUSION_PERIODS_ENDPOINT = `${
 }/meb_api/v0/exclusion_periods`;
 export const DIRECT_DEPOSIT_ENDPOINT = `${
   environment.API_URL
-}/v0/profile/ch33_bank_accounts`;
+}/v0/profile/direct_deposits`;
 
 export const CLAIM_STATUS_RESPONSE_ELIGIBLE = 'ELIGIBLE';
 export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';
