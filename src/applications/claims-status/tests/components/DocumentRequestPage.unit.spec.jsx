@@ -20,16 +20,20 @@ const claim = {
 
 const params = { id: 1 };
 
+const defaultProps = {
+  claim,
+  params,
+  resetUploads: () => {},
+  clearNotification: () => {},
+  loading: false,
+  navigate: () => {},
+  uploadField: { value: null, dirty: false },
+  files: [],
+};
+
 describe('<DocumentRequestPage>', () => {
   it('when component mounts should set document title', () => {
-    renderWithRouter(
-      <DocumentRequestPage
-        params={params}
-        resetUploads={() => {}}
-        clearNotification={() => {}}
-        loading
-      />,
-    );
+    renderWithRouter(<DocumentRequestPage {...defaultProps} loading />);
 
     expect(document.title).to.equal('Document Request');
   });
@@ -42,14 +46,9 @@ describe('<DocumentRequestPage>', () => {
 
     const { container, rerender } = renderWithRouter(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        resetUploads={() => {}}
-        clearNotification={() => {}}
         loading
-        navigate={() => {}}
-        uploadField={{ value: null, dirty: false }}
-        files={[]}
       />,
     );
 
@@ -74,7 +73,7 @@ describe('<DocumentRequestPage>', () => {
 
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage params={params} loading />,
+      <DocumentRequestPage {...defaultProps} loading />,
     );
     expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
     expect(tree.everySubTree('.claim-container')).to.be.empty;
@@ -91,9 +90,8 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
         message={message}
       />,
     );
@@ -106,15 +104,7 @@ describe('<DocumentRequestPage>', () => {
     };
 
     const { container, rerender } = renderWithRouter(
-      <DocumentRequestPage
-        params={params}
-        trackedItem={trackedItem}
-        claim={claim}
-        uploadField={{ value: null, dirty: false }}
-        files={[]}
-        resetUploads={() => {}}
-        clearNotification={() => {}}
-      />,
+      <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
     expect($('va-alert', container)).not.to.exist;
 
@@ -126,14 +116,9 @@ describe('<DocumentRequestPage>', () => {
     rerenderWithRouter(
       rerender,
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
-        uploadField={{ value: null, dirty: false }}
-        resetUploads={() => {}}
-        files={[]}
         message={message}
-        clearNotification={() => {}}
       />,
     );
     expect($('va-alert', container)).to.exist;
@@ -153,9 +138,8 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
         clearNotification={clearNotification}
         message={message}
       />,
@@ -178,9 +162,8 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
+        {...defaultProps}
         trackedItem={trackedItem}
-        claim={claim}
         uploadComplete
         clearNotification={clearNotification}
         message={message}
@@ -198,11 +181,7 @@ describe('<DocumentRequestPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        params={params}
-        claim={claim}
-        trackedItem={trackedItem}
-      />,
+      <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
 
     expect(tree.subTree('DueDateOld')).not.to.be.false;
@@ -218,11 +197,7 @@ describe('<DocumentRequestPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        params={params}
-        claim={claim}
-        trackedItem={trackedItem}
-      />,
+      <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
 
     expect(tree.subTree('.optional-upload')).not.to.be.false;
@@ -236,8 +211,7 @@ describe('<DocumentRequestPage>', () => {
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        params={params}
-        claim={claim}
+        {...defaultProps}
         trackedItem={trackedItem}
         submitFiles={onSubmit}
       />,
@@ -255,15 +229,10 @@ describe('<DocumentRequestPage>', () => {
     };
     const { container, rerender } = renderWithRouter(
       <DocumentRequestPage
-        params={params}
-        claim={claim}
+        {...defaultProps}
         trackedItem={trackedItem}
         submitFilesLighthouse={submitFilesLighthouse}
-        uploadField={{ value: null, dirty: false }}
         documentsUseLighthouse
-        files={[]}
-        clearNotification={() => {}}
-        resetUploads={() => {}}
       />,
     );
 
@@ -315,11 +284,7 @@ describe('<DocumentRequestPage>', () => {
     renderWithRouter(
       <Provider store={uploadStore}>
         <DocumentRequestPage
-          clearNotification={() => {}}
-          params={params}
-          claim={claim}
-          files={[]}
-          uploadField={{ value: null, dirty: false }}
+          {...defaultProps}
           trackedItem={trackedItem}
           resetUploads={resetUploads}
         />
@@ -343,15 +308,12 @@ describe('<DocumentRequestPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
-        claim={claim}
-        files={[]}
+        {...defaultProps}
         uploadComplete
-        uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
         navigate={navigate}
         params={parameters}
         getClaim={getClaim}
-        resetUploads={() => {}}
       />,
     );
 
