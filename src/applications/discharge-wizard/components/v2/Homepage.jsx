@@ -70,6 +70,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                     <Link
                       className="vads-c-action-link--green"
                       onClick={startForm}
+                      href="#"
                     >
                       Get started
                     </Link>

@@ -19,6 +19,7 @@ const RadioGroup = ({
   formError,
   formResponses,
   formValue,
+  hint,
   H1,
   responses,
   router,
@@ -83,6 +84,7 @@ const RadioGroup = ({
         form-heading={H1}
         form-heading-level={1}
         error={formError ? determineErrorMessage(shortName) : null}
+        hint={hint}
         id="duw-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
         onLoad={applyFocus('duw-radio', headerHasFocused, setHeaderHasFocused)}
@@ -108,6 +110,7 @@ RadioGroup.propTypes = {
   formResponses: PropTypes.object.isRequired,
   formValue: PropTypes.string,
   H1: PropTypes.string.isRequired,
+  hint: PropTypes.string,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
   router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,

@@ -98,21 +98,32 @@ export const prevApplicationYearCutoff = {
 // v2 constants
 export const DUW_VIEWED_INTRO_PAGE =
   'discharge-upgrade-wizard/DUW_VIEWED_INTRO_PAGE';
+export const DUW_UPDATE_FORM_STORE =
+  'discharge-upgrade-wizard/DUW_UPDATE_FORM_STORE';
 export const DUW_UPDATE_SERVICE_BRANCH =
   'discharge-upgrade-wizard/DUW_UPDATE_SERVICE_BRANCH';
 export const DUW_UPDATE_DISCHARGE_YEAR =
   'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_YEAR';
 export const DUW_UPDATE_DISCHARGE_MONTH =
   'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_MONTH';
-export const DUW_UPDATE_FORM_STORE =
-  'discharge-upgrade-wizard/DUW_UPDATE_FORM_STORE';
+export const DUW_UPDATE_REASON = 'discharge-upgrade-wizard/DUW_UPDATE_REASON';
+export const DUW_UPDATE_DISCHARGE_TYPE =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_TYPE';
+export const DUW_UPDATE_COURT_MARTIAL =
+  'discharge-upgrade-wizard/DUW_UPDATE_COURT_MARTIAL';
+export const DUW_UPDATE_INTENTION =
+  'discharge-upgrade-wizard/DUW_UPDATE_INTENTION';
 
 export const ROUTES = Object.freeze({
   HOME: 'introduction',
   SERVICE_BRANCH: 'service-branch',
   DISCHARGE_YEAR: 'discharge-year',
   DISCHARGE_MONTH: 'discharge-month',
-  DISCHARGE_REASON: 'discharge-reason',
+  REASON: 'reason',
+  DISCHARGE_TYPE: 'discharge-type',
+  COURT_MARTIAL: 'court-martial',
+  INTENTION: 'intention',
+  PREVIOUS_APPLICATION_TYPE: 'previous-application-type',
   RESULT: 'result',
 });
 
@@ -120,11 +131,21 @@ export const questionsToClearMap = Object.freeze({
   SERVICE_BRANCH: [],
   DISCHARGE_YEAR: ['DISCHARGE_MONTH'],
   DISCHARGE_MONTH: [],
-  DISCHARGE_REASON: [],
+  REASON: [
+    'DISCHARGE_TYPE',
+    'COURT_MARTIAL',
+    'INTENTION',
+    'PREVIOUS_APPLICATION_TYPE',
+  ],
+  DISCHARGE_TYPE: [],
+  COURT_MARTIAL: [],
+  INTENTION: [],
+  PREVIOUS_APPLICATION_TYPE: [],
 });
 
 export const errorTextMap = Object.freeze({
   SERVICE_BRANCH: 'Select a branch',
   DISCHARGE_YEAR: 'Select a year',
   DISCHARGE_MONTH: 'Select a month',
+  REASON: 'Select a reason',
 });
