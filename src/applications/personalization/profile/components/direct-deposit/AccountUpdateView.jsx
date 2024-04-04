@@ -75,8 +75,12 @@ export const AccountUpdateView = ({
 
   const formCancel = useCallback(
     () => {
+      // is form dirty? i.e. if it's been changed since opened
+      // if form data is empty:
       setFormData({});
       dispatch(toggleDirectDepositEdit(false));
+
+      // if not empty:
       setShouldShowCancelModal(true);
     },
     [dispatch, setFormData],
@@ -107,6 +111,7 @@ export const AccountUpdateView = ({
       />
 
       <ConfirmCancelModal
+        // cancelled clicked, is form dirty
         isVisible={shouldShowCancelModal}
         closeModal={() => {
           setShouldShowCancelModal(false);
@@ -122,6 +127,7 @@ AccountUpdateView.propTypes = {
   formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.oneOfType([
     PropTypes.string,

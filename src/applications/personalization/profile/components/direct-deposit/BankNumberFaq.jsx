@@ -20,11 +20,11 @@ export const BankNumberFaq = (
     <div>
       <p>If you don’t have a printed check, you can:</p>
       <ul>
-        <li>
+        <li key="sign-in">
           Sign in to your online bank account and check your account details, or
         </li>
-        <li>Check your bank statement, or</li>
-        <li>Call your bank</li>
+        <li key="statement">Check your bank statement, or</li>
+        <li key="call">Call your bank</li>
       </ul>
     </div>
   </va-additional-info>

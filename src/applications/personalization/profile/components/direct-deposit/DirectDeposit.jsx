@@ -134,6 +134,7 @@ export const DirectDeposit = () => {
       error={error}
       formData={formData}
       setFormData={setFormData}
+      formSubmit={() => {}}
     >
       <LoadingButton
         aria-label="save your bank information for benefits"
