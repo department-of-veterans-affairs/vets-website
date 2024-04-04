@@ -144,7 +144,10 @@ export default {
             careType: radioSchema(Object.keys(careOptions)),
             ratePerHour: { type: 'number' },
             hoursPerWeek: numberSchema,
-            careDateRange: dateRangeSchema,
+            careDateRange: {
+              ...dateRangeSchema,
+              required: ['from'],
+            },
             noCareEndDate: { type: 'boolean' },
             paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
             paymentAmount: { type: 'number' },
