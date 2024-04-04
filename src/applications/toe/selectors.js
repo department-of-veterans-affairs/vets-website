@@ -25,5 +25,8 @@ export const getAppData = state => ({
     state.featureToggles.showMeb1990EMaintenanceAlert,
   showMebEnhancements06: state.featureToggles.showMebEnhancements06,
   showMebEnhancements08: state.featureToggles.showMebEnhancements08,
+  toeLightHouseDgiDirectDeposit: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.toeLightHouseDgiDirectDeposit
+  ],
   user: state.user || {},
 });

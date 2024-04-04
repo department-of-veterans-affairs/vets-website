@@ -5,10 +5,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import {
-  applicantWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
+import { additionalFilesHint } from '../helpers/wordingCustomization';
+import { applicantWording } from '../../shared/utilities';
 
 const keyname = 'applicantHasOhi';
 

@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "2713412",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2713412,
+        "category": "COVID",
+        "subject": "New",
+        "body": "Message",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientId": 2298160,
+        "recipientName": "Dimitar's TG",
+        "readReceipt": null,
+        "triageGroupName": "Dimitar's TG",
+        "proxySenderName": null,
+        "threadId": 2713411,
+        "folderId": -2,
+        "messageBody": "Message",
+        "draftDate": "2023-03-21T18:35:43.000+00:00",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2713412"
+      }
+    }
+  ]
+}
