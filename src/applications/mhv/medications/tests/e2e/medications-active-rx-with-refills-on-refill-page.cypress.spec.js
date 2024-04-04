@@ -7,14 +7,18 @@ describe('Medications Refill Page with Active Rx', () => {
   it('visits Medications Refill Page Active Rx With Refills Remaining', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
-
+    const checkBox = 0;
     site.login();
     refillPage.loadRefillPage(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitle();
-    refillPage.verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage();
-    refillPage.verifyActiveRxWithRefillsRemainingIsDisplayedOnRefillPage();
+    refillPage.verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage(
+      checkBox,
+    );
+    refillPage.verifyActiveRxStatusOnRefillPage(
+      activeRxWithRefills.data.attributes.refillStatus,
+    );
     refillPage.verifyRefillsRemainingForActiveRxOnRefillPage(
       activeRxWithRefills.data.attributes.prescriptionNumber,
       activeRxWithRefills.data.attributes.refillRemaining,

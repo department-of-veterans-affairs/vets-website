@@ -100,18 +100,18 @@ class MedicationsRefillPage {
     );
   };
 
-  verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = () => {
-    cy.get('[data-testid="refill-prescription-checkbox-0"]').should(
+  verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = checkBox => {
+    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
       'be.enabled',
     );
   };
 
-  verifyActiveRxWithRefillsRemainingIsDisplayedOnRefillPage = () => {
+  verifyActiveRxStatusOnRefillPage = status => {
     cy.get('@refillList')
       .its('response')
       .then(res => {
         expect(res.body.data[5].attributes).to.include({
-          refillStatus: 'active',
+          refillStatus: status,
         });
       });
   };
