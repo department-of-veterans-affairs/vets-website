@@ -45,9 +45,11 @@ export const Form0996App = ({
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
+  const isWizardComplete = getHlrWizardStatus() === WIZARD_STATUS_COMPLETE;
+
   useEffect(
     () => {
-      if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
+      if (loggedIn && isWizardComplete) {
         const areaOfDisagreement = getSelected(formData);
         if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
           // load benefit type contestable issues
@@ -126,7 +128,10 @@ export const Form0996App = ({
     </RoutedSavableApp>
   );
 
-  if (shouldShowWizard(formConfig.formId, savedForms)) {
+  if (
+    !location.pathname.endsWith('/start') &&
+    shouldShowWizard(formConfig.formId, savedForms)
+  ) {
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -138,6 +143,7 @@ export const Form0996App = ({
     );
   } else if (
     loggedIn &&
+    isWizardComplete &&
     ((contestableIssues?.status || '') === '' ||
       contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
   ) {

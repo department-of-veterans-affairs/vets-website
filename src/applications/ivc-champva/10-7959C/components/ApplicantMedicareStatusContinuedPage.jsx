@@ -11,7 +11,7 @@ const PROPERTY_NAMES = {
   secondary: 'otherMedicareContext',
 };
 
-export function generateOptions({ data, pagePerItemIndex }) {
+function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
   const haveOrHas = bp.relative === 'I' ? 'have' : 'has';
   const prompt = `Which of these best describes ${
