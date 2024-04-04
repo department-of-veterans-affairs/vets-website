@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 import Breadcrumbs from './Breadcrumbs';
 
@@ -20,3 +21,6 @@ export default function DischargeWizardApp({ children }) {
     </div>
   );
 }
+DischargeWizardApp.propTypes = {
+  children: PropTypes.any,
+};

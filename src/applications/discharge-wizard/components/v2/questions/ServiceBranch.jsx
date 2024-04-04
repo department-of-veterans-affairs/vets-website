@@ -8,7 +8,7 @@ import {
 } from '../../../constants/question-data-map';
 import RadioGroup from './shared/RadioGroup';
 import { updateServiceBranch } from '../../../actions';
-import { pageSetup } from '../../../../pact-act/utilities/page-setup';
+import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
 const ServiceBranch = ({
@@ -40,7 +40,7 @@ const ServiceBranch = ({
   );
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div>
       <RadioGroup
         formError={formError}
         formResponses={formResponses}
@@ -58,12 +58,12 @@ const ServiceBranch = ({
 };
 
 ServiceBranch.propTypes = {
-  formResponses: PropTypes.object,
-  setServiceBranch: PropTypes.func,
+  formResponses: PropTypes.object.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
-  viewedIntroPage: PropTypes.bool,
+  setServiceBranch: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

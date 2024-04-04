@@ -8,7 +8,7 @@ import {
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
 import { updateDischargeYear } from '../../../actions';
-import { pageSetup } from '../../../../pact-act/utilities/page-setup';
+import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
 import Dropdown from './shared/Dropdown';
@@ -74,10 +74,12 @@ const DischargeYear = ({
 };
 
 DischargeYear.propTypes = {
-  formResponses: PropTypes.object,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  setDischargeYear: PropTypes.func,
+  formResponses: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setDischargeYear: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
