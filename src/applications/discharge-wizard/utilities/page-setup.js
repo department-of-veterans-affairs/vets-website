@@ -49,3 +49,23 @@ export const pageSetup = H1 => {
   waitForRenderThenFocus('h1');
   document.title = customizeTitle(H1);
 };
+
+export const applyErrorFocus = (
+  id,
+  elementHasFocused,
+  setElementHasFocused,
+) => {
+  if (!elementHasFocused) {
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.setAttribute('tabindex', '-1');
+        element.addEventListener('focus', () => {
+          element.style.outline = 'none';
+        });
+        element.focus();
+        setElementHasFocused(true);
+      }
+    }, 500);
+  }
+};

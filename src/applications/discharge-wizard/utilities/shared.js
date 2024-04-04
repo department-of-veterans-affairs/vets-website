@@ -1,4 +1,4 @@
-import { ROUTES, errorTextMap } from '../constants';
+import { ROUTES, errorTextMap, labelTextMap } from '../constants';
 
 export const printErrorMessage = message =>
   // eslint-disable-next-line no-console
@@ -17,4 +17,8 @@ export const determineErrorMessage = shortName => {
   return errorTextMap[shortName]
     ? errorTextMap[shortName]
     : 'Select a response';
+};
+
+export const determineLabel = shortName => {
+  return labelTextMap[shortName] ? labelTextMap[shortName] : '';
 };

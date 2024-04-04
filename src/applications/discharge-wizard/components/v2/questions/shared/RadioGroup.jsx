@@ -10,7 +10,7 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../../../utilities/page-navigation';
-import { applyFocus } from '../../../../utilities/page-setup';
+import { applyFocus, applyErrorFocus } from '../../../../utilities/page-setup';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
 import { updateFormStore } from '../../../../actions';
 import { determineErrorMessage } from '../../../../utilities/shared';
@@ -34,6 +34,7 @@ const RadioGroup = ({
   const onContinueClick = () => {
     if (!formValue) {
       setFormError(true);
+      applyErrorFocus('duw-dropdown', headerHasFocused, setHeaderHasFocused);
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
@@ -79,6 +80,7 @@ const RadioGroup = ({
   return (
     <>
       <VaRadio
+        class="vads-u-margin-top--6"
         data-testid={testId}
         form-heading={H1}
         form-heading-level={1}

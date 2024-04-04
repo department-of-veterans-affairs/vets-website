@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROUTES } from '../../constants';
 import { updateIntroPageViewed } from '../../actions';
-import { pageSetup } from '../../../pact-act/utilities/page-setup';
+import { pageSetup } from '../../utilities/page-setup';
 import { QUESTION_MAP } from '../../constants/question-data-map';
 
 const HomePage = ({ router, setIntroPageViewed }) => {
@@ -25,7 +25,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
       itemScope
       itemType="http://schema.org/FAQPage"
     >
-      <h1 itemProp="name">{H1}</h1>
+      <h1>{H1}</h1>
       <div className="row">
         <article className="usa-content columns">
           <div className="va-introtext">
@@ -69,6 +69,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
                       className="vads-c-action-link--green"
+                      href="#"
                       onClick={startForm}
                     >
                       Get started
@@ -78,11 +79,8 @@ const HomePage = ({ router, setIntroPageViewed }) => {
               </div>
               <div className="row">
                 <div className="small-12 columns">
-                  <va-accordion uswds>
-                    <va-accordion-item
-                      header="Can I get VA benefits without a discharge upgrade?"
-                      uswds
-                    >
+                  <va-accordion>
+                    <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">
                       <p>
                         Even with a less than honorable discharge, you may be
                         able to access some VA benefits through the Character of
@@ -139,10 +137,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                         </li>
                       </ul>
                     </va-accordion-item>
-                    <va-accordion-item
-                      header="What if I already applied for an upgrade or correction and was denied?"
-                      uswds
-                    >
+                    <va-accordion-item header="What if I already applied for an upgrade or correction and was denied?">
                       <p>
                         If your previous upgrade application was denied, you can
                         apply again, but you may have to follow a different
@@ -157,17 +152,14 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                         application is significantly different from when you
                         last applied. For example, you may have additional
                         evidence that wasn’t available to you when you last
-                        applied, or the Departent of Defense (DoD) may have
+                        applied, or the Department of Defense (DoD) may have
                         issued new rules regarding discharges. DoD rules changed
                         for discharges related to PTSD, TBI, and mental health
                         in 2014, military sexual harassment and assault in 2017,
                         and sexual orientation in 2011.
                       </p>
                     </va-accordion-item>
-                    <va-accordion-item
-                      header="What if I have discharges for more than one period of service?"
-                      uswds
-                    >
+                    <va-accordion-item header="What if I have discharges for more than one period of service?">
                       <p>
                         If the Department of Defense (DoD) or the Coast Guard
                         determined you served honorably in one period of
@@ -190,10 +182,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                         service.
                       </p>
                     </va-accordion-item>
-                    <va-accordion-item
-                      header="What if I served honorably, but didn’t receive discharge paperwork?"
-                      uswds
-                    >
+                    <va-accordion-item header="What if I served honorably, but didn’t receive discharge paperwork?">
                       <p>
                         You’re eligible for VA benefits at the end of a period
                         of honorable service, even if you didn’t receive a
@@ -222,10 +211,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                         paperwork from that period.”
                       </p>
                     </va-accordion-item>
-                    <va-accordion-item
-                      header="What if I have a DD215 showing an upgraded discharge, but my DD214 still isn’t correct?"
-                      uswds
-                    >
+                    <va-accordion-item header="What if I have a DD215 showing an upgraded discharge, but my DD214 still isn’t correct?">
                       <p>
                         When the Department of Defense (DoD) or the Coast Guard
                         upgrades a Veteran’s discharge, it usually issues a

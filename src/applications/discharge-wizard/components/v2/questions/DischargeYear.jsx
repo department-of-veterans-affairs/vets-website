@@ -74,10 +74,12 @@ const DischargeYear = ({
 };
 
 DischargeYear.propTypes = {
-  formResponses: PropTypes.object,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  setDischargeYear: PropTypes.func,
+  formResponses: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setDischargeYear: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

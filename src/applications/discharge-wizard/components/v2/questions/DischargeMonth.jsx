@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { months } from 'platform/static-data/options-for-select.js';
+import { months } from 'platform/static-data/options-for-select';
 import {
   QUESTION_MAP,
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
 import { updateDischargeMonth } from '../../../actions';
-import { pageSetup } from '../../../../pact-act/utilities/page-setup';
+import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
 import Dropdown from './shared/Dropdown';
@@ -65,10 +65,12 @@ const DischargeMonth = ({
 };
 
 DischargeMonth.propTypes = {
-  formResponses: PropTypes.object,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setDischargeMonth: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
