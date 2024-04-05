@@ -146,9 +146,19 @@ describe('createMedicationDescription', () => {
         backImprint: null,
       }),
     ).to.eq('Aquamarine, orb with HELLO there on the front.');
+
+    // backImprint is a string of blank spaces
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'ORB',
+        frontImprint: 'HELLO there',
+        backImprint: '            ',
+      }),
+    ).to.eq('Aquamarine, orb with HELLO there on the front.');
   });
 
-  it('should return null when not any required field is null', () => {
+  it('should return null when not any required field is null or a blank string', () => {
     expect(
       createMedicationDescription({
         color: null,
@@ -181,6 +191,24 @@ describe('createMedicationDescription', () => {
         color: 'Aquamarine',
         shape: 'orb',
         frontImprint: null,
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: ' ',
+        shape: 'orb',
+        frontImprint: null,
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'long',
+        frontImprint: ' ',
         backImprint: '2',
       }),
     ).to.be.null;
