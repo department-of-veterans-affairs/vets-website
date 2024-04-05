@@ -365,16 +365,17 @@ const SearchPage = props => {
           </p>
         </div>
 
-        {!environment.isProduction() && (
-          <div>
-            <h2>Check your current accredited representative</h2>
-            <p>
-              Va doesn’t automatically assign you an accredited representative.
-              But you may have appointed one in the past.{' '}
-            </p>
-            <div data-widget-type="representative-status" />
-          </div>
-        )}
+        {!environment.isProduction() &&
+          repStatusEnabled && (
+            <div>
+              <h2>Check your current accredited representative</h2>
+              <p>
+                Va doesn’t automatically assign you an accredited
+                representative. But you may have appointed one in the past.{' '}
+              </p>
+              <div data-widget-type="representative-status" />
+            </div>
+          )}
 
         <SearchControls
           geolocateUser={props.geolocateUser}
