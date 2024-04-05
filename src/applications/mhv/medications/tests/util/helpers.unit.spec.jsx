@@ -128,8 +128,8 @@ describe('extractContainedResource', () => {
 describe('createMedicationDescription', () => {
   it('should generate a description when all required fields are part of arg object', () => {
     const args = {
-      color: 'Aquamarine',
-      shape: 'donut',
+      color: 'AQUAMARINE',
+      shape: 'DONUT',
       frontImprint: '1,2',
       backImprint: '3,4',
     };
@@ -141,7 +141,7 @@ describe('createMedicationDescription', () => {
     expect(
       createMedicationDescription({
         color: 'Aquamarine',
-        shape: 'orb',
+        shape: 'ORB',
         frontImprint: '1',
         backImprint: null,
       }),
