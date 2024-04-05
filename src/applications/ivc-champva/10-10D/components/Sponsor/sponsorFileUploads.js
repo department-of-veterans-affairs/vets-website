@@ -125,15 +125,20 @@ export const fileUploadBlurb = {
           <b>How to upload files</b>
           <ul>
             <li>
-              Use a .{fileTypes.slice(0, -1).join(', .')}, or .
-              {fileTypes.slice(-1)} file format
+              Format the file as a .{fileTypes.slice(0, -1).join(', .')}, or .
+              {fileTypes.slice(-1)} file
             </li>
-            <li>Make sure that file size is {maxSize} or less.</li>
+            <li>Make sure that file size is {maxSize} or less</li>
             <li>
-              If you only have a paper copy, scan or take a photo and upload the
-              image.
+              If you don’t have a digital copy of your document, you can scan or
+              take a photo of it and then upload the image from your computer or
+              phone
             </li>
           </ul>
+          <p>
+            If you don’t want to upload your supporting files now, you’ll have
+            the option to upload them again at the end of this application.
+          </p>
         </div>
       </>
     ),
