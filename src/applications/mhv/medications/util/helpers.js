@@ -131,3 +131,23 @@ export const extractContainedResource = (resource, referenceId) => {
   }
   return null;
 };
+
+/**
+ * Extract a contained resource from a FHIR resource's "contained" array.
+ * @param {Object} medicationInfo shape, color, frontImprint, backImprint
+ * @param {Boolean} html whether to return html or plain text
+ * @returns {String|null} a description of the medication or null if a description can't be generated
+ */
+export const createMedicationDescription = ({
+  shape = null,
+  color = null,
+  frontImprint = null,
+  backImprint = null,
+}) => {
+  let desc = null;
+  if (shape && color && frontImprint && backImprint) {
+    desc = `${color}, ${shape} with ${frontImprint} on the front and ${backImprint} on the back`;
+    desc = `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}`;
+  }
+  return desc;
+};

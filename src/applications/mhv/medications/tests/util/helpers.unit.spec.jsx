@@ -8,6 +8,7 @@ import {
   getReactions,
   processList,
   validateField,
+  createMedicationDescription,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -120,5 +121,67 @@ describe('extractContainedResource', () => {
 
     const result = extractContainedResource(resource, '#b2');
     expect(result).to.eq(null);
+  });
+});
+
+describe('createMedicationDescription', () => {
+  it('should generate a description when all required fields are part of arg object', () => {
+    const args = {
+      color: 'Aquamarine',
+      shape: 'donut',
+      frontImprint: '1,2',
+      backImprint: '3,4',
+    };
+    const result = createMedicationDescription(args);
+    expect(result).to.eq(
+      'Aquamarine, donut with 1,2 on the front and 3,4 on the back',
+    );
+  });
+
+  it('should return null when not any required field is null', () => {
+    expect(
+      createMedicationDescription({
+        color: null,
+        shape: null,
+        frontImprint: null,
+        backImprint: null,
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: null,
+        shape: 'orb',
+        frontImprint: '1',
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: null,
+        frontImprint: '1',
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'orb',
+        frontImprint: null,
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'orb',
+        frontImprint: '1',
+        backImprint: null,
+      }),
+    ).to.be.null;
   });
 });

@@ -2,35 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { validateField, getImageUri, dateFormat } from '../../util/helpers';
+import {
+  validateField,
+  getImageUri,
+  dateFormat,
+  createMedicationDescription,
+} from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 
-const rxRefillDescription = rxRefill => {
-  const {
-    shape = null,
-    color = null,
-    frontImprint = null,
-    backImprint = null,
-    cmopDivisionPhone = null,
-    dialCmopDivisionPhone = null,
-  } = rxRefill;
-  if (shape && color && frontImprint && backImprint) {
-    const desc = `${color}, ${shape} with ${frontImprint} on the front and ${backImprint} on the back`;
-    return `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}`;
-  }
-  const dialFragment =
-    dialCmopDivisionPhone || cmopDivisionPhone ? (
+const createDescriptionAlternative = (phone = null) => {
+  let dialFragment = '';
+  if (phone) {
+    dialFragment = (
       <>
         {' '}
-        at <va-telephone contact={dialCmopDivisionPhone || cmopDivisionPhone} />
+        at <va-telephone contact={phone} />
       </>
-    ) : (
-      ''
     );
+  }
   return (
     <>
       No description available. Call your pharmacy
@@ -176,7 +169,12 @@ const VaPrescription = prescription => {
             {(refillHistory.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => {
-                const description = rxRefillDescription(entry);
+                let description = createMedicationDescription(entry);
+                if (description == null) {
+                  const phone =
+                    entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                  description = createDescriptionAlternative(phone);
+                }
                 const refillPosition = refillHistory.length - i - 1;
                 const refillLabelId = `rx-refill-${refillPosition}`;
                 const descId = `rx-med-description-${refillPosition}`;
