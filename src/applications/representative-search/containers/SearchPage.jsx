@@ -32,6 +32,7 @@ import {
   geocodeUserAddress,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
@@ -436,6 +437,7 @@ const SearchPage = props => {
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
           initializeRepresentativeReport={props.initializeRepresentativeReport}
+          cancelRepresentativeReport={props.cancelRepresentativeReport}
           reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
@@ -510,6 +512,7 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
+  cancelRepresentativeReport: PropTypes.func,
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
@@ -599,6 +602,7 @@ const mapDispatchToProps = {
   clearSearchText,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };
