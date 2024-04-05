@@ -35,7 +35,7 @@ const RadioGroup = ({
   const onContinueClick = () => {
     if (!formValue) {
       setFormError(true);
-      applyErrorFocus('duw-dropdown', headerHasFocused, setHeaderHasFocused);
+      applyErrorFocus('duw-radio');
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
