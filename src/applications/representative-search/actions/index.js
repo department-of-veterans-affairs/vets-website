@@ -8,6 +8,7 @@ import { searchWithInput } from './search/searchWithInput';
 import { updateSearchQuery } from './search/updateSearchQuery';
 import { submitRepresentativeReport } from './reports/submitRepresentativeReport';
 import { initializeRepresentativeReport } from './reports/initializeRepresentativeReport';
+import { cancelRepresentativeReport } from './reports/cancelRepresentativeReport';
 import { updateFromLocalStorage } from './reports/updateFromLocalStorage';
 import { clearError } from './error/clearError';
 
@@ -20,6 +21,7 @@ export { geocodeUserAddress };
 export { searchWithInput };
 export { updateSearchQuery };
 export { submitRepresentativeReport };
+export { cancelRepresentativeReport };
 export { initializeRepresentativeReport };
 export { updateFromLocalStorage };
 export { clearError };

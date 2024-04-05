@@ -10,7 +10,9 @@ import generateEmployersSchemas, {
   EmployerView,
 } from '../../../../config/chapters/03-health-and-employment-information/employmentHistory';
 
-const { schema, uiSchema } = generateEmployersSchemas();
+const { schema, uiSchema } = generateEmployersSchemas({
+  showJobTitleField: true,
+});
 
 describe('pensions employment history', () => {
   const pageTitle = 'employment history';
@@ -39,6 +41,13 @@ describe('pensions employment history', () => {
       );
       const text = container.querySelector('h3');
       expect(text.innerHTML).to.equal('Contractor');
+    });
+    it('should render a list view with a jobType', () => {
+      const { container } = render(
+        <EmployerView formData={{ jobType: 'Construction' }} />,
+      );
+      const text = container.querySelector('h3');
+      expect(text.innerHTML).to.equal('Construction');
     });
   });
 });

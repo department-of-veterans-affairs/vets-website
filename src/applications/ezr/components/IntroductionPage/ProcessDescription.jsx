@@ -13,15 +13,15 @@ const ProcessDescription = () => (
 
     <p>
       Use the Health Benefits Update Form (VA Form 10-10EZR) to update your
-      personal, financial, and insurance information after you’re enrolled in VA
-      health care.
+      personal, financial, insurance, or military service history information
+      after you’re enrolled in VA health care.
     </p>
 
     <TeraRedirectAlert />
 
     <h2>What to know before you fill out this form</h2>
 
-    <p>You can update this household financial information:</p>
+    <p>You can update this type of information:</p>
     <ul>
       <li>Your marital status</li>
       <li>Dependent information</li>
@@ -29,7 +29,10 @@ const ProcessDescription = () => (
         Income information from {LAST_YEAR} for you, your spouse (if you’re
         married), and any dependents you may have
       </li>
-      <li>You or your spouse’s deductible expenses from {LAST_YEAR}</li>
+      <li>
+        Deductible expenses from {LAST_YEAR} for you or your spouse (expenses
+        that you can subtract from your income)
+      </li>
     </ul>
 
     <p>
@@ -53,7 +56,18 @@ const ProcessDescription = () => (
         other. This also includes Medicare, private insurance, or insurance from
         your employer.
       </li>
+      <li>
+        <strong>Military service history information.</strong> This includes
+        details about exposure to any toxins or other hazards.
+      </li>
     </ul>
+    <p>
+      <strong>Note:</strong> You can provide more information about your
+      military service history and we’ll determine if you may have had exposure
+      to any toxins or other hazards. We’ll also determine if we’ll place you in
+      a higher priority group. This may affect how much (if anything) you’ll
+      have to pay toward the cost of your care.
+    </p>
   </>
 );
 

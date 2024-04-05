@@ -45,11 +45,11 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
     });
     afterEach(() => {

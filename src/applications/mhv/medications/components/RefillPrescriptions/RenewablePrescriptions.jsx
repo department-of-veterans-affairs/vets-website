@@ -7,6 +7,7 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 import { dateFormat } from '../../util/helpers';
+import { medicationsUrls } from '../../util/constants';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
@@ -41,16 +42,16 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       setBreadcrumbs(
         [
           {
-            url: '/my-health/medications/about',
+            url: medicationsUrls.MEDICATIONS_ABOUT,
             label: 'About medications',
           },
           {
-            url: `/my-health/medications`,
+            url: medicationsUrls.MEDICATIONS_URL,
             label: 'Medications',
           },
         ],
         {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
+          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
           label: rx?.prescriptionName,
         },
       ),
@@ -67,7 +68,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         You may need to renew it. Here are some recent prescriptions you may
         need to renew.{' '}
         <va-link
-          href="/my-health/medications/about/accordion-renew-rx"
+          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
           text="Learn how to renew prescriptions"
           data-testid="learn-to-renew-prescriptions-link"
         />
