@@ -31,6 +31,7 @@ import {
 } from '../util/constants';
 import PrintDownload, {
   DOWNLOAD_FORMAT,
+  PRINT_FORMAT,
 } from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
@@ -313,7 +314,7 @@ const Prescriptions = () => {
     () => {
       if (
         !prescriptionsFullList?.length &&
-        pdfTxtGenerateStatus.format === 'print-full-list'
+        pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
       ) {
         const getFullList = async () => {
           await getPrescriptionSortedList(
@@ -333,8 +334,8 @@ const Prescriptions = () => {
       }
       if (
         ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== 'print') ||
-          (pdfTxtGenerateStatus.format === 'print' &&
+          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
             paginatedPrescriptionsList?.length)) &&
         allergies &&
         !allergiesError &&
@@ -350,10 +351,13 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
-        } else if (pdfTxtGenerateStatus.format.includes('print')) {
+        } else if (
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
+        ) {
           if (!isLoading && loadingMessage === '') {
             setPrintedList(
-              pdfTxtGenerateStatus.format !== 'print-full-list'
+              pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST
                 ? paginatedPrescriptionsList
                 : prescriptionsFullList,
             );
@@ -366,8 +370,8 @@ const Prescriptions = () => {
         }
       } else if (
         ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format === 'print-full-list') ||
-          (pdfTxtGenerateStatus.format === 'print' &&
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST) ||
+          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
             paginatedPrescriptionsList?.length)) &&
         allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
@@ -391,7 +395,7 @@ const Prescriptions = () => {
   const handleFullListDownload = async format => {
     if (format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT) {
       updateLoadingStatus(true, 'Downloading your file...');
-    } else if (!allergies || format === 'print-full-list')
+    } else if (!allergies || format === PRINT_FORMAT.PRINT_FULL_LIST)
       updateLoadingStatus(true, 'Downloading your file...');
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
@@ -419,7 +423,7 @@ const Prescriptions = () => {
     } else {
       updateLoadingStatus(false, '');
       setPrintedList(
-        pdfTxtGenerateStatus.format !== 'print-full-list'
+        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST
           ? paginatedPrescriptionsList
           : prescriptionsFullList,
       );
@@ -473,12 +477,14 @@ const Prescriptions = () => {
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
             onCancelButtonClick={handleModalClose}
-            isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
+            isPrint={Boolean(
+              pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT,
+            )}
             visible={Boolean(
               ((prescriptionsFullList?.length &&
-                pdfTxtGenerateStatus.format !== 'print') ||
+                pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
                 (paginatedPrescriptionsList?.length &&
-                  pdfTxtGenerateStatus.format === 'print')) &&
+                  pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
                 pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.InProgress &&
                 allergiesError,

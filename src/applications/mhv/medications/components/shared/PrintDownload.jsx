@@ -7,6 +7,11 @@ export const DOWNLOAD_FORMAT = {
   TXT: 'TXT',
 };
 
+export const PRINT_FORMAT = {
+  PRINT: 'print',
+  PRINT_FULL_LIST: 'print-full-list',
+};
+
 const PrintDownload = props => {
   const { download, isSuccess, list } = props;
   const [isError, setIsError] = useState(false);
@@ -121,7 +126,7 @@ const PrintDownload = props => {
               id="printButton-0"
               type="button"
               data-testid="download-print-button"
-              onClick={() => handlePrint('print')}
+              onClick={() => handlePrint(PRINT_FORMAT.PRINT)}
             >
               Print this {list ? 'page of the list' : 'page'}
             </button>
@@ -133,7 +138,7 @@ const PrintDownload = props => {
                 id="printButton-0"
                 type="button"
                 data-testid="download-print-all-button"
-                onClick={() => handlePrint('print-full-list')}
+                onClick={() => handlePrint(PRINT_FORMAT.PRINT_FULL_LIST)}
               >
                 Print all medications
               </button>
