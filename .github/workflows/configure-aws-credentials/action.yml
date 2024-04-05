@@ -13,13 +13,16 @@ inputs:
     required: true
   role:
     description: Role to assume
-    required: true
+    required: false
+    default: ''
   session_name:
     description: Role Session Name
-    required: true
+    required: false
+    default: ''
   role_duration:
     description: Role Duration in Seconds
-    required: true
+    required: false
+    default: ''
 
 outputs:
   ecr_user: 
