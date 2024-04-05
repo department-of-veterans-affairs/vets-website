@@ -24,7 +24,6 @@ const NoRecentPaymentText = () => {
 const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
   return (
     <>
-      <h3 className="sr-only">Popular actions for Benefit Payments</h3>
       {/* todo check for direct deposit first */}
       <IconCTALink
         href="/profile/direct-deposit"
