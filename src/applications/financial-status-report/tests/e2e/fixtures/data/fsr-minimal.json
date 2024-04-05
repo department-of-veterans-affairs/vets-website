@@ -1,0 +1,168 @@
+{
+  "data": {
+    "questions": {
+      "hasRepayments": false,
+      "hasCreditCardBills": false,
+      "hasRecreationalVehicle": false,
+      "hasVehicle": false,
+      "hasRealEstate": false,
+      "isMarried": false,
+      "hasDependents":   "0",
+      "hasBeenAdjudicatedBankrupt": false
+    },
+    "view:components": {
+      "view:contractsAdditionalInfo": {},
+      "view:realEstateAdditionalInfo": {},
+      "view:maritalStatus": {},
+      "view:veteranInfo": {},
+      "view:dependentsAdditionalInfo": {},
+      "view:vaBenefitsOnFile": {},
+      "view:recVehicleInfo": {}
+    },
+    "personalData": {
+      "veteranFullName": {
+        "first":   "Travis",
+        "last":   "Jones",
+        "middle":   "D"
+      },
+      "dateOfBirth":   "1950-09-06",
+      "veteranContactInformation": {
+        "email":   "test@user.com",
+        "mobilePhone": {
+          "areaCode":   "510",
+          "countryCode":   "1",
+          "createdAt":   "2020-06-12T16:56:37.000+00:00",
+          "extension":   "",
+          "effectiveEndDate": null,
+          "effectiveStartDate":   "2020-07-14T19:07:45.000+00:00",
+          "id": 146766,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber":   "9224444",
+          "phoneType":   "HOME",
+          "sourceDate":   "2020-07-14T19:07:45.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId":   "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+          "updatedAt":   "2020-07-14T19:07:46.000+00:00",
+          "vet360Id":   "1273780"
+        },
+        "address": {
+          "addressLine1":   "1200 Park Ave",
+          "addressLine2":   "c/o Pixar",
+          "addressPou":   "CORRESPONDENCE",
+          "addressType":   "DOMESTIC",
+          "city":   "Emeryville",
+          "countryName":   "United States",
+          "countryCodeIso2":   "US",
+          "countryCodeIso3":   "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt":   "2020-05-30T03:57:20.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate":   "2020-07-10T20:10:45.000+00:00",
+          "id": 173917,
+          "province": null,
+          "sourceDate":   "2020-07-10T20:10:45.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode":   "CA",
+          "transactionId":   "7139aa82-fd06-45ea-a217-9654869924bd",
+          "updatedAt":   "2020-07-10T20:10:46.000+00:00",
+          "validationKey": null,
+          "vet360Id":   "1273780",
+          "zipCode":   "94608",
+          "zipCodeSuffix": null
+        }
+      },
+      "spouseFullName": {},
+      "dependents": [],
+      "address": {
+        "street":   "375 Mountainhigh Dr",
+        "city":   "Antioch",
+        "state":   "TN",
+        "country":   "USA",
+        "postalCode":   "37013"
+      },
+      "telephoneNumber":   "4445551212",
+      "emailAddress":   "test2@test1.net"
+    },
+    "personalIdentification": {
+      "ssn":   "3018",
+      "fileNumber":   "3018"
+    },
+    "selectedDebtsAndCopays": [
+    {
+        "resolutionWaiverCheck": true,
+        "resolutionOption":   "waiver",
+        "fileNumber":   "796121200",
+        "payeeNumber":   "00",
+        "personEntitled":   "AJHONS",
+        "deductionCode":   "30",
+        "benefitType":   "Comp & Pen",
+        "diaryCode":   "080",
+        "diaryCodeDescription":   "Referred to the Department of the Treasury",
+        "amountOverpaid": 0,
+        "amountWithheld": 0,
+        "originalAr": 136.24,
+        "currentAr": 100,
+        "debtHistory": [
+        {
+            "date":   "02/25/2009",
+            "letterCode":   "914",
+            "description":   "Paid In Full - Account balance cleared via offset, not including TOP."
+          },
+        {
+            "date":   "02/07/2009",
+            "letterCode":   "905",
+            "description":   "Administrative Write Off"
+          },
+        {
+            "date":   "12/03/2008",
+            "letterCode":   "487",
+            "description":   "Death Case Pending Action"
+          }
+        ],
+        "id": 0,
+        "debtType":   "DEBT",
+        "resolutionComment":   ""
+      }
+    ],
+    "additionalIncome": {
+      "spouse": {}
+    },
+    "benefits": {
+      "spouseBenefits": {}
+    },
+    "assets": {},
+    "expenses": {},
+    "additionalData": {
+      "bankruptcy": {},
+      "additionalComments":   "Supporting personal statement"
+    },
+    "view:enhancedFinancialStatusReport": true,
+    "view:streamlinedWaiver": true,
+    "view:streamlinedWaiverAssetUpdate": true,
+    "view:reviewPageNavigationToggle": true,
+    "income": [
+    {
+        "veteranOrSpouse":   "VETERAN"
+      }
+    ],
+    "gmtData": {
+      "isEligibleForStreamlined": false,
+      "gmtThreshold": null,
+      "error": {
+        "error":   "Invalid zipcode"
+      }
+    },
+    "socialSecurity": {
+      "spouse": {}
+    },
+    "employmentHistory": {
+      "spouse": {}
+    }
+  }
+}

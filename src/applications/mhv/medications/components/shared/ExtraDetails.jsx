@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
-import { dispStatusObj } from '../../util/constants';
+import { dispStatusObj, medicationsUrls } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -62,7 +62,7 @@ const ExtraDetails = rx => {
             You have no refills left. If you need more, request a renewal.
           </p>
           <va-link
-            href="/my-health/medications/about/accordion-renew-rx"
+            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
           />
@@ -120,7 +120,7 @@ const ExtraDetails = rx => {
               You have no refills left. If you need more, request a renewal.
             </p>
             <va-link
-              href="/my-health/medications/about/accordion-renew-rx"
+              href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
               text="Learn how to renew prescriptions"
               data-testid="learn-to-renew-prescriptions-link"
             />

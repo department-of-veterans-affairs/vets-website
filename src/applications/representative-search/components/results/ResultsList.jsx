@@ -27,7 +27,7 @@ const ResultsList = props => {
         {searchResults.length ? <hr /> : null}
         {searchResults?.map((result, index) => {
           return (
-            <div key={index} className="vads-u-margin-top--4">
+            <div key={index} className="vads-u-margin-bottom--4">
               <SearchResult
                 officer={result.attributes.fullName || result.attributes.name}
                 reports={result.reports}
@@ -50,6 +50,7 @@ const ResultsList = props => {
                 initializeRepresentativeReport={
                   props.initializeRepresentativeReport
                 }
+                cancelRepresentativeReport={props.cancelRepresentativeReport}
                 reportSubmissionStatus={props.reportSubmissionStatus}
                 query={query}
                 index={index}
