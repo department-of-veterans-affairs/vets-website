@@ -39,6 +39,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       'ui:errorMessages': {
         minItems: DependentsMinItem,
