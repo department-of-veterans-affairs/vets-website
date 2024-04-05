@@ -1,3 +1,4 @@
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
@@ -26,7 +27,7 @@ const ThreadListSort = props => {
       data-testid="thread-list-sort"
     >
       <h2 className="sr-only">Sort conversations</h2>
-      <va-select
+      <VaSelect
         id="sort-order-dropdown"
         data-dd-action-name="Sort Order Dropdown"
         label={SORT_CONVERSATIONS_LABEL}
@@ -84,7 +85,7 @@ const ThreadListSort = props => {
             </option>
           </>
         )}
-      </va-select>
+      </VaSelect>
 
       <va-button
         class="small-screen:vads-u-margin-left--1 xsmall-screen:vads-u-display--block xsmall-screen:vads-u-margin-top--1p5"
