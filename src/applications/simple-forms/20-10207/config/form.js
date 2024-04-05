@@ -263,7 +263,7 @@ const formConfig = {
       pages: {
         mailingAddressYesNoPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN),
           path: 'mailing-address-yes-no',
@@ -274,7 +274,7 @@ const formConfig = {
         },
         mailingAddressYesNoThirdPartyVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           path: 'mailing-address-yes-no-third-party-veteran',
           title: 'Mailing address yes/no',
@@ -284,7 +284,7 @@ const formConfig = {
         },
         mailingAddressYesNoThirdPartyNonVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'mailing-address-yes-no-third-party-non-veteran',
           title: 'Mailing address yes/no',
@@ -295,7 +295,6 @@ const formConfig = {
         veteranMailingAddressPage: {
           depends: formData =>
             formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
             formData.preparerType === PREPARER_TYPES.VETERAN,
           path: 'veteran-mailing-address',
           title: 'Mailing address',
@@ -306,7 +305,6 @@ const formConfig = {
         nonVeteranMailingAddressPage: {
           depends: formData =>
             formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
             formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           path: 'non-veteran-mailing-address',
           title: 'Mailing address',
@@ -422,7 +420,7 @@ const formConfig = {
           depends: formData =>
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
-            formData.livingSituation.NONE,
+            formData.livingSituation.OTHER_RISK,
           path: 'other-reasons',
           title: 'Other reasons for request',
           uiSchema: otherReasonsPg.uiSchema,
@@ -432,7 +430,7 @@ const formConfig = {
         otherReasonsThirdPartyVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
-            formData.livingSituation.NONE,
+            formData.livingSituation.OTHER_RISK,
           path: 'other-reasons-third-party-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyVetPg.uiSchema,
@@ -442,7 +440,7 @@ const formConfig = {
         otherReasonsThirdPartyNonVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
-            formData.livingSituation.NONE,
+            formData.livingSituation.OTHER_RISK,
           path: 'other-reasons-third-party-non-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyNonVetPg.uiSchema,
