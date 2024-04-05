@@ -4,10 +4,10 @@ import AppealsUnavailable from '../../components/AppealsUnavailable';
 
 describe('<AppealsUnavailable>', () => {
   it('should render component', () => {
-    const screen = renderWithRouter(<AppealsUnavailable />);
+    const { getByText } = renderWithRouter(<AppealsUnavailable />);
 
-    screen.getByText('Appeal status is unavailable');
-    screen.getByText(
+    getByText('Appeal status is unavailable');
+    getByText(
       'VA.gov is having trouble loading appeals information at this time. Please check back again in a hour. Please note: You are still able to review claims information.',
     );
   });
