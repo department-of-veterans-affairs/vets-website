@@ -3,6 +3,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../File/upload';
+import { isRequiredFile } from '../../helpers/supportingDocsVerification';
 import {
   uploadWithInfoComponent,
   // acceptableFiles,
@@ -34,23 +35,27 @@ export const applicantBirthCertUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
-      ...titleUI('Upload birth certificate', ({ formData, formContext }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
-          {applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          )}{' '}
-          birth certificate.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {mailOrFaxLaterMsg}
-        </>
-      )),
+      ...titleUI(
+        ({ _formData, formContext }) =>
+          `Upload birth certificate ${isRequiredFile(formContext)}`,
+        ({ formData, formContext }) => (
+          <>
+            To help us process this application faster, submit a copy of{' '}
+            {applicantWording(
+              formData,
+              undefined,
+              true,
+              false,
+              formContext.pagePerItemIndex,
+            )}{' '}
+            birth certificate.
+            <br />
+            Submitting a copy can help us process this application faster.
+            <br />
+            {mailOrFaxLaterMsg}
+          </>
+        ),
+      ),
       ...applicantBirthCertConfig.uiSchema,
       applicantBirthCertOrSocialSecCard: fileUploadUI({
         label: 'Upload a copy of birth certificate',
@@ -70,7 +75,8 @@ export const applicantSchoolCertUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload proof of school enrollment',
+        ({ _formData, formContext }) =>
+          `Upload proof of school enrollment ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -152,7 +158,8 @@ export const applicantHelplessChildUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload rating decision letter',
+        ({ _formData, formContext }) =>
+          `Upload rating decision letter ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -194,21 +201,25 @@ export const applicantAdoptedUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
-      ...titleUI('Upload proof of adoption', ({ formData, formContext }) => (
-        <>
-          You’ll need to submit a document showing proof of{' '}
-          {applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          )}{' '}
-          adoption (like court ordered adoption papers).
-          <br />
-          {mailOrFaxLaterMsg}
-        </>
-      )),
+      ...titleUI(
+        ({ _formData, formContext }) =>
+          `Upload proof of adoption ${isRequiredFile(formContext)}`,
+        ({ formData, formContext }) => (
+          <>
+            You’ll need to submit a document showing proof of{' '}
+            {applicantWording(
+              formData,
+              undefined,
+              true,
+              false,
+              formContext.pagePerItemIndex,
+            )}{' '}
+            adoption (like court ordered adoption papers).
+            <br />
+            {mailOrFaxLaterMsg}
+          </>
+        ),
+      ),
       ...applicantAdoptedConfig.uiSchema,
       applicantAdoptionPapers: fileUploadUI({
         label: 'Upload proof of adoption',
@@ -228,7 +239,10 @@ export const applicantStepChildUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload proof of marriage or legal union',
+        ({ _formData, formContext }) =>
+          `Upload proof of marriage or legal union ${isRequiredFile(
+            formContext,
+          )}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -267,23 +281,27 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
-      ...titleUI('Upload Medicare cards', ({ formData, formContext }) => {
-        const posessive = applicantWording(
-          formData,
-          undefined,
-          true,
-          false,
-          formContext.pagePerItemIndex,
-        );
-        return (
-          <>
-            You’ll need to submit a copy of the front and back of {posessive}{' '}
-            Medicare Part A and B cards.
-            <br />
-            {mailOrFaxLaterMsg}
-          </>
-        );
-      }),
+      ...titleUI(
+        ({ _formData, formContext }) =>
+          `Upload Medicare cards ${isRequiredFile(formContext)}`,
+        ({ formData, formContext }) => {
+          const posessive = applicantWording(
+            formData,
+            undefined,
+            true,
+            false,
+            formContext.pagePerItemIndex,
+          );
+          return (
+            <>
+              You’ll need to submit a copy of the front and back of {posessive}{' '}
+              Medicare Part A and B cards.
+              <br />
+              {mailOrFaxLaterMsg}
+            </>
+          );
+        },
+      ),
       ...applicantMedicarePartAPartBCardsConfig.uiSchema,
       applicantMedicarePartAPartBCard: fileUploadUI({
         label: 'Upload Medicare cards',
@@ -302,23 +320,27 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
-      ...titleUI('Upload Medicare card', ({ formData, formContext }) => {
-        const posessive = applicantWording(
-          formData,
-          undefined,
-          true,
-          false,
-          formContext.pagePerItemIndex,
-        );
-        return (
-          <>
-            You’ll need to submit a copy of the front and back of {posessive}{' '}
-            Medicare Part D card.
-            <br />
-            {mailOrFaxLaterMsg}
-          </>
-        );
-      }),
+      ...titleUI(
+        ({ _formData, formContext }) =>
+          `Upload Medicare card ${isRequiredFile(formContext)}`,
+        ({ formData, formContext }) => {
+          const posessive = applicantWording(
+            formData,
+            undefined,
+            true,
+            false,
+            formContext.pagePerItemIndex,
+          );
+          return (
+            <>
+              You’ll need to submit a copy of the front and back of {posessive}{' '}
+              Medicare Part D card.
+              <br />
+              {mailOrFaxLaterMsg}
+            </>
+          );
+        },
+      ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
       applicantMedicarePartDCard: fileUploadUI({
         label: 'Upload Medicare card',
@@ -338,7 +360,10 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload proof of Medicare ineligibility',
+        ({ _formData, formContext }) =>
+          `Upload proof of Medicare ineligibility ${isRequiredFile(
+            formContext,
+          )}`,
         ({ formData, formContext }) => {
           const nonPosessive = applicantWording(
             formData,
@@ -383,7 +408,8 @@ export const applicantOhiCardsUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload other health insurance cards',
+        ({ _formData, formContext }) =>
+          `Upload other health insurance cards ${isRequiredFile(formContext)}`,
         <>
           You’ll need to submit a copy of the front and back of all other health
           insurance cards.
@@ -411,23 +437,27 @@ export const applicantOtherInsuranceCertificationUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
-      ...titleUI('Upload Other Insurance Certification', () => (
-        <>
-          You’ll also need to submit a completed Other Insurance Certification
-          (VA Form 10-7959C)
-          <br />
-          <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://www.va.gov/find-forms/about-form-10-7959c/"
-          >
-            Get VA Form 10-7959C to download (opens in new tab)
-          </a>
-          <br />
-          <br />
-          {mailOrFaxLaterMsg}
-        </>
-      )),
+      ...titleUI(
+        ({ _formData, formContext }) =>
+          `Upload Other Insurance Certification ${isRequiredFile(formContext)}`,
+        () => (
+          <>
+            You’ll also need to submit a completed Other Insurance Certification
+            (VA Form 10-7959C)
+            <br />
+            <a
+              target="_blank"
+              rel="noreferrer noopener"
+              href="https://www.va.gov/find-forms/about-form-10-7959c/"
+            >
+              Get VA Form 10-7959C to download (opens in new tab)
+            </a>
+            <br />
+            <br />
+            {mailOrFaxLaterMsg}
+          </>
+        ),
+      ),
       ...applicantOtherInsuranceCertificationConfig.uiSchema,
       applicantOtherInsuranceCertification: fileUploadUI({
         label: 'Upload Other Insurance Certification',
@@ -447,7 +477,10 @@ export const applicantMarriageCertUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload proof of marriage or legal union',
+        ({ _formData, formContext }) =>
+          `Upload proof of marriage or legal union ${isRequiredFile(
+            formContext,
+          )}`,
         ({ formData, formContext }) => {
           const nonPosessive = applicantWording(
             formData,
@@ -482,7 +515,10 @@ export const applicantSecondMarriageCertUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload proof of marriage or legal union',
+        ({ _formData, formContext }) =>
+          `Upload proof of marriage or legal union ${isRequiredFile(
+            formContext,
+          )}`,
         ({ formData, formContext }) => {
           const nonPosessive = applicantWording(
             formData,
@@ -523,7 +559,8 @@ export const applicantSecondMarriageDivorceCertUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        'Upload proof of legal separation',
+        ({ _formData, formContext }) =>
+          `Upload proof of legal separation ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const nonPosessive = applicantWording(
             formData,
