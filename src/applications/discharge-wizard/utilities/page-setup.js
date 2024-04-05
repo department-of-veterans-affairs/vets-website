@@ -50,22 +50,26 @@ export const pageSetup = H1 => {
   document.title = customizeTitle(H1);
 };
 
-export const applyErrorFocus = (
-  id,
-  elementHasFocused,
-  setElementHasFocused,
-) => {
-  if (!elementHasFocused) {
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.setAttribute('tabindex', '-1');
-        element.addEventListener('focus', () => {
-          element.style.outline = 'none';
-        });
-        element.focus();
-        setElementHasFocused(true);
-      }
-    }, 500);
+export const applyErrorFocus = id => {
+  const element = document.getElementById(id);
+
+  // focusElement(element)
+  const tabindex = element.getAttribute('tabindex');
+  if (element.tabIndex !== 0) {
+    element.setAttribute('tabindex', '-1');
+    if (typeof tabindex === 'undefined' || tabindex === null) {
+      element.addEventListener('focus', () => {
+        element.style.outline = 'none';
+      });
+      element.addEventListener(
+        'blur',
+        () => {
+          element.removeAttribute('tabindex');
+        },
+        { once: true },
+      );
+    }
   }
+
+  element.focus();
 };

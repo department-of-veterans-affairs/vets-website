@@ -32,7 +32,6 @@ const Dropdown = ({
   testId,
   updateCleanedFormStore,
 }) => {
-  const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const Dropdown = ({
   const onContinueClick = () => {
     if (!formValue) {
       setFormError(true);
-      applyErrorFocus('duw-dropdown', headerHasFocused, setHeaderHasFocused);
+      applyErrorFocus('duw-dropdown');
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead will change.
