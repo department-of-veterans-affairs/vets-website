@@ -1,9 +1,23 @@
-import { dateFormat, processList, validateField } from './helpers';
+import {
+  dateFormat,
+  processList,
+  validateField,
+  createMedicationDescription,
+  createOriginalFillRecord,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
 } from './constants';
+
+const createDescriptionAlternative = phone => {
+  let dialFragment = '';
+  if (phone) {
+    dialFragment = `at ${phone}`;
+  }
+  return `No description available. Call your pharmacy ${dialFragment} if you need help identifying this medication.`;
+};
 
 /**
  * Return Non-VA prescription TXT
@@ -161,12 +175,8 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   let result = `
 ---------------------------------------------------------------------------------
@@ -232,6 +242,9 @@ Refill history
   `;
 
   refillHistory.forEach((entry, i) => {
+    const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+    const description =
+      createMedicationDescription(entry) || createDescriptionAlternative(phone);
     result += `
 ${i === 0 ? 'First fill' : `Refill ${i}`}
 
@@ -245,6 +258,7 @@ Shipped on: ${
         : 'None noted'
     }
 
+Description: ${description}
 
 ---------------------------------------------------------------------------------
 
