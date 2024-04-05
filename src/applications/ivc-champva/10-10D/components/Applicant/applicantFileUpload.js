@@ -163,9 +163,8 @@ export const applicantHelplessChildUploadUiSchema = {
           );
           return (
             <>
-              You’ve selected that {posessive === 'your' ? 'you’re' : posessive}{' '}
-              permanently incapable of self support and rated as a helpless
-              child.
+              You’ve selected that {posessive} permanently incapable of self
+              support and rated as a helpless child.
               <br />
               <br />
               To help us process this application faster, you can submit a copy
@@ -495,8 +494,7 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between {nonPosessive} and
-              {nonPosessive === 'you' ? 'your' : 'their'} current spouse or
+              legal union between {nonPosessive} and their current spouse or
               partner
               <br />
               <br />
@@ -536,10 +534,9 @@ export const applicantSecondMarriageDivorceCertUploadUiSchema = {
           );
           return (
             <>
-              To help us process {nonPosessive === 'you' ? 'your' : 'this'}{' '}
-              application faster, you can submit a document showing proof of
-              legal separation between {nonPosessive} and{' '}
-              {nonPosessive === 'you' ? 'your' : 'the'} sponsor.
+              To help us process this application faster, you can submit a
+              document showing proof of legal separation between {nonPosessive}{' '}
+              and the sponsor.
               <br />
               <br />
               Upload a copy of one of these documents:
