@@ -341,10 +341,20 @@ describe('<FilesPage>', () => {
         status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
         supportingDocuments: [
           {
-            id: '1234',
+            documentId: '1234',
+            trackedItemId: null,
             originalFileName: 'test.pdf',
             documentTypeLabel: 'Buddy / Lay Statement',
             uploadDate: '2023-03-04',
+            date: '2023-03-04',
+          },
+          {
+            documentId: '4567',
+            trackedItemId: null,
+            originalFileName: 'test2.pdf',
+            documentTypeLabel: 'Buddy / Lay Statement',
+            uploadDate: '2023-03-05',
+            date: '2023-03-05',
           },
         ],
         trackedItems: [],
@@ -354,7 +364,7 @@ describe('<FilesPage>', () => {
     const tree = SkinDeep.shallowRender(
       <FilesPage claim={claim} params={{ id: 1 }} />,
     );
-    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
+    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(2);
   });
 
   it('should show never received docs as tracked items', () => {

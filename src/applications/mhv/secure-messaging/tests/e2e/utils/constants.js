@@ -180,6 +180,8 @@ export const Locators = {
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
+    SEARCH_MESSAGE_HEADING: '[data-testid="search-messages"] h2',
+    SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -265,4 +267,5 @@ export const Assertions = {
   SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
   NEW_MESSAGE: 'new-message',
   ARIA_EXPANDED: 'aria-expanded',
+  NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
 };

@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Dependents',
+  path: 'household/dependents',
   uiSchema: {
     ...titleUI('Dependent children'),
     'view:hasDependents': yesNoUI({

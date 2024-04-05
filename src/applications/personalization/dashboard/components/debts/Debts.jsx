@@ -49,7 +49,6 @@ const OutstandingDebtsError = () => {
 const PopularActionsForDebts = () => {
   return (
     <>
-      <h3 className="sr-only">Popular actions for Debts</h3>
       <IconCTALink
         href="/resources/va-debt-management"
         icon="file-invoice-dollar"

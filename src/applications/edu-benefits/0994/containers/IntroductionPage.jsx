@@ -62,7 +62,7 @@ export class IntroductionPage extends React.Component {
               <p className="vads-u-margin-y--0">
                 This program has stopped accepting applications and new
                 enrollments as of April 1, 2024. If you are currently enrolled
-                in a VET TEC program, your training will continue to be
+                in a VET TEC program, your training will continue to be funded,
                 including your monthly housing allowance.
               </p>
             </React.Fragment>

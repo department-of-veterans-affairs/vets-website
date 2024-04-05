@@ -9,6 +9,8 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 
 /** @type {PageSchema} */
 export default {
+  title: 'Contact information',
+  path: 'applicant/contact',
   uiSchema: {
     ...titleUI('Email address and phone number'),
     email: emailUI('Email'),
