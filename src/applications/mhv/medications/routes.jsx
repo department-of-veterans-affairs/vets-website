@@ -7,7 +7,6 @@ import PrescriptionDetails from './containers/PrescriptionDetails';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
-import PrescriptionsPrintOnly from './containers/PrescriptionsPrintOnly';
 import RefillPrescriptions from './containers/RefillPrescriptions';
 
 /**
@@ -19,7 +18,6 @@ const AppRoute = ({ children, ...rest }) => {
       <App>
         <RxBreadcrumbs />
         <div>{children}</div>
-        <PrescriptionsPrintOnly />
       </App>
     </Route>
   );

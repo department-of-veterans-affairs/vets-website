@@ -36,9 +36,9 @@ const PrintDownload = props => {
     }
   };
 
-  const handlePrint = async () => {
+  const handlePrint = async option => {
     setMenuOpen(!menuOpen);
-    await download('print');
+    await download(option);
   };
 
   const closeMenu = e => {
@@ -121,11 +121,24 @@ const PrintDownload = props => {
               id="printButton-0"
               type="button"
               data-testid="download-print-button"
-              onClick={() => handlePrint()}
+              onClick={() => handlePrint('print')}
             >
-              Print this {list ? 'list' : 'page'}
+              Print this {list ? 'page of the list' : 'page'}
             </button>
           </li>
+          {list && (
+            <li>
+              <button
+                className="vads-u-padding-x--2"
+                id="printButton-0"
+                type="button"
+                data-testid="download-print-all-button"
+                onClick={() => handlePrint('print-full-list')}
+              >
+                Print all medications
+              </button>
+            </li>
+          )}
           <li>
             <button
               className="vads-u-padding-x--2"

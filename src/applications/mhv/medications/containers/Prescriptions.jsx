@@ -42,6 +42,8 @@ import {
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import { selectRefillContentFlag } from '../util/selectors';
+import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
+import { getPrescriptionSortedList } from '../api/rxApi';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -61,10 +63,12 @@ const Prescriptions = () => {
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
-  const prescriptionsFullList = useSelector(
-    state => state.rx.prescriptions?.prescriptionsFullList,
-  );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
+  const [printedList, setPrintedList] = useState([]);
+  const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
+    false,
+  );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -142,12 +146,22 @@ const Prescriptions = () => {
           rxListSortingOptions[sortOption].API_ENDPOINT,
         ),
       ).then(() => updateLoadingStatus(false, ''));
+      if (!allergies) dispatch(getAllergiesList());
       if (!selectedSortOption) updateSortOption(sortOption);
       updatePageTitle('Medications | Veterans Affairs');
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, page, selectedSortOption],
+  );
+
+  useEffect(
+    () => {
+      if (paginatedPrescriptionsList?.length) {
+        setPrintedList(paginatedPrescriptionsList);
+      }
+    },
+    [paginatedPrescriptionsList],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -160,6 +174,8 @@ const Prescriptions = () => {
         (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
       ) {
         setAlertVisible('true');
+      } else if (isAlertVisible === 'true') {
+        setAlertVisible('false');
       }
     },
     [isLoading, paginatedPrescriptionsList],
@@ -296,7 +312,30 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (
-        prescriptionsFullList?.length &&
+        !prescriptionsFullList?.length &&
+        pdfTxtGenerateStatus.format === 'print-full-list'
+      ) {
+        const getFullList = async () => {
+          await getPrescriptionSortedList(
+            rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+            true,
+          )
+            .then(response => {
+              const list = response.data.map(rx => ({ ...rx.attributes }));
+              setPrescriptionsFullList(list);
+            })
+            .catch(() => {
+              setHasFullListDownloadError(true);
+            });
+          if (!allergies) dispatch(getAllergiesList());
+        };
+        if (!prescriptionsFullList?.length) getFullList();
+      }
+      if (
+        ((prescriptionsFullList?.length &&
+          pdfTxtGenerateStatus.format !== 'print') ||
+          (pdfTxtGenerateStatus.format === 'print' &&
+            paginatedPrescriptionsList?.length)) &&
         allergies &&
         !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
@@ -311,17 +350,25 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
-        } else if (pdfTxtGenerateStatus.format === 'print') {
+        } else if (pdfTxtGenerateStatus.format.includes('print')) {
           if (!isLoading && loadingMessage === '') {
+            setPrintedList(
+              pdfTxtGenerateStatus.format !== 'print-full-list'
+                ? paginatedPrescriptionsList
+                : prescriptionsFullList,
+            );
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
             });
-            window.print();
+            setTimeout(() => window.print(), 1);
           }
           updateLoadingStatus(false, '');
         }
       } else if (
-        prescriptionsFullList?.length &&
+        ((prescriptionsFullList?.length &&
+          pdfTxtGenerateStatus.format === 'print-full-list') ||
+          (pdfTxtGenerateStatus.format === 'print' &&
+            paginatedPrescriptionsList?.length)) &&
         allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
@@ -344,7 +391,7 @@ const Prescriptions = () => {
   const handleFullListDownload = async format => {
     if (format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT) {
       updateLoadingStatus(true, 'Downloading your file...');
-    } else if (!allergies)
+    } else if (!allergies || format === 'print-full-list')
       updateLoadingStatus(true, 'Downloading your file...');
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
@@ -371,6 +418,11 @@ const Prescriptions = () => {
       );
     } else {
       updateLoadingStatus(false, '');
+      setPrintedList(
+        pdfTxtGenerateStatus.format !== 'print-full-list'
+          ? paginatedPrescriptionsList
+          : prescriptionsFullList,
+      );
       setPdfTxtGenerateStatus({
         status: PDF_TXT_GENERATE_STATUS.NotStarted,
       });
@@ -423,7 +475,10 @@ const Prescriptions = () => {
             onCancelButtonClick={handleModalClose}
             isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
             visible={Boolean(
-              prescriptionsFullList?.length &&
+              ((prescriptionsFullList?.length &&
+                pdfTxtGenerateStatus.format !== 'print') ||
+                (paginatedPrescriptionsList?.length &&
+                  pdfTxtGenerateStatus.format === 'print')) &&
                 pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.InProgress &&
                 allergiesError,
@@ -466,8 +521,15 @@ const Prescriptions = () => {
       />
     );
   };
-
-  return <div>{content()}</div>;
+  return (
+    <div>
+      {content()}
+      <PrescriptionsPrintOnly
+        list={printedList}
+        hasError={hasFullListDownloadError || isAlertVisible === 'true'}
+      />
+    </div>
+  );
 };
 
 export default Prescriptions;
