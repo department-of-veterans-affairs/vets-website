@@ -41,13 +41,15 @@ export const applicantBirthCertUploadUiSchema = {
         ({ formData, formContext }) => (
           <>
             To help us process this application faster, submit a copy of{' '}
-            {applicantWording(
-              formData,
-              undefined,
-              true,
-              false,
-              formContext.pagePerItemIndex,
-            )}{' '}
+            <b>
+              {applicantWording(
+                formData,
+                undefined,
+                true,
+                false,
+                formContext.pagePerItemIndex,
+              )}
+            </b>{' '}
             birth certificate.
             <br />
             Submitting a copy can help us process this application faster.
@@ -95,12 +97,14 @@ export const applicantSchoolCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a copy of a document showing proof of{' '}
-              {posessive} school enrollment. If{' '}
-              {nonPosessive === 'you' ? 'you’re' : posessive} planning to
+              <b>{posessive}</b> school enrollment. If{' '}
+              <b>{nonPosessive === 'you' ? 'you’re' : posessive}</b> planning to
               enroll,{' '}
-              {nonPosessive === 'you' ? 'you’ll' : `${nonPosessive} will`} need
-              to upload a document showing information about {posessive} plan to
-              enroll.
+              <b>
+                {nonPosessive === 'you' ? 'you’ll' : `${nonPosessive} will`}
+              </b>{' '}
+              need to upload a document showing information about{' '}
+              <b>{posessive}</b> plan to enroll.
               <br />
               <br />
               {mailOrFaxLaterMsg}
@@ -170,12 +174,12 @@ export const applicantHelplessChildUploadUiSchema = {
           );
           return (
             <>
-              You’ve selected that {posessive} permanently incapable of self
-              support and rated as a helpless child.
+              You’ve selected that <b>{posessive}</b> permanently incapable of
+              self support and rated as a helpless child.
               <br />
               <br />
               To help us process this application faster, you can submit a copy
-              of a document showing proof of {posessive} rating.
+              of a document showing proof of <b>{posessive}</b> rating.
               <br />
               <br />
               {mailOrFaxLaterMsg}
@@ -207,13 +211,15 @@ export const applicantAdoptedUploadUiSchema = {
         ({ formData, formContext }) => (
           <>
             You’ll need to submit a document showing proof of{' '}
-            {applicantWording(
-              formData,
-              undefined,
-              true,
-              false,
-              formContext.pagePerItemIndex,
-            )}{' '}
+            <b>
+              {applicantWording(
+                formData,
+                undefined,
+                true,
+                false,
+                formContext.pagePerItemIndex,
+              )}{' '}
+            </b>
             adoption (like court ordered adoption papers).
             <br />
             {mailOrFaxLaterMsg}
@@ -254,7 +260,8 @@ export const applicantStepChildUploadUiSchema = {
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between {posessive} sponsor and {posessive} parent.
+              legal union between <b>{posessive}</b> sponsor and{' '}
+              <b>{posessive}</b> parent.
               <br />
               <br />
               {marriageDocumentList}
@@ -294,8 +301,8 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
           );
           return (
             <>
-              You’ll need to submit a copy of the front and back of {posessive}{' '}
-              Medicare Part A and B cards.
+              You’ll need to submit a copy of the front and back of{' '}
+              <b>{posessive}</b> Medicare Part A and B cards.
               <br />
               {mailOrFaxLaterMsg}
             </>
@@ -333,8 +340,8 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
           );
           return (
             <>
-              You’ll need to submit a copy of the front and back of {posessive}{' '}
-              Medicare Part D card.
+              You’ll need to submit a copy of the front and back of{' '}
+              <b>{posessive}</b> Medicare Part D card.
               <br />
               {mailOrFaxLaterMsg}
             </>
@@ -374,15 +381,15 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
           );
           return (
             <>
-              {nonPosessive === 'You' ? 'You’re' : `${nonPosessive} is`} 65
-              years or older and you selected that{' '}
-              {nonPosessive === 'You' ? 'you’re' : 'they’re'} not eligible for
-              Medicare.
+              <b>{nonPosessive === 'You' ? 'You’re' : `${nonPosessive} is`}</b>{' '}
+              65 years or older and you selected that{' '}
+              <b>{nonPosessive === 'You' ? 'you’re' : 'they’re'}</b> not
+              eligible for Medicare.
               <br />
               <br />
               You’ll need to submit a copy of a letter from the Social Security
               Administration that confirms that{' '}
-              {nonPosessive === 'You' ? 'you' : 'they'} don’t qualify for
+              <b>{nonPosessive === 'You' ? 'you' : 'they'}</b> don’t qualify for
               Medicare benefits under anyone’s Social Security number.
               {mailOrFaxLaterMsg}
             </>
@@ -492,9 +499,12 @@ export const applicantMarriageCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between {nonPosessive} sponsor and{' '}
-              {formData.veteransFullName?.first}{' '}
-              {formData.veteransFullName?.last}.<br />
+              legal union between <b>{nonPosessive}</b> sponsor and{' '}
+              <b>
+                {formData.veteransFullName?.first}{' '}
+                {formData.veteransFullName?.last}.
+              </b>
+              <br />
               <br />
               {marriageDocumentList}
               {mailOrFaxLaterMsg}
@@ -530,8 +540,8 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between {nonPosessive} and their current spouse or
-              partner
+              legal union between <b>{nonPosessive}</b> and their current spouse
+              or partner
               <br />
               <br />
               {marriageDocumentList}
@@ -572,8 +582,8 @@ export const applicantSecondMarriageDivorceCertUploadUiSchema = {
           return (
             <>
               To help us process this application faster, you can submit a
-              document showing proof of legal separation between {nonPosessive}{' '}
-              and the sponsor.
+              document showing proof of legal separation between{' '}
+              <b>{nonPosessive}</b> and the sponsor.
               <br />
               <br />
               Upload a copy of one of these documents:
