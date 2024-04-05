@@ -21,13 +21,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // State
   const [isLoading, updateLoadingStatus] = useState(isLoadingList);
   const [selectedRefillList, setSelectedRefillList] = useState([]);
-  const [fullPrescriptionList, setFullPrescriptionList] = useState([]);
   const [fullRefillList, setFullRefillList] = useState(refillList);
   const [fullRenewList, setFullRenewList] = useState(refillList);
   const [refillResult, setRefillResult] = useState({
     status: 'notStarted',
-    successfulIds: [],
-    failedIds: [],
+    failedMeds: [],
+    successfulMeds: [],
   });
 
   // Selectors
@@ -49,10 +48,16 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       const response = await fillRxs(selectedRefillList);
       const failedIds = response?.failedIds || [];
       const successfulIds = response?.successfulIds || [];
+      const failedMeds = fullRefillList.filter(item =>
+        failedIds.includes(String(item.prescriptionId)),
+      );
+      const successfulMeds = fullRefillList.filter(item =>
+        successfulIds.includes(String(item.prescriptionId)),
+      );
       setRefillResult({
         status: 'finished',
-        failedIds,
-        successfulIds,
+        failedMeds,
+        successfulMeds,
       });
     }
   };
@@ -96,7 +101,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             [],
             [],
           ]);
-          setFullPrescriptionList(fullList);
           setFullRefillList(refillableList);
           setFullRenewList(renewableList);
           updateLoadingStatus(false);
@@ -153,10 +157,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             >
               Refill prescriptions
             </h1>
-            <RefillNotification
-              fullList={fullPrescriptionList}
-              refillResult={refillResult}
-            />
+            <RefillNotification refillResult={refillResult} />
             <h2
               className="vads-u-margin-top--3"
               data-testid="refill-page-subtitle"

@@ -13,18 +13,14 @@ describe('Refill Notification Component', () => {
     },
   };
   const initRefillResult = {
-    successfulIds: [],
-    failedIds: ['23449884'],
+    successfulMeds: [],
+    failedMeds: prescriptions,
     status: 'finished',
   };
 
-  const setup = (
-    state = initialState,
-    list = prescriptions,
-    refillResult = initRefillResult,
-  ) => {
+  const setup = (state = initialState, refillResult = initRefillResult) => {
     return renderWithStoreAndRouter(
-      <RefillNotification refillList={list} refillResult={refillResult} />,
+      <RefillNotification refillResult={refillResult} />,
       {
         initialState: state,
         reducers: reducer,
@@ -46,10 +42,9 @@ describe('Refill Notification Component', () => {
   it('Part of the refill requests are successful', () => {
     const screen = renderWithStoreAndRouter(
       <RefillNotification
-        refillList={prescriptions}
         refillResult={{
-          successfulIds: ['23449884'],
-          failedIds: ['23449985'],
+          successfulMeds: prescriptions,
+          failedMeds: prescriptions,
           status: 'finished',
         }}
       />,
@@ -70,25 +65,23 @@ describe('Refill Notification Component', () => {
   it('should render items', () => {
     const wrapper = shallow(
       <RefillNotification
-        refillList={prescriptions}
         refillResult={{
-          successfulIds: ['22377956'],
-          failedIds: ['22377955'],
+          successfulMeds: prescriptions,
+          failedMeds: prescriptions,
           status: 'finished',
         }}
       />,
     );
     const list = wrapper.find('li');
-    expect(list.length).to.eq(2);
+    expect(list.length).to.eq(16);
     wrapper.unmount();
   });
   it('All refill requests are successful', () => {
     const screen = renderWithStoreAndRouter(
       <RefillNotification
-        refillList={prescriptions}
         refillResult={{
-          successfulIds: ['23449884'],
-          failedIds: [],
+          successfulMeds: prescriptions,
+          failedMeds: [],
           status: 'finished',
         }}
       />,

@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const RefillNotification = ({ fullList = [], refillResult = {} }) => {
+const RefillNotification = ({ refillResult = {} }) => {
   if (refillResult?.status !== 'finished') {
     return <></>;
   }
   return (
     <>
-      {refillResult?.successfulIds.length === 0 ? (
+      {refillResult?.successfulMeds.length === 0 ? (
         <div className="vads-u-margin-y--1">
           <va-alert status="error" setFocus aria-live="polite" uswds>
             <h3
@@ -26,7 +26,7 @@ const RefillNotification = ({ fullList = [], refillResult = {} }) => {
         </div>
       ) : (
         <>
-          {refillResult?.failedIds.length > 0 && (
+          {refillResult?.failedMeds.length > 0 && (
             <div className="vads-u-margin-y--2">
               <va-alert status="error" setFocus aria-live="polite" uswds>
                 <h3
@@ -40,20 +40,14 @@ const RefillNotification = ({ fullList = [], refillResult = {} }) => {
                   submit these refill requests:
                 </p>
                 <ul className="va-list--disc">
-                  {fullList
-                    .filter(item =>
-                      refillResult?.failedIds.includes(
-                        String(item.prescriptionId),
-                      ),
-                    )
-                    .map((prescription, idx) => (
-                      <li
-                        className="vads-u-padding-y--0 vads-u-font-weight--bold"
-                        key={idx}
-                      >
-                        {prescription?.prescriptionName}
-                      </li>
-                    ))}
+                  {refillResult?.failedMeds.map((item, idx) => (
+                    <li
+                      className="vads-u-padding-y--0 vads-u-font-weight--bold"
+                      key={idx}
+                    >
+                      {item?.prescriptionName}
+                    </li>
+                  ))}
                 </ul>
                 <p
                   className="vads-u-margin-bottom--0"
@@ -74,17 +68,11 @@ const RefillNotification = ({ fullList = [], refillResult = {} }) => {
                 Refill prescriptions
               </h3>
               <ul className="va-list--disc">
-                {fullList
-                  .filter(item =>
-                    refillResult?.successfulIds.includes(
-                      String(item.prescriptionId),
-                    ),
-                  )
-                  .map((prescription, idx) => (
-                    <li className="vads-u-padding-y--0" key={idx}>
-                      {prescription?.prescriptionName}
-                    </li>
-                  ))}
+                {refillResult?.successfulMeds.map((id, idx) => (
+                  <li className="vads-u-padding-y--0" key={idx}>
+                    {id?.prescriptionName}
+                  </li>
+                ))}
               </ul>
               <p
                 className="vads-u-margin-y--0"
@@ -105,7 +93,6 @@ const RefillNotification = ({ fullList = [], refillResult = {} }) => {
 };
 
 RefillNotification.propTypes = {
-  refillList: PropTypes.array,
   refillResult: PropTypes.object,
 };
 
