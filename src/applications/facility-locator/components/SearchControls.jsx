@@ -65,14 +65,6 @@ const SearchControls = props => {
     onChange({ serviceType });
   };
 
-  const handleServiceTypeChangeVAComponent = e => {
-    const selectedItem = e.detail.value;
-    setSelectedServiceType(selectedItem);
-
-    const serviceType = selectedItem === 'All' ? null : selectedItem;
-    onChange({ serviceType });
-  };
-
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -259,7 +251,7 @@ const SearchControls = props => {
           uswds
           required
           id="facility-type-dropdown"
-          className="vads-u-padding-x--0"
+          className={showError ? 'vads-u-padding-left--1p5' : null}
           label="Facility Type"
           value={facilityType || ''}
           onVaSelect={e => handleFacilityTypeChange(e)}
@@ -321,18 +313,16 @@ const SearchControls = props => {
     ));
 
     return (
-      <span>
-        <VaSelect
-          uswds
+      <span className="service-type-dropdown-container">
+        <label htmlFor="service-type-dropdown">Service type</label>
+        <select
           id="service-type-dropdown"
           disabled={disabled || !facilityType}
-          label="Service Type"
           value={serviceType || ''}
-          className="bor-rad"
-          onVaSelect={e => handleServiceTypeChangeVAComponent(e)}
+          onChange={handleServiceTypeChange}
         >
           {options}
-        </VaSelect>
+        </select>
       </span>
     );
   };

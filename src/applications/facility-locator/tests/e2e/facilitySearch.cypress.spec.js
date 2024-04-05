@@ -34,18 +34,16 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('VA health');
-  cy.get('#service-type-dropdown')
-    .shadow()
+  cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have.attr', 'disabled');
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
-    cy.get('#service-type-dropdown')
-      .shadow()
+    cy.get('.service-type-dropdown-container')
       .find('select')
       .children()
-      .eq(i + 1)
+      .eq(i)
       .then($option => {
         const value = $option.attr('value');
         expect(value).to.equal(hServices[i]);
@@ -56,16 +54,14 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Urgent care');
-  cy.get('#service-type-dropdown')
-    .shadow()
+  cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have.attr', 'disabled');
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA benefits');
-  cy.get('#service-type-dropdown')
-    .shadow()
+  cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have.attr', 'disabled');
 
@@ -74,16 +70,14 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Vet Centers');
-  cy.get('#service-type-dropdown')
-    .shadow()
+  cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have', 'disabled');
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA cemeteries');
-  cy.get('#service-type-dropdown')
-    .shadow()
+  cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have', 'disabled');
 
@@ -139,10 +133,7 @@ describe('Facility VA search', () => {
       .shadow()
       .find('select')
       .select('VA health');
-    cy.get('#service-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('Primary care');
+    cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       'Results for "VA health", "Primary care" near "Austin, Texas"',
@@ -305,10 +296,7 @@ describe('Facility VA search', () => {
       .shadow()
       .find('select')
       .select('Emergency care');
-    cy.get('#service-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('VA emergency care');
+    cy.get('#service-type-dropdown').select('VA emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',

@@ -18,8 +18,7 @@ describe('Facility Locator error handling', () => {
       .shadow()
       .find('select')
       .select('VA health');
-    cy.get('#service-type-dropdown')
-      .shadow()
+    cy.get('.service-type-dropdown-container')
       .find('select')
       .select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });

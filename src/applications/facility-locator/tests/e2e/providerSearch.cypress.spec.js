@@ -131,8 +131,7 @@ describe('Provider search', () => {
       .shadow()
       .find('select')
       .select('Urgent care');
-    cy.get('#service-type-dropdown')
-      .shadow()
+    cy.get('.service-type-dropdown-container')
       .find('select')
       .select(NON_VA_URGENT_CARE);
     cy.get('#facility-search').click({ waitForAnimations: true });
@@ -156,8 +155,7 @@ describe('Provider search', () => {
       .shadow()
       .find('select')
       .select('Emergency care');
-    cy.get('#service-type-dropdown')
-      .shadow()
+    cy.get('.service-type-dropdown-container')
       .find('select')
       .select('In-network community emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
