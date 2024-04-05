@@ -21,6 +21,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // State
   const [isLoading, updateLoadingStatus] = useState(isLoadingList);
   const [selectedRefillList, setSelectedRefillList] = useState([]);
+  const [fullPrescriptionList, setFullPrescriptionList] = useState([]);
   const [fullRefillList, setFullRefillList] = useState(refillList);
   const [fullRenewList, setFullRenewList] = useState(refillList);
   const [refillResult, setRefillResult] = useState({
@@ -95,6 +96,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             [],
             [],
           ]);
+          setFullPrescriptionList(fullList);
           setFullRefillList(refillableList);
           setFullRenewList(renewableList);
           updateLoadingStatus(false);
@@ -152,7 +154,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               Refill prescriptions
             </h1>
             <RefillNotification
-              refillList={fullRefillList}
+              fullList={fullPrescriptionList}
               refillResult={refillResult}
             />
             <h2

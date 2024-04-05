@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const RefillNotification = ({ refillList = [], refillResult = {} }) => {
+const RefillNotification = ({ fullList = [], refillResult = {} }) => {
   if (refillResult?.status !== 'finished') {
     return <></>;
   }
@@ -40,7 +40,7 @@ const RefillNotification = ({ refillList = [], refillResult = {} }) => {
                   submit these refill requests:
                 </p>
                 <ul className="va-list--disc">
-                  {refillList
+                  {fullList
                     .filter(item =>
                       refillResult?.failedIds.includes(
                         String(item.prescriptionId),
@@ -74,7 +74,7 @@ const RefillNotification = ({ refillList = [], refillResult = {} }) => {
                 Refill prescriptions
               </h3>
               <ul className="va-list--disc">
-                {refillList
+                {fullList
                   .filter(item =>
                     refillResult?.successfulIds.includes(
                       String(item.prescriptionId),
