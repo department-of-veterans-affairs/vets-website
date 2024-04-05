@@ -144,9 +144,12 @@ export const createMedicationDescription = ({
   backImprint = null,
 }) => {
   let desc = null;
-  if (shape && color && frontImprint && backImprint) {
-    desc = `${color}, ${shape} with ${frontImprint} on the front and ${backImprint} on the back`;
-    desc = `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}`;
+  if (shape && color && frontImprint) {
+    desc = `${color}, ${shape} with ${frontImprint} on the front`;
+    if (backImprint) {
+      desc = `${desc} and ${backImprint} on the back`;
+    }
+    desc = `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}.`;
   }
   return desc;
 };

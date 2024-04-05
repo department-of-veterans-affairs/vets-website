@@ -134,8 +134,17 @@ describe('createMedicationDescription', () => {
     };
     const result = createMedicationDescription(args);
     expect(result).to.eq(
-      'Aquamarine, donut with 1,2 on the front and 3,4 on the back',
+      'Aquamarine, donut with 1,2 on the front and 3,4 on the back.',
     );
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'orb',
+        frontImprint: '1',
+        backImprint: null,
+      }),
+    ).to.eq('Aquamarine, orb with 1 on the front.');
   });
 
   it('should return null when not any required field is null', () => {
@@ -172,15 +181,6 @@ describe('createMedicationDescription', () => {
         shape: 'orb',
         frontImprint: null,
         backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'orb',
-        frontImprint: '1',
-        backImprint: null,
       }),
     ).to.be.null;
   });
