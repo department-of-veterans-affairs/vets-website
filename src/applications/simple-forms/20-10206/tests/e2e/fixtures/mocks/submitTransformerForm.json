@@ -178,7 +178,7 @@
                   ],
                   "ui:errorMessages": {
                       "pattern": "Provide a valid date",
-                      "required": "provide the date of birth"
+                      "required": "Provide the date of birth"
                   },
                   "ui:options": {}
               },
@@ -188,7 +188,7 @@
                       "hint": "City and state or foreign country"
                   },
                   "ui:errorMessages": {
-                      "required": "enter your place of birth"
+                      "required": "Enter your place of birth"
                   }
               }
           },
