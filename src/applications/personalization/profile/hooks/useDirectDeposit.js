@@ -21,7 +21,7 @@ import {
 
 export const useDirectDeposit = () => {
   const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
-  const [formIsDirty, setFormIsDirty] = useState(false);
+  const [formData, setFormData] = useState({});
 
   // redux state for direct deposit form
   const {
@@ -82,11 +82,11 @@ export const useDirectDeposit = () => {
     hasSaveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),
     controlInformation: useMemo(() => controlInformation, [controlInformation]),
-    formIsDirty,
-    setFormIsDirty,
     showUpdateSuccess,
     isIdentityVerified,
     useOAuth,
     isBlocked,
+    formData,
+    setFormData,
   };
 };

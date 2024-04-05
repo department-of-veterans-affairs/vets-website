@@ -1,52 +1,143 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { saveDirectDeposit } from '../../actions/directDeposit';
-import PaymentInformationEditError from './legacy/PaymentInformationEditError';
+import PropTypes from 'prop-types';
+import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
+import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
+import { toggleDirectDepositEdit } from '../../actions/directDeposit';
+import { BankNumberFaq } from './BankNumberFaq';
 
-export const AccountUpdateView = ({ saveError = false }) => {
+const schema = {
+  type: 'object',
+  properties: {
+    accountType: {
+      type: 'string',
+      enum: Object.values(ACCOUNT_TYPES_OPTIONS),
+    },
+    routingNumber: {
+      type: 'string',
+      pattern: '^\\d{9}$',
+    },
+    accountNumber: {
+      type: 'string',
+      pattern: '^\\d{1,17}$',
+    },
+    'view:directDepositInfo': {
+      type: 'object',
+      properties: {},
+    },
+  },
+  required: ['accountType', 'routingNumber', 'accountNumber'],
+};
+
+const uiSchema = {
+  'ui:description':
+    'Please provide your bank’s routing number as well as your current account and type.',
+
+  accountType: {
+    'ui:widget': 'radio',
+    'ui:title': 'Account type',
+    'ui:errorMessages': {
+      required: 'Please select the type that best describes your account',
+    },
+  },
+  routingNumber: {
+    'ui:title': 'Routing number',
+    'ui:errorMessages': {
+      pattern: 'Please enter your bank’s 9-digit routing number',
+      required: 'Please enter your bank’s 9-digit routing number',
+    },
+  },
+  accountNumber: {
+    'ui:title': 'Account number (No more than 17 digits)',
+    'ui:errorMessages': {
+      pattern: 'Please enter your account number',
+      required: 'Please enter your account number',
+    },
+  },
+  'view:directDepositInfo': {
+    'ui:description': BankNumberFaq,
+    'ui:options': {
+      hideOnReview: true,
+    },
+  },
+};
+
+export const AccountUpdateView = ({
+  children,
+  formData,
+  formSubmit,
+  setFormData,
+  cancelButtonClasses,
+}) => {
+  const [shouldShowCancelModal, setShouldShowCancelModal] = useState(false);
   const dispatch = useDispatch();
 
-  const post = () => {
-    const data = {
-      controlInformation: {
-        canUpdateDirectDeposit: true,
-        isCorpAvailable: true,
-        isEduClaimAvailable: true,
-        isCorpRecFound: true,
-        hasNoBdnPayments: true,
-        hasIdentity: true,
-        hasIndex: true,
-        isCompetent: true,
-        hasMailingAddress: true,
-        hasNoFiduciaryAssigned: true,
-        isNotDeceased: true,
-        hasPaymentAddress: true,
-      },
-      paymentAccount: {
-        name: 'BASE TEST - DIRECT DEPOSIT',
-        accountType: 'CHECKING',
-        accountNumber: '11111111',
-        routingNumber: '2222222222222',
-      },
-    };
+  const formCancel = useCallback(
+    () => {
+      // is form dirty? i.e. if it's been changed since opened
+      // if form data is empty:
+      setFormData({});
+      dispatch(toggleDirectDepositEdit(false));
 
-    dispatch(saveDirectDeposit(data));
-  };
+      // if not empty:
+      setShouldShowCancelModal(true);
+    },
+    [dispatch, setFormData],
+  );
 
   return (
     <>
-      <div>AccountUpdateView</div>
-      <div id="direct-deposit-save-errors" role="alert" aria-atomic="true">
-        {!!saveError && (
-          <PaymentInformationEditError
-            className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-            responseError={saveError}
-          />
-        )}
-      </div>
-      <button type="button" onClick={post}>
-        post
-      </button>
+      <strong>Account</strong>
+      <SchemaForm
+        addNameAttribute
+        name="Direct Deposit Information"
+        // title is required by the SchemaForm and used internally
+        title="Direct Deposit Information"
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onChange={data => setFormData(data)}
+        onSubmit={formSubmit}
+      >
+        {children}
+      </SchemaForm>
+
+      <va-button
+        classNames={cancelButtonClasses}
+        onClick={() => formCancel()}
+        secondary
+        text="Cancel"
+      />
+
+      <ConfirmCancelModal
+        // cancelled clicked, is form dirty
+        isVisible={shouldShowCancelModal}
+        closeModal={() => {
+          setShouldShowCancelModal(false);
+          dispatch(toggleDirectDepositEdit(false));
+        }}
+        activeSection="direct deposit information"
+      />
     </>
   );
 };
+
+AccountUpdateView.propTypes = {
+  formChange: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
+  formSubmit: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
+};
+
+AccountUpdateView.defaultProps = {
+  cancelButtonClasses: ['usa-button-secondary'],
+};
+
+export default AccountUpdateView;
