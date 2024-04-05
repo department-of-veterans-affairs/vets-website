@@ -201,6 +201,33 @@ class MedicationsRefillPage {
   verifyRefillsRemainingForActiveRxZeroRefills = refills => {
     cy.get('[data-testid="refills-left"]').should('contain', refills);
   };
+
+  verifyActiveRxZeroRefillsNoDispenseDateIsRefillableOnRefillPage = checkBox => {
+    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
+      'be.enabled',
+    );
+  };
+
+  verifyNullDispenseDateForActiveParkedZeroRefills = (
+    activeParkedRx = null,
+  ) => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[9].attributes).to.include({
+          dispensedDate: activeParkedRx,
+        });
+      });
+  };
+
+  verifyRefillRemainingForActiveParkedRxZeroRefills = (
+    prescription,
+    refillsRemaining = 0,
+  ) => {
+    cy.get(
+      `[data-testid="refill-prescription-details-${prescription}"]`,
+    ).should('contain', refillsRemaining);
+  };
 }
 
 export default MedicationsRefillPage;
