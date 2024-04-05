@@ -18,7 +18,7 @@ const pageTests = page => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
   it('should not require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
