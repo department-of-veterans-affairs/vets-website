@@ -25,6 +25,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
@@ -57,7 +58,6 @@ import {
   sponsorCasualtyReportConfig,
   sponsorDisabilityRatingConfig,
   sponsorDischargePapersConfig,
-  blankSchema,
   acceptableFiles,
   sponsorCasualtyUploadUiSchema,
   sponsorDisabilityRatingUploadUiSchema,
@@ -92,6 +92,7 @@ import {
   applicantOtherInsuranceCertificationUploadUiSchema,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 import {
   ApplicantMedicareStatusPage,
@@ -143,6 +144,7 @@ const formConfig = {
   transformForSubmit,
   showReviewErrors: !environment.isProduction(),
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  footerContent: GetFormHelp,
   // submit: () =>
   // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',

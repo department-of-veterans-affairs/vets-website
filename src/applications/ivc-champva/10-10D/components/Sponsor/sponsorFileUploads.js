@@ -1,5 +1,6 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { fileTypes, maxSize } from '../../config/attachments';
 import { fileUploadUi as fileUploadUI } from '../File/upload';
 import { sponsorWording } from '../../helpers/wordingCustomization';
@@ -65,8 +66,6 @@ export const acceptableFiles = {
     },
   ],
 };
-
-export const blankSchema = { type: 'object', properties: {} };
 
 function makeLink(el) {
   return <va-link href={el.href} text={el.text} />;
