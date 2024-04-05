@@ -7,6 +7,7 @@ import {
   getImageUri,
   dateFormat,
   createMedicationDescription,
+  createOriginalFillRecord,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -35,30 +36,8 @@ const createDescriptionAlternative = (phone = null) => {
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const {
-    backImprint,
-    cmopDivisionPhone,
-    cmopNdcNumber,
-    color,
-    dialCmopDivisionPhone,
-    dispensedDate,
-    frontImprint,
-    prescriptionId,
-    prescriptionName,
-    shape,
-  } = prescription;
-  refillHistory.push({
-    backImprint,
-    cmopDivisionPhone,
-    cmopNdcNumber,
-    color,
-    dialCmopDivisionPhone,
-    dispensedDate,
-    frontImprint,
-    id: prescriptionId,
-    prescriptionName,
-    shape,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   const hasBeenDispensed =
     prescription?.dispensedDate ||

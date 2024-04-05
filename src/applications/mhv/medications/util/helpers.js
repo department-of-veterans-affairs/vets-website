@@ -133,9 +133,8 @@ export const extractContainedResource = (resource, referenceId) => {
 };
 
 /**
- * Extract a contained resource from a FHIR resource's "contained" array.
+ * Create a description of a medication from component descriptors
  * @param {Object} medicationInfo shape, color, frontImprint, backImprint
- * @param {Boolean} html whether to return html or plain text
  * @returns {String|null} a description of the medication or null if a description can't be generated
  */
 export const createMedicationDescription = ({
@@ -150,4 +149,36 @@ export const createMedicationDescription = ({
     desc = `${desc[0].toUpperCase()}${desc.slice(1).toLowerCase()}`;
   }
   return desc;
+};
+
+/**
+ * Create a refill history item for the original fill, using the prescription
+ * @param {Object} Prescription object
+ * @returns {Object} Object similar to or marching an rxRefillHistory object
+ */
+export const createOriginalFillRecord = prescription => {
+  const {
+    backImprint = null,
+    cmopDivisionPhone = null,
+    cmopNdcNumber = null,
+    color = null,
+    dialCmopDivisionPhone = null,
+    dispensedDate = null,
+    frontImprint = null,
+    prescriptionId = null,
+    prescriptionName = null,
+    shape = null,
+  } = prescription;
+  return {
+    backImprint,
+    cmopDivisionPhone,
+    cmopNdcNumber,
+    color,
+    dialCmopDivisionPhone,
+    dispensedDate,
+    frontImprint,
+    prescriptionId,
+    prescriptionName,
+    shape,
+  };
 };
