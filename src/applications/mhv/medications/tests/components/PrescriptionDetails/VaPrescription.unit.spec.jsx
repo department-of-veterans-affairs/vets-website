@@ -57,7 +57,7 @@ describe('vaPrescription details container', () => {
   it('displays sentence-cased description in Refill History', () => {
     const screen = setup();
     const medDesc = screen.getByText(
-      'Purple, hexagon with test on the front and fake on the back',
+      'Purple, hexagon with test on the front and fake on the back.',
       {
         exact: true,
         selector: 'p',
@@ -146,7 +146,7 @@ describe('vaPrescription details container', () => {
 
     expect(pharmacyPhone).to.not.exist;
   });
-  it('displays "You haven’t filled this prescription yet" if there is no refil history', () => {
+  it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
       rxRfRecords: [],

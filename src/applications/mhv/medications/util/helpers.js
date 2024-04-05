@@ -161,16 +161,16 @@ export const createMedicationDescription = ({
  */
 export const createOriginalFillRecord = prescription => {
   const {
-    backImprint = null,
-    cmopDivisionPhone = null,
-    cmopNdcNumber = null,
-    color = null,
-    dialCmopDivisionPhone = null,
-    dispensedDate = null,
-    frontImprint = null,
-    prescriptionId = null,
-    prescriptionName = null,
-    shape = null,
+    backImprint,
+    cmopDivisionPhone,
+    cmopNdcNumber,
+    color,
+    dialCmopDivisionPhone,
+    dispensedDate,
+    frontImprint,
+    prescriptionId,
+    prescriptionName,
+    shape,
   } = prescription;
   return {
     backImprint,
