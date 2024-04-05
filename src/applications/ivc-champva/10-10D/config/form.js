@@ -696,6 +696,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
+          depends: (formData, index) => index > 0,
           title: item => `${applicantWording(item)} mailing address`,
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
