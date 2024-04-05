@@ -155,15 +155,14 @@ const responses = {
     // return res.json(directDeposits.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits': (_req, res) => {
-    const secondsOfDelay = 2;
+    const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      // () => res
+      // .status(400)
+      // .json(directDeposits.updates.errors.invalidRoutingNumber),
       secondsOfDelay,
     );
-    // return res.status(200).json(directDeposits.updates.success);
-    // return res
-    //   .status(400)
-    //   .json(directDeposits.updates.errors.invalidAccountNumber);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,

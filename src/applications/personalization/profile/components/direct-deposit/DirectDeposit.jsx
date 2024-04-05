@@ -46,13 +46,14 @@ export const DirectDeposit = () => {
     ui,
     paymentAccount,
     controlInformation,
-    hasLoadError,
     formIsDirty,
     isIdentityVerified,
     isBlocked,
     useOAuth,
     showUpdateSuccess,
     formData,
+    saveError,
+    loadError,
     setFormData,
   } = useDirectDeposit();
 
@@ -106,7 +107,7 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (hasLoadError) {
+  if (loadError) {
     return (
       <Wrapper>
         <LoadFail />
@@ -136,6 +137,7 @@ export const DirectDeposit = () => {
       formData={formData}
       setFormData={setFormData}
       formSubmit={() => dispatch(saveDirectDeposit(formData))}
+      saveError={saveError}
     >
       <LoadingButton
         aria-label="save your bank information for benefits"

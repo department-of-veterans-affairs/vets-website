@@ -83,7 +83,7 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_SAVE_FAILED: {
       return {
         ...state,
-        saveError: action.response.error || true,
+        saveError: action.response?.error || action.response?.errors || true,
         ui: {
           ...state.ui,
           isSaving: false,

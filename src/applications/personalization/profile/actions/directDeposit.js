@@ -102,7 +102,7 @@ export function saveDirectDeposit(
     });
 
     // error handling for the response
-    if (response.error) {
+    if (response.error || response.errors) {
       recordDirectDepositEvent({
         endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.FAILED,
