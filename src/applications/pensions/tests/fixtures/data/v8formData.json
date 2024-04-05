@@ -55,8 +55,7 @@
   "currentEmployers": [
     {
       "jobType": "Customer service",
-      "jobHoursWeek": 20,
-      "jobTitle": "Manager"
+      "jobHoursWeek": 20
     }
   ],
   "maritalStatus": "Separated",
@@ -68,7 +67,7 @@
         "last": "Doe"
       },
       "view:pastMarriage": {
-        "reasonForSeparation": "Divorce",
+        "reasonForSeparation": "DIVORCE",
         "dateOfMarriage": "1989-03-02",
         "dateOfSeparation": "1990-03-02",
         "locationOfMarriage": "Dallas",
@@ -79,11 +78,10 @@
       "spouseFullName": {
         "first": "Jane",
         "middle": "Middle",
-        "last": "Doe",
-        "suffix": "Sr."
+        "last": "Doe"
       },
       "view:pastMarriage": {
-        "reasonForSeparation": "Spouse's death",
+        "reasonForSeparation": "DEATH",
         "dateOfMarriage": "1989-03-02",
         "dateOfSeparation": "1990-03-02",
         "locationOfMarriage": "Dallas",
@@ -99,7 +97,7 @@
       "view:currentMarriage": {
         "dateOfMarriage": "1994-03-02",
         "locationOfMarriage": "North Adams, MA",
-        "marriageType": "In a civil or religious ceremony with an officiant who signed my marriage license"
+        "marriageType": "CEREMONIAL"
       }
     }
   ],
@@ -161,8 +159,7 @@
       "fullName": {
         "first": "Emily",
         "middle": "Anne",
-        "last": "Doe",
-        "suffix": "Jr."
+        "last": "Doe"
       },
       "childDateOfBirth": "2000-03-03"
     },
