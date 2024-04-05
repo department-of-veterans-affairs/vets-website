@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isEqual, omit } from 'lodash';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
@@ -76,20 +77,23 @@ export const AccountUpdateView = ({
 
   const formCancel = useCallback(
     () => {
-      // is form dirty? i.e. if it's been changed since opened
-      // if form data is empty:
-      setFormData({});
-      dispatch(toggleDirectDepositEdit(false));
+      const newFormData = omit(formData, 'view:directDepositInfo');
 
-      // if not empty:
-      setShouldShowCancelModal(true);
+      if (!isEqual(newFormData, paymentAccount)) {
+        setShouldShowCancelModal(true);
+      } else {
+        setFormData({});
+        dispatch(toggleDirectDepositEdit(false));
+      }
     },
-    [dispatch, setFormData],
+    [formData, paymentAccount, setShouldShowCancelModal, dispatch, setFormData],
   );
 
   useEffect(
     () => {
-      setFormData(paymentAccount);
+      if (paymentAccount) {
+        setFormData(paymentAccount);
+      }
     },
     [paymentAccount, setFormData],
   );
@@ -119,14 +123,13 @@ export const AccountUpdateView = ({
       />
 
       <ConfirmCancelModal
-        // cancelled clicked, is form dirty
         isVisible={shouldShowCancelModal}
         closeModal={() => {
           setShouldShowCancelModal(false);
           dispatch(toggleDirectDepositEdit(false));
         }}
         activeSection="direct deposit information"
-        onHide={() => {}}
+        onHide={() => setShouldShowCancelModal(false)}
       />
     </>
   );
