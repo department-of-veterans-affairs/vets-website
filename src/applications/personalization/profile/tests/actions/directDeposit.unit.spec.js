@@ -17,6 +17,7 @@ import {
   DIRECT_DEPOSIT_SAVE_SUCCEEDED,
   DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
   DIRECT_DEPOSIT_LOAD_ERROR_CLEARED,
+  DIRECT_DEPOSIT_SAVE_FAILED,
 } from '@@profile/actions/directDeposit';
 import environment from '~/platform/utilities/environment';
 import { base } from '../../mocks/endpoints/direct-deposits';
@@ -177,13 +178,10 @@ describe('directDeposit actions', () => {
       expect(dispatchSpy.firstCall.args[0]).to.eql({
         type: DIRECT_DEPOSIT_SAVE_STARTED,
       });
-      expect(dispatchSpy.secondCall.args[0]).to.eql({
-        type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
-      });
       // TODO: update!
-      expect(dispatchSpy.thirdCall.args[0]).to.eql({
-        type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
-        response: base.data.attributes,
+      expect(dispatchSpy.secondCall.args[0]).to.eql({
+        type: DIRECT_DEPOSIT_SAVE_FAILED,
+        response: error500,
       });
 
       expect(recordApiEventStub.calledTwice).to.be.true;
