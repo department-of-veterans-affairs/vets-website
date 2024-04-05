@@ -607,14 +607,15 @@ jobs:
     needs: [build] 
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-          output-credentials: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -676,18 +677,22 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch E2E Test Stability Allow List
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
@@ -718,6 +723,7 @@ jobs:
             node_modules
 
       - name: Check for newly added disallowed tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
