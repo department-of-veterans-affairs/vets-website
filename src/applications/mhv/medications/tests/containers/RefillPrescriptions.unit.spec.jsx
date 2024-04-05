@@ -109,12 +109,12 @@ describe('Refill Prescriptions Component', () => {
     button.click();
   });
 
-  it('Shows the select all button', async () => {
+  it('Shows the select all checkbox', async () => {
     const screen = setup();
-    const button = await screen.findByTestId('select-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.property('text', 'Select all');
-    button.click();
+    const checkbox = await screen.findByTestId('select-all-checkbox');
+    expect(checkbox).to.exist;
+    expect(checkbox).to.have.property('label', 'Select all');
+    checkbox.click();
   });
 
   it('Clicks the medications list page link', async () => {
