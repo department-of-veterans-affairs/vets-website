@@ -1,11 +1,3 @@
-// import React from 'react';
-// import { expect } from 'chai';
-// import sinon from 'sinon';
-// import { mount } from 'enzyme';
-
-// import { PREPARER_TYPES } from '../../../config/constants';
-// import * as helpers from '../../../helpers';
-// import pointOfContact from '../../../pages/pointOfContact';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
