@@ -62,7 +62,7 @@ jobs:
       
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ github.event.inputs.commit_sha }}
 
@@ -96,7 +96,7 @@ jobs:
         run: tar -C build/${{ matrix.environment }} -cjf ${{ matrix.environment }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: ${{ matrix.environment }}.tar.bz2
           path: ${{ matrix.environment }}.tar.bz2
@@ -111,15 +111,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get AWS IAM role
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
@@ -128,18 +127,17 @@ jobs:
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
       
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: ${{ matrix.environment }}.tar.bz2
 
@@ -161,7 +159,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
