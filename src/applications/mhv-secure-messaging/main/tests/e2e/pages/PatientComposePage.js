@@ -298,7 +298,7 @@ class PatientComposePage {
   };
 
   verifyAlertModal = () => {
-    cy.get(`h2`).should('contain', "We can't save this message yet");
+    cy.get(`#heading`).should('contain', "We can't save this message yet");
   };
 
   clickOnContinueEditingButton = () => {
