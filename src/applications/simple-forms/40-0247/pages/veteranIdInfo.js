@@ -11,7 +11,7 @@ export default {
       'Veteran’s or Reservist’s identification information',
       'You must enter either a VA file number or Social Security number.',
     ),
-    veteranId: ssnOrVaFileNumberUI(),
+    veteranId: ssnOrVaFileNumberUI({ hideHint: true }),
   },
   schema: {
     type: 'object',
