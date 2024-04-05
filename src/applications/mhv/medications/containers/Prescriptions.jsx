@@ -310,6 +310,12 @@ const Prescriptions = () => {
     [userName, txtData, setPdfTxtGenerateStatus],
   );
 
+  const isValidPrintStatus =
+    (prescriptionsFullList?.length &&
+      pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST) ||
+    (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
+      paginatedPrescriptionsList?.length);
+
   useEffect(
     () => {
       if (
@@ -369,10 +375,7 @@ const Prescriptions = () => {
           updateLoadingStatus(false, '');
         }
       } else if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST) ||
-          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            paginatedPrescriptionsList?.length)) &&
+        isValidPrintStatus &&
         allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
@@ -481,10 +484,7 @@ const Prescriptions = () => {
               pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT,
             )}
             visible={Boolean(
-              ((prescriptionsFullList?.length &&
-                pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-                (paginatedPrescriptionsList?.length &&
-                  pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
+              isValidPrintStatus &&
                 pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.InProgress &&
                 allergiesError,
