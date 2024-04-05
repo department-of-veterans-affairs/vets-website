@@ -36,7 +36,7 @@ export const nextQuestionRoute = (currentQuestion, answer) => {
       nextRoute = SHORT_NAME_MAP.COURT_MARTIAL;
       break;
     case SHORT_NAME_MAP.COURT_MARTIAL:
-      nextRoute = SHORT_NAME_MAP.PREVIOUS_APPLICATION_TYPE;
+      nextRoute = SHORT_NAME_MAP.PREVIOUS_APPLICATION;
       break;
     default:
       return ROUTES.RESULTS;

@@ -69,6 +69,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
                       className="vads-c-action-link--green"
+                      data-testid="duw-start-form"
                       href="#"
                       onClick={startForm}
                     >

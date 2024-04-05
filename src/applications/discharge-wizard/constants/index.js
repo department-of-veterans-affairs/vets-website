@@ -125,6 +125,7 @@ export const ROUTES = Object.freeze({
   DISCHARGE_TYPE: 'discharge-type',
   COURT_MARTIAL: 'court-martial',
   INTENTION: 'intention',
+  PREVIOUS_APPLICATION: 'previous-application',
   PREVIOUS_APPLICATION_TYPE: 'previous-application-type',
   RESULT: 'result',
 });
@@ -137,12 +138,12 @@ export const questionsToClearMap = Object.freeze({
     'DISCHARGE_TYPE',
     'COURT_MARTIAL',
     'INTENTION',
-    'PREVIOUS_APPLICATION_TYPE',
+    'PREVIOUS_APPLICATION',
   ],
   DISCHARGE_TYPE: [],
   COURT_MARTIAL: [],
   INTENTION: [],
-  PREVIOUS_APPLICATION_TYPE: [],
+  PREVIOUS_APPLICATION: [],
 });
 
 export const errorTextMap = Object.freeze({

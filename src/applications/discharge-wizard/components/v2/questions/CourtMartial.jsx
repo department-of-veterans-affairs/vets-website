@@ -50,7 +50,7 @@ const CourtMartial = ({
         router={router}
         setFormError={setFormError}
         shortName={shortName}
-        testId="duw-court-martial"
+        testId="duw-court_martial"
         valueSetter={setCourtMartial}
       />
     </div>

@@ -42,7 +42,11 @@ const DischargeMonth = ({
   const dischargeMonth = formResponses[shortName];
   const monthOptions = months.map(month => {
     return (
-      <option key={month.value} value={month.value}>
+      <option
+        data-testid="va-select-option"
+        key={month.value}
+        value={month.value}
+      >
         {month.label}
       </option>
     );
