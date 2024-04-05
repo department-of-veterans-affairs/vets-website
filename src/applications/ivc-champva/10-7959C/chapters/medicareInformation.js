@@ -9,8 +9,6 @@ import { applicantListSchema } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 
-export const blankSchema = { type: 'object', properties: {} };
-
 // Used with a custom page
 export const applicantHasMedicareABSchema = {
   uiSchema: {
