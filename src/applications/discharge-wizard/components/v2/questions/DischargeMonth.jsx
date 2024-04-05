@@ -66,11 +66,11 @@ const DischargeMonth = ({
 
 DischargeMonth.propTypes = {
   formResponses: PropTypes.object.isRequired,
+  setDischargeMonth: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
-  setDischargeMonth: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

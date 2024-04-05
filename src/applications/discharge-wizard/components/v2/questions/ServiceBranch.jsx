@@ -59,11 +59,11 @@ const ServiceBranch = ({
 
 ServiceBranch.propTypes = {
   formResponses: PropTypes.object.isRequired,
+  setServiceBranch: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
-  setServiceBranch: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
