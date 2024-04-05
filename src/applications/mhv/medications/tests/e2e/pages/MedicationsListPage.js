@@ -489,5 +489,12 @@ class MedicationsListPage {
       'Medications',
     );
   };
+
+  verifyAboutMedicationsBreadcrumbTextOnListPage = () => {
+    cy.get('[href="/my-health/medications/about"]').should(
+      'contain',
+      'About medications',
+    );
+  };
 }
 export default MedicationsListPage;
