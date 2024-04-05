@@ -1,0 +1,21 @@
+.auth-no-rep-card {
+  display: flex;
+
+  .auth-no-rep-header-icon {
+    margin: 0px 5px 0 0;
+  }
+
+  .auth-no-rep-text {
+    h2 {
+      margin-top: -5px;
+    }
+
+    h3 {
+      margin-top: 2px;
+    }
+
+    .auth-no-rep-body {
+      margin-top: 16px;
+    }
+  }
+}
