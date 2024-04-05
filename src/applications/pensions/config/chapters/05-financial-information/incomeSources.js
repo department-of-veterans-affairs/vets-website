@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import get from 'platform/utilities/data/get';
 import {
   radioUI,
@@ -9,7 +8,6 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
-import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import { IncomeSourceDescription } from '../../../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
@@ -43,6 +41,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       items: {
         typeOfIncome: radioUI({
@@ -84,7 +83,6 @@ export default {
           'ui:options': {
             classNames: 'schemaform-currency-input-v3',
           },
-          'ui:validations': [validateCurrency],
         }),
       },
     },
