@@ -31,6 +31,7 @@ const RemoveAttachmentModal = props => {
           data-dd-action-name="Confirm Remove Attachment Button"
         />
         <va-button
+          class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
           data-testid="cancel-remove-attachment-button"
           secondary
           text="Cancel"
