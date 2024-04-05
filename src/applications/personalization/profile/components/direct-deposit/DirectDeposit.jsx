@@ -130,6 +130,7 @@ export const DirectDeposit = () => {
 
   const cardDataValue = ui.isEditing ? (
     <AccountUpdateView
+      paymentAccount={paymentAccount}
       isSaving={ui.isSaving}
       error={error}
       formData={formData}

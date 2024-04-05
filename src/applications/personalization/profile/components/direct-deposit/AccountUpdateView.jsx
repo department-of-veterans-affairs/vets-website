@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
@@ -68,6 +68,7 @@ export const AccountUpdateView = ({
   formData,
   formSubmit,
   setFormData,
+  paymentAccount,
   cancelButtonClasses,
 }) => {
   const [shouldShowCancelModal, setShouldShowCancelModal] = useState(false);
@@ -84,6 +85,13 @@ export const AccountUpdateView = ({
       setShouldShowCancelModal(true);
     },
     [dispatch, setFormData],
+  );
+
+  useEffect(
+    () => {
+      setFormData(paymentAccount);
+    },
+    [paymentAccount, setFormData],
   );
 
   return (
@@ -118,6 +126,7 @@ export const AccountUpdateView = ({
           dispatch(toggleDirectDepositEdit(false));
         }}
         activeSection="direct deposit information"
+        onHide={() => {}}
       />
     </>
   );
@@ -134,6 +143,7 @@ AccountUpdateView.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  paymentAccount: PropTypes.object,
 };
 
 AccountUpdateView.defaultProps = {
