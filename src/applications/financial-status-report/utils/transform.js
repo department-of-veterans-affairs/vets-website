@@ -15,7 +15,6 @@ import {
   filterReduceByName,
 } from './helpers';
 import { getMonthlyIncome } from './calculateIncome';
-import { getMonthlyExpenses, getAllExpenses } from './calculateExpenses';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -72,9 +71,9 @@ export const transform = (formConfig, form) => {
     );
 
     // === Expenses ===
-    const totalMonthlyExpenses = getMonthlyExpenses(form.data);
+    const calculatedTotalMonthlyExpenses = form.data.totalMonthlyExpenses;
 
-    // Extract the values from getMonthlyExpenses
+    // Extract the values from calculated totals
     const {
       food,
       rentOrMortgage,
@@ -83,7 +82,7 @@ export const transform = (formConfig, form) => {
       filteredExpenses,
       installmentContractsAndCreditCards,
       expensesInstallmentContractsAndOtherDebts,
-    } = getAllExpenses(form.data);
+    } = form.data.totalExpenses;
 
     const employmentHistory = getEmploymentHistory(form.data);
     const totalAssets = getTotalAssets(form.data);
@@ -211,11 +210,11 @@ export const transform = (formConfig, form) => {
         utilities,
         otherLivingExpenses,
         expensesInstallmentContractsAndOtherDebts,
-        totalMonthlyExpenses,
+        calculatedTotalMonthlyExpenses,
       },
       discretionaryIncome: {
         netMonthlyIncomeLessExpenses:
-          totalMonthlyNetIncome - totalMonthlyExpenses,
+          totalMonthlyNetIncome - calculatedTotalMonthlyExpenses,
         amountCanBePaidTowardDebt,
       },
       assets: {

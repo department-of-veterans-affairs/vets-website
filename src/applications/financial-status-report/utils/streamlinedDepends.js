@@ -1,7 +1,7 @@
 import { DEBT_TYPES } from '../constants';
 import { getMonthlyIncome, safeNumber } from './calculateIncome';
 import { getTotalAssets } from './helpers';
-import { getMonthlyExpenses } from './calculateExpenses';
+import { getMonthlyExpensesAPI } from './calculateExpenses';
 
 const VHA_LIMIT = 5000;
 
@@ -129,6 +129,6 @@ export const calculateLiquidAssets = formData => {
  */
 export const calculateDiscretionaryIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  const expenses = getMonthlyExpenses(formData);
+  const expenses = getMonthlyExpensesAPI(formData);
   return totalMonthlyNetIncome - expenses;
 };
