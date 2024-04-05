@@ -10,14 +10,32 @@ import mockStatus from './fixtures/mocks/profile-status.json';
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
-import EnhancedVeteranEmploymentHistory from './pages/employment/EnhancedVeteranEmploymentHistory';
+import { customButtonGroupContinue } from './fixtures/helpers';
+import { employmentInformationLoop } from './pages/EmploymentHistory';
+import {
+  fillChecklist,
+  fillInputList,
+  verifySummaryPage,
+  verifyEditPage,
+} from './pages/ChecklistSummaryFlow';
+import { data } from './fixtures/data/fsr-maximal.json';
 
 Cypress.config('waitForAnimations', true);
+
+// using maximal as baseline, so if data structure changes it will reflect in the tests
+const {
+  additionalIncome,
+  assets,
+  otherExpenses,
+  personalData,
+  utilityRecords,
+} = data;
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['efsr-maximal'],
+    // starting with no data, so form is filled with navigation
+    dataSets: ['initial'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -27,10 +45,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
           ],
         },
       });
@@ -64,6 +78,9 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
+      // ============================================================
+      // ================== veteranInformationChapter ==================
+      // ============================================================
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="request-help-with-debt"]`)
@@ -75,85 +92,16 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'enhanced-employment-records': ({ afterHook }) => {
+      'spouse-information': ({ afterHook }) => {
         afterHook(() => {
-          EnhancedVeteranEmploymentHistory.fillEmployerInfo();
-        });
-      },
-      'gross-monthly-income': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#gross-monthly-income')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
+          cy.get('#root_questions_isMarriedYes').check();
           cy.get('.usa-button-primary').click();
         });
       },
-      'deduction-checklist': ({ afterHook }) => {
+      'spouse-name': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="State tax"]`)
-            .first()
-            .check();
-          EnhancedVeteranEmploymentHistory.attemptNextPage();
-        });
-      },
-      'deduction-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#State\\ tax0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('123');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'household-expenses-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#Rent0').check();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'household-expenses-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#Rent0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('123');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'enhanced-spouse-employment-records': ({ afterHook }) => {
-        afterHook(() => {
-          EnhancedVeteranEmploymentHistory.fillEmployerInfo();
-        });
-      },
-      'spouse-gross-monthly-income': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#gross-monthly-income')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'spouse-deduction-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get(`input[name="State tax"]`)
-            .first()
-            .check();
-          EnhancedVeteranEmploymentHistory.attemptNextPage();
-        });
-      },
-      'spouse-deduction-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#State\\ tax0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('123');
+          cy.get('#root_personalData_spouseFullName_first').type('Rosemary');
+          cy.get('#root_personalData_spouseFullName_last').type('Woodhouse');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -185,6 +133,140 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      // ============================================================
+      // ================== householdIncomeChapter ==================
+      // ============================================================
+      'employment-question': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-radio-option[value="true"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'enhanced-employment-records': ({ afterHook }) => {
+        afterHook(() => {
+          // this loop handles the following pages:
+          // employment-work-dates
+          // gross-monthly-income
+          // deduction-checklist
+          // deduction-values
+          employmentInformationLoop(
+            personalData.employmentHistory.veteran.employmentRecords,
+          );
+        });
+      },
+      'your-benefits': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .eq(0)
+            .find('a')
+            .click();
+
+          // edit-benefits - loop gets weird in cypress
+          cy.get('#compensationAndPension-benefitAmount')
+            .first()
+            .shadow()
+            .find('input')
+            .as('BenefitAmount');
+          cy.get('@BenefitAmount').clear();
+          cy.get('@BenefitAmount').type('1015.23');
+          customButtonGroupContinue('Update');
+          cy.get('[data-testid="mini-summary-card"]')
+            .eq(0)
+            .find('p')
+            .should('contain', '$1,015.23');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'additional-income-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          // get veteran additional income array
+          const { addlIncRecords } = additionalIncome;
+          fillChecklist(addlIncRecords);
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'additional-income-values': ({ afterHook }) => {
+        afterHook(() => {
+          const { addlIncRecords } = additionalIncome;
+          fillInputList(addlIncRecords);
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-income-summary': ({ afterHook }) => {
+        afterHook(() => {
+          const { addlIncRecords } = additionalIncome;
+          verifySummaryPage(addlIncRecords);
+
+          // add-other-income
+          verifyEditPage(
+            additionalIncome.addlIncRecords,
+            'Update other income',
+          );
+          customButtonGroupContinue();
+        });
+      },
+      'enhanced-spouse-employment-question': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-radio-option[value="true"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'enhanced-spouse-employment-records': ({ afterHook }) => {
+        afterHook(() => {
+          // this loop handles the following pages:
+          // spouse-employment-work-dates
+          // spouse-employment-history
+          // spouse-gross-monthly-income
+          // spouse-deduction-checklist
+          // spouse-deduction-values
+          employmentInformationLoop(
+            personalData.employmentHistory.spouse.spEmploymentRecords,
+          );
+        });
+      },
+      'spouse-benefits': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_spouseHasBenefitsYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse-benefit-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_benefits_spouseBenefits_compensationAndPension').type(
+            '165.21',
+          );
+          cy.get('#root_benefits_spouseBenefits_education').type('0');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse-additional-income-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          // get spouse additional income array
+          const { spouse } = additionalIncome;
+          fillChecklist(spouse.spAddlIncome);
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse-additional-income-values': ({ afterHook }) => {
+        afterHook(() => {
+          const { spouse } = additionalIncome;
+          fillInputList(spouse.spAddlIncome);
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse-other-income-summary': ({ afterHook }) => {
+        afterHook(() => {
+          const { spouse } = additionalIncome;
+          verifySummaryPage(spouse.spAddlIncome);
+
+          // add-other-income
+          verifyEditPage(spouse.spAddlIncome, 'Update other income');
+          customButtonGroupContinue();
+        });
+      },
+      // ============================================================
+      // ================== householdAssetsChapter ==================
+      // ============================================================
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type=checkbox]')
@@ -214,6 +296,26 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'enhanced-real-estate-assets': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasRealEstateYes').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'enhanced-real-estate-asset-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_assets_realEstateValue').type('180000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      // linting doesn't like paths that don't have a - in them
+      // eslint-disable-next-line no-useless-computed-key
+      ['vehicles']: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasVehicleYes').check();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -259,6 +361,12 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'recreational-vehicles': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasRecreationalVehicleYes').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
@@ -269,100 +377,68 @@ const testConfig = createTestConfig(
       },
       'other-assets-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
-            .as('checklist')
-            .should('have.length', 6);
-          cy.get('@checklist')
-            .eq(0)
-            .click();
-          cy.get('@checklist')
-            .eq(1)
-            .click();
+          // get other assets array
+          const { otherAssets } = assets;
+          fillChecklist(otherAssets);
           cy.get('.usa-button-primary').click();
         });
       },
       'other-assets-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
-            .as('numberInputs')
-            .should('have.length', 2);
-          cy.get('#Antiques0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('[id="Collectibles, or collection(s)1"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1500');
+          // get other assets array
+          const { otherAssets } = assets;
+          fillInputList(otherAssets);
           cy.get('.usa-button-primary').click();
         });
       },
       'other-assets-summary': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[data-testid="mini-summary-card"]')
-            .as('cards')
-            .should('have.length', 2);
-          cy.get('@cards')
-            .eq(0)
-            .should('contain', 'Antiques')
-            .and('contain', '$1,000.00');
-          cy.get('@cards')
-            .eq(1)
-            .should('contain', 'Collectibles')
-            .and('contain', '$1,500.00');
-          cy.get('va-button[data-testid="custom-button-group-button"]')
+          // get other assets array
+          const { otherAssets } = assets;
+          verifySummaryPage(otherAssets);
+
+          // add-other-asset
+          verifyEditPage(otherAssets, 'Update asset');
+          customButtonGroupContinue();
+        });
+      },
+      // ==============================================================
+      // ================== householdExpensesChapter ==================
+      // ==============================================================
+      'household-expenses-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#Rent0').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'household-expenses-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#Rent0')
+            .first()
             .shadow()
-            .find('button:contains("Continue")')
-            .click();
+            .find('input')
+            .type('123');
+          cy.get('.usa-button-primary').click();
         });
       },
       'utility-bill-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
-            .as('checklist')
-            .should('have.length', 6);
-          cy.get('@checklist')
-            .eq(0)
-            .click();
-          cy.get('@checklist')
-            .eq(1)
-            .click();
+          fillChecklist(utilityRecords);
           cy.get('.usa-button-primary').click();
         });
       },
       'utility-bill-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
-            .as('numberInputs')
-            .should('have.length', 2);
-          cy.get('#Electricity0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('[id="Gas1"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1500');
+          fillInputList(utilityRecords);
           cy.get('.usa-button-primary').click();
         });
       },
       'utility-bill-summary': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[data-testid="mini-summary-card"]')
-            .as('cards')
-            .should('have.length', 2);
-          cy.get('@cards')
-            .eq(0)
-            .should('contain', 'Electricity')
-            .and('contain', '$1,000.00');
-          cy.get('@cards')
-            .eq(1)
-            .should('contain', 'Gas')
-            .and('contain', '$1,500.00');
+          verifySummaryPage(utilityRecords);
+
+          // add-utility-bill
+          verifyEditPage(utilityRecords, 'Update utility bill');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -393,7 +469,6 @@ const testConfig = createTestConfig(
             .shadow()
             .find('button:contains("Continue")')
             .click();
-          // cy.get('.usa-button-primary').click();
         });
       },
       'credit-card-bills-summary': ({ afterHook }) => {
@@ -406,6 +481,12 @@ const testConfig = createTestConfig(
             .should('contain', 'Unpaid balance: $100.00')
             .and('contain', 'Minimum monthly payment amount: $25.00')
             .and('contain', 'Amount overdue: $10.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'installment-contracts': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_hasRepaymentsYes').check();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -457,7 +538,6 @@ const testConfig = createTestConfig(
             .shadow()
             .find('button:contains("Continue")')
             .click();
-          // cy.get('.usa-button-primary').click();
         });
       },
       'installment-contracts-summary': ({ afterHook }) => {
@@ -476,6 +556,30 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'other-expenses-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          fillChecklist(otherExpenses);
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-expenses-values': ({ afterHook }) => {
+        afterHook(() => {
+          fillInputList(otherExpenses);
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-expenses-summary': ({ afterHook }) => {
+        afterHook(() => {
+          verifySummaryPage(otherExpenses);
+
+          // add-other-expense
+          verifyEditPage(otherExpenses, 'Update expense');
+          customButtonGroupContinue();
+        });
+      },
+      // ==============================================================
+      // ================== resolutionOptionsChapter ==================
+      // ==============================================================
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="monthly"]').click();
@@ -516,6 +620,9 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      // ==============================================================
+      // ================ bankruptcyAttestationChapter ================
+      // ==============================================================
       'bankruptcy-history': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#has-declared-bankruptcy').click();
@@ -554,6 +661,9 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      // ============================================================
+      // ======================== Review page =======================
+      // ============================================================
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#veteran-signature')

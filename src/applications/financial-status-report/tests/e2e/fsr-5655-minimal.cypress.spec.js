@@ -10,16 +10,17 @@ import mockStatus from './fixtures/mocks/profile-status.json';
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
-import incomeLimit from './fixtures/mocks/incomeLimit.json';
 
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['sw-long-path-minimal'],
+    // removing data sets to confirm formData gets filled out properly
+    // dataSets: ['fsr-minimal', 'fsr-maximal'],
+    dataSets: ['fsr-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
-    skip: true, // leaving in until we finish deprecating the legacy pages
+
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.intercept('GET', '/v0/feature_toggles*', {
@@ -27,27 +28,9 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: false,
-            },
           ],
         },
       });
-
-      cy.intercept(
-        'GET',
-        'income_limits/v1/limitsByZipCode/94608/2023/2',
-        incomeLimit,
-      );
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('GET', 'v0/user_transition_availabilities', {
@@ -78,8 +61,15 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
+      // ============================================================
+      // ================== veteranInformationChapter ==================
+      // ============================================================
+      // 120.4-166.67
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
+          cy.get(`input[name="request-help-with-debt"]`)
+            .first()
+            .check();
           cy.get(`input[name="request-help-with-copay"]`)
             .first()
             .check();
@@ -88,96 +78,75 @@ const testConfig = createTestConfig(
       },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#dependent-count')
+          cy.get('@testData').then(testData => {
+            cy.get('#dependent-count')
+              .shadow()
+              .find('input')
+              .type(testData.questions.hasDependents);
+            cy.get('va-button[data-testid="custom-button-group-button"]')
+              .shadow()
+              .find('button:contains("Continue")')
+              .click();
+          });
+        });
+      },
+      // ==============================================================
+      // ================== resolutionOptionsChapter ==================
+      // ==============================================================
+      'resolution-option/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-comment/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="resolution-amount"]')
+            .first()
             .shadow()
             .find('input')
-            .type('2');
+            .type('10.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-option/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-waiver-agreement/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-comments': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#resolution-comments')
+            .shadow()
+            .find('textarea')
+            .type('Some Resolution Comments . . .');
           cy.get('va-button[data-testid="custom-button-group-button"]')
             .shadow()
             .find('button:contains("Continue")')
             .click();
         });
       },
-      'dependent-ages': ({ afterHook }) => {
+      // ==============================================================
+      // ================ bankruptcyAttestationChapter ================
+      // ==============================================================
+      'bankruptcy-history': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#dependentAge-0')
-            .shadow()
-            .find('input')
-            .type('12');
-          cy.get('#dependentAge-1')
-            .shadow()
-            .find('input')
-            .type('17');
-          cy.get('va-button[data-testid="custom-button-group-button"]')
-            .shadow()
-            .find('button:contains("Continue")')
-            .click();
-        });
-      },
-      'additional-income-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get(`input[name="Social Security"]`)
-            .first()
-            .check();
+          cy.get('#has-not-declared-bankruptcy').click();
           cy.get('.usa-button-primary').click();
         });
       },
-      'additional-income-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-number-input[name="Social Security"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('4639.90');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'other-income-summary': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-button[data-testid="custom-button-group-button"]')
-            .shadow()
-            .find('button:contains("Continue")')
-            .click();
-        });
-      },
-      'other-expenses-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get(`input[name="Clothing"]`)
-            .first()
-            .check();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'other-expenses-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-number-input[name="Clothing"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('6759');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'other-expenses-summary': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-button[data-testid="custom-button-group-button"]')
-            .shadow()
-            .find('button:contains("Continue")')
-            .click();
-        });
-      },
-      'skip-questions-explainer': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('h3').should(
-            'have.text',
-            'You can skip questions on this formWe’re here anytime, day or night – 24/7',
-          );
-          cy.get('.usa-button-primary').click();
-        });
-      },
+      // ============================================================
+      // ======================== Review page =======================
+      // ============================================================
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-accordion-item').should('have.length', 4);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')
