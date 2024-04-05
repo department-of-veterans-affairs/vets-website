@@ -72,6 +72,7 @@ export function fetchDirectDeposit(toeLightHouseDgiDirectDeposit) {
 
   return async dispatch => {
     dispatch({ type: FETCH_DIRECT_DEPOSIT });
+
     return apiRequest(ddEndpoint)
       .then(response => {
         dispatch({

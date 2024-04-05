@@ -46,6 +46,7 @@ const generateEmployersUISchema = ({
       customTitle: ' ',
       confirmRemove: true,
       useDlWrap: true,
+      useVaCards: true,
     },
     items: {
       ...(showJobDateField && {
