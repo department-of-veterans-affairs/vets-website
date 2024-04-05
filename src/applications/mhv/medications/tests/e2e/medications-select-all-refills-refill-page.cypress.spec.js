@@ -12,8 +12,8 @@ describe('Medications Select All Refills', () => {
     refillPage.loadRefillPage(refillPrescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
-    refillPage.verifySelectAllRefillButtonExists();
-    refillPage.clickSelectAllRefillButton();
+    refillPage.verifySelectAllRefillCheckBoxExists();
+    refillPage.clickSelectAllRefillCheckBox();
     refillPage.verifyRequestRefillsButtonExists(numberOfRefills);
     refillPage.verifyRefillCheckBoxesClicked(checkboxes);
   });
