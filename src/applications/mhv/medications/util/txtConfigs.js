@@ -3,6 +3,7 @@ import {
   processList,
   validateField,
   createMedicationDescription,
+  createNoDescriptionText,
   createOriginalFillRecord,
 } from './helpers';
 import {
@@ -10,14 +11,6 @@ import {
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
 } from './constants';
-
-const createDescriptionAlternative = phone => {
-  let dialFragment = '';
-  if (phone) {
-    dialFragment = `at ${phone}`;
-  }
-  return `No description available. Call your pharmacy ${dialFragment} if you need help identifying this medication.`;
-};
 
 /**
  * Return Non-VA prescription TXT
@@ -244,7 +237,7 @@ Refill history
   refillHistory.forEach((entry, i) => {
     const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
     const description =
-      createMedicationDescription(entry) || createDescriptionAlternative(phone);
+      createMedicationDescription(entry) || createNoDescriptionText(phone);
     result += `
 ${i === 0 ? 'First fill' : `Refill ${i}`}
 

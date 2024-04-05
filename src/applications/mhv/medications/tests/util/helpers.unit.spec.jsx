@@ -9,6 +9,7 @@ import {
   processList,
   validateField,
   createMedicationDescription,
+  createNoDescriptionText,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -183,5 +184,19 @@ describe('createMedicationDescription', () => {
         backImprint: '2',
       }),
     ).to.be.null;
+  });
+});
+
+describe('createNoDescriptionText', () => {
+  it('should include a phone number if provided', () => {
+    expect(createNoDescriptionText('555-111-5555')).to.eq(
+      'No description available. Call your pharmacy at 555-111-5555 if you need help identifying this medication.',
+    );
+  });
+
+  it('should create a string even if no phone number provided', () => {
+    expect(createNoDescriptionText()).to.eq(
+      'No description available. Call your pharmacy if you need help identifying this medication.',
+    );
   });
 });
