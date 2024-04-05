@@ -171,14 +171,11 @@ export const validateAddress = (formData, fullName) => async (
 ) => {
   dispatch({ type: ADDRESS_VALIDATION_START });
   try {
-    const validationResponse = await apiRequest(
-      'http://localhost:8080/profile/address_validation',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      },
-    );
+    const validationResponse = await apiRequest('/profile/address_validation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
 
     const {
       address,
