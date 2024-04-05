@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -49,22 +50,24 @@ export default function CancelWarningPage() {
         appointment online.
       </p>
       <CancelPageLayout />
-      <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-        <va-button
-          text="Yes, cancel appointment"
-          label="Cancel appointment"
-          className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
+      <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--3 vaos-hide-for-print">
+        <button
+          type="button"
+          aria-label="Cancel appointment"
           onClick={handleConfirm(dispatch)}
-        />
+        >
+          Yes, cancel appointment
+        </button>
       </div>
-      <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-        <va-button
-          text="No, do not cancel"
-          label="Do not cancel appointment"
-          secondary
-          className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
+      <div className="vads-u-display--flex vads-u-align-items--center vaos-hide-for-print">
+        <button
+          type="button"
+          aria-label="Cancel appointment"
+          className="usa-button-secondary"
           onClick={handleClose(dispatch)}
-        />
+        >
+          No, do not cancel
+        </button>
       </div>
     </PageLayout>
   );
