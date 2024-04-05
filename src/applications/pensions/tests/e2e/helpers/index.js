@@ -249,7 +249,6 @@ export const fillIncomeSourcesPage = (fields, index) => {
     );
   }
   fillTextWebComponent(`incomeSources_${index}_payer`, fields.payer);
-  // fillTextWebComponent(`incomeSources_${index}_amount`, fields.amount);
   cy.get(`input[name="root_incomeSources_${index}_amount"]`).type(
     fields.amount,
   );
