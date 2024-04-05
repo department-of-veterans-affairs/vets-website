@@ -36,7 +36,7 @@ export const optionalFiles = {
  * requiredFiles object
  */
 export function isRequiredFile(formContext) {
-  return Object.keys(formContext.schema.properties).filter(v =>
+  return Object.keys(formContext?.schema?.properties || {}).filter(v =>
     Object.keys(requiredFiles).includes(v),
   ).length >= 1
     ? '(Required)'
