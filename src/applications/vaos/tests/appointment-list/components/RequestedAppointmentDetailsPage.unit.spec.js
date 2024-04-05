@@ -613,7 +613,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Would you like to cancel this request?'))
         .to.be.ok;
 
-      const button = screen.container.querySelector('va-button');
+      const button = screen.getByText(/Yes, cancel appointment/i);
       button.click();
 
       expect(window.dataLayer[0]).to.deep.equal({
@@ -732,7 +732,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        const button = screen.container.querySelector('va-button');
+        const button = screen.getByText(/Yes, cancel appointment/i);
         button.click();
 
         expect(window.dataLayer[0]).to.deep.equal({
@@ -807,7 +807,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        const button = screen.container.querySelector('va-button');
+        const button = screen.getByText(/Yes, cancel appointment/i);
         button.click();
 
         await waitFor(() => {
