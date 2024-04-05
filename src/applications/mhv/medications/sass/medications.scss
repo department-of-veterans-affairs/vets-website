@@ -264,3 +264,7 @@
     gap: 1.5rem;
   }
 }
+
+va-checkbox#select-all-checkbox::part(label) {
+  font-weight: bold;
+}

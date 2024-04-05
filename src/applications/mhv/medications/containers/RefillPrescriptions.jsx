@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -47,9 +50,14 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       setSelectedRefillList(selectedRefillList.filter(item => item !== id));
     }
   };
-  const onSelectAll = () => {
-    if (selectedRefillListLength !== fullRefillList.length) {
+  const onSelectAll = event => {
+    if (
+      event.detail.checked &&
+      selectedRefillListLength !== fullRefillList.length
+    ) {
       setSelectedRefillList(fullRefillList.map(p => p.prescriptionId));
+    } else if (!event.detail.checked) {
+      setSelectedRefillList([]);
     }
   };
 
@@ -140,23 +148,25 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           <p
             className="vads-u-margin-y--3"
             data-testid="refill-page-list-count"
+            id="refill-page-list-count"
           >
             You have {fullRefillList.length}{' '}
             {`prescription${fullRefillList.length !== 1 ? 's' : ''}`} ready to
             refill.
           </p>
-          <VaButton
-            secondary
-            uswds
-            type="button"
-            style={{ fontWeight: 'bold' }}
-            className="vads-u-font-weight--bold vads-u-background-color--white vads-u-margin-bottom--3 vads-u-margin-x--0 vads-u-padding--0"
-            id="select-all-button"
-            aria-describedby="select-all-button"
-            data-testid="select-all-button"
-            onClick={() => onSelectAll()}
-            text="Select all"
-          />
+          <div className="vads-u-margin-bottom--3">
+            <VaCheckbox
+              id="select-all-checkbox"
+              data-testid="select-all-checkbox"
+              label="Select all"
+              aria-describedby="refill-page-list-count"
+              message-aria-describedby="refill-page-list-count"
+              className="vads-u-margin-bottom--3"
+              checked={selectedRefillListLength === fullRefillList.length}
+              onVaChange={onSelectAll}
+              uswds
+            />
+          </div>
           <div>
             {fullRefillList.slice().map((prescription, idx) => (
               <div key={idx} className="vads-u-margin-bottom--2">
