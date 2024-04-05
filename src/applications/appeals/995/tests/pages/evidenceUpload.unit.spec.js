@@ -89,5 +89,8 @@ describe('Additional evidence upload', () => {
     expect(content).to.contain('test.pdf');
     expect(content).to.contain('98KB');
     expect(select).to.exist;
+    expect(select.getAttribute('message-aria-describedby')).to.eq(
+      'Choose a document type for test.pdf',
+    );
   });
 });

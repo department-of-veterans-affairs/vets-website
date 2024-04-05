@@ -1173,9 +1173,10 @@ describe('Schemaform <FileField>', () => {
     };
     const uiSchema = fileUploadUI('Files', {
       attachmentName: false,
-      attachmentSchema: ({ fileId, index }) => ({
+      attachmentSchema: ({ fileId, index, fileName }) => ({
         'ui:title': 'Document type',
         'ui:options': {
+          messageAriaDescribedby: `test with ${fileName}`,
           widgetProps: {
             'aria-describedby': fileId,
             'data-index': index,
@@ -1220,6 +1221,9 @@ describe('Schemaform <FileField>', () => {
     expect(testProps.registry.formContext.pagePerItemIndex).to.eq(0);
     expect(options.widgetProps['aria-describedby']).to.eq('field_file_name_0');
     expect(options.widgetProps['data-index']).to.eq(0);
+    expect(options.messageAriaDescribedby).to.contain(
+      'test with Test file name.pdf',
+    );
   });
 
   // Accessibility checks
