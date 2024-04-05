@@ -3,6 +3,7 @@ import { getVaccine, getVaccineList } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
+import { getListWithRetry } from './common';
 
 export const getVaccinesList = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -10,7 +11,7 @@ export const getVaccinesList = (isCurrent = false) => async dispatch => {
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getVaccineList();
+    const response = await getListWithRetry(dispatch, getVaccineList);
 
     dispatch({
       type: Actions.Vaccines.GET_LIST,
