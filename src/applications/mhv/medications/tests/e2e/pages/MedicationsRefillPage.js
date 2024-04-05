@@ -193,6 +193,14 @@ class MedicationsRefillPage {
   verifyRefillsRemainingForActiveParkedZeroRefills = refills => {
     cy.get('[data-testid="refills-left"]').should('contain', refills);
   };
+
+  verifyActiveRxZeroRefillsStatus = status => {
+    cy.get('[data-testid="status"]').should('contain', status);
+  };
+
+  verifyRefillsRemainingForActiveRxZeroRefills = refills => {
+    cy.get('[data-testid="refills-left"]').should('contain', refills);
+  };
 }
 
 export default MedicationsRefillPage;
