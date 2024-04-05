@@ -7,6 +7,7 @@ import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
+import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -66,7 +67,7 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find('[href="/my-health/medications/about/accordion-renew-rx"]')
+      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}"]`)
       .first()
       .click({ waitForAnimations: true });
   };
@@ -487,6 +488,13 @@ class MedicationsListPage {
     cy.get('[data-testid="list-page-title"]').should(
       'have.text',
       'Medications',
+    );
+  };
+
+  verifyAboutMedicationsBreadcrumbTextOnListPage = () => {
+    cy.get('[href="/my-health/medications/about"]').should(
+      'contain',
+      'About medications',
     );
   };
 }

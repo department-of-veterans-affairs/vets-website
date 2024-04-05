@@ -1,9 +1,10 @@
 import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
+import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
-    cy.visit('/my-health/medications/refill');
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
@@ -91,6 +92,13 @@ class MedicationsRefillPage {
     cy.get('[data-testid="back-to-medications-page-link"]').click({
       waitForAnimations: true,
     });
+  };
+
+  verifyShippedMedicationOnRefillPage = () => {
+    cy.get('[data-testid="medications-last-shipped-3"]').should(
+      'contain',
+      'Last refill shipped on September 24, 2023',
+    );
   };
 }
 
