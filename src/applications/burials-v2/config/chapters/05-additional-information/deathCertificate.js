@@ -31,12 +31,11 @@ export default {
         uswds: true,
         classNames: 'vads-u-font-size--md',
       }),
-      // 'ui:required': () => true,
+      'ui:required': () => true,
     },
   },
   schema: {
     type: 'object',
-    // required: ['deathCertificate'],
     properties: {
       deathCertificate: {
         ...files,

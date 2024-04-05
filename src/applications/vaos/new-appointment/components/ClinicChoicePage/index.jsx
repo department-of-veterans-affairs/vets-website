@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
@@ -10,6 +10,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  startDirectScheduleFlow,
 } from '../../redux/actions';
 
 import {
@@ -77,6 +78,8 @@ export default function ClinicChoicePage({ changeCrumb }) {
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);
     }
+
+    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
   return (
