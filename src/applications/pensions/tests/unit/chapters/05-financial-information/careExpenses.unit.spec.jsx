@@ -43,7 +43,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 6;
+  const expectedNumberOfErrorsForWebComponents = 5;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

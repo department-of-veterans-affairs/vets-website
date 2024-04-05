@@ -1,5 +1,3 @@
-import set from 'platform/utilities/data/set';
-
 import {
   dateRangeUI,
   dateRangeSchema,
@@ -18,22 +16,27 @@ export default {
       title: 'Have you ever been a prisoner of war?',
       classNames: 'vads-u-margin-bottom--2',
     }),
-    powDateRange: set(
-      'ui:options.expandUnder',
-      'powStatus',
-      dateRangeUI({
+    powDateRange: {
+      ...dateRangeUI({
         fromLabel: 'Start of confinement',
         toLabel: 'End of confinement',
         errorMessage: 'Confinement start date must be before end date',
       }),
-    ),
+      'ui:options': {
+        expandUnder: 'powStatus',
+        expandUnderCondition: true,
+      },
+    },
   },
   schema: {
     type: 'object',
     required: ['powStatus'],
     properties: {
       powStatus: yesNoSchema,
-      powDateRange: dateRangeSchema,
+      powDateRange: {
+        ...dateRangeSchema,
+        required: [],
+      },
     },
   },
 };

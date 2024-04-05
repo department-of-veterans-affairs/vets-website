@@ -275,33 +275,15 @@ export const fillCareExpensesPage = (fields, index) => {
     );
   }
   if (fields.careDateRange) {
-    const fromDate = new Date(fields.careDateRange.from);
-    const fromYear = fromDate.getFullYear();
-    const fromMonth = fromDate.getMonth() + 1;
-    const fromDay = fromDate.getDate();
-    cy.get(
-      `select[name="root_careExpenses_${index}_careDateRange_fromMonth"]`,
-    ).select(fromMonth);
-    cy.get(
-      `select[name="root_careExpenses_${index}_careDateRange_fromDay"]`,
-    ).select(fromDay);
-    cy.get(
-      `input[name="root_careExpenses_${index}_careDateRange_fromYear"]`,
-    ).type(fromYear);
+    fillDateWebComponentPattern(
+      `careExpenses_${index}_careDateRange_from`,
+      fields.careDateRange.from,
+    );
     if (fields.careDateRange.to) {
-      const toDate = new Date(fields.careDateRange.to);
-      const toYear = toDate.getFullYear();
-      const toMonth = toDate.getMonth() + 1;
-      const toDay = toDate.getDate();
-      cy.get(
-        `select[name="root_careExpenses_${index}_careDateRange_toMonth"]`,
-      ).select(toMonth);
-      cy.get(
-        `select[name="root_careExpenses_${index}_careDateRange_toDay"]`,
-      ).select(toDay);
-      cy.get(
-        `input[name="root_careExpenses_${index}_careDateRange_toYear"]`,
-      ).type(toYear);
+      fillDateWebComponentPattern(
+        `careExpenses_${index}_careDateRange_to`,
+        fields.careDateRange.to,
+      );
     }
   }
   if (fields.noCareEndDate) {
