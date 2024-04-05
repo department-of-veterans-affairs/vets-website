@@ -136,7 +136,6 @@ export const AccountUpdateView = ({
 };
 
 AccountUpdateView.propTypes = {
-  formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
@@ -146,6 +145,7 @@ AccountUpdateView.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  formChange: PropTypes.func,
   paymentAccount: PropTypes.object,
 };
 
