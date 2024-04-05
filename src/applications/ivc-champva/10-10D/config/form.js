@@ -127,7 +127,7 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import { hasReq } from '../components/File/MissingFileOverview';
 import { fileWithMetadataSchema } from './attachments';
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 import FileFieldCustom from '../components/File/FileUpload';
 
 /** @type {FormConfig} */
@@ -180,7 +180,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'signer',
           title: 'Which of these best describes you?',
           uiSchema: {
