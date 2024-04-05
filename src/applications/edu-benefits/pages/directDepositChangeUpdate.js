@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
@@ -71,6 +72,10 @@ const directDepositDescription = (
   </div>
 );
 
+const isFieldRequired = formData => {
+  return formData.bankAccountChangeUpdate === 'startUpdate';
+};
+
 export default function createDirectDepositChangePage(schema) {
   const { bankAccountChangeUpdate, bankAccount } = schema.definitions;
   return {
@@ -81,6 +86,7 @@ export default function createDirectDepositChangePage(schema) {
       'ui:title': 'Direct deposit',
       bankAccountChangeUpdate: {
         'ui:title': 'Benefit payment method:',
+        'ui:required': formData => formData !== undefined,
         'ui:widget': 'radio',
         'ui:options': {
           labels: bankAccountChangeLabelsUpdate,
@@ -97,6 +103,14 @@ export default function createDirectDepositChangePage(schema) {
         'ui:options': {
           hideIf: formData => !isStartUpdate(formData),
           expandUnder: 'view:directDepositImageAndText',
+          updateSchema: (formData, _schema) =>
+            set(
+              'required',
+              isFieldRequired(formData)
+                ? ['accountType', 'routingNumber', 'accountNumber']
+                : [],
+              _schema,
+            ),
         },
       }),
       'view:noneWarning': {

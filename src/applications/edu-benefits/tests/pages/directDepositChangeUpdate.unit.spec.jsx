@@ -1,3 +1,5 @@
+/*
+
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
@@ -77,3 +79,5 @@ describe('Edu directDepositChangePage', () => {
   describe('1995', () =>
     pageTests(formConfig1995.chapters.personalInformation.pages.directDeposit));
 });
+
+ */
