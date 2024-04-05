@@ -25,7 +25,10 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { FraudVictimSummary } from './FraudVictimSummary';
 import { PaymentHistoryCard } from './PaymentHistoryCard';
 import { ProfileInfoCard } from '../ProfileInfoCard';
-import { toggleDirectDepositEdit } from '../../actions/directDeposit';
+import {
+  saveDirectDeposit,
+  toggleDirectDepositEdit,
+} from '../../actions/directDeposit';
 
 // layout wrapper for common styling
 const Wrapper = ({ children }) => {
@@ -132,7 +135,7 @@ export const DirectDeposit = () => {
       isSaving={ui.isSaving}
       formData={formData}
       setFormData={setFormData}
-      formSubmit={() => {}}
+      formSubmit={() => dispatch(saveDirectDeposit(formData))}
     >
       <LoadingButton
         aria-label="save your bank information for benefits"
