@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const USAWebsiteHeader = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
   return (
     <div className="usa-banner">
       <div className="usa-accordion">
@@ -13,11 +18,13 @@ const USAWebsiteHeader = () => {
               width="20"
             />
             <p>An official website of the United States government</p>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               id="usa-banner-toggle"
               className="usa-accordion-button usa-banner-button"
-              aria-expanded="false"
+              aria-expanded={isExpanded}
               aria-controls="gov-banner"
+              onClick={toggleExpansion}
             >
               <span className="usa-banner-button-text">
                 Here’s how you know
@@ -28,7 +35,7 @@ const USAWebsiteHeader = () => {
         <div
           className="usa-banner-content usa-grid usa-accordion-content"
           id="gov-banner"
-          aria-hidden="true"
+          aria-hidden={!isExpanded}
         >
           <div className="usa-banner-guidance-gov usa-width-one-half">
             <img
