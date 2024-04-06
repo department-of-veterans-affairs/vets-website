@@ -24,12 +24,20 @@ import { ProfileInfoCard } from '../ProfileInfoCard';
 
 import { saveDirectDeposit } from '../../actions/directDeposit';
 import { DirectDepositDevWidget } from './DirectDepositDevWidget';
+import { Ineligible } from './alerts/Ineligible';
 
 const cardHeadingId = 'bank-account-information';
 
 // layout wrapper for common styling
 const Wrapper = ({ children }) => {
-  return <div className="vads-u-margin-y--2">{children}</div>;
+  return (
+    <div className="vads-u-margin-y--2">
+      <Headline dataTestId="unified-direct-deposit">
+        Direct deposit information
+      </Headline>
+      {children}
+    </div>
+  );
 };
 
 Wrapper.propTypes = {
@@ -93,6 +101,7 @@ export const DirectDeposit = () => {
     return (
       <Wrapper>
         <LoadFail />
+        <PaymentHistoryCard />
       </Wrapper>
     );
   }
@@ -109,6 +118,15 @@ export const DirectDeposit = () => {
     return (
       <Wrapper>
         <VerifyIdentity useOAuth={useOAuth} />
+      </Wrapper>
+    );
+  }
+
+  if (controlInformation?.canUpdateDirectDeposit === false) {
+    return (
+      <Wrapper>
+        <Ineligible />
+        <PaymentHistoryCard />
       </Wrapper>
     );
   }
@@ -134,10 +152,6 @@ export const DirectDeposit = () => {
 
   return (
     <div>
-      <Headline dataTestId="unified-direct-deposit">
-        Direct deposit information
-      </Headline>
-
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedFormEdits}

@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 import { useDispatch } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleDirectDepositEdit } from '../../actions/directDeposit';
 import recordEvent from '~/platform/monitoring/record-event';
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../../constants';
@@ -44,9 +46,9 @@ const AccountWithInfo = ({
           )}
         </TransitionGroup>
       </div>
-      <button
+      <VaButton
         data-field-name="direct-deposit"
-        type="button"
+        text="Edit"
         className="vads-u-margin--0 vads-u-margin-top--1p5"
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
@@ -58,11 +60,16 @@ const AccountWithInfo = ({
           });
           toggleEdit();
         }}
-      >
-        Edit
-      </button>
+      />
     </div>
   );
+};
+
+AccountWithInfo.propTypes = {
+  editButtonRef: PropTypes.object.isRequired,
+  paymentAccount: PropTypes.object.isRequired,
+  showUpdateSuccess: PropTypes.bool.isRequired,
+  toggleEdit: PropTypes.func.isRequired,
 };
 
 const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
@@ -71,9 +78,9 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
       <p className="vads-u-margin--0">
         Edit your profile to add your bank information.
       </p>
-      <button
+      <VaButton
         className="vads-u-margin--0 vads-u-margin-top--1p5"
-        type="button"
+        text="Edit"
         data-testid="edit-bank-info-button"
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
@@ -85,11 +92,14 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
           });
           toggleEdit();
         }}
-      >
-        Edit
-      </button>
+      />
     </div>
   );
+};
+
+NoAccountInfo.propTypes = {
+  editButtonRef: PropTypes.object.isRequired,
+  toggleEdit: PropTypes.func.isRequired,
 };
 
 export const AccountInfoView = ({
@@ -99,14 +109,27 @@ export const AccountInfoView = ({
 }) => {
   const dispatch = useDispatch();
   const toggleEdit = () => dispatch(toggleDirectDepositEdit());
-  return paymentAccount?.accountNumber ? (
-    <AccountWithInfo
-      paymentAccount={paymentAccount}
-      showUpdateSuccess={showUpdateSuccess}
-      editButtonRef={editButtonRef}
-      toggleEdit={toggleEdit}
-    />
-  ) : (
-    <NoAccountInfo editButtonRef={editButtonRef} toggleEdit={toggleEdit} />
+  return (
+    <>
+      <p className="vads-u-font-size--md vads-u-font-weight--bold vads-u-margin-top--0">
+        Account
+      </p>
+      {paymentAccount?.accountNumber ? (
+        <AccountWithInfo
+          paymentAccount={paymentAccount}
+          showUpdateSuccess={showUpdateSuccess}
+          editButtonRef={editButtonRef}
+          toggleEdit={toggleEdit}
+        />
+      ) : (
+        <NoAccountInfo editButtonRef={editButtonRef} toggleEdit={toggleEdit} />
+      )}
+    </>
   );
+};
+
+AccountInfoView.propTypes = {
+  editButtonRef: PropTypes.object.isRequired,
+  showUpdateSuccess: PropTypes.bool.isRequired,
+  paymentAccount: PropTypes.object,
 };

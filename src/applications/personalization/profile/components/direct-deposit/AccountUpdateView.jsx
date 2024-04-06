@@ -105,10 +105,9 @@ export const AccountUpdateView = ({
 
   return (
     <>
-      <p className="vads-u-font-size--md vads-u-font-weight--bold vads-u-margin-bottom--0">
+      <p className="vads-u-font-size--md vads-u-font-weight--bold vads-u-margin-y--0">
         Account
       </p>
-
       <UpdateErrorAlert
         saveError={saveError}
         className="vads-u-margin-top--2"
@@ -160,7 +159,10 @@ AccountUpdateView.propTypes = {
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
   formChange: PropTypes.func,
   isSaving: PropTypes.bool,
-  saveError: PropTypes.object,
+  saveError: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.string,
+  ]),
 };
 
 AccountUpdateView.defaultProps = {

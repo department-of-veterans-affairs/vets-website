@@ -7,7 +7,7 @@ export const FraudVictimSummary = () => (
       <h3 className="vads-u-font-size--md" slot="headline">
         What to do if you think you’ve been the victim of bank fraud
       </h3>
-      <p className="" style={{ textWrap: 'balance' }}>
+      <p className="text-balance">
         Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact={CONTACTS['711']} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.

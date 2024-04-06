@@ -165,7 +165,7 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
 
   return (
     <va-alert
-      background-only={!title}
+      slim={!title}
       status="error"
       visible="true"
       class={className}

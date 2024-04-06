@@ -80,7 +80,7 @@ export const useDirectDepositEffects = ({
   useEffect(
     () => {
       if (wasEditing && !ui.isEditing && editButtonRef.current) {
-        editButtonRef.current.focus();
+        focusElement('button', {}, editButtonRef.current);
       }
     },
     [wasEditing, ui.isEditing, editButtonRef],
