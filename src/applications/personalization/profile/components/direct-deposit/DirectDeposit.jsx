@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import LoadFail from '@@profile/components/alerts/LoadFail';
 import { handleDowntimeForSection } from '@@profile/components/alerts/DowntimeBanner';
 import Headline from '@@profile/components/ProfileSectionHeadline';
-import { useDirectDeposit } from '@@profile/hooks';
+import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
 
 import { focusElement } from '~/platform/utilities/ui';
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
@@ -25,10 +25,13 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { FraudVictimSummary } from './FraudVictimSummary';
 import { PaymentHistoryCard } from './PaymentHistoryCard';
 import { ProfileInfoCard } from '../ProfileInfoCard';
+
 import {
   saveDirectDeposit,
   toggleDirectDepositEdit,
 } from '../../actions/directDeposit';
+
+const cardHeadingId = 'bank-account-information';
 
 // layout wrapper for common styling
 const Wrapper = ({ children }) => {
@@ -41,6 +44,8 @@ Wrapper.propTypes = {
 
 export const DirectDeposit = () => {
   const dispatch = useDispatch();
+
+  const directDepositHook = useDirectDeposit();
 
   const {
     ui,
@@ -55,7 +60,11 @@ export const DirectDeposit = () => {
     saveError,
     loadError,
     setFormData,
-  } = useDirectDeposit();
+    editButtonRef,
+    cancelButtonRef,
+  } = directDepositHook;
+
+  useDirectDepositEffects({ ...directDepositHook, cardHeadingId });
 
   const {
     TOGGLE_NAMES,
@@ -138,6 +147,7 @@ export const DirectDeposit = () => {
       setFormData={setFormData}
       formSubmit={() => dispatch(saveDirectDeposit(formData))}
       saveError={saveError}
+      cancelButtonRef={cancelButtonRef}
     >
       <LoadingButton
         aria-label="save your bank information for benefits"
@@ -153,6 +163,7 @@ export const DirectDeposit = () => {
     <AccountInfoView
       showUpdateSuccess={showUpdateSuccess}
       paymentAccount={paymentAccount}
+      editButtonRef={editButtonRef}
     />
   );
 
@@ -176,6 +187,8 @@ export const DirectDeposit = () => {
           <ProfileInfoCard
             title="Bank account information"
             data={[{ value: cardDataValue }]}
+            namedAnchor={cardHeadingId}
+            level={2}
           />
         </DowntimeNotification>
 

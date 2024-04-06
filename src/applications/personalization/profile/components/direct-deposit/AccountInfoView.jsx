@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
@@ -14,14 +14,6 @@ const AccountWithInfo = ({
   editButtonRef,
   toggleEdit,
 }) => {
-  useEffect(
-    () => {
-      if (showUpdateSuccess) {
-        editButtonRef.current.focus();
-      }
-    },
-    [showUpdateSuccess, editButtonRef],
-  );
   return (
     <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
@@ -100,8 +92,11 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
   );
 };
 
-export const AccountInfoView = ({ paymentAccount, showUpdateSuccess }) => {
-  const editButtonRef = useRef();
+export const AccountInfoView = ({
+  paymentAccount,
+  showUpdateSuccess,
+  editButtonRef,
+}) => {
   const dispatch = useDispatch();
   const toggleEdit = () => dispatch(toggleDirectDepositEdit());
   return paymentAccount?.accountNumber ? (
