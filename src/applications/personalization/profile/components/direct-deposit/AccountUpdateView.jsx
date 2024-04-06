@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isEqual, omit } from 'lodash';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
@@ -12,6 +11,7 @@ import {
   VaRadioField,
 } from '~/platform/forms-system/src/js/web-component-fields';
 import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 const schema = {
   type: 'object',
@@ -72,38 +72,35 @@ const uiSchema = {
 };
 
 export const AccountUpdateView = ({
-  children,
   formData,
   formSubmit,
   setFormData,
-  paymentAccount,
   cancelButtonClasses,
   saveError,
+  isSaving,
+  hasUnsavedFormEdits,
 }) => {
   const [shouldShowCancelModal, setShouldShowCancelModal] = useState(false);
   const dispatch = useDispatch();
 
-  const formCancel = useCallback(
+  const exitUpdateView = useCallback(
     () => {
-      const newFormData = omit(formData, 'view:directDepositInfo');
-
-      if (!isEqual(newFormData, paymentAccount)) {
-        setShouldShowCancelModal(true);
-      } else {
-        setFormData({});
-        dispatch(toggleDirectDepositEdit(false));
-      }
+      setFormData({});
+      dispatch(toggleDirectDepositEdit(false));
     },
-    [formData, paymentAccount, setShouldShowCancelModal, dispatch, setFormData],
+    [setFormData, dispatch],
   );
 
-  useEffect(
+  const onCancel = useCallback(
     () => {
-      if (paymentAccount) {
-        setFormData(paymentAccount);
+      if (hasUnsavedFormEdits) {
+        setShouldShowCancelModal(true);
+        return;
       }
+
+      exitUpdateView();
     },
-    [paymentAccount, setFormData],
+    [hasUnsavedFormEdits, setShouldShowCancelModal, exitUpdateView],
   );
 
   return (
@@ -119,31 +116,35 @@ export const AccountUpdateView = ({
 
       <SchemaForm
         addNameAttribute
-        name="Direct Deposit Information"
+        name="Bank Account Information"
         // title is required by the SchemaForm and used internally
-        title="Direct Deposit Information"
+        title="Bank Account Information"
         schema={schema}
         uiSchema={uiSchema}
         data={formData}
         onChange={data => setFormData(data)}
         onSubmit={formSubmit}
       >
-        {children}
+        <LoadingButton
+          aria-label="save your bank information for benefits"
+          type="submit"
+          loadingText="saving bank information"
+          className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
+          isLoading={isSaving}
+        >
+          Save
+        </LoadingButton>
+        <va-button
+          classNames={cancelButtonClasses}
+          onClick={onCancel}
+          secondary
+          text="Cancel"
+        />
       </SchemaForm>
-
-      <va-button
-        classNames={cancelButtonClasses}
-        onClick={() => formCancel()}
-        secondary
-        text="Cancel"
-      />
 
       <ConfirmCancelModal
         isVisible={shouldShowCancelModal}
-        closeModal={() => {
-          setShouldShowCancelModal(false);
-          dispatch(toggleDirectDepositEdit(false));
-        }}
+        closeModal={exitUpdateView}
         activeSection="direct deposit information"
         onHide={() => setShouldShowCancelModal(false)}
       />
@@ -154,15 +155,12 @@ export const AccountUpdateView = ({
 AccountUpdateView.propTypes = {
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
+  hasUnsavedFormEdits: PropTypes.bool.isRequired,
   setFormData: PropTypes.func.isRequired,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]),
   formChange: PropTypes.func,
-  paymentAccount: PropTypes.object,
+  isSaving: PropTypes.bool,
+  saveError: PropTypes.object,
 };
 
 AccountUpdateView.defaultProps = {

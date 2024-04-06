@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import ChildrenDetails from './ChildrenDetails';
 
 const getUuid = nanoidImp => {
   try {
@@ -18,7 +17,7 @@ const getUuid = nanoidImp => {
   }
 };
 
-const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
+const DevToolsPanel = ({ devToolsData, show, setShow, panel }) => {
   const classes = classNames({
     'devtools-panel': true,
     'devtools-panel--hidden': !show,
@@ -51,13 +50,6 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
 
             <h6>devToolsData</h6>
             <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
-
-            {children && (
-              <>
-                <h6>devToolsData</h6>
-                <ChildrenDetails>{children}</ChildrenDetails>
-              </>
-            )}
           </div>
         </div>
       ) : (
@@ -89,11 +81,6 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
                 <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
               </va-accordion-item>
             )}
-            {children && (
-              <va-accordion-item header="children">
-                <ChildrenDetails>{children}</ChildrenDetails>
-              </va-accordion-item>
-            )}
           </va-accordion>
         </VaModal>
       )}
@@ -106,6 +93,7 @@ export const DevToolsLoader = ({
   panel,
   children,
   nanoidImp = nanoid,
+  showIcon,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -148,13 +136,15 @@ export const DevToolsLoader = ({
 
   return (
     <div className="devtools-container">
-      <button
-        type="button"
-        className="devtools-show-button vads-u-background-color--primary vads-u-color--white"
-        onClick={handlers.togglePanel}
-      >
-        <i className="fas fa-code" />
-      </button>
+      {showIcon && (
+        <button
+          type="button"
+          className="devtools-show-button vads-u-background-color--primary vads-u-color--white"
+          onClick={handlers.togglePanel}
+        >
+          <i className="fas fa-code" />
+        </button>
+      )}
       {show && (
         <>
           <DevToolsPanel

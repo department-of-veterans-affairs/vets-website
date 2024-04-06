@@ -27,6 +27,17 @@ export const useDirectDeposit = () => {
 
   const cancelButtonRef = useRef();
 
+  // Determine if the form has unsaved edits for any of the fields
+  const hasUnsavedFormEdits = useMemo(
+    () =>
+      !!(
+        formData?.accountType ||
+        formData?.routingNumber ||
+        formData?.accountNumber
+      ),
+    [formData],
+  );
+
   const {
     ui,
     paymentAccount,
@@ -79,5 +90,6 @@ export const useDirectDeposit = () => {
     cancelButtonRef,
     wasSaving,
     wasEditing,
+    hasUnsavedFormEdits,
   };
 };

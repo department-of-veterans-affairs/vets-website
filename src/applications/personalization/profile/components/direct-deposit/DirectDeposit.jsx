@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Prompt } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,9 +7,6 @@ import LoadFail from '@@profile/components/alerts/LoadFail';
 import { handleDowntimeForSection } from '@@profile/components/alerts/DowntimeBanner';
 import Headline from '@@profile/components/ProfileSectionHeadline';
 import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
-
-import { focusElement } from '~/platform/utilities/ui';
-import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
 import DowntimeNotification, {
   externalServices,
@@ -21,15 +18,12 @@ import { TemporaryOutage } from './alerts/TemporaryOutage';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
 import { AccountInfoView } from './AccountInfoView';
 import { AccountUpdateView } from './AccountUpdateView';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { FraudVictimSummary } from './FraudVictimSummary';
 import { PaymentHistoryCard } from './PaymentHistoryCard';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
-import {
-  saveDirectDeposit,
-  toggleDirectDepositEdit,
-} from '../../actions/directDeposit';
+import { saveDirectDeposit } from '../../actions/directDeposit';
+import { DirectDepositDevWidget } from './DirectDepositDevWidget';
 
 const cardHeadingId = 'bank-account-information';
 
@@ -51,7 +45,6 @@ export const DirectDeposit = () => {
     ui,
     paymentAccount,
     controlInformation,
-    formIsDirty,
     isIdentityVerified,
     isBlocked,
     useOAuth,
@@ -62,6 +55,7 @@ export const DirectDeposit = () => {
     setFormData,
     editButtonRef,
     cancelButtonRef,
+    hasUnsavedFormEdits,
   } = directDepositHook;
 
   useDirectDepositEffects({ ...directDepositHook, cardHeadingId });
@@ -72,34 +66,13 @@ export const DirectDeposit = () => {
     useToggleLoadingValue,
   } = useFeatureToggle();
 
-  // TODO: rename toggle to not include CompAndPen
+  // TODO: rename toggle to not include CompAndPen legacy naming
   const hideDirectDepositViaToggle = useToggleValue(
     TOGGLE_NAMES.profileHideDirectDepositCompAndPen,
   );
 
-  // page setup effects
-  useEffect(
-    () => {
-      focusElement('[data-focus-target]');
-      document.title = `Direct Deposit Information | Veterans Affairs`;
-      dispatch(toggleDirectDepositEdit(false));
-    },
-    [dispatch],
-  );
-
-  // effect to show an alert when the form is dirty and navigating away
-  useEffect(
-    () => {
-      if (formIsDirty && isIdentityVerified) {
-        window.onbeforeunload = () => true;
-        return;
-      }
-      window.onbeforeunload = undefined;
-    },
-    [formIsDirty, isIdentityVerified],
-  );
-
   const togglesLoading = useToggleLoadingValue();
+
   if (togglesLoading) {
     return (
       <Wrapper>
@@ -142,29 +115,20 @@ export const DirectDeposit = () => {
 
   const cardDataValue = ui.isEditing ? (
     <AccountUpdateView
-      paymentAccount={paymentAccount}
       isSaving={ui.isSaving}
       formData={formData}
-      setFormData={setFormData}
       formSubmit={() => dispatch(saveDirectDeposit(formData))}
       saveError={saveError}
+      setFormData={setFormData}
       cancelButtonRef={cancelButtonRef}
-    >
-      <LoadingButton
-        aria-label="save your bank information for benefits"
-        type="submit"
-        loadingText="saving bank information"
-        className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
-        isLoading={ui.isSaving}
-      >
-        Save
-      </LoadingButton>
-    </AccountUpdateView>
+      hasUnsavedFormEdits={hasUnsavedFormEdits}
+    />
   ) : (
     <AccountInfoView
       showUpdateSuccess={showUpdateSuccess}
       paymentAccount={paymentAccount}
       editButtonRef={editButtonRef}
+      isSaving={ui.isSaving}
     />
   );
 
@@ -176,7 +140,7 @@ export const DirectDeposit = () => {
 
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-        when={formIsDirty}
+        when={hasUnsavedFormEdits}
       />
 
       <Wrapper>
@@ -193,20 +157,26 @@ export const DirectDeposit = () => {
           />
         </DowntimeNotification>
 
+        <DirectDepositDevWidget
+          debugData={{
+            controlInformation,
+            paymentAccount,
+            ui,
+            isIdentityVerified,
+            isBlocked,
+            useOAuth,
+            showUpdateSuccess,
+            formData,
+            saveError,
+            loadError,
+            hasUnsavedFormEdits,
+            setFormData,
+          }}
+        />
+
         <FraudVictimSummary />
 
         <PaymentHistoryCard />
-
-        <DevTools
-          devToolsData={{
-            paymentAccount,
-            controlInformation,
-            isIdentityVerified,
-            isBlocked,
-          }}
-          alwaysShowChildren={false}
-          panel
-        />
       </Wrapper>
     </div>
   );
