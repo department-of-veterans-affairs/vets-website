@@ -1,4 +1,6 @@
 import React from 'react';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 
 import AccountUpdateView from '~/applications/personalization/profile/components/direct-deposit/AccountUpdateView';
@@ -79,5 +81,76 @@ describe('<AccountUpdateView/>', () => {
     expect(getByRole('group', 'Account type')).to.exist;
     expect(getByLabelText('Checking')).to.exist;
     expect(getByLabelText('Savings')).to.exist;
+    expect(getByText('Routing number')).to.exist;
+    expect(getByText('Account number (No more than 17 digits)')).to.exist;
+  });
+
+  context('formCancel', () => {
+    const setShouldShowCancelModal = sinon.spy();
+    const setFormData = sinon.spy();
+    const toggleDirectDepositEdit = sinon.spy();
+
+    const paymentAccount = {
+      name: 'BASE TEST - DIRECT DEPOSIT',
+      accountType: 'Checking',
+      accountNumber: '*******5487',
+      routingNumber: '*****1533',
+    };
+
+    it("shouldn't show modal if form isn't dirty", () => {
+      const formData = {
+        name: '',
+        accountType: '',
+        accountNumber: undefined,
+        routingNumber: undefined,
+      };
+
+      const { container } = renderWithProfileReducers(
+        <AccountUpdateView
+          formData={formData}
+          setFormData={setFormData}
+          paymentAccount={paymentAccount}
+        >
+          <va-button>Save</va-button>
+        </AccountUpdateView>,
+        {
+          initialState: createInitialState(),
+        },
+      );
+
+      const cancelButton = container.querySelector('[text="Cancel"]');
+      fireEvent.click(cancelButton);
+      expect(setFormData.calledWith({})).to.be.false;
+      expect(setShouldShowCancelModal.calledWith(true)).to.be.false;
+      expect(toggleDirectDepositEdit.calledWith(true)).to.be.false;
+    });
+
+    it('should show modal if form is dirty', () => {
+      const formData = {
+        name: 'BASE TEST - DIRECT DEPOSIT',
+        accountType: 'Checking',
+        accountNumber: '*******5487',
+        routingNumber: '*****1533',
+      };
+
+      const { container } = renderWithProfileReducers(
+        <AccountUpdateView
+          formData={formData}
+          setFormData={setFormData}
+          paymentAccount={paymentAccount}
+        >
+          <va-button>Save</va-button>
+        </AccountUpdateView>,
+        {
+          initialState: createInitialState(),
+        },
+      );
+
+      const cancelButton = container.querySelector('[text="Cancel"]');
+      fireEvent.click(cancelButton);
+      expect(setFormData.calledWith({})).to.be.true;
+      expect(setShouldShowCancelModal.calledWith(false)).to.be.false;
+      expect(toggleDirectDepositEdit.calledWith(false)).to.be.false;
+    });
   });
 });

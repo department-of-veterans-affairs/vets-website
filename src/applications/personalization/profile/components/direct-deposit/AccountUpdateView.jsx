@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isEqual, omit } from 'lodash';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
@@ -75,6 +76,7 @@ export const AccountUpdateView = ({
   formData,
   formSubmit,
   setFormData,
+  paymentAccount,
   cancelButtonClasses,
   saveError,
 }) => {
@@ -83,15 +85,25 @@ export const AccountUpdateView = ({
 
   const formCancel = useCallback(
     () => {
-      // is form dirty? i.e. if it's been changed since opened
-      // if form data is empty:
-      setFormData({});
-      dispatch(toggleDirectDepositEdit(false));
+      const newFormData = omit(formData, 'view:directDepositInfo');
 
-      // if not empty:
-      setShouldShowCancelModal(true);
+      if (!isEqual(newFormData, paymentAccount)) {
+        setShouldShowCancelModal(true);
+      } else {
+        setFormData({});
+        dispatch(toggleDirectDepositEdit(false));
+      }
     },
-    [dispatch, setFormData],
+    [formData, paymentAccount, setShouldShowCancelModal, dispatch, setFormData],
+  );
+
+  useEffect(
+    () => {
+      if (paymentAccount) {
+        setFormData(paymentAccount);
+      }
+    },
+    [paymentAccount, setFormData],
   );
 
   return (
@@ -127,20 +139,19 @@ export const AccountUpdateView = ({
       />
 
       <ConfirmCancelModal
-        // cancelled clicked, is form dirty
         isVisible={shouldShowCancelModal}
         closeModal={() => {
           setShouldShowCancelModal(false);
           dispatch(toggleDirectDepositEdit(false));
         }}
         activeSection="direct deposit information"
+        onHide={() => setShouldShowCancelModal(false)}
       />
     </>
   );
 };
 
 AccountUpdateView.propTypes = {
-  formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
@@ -150,6 +161,8 @@ AccountUpdateView.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  formChange: PropTypes.func,
+  paymentAccount: PropTypes.object,
 };
 
 AccountUpdateView.defaultProps = {

@@ -1,3 +1,5 @@
+import { medicationsUrls } from '../../../util/constants';
+
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
     cy.contains('Expand all').click({ force: true });
@@ -20,7 +22,7 @@ class MedicationsLandingPage {
   };
 
   visitLandingPageURL = () => {
-    cy.visit('my-health/medications/about');
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
   };
 
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
