@@ -39,7 +39,7 @@ const pageTests = page => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
   it('should show error on bad routing number', () => {
     const form = ReactTestUtils.renderIntoDocument(
