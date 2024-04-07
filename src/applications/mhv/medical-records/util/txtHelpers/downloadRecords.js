@@ -10,6 +10,22 @@ import {
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
 export const getTxtContent = (data, { userFullName, dob }) => {
+  const formatVitals = vitals => {
+    const typeArray = [];
+    vitals.map(
+      record => !typeArray.includes(record.type) && typeArray.push(record.type),
+    );
+    return typeArray;
+  };
+
+  const vitalNameParse = name => {
+    let parsedName = name;
+    if (name === 'RESPIRATION') parsedName = 'Breathing rate';
+    if (name === 'PULSE') parsedName = 'Heart rate';
+    if (name === 'PULSE_OXIMETRY') parsedName = 'Blood oxygen level';
+    return parsedName;
+  };
+
   //  Labs and test parse
   const parseLabsAndTests = records => {
     return `
@@ -27,11 +43,7 @@ ${
           record.name !== 'Electrocardiogram (EKG)'
             ? `${`
 Details about this test
-${
-                'type' in record && record.type !== 'radiology'
-                  ? `Type of test: ${record.type}`
-                  : ''
-              }
+
 ${'sampleTested' in record ? `Sample tested: ${record.sampleTested}` : ''}
 ${'reason' in record ? `Reason for test: ${record.reason}` : ''}
 ${
@@ -50,18 +62,23 @@ ${
                   : ''
               }
 ${'sampleFrom' in record ? `Sample from: ${record.sampleFrom}` : ''}
-${'orderedBy' in record ? `Ordered by: ${record.orderedBy}` : ''}
+${
+                'orderedBy' in record && record.type !== 'pathology'
+                  ? `Ordered by: ${record.orderedBy}`
+                  : ''
+              }
 ${
                 'orderingLocation' in record
                   ? `Ordering location: ${record.orderingLocation}`
                   : ''
               }
 ${
-                'collectingLocation' in record
+                'collectingLocation' in record && record.type !== 'pathology'
                   ? `Collecting location: ${record.collectingLocation}`
                   : ''
               }
-${'date' in record ? `Date collected: ${record.date}` : ''}
+${'labLocation' in record ? `Lab location: ${record.labLocation}` : ''}
+${'date' in record ? `Date completed: ${record.date}` : ''}
 ${
                 'comments' in record
                   ? `Provider notes ${record.comments
@@ -82,7 +99,6 @@ ${
   ${'result' in result ? `Result: ${result.result}` : ''}                      
   ${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
   ${'status' in result ? `Staus: ${result.status}` : ''}
-  ${'labLocation' in result ? `Lab location: ${result.labLocation}` : ''}
   ${
     'interpretation' in result ? `Interpretation: ${result.interpretation}` : ''
   }`,
@@ -115,13 +131,14 @@ ${records
       .map(
         record =>
           `${
-            record.name === 'Progress note'
+            record.name === 'Adverse React/Allergy'
               ? `
 ${record.name}
 ${txtLineDotted}
 
 Details
-
+  
+  Date: ${record.date}
   Location: ${record.location}
   Signed by: ${record.signedBy}
   Co-signed by: ${record.coSignedBy}
@@ -137,6 +154,7 @@ ${txtLineDotted}
 
 Details
   Location: ${record.location}
+  Admission Date: ${record.admissionDate}
   Discharge date: ${record.dischargeDate}
   Discharged by: ${record.dischargedBy}
 
@@ -211,7 +229,7 @@ ${records
         record => `
 ${record.name}
 ${txtLineDotted}
-Date entered: ${record.date}
+Date: ${record.date}
 Provider: ${record.provider}
 Provider Notes
 Status of health condition: ${record.active}
@@ -225,19 +243,28 @@ SNOMED Clinical term: ${record.name}
 
   //  vitals parse
   const parseVitals = records => {
+    const vitalTypes = formatVitals(records);
     return `
 ${txtLine}
 6) Vitals
 
 This list includes vitals and other basic health numbers your providers check at your appointments.
-${records
+${vitalTypes
       .map(
-        record => `
-${record.name}
+        vitalType => `
+${vitalNameParse(vitalType)}
 ${txtLineDotted}
-Result: ${record.measurement}
-Provider Notes: ${record.notes}
-Location: ${record.location}
+  ${records
+    .filter(record => record.type === vitalType)
+    .map(
+      record => `
+${record.dateTime}
+  Result: ${record.measurement}
+  Location: ${record.location}
+  Provider Notes: ${record.notes}
+`,
+    )
+    .join('')}
 `,
       )
       .join('')}
