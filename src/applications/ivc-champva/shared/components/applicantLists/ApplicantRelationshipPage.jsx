@@ -187,6 +187,7 @@ export default function ApplicantRelationshipPage({
     applicant,
     personTitle,
     customTitle,
+    customHint,
     description,
     customOtherDescription,
   } = genOps({
@@ -268,7 +269,7 @@ export default function ApplicantRelationshipPage({
               useFirstPerson ? `your` : `${applicant}’s`
             } relationship to the ${personTitle}?`
           }
-          hint={additionalFilesHint}
+          hint={customHint || additionalFilesHint}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}

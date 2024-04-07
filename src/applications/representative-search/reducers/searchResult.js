@@ -4,6 +4,7 @@ import {
   // SEARCH_FAILED,
   FETCH_REPRESENTATIVES,
   REPORT_INITIALIZED,
+  REPORT_CANCELLED,
   REPORT_SUBMITTED,
   REPORT_COMPLETE,
   REPORT_FAILED,
@@ -41,6 +42,12 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         ...state,
         ...action.payload,
         reportSubmissionStatus: 'INITIAL',
+      };
+    case REPORT_CANCELLED:
+      return {
+        ...state,
+        ...action.payload,
+        reportSubmissionStatus: 'CANCELLED',
       };
     case REPORT_COMPLETE:
       return {

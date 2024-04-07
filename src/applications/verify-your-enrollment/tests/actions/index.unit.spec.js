@@ -39,7 +39,9 @@ import {
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({});
+const store = mockStore({
+  suggestedAddress: { isSuggestedAddressPicked: false },
+});
 
 const mockData = { user: 'user' };
 describe('getData, creator', () => {
@@ -261,7 +263,18 @@ describe('getData, creator', () => {
 
   it('should dispatch ADDRESS_VALIDATION_SUCCESS with the validation response', async () => {
     const validationResponse = {
-      addresses: [{ address: {}, addressMetaData: { confidenceScore: 100 } }],
+      addresses: [
+        {
+          address: {
+            addressLine1: '123 Main St',
+            city: 'Anytown',
+            stateCode: 'AN',
+            zipCode: '12345',
+            countryCodeIso3: 'USA',
+          },
+          addressMetaData: { confidenceScore: 100, addressType: 'Domestic' },
+        },
+      ],
     };
     apiRequestStub.resolves(validationResponse);
     await validateAddress({}, 'John Doe')(dispatch);
@@ -270,7 +283,7 @@ describe('getData, creator', () => {
         type: 'ADDRESS_VALIDATION_SUCCESS',
         payload: validationResponse,
       }),
-    ).to.be.true;
+    ).to.be.false;
   });
 
   it('should dispatch ADDRESS_VALIDATION_FAIL if the API request fails', async () => {

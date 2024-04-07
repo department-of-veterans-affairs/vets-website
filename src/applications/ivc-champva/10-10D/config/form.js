@@ -593,8 +593,9 @@ const formConfig = {
               'ui:options': {
                 viewField: ApplicantField,
                 keepInPageOnReview: true,
-                useDlWrap: false,
+                useDlWrap: true,
                 itemName: 'Applicant',
+                customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
               },
               'ui:errorMessages': {
