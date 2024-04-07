@@ -117,6 +117,7 @@ export const AccountUpdateView = ({
         className="vads-u-margin-top--2"
       />
 
+      <strong>Account</strong>
       <SchemaForm
         addNameAttribute
         name="Direct Deposit Information"
@@ -163,6 +164,7 @@ AccountUpdateView.propTypes = {
   ]),
   formChange: PropTypes.func,
   paymentAccount: PropTypes.object,
+  saveError: PropTypes.array,
 };
 
 AccountUpdateView.defaultProps = {
