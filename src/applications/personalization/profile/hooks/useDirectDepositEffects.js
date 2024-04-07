@@ -7,7 +7,7 @@ import { toggleDirectDepositEdit } from '../actions/directDeposit';
 export const useDirectDepositEffects = ({
   wasSaving,
   wasEditing,
-  hasSaveError,
+  saveError,
   ui,
   setShowUpdateSuccess,
   setFormData,
@@ -46,7 +46,7 @@ export const useDirectDepositEffects = ({
   // and to clear form data after a successful save
   useEffect(
     () => {
-      if (!ui.isSaving && !hasSaveError && wasSaving) {
+      if (!ui.isSaving && !saveError && wasSaving) {
         setShowUpdateSuccess(true);
 
         setTimeout(() => {
@@ -56,7 +56,7 @@ export const useDirectDepositEffects = ({
         setFormData({});
       }
     },
-    [wasSaving, ui.isSaving, hasSaveError, setFormData, setShowUpdateSuccess],
+    [wasSaving, ui.isSaving, saveError, setFormData, setShowUpdateSuccess],
   );
 
   // when editing is started

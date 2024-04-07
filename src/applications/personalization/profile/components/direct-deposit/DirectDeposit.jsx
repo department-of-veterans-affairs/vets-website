@@ -47,7 +47,7 @@ Wrapper.propTypes = {
 export const DirectDeposit = () => {
   const dispatch = useDispatch();
 
-  const directDepositHook = useDirectDeposit();
+  const directDepositHookResult = useDirectDeposit();
 
   const {
     ui,
@@ -61,12 +61,10 @@ export const DirectDeposit = () => {
     saveError,
     loadError,
     setFormData,
-    editButtonRef,
-    cancelButtonRef,
     hasUnsavedFormEdits,
-  } = directDepositHook;
+  } = directDepositHookResult;
 
-  useDirectDepositEffects({ ...directDepositHook, cardHeadingId });
+  useDirectDepositEffects({ ...directDepositHookResult, cardHeadingId });
 
   const {
     TOGGLE_NAMES,
@@ -134,20 +132,11 @@ export const DirectDeposit = () => {
   const cardDataValue = ui.isEditing ? (
     <AccountUpdateView
       isSaving={ui.isSaving}
-      formData={formData}
       formSubmit={() => dispatch(saveDirectDeposit(formData))}
-      saveError={saveError}
-      setFormData={setFormData}
-      cancelButtonRef={cancelButtonRef}
-      hasUnsavedFormEdits={hasUnsavedFormEdits}
+      {...directDepositHookResult}
     />
   ) : (
-    <AccountInfoView
-      showUpdateSuccess={showUpdateSuccess}
-      paymentAccount={paymentAccount}
-      editButtonRef={editButtonRef}
-      isSaving={ui.isSaving}
-    />
+    <AccountInfoView {...directDepositHookResult} isSaving={ui.isSaving} />
   );
 
   return (

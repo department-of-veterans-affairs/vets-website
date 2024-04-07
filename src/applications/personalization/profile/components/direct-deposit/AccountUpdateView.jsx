@@ -1,10 +1,8 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
-import { toggleDirectDepositEdit } from '../../actions/directDeposit';
 import { BankNumberFaq } from './BankNumberFaq';
 import {
   VaTextInputField,
@@ -71,38 +69,19 @@ const uiSchema = {
   },
 };
 
-export const AccountUpdateView = ({
-  formData,
-  formSubmit,
-  setFormData,
-  cancelButtonClasses,
-  saveError,
-  isSaving,
-  hasUnsavedFormEdits,
-}) => {
-  const [shouldShowCancelModal, setShouldShowCancelModal] = useState(false);
-  const dispatch = useDispatch();
-
-  const exitUpdateView = useCallback(
-    () => {
-      setFormData({});
-      dispatch(toggleDirectDepositEdit(false));
-    },
-    [setFormData, dispatch],
-  );
-
-  const onCancel = useCallback(
-    () => {
-      if (hasUnsavedFormEdits) {
-        setShouldShowCancelModal(true);
-        return;
-      }
-
-      exitUpdateView();
-    },
-    [hasUnsavedFormEdits, setShouldShowCancelModal, exitUpdateView],
-  );
-
+export const AccountUpdateView = props => {
+  // all props used come from the result of the useDirectDeposit hook
+  const {
+    formData,
+    formSubmit,
+    setFormData,
+    isSaving,
+    saveError,
+    onCancel,
+    showCancelModal,
+    setShowCancelModal,
+    exitUpdateView,
+  } = props;
   return (
     <>
       <p className="vads-u-font-size--md vads-u-font-weight--bold vads-u-margin-y--0">
@@ -133,40 +112,34 @@ export const AccountUpdateView = ({
         >
           Save
         </LoadingButton>
-        <va-button
-          classNames={cancelButtonClasses}
-          onClick={onCancel}
-          secondary
-          text="Cancel"
-        />
+        <va-button onClick={onCancel} secondary text="Cancel" />
       </SchemaForm>
 
       <ConfirmCancelModal
-        isVisible={shouldShowCancelModal}
+        isVisible={!!showCancelModal}
         closeModal={exitUpdateView}
         activeSection="direct deposit information"
-        onHide={() => setShouldShowCancelModal(false)}
+        onHide={() => setShowCancelModal(false)}
       />
     </>
   );
 };
 
 AccountUpdateView.propTypes = {
+  exitUpdateView: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
   hasUnsavedFormEdits: PropTypes.bool.isRequired,
   setFormData: PropTypes.func.isRequired,
-  cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
+  setShowCancelModal: PropTypes.func.isRequired,
+  showCancelModal: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
   formChange: PropTypes.func,
   isSaving: PropTypes.bool,
   saveError: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.string,
   ]),
-};
-
-AccountUpdateView.defaultProps = {
-  cancelButtonClasses: ['usa-button-secondary'],
 };
 
 export default AccountUpdateView;
