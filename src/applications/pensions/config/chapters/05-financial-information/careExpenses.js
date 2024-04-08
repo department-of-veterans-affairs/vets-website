@@ -18,6 +18,7 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
+import { doesHaveCareExpenses } from './helpers';
 
 const { dateRange } = fullSchemaPensions.definitions;
 
@@ -43,6 +44,9 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  path: 'financial/care-expenses/add',
+  title: 'Unreimbursed care expenses',
+  depends: doesHaveCareExpenses,
   uiSchema: {
     ...titleUI('Add an unreimbursed care expense'),
     careExpenses: {
@@ -55,6 +59,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       items: {
         recipients: radioUI({

@@ -117,6 +117,7 @@ describe('Schemaform <FileField>', () => {
       {
         confirmationCode: 'abcdef',
         name: 'Test file name.pdf',
+        size: 100000,
       },
     ];
     const registry = {
@@ -137,8 +138,11 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect($('.delete-upload[uswds]', container)).to.exist;
-    expect($('#upload-button[uswds]', container)).to.exist;
+    expect($('.delete-upload', container)).to.exist;
+    expect($('#upload-button', container)).to.exist;
+    const content = $('.schemaform-file-list li', container).textContent;
+    expect(content).to.contain('Test file name.pdf');
+    expect(content).to.contain('98KB');
   });
 
   it('should remove files with empty file object when initializing', async () => {
@@ -947,9 +951,10 @@ describe('Schemaform <FileField>', () => {
     };
     const uiSchema = fileUploadUI('Files', {
       attachmentName: false,
-      attachmentSchema: ({ fileId, index }) => ({
+      attachmentSchema: ({ fileId, index, fileName }) => ({
         'ui:title': 'Document type',
         'ui:options': {
+          messageAriaDescribedby: `test with ${fileName}`,
           widgetProps: {
             'aria-describedby': fileId,
             'data-index': index,
@@ -989,11 +994,14 @@ describe('Schemaform <FileField>', () => {
     );
 
     // check ids & index passed into SchemaField
-    const { widgetProps } = testProps.uiSchema['ui:options'];
+    const options = testProps.uiSchema['ui:options'];
     expect(testProps.schema).to.equal(schema.items[0].properties.attachmentId);
     expect(testProps.registry.formContext.pagePerItemIndex).to.eq(0);
-    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
-    expect(widgetProps['data-index']).to.eq(0);
+    expect(options.widgetProps['aria-describedby']).to.eq('field_file_name_0');
+    expect(options.widgetProps['data-index']).to.eq(0);
+    expect(options.messageAriaDescribedby).to.contain(
+      'test with Test file name.pdf',
+    );
   });
 
   // Accessibility checks

@@ -1,6 +1,10 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
 
 function mockPrescription(n = 0, attrs = {}) {
+  // Generate some refillable, some not
+  const isRefillable = n % 3 === 0;
+  const refillRemaining = isRefillable ? Math.ceil(Math.log(n + 1)) : 0;
+
   return {
     id: `fake-${n}`,
     type: 'prescriptions',
@@ -11,14 +15,14 @@ function mockPrescription(n = 0, attrs = {}) {
       refillStatus: 'active',
       refillSubmitDate: '2024-02-21T10:30:00-05:00',
       refillDate: '2024-02-28T10:30:00-05:00',
-      refillRemaining: 6,
+      refillRemaining,
       facilityName: 'The Facility',
       orderedDate: '2024-02-23T10:30:00-05:00',
       quantity: 1,
       expirationDate: '2099-01-02T10:30:00-05:00',
       dispensedDate: '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
-      isRefillable: true,
+      isRefillable,
       isTrackable: null,
       sig: null,
       cmopDivisionPhone: null,
@@ -41,7 +45,22 @@ function mockPrescription(n = 0, attrs = {}) {
       indicationForUse: null,
       indicationForUseFlag: null,
       category: null,
-      trackingList: [],
+      trackingList: [
+        {
+          carrier: 'USPS',
+          completeDateTime: '2024-05-28T04:39:11-04:00',
+          dateLoaded: '2024-04-21T16:55:19-04:00',
+          divisionPhone: '(401)271-9804',
+          id: 9878,
+          isLocalTracking: false,
+          ndc: '00113002240',
+          othersInSamePackage: false,
+          rxNumber: 2719780,
+          stationNumber: 995,
+          trackingNumber: '332980271979930000002300',
+          viewImageDisplayed: false,
+        },
+      ],
       rxRfRecords: [],
       tracking: null,
       orderableItem: null,
@@ -74,7 +93,7 @@ function mockPrescriptionArray(n = 20) {
       refillSubmitDate: formatISO(oneWeekAgo),
       sortedDispensedDate: recentlyISOString,
       dispStatus: statusString,
-      refillStatus: statusString.toLowerCase(),
+      refillStatus: statusString,
       prescriptionName,
     });
   });

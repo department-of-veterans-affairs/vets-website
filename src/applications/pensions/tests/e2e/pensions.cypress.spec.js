@@ -12,7 +12,17 @@ import setupCypress, { cypressBeforeAllSetup } from './cypress.setup';
 
 import {
   fillAddressWebComponentPattern,
+  fillCareExpensesPage,
+  fillCurrentEmploymentHistoryPage,
+  fillDependentsPage,
+  fillFederalMedicalCentersPage,
+  fillIncomeSourcesPage,
+  fillMedicalExpensesPage,
+  fillPreviousEmploymentHistoryPage,
+  fillPreviousNamesPage,
   selectRadioWebComponent,
+  fillSpouseMarriagesPage,
+  fillVaMedicalCentersPage,
 } from './helpers';
 
 import pagePaths from './pagePaths';
@@ -27,6 +37,66 @@ export const pageHooks = cy => ({
   [pagePaths.mailingAddress]: () => {
     cy.get('@testData').then(data => {
       fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
+    });
+  },
+  [pagePaths.previousNames]: () => {
+    cy.get('@testData').then(data => {
+      data.previousNames.forEach((previousName, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          previousName,
+          index,
+          fillPreviousNamesPage,
+          data.previousNames.length,
+        );
+      });
+    });
+  },
+  [pagePaths.currentEmploymentHistory]: () => {
+    cy.get('@testData').then(data => {
+      data.currentEmployers.forEach((employer, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          employer,
+          index,
+          fillCurrentEmploymentHistoryPage,
+          data.currentEmployers.length,
+        );
+      });
+    });
+  },
+  [pagePaths.previousEmploymentHistory]: () => {
+    cy.get('@testData').then(data => {
+      data.previousEmployers.forEach((employer, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          employer,
+          index,
+          fillPreviousEmploymentHistoryPage,
+          data.previousEmployers.length,
+        );
+      });
+    });
+  },
+  [pagePaths.vaMedicalCenters]: () => {
+    cy.get('@testData').then(data => {
+      data.vaMedicalCenters.forEach((medicalCenter, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          medicalCenter,
+          index,
+          fillVaMedicalCentersPage,
+          data.vaMedicalCenters.length,
+        );
+      });
+    });
+  },
+  [pagePaths.federalMedicalCenters]: () => {
+    cy.get('@testData').then(data => {
+      data.federalMedicalCenters.forEach((medicalCenter, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          medicalCenter,
+          index,
+          fillFederalMedicalCentersPage,
+          data.federalMedicalCenters.length,
+        );
+      });
     });
   },
   [pagePaths.maritalStatus]: () => {
@@ -47,14 +117,66 @@ export const pageHooks = cy => ({
       fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
     });
   },
-  // [pagePaths.dependentChildAddress]: ({ index }) => {
-  //   cy.get('@testData').then(data => {
-  //     fillAddressWebComponentPattern(
-  //       'childAddress',
-  //       data.dependents[index].childAddress,
-  //     );
-  //   });
-  // },
+  [pagePaths.currentSpouseFormerMarriages]: () => {
+    cy.get('@testData').then(data => {
+      data.spouseMarriages.forEach((marriage, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          marriage,
+          index,
+          fillSpouseMarriagesPage,
+          data.spouseMarriages.length,
+        );
+      });
+    });
+  },
+  [pagePaths.dependentChildren]: () => {
+    cy.get('@testData').then(data => {
+      data.dependents.forEach((dependent, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          dependent,
+          index,
+          fillDependentsPage,
+          data.dependents.length,
+        );
+      });
+    });
+  },
+  [pagePaths.incomeSources]: () => {
+    cy.get('@testData').then(data => {
+      data.incomeSources.forEach(async (incomeSource, index) => {
+        await cy.fillFieldsInVaCardIfNeeded(
+          incomeSource,
+          index,
+          fillIncomeSourcesPage,
+          data.incomeSources.length,
+        );
+      });
+    });
+  },
+  [pagePaths.careExpenses]: () => {
+    cy.get('@testData').then(data => {
+      data.careExpenses.forEach((careExpense, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          careExpense,
+          index,
+          fillCareExpensesPage,
+          data.careExpenses.length,
+        );
+      });
+    });
+  },
+  [pagePaths.medicalExpenses]: () => {
+    cy.get('@testData').then(data => {
+      data.medicalExpenses.forEach((medicalExpense, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          medicalExpense,
+          index,
+          fillMedicalExpensesPage,
+          data.medicalExpenses.length,
+        );
+      });
+    });
+  },
   'review-and-submit': ({ afterHook }) => {
     afterHook(() => {
       cy.get('@testData').then(data => {
