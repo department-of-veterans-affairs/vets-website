@@ -25,7 +25,7 @@ testNumberOfWebComponentFields(
 );
 
 // run test for correct number of error messages on submit
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
