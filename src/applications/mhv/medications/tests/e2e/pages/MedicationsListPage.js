@@ -491,6 +491,13 @@ class MedicationsListPage {
     );
   };
 
+  verifyAboutMedicationsBreadcrumbTextOnListPage = () => {
+    cy.get('[href="/my-health/medications/about"]').should(
+      'contain',
+      'About medications',
+    );
+  };
+
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
     cy.get('[data-testid="download-print-button"]').should('be.enabled');
   };
