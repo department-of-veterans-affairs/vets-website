@@ -497,5 +497,23 @@ class MedicationsListPage {
       'About medications',
     );
   };
+
+  verifyMedicationDescriptionDetails = (
+    shape,
+    color,
+    frontImprint,
+    backImprint,
+  ) => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[19].attributes).to.include({
+          shape,
+          color,
+          frontImprint,
+          backImprint,
+        });
+      });
+  };
 }
 export default MedicationsListPage;
