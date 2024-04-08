@@ -7,6 +7,7 @@ import FilesNeededOld from './FilesNeededOld';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
   const documentsNeeded = filesNeeded.length + optionalFiles.length === 0;
+
   return (
     <div className="claims-requested-files-container">
       <div className="file-request-list">
