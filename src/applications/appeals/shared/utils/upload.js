@@ -40,13 +40,14 @@ export const createPayload = (file, _formId, password) => {
   return payload;
 };
 
-export const parseResponse = (response, { name }) => {
+export const parseResponse = (response, { name, size }) => {
   setTimeout(() => {
     focusFileCard(name);
   });
 
   return {
     name,
+    size,
     confirmationCode: response.data.attributes.guid,
     attachmentId: '',
   };
