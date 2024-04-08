@@ -269,6 +269,32 @@ class MedicationsRefillPage {
       `[data-testid="refill-prescription-details-${prescription}"]`,
     ).should('contain', refillsRemaining);
   };
+
+  clickPrescriptionRefillCheckbox = prescription => {
+    cy.intercept(
+      'PATCH',
+      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22545165',
+      prescription,
+    );
+    cy.get('[data-testid="refill-prescription-checkbox-0"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickRefillRequestButton = () => {
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyFailedRequestMessageAlertOnRefillPage = () => {
+    cy.get('[data-testid="failed-message-title"]').should('exist');
+    cy.get('[data-testid="failed-message-title"]').should(
+      'contain',
+      'Request not submitted',
+    );
+  };
 }
 
 export default MedicationsRefillPage;
