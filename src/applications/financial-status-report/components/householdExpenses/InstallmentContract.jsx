@@ -315,6 +315,7 @@ const InstallmentContract = props => {
           onInput={handleAmountDueMonthlyChange}
           value={contractRecord.amountDueMonthly}
           width="md"
+          uswds
         />
 
         <VaDate
