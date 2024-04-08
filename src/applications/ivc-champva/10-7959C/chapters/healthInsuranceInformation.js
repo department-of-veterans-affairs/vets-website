@@ -97,3 +97,18 @@ export const applicantPrimaryExpirationDateSchema = {
     applicantPrimaryExpirationDate: currentOrPastDateSchema,
   }),
 };
+
+export const applicantPrimaryThroughEmployerSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantPrimaryThroughEmployer: {
+      type: 'object',
+      properties: {
+        throughEmployer: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};

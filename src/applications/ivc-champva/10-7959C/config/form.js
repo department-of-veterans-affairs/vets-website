@@ -73,6 +73,10 @@ import {
   hasPrimaryProvider,
 } from './conditionalPaths';
 import mockdata from '../tests/fixtures/data/test-data.json';
+import {
+  ApplicantPrimaryThroughEmployerPage,
+  ApplicantPrimaryThroughEmployerReviewPage,
+} from '../components/ApplicantPrimaryThroughEmployer';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -360,6 +364,20 @@ const formConfig = {
             } insurance expiration date`,
           uiSchema: applicantPrimaryExpirationDateSchema.uiSchema,
           schema: applicantPrimaryExpirationDateSchema.schema,
+        },
+        primaryThroughEmployer: {
+          path: ':index/primary-through-employer',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } type of insurance`,
+          CustomPage: ApplicantPrimaryThroughEmployerPage,
+          CustomPageReview: ApplicantPrimaryThroughEmployerReviewPage,
+          uiSchema: applicantHasPrimarySchema.uiSchema,
+          schema: applicantHasPrimarySchema.schema,
         },
       },
     },
