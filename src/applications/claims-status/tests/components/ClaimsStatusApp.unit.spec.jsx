@@ -3,9 +3,9 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
-
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { AppContent, ClaimsStatusApp } from '../../containers/ClaimsStatusApp';
 
