@@ -39,8 +39,7 @@ describe('Thread List Sort component', () => {
       'Show conversations in this order',
     );
     expect(sortSelectDropdown.value).to.equal(SENT_DATE_DESCENDING.value);
-    expect(sortButton.getAttribute('text')).to.equal('Sort');
-
+    expect(sortButton.getAttribute('label')).to.equal('Sort');
     expect(screen.getByText('Newest to oldest').value).to.equal(
       SENT_DATE_DESCENDING.value,
     );
@@ -70,7 +69,7 @@ describe('Thread List Sort component', () => {
       'Show conversations in this order',
     );
     expect(sortSelectDropdown.value).to.equal(DRAFT_DATE_DESCENDING.value);
-    expect(sortButton.getAttribute('text')).to.equal('Sort');
+    expect(sortButton.getAttribute('label')).to.equal('Sort');
 
     expect(screen.getByText('Newest to oldest').value).to.equal(
       DRAFT_DATE_DESCENDING.value,
@@ -101,7 +100,7 @@ describe('Thread List Sort component', () => {
       'Show conversations in this order',
     );
     expect(sortSelectDropdown.value).to.equal(SENT_DATE_DESCENDING.value);
-    expect(sortButton.getAttribute('text')).to.equal('Sort');
+    expect(sortButton.getAttribute('label')).to.equal('Sort');
 
     expect(screen.getByText('Newest to oldest').value).to.equal(
       SENT_DATE_DESCENDING.value,
@@ -132,7 +131,7 @@ describe('Thread List Sort component', () => {
       'Show conversations in this order',
     );
     expect(sortSelectDropdown.value).to.equal(SENT_DATE_DESCENDING.value);
-    expect(sortButton.getAttribute('text')).to.equal('Sort');
+    expect(sortButton.getAttribute('label')).to.equal('Sort');
 
     expect(screen.getByText('Newest to oldest').value).to.equal(
       SENT_DATE_DESCENDING.value,
@@ -159,7 +158,7 @@ describe('Thread List Sort component', () => {
       'Show conversations in this order',
     );
     expect(sortSelectDropdown.value).to.equal(SENT_DATE_DESCENDING.value);
-    expect(sortButton.getAttribute('text')).to.equal('Sort');
+    expect(sortButton.getAttribute('label')).to.equal('Sort');
 
     expect(screen.getByText('Newest to oldest').value).to.equal(
       SENT_DATE_DESCENDING.value,
