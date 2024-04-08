@@ -26,7 +26,7 @@ const FoldersList = props => {
                   >
                     {folder.id === Folders.DELETED.id
                       ? Folders.DELETED.header
-                      : folder.name}{' '}
+                      : folder.name}
                     {showUnread &&
                       folder.unreadCount > 0 &&
                       folder.id !== Folders.DRAFTS.id &&
