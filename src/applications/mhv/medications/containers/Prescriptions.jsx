@@ -310,17 +310,11 @@ const Prescriptions = () => {
     [userName, txtData, setPdfTxtGenerateStatus],
   );
 
-  const isValidPrintStatus =
-    (prescriptionsFullList?.length &&
-      pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST) ||
-    (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-      paginatedPrescriptionsList?.length);
-
   useEffect(
     () => {
       if (
         !prescriptionsFullList?.length &&
-        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST
+        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT
       ) {
         const getFullList = async () => {
           await getPrescriptionSortedList(
@@ -339,6 +333,10 @@ const Prescriptions = () => {
         getFullList();
       }
       if (
+        ((prescriptionsFullList?.length &&
+          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
+            paginatedPrescriptionsList?.length)) &&
         allergies &&
         !allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
@@ -353,7 +351,10 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
-        } else if (isValidPrintStatus) {
+        } else if (
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
+        ) {
           if (!isLoading && loadingMessage === '') {
             setPrintedList(
               pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST
@@ -389,10 +390,15 @@ const Prescriptions = () => {
   );
 
   const handleFullListDownload = async format => {
-    if (format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT) {
+    const isTxtOrPdf =
+      format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
+    if (
+      isTxtOrPdf ||
+      !allergies ||
+      (format === PRINT_FORMAT.PRINT_FULL_LIST && !prescriptionsFullList.length)
+    ) {
       updateLoadingStatus(true, 'Downloading your file...');
-    } else if (!allergies || format === PRINT_FORMAT.PRINT_FULL_LIST)
-      updateLoadingStatus(true, 'Downloading your file...');
+    }
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
