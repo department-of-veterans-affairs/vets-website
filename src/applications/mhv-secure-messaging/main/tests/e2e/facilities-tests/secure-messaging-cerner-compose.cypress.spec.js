@@ -32,10 +32,12 @@ describe('Secure Messaging Inbox Cerner', () => {
     const site = new SecureMessagingSite();
     site.login(mockEhrData, true, mockOneCernerFacilitiesUser, mockFacilities);
     landingPage.loadInboxMessages();
+    landingPage.verifyFilterMessageHeadingText();
     landingPage.verifyCernerFacilityNames(
       mockOneCernerFacilitiesUser,
       mockEhrData,
     );
+    landingPage.verifyAddFilterButton();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
