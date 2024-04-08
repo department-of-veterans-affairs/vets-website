@@ -31,7 +31,7 @@ const FoldersList = props => {
                       folder.unreadCount > 0 &&
                       folder.id !== Folders.DRAFTS.id &&
                       `(${folder.unreadCount} unread messages)`}
-                  </span>{' '}
+                  </span>
                 </div>
               </Link>
             </li>

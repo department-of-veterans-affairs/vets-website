@@ -224,7 +224,7 @@ const ManageFolderButtons = props => {
           data-dd-action-name="Save Rename Folder Button"
         />
         <va-button
-          uswds="false"
+          uswds={false}
           secondary="true"
           text="Cancel"
           onClick={closeRenameModal}
