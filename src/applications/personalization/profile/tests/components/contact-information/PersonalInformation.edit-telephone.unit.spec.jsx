@@ -210,7 +210,11 @@ async function testSlowFailure(numberName) {
 
 describe('Editing', () => {
   before(() => {
-    server = setupServer(...mocks.editPhoneNumberSuccess());
+    server = setupServer(
+      ...mocks.editPhoneNumberSuccess(),
+      ...mocks.apmTelemetry,
+      ...mocks.rootTransactionStatus,
+    );
     server.listen();
   });
   beforeEach(() => {

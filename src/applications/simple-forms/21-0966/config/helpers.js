@@ -239,13 +239,15 @@ export const getIntentsToFile = ({
         environment.API_URL
       }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
     )
-      .then(({ compensationIntent, pensionIntent }) =>
+      .then(({ compensationIntent, pensionIntent }) => {
         goPathAfterGettingITF(
           { compensationIntent, pensionIntent },
           formData,
+          goPath,
+          goNextPath,
           setFormData,
-        ),
-      )
+        );
+      })
       .catch(() => goNextPath());
   } else {
     goNextPath();
