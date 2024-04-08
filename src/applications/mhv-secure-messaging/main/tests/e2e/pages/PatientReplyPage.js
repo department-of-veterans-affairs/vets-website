@@ -146,7 +146,9 @@ class PatientReplyPage {
   };
 
   verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
-    cy.get('#heading').should('have.text', "We can't save this message yet");
+    cy.get(Locators.REPLY_FORM)
+      .find('h2')
+      .should('have.text', "We can't save this message yet");
 
     cy.contains('Continue editing').should('be.visible');
     cy.contains('Delete draft').should('be.visible');
