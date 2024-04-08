@@ -43,4 +43,10 @@ describe('Medications Breadcrumbs', () => {
     const breadcrumbs = screen.getByTestId('rx-breadcrumb');
     expect(breadcrumbs).to.exist;
   });
+
+  it('should render just one crumb(1 level deep) and not the whole crumb history', () => {
+    const screen = setup();
+    expect(screen.getByText('Back to Medications')).to.exist;
+    expect(screen.queryByText('Back to About medications')).to.be.null;
+  });
 });
