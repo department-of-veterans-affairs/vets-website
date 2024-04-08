@@ -181,7 +181,11 @@ async function testSlowFailure(addressName) {
 
 describe('Deleting', () => {
   before(() => {
-    server = setupServer(...mocks.deleteResidentialAddressSuccess);
+    server = setupServer(
+      ...mocks.deleteResidentialAddressSuccess,
+      ...mocks.apmTelemetry,
+      ...mocks.rootTransactionStatus,
+    );
     server.listen();
   });
   beforeEach(() => {

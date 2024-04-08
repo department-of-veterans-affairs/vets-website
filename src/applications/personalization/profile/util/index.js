@@ -79,14 +79,15 @@ export const hasErrorCombos = ({
   });
 };
 
-export const hasAccountFlaggedError = errors =>
-  hasErrorCombos({
+export const hasAccountFlaggedError = errors => {
+  return hasErrorCombos({
     errors,
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
       DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
     ],
   });
+};
 
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorCombos({

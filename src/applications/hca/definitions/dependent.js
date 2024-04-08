@@ -60,7 +60,7 @@ export const dependentUISchema = {
     },
     dependentEducationExpenses: {
       ...currencyUI(
-        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, book, or supplies)',
+        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, books, or supplies)',
       ),
       'ui:description': DependentEducationExpensesDescription,
       'ui:validations': [validateCurrency],

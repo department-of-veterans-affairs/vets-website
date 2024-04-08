@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckboxGroup,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
@@ -9,11 +12,16 @@ import {
 } from '../../helpers/supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
-export const mailInfo = (
+const mailInfo = (
   <>
-    Write the applicant’s name and confirmation number on each page of the
-    document.
-    <br />
+    <p>
+      Your application will not be considered complete until VA receives all of
+      your remaining required files.
+    </p>
+    <p>
+      Optional files are not required to complete your application, but may
+      prevent delays in your processing time.
+    </p>
     <br />
     Mail your files to:
     <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
@@ -29,10 +37,13 @@ export const mailInfo = (
         United States of America
       </p>
     </address>
-    Or fax your documents here:
-    <br />
-    VHA Office of Community Care CHAMPVA Eligibility,{' '}
-    <span aria-label="Fax Number">303-331-7809</span>
+    Or fax them to:{' '}
+    <VaTelephone
+      contact={JSON.stringify({
+        phoneNumber: '3033317809',
+        description: 'fax number',
+      })}
+    />
     <br />
   </>
 );
@@ -209,8 +220,10 @@ export default function MissingFileOverview({
   const defaultHeading = (
     <>
       {titleUI('Upload your supporting documents')['ui:title']}
-      {filesAreMissing ? (
-        <p>Upload these documents now or you can send them by mail or fax.</p>
+      {filesAreMissing && !showConsent ? (
+        <p>
+          Upload now for faster processing. Or you can send them by mail or fax.
+        </p>
       ) : null}
     </>
   );
@@ -272,7 +285,7 @@ export default function MissingFileOverview({
           {requiredFilesStillMissing && showMail ? <>{mailInfo}</> : null}
           {requiredFilesStillMissing && showConsent ? (
             <>
-              <h3>Supporting files acknowledgement</h3>
+              <h3>Supporting documents acknowledgement</h3>
               <VaCheckboxGroup onVaChange={onGroupChange} error={error}>
                 {requiredFilesStillMissing ? (
                   <>
