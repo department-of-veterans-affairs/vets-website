@@ -1,4 +1,11 @@
-import { dateFormat, processList, validateField } from './helpers';
+import {
+  createMedicationDescription,
+  createNoDescriptionText,
+  createOriginalFillRecord,
+  dateFormat,
+  processList,
+  validateField,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -248,12 +255,9 @@ export const buildVAPrescriptionPDFList = (
   prescriptionImage = null,
 ) => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
+
   return [
     {
       header: 'About your prescription',
@@ -383,6 +387,11 @@ export const buildVAPrescriptionPDFList = (
           items: refillHistory
             .map((entry, i) => {
               const index = refillHistory.length - i - 1;
+              const phone =
+                entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+              const description =
+                createMedicationDescription(entry) ||
+                createNoDescriptionText(phone);
               return [
                 {
                   value: [
@@ -402,6 +411,11 @@ export const buildVAPrescriptionPDFList = (
                     },
                   ],
                   isRich: true,
+                },
+                {
+                  title: 'Description',
+                  value: description,
+                  inline: true,
                 },
                 {
                   title: `Filled by pharmacy on`,
