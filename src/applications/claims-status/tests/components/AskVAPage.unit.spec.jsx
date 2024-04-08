@@ -14,9 +14,6 @@ import { renderWithRouter, rerenderWithRouter } from '../utils';
 const getRouter = () => ({ push: sinon.spy() });
 
 const store = createStore(() => ({
-  disability: {
-    status: {},
-  },
   featureToggles: {},
 }));
 

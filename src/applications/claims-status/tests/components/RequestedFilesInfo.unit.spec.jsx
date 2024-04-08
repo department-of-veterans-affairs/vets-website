@@ -11,6 +11,8 @@ let stub;
 
 describe('<RequestedFilesInfo>', () => {
   before(() => {
+    // Stubbing AdditionalEvidencePageOld as we aren't interested
+    // in testing the functionality of this component
     stub = sinon.stub(AdditionalEvidencePageOld, 'default');
     stub.returns(<div data-testid="additional-evidence-page-old" />);
   });
@@ -18,6 +20,7 @@ describe('<RequestedFilesInfo>', () => {
   after(() => {
     stub.restore();
   });
+
   it('should display no documents messages', () => {
     const screen = render(
       <RequestedFilesInfo id="1" filesNeeded={[]} optionalFiles={[]} />,
