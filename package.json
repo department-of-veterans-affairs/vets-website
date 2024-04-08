@@ -131,6 +131,7 @@
     "@sentry/browser": "^6.13.2",
     "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^12.2.2",
     "@tlei123/vagov-cy-tr-reporter": "^0.0.7",
     "@types/react": "^18.2.73",
@@ -325,7 +326,7 @@
     "url-search-params": "^1.1.0",
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
-    "vanilla-lazyload": "^16.1.0",
+    "vanilla-lazyload": "^16.1.0", 
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0832461353f871b688b0c231ecf9bdbfb1f9145a"
   },
   "resolutions": {

@@ -42,6 +42,8 @@ export function fetchDirectDeposit({
 } = fetchDirectDepositArgs) {
   return async dispatch => {
     dispatch({ type: DIRECT_DEPOSIT_FETCH_STARTED });
+    dispatch({ type: DIRECT_DEPOSIT_LOAD_ERROR_CLEARED });
+    dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
 
     recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
@@ -75,6 +77,61 @@ export function fetchDirectDeposit({
         response,
       });
     }
+  };
+}
+
+// action creator to save direct deposit information
+export function saveDirectDeposit(
+  data,
+  {
+    captureError: captureDirectDepositError,
+    recordApiEvent: recordDirectDepositEvent,
+  } = fetchDirectDepositArgs,
+) {
+  return async dispatch => {
+    dispatch({ type: DIRECT_DEPOSIT_SAVE_STARTED });
+
+    recordDirectDepositEvent({
+      endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+      status: API_STATUS.STARTED,
+    });
+
+    const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+
+    // error handling for the response
+    if (response.error || response.errors) {
+      recordDirectDepositEvent({
+        endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+        status: API_STATUS.FAILED,
+      });
+
+      captureDirectDepositError(response, {
+        eventName: 'put-direct-deposit-failed',
+      });
+
+      dispatch({
+        type: DIRECT_DEPOSIT_SAVE_FAILED,
+        response,
+      });
+
+      return;
+    }
+
+    //  record the successful ga event and dispatch the success action
+    recordDirectDepositEvent({
+      endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+      status: API_STATUS.SUCCESSFUL,
+    });
+
+    dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
+
+    dispatch({
+      type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+      response,
+    });
   };
 }
 

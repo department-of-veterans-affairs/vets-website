@@ -16,7 +16,7 @@ export default {
       title: 'Which of these best describes you?',
       labels: PREPARER_TYPE_LABELS,
       errorMessages: {
-        required: 'Please select your identity',
+        required: 'Select your identity',
       },
       labelHeaderLevel: '3',
     }),
