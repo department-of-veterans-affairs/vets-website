@@ -14,7 +14,7 @@ const setFilteredAppointmentsHandler = (state, action) => {
   };
 };
 
-const setFacilityToFileHandler = (state, action) => {
+const setFormDataHandler = (state, action) => {
   const data = { ...state.form.data, ...action.payload };
   return {
     ...state,
@@ -25,5 +25,5 @@ const setFacilityToFileHandler = (state, action) => {
 export {
   receivedTravelDataHandler,
   setFilteredAppointmentsHandler,
-  setFacilityToFileHandler,
+  setFormDataHandler,
 };

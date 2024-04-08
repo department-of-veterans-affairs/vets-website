@@ -11,7 +11,7 @@ const PROPERTY_NAMES = {
   secondary: '_unused',
 };
 
-export function generateOptions({ data, pagePerItemIndex }) {
+function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
   const prompt = `${
     bp.useFirstPerson ? 'Are you' : `Is ${bp.applicant}`
@@ -28,8 +28,6 @@ export function generateOptions({ data, pagePerItemIndex }) {
   };
 }
 
-// Using the widely customizable ApplicantRelationshipPage
-// as it now functions like a generic radioUI + other text field:
 export function ApplicantMedicareStatusDPage(props) {
   const newProps = {
     ...props,

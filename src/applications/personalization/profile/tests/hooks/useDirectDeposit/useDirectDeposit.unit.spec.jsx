@@ -98,7 +98,6 @@ describe('useDirectDeposit hook', () => {
 
     // showUpdateSuccess and formIsDirty are returned correctly
     expect(parsedResults.showUpdateSuccess).to.be.false;
-    expect(parsedResults.formIsDirty).to.be.false;
   });
 
   it('returns isIdentityVerified as false when not all conditions are met', () => {
@@ -123,22 +122,6 @@ describe('useDirectDeposit hook', () => {
     const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
 
     expect(parsedResults.isIdentityVerified).to.be.false;
-  });
-
-  it('sets formIsDirty to true when calling setFormIsDirty', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: baseState,
-      },
-    );
-
-    const button = getByTestId('set-form-is-dirty');
-    button.click();
-
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
-
-    expect(parsedResults.formIsDirty).to.be.true;
   });
 
   it('returns isBlocked as false when controlInformation is not provided', () => {

@@ -97,7 +97,7 @@ const SearchControls = props => {
           Please enable location sharing in your browser to use this feature.
         </p>
       </VaModal>
-      <h2 className="vads-u-margin-y--0">
+      <h2 className="vads-u-margin-bottom--0">
         Search for an accredited representative
       </h2>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>

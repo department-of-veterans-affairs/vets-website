@@ -13,13 +13,16 @@ inputs:
     required: true
   role:
     description: Role to assume
-    required: true
+    required: false
+    default: ''
   session_name:
     description: Role Session Name
-    required: true
+    required: false
+    default: ''
   role_duration:
     description: Role Duration in Seconds
-    required: true
+    required: false
+    default: ''
 
 outputs:
   ecr_user: 
@@ -32,7 +35,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: aws-actions/configure-aws-credentials@v4
+    - uses: aws-actions/configure-aws-credentials@587276aa2b7ab3e81491bc89886f7805ee29494c
       with:
         aws-access-key-id: ${{ inputs.aws_id }}
         aws-secret-access-key: ${{ inputs.aws_key }}

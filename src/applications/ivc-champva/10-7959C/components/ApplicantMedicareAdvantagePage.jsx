@@ -11,7 +11,7 @@ const PROPERTY_NAMES = {
   secondary: '_unused',
 };
 
-export function generateOptions({ data, pagePerItemIndex }) {
+function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
   const prompt = `Did ${
     bp.useFirstPerson ? 'you' : `${bp.applicant}`
