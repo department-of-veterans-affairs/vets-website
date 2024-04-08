@@ -27,6 +27,6 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
     PatientReplyPage.verifyModalMessageDisplayAndBuddontsCantSaveDraft();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
