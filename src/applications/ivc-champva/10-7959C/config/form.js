@@ -54,10 +54,17 @@ import {
   ApplicantMedicareStatusDPage,
   ApplicantMedicareStatusDReviewPage,
 } from '../components/ApplicantMedicareStatusDPage';
+import {
+  ApplicantHasPrimaryPage,
+  ApplicantHasPrimaryReviewPage,
+} from '../components/ApplicantHasPrimaryPage';
+import { applicantHasPrimarySchema } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
 import { hasMedicareAB, hasMedicareD, noMedicareAB } from './conditionalPaths';
+
+import mockdata from '../tests/fixtures/data/test-data.json';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -98,7 +105,7 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          // initialData: mockdata.data,
+          initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
         },
@@ -296,6 +303,21 @@ const formConfig = {
             hasMedicareAB(formData, index) && hasMedicareD(formData, index),
           uiSchema: applicantMedicarePartDEffectiveDateSchema.uiSchema,
           schema: applicantMedicarePartDEffectiveDateSchema.schema,
+        },
+      },
+    },
+    healthcareInformation: {
+      title: 'Healthcare information',
+      pages: {
+        hasPrimaryHealthInsurance: {
+          path: ':index/has-primary',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} primary health insurance`,
+          CustomPage: ApplicantHasPrimaryPage,
+          CustomPageReview: ApplicantHasPrimaryReviewPage,
+          uiSchema: applicantHasPrimarySchema.uiSchema,
+          schema: applicantHasPrimarySchema.schema,
         },
       },
     },

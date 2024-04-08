@@ -10,15 +10,15 @@ import { applicantListSchema } from '../config/constants';
 // import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 // import { blankSchema } from './applicantInformation';
 
-export const applicantHasOtherPrimarySchema = {
+export const applicantHasPrimarySchema = {
   uiSchema: {
     applicants: { items: {} },
   },
   schema: applicantListSchema([], {
-    applicantHasOtherPrimary: {
+    applicantHasPrimary: {
       type: 'object',
       properties: {
-        enrollment: { type: 'string' },
+        hasPrimary: { type: 'string' },
         _unused: { type: 'string' },
       },
     },
