@@ -1,8 +1,9 @@
-import merge from 'lodash/merge';
-
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { merge, set } from 'lodash';
 
 import {
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_STEM_CLAIMS_SUCCESS,
@@ -15,15 +16,9 @@ import {
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  appealsAvailability,
-} from '../utils/appeals-helpers';
-import {
-  FETCH_CLAIMS_PENDING,
-  FETCH_CLAIMS_SUCCESS,
-  FETCH_CLAIMS_ERROR,
-  claimsAvailability,
-  CHANGE_INDEX_PAGE,
-} from '../utils/claims-helpers';
+} from '../actions/appeals';
+import { appealsAvailability } from '../utils/appeals-helpers';
+import { claimsAvailability, CHANGE_INDEX_PAGE } from '../utils/claims-helpers';
 
 // NOTE: Pagination is controlled by reducers in ./claims-list.js
 
@@ -36,10 +31,10 @@ const initialState = {
   stemClaimsLoading: false,
 };
 
-export default function claimsV2Reducer(state = initialState, action) {
+export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_CLAIMS_PENDING:
-      return set('claimsLoading', true, state);
+      return set(state, true, 'claimsLoading');
     case FETCH_CLAIMS_SUCCESS:
       return merge({}, state, {
         claims: action.claims,
@@ -53,42 +48,42 @@ export default function claimsV2Reducer(state = initialState, action) {
         claimsAvailability: claimsAvailability.UNAVAILABLE,
       });
     case FETCH_APPEALS_PENDING:
-      return set('appealsLoading', true, state);
+      return set(state, true, 'appealsLoading');
     case FETCH_APPEALS_SUCCESS:
       return merge({}, state, {
         appeals: action.appeals,
         appealsLoading: false,
         available: true,
-        v2Availability: appealsAvailability.AVAILABLE,
+        appealsAvailability: appealsAvailability.AVAILABLE,
       });
     case USER_FORBIDDEN_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.USER_FORBIDDEN_ERROR,
+        appealsAvailability: appealsAvailability.USER_FORBIDDEN_ERROR,
       });
     case RECORD_NOT_FOUND_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.RECORD_NOT_FOUND_ERROR,
+        appealsAvailability: appealsAvailability.RECORD_NOT_FOUND_ERROR,
       });
     case VALIDATION_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.VALIDATION_ERROR,
+        appealsAvailability: appealsAvailability.VALIDATION_ERROR,
       });
     case BACKEND_SERVICE_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.BACKEND_SERVICE_ERROR,
+        appealsAvailability: appealsAvailability.BACKEND_SERVICE_ERROR,
       });
     case FETCH_APPEALS_ERROR:
       return merge({}, state, {
         appealsLoading: false,
-        v2Availability: appealsAvailability.FETCH_APPEALS_ERROR,
+        appealsAvailability: appealsAvailability.FETCH_APPEALS_ERROR,
       });
 
     case CHANGE_INDEX_PAGE:
-      return set('page', action.page, state);
+      return set(state, true, 'page');
 
     case FETCH_STEM_CLAIMS_PENDING:
       return {
