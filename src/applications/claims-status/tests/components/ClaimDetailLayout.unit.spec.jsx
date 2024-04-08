@@ -27,25 +27,10 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
 
-  it('should render sync warning', () => {
-    const claim = {
-      attributes: {
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout claim={claim} synced={false} />,
-    );
-    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
-  });
-
   it('should render unavailable warning', () => {
     const claim = null;
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout claim={claim} synced={false} />,
-    );
+    const tree = SkinDeep.shallowRender(<ClaimDetailLayout claim={claim} />);
     expect(tree.everySubTree('ClaimsUnavailable')).to.have.lengthOf(1);
   });
 
