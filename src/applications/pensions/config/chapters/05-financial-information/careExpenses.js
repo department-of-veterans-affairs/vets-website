@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
-  dateRangeUI,
+  currentOrPastDateRangeUI,
   dateRangeSchema,
   radioUI,
   radioSchema,
@@ -101,9 +101,9 @@ export default {
           min: 1,
           max: 168,
         }),
-        careDateRange: dateRangeUI({
-          fromLabel: 'Care start date',
-          toLabel: 'Care end date',
+        careDateRange: currentOrPastDateRangeUI({
+          fromOptions: 'Care start date',
+          toOptions: 'Care end date',
           errorMessage: 'End of care must be after start of care',
         }),
         noCareEndDate: {

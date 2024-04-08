@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import { isFullDate } from 'platform/forms/validations';
 import {
-  dateRangeUI,
+  currentOrPastDateRangeUI,
   dateRangeSchema,
   serviceNumberUI,
   serviceNumberSchema,
@@ -34,9 +34,9 @@ export default {
       labels: serviceBranchLabels,
       required: true,
     }),
-    activeServiceDateRange: dateRangeUI({
-      fromLabel: 'Date initially entered active duty',
-      toLabel: 'Final release date from active duty',
+    activeServiceDateRange: currentOrPastDateRangeUI({
+      fromOptions: 'Date initially entered active duty',
+      toOptions: 'Final release date from active duty',
       errorMessage:
         'Date initially entered active duty must be before final date released from active duty',
     }),

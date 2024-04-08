@@ -65,23 +65,24 @@ const currentOrPastDateUI = options => {
 };
 
 /**
- * Web component v3 uiSchema for date range
+ * Web component v3 uiSchema for current or past date range
  *
  * ```js
- * exampleDateRange: dateRangeUI()
- * exampleDateRange: dateRangeUI({
- *   fromLabel: 'Start date',
- *   toLabel: 'End date',
+ * exampleDateRange: currentOrPastDateRangeUI()
+ * exampleDateRange: currentOrPastDateRangeUI({
+ *   fromOptions: 'Start date of event',
+ *   toOptions: { title: 'End date of event', hint: 'This is a hint' },
+ *   errorMessage: 'Custom error message for the date range validation'
  * })
  * ```
- * @param {string} [fromLabel] - Custom label for the start date field
- * @param {string} [toLabel] - Custom label for the end date field
+ * @param {Object} [fromOptions] - Custom options for the start date field
+ * @param {Object} [toOptions] - Custom options for the end date field
  * @param {string} [errorMessage] - Custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
  */
-const dateRangeUI = ({
-  fromLabel = 'From date',
-  toLabel = 'To date',
+const currentOrPastDateRangeUI = ({
+  fromOptions = { title: 'From date' },
+  toOptions = { title: 'To date' },
   errorMessage,
 } = {}) => ({
   'ui:validations': [
@@ -93,8 +94,8 @@ const dateRangeUI = ({
       },
     },
   ],
-  from: currentOrPastDateUI({ title: fromLabel }),
-  to: currentOrPastDateUI({ title: toLabel }),
+  from: currentOrPastDateUI(fromOptions),
+  to: currentOrPastDateUI(toOptions),
   ...(errorMessage && { 'ui:errorMessages': { pattern: errorMessage } }),
 });
 
@@ -227,7 +228,7 @@ export {
   currentOrPastDateDigitsUI,
   dateOfBirthUI,
   dateOfDeathUI,
-  dateRangeUI,
+  currentOrPastDateRangeUI,
   currentOrPastDateSchema,
   currentOrPastDateDigitsSchema,
   dateOfBirthSchema,

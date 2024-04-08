@@ -1,5 +1,5 @@
 import {
-  dateRangeUI,
+  currentOrPastDateRangeUI,
   dateRangeSchema,
   titleUI,
   yesNoUI,
@@ -17,9 +17,9 @@ export default {
       classNames: 'vads-u-margin-bottom--2',
     }),
     powDateRange: {
-      ...dateRangeUI({
-        fromLabel: 'Start of confinement',
-        toLabel: 'End of confinement',
+      ...currentOrPastDateRangeUI({
+        fromOptions: 'Start of confinement',
+        toOptions: 'End of confinement',
         errorMessage: 'Confinement start date must be before end date',
       }),
       'ui:options': {
