@@ -34,12 +34,11 @@ export default {
       labels: serviceBranchLabels,
       required: true,
     }),
-    activeServiceDateRange: currentOrPastDateRangeUI({
-      fromOptions: 'Date initially entered active duty',
-      toOptions: 'Final release date from active duty',
-      errorMessage:
-        'Date initially entered active duty must be before final date released from active duty',
-    }),
+    activeServiceDateRange: currentOrPastDateRangeUI(
+      'Date initially entered active duty',
+      'Final release date from active duty',
+      'Date initially entered active duty must be before final date released from active duty',
+    ),
     serviceNumber: serviceNumberUI('Military Service number if you have one'),
     placeOfSeparation: {
       'ui:title': 'Place of your last separation',

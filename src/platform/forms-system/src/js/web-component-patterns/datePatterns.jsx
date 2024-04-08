@@ -68,34 +68,70 @@ const currentOrPastDateUI = options => {
  * Web component v3 uiSchema for current or past date range
  *
  * ```js
- * exampleDateRange: currentOrPastDateRangeUI()
- * exampleDateRange: currentOrPastDateRangeUI({
- *   fromOptions: 'Start date of event',
- *   toOptions: { title: 'End date of event', hint: 'This is a hint' },
- *   errorMessage: 'Custom error message for the date range validation'
+ * // Simple usage:
+ * exampleDateRange: currentOrPastDateRangeUI(
+ *   'Start date of event',
+ *   'End date of event',
+ *   'Custom error message'
+ * )
+ *
+ * // Advanced usage:
+ * exampleDateRange: currentOrPastDateRangeUI(
+ *   { title: 'Start date of event', ... },
+ *   { title: 'End date of event', hint: 'This is a hint' },
+ *   'Custom error message'
  * })
  * ```
- * @param {Object} [fromOptions] - Custom options for the start date field
- * @param {Object} [toOptions] - Custom options for the end date field
- * @param {string} [errorMessage] - Custom error message for the date range validation
+ * @param {string | UIOptions & {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for start/from date title, or an object of options
+ * @param {string | UIOptions & {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for to/end date title, or an object of options
+ * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
  */
-const currentOrPastDateRangeUI = ({
-  fromOptions = { title: 'From date' },
-  toOptions = { title: 'To date' },
-  errorMessage,
-} = {}) => ({
-  'ui:validations': [
-    {
-      validator: (errors, fieldData, formData, schema, uiSchema) => {
-        validateDateRange(errors, fieldData, formData, schema, uiSchema, true);
+const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
+  let fromLabel = 'From date';
+  let toLabel = 'To date';
+  let fromCustomOptions = {};
+  let toCustomOptions = {};
+
+  // Check if advanced options object is provided
+  if (typeof fromOptions === 'object' && typeof toOptions === 'object') {
+    // Extract custom options
+    fromLabel = fromOptions.title || fromLabel;
+    toLabel = toOptions.title || toLabel;
+    fromCustomOptions = { ...fromOptions };
+    toCustomOptions = { ...toOptions };
+  } else {
+    // Simple usage: assign labels
+    fromLabel = fromOptions || fromLabel;
+    toLabel = toOptions || toLabel;
+  }
+
+  return {
+    'ui:validations': [
+      {
+        validator: (errors, fieldData, formData, schema, uiSchema) => {
+          validateDateRange(
+            errors,
+            fieldData,
+            formData,
+            schema,
+            uiSchema,
+            true,
+          );
+        },
       },
-    },
-  ],
-  from: currentOrPastDateUI(fromOptions),
-  to: currentOrPastDateUI(toOptions),
-  ...(errorMessage && { 'ui:errorMessages': { pattern: errorMessage } }),
-});
+    ],
+    from: currentOrPastDateUI({ title: fromLabel, ...fromCustomOptions }),
+    to: currentOrPastDateUI({ title: toLabel, ...toCustomOptions }),
+    ...(errorMessage && { 'ui:errorMessages': { pattern: errorMessage } }),
+  };
+};
 
 /**
  * Web component v3 uiSchema for current or past dates with digit select for month

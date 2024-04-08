@@ -17,11 +17,11 @@ export default {
       classNames: 'vads-u-margin-bottom--2',
     }),
     powDateRange: {
-      ...currentOrPastDateRangeUI({
-        fromOptions: 'Start of confinement',
-        toOptions: 'End of confinement',
-        errorMessage: 'Confinement start date must be before end date',
-      }),
+      ...currentOrPastDateRangeUI(
+        'Start of confinement',
+        'End of confinement',
+        'Confinement start date must be before end date',
+      ),
       'ui:options': {
         expandUnder: 'powStatus',
         expandUnderCondition: true,

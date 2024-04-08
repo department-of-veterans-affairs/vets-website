@@ -101,11 +101,11 @@ export default {
           min: 1,
           max: 168,
         }),
-        careDateRange: currentOrPastDateRangeUI({
-          fromOptions: 'Care start date',
-          toOptions: 'Care end date',
-          errorMessage: 'End of care must be after start of care',
-        }),
+        careDateRange: currentOrPastDateRangeUI(
+          'Care start date',
+          'Care end date',
+          'End of care must be after start of care',
+        ),
         noCareEndDate: {
           'ui:title': 'No end date',
           'ui:webComponentField': VaCheckboxField,
