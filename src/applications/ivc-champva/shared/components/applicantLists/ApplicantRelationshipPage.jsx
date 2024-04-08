@@ -29,9 +29,11 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const personTitle = 'Sponsor';
   const applicant = applicantWording(currentListItem, undefined, false);
 
-  // Determine what tense/person the phrasing should be in
-  const useFirstPerson =
-    data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
+  // TODO: remove useFirstPerson when we're sure we won't want the functionality
+  // // Determine what tense/person the phrasing should be in
+  // const useFirstPerson =
+  //   data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
+  const useFirstPerson = false;
 
   const relative = `${useFirstPerson ? 'I' : applicant}`;
   const beingVerbPresent = useFirstPerson ? 'am' : 'is';
