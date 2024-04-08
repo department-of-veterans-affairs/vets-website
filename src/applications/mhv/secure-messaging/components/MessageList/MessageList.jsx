@@ -30,7 +30,7 @@ import { threadSortingOptions } from '../../util/constants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
-const MAX_PAGE_LIST_LENGTH = 7;
+const MAX_PAGE_LIST_LENGTH = 5;
 const {
   SENT_DATE_ASCENDING,
   SENT_DATE_DESCENDING,
