@@ -7,6 +7,8 @@ import environment from '~/platform/utilities/environment';
 // a component to render the dev tools and provide any
 // additional functions needed for development
 // can be removed when the feature is complete / uat is done
+// ignoring for istanbul because its not for use in production
+/* istanbul ignore next */
 export const DirectDepositDevWidget = ({ debugData }) => {
   const dataToRender = pick(debugData.controlInformation, [
     'canUpdateDirectDeposit',
