@@ -1,10 +1,8 @@
 import React from 'react';
 import { Prompt } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
-import { saveDirectDeposit } from '@@profile/actions/directDeposit';
 
 import Headline from '@@profile/components/ProfileSectionHeadline';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
@@ -45,8 +43,6 @@ Wrapper.propTypes = {
 };
 
 export const DirectDeposit = () => {
-  const dispatch = useDispatch();
-
   const directDepositHookResult = useDirectDeposit();
 
   const {
@@ -58,6 +54,7 @@ export const DirectDeposit = () => {
     useOAuth,
     showUpdateSuccess,
     formData,
+    onFormSubmit,
     saveError,
     loadError,
     setFormData,
@@ -132,7 +129,7 @@ export const DirectDeposit = () => {
   const cardDataValue = ui.isEditing ? (
     <AccountUpdateView
       isSaving={ui.isSaving}
-      formSubmit={() => dispatch(saveDirectDeposit(formData))}
+      formSubmit={onFormSubmit}
       {...directDepositHookResult}
     />
   ) : (

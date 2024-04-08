@@ -13,7 +13,10 @@ import {
 } from '~/platform/user/selectors';
 
 import { getIsBlocked } from '../selectors';
-import { toggleDirectDepositEdit } from '../actions/directDeposit';
+import {
+  saveDirectDeposit,
+  toggleDirectDepositEdit,
+} from '../actions/directDeposit';
 
 export const useDirectDeposit = () => {
   const dispatch = useDispatch();
@@ -96,6 +99,17 @@ export const useDirectDeposit = () => {
     [hasUnsavedFormEdits, setShowCancelModal, exitUpdateView],
   );
 
+  const onFormSubmit = useCallback(
+    () => {
+      const payload = {
+        paymentAccount: formData,
+        controlInformation,
+      };
+      dispatch(saveDirectDeposit(payload));
+    },
+    [dispatch, formData, controlInformation],
+  );
+
   return {
     ui: useMemo(() => ui, [ui]),
     loadError,
@@ -110,6 +124,7 @@ export const useDirectDeposit = () => {
     useOAuth,
     isBlocked,
     formData,
+    onFormSubmit,
     setFormData,
     editButtonRef,
     cancelButtonRef,
