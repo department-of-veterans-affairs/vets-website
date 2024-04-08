@@ -9,7 +9,12 @@ export const isValidDate = dateString => {
 
 export const formatDate = dateString => {
   const formatString = 'MMMM d, yyyy';
-  const parsedDate = parseISO(dateString);
+
+  // We only care about the date portion of the string here.
+  // Including the time portion can lead to off-by-one issues
+  // depending on the users time zone
+  const [datePart] = dateString.split('T');
+  const parsedDate = parseISO(datePart);
 
   return isValid(parsedDate)
     ? format(parsedDate, formatString)

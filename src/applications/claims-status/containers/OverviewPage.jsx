@@ -212,7 +212,7 @@ class OverviewPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -226,7 +226,6 @@ class OverviewPage extends React.Component {
         clearNotification={this.props.clearNotification}
         currentTab="Overview"
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -242,7 +241,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -258,7 +256,6 @@ OverviewPage.propTypes = {
   message: PropTypes.string,
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(

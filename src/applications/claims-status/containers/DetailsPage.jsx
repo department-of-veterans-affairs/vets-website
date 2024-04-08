@@ -95,7 +95,7 @@ class DetailsPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, synced } = this.props;
+    const { claim, loading } = this.props;
 
     let content = null;
     if (!loading) {
@@ -103,12 +103,7 @@ class DetailsPage extends React.Component {
     }
 
     return (
-      <ClaimDetailLayout
-        claim={claim}
-        currentTab="Details"
-        loading={loading}
-        synced={synced}
-      >
+      <ClaimDetailLayout claim={claim} currentTab="Details" loading={loading}>
         {content}
       </ClaimDetailLayout>
     );
@@ -121,7 +116,6 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -129,7 +123,6 @@ DetailsPage.propTypes = {
   claim: PropTypes.object,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(DetailsPage);
