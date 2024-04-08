@@ -118,7 +118,9 @@ export const App = () => {
             of transporting a Veteran’s remains for burial in a national
             cemetery.
           </p>
-          <h3>You can’t get burial allowances for certain individuals</h3>
+          <h3 className="vads-u-margin-top--1">
+            You can’t get burial allowances for certain individuals
+          </h3>
           <p>
             We don’t provide burial allowances if the individual died in any of
             these ways:
@@ -363,7 +365,9 @@ export const App = () => {
           <strong>Note:</strong> We’ll also provide an allowance for the cost of
           transporting a Veteran’s remains for burial in a national cemetery.
         </p>
-        <h3>You can’t get burial allowances for certain individuals</h3>
+        <h3 className="vads-u-margin-top--1">
+          You can’t get burial allowances for certain individuals
+        </h3>
         <p>
           We don’t provide burial allowances if the individual died in any of
           these ways:

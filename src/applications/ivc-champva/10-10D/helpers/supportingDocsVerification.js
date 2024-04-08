@@ -2,7 +2,6 @@
 users to be able to opt into mailing these documents. This object 
 performs double duty by also providing a map to presentable names. */
 export const requiredFiles = {
-  sponsorCasualtyReport: 'DD 1300 (Report of Casualty)',
   applicantStepMarriageCert: 'Proof of Marriage (step child)',
   applicantAdoptionPapers: 'Proof of Adoption',
   applicantSchoolCert: 'Proof of School Enrollment',
@@ -16,8 +15,6 @@ export const requiredFiles = {
 /* Similar to the above, this provides a mapping of file keynames
 to presentable display names for the file review page. */
 export const optionalFiles = {
-  sponsorDisabilityRating: 'VBA Rating',
-  sponsorDischargePapers: 'Discharge Papers',
   applicantBirthCertOrSocialSecCard:
     'Birth Certificate or Social Security Card',
   applicantHelplessCert: 'VBA Rating (Helpless Child)',
@@ -26,6 +23,22 @@ export const optionalFiles = {
   applicantSecondMarriageDivorceCert:
     'Proof of Legal Separation from Marriage Or Legal Union to Other',
 };
+
+/**
+ * Provide a string indicating if a file contained in a form page is in the
+ * requiredFiles object
+ * @param {object} formContext formContext object from a list loop page
+ * @returns a string, either '(Required)' or '(Optional)' depending on if the
+ * formContext contained one or more properties that intersect with the
+ * requiredFiles object
+ */
+export function isRequiredFile(formContext) {
+  return Object.keys(formContext?.schema?.properties || {}).filter(v =>
+    Object.keys(requiredFiles).includes(v),
+  ).length >= 1
+    ? '(Required)'
+    : '(Optional)';
+}
 
 /**
  * Dynamically get list of applicant property names that correspond to a

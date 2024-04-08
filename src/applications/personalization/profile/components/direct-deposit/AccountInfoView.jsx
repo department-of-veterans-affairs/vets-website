@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
@@ -13,6 +14,7 @@ const AccountWithInfo = ({
   showUpdateSuccess,
   editButtonRef,
   toggleEdit,
+  recordEventImpl,
 }) => {
   return (
     <div>
@@ -51,7 +53,7 @@ const AccountWithInfo = ({
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
         onClick={() => {
-          recordEvent({
+          recordEventImpl({
             event: 'profile-navigation',
             'profile-action': 'edit-link',
             'profile-section': `direct-deposit-information`,
@@ -65,7 +67,23 @@ const AccountWithInfo = ({
   );
 };
 
-const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
+AccountWithInfo.propTypes = {
+  paymentAccount: PropTypes.shape({
+    name: PropTypes.string,
+    accountNumber: PropTypes.string,
+    accountType: PropTypes.string,
+  }).isRequired,
+  showUpdateSuccess: PropTypes.bool.isRequired,
+  toggleEdit: PropTypes.func.isRequired,
+  editButtonRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  recordEventImpl: PropTypes.func,
+};
+
+AccountWithInfo.defaultProps = {
+  recordEventImpl: recordEvent,
+};
+
+const NoAccountInfo = ({ editButtonRef, toggleEdit, recordEventImpl }) => {
   return (
     <div>
       <p className="vads-u-margin--0">
@@ -78,7 +96,7 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
         onClick={() => {
-          recordEvent({
+          recordEventImpl({
             event: 'profile-navigation',
             'profile-action': 'add-link',
             'profile-section': 'direct-deposit-information',
@@ -92,11 +110,22 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit }) => {
   );
 };
 
+NoAccountInfo.propTypes = {
+  toggleEdit: PropTypes.func.isRequired,
+  editButtonRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  recordEventImpl: PropTypes.func,
+};
+
+NoAccountInfo.defaultProps = {
+  recordEventImpl: recordEvent,
+};
+
 export const AccountInfoView = ({
   paymentAccount,
   showUpdateSuccess,
-  editButtonRef,
+  recordEventImpl,
 }) => {
+  const editButtonRef = useRef();
   const dispatch = useDispatch();
   const toggleEdit = () => dispatch(toggleDirectDepositEdit());
   return paymentAccount?.accountNumber ? (
@@ -105,8 +134,27 @@ export const AccountInfoView = ({
       showUpdateSuccess={showUpdateSuccess}
       editButtonRef={editButtonRef}
       toggleEdit={toggleEdit}
+      recordEventImpl={recordEventImpl}
     />
   ) : (
-    <NoAccountInfo editButtonRef={editButtonRef} toggleEdit={toggleEdit} />
+    <NoAccountInfo
+      editButtonRef={editButtonRef}
+      toggleEdit={toggleEdit}
+      recordEventImpl={recordEventImpl}
+    />
   );
+};
+
+AccountInfoView.propTypes = {
+  paymentAccount: PropTypes.shape({
+    name: PropTypes.string,
+    accountNumber: PropTypes.string,
+    accountType: PropTypes.string,
+  }).isRequired,
+  showUpdateSuccess: PropTypes.bool.isRequired,
+  recordEventImpl: PropTypes.func,
+};
+
+AccountInfoView.defaultProps = {
+  recordEventImpl: recordEvent,
 };
