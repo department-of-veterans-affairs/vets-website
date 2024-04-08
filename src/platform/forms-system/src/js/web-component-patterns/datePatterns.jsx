@@ -88,9 +88,7 @@ const currentOrPastDateRangeUI = ({
   'ui:validations': [
     {
       validator: (errors, fieldData, formData, schema, uiSchema) => {
-        validateDateRange(errors, fieldData, formData, schema, uiSchema, {
-          pattern: errorMessage,
-        });
+        validateDateRange(errors, fieldData, formData, schema, uiSchema, true);
       },
     },
   ],
