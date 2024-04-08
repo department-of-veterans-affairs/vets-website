@@ -75,7 +75,6 @@ export default {
       'ui:reviewField': ReviewRowView,
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
-        uswds: true,
       },
     },
     toursOfDuty: {
@@ -97,23 +96,16 @@ export default {
             'Service end date',
             'End of service must be after start of service',
           ),
-          'ui:options': {
-            uswds: true,
-          },
         },
         serviceBranch: {
           'ui:title': 'Branch of service',
           'ui:webComponentField': VaSelectField,
           'ui:required': () => true,
-          'ui:options': {
-            uswds: true,
-          },
         },
         rank: {
           'ui:title': 'Grade, rank or rating',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
-            uswds: true,
             width: 'lg',
           },
         },
@@ -123,9 +115,6 @@ export default {
             'Enter the city and state or name of the military base',
           ),
           'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            uswds: true,
-          },
         },
         placeOfSeparation: {
           'ui:title': 'Place of separation',
@@ -133,16 +122,10 @@ export default {
             'Enter the city and state or name of the military base',
           ),
           'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            uswds: true,
-          },
         },
         unit: {
           'ui:title': 'Unit',
           'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            uswds: true,
-          },
         },
       },
     },

@@ -194,10 +194,12 @@ export function updateFacilityType(facilityType) {
   };
 }
 
-export function startDirectScheduleFlow() {
-  recordEvent({
-    event: 'vaos-direct-path-started',
-  });
+export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
+  if (isRecordEvent) {
+    recordEvent({
+      event: 'vaos-direct-path-started',
+    });
+  }
 
   return {
     type: START_DIRECT_SCHEDULE_FLOW,

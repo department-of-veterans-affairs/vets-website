@@ -65,7 +65,6 @@ const ClaimsAndAppealsError = () => {
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
   return (
     <>
-      <h3 className="sr-only">Popular actions for Claims and Appeals</h3>
       <IconCTALink
         text="Learn how to file a claim"
         href="/disability/how-to-file-claim/"

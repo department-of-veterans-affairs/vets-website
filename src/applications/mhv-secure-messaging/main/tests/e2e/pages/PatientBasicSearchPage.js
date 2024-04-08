@@ -82,4 +82,5 @@ class PatientBasicSearchPage {
   //   ).as('basicSearchInboxRequest');
   // }
 }
-export default PatientBasicSearchPage;
+
+export default new PatientBasicSearchPage();

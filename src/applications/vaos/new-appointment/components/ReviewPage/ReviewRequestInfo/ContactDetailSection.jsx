@@ -51,7 +51,9 @@ function getContent({ data, flowType, formData }) {
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
-        <h3 className="vaos-appts__block-label">Your contact details</h3>
+        <h2 className="vads-u-font-size--base vaos-appts__block-label">
+          Your contact details
+        </h2>
         <span data-dd-privacy="mask">
           {data.email}
           <br />
@@ -74,7 +76,7 @@ function getContent({ data, flowType, formData }) {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3 vaos-appts__block-label">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
         Your contact information
       </h2>
       <span data-dd-privacy="mask">
@@ -88,14 +90,13 @@ function getContent({ data, flowType, formData }) {
           contact={data.phoneNumber}
           data-testid="patient-telephone"
         />
-        {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-          flowType === FLOW_TYPES.REQUEST && (
-            <>
-              <br />
-              <strong>Best time to call: </strong>
-              <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
-            </>
-          )}
+        {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE && (
+          <>
+            <br />
+            <strong>Best time to call: </strong>
+            <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+          </>
+        )}
       </span>
     </>
   );
