@@ -55,13 +55,7 @@ export default function TypeOfVisitPage({ changeCrumb }) {
           if (FLOW_TYPES.DIRECT === flowType) return v.name;
 
           // Request flow
-          if (v.id === 'clinic') return 'In person';
-          if (v.id === 'phone') return 'By phone';
-          if (v.id === 'telehealth')
-            return 'Through VA Video Connect (telehealth)';
-
-          // It's an error if this is reached so return the original name
-          return v.name;
+          return v.name2;
         }),
       },
     },

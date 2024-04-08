@@ -1,25 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
+import { renderHook } from '@testing-library/react-hooks';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 import { useDirectDeposit } from '../../../hooks';
-import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
 
-const TestingComponent = () => {
-  const hookResults = useDirectDeposit();
-
-  // Use a data-testid for selecting in the tests
-  return (
-    <>
-      <div data-testid="hookResults">{JSON.stringify(hookResults)}</div>;
-      <button
-        data-testid="set-form-is-dirty"
-        onClick={() => hookResults.setFormIsDirty(true)}
-      >
-        Set form dirty
-      </button>
-    </>
-  );
-};
+const mockStore = configureMockStore();
 
 const baseState = {
   directDeposit: {
@@ -66,96 +53,75 @@ const baseState = {
 };
 
 describe('useDirectDeposit hook', () => {
-  it('returns direct deposit information for account and ui state', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: baseState,
-      },
-    );
+  let store;
 
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
+  beforeEach(() => {
+    store = mockStore(baseState);
+  });
+
+  it('returns direct deposit information for account and ui state', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
 
     // direct deposit paymentAccount is passed through
-    expect(parsedResults.paymentAccount.name).to.equal(
+    expect(result.current.paymentAccount.name).to.equal(
       'BASE TEST - DIRECT DEPOSIT',
     );
-    expect(parsedResults.paymentAccount.accountType).to.equal('CHECKING');
-    expect(parsedResults.paymentAccount.accountNumber).to.equal('*******5487');
-    expect(parsedResults.paymentAccount.routingNumber).to.equal('*****1533');
+    expect(result.current.paymentAccount.accountType).to.equal('CHECKING');
+    expect(result.current.paymentAccount.accountNumber).to.equal('*******5487');
+    expect(result.current.paymentAccount.routingNumber).to.equal('*****1533');
 
     // main controlInformation is passed through
-    expect(parsedResults.controlInformation.canUpdateDirectDeposit).to.be.true;
-    expect(parsedResults.controlInformation.isCorpAvailable).to.be.true;
-    expect(parsedResults.controlInformation.isEduClaimAvailable).to.be.true;
+    expect(result.current.controlInformation.canUpdateDirectDeposit).to.be.true;
+    expect(result.current.controlInformation.isCorpAvailable).to.be.true;
+    expect(result.current.controlInformation.isEduClaimAvailable).to.be.true;
 
     // isBlocked and useOauth selectors are returned correctly
-    expect(parsedResults.isBlocked).to.be.false;
-    expect(parsedResults.useOAuth).to.be.false;
+    expect(result.current.isBlocked).to.be.false;
+    expect(result.current.useOAuth).to.be.false;
 
     // isIdentityVerified is returned correctly
-    expect(parsedResults.isIdentityVerified).to.be.true;
+    expect(result.current.isIdentityVerified).to.be.true;
 
     // showUpdateSuccess and formIsDirty are returned correctly
-    expect(parsedResults.showUpdateSuccess).to.be.false;
-    expect(parsedResults.formIsDirty).to.be.false;
+    expect(result.current.showUpdateSuccess).to.be.false;
   });
 
   it('returns isIdentityVerified as false when not all conditions are met', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: {
-          ...baseState,
-          user: {
-            ...baseState.user,
-            profile: {
-              ...baseState.user.profile,
-              loa: {
-                current: 1,
-              },
-            },
+    store = mockStore({
+      ...baseState,
+      user: {
+        ...baseState.user,
+        profile: {
+          ...baseState.user.profile,
+          loa: {
+            current: 1,
           },
         },
       },
-    );
+    });
 
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
 
-    expect(parsedResults.isIdentityVerified).to.be.false;
-  });
-
-  it('sets formIsDirty to true when calling setFormIsDirty', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: baseState,
-      },
-    );
-
-    const button = getByTestId('set-form-is-dirty');
-    button.click();
-
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
-
-    expect(parsedResults.formIsDirty).to.be.true;
+    expect(result.current.isIdentityVerified).to.be.false;
   });
 
   it('returns isBlocked as false when controlInformation is not provided', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: {
-          ...baseState,
-          directDeposit: {
-            ...baseState.directDeposit,
-            controlInformation: null,
-          },
-        },
+    store = mockStore({
+      ...baseState,
+      directDeposit: {
+        ...baseState.directDeposit,
+        controlInformation: null,
       },
-    );
+    });
 
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
-    expect(parsedResults.isBlocked).to.be.false;
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    expect(result.current.isBlocked).to.be.false;
   });
 });

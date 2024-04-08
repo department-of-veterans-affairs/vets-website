@@ -26,6 +26,13 @@ export const reply403 = req => {
   });
 };
 
+export const customButtonGroupContinue = (buttonText = 'Continue') => {
+  cy.get('va-button[data-testid="custom-button-group-button"]')
+    .shadow()
+    .find(`button:contains("${buttonText}")`)
+    .click();
+};
+
 export const navigateToDebtSelection = () => {
   cy.get('#start-option-0').click();
   cy.get('#reconsider-option-2').click();

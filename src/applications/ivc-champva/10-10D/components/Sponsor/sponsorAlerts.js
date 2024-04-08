@@ -1,8 +1,7 @@
 import React from 'react';
 // import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-const blankSchema = { type: 'object', properties: {} };
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 
 export const homelessInfo = {
   uiSchema: {

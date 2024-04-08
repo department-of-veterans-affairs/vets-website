@@ -8,7 +8,6 @@ import {
   questionAboutDescriptions,
   questionAboutLabels,
 } from '../../../constants';
-// import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const questionAboutPage = {
   uiSchema: {

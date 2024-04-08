@@ -10,6 +10,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import Prescriptions from '../../containers/Prescriptions';
+import { medicationsUrls } from '../../util/constants';
 
 describe('Medications Prescriptions container', () => {
   const initialState = {
@@ -24,7 +25,7 @@ describe('Medications Prescriptions container', () => {
       },
       breadcrumbs: {
         list: [
-          { url: '/my-health/medications/about' },
+          { url: medicationsUrls.MEDICATIONS_ABOUT },
           { label: 'About medications' },
         ],
       },
@@ -62,7 +63,7 @@ describe('Medications Prescriptions container', () => {
         },
         breadcrumbs: {
           list: [
-            { url: '/my-health/medications/about' },
+            { url: medicationsUrls.MEDICATIONS_ABOUT },
             { label: 'About medications' },
           ],
         },
@@ -106,7 +107,7 @@ describe('Medications Prescriptions container', () => {
           },
           breadcrumbs: {
             list: [
-              { url: '/my-health/medications/about' },
+              { url: medicationsUrls.MEDICATIONS_ABOUT },
               { label: 'About medications' },
             ],
           },
@@ -140,7 +141,7 @@ describe('Medications Prescriptions container', () => {
           },
           breadcrumbs: {
             list: [
-              { url: '/my-health/medications/about' },
+              { url: medicationsUrls.MEDICATIONS_ABOUT },
               { label: 'About medications' },
             ],
           },
@@ -174,7 +175,7 @@ describe('Medications Prescriptions container', () => {
             },
             breadcrumbs: {
               list: [
-                { url: '/my-health/medications/about' },
+                { url: medicationsUrls.MEDICATIONS_ABOUT },
                 { label: 'About medications' },
               ],
             },

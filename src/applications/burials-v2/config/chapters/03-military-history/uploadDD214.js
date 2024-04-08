@@ -35,7 +35,7 @@ export default {
   },
   schema: {
     type: 'object',
-    // required: ['militarySeparationDocuments'],
+    required: ['militarySeparationDocuments'],
     properties: {
       militarySeparationDocuments: {
         ...files,

@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Receives income',
+  path: 'financial/receives-income',
   uiSchema: {
     ...titleUI('Gross monthly income'),
     receivesIncome: yesNoUI({
