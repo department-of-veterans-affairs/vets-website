@@ -264,3 +264,12 @@
     gap: 1.5rem;
   }
 }
+
+va-checkbox#select-all-checkbox::part(label) {
+  font-weight: bold;
+
+  &::before {
+    box-shadow: var(--vads-color-base-dark) 0px 0px 0px 1px;
+    margin-left: 1px;
+  }
+}
