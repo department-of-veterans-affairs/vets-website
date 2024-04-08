@@ -20,10 +20,7 @@ function createPayload(file, _formId, password) {
 }
 
 export const burialUploadUI = content => {
-  // a11y focus management. Move focus to select after upload
-  // see va.gov-team/issues/19688
   const findAndFocusLastSelect = () => {
-    // focus on last document type select since all new uploads are appended
     const lastSelect = [...document.querySelectorAll('select')].slice(-1);
     if (lastSelect.length) {
       focusElement(lastSelect[0]);
@@ -58,15 +55,7 @@ export const burialUploadUI = content => {
       'ui:title': 'Document type',
       'ui:disabled': false,
       'ui:webComponentField': VaSelectField,
-      'ui:options': {
-        // (The following comes from this implementation in applications/appeals/995):
-        // TO DO: not implemented - see vets-design-system-documentation #2587;
-        // Need to get file name from within element with ID of fileId
-        // 'message-aria-describedby': // ???
-      },
     }),
-    // hideOnReview: true,
-    // attachmentName: true,
     uswds: true,
   });
 };
