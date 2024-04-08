@@ -7,7 +7,7 @@ const suggestedAddress = (state = initialState, action) => {
   if (action.type === SET_SUGGESTED_ADDRESS_PICKED) {
     return {
       ...state,
-      isSuggestedAddressPicked: true,
+      isSuggestedAddressPicked: action.payload,
     };
   }
   return state;

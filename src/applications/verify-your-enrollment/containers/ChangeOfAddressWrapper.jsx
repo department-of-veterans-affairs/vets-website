@@ -14,7 +14,7 @@ import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
-import { validateAddress } from '../actions';
+import { handleSuggestedAddressPicked, validateAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
@@ -115,6 +115,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       setEditFormData({});
       sessionStorage.removeItem('address');
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      dispatch(handleSuggestedAddressPicked(false));
     },
     [dispatch, error, response, validationError],
   );

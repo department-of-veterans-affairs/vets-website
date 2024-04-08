@@ -2,6 +2,14 @@ import { expect } from 'chai';
 import addressReducer from '../../reducers/addressValidation';
 
 describe('addressReducer', () => {
+  it('should return the initial state', () => {
+    expect(addressReducer(undefined, {})).to.deep.equal({
+      isLoadingValidateAddress: false,
+      validationError: null,
+      validationSuccess: false,
+      addressValidationData: null,
+    });
+  });
   it('should handle ADDRESS_VALIDATION_START', () => {
     const initialState = {
       isLoadingValidateAddress: false,
@@ -60,7 +68,7 @@ describe('addressReducer', () => {
   it('should handle RESET_ADDRESS_VALIDATIONS', () => {
     const initialState = {
       isLoadingValidateAddress: true,
-      validationError: 'Validation error',
+      validationError: null,
       validationSuccess: true,
       addressValidationData: { address: '123 Main St' },
     };
@@ -73,7 +81,16 @@ describe('addressReducer', () => {
     expect(newState.validationSuccess).to.be.false;
     expect(newState.addressValidationData).to.be.null;
   });
-
+  it('Should handle RESET_ADDRESS_VALIDATIONS_ERROR', () => {
+    const initialState = {
+      validationError: 'some error',
+    };
+    const action = {
+      type: 'RESET_ADDRESS_VALIDATIONS_ERROR',
+    };
+    const newState = addressReducer(initialState, action);
+    expect(newState.validationError).to.be.null;
+  });
   it('should return the current state for unknown action types', () => {
     const initialState = {
       isLoadingValidateAddress: false,

@@ -11,6 +11,7 @@ const Alert = ({ status, title, message }) => {
       const timer = setTimeout(() => {
         dispatch({ type: 'RESET_ERROR' });
         dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
+        dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
       }, 15000);
       return () => clearTimeout(timer);
     },
