@@ -87,5 +87,6 @@ describe('re-save multiple drafts in one thread', () => {
       'include.text',
       Data.MESSAGE_WAS_SAVED,
     );
+    landingPage.verifyNotForPrintHeaderText();
   });
 });
