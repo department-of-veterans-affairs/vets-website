@@ -19,14 +19,8 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: [
-      'veteran-minimal-test',
-      'veteran-maximal-test',
-      'surviving-minimal-test',
-      'surviving-maximal-test',
-      'third-party-veteran-minimal-test',
-      'third-party-veteran-maximal-test',
-      'third-party-surviving-minimal-test',
-      'third-party-surviving-maximal-test',
+      'veteran-active-compensation-minimal-test',
+      'veteran-active-compensation-maximal-test',
     ],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
@@ -83,6 +77,12 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '**/get_intents_to_file', {
+        compensationIntent: {
+          expirationDate: '2025-01-30T17:56:30.512Z',
+          status: 'active',
+        },
+      });
       cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
 
