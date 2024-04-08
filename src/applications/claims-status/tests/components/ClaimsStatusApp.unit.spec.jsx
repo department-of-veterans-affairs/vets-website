@@ -1,9 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
-import { AppContent } from '../../containers/ClaimsStatusApp';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { AppContent, ClaimsStatusApp } from '../../containers/ClaimsStatusApp';
 
 describe('<AppContent>', () => {
   it('should render loading indicator if feature toggles are not available', () => {
@@ -30,5 +32,35 @@ describe('<AppContent>', () => {
 
     expect(screen.queryByTestId('feature-flags-loading')).to.not.exist;
     expect(screen.queryByTestId('children')).to.exist;
+  });
+
+  it.skip('should render ClaimsStatusApp', () => {
+    const props = {
+      dispatchSetLastPage: sinon.spy(),
+      featureFlagsLoading: false,
+      user: {
+        login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
+        profile: {
+          services: [
+            backendServices.EVSS_CLAIMS,
+            backendServices.APPEALS_STATUS,
+            backendServices.LIGHTHOUSE,
+          ],
+        },
+      },
+    };
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<ClaimsStatusApp {...props} />}>
+            <Route index element={<div data-testid="children" />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByTestId('feature-flags-loading')).to.not.exist;
+    expect(screen.queryByTestId('children')).to.exist;
+    expect(props.dispatchSetLastPage.called).to.be.false;
   });
 });
