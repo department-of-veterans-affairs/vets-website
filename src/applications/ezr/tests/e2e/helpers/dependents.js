@@ -19,7 +19,8 @@ export const advanceToDependents = () => {
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
-
+  goToNextPage('/military-service/toxic-exposure');
+  selectYesNoWebComponent('hasTeraResponse', false);
   goToNextPage('/household-information/marital-status');
   selectDropdownWebComponent(
     'view:maritalStatus_maritalStatus',
