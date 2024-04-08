@@ -46,15 +46,6 @@ function isBetween18And23(childDOB) {
   );
 }
 
-// Checks to see if they’re under 17.75 years old
-function isEligibleForDisabilitySupport(childDOB) {
-  return moment()
-    .startOf('day')
-    .subtract(17, 'years')
-    .subtract(9, 'months')
-    .isBefore(childDOB);
-}
-
 /** @type {PageSchema} */
 export default {
   path: 'household/dependents/children/information/:index',
@@ -108,14 +99,8 @@ export default {
         },
         disabled: yesNoUI({
           title: 'Is your child seriously disabled?',
-          hideIf: (formData, index) =>
-            !isEligibleForDisabilitySupport(
-              get(['dependents', index, 'childDateOfBirth'], formData),
-            ),
           required: (formData, index) =>
-            isEligibleForDisabilitySupport(
-              get(['dependents', index, 'childDateOfBirth'], formData),
-            ),
+            get(['dependents', index, 'childDateOfBirth'], formData),
         }),
         'view:disabilityDocs': {
           'ui:description': DisabilityDocsAlert,
@@ -127,9 +112,7 @@ export default {
           'ui:description': DependentSeriouslyDisabledDescription,
           'ui:options': {
             hideIf: (formData, index) =>
-              !isEligibleForDisabilitySupport(
-                get(['dependents', index, 'childDateOfBirth'], formData),
-              ),
+              get(['dependents', index, 'childDateOfBirth'], formData),
           },
         },
         previouslyMarried: yesNoUI({
