@@ -145,10 +145,8 @@ class PatientReplyPage {
     }
   };
 
-  verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
-    cy.get('[data-testid="reply-form"]')
-      .find('h2')
-      .should('have.text', "We can't save this message yet");
+  verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {
+    cy.contains("We can't save this message yet").should('be.visible');
 
     cy.contains('Continue editing').should('be.visible');
     cy.contains('Delete draft').should('be.visible');

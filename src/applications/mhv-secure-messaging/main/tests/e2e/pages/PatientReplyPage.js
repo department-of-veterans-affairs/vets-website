@@ -146,7 +146,7 @@ class PatientReplyPage {
   };
 
   verifyModalMessageDisplayAndButtonsCantSaveDraft = () => {
-    cy.get('#heading').should('have.text', "We can't save this message yet");
+    cy.contains("We can't save this message yet").should('be.visible');
 
     cy.contains('Continue editing').should('be.visible');
     cy.contains('Delete draft').should('be.visible');
