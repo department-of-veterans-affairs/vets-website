@@ -32,8 +32,7 @@ class MedicationsRefillPage {
       });
   };
 
-  
-  https://stackoverflow.com/questions/19540289/how-to-fix-the-java-security-cert-certificateexception-no-subject-alternative/19542614#19542614sButtonExists = numberOfRefills => {
+  verifyRequestRefillsButtonExists = numberOfRefills => {
     cy.get('[data-testid="request-refill-button"]')
       .shadow()
       .find('[type ="button"]', { force: true })
