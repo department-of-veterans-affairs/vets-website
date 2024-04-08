@@ -31,7 +31,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const address = addressValidationData?.addresses[0]?.address;
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
-
+  const addressType =
+    addressValidationData?.addresses[0]?.addressMetaData?.addressType;
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
@@ -113,8 +114,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setEditFormData({});
       sessionStorage.removeItem('address');
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     },
-    [error, response, validationError],
+    [dispatch, error, response, validationError],
   );
 
   useEffect(
@@ -223,7 +225,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 || suggestedAddressPicked ? (
+            {suggestedAddressPicked ||
+            confidenceScore < (addressType === 'International' ? 96 : 100) ? (
               <SuggestedAddress
                 formData={editFormData}
                 address={JSON.parse(sessionStorage.getItem('address'))}
