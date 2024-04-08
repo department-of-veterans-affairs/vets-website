@@ -50,7 +50,7 @@ const DischargeType = ({
         router={router}
         setFormError={setFormError}
         shortName={shortName}
-        testId="duw-discharge-type"
+        testId="duw-discharge_type"
         valueSetter={setDischargeType}
       />
     </div>

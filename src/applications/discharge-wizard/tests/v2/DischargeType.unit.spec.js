@@ -53,19 +53,19 @@ const propsNoIntroPage = {
   viewedIntroPage: false,
 };
 
-describe('Court Martial Page', () => {
+describe('Discharge Type Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the court martial page in the standard flow', () => {
+  it('should correctly load the discharge type page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
         <DischargeType {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-court_martial')).to.exist;
+    expect(screen.getByTestId('duw-discharge_type')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
