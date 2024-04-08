@@ -13,7 +13,6 @@ import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeter
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
-import vaEmployeePage from '../chapters/personalInformation/vaEmployee';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
@@ -70,11 +69,6 @@ const ch3Pages = {
     title: CHAPTER_3.WHO_QUES_IS_ABOUT.TITLE,
     uiSchema: whoQuestionAboutPage.uiSchema,
     schema: whoQuestionAboutPage.schema,
-  },
-  vaEmployee: {
-    title: CHAPTER_3.VA_EMPLOYEE.TITLE,
-    uiSchema: vaEmployeePage.uiSchema,
-    schema: vaEmployeePage.schema,
   },
   aboutYourself: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
@@ -161,7 +155,6 @@ export const flowPages = (obj, list, path) => {
 
 // Form flows
 const myOwnBenVet = [
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourPhoneAndEmail',
@@ -183,7 +176,6 @@ const myOwnBenFam = [
   'veteranDeceased',
   'dateOfDeath',
   'veteransAddressZip',
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourPhoneAndEmail',
@@ -199,7 +191,6 @@ export const myOwnBenFamPages = flowPages(
 );
 
 const someoneElseBenVet = [
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -229,7 +220,6 @@ const someoneElseBenFam = [
   'aboutYourRelationshipToFamilyMember',
   'yourPhoneAndEmail',
   'searchVAMedicalCenter',
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -261,7 +251,6 @@ const someoneElseBen3rdParty = [
   'dateOfDeath',
   'veteransAddressZip',
   'searchVAMedicalCenter',
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -282,7 +271,6 @@ const someoneElseBen3rdPartyEducation = [
   'dateOfDeath',
   'veteransAddressZip',
   'searchVAMedicalCenter',
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -297,7 +285,6 @@ export const someoneElseBen3rdPartyEducationPages = flowPages(
 );
 
 const generalQuestion = [
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourPhoneAndEmail',

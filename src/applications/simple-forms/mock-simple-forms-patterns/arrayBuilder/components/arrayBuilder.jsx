@@ -15,26 +15,7 @@ import ArrayBuilderCards from './ArrayBuilderCards';
 /**
  * @typedef {Object} ArrayBuilderPages
  * @property {function(FormConfigPage): FormConfigPage} summaryPage Summary page which includes Cards with edit/remove, and the Yes/No field
- * @property {function(FormConfigPage): FormConfigPage} [itemFirstPage] First page for the item
- * @property {function(FormConfigPage): FormConfigPage} [itemMiddlePage] A page between the first and last page for the item
- * @property {function(FormConfigPage): FormConfigPage} [itemLastPage] Last page for the item that will navigate back to the summary page
- * @property {function(FormConfigPage): FormConfigPage} [itemSinglePage] Use this if there's only one page
- */
-
-/**
- * @typedef {Object} ArrayBuilderCards
- * @property {(item) => string | JSX.Element} [description]
- * @property {(item) => boolean} [isItemIncomplete]
- */
-
-/**
- * @typedef {Object} ArrayBuilderCancel
- * @property {string} [title]
- */
-
-/**
- * @typedef {Object} ArrayBuilderRemove
- * @property {string} [title]
+ * @property {function(FormConfigPage): FormConfigPage} [itemPage] A repeated page corresponding to an item
  */
 
 /**
@@ -52,14 +33,12 @@ import ArrayBuilderCards from './ArrayBuilderCards';
  * nounSingular: "employer"
  * nounPlural: "employers"
  * ```
- * @property  {(item) => string} [getItemName] Used to get the name of the item for various text content. Defaults to `item => item?.name`
  * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. e.g. `item => !item?.name`
  * @property {string} [reviewPath] Will default to the last page. Specify this to manually set it e.g. `"/review-and-submit"`
  * @property {{
- *   cards?: ArrayBuilderCards,
- *   cancel?: ArrayBuilderCancel,
- *   remove?: ArrayBuilderRemove,
- * }} [customContent]
+ *   getItemName?: (item) => string | JSX.Element,
+ *   cardDescription?: (item) => string,
+ * }} [text] optional text overrides
  */
 
 function throwErrorPage(pageType, option) {
@@ -139,16 +118,13 @@ export function getPageAfterPageKey(pageList, pageKey) {
  *       arrayPath: 'employers',
  *       nounSingular: 'employer',
  *       nounPlural: 'employers',
- *       getItemName: item => item.name,
-         isItemIncomplete: item => !item?.name,
-         maxItems: 5,
-         customContent: {
-           cards: {
-             description: item => `${item?.dateStart} - ${item?.dateEnd}`,
-           },
-           cancel: {},
-           remove: {},
-         },
+ *       isItemIncomplete: item => !item?.name,
+ *       maxItems: 5,
+ *       text: {
+ *         getItemName: item => item.name,
+ *         cardDescription: item => `${item?.dateStart} - ${item?.dateEnd}`,
+ *         ...you can override any of the text content
+ *       },
  *     },
  *     pageBuilder => ({
  *       mySummaryPage: pageBuilder.summaryPage({
@@ -157,13 +133,13 @@ export function getPageAfterPageKey(pageList, pageKey) {
  *         uiSchema: ...,
  *         schema: ...,
  *       }),
- *       myItemPageOne: pageBuilder.itemFirstPage({
+ *       myItemPageOne: pageBuilder.itemPage({
  *         title: 'Name of employer',
  *         path: 'employers/:index/name',
  *         uiSchema: ...,
  *         schema: ...,
  *       }),
- *       myItemPageTwo: pageBuilder.itemLastPage({
+ *       myItemPageTwo: pageBuilder.itemPage({
  *         title: 'Address of employer',
  *         path: 'employers/:index/address',
  *         uiSchema: ...,
@@ -175,19 +151,16 @@ export function getPageAfterPageKey(pageList, pageKey) {
  * ```
  *
  * - Use `pageBuilder.summaryPage` for the summary page with the yes/no question and the cards
- * - Use `pageBuilder.itemFirstPage` for the first page of the item
- * - Use `pageBuilder.itemMiddlePage` for any pages between the first and last page
- * - Use `pageBuilder.itemLastPage` for the last page of the item
- * - Use `pageBuilder.itemSinglePage` if there's only one page
+ * - Use `pageBuilder.itemPage` for a page that will be repeated for each item
  *
  * @param {ArrayBuilderOptions} options
  * @param {(pageBuilder: ArrayBuilderPages) => FormConfigChapter} pageBuilderCallback
  * @returns {FormConfigChapter}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
-  let itemFirstPagePath;
   let summaryPath;
   let hasItemsKey;
+  const itemPages = [];
 
   if (
     !options ||
@@ -212,11 +185,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
-    customContent = {},
+    text = {},
     reviewPath,
   } = options;
-
-  const { cancel = {}, remove = {}, cards = {} } = customContent;
 
   /**
    * @type {{
@@ -236,29 +207,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }
       return pageConfig;
     },
-    itemFirstPage: pageConfig => {
+    itemPage: pageConfig => {
       if (!pageConfig?.path.includes('/:index')) {
         throwIncorrectItemPath();
       }
-      itemFirstPagePath = pageConfig.path;
-      return pageConfig;
-    },
-    itemMiddlePage: pageConfig => {
-      if (!pageConfig?.path.includes('/:index')) {
-        throwIncorrectItemPath();
-      }
-      return pageConfig;
-    },
-    itemLastPage: pageConfig => {
-      if (!pageConfig?.path.includes('/:index')) {
-        throwIncorrectItemPath();
-      }
-      return pageConfig;
-    },
-    itemSinglePage: pageConfig => {
-      if (!pageConfig?.path.includes('/:index')) {
-        throwIncorrectItemPath();
-      }
+      itemPages.push(pageConfig);
       return pageConfig;
     },
   };
@@ -266,6 +219,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   // Verify and setup any initial page options
   const testConfig = pageBuilderCallback(pageBuilderVerifyAndSetup);
   const pageKeys = Object.keys(testConfig);
+  const firstItemPagePath = itemPages?.[0]?.path;
+  const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
   const itemLastPageKey = pageKeys?.[pageKeys.length - 1];
 
   // Didn't throw error so success: Validated and setup success
@@ -280,12 +235,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   const SummaryCards = (
     <ArrayBuilderCards
-      cardDescription={cards?.description || undefined}
+      cardDescription={text?.cardDescription || undefined}
       arrayPath={arrayPath}
       nounSingular={nounSingular}
       nounPlural={nounPlural}
-      isIncomplete={cards?.isItemIncomplete}
-      editItemPathUrl={itemFirstPagePath}
+      isIncomplete={isItemIncomplete}
+      editItemPathUrl={firstItemPagePath}
     />
   );
 
@@ -300,30 +255,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     depends: formData =>
       (depends ? depends(formData) : true) &&
       (formData[hasItemsKey] || formData[arrayPath]?.length > 0),
-  });
-
-  /**
-   * @param {UISchemaOptions} uiSchema
-   * @param {SchemaOptions} schema
-   * @returns {FormConfigPage}
-   */
-  const commonItemSchemas = (uiSchema, schema) => ({
-    uiSchema: {
-      [arrayPath]: {
-        items: uiSchema,
-      },
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        [arrayPath]: {
-          type: 'array',
-          minItems,
-          maxItems,
-          items: schema,
-        },
-      },
-    },
   });
 
   /** @type {FormConfigPage['onNavForward']} */
@@ -358,7 +289,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     if (formData[hasItemsKey]) {
       const index = formData[arrayPath] ? formData[arrayPath].length : 0;
       const path = createArrayBuilderItemAddPath({
-        path: itemFirstPagePath,
+        path: firstItemPagePath,
         index,
       });
       goPath(path);
@@ -367,6 +298,16 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       goPath(nextPage?.path);
     }
   };
+
+  function getNavItem(path) {
+    const onNavBack =
+      firstItemPagePath === path ? navBackFirstItem : onNavBackKeepUrlParams;
+    const onNavForward =
+      lastItemPagePath === path
+        ? navForwardFinishedItem
+        : onNavForwardKeepUrlParams;
+    return { onNavBack, onNavForward };
+  }
 
   pageBuilder.summaryPage = pageConfig => {
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
@@ -383,59 +324,46 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
-  pageBuilder.itemFirstPage = pageConfig => {
+  pageBuilder.itemPage = pageConfig => {
     const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredPropsPageConfig('itemFirstPage', requiredOpts, pageConfig);
+    const { onNavBack, onNavForward } = getNavItem(pageConfig.path);
 
     return {
-      ...commonItemPageConfig(depends),
-      onNavBack: navBackFirstItem,
-      onNavForward: onNavForwardKeepUrlParams,
+      showPagePerItem: true,
+      allowPathWithNoItems: true,
+      arrayPath,
+      CustomPage: ArrayBuilderItemPage({
+        arrayPath,
+        nounSingular,
+        nounPlural,
+        summaryRoute: summaryPath,
+      }),
+      CustomPageReview: () => null,
+      customPageUsesPagePerItemData: true,
+      depends: formData =>
+        (depends ? depends(formData) : true) &&
+        (formData[hasItemsKey] || formData[arrayPath]?.length > 0),
+      onNavBack,
+      onNavForward,
       ...restPageConfig,
-      ...commonItemSchemas(restPageConfig.uiSchema, restPageConfig.schema),
-    };
-  };
-
-  pageBuilder.itemMiddlePage = pageConfig => {
-    const { depends, ...restPageConfig } = pageConfig;
-    const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
-    verifyRequiredPropsPageConfig('itemMiddlePage', requiredOpts, pageConfig);
-
-    return {
-      ...commonItemPageConfig(depends),
-      onNavBack: onNavBackKeepUrlParams,
-      onNavForward: onNavForwardKeepUrlParams,
-      ...restPageConfig,
-      ...commonItemSchemas(restPageConfig.uiSchema, restPageConfig.schema),
-    };
-  };
-
-  pageBuilder.itemSinglePage = pageConfig => {
-    const { depends, ...restPageConfig } = pageConfig;
-    const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
-    verifyRequiredPropsPageConfig('itemSinglePage', requiredOpts, pageConfig);
-
-    return {
-      ...commonItemPageConfig(depends),
-      onNavBack: navBackFirstItem,
-      onNavForward: navForwardFinishedItem,
-      ...restPageConfig,
-      ...commonItemSchemas(restPageConfig.uiSchema, restPageConfig.schema),
-    };
-  };
-
-  pageBuilder.itemLastPage = pageConfig => {
-    const { depends, ...restPageConfig } = pageConfig;
-    const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
-    verifyRequiredPropsPageConfig('itemLastPage', requiredOpts, pageConfig);
-
-    return {
-      ...commonItemPageConfig(depends),
-      onNavBack: onNavBackKeepUrlParams,
-      onNavForward: navForwardFinishedItem,
-      ...restPageConfig,
-      ...commonItemSchemas(restPageConfig.uiSchema, restPageConfig.schema),
+      uiSchema: {
+        [arrayPath]: {
+          items: pageConfig.uiSchema,
+        },
+      },
+      schema: {
+        type: 'object',
+        properties: {
+          [arrayPath]: {
+            type: 'array',
+            minItems,
+            maxItems,
+            items: pageConfig.schema,
+          },
+        },
+      },
     };
   };
 

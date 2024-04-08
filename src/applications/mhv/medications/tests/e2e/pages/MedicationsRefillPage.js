@@ -9,7 +9,7 @@ class MedicationsRefillPage {
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
-    );
+    ).as('refillList');
   };
 
   verifyRefillPageTitle = () => {
@@ -99,6 +99,135 @@ class MedicationsRefillPage {
       'contain',
       'Last refill shipped on September 24, 2023',
     );
+  };
+
+  verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = checkBox => {
+    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
+      'be.enabled',
+    );
+  };
+
+  verifyActiveRxStatusOnRefillPage = status => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[5].attributes).to.include({
+          refillStatus: status,
+        });
+      });
+  };
+
+  verifyRefillsRemainingForActiveRxOnRefillPage = (
+    prescription,
+    refillsRemaining,
+  ) => {
+    cy.get(
+      `[data-testid="refill-prescription-details-${prescription}"]`,
+    ).should('contain', refillsRemaining);
+  };
+
+  verifyActiveParkedRxWithRefillsRemainingIsRefillableOnRefillPage = () => {
+    cy.get('[data-testid="refill-prescription-checkbox-1"]').should(
+      'be.enabled',
+    );
+  };
+
+  verifyActiveParkedRxWithRefillsStatus = status => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[8].attributes).to.include({
+          refillStatus: status,
+        });
+      });
+  };
+
+  verifyRefillsRemainingForActiveParkedRxOnRefillPage = (
+    prescription,
+    refillsRemaining,
+  ) => {
+    cy.get(
+      `[data-testid="refill-prescription-details-${prescription}"]`,
+    ).should('contain', refillsRemaining);
+  };
+
+  verifyRxRenewSectionSubHeadingOnRefillPage = () => {
+    cy.get('[data-testid="renew-section-subtitle"]').should(
+      'contain',
+      'prescription isn’t ready',
+    );
+  };
+
+  clickMedicationInRenewSection = (prescription, listNumber) => {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00013264681',
+      prescription,
+    ).as('rxImage');
+    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).should(
+      'exist',
+    );
+    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyExpiredRxOnRenewSection = rxStatus => {
+    cy.get('[data-testid="status"]').should('contain', rxStatus);
+  };
+
+  verifyActiveParkedZeroRefillStatus = rxStatus => {
+    cy.get('[data-testid="status"]').should('contain', rxStatus);
+  };
+
+  verifyActiveParkedZeroRefillsDispenseDate = activeParkedRx => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[11].attributes).to.include({
+          dispensedDate: activeParkedRx,
+        });
+      });
+  };
+
+  verifyRefillsRemainingForActiveParkedZeroRefills = refills => {
+    cy.get('[data-testid="refills-left"]').should('contain', refills);
+  };
+
+  verifyActiveRxZeroRefillsStatus = status => {
+    cy.get('[data-testid="status"]').should('contain', status);
+  };
+
+  verifyRefillsRemainingForActiveRxZeroRefills = refills => {
+    cy.get('[data-testid="refills-left"]').should('contain', refills);
+  };
+
+  verifyActiveRxZeroRefillsNoDispenseDateIsRefillableOnRefillPage = checkBox => {
+    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
+      'be.enabled',
+    );
+  };
+
+  verifyNullDispenseDateForActiveParkedZeroRefills = (
+    activeParkedRx = null,
+  ) => {
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[9].attributes).to.include({
+          dispensedDate: activeParkedRx,
+        });
+      });
+  };
+
+  verifyRefillRemainingForActiveParkedRxZeroRefills = (
+    prescription,
+    refillsRemaining = 0,
+  ) => {
+    cy.get(
+      `[data-testid="refill-prescription-details-${prescription}"]`,
+    ).should('contain', refillsRemaining);
   };
 }
 
