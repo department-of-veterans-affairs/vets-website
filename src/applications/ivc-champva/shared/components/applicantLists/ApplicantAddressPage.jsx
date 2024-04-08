@@ -3,6 +3,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { applicantWording } from '../../utilities';
 
 export function ApplicantAddressCopyPage({
@@ -115,6 +116,15 @@ export function ApplicantAddressCopyPage({
 
   useEffect(
     () => {
+      const shadowSelect = $('va-select')?.shadowRoot;
+      if (shadowSelect) {
+        /* This adds padding to the .usa-select class inside the shadow dom,
+        which prevents long <option> text from overlapping the expansion arrow
+        on the right side of the <select>. (Needed for accessibility audit) */
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync('.usa-select {padding-right: 3rem}');
+        shadowSelect.adoptedStyleSheets.push(sheet);
+      }
       if (dirty) handlers.validate();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
