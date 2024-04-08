@@ -62,6 +62,7 @@ import {
   applicantHasPrimarySchema,
   applicantPrimaryProviderSchema,
   applicantPrimaryEffectiveDateSchema,
+  applicantPrimaryExpirationDateSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -347,6 +348,18 @@ const formConfig = {
             } insurance effective date`,
           uiSchema: applicantPrimaryEffectiveDateSchema.uiSchema,
           schema: applicantPrimaryEffectiveDateSchema.schema,
+        },
+        primaryExpiration: {
+          path: ':index/primary-expiration-date',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } insurance expiration date`,
+          uiSchema: applicantPrimaryExpirationDateSchema.uiSchema,
+          schema: applicantPrimaryExpirationDateSchema.schema,
         },
       },
     },

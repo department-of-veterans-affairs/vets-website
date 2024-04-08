@@ -72,3 +72,28 @@ export const applicantPrimaryEffectiveDateSchema = {
     applicantPrimaryEffectiveDate: currentOrPastDateSchema,
   }),
 };
+
+export const applicantPrimaryExpirationDateSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        ...titleUI(
+          ({ formData }) =>
+            `${applicantWording(formData)} ${
+              formData?.applicantPrimaryProvider
+            } insurance expiration date`,
+        ),
+        applicantPrimaryExpirationDate: currentOrPastDateUI(
+          'Health insurance expiration date',
+        ),
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantPrimaryExpirationDate'], {
+    titleSchema,
+    applicantPrimaryExpirationDate: currentOrPastDateSchema,
+  }),
+};
