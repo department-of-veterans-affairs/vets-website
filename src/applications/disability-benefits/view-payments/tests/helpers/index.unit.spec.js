@@ -43,7 +43,7 @@ describe('helper functions', () => {
   describe('formatDate', () => {
     context('when given a valid date in the correct format', () => {
       it('returns a date in the correct format', () => {
-        const inputs = ['2019-04-12T00:00:00.000-06:00', '2019-04-12'];
+        const inputs = ['2019-04-12T00:00:00.000-03:00', '2019-04-12'];
 
         for (const input of inputs) {
           const output = formatDate(input);
@@ -74,7 +74,7 @@ describe('helper functions', () => {
   describe('isValidDate', () => {
     context('when given a valid date', () => {
       it('returns ’true’', () => {
-        const inputs = ['2019-04-12T00:00:00.000-06:00', '2019-04-12'];
+        const inputs = ['2019-04-12T00:00:00.000-03:00', '2019-04-12'];
 
         for (const input of inputs) {
           const output = isValidDate(input);
