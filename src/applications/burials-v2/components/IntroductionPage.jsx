@@ -10,7 +10,7 @@ const IntroductionPage = ({ route }) => {
   }, []);
 
   return (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--6">
       <FormTitle title="Apply for burial benefits" />
       <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg3">
         VA Form 21P-530
@@ -101,7 +101,7 @@ const IntroductionPage = ({ route }) => {
         downtime={route.formConfig.downtime}
         startText="Start the Burial Benefits Application"
       />
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <div className="omb-info--container vads-u-margin-top--3 vads-u-padding-left--0">
         <va-omb-info
           res-burden={30}
           omb-number="2900-0003"
