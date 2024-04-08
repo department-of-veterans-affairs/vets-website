@@ -13,17 +13,14 @@ const PROPERTY_NAMES = {
 
 function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `Do ${
-    bp.useFirstPerson ? 'you' : `${bp.applicant}`
+  const prompt = `Does ${
+    bp.applicant
   } have other health insurance to add or update?`;
-
   return {
     ...bp,
     options: yesNoOptions,
     relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
-    customTitle: `${
-      bp.useFirstPerson ? `Your` : `${bp.applicant}’s`
-    } primary health insurance`,
+    customTitle: `${bp.applicant}’s primary health insurance`,
     description: prompt,
   };
 }
