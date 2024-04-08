@@ -314,7 +314,6 @@ function mapStateToProps(state) {
     fullName: state.user.profile.userFullName,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
-    synced: claimsState.claimSync.synced,
   };
 }
 

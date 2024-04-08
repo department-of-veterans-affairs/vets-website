@@ -5,10 +5,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import {
-  applicantWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
+import { additionalFilesHint } from '../helpers/wordingCustomization';
+import { applicantWording } from '../../shared/utilities';
 
 const keyname = 'applicantHasOhi';
 
@@ -19,8 +17,8 @@ function generateOptions({ data, pagePerItemIndex }) {
     false,
   );
 
-  const useFirstPerson =
-    data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
+  // const useFirstPerson =
+  //   data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
 
   const options = [
     {
@@ -34,7 +32,7 @@ function generateOptions({ data, pagePerItemIndex }) {
   ];
   return {
     options,
-    useFirstPerson,
+    useFirstPerson: false,
     applicant,
     keyname,
     description: 'Has other health insurance',

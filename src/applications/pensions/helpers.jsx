@@ -4,11 +4,7 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
-import { createSelector } from 'reselect';
-import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -143,51 +139,6 @@ export function submit(form, formConfig) {
     });
 }
 
-export function isMarried(form = {}) {
-  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
-}
-
-export function getMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `${titleCase(desc)} marriage`;
-}
-
-export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && form.marriages.length - 1 === index) {
-    return 'Current marriage';
-  }
-
-  return getMarriageTitle(index);
-}
-
-export function getDependentChildTitle(item, description) {
-  if (item.fullName) {
-    return `${item.fullName.first || ''} ${item.fullName.last ||
-      ''} ${description}`;
-  }
-  return 'description';
-}
-
-export function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(
-    form =>
-      form.marriages && form.marriages.length
-        ? form.marriages[form.marriages.length - 1].spouseFullName
-        : null,
-    spouseFullName => {
-      if (spouseFullName) {
-        return {
-          title: nameTemplate(spouseFullName),
-        };
-      }
-
-      return {
-        title: null,
-      };
-    },
-  );
-}
-
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 export const DirectDepositWarning = (
@@ -301,9 +252,6 @@ export const IncomeSourceDescription = (
     <p>List the sources of income for you, your spouse, and your dependents.</p>
   </>
 );
-
-export const MarriageTitle = title => <Title title={title} />;
-
 /**
  * Formats a full name from the given first, middle, last, and suffix
  *
@@ -336,3 +284,9 @@ export function isHomeAcreageMoreThanTwo(formData) {
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
   );
 }
+
+export const getJobTitleOrType = item => {
+  if (item?.jobTitle) return item.jobTitle;
+  if (item?.jobType) return item.jobType;
+  return '';
+};

@@ -7,18 +7,19 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateAfterMarriageDate } from '../../../validation';
+import { marriageTypeLabels, separationTypeLabels } from '../../../labels';
 import {
   getMarriageTitleWithCurrent,
   MarriageTitle,
-} from '../../../helpers.jsx';
-import { validateAfterMarriageDate } from '../../../validation';
-import { marriageTypeLabels, separationTypeLabels } from '../../../labels';
-import { isCurrentMarriage } from '../../form';
+  isCurrentMarriage,
+  isMarried,
+} from './helpers';
 
 const dateSchema = {
   pattern: '^\\d{4}-\\d{2}-\\d{2}$',
@@ -27,6 +28,12 @@ const dateSchema = {
 
 /** @type {PageSchema} */
 export default {
+  title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
+    getMarriageTitleWithCurrent(form, pagePerItemIndex),
+  path: 'household/marriages/:index',
+  depends: isMarried,
+  showPagePerItem: true,
+  arrayPath: 'marriages',
   uiSchema: {
     marriages: {
       items: {
@@ -37,7 +44,7 @@ export default {
             };
           },
         },
-        spouseFullName: fullNameUI(title => `Spouse’s ${title}`),
+        spouseFullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
         'view:currentMarriage': {
           'ui:options': {
             hideIf: (form, index) => !isCurrentMarriage(form, index),
@@ -169,7 +176,7 @@ export default {
           type: 'object',
           required: ['spouseFullName'],
           properties: {
-            spouseFullName: fullNameSchema,
+            spouseFullName: fullNameNoSuffixSchema,
             'view:currentMarriage': {
               type: 'object',
               properties: {
