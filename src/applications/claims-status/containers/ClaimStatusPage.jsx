@@ -272,7 +272,7 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -286,7 +286,6 @@ class ClaimStatusPage extends React.Component {
         currentTab="Status"
         loading={loading}
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -303,7 +302,6 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     message: claimsState.notifications.message,
     showClaimLettersLink: showClaimLettersFeature(state),
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -318,7 +316,6 @@ ClaimStatusPage.propTypes = {
   loading: PropTypes.bool,
   message: PropTypes.string,
   showClaimLettersLink: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(
