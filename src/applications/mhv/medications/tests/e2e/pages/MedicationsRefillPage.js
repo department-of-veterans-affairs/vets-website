@@ -194,7 +194,7 @@ class MedicationsRefillPage {
   verifyRxRenewSectionSubHeadingOnRefillPage = () => {
     cy.get('[data-testid="renew-section-subtitle"]').should(
       'contain',
-      'prescription isn’t ready',
+      'If you can’t find the prescription',
     );
   };
 
