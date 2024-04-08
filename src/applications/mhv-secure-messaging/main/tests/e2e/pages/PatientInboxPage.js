@@ -636,6 +636,12 @@ class PatientInboxPage {
       `${text}`,
     );
   };
+
+  verifyNotForPrintHeaderText = (text = 'Messages in this conversation') => {
+    cy.get(Locators.FIELDS.NOT_FOR_PRINT_HEADER)
+      .should('be.visible')
+      .and('contain.text', text);
+  };
 }
 
 export default PatientInboxPage;

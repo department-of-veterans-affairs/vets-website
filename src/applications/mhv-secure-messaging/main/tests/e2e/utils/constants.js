@@ -182,6 +182,7 @@ export const Locators = {
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
+    NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',

@@ -87,8 +87,6 @@ describe('re-save multiple drafts in one thread', () => {
       'include.text',
       Data.MESSAGE_WAS_SAVED,
     );
-    cy.get('[data-testid="not-for-print-header"]')
-      .should('be.visible')
-      .and('contain.text', 'Messages in this conversation');
+    landingPage.verifyNotForPrintHeaderText();
   });
 });
