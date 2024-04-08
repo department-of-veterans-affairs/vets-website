@@ -45,7 +45,7 @@ function transformApplicants(applicants) {
         app?.applicantMedicarePartDCard,
         app?.applicantMedicareIneligibleProof,
         app?.applicantOhiCard,
-        app?.applicant107959c,
+        app?.applicantOtherInsuranceCertification,
         app?.applicantHelplessCert,
       ],
       address: app.applicantAddress ?? '',
@@ -114,11 +114,7 @@ export default function transformForSubmit(formConfig, form) {
       state: transformedData?.certifierAddress?.state || '',
       postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
-    supporting_docs: [
-      transformedData?.sponsorCasualtyReport,
-      transformedData?.sponsorDisabilityRating,
-      transformedData?.sponsorDischargePapers,
-    ],
+    supporting_docs: [],
     // Include everything we originally received
     raw_data: transformedData,
   };

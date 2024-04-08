@@ -7,16 +7,14 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  additionalFilesHint,
-  applicantWording,
-} from '../helpers/wordingCustomization';
+import { applicantWording } from '../../shared/utilities';
+import { additionalFilesHint } from '../helpers/wordingCustomization';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
-import ApplicantField from '../components/Applicant/ApplicantField';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
+import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 
 const KEYNAME = 'applicantSponsorMarriageDetails';
 
@@ -59,6 +57,10 @@ function generateOptions({ data, pagePerItemIndex }) {
         useFirstPerson ? 'my' : relativePossessive
       } 55th birthday`,
       value: 'marriedTillDeathRemarriedAfter55',
+    },
+    {
+      label: `Other relationship`,
+      value: `other`,
     },
   ];
 

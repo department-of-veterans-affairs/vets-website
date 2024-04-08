@@ -1,4 +1,15 @@
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
+import { canHaveEducationExpenses } from './helpers/household';
+import { replaceStrValues } from './helpers/general';
+import content from '../locales/en/content.json';
+
+// declare previous year for form questions and content
+export const LAST_YEAR = new Date().getFullYear() - 1;
+
+// declare API endpoint routes
+export const API_ENDPOINTS = {
+  enrollmentStatus: '/health_care_applications/enrollment_status',
+};
 
 // declare global app URLs for use with content links
 export const APP_URLS = {
@@ -9,6 +20,37 @@ export const APP_URLS = {
   profile: getAppUrl('profile'),
   verify: getAppUrl('verify'),
 };
+
+// declare subpage configs for dependent information page
+export const DEPENDENT_SUBPAGES = [
+  {
+    id: 'basic',
+    title: content['household-dependent-info-basic-title'],
+  },
+  {
+    id: 'additional',
+    title: content['household-dependent-info-addtl-title'],
+  },
+  {
+    id: 'support',
+    title: content['household-dependent-info-support-title'],
+    depends: { cohabitedLastYear: false },
+  },
+  {
+    id: 'income',
+    title: replaceStrValues(
+      content['household-dependent-info-income-title'],
+      LAST_YEAR,
+      '%d',
+    ),
+    depends: { 'view:dependentIncome': true },
+  },
+  {
+    id: 'education',
+    title: content['household-dependent-info-education-title'],
+    depends: canHaveEducationExpenses,
+  },
+];
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
@@ -56,13 +98,11 @@ export const ENROLLMENT_STATUS_INIT_STATE = {
   applicationDate: null,
   enrollmentDate: null,
   preferredFacility: null,
-  enrollmentStatus: null,
-  enrollmentStatusEffectiveDate: null,
+  statusCode: null,
   hasServerError: false,
-  isLoadingApplicationStatus: false,
-  isUserInMVI: false,
-  loginRequired: false,
-  noESRRecordFound: false,
+  loading: false,
+  isUserInMPI: false,
+  fetchAttempted: false,
 };
 
 // declare enrollment status strings
@@ -107,8 +147,23 @@ export const HCA_APPLY_ALLOWED_STATUSES = new Set([
   HCA_ENROLLMENT_STATUSES.closed,
 ]);
 
+// declare enrollment status codes that indicate no VES record is present
+export const HCA_NULL_STATUSES = new Set([
+  null,
+  HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+]);
+
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
+
+// declare a valid response for the enrollment status endpoint
+export const MOCK_ENROLLMENT_RESPONSE = {
+  applicationDate: '2019-04-24T00:00:00.000-06:00',
+  enrollmentDate: '2019-04-30T00:00:00.000-06:00',
+  preferredFacility: '463 - CHEY6',
+  parsedStatus: 'enrolled',
+  effectiveDate: '2019-04-25T00:00:00.000-06:00',
+};
 
 // declare labels for last service branch select box
 export const SERVICE_BRANCH_LABELS = {
@@ -131,9 +186,7 @@ export const SERVICE_BRANCH_LABELS = {
 // declare name to use for window session storage item
 export const SESSION_ITEM_NAME = 'hcaDependentIndex';
 
-/**
- * declare routes that are shared between custom form pages
- */
+// declare routes that are shared between custom form pages
 export const SHARED_PATHS = {
   dependents: {
     summary: 'household-information/dependents',

@@ -27,6 +27,12 @@ export const UPDATE_TOGGLE_ENROLLMENT_ERROR = 'UPDATE_TOGGLE_ENROLLMENT_ERROR';
 export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
 export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
 export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
+export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
+
+export const handleSuggestedAddressPicked = value => ({
+  type: SET_SUGGESTED_ADDRESS_PICKED,
+  payload: value,
+});
 
 export const updateToggleEnrollmentSuccess = toggleEnrollmentSuccess => ({
   type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
@@ -107,6 +113,7 @@ export function postMailingAddress(mailingAddress) {
         type: UPDATE_ADDRESS_FAILURE,
         errors: error.toString(),
       });
+      throw new Error('something went wrong');
     }
   };
 }
@@ -158,7 +165,10 @@ export const verifyEnrollmentAction = () => {
   };
 };
 
-export const validateAddress = (formData, fullName) => async dispatch => {
+export const validateAddress = (formData, fullName) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: ADDRESS_VALIDATION_START });
   try {
     const validationResponse = await apiRequest('/profile/address_validation', {
@@ -169,8 +179,11 @@ export const validateAddress = (formData, fullName) => async dispatch => {
 
     const {
       address,
-      addressMetaData: { confidenceScore },
+      addressMetaData: { confidenceScore, addressType },
     } = validationResponse.addresses[0];
+    const {
+      suggestedAddress: { isSuggestedAddressPicked },
+    } = getState();
 
     let stateAndZip = {};
     if (address.countryCodeIso3 === 'USA') {
@@ -184,14 +197,18 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         zipCode: address.internationalPostalCode,
       };
     }
-    if (confidenceScore === 100) {
+    if (
+      confidenceScore === 100 ||
+      isSuggestedAddressPicked ||
+      (addressType === 'International' && confidenceScore >= 96)
+    ) {
       const fields = {
         veteranName: fullName,
         address1: address.addressLine1,
         address2: address.addressLine2,
-        address3: formData.addressLine3,
-        address4: formData.addressLine4,
-        city: formData.city,
+        address3: address.addressLine3,
+        address4: address.addressLine4,
+        city: address.city,
         ...stateAndZip,
       };
       try {

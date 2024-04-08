@@ -55,7 +55,6 @@ const updateFormPages = (
   });
 
   const travelPayPages = [
-    URLS.TRAVEL_AGREEMENT,
     URLS.TRAVEL_QUESTION,
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,

@@ -1,141 +1,195 @@
-import React from 'react';
-import moment from 'moment';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { benefitsLabels } from '../utils/labels';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
-import { benefitsLabels } from '../labels';
-
-class ConfirmationPage extends React.Component {
-  componentDidMount() {
+const ConfirmationPage = ({ form, isLoggedIn }) => {
+  useEffect(() => {
     focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
+  }, []);
+
+  const response = form?.submission?.response ?? {};
+  const {
+    'view:claimedBenefits': benefits,
+    claimantFullName: claimantName,
+    veteranFullName: veteranName,
+  } = form?.data;
+  const hasDocuments =
+    form?.data?.deathCertificate || form?.data?.transportationReceipts;
+  const { deathCertificate, transportationReceipts } = form.data;
+
+  const formatTimestamp = inputTimestamp => {
+    const date = new Date(inputTimestamp);
+
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZoneName: 'short',
+    };
+
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  };
+
+  const timestamp = formatTimestamp(form?.submission?.timestamp);
+  let renderedTimestamp = '';
+
+  if (timestamp !== undefined && timestamp !== null) {
+    if (typeof timestamp === 'object') {
+      renderedTimestamp = timestamp.toString();
+    } else {
+      renderedTimestamp = timestamp;
+    }
   }
 
-  render() {
-    const { form } = this.props;
-    const response = form?.submission?.response ?? {};
-    const {
-      'view:claimedBenefits': benefits,
-      claimantFullName: claimantName,
-      veteranFullName: veteranName,
-    } = form?.data;
-    const hasDocuments =
-      form?.data?.deathCertificate || form?.data?.transportationReceipts;
-    const { deathCertificate, transportationReceipts } = form.data;
-
-    const submittedAt = moment(form.submission.submittedAt);
-    const offset = submittedAt.isDST() ? '-0500' : '-0600';
-
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-        </div>
-        <h2 className="confirmation-page-title vads-u-font-size--h3">
-          Claim submitted
+  return (
+    <div>
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="success"
+        visible
+        uswds
+      >
+        <h2 slot="headline">
+          You’ve submitted your application for burial benefits
         </h2>
-        <p>
-          We process claims in the order we receive them. Please print this page
-          for your records.
+        <p className="vads-u-margin-y--0">
+          After we receive your application, we’ll review your information and
+          send you a letter with more information about your claim.
         </p>
-        <p>We may contact you for more information or documents.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0">
-            Burial Benefit Claim{' '}
-            <span className="additional">(Form 21P-530)</span>
-          </h3>
-          <span>
-            for {claimantName.first} {claimantName.middle} {claimantName.last}{' '}
-            {claimantName.suffix}
-          </span>
-
-          <ul className="claim-list">
+      </va-alert>
+      <div className="inset">
+        <h3 className="vads-u-margin-top--0">Your submission information</h3>
+        <ul className="claim-list">
+          <li>
+            <h4>Who submitted this form</h4>
+            <span>
+              {claimantName?.first} {claimantName?.middle} {claimantName?.last}{' '}
+              {claimantName?.suffix}
+            </span>
+          </li>
+          <li>
+            <h4>Confirmation number</h4>
+            <span>{response?.confirmationNumber}</span>
+          </li>
+          <li>
+            <h4>Date submitted</h4>
+            <span>{renderedTimestamp}</span>
+          </li>
+          <li>
+            <h4>Deceased Veteran</h4>
+            <span>
+              {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
+              {veteranName.suffix}
+            </span>
+          </li>
+          <li>
+            <h4>Benefits claimed</h4>
+            <ul className="benefits-claimed">
+              {Object.entries(benefits).map(([benefitName, isRequested]) => {
+                const label = benefitsLabels[benefitName];
+                return isRequested && label ? (
+                  <li key={benefitName}>{label}</li>
+                ) : null;
+              })}
+            </ul>
+          </li>
+          {hasDocuments && (
             <li>
-              <h4>Confirmation number</h4>
-              <span>{response.confirmationNumber}</span>
+              <h4>Documents uploaded</h4>
+              {deathCertificate && <p>Death certificate: 1 file</p>}
+              {transportationReceipts && (
+                <p>
+                  Transportation documentation: {transportationReceipts.length}{' '}
+                  {transportationReceipts.length > 1 ? 'files' : 'file'}
+                </p>
+              )}
             </li>
-            <li>
-              <h4>Date submitted</h4>
-              <span>
-                {submittedAt
-                  .utcOffset(offset)
-                  .format('MMM D, YYYY h:mm a [CT]')}
-              </span>
-            </li>
-            <li>
-              <h4>Deceased Veteran</h4>
-              <span>
-                {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
-                {veteranName.suffix}
-              </span>
-            </li>
-            <li>
-              <h4>Benefits claimed</h4>
-              <ul className="benefits-claimed">
-                {Object.entries(benefits).map(([benefitName, isRequested]) => {
-                  const label = benefitsLabels[benefitName];
-                  return isRequested && label ? (
-                    <li key={benefitName}>{label}</li>
-                  ) : null;
-                })}
-              </ul>
-            </li>
-            {hasDocuments && (
-              <li>
-                <h4>Documents uploaded</h4>
-                {deathCertificate && <p>Death certificate: 1 file</p>}
-                {transportationReceipts && (
-                  <p>
-                    Transportation documentation:{' '}
-                    {transportationReceipts.length}{' '}
-                    {transportationReceipts.length > 1 ? 'files' : 'file'}
-                  </p>
-                )}
-              </li>
-            )}
-            <li>
-              <h4>Your claim was sent to</h4>
-              <address className="schemaform-address-view">
-                {response?.regionalOffice?.map((line, index) => (
-                  <p key={index}>{line}</p>
-                ))}
-              </address>
-            </li>
-          </ul>
-          <va-button
-            className="usa-button screen-only"
-            onClick={() => window.print()}
-            text="Print for your records"
-          />
-        </div>
-        <div className="confirmation-guidance-container">
-          <h3 className="confirmation-guidance-heading">Need help?</h3>
-          <p className="confirmation-guidance-message">
-            If you have questions, call <va-telephone contact="8008271000" />,
-            Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. Please have your
-            Social Security number or VA file number ready. For
-            Telecommunication Relay Services, dial{' '}
-            <va-telephone contact="711" />.
-          </p>
-        </div>
-        <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">Go back to VA.gov</a>
-          </div>
-        </div>
+          )}
+          <li>
+            <h4>Your application was sent to</h4>
+            <address className="schemaform-address-view">
+              {response?.regionalOffice?.map((line, index) => (
+                <p key={index}>{line}</p>
+              ))}
+            </address>
+          </li>
+          <li>
+            <h4>Confirmation for your records</h4>
+            <p>You can print this confirmation page for your records</p>
+          </li>
+        </ul>
+        <va-button
+          className="usa-button screen-only"
+          onClick={() => window.print()}
+          text="Print this page"
+        />
       </div>
-    );
-  }
-}
+      <h2>What are my next steps?</h2>
+      <p>
+        We’ll review your claim. Then we’ll send you a letter with our decision.
+        If we have more questions or need more information, we’ll contact you by
+        phone, email, or mail.
+      </p>
+      {isLoggedIn && (
+        <>
+          <h2>How can I check the status of my claim?</h2>
+          <p>
+            You can check the status of your claim online. <br />
+            <strong>Note:</strong> It may take 7 to 10 days after you apply for
+            the status of your claim to show online.
+          </p>
+          <a
+            href="/claim-or-appeal-status/"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Check the status of your claim"
+            className="vads-c-action-link--green vads-u-margin-bottom--4"
+          >
+            Check the status of your claim
+          </a>
+          <br />
+          <a className="vads-c-action-link--blue" href="https://www.va.gov/">
+            Go back to VA.gov
+          </a>
+        </>
+      )}
+      {!isLoggedIn && (
+        <>
+          <a className="vads-c-action-link--green" href="https://www.va.gov/">
+            Go back to VA.gov
+          </a>
+        </>
+      )}
+
+      <div className="vads-u-margin-top--9">
+        <va-need-help>
+          <div slot="content">
+            <p>
+              For help filling out this form, or if the form isn’t working
+              right, please call VA Benefits and Services at{' '}
+              <va-telephone contact="8008271000" />
+            </p>
+            <p>
+              If you have hearing loss, call{' '}
+              <va-telephone contact="711" tty="true" />.
+            </p>
+          </div>
+        </va-need-help>
+      </div>
+    </div>
+  );
+};
 
 function mapStateToProps(state) {
   return {
     form: state.form,
+    isLoggedIn: state.user?.login?.currentlyLoggedIn,
   };
 }
 

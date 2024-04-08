@@ -10,7 +10,7 @@ import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj } from '../util/constants';
+import { dispStatusObj, medicationsUrls } from '../util/constants';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -64,11 +64,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
         const reduceBy = ([refillable, renewable], rx) => {
           if (
-            rx.isRefillable ||
-            ([dispStatusObj.active, dispStatusObj.activeParked].includes(
-              rx.dispStatus,
-            ) &&
-              rx.refillRemaining > 0)
+            (rx.dispStatus === dispStatusObj.active &&
+              rx.refillRemaining > 0) ||
+            (rx.dispStatus === dispStatusObj.activeParked &&
+              (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
           ) {
             return [[...refillable, rx], renewable];
           }
@@ -86,12 +85,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         setBreadcrumbs(
           [
             {
-              url: `/my-health/medications/1`,
+              url: `${medicationsUrls.MEDICATIONS_URL}/1`,
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/refill/`,
+            url: `${medicationsUrls.MEDICATIONS_REFILL}`,
             label: 'Refill',
           },
         ),
