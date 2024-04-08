@@ -61,6 +61,7 @@ import {
 import {
   applicantHasPrimarySchema,
   applicantPrimaryProviderSchema,
+  applicantPrimaryEffectiveDateSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -331,9 +332,21 @@ const formConfig = {
           showPagePerItem: true,
           depends: (formData, index) => hasPrimaryProvider(formData, index),
           title: item =>
-            `${applicantWording(item)} health insurance provider's name`,
+            `${applicantWording(item)} health insurance provider’s name`,
           uiSchema: applicantPrimaryProviderSchema.uiSchema,
           schema: applicantPrimaryProviderSchema.schema,
+        },
+        primaryEffective: {
+          path: ':index/primary-effective-date',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } insurance effective date`,
+          uiSchema: applicantPrimaryEffectiveDateSchema.uiSchema,
+          schema: applicantPrimaryEffectiveDateSchema.schema,
         },
       },
     },

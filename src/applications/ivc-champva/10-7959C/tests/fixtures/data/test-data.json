@@ -33,7 +33,8 @@
         "applicantMedicarePartDCarrier": "Test D Carrier",
         "applicantMedicarePartDEffectiveDate": "2010-01-01",
         "applicantHasPrimary": { "hasPrimary": "yes" },
-        "applicantPrimaryProvider": "Primary Provider 1"
+        "applicantPrimaryProvider": "Primary Provider 1",
+        "applicantPrimaryEffectiveDate": "2010-01-01"
       }
     ],
     "certifierRelationship": {

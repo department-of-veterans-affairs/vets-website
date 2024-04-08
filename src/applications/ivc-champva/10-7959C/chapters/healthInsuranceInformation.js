@@ -2,13 +2,12 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 import {
   titleUI,
   titleSchema,
-  //   currentOrPastDateUI,
-  //   currentOrPastDateSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantListSchema } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
-// import { blankSchema } from './applicantInformation';
 
 export const applicantHasPrimarySchema = {
   uiSchema: {
@@ -32,22 +31,13 @@ export const applicantPrimaryProviderSchema = {
         viewField: ApplicantField,
       },
       items: {
+        ...titleUI(
+          ({ formData }) =>
+            `${applicantWording(formData)} health insurance provider’s name`,
+        ),
         applicantPrimaryProvider: {
           'ui:title': 'Provider’s name',
           'ui:webComponentField': VaTextInputField,
-        },
-        'ui:options': {
-          updateSchema: formData => {
-            return {
-              title: context =>
-                titleUI(
-                  `${applicantWording(
-                    formData,
-                    context,
-                  )} health insurance provider’s name`,
-                )['ui:title'],
-            };
-          },
         },
       },
     },
@@ -55,5 +45,30 @@ export const applicantPrimaryProviderSchema = {
   schema: applicantListSchema(['applicantPrimaryProvider'], {
     titleSchema,
     applicantPrimaryProvider: { type: 'string' },
+  }),
+};
+
+export const applicantPrimaryEffectiveDateSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        ...titleUI(
+          ({ formData }) =>
+            `${applicantWording(formData)} ${
+              formData?.applicantPrimaryProvider
+            } insurance effective date`,
+        ),
+        applicantPrimaryEffectiveDate: currentOrPastDateUI(
+          'Health insurance effective date',
+        ),
+      },
+    },
+  },
+  schema: applicantListSchema(['applicantPrimaryEffectiveDate'], {
+    titleSchema,
+    applicantPrimaryEffectiveDate: currentOrPastDateSchema,
   }),
 };
