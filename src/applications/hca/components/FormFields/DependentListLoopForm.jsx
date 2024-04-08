@@ -8,6 +8,8 @@ import {
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
+import { replaceStrValues } from '../../utils/helpers/general';
+import { normalizeFullName } from '../../utils/helpers';
 import DependentSIPWarning from '../FormAlerts/DependentSIPWarning';
 
 const DependentListLoopForm = props => {
@@ -17,12 +19,12 @@ const DependentListLoopForm = props => {
 
   // build the uiSchema title attribute based on form data & page
   const nameToDisplay =
-    page.id !== 'basic' ? `${fullName.first} ${fullName.last}` : 'Dependent';
+    page.id !== 'basic' ? normalizeFullName(fullName) : 'Dependent';
   const currentUISchema = {
     ...uiSchema[page.id],
     'ui:title': (
       <span className="dd-privacy-mask" data-dd-action-name="Page title">
-        {page.title.replace(/%s/g, nameToDisplay)}
+        {replaceStrValues(page.title, nameToDisplay)}
       </span>
     ),
   };
