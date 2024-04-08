@@ -15,11 +15,11 @@ export default {
       'ui:description': (
         <>
           <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-            You selected that you're claiming a burial allowance for the
+            You selected that you’re claiming a burial allowance for the
             unclaimed remains of a Veteran.
           </p>
           <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-            To make this claim, you'll need to confirm that both of these
+            To make this claim, you’ll need to confirm that both of these
             statements are true:
           </p>
           <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
@@ -28,7 +28,7 @@ export default {
               members or friends, <strong>and</strong>
             </li>
             <li>
-              The Veteran's estate doesn't have the financial resources to pay
+              The Veteran’s estate doesn’t have the financial resources to pay
               for burial and funeral expenses
             </li>
           </ul>
@@ -45,7 +45,15 @@ export default {
           labels: {
             checkBox: 'I confirm these statements are true',
           },
+          // ariaDescribedby:
+          //   'I confirm these statements are true. The remains of the Veteran have not been claimed by their family members or friends, and the Veteran’s estate doesn’t have the financial resources to pay for burial and funeral expenses.',
         }),
+        'ui:options': {
+          widgetProps: {
+            'aria-describedby':
+              'I confirm these statements are true. The remains of the Veteran have not been claimed by their family members or friends, and the Veteran’s estate doesn’t have the financial resources to pay for burial and funeral expenses.',
+          },
+        },
       },
     },
   },
