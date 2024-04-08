@@ -7,11 +7,10 @@ import { resetFetch } from '~/platform/testing/unit/helpers';
 import environment from '~/platform/utilities/environment';
 
 import {
+  fetchConfirmedFutureAppointments,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-} from '~/applications/personalization/dashboard/constants';
-
-import { fetchConfirmedFutureAppointments } from './index';
+} from '~/applications/personalization/appointments/actions';
 
 function thisYear() {
   return new Date().getFullYear();

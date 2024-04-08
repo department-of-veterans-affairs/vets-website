@@ -2,7 +2,7 @@ import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-} from '../actions/index';
+} from '../actions';
 
 const initialState = {
   data: [],
