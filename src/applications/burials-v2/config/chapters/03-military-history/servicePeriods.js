@@ -101,9 +101,6 @@ export default {
           'ui:title': 'Branch of service',
           'ui:webComponentField': VaSelectField,
           'ui:required': () => true,
-          'ui:options': {
-            uswds: true,
-          },
         },
         rank: {
           'ui:title': 'Grade, rank or rating',
