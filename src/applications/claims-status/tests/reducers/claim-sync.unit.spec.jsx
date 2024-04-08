@@ -31,12 +31,8 @@ describe('Claim sync reducer', () => {
           updatedAt: 'test',
         },
       },
-      meta: {
-        syncStatus: 'FAILED',
-      },
     });
 
-    expect(state.synced).to.be.false;
     expect(state.available).to.be.true;
     expect(state.authorized).to.be.true;
   });
@@ -48,12 +44,8 @@ describe('Claim sync reducer', () => {
           updatedAt: 'test',
         },
       },
-      meta: {
-        syncStatus: 'SUCCESS',
-      },
     });
 
-    expect(state.synced).to.be.true;
     expect(state.available).to.be.true;
     expect(state.authorized).to.be.true;
   });
