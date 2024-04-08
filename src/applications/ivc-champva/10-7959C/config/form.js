@@ -58,12 +58,18 @@ import {
   ApplicantHasPrimaryPage,
   ApplicantHasPrimaryReviewPage,
 } from '../components/ApplicantHasPrimaryPage';
-import { applicantHasPrimarySchema } from '../chapters/healthInsuranceInformation';
+import {
+  applicantHasPrimarySchema,
+  applicantPrimaryProviderSchema,
+} from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
-
-import { hasMedicareAB, hasMedicareD, noMedicareAB } from './conditionalPaths';
-
+import {
+  hasMedicareAB,
+  hasMedicareD,
+  noMedicareAB,
+  hasPrimaryProvider,
+} from './conditionalPaths';
 import mockdata from '../tests/fixtures/data/test-data.json';
 
 /** @type {PageSchema} */
@@ -318,6 +324,16 @@ const formConfig = {
           CustomPageReview: ApplicantHasPrimaryReviewPage,
           uiSchema: applicantHasPrimarySchema.uiSchema,
           schema: applicantHasPrimarySchema.schema,
+        },
+        primaryProvider: {
+          path: ':index/primary-provider',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} health insurance provider's name`,
+          uiSchema: applicantPrimaryProviderSchema.uiSchema,
+          schema: applicantPrimaryProviderSchema.schema,
         },
       },
     },
