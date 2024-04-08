@@ -181,6 +181,9 @@ export const validateAddress = (formData, fullName) => async (
       address,
       addressMetaData: { confidenceScore, addressType },
     } = validationResponse.addresses[0];
+    const {
+      suggestedAddress: { isSuggestedAddressPicked },
+    } = getState();
 
     let stateAndZip = {};
     if (address.countryCodeIso3 === 'USA') {
@@ -194,12 +197,10 @@ export const validateAddress = (formData, fullName) => async (
         zipCode: address.internationalPostalCode,
       };
     }
-    const {
-      suggestedAddress: { isSuggestedAddressPicked },
-    } = getState();
     if (
       confidenceScore === 100 ||
-      (isSuggestedAddressPicked && addressType === 'International')
+      isSuggestedAddressPicked ||
+      (addressType === 'International' && confidenceScore >= 96)
     ) {
       const fields = {
         veteranName: fullName,
