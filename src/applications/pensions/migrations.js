@@ -4,6 +4,16 @@ import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
+const deleteArrayValue = (array = [], path = []) => {
+  const key = path.pop();
+  array.forEach(item => {
+    const container = get(path.join('.'), item);
+    if (container) {
+      delete container[key];
+    }
+  });
+};
+
 export default [
   // 0 -> 1, we've added some date validation and need to move users back to particular pages
   // if there are errors
@@ -287,6 +297,14 @@ export default [
     if (formData.gender) {
       delete newFormData.gender;
     }
+    return { formData: newFormData, metadata };
+  },
+  // 7 > 8, remove gender
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    deleteArrayValue(newFormData.currentEmployers, ['jobTitle']);
+    deleteArrayValue(newFormData.marriages, ['spouseFullName', 'suffix']);
+    deleteArrayValue(newFormData.dependents, ['fullName', 'suffix']);
     return { formData: newFormData, metadata };
   },
 ];
