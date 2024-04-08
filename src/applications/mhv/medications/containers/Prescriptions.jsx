@@ -112,12 +112,12 @@ const Prescriptions = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/medications/about',
+              url: medicationsUrls.MEDICATIONS_ABOUT,
               label: 'About medications',
             },
           ],
           {
-            url: `/my-health/medications/?page=${page}`,
+            url: `${medicationsUrls.MEDICATIONS_URL}/?page=${page}`,
             label: 'Medications',
           },
         ),
