@@ -4,13 +4,10 @@ import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import SubTask, {
-  setStoredSubTask,
-  resetStoredSubTask,
-} from 'platform/forms/sub-task';
+import { $ } from '../../../forms-system/src/js/utilities/ui';
+import SubTask, { setStoredSubTask, resetStoredSubTask } from '../../sub-task';
 
-import pages from 'applications/appeals/995/subtask/pages';
+import pages from './basic-2-page-subtask';
 
 const mouseClick = new MouseEvent('click', {
   bubbles: true,
@@ -38,7 +35,7 @@ const mockStore = (data = {}) => {
   };
 };
 
-describe('the Supplemental Claims Sub-task', () => {
+describe('Basic 2 page Sub-task', () => {
   after(() => {
     resetStoredSubTask();
   });
@@ -50,13 +47,13 @@ describe('the Supplemental Claims Sub-task', () => {
     );
     const form = $('form[data-page="start"]', container);
     expect(form).to.exist;
-    expect($('va-radio-option[value="compensation"]', form)).to.exist;
-    expect($('va-radio-option[value="other"]', form)).to.exist;
+    expect($('va-radio-option[value="yes"]', form)).to.exist;
+    expect($('va-radio-option[value="no"]', form)).to.exist;
     expect($('va-button[continue]', container)).to.exist;
   });
-  it('should go to the "other" SubTask page and back to "start"', () => {
+  it('should go to the "end" SubTask page and back to "start"', () => {
     const { container } = render(
-      <Provider store={mockStore({ benefitType: 'other' })}>
+      <Provider store={mockStore({ choice: 'no' })}>
         <SubTask pages={pages} />
       </Provider>,
     );
@@ -64,13 +61,13 @@ describe('the Supplemental Claims Sub-task', () => {
     expect($('form[data-page="start"]', container)).to.exist;
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
-    expect($('form[data-page="other"]', container)).to.exist;
-    expect($('va-link[download]', container)).to.exist;
+    expect($('form[data-page="end"]', container)).to.exist;
+    expect($('#done', container)).to.exist;
 
     fireEvent.click($('va-button[back]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
   });
-  it.skip('should show an error when no selection is made', () => {
+  it('should show an error when no selection is made', () => {
     const { container } = render(
       <Provider store={mockStore()}>
         <SubTask pages={pages} />
@@ -86,10 +83,10 @@ describe('the Supplemental Claims Sub-task', () => {
     expect($('form[data-page="start"]', container)).to.exist;
     expect(vaRadio.error).to.contain('choose');
   });
-  it('should go to the Introduction page when complete', () => {
+  it('should go to the "chose-yes" page when complete', () => {
     const router = { push: sinon.spy() };
     const { container } = render(
-      <Provider store={mockStore({ benefitType: 'compensation' })}>
+      <Provider store={mockStore({ choice: 'yes' })}>
         <SubTask pages={pages} router={router} />
       </Provider>,
     );
@@ -97,6 +94,6 @@ describe('the Supplemental Claims Sub-task', () => {
     expect($('form[data-page="start"]', container)).to.exist;
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
-    expect(router.push.args[0][0]).to.include('/introduction');
+    expect(router.push.args[0][0]).to.include('/chose-yes');
   });
 });
