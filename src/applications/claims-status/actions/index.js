@@ -215,7 +215,6 @@ export const getClaim = (id, navigate) => {
         dispatch({
           type: SET_CLAIM_DETAIL,
           claim: res.data,
-          meta: { syncStatus: 'SUCCESS' },
         });
       })
       .catch(error => {
