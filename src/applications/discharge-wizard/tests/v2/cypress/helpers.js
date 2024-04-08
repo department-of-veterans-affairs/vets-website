@@ -16,6 +16,8 @@ export const clickStart = () =>
 
 export const verifyUrl = link => cy.url().should('contain', `${ROOT}/${link}`);
 
+export const get15YearsPast = () => (new Date().getFullYear() - 15).toString();
+
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
 
@@ -32,7 +34,7 @@ export const selectDropdown = (selector, shortName, option) =>
     .findByTestId(selector)
     .shadow()
     .get(`select[name=${shortName}_dropdown]`)
-    .select(option);
+    .select(option, { force: true });
 
 export const clickBack = () =>
   cy
