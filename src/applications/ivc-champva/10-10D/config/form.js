@@ -54,14 +54,8 @@ import {
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
 import {
-  sponsorCasualtyReportConfig,
-  sponsorDisabilityRatingConfig,
-  sponsorDischargePapersConfig,
   blankSchema,
   acceptableFiles,
-  sponsorCasualtyUploadUiSchema,
-  sponsorDisabilityRatingUploadUiSchema,
-  sponsorDischargePapersUploadUiSchema,
 } from '../components/Sponsor/sponsorFileUploads';
 import {
   // marriageDocumentList,
@@ -449,26 +443,6 @@ const formConfig = {
             },
           },
         },
-        page9a: {
-          path: 'sponsor-status-file',
-          title: 'Sponsor casualty report',
-          depends: formData =>
-            get('sponsorIsDeceased', formData) &&
-            get('sponsorDeathConditions', formData),
-          CustomPage: FileFieldCustom,
-          CustomPageReview: null,
-          uiSchema: sponsorCasualtyUploadUiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              ...sponsorCasualtyReportConfig.schema,
-              sponsorCasualtyReport: fileWithMetadataSchema(
-                acceptableFiles.casualtyCert,
-              ),
-            },
-          },
-        },
         page10b1: {
           path: 'sponsor-mailing-address',
           title: formData => `${sponsorWording(formData)} mailing address`,
@@ -531,40 +505,6 @@ const formConfig = {
             },
           },
         },
-        page12: {
-          path: 'sponsor-disability-file',
-          title: 'Sponsor disability rating',
-          CustomPage: FileFieldCustom,
-          CustomPageReview: null,
-          uiSchema: sponsorDisabilityRatingUploadUiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              ...sponsorDisabilityRatingConfig.schema,
-              sponsorDisabilityRating: fileWithMetadataSchema(
-                acceptableFiles.disabilityCert,
-              ),
-            },
-          },
-        },
-        page12a: {
-          path: 'sponsor-discharge-file',
-          title: 'Sponsor discharge papers',
-          CustomPage: FileFieldCustom,
-          CustomPageReview: null,
-          uiSchema: sponsorDischargePapersUploadUiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              ...sponsorDischargePapersConfig.schema,
-              sponsorDischargePapers: fileWithMetadataSchema(
-                acceptableFiles.dischargeCert,
-              ),
-            },
-          },
-        },
       },
     },
     applicantInformation: {
@@ -593,8 +533,9 @@ const formConfig = {
               'ui:options': {
                 viewField: ApplicantField,
                 keepInPageOnReview: true,
-                useDlWrap: false,
+                useDlWrap: true,
                 itemName: 'Applicant',
+                customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
               },
               'ui:errorMessages': {

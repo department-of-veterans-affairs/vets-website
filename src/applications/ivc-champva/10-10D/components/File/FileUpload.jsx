@@ -5,7 +5,6 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import MissingFileOverview, { hasReq } from './MissingFileOverview';
 
 export function FileFieldCustom(props) {
-  const navButtons = <FormNavButtons goBack={props.goBack} submitToContinue />;
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = (
     <button type="submit" onClick={props.updatePage}>
@@ -53,7 +52,7 @@ export function FileFieldCustom(props) {
     }
   }
 
-  const onGoForward = args => {
+  function onGoForward(args) {
     // Check if url is a review page
     const urlParams = new URLSearchParams(window?.location?.search);
     if (urlParams.get('fileReview') === 'true') {
@@ -69,7 +68,20 @@ export function FileFieldCustom(props) {
     } else {
       props.goForward(args);
     }
-  };
+  }
+
+  function onGoBack(args) {
+    const urlParams = new URLSearchParams(window?.location?.search);
+    // If fileReview is true we're in the special file review flow, so we should
+    // actually return to the file overview screen, which is technically forward.
+    if (urlParams.get('fileReview') === 'true') {
+      onGoForward(args);
+    } else {
+      props.goBack(args);
+    }
+  }
+
+  const navButtons = <FormNavButtons goBack={onGoBack} submitToContinue />;
 
   return (
     <>

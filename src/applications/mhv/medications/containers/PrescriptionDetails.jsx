@@ -35,7 +35,7 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
+import { medicationsUrls, PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -80,16 +80,16 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/medications/about',
+              url: medicationsUrls.MEDICATIONS_ABOUT,
               label: 'About medications',
             },
             {
-              url: '/my-health/medications/?page=1',
+              url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/prescription/${
+            url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${
               prescription.prescriptionId
             }`,
             label: prescriptionHeader,
