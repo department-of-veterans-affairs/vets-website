@@ -9,7 +9,7 @@ import { setupServer } from 'msw/node';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
-import { DEFAULT_ERROR_MESSAGE } from 'platform/user/profile/vap-svc/constants';
+import { DEFAULT_ERROR_MESSAGE } from '~/platform/user/profile/vap-svc/constants';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -178,7 +178,11 @@ async function testSlowFailure() {
 
 describe('Editing email address', () => {
   before(() => {
-    server = setupServer(...mocks.editEmailAddressSuccess());
+    server = setupServer(
+      ...mocks.editEmailAddressSuccess(),
+      ...mocks.apmTelemetry,
+      ...mocks.rootTransactionStatus,
+    );
     server.listen();
   });
   beforeEach(() => {
