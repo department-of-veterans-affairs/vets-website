@@ -14,6 +14,7 @@ import { selectRefillContentFlag } from '../util/selectors';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { dispStatusObj, medicationsUrls } from '../util/constants';
+import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -25,6 +26,11 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [fullRefillList, setFullRefillList] = useState(refillList);
   const [fullRenewList, setFullRenewList] = useState(refillList);
+  const [refillResult, setRefillResult] = useState({
+    status: 'notStarted',
+    failedMeds: [],
+    successfulMeds: [],
+  });
 
   // Selectors
   const selectedSortOption = useSelector(
@@ -38,9 +44,24 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   ]);
 
   // Functions
-  const onRequestRefills = () => {
+  const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      fillRxs(selectedRefillList);
+      setRefillResult({ ...refillResult, status: 'inProgress' });
+      updateLoadingStatus(true);
+      const response = await fillRxs(selectedRefillList);
+      const failedIds = response?.failedIds || [];
+      const successfulIds = response?.successfulIds || [];
+      const failedMeds = fullRefillList.filter(item =>
+        failedIds.includes(String(item.prescriptionId)),
+      );
+      const successfulMeds = fullRefillList.filter(item =>
+        successfulIds.includes(String(item.prescriptionId)),
+      );
+      setRefillResult({
+        status: 'finished',
+        failedMeds,
+        successfulMeds,
+      });
     }
   };
   const onSelectPrescription = id => {
@@ -66,29 +87,33 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       if (fullRefillList === undefined || fullRefillList.length === 0) {
         updateLoadingStatus(true);
       }
-      getRefillablePrescriptionList().then(({ data }) => {
-        const fullList = data
-          .map(({ attributes }) => attributes)
-          .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
-        const reduceBy = ([refillable, renewable], rx) => {
-          if (
-            (rx.dispStatus === dispStatusObj.active &&
-              rx.refillRemaining > 0) ||
-            (rx.dispStatus === dispStatusObj.activeParked &&
-              (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
-          ) {
-            return [[...refillable, rx], renewable];
-          }
-          return [refillable, [...renewable, rx]];
-        };
-        const [refillableList, renewableList] = fullList.reduce(reduceBy, [
-          [],
-          [],
-        ]);
-        setFullRefillList(refillableList);
-        setFullRenewList(renewableList);
-        updateLoadingStatus(false);
-      });
+      if (refillResult.status !== 'inProgress') {
+        getRefillablePrescriptionList().then(({ data }) => {
+          const fullList = data
+            .map(({ attributes }) => attributes)
+            .sort((a, b) =>
+              a.prescriptionName.localeCompare(b.prescriptionName),
+            );
+          const reduceBy = ([refillable, renewable], rx) => {
+            if (
+              (rx.dispStatus === dispStatusObj.active &&
+                rx.refillRemaining > 0) ||
+              (rx.dispStatus === dispStatusObj.activeParked &&
+                (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
+            ) {
+              return [[...refillable, rx], renewable];
+            }
+            return [refillable, [...renewable, rx]];
+          };
+          const [refillableList, renewableList] = fullList.reduce(reduceBy, [
+            [],
+            [],
+          ]);
+          setFullRefillList(refillableList);
+          setFullRenewList(renewableList);
+          updateLoadingStatus(false);
+        });
+      }
       dispatch(
         setBreadcrumbs(
           [
@@ -107,7 +132,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     },
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption],
+    [dispatch, location.pathname, selectedSortOption, refillResult],
   );
 
   const content = () => {
@@ -132,6 +157,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             Back to Medications
           </Link>
         </span>
+        {fullRefillList?.length > 0 && (
         <div>
           <h1
             className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
@@ -139,6 +165,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           >
             Refill prescriptions
           </h1>
+          <RefillNotification refillResult={refillResult} />
           <h2
             className="vads-u-margin-top--3"
             data-testid="refill-page-subtitle"
@@ -154,7 +181,8 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             {`prescription${fullRefillList.length !== 1 ? 's' : ''}`} ready to
             refill.
           </p>
-          <div className="vads-u-margin-bottom--3">
+          {fullRefillList?.length > 1 && (
+            <div className="vads-u-margin-bottom--3">
             <VaCheckbox
               id="select-all-checkbox"
               data-testid="select-all-checkbox"
@@ -167,6 +195,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               uswds
             />
           </div>
+          )}
           <div>
             {fullRefillList.slice().map((prescription, idx) => (
               <div key={idx} className="vads-u-margin-bottom--2">
@@ -223,9 +252,13 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             onClick={() => onRequestRefills()}
             text={`Request ${
               selectedRefillListLength > 0 ? selectedRefillListLength : ''
-            } refill${selectedRefillListLength !== 1 ? 's' : ''}`}
+            } refill${
+              selectedRefillListLength === 1 || fullRefillList.length === 1
+                ? ''
+                : 's'}`}
           />
         </div>
+        )}
         <RenewablePrescriptions renewablePrescriptionsList={fullRenewList} />
       </div>
     );
