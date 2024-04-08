@@ -124,9 +124,6 @@ function isInEvidenceGathering(claim) {
 }
 
 // START lighthouse_migration
-export const getTrackedItemId = trackedItem =>
-  trackedItem.trackedItemId || trackedItem.id;
-
 export const getTrackedItemDate = item => {
   return item.closedDate || item.receivedDate || item.requestedDate;
 };

@@ -10,7 +10,6 @@ import {
   hasBeenReviewed,
   getDocTypeDescription,
   displayFileSize,
-  getTrackedItemId,
   getFilesNeeded,
   getFilesOptional,
   getUserPhase,
@@ -383,49 +382,6 @@ describe('Disability benefits helpers: ', () => {
       expect(size).to.equal('2MB');
     });
   });
-
-  // START lighthouse_migration
-  describe('getTrackedItemId', () => {
-    it('should return the value of the id key for Lighthouse claims', () => {
-      const trackedItem = {
-        id: 1,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(1);
-    });
-
-    it('should return the value of the trackedItemId key for EVSS claims', () => {
-      const trackedItem = {
-        trackedItemId: 1,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(1);
-    });
-
-    it('should return null if both the id and trackedItemId keys are not present', () => {
-      const trackedItem = {
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(undefined);
-    });
-
-    it('should return null if either the id or trackedItemId keys are null', () => {
-      const trackedItem = {
-        trackedItemId: null,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(undefined);
-    });
-  });
-  // END lighthouse_migration
 
   describe('getFilesNeeded', () => {
     context('when useLighthouse is true', () => {

@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
-import { getTrackedItemId, truncateDescription } from '../utils/helpers';
 
-function FilesOptionalOld({ item }) {
+import { truncateDescription } from '../utils/helpers';
+
+export default function FilesOptionalOld({ item }) {
   return (
     <div className="file-request-list-item usa-alert file-request-list-item-optional background-color-only alert-with-details">
       <div className="item-container">
@@ -21,7 +22,7 @@ function FilesOptionalOld({ item }) {
           aria-label={`View Details for ${item.displayName}`}
           title={`View Details for ${item.displayName}`}
           className="usa-button usa-button-secondary view-details-button"
-          to={`../document-request/${getTrackedItemId(item)}`}
+          to={`../document-request/${item.id}`}
         >
           View Details
         </Link>
@@ -33,5 +34,3 @@ function FilesOptionalOld({ item }) {
 FilesOptionalOld.propTypes = {
   item: PropTypes.object.isRequired,
 };
-
-export default FilesOptionalOld;
