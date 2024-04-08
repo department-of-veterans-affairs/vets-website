@@ -198,6 +198,9 @@ va-modal va-radio {
       padding-left: 12px;
       span {
         margin: auto;
+        .attachment-name-text{
+          overflow-wrap: anywhere;
+        }
       }
       @media (min-width: $medium-screen) {
         flex-direction: row;
