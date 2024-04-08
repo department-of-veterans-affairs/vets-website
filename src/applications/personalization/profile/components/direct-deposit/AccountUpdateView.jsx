@@ -7,6 +7,11 @@ import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/Conta
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
 import { toggleDirectDepositEdit } from '../../actions/directDeposit';
 import { BankNumberFaq } from './BankNumberFaq';
+import {
+  VaTextInputField,
+  VaRadioField,
+} from '~/platform/forms-system/src/js/web-component-fields';
+import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
 
 const schema = {
   type: 'object',
@@ -36,13 +41,14 @@ const uiSchema = {
     'Please provide your bank’s routing number as well as your current account and type.',
 
   accountType: {
-    'ui:widget': 'radio',
+    'ui:webComponentField': VaRadioField,
     'ui:title': 'Account type',
     'ui:errorMessages': {
       required: 'Please select the type that best describes your account',
     },
   },
   routingNumber: {
+    'ui:webComponentField': VaTextInputField,
     'ui:title': 'Routing number',
     'ui:errorMessages': {
       pattern: 'Please enter your bank’s 9-digit routing number',
@@ -50,6 +56,7 @@ const uiSchema = {
     },
   },
   accountNumber: {
+    'ui:webComponentField': VaTextInputField,
     'ui:title': 'Account number (No more than 17 digits)',
     'ui:errorMessages': {
       pattern: 'Please enter your account number',
@@ -71,6 +78,7 @@ export const AccountUpdateView = ({
   setFormData,
   paymentAccount,
   cancelButtonClasses,
+  saveError,
 }) => {
   const [shouldShowCancelModal, setShouldShowCancelModal] = useState(false);
   const dispatch = useDispatch();
@@ -100,7 +108,15 @@ export const AccountUpdateView = ({
 
   return (
     <>
-      <strong>Account</strong>
+      <p className="vads-u-font-size--md vads-u-font-weight--bold vads-u-margin-bottom--0">
+        Account
+      </p>
+
+      <UpdateErrorAlert
+        saveError={saveError}
+        className="vads-u-margin-top--2"
+      />
+
       <SchemaForm
         addNameAttribute
         name="Direct Deposit Information"
@@ -147,6 +163,7 @@ AccountUpdateView.propTypes = {
   ]),
   formChange: PropTypes.func,
   paymentAccount: PropTypes.object,
+  saveError: PropTypes.array,
 };
 
 AccountUpdateView.defaultProps = {
