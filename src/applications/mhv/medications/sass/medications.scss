@@ -267,4 +267,9 @@
 
 va-checkbox#select-all-checkbox::part(label) {
   font-weight: bold;
+
+  &::before {
+    box-shadow: 0px 0px 0px 1px;
+    margin-left: 1px;
+  }
 }
