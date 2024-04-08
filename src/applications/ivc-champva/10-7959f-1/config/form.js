@@ -17,16 +17,20 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// import mockdata from '../tests/fixtures/data/test-data.json';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   // submit: () =>
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
@@ -65,6 +69,7 @@ const formConfig = {
       title: 'Name and date of birth',
       pages: {
         page1: {
+          // initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {

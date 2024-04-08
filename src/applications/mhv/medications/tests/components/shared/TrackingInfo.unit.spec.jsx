@@ -3,6 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import TrackingInfo from '../../../components/shared/TrackingInfo';
+import { medicationsUrls } from '../../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
   const setup = (carrier = 'ups') => {
@@ -19,16 +20,16 @@ describe('Medications Breadcrumbs', () => {
             breadcrumbs: {
               list: [
                 {
-                  url: '/my-health/medications/about',
+                  url: `${medicationsUrls.MEDICATIONS_ABOUT}`,
                   label: 'About medications',
                 },
                 {
-                  url: '/my-health/medications/1',
+                  url: `${medicationsUrls.MEDICATIONS_URL}/1`,
                   label: 'Medications',
                 },
               ],
               location: {
-                url: `/my-health/medications/prescription/000`,
+                url: `${medicationsUrls.PRESCRIPTION_DETAILS}/000`,
                 label: 'Prescription Name',
               },
             },
