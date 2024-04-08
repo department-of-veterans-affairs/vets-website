@@ -192,6 +192,7 @@ const ManageFolderButtons = props => {
         </VaModal>
       )}
       <VaModal
+        uswds={false}
         className="modal"
         data-testid="rename-folder-modal"
         visible={renameModal}
@@ -217,12 +218,13 @@ const ManageFolderButtons = props => {
           charcount
         />
         <va-button
-          class="vads-u-margin-y--1p5 "
+          uswds={false}
           text="Save"
           onClick={confirmRenameFolder}
           data-dd-action-name="Save Rename Folder Button"
         />
         <va-button
+          uswds="false"
           secondary="true"
           text="Cancel"
           onClick={closeRenameModal}

@@ -18,21 +18,16 @@ const FoldersList = props => {
               data-testid={folder.name}
             >
               <Link to={folderPathByFolderId(folder.id)}>
-                <div className="icon-span-container">
-                  <va-icon icon="folder" size={3} aria-hidden="true" />
-                  <span
-                    className="vads-u-margin-left--1"
-                    data-dd-privacy="mask"
-                  >
-                    {folder.id === Folders.DELETED.id
-                      ? Folders.DELETED.header
-                      : folder.name}{' '}
-                    {showUnread &&
-                      folder.unreadCount > 0 &&
-                      folder.id !== Folders.DRAFTS.id &&
-                      `(${folder.unreadCount} unread messages)`}
-                  </span>{' '}
-                </div>
+                <i className="fas fa-folder fa-lg" aria-hidden="true" />
+                <span data-dd-privacy="mask">
+                  {folder.id === Folders.DELETED.id
+                    ? Folders.DELETED.header
+                    : folder.name}{' '}
+                  {showUnread &&
+                    folder.unreadCount > 0 &&
+                    folder.id !== Folders.DRAFTS.id &&
+                    `(${folder.unreadCount} unread messages)`}
+                </span>{' '}
               </Link>
             </li>
           ))}
