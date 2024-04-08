@@ -1,58 +1,26 @@
 import React from 'react';
 
-import { SIGN_IN_URL } from '../../../constants';
-import HeaderMegaMenu from './HeaderMegaMenu';
-import HeaderTopRow from './HeaderTopRow';
+import LogoRow from './LogoRow';
+import Menu from './Menu';
 import MobileHeader from './MobileHeader';
+import OfficialGovtWebsite from './OfficialGovtWebsite';
+import VeteranCrisisLine from './VeteranCrisisLine';
 
-import '../../../sass/accredited-representative-portal.scss';
+import './Header.scss';
 
 const Header = () => {
   return (
     <header className="header" role="banner">
       <MobileHeader />
       <div id="legacy-header" className="desktop">
-        <HeaderTopRow />
-        <div
-          className="row va-flex usa-grid usa-grid-full"
-          id="va-header-logo-menu"
-        >
-          <div className="va-header-logo-wrapper">
-            <a href="/">
-              <img
-                className="arp-logo"
-                src="/img/arp-header-logo.png"
-                alt="VA logo and Seal, U.S. Department of Veterans Affairs"
-              />
-            </a>
+        <div className="va-notice--banner">
+          <div className="va-notice--banner-inner">
+            <OfficialGovtWebsite />
           </div>
-          <div id="va-nav-controls" />
-          <div className="medium-screen:vads-u-display--none usa-grid usa-grid-full">
-            <div className="menu-rule usa-one-whole" />
-            <div className="mega-menu" id="mega-menu-mobile" />
-          </div>
-          <div id="login-root" className="vet-toolbar toolbar">
-            <a
-              className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
-              href="https://www.va.gov/contact-us/"
-            >
-              Contact us
-            </a>
-            <div className="sign-in-nav">
-              <div className="sign-in-links">
-                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                <a
-                  data-testid="header-sign-in-link"
-                  className="usa-button usa-button-primary"
-                  href={SIGN_IN_URL}
-                >
-                  Sign in
-                </a>
-              </div>
-            </div>
-          </div>
+          <VeteranCrisisLine />
         </div>
-        <HeaderMegaMenu />
+        <LogoRow />
+        <Menu />
       </div>
     </header>
   );

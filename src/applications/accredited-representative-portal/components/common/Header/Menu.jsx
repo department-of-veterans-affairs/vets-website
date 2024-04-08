@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const HeaderMegaMenu = () => {
+const Menu = () => {
   return (
     <div className="usa-grid usa-grid-full">
       <div className="menu-rule usa-one-whole" />
@@ -79,4 +79,4 @@ const HeaderMegaMenu = () => {
   );
 };
 
-export default HeaderMegaMenu;
+export default Menu;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const USAWebsiteHeader = () => {
+const OfficialGovtWebsite = ({ isMobile }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -17,19 +17,40 @@ const USAWebsiteHeader = () => {
               height="20"
               width="20"
             />
-            <p>An official website of the United States government</p>
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-            <button
-              id="usa-banner-toggle"
-              className="usa-accordion-button usa-banner-button"
-              aria-expanded={isExpanded}
-              aria-controls="gov-banner"
-              onClick={toggleExpansion}
-            >
-              <span className="usa-banner-button-text">
-                Here’s how you know
-              </span>
-            </button>
+            {isMobile ? (
+              <>
+                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+                <button
+                  id="usa-banner-toggle"
+                  className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
+                  aria-expanded={isExpanded}
+                  aria-controls="gov-banner"
+                  onClick={toggleExpansion}
+                >
+                  An official website of the United States government
+                  <i
+                    aria-hidden="true"
+                    className="fa fa-chevron-down vads-u-margin-left--0p5"
+                  />
+                </button>
+              </>
+            ) : (
+              <>
+                <p>An official website of the United States government</p>
+                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+                <button
+                  id="usa-banner-toggle"
+                  className="usa-accordion-button usa-banner-button"
+                  aria-expanded={isExpanded}
+                  aria-controls="gov-banner"
+                  onClick={toggleExpansion}
+                >
+                  <span className="usa-banner-button-text">
+                    Here’s how you know
+                  </span>
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div
@@ -74,4 +95,4 @@ const USAWebsiteHeader = () => {
   );
 };
 
-export default USAWebsiteHeader;
+export default OfficialGovtWebsite;
