@@ -107,6 +107,10 @@ import {
   ApplicantRelOriginReviewPage,
 } from '../pages/ApplicantRelOriginPage';
 import {
+  ApplicantGenderPage,
+  ApplicantGenderReviewPage,
+} from '../pages/ApplicantGenderPage';
+import {
   ApplicantDependentStatusPage,
   ApplicantDependentStatusReviewPage,
 } from '../pages/ApplicantDependentStatus';
@@ -700,29 +704,20 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} gender`,
+          CustomPage: ApplicantGenderPage,
+          CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
-            applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} sex listed at birth`,
-                  ({ formData }) =>
-                    `What’s ${applicantWording(formData)} sex listed at birth`,
-                ),
-                applicantGender: radioUI({
-                  title: 'Gender',
-                  required: () => true,
-                  hint:
-                    'Enter the sex that appears on the applicant’s birth certificate',
-                  labels: { male: 'Male', female: 'Female' },
-                }),
-              },
-            },
+            applicants: { items: {} },
           },
           schema: applicantListSchema([], {
             titleSchema,
-            applicantGender: radioSchema(['male', 'female']),
+            applicantGender: {
+              type: 'object',
+              properties: {
+                gender: { type: 'string' },
+                _unused: { type: 'string' },
+              },
+            },
           }),
         },
         page18: {
