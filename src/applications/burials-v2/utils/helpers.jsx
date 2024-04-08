@@ -136,7 +136,7 @@ export function submit(form, formConfig) {
 }
 
 export const generateTitle = text => {
-  return <h3 className="vads-u-margin-top--0">{text}</h3>;
+  return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
 };
 
 export const generateHelpText = text => {
