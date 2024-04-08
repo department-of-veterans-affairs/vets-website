@@ -1,0 +1,42 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.header {
+  .mobile {
+    .usa-banner-header {
+      display: flex !important;
+    }
+
+    .va-crisis-line-container {
+      margin: 0px !important;
+    }
+
+    @media (min-width: $small-screen) {
+      .arp-logo {
+        width: 320px;
+      }
+    }
+
+    @media (min-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+
+  .desktop {
+    display: none;
+
+    @media (min-width: $medium-screen) {
+      display: block;
+
+      .arp-logo {
+        width: 496px;
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: flex-end;
+        padding-inline-end: 32px;
+        flex-basis: 230px;
+      }
+    }
+  }
+}

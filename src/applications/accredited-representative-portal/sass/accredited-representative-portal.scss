@@ -37,32 +37,3 @@
 .view-all-link {
   float: right;
 }
-
-.header {
-  .desktop {
-    display: none;
-
-    .arp-logo {
-      width: 496px;
-    }
-
-    .toolbar {
-      display: flex;
-      justify-content: flex-end;
-      padding-inline-end: 32px;
-      flex-basis: 230px;
-    }
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .header {
-    .desktop {
-      display: block;
-    }
-
-    .mobile {
-      display: none;
-    }
-  }
-}
