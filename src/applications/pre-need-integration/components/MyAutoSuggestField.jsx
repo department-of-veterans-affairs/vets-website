@@ -1,7 +1,7 @@
 import React from 'react';
 import Downshift from 'downshift';
 
-function AutoSuggest({ title, labels, onSelectionChange, maxItems }) {
+function AutoSuggest({ labels, onSelectionChange, maxItems }) {
   const items = Object.entries(labels).map(([key, label]) => ({
     value: key,
     label,
@@ -68,7 +68,6 @@ function AutoSuggest({ title, labels, onSelectionChange, maxItems }) {
 
   return (
     <>
-      <p>{title}</p>
       <Downshift
         onChange={selection => {
           if (selection) {

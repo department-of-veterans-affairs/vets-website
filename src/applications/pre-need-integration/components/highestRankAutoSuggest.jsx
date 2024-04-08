@@ -1,88 +1,79 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
-import Papa from 'papaparse';
-import { serviceLabels } from '../utils/labels';
+import { setData } from 'platform/forms-system/src/js/actions';
 import AutoSuggest from './MyAutoSuggestField';
+import jsonData from '../utils/Military Ranks.json'; // Adjusted to correct path
 
 function ImprovedMilitaryHistoryPage({ formData }) {
   const dispatch = useDispatch();
-  const [rankData, setRankData] = useState([]);
+  const [serviceLabels, setServiceLabels] = useState([]);
   const [branchOfService, setBranchOfService] = useState('');
   const [rankOptions, setRankOptions] = useState([]);
 
-  useEffect(
-    () => {
-      const serviceRecords = formData?.application?.veteran?.serviceRecords;
-      if (serviceRecords !== undefined && serviceRecords.length > 0) {
-        const bos = serviceRecords[0].serviceBranch;
-        // Check if 'bos' is one of the keys in 'serviceLabels'
-        if (bos && Object.keys(serviceLabels).includes(bos)) {
-          setBranchOfService(bos);
-        } else {
-          setBranchOfService('');
-        }
-      }
-    },
-    [formData, serviceLabels],
-  );
-
-  useEffect(
-    () => {
-      // Check if branchOfService is set and rankData is not empty
-      if (branchOfService && rankData.length > 0) {
-        // Filter rankData for the selected branch of service
-        const filteredRanks = rankData.filter(
-          rank => rank['Branch Of Service Code'] === branchOfService,
-        );
-
-        // Map filtered ranks into an object
-        const ranks = filteredRanks.reduce((acc, curr) => {
-          acc[curr['Rank Code']] = curr['Rank Description'];
-          return acc;
-        }, {});
-
-        setRankOptions(ranks);
-      }
-    },
-    [branchOfService, rankData],
-  );
-
-  const handleFileUpload = e => {
-    const file = e.target.files[0];
-    if (file) {
-      Papa.parse(file, {
-        complete: result => {
-          setRankData(result.data);
-        },
-        header: true,
-      });
-    }
-  };
-
-  const highestRankChange = key => {
-    const updatedFormData = set(
-      'application.veteran.serviceRecords[0].highestRank',
-      key,
-      { ...formData },
+  // Filter ranks based on the selected branch of service
+  const filterRanks = branch => {
+    const filteredRanks = jsonData.filter(
+      rank => rank['Branch Of Service Code'] === branch,
     );
-    dispatch(setData(updatedFormData));
+    const ranks = filteredRanks.reduce((acc, curr) => {
+      acc[curr['Rank Code']] = curr['Rank Description'];
+      return acc;
+    }, {});
+    setRankOptions(ranks);
   };
+
+  // Load JSON data and set initial state
+  useEffect(
+    () => {
+      const branches = jsonData.map(item => item['Branch Of Service Code']);
+      const uniqueBranches = Array.from(new Set(branches));
+      setServiceLabels(uniqueBranches);
+
+      const serviceRecords = formData?.application?.veteran?.serviceRecords;
+      const initialBranch = serviceRecords?.[0]?.serviceBranch;
+      if (initialBranch && uniqueBranches.includes(initialBranch)) {
+        setBranchOfService(initialBranch);
+        filterRanks(initialBranch);
+      }
+    },
+    [formData],
+  );
+
+  // Update branch of service and rank options when branch changes
+  useEffect(
+    () => {
+      if (branchOfService) {
+        filterRanks(branchOfService);
+      }
+    },
+    [branchOfService],
+  );
 
   return (
     <div>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
-      {/* The AutosuggestField is always rendered; adjust this as needed */}
-      {branchOfService !== '' &&
-        rankData.length > 0 && (
+      {serviceLabels.length > 0 && (
+        <div className="branchOfService">
+          {/* Render your service branch related UI here */}
+        </div>
+      )}
+      {branchOfService && (
+        <div className="highestRank">
           <AutoSuggest
-            title="Hightest rank attained"
+            title="Highest rank attained"
             labels={rankOptions}
-            onSelectionChange={highestRankChange}
-            maxItems={20}
+            onSelectionChange={key => {
+              const updatedFormData = set(
+                'application.veteran.serviceRecords[0].highestRank',
+                key,
+                { ...formData },
+              );
+              dispatch(setData(updatedFormData));
+            }}
+            maxItems={10}
           />
-        )}
+        </div>
+      )}
     </div>
   );
 }
