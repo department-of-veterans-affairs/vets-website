@@ -12,6 +12,7 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
+import WizardContainer from '../wizard/WizardContainer';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -100,6 +101,15 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+
+  additionalRoutes: [
+    {
+      path: 'start',
+      component: WizardContainer,
+      pageKey: 'start',
+      depends: () => false,
+    },
+  ],
 
   chapters: {
     infoPages: {

@@ -104,6 +104,7 @@ export default function FormNav(props) {
   // we want to force react to remove the <h2> and re-render it. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
+
   useEffect(
     () => {
       if (current > index + 1) {
@@ -127,7 +128,7 @@ export default function FormNav(props) {
           } else {
             focusByOrder([defaultFocusSelector, 'h2']);
           }
-        } else {
+        } else if (formConfig.formId !== '40-10007') {
           // h2 fallback for confirmation page
           focusByOrder([defaultFocusSelector, 'h2']);
         }
@@ -136,6 +137,7 @@ export default function FormNav(props) {
     [
       current,
       formConfig.useCustomScrollAndFocus,
+      formConfig.formId,
       index,
       page.chapterKey,
       page.scrollAndFocusTarget,

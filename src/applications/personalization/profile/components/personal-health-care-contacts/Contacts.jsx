@@ -11,43 +11,37 @@ const Contacts = ({ data }) => {
   const ecs = data.filter(el => el.id.match(/emergency contact/i));
   const noks = data.filter(el => el.id.match(/next of kin/i));
 
-  const renderEmergencyContacts =
-    ecs && ecs.length ? (
-      ecs.map((ec, i) => ({
-        value: (
-          <>
-            <Contact
-              testId={`phcc-emergency-contact-${i}`}
-              key={ec.id}
-              index={i}
-              numberOfContacts={ecs.length}
-              {...ec.attributes}
-            />
-          </>
-        ),
-      }))
-    ) : (
-      <Instructions testId="phcc-no-ecs" />
-    );
+  const renderEmergencyContacts = ecs?.length ? (
+    ecs.map((ec, i) => ({
+      value: (
+        <Contact
+          testId={`phcc-emergency-contact-${i}`}
+          key={ec.id}
+          index={i}
+          numberOfContacts={ecs.length}
+          {...ec.attributes}
+        />
+      ),
+    }))
+  ) : (
+    <Instructions testId="phcc-no-ecs" />
+  );
 
-  const renderNextOfKin =
-    noks && noks.length ? (
-      noks.map((nok, i) => ({
-        value: (
-          <>
-            <Contact
-              testId={`phcc-next-of-kin-${i}`}
-              key={nok.id}
-              index={i}
-              numberOfContacts={noks.length}
-              {...nok.attributes}
-            />
-          </>
-        ),
-      }))
-    ) : (
-      <Instructions testId="phcc-no-nok" />
-    );
+  const renderNextOfKin = noks?.length ? (
+    noks.map((nok, i) => ({
+      value: (
+        <Contact
+          testId={`phcc-next-of-kin-${i}`}
+          key={nok.id}
+          index={i}
+          numberOfContacts={noks.length}
+          {...nok.attributes}
+        />
+      ),
+    }))
+  ) : (
+    <Instructions testId="phcc-no-nok" />
+  );
 
   return (
     <>

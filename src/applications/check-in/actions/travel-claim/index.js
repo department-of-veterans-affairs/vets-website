@@ -16,11 +16,11 @@ export const setFilteredAppointments = payload => {
   };
 };
 
-export const SET_FACILITY_TO_FILE = 'SET_FACILITY_TO_FILE';
+export const SET_FORM_DATA = 'SET_FORM_DATA';
 
-export const setFacilityToFile = facility => {
+export const setFormData = data => {
   return {
-    type: SET_FACILITY_TO_FILE,
-    payload: facility,
+    type: SET_FORM_DATA,
+    payload: data,
   };
 };
