@@ -31,7 +31,9 @@
           "enrollment": "yes"
         },
         "applicantMedicarePartDCarrier": "Test D Carrier",
-        "applicantMedicarePartDEffectiveDate": "2010-01-01"
+        "applicantMedicarePartDEffectiveDate": "2010-01-01",
+        "applicantHasPrimary": { "hasPrimary": "yes" },
+        "applicantPrimaryProvider": "Primary Provider 1"
       }
     ],
     "certifierRelationship": {
