@@ -6,7 +6,7 @@ import {
   personalInformationFormSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = <h4>{CHAPTER_3.ABOUT_YOURSELF.TITLE}</h4>;
+const question = <h3>{CHAPTER_3.ABOUT_YOURSELF.TITLE}</h3>;
 
 const aboutYourselfPage = {
   uiSchema: {
