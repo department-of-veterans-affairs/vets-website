@@ -3,28 +3,28 @@ import { Prompt } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
+import { saveDirectDeposit } from '@@profile/actions/directDeposit';
+
+import Headline from '@@profile/components/ProfileSectionHeadline';
+import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 import LoadFail from '@@profile/components/alerts/LoadFail';
 import { handleDowntimeForSection } from '@@profile/components/alerts/DowntimeBanner';
-import Headline from '@@profile/components/ProfileSectionHeadline';
-import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
+
+import VerifyIdentity from '@@profile/components/direct-deposit/alerts/VerifyIdentity';
+import { TemporaryOutage } from '@@profile/components/direct-deposit/alerts/TemporaryOutage';
+import DirectDepositBlocked from '@@profile/components/direct-deposit/alerts/DirectDepositBlocked';
+import { Ineligible } from '@@profile/components/direct-deposit/alerts/Ineligible';
+import { AccountInfoView } from '@@profile/components/direct-deposit/AccountInfoView';
+import { AccountUpdateView } from '@@profile/components/direct-deposit/AccountUpdateView';
+import { DirectDepositDevWidget } from '@@profile/components/direct-deposit/DirectDepositDevWidget';
+import { FraudVictimSummary } from '@@profile/components/direct-deposit/FraudVictimSummary';
+import { PaymentHistoryCard } from '@@profile/components/direct-deposit/PaymentHistoryCard';
 
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-
-import VerifyIdentity from './alerts/VerifyIdentity';
-import { TemporaryOutage } from './alerts/TemporaryOutage';
-import DirectDepositBlocked from './alerts/DirectDepositBlocked';
-import { AccountInfoView } from './AccountInfoView';
-import { AccountUpdateView } from './AccountUpdateView';
-import { FraudVictimSummary } from './FraudVictimSummary';
-import { PaymentHistoryCard } from './PaymentHistoryCard';
-import { ProfileInfoCard } from '../ProfileInfoCard';
-
-import { saveDirectDeposit } from '../../actions/directDeposit';
-import { DirectDepositDevWidget } from './DirectDepositDevWidget';
-import { Ineligible } from './alerts/Ineligible';
 
 const cardHeadingId = 'bank-account-information';
 
