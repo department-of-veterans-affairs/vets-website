@@ -111,6 +111,12 @@ const Prescriptions = () => {
     focusElement(document.getElementById('showingRx'));
   };
 
+  const printRxList = () =>
+    setTimeout(() => {
+      window.print();
+      setPrintedList(paginatedPrescriptionsList);
+    }, 1);
+
   useEffect(
     () => {
       dispatch(
@@ -364,7 +370,7 @@ const Prescriptions = () => {
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
             });
-            setTimeout(() => window.print(), 1);
+            printRxList();
           }
           updateLoadingStatus(false, '');
         }
@@ -432,7 +438,7 @@ const Prescriptions = () => {
       setPdfTxtGenerateStatus({
         status: PDF_TXT_GENERATE_STATUS.NotStarted,
       });
-      setTimeout(() => window.print(), 1);
+      printRxList();
     }
     dispatch(clearAllergiesError());
   };
