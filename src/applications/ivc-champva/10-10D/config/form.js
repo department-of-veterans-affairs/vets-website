@@ -25,6 +25,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
@@ -53,16 +54,7 @@ import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
-import {
-  sponsorCasualtyReportConfig,
-  sponsorDisabilityRatingConfig,
-  sponsorDischargePapersConfig,
-  blankSchema,
-  acceptableFiles,
-  sponsorCasualtyUploadUiSchema,
-  sponsorDisabilityRatingUploadUiSchema,
-  sponsorDischargePapersUploadUiSchema,
-} from '../components/Sponsor/sponsorFileUploads';
+import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
   // marriageDocumentList,
   applicantBirthCertConfig,
@@ -92,6 +84,7 @@ import {
   applicantOtherInsuranceCertificationUploadUiSchema,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 import {
   ApplicantMedicareStatusPage,
@@ -113,6 +106,10 @@ import {
   ApplicantRelOriginPage,
   ApplicantRelOriginReviewPage,
 } from '../pages/ApplicantRelOriginPage';
+import {
+  ApplicantGenderPage,
+  ApplicantGenderReviewPage,
+} from '../pages/ApplicantGenderPage';
 import {
   ApplicantDependentStatusPage,
   ApplicantDependentStatusReviewPage,
@@ -143,6 +140,7 @@ const formConfig = {
   transformForSubmit,
   showReviewErrors: !environment.isProduction(),
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  footerContent: GetFormHelp,
   // submit: () =>
   // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',
@@ -449,26 +447,6 @@ const formConfig = {
             },
           },
         },
-        page9a: {
-          path: 'sponsor-status-file',
-          title: 'Sponsor casualty report',
-          depends: formData =>
-            get('sponsorIsDeceased', formData) &&
-            get('sponsorDeathConditions', formData),
-          CustomPage: FileFieldCustom,
-          CustomPageReview: null,
-          uiSchema: sponsorCasualtyUploadUiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              ...sponsorCasualtyReportConfig.schema,
-              sponsorCasualtyReport: fileWithMetadataSchema(
-                acceptableFiles.casualtyCert,
-              ),
-            },
-          },
-        },
         page10b1: {
           path: 'sponsor-mailing-address',
           title: formData => `${sponsorWording(formData)} mailing address`,
@@ -531,40 +509,6 @@ const formConfig = {
             },
           },
         },
-        page12: {
-          path: 'sponsor-disability-file',
-          title: 'Sponsor disability rating',
-          CustomPage: FileFieldCustom,
-          CustomPageReview: null,
-          uiSchema: sponsorDisabilityRatingUploadUiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              ...sponsorDisabilityRatingConfig.schema,
-              sponsorDisabilityRating: fileWithMetadataSchema(
-                acceptableFiles.disabilityCert,
-              ),
-            },
-          },
-        },
-        page12a: {
-          path: 'sponsor-discharge-file',
-          title: 'Sponsor discharge papers',
-          CustomPage: FileFieldCustom,
-          CustomPageReview: null,
-          uiSchema: sponsorDischargePapersUploadUiSchema,
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              ...sponsorDischargePapersConfig.schema,
-              sponsorDischargePapers: fileWithMetadataSchema(
-                acceptableFiles.dischargeCert,
-              ),
-            },
-          },
-        },
       },
     },
     applicantInformation: {
@@ -575,13 +519,10 @@ const formConfig = {
           arrayPath: 'applicants',
           title: 'Applicants',
           uiSchema: {
-            ...titleUI('Applicant name and date of birth', ({ formData }) => (
+            ...titleUI('Applicant name and date of birth', () => (
               <>
-                {`Enter ${
-                  formData.certifierRole === 'applicant'
-                    ? 'your information and the information for any other'
-                    : 'the information for any'
-                } applicants you want to enroll in CHAMPVA benefits.`}
+                Enter the information for any applicants you want to enroll in
+                CHAMPVA benefits.
                 <br />
                 <br />
                 {`You can add up to ${MAX_APPLICANTS} applicants in a single application. If you 
@@ -626,24 +567,18 @@ const formConfig = {
                 viewField: ApplicantField,
               },
               items: {
-                'ui:options': {
-                  updateSchema: formData => {
-                    return {
-                      title: context =>
-                        titleUI(
-                          `${applicantWording(formData, context)} information`,
-                          `Next we'll ask more questions about ${applicantWording(
-                            formData,
-                            context,
-                            false,
-                            false,
-                          )}. This includes social security number, mailing address, 
+                ...titleUI(
+                  ({ formData }) => `${applicantWording(formData)} information`,
+                  ({
+                    formData,
+                  }) => `Next we'll ask more questions about ${applicantWording(
+                    formData,
+                    undefined,
+                    false,
+                  )}. This includes social security number, mailing address, 
                           contact information, relationship to sponsor, and health 
                           insurance information.`,
-                        )['ui:title'],
-                    };
-                  },
-                },
+                ),
               },
             },
           },
@@ -668,22 +603,11 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} identification information`,
+                ),
                 applicantSSN: ssnOrVaFileNumberCustomUI(),
-                // Dynamic title (uses "your" if certifierRole is applicant and
-                // this is applicant[0])
-                'ui:options': {
-                  updateSchema: formData => {
-                    return {
-                      title: context =>
-                        titleUI(
-                          `${applicantWording(
-                            formData,
-                            context,
-                          )} identification information`,
-                        )['ui:title'], // grab styled title rather than plain text
-                    };
-                  },
-                },
               },
             },
           },
@@ -698,6 +622,7 @@ const formConfig = {
           showPagePerItem: true,
           keepInPageOnReview: false,
           title: item => `${applicantWording(item)} mailing address`,
+          depends: (formData, index) => index && index > 0,
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -720,6 +645,10 @@ const formConfig = {
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} mailing address`,
+                ),
                 'view:description': {
                   'ui:description':
                     'We’ll send any important information about your application to this address.',
@@ -733,23 +662,11 @@ const formConfig = {
                     },
                   }),
                 },
-                'ui:options': {
-                  updateSchema: formData => {
-                    return {
-                      title: context =>
-                        titleUI(
-                          `${applicantWording(
-                            formData,
-                            context,
-                          )} mailing address`,
-                        )['ui:title'], // grab styled title rather than plain text
-                    };
-                  },
-                },
               },
             },
           },
           schema: applicantListSchema([], {
+            titleSchema,
             'view:description': blankSchema,
             ...homelessInfo.schema,
             applicantAddress: addressSchema(),
@@ -764,20 +681,11 @@ const formConfig = {
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
-                'ui:options': {
-                  updateSchema: formData => {
-                    return {
-                      title: context =>
-                        titleUI(
-                          `${applicantWording(
-                            formData,
-                            context,
-                          )} contact information`,
-                          'This information helps us contact you faster if we need to follow up with you about your application',
-                        )['ui:title'],
-                    };
-                  },
-                },
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} contact information`,
+                  'This information helps us contact you faster if we need to follow up with you about your application',
+                ),
                 ...noPhoneInfo.uiSchema,
                 applicantPhone: phoneUI(),
                 applicantEmailAddress: emailUI(),
@@ -785,6 +693,7 @@ const formConfig = {
             },
           },
           schema: applicantListSchema(['applicantPhone'], {
+            titleSchema,
             ...noPhoneInfo.schema,
             applicantPhone: phoneSchema,
             applicantEmailAddress: emailSchema,
@@ -795,30 +704,25 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} gender`,
+          CustomPage: ApplicantGenderPage,
+          CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
             applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {
-                'ui:options': {
-                  updateSchema: formData => {
-                    return {
-                      title: context =>
-                        titleUI(
-                          `${applicantWording(formData, context)} gender`,
-                        )['ui:title'],
-                    };
-                  },
-                },
-                applicantGender: radioUI({
-                  title: 'Gender',
-                  required: () => true,
-                  labels: { male: 'Male', female: 'Female' },
-                }),
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
               },
             },
           },
           schema: applicantListSchema([], {
-            applicantGender: radioSchema(['male', 'female']),
+            titleSchema,
+            applicantGender: {
+              type: 'object',
+              properties: {
+                gender: { type: 'string' },
+                _unused: { type: 'string' },
+              },
+            },
           }),
         },
         page18: {

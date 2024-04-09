@@ -58,6 +58,10 @@ function generateOptions({ data, pagePerItemIndex }) {
       } 55th birthday`,
       value: 'marriedTillDeathRemarriedAfter55',
     },
+    {
+      label: `Other relationship`,
+      value: `other`,
+    },
   ];
 
   return {

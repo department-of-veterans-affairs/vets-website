@@ -115,7 +115,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             {headerText}
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-living-expense-name"
             label="What is the name of the living expense?"
@@ -129,7 +129,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             uswds
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
+            width="md"
             error={otherExpenseAmountError}
             id="add-other-living-expense-amount"
             inputmode="decimal"

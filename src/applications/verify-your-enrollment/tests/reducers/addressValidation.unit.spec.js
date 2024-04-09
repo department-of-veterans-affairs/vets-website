@@ -38,7 +38,16 @@ describe('addressReducer', () => {
       address: '123 Main St',
     });
   });
-
+  it('Should handle RESET_ADDRESS_VALIDATIONS_ERROR', () => {
+    const initialState = {
+      validationError: 'some error',
+    };
+    const action = {
+      type: 'RESET_ADDRESS_VALIDATIONS_ERROR',
+    };
+    const newState = addressReducer(initialState, action);
+    expect(newState.validationError).to.be.null;
+  });
   it('should handle ADDRESS_VALIDATION_FAIL', () => {
     const initialState = {
       isLoadingValidateAddress: true,
@@ -60,7 +69,6 @@ describe('addressReducer', () => {
   it('should handle RESET_ADDRESS_VALIDATIONS', () => {
     const initialState = {
       isLoadingValidateAddress: true,
-      validationError: 'Validation error',
       validationSuccess: true,
       addressValidationData: { address: '123 Main St' },
     };
@@ -69,7 +77,6 @@ describe('addressReducer', () => {
     };
     const newState = addressReducer(initialState, action);
     expect(newState.isLoadingValidateAddress).to.be.false;
-    expect(newState.validationError).to.be.null;
     expect(newState.validationSuccess).to.be.false;
     expect(newState.addressValidationData).to.be.null;
   });
