@@ -97,3 +97,48 @@ export const applicantPrimaryExpirationDateSchema = {
     applicantPrimaryExpirationDate: currentOrPastDateSchema,
   }),
 };
+
+export const applicantPrimaryThroughEmployerSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantPrimaryThroughEmployer: {
+      type: 'object',
+      properties: {
+        throughEmployer: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};
+
+export const applicantPrimaryPrescriptionSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantPrimaryHasPrescription: {
+      type: 'object',
+      properties: {
+        hasPrescription: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};
+
+export const applicantPrimaryEOBSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantPrimaryEOB: {
+      type: 'object',
+      properties: {
+        providesEOB: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};
