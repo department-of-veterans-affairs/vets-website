@@ -1,8 +1,4 @@
 import { Actions } from '../util/actionTypes';
-import { getConditions, getCondition } from '../api/MrApi';
-import * as Constants from '../util/constants';
-import { addAlert } from './alerts';
-import { dispatchDetails } from '../util/helpers';
 
 const defaultRetryInterval = 2000;
 const defaultEndTimeOffset = 90000;
