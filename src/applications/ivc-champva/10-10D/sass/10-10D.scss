@@ -11,3 +11,15 @@
 .upload-button-label.vads-u-display--inline-block {
   margin-top: initial;
 }
+
+/* a11y - Change gray box to white box with gray border. Needed because when
+   a web component has gray color hint text the hint text compared to the
+   background color is too low contrast.
+   This only applies to applicant tiles in list loop */
+form {
+  [id*="root_applicants_"].va-growable-background {
+    border: 1px solid var(--vads-color-gray-medium);
+    background-color: var(--vads-color-white);
+    padding: 0rem 3rem 0rem 3rem;
+  }
+}
