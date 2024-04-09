@@ -285,6 +285,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         <p
           id="vye-pagination-page-status-text"
           className="focus-element-on-pagination"
+          aria-label={`Showing ${subsetStart +
+            1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
         >
           {`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
