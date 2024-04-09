@@ -119,7 +119,7 @@ const MoveMessageToFolderBtn = props => {
         >
           <p>
             This conversation will be moved. Any replies to this message will
-            appear in your inbox
+            appear in your inbox.
           </p>
           <VaRadio
             className="form-radio-buttons"
@@ -163,18 +163,27 @@ const MoveMessageToFolderBtn = props => {
           </VaRadio>
           <p /> {/* to create extra margin between radio and action buttons */}
           {/* For creating a new folder and moving the thread */}
-          <va-button
-            class="vads-u-margin-right--1 small-screen:vads-u-margin-right--0"
-            text="Confirm"
-            onClick={handleConfirmMoveFolderTo}
-            data-dd-action-name="Confirm Move to Button"
-          />
-          <va-button
-            secondary
-            text="Cancel"
-            onClick={closeModal}
-            data-dd-action-name="Cancel Move to Button"
-          />
+          <div
+            className="
+              move-folder-modal-buttons
+              vads-u-display--flex
+              vads-u-flex-direction--column
+              small-screen:vads-u-flex-direction--row
+              "
+          >
+            <va-button
+              text="Confirm"
+              onClick={handleConfirmMoveFolderTo}
+              data-dd-action-name="Confirm Move to Button"
+            />
+            <va-button
+              class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              secondary
+              text="Cancel"
+              onClick={closeModal}
+              data-dd-action-name="Cancel Move to Button"
+            />
+          </div>
         </VaModal>
       </div>
     );
