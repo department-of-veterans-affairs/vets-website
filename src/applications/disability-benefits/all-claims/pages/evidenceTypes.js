@@ -1,15 +1,19 @@
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { validateIfHasEvidence } from '../validations';
 import get from 'platform/utilities/data/get';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { validateIfHasEvidence } from '../validations';
 
 import { evidenceTypeHelp } from '../content/evidenceTypes';
 
 export const uiSchema = {
-  'view:hasEvidence': {
-    'ui:title':
+  'view:hasEvidence': yesNoUI({
+    title:
       'Is there any evidence you’d like us to review as part of your claim?',
-    'ui:widget': 'yesNo',
-  },
+    uswds: false,
+  }),
   'view:hasEvidenceFollowUp': {
     'ui:options': {
       expandUnder: 'view:hasEvidence',
@@ -48,10 +52,7 @@ export const schema = {
   type: 'object',
   required: ['view:hasEvidence'],
   properties: {
-    'view:hasEvidence': {
-      type: 'boolean',
-      default: true,
-    },
+    'view:hasEvidence': yesNoSchema,
     'view:hasEvidenceFollowUp': {
       type: 'object',
       properties: {
