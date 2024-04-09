@@ -14,10 +14,10 @@ import VaCheckboxField from '../web-component-fields/VaCheckboxField';
 
 /**
  * PATTERNS
- * STREET_PATTERN - rejects white space only
+ * NONBLANK_PATTERN - rejects white space only
  * POSTAL_CODE_PATTERNS - Matches US/Mexican/Canadian codes
  */
-const STREET_PATTERN = '^.*\\S.*';
+const NONBLANK_PATTERN = '^.*\\S.*';
 const POSTAL_CODE_PATTERNS = {
   CAN:
     '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
@@ -351,7 +351,7 @@ export function addressUI(options) {
         replaceSchema: (_, schema) => {
           return {
             ...schema,
-            pattern: STREET_PATTERN,
+            pattern: NONBLANK_PATTERN,
           };
         },
       },
@@ -424,7 +424,7 @@ export function addressUI(options) {
             type: 'string',
             title: 'City',
             maxLength: cityMaxLength,
-            pattern: STREET_PATTERN,
+            pattern: NONBLANK_PATTERN,
           };
         },
       },
