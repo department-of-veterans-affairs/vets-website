@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const VeteranCrisisLine = ({ isMobile }) => {
   return (
     <div className="va-crisis-line-container vads-u-background-color--secondary-darkest">
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
       <button
+        data-testid="veteran-crisis-line-button"
         className="va-crisis-line va-overlay-trigger vads-u-background-color--secondary-darkest"
         id="header-crisis-line"
         data-show="#modal-crisisline"
@@ -14,7 +16,10 @@ const VeteranCrisisLine = ({ isMobile }) => {
           {!isMobile && (
             <span className="va-crisis-line-icon" aria-hidden="true" />
           )}
-          <span className="va-crisis-line-text">
+          <span
+            data-testid="veteran-crisis-line-text"
+            className="va-crisis-line-text"
+          >
             Talk to the <strong>Veterans Crisis Line</strong> now
           </span>
           <img
@@ -27,6 +32,10 @@ const VeteranCrisisLine = ({ isMobile }) => {
       </button>
     </div>
   );
+};
+
+VeteranCrisisLine.propTypes = {
+  isMobile: PropTypes.bool,
 };
 
 export default VeteranCrisisLine;

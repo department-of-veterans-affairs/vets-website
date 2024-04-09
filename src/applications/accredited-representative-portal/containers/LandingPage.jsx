@@ -47,7 +47,7 @@ const LandingPage = () => {
                   className="usa-button usa-button-primary"
                   href={SIGN_IN_URL}
                 >
-                  Create account
+                  Sign in or create account
                 </a>
               </div>
             </div>

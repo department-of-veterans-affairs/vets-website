@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const Menu = () => {
+const WiderThanMobileMenu = () => {
   return (
     <div className="usa-grid usa-grid-full">
       <div className="menu-rule usa-one-whole" />
@@ -11,17 +11,14 @@ const Menu = () => {
             <div id="vetnav" role="navigation">
               <ul id="vetnav-menu">
                 <li>
-                  <a
-                    className="vetnav-level1"
-                    data-testid="mobile-home-nav-link"
-                    href="/"
-                  >
+                  <a className="vetnav-level1" href="/">
                     Home
                   </a>
                 </li>
                 <li>
                   {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
                   <button
+                    data-testid="wider-than-mobile-menu-about-button"
                     aria-expanded="false"
                     aria-controls="vetnav-about"
                     aria-haspopup="true"
@@ -34,15 +31,17 @@ const Menu = () => {
                 </li>
                 <li>
                   <Link
+                    data-testid="wider-than-mobile-menu-poa-link"
                     className="vetnav-level1 medium-screen:vads-u-padding--2"
                     to="/poa-requests"
                   >
-                    Power of Attorney
+                    Power of attorney
                   </Link>
                 </li>
                 <li>
                   {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
                   <button
+                    data-testid="wider-than-mobile-menu-accreditation-button"
                     aria-expanded="false"
                     aria-controls="vetnav-accreditation"
                     aria-haspopup="true"
@@ -60,6 +59,7 @@ const Menu = () => {
                 <li>
                   {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
                   <button
+                    data-testid="wider-than-mobile-menu-resources-button"
                     aria-expanded="false"
                     aria-controls="vetnav-resources"
                     aria-haspopup="true"
@@ -79,4 +79,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default WiderThanMobileMenu;

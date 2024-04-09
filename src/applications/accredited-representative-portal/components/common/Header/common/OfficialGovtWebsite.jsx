@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const OfficialGovtWebsite = ({ isMobile }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,6 +22,7 @@ const OfficialGovtWebsite = ({ isMobile }) => {
               <>
                 {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                 <button
+                  data-testid="official-govt-website-toggle-mobile"
                   id="usa-banner-toggle"
                   className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
                   aria-expanded={isExpanded}
@@ -39,13 +41,17 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                 <p>An official website of the United States government</p>
                 {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                 <button
+                  data-testid="official-govt-website-toggle-wider-than-mobile"
                   id="usa-banner-toggle"
                   className="usa-accordion-button usa-banner-button"
                   aria-expanded={isExpanded}
                   aria-controls="gov-banner"
                   onClick={toggleExpansion}
                 >
-                  <span className="usa-banner-button-text">
+                  <span
+                    data-testid="official-govt-website-toggle-wider-than-mobile-text"
+                    className="usa-banner-button-text"
+                  >
                     Here’s how you know
                   </span>
                 </button>
@@ -54,6 +60,7 @@ const OfficialGovtWebsite = ({ isMobile }) => {
           </div>
         </div>
         <div
+          data-testid="official-govt-website-content"
           className="usa-banner-content usa-grid usa-accordion-content"
           id="gov-banner"
           aria-hidden={!isExpanded}
@@ -93,6 +100,10 @@ const OfficialGovtWebsite = ({ isMobile }) => {
       </div>
     </div>
   );
+};
+
+OfficialGovtWebsite.propTypes = {
+  isMobile: PropTypes.bool,
 };
 
 export default OfficialGovtWebsite;
