@@ -104,6 +104,9 @@ export default function VaCheckboxGroupField(props) {
                 checked={formData === 'undefined' ? false : formData}
                 tile={props.uiOptions?.tile}
                 checkbox-description={uiSchema['ui:description']}
+                message-aria-describedby={
+                  props.uiOptions?.messageAriaDescribedby || ''
+                }
               />
             );
           })}
