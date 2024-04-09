@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Footer from '../components/common/Footer';
 import Header from '../components/common/Header/Header';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
@@ -36,8 +35,7 @@ function App({ children }) {
   return (
     <>
       <Header />
-      <main>{children}</main>
-      <Footer />
+      {children}
     </>
   );
 }
