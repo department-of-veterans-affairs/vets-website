@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Outlet } from 'react-router-dom-v5-compat';
-import { useHistory } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import DowntimeNotification, {
@@ -122,12 +121,13 @@ AppContent.propTypes = {
 };
 
 function ClaimsStatusApp({ dispatchSetLastPage, featureFlagsLoading, user }) {
-  const history = useHistory();
-  useEffect(() => {
-    history.listen(location => {
-      dispatchSetLastPage(location.pathname);
-    });
-  }, []);
+  const { pathname } = useLocation();
+  useEffect(
+    () => {
+      dispatchSetLastPage(pathname);
+    },
+    [pathname],
+  );
 
   return (
     <RequiredLoginView
