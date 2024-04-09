@@ -19,12 +19,10 @@ const WiderThanMobileLogoRow = () => {
           />
         </Link>
       </div>
-      <div id="va-nav-controls" />
       <div className="medium-screen:vads-u-display--none usa-grid usa-grid-full">
         <div className="menu-rule usa-one-whole" />
-        <div className="mega-menu" id="mega-menu-mobile" />
       </div>
-      <div id="login-root" className="vet-toolbar">
+      <div className="vet-toolbar">
         <a
           data-testid="wider-than-mobile-logo-row-contact-us-link"
           className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"

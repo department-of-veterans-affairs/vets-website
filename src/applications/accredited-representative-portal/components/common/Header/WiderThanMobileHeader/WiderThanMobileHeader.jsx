@@ -7,11 +7,7 @@ import VeteranCrisisLine from '../common/VeteranCrisisLine';
 
 const WiderThanMobileHeader = () => {
   return (
-    <div
-      data-testid="wider-than-mobile-header"
-      id="legacy-header"
-      className="wider-than-mobile"
-    >
+    <div data-testid="wider-than-mobile-header" className="wider-than-mobile">
       <div className="va-notice--banner">
         <div className="va-notice--banner-inner">
           <OfficialGovtWebsite />

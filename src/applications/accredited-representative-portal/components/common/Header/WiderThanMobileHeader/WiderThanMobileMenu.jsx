@@ -8,7 +8,7 @@ const WiderThanMobileMenu = () => {
       <div id="mega-menu">
         <div className="hidden-header login-container">
           <div className="row va-flex">
-            <div id="vetnav" role="navigation">
+            <div role="navigation">
               <ul id="vetnav-menu">
                 <li>
                   <a className="vetnav-level1" href="/">

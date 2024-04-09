@@ -8,7 +8,6 @@ const VeteranCrisisLine = ({ isMobile }) => {
       <button
         data-testid="veteran-crisis-line-button"
         className="va-crisis-line va-overlay-trigger vads-u-background-color--secondary-darkest"
-        id="header-crisis-line"
         data-show="#modal-crisisline"
         type="button"
       >

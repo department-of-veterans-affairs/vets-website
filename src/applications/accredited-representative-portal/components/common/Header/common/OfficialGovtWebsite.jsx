@@ -23,7 +23,6 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                 {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                 <button
                   data-testid="official-govt-website-toggle-mobile"
-                  id="usa-banner-toggle"
                   className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
                   aria-expanded={isExpanded}
                   aria-controls="gov-banner"
@@ -42,7 +41,6 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                 {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
                 <button
                   data-testid="official-govt-website-toggle-wider-than-mobile"
-                  id="usa-banner-toggle"
                   className="usa-accordion-button usa-banner-button"
                   aria-expanded={isExpanded}
                   aria-controls="gov-banner"
@@ -62,7 +60,6 @@ const OfficialGovtWebsite = ({ isMobile }) => {
         <div
           data-testid="official-govt-website-content"
           className="usa-banner-content usa-grid usa-accordion-content"
-          id="gov-banner"
           aria-hidden={!isExpanded}
         >
           <div className="usa-banner-guidance-gov usa-width-one-half">
