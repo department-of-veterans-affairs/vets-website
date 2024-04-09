@@ -98,6 +98,9 @@ export function saveDirectDeposit(
 
     const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(data),
     });
 
