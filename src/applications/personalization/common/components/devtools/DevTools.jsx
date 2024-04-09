@@ -38,9 +38,7 @@ export const DevTools = ({
           devToolsData={devToolsData}
           panel={panel}
           showIcon={showIcon}
-        >
-          {children}
-        </DevToolsLoader>
+        />
       </Suspense>
       {children}
     </div>

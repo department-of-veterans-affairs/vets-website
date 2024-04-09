@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
@@ -17,7 +16,17 @@ const getUuid = nanoidImp => {
   }
 };
 
-const DevToolsPanel = ({ devToolsData, show, setShow, panel }) => {
+const normalizeData = data => {
+  switch (typeof data) {
+    case 'string':
+    case 'object':
+      return JSON.stringify(data, null, 2);
+    default:
+      return String(data);
+  }
+};
+
+const DevToolsPanel = ({ devToolsData, show, setShow }) => {
   const classes = classNames({
     'devtools-panel': true,
     'devtools-panel--hidden': !show,
@@ -36,65 +45,34 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel }) => {
   };
 
   return (
-    <>
-      {panel ? (
-        <div className={classes} data-testid="devtools-panel">
-          <div className="devtools-panel__content">
-            <button
-              type="button"
-              className="devtools-panel__close-button"
-              onClick={handlers.close}
-            >
-              <i className="fas fa-times" />
-            </button>
-
-            <h6>devToolsData</h6>
-            <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
-          </div>
-        </div>
-      ) : (
-        <VaModal
-          large
-          modalTitle="Dev Tools"
-          onCloseEvent={handlers.close}
-          onPrimaryButtonClick={function noRefCheck() {}}
-          onSecondaryButtonClick={handlers.close}
-          primaryButtonText="Copy to clipboard"
-          secondaryButtonText="Close"
-          visible
-          clickToClose
+    <div className={classes} data-testid="devtools-panel">
+      <div className="devtools-panel__content">
+        <button
+          type="button"
+          className="devtools-panel__close-button"
+          onClick={handlers.close}
         >
-          <va-accordion
-            disable-analytics={{
-              value: 'true',
-            }}
-            section-heading={{
-              value: 'Details',
-            }}
-            uswds={{
-              value: 'false',
-            }}
-          >
-            {devToolsData && (
-              <va-accordion-item>
-                <h6 slot="headline">devToolsData</h6>
-                <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
-              </va-accordion-item>
-            )}
-          </va-accordion>
-        </VaModal>
-      )}
-    </>
+          <i className="fas fa-times" />
+        </button>
+
+        <h6>devToolsData</h6>
+        <pre>{normalizeData(devToolsData)}</pre>
+      </div>
+    </div>
   );
 };
 
-export const DevToolsLoader = ({
-  devToolsData,
-  panel,
-  children,
-  nanoidImp = nanoid,
-  showIcon,
-}) => {
+DevToolsPanel.propTypes = {
+  devToolsData: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.string,
+  ]),
+  setShow: PropTypes.func,
+  show: PropTypes.bool,
+};
+
+export const DevToolsLoader = ({ devToolsData, nanoidImp, showIcon }) => {
   const [show, setShow] = useState(false);
 
   const uuid = useRef(getUuid(nanoidImp));
@@ -151,10 +129,7 @@ export const DevToolsLoader = ({
             devToolsData={devToolsData}
             show={show}
             setShow={setShow}
-            panel={panel}
-          >
-            {children}
-          </DevToolsPanel>
+          />
         </>
       )}
     </div>
@@ -164,7 +139,15 @@ export const DevToolsLoader = ({
 DevToolsLoader.propTypes = {
   children: PropTypes.node,
   devToolsData: PropTypes.object,
-  panel: PropTypes.bool,
+  nanoidImp: PropTypes.func,
+  showIcon: PropTypes.bool,
+};
+
+DevToolsLoader.defaultProps = {
+  children: null,
+  devToolsData: {},
+  nanoidImp: nanoid,
+  showIcon: true,
 };
 
 export default DevToolsLoader;
