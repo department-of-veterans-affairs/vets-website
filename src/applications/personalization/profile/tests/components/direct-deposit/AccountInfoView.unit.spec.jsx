@@ -7,6 +7,7 @@ import configureMockStore from 'redux-mock-store';
 
 import { toggleDirectDepositEdit } from '@@profile/actions/directDeposit';
 import { AccountInfoView } from '@@profile/components/direct-deposit/AccountInfoView';
+import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
 
 describe('<AccountInfoView />', () => {
   const mockStore = configureMockStore();
@@ -58,33 +59,38 @@ describe('<AccountInfoView />', () => {
   });
 
   it('dispatches the toggleDirectDepositEdit action when the Edit button is clicked', () => {
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={store}>
         <AccountInfoView paymentAccount={paymentAccount} showUpdateSuccess />
       </Provider>,
     );
 
-    fireEvent.click(getByText('Edit'));
+    const button = getVaButtonByText('Edit', { container });
+    fireEvent.click(button);
+
     const actions = store.getActions();
     expect(actions).to.deep.equal([toggleDirectDepositEdit()]);
   });
 
   it('renders the NoAccountInfo component when paymentAccount is not provided', () => {
-    const { getByText } = render(
+    const { getByText, container } = render(
       <Provider store={store}>
         <AccountInfoView showUpdateSuccess />
       </Provider>,
     );
 
+    // No account information text should be displayed
     expect(getByText('Edit your profile to add your bank information.')).to
       .exist;
-    expect(getByText('Edit')).to.exist;
+
+    // Edit button should be displayed
+    expect(getVaButtonByText('Edit', { container })).to.exist;
   });
 
   it('calls recordEvent when the Edit button is clicked and payment account is present', () => {
     const recordEventSpy = sinon.spy();
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={store}>
         <AccountInfoView
           paymentAccount={paymentAccount}
@@ -94,7 +100,9 @@ describe('<AccountInfoView />', () => {
       </Provider>,
     );
 
-    fireEvent.click(getByText('Edit'));
+    const button = getVaButtonByText('Edit', { container });
+    fireEvent.click(button);
+
     expect(recordEventSpy.calledOnce).to.be.true;
     expect(recordEventSpy.args[0][0]).to.deep.equal({
       event: 'profile-navigation',
@@ -106,13 +114,15 @@ describe('<AccountInfoView />', () => {
   it('calls recordEvent when the Edit button is clicked and payment account is NOT present', () => {
     const recordEventSpy = sinon.spy();
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={store}>
         <AccountInfoView showUpdateSuccess recordEventImpl={recordEventSpy} />
       </Provider>,
     );
 
-    fireEvent.click(getByText('Edit'));
+    const button = getVaButtonByText('Edit', { container });
+    fireEvent.click(button);
+
     expect(recordEventSpy.calledOnce).to.be.true;
     expect(recordEventSpy.args[0][0]).to.deep.equal({
       event: 'profile-navigation',
