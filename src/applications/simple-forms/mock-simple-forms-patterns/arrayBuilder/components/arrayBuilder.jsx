@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
 import {
@@ -10,7 +9,8 @@ import {
   createArrayBuilderUpdatedPath,
 } from '../helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
-import ArrayBuilderCards from './ArrayBuilderCards';
+import { ArrayBuilderSummaryPage } from './ArrayBuilderSummaryPage';
+import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
  * @typedef {Object} ArrayBuilderPages
@@ -91,9 +91,11 @@ function verifyRequiredPropsPageConfig(pageType, requiredOpts, objectToCheck) {
 
 function determineYesNoField(uiSchema) {
   let yesNoKey;
-  for (const key of Object.keys(uiSchema)) {
-    if (uiSchema[key]['ui:webComponentField'] === YesNoField) {
-      yesNoKey = key;
+  if (uiSchema) {
+    for (const key of Object.keys(uiSchema)) {
+      if (uiSchema[key]['ui:webComponentField'] === YesNoField) {
+        yesNoKey = key;
+      }
     }
   }
   return yesNoKey;
@@ -175,19 +177,48 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     'arrayPath',
     'nounSingular',
     'nounPlural',
+    'required',
   ]);
 
   const {
     arrayPath,
     nounSingular,
     nounPlural,
-    getItemName = item => item?.name,
+    getItemName = DEFAULT_ARRAY_BUILDER_TEXT.getItemName,
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
-    text = {},
+    text: userText = {},
     reviewPath,
+    required,
   } = options;
+
+  const text = {
+    ...DEFAULT_ARRAY_BUILDER_TEXT,
+    getItemName,
+    ...userText,
+  };
+
+  const textProps = {
+    getItemName,
+    nounPlural,
+    nounSingular,
+  };
+
+  /**
+   * @param {ArrayBuilderTextKey} key
+   * @param {any} itemData
+   * @returns {string}
+   */
+  const getText = (key, itemData) => {
+    if (key === 'getItemName' || key === 'cardDescription') {
+      return text?.[key](itemData);
+    }
+    return text?.[key]({
+      ...textProps,
+      itemData,
+    });
+  };
 
   /**
    * @type {{
@@ -226,37 +257,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   // Didn't throw error so success: Validated and setup success
   const pageBuilder = pageBuilderVerifyAndSetup;
 
-  const CustomPageItem = ArrayBuilderItemPage({
-    arrayPath,
-    nounSingular,
-    nounPlural,
-    summaryRoute: summaryPath,
-  });
-
-  const SummaryCards = (
-    <ArrayBuilderCards
-      cardDescription={text?.cardDescription || undefined}
-      arrayPath={arrayPath}
-      nounSingular={nounSingular}
-      nounPlural={nounPlural}
-      isIncomplete={isItemIncomplete}
-      editItemPathUrl={firstItemPagePath}
-    />
-  );
-
-  /** @returns {FormConfigPage} */
-  const commonItemPageConfig = depends => ({
-    showPagePerItem: true,
-    allowPathWithNoItems: true,
-    arrayPath,
-    CustomPage: CustomPageItem,
-    CustomPageReview: () => null,
-    customPageUsesPagePerItemData: true,
-    depends: formData =>
-      (depends ? depends(formData) : true) &&
-      (formData[hasItemsKey] || formData[arrayPath]?.length > 0),
-  });
-
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardFinishedItem = ({
     goPath,
@@ -265,7 +265,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     pageList,
   }) => {
     let path = summaryPath;
-    if (urlParams?.edit) {
+    if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
       const index = getUrlPathIndex(pathname);
       const review = reviewPath || pageList[pageList.length - 1]?.path;
       const basePath = urlParams?.review ? review : summaryPath;
@@ -313,21 +313,36 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredPropsPageConfig('summaryPage', requiredOpts, pageConfig);
 
+    const summaryPageProps = {
+      arrayPath,
+      determineYesNoField,
+      firstItemPagePath,
+      getText,
+      isItemIncomplete,
+      maxItems,
+      nounPlural,
+      nounSingular,
+      required,
+    };
+
     return {
-      CustomPageReview: () => SummaryCards,
+      CustomPageReview: ArrayBuilderSummaryPage({
+        isReviewPage: true,
+        ...summaryPageProps,
+      }),
+      CustomPage: ArrayBuilderSummaryPage({
+        isReviewPage: false,
+        ...summaryPageProps,
+      }),
       onNavForward: navForwardSummary,
       ...pageConfig,
-      uiSchema: {
-        ...pageConfig.uiSchema,
-        'ui:description': SummaryCards,
-      },
     };
   };
 
   pageBuilder.itemPage = pageConfig => {
     const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
-    verifyRequiredPropsPageConfig('itemFirstPage', requiredOpts, pageConfig);
+    verifyRequiredPropsPageConfig('itemPage', requiredOpts, pageConfig);
     const { onNavBack, onNavForward } = getNavItem(pageConfig.path);
 
     return {
@@ -336,9 +351,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       arrayPath,
       CustomPage: ArrayBuilderItemPage({
         arrayPath,
-        nounSingular,
-        nounPlural,
         summaryRoute: summaryPath,
+        getText,
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,

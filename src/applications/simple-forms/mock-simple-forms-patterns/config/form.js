@@ -33,6 +33,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
+import { arrayBuilderMockData } from '../arrayBuilder/components/arrayMockData';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -295,6 +296,9 @@ const formConfig = {
             uiSchema: employersSummaryPage.uiSchema,
             schema: employersSummaryPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
+            // keep comment this for now while working on this feature
+            // eslint-disable-next-line sonarjs/no-redundant-boolean
+            initialData: false && arrayBuilderMockData,
           }),
           multiPageBuilderStepOne: pageBuilder.itemPage({
             title: 'Employer name and address',

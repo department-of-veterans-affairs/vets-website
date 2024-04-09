@@ -16,6 +16,7 @@ export const employersOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
+  required: true,
   isItemIncomplete: item =>
     !item?.name ||
     !item?.address?.country ||
