@@ -5,7 +5,7 @@ import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 describe('Discharge Upgrade Wizard', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit('/discharge-upgrade-instructions/introduction1');
 
       // Home
       h.verifyUrl(`${ROUTES.HOME}1`);
