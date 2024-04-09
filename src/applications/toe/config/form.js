@@ -309,7 +309,6 @@ const formConfig = {
               },
               'ui:required': formData => {
                 if (!formData.toeHighSchoolInfoChange) return false;
-
                 if (applicantIsaMinor(formData)) return true;
 
                 return false;

@@ -483,11 +483,10 @@ export function mapSponsorsToCheckboxOptions(sponsors, showMebEnhancements08) {
 }
 
 export const applicantIsaMinor = formData => {
-  if (!formData || !formData[formFields.dateOfBirth]) {
+  if (!formData || !formData?.dob) {
     return true;
   }
-
-  const dateParts = formData && formData[formFields.dateOfBirth].split('-');
+  const dateParts = formData && formData?.dob.split('-');
 
   if (!dateParts || dateParts.length !== 3) {
     return true;
