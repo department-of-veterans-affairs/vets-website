@@ -16,6 +16,20 @@ export const USER_MOCK_DATA = {
     indicator: 'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
     awards: [
       {
+        id: 7,
+        curAwardInd: 'example',
+        awardBeginDate: '2023-12-15T16:12:43.447Z',
+        awardEndDate: '2024-01-22T16:12:43.447Z',
+        trainingTime: 40,
+        paymentDate: '2024-01-01T16:12:43.447Z',
+        monthlyRate: '3200.0',
+        beginRsn: 'reason',
+        endRsn: 'reason',
+        typeTraining: 'type',
+        numberHours: 6,
+        typeHours: 'type',
+      },
+      {
         id: 8,
         curAwardInd: 'example',
         awardBeginDate: '2023-12-15T16:12:43.447Z',
@@ -236,6 +250,10 @@ export const USER_MOCK_DATA = {
       awardIds: [18, 19, 20, 21, 22],
     },
     verifications: [
+      {
+        createdOn: '2024-01-15T16:12:43.491Z',
+        awardIds: [7],
+      },
       {
         createdOn: '2024-01-15T16:12:43.491Z',
         awardIds: [8],
