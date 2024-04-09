@@ -7,13 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import {
-  // START lighthouse_migration
-  getTrackedItemId,
-  // END lighthouse_migration
-  makeAuthRequest,
-  roundToNearest,
-} from '../utils/helpers';
+import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 
@@ -346,9 +340,8 @@ export function submitFiles(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  // START lighthouse_migration
-  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
-  // END lighthouse_migration
+  const trackedItemId = trackedItem ? trackedItem.id : null;
+
   recordEvent({
     event: 'claims-upload-start',
   });
@@ -528,9 +521,8 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  // START lighthouse_migration
-  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
-  // END lighthouse_migration
+  const trackedItemId = trackedItem ? trackedItem.id : null;
+
   recordEvent({
     event: 'claims-upload-start',
   });

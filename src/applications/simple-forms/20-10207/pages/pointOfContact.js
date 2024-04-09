@@ -15,9 +15,6 @@ export default {
     pointOfContactName: {
       'ui:title': 'Name of your point of contact',
       'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: '',
-      },
     },
     pointOfContactPhone: phoneUI('Telephone number of your point of contact'),
   },
@@ -30,6 +27,5 @@ export default {
       },
       pointOfContactPhone: phoneSchema,
     },
-    required: ['phone'],
   },
 };
