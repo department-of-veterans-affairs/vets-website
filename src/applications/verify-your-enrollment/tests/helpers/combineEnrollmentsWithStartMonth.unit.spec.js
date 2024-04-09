@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { combineEnrollmentsWithEndMonths } from '../../helpers';
+import { combineEnrollmentsWithStartMonth } from '../../helpers';
 
-describe('combineEnrollmentsWithEndMonths', () => {
-  it('should correctly combine enrollments with the same end month', () => {
+describe('combineEnrollmentsWithStartMonth', () => {
+  it('should correctly combine enrollments with the same start month', () => {
     const enrollmentPeriods = [
       {
         id: 1,
@@ -13,21 +13,21 @@ describe('combineEnrollmentsWithEndMonths', () => {
       },
       {
         id: 2,
-        awardBeginDate: '2022-02-01',
-        awardEndDate: '2022-01-31',
+        awardBeginDate: '2022-01-01',
+        awardEndDate: '2022-02-31',
         numberHours: 20,
         monthlyRate: 200,
       },
       {
         id: 3,
         awardBeginDate: '2022-03-01',
-        awardEndDate: '2022-02-28',
+        awardEndDate: '2022-04-28',
         numberHours: 30,
         monthlyRate: 300,
       },
     ];
 
-    const result = combineEnrollmentsWithEndMonths(enrollmentPeriods);
+    const result = combineEnrollmentsWithStartMonth(enrollmentPeriods);
 
     expect(result).to.deep.equal({
       'January 2022': [
@@ -40,17 +40,17 @@ describe('combineEnrollmentsWithEndMonths', () => {
         },
         {
           id: 2,
-          awardBeginDate: '2022-02-01',
-          awardEndDate: '2022-01-31',
+          awardBeginDate: '2022-01-01',
+          awardEndDate: '2022-02-31',
           numberHours: 20,
           monthlyRate: 200,
         },
       ],
-      'February 2022': [
+      'March 2022': [
         {
           id: 3,
           awardBeginDate: '2022-03-01',
-          awardEndDate: '2022-02-28',
+          awardEndDate: '2022-04-28',
           numberHours: 30,
           monthlyRate: 300,
         },
