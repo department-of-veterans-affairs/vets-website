@@ -1,6 +1,6 @@
 import {
   currentOrPastDateRangeUI,
-  dateRangeSchema,
+  currentOrPastDateRangeSchema,
   titleUI,
   yesNoUI,
   yesNoSchema,
@@ -34,7 +34,7 @@ export default {
     properties: {
       powStatus: yesNoSchema,
       powDateRange: {
-        ...dateRangeSchema,
+        ...currentOrPastDateRangeSchema,
         required: [],
       },
     },

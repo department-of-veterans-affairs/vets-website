@@ -10,7 +10,7 @@ const { schema, uiSchema } = formConfig.chapters.date.pages.date;
 
 const pageTitle = 'mock date inputs';
 
-const expectedNumberOfWebComponentFields = 2;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

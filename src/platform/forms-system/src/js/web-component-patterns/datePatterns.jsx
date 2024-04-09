@@ -246,9 +246,16 @@ const dateOfBirthSchema = commonDefinitions.date;
 const dateOfDeathSchema = commonDefinitions.date;
 
 /**
- * @returns `date range schema`
+ * Usage:
+ * ```
+ * dateRange: currentOrPastDateRangeSchema
+ * dateRange: {
+ *   ...currentOrPastDateRangeSchema
+ *   required: []
+ * }
+ * ```
  */
-const dateRangeSchema = {
+const currentOrPastDateRangeSchema = {
   type: 'object',
   properties: {
     from: currentOrPastDateSchema,
@@ -263,9 +270,9 @@ export {
   dateOfBirthUI,
   dateOfDeathUI,
   currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   currentOrPastDateSchema,
   currentOrPastDateDigitsSchema,
   dateOfBirthSchema,
   dateOfDeathSchema,
-  dateRangeSchema,
 };

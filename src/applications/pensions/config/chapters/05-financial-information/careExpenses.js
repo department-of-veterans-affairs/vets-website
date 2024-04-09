@@ -4,7 +4,7 @@ import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
   currentOrPastDateRangeUI,
-  dateRangeSchema,
+  currentOrPastDateRangeSchema,
   radioUI,
   radioSchema,
   numberUI,
@@ -145,7 +145,7 @@ export default {
             ratePerHour: { type: 'number' },
             hoursPerWeek: numberSchema,
             careDateRange: {
-              ...dateRangeSchema,
+              ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
             noCareEndDate: { type: 'boolean' },

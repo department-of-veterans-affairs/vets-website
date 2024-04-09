@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { isFullDate } from 'platform/forms/validations';
 import {
   currentOrPastDateRangeUI,
-  dateRangeSchema,
+  currentOrPastDateRangeSchema,
   serviceNumberUI,
   serviceNumberSchema,
   checkboxGroupUI,
@@ -78,7 +78,7 @@ export default {
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
       serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
-      activeServiceDateRange: dateRangeSchema,
+      activeServiceDateRange: currentOrPastDateRangeSchema,
       serviceNumber: serviceNumberSchema,
       placeOfSeparation,
       'view:wartimeWarning': {
