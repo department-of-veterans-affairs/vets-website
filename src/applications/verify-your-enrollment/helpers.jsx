@@ -345,29 +345,25 @@ export const getGroupedPreviousEnrollments = month => {
           <h3 className="vads-u-font-size--h4">
             {translateDateIntoMonthYearFormat(awardBeginDate)}
           </h3>
-          {month.map(monthAward => {
-            return (
-              <div key={monthAward.id}>
-                <va-alert
-                  background-only
-                  class="vads-u-margin-bottom--3"
-                  close-btn-aria-label="Close notification"
-                  disable-analytics="true"
-                  full-width="false"
-                  status="info"
-                  visible="true"
-                  slim
-                >
-                  <p
-                    key={`not-verified-${monthAward.id}`}
-                    className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
-                  >
-                    This month has not yet been verified.
-                  </p>
-                </va-alert>
-              </div>
-            );
-          })}
+          <div key={id}>
+            <va-alert
+              background-only
+              class="vads-u-margin-bottom--3"
+              close-btn-aria-label="Close notification"
+              disable-analytics="true"
+              full-width="false"
+              status="info"
+              visible="true"
+              slim
+            >
+              <p
+                key={`not-verified-${id}`}
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+              >
+                This month has not yet been verified.
+              </p>
+            </va-alert>
+          </div>
         </div>
       )}
     </div>
