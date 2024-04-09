@@ -110,10 +110,6 @@ export default {
         },
         'view:disabilityInformation': {
           'ui:description': DependentSeriouslyDisabledDescription,
-          'ui:options': {
-            hideIf: (formData, index) =>
-              get(['dependents', index, 'childDateOfBirth'], formData),
-          },
         },
         previouslyMarried: yesNoUI({
           title: 'Has your child ever been married?',
