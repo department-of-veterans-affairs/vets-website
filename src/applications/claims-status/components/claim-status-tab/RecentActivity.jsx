@@ -53,6 +53,7 @@ const generateTrackedItems = claim => {
     id: item.id,
     date: getTrackedItemDateFromStatus(item),
     description: getTrackedItemDescription(item),
+    displayName: item.displayName,
     status: item.status,
     type: 'tracked_item',
   }));
