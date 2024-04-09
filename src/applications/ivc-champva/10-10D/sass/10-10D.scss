@@ -23,3 +23,15 @@ form {
     padding: 0rem 3rem 0rem 3rem;
   }
 }
+
+// Updates contrast of 'submitted' button on form review page
+// after submitting
+.form-progress-buttons {
+  button:disabled,
+  [type="button"]:disabled {
+    // a11y: Contrast ratio w/ white text must be above 4.51
+    // -> Using this color gives us 6.74 (per https://www.siegemedia.com/contrast-ratio#white-on-%23565c65)
+    background-color: var(--vads-color-base-dark);
+    pointer-events: none;
+  }
+}
