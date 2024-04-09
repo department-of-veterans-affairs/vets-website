@@ -48,12 +48,6 @@ export default {
           messageAriaDescribedby:
             'I confirm these statements are true. The remains of the Veteran have not been claimed by their family members or friends, and the Veteran’s estate doesn’t have the financial resources to pay for burial and funeral expenses.',
         }),
-        // 'ui:options': {
-        //   widgetProps: {
-        //     'aria-describedby':
-        //       'I confirm these statements are true. The remains of the Veteran have not been claimed by their family members or friends, and the Veteran’s estate doesn’t have the financial resources to pay for burial and funeral expenses.',
-        //   },
-        // },
       },
     },
   },
