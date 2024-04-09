@@ -104,9 +104,7 @@ export const ModifiableHealthBenefitsInformation = ({ isEzrEnabled }) => {
       <p>
         <strong>Note:</strong> You can also update your military service history
         information if any of your details have changed since you enrolled in VA
-        health care. And you can also answer more questions about your military
-        service history that will help us determine if you may have had exposure
-        to any toxins or other hazards.{' '}
+        health care.{' '}
         {isEzrEnabled
           ? 'You should know that at this time, you can update this information only using the PDF version of our form.'
           : 'And you can also answer more questions about your military service history that will help us determine if you may have had exposure to any toxins or other hazards.'}
