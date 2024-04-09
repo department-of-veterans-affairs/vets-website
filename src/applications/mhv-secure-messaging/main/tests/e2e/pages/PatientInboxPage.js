@@ -639,7 +639,7 @@ class PatientInboxPage {
       'keyword-highlight',
     );
   };
-  
+
   verifyFilterMessageHeadingText = (text = 'Filter messages in Inbox') => {
     cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)
       .should('be.visible')
