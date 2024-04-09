@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
-import { getStoredSubTask } from 'platform/forms/sub-task';
-import { setData } from 'platform/forms-system/src/js/actions';
+import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
+import { setData } from '~/platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
 import {
@@ -28,6 +29,8 @@ import {
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';
+
+import { data996 } from '../../shared/props';
 
 export const Form0996App = ({
   loggedIn,
@@ -184,15 +187,12 @@ Form0996App.propTypes = {
   getContestableIssues: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
   children: PropTypes.any,
-  contestableIssues: PropTypes.shape({}),
-  formData: PropTypes.shape({
-    additionalIssues: PropTypes.array,
-    areaOfDisagreement: PropTypes.array,
-    benefitType: PropTypes.string,
-    contestedIssues: PropTypes.array,
+  contestableIssues: PropTypes.shape({
+    status: PropTypes.string,
+    issues: PropTypes.array,
     legacyCount: PropTypes.number,
-    informalConferenceRep: PropTypes.shape({}),
   }),
+  formData: data996,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({
     pathname: PropTypes.string,

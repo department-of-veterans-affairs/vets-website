@@ -62,10 +62,6 @@ export const errorMessages = {
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
-// session storage keys
-export const SAVED_CLAIM_TYPE = 'hlrClaimType';
-export const WIZARD_STATUS = 'wizardStatus996';
-
 // Values from benefitTypes in vets-json-schema constants
 export const SUPPORTED_BENEFIT_TYPES_LIST = [
   'compensation', // Phase 1
