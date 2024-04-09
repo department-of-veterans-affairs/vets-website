@@ -12,7 +12,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+    - uses: department-of-veterans-affairs/action-inject-ssm-secrets@node-20
       with:
         ssm_parameter: ${{ inputs.ssm_parameter }}
         env_variable_name: ${{ inputs.env_variable_name }}
