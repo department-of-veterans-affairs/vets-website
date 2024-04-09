@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 
-import { PaymentHistoryCard } from '../../../../components/direct-deposit/PaymentHistoryCard';
+import { PaymentHistoryCard } from '@@profile/components/direct-deposit/PaymentHistoryCard';
 
-import { renderWithProfileReducers } from '../../../unit-test-helpers';
+import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
 describe('PaymentHistory', () => {
   it('should render the payment history link', async () => {
@@ -27,7 +27,7 @@ describe('PaymentHistory', () => {
     const recordEventSpy = sinon.spy();
 
     const tree = renderWithProfileReducers(
-      <PaymentHistoryCard recordEvent={recordEventSpy} />,
+      <PaymentHistoryCard recordEventImpl={recordEventSpy} />,
       {
         initialState: {
           featureToggles: {

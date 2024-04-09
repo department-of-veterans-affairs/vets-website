@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   isAuthenticatedWithOAuth,
@@ -12,20 +12,35 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
 
+import { getIsBlocked } from '../selectors';
 import {
-  getIsBlocked,
-  selectHasDirectDepositLoadError,
-  selectHasDirectDepositSaveError,
-} from '../selectors';
+  saveDirectDeposit,
+  toggleDirectDepositEdit,
+} from '../actions/directDeposit';
 
 export const useDirectDeposit = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({});
 
   const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
 
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
   const editButtonRef = useRef();
 
   const cancelButtonRef = useRef();
+
+  // Determine if the form has unsaved edits for any of the fields
+  const hasUnsavedFormEdits = useMemo(
+    () =>
+      !!(
+        formData?.accountType ||
+        formData?.routingNumber ||
+        formData?.accountNumber
+      ),
+    [formData],
+  );
 
   const {
     ui,
@@ -34,9 +49,6 @@ export const useDirectDeposit = () => {
     saveError,
     loadError,
   } = useSelector(state => state.directDeposit);
-
-  const hasLoadError = useSelector(selectHasDirectDepositLoadError);
-  const hasSaveError = useSelector(selectHasDirectDepositSaveError);
 
   const wasSaving = usePrevious(ui.isSaving);
   const wasEditing = usePrevious(ui.isEditing);
@@ -55,29 +67,71 @@ export const useDirectDeposit = () => {
 
   const isMultifactorEnabled = useSelector(isMultifactorEnabledSelector);
 
+  // Determine if the user has verified their identity
+  // by checking if they are using an eligible sign-in service,
+  // have an LOA3 profile, and have multifactor enabled
   const isIdentityVerified = useMemo(
     () => isUsingEligibleSignInService && isLOA3 && isMultifactorEnabled,
     [isLOA3, isMultifactorEnabled, isUsingEligibleSignInService],
+  );
+
+  // function to exit the direct deposit update view
+  // also will clear any pending form data in UI
+  const exitUpdateView = useCallback(
+    () => {
+      setFormData({});
+      dispatch(toggleDirectDepositEdit(false));
+    },
+    [setFormData, dispatch],
+  );
+
+  // function to handle the cancel button click
+  // on direct deposit update form
+  const onCancel = useCallback(
+    () => {
+      if (hasUnsavedFormEdits) {
+        setShowCancelModal(true);
+        return;
+      }
+
+      exitUpdateView();
+    },
+    [hasUnsavedFormEdits, setShowCancelModal, exitUpdateView],
+  );
+
+  const onFormSubmit = useCallback(
+    () => {
+      const payload = {
+        paymentAccount: formData,
+        controlInformation,
+      };
+      dispatch(saveDirectDeposit(payload));
+    },
+    [dispatch, formData, controlInformation],
   );
 
   return {
     ui: useMemo(() => ui, [ui]),
     loadError,
     saveError,
-    hasLoadError,
-    hasSaveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),
     controlInformation: useMemo(() => controlInformation, [controlInformation]),
     showUpdateSuccess,
     setShowUpdateSuccess,
+    showCancelModal,
+    setShowCancelModal,
     isIdentityVerified,
     useOAuth,
     isBlocked,
     formData,
+    onFormSubmit,
     setFormData,
     editButtonRef,
     cancelButtonRef,
+    onCancel,
+    exitUpdateView,
     wasSaving,
     wasEditing,
+    hasUnsavedFormEdits,
   };
 };
