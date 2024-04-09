@@ -9,6 +9,7 @@ export const URL = {
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
+  GET_SCHOOL: `v0/gi/institutions/search?name=`,
 };
 
 export const requireSignInCategories = [
@@ -147,6 +148,18 @@ export const yourRoleOptions = {
   OTHER: 'Other',
 };
 
+// State or Facility options
+export const stateOrFacilityOptions = {
+  SCHOOL_STATE: 'School state',
+  SCHOOL_FACILITY: 'School facility',
+};
+
+// Do you want to use this school options
+export const useThisSchoolOptions = {
+  YES: 'Yes',
+  NO: "No, I'll choose a different option",
+};
+
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
@@ -260,6 +273,11 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  SCHOOL: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
+  },
   PHONE_EMAIL: {
     TITLE: 'Your phone number and email',
     PAGE_DESCRIPTION: '',
@@ -299,6 +317,24 @@ export const CHAPTER_3 = {
   YOUR_ROLE: {
     TITLE: 'Your role',
     QUESTION_1: 'Select your role:',
+  },
+  STATE_OR_FACILITY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
+    QUESTION_1: 'Select school or state facility',
+  },
+  USE_THIS_SCHOOL: {
+    TITLE: 'School information',
+    QUESTION_1: 'Do you want to use this school?',
+  },
+  STATE_OF_SCHOOL: {
+    TITLE: 'State of school',
+    QUESTION_1: 'Select state',
+  },
+  SCHOOL_STATE_OR_RESIDENCY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'School or state of residency',
+    QUESTION_1: 'Please provide one of the following',
   },
 };
 

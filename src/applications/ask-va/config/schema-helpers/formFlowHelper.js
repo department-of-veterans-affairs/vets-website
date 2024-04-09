@@ -20,6 +20,11 @@ import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
+import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
+import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
+import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
+import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 
 const ch3Pages = {
   yourRole: {
@@ -76,10 +81,34 @@ const ch3Pages = {
     schema: aboutYourselfPage.schema,
   },
   searchVAMedicalCenter: {
-    path: CHAPTER_3.VA_MED_CENTER.PATH,
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
+  },
+  searchSchools: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: searchSchoolsPage.uiSchema,
+    schema: searchSchoolsPage.schema,
+  },
+  schoolStOrResidency: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolStOrResidencyPage.uiSchema,
+    schema: schoolStOrResidencyPage.schema,
+  },
+  stateOfSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOfSchoolPage.uiSchema,
+    schema: stateOfSchoolPage.schema,
+  },
+  stateOrFacility: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOrFacilityPage.uiSchema,
+    schema: stateOrFacilityPage.schema,
+  },
+  useThisSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: useThisSchoolPage.uiSchema,
+    schema: useThisSchoolPage.schema,
   },
   yourPhoneAndEmail: {
     title: CHAPTER_3.PHONE_EMAIL.TITLE,
@@ -157,6 +186,11 @@ const myOwnBenVet = [
   'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
+  'searchSchools',
+  'schoolStOrResidency',
+  'stateOrFacility',
+  'stateOfSchool',
+  'useThisSchool',
   'yourPhoneAndEmail',
   'howToContact',
   'yourCountry',

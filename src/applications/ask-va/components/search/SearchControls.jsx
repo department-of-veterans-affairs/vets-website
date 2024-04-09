@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
-
 import { geoLocateUser } from '../../actions/geoLocateUser';
 import { setLocationInput } from '../../actions/index';
 import { convertLocation } from '../../utils/mapbox';
@@ -43,7 +42,7 @@ const SearchControls = props => {
       const getLocation = async () => {
         if (userLocation && !geoCodeError) {
           const place = await convertLocation(userLocation);
-          setQueryState(place);
+          setQueryState(place.place_name);
           dispatch(setLocationInput(place));
           await locateUser(userLocation);
         }
