@@ -1,4 +1,5 @@
 import React from 'react';
+import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -11,7 +12,8 @@ export const uiSchema = {
   questions: {
     hasCreditCardBills: {
       'ui:title': 'Do you have any past-due credit card bills?',
-      'ui:widget': 'yesNo',
+      'ui:webComponentField': YesNoField,
+
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your credit card bill information.',
