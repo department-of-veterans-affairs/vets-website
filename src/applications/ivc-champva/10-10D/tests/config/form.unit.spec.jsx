@@ -97,7 +97,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page17.schema,
   formConfig.chapters.applicantInformation.pages.page17.uiSchema,
-  1,
+  0,
   'Applicant - gender',
   { ...mockData.data },
 );
