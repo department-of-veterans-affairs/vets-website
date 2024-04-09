@@ -254,7 +254,6 @@ va-modal va-radio {
       left: 3px;
     }
   }
-
 }
 
 .close-success-alert-button {
@@ -297,5 +296,15 @@ va-loading-indicator {
   }
   .link:visited {
     color: var(--vads-color-primary);
+  }
+}
+
+.move-folder-modal-buttons {
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
   }
 }
