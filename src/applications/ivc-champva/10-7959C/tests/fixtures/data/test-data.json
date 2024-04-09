@@ -31,7 +31,14 @@
           "enrollment": "yes"
         },
         "applicantMedicarePartDCarrier": "Test D Carrier",
-        "applicantMedicarePartDEffectiveDate": "2010-01-01"
+        "applicantMedicarePartDEffectiveDate": "2010-01-01",
+        "applicantHasPrimary": { "hasPrimary": "yes" },
+        "applicantPrimaryProvider": "Primary Provider 1",
+        "applicantPrimaryEffectiveDate": "2010-01-01",
+        "applicantPrimaryExpirationDate": "2010-01-01",
+        "applicantPrimaryThroughEmployer": { "throughEmployer": "yes" },
+        "applicantPrimaryHasPrescription": { "hasPrescription": "yes" },
+        "applicantPrimaryEOB": { "providesEOB": "yes" }
       }
     ],
     "certifierRelationship": {

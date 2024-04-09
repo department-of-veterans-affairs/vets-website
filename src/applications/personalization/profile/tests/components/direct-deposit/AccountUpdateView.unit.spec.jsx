@@ -1,156 +1,196 @@
 import React from 'react';
-import sinon from 'sinon';
-import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { render, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
-import AccountUpdateView from '~/applications/personalization/profile/components/direct-deposit/AccountUpdateView';
-
+import { AccountUpdateView } from '@@profile/components/direct-deposit/AccountUpdateView';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
+import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
 
-describe('<AccountUpdateView/>', () => {
-  const createInitialState = ({
-    saveError,
-    loadError,
-    controlInformation = {
-      canUpdateDirectDeposit: true,
-      canUpdateAddress: true,
-      corpAvailIndicator: true,
-      corpRecFoundIndicator: true,
-      hasNoBdnPaymentsIndicator: true,
-      identityIndicator: true,
-      isCompetentIndicator: true,
-      indexIndicator: true,
-      noFiduciaryAssignedIndicator: true,
-      notDeceasedIndicator: true,
+const createInitialState = ({
+  saveError,
+  loadError,
+  controlInformation = {
+    canUpdateDirectDeposit: true,
+    canUpdateAddress: true,
+    corpAvailIndicator: true,
+    corpRecFoundIndicator: true,
+    hasNoBdnPaymentsIndicator: true,
+    identityIndicator: true,
+    isCompetentIndicator: true,
+    indexIndicator: true,
+    noFiduciaryAssignedIndicator: true,
+    notDeceasedIndicator: true,
+  },
+} = {}) => {
+  const state = {
+    directDeposit: {
+      controlInformation,
+      paymentAccount: loadError
+        ? null
+        : {
+            name: 'TEST BANK NAME',
+            accountNumber: 'test account number',
+            routingNumber: 'test routing number',
+          },
+      loadError: null,
+      saveError: saveError || null,
+      ui: {
+        isEditing: true,
+        isSaving: false,
+      },
     },
-  } = {}) => {
-    const state = {
-      directDeposit: {
-        controlInformation,
-        paymentAccount: loadError
-          ? null
-          : {
-              name: 'TEST BANK NAME',
-              accountNumber: 'test acount number',
-              routingNumber: 'test routing number',
-            },
-        loadError: null,
-        saveError: saveError || null,
-        ui: {
-          isEditing: false,
-          isSaving: false,
+    user: {
+      profile: {
+        loa: {
+          current: 3,
         },
-      },
-      user: {
-        profile: {
-          loa: {
-            current: 3,
-          },
-          multifactor: true,
-          session: {
-            authBroker: 'sis',
-          },
-          loading: false,
+        multifactor: true,
+        session: {
+          authBroker: 'sis',
         },
+        loading: false,
       },
-      scheduledDowntime: {
-        globalDowntime: null,
-        isReady: true,
-        isPending: false,
-        serviceMap: { get() {} },
-        dismissedDowntimeWarnings: [],
-      },
-    };
-    if (loadError) {
-      state.directDeposit.loadError = loadError;
-    }
-    return state;
+    },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
+    },
   };
+  if (loadError) {
+    state.directDeposit.loadError = loadError;
+  }
+  return state;
+};
 
-  it('renders correctly', () => {
-    const { getByText, getByRole, getByLabelText } = renderWithProfileReducers(
-      <AccountUpdateView>
-        <va-button>Save</va-button>
-      </AccountUpdateView>,
+describe('<AccountUpdateView />', () => {
+  const mockStore = configureMockStore();
+  let store;
+  let props;
+
+  beforeEach(() => {
+    store = mockStore(createInitialState());
+    props = {
+      formData: {},
+      formSubmit: sinon.stub(),
+      setFormData: sinon.stub(),
+      isSaving: false,
+      saveError: null,
+      onCancel: sinon.stub(),
+      showCancelModal: false,
+      setShowCancelModal: sinon.stub(),
+      exitUpdateView: sinon.stub(),
+    };
+  });
+
+  it('renders the form fields correctly', () => {
+    const { getByText, container } = renderWithProfileReducers(
+      <AccountUpdateView {...props} />,
       {
         initialState: createInitialState(),
       },
     );
 
     expect(getByText('Account')).to.exist;
-    expect(getByRole('group', 'Account type')).to.exist;
-    expect(getByLabelText('Checking')).to.exist;
-    expect(getByLabelText('Savings')).to.exist;
-    expect(getByText('Routing number')).to.exist;
-    expect(getByText('Account number (No more than 17 digits)')).to.exist;
+
+    // using these query selectors since the web components don't have an accessible name
+    // that is easily queryable in unit tests
+    expect(container.querySelector('va-radio[label="Account type"]')).to.exist;
+    expect(container.querySelector('va-radio-option[label="Checking"]')).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="Savings"]')).to
+      .exist;
+    expect(container.querySelector('va-text-input[label="Routing number"]')).to
+      .exist;
+    expect(
+      container.querySelector(
+        'va-text-input[label="Account number (No more than 17 digits)"]',
+      ),
+    ).to.exist;
   });
 
-  context('formCancel', () => {
-    const setShouldShowCancelModal = sinon.spy();
-    const setFormData = sinon.spy();
-    const toggleDirectDepositEdit = sinon.spy();
+  it('renders the UpdateErrorAlert when saveError is provided', () => {
+    const errorHeadline = 'We couldn’t update your bank information';
+    const errorMessage =
+      'We’re sorry. We couldn’t update your payment information. Please try again later.';
+    props.saveError = 'Internal Server Error';
 
-    const paymentAccount = {
-      name: 'BASE TEST - DIRECT DEPOSIT',
-      accountType: 'Checking',
-      accountNumber: '*******5487',
-      routingNumber: '*****1533',
-    };
+    const { getByText } = renderWithProfileReducers(
+      <AccountUpdateView {...props} />,
+      {
+        initialState: createInitialState(),
+      },
+    );
 
-    it("shouldn't show modal if form isn't dirty", () => {
-      const formData = {
-        name: '',
-        accountType: '',
-        accountNumber: undefined,
-        routingNumber: undefined,
-      };
+    expect(getByText(errorHeadline)).to.exist;
+    expect(getByText(errorMessage)).to.exist;
+  });
 
-      const { container } = renderWithProfileReducers(
+  it('calls formSubmit when the form is submitted', () => {
+    const { getByText } = render(
+      <Provider store={store}>
         <AccountUpdateView
-          formData={formData}
-          setFormData={setFormData}
-          paymentAccount={paymentAccount}
-        >
-          <va-button>Save</va-button>
-        </AccountUpdateView>,
-        {
-          initialState: createInitialState(),
-        },
-      );
+          {...props}
+          formData={{
+            accountType: 'Checking',
+            accountNumber: '1234567890',
+            routingNumber: '123456789',
+          }}
+        />
+      </Provider>,
+    );
 
-      const cancelButton = container.querySelector('[text="Cancel"]');
-      fireEvent.click(cancelButton);
-      expect(setFormData.calledWith({})).to.be.false;
-      expect(setShouldShowCancelModal.calledWith(true)).to.be.false;
-      expect(toggleDirectDepositEdit.calledWith(true)).to.be.false;
-    });
+    fireEvent.click(getByText('Save'));
 
-    it('should show modal if form is dirty', () => {
-      const formData = {
-        name: 'BASE TEST - DIRECT DEPOSIT',
-        accountType: 'Checking',
-        accountNumber: '*******5487',
-        routingNumber: '*****1533',
-      };
+    expect(props.formSubmit.calledOnce).to.be.true;
+  });
 
-      const { container } = renderWithProfileReducers(
+  it('calls onCancel when the Cancel button is clicked', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <AccountUpdateView {...props} />
+      </Provider>,
+    );
+
+    const button = getVaButtonByText('Cancel', { container });
+    fireEvent.click(button);
+
+    expect(props.onCancel.calledOnce).to.be.true;
+  });
+
+  it('renders the ConfirmCancelModal when showCancelModal is true', () => {
+    props.showCancelModal = true;
+
+    const { getByText, container, getByTestId } = render(
+      <Provider store={store}>
         <AccountUpdateView
-          formData={formData}
-          setFormData={setFormData}
-          paymentAccount={paymentAccount}
-        >
-          <va-button>Save</va-button>
-        </AccountUpdateView>,
-        {
-          initialState: createInitialState(),
-        },
-      );
+          {...props}
+          formData={{
+            accountType: 'Checking',
+            accountNumber: '1234567890',
+            routingNumber: '123456789',
+          }}
+        />
+      </Provider>,
+    );
 
-      const cancelButton = container.querySelector('[text="Cancel"]');
-      fireEvent.click(cancelButton);
-      expect(setFormData.calledWith({})).to.be.true;
-      expect(setShouldShowCancelModal.calledWith(false)).to.be.false;
-      expect(toggleDirectDepositEdit.calledWith(false)).to.be.false;
-    });
+    const button = getVaButtonByText('Cancel', { container });
+    fireEvent.click(button);
+
+    const modal = getByTestId('confirm-cancel-modal');
+    expect(modal).to.exist;
+    expect(modal).to.have.attribute('visible', 'true');
+
+    expect(
+      getByText(
+        'finished editing and saving the changes to your direct deposit information',
+        { exact: false },
+      ),
+    ).to.exist;
   });
 });

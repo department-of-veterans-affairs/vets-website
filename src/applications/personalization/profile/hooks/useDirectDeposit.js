@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   isAuthenticatedWithOAuth,
@@ -12,76 +12,126 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
 
-import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
+import { getIsBlocked } from '../selectors';
 import {
-  getIsBlocked,
-  selectHasDirectDepositLoadError,
-  selectHasDirectDepositSaveError,
-} from '../selectors';
+  saveDirectDeposit,
+  toggleDirectDepositEdit,
+} from '../actions/directDeposit';
 
 export const useDirectDeposit = () => {
-  const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({});
 
-  // redux state for direct deposit form
-  const { ui, error, paymentAccount, controlInformation } = useSelector(
-    state => state.directDeposit,
+  const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
+
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const editButtonRef = useRef();
+
+  const cancelButtonRef = useRef();
+
+  // Determine if the form has unsaved edits for any of the fields
+  const hasUnsavedFormEdits = useMemo(
+    () =>
+      !!(
+        formData?.accountType ||
+        formData?.routingNumber ||
+        formData?.accountNumber
+      ),
+    [formData],
   );
 
-  const hasLoadError = useSelector(selectHasDirectDepositLoadError);
-  const hasSaveError = useSelector(selectHasDirectDepositSaveError);
+  const {
+    ui,
+    paymentAccount,
+    controlInformation,
+    saveError,
+    loadError,
+  } = useSelector(state => state.directDeposit);
 
   const wasSaving = usePrevious(ui.isSaving);
+  const wasEditing = usePrevious(ui.isEditing);
 
-  // redux state for access information
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
-  // check for control information to block a user from viewing the page
   const isBlocked = getIsBlocked(controlInformation);
 
-  // conditions to show the verify identity alert
   const signInService = useSelector(signInServiceName);
+
   const isUsingEligibleSignInService =
     signInService &&
     new Set([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]).has(signInService);
+
   const isLOA3 = useSelector(isLOA3Selector);
+
   const isMultifactorEnabled = useSelector(isMultifactorEnabledSelector);
 
-  // combine all several conditions to show the verify identity alert and hide the bank info / form
+  // Determine if the user has verified their identity
+  // by checking if they are using an eligible sign-in service,
+  // have an LOA3 profile, and have multifactor enabled
   const isIdentityVerified = useMemo(
     () => isUsingEligibleSignInService && isLOA3 && isMultifactorEnabled,
     [isLOA3, isMultifactorEnabled, isUsingEligibleSignInService],
   );
 
-  const removeBankInfoUpdatedAlert = useCallback(() => {
-    setTimeout(() => {
-      setShowUpdateSuccess(false);
-    }, DIRECT_DEPOSIT_ALERT_SETTINGS.TIMEOUT);
-  }, []);
-
-  // effects to trigger the success alert
-  useEffect(
+  // function to exit the direct deposit update view
+  // also will clear any pending form data in UI
+  const exitUpdateView = useCallback(
     () => {
-      if (!ui.isSaving && !hasSaveError && wasSaving) {
-        setShowUpdateSuccess(true);
-        removeBankInfoUpdatedAlert();
-      }
+      setFormData({});
+      dispatch(toggleDirectDepositEdit(false));
     },
-    [wasSaving, ui.isSaving, hasSaveError, removeBankInfoUpdatedAlert],
+    [setFormData, dispatch],
+  );
+
+  // function to handle the cancel button click
+  // on direct deposit update form
+  const onCancel = useCallback(
+    () => {
+      if (hasUnsavedFormEdits) {
+        setShowCancelModal(true);
+        return;
+      }
+
+      exitUpdateView();
+    },
+    [hasUnsavedFormEdits, setShowCancelModal, exitUpdateView],
+  );
+
+  const onFormSubmit = useCallback(
+    () => {
+      const payload = {
+        paymentAccount: formData,
+        controlInformation,
+      };
+      dispatch(saveDirectDeposit(payload));
+    },
+    [dispatch, formData, controlInformation],
   );
 
   return {
     ui: useMemo(() => ui, [ui]),
-    error: useMemo(() => error, [error]),
-    hasLoadError,
-    hasSaveError,
+    loadError,
+    saveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),
     controlInformation: useMemo(() => controlInformation, [controlInformation]),
     showUpdateSuccess,
+    setShowUpdateSuccess,
+    showCancelModal,
+    setShowCancelModal,
     isIdentityVerified,
     useOAuth,
     isBlocked,
     formData,
+    onFormSubmit,
     setFormData,
+    editButtonRef,
+    cancelButtonRef,
+    onCancel,
+    exitUpdateView,
+    wasSaving,
+    wasEditing,
+    hasUnsavedFormEdits,
   };
 };
