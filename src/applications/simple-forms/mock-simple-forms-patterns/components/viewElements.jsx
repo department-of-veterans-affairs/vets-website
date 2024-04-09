@@ -38,3 +38,9 @@ export const RecordHeading = ({ formData }) => (
     <strong>{formData.name}</strong>
   </div>
 );
+
+export const WCv3Address = ({ formData }) => (
+  <div className="vads-u-padding--2">
+    <strong>{formData.wcv3Address.street}</strong>
+  </div>
+);

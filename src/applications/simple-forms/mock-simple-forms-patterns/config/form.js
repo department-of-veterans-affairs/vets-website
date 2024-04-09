@@ -24,6 +24,7 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import addressArray from '../pages/mockAddressArray';
 
 import {
   employersDatesPage,
@@ -240,6 +241,13 @@ const formConfig = {
           path: 'dynamic-fields',
           uiSchema: dynamicFields.uiSchema,
           schema: dynamicFields.schema,
+          depends: includeChapter('miscellaneous'),
+        },
+        addressArray: {
+          title: 'Address Array', // for review page (has to be more than one word)
+          path: 'address-array',
+          uiSchema: addressArray.uiSchema,
+          schema: addressArray.schema,
           depends: includeChapter('miscellaneous'),
         },
         mockCustomPage: {
