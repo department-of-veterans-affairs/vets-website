@@ -122,6 +122,7 @@ export const Locators = {
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '[text="No, continue editing"]',
     DELETE_CONFIRM: '[text="Yes, delete this draft"]',
+    ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -180,6 +181,8 @@ export const Locators = {
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
+    FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
+    NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',

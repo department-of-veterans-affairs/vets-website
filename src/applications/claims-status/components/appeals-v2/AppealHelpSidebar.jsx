@@ -25,7 +25,6 @@ const AppealHelpSidebar = ({ aoj }) => {
     case AOJS.vha:
       return vhaVersion;
     case AOJS.nca:
-      return null; // nca version (coming soon to a sidebar near you!)
     case AOJS.other:
       return null;
     default:

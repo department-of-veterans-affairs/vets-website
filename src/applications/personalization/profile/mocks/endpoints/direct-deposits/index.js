@@ -25,7 +25,7 @@ const base = {
       },
       paymentAccount: {
         name: 'BASE TEST - DIRECT DEPOSIT',
-        accountType: 'CHECKING',
+        accountType: 'Checking',
         accountNumber: '*******5487',
         routingNumber: '*****1533',
       },

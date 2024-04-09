@@ -35,7 +35,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: aws-actions/configure-aws-credentials@v4
+    - uses: aws-actions/configure-aws-credentials@587276aa2b7ab3e81491bc89886f7805ee29494c
       with:
         aws-access-key-id: ${{ inputs.aws_id }}
         aws-secret-access-key: ${{ inputs.aws_key }}

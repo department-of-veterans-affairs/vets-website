@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { postMailingAddress, validateAddress } from '../actions';
+import {
+  handleSuggestedAddressPicked,
+  postMailingAddress,
+  validateAddress,
+} from '../actions';
 import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
@@ -61,6 +65,7 @@ const SuggestedAddress = ({
     };
     if (chooseAddress === 'suggested') {
       setSuggestedAddressPicked(true);
+      dispatch(handleSuggestedAddressPicked(true));
       try {
         dispatch(validateAddress(fields, formData?.fullName));
       } catch (err) {

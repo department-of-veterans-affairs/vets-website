@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -35,7 +35,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets@latest
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
