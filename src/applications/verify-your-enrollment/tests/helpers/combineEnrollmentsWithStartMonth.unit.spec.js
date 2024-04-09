@@ -10,6 +10,9 @@ describe('combineEnrollmentsWithStartMonth', () => {
         awardEndDate: '2022-01-31',
         numberHours: 10,
         monthlyRate: 100,
+        PendingVerificationSubmitted: '',
+        paymentDate: '2022-01-31',
+        verifiedDate: '2022-01-31',
       },
       {
         id: 2,
@@ -17,6 +20,9 @@ describe('combineEnrollmentsWithStartMonth', () => {
         awardEndDate: '2022-02-31',
         numberHours: 20,
         monthlyRate: 200,
+        PendingVerificationSubmitted: '',
+        paymentDate: '2022-01-31',
+        verifiedDate: '2022-01-31',
       },
       {
         id: 3,
@@ -24,6 +30,9 @@ describe('combineEnrollmentsWithStartMonth', () => {
         awardEndDate: '2022-04-28',
         numberHours: 30,
         monthlyRate: 300,
+        PendingVerificationSubmitted: '',
+        paymentDate: '2022-01-31',
+        verifiedDate: '2022-01-31',
       },
     ];
 
@@ -37,6 +46,9 @@ describe('combineEnrollmentsWithStartMonth', () => {
           awardEndDate: '2022-01-31',
           numberHours: 10,
           monthlyRate: 100,
+          PendingVerificationSubmitted: '',
+          paymentDate: '2022-01-31',
+          verifiedDate: '2022-01-31',
         },
         {
           id: 2,
@@ -44,6 +56,9 @@ describe('combineEnrollmentsWithStartMonth', () => {
           awardEndDate: '2022-02-31',
           numberHours: 20,
           monthlyRate: 200,
+          PendingVerificationSubmitted: '',
+          paymentDate: '2022-01-31',
+          verifiedDate: '2022-01-31',
         },
       ],
       'March 2022': [
@@ -53,6 +68,9 @@ describe('combineEnrollmentsWithStartMonth', () => {
           awardEndDate: '2022-04-28',
           numberHours: 30,
           monthlyRate: 300,
+          PendingVerificationSubmitted: '',
+          paymentDate: '2022-01-31',
+          verifiedDate: '2022-01-31',
         },
       ],
     });
