@@ -5,10 +5,7 @@ import { SIGN_IN_URL } from '../../../../constants';
 
 const WiderThanMobileLogoRow = () => {
   return (
-    <div
-      className="row va-flex usa-grid usa-grid-full"
-      id="va-header-logo-menu"
-    >
+    <div className="row va-flex usa-grid usa-grid-full va-header-logo-menu">
       <div className="va-header-logo-wrapper">
         <Link data-testid="wider-than-mobile-logo-row-logo-link" to="/">
           <img

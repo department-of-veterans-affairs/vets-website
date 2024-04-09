@@ -5,11 +5,11 @@ const WiderThanMobileMenu = () => {
   return (
     <div className="usa-grid usa-grid-full">
       <div className="menu-rule usa-one-whole" />
-      <div id="mega-menu">
+      <div className="mega-menu">
         <div className="hidden-header login-container">
           <div className="row va-flex">
             <div role="navigation">
-              <ul id="vetnav-menu">
+              <ul className="vetnav-menu">
                 <li>
                   <a className="vetnav-level1" href="/">
                     Home
