@@ -50,6 +50,17 @@ const testConfig = createTestConfig(
         });
       },
 
+      homeless: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { homeless } = testData;
+            cy.get(`va-radio-option[value="${homeless ? 'Y' : 'N'}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -94,6 +105,46 @@ const testConfig = createTestConfig(
       },
 
       'area-of-disagreement/:index': areaOfDisagreementPageHook,
+
+      'informal-conference': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const rep = testData.informalConference;
+            cy.get(`va-radio-option[value="${rep}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'informal-conference/representative-info': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const rep = testData.informalConferenceRep;
+            cy.get('[name="root_informalConferenceRep_firstName"]')
+              .shadow()
+              .find('input')
+              .type(rep.firstName);
+            cy.get('[name="root_informalConferenceRep_lastName"]')
+              .shadow()
+              .find('input')
+              .type(rep.lastName);
+            cy.get('[name="root_informalConferenceRep_phone"]')
+              .shadow()
+              .find('input')
+              .type(rep.phone);
+            cy.get('[name="root_informalConferenceRep_extension"]')
+              .shadow()
+              .find('input')
+              .type(rep.extension);
+            cy.get('[name="root_informalConferenceRep_email"]')
+              .shadow()
+              .find('input')
+              .type(rep.email);
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
     },
 
     setupPerTest: () => {

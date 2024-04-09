@@ -204,6 +204,7 @@ export function PreSubmitSection(props) {
                   ? 'You must certify by checking the box'
                   : undefined
               }
+              className="statement-of-truth-va-checkbox"
               required
             />
           </article>

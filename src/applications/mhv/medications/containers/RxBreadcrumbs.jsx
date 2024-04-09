@@ -5,8 +5,8 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import { useLocation } from 'react-router-dom';
 import { medicationsUrls } from '../util/constants';
 
-const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1 
-small-screen:vads-u-margin-left--neg1 
+const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1
+small-screen:vads-u-margin-left--neg1
 medium-screen:vads-u-margin-left--neg2
 small-desktop-screen:vads-u-margin-left--neg2
 large-screen:vads-u-margin-left--0 `;
@@ -27,6 +27,7 @@ const RxBreadcrumbs = () => {
               uswds
               label="Breadcrumb"
               data-testid="rx-breadcrumb"
+              home-veterans-affairs="false"
               breadcrumbList={allCrumbs.map(crumb => ({
                 href: crumb.url,
                 label: crumb.label,

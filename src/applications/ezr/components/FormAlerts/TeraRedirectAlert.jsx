@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { APP_URLS } from '../../utils/constants';
 
 export const TeraRedirectAlert = () => (
   <>
@@ -47,7 +48,7 @@ export const TeraRedirectAlert = () => (
       </p>
       <p>Or you can bring your form to your nearest VA health facility.</p>
       <va-link
-        href="/find-locations/"
+        href={APP_URLS.facilities}
         text="Find your nearest VA health facility"
       />
       <p>

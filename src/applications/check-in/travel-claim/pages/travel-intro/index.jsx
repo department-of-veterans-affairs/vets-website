@@ -37,6 +37,7 @@ const TravelIntro = props => {
     <>
       <Wrapper
         pageTitle={t('file-travel-reimbursement-claim')}
+        testID="travel-intro-page"
         classNames="travel-page"
       >
         <p className="vads-u-margin-bottom--0">
@@ -90,7 +91,7 @@ const TravelIntro = props => {
         </va-process-list>
         <va-summary-box class="vads-u-margin-bottom--1" uswds>
           <h2
-            className="vads-u-font-family--sans vads-u-margin-top--0"
+            className="vads-u-font-size--h3 vads-u-margin-top--0"
             slot="headline"
           >
             {t('set-up-direct-deposit')}

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 
 import AppointmentListItem from '../AppointmentListItem';
 
@@ -35,6 +36,12 @@ const mockRouter = {
 };
 
 describe('AppointmentListItem', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('pre-check-in and day-of', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {
@@ -52,7 +59,7 @@ describe('AppointmentListItem', () => {
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
-        ).to.have.text('Primary care with Dr. Green');
+        ).to.have.text('VA Appointment with Dr. Green');
         expect(
           screen.getByTestId('appointment-kind-and-location'),
         ).to.have.text('In person at LOMA LINDA VA CLINIC Clinic: TEST CLINIC');
@@ -85,7 +92,7 @@ describe('AppointmentListItem', () => {
       });
     });
     describe('Phone appointment context', () => {
-      it('Renders appointment details with no stopCodeName or provider', () => {
+      it('Renders appointment details with no provider', () => {
         const screen = render(
           <CheckInProvider router={mockRouter}>
             <AppointmentListItem

@@ -2,8 +2,8 @@ import moment from 'moment';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms/validations';
+} from '~/platform/forms-system/src/js/validation';
+import { isValidDateRange } from '~/platform/forms/validations';
 
 export function validateServiceDates(
   errors,
@@ -77,7 +77,7 @@ export function validateExposureDates(
     errors.toxicExposureStartDate.addError(messages.format);
   }
 
-  if (toDate.month && !toDate.year) {
+  if (toDate.month.value && !toDate.year.value) {
     errors.toxicExposureEndDate.addError(messages.format);
   }
 

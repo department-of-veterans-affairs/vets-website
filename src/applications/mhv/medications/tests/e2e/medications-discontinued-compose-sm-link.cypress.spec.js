@@ -12,8 +12,10 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink(true);
+
     cy.get('[data-testid="discontinued-compose-message-link"]')
-      .invoke('attr', 'href')
-      .should('contain', 'myhealth.va.gov/mhv-portal-web/secure-messaging');
+      .shadow()
+      .first()
+      .should('have.text', 'Compose a message on the My HealtheVet website');
   });
 });

@@ -46,6 +46,7 @@ export const IntroductionPage = props => {
     gaStartEventName: 'decision-reviews-va20-0996-start-form',
     ariaDescribedby: 'main-content',
     useActionLinks: true,
+    pathname: '/introduction',
   };
 
   const restartWizard = () => {

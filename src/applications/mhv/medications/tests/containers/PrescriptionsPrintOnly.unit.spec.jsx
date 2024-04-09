@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducers from '../../reducers';
 import PrescriptionsPrintOnly from '../../containers/PrescriptionsPrintOnly';
 import { allergiesList } from '../fixtures/allergiesList.json';
@@ -24,6 +28,14 @@ describe('Medications List Print Page', () => {
       ...params,
     });
   };
+
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
 
   it('renders without errors', async () => {
     const screen = setup();

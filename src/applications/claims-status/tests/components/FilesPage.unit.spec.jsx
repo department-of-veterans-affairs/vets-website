@@ -3,11 +3,13 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { createStore } from 'redux';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
+import { renderWithRouter } from '../utils';
 
 const getStore = (cstUseClaimDetailsV2Enabled = true) =>
   createStore(() => ({
@@ -55,7 +57,7 @@ describe('<FilesPage>', () => {
           },
         };
 
-        const { container, getByTestId } = render(
+        const { container, getByTestId } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
@@ -105,7 +107,7 @@ describe('<FilesPage>', () => {
             ],
           },
         };
-        const { container, getByTestId } = render(
+        const { container, getByTestId } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
@@ -149,7 +151,7 @@ describe('<FilesPage>', () => {
           },
         };
 
-        const { container, getByTestId } = render(
+        const { container, getByTestId } = renderWithRouter(
           <Provider store={getStore()}>
             <FilesPage
               claim={claim}
@@ -339,10 +341,20 @@ describe('<FilesPage>', () => {
         status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
         supportingDocuments: [
           {
-            id: '1234',
+            documentId: '1234',
+            trackedItemId: null,
             originalFileName: 'test.pdf',
             documentTypeLabel: 'Buddy / Lay Statement',
             uploadDate: '2023-03-04',
+            date: '2023-03-04',
+          },
+          {
+            documentId: '4567',
+            trackedItemId: null,
+            originalFileName: 'test2.pdf',
+            documentTypeLabel: 'Buddy / Lay Statement',
+            uploadDate: '2023-03-05',
+            date: '2023-03-05',
           },
         ],
         trackedItems: [],
@@ -352,7 +364,7 @@ describe('<FilesPage>', () => {
     const tree = SkinDeep.shallowRender(
       <FilesPage claim={claim} params={{ id: 1 }} />,
     );
-    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
+    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(2);
   });
 
   it('should show never received docs as tracked items', () => {

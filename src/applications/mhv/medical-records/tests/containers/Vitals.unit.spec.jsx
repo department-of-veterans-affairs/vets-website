@@ -6,6 +6,7 @@ import { waitFor } from '@testing-library/react';
 import Vitals from '../../containers/Vitals';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
+import vitalsWithNoBloodPressure from '../fixtures/vitalsWithNoBloodPressure.json';
 import { convertVital } from '../../reducers/vitals';
 import user from '../fixtures/user.json';
 
@@ -278,5 +279,43 @@ describe('Vitals list container with no vitals', () => {
         exact: true,
       }),
     ).to.exist;
+  });
+});
+
+describe('Vitals list container with no vitals of a type', () => {
+  const initialState = {
+    user,
+    mr: {
+      vitals: {
+        vitalsList: vitalsWithNoBloodPressure.entry.map(item =>
+          convertVital(item.resource),
+        ),
+      },
+      alerts: {
+        alertList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Vitals />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+  });
+
+  it('displays a no vitals message for blood pressure', () => {
+    waitFor(() => {
+      expect(
+        screen.getAllByText(
+          'There are no blood pressure results in your VA medical records.',
+          {
+            exact: true,
+          },
+        ).length,
+      ).to.eq(2);
+    });
   });
 });

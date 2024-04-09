@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { Assertions, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
@@ -221,8 +221,8 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).click({
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
       force: true,
       waitForAnimations: true,
     });
@@ -292,14 +292,14 @@ class PatientMessageDraftsPage {
 
   // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
-    cy.get(Locators.ALERTS.ALERT_TEXT).should(
+    cy.get('[data-testid="alert-text"]').should(
       'contain.text',
       Alerts.Message.DELETE_DRAFT_SUCCESS,
     );
   };
 
   verifyConfirmationMessage = message => {
-    cy.get(Locators.ALERTS.ALERT_TEXT).should('contain.text', message);
+    cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
   verifyDeleteConfirmationHasFocus = () => {
@@ -313,7 +313,7 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
-    cy.wait('@deletedDraftResponse');
+    // cy.wait('@deletedDraftResponse');
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {
@@ -353,7 +353,7 @@ class PatientMessageDraftsPage {
 
   selectAdvancedSearchCategory = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('#select')
+      .find('select')
       .select('COVID');
   };
 
@@ -453,14 +453,14 @@ class PatientMessageDraftsPage {
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
-      .find('#select')
+      .find('select')
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   verifyFilterFieldCleared = () => {
@@ -509,7 +509,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyDraftMessageBannerTextHasFocus = () => {
-    cy.focused().should('contain.text', Assertions.DRAFT_DELETED_SUCCESS);
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 }
 

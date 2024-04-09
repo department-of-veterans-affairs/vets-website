@@ -25,7 +25,7 @@ describe('Search form', () => {
     folder,
     keyword: 'test',
     resultsCount: searchResults.length,
-    query: { queryRange: {} },
+    query: { queryData: {} },
   };
 
   const setup = (props = defaultProps) => {
@@ -56,16 +56,17 @@ describe('Search form', () => {
   });
 
   it('renders displays a query summary containing the number of results, searched keyword, and folder', async () => {
+    const searchTerm = 'test';
     const query = {
       category: 'other',
       fromDate: '2022-09-19T00:00:00-07:00',
       toDate: '2022-12-19T21:55:17.766Z',
-      queryRange: {},
+      queryData: { searchTerm },
     };
     const screen = renderWithStoreAndRouter(
       <SearchForm
         folder={folder}
-        keyword="test"
+        keyword={searchTerm}
         resultsCount={searchResults.length}
         query={query}
         threadCount={threadList.length}
@@ -93,7 +94,7 @@ describe('Search form', () => {
       category: 'other',
       fromDate: '2022-09-19T00:00:00-07:00',
       toDate: '2022-12-19T21:55:17.766Z',
-      queryRange: {},
+      queryData: {},
     };
     const screen = renderWithStoreAndRouter(
       <SearchForm
@@ -124,7 +125,7 @@ describe('Search form', () => {
   it('returns error message on invalid custom start date', async () => {
     const query = {
       category: 'other',
-      queryRange: {},
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -149,7 +150,7 @@ describe('Search form', () => {
   it('returns error message on invalid custom end date', async () => {
     const query = {
       category: 'other',
-      queryRange: {},
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -174,7 +175,7 @@ describe('Search form', () => {
   it('returns error message on start date beyond end date', async () => {
     const query = {
       category: 'other',
-      queryRange: {},
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -209,7 +210,7 @@ describe('Search form', () => {
   it('returns error message when end date year is greater then current year', async () => {
     const query = {
       category: 'other',
-      queryRange: {},
+      queryData: {},
     };
     const customProps = {
       ...defaultProps,
@@ -246,9 +247,11 @@ describe('Search form', () => {
       category: 'other',
       fromDate: '2022-01-01T00:00:00-07:00',
       toDate: '2022-12-31T23:59:00.000Z',
-      queryRange: {
-        value: DateRangeValues.LAST12,
-        label: 'Last 12 months',
+      queryData: {
+        range: {
+          value: DateRangeValues.LAST12,
+          label: 'Last 12 months',
+        },
       },
     };
     const customProps = {

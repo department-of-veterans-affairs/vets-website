@@ -22,9 +22,9 @@ describe('search reducer', () => {
     const store = mockStore();
     mockApiRequest(searchResponse);
     const keyword = 'test';
-    const query = { category: 'covid' };
+    const query = { category: 'covid', queryData: {} };
     const matches = findByKeyword(keyword, searchResponse.data);
-    await store.dispatch(runAdvancedSearch(inbox, query, keyword));
+    await store.dispatch(runAdvancedSearch(inbox, query, keyword, {}));
     const obj = {
       searchResults: matches.map(message => {
         const msgAttr = message.attributes;

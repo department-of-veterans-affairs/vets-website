@@ -55,7 +55,11 @@ function deleteEmailAddress() {
 describe('Deleting email address', () => {
   const userNameRegex = /alongusername/;
   before(() => {
-    server = setupServer(...mocks.deleteEmailAddressSuccess);
+    server = setupServer(
+      ...mocks.deleteEmailAddressSuccess,
+      ...mocks.apmTelemetry,
+      ...mocks.rootTransactionStatus,
+    );
     server.listen();
   });
   beforeEach(() => {

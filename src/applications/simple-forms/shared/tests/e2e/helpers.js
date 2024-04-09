@@ -183,7 +183,7 @@ export const reviewAndSubmitPageFlow = (
   cy.get(`va-checkbox[name="veteran-certify"]`)
     .shadow()
     .find('input')
-    .check();
+    .click({ force: true });
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();

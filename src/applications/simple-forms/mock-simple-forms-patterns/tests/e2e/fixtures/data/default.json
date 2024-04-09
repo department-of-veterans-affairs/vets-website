@@ -156,7 +156,7 @@
         }
       }
     ],
-    "hasEmployment": false,
+    "view:hasEmployment": false,
     "nameCustom": "Test"
   }
 }

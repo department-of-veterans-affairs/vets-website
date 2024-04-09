@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../constants';
 
 import { content } from '../content/evidencePrivateLimitation';
+
+import { customPageProps995 } from '../../shared/props';
 
 const EvidencePrivateLimitation = ({
   data = {},
@@ -62,18 +63,6 @@ const EvidencePrivateLimitation = ({
   );
 };
 
-EvidencePrivateLimitation.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    limitedConsent: PropTypes.string,
-    providerFacility: PropTypes.array,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};
+EvidencePrivateLimitation.propTypes = customPageProps995;
 
 export default EvidencePrivateLimitation;

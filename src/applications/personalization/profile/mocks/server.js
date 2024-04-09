@@ -21,6 +21,7 @@ const {
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
+const directDeposits = require('./endpoints/direct-deposits');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -72,8 +73,8 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: false,
-            profileShowDirectDepositSingleFormAlert: true,
+            profileShowDirectDepositSingleForm: true,
+            profileShowDirectDepositSingleFormAlert: false,
             profileShowDirectDepositSingleFormEduDowntime: false,
           }),
         ),
@@ -104,9 +105,14 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
-    // but couldn't be directly imported due to export default vs module.exports
     return res.json(maintenanceWindows.noDowntime);
+
+    // downtime for VA Profile aka Vet360 (according to service name in response)
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //   ]),
+    // );
   },
 
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
@@ -126,10 +132,36 @@ const responses = {
     // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res
-      .status(200)
-      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
-    // return res.status(200).json(disabilityComps.updates.success);
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      secondsOfDelay,
+    );
+    // return res
+    //   .status(400)
+    //   .json(mockDisabilityCompensations.updates.errors.invalidRoutingNumber);
+    // return res.status(200).json(mockDisabilityCompensations.updates.success);
+  },
+  'GET /v0/profile/direct_deposits': (_req, res) => {
+    // this endpoint is used for the single form version of the direct deposit page
+    // return res.status(200).json(directDeposits.base);
+    // return res.status(500).json(genericErrors.error500);
+    // return res.status(400).json(directDeposits.updates.errors.unspecified);
+    // user with no dd data but is eligible
+    return res.json(directDeposits.isEligible);
+    // direct deposit blocked edge cases
+    // return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isFiduciary);
+    // return res.json(directDeposits.isNotCompetent);
+    // return res.json(directDeposits.isNotEligible);
+  },
+  'PUT /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      // () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      secondsOfDelay,
+    );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
@@ -139,6 +171,7 @@ const responses = {
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
     // return res.status(200).json(bankAccounts.noAccount); // user with no account / not eligible
+    // return res.status(500).json(bankAccounts.errorResponse); // error response
     return res.status(200).json(bankAccounts.anAccount);
   },
   'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {

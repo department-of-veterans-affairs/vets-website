@@ -1,4 +1,62 @@
 {
   "data": {
+    "applicants": [
+      {
+        "applicantEnrolledMedicareAB": true,
+        "applicantPhone": "3331233456",
+        "applicantEmailAddress": "jimmy@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "456 Street Circle",
+          "city": "Anyburg",
+          "state": "AK",
+          "postalCode": "12323"
+        },
+        "applicantSsn": "234234234",
+        "applicantName": {
+          "first": "Jimmy",
+          "last": "Alvin"
+        },
+        "applicantDOB": "2001-01-01",
+        "applicantMedicareStatus": {
+          "enrollment": "yes"
+        },
+        "applicantMedicarePartACarrier": "Test A Carrier",
+        "applicantMedicarePartBCarrier": "Test B Carrier",
+        "applicantMedicarePartAEffectiveDate": "2010-01-01",
+        "applicantMedicarePartBEffectiveDate": "2010-01-01",
+        "applicantMedicarePharmacyBenefits": { "hasBenefits": "yes" },
+        "applicantMedicareAdvantage": { "hasAdvantage": "yes" },
+        "applicantMedicareStatusD": {
+          "enrollment": "yes"
+        },
+        "applicantMedicarePartDCarrier": "Test D Carrier",
+        "applicantMedicarePartDEffectiveDate": "2010-01-01",
+        "applicantHasPrimary": { "hasPrimary": "yes" },
+        "applicantPrimaryProvider": "Primary Provider 1",
+        "applicantPrimaryEffectiveDate": "2010-01-01",
+        "applicantPrimaryExpirationDate": "2010-01-01",
+        "applicantPrimaryThroughEmployer": { "throughEmployer": "yes" },
+        "applicantPrimaryHasPrescription": { "hasPrescription": "yes" },
+        "applicantPrimaryEOB": { "providesEOB": "yes" }
+      }
+    ],
+    "certifierRelationship": {
+      "relationshipToApplicants": {
+        "spouse": true,
+        "other": true
+      },
+      "otherRelationshipToApplicants": "Another relationship"
+    },
+    "certifierPhone": "5551231234",
+    "certifierEmail": "certifier@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Street Lane",
+      "city": "Anytown",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "certifierRole": "other"
   }
 }

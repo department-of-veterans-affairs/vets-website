@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import DowntimeNotification, {
@@ -29,7 +29,7 @@ const shouldShowFlipperOverride = showFlipperOverride => {
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
+function AppContent({ featureFlagsLoading, isDataAvailable }) {
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
   const isAppReady = canUseApp && !featureFlagsLoading;
@@ -82,7 +82,6 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
         <va-loading-indicator
           data-testid="feature-flags-loading"
           message="Loading your information..."
-          uswds="false"
         />
       </div>
     );
@@ -108,7 +107,7 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
               )}
             </div>
           </div>
-          {children}
+          <Outlet />
         </>
       )}
     </div>
@@ -121,18 +120,14 @@ AppContent.propTypes = {
   isDataAvailable: PropTypes.bool,
 };
 
-function ClaimsStatusApp({
-  children,
-  dispatchSetLastPage,
-  featureFlagsLoading,
-  router,
-  user,
-}) {
-  useEffect(() => {
-    router.listen(location => {
-      dispatchSetLastPage(location.pathname);
-    });
-  }, []);
+function ClaimsStatusApp({ dispatchSetLastPage, featureFlagsLoading, user }) {
+  const { pathname } = useLocation();
+  useEffect(
+    () => {
+      dispatchSetLastPage(pathname);
+    },
+    [pathname],
+  );
 
   return (
     <RequiredLoginView
@@ -155,9 +150,7 @@ function ClaimsStatusApp({
             externalServices.vbms,
           ]}
         >
-          <AppContent featureFlagsLoading={featureFlagsLoading}>
-            {children}
-          </AppContent>
+          <AppContent featureFlagsLoading={featureFlagsLoading} />
         </DowntimeNotification>
       </div>
     </RequiredLoginView>
@@ -165,10 +158,8 @@ function ClaimsStatusApp({
 }
 
 ClaimsStatusApp.propTypes = {
-  children: PropTypes.object,
   dispatchSetLastPage: PropTypes.func,
   featureFlagsLoading: PropTypes.bool,
-  router: PropTypes.object,
   user: PropTypes.object,
 };
 
@@ -188,6 +179,6 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(ClaimsStatusApp));
+)(ClaimsStatusApp);
 
-export { ClaimsStatusApp, AppContent };
+export { AppContent, ClaimsStatusApp };

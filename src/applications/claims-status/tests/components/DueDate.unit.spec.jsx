@@ -3,13 +3,12 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { DATE_FORMATS } from '../../constants';
 import { buildDateFormatter } from '../../utils/helpers';
 import DueDate from '../../components/DueDate';
 
-describe('<DueDate>', () => {
-  const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
+describe('<DueDate>', () => {
   it('should render past due class', () => {
     const date = moment()
       .subtract(1, 'day')

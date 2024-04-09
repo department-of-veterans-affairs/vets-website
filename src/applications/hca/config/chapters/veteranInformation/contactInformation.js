@@ -1,7 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import emailUI from '~/platform/forms-system/src/js/definitions/email';
+import phoneUI from '~/platform/forms-system/src/js/definitions/phone';
 
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { ContactInfoDescription } from '../../../components/FormDescriptions';
@@ -14,15 +13,7 @@ export default {
   uiSchema: {
     'view:contactShortFormMessage': {
       'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-      'ui:options': {
-        hideIf: formData => !formData['view:isLoggedIn'],
-      },
+      'ui:options': { hideIf: notShortFormEligible },
     },
     'view:contactInfoDescription': {
       'ui:description': ContactInfoDescription,
@@ -35,7 +26,6 @@ export default {
     type: 'object',
     properties: {
       'view:contactShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
       'view:contactInfoDescription': emptyObjectSchema,
       email,
       homePhone,

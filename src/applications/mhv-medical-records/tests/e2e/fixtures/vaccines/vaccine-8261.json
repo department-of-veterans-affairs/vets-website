@@ -1,0 +1,124 @@
+{
+    "id": "8261",
+    "meta": {
+        "versionId": "23",
+        "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+        "source": "#aUFUKS5s0BXzXO4P",
+        "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+        ]
+    },
+    "contained": [
+        {
+            "id": "Location-0",
+            "name": "ADTP MEDICATION",
+            "resourceType": "Location"
+        },
+        {
+            "id": "Organization-0",
+            "meta": {
+                "profile": [
+                    "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                ]
+            },
+            "identifier": [
+                {
+                    "use": "usual",
+                    "type": {
+                        "text": "L"
+                    },
+                    "system": "urn:oid:2.16.840.1.113883.4.349",
+                    "value": "984"
+                }
+            ],
+            "active": true,
+            "name": "DAYTSHR TEST LAB",
+            "resourceType": "Organization"
+        },
+        {
+            "id": "Provider-0",
+            "identifier": [
+                {
+                    "use": "usual",
+                    "system": "urn:oid:2.16.840.1.113883.4.349",
+                    "value": "0"
+                }
+            ],
+            "name": [
+                {
+                    "text": "AHMED,MARUF"
+                }
+            ],
+            "resourceType": "Practitioner"
+        },
+        {
+            "resourceType": "Observation",
+            "id": "in-reaction-2",
+            "meta": {
+                "profile": [
+                    "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                ]
+            }
+        }
+    ],
+    "identifier": [
+        {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+            "value": "ImmunizationTO.125317"
+        }
+    ],
+    "status": "completed",
+    "vaccineCode": {
+        "coding": [
+            {
+                "system": "http://www.ama-assn.org/go/cpt",
+                "code": "91312",
+                "display": "SARSCOV2 VAC BVL 30MCG/0.3ML"
+            }
+        ],
+        "text": "COVID-19 (PFIZER), MRNA, LNP-S, BIVALENT, PF, 30 MCG/0.3 ML DOSE"
+    },
+    "patient": {
+        "reference": "Patient/4103"
+    },
+    "occurrenceDateTime": "2023-11-27T10:43:00-05:00",
+    "location": {
+        "reference": "#Location-0"
+    },
+    "performer": [
+        {
+            "actor": {
+                "reference": "#Organization-0"
+            }
+        },
+        {
+            "function": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                        "code": "AP"
+                    }
+                ]
+            },
+            "actor": {
+                "reference": "#Provider-0"
+            }
+        }
+    ],
+    "note": [
+        {
+            "text": "completed series"
+        },
+        {
+            "text": "double dosage"
+        }
+    ],
+    "protocolApplied": [
+        {
+            "series": "BOOSTER",
+            "doseNumberString": "B"
+        }
+    ],
+    "resourceType": "Immunization"
+}

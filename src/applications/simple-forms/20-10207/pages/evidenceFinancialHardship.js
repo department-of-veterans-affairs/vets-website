@@ -15,7 +15,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': FINANCIAL_HARDSHIP_DESCRIPTION,
+    'ui:description': () => FINANCIAL_HARDSHIP_DESCRIPTION,
     'ui:objectViewField': FinancialHardshipViewField,
     financialHardshipDocuments: {
       'ui:title': 'Upload additional evidence',

@@ -1,19 +1,16 @@
-import FormElementTitle from '../../../components/FormElementTitle';
+import MedicalFacilitySearch from '../../../components/MedicalFacilitySearch';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 
 const searchVAMedicalCenterPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({
-      title: 'Select your VA Medical Center',
-    }),
     'ui:objectViewField': PageFieldSummary,
     vaMedicalCenter: {
-      'ui:title': 'Search by name',
+      'ui:widget': MedicalFacilitySearch,
     },
   },
   schema: {
     type: 'object',
-    required: ['vaMedicalCenter'],
+    required: [],
     properties: {
       vaMedicalCenter: {
         type: 'string',

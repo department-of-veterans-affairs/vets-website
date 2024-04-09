@@ -16,7 +16,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': MEDAL_AWARD_DESCRIPTION,
+    'ui:description': () => MEDAL_AWARD_DESCRIPTION,
     'ui:objectViewField': MedalAwardViewField,
     medalAwardDocuments: {
       'ui:title': 'Upload additional evidence',

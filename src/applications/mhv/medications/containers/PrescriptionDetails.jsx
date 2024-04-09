@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
+  updatePageTitle,
+  reportGeneratedBy,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
   getPrescriptionDetails,
   getAllergiesList,
   clearAllergiesError,
@@ -18,7 +22,6 @@ import PrintDownload, {
   DOWNLOAD_FORMAT,
 } from '../components/shared/PrintDownload';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { updatePageTitle } from '../../shared/util/helpers';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -32,10 +35,9 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
+import { medicationsUrls, PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
-import { reportGeneratedBy } from '../../shared/util/constants';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
 import usePrintTitle from '../components/shared/usePrintTitle';
@@ -64,7 +66,7 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -78,16 +80,16 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/medications/about',
+              url: medicationsUrls.MEDICATIONS_ABOUT,
               label: 'About medications',
             },
             {
-              url: '/my-health/medications/?page=1',
+              url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/prescription/${
+            url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${
               prescription.prescriptionId
             }`,
             label: prescriptionHeader,
@@ -275,7 +277,19 @@ const PrescriptionDetails = () => {
           generatePDF(buildAllergiesPDFList(allergies));
         } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
           generateTXT(buildAllergiesTXT(allergies));
+        } else {
+          setPdfTxtGenerateStatus({
+            status: PDF_TXT_GENERATE_STATUS.NotStarted,
+            format: 'print',
+          });
         }
+      }
+      if (
+        allergies &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
+        pdfTxtGenerateStatus.format === 'print'
+      ) {
+        window.print();
       }
     },
     [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
@@ -285,7 +299,7 @@ const PrescriptionDetails = () => {
     () => {
       if (!prescription) return;
       const cmopNdcNumber =
-        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription?.rxRfRecords?.[0]?.cmopNdcNumber ??
         prescription.cmopNdcNumber;
       if (cmopNdcNumber) {
         getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
@@ -310,22 +324,19 @@ const PrescriptionDetails = () => {
     if (nonVaPrescription) {
       return (
         <>
-          Documented on {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+          Documented on {dateFormat(prescription?.orderedDate, 'MMMM D, YYYY')}
         </>
       );
     }
     return (
       <>
         {prescription.dispensedDate ||
-        prescription.rxRfRecords?.[0]?.[1].find(
-          record => record.dispensedDate,
-        ) ? (
+        prescription.rxRfRecords?.find(record => record?.dispensedDate) ? (
           <span>
             Last filled on{' '}
             {dateFormat(
-              prescription.rxRfRecords?.[0]?.[1]?.find(
-                record => record.dispensedDate,
-              )?.dispensedDate || prescription.dispensedDate,
+              prescription.rxRfRecords?.find(record => record?.dispensedDate)
+                ?.dispensedDate || prescription?.dispensedDate,
               'MMMM D, YYYY',
             )}
           </span>
@@ -349,6 +360,9 @@ const PrescriptionDetails = () => {
       generatePDF();
     } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
       generateTXT(buildAllergiesTXT());
+    } else {
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted });
+      setTimeout(() => window.print(), 1);
     }
     dispatch(clearAllergiesError());
   };
@@ -366,6 +380,7 @@ const PrescriptionDetails = () => {
               onCloseButtonClick={handleModalClose}
               onDownloadButtonClick={handleModalDownloadButton}
               onCancelButtonClick={handleModalClose}
+              isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
               visible={Boolean(
                 pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.InProgress && allergiesError,

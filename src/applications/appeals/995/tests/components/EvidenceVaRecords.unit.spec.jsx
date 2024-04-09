@@ -18,6 +18,8 @@ import {
 import { getDate } from '../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
+import { clickAddAnother, clickBack, clickContinue } from './helpers';
+
 /*
 | Data     | Forward     | Back               | Add another      |
 |----------|-------------|--------------------|------------------|
@@ -95,21 +97,6 @@ describe('<EvidenceVaRecords>', () => {
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.eq(2);
   });
-
-  const clickEvent = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-  });
-
-  const clickContinue = container => {
-    const pair = $('va-button-pair', container);
-    pair.__events.primaryClick(clickEvent);
-  };
-
-  const clickBack = container => {
-    const pair = $('va-button-pair', container);
-    pair.__events.secondaryClick(clickEvent);
-  };
 
   it('should update location name', async () => {
     const setDataSpy = sinon.spy();
@@ -222,7 +209,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -244,7 +231,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -367,7 +354,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -519,7 +506,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect(goSpy.called).to.be.false;

@@ -6,6 +6,8 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
 
+import Arrived from '../pages/Arrived';
+
 const checkInUUID = sharedData.get.defaultUUID;
 
 describe('Check In Experience -- ', () => {
@@ -51,6 +53,8 @@ describe('Check In Experience -- ', () => {
     ValidateVeteran.validatePage.dayOf('en');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
+    Arrived.validateArrivedPage();
+    Arrived.attemptToGoToNextPage();
     Demographics.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();

@@ -9,7 +9,8 @@ describe('<ViewDependentsLayout />', () => {
   const mockState = {
     onAwardDependents: [
       {
-        name: 'Billy Blank',
+        firstName: 'Billy',
+        lastName: 'Blank',
         social: '312-243-5634',
         onAward: true,
         birthdate: '05-05-1983',
@@ -31,42 +32,45 @@ describe('<ViewDependentsLayout />', () => {
     ],
   };
 
-  it('should render', () => {
-    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
-      mockState,
-      reducers: removeDependents,
-    });
+  it('should render', async () => {
+    const screen = renderInReduxProvider(
+      <ViewDependentsLayout
+        onAwardDependents={mockState.onAwardDependents}
+        notOnAwardDependents={mockState.notOnAwardDependents}
+      />,
+      {
+        mockState,
+        reducers: removeDependents,
+      },
+    );
 
-    expect(screen.findByText(/Billy Blank/)).to.exist;
+    expect(await screen.findByText(/Billy Blank/)).to.exist;
   });
 
-  it('should show an info alert when there are no dependents', () => {
+  it('should show an info alert when there are no dependents', async () => {
     const screen = renderInReduxProvider(<ViewDependentsLayout />, {
       initialState: {},
       reducers: removeDependents,
     });
 
     expect(
-      screen.findByRole('heading', {
-        name: 'We don’t have dependents information on file for you',
-      }),
+      await screen.findByText(
+        'We don’t have dependents information on file for you',
+      ),
     ).to.exist;
   });
 
-  it('should show an error alert when there is a 500 error', () => {
-    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
-      initialState: {
-        errors: [
-          {
-            code: 500,
-          },
-        ],
+  it('should show an error alert when there is a 500 error', async () => {
+    const screen = renderInReduxProvider(
+      <ViewDependentsLayout error={{ code: 500 }} />,
+      {
+        initialState: {},
+        reducers: removeDependents,
       },
-      reducers: removeDependents,
-    });
+    );
 
     expect(
-      screen.findByRole('heading', {
+      await screen.findByRole('heading', {
         name: 'We’re sorry. Something went wrong on our end',
       }),
     ).to.exist;

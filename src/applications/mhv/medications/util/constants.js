@@ -1,12 +1,12 @@
 export const rxListSortingOptions = {
-  lastFilledFirst: {
-    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
-    LABEL: 'Last filled first',
-  },
   alphabeticallyByStatus: {
     API_ENDPOINT:
       '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     LABEL: 'Alphabetically by status',
+  },
+  lastFilledFirst: {
+    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
+    LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
     API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
@@ -18,7 +18,10 @@ export const medicationsUrls = {
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
   MEDICATIONS_ABOUT: '/my-health/medications/about',
+  MEDICATIONS_ABOUT_ACCORDION_RENEW:
+    '/my-health/medications/about/accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
+  PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
 };
 
 export const dispStatusForRefillsLeft = [
@@ -167,3 +170,12 @@ export const PDF_TXT_GENERATE_STATUS = {
 export const defaultSelectedSortOption =
   sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) ??
   Object.keys(rxListSortingOptions)[0];
+
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const EMPTY_FIELD = 'None noted';

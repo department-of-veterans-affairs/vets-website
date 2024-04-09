@@ -17,7 +17,7 @@
 
     button {
       bottom: 0;
-      background-color: $color-gray-dark;
+      background-color: var(--vads-color-base-darker);
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
       height: 44px;
@@ -60,7 +60,7 @@
       }
 
       &:hover {
-        background-color: $color-black;
+        background-color: var(--vads-color-black);
       }
 
       &.va-top-button-transition-in {

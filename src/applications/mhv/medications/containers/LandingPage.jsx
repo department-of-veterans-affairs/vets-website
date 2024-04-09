@@ -6,11 +6,11 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { medicationsUrls } from '../util/constants';
-import { updatePageTitle } from '../../shared/util/helpers';
 import { selectRefillContentFlag } from '../util/selectors';
 
 const LandingPage = () => {
@@ -223,7 +223,7 @@ const LandingPage = () => {
                     And if you have prescriptions that are too old to refill or
                     have no refills left, you’ll need to renew them to get more.
                   </p>
-                  <a href="/my-health/medications/about/accordion-renew-rx">
+                  <a href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}>
                     Learn how to renew prescriptions
                   </a>
                 </va-accordion-item>

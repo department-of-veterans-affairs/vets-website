@@ -33,6 +33,8 @@ import {
   processContestableIssues,
 } from '../../shared/utils/issues';
 
+import { data995 } from '../../shared/props';
+
 export const App = ({
   loggedIn,
   location,
@@ -54,6 +56,10 @@ export const App = ({
   const subTaskBenefitType =
     formData?.benefitType || getStoredSubTask()?.benefitType;
 
+  const hasSupportedBenefitType = SUPPORTED_BENEFIT_TYPES_LIST.includes(
+    subTaskBenefitType,
+  );
+
   useEffect(
     () => {
       // Set user account & application id in Sentry so we can access their form
@@ -68,7 +74,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
+      if (hasSupportedBenefitType) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
         if (!formData.benefitType) {
@@ -113,6 +119,7 @@ export const App = ({
 
       setFormData,
       subTaskBenefitType,
+      hasSupportedBenefitType,
     ],
   );
 
@@ -151,7 +158,8 @@ export const App = ({
     service: DATA_DOG_SERVICE,
   });
 
-  if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
+  // Go to start page if we don't have an expected benefit type
+  if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator
@@ -161,6 +169,7 @@ export const App = ({
     );
   } else if (
     loggedIn &&
+    hasSupportedBenefitType &&
     ((contestableIssues.status || '') === '' ||
       contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
   ) {
@@ -189,13 +198,7 @@ App.propTypes = {
     issues: PropTypes.array,
     legacyCount: PropTypes.number,
   }),
-  formData: PropTypes.shape({
-    additionalIssues: PropTypes.array,
-    areaOfDisagreement: PropTypes.array,
-    benefitType: PropTypes.string,
-    contestedIssues: PropTypes.array,
-    legacyCount: PropTypes.number,
-  }),
+  formData: data995,
   inProgressFormId: PropTypes.number,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({

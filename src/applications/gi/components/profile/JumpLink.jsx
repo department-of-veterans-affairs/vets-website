@@ -2,7 +2,7 @@ import React from 'react';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
-import { isProductionOfTestProdEnv } from '../../utils/helpers';
+import { isProductionOrTestProdEnv } from '../../utils/helpers';
 
 export default function JumpLink({
   label,
@@ -28,7 +28,7 @@ export default function JumpLink({
     });
   };
 
-  if (isProductionOfTestProdEnv()) {
+  if (!isProductionOrTestProdEnv()) {
     return (
       <a
         className="jump-link arrow-down-link"

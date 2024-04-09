@@ -2,12 +2,13 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
+import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -133,7 +134,7 @@ describe('<ClaimStatusPage>', () => {
               },
             };
 
-            const { container } = render(
+            const { container, getByText } = renderWithRouter(
               <Provider store={getStore()}>
                 <ClaimStatusPage
                   claim={claim}
@@ -149,7 +150,7 @@ describe('<ClaimStatusPage>', () => {
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
+            getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert', container)).not.to.exist;
             expect($('.need-files-alert', container)).not.to.exist;
@@ -186,7 +187,7 @@ describe('<ClaimStatusPage>', () => {
                 ],
               },
             };
-            const { container } = render(
+            const { container, getByText } = renderWithRouter(
               <Provider store={getStore()}>
                 <ClaimStatusPage
                   claim={claim}
@@ -202,7 +203,7 @@ describe('<ClaimStatusPage>', () => {
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
-            expect($('.what-you-need-to-do-container', container)).to.exist;
+            getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert', container)).to.exist;
           });
@@ -244,7 +245,7 @@ describe('<ClaimStatusPage>', () => {
     const store = createStore(() => ({}));
 
     it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = render(
+      const screen = renderWithRouter(
         <Provider store={store}>
           <ClaimStatusPage
             claim={claim}

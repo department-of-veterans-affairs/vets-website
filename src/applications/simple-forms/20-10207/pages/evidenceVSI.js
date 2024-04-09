@@ -16,7 +16,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': VSI_DESCRIPTION,
+    'ui:description': () => VSI_DESCRIPTION,
     'ui:objectViewField': VsiViewField,
     vsiDocuments: {
       'ui:title': 'Upload additional evidence',

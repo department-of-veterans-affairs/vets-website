@@ -31,23 +31,23 @@
 
         .result-url,
         .result-desc {
-          color: $color-gray-dark;
+          color: var(--vads-color-base-darker);
           font-family: "Source Sans Pro";
           font-size: 1.6rem;
         }
 
         a.result-title {
           text-decoration: none;
-          color: $color-link-default;
+          color: var(--vads-color-link);
 
           &:visited {
             span {
-              color: $color-purple;
+              color: var(--vads-color-link-visited);
             }
           }
           h4 {
             &:hover {
-              color: $color-gray-dark;
+              color: var(--vads-color-base-darker);
               background: rgba(0, 0, 0, 0.05);
             }
           }
@@ -56,9 +56,9 @@
           &:active {
             outline: none;
             h4 {
-              color: $color-gray-dark;
+              color: var(--vads-color-base-darker);
               background: rgba(0, 0, 0, 0.05);
-              outline: 2px solid $color-gold-light;
+              outline: 2px solid var(--vads-color-action-focus-on-light);
               outline-offset: 2px;
             }
           }
@@ -72,22 +72,22 @@
   }
 
   .right-nav-link {
-    color: $color-link-default;
+    color: var(--vads-color-link);
 
     &:visited {
-      color: $color-purple;
+      color: var(--vads-color-link-visited);
     }
 
     &:hover {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       background: rgba(0, 0, 0, 0.05);
     }
 
     &:focus,
     &:active {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid $color-gold-light;
+      outline: 2px solid var(--vads-color-action-focus-on-light);
       outline-offset: 2px;
     }
   }
@@ -165,7 +165,7 @@
   }
 
   a:visited {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
 
   .search-box {
@@ -191,15 +191,15 @@
     }
 
     input {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       font-weight: 400;
     }
 
     button {
       align-items: center;
-      background: $color-primary;
+      background: var(--vads-color-primary);
       border-radius: 5px;
-      color: $color-white;
+      color: var(--vads-color-white);
       display: flex;
       font-size: 1.6rem;
       font-weight: 700;
@@ -214,13 +214,13 @@
       }
 
       &:hover {
-        background: $color-primary-darker;
+        background: var(--vads-color-primary-dark);
       }
 
       &:focus,
       &:active {
-        background: $color-primary-darker;
-        outline: 2px solid $color-gold-light;
+        background: var(--vads-color-primary-dark);
+        outline: 2px solid var(--vads-color-action-focus-on-light);
         outline-offset: 2px;
       }
     }

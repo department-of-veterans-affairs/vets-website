@@ -5,7 +5,7 @@ import contactsSingleEc from '@@profile/tests/fixtures/contacts-single-ec.json';
 import contactsSingleNok from '@@profile/tests/fixtures/contacts-single-nok.json';
 
 import { PROFILE_PATHS } from '@@profile/constants';
-import { loa3User72 } from '@@profile/mocks/endpoints/user';
+import { loa3User72, nonVeteranUser } from '@@profile/mocks/endpoints/user';
 
 let featureToggles;
 
@@ -23,6 +23,22 @@ describe('Personal health care contacts -- feature enabled', () => {
 
     featureToggles = generateFeatureToggles({ profileContacts: true });
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+  });
+
+  it('links from the hub page', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('links from the nav', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.injectAxeThenAxeCheck();
   });
 
   it("displays a Veteran's Next of kin and Emergency contacts", () => {
@@ -84,6 +100,14 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
     cy.findByTestId('service-is-down-banner');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('handles a non-veteran user by displaying the non-va-patient-message ', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(nonVeteranUser);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('non-va-patient-message');
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -72,6 +72,7 @@ export default function VaCheckboxGroupField(props) {
       label={props.label}
       labelHeaderLevel={props.uiOptions?.labelHeaderLevel}
       onVaChange={onGroupChange}
+      uswds={props.uiOptions?.uswds ?? true}
       // onBlur={} // it seems this is not necessary.
       // prefer to show error on trying to continue instead.
     >

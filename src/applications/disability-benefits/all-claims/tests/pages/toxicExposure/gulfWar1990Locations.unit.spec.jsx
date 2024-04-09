@@ -11,7 +11,7 @@ import {
   gulfWar1990PageTitle,
   gulfWar1990Question,
 } from '../../../content/toxicExposure';
-import { locationOptions } from '../../../pages/toxicExposure/gulfWar1990Locations';
+import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
 
 describe('Gulf War 1990 Locations', () => {
   const {
@@ -35,11 +35,11 @@ describe('Gulf War 1990 Locations', () => {
 
       // fail fast - verify we have the right number of checkboxes
       expect($$('va-checkbox', container).length).to.equal(
-        Object.keys(locationOptions).length,
+        Object.keys(GULF_WAR_1990_LOCATIONS).length,
       );
 
       // verify that each checkbox exists with user facing label
-      Object.values(locationOptions).forEach(option => {
+      Object.values(GULF_WAR_1990_LOCATIONS).forEach(option => {
         expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
       });
     });

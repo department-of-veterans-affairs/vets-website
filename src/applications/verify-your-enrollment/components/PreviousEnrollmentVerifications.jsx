@@ -60,10 +60,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                     Verified on{' '}
                     {translateDateIntoMonthDayYearFormat(verifiedDate)}
                   </div>
-                  <p>
-                    <span className="vads-u-font-weight--bold">
-                      {translateDatePeriod(awardBeginDate, awardEndDate)}
-                    </span>
+                  <p className="vads-u-font-weight--bold">
+                    {translateDatePeriod(awardBeginDate, awardEndDate)}
                   </p>
                   <p>
                     <span className="vads-u-font-weight--bold">
@@ -111,10 +109,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                       PendingVerificationSubmitted,
                     )}
                   </div>
-                  <p>
-                    <span className="vads-u-font-weight--bold">
-                      {translateDatePeriod(awardBeginDate, awardEndDate)}
-                    </span>
+                  <p className="vads-u-font-weight--bold">
+                    {translateDatePeriod(awardBeginDate, awardEndDate)}
                   </p>
                   <p>
                     <span className="vads-u-font-weight--bold">
@@ -139,12 +135,13 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                   </h3>
                   <va-alert
                     background-only
-                    class="vads-u-margin-bottom--4"
+                    class="vads-u-margin-bottom--3"
                     close-btn-aria-label="Close notification"
-                    disable-analytics="false"
+                    disable-analytics="true"
                     full-width="false"
                     status="info"
                     visible="true"
+                    slim
                   >
                     <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
                       This month has not yet been verified.
@@ -173,7 +170,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const onPageSelect = useCallback(
     newPage => {
       handlePageChange(newPage);
-      focusElement('h2');
+      focusElement('.focus-element-on-pagination');
     },
     [setCurrentPage],
   );
@@ -212,7 +209,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
               PendingVerificationSubmitted,
             } = verifications[index];
             // check if record has been verified
-            if (awardIds.some(id => id === award.id)) {
+            if (awardIds?.some(id => id === award.id)) {
               const tempData = award;
               let updatedTempData = {};
               if (createdOn) {
@@ -260,9 +257,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   return (
     <div>
       <>
-        <h2 className="focus-element-on-pagination">
-          Your monthly enrollment verifications
-        </h2>
+        <h2>Your monthly enrollment verifications</h2>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
           class="vads-u-margin-bottom--2"
@@ -287,7 +282,12 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         </va-additional-info>
       </>
       {totalEnrollmentCount > 0 && (
-        <p id="vye-pagination-page-status-text">
+        <p
+          id="vye-pagination-page-status-text"
+          className="focus-element-on-pagination"
+          aria-label={`Showing ${subsetStart +
+            1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
+        >
           {`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
         </p>
