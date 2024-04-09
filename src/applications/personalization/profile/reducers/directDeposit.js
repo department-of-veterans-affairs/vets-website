@@ -25,8 +25,8 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_FETCH_SUCCEEDED:
     case DIRECT_DEPOSIT_SAVE_SUCCEEDED: {
       return {
-        controlInformation: action.response?.controlInformation,
-        paymentAccount: action.response?.paymentAccount,
+        controlInformation: action.response?.controlInformation ?? null,
+        paymentAccount: action.response?.paymentAccount ?? null,
         loadError: null,
         saveError: null,
         ui: {
@@ -39,7 +39,7 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_FETCH_FAILED: {
       return {
         ...state,
-        loadError: action.response.error || true,
+        loadError: action.response?.error ?? true,
         saveError: null,
       };
     }
@@ -83,7 +83,7 @@ function directDeposit(state = initialState, action) {
     case DIRECT_DEPOSIT_SAVE_FAILED: {
       return {
         ...state,
-        saveError: action.response.error || true,
+        saveError: action.response?.error ?? action.response?.errors ?? true,
         ui: {
           ...state.ui,
           isSaving: false,

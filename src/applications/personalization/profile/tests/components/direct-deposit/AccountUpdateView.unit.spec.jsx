@@ -68,7 +68,7 @@ describe('<AccountUpdateView/>', () => {
   };
 
   it('renders correctly', () => {
-    const { getByText, getByRole, getByLabelText } = renderWithProfileReducers(
+    const { getByText, container } = renderWithProfileReducers(
       <AccountUpdateView>
         <va-button>Save</va-button>
       </AccountUpdateView>,
@@ -78,11 +78,21 @@ describe('<AccountUpdateView/>', () => {
     );
 
     expect(getByText('Account')).to.exist;
-    expect(getByRole('group', 'Account type')).to.exist;
-    expect(getByLabelText('Checking')).to.exist;
-    expect(getByLabelText('Savings')).to.exist;
-    expect(getByText('Routing number')).to.exist;
-    expect(getByText('Account number (No more than 17 digits)')).to.exist;
+
+    // using these query selectors since the web components don't have an accessible name
+    // that is easily queryable in unit tests
+    expect(container.querySelector('va-radio[label="Account type"]')).to.exist;
+    expect(container.querySelector('va-radio-option[label="Checking"]')).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="Savings"]')).to
+      .exist;
+    expect(container.querySelector('va-text-input[label="Routing number"]')).to
+      .exist;
+    expect(
+      container.querySelector(
+        'va-text-input[label="Account number (No more than 17 digits)"]',
+      ),
+    ).to.exist;
   });
 
   context('formCancel', () => {

@@ -5,13 +5,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import SubTask, {
-  setStoredSubTask,
-  resetStoredSubTask,
-} from 'platform/forms/sub-task';
+import { $ } from '../../../forms-system/src/js/utilities/ui';
+import SubTask, { setStoredSubTask, resetStoredSubTask } from '../../sub-task';
 
-import pages from 'applications/disability-benefits/all-claims/subtask/pages';
+import pages from './complex-subtask/pages';
 
 const mouseClick = new MouseEvent('click', {
   bubbles: true,
@@ -170,7 +167,7 @@ describe('Form 526 Sub-Task', () => {
     expect($('va-button[continue]', container)).to.exist;
     expect($('va-button[back]', container)).to.not.exist;
   });
-  it.skip('should prevent progress when rad date is in the past', () => {
+  it('should prevent progress when rad date is in the past', () => {
     const { container } = render(
       <Provider
         store={mockStore({

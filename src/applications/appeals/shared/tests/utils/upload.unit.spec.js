@@ -39,10 +39,11 @@ describe('parseResponse', () => {
   it('should return parsed file name & confirmation code', () => {
     const result = parseResponse(
       { data: { attributes: { guid: 'uuid-1234' } } },
-      { name: 'test-file.pdf' },
+      { name: 'test-file.pdf', size: 100000 },
     );
     expect(result).to.deep.equal({
       name: 'test-file.pdf',
+      size: 100000,
       confirmationCode: 'uuid-1234',
       attachmentId: '',
     });
