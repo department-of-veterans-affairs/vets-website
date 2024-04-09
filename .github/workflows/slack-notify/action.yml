@@ -27,7 +27,7 @@ runs:
         mask-aws-account-id: true
 
     - name: Get Slack bot token
-      uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+      uses: department-of-veterans-affairs/action-inject-ssm-secrets@node-20
       with:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
         env_variable_name: SLACK_BOT_TOKEN
