@@ -105,7 +105,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             {headerText}
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-utility-bill-name"
             label="What is the utility bill?"
@@ -119,7 +119,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             uswds
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && amountError) || null}
             id="add-utility-bill-amount"
             inputmode="decimal"

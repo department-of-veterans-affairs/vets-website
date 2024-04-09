@@ -38,7 +38,7 @@ describe('Pensions marriage history', async () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(5);
-    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(0);
     expect($$('va-radio', container).length).to.equal(1);
     expect($('button[type="submit"]', container)).to.exist;
   });
@@ -56,7 +56,7 @@ describe('Pensions marriage history', async () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(4);
-    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(0);
     expect($$('va-radio', container).length).to.equal(1);
     expect($('button[type="submit"]', container)).to.exist;
   });

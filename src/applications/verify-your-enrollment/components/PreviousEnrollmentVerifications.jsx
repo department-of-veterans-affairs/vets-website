@@ -257,9 +257,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   return (
     <div>
       <>
-        <h2 className="focus-element-on-pagination">
-          Your monthly enrollment verifications
-        </h2>
+        <h2>Your monthly enrollment verifications</h2>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
           class="vads-u-margin-bottom--2"
@@ -284,7 +282,12 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         </va-additional-info>
       </>
       {totalEnrollmentCount > 0 && (
-        <p id="vye-pagination-page-status-text">
+        <p
+          id="vye-pagination-page-status-text"
+          className="focus-element-on-pagination"
+          aria-label={`Showing ${subsetStart +
+            1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
+        >
           {`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
         </p>

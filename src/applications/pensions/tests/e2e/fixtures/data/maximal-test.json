@@ -56,8 +56,7 @@
     "currentEmployers": [
       {
         "jobType": "Customer service",
-        "jobHoursWeek": "20",
-        "jobTitle": "Manager"
+        "jobHoursWeek": "20"
       }
     ],
     "maritalStatus": "SEPARATED",

@@ -1,3 +1,4 @@
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import fullNameUI from '~/platform/forms/definitions/fullName';
 import currentOrPastDateUI from '~/platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from '~/platform/forms-system/src/js/definitions/ssn';
@@ -6,36 +7,37 @@ import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
 import { validateCurrency, validateDependentDate } from '../utils/validation';
 import { LAST_YEAR } from '../utils/constants';
 import {
+  DependentEducationExpensesDescription,
   DependentSupportDescription,
   GrossIncomeDescription,
   OtherIncomeDescription,
 } from '../components/FormDescriptions';
 
+const {
+  dependents: {
+    items: { properties: dependent },
+  },
+} = fullSchemaHca.properties;
+
 // define uiSchemas for each page in dependent flow
 export const dependentUISchema = {
   basic: {
     fullName: {
-      ...fullNameUI,
       first: {
+        ...fullNameUI.first,
         'ui:title': 'Dependent\u2019s first name',
-        'ui:errorMessages': {
-          required: 'Please enter a first name',
-        },
       },
       middle: {
+        ...fullNameUI.middle,
         'ui:title': 'Dependent\u2019s middle name',
       },
       last: {
+        ...fullNameUI.last,
         'ui:title': 'Dependent\u2019s last name',
-        'ui:errorMessages': {
-          required: 'Please enter a last name',
-        },
       },
       suffix: {
+        ...fullNameUI.suffix,
         'ui:title': 'Dependent\u2019s suffix',
-        'ui:options': {
-          widgetClassNames: 'form-select-medium',
-        },
       },
     },
     dependentRelation: {
@@ -58,8 +60,9 @@ export const dependentUISchema = {
     },
     dependentEducationExpenses: {
       ...currencyUI(
-        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, book, or supplies)',
+        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, books, or supplies)',
       ),
+      'ui:description': DependentEducationExpensesDescription,
       'ui:validations': [validateCurrency],
     },
   },
@@ -80,7 +83,7 @@ export const dependentUISchema = {
   },
   support: {
     receivedSupportLastYear: {
-      'ui:title': `If your dependent didn\u2019t live with you in ${LAST_YEAR}, did you provide financial support?`,
+      'ui:title': `If your dependent didn\u2019t live with you in ${LAST_YEAR}, did you provide any financial support?`,
       'ui:description': DependentSupportDescription,
       'ui:widget': 'yesNo',
     },
@@ -105,7 +108,6 @@ export const dependentUISchema = {
           `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
     'view:otherIncome': {
@@ -116,7 +118,6 @@ export const dependentUISchema = {
           `Enter your dependent\u2019s other annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
   },
@@ -133,83 +134,27 @@ export const dependentSchema = {
       'becameDependent',
     ],
     properties: {
-      fullName: {
-        type: 'object',
-        required: ['first', 'last'],
-        properties: {
-          first: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 25,
-            pattern: '^.*\\S.*',
-          },
-          middle: {
-            type: 'string',
-            maxLength: 30,
-          },
-          last: {
-            type: 'string',
-            minLength: 2,
-            maxLength: 35,
-            pattern: '^.*\\S.*',
-          },
-          suffix: {
-            type: 'string',
-            enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
-          },
-        },
-      },
-      dependentRelation: {
-        type: 'string',
-        enum: [
-          'Daughter',
-          'Son',
-          'Stepson',
-          'Stepdaughter',
-          'Father',
-          'Mother',
-          'Spouse',
-          'Other',
-        ],
-      },
-      socialSecurityNumber: {
-        type: 'string',
-        pattern: '^[0-9]{9}$',
-      },
-      dateOfBirth: {
-        type: 'string',
-        format: 'date',
-      },
-      becameDependent: {
-        type: 'string',
-        format: 'date',
-      },
+      fullName: dependent.fullName,
+      dependentRelation: dependent.dependentRelation,
+      socialSecurityNumber: dependent.socialSecurityNumber,
+      dateOfBirth: dependent.dateOfBirth,
+      becameDependent: dependent.becameDependent,
     },
   },
   education: {
     type: 'object',
     required: ['dependentEducationExpenses'],
     properties: {
-      attendedSchoolLastYear: {
-        type: 'boolean',
-      },
-      dependentEducationExpenses: {
-        type: 'number',
-        minimum: 0,
-        maximum: 9999999.99,
-      },
+      attendedSchoolLastYear: dependent.attendedSchoolLastYear,
+      dependentEducationExpenses: dependent.dependentEducationExpenses,
     },
   },
   additional: {
     type: 'object',
     required: ['disabledBefore18', 'cohabitedLastYear', 'view:dependentIncome'],
     properties: {
-      disabledBefore18: {
-        type: 'boolean',
-      },
-      cohabitedLastYear: {
-        type: 'boolean',
-      },
+      disabledBefore18: dependent.disabledBefore18,
+      cohabitedLastYear: dependent.cohabitedLastYear,
       'view:dependentIncome': {
         type: 'boolean',
       },
@@ -218,9 +163,7 @@ export const dependentSchema = {
   support: {
     type: 'object',
     properties: {
-      receivedSupportLastYear: {
-        type: 'boolean',
-      },
+      receivedSupportLastYear: dependent.receivedSupportLastYear,
     },
   },
   income: {
@@ -230,33 +173,21 @@ export const dependentSchema = {
         type: 'object',
         required: ['grossIncome'],
         properties: {
-          grossIncome: {
-            type: 'number',
-            minimum: 0,
-            maximum: 9999999.99,
-          },
+          grossIncome: dependent.grossIncome,
         },
       },
       'view:netIncome': {
         type: 'object',
         required: ['netIncome'],
         properties: {
-          netIncome: {
-            type: 'number',
-            minimum: 0,
-            maximum: 9999999.99,
-          },
+          netIncome: dependent.netIncome,
         },
       },
       'view:otherIncome': {
         type: 'object',
         required: ['otherIncome'],
         properties: {
-          otherIncome: {
-            type: 'number',
-            minimum: 0,
-            maximum: 9999999.99,
-          },
+          otherIncome: dependent.otherIncome,
         },
       },
     },
