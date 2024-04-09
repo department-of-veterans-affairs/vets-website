@@ -282,7 +282,11 @@ class PatientMessageCustomFolderPage {
   };
 
   verifyFocusOnRemoveFolderButton = () => {
-    cy.focused().should('have.text', Data.REMOVE_FOLDER);
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .then(() => {
+        cy.get(Locators.BUTTONS.REMOVE_FOLDER).should('have.focus');
+      });
   };
 }
 
