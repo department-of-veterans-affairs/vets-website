@@ -30,6 +30,7 @@ export const cstUseLighthouse = (state, endpoint) => {
   // undefined and the feature toggle should always return true anyways
   // Note: Checking for window.Cypress here because some of the Cypress
   // tests are written for EVSS and will fail if this only returns true
+
   if (endpoint === 'show' && !window.Cypress) return true;
 
   return toggleValues(state)[
