@@ -94,14 +94,20 @@ const testConfig = createTestConfig(
       },
       'spouse-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_questions_isMarriedYes').check();
+          cy.get('#root_questions_isMarriedYes')
+            .should('be.visible')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
       'spouse-name': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_personalData_spouseFullName_first').type('Rosemary');
-          cy.get('#root_personalData_spouseFullName_last').type('Woodhouse');
+          cy.get('input[name="root_personalData_spouseFullName_first"]').type(
+            'Rosemary',
+          );
+          cy.get('input[name="root_personalData_spouseFullName_last"]').type(
+            'Woodhouse',
+          );
           cy.get('.usa-button-primary').click();
         });
       },
@@ -226,16 +232,20 @@ const testConfig = createTestConfig(
       },
       'spouse-benefits': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_questions_spouseHasBenefitsYes').check();
+          cy.get('#root_questions_spouseHasBenefitsYes')
+            .should('be.visible')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
       'spouse-benefit-records': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_benefits_spouseBenefits_compensationAndPension').type(
-            '165.21',
+          cy.get(
+            'input[name="root_benefits_spouseBenefits_compensationAndPension"]',
+          ).type('165.21');
+          cy.get('input[name="root_benefits_spouseBenefits_education"]').type(
+            '0',
           );
-          cy.get('#root_benefits_spouseBenefits_education').type('0');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -307,7 +317,7 @@ const testConfig = createTestConfig(
       },
       'enhanced-real-estate-asset-records': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_assets_realEstateValue').type('180000');
+          cy.get('input[name="root_assets_realEstateValue"]').type('180000');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -315,7 +325,9 @@ const testConfig = createTestConfig(
       // eslint-disable-next-line no-useless-computed-key
       ['vehicles']: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_questions_hasVehicleYes').check();
+          cy.get('#root_questions_hasVehicleYes')
+            .should('be.visible')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -363,15 +375,15 @@ const testConfig = createTestConfig(
       },
       'recreational-vehicles': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_questions_hasRecreationalVehicleYes').check();
+          cy.get('#root_questions_hasRecreationalVehicleYes')
+            .should('be.visible')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
       'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(
-            /What is the estimated value of all of your trailers, campers, and boats?/,
-          ).type('2500');
+          cy.get('input[name="root_assets_recVehicleAmount"]').type('2500');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -444,7 +456,9 @@ const testConfig = createTestConfig(
       },
       'credit-card-bills': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_questions_hasCreditCardBillsYes').check();
+          cy.get('#root_questions_hasCreditCardBillsYes')
+            .should('be.visible')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -486,7 +500,9 @@ const testConfig = createTestConfig(
       },
       'installment-contracts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_questions_hasRepaymentsYes').check();
+          cy.get('#root_questions_hasRepaymentsYes')
+            .should('be.visible')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
