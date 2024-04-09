@@ -480,7 +480,11 @@ const FileField = props => {
 
             const getUiSchema = innerUiSchema =>
               typeof innerUiSchema === 'function'
-                ? innerUiSchema({ fileId: fileNameId, index })
+                ? innerUiSchema({
+                    fileId: fileNameId,
+                    index,
+                    fileName: file.name,
+                  })
                 : innerUiSchema;
 
             // make index available to widgets in attachment ui schema

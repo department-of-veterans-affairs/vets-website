@@ -14,19 +14,12 @@ export function sponsorWording(formData, isPosessive = true, cap = true) {
   return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
 }
 
-// Produce a string that is either an applicant's name or
-// "your" depending on additional context provided.
-export function applicantWording(
-  formData,
-  context,
-  isPosessive = true,
-  cap = true,
-  index,
-) {
+// Produce a string that is an applicant's full name
+export function applicantWording(formData, context, isPosessive = true) {
   // Using the applicantWording function in shared utils, but
   // holding off on updating all the imports in 1010d to keep
   // current PR concise - 1 APR 2024
-  return ApplicantWording(formData, context, isPosessive, cap, index);
+  return ApplicantWording(formData, context, isPosessive);
 }
 
 export const additionalFilesHint =

@@ -7,6 +7,11 @@ export const DOWNLOAD_FORMAT = {
   TXT: 'TXT',
 };
 
+export const PRINT_FORMAT = {
+  PRINT: 'print',
+  PRINT_FULL_LIST: 'print-full-list',
+};
+
 const PrintDownload = props => {
   const { download, isSuccess, list } = props;
   const [isError, setIsError] = useState(false);
@@ -36,9 +41,9 @@ const PrintDownload = props => {
     }
   };
 
-  const handlePrint = async () => {
+  const handlePrint = async option => {
     setMenuOpen(!menuOpen);
-    await download('print');
+    await download(option);
   };
 
   const closeMenu = e => {
@@ -121,11 +126,24 @@ const PrintDownload = props => {
               id="printButton-0"
               type="button"
               data-testid="download-print-button"
-              onClick={() => handlePrint()}
+              onClick={() => handlePrint(PRINT_FORMAT.PRINT)}
             >
-              Print this {list ? 'list' : 'page'}
+              Print this {list ? 'page of the list' : 'page'}
             </button>
           </li>
+          {list && (
+            <li>
+              <button
+                className="vads-u-padding-x--2"
+                id="printButton-0"
+                type="button"
+                data-testid="download-print-all-button"
+                onClick={() => handlePrint(PRINT_FORMAT.PRINT_FULL_LIST)}
+              >
+                Print all medications
+              </button>
+            </li>
+          )}
           <li>
             <button
               className="vads-u-padding-x--2"

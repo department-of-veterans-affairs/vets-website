@@ -6,6 +6,7 @@ import updateAddress from './updateAddress';
 import verifyEnrollment from './verifyEnrollment';
 import enrollmentCard from './enrollmentCard';
 import addressValidation from './addressValidation';
+import suggestedAddress from './suggestedAddress';
 
 const rootReducer = {
   mockData,
@@ -16,6 +17,7 @@ const rootReducer = {
   verifyEnrollment,
   enrollmentCard,
   addressValidation,
+  suggestedAddress,
 };
 
 export default rootReducer;

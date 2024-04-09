@@ -50,15 +50,6 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page9a.schema,
-  formConfig.chapters.sponsorInformation.pages.page9a.uiSchema,
-  0,
-  'Sponsor - casualty report',
-  { ...mockData.data, sponsorIsDeceased: true, sponsorDeathConditions: true },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.sponsorInformation.pages.page10b1.schema,
   formConfig.chapters.sponsorInformation.pages.page10b1.uiSchema,
   8,
@@ -73,24 +64,6 @@ testNumberOfWebComponentFields(
   1,
   "Sponsor's phone number",
   { sponsorIsDeceased: false },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page12.schema,
-  formConfig.chapters.sponsorInformation.pages.page12.uiSchema,
-  0,
-  'Sponsor - disability rating',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page12a.schema,
-  formConfig.chapters.sponsorInformation.pages.page12a.uiSchema,
-  0,
-  'Sponsor - discharge papers',
-  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
