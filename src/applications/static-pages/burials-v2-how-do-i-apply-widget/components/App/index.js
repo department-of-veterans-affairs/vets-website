@@ -257,7 +257,7 @@ export const App = () => {
   }
   return (
     <>
-      <va-summary-box>
+      <div className="feature">
         <h2 className="vads-u-margin-top--0">
           Am I eligible for allowances to help pay for a Veteran’s burial and
           funeral costs?
@@ -373,7 +373,7 @@ export const App = () => {
           </li>
           <li>While serving a federal prison sentence</li>
         </ul>
-      </va-summary-box>
+      </div>
       <h2>What kind of burial benefits can I get?</h2>
       <p>If you’re eligible, you may receive these benefits:</p>
       <ul>
