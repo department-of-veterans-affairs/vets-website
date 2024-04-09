@@ -71,8 +71,50 @@ describe('<AppealInfo>', () => {
     expect(breadcrumbs.breadcrumbList.length).to.equal(3);
   });
 
-  it('should render a header', () => {
+  it('should render a header for legacy', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps} />);
+    const header = wrapper.find('AppealHeader');
+    expect(header.length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render a header for supplementalClaim', () => {
+    const props = {
+      params: { id: mockData.data[3].id },
+      appeal: mockData.data[3],
+      appealsLoading: false,
+      appealsAvailability: AVAILABLE,
+      getAppealsV2: () => {},
+    };
+    const wrapper = shallow(<AppealInfo {...props} />);
+    const header = wrapper.find('AppealHeader');
+    expect(header.length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render a header for higherLevelReview', () => {
+    const props = {
+      params: { id: mockData.data[4].id },
+      appeal: mockData.data[4],
+      appealsLoading: false,
+      appealsAvailability: AVAILABLE,
+      getAppealsV2: () => {},
+    };
+    const wrapper = shallow(<AppealInfo {...props} />);
+    const header = wrapper.find('AppealHeader');
+    expect(header.length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render a header for appeal', () => {
+    const props = {
+      params: { id: mockData.data[5].id },
+      appeal: mockData.data[5],
+      appealsLoading: false,
+      appealsAvailability: AVAILABLE,
+      getAppealsV2: () => {},
+    };
+    const wrapper = shallow(<AppealInfo {...props} />);
     const header = wrapper.find('AppealHeader');
     expect(header.length).to.equal(1);
     wrapper.unmount();
