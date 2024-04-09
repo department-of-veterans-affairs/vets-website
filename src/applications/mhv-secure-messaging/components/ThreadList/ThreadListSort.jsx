@@ -90,6 +90,7 @@ const ThreadListSort = props => {
       <va-button
         class="small-screen:vads-u-margin-left--1 xsmall-screen:vads-u-display--block xsmall-screen:vads-u-margin-top--1p5"
         text="Sort"
+        label="Sort"
         data-testid="sort-button"
         data-dd-action-name="Sort Button"
         onClick={handleSortButtonClick}
