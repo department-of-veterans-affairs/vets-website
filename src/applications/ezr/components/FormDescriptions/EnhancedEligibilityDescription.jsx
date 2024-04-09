@@ -29,7 +29,7 @@ const EnhancedEligibilityDescription = () => (
       </li>
       <li>
         You’re a combat Veteran discharged or released on or after September,
-        11, 2001.
+        11, 2001.{' '}
         <a href="/health-care/eligibility/active-duty" target="_blank">
           Learn more about eligibility for transitioning active-duty service
           members and returning combat Veterans (opens in new tab)

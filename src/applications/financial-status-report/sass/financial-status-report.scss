@@ -227,10 +227,6 @@
   max-width: 400px;
 }
 
-.max-width-400 {
-  max-width: 400px;
-}
-
 .no-wrap {
   @include media($medium-screen) {
     white-space: nowrap;
@@ -265,48 +261,8 @@
   }
 }
 
-// input fields
-.input-size-1 {
-  @include media($medium-screen) {
-    width: 152px;
-    max-width: 152px;
-  }
-}
-
-.input-size-2 {
-  @include media($medium-screen) {
-    width: 173px;
-    max-width: 173px;
-  }
-}
-
-.input-size-3 {
-  @include media($medium-screen) {
-    width: 196px;
-    max-width: 196px;
-  }
-}
-
-.input-size-4 {
-  @include media($medium-screen) {
-    width: 215px;
-    max-width: 215px;
-  }
-}
-
-.input-size-5 {
-  @include media($medium-screen) {
-    width: 262px;
-    max-width: 262px;
-  }
-}
-
-.input-size-6 {
-  @include media($medium-screen) {
-    width: 283px;
-    max-width: 283px;
-  }
-}
+// va select field widths
+// TODO: depercate once va-select has a width prop
 
 .input-size-7 {
   @include media($medium-screen) {

@@ -7,34 +7,24 @@ const NewsletterSignup = () => {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <h2 className="vads-u-margin-bottom--0">
-        Subscribe to get My HealtheVet updates
+        Subscribe to the My HealtheVet newsletter
       </h2>
       <div className="vads-l-row">
-        <div className="vads-l-col medium-screen:vads-l-col--4">
-          <form method="POST" action={mhvNewsletterURL}>
-            <input type="hidden" value="¿" name="utf8" />
-            <input
-              type="hidden"
-              value="zrD8Ri9HkK5xMUmPd/64OtM13GRi0R9lmtOiprc1K4N/I6+cXT+0y+g1HmXpYPAt0ZT4lSgWuQk99qqiAsy/ZQ=="
-              name="authenticity_token"
-            />
-            <input type="hidden" value="USVHA_60" name="topic_id" />
-            <label htmlFor="email">Email address</label>
-            <input
-              className="vads-u-margin-top--1"
-              id="email"
-              type="email"
-              name="email"
-              required
-            />
-            <input
-              className="usa-button"
-              type="submit"
-              value="Subscribe"
-              name="commit"
-            />
-          </form>
-        </div>
+        <p>
+          To stay up to date on My HealtheVet tools and features, subscribe to
+          our biweekly newsletter.
+        </p>
+      </div>
+      <div className="vads-l-row">
+        <a
+          className="vads-c-action-link--blue"
+          href={mhvNewsletterURL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Subscribe to the My HealtheVet newsletter on GovDelivery.com (opens in
+          new tab)
+        </a>
       </div>
     </div>
   );

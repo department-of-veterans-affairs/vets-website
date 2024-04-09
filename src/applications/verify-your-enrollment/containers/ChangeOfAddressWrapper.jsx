@@ -14,7 +14,7 @@ import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
-import { validateAddress } from '../actions';
+import { handleSuggestedAddressPicked, validateAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
@@ -31,7 +31,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const address = addressValidationData?.addresses[0]?.address;
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
-
+  const addressType =
+    addressValidationData?.addresses[0]?.addressMetaData?.addressType;
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
@@ -113,8 +114,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setEditFormData({});
       sessionStorage.removeItem('address');
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      dispatch(handleSuggestedAddressPicked(false));
     },
-    [error, response, validationError],
+    [dispatch, error, response, validationError],
   );
 
   useEffect(
@@ -223,7 +226,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 || suggestedAddressPicked ? (
+            {suggestedAddressPicked ||
+            confidenceScore < (addressType === 'International' ? 96 : 100) ? (
               <SuggestedAddress
                 formData={editFormData}
                 address={JSON.parse(sessionStorage.getItem('address'))}

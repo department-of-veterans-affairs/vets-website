@@ -40,7 +40,7 @@ const handleDirectDepositApi = action => {
   }
 
   return {
-    ...action?.response?.data?.attributes,
+    ...action?.response?.data?.attributes?.paymentAccount,
     [formFields.originalAccountNumber]:
       action?.response?.data?.attributes?.paymentAccount?.accountNumber,
     [formFields.originalRoutingNumber]:
