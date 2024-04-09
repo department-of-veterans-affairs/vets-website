@@ -12,7 +12,7 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
-import WizardContainer from '../wizard/WizardContainer';
+import SubTaskContainer from '../subtask/SubTaskContainer';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -105,7 +105,7 @@ const formConfig = {
   additionalRoutes: [
     {
       path: 'start',
-      component: WizardContainer,
+      component: SubTaskContainer,
       pageKey: 'start',
       depends: () => false,
     },
