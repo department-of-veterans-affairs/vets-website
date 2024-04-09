@@ -154,6 +154,7 @@ const BankruptcyDetails = ({
           }}
           required
           type="text"
+          width="xl"
           uswds
           value={courtLocation}
         />
@@ -176,6 +177,7 @@ const BankruptcyDetails = ({
           }}
           required
           type="text"
+          width="xl"
           uswds
           value={docketNumber}
         />

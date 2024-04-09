@@ -49,7 +49,7 @@ export default {
           labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us the type of income',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'typeOfIncome',

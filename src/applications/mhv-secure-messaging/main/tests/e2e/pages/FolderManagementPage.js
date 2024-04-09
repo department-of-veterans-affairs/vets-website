@@ -168,7 +168,7 @@ class FolderManagementPage {
     );
   };
 
-  verifyCreateFolderSucessMessageHasFocus = () => {
+  verifyCreateFolderSuccessMessageHasFocus = () => {
     cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
@@ -262,4 +262,4 @@ class FolderManagementPage {
   };
 }
 
-export default FolderManagementPage;
+export default new FolderManagementPage();

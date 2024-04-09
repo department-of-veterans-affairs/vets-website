@@ -106,7 +106,7 @@ const ResolutionAmount = ({ formContext }) => {
         </span>
       </div>
       <VaNumberInput
-        className="no-wrap input-size-3"
+        width="md"
         data-testid="resolution-amount"
         error={errorMessage}
         id={currentDebt.id}
