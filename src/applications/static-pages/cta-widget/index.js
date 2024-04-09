@@ -511,7 +511,11 @@ export class CallToActionWidget extends Component {
 
     // Show the CTA link.
     return (
-      <a href={this._toolUrl} target={target}>
+      <a
+        className="vads-c-action-link--green"
+        href={this._toolUrl}
+        target={target}
+      >
         {linkText}
       </a>
     );

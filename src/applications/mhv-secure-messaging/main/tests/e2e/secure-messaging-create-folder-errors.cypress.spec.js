@@ -5,7 +5,6 @@ import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('create folder errors check', () => {
-  const folderPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
 
   beforeEach(() => {
@@ -18,11 +17,14 @@ describe('create folder errors check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.loadFoldersList();
-    folderPage.createANewFolderButton().click({ waitForAnimations: true });
+    FolderManagementPage.createANewFolderButton().click({
+      waitForAnimations: true,
+    });
     const createFolderName = Data.CREATE_FOLDER_TEST;
-    folderPage
-      .createFolderTextBox()
-      .type(createFolderName, { waitforanimations: true, force: true });
+    FolderManagementPage.createFolderTextBox().type(createFolderName, {
+      waitforanimations: true,
+      force: true,
+    });
     cy.intercept('POST', Paths.INTERCEPT.MESSAGE_FOLDER, {
       statusCode: 400,
       body: {
@@ -35,8 +37,8 @@ describe('create folder errors check', () => {
         },
       },
     }).as('folder');
-    folderPage.createFolderModalButton().click();
-    folderPage.verifyCreateFolderNetworkFailureMessage();
+    FolderManagementPage.createFolderModalButton().click();
+    FolderManagementPage.verifyCreateFolderNetworkFailureMessage();
   });
 
   it('create blank name folder error check', () => {
