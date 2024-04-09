@@ -707,7 +707,12 @@ const formConfig = {
           CustomPage: ApplicantGenderPage,
           CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
-            applicants: { items: {} },
+            applicants: {
+              items: {},
+              'ui:options': {
+                viewField: ApplicantField,
+              },
+            },
           },
           schema: applicantListSchema([], {
             titleSchema,
