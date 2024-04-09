@@ -81,4 +81,56 @@ describe('<DevToolsLoader />', () => {
 
     expect(await findByTestId('devtools-panel')).to.exist;
   });
+
+  it('closes the panel when the close button is clicked', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    fireEvent.click(await findByTestId('close-devtools-panel-button'));
+
+    expect(await queryByTestId('devtools-panel')).to.not.exist;
+  });
+
+  it('displays a string type in the panel', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} devToolsData="this is a string" />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text(
+      '"this is a string"',
+    );
+  });
+
+  it('displays null in the panel', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} devToolsData={null} />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text('null');
+  });
+
+  it('displays a boolean in the panel', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} devToolsData={false} />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text('false');
+  });
 });

@@ -3,18 +3,7 @@ import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
-const getUuid = nanoidImp => {
-  try {
-    return nanoidImp();
-  } catch (e) {
-    return (
-      Date.now().toString(36) +
-      Math.random()
-        .toString(36)
-        .substring(2)
-    );
-  }
-};
+const getUuid = nanoidImp => nanoidImp();
 
 const normalizeData = data => {
   switch (typeof data) {
@@ -51,6 +40,7 @@ const DevToolsPanel = ({ devToolsData, show, setShow }) => {
           type="button"
           className="devtools-panel__close-button"
           onClick={handlers.close}
+          data-testid="close-devtools-panel-button"
         >
           <i className="fas fa-times" />
         </button>
