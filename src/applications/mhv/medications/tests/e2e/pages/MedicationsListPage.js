@@ -497,5 +497,13 @@ class MedicationsListPage {
       'About medications',
     );
   };
+
+  verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('be.enabled');
+  };
+
+  verifyPrintAllMedicationsFromDropDownOnListPage = () => {
+    cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
+  };
 }
 export default MedicationsListPage;
