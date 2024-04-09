@@ -131,3 +131,73 @@ export const extractContainedResource = (resource, referenceId) => {
   }
   return null;
 };
+
+/**
+ * Create a description of a medication from component descriptors
+ * @param {Object} medicationInfo shape, color, frontImprint, backImprint
+ * @returns {String|null} a description of the medication or null if a description can't be generated
+ */
+export const createMedicationDescription = ({
+  shape = null,
+  color = null,
+  frontImprint = null,
+  backImprint = null,
+}) => {
+  let desc = null;
+  if (shape?.trim() && color?.trim() && frontImprint?.trim()) {
+    const firstWord = `${color[0].toUpperCase()}${color
+      .slice(1)
+      .toLowerCase()}`;
+    desc = `${firstWord}, ${shape.toLowerCase()} with ${frontImprint} on the front`;
+    if (backImprint && backImprint.trim()) {
+      desc = `${desc} and ${backImprint} on the back`;
+    }
+    desc = `${desc}.`;
+  }
+  return desc;
+};
+
+/**
+ * Create a refill history item for the original fill, using the prescription
+ * @param {Object} Prescription object
+ * @returns {Object} Object similar to or marching an rxRefillHistory object
+ */
+export const createOriginalFillRecord = prescription => {
+  const {
+    backImprint,
+    cmopDivisionPhone,
+    cmopNdcNumber,
+    color,
+    dialCmopDivisionPhone,
+    dispensedDate,
+    frontImprint,
+    prescriptionId,
+    prescriptionName,
+    shape,
+  } = prescription;
+  return {
+    backImprint,
+    cmopDivisionPhone,
+    cmopNdcNumber,
+    color,
+    dialCmopDivisionPhone,
+    dispensedDate,
+    frontImprint,
+    prescriptionId,
+    prescriptionName,
+    shape,
+  };
+};
+
+/**
+ * Create a plain text string for when a medication description can't be provided
+ * @param {String} Phone number, as a string
+ * @returns {String} A string suitable for display anywhere plain text is preferable
+ */
+export const createNoDescriptionText = phone => {
+  let dialFragment = '';
+  if (phone) {
+    dialFragment = ` at ${phone}`;
+  }
+  return `No description available. Call your pharmacy${dialFragment} if you need help identifying this medication.`;
+};
