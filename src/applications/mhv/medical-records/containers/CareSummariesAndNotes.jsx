@@ -71,6 +71,8 @@ const CareSummariesAndNotes = () => {
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
         recordCount={careSummariesAndNotes?.length}
         recordType={recordType.CARE_SUMMARIES_AND_NOTES}
+        listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
       >
         <RecordList
           records={careSummariesAndNotes}

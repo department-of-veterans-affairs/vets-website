@@ -137,6 +137,8 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         accessAlertType={accessAlertTypes.VACCINE}
         recordCount={vaccines?.length}
         recordType={recordType.VACCINES}
+        listCurrentAsOf={vaccinesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
       >
         <PrintDownload
           list

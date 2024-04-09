@@ -9,9 +9,22 @@ const RecordListSection = ({
   accessAlertType,
   recordCount,
   recordType,
+  listCurrentAsOf,
+  initialFhirLoad,
 }) => {
   if (accessAlert) {
     return <AccessTroubleAlertBox alertType={accessAlertType} />;
+  }
+  if (initialFhirLoad && !listCurrentAsOf) {
+    return (
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
+    );
   }
   if (recordCount === 0) {
     return <NoRecordsMessage type={recordType} />;
@@ -35,7 +48,9 @@ export default RecordListSection;
 RecordListSection.propTypes = {
   accessAlert: PropTypes.bool,
   accessAlertType: PropTypes.string,
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  initialFhirLoad: PropTypes.bool,
+  listCurrentAsOf: PropTypes.string,
   recordCount: PropTypes.number,
   recordType: PropTypes.string,
 };

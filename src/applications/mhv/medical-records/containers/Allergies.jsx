@@ -137,6 +137,8 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         accessAlertType={accessAlertTypes.ALLERGY}
         recordCount={allergies?.length}
         recordType={recordType.ALLERGIES}
+        listCurrentAsOf={allergiesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
       >
         <PrintDownload
           list

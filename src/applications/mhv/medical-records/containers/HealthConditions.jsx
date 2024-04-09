@@ -59,6 +59,8 @@ const HealthConditions = () => {
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}
         recordCount={conditions?.length}
         recordType={recordType.HEALTH_CONDITIONS}
+        listCurrentAsOf={conditionsCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
       >
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
       </RecordListSection>

@@ -63,6 +63,8 @@ const LabsAndTests = () => {
         accessAlertType={accessAlertTypes.LABS_AND_TESTS}
         recordCount={labsAndTests?.length}
         recordType={recordType.LABS_AND_TESTS}
+        listCurrentAsOf={labsAndTestsCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
       >
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
