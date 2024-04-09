@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -6,6 +6,7 @@ import {
   VaCheckbox,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   navigateBackward,
   navigateForward,
@@ -35,6 +36,7 @@ const CheckboxGroup = ({
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
+  const checkboxRef = useRef(null);
 
   const onValueChange = event => {
     const { value } = event?.target;
@@ -68,6 +70,7 @@ const CheckboxGroup = ({
   const onContinueClick = () => {
     if (!formValue) {
       setFormError(true);
+      focusElement(checkboxRef.current);
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
@@ -97,6 +100,7 @@ const CheckboxGroup = ({
           headerHasFocused,
           setHeaderHasFocused,
         )}
+        ref={checkboxRef}
         uswds
       >
         {createCheckboxes()}

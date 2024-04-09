@@ -8,7 +8,6 @@ export const uiSchema = {
         'How much do you spend on housing each month? Please include expenses such as rent, mortgage, taxes, and HOA fees.',
       'ui:options': {
         classNames: 'schemaform-currency-input',
-        widgetClassNames: 'input-size-3',
       },
       'ui:errorMessages': {
         required: 'Please enter your housing expense information.',
@@ -19,7 +18,6 @@ export const uiSchema = {
       'ui:title': 'How much do you pay for food each month?',
       'ui:options': {
         classNames: 'schemaform-currency-input',
-        widgetClassNames: 'input-size-3',
       },
       'ui:errorMessages': {
         required: 'Please enter your food expenses information.',

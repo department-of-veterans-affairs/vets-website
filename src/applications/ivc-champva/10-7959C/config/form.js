@@ -63,6 +63,8 @@ import {
   applicantPrimaryProviderSchema,
   applicantPrimaryEffectiveDateSchema,
   applicantPrimaryExpirationDateSchema,
+  applicantPrimaryEOBSchema,
+  applicantPrimaryPrescriptionSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -73,6 +75,18 @@ import {
   hasPrimaryProvider,
 } from './conditionalPaths';
 import mockdata from '../tests/fixtures/data/test-data.json';
+import {
+  ApplicantPrimaryThroughEmployerPage,
+  ApplicantPrimaryThroughEmployerReviewPage,
+} from '../components/ApplicantPrimaryThroughEmployer';
+import {
+  ApplicantPrimaryEOBPage,
+  ApplicantPrimaryEOBReviewPage,
+} from '../components/ApplicantPrimaryEOBPage';
+import {
+  ApplicantPrimaryPrescriptionPage,
+  ApplicantPrimaryPrescriptionReviewPage,
+} from '../components/ApplicantPrimaryPrescriptionPage';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -360,6 +374,48 @@ const formConfig = {
             } insurance expiration date`,
           uiSchema: applicantPrimaryExpirationDateSchema.uiSchema,
           schema: applicantPrimaryExpirationDateSchema.schema,
+        },
+        primaryThroughEmployer: {
+          path: ':index/primary-through-employer',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } type of insurance`,
+          CustomPage: ApplicantPrimaryThroughEmployerPage,
+          CustomPageReview: ApplicantPrimaryThroughEmployerReviewPage,
+          uiSchema: applicantHasPrimarySchema.uiSchema,
+          schema: applicantHasPrimarySchema.schema,
+        },
+        primaryPrescription: {
+          path: ':index/primary-prescription',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } prescription coverage`,
+          CustomPage: ApplicantPrimaryPrescriptionPage,
+          CustomPageReview: ApplicantPrimaryPrescriptionReviewPage,
+          uiSchema: applicantPrimaryPrescriptionSchema.uiSchema,
+          schema: applicantPrimaryPrescriptionSchema.schema,
+        },
+        primaryEOB: {
+          path: ':index/primary-eob',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } explanation of benefits`,
+          CustomPage: ApplicantPrimaryEOBPage,
+          CustomPageReview: ApplicantPrimaryEOBReviewPage,
+          uiSchema: applicantPrimaryEOBSchema.uiSchema,
+          schema: applicantPrimaryEOBSchema.schema,
         },
       },
     },
