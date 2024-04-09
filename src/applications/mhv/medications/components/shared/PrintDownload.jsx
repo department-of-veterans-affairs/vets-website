@@ -55,12 +55,13 @@ const PrintDownload = props => {
   document.addEventListener('mousedown', closeMenu);
 
   const handleUserKeyPress = e => {
+    const NUM_OF_DROPDOWN_OPTIONS = 4;
     if (printIndex > 0 && e.keyCode === 38) {
       // If user pressed up arrow
       e.preventDefault();
       document.getElementById(`printButton-${printIndex - 2}`).focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < 3 && e.keyCode === 40) {
+    } else if (printIndex < NUM_OF_DROPDOWN_OPTIONS && e.keyCode === 40) {
       // If user pressed down arrow
       e.preventDefault();
       document.getElementById(`printButton-${printIndex}`).focus();
@@ -135,7 +136,7 @@ const PrintDownload = props => {
             <li>
               <button
                 className="vads-u-padding-x--2"
-                id="printButton-0"
+                id="printButton-1"
                 type="button"
                 data-testid="download-print-all-button"
                 onClick={() => handlePrint(PRINT_FORMAT.PRINT_FULL_LIST)}
@@ -147,7 +148,7 @@ const PrintDownload = props => {
           <li>
             <button
               className="vads-u-padding-x--2"
-              id="printButton-1"
+              id="printButton-2"
               type="button"
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
@@ -159,7 +160,7 @@ const PrintDownload = props => {
             <button
               type="button"
               className="vads-u-padding-x--2"
-              id="printButton-2"
+              id="printButton-3"
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >

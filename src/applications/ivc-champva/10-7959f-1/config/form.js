@@ -77,6 +77,8 @@ const formConfig = {
               'Name and date of birth',
               'We use this information to verify other details.',
             ),
+            messageAriaDescribedby:
+              'We use this information to verify other details.',
             fullName: fullNameUI(),
             veteranDOB: dateOfBirthUI(),
           },
@@ -103,6 +105,8 @@ const formConfig = {
               `Identification information`,
               `You must enter either a Social Security number of VA File number.`,
             ),
+            messageAriaDescribedby:
+              'You must enter either a Social Security number of VA File number.',
             ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
@@ -127,6 +131,8 @@ const formConfig = {
               'Physical Address',
               'This is your current location, outside the United States.',
             ),
+            messageAriaDescribedby:
+              'This is your current location, outside the United States.',
             physicalAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
@@ -156,6 +162,8 @@ const formConfig = {
               'Mailing address',
               "We'll send any important information about your application to this address.",
             ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
             mailingAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
@@ -190,6 +198,8 @@ const formConfig = {
               'Phone and email address',
               'Please include this information so that we can contact you with questions or updates',
             ),
+            messageAriaDescribedby:
+              'Please include this information so that we can contact you with questions or updates.',
             phoneNumber: phoneUI(),
             emailAddress: emailUI(),
           },

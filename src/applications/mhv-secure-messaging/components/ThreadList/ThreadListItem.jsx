@@ -92,11 +92,9 @@ const ThreadListItem = props => {
           (unreadMessages && (
             <span>
               <i
-                role="img"
                 aria-hidden="true"
                 className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
                 data-testid="thread-list-unread-icon"
-                alt="Unread message icon"
               />
             </span>
           ))}
