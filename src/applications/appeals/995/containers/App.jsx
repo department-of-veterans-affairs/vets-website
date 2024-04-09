@@ -10,10 +10,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getStoredSubTask } from 'platform/forms/sub-task';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import formConfig from '../config/form';
 import {
@@ -29,11 +26,14 @@ import {
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
 
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';
+
+import { data995 } from '../../shared/props';
 
 export const App = ({
   loggedIn,
@@ -56,6 +56,10 @@ export const App = ({
   const subTaskBenefitType =
     formData?.benefitType || getStoredSubTask()?.benefitType;
 
+  const hasSupportedBenefitType = SUPPORTED_BENEFIT_TYPES_LIST.includes(
+    subTaskBenefitType,
+  );
+
   useEffect(
     () => {
       // Set user account & application id in Sentry so we can access their form
@@ -70,7 +74,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
+      if (hasSupportedBenefitType) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
         if (!formData.benefitType) {
@@ -115,6 +119,7 @@ export const App = ({
 
       setFormData,
       subTaskBenefitType,
+      hasSupportedBenefitType,
     ],
   );
 
@@ -153,13 +158,18 @@ export const App = ({
     service: DATA_DOG_SERVICE,
   });
 
-  if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
+  // Go to start page if we don't have an expected benefit type
+  if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
     router.push('/start');
     content = wrapInH1(
-      <va-loading-indicator message="Please wait while we restart the application for you." />,
+      <va-loading-indicator
+        set-focus
+        message="Please wait while we restart the application for you."
+      />,
     );
   } else if (
     loggedIn &&
+    hasSupportedBenefitType &&
     ((contestableIssues.status || '') === '' ||
       contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
   ) {
@@ -188,13 +198,7 @@ App.propTypes = {
     issues: PropTypes.array,
     legacyCount: PropTypes.number,
   }),
-  formData: PropTypes.shape({
-    additionalIssues: PropTypes.array,
-    areaOfDisagreement: PropTypes.array,
-    benefitType: PropTypes.string,
-    contestedIssues: PropTypes.array,
-    legacyCount: PropTypes.number,
-  }),
+  formData: data995,
   inProgressFormId: PropTypes.number,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({

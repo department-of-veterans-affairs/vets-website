@@ -8,11 +8,15 @@ inputs:
   path:
     description: Path to upload artifact from
     required: true
+  retention-days:
+    description: Days to retain artifacts for
+    required: false
+    default: 0 # in this case, 0 allows it to inherit repository's default value
 
 runs:
   using: composite
   steps:
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
       with:
         name: ${{ inputs.name }}
         path: ${{ inputs.path }}

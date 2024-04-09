@@ -16,7 +16,6 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import { OnThisPageOverview } from '../components/OnThisPageOverview';
-import '../sass/medical-copays.scss';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);

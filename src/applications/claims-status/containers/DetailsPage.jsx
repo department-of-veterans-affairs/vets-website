@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -15,15 +13,7 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-// START lighthouse_migration
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return claimDate || dateFiled || null;
-};
-// END lighthouse_migration
-
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 class DetailsPage extends React.Component {
   componentDidMount() {
@@ -56,7 +46,7 @@ class DetailsPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(getClaimDate(claim));
+      const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Details Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -98,14 +88,14 @@ class DetailsPage extends React.Component {
           <dt className="claim-detail-label">
             <h4>Date received</h4>
           </dt>
-          <dd>{moment(claimDate).format('MMM D, YYYY')}</dd>
+          <dd>{formatDate(claimDate)}</dd>
         </dl>
       </>
     );
   }
 
   render() {
-    const { claim, loading, synced } = this.props;
+    const { claim, loading } = this.props;
 
     let content = null;
     if (!loading) {
@@ -113,12 +103,7 @@ class DetailsPage extends React.Component {
     }
 
     return (
-      <ClaimDetailLayout
-        claim={claim}
-        currentTab="Details"
-        loading={loading}
-        synced={synced}
-      >
+      <ClaimDetailLayout claim={claim} currentTab="Details" loading={loading}>
         {content}
       </ClaimDetailLayout>
     );
@@ -131,7 +116,6 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -139,7 +123,6 @@ DetailsPage.propTypes = {
   claim: PropTypes.object,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(DetailsPage);

@@ -9,7 +9,7 @@ export default {
   uiSchema: {
     livingSituation: checkboxGroupUI({
       title:
-        'Which of these statements best describe the Claimant’s living situation?',
+        'Which of these statements best describe the claimant’s living situation?',
       required: true,
       labels: LIVING_SITUATIONS_3RD_PTY_NON_VET,
       labelHeaderLevel: '3',
@@ -27,5 +27,6 @@ export default {
         Object.keys(LIVING_SITUATIONS_3RD_PTY_NON_VET),
       ),
     },
+    required: ['livingSituation'],
   },
 };

@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCard,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import get from 'platform/utilities/data/get';
@@ -109,7 +112,7 @@ const FileField = props => {
   const attachmentIdRequired = schema.additionalItems.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
-  const uswds = uiOptions.uswds || null;
+  const uswds = true;
 
   const content = {
     upload: uiOptions.buttonText || 'Upload',
@@ -437,10 +440,13 @@ const FileField = props => {
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
             const hasErrors = errors.length > 0;
-            const itemClasses = classNames('va-growable-background', {
-              'schemaform-file-error usa-input-error':
-                hasErrors && !file.uploading,
-            });
+            const itemClasses = classNames(
+              'vads-u-margin-bottom--2 vads-u-padding--2',
+              {
+                'schemaform-file-error usa-input-error':
+                  hasErrors && !file.uploading,
+              },
+            );
             const itemSchema = schema.items[index];
             const attachmentIdSchema = {
               $id: `${idSchema.$id}_${index}_attachmentId`,
@@ -509,137 +515,141 @@ const FileField = props => {
             };
 
             return (
-              <li key={index} id={fileListId} className={itemClasses}>
-                {file.uploading && (
-                  <div className="schemaform-file-uploading">
-                    <strong
-                      id={fileNameId}
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="file name"
-                    >
-                      {file.name}
-                    </strong>
-                    <br />
-                    {/* no USWDS v3 "activity progress bar" */}
-                    <va-progress-bar percent={progress} />
-                    <va-button
-                      secondary
-                      class="cancel-upload vads-u-width--auto"
-                      onClick={() => {
-                        cancelUpload(index);
-                      }}
-                      label={content.cancelLabel(file.name)}
-                      text={content.cancel}
-                      uswds={uswds}
-                    />
-                  </div>
-                )}
-                {description && <p>{description}</p>}
-                {!file.uploading && (
-                  <>
-                    <strong
-                      id={fileNameId}
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="file name"
-                    >
-                      {file.name}
-                    </strong>
-                    {file?.size && <div> {displayFileSize(file.size)}</div>}
-                  </>
-                )}
-                {(showPasswordInput || showPasswordSuccess) && (
-                  <PasswordLabel />
-                )}
-                {showPasswordSuccess && <PasswordSuccess />}
-                {!hasErrors &&
-                  !showPasswordInput &&
-                  get('properties.attachmentId', itemSchema) && (
-                    <Tag className="schemaform-file-attachment review">
-                      <SchemaField
-                        name="attachmentId"
-                        required={attachmentIdRequired}
-                        schema={itemSchema.properties.attachmentId}
-                        uiSchema={getUiSchema(uiOptions.attachmentSchema)}
-                        errorSchema={attachmentIdErrors}
-                        idSchema={attachmentIdSchema}
-                        formData={formData[index].attachmentId}
-                        onChange={value => onAttachmentIdChange(index, value)}
-                        onBlur={onBlur}
-                        registry={indexedRegistry}
-                        disabled={props.disabled}
-                        readonly={props.readonly}
-                      />
-                    </Tag>
-                  )}
-                {!hasErrors &&
-                  !showPasswordInput &&
-                  uiOptions.attachmentName && (
-                    <Tag className="schemaform-file-attachment review">
-                      <SchemaField
-                        name="attachmentName"
-                        required
-                        schema={itemSchema.properties.name}
-                        uiSchema={getUiSchema(uiOptions.attachmentName)}
-                        errorSchema={attachmentNameErrors}
-                        idSchema={attachmentNameSchema}
-                        formData={formData[index].name}
-                        onChange={value => onAttachmentNameChange(index, value)}
-                        onBlur={onBlur}
-                        registry={indexedRegistry}
-                        disabled={props.disabled}
-                        readonly={props.readonly}
-                      />
-                    </Tag>
-                  )}
-                {!file.uploading &&
-                  hasErrors && (
-                    <span className="usa-input-error-message" role="alert">
-                      <span className="sr-only">Error</span> {errors[0]}
-                    </span>
-                  )}
-                {showPasswordInput && (
-                  <ShowPdfPassword
-                    file={file.file}
-                    index={index}
-                    onSubmitPassword={onSubmitPassword}
-                    passwordLabel={content.passwordLabel(file.name)}
-                    uswds={uswds}
-                  />
-                )}
-                {!formContext.reviewMode &&
-                  !isUploading && (
-                    <div className="vads-u-margin-top--2">
-                      {hasErrors &&
-                        enableShortWorkflow && (
-                          <va-button
-                            name={`retry_upload_${index}`}
-                            class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                            onClick={getRetryFunction(
-                              allowRetry,
-                              index,
-                              file.file,
-                            )}
-                            label={
-                              allowRetry
-                                ? content.tryAgainLabel(file.name)
-                                : content.newFile
-                            }
-                            text={retryButtonText}
-                            uswds={uswds}
-                          />
-                        )}
+              <li key={index} id={fileListId}>
+                <VaCard className={itemClasses}>
+                  {file.uploading && (
+                    <div className="schemaform-file-uploading">
+                      <strong
+                        id={fileNameId}
+                        className="dd-privacy-hidden"
+                        data-dd-action-name="file name"
+                      >
+                        {file.name}
+                      </strong>
+                      <br />
+                      {/* no USWDS v3 "activity progress bar" */}
+                      <va-progress-bar percent={progress} />
                       <va-button
                         secondary
-                        class="delete-upload vads-u-width--auto"
+                        class="cancel-upload vads-u-width--auto"
                         onClick={() => {
-                          openRemoveModal(index);
+                          cancelUpload(index);
                         }}
-                        label={content.deleteLabel(file.name)}
-                        text={deleteButtonText}
+                        label={content.cancelLabel(file.name)}
+                        text={content.cancel}
                         uswds={uswds}
                       />
                     </div>
                   )}
+                  {description && <p>{description}</p>}
+                  {!file.uploading && (
+                    <>
+                      <strong
+                        id={fileNameId}
+                        className="dd-privacy-hidden"
+                        data-dd-action-name="file name"
+                      >
+                        {file.name}
+                      </strong>
+                      {file?.size && <div> {displayFileSize(file.size)}</div>}
+                    </>
+                  )}
+                  {(showPasswordInput || showPasswordSuccess) && (
+                    <PasswordLabel />
+                  )}
+                  {showPasswordSuccess && <PasswordSuccess />}
+                  {!hasErrors &&
+                    !showPasswordInput &&
+                    get('properties.attachmentId', itemSchema) && (
+                      <Tag className="schemaform-file-attachment review">
+                        <SchemaField
+                          name="attachmentId"
+                          required={attachmentIdRequired}
+                          schema={itemSchema.properties.attachmentId}
+                          uiSchema={getUiSchema(uiOptions.attachmentSchema)}
+                          errorSchema={attachmentIdErrors}
+                          idSchema={attachmentIdSchema}
+                          formData={formData[index].attachmentId}
+                          onChange={value => onAttachmentIdChange(index, value)}
+                          onBlur={onBlur}
+                          registry={indexedRegistry}
+                          disabled={props.disabled}
+                          readonly={props.readonly}
+                        />
+                      </Tag>
+                    )}
+                  {!hasErrors &&
+                    !showPasswordInput &&
+                    uiOptions.attachmentName && (
+                      <Tag className="schemaform-file-attachment review">
+                        <SchemaField
+                          name="attachmentName"
+                          required
+                          schema={itemSchema.properties.name}
+                          uiSchema={getUiSchema(uiOptions.attachmentName)}
+                          errorSchema={attachmentNameErrors}
+                          idSchema={attachmentNameSchema}
+                          formData={formData[index].name}
+                          onChange={value =>
+                            onAttachmentNameChange(index, value)
+                          }
+                          onBlur={onBlur}
+                          registry={indexedRegistry}
+                          disabled={props.disabled}
+                          readonly={props.readonly}
+                        />
+                      </Tag>
+                    )}
+                  {!file.uploading &&
+                    hasErrors && (
+                      <span className="usa-input-error-message" role="alert">
+                        <span className="sr-only">Error</span> {errors[0]}
+                      </span>
+                    )}
+                  {showPasswordInput && (
+                    <ShowPdfPassword
+                      file={file.file}
+                      index={index}
+                      onSubmitPassword={onSubmitPassword}
+                      passwordLabel={content.passwordLabel(file.name)}
+                      uswds={uswds}
+                    />
+                  )}
+                  {!formContext.reviewMode &&
+                    !isUploading && (
+                      <div className="vads-u-margin-top--2">
+                        {hasErrors &&
+                          enableShortWorkflow && (
+                            <va-button
+                              name={`retry_upload_${index}`}
+                              class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                              onClick={getRetryFunction(
+                                allowRetry,
+                                index,
+                                file.file,
+                              )}
+                              label={
+                                allowRetry
+                                  ? content.tryAgainLabel(file.name)
+                                  : content.newFile
+                              }
+                              text={retryButtonText}
+                              uswds={uswds}
+                            />
+                          )}
+                        <va-button
+                          secondary
+                          class="delete-upload vads-u-width--auto"
+                          onClick={() => {
+                            openRemoveModal(index);
+                          }}
+                          label={content.deleteLabel(file.name)}
+                          text={deleteButtonText}
+                          uswds={uswds}
+                        />
+                      </div>
+                    )}
+                </VaCard>
               </li>
             );
           })}

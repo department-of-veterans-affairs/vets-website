@@ -10,7 +10,7 @@ import { DISCHARGE_CODE_MAP } from './constants';
 
 const ProofOfVeteranStatus = ({
   dob,
-  militaryInformation,
+  serviceHistory = [],
   totalDisabilityRating,
   userFullName = {
     first: '',
@@ -29,7 +29,7 @@ const ProofOfVeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-  const eligibilityMap = militaryInformation.serviceHistory.serviceHistory.map(
+  const eligibilityMap = serviceHistory.map(
     service =>
       service.characterOfDischargeCode
         ? DISCHARGE_CODE_MAP[service.characterOfDischargeCode].indicator
@@ -45,14 +45,12 @@ const ProofOfVeteranStatus = ({
     })}`,
     details: {
       fullName: formatFullName({ first, middle, last, suffix }),
-      serviceHistory: militaryInformation.serviceHistory.serviceHistory.map(
-        item => {
-          return {
-            ...item,
-            branchOfService: getServiceBranchDisplayName(item.branchOfService),
-          };
-        },
-      ),
+      serviceHistory: serviceHistory.map(item => {
+        return {
+          ...item,
+          branchOfService: getServiceBranchDisplayName(item.branchOfService),
+        };
+      }),
       totalDisabilityRating,
       dob: renderDOB(dob),
       image: {
@@ -68,8 +66,7 @@ const ProofOfVeteranStatus = ({
 
   return (
     <>
-      {militaryInformation.serviceHistory.serviceHistory.length > 0 &&
-      eligibilityMap.includes('Y') ? (
+      {serviceHistory.length > 0 && eligibilityMap.includes('Y') ? (
         <div id="proof-of-veteran-status">
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--1p5">
             Proof of Veteran status
@@ -124,7 +121,13 @@ const ProofOfVeteranStatus = ({
 
 ProofOfVeteranStatus.propTypes = {
   dob: PropTypes.string,
-  militaryInformation: PropTypes.object,
+  serviceHistory: PropTypes.arrayOf(
+    PropTypes.shape({
+      branchOfService: PropTypes.string,
+      beginDate: PropTypes.string,
+      endDate: PropTypes.string,
+    }).isRequired,
+  ),
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
@@ -132,7 +135,8 @@ ProofOfVeteranStatus.propTypes = {
 
 const mapStateToProps = state => ({
   dob: state.vaProfile?.personalInformation?.birthDate,
-  militaryInformation: state.vaProfile?.militaryInformation,
+  serviceHistory:
+    state.vaProfile?.militaryInformation.serviceHistory.serviceHistory,
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   userFullName: state.vaProfile?.hero?.userFullName,
 });

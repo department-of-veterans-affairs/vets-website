@@ -10,6 +10,7 @@ const recipients = require('./recipients');
 const categories = require('./categories');
 const messages = require('./messages');
 const maintenanceWindows = require('./endpoints/maintenance-windows');
+const allRecipients = require('./allrecipients');
 
 const responses = {
   ...commonResponses,
@@ -24,6 +25,7 @@ const responses = {
   'GET /my_health/v1/messaging/messages/:id': messages.single,
   'GET /my_health/v1/messaging/messages/:id/thread': messages.thread,
   'GET /my_health/v1/messaging/recipients': recipients.defaultRecipients,
+  'GET /my_health/v1/messaging/allrecipients': allRecipients.allRecipients,
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
     // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js

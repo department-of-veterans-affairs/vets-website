@@ -57,6 +57,7 @@ export const errorMessages = {
     'Please enter a 10-digit phone number (with or without dashes)',
   informalConferenceTimes: 'Please select a time',
   contestedIssue: 'Please select an eligible issue',
+  requiredYesNo: 'You must answer yes or no',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

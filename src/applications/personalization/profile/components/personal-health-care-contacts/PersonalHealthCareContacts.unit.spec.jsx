@@ -1,34 +1,57 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-
+import sinon from 'sinon';
+import { expect } from 'chai';
+import * as redux from 'react-redux';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import contacts from '@@profile/tests/fixtures/contacts.json';
 import reducers from '@@profile/reducers';
 import PersonalHealthCareContacts from './PersonalHealthCareContacts';
+
+let dispatchSpy;
+let props;
+let fetchProfileContactsSpy;
+let useDispatchStub;
 
 const stateFn = ({
   loading = false,
   error = false,
   data = contacts.data,
+  vaPatient = true,
 } = {}) => ({
   profileContacts: {
     data,
     loading,
     error,
   },
+  user: {
+    profile: {
+      vaPatient,
+    },
+  },
 });
 
 const setup = ({ initialState = stateFn() } = {}) =>
-  renderInReduxProvider(<PersonalHealthCareContacts />, {
+  renderInReduxProvider(<PersonalHealthCareContacts {...props} />, {
     initialState,
     reducers,
   });
 
 describe('PersonalHealthCareContacts component', () => {
   beforeEach(() => {
-    mockFetch();
+    useDispatchStub = sinon.stub(redux, 'useDispatch');
+    dispatchSpy = sinon.spy();
+    useDispatchStub.returns(dispatchSpy);
+
+    fetchProfileContactsSpy = sinon.spy();
+    props = {
+      fetchProfileContacts: fetchProfileContactsSpy,
+    };
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore();
   });
 
   it('renders', async () => {
@@ -37,6 +60,23 @@ describe('PersonalHealthCareContacts component', () => {
       getByRole('heading', { name: 'Personal health care contacts', level: 1 });
       getByRole('heading', { name: 'Emergency contacts', level: 2 });
       getByRole('heading', { name: 'Next of kin contacts', level: 2 });
+    });
+  });
+
+  it('renders non-VA patient message when user is not a VA patient', async () => {
+    const initialState = stateFn({ vaPatient: false });
+    const { getByTestId } = setup({ initialState });
+    await waitFor(() => {
+      getByTestId('non-va-patient-message');
+    });
+  });
+
+  it('calls dispatch(fetchProfileContacts()) once on render', async () => {
+    setup();
+    await waitFor(() => {
+      expect(dispatchSpy.calledWithExactly(fetchProfileContactsSpy())).to.be
+        .true;
+      expect(dispatchSpy.calledOnce).to.be.true;
     });
   });
 

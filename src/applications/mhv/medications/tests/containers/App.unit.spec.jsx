@@ -4,6 +4,10 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addDays, subDays, format } from 'date-fns';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import App from '../../containers/App';
 
@@ -50,6 +54,14 @@ describe('Medications <App>', () => {
       reducers: reducer,
     };
   };
+
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
 
   it('feature flags are still loading', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
@@ -157,13 +169,13 @@ describe('Medications <App>', () => {
       },
     );
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
+      screen.getByText('We’re working on Medications right now', {
         exact: false,
       }),
     );
@@ -200,13 +212,13 @@ describe('Medications <App>', () => {
       },
     );
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
+      screen.getByText('We’re working on Medications right now', {
         exact: false,
       }),
     );
@@ -243,13 +255,13 @@ describe('Medications <App>', () => {
       },
     );
     expect(
-      screen.getByText('This tool is down for maintenance', {
-        selector: 'h3',
-        exact: true,
+      screen.getByText('Maintenance on My HealtheVet', {
+        selector: 'h2',
+        exact: false,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
+      screen.getByText('We’re working on Medications right now', {
         exact: false,
       }),
     );

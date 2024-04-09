@@ -9,7 +9,7 @@ const { schema, uiSchema } = generalHistory;
 
 describe('pensions military general history page', () => {
   const pageTitle = 'military history';
-  const expectedNumberOfFields = 2;
+  const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
     schema,

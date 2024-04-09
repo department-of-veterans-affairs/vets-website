@@ -73,10 +73,7 @@ export function NewAppointment() {
 
   if (featureBreadcrumbUrlUpdate) {
     return (
-      <FormLayout
-        isReviewPage={location.pathname.includes('review')}
-        pageTitle={crumb}
-      >
+      <FormLayout pageTitle={crumb}>
         <Switch>
           <Route
             path={[
@@ -193,10 +190,7 @@ export function NewAppointment() {
     );
   }
   return (
-    <FormLayout
-      isReviewPage={location.pathname.includes('review')}
-      pageTitle={crumb}
-    >
+    <FormLayout pageTitle={crumb}>
       <Switch>
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route

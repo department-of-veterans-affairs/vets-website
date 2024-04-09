@@ -3,7 +3,6 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   advanceToHouseholdSection,
@@ -41,9 +40,6 @@ describe('EZR No Financial Submission', () => {
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
     advanceToHouseholdSection();
-
-    goToNextPage('/household-information/financial-information-status');
-    cy.injectAxeThenAxeCheck();
 
     advanceFromHouseholdToReview();
 

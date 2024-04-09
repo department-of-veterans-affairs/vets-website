@@ -14,7 +14,7 @@ describe('Filter box', () => {
         folderList,
         folder,
       },
-      search: {},
+      search: { query: { queryData: {} } },
     },
   };
   const initialProps = {

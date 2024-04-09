@@ -9,7 +9,7 @@ describe('<AppealHelpSidebar>', () => {
     const props = { aoj: 'vba' };
     const wrapper = shallow(<AppealHelpSidebar {...props} />);
 
-    expect(wrapper.find('AskVAQuestions')).to.not.be.false;
+    expect(wrapper.find('NeedHelp')).to.not.be.false;
     wrapper.unmount();
   });
 
@@ -31,8 +31,8 @@ describe('<AppealHelpSidebar>', () => {
       </Provider>,
     );
 
-    expect(wrapper.find('AskVAQuestions').text()).to.contain(
-      'Monday through Friday, 8:00 a.m. to 9:00 p.m. ET',
+    expect(wrapper.find('NeedHelp').text()).to.contain(
+      "We're here Monday through Friday, 8:00 a.m to 9:00 p.m ET.",
     );
     wrapper.unmount();
   });

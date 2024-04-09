@@ -5,7 +5,6 @@ import { flow, sortBy, toPairs } from 'lodash';
 import omit from 'platform/utilities/data/omit';
 
 import DocketCard from './DocketCard';
-import DurationCard from './DurationCard';
 import {
   APPEAL_ACTIONS,
   DOCKET_TYPES,
@@ -49,11 +48,6 @@ function Docket({
   const docketMonthFormatted = moment(docketMonth, 'YYYY-MM-DD').format(
     'MMMM YYYY',
   );
-
-  const etaFormatted =
-    eta &&
-    eta[amaDocket] &&
-    moment(eta[amaDocket], 'YYYY-MM-DD').format('MMMM YYYY');
 
   const otherEtas = flow(
     e => omit(amaDocket, e),
@@ -148,14 +142,6 @@ function Docket({
         </p>
         {yourPlaceText}
         {ahead && <DocketCard total={total} ahead={ahead} docket={amaDocket} />}
-        {etaFormatted && (
-          <DurationCard
-            durationText={etaFormatted}
-            cardDescription={`Estimate of when your appeal will reach the front of the ${getDocketName(
-              amaDocket,
-            )} docket line`}
-          />
-        )}
         <h2>Is there a way to prioritize my appeal?</h2>
         <p>
           If you are suffering a serious illness or are in financial distress,

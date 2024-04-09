@@ -42,10 +42,12 @@ export const titleUI = (title, description) => {
     'ui:title':
       isTitleFn || isDescriptionFn ? (
         props => (
-          <Title
-            title={isTitleFn ? title(props) : title}
-            description={isDescriptionFn ? description(props) : description}
-          />
+          <legend className="schemaform-block-title">
+            <Title
+              title={isTitleFn ? title(props) : title}
+              description={isDescriptionFn ? description(props) : description}
+            />
+          </legend>
         )
       ) : (
         <Title title={title} description={description} />

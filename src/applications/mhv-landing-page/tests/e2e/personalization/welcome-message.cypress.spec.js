@@ -7,8 +7,6 @@ import ApiInitializer from '../utilities/ApiInitializer';
 describe(`${appName} -- Welcome message`, () => {
   beforeEach(() => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-    const redirectUrl = 'https://**.va.gov/mhv-portal**/**';
-    cy.intercept('GET', redirectUrl, '').as('mhvRedirect');
     ApiInitializer.initializeMessageData.withUnreadMessages();
   });
 

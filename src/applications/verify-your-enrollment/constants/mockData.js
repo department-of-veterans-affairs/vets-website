@@ -211,6 +211,20 @@ export const USER_MOCK_DATA = {
         numberHours: 6,
         typeHours: 'type',
       },
+      {
+        id: 22,
+        curAwardInd: 'C',
+        awardBeginDate: '2025-02-20T16:12:43.447Z',
+        awardEndDate: '2025-03-20T16:12:43.447Z',
+        trainingTime: 30,
+        paymentDate: '2025-03-01T16:12:43.447Z',
+        monthlyRate: '200.0',
+        beginRsn: 'reason',
+        endRsn: 'reason',
+        typeTraining: 'type',
+        numberHours: 6,
+        typeHours: 'type',
+      },
     ],
     pendingDocuments: [
       {
@@ -219,7 +233,7 @@ export const USER_MOCK_DATA = {
       },
     ],
     pendingVerifications: {
-      awardIds: [18, 19, 20, 21],
+      awardIds: [18, 19, 20, 21, 22],
     },
     verifications: [
       {
@@ -262,6 +276,26 @@ export const USER_MOCK_DATA = {
         createdOn: '2024-08-15T16:12:43.491Z',
         awardIds: [17],
       },
+      // {
+      //   createdOn: '2024-07-15T16:12:43.491Z',
+      //   awardIds: [18],
+      // },
+      // {
+      //   createdOn: '2024-09-15T16:12:43.491Z',
+      //   awardIds: [19],
+      // },
+      // {
+      //   createdOn: '2024-10-15T16:12:43.491Z',
+      //   awardIds: [20],
+      // },
+      // {
+      //   createdOn: '2024-11-15T16:12:43.491Z',
+      //   awardIds: [21],
+      // },
+      // {
+      //   createdOn: '2024-11-15T16:12:43.491Z',
+      //   awardIds: [22],
+      // },
     ],
   },
 };

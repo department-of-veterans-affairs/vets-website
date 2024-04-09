@@ -2,15 +2,22 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import i18next from 'i18next';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
 import PreCheckInAccordionBlock from '../PreCheckInAccordionBlock';
 
 describe('check-in', () => {
+  let i18n;
+  beforeEach(() => {
+    i18n = setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('PreCheckInAccordionBlock', () => {
     afterEach(() => {
-      i18next.changeLanguage('en');
+      i18n.changeLanguage('en');
     });
     const appointments = [
       {

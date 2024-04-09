@@ -35,7 +35,7 @@ State change: ${state.value}
 }
 
 function summaryAddMore(hasEmployment) {
-  cy.selectYesNoVaRadioOption('root_hasEmployment', hasEmployment);
+  cy.selectYesNoVaRadioOption('root_view:hasEmployment', hasEmployment);
   cy.axeCheck();
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
@@ -58,13 +58,13 @@ function addItemPage2() {
 function summaryEditItem1() {
   cy.axeCheck();
   cy.get('va-card').should('have.length', 2);
-  cy.get('va-card[name="employers_0"] [data-action="edit"]').click();
+  cy.get('va-card[name="employer_0"] [data-action="edit"]').click();
 }
 
 function summaryEditItem2() {
   cy.axeCheck();
   cy.get('va-card').should('have.length', 2);
-  cy.get('va-card[name="employers_1"] [data-action="edit"]').click();
+  cy.get('va-card[name="employer_1"] [data-action="edit"]').click();
 }
 
 function editItemPage1() {
@@ -111,7 +111,7 @@ function cancelItemPage1() {
 
 function removeItem1() {
   cy.get('va-card').should('have.length', 2);
-  cy.get('va-card[name="employers_0"] [data-action="remove"]').click();
+  cy.get('va-card[name="employer_0"] [data-action="remove"]').click();
   cy.axeCheck();
   cy.get('va-modal[status="warning"]')
     .shadow()
@@ -124,14 +124,14 @@ function removeItem1() {
     .click();
   cy.get('va-card').should('have.length', 1);
   cy.axeCheck();
-  cy.selectYesNoVaRadioOption('root_hasEmployment', false);
+  cy.selectYesNoVaRadioOption('root_view:hasEmployment', false);
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 
-const routeItem1Page1 = 'array-multiple-page-builder-item-page-1/0';
-const routeItem1Page2 = 'array-multiple-page-builder-item-page-2/0';
-const routeItem2Page1 = 'array-multiple-page-builder-item-page-1/1';
-const routeItem2Page2 = 'array-multiple-page-builder-item-page-2/1';
+const routeItem1Page1 = 'array-multiple-page-builder/0/name-and-address';
+const routeItem1Page2 = 'array-multiple-page-builder/0/dates';
+const routeItem2Page1 = 'array-multiple-page-builder/1/name-and-address';
+const routeItem2Page2 = 'array-multiple-page-builder/1/dates';
 
 const testConfig = createTestConfig(
   {

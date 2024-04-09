@@ -98,6 +98,7 @@ class FormPage extends React.Component {
           const urlParamsString = stringifyUrlParams(urlParams);
           this.props.router.push(path + (urlParamsString || ''));
         },
+        pageList: route.pageList,
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
@@ -174,6 +175,7 @@ class FormPage extends React.Component {
           const urlParamsString = stringifyUrlParams(urlParams);
           this.props.router.push(path + (urlParamsString || ''));
         },
+        pageList: route.pageList,
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,

@@ -20,9 +20,7 @@ const setup = path => {
   );
 
   const breadcrumbList = JSON.parse(
-    view.container
-      .querySelector('va-breadcrumbs')
-      .getAttribute('breadcrumb-list'),
+    view.getByTestId('profile-breadcrumbs-wrapper').dataset.breadcrumbsJson,
   );
 
   return { breadcrumbList };

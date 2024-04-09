@@ -16,7 +16,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': ALS_DESCRIPTION,
+    'ui:description': () => ALS_DESCRIPTION,
     'ui:objectViewField': AlsViewField,
     alsDocuments: {
       'ui:title': 'Upload additional evidence',
@@ -35,7 +35,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_als_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

@@ -2,6 +2,7 @@
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
+const core = require('@actions/core');
 const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
@@ -91,28 +92,34 @@ const splitUnitTests = splitArray(
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
   : splitUnitTests[matrixStep];
+
 if (testsToVerify === null) {
-  for (const dir of appsToRun) {
-    const updatedPath = options['app-folder']
-      ? options.path.map(p => `'${p}'`).join(' ')
-      : options.path[0].replace(
-          `/${specDirs}/`,
-          `/${JSON.parse(dir).join('/')}/`,
-        );
-    const testsToRun = options['app-folder']
-      ? `--recursive ${updatedPath}`
-      : `--recursive ${glob.sync(updatedPath)}`;
-    const command = `LOG_LEVEL=${options[
-      'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
-      /,/g,
-      ' ',
-    )} `;
-    if (testsToRun !== '') {
-      runCommand(command);
-    } else {
-      console.log('This app has no tests to run');
+  if (appsToRun && appsToRun.length > 0) {
+    core.exportVariable('NO_APPS_TO_RUN', false);
+    for (const dir of appsToRun) {
+      const updatedPath = options['app-folder']
+        ? options.path.map(p => `'${p}'`).join(' ')
+        : options.path[0].replace(
+            `/${specDirs}/`,
+            `/${JSON.parse(dir).join('/')}/`,
+          );
+      const testsToRun = options['app-folder']
+        ? `--recursive ${updatedPath}`
+        : `--recursive ${glob.sync(updatedPath)}`;
+      const command = `LOG_LEVEL=${options[
+        'log-level'
+      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+        /,/g,
+        ' ',
+      )} `;
+      if (testsToRun !== '') {
+        runCommand(command);
+      } else {
+        console.log('This app has no tests to run');
+      }
     }
+  } else {
+    core.exportVariable('NO_APPS_TO_RUN', true);
   }
 } else {
   const command = `LOG_LEVEL=${options[

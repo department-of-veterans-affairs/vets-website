@@ -8,7 +8,7 @@ import migrations from '../migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
+import SubTaskContainer from '../subtask/SubTaskContainer';
 
 import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
@@ -70,6 +70,7 @@ import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence, focusUploads } from '../utils/focus';
 
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
 import { appStateSelector } from '../../shared/utils/issues';
@@ -113,6 +114,16 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+
+  additionalRoutes: [
+    {
+      path: 'start',
+      component: SubTaskContainer,
+      pageKey: 'start',
+      depends: () => false,
+    },
+  ],
+
   chapters: {
     infoPages: {
       title: 'Veteran information',
@@ -195,7 +206,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -250,7 +261,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

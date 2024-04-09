@@ -1,6 +1,8 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -15,18 +17,22 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// import mockdata from '../tests/fixtures/data/test-data.json';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -37,6 +43,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'fullName',
     },
   },
   formId: '10-7959F-1',
@@ -59,15 +66,16 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: "Veteran's Information",
+      title: 'Name and date of birth',
       pages: {
         page1: {
+          // initialData: mockdata.data,
           path: 'veteran-information',
-          title: 'Veteran Personal Information',
+          title: 'Name and date of birth',
           uiSchema: {
             ...titleUI(
-              "Veteran's personal information",
-              'We use this information to contact you and verify other details.',
+              'Name and date of birth',
+              'We use this information to verify other details.',
             ),
             fullName: fullNameUI(),
             veteranDOB: dateOfBirthUI(),
@@ -82,15 +90,20 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    identificationInformation: {
+      title: 'Identification Information',
+      pages: {
         page2: {
-          path: 'veteran-information/ssn',
+          path: 'identification-information',
           title: 'Veteran SSN and VA file number',
           uiSchema: {
             ...titleUI(
-              `Veteran's identification information`,
-              `You must enter either a Social Security number of VA File number`,
+              `Identification information`,
+              `You must enter either a Social Security number of VA File number.`,
             ),
-            ssn: ssnOrVaFileNumberUI(),
+            ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
@@ -101,43 +114,82 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    physicalAddress: {
+      title: 'Physical Address',
+      pages: {
         page3: {
-          path: 'physical-address',
+          path: 'home-address',
           title: 'Physical Address',
           uiSchema: {
-            ...titleUI("Veteran's home address (residence)"),
-            physicalAddress: addressUI(),
+            ...titleUI(
+              'Physical Address',
+              'This is your current location, outside the United States.',
+            ),
+            physicalAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3', 'isMilitary'],
+              required: {
+                state: () => true,
+              },
+            }),
           },
           schema: {
             type: 'object',
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              physicalAddress: addressSchema(),
+              physicalAddress: addressSchema({
+                omit: ['street3', 'isMilitary'],
+              }),
             },
           },
         },
         page4: {
           path: 'mailing-address',
-          title: "Veteran's mailing address",
+          title: 'Mailing address',
           uiSchema: {
-            ...titleUI("Veteran's mailing address"),
-            mailingAddress: addressUI(),
+            ...titleUI(
+              'Mailing address',
+              "We'll send any important information about your application to this address.",
+            ),
+            mailingAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3', 'isMilitary'],
+              required: {
+                state: () => true,
+              },
+            }),
           },
           schema: {
             type: 'object',
-            required: 'mailingAddress',
+            required: ['mailingAddress'],
             properties: {
               titleSchema,
-              mailingAddress: addressSchema(),
+              mailingAddress: addressSchema({
+                omit: ['street3', 'isMilitary'],
+              }),
             },
           },
         },
+      },
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
         page5: {
           path: 'contact-info',
           title: "Veteran's contact information",
           uiSchema: {
-            ...titleUI("Veteran's contact information"),
+            ...titleUI(
+              'Phone and email address',
+              'Please include this information so that we can contact you with questions or updates',
+            ),
             phoneNumber: phoneUI(),
             emailAddress: emailUI(),
           },

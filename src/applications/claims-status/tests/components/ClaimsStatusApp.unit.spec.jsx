@@ -1,41 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { AppContent } from '../../containers/ClaimsStatusApp';
 
-import { ClaimsStatusApp, AppContent } from '../../containers/ClaimsStatusApp';
-
-describe('<ClaimsStatusApp>', () => {
-  it('should render children and login view', () => {
-    const tree = SkinDeep.shallowRender(
-      <ClaimsStatusApp available authorized>
-        <div className="test-child" />
-      </ClaimsStatusApp>,
-    );
-
-    expect(tree.everySubTree('.test-child')).not.to.be.empty;
-    expect(tree.everySubTree('RequiredLoginView')).not.to.be.empty;
-    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.eql([
-      backendServices.EVSS_CLAIMS,
-      backendServices.APPEALS_STATUS,
-      backendServices.LIGHTHOUSE,
-    ]);
-    expect(tree.subTree('RequiredLoginView').props.verify).to.be.true;
-  });
-
-  it('should render children', () => {
-    const tree = SkinDeep.shallowRender(
-      <AppContent available authorized>
-        <div className="test-child" />
-      </AppContent>,
-    );
-
-    expect(tree.everySubTree('.test-child')).not.to.be.empty;
-    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
-  });
-
+describe('<AppContent>', () => {
   it('should render loading indicator if feature toggles are not available', () => {
     const screen = render(
       <AppContent featureFlagsLoading>
@@ -47,11 +17,15 @@ describe('<ClaimsStatusApp>', () => {
     expect(screen.queryByTestId('children')).to.not.exist;
   });
 
-  it('should render children if feature toggles are available', () => {
+  it('should render nested route if feature toggles are available', () => {
     const screen = render(
-      <AppContent featureFlagsLoading={false}>
-        <div data-testid="children" />
-      </AppContent>,
+      <MemoryRouter>
+        <Routes>
+          <Route element={<AppContent featureFlagsLoading={false} />}>
+            <Route index element={<div data-testid="children" />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
     );
 
     expect(screen.queryByTestId('feature-flags-loading')).to.not.exist;

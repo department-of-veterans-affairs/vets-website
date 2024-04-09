@@ -3,7 +3,7 @@ import React from 'react';
 const BenefitsProfileStatement = () => {
   return (
     <div id="benefits-gi-bill-profile-statement">
-      <h1>Your Benefits Profile</h1>
+      <h1>Your benefits profile</h1>
 
       <p className="va-introtext">
         If you have an active benefit award for the Montgomery GI Bill® you’ll

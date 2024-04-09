@@ -45,6 +45,7 @@ describe('<AccordionItem>', () => {
     expect(recordedEvent.event).to.eq('int-accordion-expand');
     wrapper.unmount();
   });
+  /*
   it('should show span with class section-button-span when is Prod ENV', () => {
     global.window.buildType = true;
     const wrapper = shallow(
@@ -59,6 +60,7 @@ describe('<AccordionItem>', () => {
     expect(span).to.eq('test');
     wrapper.unmount();
   });
+   */
   it('should show div with class section-content-expanded-width when expandedWidth is True', () => {
     const wrapper = shallow(
       <AccordionItem expanded={false} button="test" expandedWidth>

@@ -1,13 +1,25 @@
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { apiRequest } from '~/platform/utilities/api';
 import moment from '~/applications/personalization/dashboard/lib/moment-tz';
-import {
-  FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
-  FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
-  FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-} from '~/applications/personalization/dashboard/constants';
 
 import { vaosV2Helpers } from './utils';
+
+export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+
+export const VIDEO_TYPES = {
+  gfe: 'MOBILE_GFE',
+  clinic: 'CLINIC_BASED',
+  adhoc: 'ADHOC',
+  mobile: 'MOBILE_ANY',
+  storeForward: 'STORE_FORWARD',
+};
+
+export const FETCH_CONFIRMED_FUTURE_APPOINTMENTS =
+  'dashboard/FETCH_CONFIRMED_FUTURE_APPOINTMENTS';
+export const FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED =
+  'dashboard/FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED';
+export const FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED =
+  'dashboard/FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED';
 
 export function fetchConfirmedFutureAppointments() {
   return async dispatch => {

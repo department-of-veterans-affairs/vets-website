@@ -8,7 +8,6 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 import informalConference from '../../pages/informalConference';
-import { InformalConferenceTitle } from '../../content/InformalConference';
 
 const { schema, uiSchema } = informalConference;
 
@@ -24,7 +23,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    expect($$('input[type="radio"]', container).length).to.equal(3);
+    expect($$('va-radio-option', container).length).to.equal(3);
   });
 
   /* Successful submits */
@@ -42,7 +41,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error', container).length).to.equal(0);
+    expect($$('[error]', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -61,31 +60,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error', container).length).to.equal(1);
+    expect($$('[error]', container).length).to.equal(1);
     expect(onSubmit.called).not.to.be.true;
-  });
-
-  it('should capture google analytics', () => {
-    global.window.dataLayer = [];
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={() => {}}
-      />,
-    );
-
-    fireEvent.click($('input[value="me"]', container));
-
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'int-radio-button-option-click',
-      'radio-button-label': InformalConferenceTitle,
-      'radio-button-optionLabel': 'me',
-      'radio-button-required': true,
-    });
   });
 });

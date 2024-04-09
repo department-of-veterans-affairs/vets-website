@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../../reducers';
 import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
-import { Alerts } from '../../../util/constants';
+import { Alerts, Paths } from '../../../util/constants';
 
 describe('Alert Backround Box component', () => {
   it('ERROR alert should render without errors', () => {
@@ -23,9 +23,9 @@ describe('Alert Backround Box component', () => {
         },
       },
     };
-    const screen = renderInReduxProvider(
+    const screen = renderWithStoreAndRouter(
       <AlertBackgroundBox closeable visible />,
-      { initialState, reducers: reducer },
+      { initialState, reducers: reducer, path: Paths.INBOX },
     );
 
     expect(screen.findByText(Alerts.Message.DELETE_MESSAGE_ERROR));

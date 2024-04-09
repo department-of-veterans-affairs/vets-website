@@ -3,6 +3,11 @@ import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash';
 import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { AppealInfo } from '../../../containers/AppealInfo';
 import { mockData } from '../../../utils/helpers';
 import {
@@ -12,8 +17,11 @@ import {
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
 } from '../../../actions/types';
+import { renderWithRouter } from '../../utils';
 
 const appealIdParam = mockData.data[0].id;
+
+const TestComponent = () => <div data-testid="children" />;
 
 const AVAILABLE = 'AVAILABLE';
 
@@ -22,13 +30,28 @@ const defaultProps = {
   appeal: mockData.data[0],
   appealsLoading: false,
   appealsAvailability: AVAILABLE,
+  getAppealsV2: () => {},
 };
 
-describe('<AppealInfo/>', () => {
+describe('<AppealInfo>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
     wrapper.unmount();
+  });
+
+  it('should render its children', () => {
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<AppealInfo {...defaultProps} />}>
+            <Route index element={<TestComponent />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByTestId('children')).to.exist;
   });
 
   it('should render va-loading-indicator when appeals loading', () => {
@@ -42,10 +65,10 @@ describe('<AppealInfo/>', () => {
   });
 
   it('should render the breadcrumbs', () => {
-    const wrapper = shallow(<AppealInfo {...defaultProps} />);
-    const breadcrumbs = wrapper.find('ClaimsBreadcrumbs');
-    expect(breadcrumbs.length).to.equal(1);
-    wrapper.unmount();
+    const { container } = renderWithRouter(<AppealInfo {...defaultProps} />);
+
+    const breadcrumbs = $('va-breadcrumbs', container);
+    expect(breadcrumbs.breadcrumbList.length).to.equal(3);
   });
 
   it('should render a header', () => {
@@ -62,14 +85,6 @@ describe('<AppealInfo/>', () => {
     wrapper.unmount();
   });
 
-  it('should render its children', () => {
-    const children = <span className="test">Child Goes Here</span>;
-    const props = merge({}, { children }, defaultProps);
-    const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('span.test').length).to.equal(1);
-    wrapper.unmount();
-  });
-
   it('should render CopyOfExam block', () => {
     const children = <span className="test">Child Goes Here</span>;
     const props = merge({}, { children }, defaultProps);
@@ -83,22 +98,21 @@ describe('<AppealInfo/>', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const wrapper = mount(
+
+    const elem = (
       <Provider store={mockStore}>
         <AppealInfo {...props} />
-      </Provider>,
+      </Provider>
+    );
+
+    const wrapper = mount(
+      <MemoryRouter>
+        <Routes>
+          <Route index element={elem} />
+        </Routes>
+      </MemoryRouter>,
     );
     expect(wrapper.find('CopyOfExam').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should pass appeal as a prop to its children', () => {
-    const children = <span className="test">Child Goes Here</span>;
-    const props = merge({}, { children }, defaultProps);
-    const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('span.test').prop('appeal')).to.eql(
-      defaultProps.appeal,
-    );
     wrapper.unmount();
   });
 

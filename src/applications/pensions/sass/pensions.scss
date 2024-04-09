@@ -8,16 +8,38 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-// a11y - Change gray box to white box with gray border.
-// Needed because when using a web component which
-// has a gray color hint text, the hint text compared to
-// the background color is too low contrast.
-.rjsf-array-field .va-growable-background {
-  border: 1px solid $color-gray-medium;
-  background-color: $color-white;
+$font-size: 16.96px;
+
+// Override widget styles to match v3 web components
+// until there is a web component pattern replacement
+.schemaform-currency-input-v3 {
+  margin-top: 24px;
+  .schemaform-widget-wrapper {
+    position: relative;
+    &:before {
+      content: "$";
+      display: block;
+      position: absolute;
+      top: 9px;
+      left: 10px;
+    }
+  }
+  label {
+    font-size: $font-size;
+  }
+  input {
+    width: 100%;
+    max-width: 480px;
+    font-size: $font-size;
+    padding-left: 25px;
+  }
 }
 
-// The '(*Required)' indicator is included in the question title
-.special-monthly-pension-question .schemaform-required-span {
-  display: none !important;
+.schemaform-date-input-v3 {
+  &.schemaform-first-field {
+    margin-top: 8px !important;
+  }
+  legend {
+    font-size: $font-size;
+  }
 }

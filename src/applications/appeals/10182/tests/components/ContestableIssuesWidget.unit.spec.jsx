@@ -10,7 +10,7 @@ import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidge
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../actions';
+} from '../../../shared/actions';
 
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 

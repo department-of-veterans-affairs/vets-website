@@ -2,7 +2,11 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/refillablePrescriptionsList.json';
@@ -37,6 +41,14 @@ describe('Refill Prescriptions Component', () => {
     );
   };
 
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
+
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
@@ -68,6 +80,7 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Mocks API Request', async () => {
+    resetFetch();
     mockApiRequest(prescriptionsList);
     const screen = setup();
     const title = await screen.findByTestId('refill-page-title');
@@ -96,12 +109,12 @@ describe('Refill Prescriptions Component', () => {
     button.click();
   });
 
-  it('Shows the select all button', async () => {
+  it('Shows the select all checkbox', async () => {
     const screen = setup();
-    const button = await screen.findByTestId('select-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.property('text', 'Select all');
-    button.click();
+    const checkbox = await screen.findByTestId('select-all-checkbox');
+    expect(checkbox).to.exist;
+    expect(checkbox).to.have.property('label', 'Select all');
+    checkbox.click();
   });
 
   it('Clicks the medications list page link', async () => {
@@ -121,13 +134,13 @@ describe('Refill Prescriptions Component', () => {
 
   it('Shows the correct "last filled on" date (w/rxRfRecords) for refill', async () => {
     const screen = setup();
-    const lastFilledEl = await screen.findByTestId(`refill-last-filled-5`);
+    const lastFilledEl = await screen.findByTestId(`refill-last-filled-6`);
     expect(lastFilledEl).to.exist;
     const rx = prescriptions.find(
       ({ prescriptionId }) => prescriptionId === 22217099,
     );
     expect(lastFilledEl).to.have.text(
-      `Last filled on ${dateFormat(rx.rxRfRecords[0][1][0].dispensedDate)}`,
+      `Last filled on ${dateFormat(rx.rxRfRecords[0]?.dispensedDate)}`,
     );
   });
 

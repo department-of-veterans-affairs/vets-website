@@ -10,7 +10,7 @@ import {
 } from '../utils/date';
 
 function MHVDowntime({
-  appTitle = 'some of our health tools',
+  appTitle = 'our health tools',
   children = null,
   endTime,
   status,

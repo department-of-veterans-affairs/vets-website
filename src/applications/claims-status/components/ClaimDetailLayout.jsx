@@ -1,18 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
+  isClaimOpen,
   isPopulatedClaim,
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
-import AskVAQuestions from './AskVAQuestions';
+import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
 import ClaimContentionList from './ClaimContentionList';
 import Notification from './Notification';
@@ -34,18 +32,9 @@ const getBreadcrumbText = (currentTab, claimType) => {
 };
 
 export default function ClaimDetailLayout(props) {
-  const {
-    claim,
-    loading,
-    message,
-    clearNotification,
-    currentTab,
-    synced,
-    id,
-  } = props;
-  const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimsPath = `your-claims/${id}`;
+  const { claim, clearNotification, currentTab, loading, message } = props;
 
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
@@ -55,17 +44,15 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
-        uswds="false"
       />
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
-    const { closeDate, contentions, status } = claim.attributes || {};
+    const { claimDate, closeDate, contentions, status } =
+      claim.attributes || {};
 
-    const isOpen = status !== 'COMPLETE' && closeDate === null;
-
-    const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-    const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const isOpen = isClaimOpen(status, closeDate);
+    const formattedClaimDate = buildDateFormatter()(claimDate);
     const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
@@ -84,7 +71,6 @@ export default function ClaimDetailLayout(props) {
             {claimSubheader}
           </span>
         </h1>
-        {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h3">
             What you’ve claimed
@@ -99,7 +85,7 @@ export default function ClaimDetailLayout(props) {
 
     bodyContent = (
       <div className="claim-container">
-        <TabNav id={props.claim.id} />
+        <TabNav id={claim.id} />
         {tabs.map(tab => (
           <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
@@ -123,17 +109,19 @@ export default function ClaimDetailLayout(props) {
     );
   }
 
+  const crumb = {
+    href: `../status`,
+    label: getBreadcrumbText(currentTab, claimType),
+    isRouterLink: true,
+  };
+
   return (
     <div>
       <div name="topScrollElement" />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>
-                {getBreadcrumbText(currentTab, claimType)}
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={[crumb]} />
           </div>
         </div>
         {!!headingContent && (
@@ -147,8 +135,10 @@ export default function ClaimDetailLayout(props) {
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             {bodyContent}
           </div>
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-            <AskVAQuestions />
+        </div>
+        <div className="vads-l-row vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <NeedHelp />
           </div>
         </div>
       </div>
@@ -161,8 +151,6 @@ ClaimDetailLayout.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   currentTab: PropTypes.string,
-  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
-  synced: PropTypes.bool,
 };

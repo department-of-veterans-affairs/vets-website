@@ -94,3 +94,44 @@ export const prevApplicationYearCutoff = {
   3: 2011,
   4: 2017,
 };
+
+// v2 constants
+import { SHORT_NAME_MAP } from './question-data-map';
+
+export const DUW_VIEWED_INTRO_PAGE =
+  'discharge-upgrade-wizard/DUW_VIEWED_INTRO_PAGE';
+export const DUW_UPDATE_SERVICE_BRANCH =
+  'discharge-upgrade-wizard/DUW_UPDATE_SERVICE_BRANCH';
+export const DUW_UPDATE_DISCHARGE_YEAR =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_YEAR';
+export const DUW_UPDATE_DISCHARGE_MONTH =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_MONTH';
+export const DUW_UPDATE_FORM_STORE =
+  'discharge-upgrade-wizard/DUW_UPDATE_FORM_STORE';
+
+export const ROUTES = Object.freeze({
+  HOME: 'introduction',
+  SERVICE_BRANCH: 'service-branch',
+  DISCHARGE_YEAR: 'discharge-year',
+  DISCHARGE_MONTH: 'discharge-month',
+  DISCHARGE_REASON: 'discharge-reason',
+  RESULT: 'result',
+});
+
+export const questionsToClearMap = Object.freeze({
+  SERVICE_BRANCH: [],
+  DISCHARGE_YEAR: [SHORT_NAME_MAP.DISCHARGE_MONTH],
+  DISCHARGE_MONTH: [],
+  DISCHARGE_REASON: [],
+});
+
+export const errorTextMap = Object.freeze({
+  SERVICE_BRANCH: 'Select a branch',
+  DISCHARGE_YEAR: 'Select a year',
+  DISCHARGE_MONTH: 'Select a month',
+});
+
+export const labelTextMap = Object.freeze({
+  DISCHARGE_YEAR: 'Year',
+  DISCHARGE_MONTH: 'Month',
+});

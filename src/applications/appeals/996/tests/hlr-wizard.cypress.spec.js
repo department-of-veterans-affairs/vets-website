@@ -69,7 +69,7 @@ describe('HLR wizard', () => {
   });
   // other claims flow
   it('should show other claims - C12066', () => {
-    cy.get('va-radio-option[value="other"]').click(checkOpt);
+    cy.get('va-radio-option[value="other"] label').click(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, undefined);
     // #8622 set by public websites accordion anchor ID
     cy.get(`a[href*="${BENEFIT_OFFICES_URL}"]`).should('exist');
@@ -92,7 +92,7 @@ describe('HLR wizard', () => {
       .should('be.visible')
       .and('have.text', h1Text);
 
-    cy.get('va-radio-option[value="compensation"]').click(checkOpt);
+    cy.get('va-radio-option[value="compensation"] label').click(checkOpt);
     cy.checkStorage(SAVED_CLAIM_TYPE, 'compensation');
     cy.checkFormChange({
       label: 'For what type of claim are you requesting a Higher-Level Review?',

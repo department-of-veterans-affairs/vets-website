@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -18,6 +16,8 @@ import {
   privateRecordsRequestTitle,
   privateRecordsRequestInfo,
 } from '../content/evidencePrivateRecordsRequest';
+
+import { customPageProps995 } from '../../shared/props';
 
 /**
  * This page is needed to make the back button on this page to to the last
@@ -107,15 +107,6 @@ const EvidencePrivateRequest = ({
   );
 };
 
-EvidencePrivateRequest.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({}),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};
+EvidencePrivateRequest.propTypes = customPageProps995;
 
 export default EvidencePrivateRequest;

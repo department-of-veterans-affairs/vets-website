@@ -4,84 +4,41 @@ import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import WhatYouNeedToDo from '../../../components/claim-status-tab/WhatYouNeedToDo';
+import { renderWithRouter } from '../../utils';
+
+const nothingNeededText =
+  'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
 
 describe('<WhatYouNeedToDo>', () => {
-  context('when useLighthouse true', () => {
-    const useLighthouse = true;
-    it('should render no-documents description when there are no flies needed', () => {
-      const claim = {
-        attributes: {
-          open: false,
-          trackedItems: [],
-        },
-      };
-      const { container, getByText } = render(
-        <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />,
-      );
-      const expectedText =
-        "There's nothing we need from you right now. We'll let you know when there's an update.";
-      getByText(expectedText);
-      expect($('va-alert', container)).not.to.exist;
-    });
+  it('should render no-documents description when there are no files needed', () => {
+    const claim = {
+      attributes: {
+        trackedItems: [],
+      },
+    };
 
-    it('should FilesNeeded', () => {
-      const claim = {
-        attributes: {
-          open: true,
-          trackedItems: [
-            {
-              status: 'NEEDED_FROM_YOU',
-            },
-          ],
-        },
-      };
-      const { container, queryByText } = render(
-        <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />,
-      );
-      const expectedText =
-        "There's nothing we need from you right now. We'll let you know when there's an update.";
-      expect(queryByText(expectedText)).not.to.exist;
-      expect($('va-alert', container)).to.exist;
-    });
+    const { container, getByText } = render(<WhatYouNeedToDo claim={claim} />);
+
+    getByText(nothingNeededText);
+    expect($('va-alert', container)).not.to.exist;
   });
 
-  context('when useLighthouse false', () => {
-    const useLighthouse = false;
-    it('should render no-documents description when there are no flies needed', () => {
-      const claim = {
-        attributes: {
-          open: false,
-          eventsTimeline: [],
-        },
-      };
-      const { container, getByText } = render(
-        <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />,
-      );
-      const expectedText =
-        "There's nothing we need from you right now. We'll let you know when there's an update.";
-      expect(getByText(expectedText)).to.exist;
-      expect($('va-alert', container)).not.to.exist;
-    });
+  it('shouldn’t indicate that nothing is needed when files are needed', () => {
+    const claim = {
+      attributes: {
+        trackedItems: [
+          {
+            status: 'NEEDED_FROM_YOU',
+          },
+        ],
+      },
+    };
 
-    it('should FilesNeeded', () => {
-      const claim = {
-        attributes: {
-          open: true,
-          eventsTimeline: [
-            {
-              type: 'still_need_from_you_list',
-              status: 'NEEDED',
-            },
-          ],
-        },
-      };
-      const { container, queryByText } = render(
-        <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />,
-      );
-      const expectedText =
-        "There's nothing we need from you right now. We'll let you know when there's an update.";
-      expect(queryByText(expectedText)).not.to.exist;
-      expect($('va-alert', container)).to.exist;
-    });
+    const { container, queryByText } = renderWithRouter(
+      <WhatYouNeedToDo claim={claim} />,
+    );
+
+    expect(queryByText(nothingNeededText)).not.to.exist;
+    expect($('va-alert', container)).to.exist;
   });
 });

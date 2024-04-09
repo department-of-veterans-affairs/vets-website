@@ -4,15 +4,11 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import formConfig from '../../../../../config/form';
+import { HCA_ENROLLMENT_STATUSES } from '../../../../../utils/constants';
 import EnrollmentStatus from '../../../../../components/IntroductionPage/EnrollmentStatus';
 
 describe('hca <EnrollmentStatus>', () => {
-  const getData = ({
-    applicationDate = null,
-    enrollmentDate = null,
-    preferredFacility = null,
-    enrollmentStatus = null,
-  }) => ({
+  const getData = ({ hasServerError = false, statusCode = null }) => ({
     props: {
       route: {
         formConfig,
@@ -22,16 +18,14 @@ describe('hca <EnrollmentStatus>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          applicationDate,
-          enrollmentDate,
-          preferredFacility,
-          enrollmentStatus,
-          showReapplyContent: false,
-          isUserInMVI: true,
-          loginRequired: false,
-          noESRRecordFound: false,
-          hasServerError: false,
-          isLoadingApplicationStatus: false,
+          statusCode,
+          hasServerError,
+          applicationDate: null,
+          enrollmentDate: null,
+          preferredFacility: null,
+          isUserInMPI: true,
+          vesRecordFound: true,
+          loading: false,
         },
         form: {
           formId: formConfig.formId,
@@ -66,55 +60,80 @@ describe('hca <EnrollmentStatus>', () => {
     },
   });
 
-  context('when enrollment status has not been fetched', () => {
-    const { mockStore, props } = getData({});
-
-    it('should not render any components', () => {
-      const { container } = render(
-        <Provider store={mockStore}>
-          <EnrollmentStatus {...props} />
-        </Provider>,
-      );
-      expect(container).to.be.empty;
-    });
+  it('should render FAQ content', () => {
+    const { mockStore, props } = getData({ statusCode: 'enrolled' });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <EnrollmentStatus {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelectorAll('.hca-enrollment-faq');
+    expect(selector).to.have.length;
   });
 
-  context('when enrollment status has been fetched', () => {
+  it('should render `va-alert` with status of `error` when server error has occurred', () => {
+    const { mockStore, props } = getData({ hasServerError: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <EnrollmentStatus {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('status', 'error');
+  });
+
+  it('should render `va-alert` with status of `continue` when enrollment status is `enrolled`', () => {
     const { mockStore, props } = getData({
-      applicationDate: '2019-04-24T00:00:00.000-06:00',
-      enrollmentDate: '2019-04-30T00:00:00.000-06:00',
-      enrollmentStatus: 'enrolled',
-      preferredFacility: '463 - CHEY6',
+      statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
     });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <EnrollmentStatus {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('status', 'continue');
+  });
 
-    it('should render `va-alert` with correct title', () => {
-      const { container } = render(
-        <Provider store={mockStore}>
-          <EnrollmentStatus {...props} />
-        </Provider>,
-      );
-      const selectors = {
-        alert: container.querySelector('va-alert'),
-        headline: container.querySelector(
-          '[data-testid="hca-enrollment-alert-heading"]',
-        ),
-      };
-      expect(selectors.alert).to.exist;
-      expect(selectors.alert).to.have.attr('status', 'warning');
-      expect(selectors.headline).to.contain.text(
-        'You’re already enrolled in VA health care',
-      );
+  it('should render `va-alert` with status of `warning` when enrollment status is not `enrolled`', () => {
+    const { mockStore, props } = getData({
+      statusCode: HCA_ENROLLMENT_STATUSES.closed,
     });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <EnrollmentStatus {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('status', 'warning');
+  });
 
-    it('should render FAQ content', () => {
-      const { container } = render(
-        <Provider store={mockStore}>
-          <EnrollmentStatus {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('h3');
-      expect(container).to.not.be.empty;
-      expect(selector).to.exist;
+  it('should not render `Start` button when enrollment status is not in the allow list', () => {
+    const { mockStore, props } = getData({
+      statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
     });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <EnrollmentStatus {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('[href="#start"]');
+    expect(selector).to.not.exist;
+  });
+
+  it('should render `Start` button when enrollment status is in the allow list', () => {
+    const { mockStore, props } = getData({
+      statusCode: HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+    });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <EnrollmentStatus {...props} />
+      </Provider>,
+    );
+    const selector = container.querySelector('[href="#start"]');
+    expect(selector).to.exist;
   });
 });

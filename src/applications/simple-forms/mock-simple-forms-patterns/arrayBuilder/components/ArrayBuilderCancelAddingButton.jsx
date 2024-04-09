@@ -16,6 +16,8 @@ const ArrayBuilderCancelAddingButton = ({
   setFormData,
   formData,
   buttonText,
+  modalButtonPrimary,
+  modalButtonSecondary,
   modalTitle,
   modalDescription,
   goToPath,
@@ -63,8 +65,8 @@ const ArrayBuilderCancelAddingButton = ({
         clickToClose
         status="warning"
         modalTitle={modalTitle}
-        primaryButtonText="Yes, cancel adding"
-        secondaryButtonText="No, continue adding"
+        primaryButtonText={modalButtonPrimary}
+        secondaryButtonText={modalButtonSecondary}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}
         onSecondaryButtonClick={hideCancelConfirmationModal}
@@ -90,6 +92,8 @@ ArrayBuilderCancelAddingButton.propTypes = {
   buttonText: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
   goToPath: PropTypes.func.isRequired,
+  modalButtonPrimary: PropTypes.string.isRequired,
+  modalButtonSecondary: PropTypes.string.isRequired,
   modalDescription: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   setFormData: PropTypes.func.isRequired,
@@ -104,6 +108,8 @@ ArrayBuilderCancelAddingButton.propTypes = {
  *   arrayPath="employers"
  *   modalTitle="Are you sure you want to cancel adding this employer?"
  *   modalDescription="If you cancel adding this employer, we won't save the information. You'll return to a screen where you can add or remove employers."
+ *   modalButtonPrimary="Yes, cancel adding"
+ *   modalButtonSecondary="No, continue adding"
  *   goToPath={goToPath}
  *   summaryRoute="/array-multiple-page-builder-summary"
  * />

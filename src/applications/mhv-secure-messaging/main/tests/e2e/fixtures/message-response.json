@@ -1,0 +1,28 @@
+{
+    "data": {
+        "id": "7179970",
+        "type": "messages",
+        "attributes": {
+            "messageId": 7179970,
+            "category": "MEDICATIONS",
+            "subject": "Medication-Inquiry",
+            "body": "REPLY\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
+            "attachment": false,
+            "sentDate": "2022-09-12T15:10:13.000Z",
+            "senderId": 20029,
+            "senderName": "ISLAM, MOHAMMAD RAFIQ",
+            "recipientId": 6820911,
+            "recipientName": "ECSTEN, THOMAS ",
+            "readReceipt": null,
+            "triageGroupName": "Jeasmitha-Cardio-Clinic"
+        },
+        "relationships": {
+            "attachments": {
+                "data": []
+            }
+        },
+        "links": {
+            "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179970"
+        }
+    }
+}

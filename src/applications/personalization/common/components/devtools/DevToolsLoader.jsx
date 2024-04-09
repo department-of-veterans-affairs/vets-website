@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 import ChildrenDetails from './ChildrenDetails';
 
 const getUuid = nanoidImp => {
@@ -48,27 +49,15 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
               <i className="fas fa-times" />
             </button>
 
-            <va-accordion
-              disable-analytics={{
-                value: 'true',
-              }}
-              section-heading={{
-                value: 'Details',
-              }}
-              uswds={{
-                value: 'false',
-              }}
-            >
-              <va-accordion-item>
-                <h6 slot="headline">devToolsData</h6>
-                <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
-              </va-accordion-item>
-              {children && (
-                <va-accordion-item header="children">
-                  <ChildrenDetails>{children}</ChildrenDetails>
-                </va-accordion-item>
-              )}
-            </va-accordion>
+            <h6>devToolsData</h6>
+            <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
+
+            {children && (
+              <>
+                <h6>devToolsData</h6>
+                <ChildrenDetails>{children}</ChildrenDetails>
+              </>
+            )}
           </div>
         </div>
       ) : (
@@ -180,6 +169,12 @@ export const DevToolsLoader = ({
       )}
     </div>
   );
+};
+
+DevToolsLoader.propTypes = {
+  children: PropTypes.node,
+  devToolsData: PropTypes.object,
+  panel: PropTypes.bool,
 };
 
 export default DevToolsLoader;

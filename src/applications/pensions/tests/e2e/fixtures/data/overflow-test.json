@@ -65,13 +65,11 @@
     "currentEmployers": [
       {
         "jobType": "Customer service",
-        "jobHoursWeek": 20,
-        "jobTitle": "Manager"
+        "jobHoursWeek": "20"
       },
       {
         "jobType": "Customer service",
-        "jobHoursWeek": 20,
-        "jobTitle": "Representative"
+        "jobHoursWeek": "20"
       }
     ],
     "maritalStatus": "SEPARATED",
@@ -291,7 +289,7 @@
         "provider": "NYC Care Provider Family Medical Facility",
         "careType": "CARE_FACILITY",
         "ratePerHour": 100,
-        "hoursPerWeek": 20,
+        "hoursPerWeek": "20",
         "careDateRange": {
           "from": "2020-08-01",
           "to": "2023-05-25"
@@ -304,7 +302,7 @@
         "provider": "MA Care Provider",
         "careType": "IN_HOME_CARE_PROVIDER",
         "ratePerHour": 150,
-        "hoursPerWeek": 15,
+        "hoursPerWeek": "15",
         "careDateRange": {
           "from": "2021-08-01",
           "to": "2022-05-25"
@@ -318,7 +316,7 @@
         "provider": "LA Care Provider",
         "careType": "CARE_FACILITY",
         "ratePerHour": 200,
-        "hoursPerWeek": 10,
+        "hoursPerWeek": "10",
         "careDateRange": {
           "from": "2020-08-01"
         },

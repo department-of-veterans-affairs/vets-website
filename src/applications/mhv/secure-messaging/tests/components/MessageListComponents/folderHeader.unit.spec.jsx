@@ -21,6 +21,7 @@ import {
   DefaultFolders,
   DefaultFolders as Folders,
   Paths,
+  filterDescription,
 } from '../../../util/constants';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
@@ -128,13 +129,13 @@ describe('Folder Header component', () => {
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: to, from, message ID, or subject',
+        filterDescription.withMsgId,
       );
 
       expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${
-          customFolder.name
-        } Enter information from one of these fields: to, from, message ID, or subject`,
+        `Filter messages in ${customFolder.name} ${
+          filterDescription.withMsgId
+        }`,
       );
     });
 
@@ -192,12 +193,10 @@ describe('Folder Header component', () => {
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: to, from, message ID, or subject',
+        filterDescription.withMsgId,
       );
       expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${
-          inbox.name
-        } Enter information from one of these fields: to, from, message ID, or subject`,
+        `Filter messages in ${inbox.name} ${filterDescription.withMsgId}`,
       );
     });
 
@@ -303,12 +302,10 @@ describe('Folder Header component', () => {
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: to, from, or subject',
+        'Enter information from one of these fields: To, from, or subject',
       );
       expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${
-          drafts.name
-        } Enter information from one of these fields: to, from, or subject`,
+        `Filter messages in ${drafts.name} ${filterDescription.noMsgId}`,
       );
     });
 
@@ -351,12 +348,10 @@ describe('Folder Header component', () => {
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: to, from, message ID, or subject',
+        filterDescription.withMsgId,
       );
       expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${
-          sent.name
-        } Enter information from one of these fields: to, from, message ID, or subject`,
+        `Filter messages in ${sent.name} ${filterDescription.withMsgId}`,
       );
     });
 
@@ -411,12 +406,10 @@ describe('Folder Header component', () => {
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: to, from, message ID, or subject',
+        filterDescription.withMsgId,
       );
       expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${
-          trash.name
-        } Enter information from one of these fields: to, from, message ID, or subject`,
+        `Filter messages in ${trash.name} ${filterDescription.withMsgId}`,
       );
     });
 

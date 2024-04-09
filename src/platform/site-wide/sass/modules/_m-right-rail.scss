@@ -4,12 +4,12 @@
 
 .merger-r-rail {
 
-  border: 3px solid $color-gray-lightest;
+  border: 3px solid var(--vads-color-base-lightest);
   margin-bottom: 1.5em;
 
   .rail-heading {
     padding: 1em;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
   }
 
   &:last-child {
@@ -38,7 +38,7 @@
 
   .va-nav-linkslist-list {
     padding: 1em;
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
 
     li {
       margin: 0;
@@ -52,7 +52,7 @@
   .social {
 
     .fa {
-      color: $color-link-default;
+      color: var(--vads-color-link);
       border-radius: 0;
       margin-right: 3px;
     }

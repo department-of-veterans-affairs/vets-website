@@ -68,8 +68,7 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  request:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
+  request: 'Add any details you’d like to share with your provider.',
   direct:
     'Please provide any additional details you’d like to share with your provider about this appointment.',
 };

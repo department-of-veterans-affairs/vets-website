@@ -4,6 +4,9 @@ import livingSituation from '../pages/livingSituation';
 import { PREPARER_TYPES } from './constants';
 
 export default function transformForSubmit(formConfig, form) {
+  const hasReceivedMedicalTreatment =
+    form?.data?.['view:hasReceivedMedicalTreatment'];
+
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
@@ -26,6 +29,10 @@ export default function transformForSubmit(formConfig, form) {
     MEDAL_AWARD: 'medalAwardDocuments',
   };
 
+  if (!hasReceivedMedicalTreatment && transformedData.medicalTreatments) {
+    delete transformedData.medicalTreatments;
+  }
+
   // TODO: Once PDF has been updated to remove OCR-boxes,
   // remove this name-values truncation-block below.
   if (
@@ -33,18 +40,32 @@ export default function transformForSubmit(formConfig, form) {
     preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN
   ) {
     const { first, middle, last } = transformedData.veteranFullName;
-    transformedData.veteranFullName = {
-      first: first.slice(0, 12),
-      middle: middle?.charAt(0),
-      last: last.slice(0, 18),
-    };
+    if (middle) {
+      transformedData.veteranFullName = {
+        first: first.slice(0, 12),
+        middle: middle.charAt(0),
+        last: last.slice(0, 18),
+      };
+    } else {
+      transformedData.veteranFullName = {
+        first: first.slice(0, 12),
+        last: last.slice(0, 18),
+      };
+    }
   } else {
     const { first, middle, last } = transformedData.nonVeteranFullName;
-    transformedData.nonVeteranFullName = {
-      first: first.slice(0, 12),
-      middle: middle?.charAt(0),
-      last: last.slice(0, 18),
-    };
+    if (middle) {
+      transformedData.nonVeteranFullName = {
+        first: first.slice(0, 12),
+        middle: middle.charAt(0),
+        last: last.slice(0, 18),
+      };
+    } else {
+      transformedData.nonVeteranFullName = {
+        first: first.slice(0, 12),
+        last: last.slice(0, 18),
+      };
+    }
   }
 
   // delete third-party form-data based on preparerType
@@ -82,7 +103,9 @@ export default function transformForSubmit(formConfig, form) {
   ) {
     const { street, street2, city } = transformedData.veteranMailingAddress;
     transformedData.veteranMailingAddress.street = street.slice(0, 30);
-    transformedData.veteranMailingAddress.street2 = street2.slice(0, 5);
+    if (street2) {
+      transformedData.veteranMailingAddress.street2 = street2.slice(0, 5);
+    }
     transformedData.veteranMailingAddress.city = city.slice(0, 20);
   }
   if (
@@ -91,7 +114,9 @@ export default function transformForSubmit(formConfig, form) {
   ) {
     const { street, street2, city } = transformedData.nonVeteranMailingAddress;
     transformedData.nonVeteranMailingAddress.street = street.slice(0, 30);
-    transformedData.nonVeteranMailingAddress.street2 = street2.slice(0, 5);
+    if (street2) {
+      transformedData.nonVeteranMailingAddress.street2 = street2.slice(0, 5);
+    }
     transformedData.nonVeteranMailingAddress.city = city.slice(0, 20);
   }
 
@@ -114,5 +139,5 @@ export default function transformForSubmit(formConfig, form) {
     }
   });
 
-  return sharedTransformForSubmit(formConfig, form);
+  return JSON.stringify(transformedData);
 }

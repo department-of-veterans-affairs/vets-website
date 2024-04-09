@@ -1,5 +1,4 @@
-import { processList } from '../../medical-records/util/helpers';
-import { dateFormat, validateField } from './helpers';
+import { dateFormat, processList, validateField } from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -161,7 +160,7 @@ Provider notes: ${validateField(item.notes)}
  * Return VA prescription TXT
  */
 export const buildVAPrescriptionTXT = prescription => {
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
@@ -184,7 +183,7 @@ About your prescription
 
 Last filled on: ${dateFormat(
     (prescription.rxRfRecords?.length &&
-      prescription.rxRfRecords?.[0]?.[1].dispensedDate) ||
+      prescription.rxRfRecords?.[0]?.dispensedDate) ||
       prescription.dispensedDate,
     'MMMM D, YYYY',
   )}
@@ -241,8 +240,8 @@ Filled by pharmacy on: ${
     }
 
 Shipped on: ${
-      entry?.trackingList?.[0]?.[1]?.completeDateTime
-        ? dateFormat(entry.trackingList[0][1].completeDateTime)
+      entry?.trackingList?.[0]?.completeDateTime
+        ? dateFormat(entry.trackingList[0].completeDateTime)
         : 'None noted'
     }
 

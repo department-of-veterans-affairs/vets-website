@@ -22,35 +22,37 @@ const DebtSummaryCard = ({ debt }) => {
   );
 
   return (
-    <va-card
-      show-shadow
-      class="vads-u-padding--3 vads-u-margin-bottom--3"
-      data-testid="debt-summary-item"
-    >
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
-        {debtCardTotal}
-      </h3>
-      <h4 className="vads-u-margin-top--0  vads-u-margin-bottom--1p5 vads-u-font-weight--normal">
-        {debtCardHeading}
-      </h4>
-      {debtCardSubHeading}
-      <Link
-        className="vads-u-font-weight--bold"
-        data-testid="debt-details-button"
-        onClick={() => {
-          recordEvent({ event: 'cta-link-click-debt-summary-card' });
-          setActiveDebt(debt);
-        }}
-        to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
-        aria-label={`Check details and resolve this ${debtCardHeading}`}
+    <li>
+      <va-card
+        show-shadow
+        class="vads-u-padding--3 vads-u-margin-bottom--3"
+        data-testid="debt-summary-item"
       >
-        Check details and resolve this debt
-        <i
-          aria-hidden="true"
-          className="fas fa-angle-right vads-u-margin-left--1"
-        />
-      </Link>
-    </va-card>
+        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
+          {debtCardTotal}{' '}
+          <span className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal">
+            {debtCardHeading}
+          </span>
+        </h3>
+        {debtCardSubHeading}
+        <Link
+          className="vads-u-font-weight--bold"
+          data-testid="debt-details-button"
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-debt-summary-card' });
+            setActiveDebt(debt);
+          }}
+          to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
+          aria-label={`Check details and resolve this ${debtCardHeading}`}
+        >
+          Check details and resolve this debt
+          <i
+            aria-hidden="true"
+            className="fas fa-angle-right vads-u-margin-left--1"
+          />
+        </Link>
+      </va-card>
+    </li>
   );
 };
 

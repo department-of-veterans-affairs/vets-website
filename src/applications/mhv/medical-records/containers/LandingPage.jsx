@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  renderMHVDowntime,
+  updatePageTitle,
+  openCrisisModal,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
   externalServices,
@@ -11,16 +15,20 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
-import { pageTitles } from '../util/constants';
+import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
-import { selectVaccinesFlag, selectNotesFlag } from '../util/selectors';
+import {
+  selectNotesFlag,
+  selectVaccinesFlag,
+  selectVitalsFlag,
+} from '../util/selectors';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
-  const displayVaccines = useSelector(selectVaccinesFlag);
   const displayNotes = useSelector(selectNotesFlag);
+  const displayVaccines = useSelector(selectVaccinesFlag);
+  const displayVitals = useSelector(selectVitalsFlag);
 
   useEffect(
     () => {
@@ -46,7 +54,7 @@ const LandingPage = () => {
         </h1>
 
         <DowntimeNotification
-          appTitle="Medical records"
+          appTitle={downtimeNotificationParams.appTitle}
           dependencies={[
             externalServices.mhvMr,
             externalServices.mhvPlatform,
@@ -68,7 +76,11 @@ const LandingPage = () => {
             This includes summaries of your stays in health facilities (called
             admission and discharge summaries).
           </p>
-          <Link to="/summaries-and-notes" className="vads-c-action-link--blue">
+          <Link
+            to="/summaries-and-notes"
+            className="vads-c-action-link--blue"
+            data-testid="notes-landing-page-link"
+          >
             Go to your care summaries and notes
           </Link>
         </section>
@@ -108,6 +120,30 @@ const LandingPage = () => {
           Go to your allergies and reactions
         </Link>
       </section>
+      {displayVitals && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Vitals
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Get records of these basic health numbers your providers check at
+            appointments:
+          </p>
+          <ul>
+            <li>Blood pressure and blood oxygen level</li>
+            <li>Breathing rate and heart rate</li>
+            <li>Height and weight</li>
+            <li>Temperature</li>
+          </ul>
+          <Link
+            to="/vitals"
+            className="vads-c-action-link--blue"
+            data-testid="vitals-landing-page-link"
+          >
+            Go to your vitals
+          </Link>
+        </section>
+      )}
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           How to find your other medical records
@@ -122,7 +158,7 @@ const LandingPage = () => {
           {!displayNotes && <li>Care summaries and notes</li>}
           {!displayVaccines && <li>Vaccines</li>}
           <li>Health conditions</li>
-          <li>Vitals</li>
+          {!displayVitals && <li>Vitals</li>}
         </ul>
         <p className="vads-u-margin-bottom--2">
           To find your other medical records now, you’ll need to go back to the
