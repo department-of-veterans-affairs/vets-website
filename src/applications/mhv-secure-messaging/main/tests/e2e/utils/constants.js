@@ -120,8 +120,8 @@ export const Locators = {
     REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
     PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
-    DELETE_CANCEL: '[text="Cancel"]',
-    DELETE_CONFIRM: '[text="Delete draft"]',
+    DELETE_CANCEL: '#delete-cancel',
+    DELETE_CONFIRM: '#delete-draft',
     ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
   },
   LINKS: {
