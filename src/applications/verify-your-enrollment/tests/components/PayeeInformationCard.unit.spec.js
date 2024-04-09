@@ -28,7 +28,7 @@ describe('PayeeInformationCard', () => {
       />,
     );
     expect(wrapper.find('div > div > p').text()).to.equal(
-      'MGIB (Montgomery GI Bill) - (Chapter 1606)',
+      'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
     );
     wrapper.unmount();
   });
@@ -41,7 +41,7 @@ describe('PayeeInformationCard', () => {
       />,
     );
     expect(wrapper.find('div > div > p').text()).to.equal(
-      'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
+      'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
     );
     wrapper.unmount();
   });

@@ -157,22 +157,25 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     // return a subset of enrollment data
     return enrollments.slice(subsetStart, subsetEnd);
   };
-  const handlePageChange = pageNumber => {
-    setSubsetStart(pageNumber * ENROLLMETS_PER_PAGE - ENROLLMETS_PER_PAGE);
-    if (pageNumber * ENROLLMETS_PER_PAGE > totalEnrollmentCount) {
-      setSubsetEnd(totalEnrollmentCount);
-    } else {
-      setSubsetEnd(pageNumber * ENROLLMETS_PER_PAGE);
-    }
-    setCurrentPage(pageNumber);
-  };
+  const handlePageChange = useCallback(
+    pageNumber => {
+      setSubsetStart(pageNumber * ENROLLMETS_PER_PAGE - ENROLLMETS_PER_PAGE);
+      if (pageNumber * ENROLLMETS_PER_PAGE > totalEnrollmentCount) {
+        setSubsetEnd(totalEnrollmentCount);
+      } else {
+        setSubsetEnd(pageNumber * ENROLLMETS_PER_PAGE);
+      }
+      setCurrentPage(pageNumber);
+    },
+    [totalEnrollmentCount],
+  );
 
   const onPageSelect = useCallback(
     newPage => {
       handlePageChange(newPage);
       focusElement('.focus-element-on-pagination');
     },
-    [setCurrentPage],
+    [handlePageChange],
   );
 
   useEffect(

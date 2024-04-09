@@ -11,9 +11,9 @@ const PayeeInformationCard = ({
   loading,
 }) => {
   const chapters = {
-    A: 'MGIB (Montgomery GI Bill) - (Chapter 1606)',
-    B: 'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
-    E: 'MGIB (Montgomery GI Bill) - (Chapter 1607)',
+    A: 'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
+    B: 'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
+    E: 'Reservist Educational Assistance Program (REAP) – (Chapter 1607)',
   };
   return (
     <div
