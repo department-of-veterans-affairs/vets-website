@@ -1,6 +1,6 @@
-import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 import { mockGETEndpoints } from '../helpers';
-import DirectDepositPage from './DirectDeposit';
+import DirectDepositPage from './page-objects/DirectDeposit';
 
 const directDeposit = new DirectDepositPage();
 
@@ -21,13 +21,11 @@ describe('Direct Deposit - Happy Path', () => {
 
   describe('loading page', () => {
     it('should show new unified page when profileShowDirectDepositSingleForm is true', () => {
-      directDeposit.setup({
-        featureToggles: generateFeatureToggles({
-          profileShowDirectDepositSingleForm: true,
-        }),
-      });
+      directDeposit.setup();
 
-      directDeposit.confirmDirectDepositIsAvailable();
+      directDeposit.visitPage();
+
+      directDeposit.confirmDirectDepositInSubnav();
 
       // exclusive to new unified page
       cy.findAllByTestId('unified-direct-deposit').should('exist');
@@ -41,15 +39,33 @@ describe('Direct Deposit - Happy Path', () => {
 
     it('should show legacy direct deposit page when profileShowDirectDepositSingleForm is false', () => {
       directDeposit.setup({
-        featureToggles: generateFeatureToggles({
-          profileShowDirectDepositSingleForm: false,
-        }),
+        featureToggles: generateFeatureToggles(),
       });
 
-      directDeposit.confirmDirectDepositIsAvailable();
+      directDeposit.visitPage();
+
+      directDeposit.confirmDirectDepositInSubnav();
 
       // exclusive to legacy page
       cy.findAllByTestId('legacy-direct-deposit').should('exist');
+
+      cy.findByRole('heading', { name: 'Direct deposit information' }).should(
+        'exist',
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('unified direct deposit page', () => {
+    it('should show the direct deposit account information when present and eligible', () => {
+      directDeposit.setup();
+
+      directDeposit.visitPage();
+
+      directDeposit.confirmDirectDepositInSubnav();
+
+      cy.findAllByTestId('unified-direct-deposit').should('exist');
 
       cy.findByRole('heading', { name: 'Direct deposit information' }).should(
         'exist',
