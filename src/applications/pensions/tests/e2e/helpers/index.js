@@ -161,7 +161,6 @@ export const fillCurrentEmploymentHistoryPage = (fields, index) => {
     `currentEmployers_${index}_jobHoursWeek`,
     fields.jobHoursWeek,
   );
-  fillTextWebComponent(`currentEmployers_${index}_jobTitle`, fields.jobTitle);
 };
 export const fillPreviousEmploymentHistoryPage = (fields, index) => {
   fillTextWebComponent(`previousEmployers_${index}_jobType`, fields.jobType);
