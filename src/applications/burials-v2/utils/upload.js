@@ -29,9 +29,9 @@ export const burialUploadUI = content => {
 
   const addAnotherLabel = 'Upload another file';
 
-  return fileUploadUI(content.label, {
-    itemDescription: content.description,
-    hideLabelText: !content.label,
+  return fileUploadUI(content, {
+    // title: content.label,
+    // itemDescription: content.description,
     fileUploadUrl: uploadUrl,
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
