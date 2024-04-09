@@ -1,6 +1,6 @@
 import { buildDateFormatter } from '../../util';
 
-export const formatDate = buildDateFormatter('MMMM dd, yyyy');
+export const formatDate = buildDateFormatter();
 
 export const getHeadingText = rating => {
   const { diagnosticText, ratingPercentage } = rating;

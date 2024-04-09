@@ -252,3 +252,27 @@ Cypress.Commands.add('enterWebComponentData', field => {
       throw new Error(`Unknown element type '${field.type}' for ${field.key}`);
   }
 });
+
+// Helper function to fill out fields in a single page array with 'useVaCards'
+Cypress.Commands.add(
+  'fillFieldsInVaCardIfNeeded',
+  (fields, index, fillFieldsInVaCard, numItems) => {
+    const isFirstItem = index === 0;
+    const isLastItem = index === numItems - 1;
+    if (isFirstItem) {
+      fillFieldsInVaCard(fields, index);
+    } else {
+      cy.get('va-card').then($vaCard => {
+        if ($vaCard.length > 0 && $vaCard.get(0).shadowRoot !== null) {
+          fillFieldsInVaCard(fields, index);
+        } else {
+          // If <va-card /> is not found, log an error (this should not happen)
+          cy.log('<va-card> element not found');
+        }
+      });
+    }
+    if (!isLastItem) {
+      cy.get('button.va-growable-add-btn').click();
+    }
+  },
+);

@@ -44,15 +44,15 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 6,
   },
   {
-    url: URLS.TRAVEL_VEHICLE,
+    url: URLS.TRAVEL_MILEAGE,
     order: 7,
   },
   {
-    url: URLS.TRAVEL_ADDRESS,
+    url: URLS.TRAVEL_VEHICLE,
     order: 8,
   },
   {
-    url: URLS.TRAVEL_MILEAGE,
+    url: URLS.TRAVEL_ADDRESS,
     order: 9,
   },
   {

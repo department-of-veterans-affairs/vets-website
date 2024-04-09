@@ -4166,6 +4166,14 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
+"@testing-library/react-hooks@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/react-hooks/-/react-hooks-8.0.1.tgz#0924bbd5b55e0c0c0502d1754657ada66947ca12"
+  integrity sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    react-error-boundary "^3.1.0"
+
 "@testing-library/react@^11.1.2":
   version "11.1.2"
   resolved "https://registry.npmjs.org/@testing-library/react/-/react-11.1.2.tgz"
@@ -16948,6 +16956,13 @@ react-element-to-string@^1.0.2:
     indent-string "^2.1.0"
     json-stringify-pretty-compact "^1.0.1"
 
+react-error-boundary@^3.1.0:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-3.1.4.tgz#255db92b23197108757a888b01e5b729919abde0"
+  integrity sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+
 react-fast-compare@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
@@ -20581,9 +20596,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7892dc348677325cc57712ff4a12d6a78f024315":
-  version "21.5.5"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7892dc348677325cc57712ff4a12d6a78f024315"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#a8a5f38466573fb70aece652aa87bed0960d1266":
+  version "22.0.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a8a5f38466573fb70aece652aa87bed0960d1266"
   dependencies:
     minimist "^1.2.3"
 
