@@ -126,6 +126,8 @@ export const DirectDeposit = () => {
     );
   }
 
+  // render the form or the account info view into the card data value
+  // based on the UI state isEditing
   const cardDataValue = ui.isEditing ? (
     <AccountUpdateView
       isSaving={ui.isSaving}
