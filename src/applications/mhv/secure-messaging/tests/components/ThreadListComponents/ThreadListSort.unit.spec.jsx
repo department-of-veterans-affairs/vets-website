@@ -70,7 +70,6 @@ describe('Thread List Sort component', () => {
     );
     expect(sortSelectDropdown.value).to.equal(DRAFT_DATE_DESCENDING.value);
     expect(sortButton.getAttribute('label')).to.equal('Sort');
-
     expect(screen.getByText('Newest to oldest').value).to.equal(
       DRAFT_DATE_DESCENDING.value,
     );
