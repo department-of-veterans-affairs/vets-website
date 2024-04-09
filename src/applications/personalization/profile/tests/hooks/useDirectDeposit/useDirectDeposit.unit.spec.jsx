@@ -1,12 +1,26 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
+import {
+  DIRECT_DEPOSIT_API_ENDPOINT,
+  DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
+  DIRECT_DEPOSIT_SAVE_STARTED,
+  DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+  toggleDirectDepositEdit,
+} from '@@profile/actions/directDeposit';
+
+import thunk from 'redux-thunk';
 import { useDirectDeposit } from '../../../hooks';
+import environment from '~/platform/utilities/environment';
+import { wait } from '../../unit-test-helpers';
+import directDeposits from '../../../mocks/endpoints/direct-deposits';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const baseState = {
   directDeposit: {
@@ -53,11 +67,25 @@ const baseState = {
 };
 
 describe('useDirectDeposit hook', () => {
+  const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
   let store;
+  let server;
+
+  before(() => {
+    server = setupServer(
+      rest.put(endpointUrl, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(directDeposits.updates.success));
+      }),
+    );
+
+    server.listen();
+  });
 
   beforeEach(() => {
     store = mockStore(baseState);
   });
+
+  after(() => server.close());
 
   it('returns direct deposit information for account and ui state', () => {
     const { result } = renderHook(() => useDirectDeposit(), {
@@ -123,5 +151,84 @@ describe('useDirectDeposit hook', () => {
     });
 
     expect(result.current.isBlocked).to.be.false;
+  });
+
+  it('should handle exitUpdateView correctly', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.setFormData({ accountType: 'Checking' });
+    });
+
+    expect(result.current.formData).to.deep.equal({ accountType: 'Checking' });
+
+    act(() => {
+      result.current.exitUpdateView();
+    });
+
+    expect(result.current.formData).to.deep.equal({});
+    expect(store.getActions()).to.deep.equal([toggleDirectDepositEdit(false)]);
+  });
+
+  it('should handle onCancel correctly when there are unsaved form edits', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.setFormData({ accountType: 'Checking' });
+    });
+
+    act(() => {
+      result.current.onCancel();
+    });
+
+    expect(result.current.showCancelModal).to.be.true;
+  });
+
+  it('should handle onCancel correctly when there are no unsaved form edits', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.onCancel();
+    });
+
+    expect(result.current.showCancelModal).to.be.false;
+    expect(store.getActions()).to.deep.equal([toggleDirectDepositEdit(false)]);
+  });
+
+  it('should handle onFormSubmit correctly', async () => {
+    const formData = {
+      accountType: 'Checking',
+      routingNumber: '123456789',
+      accountNumber: '987654321',
+    };
+
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.setFormData(formData);
+    });
+
+    act(() => {
+      result.current.onFormSubmit();
+    });
+
+    await wait(1000);
+
+    expect(store.getActions()).to.deep.equal([
+      { type: DIRECT_DEPOSIT_SAVE_STARTED },
+      { type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED },
+      {
+        response: directDeposits.updates.success.data.attributes,
+        type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+      },
+    ]);
   });
 });

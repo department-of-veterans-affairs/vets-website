@@ -49,7 +49,7 @@ function transformApplicants(applicants) {
         app?.applicantHelplessCert,
       ],
       address: app.applicantAddress ?? '',
-      gender: app.applicantGender ?? '',
+      gender: app.applicantGender?.gender ?? '',
     };
 
     // eslint-disable-next-line dot-notation
