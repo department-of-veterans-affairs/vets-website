@@ -1,5 +1,7 @@
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+
 import formConfig from '../config/form';
-import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -11,13 +13,13 @@ import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Higher-Level Review keyboard only navigation', () => {
   after(() => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    resetStoredSubTask();
   });
 
   it('keyboard navigates through a maximal form', () => {
     cypressSetup();
 
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    resetStoredSubTask();
 
     cy.wrap(mockV2Data.data).as('testData');
 
@@ -35,12 +37,12 @@ describe('Higher-Level Review keyboard only navigation', () => {
       );
       cy.injectAxeThenAxeCheck();
 
-      // Wizard
+      // Subtask
       cy.url().should('include', '/start');
-      cy.tabToElement('input[value="compensation"]');
+      cy.tabToElement('input#compensationinput'); // ID of va-radio-option input
       cy.realPress('Space');
 
-      cy.tabToElement('.vads-c-action-link--green');
+      cy.tabToElement('va-button');
       cy.realPress('Enter');
 
       // Intro page
