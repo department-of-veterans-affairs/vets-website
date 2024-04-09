@@ -31,7 +31,7 @@ export default {
         hint: 'City and state or foreign country',
       },
       'ui:errorMessages': {
-        required: 'Please enter your place of birth',
+        required: 'Enter your place of birth',
       },
     },
   },

@@ -244,11 +244,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
             <ProofOfVeteranStatus />
           </div>
         )}
-      <DevTools
-        alwaysShowChildren={false}
-        devToolsData={{ militaryInformation, veteranStatus }}
-        panel
-      >
+      <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>
       </DevTools>
     </div>
