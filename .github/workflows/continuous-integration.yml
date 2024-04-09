@@ -101,7 +101,7 @@ jobs:
           retention-days: 1
 
       - name: test paths #DELETE
-        run: ls $GITHUB_WORKSPACE/build/
+        run: touch $GITHUB_WORKSPACE/build/vagovprod/test.txt
 
       - name: test paths #DELETE
         run: ls $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
