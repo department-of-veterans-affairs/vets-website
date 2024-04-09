@@ -10,6 +10,8 @@ import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import { getTravelClaims, getUnauthPing } from '../redux/actions';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+
 export default function App({ children }) {
   const dispatch = useDispatch();
   const profileLoading = useSelector(state => isProfileLoading(state));
@@ -26,6 +28,15 @@ export default function App({ children }) {
     unauthPingResponse,
   } = useSelector(state => state.travelPay);
 
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const toggleIsLoading = useToggleLoadingValue();
+
   async function handleUnauthButtonClick() {
     dispatch(getUnauthPing());
   }
@@ -39,7 +50,7 @@ export default function App({ children }) {
     [dispatch, userLoggedIn],
   );
 
-  if (profileLoading && !userLoggedIn) {
+  if ((profileLoading || toggleIsLoading) && !userLoggedIn) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -48,6 +59,10 @@ export default function App({ children }) {
         />
       </div>
     );
+  }
+
+  if (!appEnabled) {
+    return document.location.replace('/');
   }
 
   return (
