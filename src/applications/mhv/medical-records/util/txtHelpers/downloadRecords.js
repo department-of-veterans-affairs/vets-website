@@ -131,7 +131,7 @@ ${records
       .map(
         record =>
           `${
-            record.name === 'Adverse React/Allergy'
+            record.type === '11506-3'
               ? `
 ${record.name}
 ${txtLineDotted}
