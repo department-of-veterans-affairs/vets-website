@@ -17,7 +17,28 @@
           "first": "Jimmy",
           "last": "Alvin"
         },
-        "applicantDOB": "2001-01-01"
+        "applicantDOB": "2001-01-01",
+        "applicantMedicareStatus": {
+          "enrollment": "yes"
+        },
+        "applicantMedicarePartACarrier": "Test A Carrier",
+        "applicantMedicarePartBCarrier": "Test B Carrier",
+        "applicantMedicarePartAEffectiveDate": "2010-01-01",
+        "applicantMedicarePartBEffectiveDate": "2010-01-01",
+        "applicantMedicarePharmacyBenefits": { "hasBenefits": "yes" },
+        "applicantMedicareAdvantage": { "hasAdvantage": "yes" },
+        "applicantMedicareStatusD": {
+          "enrollment": "yes"
+        },
+        "applicantMedicarePartDCarrier": "Test D Carrier",
+        "applicantMedicarePartDEffectiveDate": "2010-01-01",
+        "applicantHasPrimary": { "hasPrimary": "yes" },
+        "applicantPrimaryProvider": "Primary Provider 1",
+        "applicantPrimaryEffectiveDate": "2010-01-01",
+        "applicantPrimaryExpirationDate": "2010-01-01",
+        "applicantPrimaryThroughEmployer": { "throughEmployer": "yes" },
+        "applicantPrimaryHasPrescription": { "hasPrescription": "yes" },
+        "applicantPrimaryEOB": { "providesEOB": "yes" }
       }
     ],
     "certifierRelationship": {

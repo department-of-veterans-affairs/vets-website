@@ -31,6 +31,7 @@ function ToeApp({
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [lightHouseFlag, setLighthouseFlag] = useState(false);
 
   useEffect(
     () => {
@@ -108,8 +109,11 @@ function ToeApp({
         });
       }
       if (
-        toeLightHouseDgiDirectDeposit !== formData.toeLightHouseDgiDirectDeposit
+        toeLightHouseDgiDirectDeposit !==
+        formData?.toeLightHouseDgiDirectDeposit
       ) {
+        setLighthouseFlag(true);
+
         setFormData({
           ...formData,
           toeLightHouseDgiDirectDeposit,
@@ -129,12 +133,18 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-      if (!fetchedDirectDeposit) {
+
+      if (!fetchedDirectDeposit && lightHouseFlag) {
         setFetchedDirectDeposit(true);
-        getDirectDeposit(toeLightHouseDgiDirectDeposit);
+        getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+    [
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      user?.login?.currentlyLoggedIn,
+      lightHouseFlag,
+    ],
   );
 
   return (

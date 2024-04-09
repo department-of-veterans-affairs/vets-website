@@ -1,4 +1,10 @@
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
+import { canHaveEducationExpenses } from './helpers/household';
+import { replaceStrValues } from './helpers/general';
+import content from '../locales/en/content.json';
+
+// declare previous year for form questions and content
+export const LAST_YEAR = new Date().getFullYear() - 1;
 
 // declare API endpoint routes
 export const API_ENDPOINTS = {
@@ -14,6 +20,37 @@ export const APP_URLS = {
   profile: getAppUrl('profile'),
   verify: getAppUrl('verify'),
 };
+
+// declare subpage configs for dependent information page
+export const DEPENDENT_SUBPAGES = [
+  {
+    id: 'basic',
+    title: content['household-dependent-info-basic-title'],
+  },
+  {
+    id: 'additional',
+    title: content['household-dependent-info-addtl-title'],
+  },
+  {
+    id: 'support',
+    title: content['household-dependent-info-support-title'],
+    depends: { cohabitedLastYear: false },
+  },
+  {
+    id: 'income',
+    title: replaceStrValues(
+      content['household-dependent-info-income-title'],
+      LAST_YEAR,
+      '%d',
+    ),
+    depends: { 'view:dependentIncome': true },
+  },
+  {
+    id: 'education',
+    title: content['household-dependent-info-education-title'],
+    depends: canHaveEducationExpenses,
+  },
+];
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
@@ -118,9 +155,6 @@ export const HCA_NULL_STATUSES = new Set([
 
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
-
-// declare previous year for form questions and content
-export const LAST_YEAR = new Date().getFullYear() - 1;
 
 // declare a valid response for the enrollment status endpoint
 export const MOCK_ENROLLMENT_RESPONSE = {

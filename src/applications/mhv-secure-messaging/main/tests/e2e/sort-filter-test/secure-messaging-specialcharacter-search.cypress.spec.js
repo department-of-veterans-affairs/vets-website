@@ -5,7 +5,6 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Basic Search Tests', () => {
-  const basicSearchPage = new PatientBasicSearchPage();
   const patientMessageDraftsPage = new PatientMessageDraftsPage();
   // const searchText = 'special %$#';  Known-Issue... special chars don't highlight
   const searchText = 'special';
@@ -18,9 +17,9 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Highlight Inbox Check', () => {
-    basicSearchPage.typeSearchInputFieldText(searchText);
-    basicSearchPage.submitInboxSearch();
-    basicSearchPage.verifyHighlightedText(searchText);
+    PatientBasicSearchPage.typeSearchInputFieldText(searchText);
+    PatientBasicSearchPage.submitInboxSearch();
+    PatientBasicSearchPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -34,9 +33,9 @@ describe('Secure Messaging Basic Search Tests', () => {
 
   it('Basic Search Highlight Drafts Check', () => {
     patientMessageDraftsPage.loadDraftMessages();
-    basicSearchPage.typeSearchInputFieldText(searchText);
-    basicSearchPage.submitDraftSearch();
-    basicSearchPage.verifyHighlightedText(searchText);
+    PatientBasicSearchPage.typeSearchInputFieldText(searchText);
+    PatientBasicSearchPage.submitDraftSearch();
+    PatientBasicSearchPage.verifyHighlightedText(searchText);
     cy.injectAxe();
 
     cy.axeCheck(AXE_CONTEXT, {

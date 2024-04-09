@@ -20,7 +20,6 @@ const HealthCareCTA = ({
 
   return (
     <>
-      <h3 className="sr-only">Popular actions for Health Care</h3>
       {(!isVAPatient || isLOA1) && (
         <IconCTALink
           text="Apply for VA health care"
