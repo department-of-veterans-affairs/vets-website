@@ -5,12 +5,12 @@ import recordEvent from 'platform/monitoring/record-event';
 import { FORM_URL } from '../constants';
 
 const DownloadLink = ({
-  content = 'download and fill out VA Form 20-0996',
-  wizardEvent = false,
+  content = 'Download VA Form 20-0996',
+  subTaskEvent = false,
 }) => {
   const handler = {
     onClick: () => {
-      if (wizardEvent) {
+      if (subTaskEvent) {
         recordEvent({
           event: 'howToWizard-alert-link-click',
           'howToWizard-alert-link-click-label': content,
@@ -33,7 +33,7 @@ const DownloadLink = ({
 
 DownloadLink.propTypes = {
   content: PropTypes.string,
-  wizardEvent: PropTypes.bool,
+  subTaskEvent: PropTypes.bool,
 };
 
 export default DownloadLink;
