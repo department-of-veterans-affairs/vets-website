@@ -1,21 +1,52 @@
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
+import { focusElement } from '~/platform/utilities/ui';
+import { toggleDirectDepositEdit } from '../actions/directDeposit';
 
 export const useDirectDepositEffects = ({
   wasSaving,
   wasEditing,
-  hasSaveError,
+  saveError,
   ui,
   setShowUpdateSuccess,
   setFormData,
   editButtonRef,
   cardHeadingId,
+  hasUnsavedFormEdits,
 }) => {
+  const dispatch = useDispatch();
+
+  // page setup effects
+  // focus on the heading, set the document title,
+  // clear edit state and remove any pending form data
+  useEffect(
+    () => {
+      focusElement('[data-focus-target]');
+      document.title = `Direct Deposit Information | Veterans Affairs`;
+      dispatch(toggleDirectDepositEdit(false));
+      setFormData({});
+    },
+    [dispatch, setFormData],
+  );
+
+  // effect to show an alert when the form is dirty and navigating away
+  useEffect(
+    () => {
+      if (hasUnsavedFormEdits) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+      window.onbeforeunload = undefined;
+    },
+    [hasUnsavedFormEdits],
+  );
+
   // effects to show then hide the success alert
   // and to clear form data after a successful save
   useEffect(
     () => {
-      if (!ui.isSaving && !hasSaveError && wasSaving) {
+      if (!ui.isSaving && !saveError && wasSaving) {
         setShowUpdateSuccess(true);
 
         setTimeout(() => {
@@ -25,7 +56,7 @@ export const useDirectDepositEffects = ({
         setFormData({});
       }
     },
-    [wasSaving, ui.isSaving, hasSaveError, setFormData, setShowUpdateSuccess],
+    [wasSaving, ui.isSaving, saveError, setFormData, setShowUpdateSuccess],
   );
 
   // when editing is started
@@ -49,7 +80,7 @@ export const useDirectDepositEffects = ({
   useEffect(
     () => {
       if (wasEditing && !ui.isEditing && editButtonRef.current) {
-        editButtonRef.current.focus();
+        focusElement('button', {}, editButtonRef.current);
       }
     },
     [wasEditing, ui.isEditing, editButtonRef],

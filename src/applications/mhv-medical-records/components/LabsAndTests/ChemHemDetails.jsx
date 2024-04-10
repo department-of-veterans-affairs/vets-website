@@ -57,7 +57,6 @@ const ChemHemDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
