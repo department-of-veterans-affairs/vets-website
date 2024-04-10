@@ -7,11 +7,7 @@ import './Header.scss';
 
 const Header = () => {
   return (
-    <header
-      data-testid="arp-header"
-      className="header arp-header"
-      role="banner"
-    >
+    <header data-testid="arp-header" className="header arp-header">
       <MobileHeader />
       <WiderThanMobileHeader />
     </header>
