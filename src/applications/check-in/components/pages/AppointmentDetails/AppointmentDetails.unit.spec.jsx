@@ -184,7 +184,7 @@ describe('check-in experience', () => {
         });
       });
       describe('All appointments - data exists', () => {
-        it('renders stopcode if exists', () => {
+        it('does not render stopcode if exists', () => {
           const { getByTestId } = render(
             <CheckInProvider
               store={preCheckInStore}
@@ -195,7 +195,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('stop code test');
+          ).to.have.text('VA Appointment');
         });
         it('renders doctor name if exists', () => {
           const { getByTestId } = render(

@@ -45,11 +45,11 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
     });
     afterEach(() => {
@@ -61,12 +61,6 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('review');
       TravelPages.validateContent('review');
       TravelPages.validateBackButton('review');
-      cy.injectAxeThenAxeCheck();
-    });
-    it('edit takes you back to the vehicle question', () => {
-      TravelPages.validatePageLoaded('review');
-      TravelPages.clickEditLink();
-      TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
     });
     it('must agree to terms', () => {

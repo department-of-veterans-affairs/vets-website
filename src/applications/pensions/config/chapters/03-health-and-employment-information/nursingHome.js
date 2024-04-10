@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Nursing home information',
+  path: 'medical/history/nursing-home',
   uiSchema: {
     ...titleUI('Nursing home information'),
     nursingHome: yesNoUI({

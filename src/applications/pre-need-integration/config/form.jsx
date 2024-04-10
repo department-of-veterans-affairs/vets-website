@@ -16,7 +16,7 @@ import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
 import * as isSponsor from './pages/isSponsor';
-import * as sponsorInfo from './pages/sponsorInfo';
+import * as sponsorDetails from './pages/sponsorDetails';
 import * as sponsorContactInfo from './pages/sponsorContactInfo';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
@@ -143,7 +143,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -411,18 +411,17 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         isSponsor: {
-          title: 'Are you the Sponsor?',
           path: 'is-sponsor',
           depends: formData => !isVeteran(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },
-        sponsorInfo: {
-          title: 'Sponsor information',
-          path: 'sponsor-information',
+        sponsorDetails: {
+          title: 'Sponsor details',
+          path: 'sponsor-details',
           depends: formData => !isVeteran(formData),
-          uiSchema: sponsorInfo.uiSchema,
-          schema: sponsorInfo.schema,
+          uiSchema: sponsorDetails.uiSchema,
+          schema: sponsorDetails.schema,
         },
         sponsorDeceased: {
           path: 'sponsor-deceased',
@@ -454,8 +453,7 @@ const formConfig = {
         sponsorDemographics: {
           title: 'Sponsor demographics',
           path: 'sponsor-demographics',
-          depends: formData =>
-            !isVeteran(formData) && !isSponsorDeceased(formData),
+          depends: formData => !isVeteran(formData),
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
         },

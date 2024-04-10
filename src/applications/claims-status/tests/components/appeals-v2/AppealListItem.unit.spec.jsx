@@ -127,7 +127,9 @@ describe('<AppealListItem>', () => {
       .find('ClaimCardLink')
       .first()
       .props();
-    expect(linkProps.href).to.equal(`appeals/${defaultProps.appeal.id}/status`);
+    expect(linkProps.href).to.equal(
+      `/appeals/${defaultProps.appeal.id}/status`,
+    );
     wrapper.unmount();
   });
 

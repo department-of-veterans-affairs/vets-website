@@ -65,6 +65,7 @@ export const ConfirmationPage = props => {
         close-btn-aria-label="Close notification"
         status={confirmationPageAlertStatus(formData)}
         visible
+        uswds
       >
         <h2 slot="headline">{confirmationPageAlertHeadline(formData)}</h2>
         <p className="vads-u-margin-bottom--0">

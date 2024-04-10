@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
-import { getTravelClaims } from '../redux/actions';
+import { getTravelClaims, getUnauthPing } from '../redux/actions';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -19,7 +19,17 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
+  const {
+    isLoading,
+    travelClaims,
+    isFetchingUnauthPing,
+    unauthPingResponse,
+  } = useSelector(state => state.travelPay);
+
+  async function handleUnauthButtonClick() {
+    dispatch(getUnauthPing());
+  }
+
   useEffect(
     () => {
       if (userLoggedIn) {
@@ -49,6 +59,20 @@ export default function App({ children }) {
       <p className="va-introtext">Lead text</p>
       <p>Body text</p>
       <br />
+      {!isFetchingUnauthPing ? (
+        <>
+          <va-button
+            onClick={handleUnauthButtonClick}
+            text="Unauthorized Ping"
+          />
+          <p>{unauthPingResponse}</p>
+        </>
+      ) : (
+        <va-loading-indicator
+          label="Fetching"
+          message="Fetching unauthorized ping..."
+        />
+      )}
 
       <main>
         {isLoading ? (

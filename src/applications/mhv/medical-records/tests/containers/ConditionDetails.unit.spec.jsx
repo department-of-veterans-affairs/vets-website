@@ -25,7 +25,7 @@ describe('Condition details container', () => {
     screen = renderWithStoreAndRouter(<ConditionDetails runningUnitTest />, {
       initialState,
       reducers: reducer,
-      path: '/conditions/SCT161891005',
+      path: '/conditions/6a2be107-501e-458f-8f17-0ada297d34d8',
     });
   });
 
@@ -54,7 +54,7 @@ describe('Condition details container', () => {
   });
 
   it('displays the formatted received date', () => {
-    const formattedDate = screen.getAllByText('April', {
+    const formattedDate = screen.getAllByText('February', {
       exact: false,
       selector: 'span',
     });

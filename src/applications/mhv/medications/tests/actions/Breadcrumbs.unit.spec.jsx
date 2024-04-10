@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import { medicationsUrls } from '../../util/constants';
 
 describe('Set breadcrumbs action', () => {
   it('should dispatch a set breadcrumbs action', () => {
@@ -9,16 +10,16 @@ describe('Set breadcrumbs action', () => {
     return setBreadcrumbs(
       [
         {
-          url: '/my-health/medications/about',
+          url: medicationsUrls.MEDICATIONS_ABOUT,
           label: 'About medications',
         },
         {
-          url: '/my-health/medications/1',
+          url: `${medicationsUrls.MEDICATIONS_URL}/1`,
           label: 'Medications',
         },
       ],
       {
-        url: `/my-health/medications/prescription/000`,
+        url: `${medicationsUrls.PRESCRIPTION_DETAILS}/000`,
         label: 'Prescription Name',
       },
     )(dispatch).then(() => {

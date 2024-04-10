@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { useHistory } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import FormButtons from '../../components/FormButtons';
 import { LANGUAGES, GA_PREFIX } from '../../utils/constants';
 import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { addressSchema, getAddressUISchema } from '../fields/addressFields';
-import { useHistory } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 
@@ -64,7 +64,7 @@ const uiSchema = {
   },
   preferredLanguage: {
     'ui:title':
-      'Select the preferred language for your community care provider.',
+      'Select the language you’d prefer your community care provider speak.',
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',

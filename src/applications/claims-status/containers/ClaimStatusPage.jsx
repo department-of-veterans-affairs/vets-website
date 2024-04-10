@@ -19,7 +19,6 @@ import NextSteps from '../components/claim-status-tab/NextSteps';
 import Payments from '../components/claim-status-tab/Payments';
 import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
-import { DATE_FORMATS } from '../constants';
 import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
@@ -35,8 +34,6 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
@@ -221,7 +218,7 @@ class ClaimStatusPage extends React.Component {
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing claim={claim} />
+                <WhatWeAreDoing status={status} />
               </>
             ) : (
               <>
@@ -236,9 +233,7 @@ class ClaimStatusPage extends React.Component {
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
           <Toggler.Disabled>
-            {showDocsNeeded && (
-              <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            )}
+            {showDocsNeeded && <NeedFilesFromYou files={filesNeeded} />}
             {status &&
               isOpen && (
                 <ClaimTimeline
@@ -267,7 +262,7 @@ class ClaimStatusPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -277,7 +272,7 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -286,13 +281,11 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
         claim={claim}
-        loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Status"
+        loading={loading}
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -304,12 +297,11 @@ function mapStateToProps(state) {
   const claimsState = state.disability.status;
 
   return {
-    loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
-    message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
+    loading: claimsState.claimDetail.loading,
+    message: claimsState.notifications.message,
     showClaimLettersLink: showClaimLettersFeature(state),
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -323,9 +315,7 @@ ClaimStatusPage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.string,
-  params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(

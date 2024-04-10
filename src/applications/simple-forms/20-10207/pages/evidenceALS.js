@@ -16,7 +16,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': ALS_DESCRIPTION,
+    'ui:description': () => ALS_DESCRIPTION,
     'ui:objectViewField': AlsViewField,
     alsDocuments: {
       'ui:title': 'Upload additional evidence',

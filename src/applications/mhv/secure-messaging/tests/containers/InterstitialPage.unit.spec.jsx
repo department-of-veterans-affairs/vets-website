@@ -17,9 +17,11 @@ describe('Interstitial page header', () => {
       ),
     ).to.exist;
 
-    expect(
-      screen.getByTestId('continue-button').nextSibling.textContent,
-    ).to.contain(
+    const continueButton = screen.getByTestId('continue-button');
+
+    expect(continueButton).to.have.attribute('data-dd-action-name');
+
+    expect(continueButton.nextSibling.textContent).to.contain(
       'If you need help sooner, use one of these urgent communication options:',
     );
     expect(

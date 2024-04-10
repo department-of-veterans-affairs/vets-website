@@ -6,7 +6,7 @@
 @forward "usa-button-group";
 
 .bottom-container {
-  background-color: $color-white;
+  background-color: var(--vads-color-white);
 }
 
 .breadcrumb-angle .desktop-view-crumb {
@@ -17,10 +17,10 @@
 }
 
 .alertbox-link:visited {
-  color: $color-link-default;
+  color: var(--vads-color-link);
 }
 .compose-message-link:visited {
-  color: $color-link-default;
+  color: var(--vads-color-link);
   text-decoration: underline;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -37,7 +37,7 @@ va-modal va-radio {
 }
 
 .message-box {
-  background-color: $color-gray-lightest;
+  background-color: var(--vads-color-base-lightest);
   border-radius: 4px;
 }
 
@@ -47,7 +47,7 @@ va-modal va-radio {
   flex-direction: column;
   align-items: center;
   background-color: transparent !important;
-  color: $color-link-default !important;
+  color: var(--vads-color-link) !important;
   font-weight: normal;
   line-height: 24px;
   width: fit-content;
@@ -64,9 +64,9 @@ va-modal va-radio {
   align-items: center;
   padding: 11px 16px 11px 13px;
   line-height: 1.5;
-  border-color: $color-link-default;
+  border-color: var(--vads-color-link);
   * {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
   width: 100%;
   @media (min-width: $medium-screen) {
@@ -81,7 +81,7 @@ va-modal va-radio {
 
 .save-button {
   background-color: transparent;
-  color: $color-link-default;
+  color: var(--vads-color-link);
   .save-button-text {
     text-decoration: underline;
     font-weight: normal;
@@ -110,7 +110,7 @@ va-modal va-radio {
 }
 
 .message-body {
-  background-color: $color-white;
+  background-color: var(--vads-color-white);
   font-size: 16px;
   border-radius: 0px 0px 4px 4px;
   margin-top: 1px;
@@ -120,7 +120,7 @@ va-modal va-radio {
     margin-bottom: 1px;
   }
   a:visited {
-    color: $color-link-default;
+    color: var(--vads-color-link);
     text-decoration: underline;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
@@ -130,7 +130,7 @@ va-modal va-radio {
 
 .attachment-body {
   display: flex;
-  background-color: $color-white;
+  background-color: var(--vads-color-white);
   font-size: 16px;
   border-radius: 0px 0px 4px 4px;
   margin-top: 1px;
@@ -159,7 +159,7 @@ va-modal va-radio {
 .link-button:hover,
 .link-button:active {
   background-color: transparent;
-  color: $color-link-default;
+  color: var(--vads-color-link);
   font-weight: normal;
   text-decoration: underline;
   border: none;
@@ -184,13 +184,13 @@ va-modal va-radio {
     }
     i {
       margin: 5px 8px 0 0;
-      color: $color-link-default;
+      color: var(--vads-color-link);
       @media (min-width: $medium-screen) {
         margin-top: 0;
       }
     }
     .editable-attachment {
-      border: 1px solid $color-gray-medium;
+      border: 1px solid var(--vads-color-gray-medium);
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -208,7 +208,7 @@ va-modal va-radio {
   }
   li:last-child {
     .editable-attachment {
-      border-bottom: 1px solid $color-gray-medium;
+      border-bottom: 1px solid var(--vads-color-gray-medium);
     }
   }
   .remove-attachment-icon {
@@ -226,7 +226,7 @@ va-modal va-radio {
     left: 50%;
     width: 14px;
     height: 3.5px;
-    background-color: $color-red-dark;
+    background-color: var(--vads-color-secondary-dark);
   }
   .remove-attachment-icon:before {
     transform: translate(-50%, -50%) rotate(45deg);
@@ -235,8 +235,8 @@ va-modal va-radio {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
   .remove-attachment-button {
-    color: $color-red-dark;
-    background-color: $color-white;
+    color: var(--vads-color-secondary-dark);
+    background-color: var(--vads-color-white);
     padding: 0;
     margin: 0;
     width: fit-content;
@@ -278,10 +278,10 @@ va-loading-indicator {
 
 .interstitial-page {
   h1 {
-    color: $color-gray-dark;
+    color: var(--vads-color-base-darker);
   }
   strong {
-    color: $color-gray-dark;
+    color: var(--vads-color-base-darker);
   }
   ul {
     padding-left: 15px;
@@ -293,6 +293,6 @@ va-loading-indicator {
     margin-top: 32px;
   }
   .link:visited {
-    color: $color-primary;
+    color: var(--vads-color-primary);
   }
 }

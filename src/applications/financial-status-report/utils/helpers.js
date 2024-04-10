@@ -192,43 +192,24 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
     : additionalComments;
 };
 
-export const getTotalAssets = ({
-  assets,
-  realEstateRecords,
-  questions,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
-  const formattedREValue = Number(
-    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+export const getTotalAssets = ({ assets, questions }) => {
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = enhancedFSRActive
-    ? Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0)
-    : 0;
+  const totRecVehicles = Number(
+    assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
-  const realEstate = !enhancedFSRActive
-    ? sumValues(realEstateRecords, 'realEstateAmount')
-    : formattedREValue;
-  const totAssets = !enhancedFSRActive
-    ? Object.values(assets)
-        .filter(item => item && !Array.isArray(item))
-        .reduce(
-          (acc, amount) =>
-            acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : sumValues(assets.monetaryAssets, 'amount');
+  const realEstate = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
+
+  const totAssets = sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
 
-export const getEmploymentHistory = ({
-  questions,
-  personalData,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
+export const getEmploymentHistory = ({ questions, personalData }) => {
   const { employmentHistory } = personalData;
   let history = [];
 
@@ -265,31 +246,17 @@ export const getEmploymentHistory = ({
   }
 
   if (questions.spouseIsEmployed) {
-    if (enhancedFSRActive) {
-      const { spEmploymentRecords } = employmentHistory.spouse;
-      const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
-        ...defaultObj,
-        veteranOrSpouse: 'SPOUSE',
-        occupationName: employment.type,
-        from: dateFormatter(employment.from),
-        to: employment.isCurrent ? '' : dateFormatter(employment.to),
-        present: employment.isCurrent ? employment.isCurrent : false,
-        employerName: employment.employerName,
-      }));
-      history = [...history, ...spouseEmploymentHistory];
-    } else {
-      const { employmentRecords } = employmentHistory.spouse;
-      const spouseEmploymentHistory = employmentRecords.map(employment => ({
-        ...defaultObj,
-        veteranOrSpouse: 'SPOUSE',
-        occupationName: employment.type,
-        from: dateFormatter(employment.from),
-        to: employment.isCurrent ? '' : dateFormatter(employment.to),
-        present: employment.isCurrent ? employment.isCurrent : false,
-        employerName: employment.employerName,
-      }));
-      history = [...history, ...spouseEmploymentHistory];
-    }
+    const { spEmploymentRecords } = employmentHistory.spouse;
+    const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
+      ...defaultObj,
+      veteranOrSpouse: 'SPOUSE',
+      occupationName: employment.type,
+      from: dateFormatter(employment.from),
+      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      present: employment.isCurrent ? employment.isCurrent : false,
+      employerName: employment.employerName,
+    }));
+    history = [...history, ...spouseEmploymentHistory];
   }
 
   return history;

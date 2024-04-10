@@ -221,8 +221,8 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT_BUTT).click({
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
       force: true,
       waitForAnimations: true,
     });
@@ -313,7 +313,7 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
-    cy.wait('@deletedDraftResponse');
+    // cy.wait('@deletedDraftResponse');
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {
@@ -460,7 +460,7 @@ class PatientMessageDraftsPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       sortedResponse,
     );
-    cy.get(Locators.BUTTONS.BUTTON_SORT).click({ force: true });
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
   verifyFilterFieldCleared = () => {

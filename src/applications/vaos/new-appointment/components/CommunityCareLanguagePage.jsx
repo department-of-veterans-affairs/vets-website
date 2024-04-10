@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
 import { LANGUAGES } from '../../utils/constants';
@@ -24,13 +24,15 @@ const initialSchema = {
 
 const uiSchema = {
   preferredLanguage: {
-    'ui:title':
-      'Select your language preference for your community care provider.',
+    'ui:title': 'Select the language you’d prefer your provider speak.',
+    'ui:errorMessages': {
+      required: 'Select a language',
+    },
   },
 };
 
 const pageKey = 'ccLanguage';
-const pageTitle = 'Choose a preferred language';
+const pageTitle = 'What language do you prefer?';
 
 function CommunityCareLanguagePage({
   schema,

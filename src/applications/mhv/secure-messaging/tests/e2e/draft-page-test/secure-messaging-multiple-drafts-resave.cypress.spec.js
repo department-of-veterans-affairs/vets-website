@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
@@ -62,7 +62,7 @@ describe('re-save multiple drafts in one thread', () => {
 
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(
       'include.text',
-      'message was saved',
+      Data.MESSAGE_WAS_SAVED,
     );
   });
 
@@ -85,7 +85,7 @@ describe('re-save multiple drafts in one thread', () => {
 
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(
       'include.text',
-      'message was saved',
+      Data.MESSAGE_WAS_SAVED,
     );
   });
 });

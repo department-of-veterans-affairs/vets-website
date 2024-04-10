@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 const dateFns = require('date-fns');
-const { utcToZonedTime, format } = require('date-fns-tz');
+const { utcToZonedTime, zonedTimeToUtc, format } = require('date-fns-tz');
 const {
   singleAppointment,
 } = require('../../../../../tests/unit/mocks/mock-appointments');
@@ -273,6 +273,7 @@ const createMockNotFoundResponse = () => {
     ],
   };
 };
+const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 const createAppointmentOH = ({
   appointmentIen = '1111',
@@ -303,7 +304,7 @@ const createAppointmentOH = ({
     clinicFriendlyName: type,
     clinicName: type,
     appointmentIen,
-    startTime,
+    startTime: zonedTimeToUtc(startTime, browserTimezone),
     status,
     stationNo,
     clinicLocation,
@@ -349,14 +350,14 @@ const createAppointmentsOH = (token = defaultUUID) => {
       }),
       createAppointmentOH({
         appointmentIen: '1111',
-        startTime: dateFns.addHours(new Date(), 2).toISOString(),
+        startTime: dateFns.addHours(new Date(), 3).toISOString(),
         type: 'Primary Care',
         stationNo: '500',
         facility: 'VA Facility 2',
       }),
       createAppointmentOH({
         appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 3).toISOString(),
+        startTime: dateFns.addHours(new Date(), 2).toISOString(),
         type: 'Anesthesiology',
         stationNo: '500',
         facility: 'VA Facility 2',

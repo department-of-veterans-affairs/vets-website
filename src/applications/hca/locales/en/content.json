@@ -1,4 +1,9 @@
 {
+  "household-dependent-info-basic-title": "%s\u2019s basic information",
+  "household-dependent-info-addtl-title": "%s\u2019s additional information",
+  "household-dependent-info-support-title": "Financial support for %s",
+  "household-dependent-info-income-title": "%s\u2019s annual income from %d",
+  "household-dependent-info-education-title": "%s\u2019s education expenses",
   "enrollment-alert-title--active-duty": "Our records show that you\u2019re an active-duty service member",
   "enrollment-alert-title--deceased": "Our records show that this Veteran is deceased",
   "enrollment-alert-title--enrolled": "You\u2019re already enrolled in VA health care",

@@ -296,14 +296,16 @@ const testConfig = createTestConfig(
         });
       },
       [EVIDENCE_UPLOAD_PATH]: () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
+        cy.get('input[type="file"]').upload(
+          path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+          'testing',
+        );
+
+        cy.get('.schemaform-file-uploading').should('not.exist');
+        cy.get('va-select')
+          .shadow()
+          .find('select')
+          .select('Buddy/Lay Statement', { force: true });
       },
     },
 

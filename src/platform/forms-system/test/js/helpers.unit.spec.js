@@ -1296,5 +1296,7 @@ describe('getUrlPathIndex', () => {
     expect(getUrlPathIndex('form-1/path-2/0')).to.eql(0);
     expect(getUrlPathIndex('/form-1/path-2/3')).to.eql(3);
     expect(getUrlPathIndex('/form-1/path-2/3?add')).to.eql(3);
+    expect(getUrlPathIndex('/form-1/path-2/0/the-page?add')).to.eql(0);
+    expect(getUrlPathIndex('/form-1/path-2/1/page-3')).to.eql(1);
   });
 });

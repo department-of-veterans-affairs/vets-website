@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PreferredDatesSection from '../../PreferredDatesSection';
-import ContactDetailSection from '../../ContactDetailSection';
-import ReasonForAppointmentSection from '../../ReasonForAppointmentSection';
+import PreferredDatesSection from '../PreferredDatesSection';
+import ContactDetailSection from '../ContactDetailSection';
+import ReasonForAppointmentSection from '../ReasonForAppointmentSection';
 import FacilitySection from './FacilitySection';
 import TypeOfVisitSection from './TypeOfVisitSection';
 

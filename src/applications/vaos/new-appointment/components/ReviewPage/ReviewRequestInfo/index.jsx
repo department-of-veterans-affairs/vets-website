@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
-import TypeOfAppointmentSection from '../TypeOfAppointmentSection';
+import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
-import CommunityCareSection from '../CommunityCareSection';
-import Description from '../Description';
+import CommunityCareSection from './CommunityCareSection/CommunityCareSection';
+import Description from './ReviewDirectScheduleInfo/Description';
 
 export default function ReviewRequestInfo({
   data,
@@ -37,7 +37,7 @@ export default function ReviewRequestInfo({
 
 ReviewRequestInfo.propTypes = {
   data: PropTypes.object.isRequired,
-  facility: PropTypes.string,
+  facility: PropTypes.object,
   pageTitle: PropTypes.string,
   vaCityState: PropTypes.string,
 };

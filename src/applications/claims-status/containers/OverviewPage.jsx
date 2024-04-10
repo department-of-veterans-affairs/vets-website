@@ -8,7 +8,6 @@ import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
-import { DATE_FORMATS } from '../constants';
 import {
   buildDateFormatter,
   getClaimType,
@@ -21,8 +20,6 @@ import {
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
@@ -205,7 +202,7 @@ class OverviewPage extends React.Component {
     const { claim } = this.props;
 
     if (claim) {
-      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Overview Of ${claimDate} ${claimType} Claim`;
       setDocumentTitle(title);
@@ -215,7 +212,7 @@ class OverviewPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -224,13 +221,11 @@ class OverviewPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Overview"
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -246,7 +241,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -262,7 +256,6 @@ OverviewPage.propTypes = {
   message: PropTypes.string,
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(

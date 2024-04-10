@@ -70,7 +70,7 @@ article[data-location$="federal-orders"] {
 }
 
 .blue-bar-block {
-  border-left: 7px solid $color-primary;
+  border-left: 7px solid var(--vads-color-primary);
   padding-left: 1em;
 
   p {
@@ -94,12 +94,12 @@ article[data-location$="federal-orders"] {
 // This could go in the schemaform css, but it isn't used anywhere but here for now
 .widget-outline {
   padding: 1em;
-  border: solid 4px $color-primary-alt-light;
+  border: solid 4px var(--vads-color-primary-alt-light);
   border-radius: 7px;
   margin-top: 0.5em;
 
   &.selected {
-    border-color: $color-primary;
+    border-color: var(--vads-color-primary);
   }
 
   &:last-child {
@@ -174,12 +174,12 @@ article[data-location="review-veteran-details/separation-location"] {
 // Style fix for "Private medical records"
 dl.review,
 div.review {
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
   .review-row {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid var(--vads-color-base-light);
     padding: 1.5rem;
     padding-left: 0;
   }

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  combineEnrollmentsWithEndMonths,
+  combineEnrollmentsWithStartMonth,
   translateDateIntoMonthYearFormat,
   getPeriodsToVerify,
 } from '../helpers';
@@ -13,14 +13,14 @@ const EnrollmentCard = ({
   confirmedEnrollment = false,
 }) => {
   const getCards = () => {
-    const combinedEnrollmentsObj = combineEnrollmentsWithEndMonths(
+    const combinedEnrollmentsObj = combineEnrollmentsWithStartMonth(
       enrollmentPeriods,
     );
     const combinedEnrollmentsValues = Object.values(
       combinedEnrollmentsObj,
     ).reverse();
 
-    // if there are more than one enrollment periods that ends in the same month
+    // if there are more than one enrollment periods that startd in the same month
     // then the records are combined into the same array
     // if else is in place to take account for arrays that have multiple objects
     return combinedEnrollmentsValues.map(enrollment => {

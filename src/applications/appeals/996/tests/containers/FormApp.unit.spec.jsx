@@ -36,11 +36,12 @@ const getData = ({
   savedForms = [],
   formData = { benefitType: 'compensation' },
   contestableIssues = { status: '' },
+  pathname = '/introduction',
   routerPush = () => {},
 } = {}) => ({
   props: {
     loggedIn,
-    location: { pathname: '/introduction', search: '' },
+    location: { pathname, search: '' },
     children: <h1>Intro</h1>,
     router: { push: routerPush },
   },
@@ -130,6 +131,24 @@ describe('Form0996App', () => {
     expect(loadingIndicator.getAttribute('message')).to.contain('restart');
     expect(routerPushSpy.called).to.be.true;
     expect(routerPushSpy.args[0][0]).to.eq('/start');
+  });
+
+  it('should not redirect to /start if already on the start page', () => {
+    removeHlrWizardStatus();
+    const routerPushSpy = sinon.spy();
+    const { props, data } = getData({
+      savedForms: savedHlr,
+      pathname: '/start',
+      routerPush: routerPushSpy,
+    });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <Form0996App {...props} />
+      </Provider>,
+    );
+
+    expect($('va-loading-indicator', container)).to.not.exist;
+    expect(routerPushSpy.notCalled).to.be.true;
   });
 
   it('should call API is logged in', async () => {

@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dispStatusForRefillsLeft } from '../../util/constants';
+import {
+  dispStatusForRefillsLeft,
+  medicationsUrls,
+} from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
@@ -32,16 +35,18 @@ const MedicationsListCard = ({ rx }) => {
       setBreadcrumbs(
         [
           {
-            url: '/my-health/medications/about',
+            url: medicationsUrls.MEDICATIONS_ABOUT,
             label: 'About medications',
           },
           {
-            url: `/my-health/medications/?page=${pagination?.currentPage || 1}`,
+            url: `${
+              medicationsUrls.MEDICATIONS_URL
+            }/?page=${pagination?.currentPage || 1}`,
             label: 'Medications',
           },
         ],
         {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
+          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
           label:
             rx?.prescriptionName ||
             (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),

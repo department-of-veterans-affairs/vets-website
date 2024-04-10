@@ -6,7 +6,7 @@
 .link-button:hover,
 .link-button:active {
   background-color: transparent;
-  color: $color-link-default;
+  color: var(--vads-color-link);
   font-weight: normal;
   text-decoration: underline;
   border: none;
@@ -65,7 +65,7 @@
 }
 .landing-page {
   h1 {
-    color: $color-gray-dark;
+    color: var(--vads-color-base-darker);
   }
   .medications-list-sort {
     display: flex;
@@ -96,7 +96,7 @@
   .rx-card-container{
     max-width: 500px;
     padding-bottom: 5px;
-    color: $color-gray-dark;
+    color: var(--vads-color-base-darker);
     .rx-card-details{
       margin-left: 5px;
       h3 {
@@ -115,7 +115,7 @@
           margin: 10px;
           width: 20px;
           height: 20px;
-          border: 1px solid $color-base;
+          border: 1px solid var(--vads-color-base);
         }
       }
       .statusIcon {
@@ -147,7 +147,7 @@
   .rx-landing-page-footer {
     max-width: 500px;
     .footer-header {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
     }
     .footer-links {
       margin: 10px 0;
@@ -262,5 +262,14 @@
     justify-content: left;
     align-items: center;
     gap: 1.5rem;
+  }
+}
+
+va-checkbox#select-all-checkbox::part(label) {
+  font-weight: bold;
+
+  &::before {
+    box-shadow: var(--vads-color-base-dark) 0px 0px 0px 1px;
+    margin-left: 1px;
   }
 }

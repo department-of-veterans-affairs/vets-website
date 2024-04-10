@@ -35,7 +35,7 @@ State change: ${state.value}
 }
 
 function summaryAddMore(hasEmployment) {
-  cy.selectYesNoVaRadioOption('root_hasEmployment', hasEmployment);
+  cy.selectYesNoVaRadioOption('root_view:hasEmployment', hasEmployment);
   cy.axeCheck();
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
@@ -124,14 +124,14 @@ function removeItem1() {
     .click();
   cy.get('va-card').should('have.length', 1);
   cy.axeCheck();
-  cy.selectYesNoVaRadioOption('root_hasEmployment', false);
+  cy.selectYesNoVaRadioOption('root_view:hasEmployment', false);
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 
-const routeItem1Page1 = 'array-multiple-page-builder-item-page-1/0';
-const routeItem1Page2 = 'array-multiple-page-builder-item-page-2/0';
-const routeItem2Page1 = 'array-multiple-page-builder-item-page-1/1';
-const routeItem2Page2 = 'array-multiple-page-builder-item-page-2/1';
+const routeItem1Page1 = 'array-multiple-page-builder/0/name-and-address';
+const routeItem1Page2 = 'array-multiple-page-builder/0/dates';
+const routeItem2Page1 = 'array-multiple-page-builder/1/name-and-address';
+const routeItem2Page2 = 'array-multiple-page-builder/1/dates';
 
 const testConfig = createTestConfig(
   {

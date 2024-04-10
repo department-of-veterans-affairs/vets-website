@@ -15,7 +15,7 @@ export const ConfirmationPage = () => {
   const { submission, data } = form;
   const { fullName } = data.veteran;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const confirmationNumber = submission.response?.referenceNumber;
 
   return (
     <ConfirmationPageView

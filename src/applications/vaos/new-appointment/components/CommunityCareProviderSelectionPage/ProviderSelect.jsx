@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import { GA_PREFIX } from '../../../utils/constants';
 import RemoveProviderModal from './RemoveProviderModal';
@@ -14,7 +15,10 @@ export default function SelectedProvider({
   setProvidersListLength,
   setShowProvidersList,
 }) {
-  const { address } = useSelector(selectProviderSelectionInfo, shallowEqual);
+  const { address, sortMethod } = useSelector(
+    selectProviderSelectionInfo,
+    shallowEqual,
+  );
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
 
   return (
@@ -33,7 +37,7 @@ export default function SelectedProvider({
             className="fas fa-plus vads-u-padding-right--0p5"
             aria-hidden="true"
           />
-          Choose a provider
+          Find a provider
         </button>
       )}
       {providerSelected && (
@@ -42,16 +46,13 @@ export default function SelectedProvider({
             id="providerPostSelectionHeader"
             className="vads-u-font-size--h3 vads-u-margin-top--0"
           >
-            Selected provider
+            Preferred provider
           </h2>
           <span className="vads-u-display--block">{formData.name}</span>
           <span className="vads-u-display--block">
-            {formData.address?.line}
+            {formData.address?.city}, {formData.address?.state}
           </span>
-          <span className="vads-u-display--block">
-            {formData.address?.city}, {formData.address?.state}{' '}
-            {formData.address?.postalCode}
-          </span>
+          <span>{`${formData[sortMethod]} miles`}</span>
           <div className="vads-u-display--flex vads-u-margin-top--1">
             <button
               type="button"
@@ -92,3 +93,13 @@ export default function SelectedProvider({
     </div>
   );
 }
+
+SelectedProvider.propTypes = {
+  formData: PropTypes.object,
+  initialProviderDisplayCount: PropTypes.number,
+  providerSelected: PropTypes.bool,
+  setCheckedProvider: PropTypes.func,
+  setProvidersListLength: PropTypes.func,
+  setShowProvidersList: PropTypes.func,
+  onChange: PropTypes.func,
+};

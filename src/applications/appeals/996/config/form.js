@@ -11,8 +11,8 @@ import submitForm from './submitForm';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
 import AddContestableIssue from '../components/AddContestableIssue';
+import WizardContainer from '../wizard/WizardContainer';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -33,6 +33,7 @@ import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
@@ -100,6 +101,15 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+
+  additionalRoutes: [
+    {
+      path: 'start',
+      component: WizardContainer,
+      pageKey: 'start',
+      depends: () => false,
+    },
+  ],
 
   chapters: {
     infoPages: {

@@ -251,7 +251,7 @@
   "claim-informaiton": "Claim information",
   "edit": "Edit",
   "what-youre-claiming": "What you’re claiming",
-  "mileage-reimbursement-only": "Mileage reimbursement only",
+  "mileage-only-reimbursement": "Mileage-only reimbursement",
   "mileage-only-reimbursement-for": "Mileage-only reimbursement for",
   "how-you-traveled": "How you traveled",
   "in-your-own-vehicle": "In your own vehicle",
@@ -336,5 +336,10 @@
   "we-ask-this-question-because-staff-can-call-you": "We ask this question because staff can call you back anytime after you complete check-in. If you’re more than 5-10 minutes away after completing check-in, see a staff member when you arrive.",
   "have-you-arrived-at-your-va-health-facility": "Have you arrived at your VA health facility?",
   "the-staff-can-call-you-back-anytime": "The staff can call you back anytime now that you’ve completed check-in.",
-  "the-staff-can-call-you-back-anytime-see-staff": "The staff can call you back anytime now that you’ve completed check-in. See a staff member when you arrive in the waiting room."
+  "the-staff-can-call-you-back-anytime-see-staff": "The staff can call you back anytime now that you’ve completed check-in. See a staff member when you arrive in the waiting room.",
+  "claims": "Claims",
+  "travel-method": "Travel method",
+  "starting-address": "Starting address",
+  "start-over": "Start over",
+  "start-travel-claim-over": "Start travel claim over"
 }

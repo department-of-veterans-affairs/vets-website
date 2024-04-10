@@ -4,12 +4,18 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
 } from '../../util/constants';
-import { validateField, dateFormat, getImageUri } from '../../util/helpers';
+import {
+  validateField,
+  dateFormat,
+  getImageUri,
+  createMedicationDescription,
+  createNoDescriptionText,
+} from '../../util/helpers';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
   const prescriptionImage =
-    rx.cmopNdcNumber || rx?.rxRfRecords?.[0]?.[1]?.[0].cmopNdcNumber;
+    rx.cmopNdcNumber || rx?.rxRfRecords[0]?.cmopNdcNumber;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -178,31 +184,38 @@ const PrescriptionPrintOnly = props => {
             <div className="print-only-refill-container">
               <DetailsHeaderElement>Refill history</DetailsHeaderElement>
               <div className="print-only-rx-details-container">
-                {refillHistory
-                  .map((entry, i) => {
-                    return (
-                      <div key={i}>
-                        <h4>{`${i === 0 ? 'First fill' : `Refill ${i}`}`}</h4>
-                        <p>
-                          <strong>Filled by pharmacy on:</strong>{' '}
-                          {entry?.dispensedDate
-                            ? dateFormat(entry.dispensedDate)
-                            : 'None noted'}
-                        </p>
-                        <p>
-                          <strong>Shipped on:</strong>{' '}
-                          {entry?.trackingList?.[0]?.[1]?.completeDateTime
-                            ? dateFormat(
-                                entry.trackingList[0][1].completeDateTime,
-                              )
-                            : 'None noted'}
-                        </p>
-                        <div className="line-break" />
-                      </div>
-                    );
-                  })
-                  .reverse()
-                  .flat()}
+                {refillHistory.map((entry, i) => {
+                  const index = refillHistory.length - i - 1;
+                  let description = createMedicationDescription(entry);
+                  if (description == null) {
+                    const phone =
+                      entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                    description = createNoDescriptionText(phone);
+                  }
+                  return (
+                    <div key={index}>
+                      <h4>
+                        {`${index === 0 ? 'First fill' : `Refill ${index}`}`}
+                      </h4>
+                      <p>
+                        <strong>Filled by pharmacy on:</strong>{' '}
+                        {entry?.dispensedDate
+                          ? dateFormat(entry.dispensedDate)
+                          : 'None noted'}
+                      </p>
+                      <p>
+                        <strong>Shipped on:</strong>{' '}
+                        {entry?.trackingList?.[0]?.completeDateTime
+                          ? dateFormat(entry.trackingList[0].completeDateTime)
+                          : 'None noted'}
+                      </p>
+                      <p>
+                        <strong>Description:</strong> {description}
+                      </p>
+                      <div className="line-break" />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
