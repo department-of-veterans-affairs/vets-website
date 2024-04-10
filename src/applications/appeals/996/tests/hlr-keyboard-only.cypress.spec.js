@@ -42,7 +42,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.tabToElement('input#compensationinput'); // ID of va-radio-option input
       cy.realPress('Space');
 
-      cy.tabToElement('va-button');
+      cy.tabToElement('.subtask-navigation va-button');
       cy.realPress('Enter');
 
       // Intro page
