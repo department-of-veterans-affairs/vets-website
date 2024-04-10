@@ -40,20 +40,18 @@ const Intention = ({
   );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <RadioGroup
-        formError={formError}
-        formResponses={formResponses}
-        formValue={intention}
-        H1={H1}
-        responses={[INTENTION_1, INTENTION_2]}
-        router={router}
-        setFormError={setFormError}
-        shortName={shortName}
-        testId="duw-intention"
-        valueSetter={setIntention}
-      />
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={intention}
+      H1={H1}
+      responses={[INTENTION_1, INTENTION_2]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-intention"
+      valueSetter={setIntention}
+    />
   );
 };
 

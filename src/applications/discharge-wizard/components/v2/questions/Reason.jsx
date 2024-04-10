@@ -46,30 +46,28 @@ const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
   );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <RadioGroup
-        formError={formError}
-        formResponses={formResponses}
-        formValue={reason}
-        hint={hint}
-        H1={H1}
-        responses={[
-          REASON_1,
-          REASON_2,
-          REASON_3,
-          REASON_4,
-          REASON_5,
-          REASON_8,
-          REASON_6,
-          REASON_7,
-        ]}
-        router={router}
-        setFormError={setFormError}
-        shortName={shortName}
-        testId="duw-reason"
-        valueSetter={setReason}
-      />
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={reason}
+      hint={hint}
+      H1={H1}
+      responses={[
+        REASON_1,
+        REASON_2,
+        REASON_3,
+        REASON_4,
+        REASON_5,
+        REASON_8,
+        REASON_6,
+        REASON_7,
+      ]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-reason"
+      valueSetter={setReason}
+    />
   );
 };
 

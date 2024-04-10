@@ -40,20 +40,18 @@ const DischargeType = ({
   );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <RadioGroup
-        formError={formError}
-        formResponses={formResponses}
-        formValue={dischargeType}
-        H1={H1}
-        responses={[DISCHARGE_TYPE_1, DISCHARGE_TYPE_2]}
-        router={router}
-        setFormError={setFormError}
-        shortName={shortName}
-        testId="duw-discharge_type"
-        valueSetter={setDischargeType}
-      />
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={dischargeType}
+      H1={H1}
+      responses={[DISCHARGE_TYPE_1, DISCHARGE_TYPE_2]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-discharge_type"
+      valueSetter={setDischargeType}
+    />
   );
 };
 

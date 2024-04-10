@@ -40,20 +40,18 @@ const CourtMartial = ({
   );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <RadioGroup
-        formError={formError}
-        formResponses={formResponses}
-        formValue={courtMartial}
-        H1={H1}
-        responses={[COURT_MARTIAL_1, COURT_MARTIAL_2, COURT_MARTIAL_3]}
-        router={router}
-        setFormError={setFormError}
-        shortName={shortName}
-        testId="duw-court_martial"
-        valueSetter={setCourtMartial}
-      />
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={courtMartial}
+      H1={H1}
+      responses={[COURT_MARTIAL_1, COURT_MARTIAL_2, COURT_MARTIAL_3]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-court_martial"
+      valueSetter={setCourtMartial}
+    />
   );
 };
 
