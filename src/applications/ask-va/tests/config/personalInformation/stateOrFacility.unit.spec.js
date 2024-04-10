@@ -34,7 +34,7 @@ describe('stateOrFacilityPage', () => {
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = ['School state', 'School facility'];
 
-    expect($('h3', container).textContent).to.eq('School information');
+    expect($('h2', container).textContent).to.eq('School information');
     expect($('p', container).textContent).to.eq(
       'Would you like to choose your school state or facility?',
     );

@@ -34,7 +34,7 @@ describe('useThisSchoolPage', () => {
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = ['Yes', "No, I'll choose a different option"];
 
-    expect($('h3', container).textContent).to.eq('School information');
+    expect($('h2', container).textContent).to.eq('School information');
 
     radioLabels.forEach(
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
