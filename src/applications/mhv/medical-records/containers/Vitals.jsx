@@ -88,7 +88,7 @@ const Vitals = () => {
             <li>Blood pressure and blood oxygen level</li>
             <li>Breathing rate and heart rate</li>
             <li>Height and weight</li>
-            <li>Tempurature</li>
+            <li>Temperature</li>
           </ul>
           <NoRecordsMessage type={recordType.VITALS} />
         </>
