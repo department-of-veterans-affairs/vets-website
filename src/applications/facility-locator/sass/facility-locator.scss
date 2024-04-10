@@ -249,6 +249,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
 
+      .columns {
+        padding-left: 0.27rem;
+        padding-right: 0.27rem;
+      }
+
       input,
       textarea,
       select,
