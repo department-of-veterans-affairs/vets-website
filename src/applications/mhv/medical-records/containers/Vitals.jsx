@@ -90,7 +90,7 @@ const Vitals = () => {
             class="hydrated initial-fhir-load"
             message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
             setFocus
-            data-testid="loading-indicator"
+            data-testid="initial-fhir-loading-indicator"
           />
         </div>
       );
