@@ -265,7 +265,7 @@ class ClaimStatusPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim && claim.attributes) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
