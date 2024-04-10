@@ -6,7 +6,7 @@ import { cleanup } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import folderResponse from '../../fixtures/folder-response.json';
 import folderInboxResponse from '../../fixtures/folder-inbox-response.json';
-import reducers from '~/applications/mhv/secure-messaging/reducers';
+import reducers from '~/applications/mhv-secure-messaging/reducers';
 import MoveMessageToFolderBtn from '../../../../components/MessageActionButtons/MoveMessageToFolderBtn';
 import * as Constants from '../../../../util/constants';
 import { DefaultFolders } from '../../../../util/constants';

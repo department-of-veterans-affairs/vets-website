@@ -46,13 +46,7 @@ const MedicalFacilitySearch = ({ onChange }) => {
 
   return (
     <>
-      <div className="facility-locator">
-        <div className="title-section">
-          <h1>Your VA health facility</h1>
-        </div>
-        <div className="facility-introtext">
-          <p>Search by city, postal code, or use your current location.</p>
-        </div>
+      <div className="facility-locator vads-u-margin-top--2">
         <SearchControls
           locateUser={getFacilitiesFromLocation}
           onSubmit={getFacilities}

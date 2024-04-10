@@ -152,6 +152,9 @@ const ManageFolderButtons = props => {
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
+            document
+              .querySelector('[data-testid=remove-folder-button]')
+              ?.focus();
           }}
           status="warning"
         >
@@ -192,7 +195,6 @@ const ManageFolderButtons = props => {
         </VaModal>
       )}
       <VaModal
-        uswds={false}
         className="modal"
         data-testid="rename-folder-modal"
         visible={renameModal}
@@ -218,13 +220,12 @@ const ManageFolderButtons = props => {
           charcount
         />
         <va-button
-          uswds={false}
+          class="vads-u-margin-y--1p5"
           text="Save"
           onClick={confirmRenameFolder}
           data-dd-action-name="Save Rename Folder Button"
         />
         <va-button
-          uswds={false}
           secondary="true"
           text="Cancel"
           onClick={closeRenameModal}
