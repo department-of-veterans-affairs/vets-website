@@ -5,6 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   updatePageTitle,
   reportGeneratedBy,
+  usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   getPrescriptionDetails,
@@ -40,7 +41,6 @@ import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
-import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -112,7 +112,7 @@ const PrescriptionDetails = () => {
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
-  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   useEffect(
     () => {
