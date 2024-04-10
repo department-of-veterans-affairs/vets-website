@@ -1,7 +1,7 @@
 import { Actions } from '../util/actionTypes';
 
 const defaultRetryInterval = 2000;
-const defaultEndTimeOffset = 90000;
+const defaultEndTimeOffset = 120000;
 
 /**
  * Helper function to create a delay
