@@ -247,9 +247,7 @@ export function addressUI(options) {
         errors.postalCode.addError(
           `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
             uiSchema.isMilitary['ui:title']
-          }". If your mailing address is an ${
-            uiSchema.city['ui:title']
-          } address, enter the postal code for the military base.`,
+          }". If your mailing address is an ${MILITARY_CITY_TITLE} address, enter the postal code for the military base.`,
         );
       }
     }
@@ -409,7 +407,6 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
-            ui['ui:title'] = MILITARY_CITY_TITLE;
             return {
               type: 'string',
               title: MILITARY_CITY_TITLE,
@@ -419,7 +416,6 @@ export function addressUI(options) {
           }
 
           ui['ui:webComponentField'] = VaTextInputField;
-          ui['ui:title'] = 'City';
           return {
             type: 'string',
             title: 'City',
