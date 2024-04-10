@@ -30,17 +30,17 @@ const DecisionReviewPage = () => {
 
   return (
     <div id={pageNames.other}>
-      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <h1 className="vads-u-margin-bottom--0">Request a Higher-Level Review</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
-        VA Form 20-0995
+        VA Form 20-0996
       </div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-        Filing if your Supplemental Claim isn’t for a disability
+        Requesting a Higher-Level Review if it isn’t for a disability
       </h2>
       <p>
-        We can accept online Supplemental Claims only for disability claims at
+        We can accept online Higher-Level Reviews only for disability claims at
         this time. For other types of claims, you’ll need to fill out and submit
-        VA Form 20-0995 by mail or in person.
+        VA Form 20-0996 by mail or in person.
       </p>
       <p>
         Send the completed form to the benefit office that matches the benefit

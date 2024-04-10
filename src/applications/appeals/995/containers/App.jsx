@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
+
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { isLoggedIn } from 'platform/user/selectors';
-
-import { setData } from 'platform/forms-system/src/js/actions';
-import { getStoredSubTask } from 'platform/forms/sub-task';
+import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
+import { isLoggedIn } from '~/platform/user/selectors';
+import { setData } from '~/platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -27,6 +27,7 @@ import {
 } from '../constants';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
+import { wrapInH1 } from '../../shared/content/intro';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
@@ -42,7 +43,6 @@ export const App = ({
   formData,
   setFormData,
   router,
-  // savedForms,
   getContestableIssues,
   contestableIssues,
   legacyCount,
@@ -113,20 +113,13 @@ export const App = ({
       contestableIssues,
       formData,
       getContestableIssues,
+      hasSupportedBenefitType,
       isLoadingIssues,
       legacyCount,
       loggedIn,
-
       setFormData,
       subTaskBenefitType,
-      hasSupportedBenefitType,
     ],
-  );
-
-  const wrapInH1 = content => (
-    <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-      {content}
-    </h1>
   );
 
   let content = (
@@ -144,19 +137,6 @@ export const App = ({
       </ITFWrapper>
     </RoutedSavableApp>
   );
-
-  // Add Datadog UX monitoring to the application
-  useBrowserMonitoring({
-    loggedIn,
-    formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
-    version: '1.0.0',
-    // record 100% of staging sessions, but only 10% of production
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 10,
-    applicationId: DATA_DOG_ID,
-    clientToken: DATA_DOG_TOKEN,
-    service: DATA_DOG_SERVICE,
-  });
 
   // Go to start page if we don't have an expected benefit type
   if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
@@ -180,6 +160,19 @@ export const App = ({
       />,
     );
   }
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    // record 100% of staging sessions, but only 10% of production
+    sessionReplaySampleRate:
+      environment.vspEnvironment() === 'staging' ? 100 : 10,
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+  });
 
   return (
     <article id="form-0995" data-location={`${location?.pathname?.slice(1)}`}>
@@ -212,7 +205,6 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  testSetTag: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
