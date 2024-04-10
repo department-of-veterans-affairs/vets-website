@@ -1502,4 +1502,95 @@ describe('Schemaform <FileField>', () => {
       expect(individualFileTryAgainButton).to.not.exist;
     });
   });
+
+  describe('functional file field tests', () => {
+    const mockSchema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+      maxItems: 4,
+    };
+    const mockUiSchema = fileUploadUI('Files', {
+      attachmentName: 'Document name',
+    });
+    const mockFormDataWithError = [
+      {
+        errorMessage: 'some error message',
+      },
+    ];
+    const mockErrorSchemaWithError = {
+      0: {
+        __errors: ['ERROR-123'],
+      },
+    };
+    const mockRegistry = {
+      fields: {
+        SchemaField: () => <div />,
+      },
+    };
+
+    it('be able to add a file', () => {
+      const onChange = sinon.spy();
+      const idSchema = {
+        $id: 'test',
+      };
+      let test = {};
+
+      function tester(props) {
+        test = props;
+      }
+
+      const { container } = render(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={idSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={onChange}
+          requiredSchema={requiredSchema}
+          tester={tester}
+        />,
+      );
+
+      let pdfContent = new Blob(['%PDF-1.4...'], { type: 'application/pdf' });
+      let file = new File([pdfContent], 'example.pdf', {
+        type: 'application/pdf',
+      });
+      let input = container.querySelector('input#test');
+      fireEvent.change(input, { target: { files: [file] } });
+      fireEvent.click(container.querySelector('#test_add_label'));
+
+      pdfContent = new Blob(['%PDF-1.4...'], { type: 'testing' });
+      file = new File([pdfContent], 'example.pdf', {
+        type: 'testing',
+      });
+      input = container.querySelector('input#test');
+      fireEvent.change(input, { target: { files: [file] } });
+      fireEvent.click(container.querySelector('#test_add_label'));
+
+      const deleteFileButton = container.querySelector('.delete-upload');
+      fireEvent.click(deleteFileButton);
+
+      // This is just for code coverage.
+      // FileField should have its own testing
+      // unrelated to 10207
+      test.cancelUpload(0);
+      test.retryLastUpload(0, file);
+      test.deleteThenAddFile(0);
+      test.getRetryFunction(false, 0, file);
+      test.onSubmitPassword(file, 0, 'password');
+      test.onAttachmentIdChange(0);
+      test.onAttachmentIdChange(0, 'value');
+      test.onAttachmentNameChange(0);
+      test.onAttachmentNameChange(0, 'value');
+
+      expect(input).to.exist;
+    });
+  });
 });

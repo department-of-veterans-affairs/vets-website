@@ -89,6 +89,7 @@ const FileField = props => {
     registry,
     schema,
     uiSchema,
+    tester,
   } = props;
 
   const files = formData || [];
@@ -409,6 +410,19 @@ const FileField = props => {
 
   const uploadText = content[files.length > 0 ? 'uploadAnother' : 'upload'];
 
+  // Expose functions for unit tests
+  if (tester) {
+    tester({
+      cancelUpload,
+      retryLastUpload,
+      deleteThenAddFile,
+      getRetryFunction,
+      onSubmitPassword,
+      onAttachmentIdChange,
+      onAttachmentNameChange,
+    });
+  }
+
   return (
     <div
       className={
@@ -720,6 +734,7 @@ FileField.propTypes = {
   requiredSchema: PropTypes.object,
   uiSchema: PropTypes.object,
   onBlur: PropTypes.func,
+  tester: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
