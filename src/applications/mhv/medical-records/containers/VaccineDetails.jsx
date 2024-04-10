@@ -91,7 +91,6 @@ const VaccineDetails = props => {
     pageTitles.VACCINES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
