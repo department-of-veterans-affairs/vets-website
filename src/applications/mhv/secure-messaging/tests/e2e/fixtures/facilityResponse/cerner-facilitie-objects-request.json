@@ -1,0 +1,18 @@
+{
+    "data": [],
+    "meta": {
+        "pagination": {
+            "currentPage": 1,
+            "prevPage": null,
+            "nextPage": null,
+            "totalPages": 1
+        }
+    },
+    "links": {
+        "self": "http://25018549a326f9ec4908f3d49035afb9-api.review.vetsgov-internal/v1/facilities/va?ids=%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D&page=1&per_page=10",
+        "first": "http://25018549a326f9ec4908f3d49035afb9-api.review.vetsgov-internal/v1/facilities/va?ids=%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D&per_page=10",
+        "prev": null,
+        "next": null,
+        "last": "http://25018549a326f9ec4908f3d49035afb9-api.review.vetsgov-internal/v1/facilities/va?ids=%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D%2C%5Bobject+Object%5D&page=1&per_page=10"
+    }
+}
