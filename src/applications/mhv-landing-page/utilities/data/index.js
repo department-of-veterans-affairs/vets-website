@@ -242,7 +242,6 @@ const resolveLandingPageLinks = (
     featureToggles,
   );
 
-  // Spotlight links are non-authed, so we always pass `false` to mhvUrl
   const spotlightLinks = resolveLinkCollection(
     [
       {
