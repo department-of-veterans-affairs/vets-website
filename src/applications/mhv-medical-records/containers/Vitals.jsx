@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -57,7 +56,6 @@ const Vitals = () => {
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
