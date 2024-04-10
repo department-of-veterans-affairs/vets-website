@@ -358,7 +358,7 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: .github/workflows/inject-secrets
+        uses: ./.github/workflows/inject-secrets
         with:
             ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
             env_variable_name: AWS_FRONTEND_NONPROD_ROLE
