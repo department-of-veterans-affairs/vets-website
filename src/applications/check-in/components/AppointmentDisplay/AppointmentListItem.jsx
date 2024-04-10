@@ -41,18 +41,18 @@ const AppointmentListItem = props => {
     }
 
     const type =
-      appointment.kind === 'ctv' || appointment.kind === 'vvc'
+      appointment.kind === 'cvt' || appointment.kind === 'vvc'
         ? ''
-        : t('VA-appointment');
+        : ` ${t('VA-appointment')}`;
 
     const provider = appointment.doctorName
-      ? `${t('with')} ${appointment.doctorName}`
+      ? ` ${t('with')} ${appointment.doctorName}`
       : '';
 
     const facility =
-      appointment.kind === 'cvt' ? `${t('at')} ${appointment.facility}` : '';
+      appointment.kind === 'cvt' ? ` ${t('at')} ${appointment.facility}` : '';
 
-    return `${t('details-for')} ${modality} ${type} ${facility} ${provider} ${t(
+    return `${t('details-for')} ${modality}${type}${facility}${provider} ${t(
       'on-date-at-time',
       { date: appointmentDateTime },
     )}`;
@@ -75,7 +75,7 @@ const AppointmentListItem = props => {
     }
     if (appointment?.kind === 'cvt') {
       return (
-        <span data-testid="video-ctv-confirmation">
+        <span data-testid="video-cvt-confirmation">
           {t('go-to-facility-for-this-video-appointment')}
         </span>
       );
@@ -96,25 +96,25 @@ const AppointmentListItem = props => {
 
   const appointmentInfo = () => {
     if (appointment?.kind === 'vvc') {
-      return t('video');
+      return <div data-testid="appointment-info-vvc">{t('video')}</div>;
     }
     if (appointment?.kind === 'cvt') {
       return (
-        <>
+        <div data-testid="appointment-info-cvt">
           {`${t('video-at')} ${appointment.facility}`}
           <br />
           {`${t('clinic')}: ${clinic}`}
-        </>
+        </div>
       );
     }
     if (appointment?.kind === 'phone') {
-      return t('phone');
+      return <div data-testid="appointment-info-phone">{t('phone')}</div>;
     }
     return (
-      <>
+      <div data-testid="appointment-info-clinic">
         {`${t('in-person-at')} ${appointment.facility}`} <br />
         {`${t('clinic')}: ${clinic}`}
-      </>
+      </div>
     );
   };
 
@@ -155,7 +155,7 @@ const AppointmentListItem = props => {
             data-testid="appointment-kind-and-location"
             className="vads-u-display--inline"
           >
-            {appointmentInfo}
+            {appointmentInfo()}
           </div>
         </div>
         {showDetailsLink && (
@@ -174,14 +174,14 @@ const AppointmentListItem = props => {
         )}
         {app === APP_NAMES.CHECK_IN &&
           page !== 'confirmation' && (
-            <>
+            <div data-testid="appointment-action">
               <AppointmentMessage appointment={appointment} />
               <AppointmentAction
                 appointment={appointment}
                 router={router}
                 event="check-in-clicked-VAOS-design"
               />
-            </>
+            </div>
           )}
       </div>
       {app === APP_NAMES.PRE_CHECK_IN &&
