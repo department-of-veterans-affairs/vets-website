@@ -38,7 +38,7 @@ describe('<DetailsPage>', () => {
     );
   });
 
-  it('should render null with no claim', () => {
+  it('should render null when claim empty', () => {
     const { container, getByText } = renderWithRouter(
       <Provider store={store}>
         <DetailsPage claim={{}} />
