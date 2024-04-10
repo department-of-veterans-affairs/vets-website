@@ -338,5 +338,8 @@
   "at": "at",
   "you-can-join-your-appointment-by-using-our-appointments-tool": "You can join your appointment by using our appointments tool on VA.gov. We’ll add the link 30 minutes before your scheduled appointment.",
   "go-to-facility-for-this-video-appointment": "Go to {{facility}} for this video appointment.",
-  "video-appointment": "video appointment"
+  "video-appointment": "video appointment",
+  "video-at": "Video at",
+  "video-appointment-at-facility": "Video appointment at {{facility}}",
+  "video-appointment--title": "Video appointment"
 }

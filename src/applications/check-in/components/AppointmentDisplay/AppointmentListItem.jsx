@@ -76,7 +76,9 @@ const AppointmentListItem = props => {
     if (appointment?.kind === 'cvt') {
       return (
         <span data-testid="video-cvt-confirmation">
-          {t('go-to-facility-for-this-video-appointment')}
+          {t('go-to-facility-for-this-video-appointment', {
+            facility: appointment.facility,
+          })}
         </span>
       );
     }

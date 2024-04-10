@@ -37,6 +37,8 @@ const AppointmentDetails = props => {
 
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
+  const isCvtAppointment = appointment?.kind === 'cvt';
+  const isVvcAppointment = appointment?.kind === 'vvc';
   const { appointmentId } = router.params;
   const isPreCheckIn = app === 'preCheckIn';
 
@@ -94,6 +96,37 @@ const AppointmentDetails = props => {
       </p>
     );
   }
+  if (isCvtAppointment) {
+    preCheckInSubTitle = (
+      <p data-testid="cvt-appointment-subtitle" className="vads-u-margin--0">
+        {t('go-to-facility-for-this-video-appointment', {
+          facility: appointment.facility,
+        })}
+      </p>
+    );
+  }
+  if (isVvcAppointment) {
+    preCheckInSubTitle = (
+      <p data-testid="vvc-appointment-subtitle" className="vads-u-margin--0">
+        {t('you-can-join-your-appointment-by-using-our-appointments-tool')}
+      </p>
+    );
+  }
+
+  const appointmentTitle = () => {
+    if (isPhoneAppointment) {
+      return `${t('phone')} ${t('appointment')}`;
+    }
+    if (isCvtAppointment) {
+      return t('video-appointment-at-facility', {
+        facility: appointment.facility,
+      });
+    }
+    if (isVvcAppointment) {
+      return t('video-appointment--title');
+    }
+    return t('in-person-appointment');
+  };
 
   return (
     <>
@@ -115,11 +148,7 @@ const AppointmentDetails = props => {
                 data-testid="header"
                 className="vads-u-font-size--h3"
               >
-                {`${
-                  isPhoneAppointment
-                    ? `${t('phone')} ${t('appointment')}`
-                    : t('in-person-appointment')
-                }`}
+                {appointmentTitle()}
               </h1>
               {app === APP_NAMES.PRE_CHECK_IN ? (
                 preCheckInSubTitle
