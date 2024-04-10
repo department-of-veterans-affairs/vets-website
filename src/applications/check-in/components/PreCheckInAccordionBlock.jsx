@@ -15,13 +15,26 @@ const PreCheckInAccordionBlock = ({
   const { t } = useTranslation();
   let hasUpdates = false;
   let updateBody = '';
-
+  const modalityMessage = <p>{t('if-your-appointment-is-in-person')}</p>;
+  const callMessage = (
+    <p>
+      <Trans
+        i18nKey="or-you-can-call-MyVA411"
+        components={[
+          <va-telephone
+            key={phoneNumbers.mainInfo}
+            contact={phoneNumbers.mainInfo}
+          />,
+        ]}
+      />
+    </p>
+  );
   if (demographicsUpToDate === 'no') {
     hasUpdates = true;
     updateBody = (
       <>
         <strong>{t('contact-information')}</strong>
-        <p>{t('if-your-appointment-is-in-person')}</p>
+        {modalityMessage}
         <p>
           <Trans
             i18nKey="or-you-can-sign-in"
@@ -39,17 +52,7 @@ const PreCheckInAccordionBlock = ({
             values={{ link: t('sign-in') }}
           />
         </p>
-        <p>
-          <Trans
-            i18nKey="or-you-can-call-MyVA411"
-            components={[
-              <va-telephone
-                key={phoneNumbers.mainInfo}
-                contact={phoneNumbers.mainInfo}
-              />,
-            ]}
-          />
-        </p>
+        {callMessage}
       </>
     );
   }
@@ -67,18 +70,8 @@ const PreCheckInAccordionBlock = ({
       <>
         {updateBody}
         <strong>{title}</strong>
-        <p>{t('if-your-appointment-is-in-person')}</p>
-        <p>
-          <Trans
-            i18nKey="or-you-can-call-MyVA411"
-            components={[
-              <va-telephone
-                key={phoneNumbers.mainInfo}
-                contact={phoneNumbers.mainInfo}
-              />,
-            ]}
-          />
-        </p>
+        {modalityMessage}
+        {callMessage}
       </>
     );
   }
