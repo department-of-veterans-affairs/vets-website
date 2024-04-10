@@ -23,7 +23,9 @@
       "view:veteranInfo": {},
       "view:vaBenefitsOnFile": {}
     },
-    "totalMonthlyExpenses": 1975.0,
+    "calculatedMonthlyExpensesResponse": {
+      "calculatedMonthlyExpenses": 1975.00
+    },
     "totalExpenses": {
       "rentOrMortgage": 40.0,
       "food": 40.0,
