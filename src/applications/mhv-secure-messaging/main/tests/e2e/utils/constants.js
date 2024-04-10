@@ -43,6 +43,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  FROM_TO_DATES_CONTAINER: '.fromToDatesContainer',
   MESSAGE_FAQ: '.secure-messaging-faq',
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
@@ -55,6 +56,7 @@ export const Locators = {
   ATTACHMENT_COUNT: '[data-testid="attachments-count"]',
   MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
   MESSAGES_BODY: '[data-testid="message-body-field"]',
+  MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
   DROPDOWN: '#sort-order-dropdown',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
@@ -91,6 +93,7 @@ export const Locators = {
     FOLDER_DROPDOWN: '[data-testid="folder-dropdown"]',
   },
   BUTTONS: {
+    ADDITIONAL_FILTER: '#additional-filter-accordion',
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
@@ -181,6 +184,7 @@ export const Locators = {
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
+    DATE_RANGE_DROPDOWN: '#date-range-dropdown',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
     NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
   },

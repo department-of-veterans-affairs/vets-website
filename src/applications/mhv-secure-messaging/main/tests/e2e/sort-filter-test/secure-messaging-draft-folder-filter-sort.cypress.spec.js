@@ -21,9 +21,9 @@ describe('Secure Messaging Draft Folder checks', () => {
         },
       },
     });
-    draftsPage.inputFilterData('test');
-    draftsPage.filterMessages();
-    draftsPage.verifyFilterResults('test');
+    draftsPage.inputFilterButtonText('test');
+    draftsPage.clickFilterMessagesButton();
+    draftsPage.verifyFilterResultsText('test');
   });
 
   it('Verify filter works with Date', () => {
@@ -35,8 +35,8 @@ describe('Secure Messaging Draft Folder checks', () => {
         },
       },
     });
-    draftsPage.inputFilterData('Last 3 Months');
-    draftsPage.filterMessages();
+    draftsPage.inputFilterButtonText('Last 3 Months');
+    draftsPage.clickFilterMessagesButton();
   });
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
@@ -47,9 +47,9 @@ describe('Secure Messaging Draft Folder checks', () => {
         },
       },
     });
-    draftsPage.inputFilterData('any');
-    draftsPage.filterMessages();
-    draftsPage.clearFilter();
+    draftsPage.inputFilterButtonText('any');
+    draftsPage.clickFilterMessagesButton();
+    draftsPage.clickClearFilterButton();
     draftsPage.verifyFilterFieldCleared();
   });
 

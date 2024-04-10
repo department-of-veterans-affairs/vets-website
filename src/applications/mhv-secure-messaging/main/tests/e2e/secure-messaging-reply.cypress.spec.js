@@ -25,7 +25,7 @@ describe('Secure Messaging Reply', () => {
     });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientReplyPage.sendReplyMessageDetails(testMessage);
+    PatientReplyPage.clickSendReplyMessageButtonDetails(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
     // PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();

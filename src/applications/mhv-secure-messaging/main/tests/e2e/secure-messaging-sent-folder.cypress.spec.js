@@ -16,24 +16,24 @@ describe('Secure Messaging Sent Folder checks', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.verifyFolderHeader('Sent');
+    PatientMessagesSentPage.verifyFolderHeaderText('Sent');
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
   it('Verify filter works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.inputFilterData('test');
-    PatientMessagesSentPage.filterMessages();
-    PatientMessagesSentPage.verifyFilterResults('test');
+    PatientMessagesSentPage.inputFilterButtonText('test');
+    PatientMessagesSentPage.clickFilterMessagesButton();
+    PatientMessagesSentPage.verifyFilterResultsText('test');
   });
 
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.inputFilterData('any');
-    PatientMessagesSentPage.filterMessages();
-    PatientMessagesSentPage.clearFilter();
+    PatientMessagesSentPage.inputFilterButtonText('any');
+    PatientMessagesSentPage.clickFilterMessagesButton();
+    PatientMessagesSentPage.clickClearFilterButton();
     PatientMessagesSentPage.verifyFilterFieldCleared();
   });
 
@@ -49,7 +49,7 @@ describe('Secure Messaging Sent Folder checks', () => {
     cy.get('.endOfThreads').should('not.exist');
     cy.get('.usa-pagination__list li').then(pagesList => {
       const lastPageIndex = pagesList.length - 2;
-      FolderLoadPage.navigateToLastPage(lastPageIndex);
+      FolderLoadPage.clickAndNavigateToLastPage(lastPageIndex);
       cy.get('.endOfThreads').should(
         'have.text',
         Data.END_CONVERSATION_IN_FOLDER,
