@@ -5,6 +5,7 @@ import { basicUserPersonalInfo } from 'applications/personalization/profile/mock
 import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
 import { airForce } from 'applications/personalization/profile/mocks/endpoints/service-history';
 
+// TODO: these tests are not needed in the unified page, so it should be removed once the legacy page is removed in production
 describe('Direct Deposit Consistently', () => {
   describe('alert is hidden', () => {
     beforeEach(() => {
