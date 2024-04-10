@@ -89,7 +89,6 @@ export const Locators = {
     NOT_EMP_FOLDER: '[data-testid="error-folder-not-empty"] p',
     FOLDER_INPUT_LABEL: '[data-testid="search-message-folder-input-label"]',
     FOLDER_DROPDOWN: '[data-testid="folder-dropdown"]',
-    FOLDER_NOT_EMPTY: '[data-testid="error-folder-not-empty"]',
   },
   BUTTONS: {
     TRASH_TEXT: '[data-testid=trash-button-text]',
@@ -130,7 +129,6 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
-    MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
     CLOSE_NOTIFICATION: '.va-alert',
@@ -248,8 +246,6 @@ export const Data = {
   ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
-  REMOVE_FOLDER: 'Remove folder',
-  CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
 };
 export const Assertions = {
   MESSAGES: 'Messages',
@@ -271,6 +267,5 @@ export const Assertions = {
   SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
   NEW_MESSAGE: 'new-message',
   ARIA_EXPANDED: 'aria-expanded',
-  EMPTY_THIS_FOLDER: 'Empty this folder',
   NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
 };
