@@ -1,15 +1,16 @@
 name: E2E Tests
 
 on:
-  workflow_dispatch:
-    inputs:
-      commit_sha:
-        description: Run the full E2E test suite on a specific commit
-        required: true
-  workflow_run:
-    workflows: [Continuous Integration]
-    types: [completed]
-    branches: [main]
+  # workflow_dispatch:
+  #   inputs:
+  #     commit_sha:
+  #       description: Run the full E2E test suite on a specific commit
+  #       required: true
+  # workflow_run:
+  #   workflows: [Continuous Integration]
+  #   types: [completed]
+  #   branches: [main]
+  push
 
 env:
   NUM_CONTAINERS: '8'
@@ -345,7 +346,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: .github/workflows/inject-secrets
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
