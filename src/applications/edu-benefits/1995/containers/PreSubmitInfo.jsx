@@ -2,14 +2,13 @@ import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 import { isProductionOfTestProdEnv, eighteenOrOver } from '../helpers';
 
-export function isActiveDuty(/* formData */) {
-  return false;
-  /*
+export function isActiveDuty(formData) {
   try {
     // VFEP-875 will go here
+    return formData.isActiveDuty;
   } catch (e) {
     return false;
-  } */
+  }
 }
 
 function PreSubmitNotice({
@@ -36,14 +35,12 @@ function PreSubmitNotice({
             All statements in this application are true and correct to the best
             of your knowledge and belief
           </li>
-          {
-            // isActiveDuty(/* formData */) && (
-            /*  <li>
+          {isActiveDuty(formData) && (
+            <li>
               As an active-duty service member, you have consulted with an
               Education Service Officer (ESO) regarding your education program
             </li>
-          ) */
-          }
+          )}
         </ul>
       </div>
     );
