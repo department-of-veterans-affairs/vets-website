@@ -74,7 +74,7 @@ export const uiSchema = {
       expandUnder: 'view:newService',
       updateSchema: (formData, _schema) => {
         let finalSchema = { ..._schema };
-        finalSchema = setDateRangeRequired(formData, _schema);
+        finalSchema = setDateRangeRequired(formData, finalSchema);
         finalSchema = setServiceBranchRequired(formData, finalSchema);
         return finalSchema;
       },

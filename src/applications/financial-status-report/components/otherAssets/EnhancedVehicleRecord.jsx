@@ -172,73 +172,63 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             Enter your vehicle’s information below.
           </p>
         </legend>
-        <div className="input-size-5">
-          <VaTextInput
-            className="no-wrap input-size-5"
-            error={(vehicleRecordIsDirty && makeIsDirty && makeError) || null}
-            id="add-make-name"
-            label="Vehicle make"
-            maxlength={MAX_VEHICLE_MAKE_LENGTH}
-            name="make"
-            onInput={handleVehicleMakeChange}
-            required
-            type="text"
-            value={vehicleRecord.make || ''}
-            charcount
-            uswds
-          />
-        </div>
-        <div className="input-size-5">
-          <VaTextInput
-            className="no-wrap input-size-5"
-            error={(vehicleRecordIsDirty && modelIsDirty && modelError) || null}
-            id="add-model-name"
-            label="Vehicle Model"
-            maxlength={MAX_VEHICLE_MAKE_LENGTH}
-            name="model"
-            onInput={handleVehicleModelChange}
-            required
-            type="text"
-            value={vehicleRecord.model || ''}
-            charcount
-            uswds
-          />
-        </div>
-        <div className="input-size-2">
-          <va-number-input
-            error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
-            hint={null}
-            inputmode="numeric"
-            label="Vehicle year"
-            name="year"
-            id="year"
-            onInput={handleVehicleYearChange}
-            value={vehicleRecord.year || ''}
-            uswds
-          />
-        </div>
-        <div className="input-size-2 no-wrap">
-          <va-number-input
-            error={
-              (vehicleRecordIsDirty &&
-                resaleValueIsDirty &&
-                resaleValueError) ||
-              null
-            }
-            hint={null}
-            inputmode="numeric"
-            label="Estimated value"
-            name="estValue"
-            currency
-            id="estValue"
-            required
-            onInput={handleVehicleEstValueChange}
-            value={vehicleRecord.resaleValue}
-            min={0}
-            max={MAXIMUM_RESALE_VALUE}
-            uswds
-          />
-        </div>
+        <VaTextInput
+          error={(vehicleRecordIsDirty && makeIsDirty && makeError) || null}
+          id="add-make-name"
+          label="Vehicle make"
+          maxlength={MAX_VEHICLE_MAKE_LENGTH}
+          name="make"
+          onInput={handleVehicleMakeChange}
+          required
+          type="text"
+          value={vehicleRecord.make || ''}
+          width="lg"
+          uswds
+        />
+        <VaTextInput
+          error={(vehicleRecordIsDirty && modelIsDirty && modelError) || null}
+          id="add-model-name"
+          label="Vehicle Model"
+          maxlength={MAX_VEHICLE_MAKE_LENGTH}
+          name="model"
+          onInput={handleVehicleModelChange}
+          required
+          type="text"
+          value={vehicleRecord.model || ''}
+          width="lg"
+          uswds
+        />
+        <va-number-input
+          error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
+          hint={null}
+          inputmode="numeric"
+          label="Vehicle year"
+          name="year"
+          id="year"
+          onInput={handleVehicleYearChange}
+          value={vehicleRecord.year || ''}
+          width="md"
+          uswds
+        />
+        <va-number-input
+          error={
+            (vehicleRecordIsDirty && resaleValueIsDirty && resaleValueError) ||
+            null
+          }
+          hint={null}
+          inputmode="numeric"
+          label="Estimated value"
+          name="estValue"
+          currency
+          id="estValue"
+          required
+          onInput={handleVehicleEstValueChange}
+          value={vehicleRecord.resaleValue}
+          min={0}
+          max={MAXIMUM_RESALE_VALUE}
+          width="md"
+          uswds
+        />
         <va-additional-info
           class="vads-u-margin-top--4"
           trigger="Why do I need to provide this information?"
@@ -252,6 +242,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           order to resolve your debt.
         </va-additional-info>
         <va-additional-info
+          class="vads-u-margin-y--2"
           trigger="What if I don’t know the estimated value of car or other vehicle?"
           uswds
         >
