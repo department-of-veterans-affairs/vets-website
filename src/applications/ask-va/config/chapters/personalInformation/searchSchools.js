@@ -1,27 +1,27 @@
-import MedicalFacilitySearch from '../../../components/MedicalFacilitySearch';
+import EducationFacilitySearch from '../../../components/EducationFacilitySearch';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import FormElementTitle from '../../../components/FormElementTitle';
 
-const searchVAMedicalCenterPage = {
+const searchSchoolsPage = {
   uiSchema: {
     'ui:title': FormElementTitle({
-      title: 'Your VA health facility',
+      title: 'School Information',
     }),
     'ui:objectViewField': PageFieldSummary,
-    vaMedicalCenter: {
+    school: {
       'ui:title': 'Search by city, postal code, or use your current location.',
-      'ui:widget': MedicalFacilitySearch,
+      'ui:widget': EducationFacilitySearch,
     },
   },
   schema: {
     type: 'object',
     required: [],
     properties: {
-      vaMedicalCenter: {
+      school: {
         type: 'string',
       },
     },
   },
 };
 
-export default searchVAMedicalCenterPage;
+export default searchSchoolsPage;
