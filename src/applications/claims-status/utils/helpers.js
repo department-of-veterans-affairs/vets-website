@@ -10,6 +10,9 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { SET_UNAUTHORIZED } from '../actions/types';
 import { DATE_FORMATS } from '../constants';
 
+// Adding !! so that we convert this to a boolean
+export const claimAvailable = claim => !!(claim && claim.attributes);
+
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
 // is maintained when converting to an array of keys

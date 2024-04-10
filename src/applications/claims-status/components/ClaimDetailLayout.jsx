@@ -46,7 +46,7 @@ export default function ClaimDetailLayout(props) {
         message="Loading your claim information..."
       />
     );
-  } else if (claim !== null) {
+  } else if (claim && claim.attributes) {
     const claimTitle = `Your ${claimType} claim`;
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};

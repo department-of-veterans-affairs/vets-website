@@ -45,7 +45,7 @@ class DetailsPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim.attributes !== undefined) {
+    if (claim && claim.attributes) {
       const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Details Of ${claimDate} ${claimType} Claim`;

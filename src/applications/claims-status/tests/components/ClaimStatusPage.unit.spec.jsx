@@ -12,6 +12,15 @@ import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
+const props = {
+  claim: {},
+  clearNotification: () => {},
+  lastloading: '',
+  loading: false,
+  message: {},
+  showClaimLettersLink: false,
+};
+
 describe('<ClaimStatusPage>', () => {
   it('should render page with no alerts and a timeline', () => {
     const claim = {
@@ -99,6 +108,32 @@ describe('<ClaimStatusPage>', () => {
           cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
         },
       }));
+
+    it('should render null when there are no claims', () => {
+      const { container, getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} params={params} />,
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Status Of Your Claim | Veterans Affairs',
+      );
+      expect($('.claim-status', container)).to.not.exist;
+      getByText('Claim status is unavailable');
+    });
+
+    it('should render null when claim is null', () => {
+      const { container, getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} claim={null} params={params} />,
+        </Provider>,
+      );
+      expect(document.title).to.equal(
+        'Status Of Your Claim | Veterans Affairs',
+      );
+      expect($('.claim-status', container)).to.not.exist;
+      getByText('Claim status is unavailable');
+    });
 
     context('should render status page without a timeline', () => {
       context(
@@ -429,12 +464,12 @@ describe('<ClaimStatusPage>', () => {
   });
 
   it('should render empty content when loading', () => {
-    const claim = {};
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage loading claim={claim} params={params} />,
+    const { container } = renderWithRouter(
+      <ClaimStatusPage {...props} loading params={params} />,
     );
-    expect(tree.props.children).to.be.null;
+    // expect(document.title).to.equal('Status Of Your Claim | Veterans Affairs');
+    expect($('.claim-status', container)).to.not.exist;
+    expect($('va-loading-indicator', container)).to.exist;
   });
 
   it('should render notification', () => {
