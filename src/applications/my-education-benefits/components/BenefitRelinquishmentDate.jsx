@@ -65,7 +65,6 @@ const BenefitRelinquishmentDate = props => {
     <>
       <DateWidget {...props} onChange={handleChange} value={dateValue} />
       <br />
-      <br />
     </>
   );
 };
