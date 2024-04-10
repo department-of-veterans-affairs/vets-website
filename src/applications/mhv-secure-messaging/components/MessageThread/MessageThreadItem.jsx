@@ -83,6 +83,7 @@ const MessageThreadItem = props => {
   return (
     <VaAccordionItem
       data-dd-privacy="mask" // need to mask entire accordion as the subheader with the sender name cannot masked
+      bordered="true"
       aria-label={accordionAriaLabel}
       className={`older-message ${
         !isSentOrReadOrDraft ? 'accordion-unread' : 'accordion-read'
