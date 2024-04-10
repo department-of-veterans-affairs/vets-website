@@ -7,7 +7,7 @@ export const QUESTION_MAP = Object.freeze({
   DISCHARGE_TYPE: `What's your character of discharge?`,
   INTENTION:
     'Do you want to change your name, discharge date, or something written in the "other remarks" section of your DD214?',
-  COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial',
+  COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
 });
 
 export const SHORT_NAME_MAP = Object.freeze({
@@ -44,16 +44,15 @@ export const RESPONSES = Object.freeze({
   REASON_6: 'My discharge paperwork has another kind of error.',
   REASON_7:
     'My discharge is unjust, and it isn’t related to any of the reasons listed here.',
-  INTENTION_1:
-    "I want to change my name, discharge date, or something written in the “other remarks” section of my DD214. (This isn't common).",
+  INTENTION_1: `Yes, I want to change my name, discharge date, or something written in the "other remarks" section of my DD214. (This isn't common.)`,
   INTENTION_2:
-    'I want to change only my characterization of discharge, re-enlistment code, separation code, and/or narrative reason for discharge.',
+    'No, I want to change only my characterization of discharge, re-enlistment code, separation code, or narrative reason for discharge.',
   COURT_MARTIAL_1:
     'Yes, my discharge was the outcome of a general court-martial.',
   COURT_MARTIAL_2:
     'No, my discharge was administrative or the outcome of a special or summary court-martial.',
   COURT_MARTIAL_3: `I'm not sure.`,
   DISCHARGE_TYPE_1:
-    'My discharge is honorable or general under honorable conditions, and I want to change only my narrative reason for discharge, separation code, or re-enlistment code changed.',
+    'My discharge is honorable or general under honorable conditions. I want to change only my narrative reason for discharge, separation code, or re-enlistment code.',
   DISCHARGE_TYPE_2: `My discharge isn't honorable or under honorable conditions.`,
 });

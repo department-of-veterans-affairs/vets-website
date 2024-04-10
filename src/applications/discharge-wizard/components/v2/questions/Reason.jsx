@@ -17,7 +17,7 @@ const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
   const H1 = QUESTION_MAP[shortName];
   const reason = formResponses[shortName];
   const hint =
-    'Note: If more than one of these descriptions matches your situation, choose the one that started the events that led to your discharge. For example, if you sustained a traumatic brain injury, which led to posttraumatic stress disorder (PTSD), choose number 2';
+    'Note: If more than one of these descriptions matches your situation, choose the one that started the events that led to your discharge. For example, if you sustained a traumatic brain injury, which led to posttraumatic stress disorder (PTSD), choose number 2.';
   const {
     REASON_1,
     REASON_2,

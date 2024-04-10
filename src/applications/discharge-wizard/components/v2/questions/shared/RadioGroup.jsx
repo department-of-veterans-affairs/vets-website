@@ -81,7 +81,6 @@ const RadioGroup = ({
   return (
     <>
       <VaRadio
-        class="vads-u-margin-top--6"
         data-testid={testId}
         form-heading={H1}
         form-heading-level={1}

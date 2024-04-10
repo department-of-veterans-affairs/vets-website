@@ -59,10 +59,10 @@ const CourtMartial = ({
 
 CourtMartial.propTypes = {
   formResponses: PropTypes.object,
-  setCourtMartial: PropTypes.func,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setCourtMartial: PropTypes.func,
   viewedIntroPage: PropTypes.bool,
 };
 
