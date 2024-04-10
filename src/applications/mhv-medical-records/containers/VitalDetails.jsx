@@ -96,7 +96,6 @@ const VitalDetails = props => {
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
