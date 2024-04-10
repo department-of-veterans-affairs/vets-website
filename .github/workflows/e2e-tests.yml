@@ -103,7 +103,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get Mapbox Token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
           env_variable_name: MAPBOX_TOKEN
@@ -302,7 +302,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
