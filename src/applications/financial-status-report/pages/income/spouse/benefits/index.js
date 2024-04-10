@@ -1,4 +1,5 @@
 import React from 'react';
+import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -11,7 +12,7 @@ export const uiSchema = {
   questions: {
     spouseHasBenefits: {
       'ui:title': 'Does your spouse get VA benefits?',
-      'ui:widget': 'yesNo',
+      'ui:webComponentField': YesNoField,
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your spouse’s VA benefits information.',
