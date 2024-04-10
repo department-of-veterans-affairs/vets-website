@@ -5,7 +5,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 
-const SearchItem = ({
+const EducationSearchItem = ({
   facilityData,
   pageURL,
   getData,
@@ -25,19 +25,21 @@ const SearchItem = ({
 
   const facilityInfo = info => {
     const facilityName = `${info.attributes.name}`;
-    const facilityZip = info.attributes.address.physical.zip.split('-')[0];
-    const facilityAddress = `${info.attributes.address.physical.city}, ${
-      info.attributes.address.physical.state
-    } ${facilityZip}`;
+    const facilityAddress = ` ${info.attributes.physicalState} ${
+      info.attributes.physicalZip
+    }`;
     return `${facilityName}
     ${facilityAddress}`;
   };
+
+  const numberOfPages = facilityData?.meta?.count / 10;
+
   return (
     facilityData.data.length > 0 && (
       <>
         <p>
           {`Showing ${facilityData.data.length} results for`}
-          <strong>{`"${searchInput}"`}</strong>{' '}
+          <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
         <p>
           The results are listed from nearest to farthest from your location.
@@ -61,14 +63,16 @@ const SearchItem = ({
             />
           ))}
         </VaRadio>
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={facilityData.meta.pagination.currentPage}
-          pages={5}
-          maxPageListLength={5}
-          showLastPage
-          uswds
-        />
+        {facilityData?.meta.count > 10 && (
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={facilityData.link?.self}
+            pages={numberOfPages > 5 ? 5 : Math.round(numberOfPages)}
+            maxPageListLength={5}
+            showLastPage
+            uswds
+          />
+        )}
       </>
     )
   );
@@ -80,4 +84,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SearchItem);
+export default connect(mapStateToProps)(EducationSearchItem);
