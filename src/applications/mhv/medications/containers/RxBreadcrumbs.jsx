@@ -6,16 +6,14 @@ import { medicationsUrls } from '../util/constants';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
-  const crumbs = useSelector(state => state.rx.breadcrumbs.list);
-  const currentPath = useSelector(state => state.rx.breadcrumbs.location);
-  const allCrumbs = [...crumbs, currentPath];
-  const oneLevelDeepCrumb = allCrumbs?.length - 2;
+  const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
+  const oneLevelDeepCrumb = crumbs?.length - 1;
   return (
     <>
       {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
         !medicationsUrls.MEDICATIONS_REFILL.endsWith(location.pathname) &&
-        allCrumbs.length > 0 &&
-        allCrumbs[0]?.url && (
+        crumbs.length > 0 &&
+        crumbs[0]?.url && (
           <div className="no-print">
             <div
               className="vads-l-row vads-u-padding-y--3"
