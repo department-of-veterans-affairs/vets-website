@@ -101,11 +101,7 @@ const ThreadListItem = props => {
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <Link
-          aria-label={`${
-            unreadMessages ? 'Unread message. Subject:' : 'Message subject:'
-          } ${categoryLabel}: ${subject}, ${formattedDate()}. ${
-            hasAttachment ? ' Has attachment.' : ''
-          }`}
+          aria-describedby="received-date"
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
@@ -141,6 +137,7 @@ const ThreadListItem = props => {
         <div
           className="vads-u-font-weight--normal vads-u-color--gray-medium vads-u-margin-top--0p5"
           data-testid="received-date"
+          id="received-date"
         >
           {formattedDate()}
         </div>
@@ -236,11 +233,7 @@ const ThreadListItem = props => {
         </div>
         <Link
           data-dd-action-name="Link to Message Subject Details"
-          aria-label={`${
-            unreadMessages ? 'Unread message.' : ''
-          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
-            hasAttachment ? ' Has attachment.' : ''
-          }`}
+          aria-describedby="thread-date"
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
@@ -266,7 +259,11 @@ const ThreadListItem = props => {
               alt="Attachment icon"
             />
           )}
-          <span data-testid="thread-date" data-dd-privacy="mask">
+          <span
+            data-testid="thread-date"
+            id="thread-date"
+            data-dd-privacy="mask"
+          >
             {formattedDate()}
           </span>
         </p>
