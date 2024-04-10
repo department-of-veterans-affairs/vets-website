@@ -13,14 +13,13 @@ describe('Secure Messaging Move Message tests', () => {
   it('move message from custom folder to Deleted', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
-    const folderPage = new FolderManagementPage();
     const folderName = mockFoldersResponse.data.at(4).attributes.name;
     const { folderId } = mockFoldersResponse.data.at(4).attributes;
     site.login();
     landingPage.loadInboxMessages();
     landingPage.clickMyFoldersSideBar();
 
-    folderPage.clickAndLoadCustomFolder(
+    FolderManagementPage.clickAndLoadCustomFolder(
       folderName,
       folderId,
       mockCustomFolderResponse,
@@ -29,11 +28,11 @@ describe('Secure Messaging Move Message tests', () => {
 
     landingPage.loadSingleThread(mockCustomMessagesResponse);
 
-    folderPage.selectFolderFromModal();
-    folderPage.moveCustomFolderMessageToDifferentFolder();
+    FolderManagementPage.selectFolderFromModal();
+    FolderManagementPage.moveCustomFolderMessageToDifferentFolder();
 
-    folderPage.verifyMoveMessageSuccessConfirmationMessage();
-    folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
+    FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
+    FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
@@ -42,15 +41,14 @@ describe('Secure Messaging Move Message tests', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
-    const folderPage = new FolderManagementPage();
     site.login();
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
 
-    folderPage.moveInboxFolderMessageToDifferentFolder();
+    FolderManagementPage.moveInboxFolderMessageToDifferentFolder();
 
-    folderPage.verifyMoveMessageSuccessConfirmationMessage();
-    folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
+    FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
+    FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
