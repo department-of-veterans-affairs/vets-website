@@ -94,7 +94,6 @@ const FilterBox = forwardRef((props, ref) => {
           </h3>
           <div className="filter-content">
             <VaSelect
-              uswds={false}
               id="category-dropdown"
               label="Category"
               name="category"
@@ -115,7 +114,6 @@ const FilterBox = forwardRef((props, ref) => {
             </VaSelect>
 
             <VaSelect
-              uswds={false}
               id="date-range-dropdown"
               label="Date range"
               name="dateRange"

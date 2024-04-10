@@ -226,12 +226,6 @@ const SearchForm = props => {
       >
         <h2>{filterLabelHeading}</h2>
         <>
-          {searchTermError && (
-            <div className="error-message" role="alert">
-              <span className="sr-only">Error</span>
-              {searchTermError}
-            </div>
-          )}
           <div className="filter-input-box-container">
             <div className="filter-text-input">
               <va-text-input
@@ -248,6 +242,7 @@ const SearchForm = props => {
                   if (e.key === 'Enter') handleSearch();
                 }}
                 data-dd-privacy="mask"
+                error={searchTermError}
               />
             </div>
           </div>
