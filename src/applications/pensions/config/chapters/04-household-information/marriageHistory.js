@@ -76,7 +76,7 @@ export default {
             required: (...args) => isCurrentMarriage(...args),
           }),
           otherExplanation: {
-            'ui:title': 'Please specify',
+            'ui:title': 'Tell us how you got married',
             'ui:webComponentField': VaTextInputField,
             'ui:required': (form, index) =>
               get(
@@ -102,7 +102,7 @@ export default {
             required: (...args) => !isCurrentMarriage(...args),
           }),
           otherExplanation: {
-            'ui:title': 'Please specify',
+            'ui:title': 'Tell us how the marriage ended',
             'ui:webComponentField': VaTextInputField,
             'ui:required': (form, index) =>
               get(

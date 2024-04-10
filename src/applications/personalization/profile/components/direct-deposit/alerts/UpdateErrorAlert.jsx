@@ -128,7 +128,9 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
   useEffect(
     () => {
       if (saveError) {
-        alertRef.current?.scrollIntoView();
+        alertRef?.current?.scrollIntoView?.();
+        alertRef?.current?.setAttribute?.('tabindex', '-1');
+        alertRef?.current?.focus?.();
       }
     },
     [saveError],
@@ -163,7 +165,7 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
 
   return (
     <va-alert
-      background-only={!title}
+      slim={!title}
       status="error"
       visible="true"
       class={className}

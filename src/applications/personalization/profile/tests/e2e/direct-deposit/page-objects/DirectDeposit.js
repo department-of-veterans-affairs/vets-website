@@ -1,12 +1,12 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
-import { base } from '../../../mocks/endpoints/direct-deposits';
-import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
+import { base } from '../../../../mocks/endpoints/direct-deposits';
+import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
 
 const defaults = {
   user: mockUser,
   directDepositResponse: base,
-  featureToggles: generateFeatureToggles(),
+  featureToggles: null,
 };
 
 class DirectDepositPage {
@@ -16,11 +16,23 @@ class DirectDepositPage {
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
   };
 
+  mockToggles = featureToggles => {
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
+      'getFeatureToggles',
+    );
+  };
+
   setup(opts = defaults) {
     const user = opts.user || defaults.user;
+
     const directDepositResponse =
       opts.directDepositResponse || defaults.directDepositResponse;
-    const featureToggles = opts.featureToggles || defaults.featureToggles;
+
+    const featureToggles =
+      opts.featureToggles ||
+      generateFeatureToggles({
+        profileShowDirectDepositSingleForm: true,
+      });
 
     cy.login(user);
 
@@ -30,14 +42,10 @@ class DirectDepositPage {
       directDepositResponse,
     ).as('getDirectDeposits');
 
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
-      'getFeatureToggles',
-    );
-
-    this.visitPage();
+    this.mockToggles(featureToggles);
   }
 
-  confirmDirectDepositIsAvailable = ({ visitPage = true } = {}) => {
+  confirmDirectDepositInSubnav = ({ visitPage = true } = {}) => {
     // the DD item should exist in the sub nav
     cy.findByRole('navigation', { name: /profile/i }).within(() => {
       cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
@@ -59,9 +67,10 @@ class DirectDepositPage {
     cy.findByText(this.LINK_TEXT).should('not.exist');
   };
 
-  // TODO: update test ID to not be disability specific for unified form
   confirmIneligibleMessageIsDisplayed = () => {
-    cy.findByTestId('disability-header').should('exist');
+    cy.findByText(
+      /Our records show that you don’t receive benefit payments from VA./i,
+    ).should('exist');
   };
 
   checkVerifyMessageIsShowing = () => {
@@ -78,6 +87,13 @@ class DirectDepositPage {
 
   confirmProfileIsBlocked = () => {
     cy.findByTestId('account-blocked-alert').should('exist');
+  };
+
+  confirmPaymentHistoryCard = () => {
+    cy.findByText('VA payment history').should('exist');
+    cy.findByRole('link', { name: /View your payment history/i }).should(
+      'exist',
+    );
   };
 
   confirmRedirectToAccountSecurity = () => {

@@ -498,6 +498,24 @@ class MedicationsListPage {
     );
   };
 
+  verifyMedicationDescriptionDetails = (
+    shape,
+    color,
+    frontImprint,
+    backImprint,
+  ) => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[19].attributes).to.include({
+          shape,
+          color,
+          frontImprint,
+          backImprint,
+        });
+      });
+  };
+
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
     cy.get('[data-testid="download-print-button"]').should('be.enabled');
   };
