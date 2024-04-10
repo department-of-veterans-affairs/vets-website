@@ -133,7 +133,7 @@ export const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
 
-      <div className="sip-wrapper">
+      <div className="sip-wrapper vads-u-margin-bottom--4">
         {showVerifyLink ? (
           <NeedsToVerify pathname={pathname} />
         ) : (
