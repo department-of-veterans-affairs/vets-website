@@ -42,5 +42,10 @@ export const RecordHeading = ({ formData }) => (
 export const WCv3Address = ({ formData }) => (
   <div className="vads-u-padding--2">
     <strong>{formData.wcv3Address.street}</strong>
+    <br />
+    <strong>
+      {formData.wcv3Address.city}, {formData.wcv3Address.state}{' '}
+      {formData.wcv3Address.postalCode}
+    </strong>
   </div>
 );
