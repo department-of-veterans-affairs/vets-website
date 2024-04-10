@@ -10,6 +10,7 @@ import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
 import {
   buildDateFormatter,
+  claimAvailable,
   getClaimType,
   getItemDate,
   getStatusMap,
@@ -180,10 +181,13 @@ class OverviewPage extends React.Component {
 
   getPageContent() {
     const { claim } = this.props;
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
 
-    const { claimPhaseDates } = attributes;
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
+
+    const { claimPhaseDates } = claim.attributes;
 
     return (
       <div className="overview-container">
@@ -201,7 +205,7 @@ class OverviewPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Overview Of ${claimDate} ${claimType} Claim`;
@@ -253,7 +257,7 @@ OverviewPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  message: PropTypes.string,
+  message: PropTypes.object,
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
 };

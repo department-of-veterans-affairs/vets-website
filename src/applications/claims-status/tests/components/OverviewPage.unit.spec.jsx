@@ -10,8 +10,44 @@ import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
+const props = {
+  claim: {},
+  clearNotification: () => {},
+  lastPage: '',
+  loading: false,
+  message: {},
+  params: {},
+  showClaimLettersLink: false,
+};
+
 describe('<OverviewPage>', () => {
   const store = createStore(() => ({}));
+
+  it('should render null when claim empty', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={store}>
+        <OverviewPage {...props} />
+      </Provider>,
+    );
+    expect($('.overview-container', container)).to.not.exist;
+    expect(document.title).to.equal(
+      'Overview Of Your Claim | Veterans Affairs',
+    );
+    getByText('Claim status is unavailable');
+  });
+
+  it('should render null when claim is null', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={store}>
+        <OverviewPage {...props} claim={null} />
+      </Provider>,
+    );
+    expect($('.overview-container', container)).to.not.exist;
+    expect(document.title).to.equal(
+      'Overview Of Your Claim | Veterans Affairs',
+    );
+    getByText('Claim status is unavailable');
+  });
 
   context('when claim is closed', () => {
     const claim = {
