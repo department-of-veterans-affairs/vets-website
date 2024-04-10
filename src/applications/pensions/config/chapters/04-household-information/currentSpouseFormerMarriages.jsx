@@ -92,7 +92,7 @@ export default {
           classNames: 'vads-u-margin-bottom--2',
         }),
         otherExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us how the marriage ended',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'reasonForSeparation',

@@ -3,13 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
-import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
 
 const getData = ({
@@ -93,12 +94,7 @@ const getData = ({
 });
 
 describe('IntroductionPage', () => {
-  afterEach(() => {
-    removeHlrWizardStatus();
-  });
-
   it('should render', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -114,7 +110,6 @@ describe('IntroductionPage', () => {
   });
 
   it('should render start action links', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -125,7 +120,6 @@ describe('IntroductionPage', () => {
   });
 
   it('should render verify identity alert', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -138,7 +132,6 @@ describe('IntroductionPage', () => {
 
   it('should record analytics for form restart', () => {
     global.window.dataLayer = [];
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>

@@ -319,3 +319,37 @@ describe('Vitals list container with no vitals of a type', () => {
     });
   });
 });
+
+describe('Vitals list container first time loading', () => {
+  const initialState = {
+    user,
+    mr: {
+      vitals: { listCurrentAsOf: undefined },
+      alerts: { alertList: [] },
+      refresh: { initialFhirLoad: true },
+    },
+  };
+
+  it('displays the first-time loading indicator when data is stale', () => {
+    const screen = renderWithStoreAndRouter(<Vitals runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    expect(screen.getByTestId('initial-fhir-loading-indicator')).to.exist;
+  });
+
+  it('does not display the first-time loading indicator when data is current', () => {
+    const screen = renderWithStoreAndRouter(<Vitals runningUnitTest />, {
+      initialState: {
+        ...initialState,
+        mr: { ...initialState.mr, vitals: { listCurrentAsOf: new Date() } },
+      },
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    expect(screen.queryByTestId('initial-fhir-loading-indicator')).to.not.exist;
+  });
+});

@@ -70,6 +70,7 @@ const Prescriptions = () => {
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
     false,
   );
+  const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -172,7 +173,7 @@ const Prescriptions = () => {
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
-  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   useEffect(
     () => {
@@ -320,9 +321,12 @@ const Prescriptions = () => {
     () => {
       if (
         !prescriptionsFullList?.length &&
-        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT
+        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT &&
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+        isRetrievingFullList
       ) {
         const getFullList = async () => {
+          setIsRetrievingFullList(false);
           await getPrescriptionSortedList(
             rxListSortingOptions[selectedSortOption].API_ENDPOINT,
             true,
@@ -330,6 +334,7 @@ const Prescriptions = () => {
             .then(response => {
               const list = response.data.map(rx => ({ ...rx.attributes }));
               setPrescriptionsFullList(list);
+              setHasFullListDownloadError(false);
             })
             .catch(() => {
               setHasFullListDownloadError(true);
@@ -375,7 +380,10 @@ const Prescriptions = () => {
           updateLoadingStatus(false, '');
         }
       } else if (
-        prescriptionsFullList?.length &&
+        ((prescriptionsFullList?.length &&
+          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+          (paginatedPrescriptionsList?.length &&
+            pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
         allergiesError &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
@@ -392,6 +400,7 @@ const Prescriptions = () => {
       loadingMessage,
       generatePDF,
       generateTXT,
+      isRetrievingFullList,
     ],
   );
 
@@ -403,6 +412,7 @@ const Prescriptions = () => {
       !allergies ||
       (format === PRINT_FORMAT.PRINT_FULL_LIST && !prescriptionsFullList.length)
     ) {
+      if (!prescriptionsFullList.length) setIsRetrievingFullList(true);
       updateLoadingStatus(true, 'Downloading your file...');
     }
     setPdfTxtGenerateStatus({

@@ -4,6 +4,7 @@ import {
   element,
   func,
   number,
+  oneOf,
   shape,
   string,
 } from 'prop-types';
@@ -127,9 +128,44 @@ export const customPageProps995 = {
   ...data995,
 };
 
-// TODO
 export const data996 = shape({
   ...common,
+  benefitType: string,
+  legacyCount: number,
+  homeless: bool,
+  privacyAgreementAccepted: bool,
+  socOptIn: bool,
+  informalConference: string,
+  areaOfDisagreement: arrayOf(
+    oneOf([
+      shape({
+        ...common.contestedIssues,
+        disagreementOptions: shape({
+          serviceConnection: bool,
+          effectiveDate: bool,
+          evaluation: bool,
+        }),
+        otherEntry: string,
+      }),
+      shape({
+        ...common.additionalIssues,
+        disagreementOptions: shape({
+          serviceConnection: bool,
+          effectiveDate: bool,
+          evaluation: bool,
+        }),
+        otherEntry: string,
+      }),
+    ]),
+  ),
+  informalConferenceRep: shape({
+    firstName: string,
+    lastName: string,
+    phone: string,
+    extension: string,
+    email: string,
+  }),
+  informalConferenceTime: string,
 });
 
 export const customPageProps996 = {
