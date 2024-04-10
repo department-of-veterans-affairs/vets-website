@@ -122,13 +122,13 @@ export const calculateLiquidAssets = formData => {
 };
 
 /**
- * Discresionary income total baseed on total income less expenses
- *  Long form only
+ * Discretionary income total baseed on total income less expenses
+ * Long form only
  * @param {object} formData - all formData
  * @returns {number} Discretionary income
  */
 export const calculateDiscretionaryIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   const expenses = getMonthlyExpensesAPI(formData);
-  return totalMonthlyNetIncome - expenses;
+  return totalMonthlyNetIncome - expenses.calculatedMonthlyExpenses;
 };

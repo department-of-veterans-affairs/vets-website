@@ -64,7 +64,9 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
 
-      const calculatedMonthlyExpenseResponse = { body: 120 };
+      const calculatedMonthlyExpenseResponse = {
+        calculatedTotalMonthlyExpenses: '120',
+      };
 
       cy.intercept(
         'POST',

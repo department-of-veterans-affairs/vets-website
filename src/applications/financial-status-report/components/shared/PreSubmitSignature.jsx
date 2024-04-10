@@ -143,11 +143,11 @@ const PreSubmitSignature = ({
   useEffect(
     () => {
       getMonthlyExpensesAPI(formData)
-        .then(totalMonthlyExpenses => {
+        .then(calculatedMonthlyExpensesResponse => {
           dispatch(
             setData({
               ...formData,
-              totalMonthlyExpenses,
+              calculatedMonthlyExpensesResponse,
             }),
           );
         })

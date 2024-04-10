@@ -71,7 +71,8 @@ export const transform = (formConfig, form) => {
     );
 
     // === Expenses ===
-    const calculatedTotalMonthlyExpenses = form.data.totalMonthlyExpenses;
+    const calculatedTotalMonthlyExpenses =
+      form.data.calculatedMonthlyExpensesResponse.calculatedMonthlyExpenses;
 
     // Extract the values from calculated totals
     const {
