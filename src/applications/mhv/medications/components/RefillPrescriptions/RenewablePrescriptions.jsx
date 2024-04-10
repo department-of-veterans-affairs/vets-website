@@ -7,6 +7,7 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 import { dateFormat } from '../../util/helpers';
+import { medicationsUrls } from '../../util/constants';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
@@ -41,16 +42,16 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       setBreadcrumbs(
         [
           {
-            url: '/my-health/medications/about',
+            url: medicationsUrls.MEDICATIONS_ABOUT,
             label: 'About medications',
           },
           {
-            url: `/my-health/medications`,
+            url: medicationsUrls.MEDICATIONS_URL,
             label: 'Medications',
           },
         ],
         {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
+          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
           label: rx?.prescriptionName,
         },
       ),
@@ -61,19 +62,18 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   return (
     <div>
       <h2 className="vads-u-margin-top--4" data-testid="renew-section-subtitle">
-        If your prescription isn’t ready to refill
+        If you can’t find the prescription you’re looking for
       </h2>
       <p className="vads-u-margin-y--3">
-        You may need to renew it. Here are some recent prescriptions you may
-        need to renew.{' '}
+        You may need to renew it.{' '}
         <va-link
-          href="/my-health/medications/about/accordion-renew-rx"
+          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
           text="Learn how to renew prescriptions"
           data-testid="learn-to-renew-prescriptions-link"
         />
       </p>
       <p>
-        <strong>Note:</strong> If your prescription isn’t in this list, find it
+        <strong>Note:</strong> If your prescription isn’t listed here, find it
         in your medications list.{' '}
         <Link data-testid="medications-page-link" to="/">
           Go to your medications list

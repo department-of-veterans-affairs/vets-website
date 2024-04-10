@@ -9,7 +9,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { Assertions, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -623,6 +623,41 @@ class PatientInboxPage {
       }
     }
   }
+
+  verifyNoMatchFilterFocusAndText = () => {
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE)
+      .last()
+      .should('be.focus');
+    cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
+      .should('be.visible')
+      .and('have.text', Assertions.NO_MATCHES_SEARCH);
+  };
+
+  verifyFilterTextHighLightedInSearch = () => {
+    cy.get(Locators.ALERTS.HIGHLIGHTED).should(
+      'have.class',
+      'keyword-highlight',
+    );
+  };
+
+  verifyFilterMessageHeadingText = (text = 'Filter messages in Inbox') => {
+    cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)
+      .should('be.visible')
+      .and('contain.text', `${text}`);
+  };
+
+  verifyAddFilterButton = (text = 'Add filters') => {
+    cy.get(Locators.BUTTONS.ADD_FILTER_BUTTON).should(
+      'contain.text',
+      `${text}`,
+    );
+  };
+
+  verifyNotForPrintHeaderText = (text = 'Messages in this conversation') => {
+    cy.get(Locators.FIELDS.NOT_FOR_PRINT_HEADER)
+      .should('be.visible')
+      .and('contain.text', text);
+  };
 }
 
 export default PatientInboxPage;

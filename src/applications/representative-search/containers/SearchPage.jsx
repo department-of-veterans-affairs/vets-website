@@ -32,6 +32,7 @@ import {
   geocodeUserAddress,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
@@ -351,11 +352,6 @@ const SearchPage = props => {
       <div className="row search-section">
         <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
-
-          {!environment.isProduction() && (
-            <div data-widget-type="representative-status" />
-          )}
-
           <p>
             An accredited attorney, claims agent, or Veterans Service Officer
             (VSO) can help you file a claim or request a decision review. Use
@@ -368,6 +364,17 @@ const SearchPage = props => {
             to help you.
           </p>
         </div>
+
+        {!environment.isProduction() && (
+          <div>
+            <h2>Check your current accredited representative</h2>
+            <p>
+              Va doesn’t automatically assign you an accredited representative.
+              But you may have appointed one in the past.{' '}
+            </p>
+            <div data-widget-type="representative-status" />
+          </div>
+        )}
 
         <SearchControls
           geolocateUser={props.geolocateUser}
@@ -430,6 +437,7 @@ const SearchPage = props => {
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
           initializeRepresentativeReport={props.initializeRepresentativeReport}
+          cancelRepresentativeReport={props.cancelRepresentativeReport}
           reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
@@ -504,6 +512,7 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
+  cancelRepresentativeReport: PropTypes.func,
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
@@ -593,6 +602,7 @@ const mapDispatchToProps = {
   clearSearchText,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };

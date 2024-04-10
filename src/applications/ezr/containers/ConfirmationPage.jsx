@@ -48,10 +48,10 @@ const ConfirmationPage = ({ form, profile }) => {
           my military service history?
         </h2>
         <p>
-          Yes. If you answered questions about your military service histroy and
+          Yes. If you answered questions about your military service history and
           may have had exposure to any toxins or other hazards while you were
-          deployed or during active duty training or service, you can aslo send
-          us a written staement with more information by mail.
+          deployed or during active duty training or service, you can also send
+          us a written statement with more information by mail.
         </p>
         <p>
           It’s your choice whether you want to submit a written statement. We’ll

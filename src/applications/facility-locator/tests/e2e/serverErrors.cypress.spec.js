@@ -14,12 +14,17 @@ describe('Facility Locator error handling', () => {
 
   it('should show an error if the API returns a non-200 response', () => {
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select('VA health');
-    cy.get('#service-type-dropdown').select('Primary care');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('.service-type-dropdown-container')
+      .find('select')
+      .select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
-    cy.get('h4.usa-alert-heading').contains(
+    cy.get('h2.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
     cy.get('#search-result-emergency-care-info').should('not.exist');
@@ -38,11 +43,14 @@ describe('Facility Locator error handling', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select('Emergency care');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
-    cy.get('h4.usa-alert-heading').contains(
+    cy.get('h2.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
     cy.get('#search-result-emergency-care-info')

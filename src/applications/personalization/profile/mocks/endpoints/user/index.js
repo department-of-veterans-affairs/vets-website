@@ -313,7 +313,7 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
+          vaPatient: true,
           mhvAccountState: 'NONE',
         },
         veteranStatus: {

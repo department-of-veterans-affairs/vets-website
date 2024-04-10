@@ -19,7 +19,7 @@ export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
 
 // Takes a format string and returns a function that formats the given date
 // `date` must be in ISO format ex. 2020-01-28
-export const buildDateFormatter = formatString => {
+export const buildDateFormatter = (formatString = 'MMMM dd, yyyy') => {
   return date => {
     const parsedDate = parseISO(date);
 

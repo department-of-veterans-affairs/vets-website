@@ -13,12 +13,16 @@ import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeter
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
-import vaEmployeePage from '../chapters/personalInformation/vaEmployee';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourPhoneAndEmailPage from '../chapters/personalInformation/yourPhoneAndEmail';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
+import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
+import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
+import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
+import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
 
@@ -71,21 +75,40 @@ const ch3Pages = {
     uiSchema: whoQuestionAboutPage.uiSchema,
     schema: whoQuestionAboutPage.schema,
   },
-  vaEmployee: {
-    title: CHAPTER_3.VA_EMPLOYEE.TITLE,
-    uiSchema: vaEmployeePage.uiSchema,
-    schema: vaEmployeePage.schema,
-  },
   aboutYourself: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
   },
   searchVAMedicalCenter: {
-    path: CHAPTER_3.VA_MED_CENTER.PATH,
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
+  },
+  searchSchools: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: searchSchoolsPage.uiSchema,
+    schema: searchSchoolsPage.schema,
+  },
+  schoolStOrResidency: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolStOrResidencyPage.uiSchema,
+    schema: schoolStOrResidencyPage.schema,
+  },
+  stateOfSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOfSchoolPage.uiSchema,
+    schema: stateOfSchoolPage.schema,
+  },
+  stateOrFacility: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOrFacilityPage.uiSchema,
+    schema: stateOrFacilityPage.schema,
+  },
+  useThisSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: useThisSchoolPage.uiSchema,
+    schema: useThisSchoolPage.schema,
   },
   yourPhoneAndEmail: {
     title: CHAPTER_3.PHONE_EMAIL.TITLE,
@@ -161,9 +184,13 @@ export const flowPages = (obj, list, path) => {
 
 // Form flows
 const myOwnBenVet = [
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
+  'searchSchools',
+  'schoolStOrResidency',
+  'stateOrFacility',
+  'stateOfSchool',
+  'useThisSchool',
   'yourPhoneAndEmail',
   'howToContact',
   'yourCountry',
@@ -183,7 +210,6 @@ const myOwnBenFam = [
   'veteranDeceased',
   'dateOfDeath',
   'veteransAddressZip',
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourPhoneAndEmail',
@@ -199,7 +225,6 @@ export const myOwnBenFamPages = flowPages(
 );
 
 const someoneElseBenVet = [
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -229,7 +254,6 @@ const someoneElseBenFam = [
   'aboutYourRelationshipToFamilyMember',
   'yourPhoneAndEmail',
   'searchVAMedicalCenter',
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -261,7 +285,6 @@ const someoneElseBen3rdParty = [
   'dateOfDeath',
   'veteransAddressZip',
   'searchVAMedicalCenter',
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -282,7 +305,6 @@ const someoneElseBen3rdPartyEducation = [
   'dateOfDeath',
   'veteransAddressZip',
   'searchVAMedicalCenter',
-  'vaEmployee',
   'aboutYourself',
   'yourPhoneAndEmail',
   'howToContact',
@@ -297,7 +319,6 @@ export const someoneElseBen3rdPartyEducationPages = flowPages(
 );
 
 const generalQuestion = [
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourPhoneAndEmail',
