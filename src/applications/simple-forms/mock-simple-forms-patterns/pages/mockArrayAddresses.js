@@ -3,7 +3,7 @@ import {
   addressUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { WCv3Address } from '../components/viewElements';
+import { ArrayAddress } from '../components/viewElements';
 
 /** @type {PageSchema} */
 export default {
@@ -12,13 +12,13 @@ export default {
     addresses: {
       'ui:options': {
         itemName: 'Address',
-        viewField: WCv3Address,
+        viewField: ArrayAddress,
         customTitle: ' ',
         useDlWrap: true,
         keepInPageOnReview: true,
       },
       items: {
-        wcv3Address: addressUI(),
+        arrayAddress: addressUI(),
       },
     },
   },
@@ -29,9 +29,9 @@ export default {
         type: 'array',
         items: {
           type: 'object',
-          required: ['wcv3Address'],
+          required: ['arrayAddress'],
           properties: {
-            wcv3Address: addressSchema(),
+            arrayAddress: addressSchema(),
           },
         },
       },

@@ -66,9 +66,6 @@ class IntroductionPage extends React.Component {
               <Link to="/checkbox-group">Checkbox group</Link>
             </li>
             <li>
-              <Link to="/address-array">Address Array</Link>
-            </li>
-            <li>
               <Link to="/mock-custom-page">CustomPage</Link>
             </li>
             <li>
