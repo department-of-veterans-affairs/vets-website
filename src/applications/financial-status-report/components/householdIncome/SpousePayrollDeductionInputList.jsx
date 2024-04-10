@@ -174,10 +174,7 @@ const SpousePayrollDeductionInputList = props => {
           </p>
         </legend>
         {selectedDeductions?.map((deduction, key) => (
-          <div
-            key={deduction.name + key}
-            className="vads-u-margin-y--2 input-size-3"
-          >
+          <div key={deduction.name + key} className="vads-u-margin-y--2">
             <VaNumberInput
               label={deduction.name}
               name={deduction.name}
@@ -194,6 +191,7 @@ const SpousePayrollDeductionInputList = props => {
                   ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
+              width="md"
               uswds
             />
           </div>

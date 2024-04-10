@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordAnalyticsEvent from '~/platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
-export const PaymentHistoryCard = ({
-  recordEvent = recordAnalyticsEvent,
-} = {}) => {
+export const PaymentHistoryCard = ({ recordEventImpl }) => {
   const tableData = [
     {
       value: (
@@ -19,7 +17,7 @@ export const PaymentHistoryCard = ({
           <a
             href="/va-payment-history/payments/"
             onClick={() =>
-              recordEvent({
+              recordEventImpl({
                 event: 'profile-navigation',
                 'profile-action': 'view-link',
                 'profile-section': 'view-payment-history',
@@ -45,5 +43,9 @@ export const PaymentHistoryCard = ({
 };
 
 PaymentHistoryCard.propTypes = {
-  recordEvent: PropTypes.func,
+  recordEventImpl: PropTypes.func,
+};
+
+PaymentHistoryCard.defaultProps = {
+  recordEventImpl: recordEvent,
 };

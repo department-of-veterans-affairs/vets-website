@@ -1,17 +1,15 @@
 import { useEffect } from 'react';
+import { formatDateShort } from '../../utilities/date';
 
-const usePrintTitle = (
-  baseTitle,
-  userDetails,
-  dob,
-  dateFormat,
-  updatePageTitle,
-) => {
+const usePrintTitle = (baseTitle, userDetails, dob, updatePageTitle) => {
   useEffect(
     () => {
       const { first, last, suffix } = userDetails;
-      const name = `${first} ${last} ${suffix}`.trim();
-      const pageTitle = `${baseTitle} | ${name} | ${dateFormat(new Date(dob))}`;
+      const name = [first, last, suffix]
+        .filter(part => part !== undefined && part !== null)
+        .join(' ')
+        .trim();
+      const pageTitle = `${name} | ${formatDateShort(new Date(dob))}`;
 
       const beforePrintHandler = () => {
         updatePageTitle(pageTitle);
@@ -29,7 +27,7 @@ const usePrintTitle = (
         window.removeEventListener('afterprint', afterPrintHandler);
       };
     },
-    [baseTitle, userDetails, dob, dateFormat, updatePageTitle],
+    [baseTitle, userDetails, dob, updatePageTitle],
   );
 };
 

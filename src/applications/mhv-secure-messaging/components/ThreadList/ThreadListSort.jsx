@@ -23,21 +23,13 @@ const ThreadListSort = props => {
 
   return (
     <div
-      className="thread-list-sort vads-u-display--flex"
+      className="small-screen:vads-u-display--flex vads-u-align-items--flex-end"
       data-testid="thread-list-sort"
     >
       <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
-        uswds={false}
         id="sort-order-dropdown"
         data-dd-action-name="Sort Order Dropdown"
-        className="
-          small-screen:vads-u-margin-right--1
-          vads-u-width--full
-          small-screen:vads-u-flex--1
-          vads-u-margin-bottom--1
-          small-screen:vads-u-margin-bottom--0
-          "
         label={SORT_CONVERSATIONS_LABEL}
         name="sort-order"
         value={sortOrder}
@@ -96,9 +88,8 @@ const ThreadListSort = props => {
       </VaSelect>
 
       <va-button
-        type="button"
+        class="small-screen:vads-u-margin-left--1 xsmall-screen:vads-u-display--block xsmall-screen:vads-u-margin-top--1p5"
         text="Sort"
-        label="Sort"
         data-testid="sort-button"
         data-dd-action-name="Sort Button"
         onClick={handleSortButtonClick}
