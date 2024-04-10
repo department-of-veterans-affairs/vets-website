@@ -8,7 +8,7 @@ import {
 } from '../../../constants/question-data-map';
 import RadioGroup from './shared/RadioGroup';
 import { updateReason } from '../../../actions';
-import { pageSetup } from '../../../../pact-act/utilities/page-setup';
+import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
 const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
