@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { resetStoredSubTask } from 'platform/forms/sub-task';
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import ConfirmationDecisionReviews from '../../shared/components/ConfirmationDecisionReviews';

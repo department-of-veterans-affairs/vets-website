@@ -4,11 +4,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '~/platform/forms-system/src/js/utilities/ui';
 import SubTask, {
   setStoredSubTask,
   resetStoredSubTask,
-} from 'platform/forms/sub-task';
+} from '~/platform/forms/sub-task';
 
 import SubTaskContainer from '../../subtask/SubTaskContainer';
 import pages from '../../subtask/pages';
@@ -34,7 +34,7 @@ const mockStore = ({ data = {} } = {}) => {
   };
 };
 
-describe('the Supplemental Claims Sub-task', () => {
+describe('the HLR Sub-task', () => {
   after(() => {
     resetStoredSubTask();
   });
@@ -113,7 +113,7 @@ describe('the Supplemental Claims Sub-task', () => {
       event: 'howToWizard-formChange',
       'form-field-type': 'form-radio-buttons',
       'form-field-label':
-        'What type of claim are you filing a Supplemental Claim for?',
+        'What type of claim are you requesting a Higher-Level Review?',
       'form-field-value': 'compensation',
     });
 
@@ -139,7 +139,7 @@ describe('the Supplemental Claims Sub-task', () => {
     fireEvent.click($('va-button[continue]', container));
     expect($('va-button[back]', container)).to.exist;
 
-    fireEvent.click($('a[href*="find-address"]', container));
+    fireEvent.click($('a[href*="file-by-mail-in-person"]', container));
 
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({

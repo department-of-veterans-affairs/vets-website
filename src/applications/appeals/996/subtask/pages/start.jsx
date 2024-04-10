@@ -5,14 +5,14 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 const content = {
-  groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
+  groupLabel: 'What type of claim are you requesting a Higher-Level Review?',
   errorMessage: 'You must choose a claim type.',
 };
 
@@ -23,7 +23,7 @@ const options = [
   },
   {
     value: pageNames.other,
-    label: 'Another type of claim (not a disability claim)',
+    label: 'A claim other than disability compensation',
   },
 ];
 
@@ -57,8 +57,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
       recordEvent({
         event: 'howToWizard-formChange',
         'form-field-type': 'form-radio-buttons',
-        'form-field-label':
-          'What type of claim are you filing a Supplemental Claim for?',
+        'form-field-label': content.groupLabel,
         'form-field-value': value,
       });
     },
@@ -66,27 +65,19 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <h1 className="vads-u-margin-bottom--0">Request a Higher-Level Review</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
-        VA Form 20-0995
+        VA Form 20-0996 (Higher-Level Review)
       </div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Is this the form I need?
       </h2>
       <p>
-        Use this Supplemental Claim form (VA 20-0995) if you disagree with our
-        decision on your claim and you meet at least 1 of these requirements:
+        Use this form if you disagree with VA’s decision on your claim and want
+        to request that a senior reviewer take a new look at your case and the
+        evidence you provided. You can’t submit any new evidence with a
+        Higher-Level Review.
       </p>
-      <ul>
-        <li>
-          You have new and relevant evidence to submit, <strong>or</strong>
-        </li>
-        <li>
-          You would like VA to review your claim based on a new law (such as the{' '}
-          <a href="/pact">PACT Act</a>
-          ).
-        </li>
-      </ul>
       <va-additional-info
         trigger="What are other decision review options?"
         uswds
@@ -117,7 +108,6 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
             value={value}
             label={label}
             checked={value === data.benefitType}
-            uswds
           />
         ))}
       </VaRadio>
