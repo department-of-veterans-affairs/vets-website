@@ -84,7 +84,6 @@ const AllergyDetails = props => {
     pageTitles.ALLERGIES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
