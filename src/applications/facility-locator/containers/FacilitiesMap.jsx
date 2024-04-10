@@ -346,7 +346,7 @@ const FacilitiesMap = props => {
     <>
       <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
       <p className="sr-only" id="map-instructions" aria-live="assertive" />
-      <map
+      <div
         id={mapboxGlContainer}
         role="application"
         aria-label="Find VA locations on an interactive map"
@@ -362,7 +362,7 @@ const FacilitiesMap = props => {
             query={props.currentQuery}
           />
         )}
-      </map>
+      </div>
     </>
   );
 
