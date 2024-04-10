@@ -158,8 +158,9 @@ const responses = {
   'PUT /v0/profile/direct_deposits': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(
-      () => res.status(200).json(mockDisabilityCompensations.updates.success),
-      // () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      // () => res.status(500).json(error500),
+      // () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
       secondsOfDelay,
     );
   },

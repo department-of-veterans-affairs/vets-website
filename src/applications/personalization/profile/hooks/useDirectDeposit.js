@@ -102,7 +102,11 @@ export const useDirectDeposit = () => {
   const onFormSubmit = useCallback(
     () => {
       const payload = {
-        paymentAccount: formData,
+        paymentAccount: {
+          accountType: formData.accountType,
+          accountNumber: formData.accountNumber,
+          routingNumber: formData.routingNumber,
+        },
         controlInformation,
       };
       dispatch(saveDirectDeposit(payload));

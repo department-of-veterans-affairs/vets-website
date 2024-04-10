@@ -96,7 +96,6 @@ const VitalDetails = props => {
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
@@ -118,6 +117,7 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
+        focusElement(document.querySelector('h2'));
         paginatedVitals.current = paginateData(records);
         setCurrentVitals(paginatedVitals.current[currentPage - 1]);
       }

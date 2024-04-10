@@ -143,12 +143,12 @@ export const AccountInfoView = ({
 };
 
 AccountInfoView.propTypes = {
+  showUpdateSuccess: PropTypes.bool.isRequired,
   paymentAccount: PropTypes.shape({
     name: PropTypes.string,
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
-  }).isRequired,
-  showUpdateSuccess: PropTypes.bool.isRequired,
+  }),
   recordEventImpl: PropTypes.func,
 };
 
