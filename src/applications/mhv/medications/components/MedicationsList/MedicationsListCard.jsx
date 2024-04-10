@@ -32,26 +32,18 @@ const MedicationsListCard = ({ rx }) => {
   };
   const handleLinkClick = () => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: medicationsUrls.MEDICATIONS_ABOUT,
-            label: 'About medications',
-          },
-          {
-            url: `${
-              medicationsUrls.MEDICATIONS_URL
-            }/?page=${pagination?.currentPage || 1}`,
-            label: 'Medications',
-          },
-        ],
+      setBreadcrumbs([
         {
-          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
-          label:
-            rx?.prescriptionName ||
-            (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),
+          url: medicationsUrls.MEDICATIONS_ABOUT,
+          label: 'About medications',
         },
-      ),
+        {
+          url: `${
+            medicationsUrls.MEDICATIONS_URL
+          }/?page=${pagination?.currentPage || 1}`,
+          label: 'Medications',
+        },
+      ]),
     );
     dispatch(setPrescriptionDetails(rx));
   };

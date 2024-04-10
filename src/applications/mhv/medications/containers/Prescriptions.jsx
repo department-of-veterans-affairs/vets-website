@@ -121,18 +121,12 @@ const Prescriptions = () => {
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: medicationsUrls.MEDICATIONS_ABOUT,
-              label: 'About medications',
-            },
-          ],
+        setBreadcrumbs([
           {
-            url: `${medicationsUrls.MEDICATIONS_URL}/?page=${page}`,
-            label: 'Medications',
+            url: medicationsUrls.MEDICATIONS_ABOUT,
+            label: 'About medications',
           },
-        ),
+        ]),
       );
     },
     [dispatch, page],

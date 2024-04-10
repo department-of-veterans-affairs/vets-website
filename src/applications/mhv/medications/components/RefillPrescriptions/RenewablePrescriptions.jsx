@@ -39,22 +39,16 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Functions
   const onRxLinkClick = rx => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: medicationsUrls.MEDICATIONS_ABOUT,
-            label: 'About medications',
-          },
-          {
-            url: medicationsUrls.MEDICATIONS_URL,
-            label: 'Medications',
-          },
-        ],
+      setBreadcrumbs([
         {
-          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
-          label: rx?.prescriptionName,
+          url: medicationsUrls.MEDICATIONS_ABOUT,
+          label: 'About medications',
         },
-      ),
+        {
+          url: medicationsUrls.MEDICATIONS_URL,
+          label: 'Medications',
+        },
+      ]),
     );
     dispatch(setPrescriptionDetails(rx));
   };

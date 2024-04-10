@@ -115,18 +115,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         });
       }
       dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: `${medicationsUrls.MEDICATIONS_URL}/1`,
-              label: 'Medications',
-            },
-          ],
+        setBreadcrumbs([
           {
-            url: `${medicationsUrls.MEDICATIONS_REFILL}`,
-            label: 'Refill',
+            url: `${medicationsUrls.MEDICATIONS_URL}/1`,
+            label: 'Medications',
           },
-        ),
+        ]),
       );
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },

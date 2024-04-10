@@ -77,24 +77,16 @@ const PrescriptionDetails = () => {
   useEffect(() => {
     if (crumbs.length === 0 && prescription) {
       dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: medicationsUrls.MEDICATIONS_ABOUT,
-              label: 'About medications',
-            },
-            {
-              url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
-              label: 'Medications',
-            },
-          ],
+        setBreadcrumbs([
           {
-            url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${
-              prescription.prescriptionId
-            }`,
-            label: prescriptionHeader,
+            url: medicationsUrls.MEDICATIONS_ABOUT,
+            label: 'About medications',
           },
-        ),
+          {
+            url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
+            label: 'Medications',
+          },
+        ]),
       );
     }
   });
