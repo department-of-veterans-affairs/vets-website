@@ -97,7 +97,6 @@ const ConditionDetails = props => {
     pageTitles.HEALTH_CONDITIONS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
