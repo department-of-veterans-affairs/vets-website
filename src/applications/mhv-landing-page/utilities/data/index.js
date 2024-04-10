@@ -235,7 +235,7 @@ const resolveLandingPageLinks = (
         text: 'VA’s Whole Health living',
       },
       {
-        href: mhvUrl(false, 'ss20200320-va-video-connect'),
+        href: mhvUrl(authdWithSSOe, 'ss20200320-va-video-connect'),
         text: 'How to use VA Video Connect',
       },
     ],
@@ -248,19 +248,22 @@ const resolveLandingPageLinks = (
       {
         text: 'Try Messages on VA.gov',
         href: null,
-        oldHref: mhvUrl(false, 'ss20231205-try-messages-va'),
+        oldHref: mhvUrl(authdWithSSOe, 'ss20231205-try-messages-va'),
         toggle: null,
       },
       {
         text: 'A Better Night’s Sleep',
         href: null,
-        oldHref: mhvUrl(false, 'ss20220516-tips-to-sleep-better'),
+        oldHref: mhvUrl(authdWithSSOe, 'ss20220516-tips-to-sleep-better'),
         toggle: null,
       },
       {
         text: 'Take Charge with the DASH Diet',
         href: null,
-        oldHref: mhvUrl(false, 'ss20210712-lower-blood-pressure-dash-diet'),
+        oldHref: mhvUrl(
+          authdWithSSOe,
+          'ss20210712-lower-blood-pressure-dash-diet',
+        ),
         toggle: null,
       },
     ],
