@@ -3,6 +3,8 @@ import {
   txtLineDotted,
 } from '@department-of-veterans-affairs/mhv/exports';
 
+import { loincCodes } from '../constants';
+
 /**
  * Helper function to parse consolidated downloads data for txt files.
  *
@@ -131,7 +133,7 @@ ${records
       .map(
         record =>
           `${
-            record.type === '11506-3'
+            record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE
               ? `
 ${record.name}
 ${txtLineDotted}
