@@ -1,4 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { cloneDeep } from 'lodash';
 
 import {
   ssnOrVaFileNumberSchema,
@@ -22,8 +23,13 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 // import mockdata from '../tests/fixtures/data/test-data.json';
+
+const veteranFullNameUI = cloneDeep(fullNameUI());
+
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -31,6 +37,7 @@ const formConfig = {
   urlPrefix: '/',
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  footerContent: GetFormHelp,
   // submit: () =>
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
@@ -77,12 +84,12 @@ const formConfig = {
               'Name and date of birth',
               'We use this information to verify other details.',
             ),
-            fullName: fullNameUI(),
+            fullName: veteranFullNameUI,
             veteranDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
-            required: ['fullName', 'veteranDOB'],
+            required: ['fullNameUI.first', 'fullNameUI.last', 'veteranDOB'],
             properties: {
               titleSchema,
               fullName: fullNameSchema,
@@ -117,14 +124,14 @@ const formConfig = {
       },
     },
     physicalAddress: {
-      title: 'Physical Address',
+      title: 'Home Address',
       pages: {
         page3: {
           path: 'home-address',
-          title: 'Physical Address',
+          title: 'Home Address',
           uiSchema: {
             ...titleUI(
-              'Physical Address',
+              'Home Address',
               'This is your current location, outside the United States.',
             ),
             physicalAddress: addressUI({
@@ -148,6 +155,11 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    mailingAddress: {
+      title: 'Mailing Address',
+      pages: {
         page4: {
           path: 'mailing-address',
           title: 'Mailing address',
