@@ -3,6 +3,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { applicantWording } from '../../utilities';
 
 export function ApplicantAddressCopyPage({
@@ -46,21 +47,24 @@ export function ApplicantAddressCopyPage({
   // applicants so we can display in <select> down below
   function getSelectOptions() {
     const allAddresses = [];
-    if (data.certifierAddress?.country && data.certifierName)
+    if (data.certifierAddress?.street && data.certifierName)
       allAddresses.push({
         originatorName: fullName(data.certifierName),
         originatorAddress: data.certifierAddress,
+        displayText: data.certifierAddress.street,
       });
-    if (data.sponsorAddress?.country && data.veteransFullName)
+    if (data.sponsorAddress?.street && data.veteransFullName)
       allAddresses.push({
         originatorName: fullName(data.veteransFullName),
         originatorAddress: data.sponsorAddress,
+        displayText: data.sponsorAddress.street,
       });
 
     data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
       allAddresses.push({
         originatorName: fullName(app.applicantName),
         originatorAddress: app.applicantAddress,
+        displayText: app.applicantAddress?.street,
       }),
     );
     return allAddresses;
@@ -115,6 +119,15 @@ export function ApplicantAddressCopyPage({
 
   useEffect(
     () => {
+      const shadowSelect = $('va-select')?.shadowRoot;
+      if (shadowSelect) {
+        /* This adds padding to the .usa-select class inside the shadow dom,
+        which prevents long <option> text from overlapping the expansion arrow
+        on the right side of the <select>. (Needed for accessibility audit) */
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync('.usa-select {padding-right: 3rem}');
+        shadowSelect.adoptedStyleSheets.push(sheet);
+      }
       if (dirty) handlers.validate();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,12 +160,10 @@ export function ApplicantAddressCopyPage({
           label={selectWording}
           name="shared-address-select"
         >
-          <option value="not-shared">
-            No, {curAppFullName} has a different address
-          </option>
+          <option value="not-shared">No, use a new address</option>
           {getSelectOptions().map(el => (
             <option key={el.originatorName} value={JSON.stringify(el)}>
-              Yes, {curAppFullName} has the same address as {el.originatorName}
+              Use {el.displayText}
             </option>
           ))}
         </VaSelect>

@@ -3,10 +3,11 @@ import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
-import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
+import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -26,21 +27,6 @@ class MedicationsListPage {
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
-  };
-
-  clickGotoMedicationsLinkforEmptyMedicationsList = () => {
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      emptyPrescriptionsList,
-    );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
-      emptyPrescriptionsList,
-    );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
   verifyTextInsideDropDownOnListPage = () => {
@@ -66,7 +52,7 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find('[href="/my-health/medications/about/accordion-renew-rx"]')
+      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}"]`)
       .first()
       .click({ waitForAnimations: true });
   };
@@ -488,6 +474,39 @@ class MedicationsListPage {
       'have.text',
       'Medications',
     );
+  };
+
+  verifyAboutMedicationsBreadcrumbTextOnListPage = () => {
+    cy.get('[href="/my-health/medications/about"]').should(
+      'contain',
+      'About medications',
+    );
+  };
+
+  verifyMedicationDescriptionDetails = (
+    shape,
+    color,
+    frontImprint,
+    backImprint,
+  ) => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[19].attributes).to.include({
+          shape,
+          color,
+          frontImprint,
+          backImprint,
+        });
+      });
+  };
+
+  verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('be.enabled');
+  };
+
+  verifyPrintAllMedicationsFromDropDownOnListPage = () => {
+    cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
   };
 }
 export default MedicationsListPage;

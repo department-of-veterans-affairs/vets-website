@@ -6,7 +6,6 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('remove folder error modal', () => {
-  const folderPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const folderName =
@@ -27,7 +26,7 @@ describe('remove folder error modal', () => {
       folderId,
       folderName,
     );
-    folderPage.deleteFolderButton().click();
+    FolderManagementPage.deleteFolderButton().click();
 
     cy.get(Locators.FOLDERS.NOT_EMP_FOLDER).should(
       'include.text',

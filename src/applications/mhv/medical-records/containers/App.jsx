@@ -250,7 +250,7 @@ const App = ({ children }) => {
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4" />
+                    <div className="vads-u-margin-right--4 no-print" />
                   </>
                 )}
                 <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">

@@ -42,6 +42,8 @@ export function fetchDirectDeposit({
 } = fetchDirectDepositArgs) {
   return async dispatch => {
     dispatch({ type: DIRECT_DEPOSIT_FETCH_STARTED });
+    dispatch({ type: DIRECT_DEPOSIT_LOAD_ERROR_CLEARED });
+    dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
 
     recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
@@ -50,7 +52,7 @@ export function fetchDirectDeposit({
 
     const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT);
 
-    if (response.error) {
+    if (response.error || response.errors) {
       recordDirectDepositEvent({
         endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.FAILED,
@@ -75,6 +77,101 @@ export function fetchDirectDeposit({
         response,
       });
     }
+  };
+}
+
+// action creator to save direct deposit information
+export function saveDirectDeposit(
+  data,
+  {
+    captureError: captureDirectDepositError,
+    recordApiEvent: recordDirectDepositEvent,
+  } = fetchDirectDepositArgs,
+) {
+  return async dispatch => {
+    dispatch({ type: DIRECT_DEPOSIT_SAVE_STARTED });
+
+    recordDirectDepositEvent({
+      endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+      status: API_STATUS.STARTED,
+    });
+
+    const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    // for client side errors
+    // check if response is an instance of an error TypeError or any other error
+    if (response instanceof Error) {
+      const event = {
+        method: 'PUT',
+        endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+        status: API_STATUS.FAILED,
+        extraProperties: {
+          'error-key':
+            response?.message || 'unknown-error error instance message',
+        },
+      };
+
+      recordDirectDepositEvent(event);
+
+      captureDirectDepositError(response.message, {
+        eventName: 'put-direct-deposit-failed',
+      });
+
+      dispatch({
+        type: DIRECT_DEPOSIT_SAVE_FAILED,
+        response,
+      });
+
+      return;
+    }
+
+    // error handling for the response if it is a server side error
+    if (response.error || response.errors) {
+      const errorStatus =
+        response.errors?.[0]?.status || response?.status || '';
+      const errorCodeOrMessage =
+        response.errors?.[0]?.code || response?.error || 'unknown-error';
+      const event = {
+        endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+        status: API_STATUS.FAILED,
+        method: 'PUT',
+        extraProperties: {
+          'error-key': `${errorCodeOrMessage} ${errorStatus}`,
+        },
+      };
+
+      recordDirectDepositEvent(event);
+
+      captureDirectDepositError(response, {
+        eventName: 'put-direct-deposit-failed',
+      });
+
+      dispatch({
+        type: DIRECT_DEPOSIT_SAVE_FAILED,
+        response,
+      });
+
+      return;
+    }
+
+    //  record the successful ga event and dispatch the success action
+    recordDirectDepositEvent({
+      endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
+      status: API_STATUS.SUCCESSFUL,
+    });
+
+    dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
+
+    dispatch({
+      type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+      response,
+    });
   };
 }
 

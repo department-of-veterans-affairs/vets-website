@@ -17,8 +17,8 @@ function generateOptions({ data, pagePerItemIndex }) {
     false,
   );
 
-  const useFirstPerson =
-    data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
+  // const useFirstPerson =
+  //   data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
 
   const options = [
     {
@@ -32,7 +32,7 @@ function generateOptions({ data, pagePerItemIndex }) {
   ];
   return {
     options,
-    useFirstPerson,
+    useFirstPerson: false,
     applicant,
     keyname,
     description: 'Has other health insurance',

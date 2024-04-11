@@ -23,14 +23,12 @@ export const fileUploadUi = content => ({
     minSize: 1024,
     createPayload,
     parseResponse,
-    attachmentSchema: (/* { fileId, index } */) => ({
+    attachmentSchema: ({ fileName }) => ({
       'ui:title': 'Document type',
       'ui:disabled': false,
       'ui:webComponentField': VaSelectField,
       'ui:options': {
-        // TO DO: not implemented - see vets-design-system-documentation #2587;
-        // Need to get file name from within element with ID of fileId
-        // 'message-aria-describedby': // ???
+        messageAriaDescribedby: `Choose a document type for ${fileName}`,
       },
     }),
     hideLabelText: !content.label,

@@ -7,8 +7,8 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -44,7 +44,7 @@ export default {
             };
           },
         },
-        spouseFullName: fullNameUI(title => `Spouse’s ${title}`),
+        spouseFullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
         'view:currentMarriage': {
           'ui:options': {
             hideIf: (form, index) => !isCurrentMarriage(form, index),
@@ -76,7 +76,7 @@ export default {
             required: (...args) => isCurrentMarriage(...args),
           }),
           otherExplanation: {
-            'ui:title': 'Please specify',
+            'ui:title': 'Tell us how you got married',
             'ui:webComponentField': VaTextInputField,
             'ui:required': (form, index) =>
               get(
@@ -102,7 +102,7 @@ export default {
             required: (...args) => !isCurrentMarriage(...args),
           }),
           otherExplanation: {
-            'ui:title': 'Please specify',
+            'ui:title': 'Tell us how the marriage ended',
             'ui:webComponentField': VaTextInputField,
             'ui:required': (form, index) =>
               get(
@@ -176,7 +176,7 @@ export default {
           type: 'object',
           required: ['spouseFullName'],
           properties: {
-            spouseFullName: fullNameSchema,
+            spouseFullName: fullNameNoSuffixSchema,
             'view:currentMarriage': {
               type: 'object',
               properties: {

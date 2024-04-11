@@ -210,54 +210,56 @@ const CreditCardBill = props => {
             Enter your credit card bill’s information.
           </p>
         </legend>
-        <div className="input-size-3 no-wrap">
-          <va-number-input
-            error={(submitted && unpaidBalanceError) || null}
-            hint={null}
-            currency
-            required
-            min={0}
-            max={MAXIMUM_BILL_AMOUNT}
-            inputmode="numeric"
-            label="Unpaid balance"
-            name="unpaidBalance"
-            id="unpaidBalance"
-            onInput={handleUnpaidBalanceChange}
-            value={creditCardBillRecord.unpaidBalance}
-            uswds
-          />
-        </div>
-        <div className="input-size-3 no-wrap">
-          <va-number-input
-            error={(submitted && minMonthlyPaymentError) || null}
-            hint={null}
-            required
-            currency
-            inputmode="numeric"
-            min={0}
-            max={MAXIMUM_BILL_AMOUNT}
-            label="Minimum monthly payment amount"
-            name="amountDueMonthly"
-            id="amountDueMonthly"
-            onInput={handleMinMonthlyPaymentChange}
-            value={creditCardBillRecord.amountDueMonthly}
-            uswds
-          />
-        </div>
-        <div className="input-size-3 no-wrap">
-          <va-number-input
-            error={(submitted && amountOverdueError) || null}
-            hint={null}
-            currency
-            inputmode="numeric"
-            label="Amount overdue"
-            name="amountPastDue"
-            id="amountPastDue"
-            onInput={handleAmountOverdueChange}
-            value={creditCardBillRecord.amountPastDue}
-            uswds
-          />
-        </div>
+
+        <va-number-input
+          error={(submitted && unpaidBalanceError) || null}
+          hint={null}
+          currency
+          required
+          min={0}
+          max={MAXIMUM_BILL_AMOUNT}
+          inputmode="numeric"
+          label="Unpaid balance"
+          name="unpaidBalance"
+          id="unpaidBalance"
+          onInput={handleUnpaidBalanceChange}
+          value={creditCardBillRecord.unpaidBalance}
+          width="md"
+          uswds
+        />
+
+        <va-number-input
+          error={(submitted && minMonthlyPaymentError) || null}
+          hint={null}
+          required
+          currency
+          inputmode="numeric"
+          min={0}
+          max={MAXIMUM_BILL_AMOUNT}
+          label="Minimum monthly payment amount"
+          name="amountDueMonthly"
+          id="amountDueMonthly"
+          onInput={handleMinMonthlyPaymentChange}
+          value={creditCardBillRecord.amountDueMonthly}
+          width="md"
+          uswds
+        />
+
+        <va-number-input
+          error={(submitted && amountOverdueError) || null}
+          hint={null}
+          currency
+          inputmode="numeric"
+          label="Amount overdue"
+          name="amountPastDue"
+          id="amountPastDue"
+          onInput={handleAmountOverdueChange}
+          value={creditCardBillRecord.amountPastDue}
+          width="md"
+          class="vads-u-margin-bottom--4"
+          uswds
+        />
+
         <p>
           {creditCardBills.length > 0
             ? renderAddCancelButtons()

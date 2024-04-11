@@ -13,7 +13,7 @@ import {
   showGulfWar1990LocationDatesPage,
   startDateApproximate,
 } from '../../content/toxicExposure';
-import { GULF_WAR_1990_LOCATIONS } from '../../constants';
+import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
 /**
  * Make the uiSchema for each gulf war 1990 location with dates page
@@ -79,9 +79,9 @@ function makeSchema(locationId) {
 /**
  * Make all the page configurations for each Gulf War 1990 location + dates page. Example
  * {
- *    'gulfWar1990Locations-afghanistan': {
+ *    'gulf-war-1990-location-afghanistan': {
  *      title: 'Service after August 2, 1990',
- *      path: 'gulf-war-1990-location-afghanistan',
+ *      path: 'toxic-exposure/gulf-war-1990-location-afghanistan',
  *      uiSchema: {
  *        'ui:title': [Object],
  *        'ui:description': [Function: uiDescription],
@@ -91,7 +91,7 @@ function makeSchema(locationId) {
  *      schema: { type: 'object', properties: [Object] },
  *      depends: [Function: depends]
  *    },
- *    'gulfWar1990Locations-bahrain': {
+ *    'gulf-war-1990-location-bahrain': {
  *      ... // continue for the rest of the 17 locations
  * }
  *
@@ -104,7 +104,7 @@ export function makePages() {
       return {
         [pageName]: {
           title: gulfWar1990PageTitle,
-          path: pageName,
+          path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
           depends: formData =>
