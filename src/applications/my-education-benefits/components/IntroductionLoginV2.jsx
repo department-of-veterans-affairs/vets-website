@@ -40,13 +40,13 @@ function IntroductionLoginV2({
   const shouldShowLoadingIndicator =
     !showMebEnhancements09 &&
     ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete);
-
+  const shouldShowMaintenanceAlert = showMeb1990EZMaintenanceAlert;
   let maintenanceMessage;
   if (showMeb1990EZR6MaintenanceMessage) {
     // Message for the R6 maintenance period
     maintenanceMessage =
       'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
-  } else if (showMeb1990EZMaintenanceAlert) {
+  } else if (shouldShowMaintenanceAlert) {
     // General maintenance message
     maintenanceMessage =
       'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
@@ -61,7 +61,7 @@ function IntroductionLoginV2({
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
 
-      {(isPersonalInfoFetchFailed || showMeb1990EZMaintenanceAlert) && (
+      {(isPersonalInfoFetchFailed || shouldShowMaintenanceAlert) && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="error"
@@ -138,7 +138,7 @@ function IntroductionLoginV2({
         )}
       {isLoggedIn &&
       isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb1990EZMaintenanceAlert === false && // Ensure the mainenance flag is not on.
+      shouldShowMaintenanceAlert === false && // Ensure the mainenance flag is not on.
         ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
           (showMebEnhancements09 && isLOA3)) && (
           <SaveInProgressIntro
@@ -153,7 +153,8 @@ function IntroductionLoginV2({
         )}
       {apiCallsComplete &&
         isLoggedIn &&
-        isLOA3 === false && (
+        isLOA3 === false &&
+        !shouldShowMaintenanceAlert && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="continue"
