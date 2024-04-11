@@ -11,7 +11,8 @@ import { SET_UNAUTHORIZED } from '../actions/types';
 import { DATE_FORMATS } from '../constants';
 
 // Adding !! so that we convert this to a boolean
-export const claimAvailable = claim => !!(claim && claim.attributes);
+export const claimAvailable = claim =>
+  !!(claim && claim.attributes && Object.keys(claim.attributes).length !== 0);
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
@@ -91,11 +92,6 @@ export function getUserPhaseDescription(phase) {
   }
 
   return phaseMap[phase + 3];
-}
-
-export function getPhaseDescriptionFromEvent(event) {
-  const phase = parseInt(event.type.replace('phase', ''), 10);
-  return phaseMap[phase];
 }
 
 export function getUserPhase(phase) {
@@ -341,18 +337,6 @@ export function hasBeenReviewed(trackedItem) {
   return reviewedStatuses.includes(trackedItem.status);
 }
 
-// Adapted from http://stackoverflow.com/a/26230989/487883
-export function getTopPosition(elem) {
-  const box = elem.getBoundingClientRect();
-  const { body } = document;
-  const docEl = document.documentElement;
-
-  const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-  const clientTop = docEl.clientTop || body.clientTop || 0;
-
-  return Math.round(box.top + scrollTop - clientTop);
-}
-
 export function stripEscapedChars(text) {
   return text && text.replace(/\\(n|r|t)/gm, '');
 }
@@ -410,19 +394,6 @@ export function makeAuthRequest(
         onError(resp);
       }
     });
-}
-
-export function getCompletedDate(claim) {
-  if (claim?.attributes?.eventsTimeline) {
-    const completedEvents = claim.attributes.eventsTimeline.filter(
-      event => event.type === 'completed',
-    );
-    if (completedEvents.length) {
-      return completedEvents[0].date;
-    }
-  }
-
-  return null;
 }
 
 export function getClaimType(claim) {

@@ -87,6 +87,12 @@ describe('<ClaimStatusPage>', () => {
                     status: 'INITIAL_REVIEW_COMPLETE',
                     displayName: 'Initial review complete Request',
                   },
+                  {
+                    id: 2,
+                    requestedDate: '2023-02-01',
+                    status: 'INITIAL_REVIEW_COMPLETE',
+                    displayName: 'Initial review complete Request',
+                  },
                 ],
               },
             };
