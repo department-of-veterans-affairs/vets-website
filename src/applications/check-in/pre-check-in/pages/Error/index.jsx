@@ -45,7 +45,7 @@ const Error = () => {
   let messageText = '';
   let showHowToLink = false;
 
-  const mixedPhoneAndInPersonMessage = (
+  const mixedModalityMessage = (
     <div>
       <div>
         <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
@@ -61,12 +61,17 @@ const Error = () => {
       <div className="vads-u-margin-top--2">
         <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
-          {t('telephone-appointment')}
+          {t('video-appointment--title')}
         </span>
       </div>
+      <div className="vads-u-margin-top--2">{t('video-error-help-text')}</div>
       <div className="vads-u-margin-top--2">
-        {t('your-provider-will-call-you-at-your-appointment-time')}
+        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+          {t('phone-appointment')}
+        </span>
       </div>
+      <div className="vads-u-margin-top--2">{t('phone-error-help-text')}</div>
     </div>
   );
 
@@ -79,14 +84,14 @@ const Error = () => {
           <div className="vads-u-margin-bottom--2">
             {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
           </div>
-          {mixedPhoneAndInPersonMessage}
+          {mixedModalityMessage}
         </>
       );
       showHowToLink = false;
       break;
     case 'pre-check-in-post-error':
     case 'error-completing-pre-check-in':
-      alertType = 'info';
+      alertType = 'error';
       header = t('sorry-we-cant-complete-pre-check-in');
       messageText = (
         <>
@@ -103,7 +108,7 @@ const Error = () => {
       showHowToLink = true;
       break;
     case 'appointment-canceled': {
-      alertType = 'info';
+      alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
       // get first appointment that was cancelled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
@@ -142,14 +147,14 @@ const Error = () => {
       break;
     }
     case 'pre-check-in-past-appointment':
-      alertType = 'info';
+      alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
       messageText = t('pre-check-in-no-longer-available--info-message');
       showHowToLink = false;
       accordion = appointmentAccordion(appointments);
       break;
     case 'pre-check-in-expired':
-      alertType = 'info';
+      alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
       messageText =
         apptType === 'clinic'
@@ -160,9 +165,9 @@ const Error = () => {
       break;
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      alertType = 'info';
+      alertType = 'warning';
       header = t('this-link-has-expired');
-      messageText = mixedPhoneAndInPersonMessage;
+      messageText = mixedModalityMessage;
       showHowToLink = false;
       break;
     case 'session-error':
@@ -173,7 +178,7 @@ const Error = () => {
       // This is considered our generic error message
       alertType = 'info';
       header = t('sorry-we-cant-complete-pre-check-in');
-      messageText = mixedPhoneAndInPersonMessage;
+      messageText = mixedModalityMessage;
       showHowToLink = false;
       break;
     default:

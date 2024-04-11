@@ -148,7 +148,6 @@
   "state-is-required": "State is required",
   "state-province-region-is-required": "State/Province/Region is required.",
   "stepchild": "Stepchild",
-  "telephone-appointment": "Telephone appointment",
   "thank-you-for-checking-in": "Thank you for checking in.",
   "this-appointment-isnt-eligible-check-in-with-a-staff-member": "This appointment isn’t eligible for online check-in. Check-in with a staff member.",
   "this-helps-us-keep-information-about-your-next-of-kin-up-to-date": "This helps us keep information about your next of kin up to date.",
@@ -341,5 +340,9 @@
   "video-appointment": "video appointment",
   "video-at": "Video at",
   "video-appointment-at-facility": "Video appointment at {{facility}}",
-  "video-appointment--title": "Video appointment"
+  "video-appointment--title": "Video appointment",
+  "video-error-help-text": "You can join your appointment by using our appointments tool on VA.gov. We’ll add the link 30 minutes before your scheduled appointment.",
+  "sign-in-to-find-appointment": "Sign in to VA.gov to find your appointment",
+  "phone-appointment": "Phone appointment",
+  "phone-error-help-text": "Your provider will call you at the appointment time. You may need to wait 15 minutes for their call. "
 }
