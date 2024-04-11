@@ -251,7 +251,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       .columns {
         padding-left: 0.27rem;
-        padding-right: 0.27rem;
+        padding-right: 0;
       }
 
       input,
@@ -289,7 +289,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin-top: 0;
 
         @media (min-width: $small-desktop-screen) {
-          margin-top: 27px;
+          margin-top: auto;
           min-width: 67px;
           width: auto;
         }
