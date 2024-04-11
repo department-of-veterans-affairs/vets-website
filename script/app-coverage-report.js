@@ -24,10 +24,10 @@ const printCoverage = coverageResults => {
 
     coverageTable.push({
       [appLocation]: [
-        `${Math.round(cov.lines.pct * 100) / 100}%`,
-        `${Math.round(cov.functions.pct * 100) / 100}%`,
-        `${Math.round(cov.statements.pct * 100) / 100}%`,
-        `${Math.round(cov.branches.pct * 100) / 100}%`,
+        `${cov.lines.pct}%`,
+        `${cov.functions.pct}%`,
+        `${cov.statements.pct}%`,
+        `${cov.branches.pct}%`,
       ],
     });
   });
