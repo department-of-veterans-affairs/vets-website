@@ -1,6 +1,21 @@
-import moment from 'moment';
+import { parseISO, format, isValid } from 'date-fns';
 
-import { FORMAT_YMD } from '../constants';
+import { FORMAT_YMD, FORMAT_FULL_DATE } from '../constants';
+
+/**
+ * parseDate from ISO8601 or JS number date (not unix time)
+ * @param {string, number, Date} date - date to format
+ * @param {string} template - date-fns format string
+ * @returns {string} date
+ */
+export const parseDate = (date, template = FORMAT_FULL_DATE) => {
+  let newDate = date;
+  if (typeof date === 'string') {
+    newDate = parseISO((date || '').split('T')[0]);
+  }
+  return isValid(newDate) ? format(newDate, template) : null;
+};
+
 /**
  * @typedef DateFnsOffset
  * @property {Number} years - positive or negative number
