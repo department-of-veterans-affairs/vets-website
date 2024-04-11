@@ -61,7 +61,7 @@ const Dropdown = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formValue, router);
+      navigateForward(shortName, formResponses, router);
     }
   };
 
