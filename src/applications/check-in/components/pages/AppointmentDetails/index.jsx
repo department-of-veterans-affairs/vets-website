@@ -114,18 +114,18 @@ const AppointmentDetails = props => {
   }
 
   const appointmentTitle = () => {
-    if (isPhoneAppointment) {
-      return `${t('phone')} ${t('appointment')}`;
+    switch (appointment?.kind) {
+      case 'phone':
+        return `${t('phone')} ${t('appointment')}`;
+      case 'cvt':
+        return t('video-appointment-at-facility', {
+          facility: appointment.facility,
+        });
+      case 'vvc':
+        return t('video-appointment--title');
+      default:
+        return t('in-person-appointment');
     }
-    if (isCvtAppointment) {
-      return t('video-appointment-at-facility', {
-        facility: appointment.facility,
-      });
-    }
-    if (isVvcAppointment) {
-      return t('video-appointment--title');
-    }
-    return t('in-person-appointment');
   };
 
   return (
