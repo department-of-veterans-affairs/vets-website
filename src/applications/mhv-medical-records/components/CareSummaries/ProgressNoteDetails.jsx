@@ -52,7 +52,6 @@ const ProgressNoteDetails = props => {
     pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 

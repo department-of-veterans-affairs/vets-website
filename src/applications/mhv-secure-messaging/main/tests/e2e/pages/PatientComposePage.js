@@ -236,7 +236,7 @@ class PatientComposePage {
   };
 
   attachMessageFromFile = filename => {
-    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
+    const filepath = `src/applications/mhv-secure-messaging/main/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
     });
