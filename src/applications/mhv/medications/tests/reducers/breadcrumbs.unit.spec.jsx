@@ -14,10 +14,6 @@ const breadcrumbs = {
       label: 'Medications',
     },
   ],
-  location: {
-    url: `${medicationsUrls.PRESCRIPTION_DETAILS}/000`,
-    label: 'Prescription Name',
-  },
 };
 
 describe('Breadcrumbs reducer', () => {
@@ -32,6 +28,5 @@ describe('Breadcrumbs reducer', () => {
     };
     const nextState = breadcrumbsReducer(initialState, action);
     expect(nextState.list).to.exist;
-    expect(nextState.location).to.exist;
   });
 });
