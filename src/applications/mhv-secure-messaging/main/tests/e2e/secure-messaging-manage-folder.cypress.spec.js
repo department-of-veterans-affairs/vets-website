@@ -50,7 +50,7 @@ describe('manage folders', () => {
       );
       FolderManagementPage.deleteFolderButton().click();
       FolderManagementPage.confirmDeleteFolder(folderId);
-      FolderManagementPage.verifyDeleteSuccessMessage();
+      FolderManagementPage.verifyDeleteSuccessMessageText();
       FolderManagementPage.verifyDeleteSuccessMessageHasFocus();
     });
   });
