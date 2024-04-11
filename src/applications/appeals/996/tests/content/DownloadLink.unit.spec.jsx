@@ -7,7 +7,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import DownloadLink from '../../content/DownloadLink';
 
 describe('DownloadLink', () => {
-  const content = 'download and fill out VA Form 20-0996';
+  const content = 'Download VA Form 20-0996';
   it('should render a link', () => {
     global.window.dataLayer = [];
     const { container } = render(<DownloadLink />);
@@ -19,9 +19,9 @@ describe('DownloadLink', () => {
     fireEvent.click($('va-link', container));
     expect(global.window.dataLayer.length).to.eq(0);
   });
-  it('should record click event when inside wizard flow', () => {
+  it('should record click event when inside subtask flow', () => {
     global.window.dataLayer = [];
-    const { container } = render(<DownloadLink wizardEvent />);
+    const { container } = render(<DownloadLink subTaskEvent />);
 
     fireEvent.click($('va-link', container));
     const event = global.window.dataLayer.slice(-1)[0];

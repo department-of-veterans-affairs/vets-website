@@ -14,7 +14,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   });
 
   it('Verify folder header', () => {
-    PatientMessageCustomFolderPage.verifyFolderHeader();
+    PatientMessageCustomFolderPage.verifyFolderHeaderText();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
@@ -28,6 +28,17 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
 
   it('Verify Filter btn exists', () => {
     PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
+  });
+
+  it('Verify Remove folder btn exists and click on x button on pop-up', () => {
+    PatientMessageCustomFolderPage.verifyRemoveFolder();
+    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.verifyEmptyFolderText();
+    PatientMessageCustomFolderPage.verifyFocusToCloseIcon();
+    PatientMessageCustomFolderPage.clickOnCloseIcon();
+    PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });

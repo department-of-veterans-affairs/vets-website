@@ -28,6 +28,7 @@ import {
   mockData,
   roundToNearest,
   groupClaimsByDocsNeeded,
+  claimAvailable,
 } from '../../utils/helpers';
 
 import {
@@ -979,6 +980,53 @@ describe('Disability benefits helpers: ', () => {
       expect(getPageRange(2, 22)).to.deep.equal({ start: 11, end: 20 });
       expect(getPageRange(2, 25)).to.deep.equal({ start: 11, end: 20 });
       expect(getPageRange(3, 25)).to.deep.equal({ start: 21, end: 25 });
+    });
+  });
+
+  describe('claimAvaliable', () => {
+    it('should return false when claim is empty', () => {
+      const isClaimAvaliable = claimAvailable({});
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim is null', () => {
+      const isClaimAvaliable = claimAvailable(null);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim attributes are empty', () => {
+      const claim = {
+        id: 1,
+        attributes: {},
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim attributes are null', () => {
+      const claim = {
+        id: 1,
+        attributes: null,
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return true when claim attributes exist', () => {
+      const claim = {
+        id: 1,
+        attributes: {
+          claimType: 'Compensation',
+          claimDate: '2024-04-05',
+        },
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.true;
     });
   });
 });

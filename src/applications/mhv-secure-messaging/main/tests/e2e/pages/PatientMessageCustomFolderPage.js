@@ -3,7 +3,7 @@ import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-
 import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
-import { Paths, Locators } from '../utils/constants';
+import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 
@@ -123,7 +123,7 @@ class PatientMessageCustomFolderPage {
       .click();
   };
 
-  verifyFolderHeader = (text = this.folderName) => {
+  verifyFolderHeaderText = (text = this.folderName) => {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
@@ -138,7 +138,7 @@ class PatientMessageCustomFolderPage {
     );
   };
 
-  sortMessagesByDate = (
+  clickSortMessagesByDateButton = (
     text,
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
@@ -165,7 +165,7 @@ class PatientMessageCustomFolderPage {
         cy.log(`List before sorting: ${listBefore.join(',')}`);
       })
       .then(() => {
-        this.sortMessagesByDate('Oldest to newest');
+        this.clickSortMessagesByDateButton('Oldest to newest');
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -239,6 +239,54 @@ class PatientMessageCustomFolderPage {
     cy.get('[text="Save"]')
       .should('be.visible')
       .click();
+  };
+
+  verifyRemoveFolder = () => {
+    cy.scrollTo('top');
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .and('have.text', Data.REMOVE_FOLDER);
+  };
+
+  tabAndPressToRemoveFolderButton = () => {
+    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER).should(
+      'have.text',
+      Data.REMOVE_FOLDER,
+    );
+
+    cy.realPress('Enter');
+  };
+
+  verifyEmptyFolderText = () => {
+    cy.get(Locators.FOLDERS.FOLDER_NOT_EMPTY)
+      .shadow()
+      .find(Locators.ALERTS.MODEL_TITLE_ALERT)
+      .should('have.text', Assertions.EMPTY_THIS_FOLDER);
+    cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
+    cy.contains('button', 'Ok');
+  };
+
+  verifyFocusToCloseIcon = () => {
+    cy.focused()
+      .shadow()
+      .find('button')
+      .should('contain.class', 'va-modal-close');
+  };
+
+  clickOnCloseIcon = () => {
+    cy.get(Locators.FOLDERS.FOLDER_NOT_EMPTY)
+      .shadow()
+      .find('button')
+      .eq(0)
+      .click();
+  };
+
+  verifyFocusOnRemoveFolderButton = () => {
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .then(() => {
+        cy.get(Locators.BUTTONS.REMOVE_FOLDER).should('have.focus');
+      });
   };
 }
 
