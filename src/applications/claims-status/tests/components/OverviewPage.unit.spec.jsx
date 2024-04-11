@@ -8,16 +8,13 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { OverviewPage } from '../../containers/OverviewPage';
 import { renderWithRouter } from '../utils';
 
-const params = { id: 1 };
-
 const props = {
   claim: {},
   clearNotification: () => {},
   lastPage: '',
   loading: false,
   message: {},
-  params: {},
-  showClaimLettersLink: false,
+  params: { id: 1 },
 };
 
 describe('<OverviewPage>', () => {
@@ -73,12 +70,7 @@ describe('<OverviewPage>', () => {
     it('should render empty content when loading', () => {
       const { container } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-            loading
-          />
+          <OverviewPage {...props} claim={claim} loading />
         </Provider>,
       );
       const overviewSection = $('.overview-container', container);
@@ -89,11 +81,7 @@ describe('<OverviewPage>', () => {
     it('should render overview header and timeline', () => {
       const { container, getByText } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-          />
+          <OverviewPage {...props} claim={claim} />
         </Provider>,
       );
       const overviewPage = $('#tabPanelFiles', container);
@@ -127,12 +115,7 @@ describe('<OverviewPage>', () => {
     it('should render empty content when loading', () => {
       const { container } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-            loading
-          />
+          <OverviewPage claim={claim} {...props} loading />
         </Provider>,
       );
       const overviewSection = $('.overview-container', container);
@@ -143,11 +126,7 @@ describe('<OverviewPage>', () => {
     it('should render overview header and timeline', () => {
       const { container, getByText } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-          />
+          <OverviewPage {...props} claim={claim} />
         </Provider>,
       );
       const overviewPage = $('#tabPanelFiles', container);

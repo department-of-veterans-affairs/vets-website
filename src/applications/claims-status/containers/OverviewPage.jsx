@@ -259,7 +259,6 @@ OverviewPage.propTypes = {
   loading: PropTypes.bool,
   message: PropTypes.object,
   params: PropTypes.object,
-  showClaimLettersLink: PropTypes.bool,
 };
 
 export default connect(
