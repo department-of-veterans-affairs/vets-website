@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { range } from 'lodash';
-
 import {
   QUESTION_MAP,
+  RESPONSES,
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
-import { updateDischargeYear } from '../../../actions';
+import RadioGroup from './shared/RadioGroup';
+import { updateDischargeType } from '../../../actions';
 import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
-import Dropdown from './shared/Dropdown';
-
-const DischargeYear = ({
+const DischargeType = ({
   formResponses,
+  setDischargeType,
   router,
   viewedIntroPage,
-  setDischargeYear,
 }) => {
   const [formError, setFormError] = useState(false);
-  const shortName = SHORT_NAME_MAP.DISCHARGE_YEAR;
+  const shortName = SHORT_NAME_MAP.DISCHARGE_TYPE;
   const H1 = QUESTION_MAP[shortName];
+  const dischargeType = formResponses[shortName];
+  const { DISCHARGE_TYPE_1, DISCHARGE_TYPE_2 } = RESPONSES;
 
   useEffect(
     () => {
@@ -39,47 +39,29 @@ const DischargeYear = ({
     [router, viewedIntroPage],
   );
 
-  const dischargeYear = formResponses[shortName];
-  const currentYear = new Date().getFullYear();
-  const yearOptions = range(currentYear - 1992).map(i => {
-    const year = currentYear - i;
-    return (
-      <option data-testid="va-select-option" key={i} value={year.toString()}>
-        {year.toString()}
-      </option>
-    );
-  });
-  const before1992Key = yearOptions.length + 1;
-
-  yearOptions.push(
-    <option data-testid="va-select-option" key={before1992Key} value="1991">
-      Before 1992
-    </option>,
-  );
-
   return (
-    <Dropdown
-      H1={H1}
+    <RadioGroup
       formError={formError}
       formResponses={formResponses}
-      formValue={dischargeYear}
+      formValue={dischargeType}
+      H1={H1}
+      responses={[DISCHARGE_TYPE_1, DISCHARGE_TYPE_2]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}
-      testId="duw-discharge_year"
-      options={yearOptions}
-      valueSetter={setDischargeYear}
+      testId="duw-discharge_type"
+      valueSetter={setDischargeType}
     />
   );
 };
 
-DischargeYear.propTypes = {
-  formResponses: PropTypes.object.isRequired,
-  setDischargeYear: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
+DischargeType.propTypes = {
+  formResponses: PropTypes.object,
+  setDischargeType: PropTypes.func,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  viewedIntroPage: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -88,10 +70,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setDischargeYear: updateDischargeYear,
+  setDischargeType: updateDischargeType,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DischargeYear);
+)(DischargeType);

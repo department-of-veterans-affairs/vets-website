@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../../constants';
 
-import DischargeYear from '../../components/v2/questions/DischargeYear';
+import DischargeType from '../../components/v2/questions/DischargeType';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setDischargeYear: () => {},
+  setCourtMartial: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setDischargeYear: () => {},
+  setCourtMartial: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Discharge Year Page', () => {
+describe('Discharge Type Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the discharge year page in the standard flow', () => {
+  it('should correctly load the discharge type page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <DischargeYear {...propsStandard} />
+        <DischargeType {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-discharge_year')).to.exist;
+    expect(screen.getByTestId('duw-discharge_type')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <DischargeYear {...propsNoIntroPage} />
+        <DischargeType {...propsNoIntroPage} />
       </Provider>,
     );
 
