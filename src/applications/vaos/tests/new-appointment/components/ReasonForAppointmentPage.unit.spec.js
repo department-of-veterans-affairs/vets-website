@@ -62,17 +62,20 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
-    expect(screen.getByTestId('reason-comment-field')).to.have.attribute(
+    expect(await screen.getByTestId('reason-comment-field')).to.have.attribute(
       'label',
       'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
     );
-
-    expect(screen.baseElement).to.contain.text(
-      'What’s the reason for this appointment?',
+    expect(
+      await screen.getByRole('heading', {
+        level: 1,
+        name: /What’s the reason for this appointment?/i,
+      }),
     );
 
     expect(
-      screen.getByRole('heading', {
+      await screen.getByRole('heading', {
+        level: 2,
         name: /If you have an urgent medical need, please:/i,
       }),
     );
@@ -96,13 +99,15 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
-    expect(document.querySelectorAll('va-radio-option')).to.have.lengthOf(4);
+    expect(await document.querySelectorAll('va-radio-option')).to.have.lengthOf(
+      4,
+    );
     const radioOption = await document.querySelectorAll('va-radio-option');
     expect(radioOption[0]).to.have.attribute(
       'label',
       'This is a routine or follow-up visit.',
     );
-    fireEvent.click(screen.getByText(/Continue/));
+    fireEvent.click(await screen.getByText(/Continue/));
 
     expect(await screen.findByRole('alert')).to.contain.text(
       'Provide more information about why you are requesting this appointment',
@@ -209,16 +214,19 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       },
     );
 
-    expect(screen.getByTestId('reason-comment-field')).to.have.attribute(
+    expect(await screen.getByTestId('reason-comment-field')).to.have.attribute(
       'label',
       'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
     );
 
-    expect(screen.baseElement).to.contain.text(
-      'What’s the reason for this appointment?',
+    expect(
+      await screen.getByRole('heading', {
+        level: 1,
+        name: /What’s the reason for this appointment?/i,
+      }),
     );
 
-    fireEvent.click(screen.getByText(/Continue/));
+    fireEvent.click(await screen.getByText(/Continue/));
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
