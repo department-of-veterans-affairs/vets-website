@@ -13,7 +13,7 @@ export default {
       ...addressUI({
         labels: {
           militaryCheckbox:
-            'I live on on a United States military base outside of the U.S.',
+            'I live on a United States military base outside of the U.S.',
         },
         omit: ['street3'],
       }),
