@@ -343,8 +343,14 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
 
   const treatmentStartDate = moment(fieldData, 'YYYY-MM');
   // If the moment is earlier than the moment passed to moment.diff(),
-  // the return value will be negative.
-  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
+  // the return value will be negative
+  if (
+    fieldData.match(/^XXXX-\d{2}-XX$/) ||
+    (fieldData.match(/^\d{4}-XX-XX$/) &&
+      treatmentStartDate.diff(earliestServiceStartDate, 'year') < 0) ||
+    (fieldData.match(/^\d{4}-\d{2}-XX$/) &&
+      treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0)
+  ) {
     err.addError(
       'Your first treatment date needs to be after the start of your earliest service period.',
     );
