@@ -73,10 +73,6 @@ class PatientComposePage {
       .select(recipient, { force: true });
   };
 
-  getCategory = (category = 'COVID') => {
-    return cy.get(`#compose-message-categories${category}input`);
-  };
-
   selectCategory = (category = 'OTHER') => {
     cy.get(`#compose-message-categories${category}input`).click({
       force: true,
@@ -297,16 +293,16 @@ class PatientComposePage {
       .click();
   };
 
-  verifyAlertModal = () => {
-    cy.get(`h1`).should('contain', "We can't save this message yet");
-  };
-
   clickOnContinueEditingButton = () => {
     cy.get(Locators.BUTTONS.CONTINUE_EDITING)
       .shadow()
       .find('button')
       .contains(Data.CONTINUE_EDITING)
       .click();
+  };
+
+  verifyAlertModal = () => {
+    cy.get(`h1`).should('contain', "We can't save this message yet");
   };
 
   verifyExpectedPageOpened = menuOption => {
