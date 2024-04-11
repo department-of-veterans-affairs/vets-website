@@ -35,7 +35,7 @@ export const displayConditionsMet = (SHORT_NAME, formResponses) => {
 
     if (
       !responseMatchesRequired(requiredResponses, formResponse) &&
-      requiredResponses.length // This is for display conditions that can be any value ex: year, month
+      requiredResponses.length // This is for display conditions that can be any value ex: branch of service, year, month
     ) {
       return false;
     }
