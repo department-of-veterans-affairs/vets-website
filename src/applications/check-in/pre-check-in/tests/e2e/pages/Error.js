@@ -6,11 +6,9 @@ class Error {
       .should('be.visible')
       .and('have.text', 'Sorry, we can’t complete pre-check-in.');
 
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .contains(
-        'In-person appointmentYou can still check-in with your phone on the day of your appointment.Telephone appointmentYour provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
-      );
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
   };
 
   validatePageLoadedGeneric = () => {
@@ -18,43 +16,35 @@ class Error {
       .should('be.visible')
       .and('have.text', 'Sorry, we can’t complete pre-check-in.');
 
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .contains(
-        'We’re sorry. Something went wrong on our end. Please try again.',
-      );
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+    cy.get('[data-testid="something-went-wrong-message"]').should('be.visible');
+    cy.get('[data-testid="mixed-modality-message"]').should('be.visible');
   };
 
-  validateUUIDErrorPageLoaded = () => {
+  validatePageLoadedNotAvailable = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in.');
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .should(
-        'contain',
-        'You can still check-in with your phone on the day of your appointment.',
-      )
-      .and(
-        'contain',
-        'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
-      );
+      .and('have.text', 'Sorry, pre-check-in is no longer available.');
+
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+    cy.get('[data-testid="something-went-wrong-message"]').should('be.visible');
+    cy.get('[data-testid="mixed-modality-message"]').should('be.visible');
   };
 
-  validateUuidNotFoundErrorPageLoaded = () => {
+  validatePageLoadedExpired = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'This link has expired');
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .should(
-        'contain',
-        'You can still check-in with your phone on the day of your appointment.',
-      )
-      .and(
-        'contain',
-        'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
-      );
+      .and('have.text', 'Sorry, pre-check-in is no longer available.');
+
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+    cy.get('[data-testid="no-longer-available-message"]').should('be.visible');
+    cy.get('[data-testid="mixed-modality-message"]').should('be.visible');
   };
 
   validateCanceledPageLoaded = () => {
@@ -66,40 +56,21 @@ class Error {
       .contains('is cancelled.');
   };
 
-  validateExpiredPageLoaded = (appointmentType = 'in-person') => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available.');
-    if (appointmentType === 'phone') {
-      cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .contains(
-          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
-        );
-    } else {
-      cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .contains(
-          'You can still check-in with your phone once you arrive at your appointment.',
-        );
-    }
-  };
-
-  validatePast15MinutesPageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available.');
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .contains(
-        'We’re sorry. Pre-check-in is no longer available for your appointment time. Ask a staff member for help to check in.',
-      );
-  };
-
   validateDatePreCheckInDateShows = () => {
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains('You can pre-check in online until');
+  };
+
+  validateAPIErrorPageLoaded = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Sorry, we can’t complete pre-check-in.');
+
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+    cy.get('[data-testid="date-message"]').should('be.visible');
   };
 
   validateURL = () => {
