@@ -18,10 +18,8 @@ async function mergeCoverageReports(files) {
         merged.total[key].total += data.total[key].total;
         merged.total[key].covered += data.total[key].covered;
         merged.total[key].skipped += data.total[key].skipped;
-        merged.total[key].pct = (
-          (merged.total[key].covered / merged.total[key].total) *
-          100
-        ).toFixed(2);
+        merged.total[key].pct =
+          (merged.total[key].covered / merged.total[key].total) * 100;
       });
 
       Object.keys(data).forEach(appKey => {
@@ -35,8 +33,10 @@ async function mergeCoverageReports(files) {
   }
 
   ['lines', 'functions', 'statements', 'branches'].forEach(key => {
-    merged.total[key].pct =
-      (merged.total[key].covered / merged.total[key].total) * 100;
+    merged.total[key].pct = (
+      (merged.total[key].covered / merged.total[key].total) *
+      100
+    ).toFixed(2);
   });
 
   return merged;
