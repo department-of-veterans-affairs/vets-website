@@ -67,15 +67,18 @@ const LandingPage = () => {
     [location.pathname, featureTogglesLoading, appEnabled],
   );
 
-  useEffect(() => {
-    setIsPrescriptionsLoading(true);
-    dispatch(
-      getPrescriptionsPaginatedSortedList(
-        1,
-        rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-      ),
-    ).then(() => setIsPrescriptionsLoading(false));
-  }, []);
+  useEffect(
+    () => {
+      setIsPrescriptionsLoading(true);
+      dispatch(
+        getPrescriptionsPaginatedSortedList(
+          1,
+          rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+        ),
+      ).then(() => setIsPrescriptionsLoading(false));
+    },
+    [dispatch],
+  );
 
   const content = () => {
     return (
