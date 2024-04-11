@@ -20,6 +20,7 @@ function IntroductionLoginV2({
   showHideLoginModal,
   user,
   showMeb1990EZMaintenanceAlert,
+  showMeb1990EZR6MaintenanceAlert,
   showMebEnhancements, // Add showMebEnhancements as a prop
   showMebEnhancements06, // Add showMebEnhancements06 as a prop
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
@@ -39,6 +40,17 @@ function IntroductionLoginV2({
   const shouldShowLoadingIndicator =
     !showMebEnhancements09 &&
     ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete);
+
+  let maintenanceMessage;
+  if (showMeb1990EZR6MaintenanceAlert) {
+    // Message for the R6 maintenance period
+    maintenanceMessage =
+      'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
+  } else if (showMeb1990EZMaintenanceAlert) {
+    // General maintenance message
+    maintenanceMessage =
+      'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
+  }
   return (
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -57,11 +69,7 @@ function IntroductionLoginV2({
         >
           <h2 slot="headline">System Maintenance</h2>
           <div>
-            <p className="vads-u-margin-top--0">
-              We’re currently making updates to the My Education Benefits
-              platform. We apologize for the inconvenience. Please check back
-              soon.
-            </p>
+            <p className="vads-u-margin-top--0">{maintenanceMessage}</p>
           </div>
         </va-alert>
       )}
@@ -191,6 +199,7 @@ IntroductionLoginV2.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
   showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
   showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
@@ -204,6 +213,8 @@ const mapStateToProps = state => ({
     state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
   showMeb1990EZMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
+  showMeb1990EZR6MaintenanceAlert:
+    state.featureToggles[featureFlagNames.showMeb1990EZR6MaintenanceAlert],
 });
 const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,
