@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaRadioFieldMapping from './vaRadioFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 /**
  * Use yes no pattern instead.
@@ -33,6 +34,8 @@ export default function YesNoField(props) {
   const selectedValue =
     props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;
 
+  const { formDescriptionSlot } = formsPatternFieldMapping(props);
+
   return (
     <VaRadio
       {...mappedProps}
@@ -42,6 +45,7 @@ export default function YesNoField(props) {
         props.childrenProps.onChange(newVal);
       }}
     >
+      {formDescriptionSlot}
       <va-radio-option
         name={props.childrenProps.idSchema.$id}
         key={`${props.childrenProps.idSchema.$id}Yes`}
