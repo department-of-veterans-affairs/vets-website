@@ -101,7 +101,7 @@ const ThreadListItem = props => {
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <Link
-          aria-describedby="received-date"
+          aria-describedby="received-message-date"
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
@@ -137,7 +137,7 @@ const ThreadListItem = props => {
         <div
           className="vads-u-font-weight--normal vads-u-color--gray-medium vads-u-margin-top--0p5"
           data-testid="received-date"
-          id="received-date"
+          id="received-message-date"
         >
           {formattedDate()}
         </div>
@@ -233,7 +233,7 @@ const ThreadListItem = props => {
         </div>
         <Link
           data-dd-action-name="Link to Message Subject Details"
-          aria-describedby="thread-date"
+          aria-describedby="thread-message-date"
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
@@ -261,7 +261,7 @@ const ThreadListItem = props => {
           )}
           <span
             data-testid="thread-date"
-            id="thread-date"
+            id="thread-message-date"
             data-dd-privacy="mask"
           >
             {formattedDate()}
