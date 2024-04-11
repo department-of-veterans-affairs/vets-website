@@ -43,7 +43,6 @@ const RadioGroup = ({
       }
 
       setFormError(false);
-      // navigateForward(shortName, formValue, router, formResponses);
       navigateForward(shortName, formResponses, router);
     }
   };
