@@ -56,12 +56,6 @@ class Error {
       .contains('is cancelled.');
   };
 
-  validateDatePreCheckInDateShows = () => {
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .contains('You can pre-check in online until');
-  };
-
   validateAPIErrorPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

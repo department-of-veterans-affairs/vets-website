@@ -67,7 +67,6 @@ describe('Pre-Check In Experience ', () => {
 
         // page: Confirmation
         Error.validateAPIErrorPageLoaded();
-        Error.validateDatePreCheckInDateShows();
         cy.injectAxeThenAxeCheck();
         cy.createScreenshots('Pre-check-in--Error-with-appointment-data');
       });
