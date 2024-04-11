@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   buildDateFormatter,
+  claimAvailable,
   getClaimType,
   isClaimOpen,
   isPopulatedClaim,
@@ -46,7 +47,7 @@ export default function ClaimDetailLayout(props) {
         message="Loading your claim information..."
       />
     );
-  } else if (claim !== null) {
+  } else if (claimAvailable(claim)) {
     const claimTitle = `Your ${claimType} claim`;
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};
