@@ -24,7 +24,7 @@ const schema = {
     },
     accountNumber: {
       type: 'string',
-      pattern: '^\\d{1,17}$',
+      pattern: '^\\d{4,17}$',
     },
     'view:directDepositInfo': {
       type: 'object',
@@ -55,9 +55,9 @@ const uiSchema = {
   },
   accountNumber: {
     'ui:webComponentField': VaTextInputField,
-    'ui:title': 'Account number (No more than 17 digits)',
+    'ui:title': 'Account number',
     'ui:errorMessages': {
-      pattern: 'Enter your account number',
+      pattern: 'Enter an account number between 4 and 17 digits',
       required: 'Enter your account number',
     },
   },
