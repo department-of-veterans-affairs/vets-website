@@ -4,7 +4,7 @@ import mockMessage from '../fixtures/message-response.json';
 import { Locators, Paths } from '../utils/constants';
 
 class PatientReplyPage {
-  sendReplyMessage = messageId => {
+  clickSendReplyMessageButton = messageId => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGES}/${messageId}/reply`,
@@ -14,7 +14,7 @@ class PatientReplyPage {
     cy.wait('@replyMessage');
   };
 
-  sendReplyMessageDetails = mockReplyMessage => {
+  clickSendReplyMessageDetailsButton = mockReplyMessage => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGES}/${
@@ -25,7 +25,7 @@ class PatientReplyPage {
     cy.get(Locators.BUTTONS.SEND).click();
   };
 
-  saveReplyDraft = (repliedToMessage, replyMessageBody) => {
+  clickSaveReplyDraftButton = (repliedToMessage, replyMessageBody) => {
     cy.log(
       `messageSubjectParameter = ${repliedToMessage.data.attributes.subject}`,
     );
@@ -62,7 +62,7 @@ class PatientReplyPage {
       });
   };
 
-  sendReplyDraft = (
+  clickSendReplyDraftButton = (
     messageId,
     testRecipientId,
     testCategory,
@@ -145,7 +145,7 @@ class PatientReplyPage {
     }
   };
 
-  verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
+  verifyModalMessageDisplayAndBuddontsCantSaveDraftText = () => {
     cy.get(Locators.REPLY_FORM)
       .find('h1')
       .should('have.text', "We can't save this message yet");
@@ -154,13 +154,13 @@ class PatientReplyPage {
     cy.contains('Delete draft').should('be.visible');
   };
 
-  verifyContnueButtonMessageDisplay = () => {
+  verifyContnueButtonMessageDisplayText = () => {
     cy.get(Locators.REPLY_FORM)
       .find('va-button')
       .should('have.attr', 'text', 'Continue editing');
   };
 
-  verifyDeleteButtonMessageDisplay = () => {
+  verifyDeleteButtonMessageDisplayText = () => {
     cy.get(Locators.REPLY_FORM)
       .find('va-button[secondary]')
       .should('have.attr', 'text', 'Delete draft');

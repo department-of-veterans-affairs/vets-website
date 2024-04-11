@@ -26,9 +26,9 @@ describe('Secure Messaging Reply', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
-    PatientReplyPage.saveReplyDraft(messageDetails, testMessageBody);
+    PatientReplyPage.clickSaveReplyDraftButton(messageDetails, testMessageBody);
     cy.log(
-      `the message details after saveReplyDraft ${JSON.stringify(
+      `the message details after clickSaveReplyDraftButton ${JSON.stringify(
         messageDetails,
       )}`,
     );
@@ -52,7 +52,7 @@ describe('Secure Messaging Reply', () => {
     // messageDetailsPage.ReplyToMessageBody(messageDetailsBody); // TODO skipped for flakiness
 
     // Possibly move this to another test
-    PatientReplyPage.sendReplyDraft(
+    PatientReplyPage.clickSendReplyDraftButton(
       messageDetails.data.attributes.messageId,
       messageDetails.data.attributes.senderId,
       messageDetails.data.attributes.category,

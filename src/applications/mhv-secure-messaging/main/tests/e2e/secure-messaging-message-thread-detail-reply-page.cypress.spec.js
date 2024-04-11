@@ -22,7 +22,6 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     });
 
     PatientReplyPage.verifyExpandedMessageDate(testMessage);
-
     cy.get(
       `[data-testid='expand-message-button-${
         testMessage.data.attributes.messageId
@@ -32,6 +31,7 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     messageDetailsPage.verifyExpandedMessageId(testMessage);
     messageDetailsPage.verifyExpandedMessageTo(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFrom(testMessage);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
