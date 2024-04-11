@@ -1,6 +1,8 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/messages-response.json';
+import { Locators } from './utils/constants';
+import PatientErrorPage from './pages/PatientErrorPage';
 
 describe('Secure Messaging Inbox', () => {
   it('Secure Messaging Inbox Filter Validation', () => {
@@ -10,30 +12,24 @@ describe('Secure Messaging Inbox', () => {
     const messageDetails = landingPage.getNewMessageDetails();
 
     landingPage.loadInboxMessages(mockMessages, messageDetails);
-    cy.get('#additional-filter-accordion')
-      .shadow()
-      .find('h3 button')
-      .click();
-    cy.get('#date-range-dropdown')
-      .find('select')
-      .select('Custom');
-    cy.get('.fromToDatesContainer')
+    landingPage.clickAdditionalFilterButton();
+    landingPage.selectDateRange('Custom');
+    cy.get(Locators.FROM_TO_DATES_CONTAINER)
       .find('legend')
       .eq(0)
       .should('have.text', 'Start date (*Required)');
-    cy.get('.fromToDatesContainer')
+    cy.get(Locators.FROM_TO_DATES_CONTAINER)
       .find('legend')
       .eq(1)
       .should('have.text', 'End date (*Required)');
-    cy.get('[data-testid="filter-messages-button"]').click();
-    cy.get('.fromToDatesContainer')
-      .find('#error-message')
-      .eq(0)
-      .scrollIntoView()
-      .should('contain.text', 'Please enter a start date.');
-    cy.get('.fromToDatesContainer')
-      .find('#error-message')
-      .eq(1)
-      .should('contain.text', 'Please enter an end date.');
+    cy.get(Locators.BUTTONS.FILTER).click();
+    PatientErrorPage.verifyFromToDateErrorMessageText(
+      0,
+      'Please enter a start date.',
+    );
+    PatientErrorPage.verifyFromToDateErrorMessageText(
+      1,
+      'Please enter an end date.',
+    );
   });
 });
