@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 // Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { fetchMHVAccount } from 'platform/user/profile/actions';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import sessionStorage from 'platform/utilities/storage/sessionStorage';
+import recordEvent from '~/platform/monitoring/record-event';
+import { fetchMHVAccount } from '~/platform/user/profile/actions';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import {
   logout as IAMLogout,
   mfa,
-} from 'platform/user/authentication/utilities';
-import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+} from '~/platform/user/authentication/utilities';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
@@ -148,6 +148,13 @@ export class CallToActionWidget extends Component {
   };
 
   getContent = () => {
+    if (
+      this.props.appId === CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES &&
+      !this.props.featureToggles.haCpapSuppliesCta
+    ) {
+      return <></>;
+    }
+
     if (!this.props.isLoggedIn) {
       this.updateReturnUrl();
       if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {

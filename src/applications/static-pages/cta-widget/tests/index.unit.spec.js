@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 // Relative imports.
 
-import sessionStorage from 'platform/utilities/storage/sessionStorage';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
 
@@ -800,6 +800,70 @@ describe('<CallToActionWidget>', () => {
 
       expect(fetchMHVAccount.called).to.be.true;
       expect(tree.find('NoMHVAccount').exists()).to.be.true;
+      tree.unmount();
+    });
+  });
+
+  describe('haCpapSuppliesCta feature', () => {
+    it('renders cta link when feature toggle is enabled', () => {
+      const tree = mount(
+        <CallToActionWidget
+          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+          isLoggedIn
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+            haCpapSuppliesCta: true,
+          }}
+        />,
+      );
+
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('SignIn').exists()).to.be.false;
+      expect(tree.find('Verify').exists()).to.be.false;
+      expect(tree.find('a').props().href).to.contain(
+        '/health-care/order-hearing-aid-or-CPAP-supplies-form',
+      );
+      expect(tree.find('a').props().target).to.equal('_self');
+      expect(tree.find('a').text()).to.contain(
+        'Order hearing aid batteries and accessories online',
+      );
+      tree.unmount();
+    });
+
+    it('does not render when feature toggle is disabled', () => {
+      const tree = mount(
+        <CallToActionWidget
+          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+          isLoggedIn
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+            haCpapSuppliesCta: false,
+          }}
+        />,
+      );
+
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('SignIn').exists()).to.be.false;
+      expect(tree.find('Verify').exists()).to.be.false;
+      expect(tree.find('a').exists()).to.be.false;
       tree.unmount();
     });
   });
