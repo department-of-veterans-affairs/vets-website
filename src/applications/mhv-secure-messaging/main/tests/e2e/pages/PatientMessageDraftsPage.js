@@ -430,7 +430,7 @@ class PatientMessageDraftsPage {
   };
 
   clickClearFilterButton = () => {
-    this.inputFilterButtonText('any');
+    this.inputFilterDataText('any');
     this.clickFilterMessagesButton();
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };

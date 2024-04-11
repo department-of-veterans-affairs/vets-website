@@ -23,7 +23,7 @@ describe('Secure Messaging Sent Folder checks', () => {
   it('Verify filter works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.inputFilterButtonText('test');
+    PatientMessagesSentPage.inputFilterDataText('test');
     PatientMessagesSentPage.clickFilterMessagesButton();
     PatientMessagesSentPage.verifyFilterResultsText('test');
   });
@@ -31,7 +31,7 @@ describe('Secure Messaging Sent Folder checks', () => {
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.inputFilterButtonText('any');
+    PatientMessagesSentPage.inputFilterDataText('any');
     PatientMessagesSentPage.clickFilterMessagesButton();
     PatientMessagesSentPage.clickClearFilterButton();
     PatientMessagesSentPage.verifyFilterFieldCleared();

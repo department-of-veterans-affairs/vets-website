@@ -28,7 +28,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
         },
       },
     });
-    landingPage.inputFilterButtonText('test');
+    landingPage.inputFilterDataText('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
     landingPage.verifyFilterResultsText('test', mockFilterResults);
   });
@@ -42,7 +42,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
         },
       },
     });
-    landingPage.inputFilterButtonText('test');
+    landingPage.inputFilterDataText('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
     landingPage.clickClearFilterButton();
     landingPage.verifyFilterFieldCleared();
@@ -85,7 +85,7 @@ describe('Verify sorting feature with only one filter result', () => {
       },
     });
 
-    landingPage.inputFilterButtonText('draft');
+    landingPage.inputFilterDataText('draft');
     landingPage.clickFilterMessagesButton(mockSingleFilterResult);
     landingPage.verifyFilterResultsText('draft', mockSingleFilterResult);
 

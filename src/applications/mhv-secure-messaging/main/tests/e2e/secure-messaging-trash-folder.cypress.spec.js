@@ -23,7 +23,7 @@ describe('Secure Messaging Trash Folder checks', () => {
   it('Verify filter works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageTrashPage.inputFilterButtonText('test');
+    PatientMessageTrashPage.inputFilterDataText('test');
     PatientMessageTrashPage.clickFilterMessagesButton();
     PatientMessageTrashPage.verifyFilterResultsText('test');
   });
@@ -31,7 +31,7 @@ describe('Secure Messaging Trash Folder checks', () => {
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageTrashPage.inputFilterButtonText('any');
+    PatientMessageTrashPage.inputFilterDataText('any');
     PatientMessageTrashPage.clickFilterMessagesButton();
     PatientMessageTrashPage.clickClearFilterButton();
     PatientMessageTrashPage.verifyFilterFieldCleared();

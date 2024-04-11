@@ -453,7 +453,7 @@ class PatientInboxPage {
       .select('Medication');
   };
 
-  clickSubmitSearchButtonButton = () => {
+  clickSubmitSearchButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click({
       waitForAnimations: true,
       force: true,
