@@ -6,3 +6,9 @@ export const setBreadcrumbs = crumbs => async dispatch => {
     payload: { crumbs },
   });
 };
+
+export const removeBreadcrumbs = () => async dispatch => {
+  dispatch({
+    type: Actions.Breadcrumbs.REMOVE_BREAD_CRUMB,
+  });
+};
