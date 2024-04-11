@@ -8,7 +8,7 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
       <strong>You can pay your bill in any of these 4 ways:</strong>
     </p>
     <va-accordion uswds>
-      <va-accordion-item header="Option 1: Pay online" uswds>
+      <va-accordion-item header="Option 1: Pay online" uswds open="true">
         <p>
           Pay directly from your bank account or by debit or credit card on the
           secure
