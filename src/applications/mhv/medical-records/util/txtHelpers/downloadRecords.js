@@ -133,7 +133,8 @@ ${records
       .map(
         record =>
           `${
-            record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE
+            record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
+            record.type === loincCodes.CONSULT_RESULT
               ? `
 ${record.name}
 ${txtLineDotted}
