@@ -27,9 +27,9 @@ describe('Secure Messaging Inbox Folder checks', () => {
         },
       },
     });
-    landingPage.inputFilterDataText('test');
-    landingPage.clickFilterMessagesButton(mockFilterResults);
-    landingPage.verifyFilterResultsText('test', mockFilterResults);
+    landingPage.inputFilterData('test');
+    landingPage.filterMessages(mockFilterResults);
+    landingPage.verifyFilterResults('test', mockFilterResults);
     landingPage.verifyFilterTextHighLightedInSearch();
   });
 
@@ -42,8 +42,8 @@ describe('Secure Messaging Inbox Folder checks', () => {
         },
       },
     });
-    landingPage.inputFilterDataText('Functions');
-    landingPage.clickFilterMessagesButton(mockFilterResults);
+    landingPage.inputFilterData('Functions');
+    landingPage.filterMessages(mockFilterResults);
     landingPage.verifyNoMatchFilterFocusAndText();
   });
 });
