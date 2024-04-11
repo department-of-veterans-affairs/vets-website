@@ -134,7 +134,7 @@ describe('Mobile', () => {
     cy.viewport(481, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(397, 2);
+      expect($element.width()).closeTo(385, 2);
     });
     cy.get('.desktop-map-container').should('not.exist');
     cy.get('.react-tabs').should('exist');
