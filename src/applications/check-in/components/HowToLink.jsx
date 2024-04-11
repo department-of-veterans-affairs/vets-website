@@ -1,16 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 
 import ExternalLink from './ExternalLink';
 
-const HowToLink = props => {
-  const { apptType } = props;
+const HowToLink = () => {
   const { t } = useTranslation();
-
-  if (apptType !== 'clinic') {
-    return <></>;
-  }
 
   return (
     <p className="vads-u-margin-bottom--4" data-testid="how-to-link">
@@ -24,10 +18,6 @@ const HowToLink = props => {
       </ExternalLink>
     </p>
   );
-};
-
-HowToLink.propTypes = {
-  apptType: PropTypes.string.isRequired,
 };
 
 export default HowToLink;
