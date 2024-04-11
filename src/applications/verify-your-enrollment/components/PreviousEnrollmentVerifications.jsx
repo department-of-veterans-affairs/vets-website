@@ -164,6 +164,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           className="focus-element-on-pagination"
           aria-label={`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
+          aria-hidden="true"
         >
           {`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
