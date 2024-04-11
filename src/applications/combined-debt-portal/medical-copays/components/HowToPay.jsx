@@ -24,14 +24,15 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
           .
         </p>
         <p>
-          You will need to provide an account number to pay this debt online.
+          You will need to provide your account number to pay{' '}
+          {isOverview ? 'the' : 'this'} debt online.
         </p>
-        {!isOverview && (
-          <p>
-            <strong>Account number: </strong>
-            {acctNum}
-          </p>
-        )}
+
+        <p>
+          <strong>Account number: </strong>
+          {acctNum}
+        </p>
+
         <a
           className="vads-c-action-link--blue"
           href="https://www.pay.gov/public/form/start/25987221"
