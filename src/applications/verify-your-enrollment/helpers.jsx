@@ -282,7 +282,7 @@ export const getGroupedPreviousEnrollments = month => {
               className="fas fa-check-circle vads-u-color--green"
               aria-hidden="true"
             />{' '}
-            Pending Verification
+            Verified
           </h3>
           <p>
             Verifications are processed on the business day after submission.
@@ -425,7 +425,7 @@ export const getSignlePreviousEnrollments = awards => {
               className="fas fa-check-circle vads-u-color--green"
               aria-hidden="true"
             />{' '}
-            Pending Verification
+            Verified
           </h3>
           <p>
             Verifications are processed on the business day after submission.
