@@ -1,26 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function FormFooter({ formConfig, currentLocation }) {
-  const GetFormHelp = formConfig.getHelp;
+  const GetFormHelp = formConfig?.getHelp;
+  const trimmedPathname = (currentLocation?.pathname || '').replace(/\/$/, '');
+  const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
-  if (currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation')) {
-    return null;
-  }
-
-  if (!GetFormHelp) {
-    return null;
-  }
-
-  return (
+  return isConfirmationPage || !GetFormHelp ? null : (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <div className="help-footer-box">
-          <h2 className="help-heading">Need help?</h2>
-          <div>
+        <va-need-help>
+          <div slot="content">
             <GetFormHelp formConfig={formConfig} />
           </div>
-        </div>
+        </va-need-help>
       </div>
     </div>
   );
 }
+
+FormFooter.propTypes = {
+  currentLocation: PropTypes.object,
+  formConfig: PropTypes.object,
+};
