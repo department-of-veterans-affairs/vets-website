@@ -1,5 +1,6 @@
 import { ROUTES } from '../constants';
-import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
+import { SHORT_NAME_MAP } from '../constants/question-data-map';
+import { determineYearRoute, determineReasonRoute } from './shared';
 
 export const nextQuestionRoute = (currentQuestion, answer) => {
   let nextRoute;
@@ -9,25 +10,13 @@ export const nextQuestionRoute = (currentQuestion, answer) => {
       nextRoute = SHORT_NAME_MAP.DISCHARGE_YEAR;
       break;
     case SHORT_NAME_MAP.DISCHARGE_YEAR:
-      if (answer === `${new Date().getFullYear() - 15}`) {
-        nextRoute = SHORT_NAME_MAP.DISCHARGE_MONTH;
-      } else {
-        nextRoute = SHORT_NAME_MAP.REASON;
-      }
+      nextRoute = determineYearRoute(answer);
       break;
     case SHORT_NAME_MAP.DISCHARGE_MONTH:
       nextRoute = SHORT_NAME_MAP.REASON;
       break;
     case SHORT_NAME_MAP.REASON:
-      if (answer === RESPONSES.REASON_3) {
-        nextRoute = SHORT_NAME_MAP.DISCHARGE_TYPE;
-      } else if (answer === RESPONSES.REASON_8) {
-        nextRoute = SHORT_NAME_MAP.PREVIOUS_APPLICATION_TYPE;
-      } else if (answer === RESPONSES.REASON_5)
-        nextRoute = SHORT_NAME_MAP.COURT_MARTIAL;
-      else {
-        nextRoute = SHORT_NAME_MAP.INTENTION;
-      }
+      nextRoute = determineReasonRoute(answer);
       break;
     case SHORT_NAME_MAP.DISCHARGE_TYPE:
       nextRoute = SHORT_NAME_MAP.INTENTION;
