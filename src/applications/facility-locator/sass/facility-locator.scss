@@ -14,11 +14,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .title-section {
-    padding: 0.5rem 0;
+    padding: 0.3125rem 0;
 
     h1:first-child {
       margin-top: 0;
-      padding: 0 0 0 1.5rem;
+      padding: 0 0 0 0.9375rem;
     }
   }
 
@@ -81,7 +81,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     }
 
     span.fa {
-      margin-right: 0.5rem;
+      margin-right: 0.3125rem;
     }
 
     a {
@@ -249,11 +249,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
 
-      .columns {
-        padding-left: 0.27rem;
-        padding-right: 0;
-      }
-
       input,
       textarea,
       select,
@@ -285,7 +280,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       input[type="submit"] {
         width: 100%;
-        padding: 0 1rem;
+        padding: 0 0.625rem;
         margin-top: 0;
 
         @media (min-width: $small-desktop-screen) {
@@ -346,7 +341,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .facility-detail {
-    padding: 0 1.5rem;
+    padding: 0 0.9375rem;
 
     li.sublist {
       margin-left: 1.5em;
@@ -395,13 +390,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
     hr {
       border-color: var(--vads-color-base-lighter);
-      margin: 0rem 0 2rem;
+      margin: 0rem 0 1.25rem;
       color: var(--vads-color-primary-dark);
     }
 
     hr.title {
       color: var(--vads-color-primary-dark);
-      margin: 0 0 2rem;
+      margin: 0 0 1.25rem;
       border: 1px solid var(--vads-color-primary-dark);
     }
   }
@@ -424,10 +419,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   color: var(--vads-color-base);
   display: block;
-  font-size: 1.6rem;
-  height: 4.2rem;
+  font-size: 1rem;
+  height: 2.625rem;
   line-height: 1.3;
-  margin: 0.2em 0 3rem;
+  margin: 0.2em 0 1.875rem;
   position: relative;
   width: 100%;
 
@@ -440,7 +435,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     background: var(--vads-color-white);
     border: solid 1px var(--vads-color-black);
     box-sizing: content-box;
-    font-size: 1.6rem;
+    font-size: 1rem;
     left: -1px;
     list-style: none;
     max-height: 25vh;
@@ -478,7 +473,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin: 0;
     max-width: 100%;
     overflow: hidden;
-    padding: 1rem 0.7em;
+    padding: 0.625rem 0.7em;
     text-decoration: none;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -524,7 +519,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .notice-marg-pad {
-  padding: 0.5rem !important;
+  padding: 0.3125rem !important;
   margin-top: 0;
   font-size: 16px;
   font-weight: bold;
