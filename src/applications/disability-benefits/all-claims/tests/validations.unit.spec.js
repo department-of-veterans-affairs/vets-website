@@ -267,7 +267,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.false;
     });
 
-    it('should add error if no treatment start date year is entered', () => {
+    it('should add error if only treatment start date month is entered', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
