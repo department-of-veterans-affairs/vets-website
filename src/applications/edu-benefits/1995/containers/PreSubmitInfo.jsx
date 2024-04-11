@@ -3,11 +3,7 @@ import PreSubmitInfo from '../../containers/PreSubmitInfo';
 import { isProductionOfTestProdEnv, eighteenOrOver } from '../helpers';
 
 export function isActiveDuty(formData) {
-  try {
-    return formData.isActiveDuty;
-  } catch (e) {
-    return false;
-  }
+  return formData?.isActiveDuty;
 }
 
 function PreSubmitNotice({
