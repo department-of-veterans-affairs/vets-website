@@ -10,6 +10,11 @@ const PayeeInformationCard = ({
   applicantClaimNumber = '',
   loading,
 }) => {
+  const chapters = {
+    A: 'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
+    B: 'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
+    E: 'Reservist Educational Assistance Program (REAP) – (Chapter 1607)',
+  };
   return (
     <div
       className="medium-screen:vads-u-padding--4"
@@ -53,7 +58,7 @@ const PayeeInformationCard = ({
               message="Loading applicant chapter..."
             />
           ) : (
-            <p>{applicantChapter}</p>
+            <p>{chapters[applicantChapter.toUpperCase()]}</p>
           )}
         </div>
       )}

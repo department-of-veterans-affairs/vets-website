@@ -15,17 +15,18 @@ export const languageLinks = [
   {
     label: 'Español',
     lang: 'es',
-    href: '/asistencia-y-recursos-en-espanol',
+    href: 'https://va.gov/asistencia-y-recursos-en-espanol',
   },
   {
     label: 'Tagalog',
     lang: 'tl',
-    href: '/tagalog-wika-mapagkukunan-at-tulong',
+    href: 'https://va.gov/tagalog-wika-mapagkukunan-at-tulong',
   },
   {
     label: 'Other languages',
     lang: 'en',
-    href: '/resources/how-to-get-free-language-assistance-from-va/',
+    href:
+      'https://va.gov/resources/how-to-get-free-language-assistance-from-va/',
   },
 ];
 

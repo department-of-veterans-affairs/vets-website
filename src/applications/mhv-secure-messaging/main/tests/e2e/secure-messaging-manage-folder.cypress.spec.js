@@ -8,7 +8,6 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('manage folders', () => {
   describe('folder created message', () => {
-    const folderPage = new FolderManagementPage();
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const newFolder = `folder${Date.now()}`;
@@ -24,13 +23,12 @@ describe('manage folders', () => {
       cy.axeCheck(AXE_CONTEXT, {});
 
       PatientMessageCustomFolderPage.createCustomFolder(newFolder);
-      folderPage.verifyCreateFolderSuccessMessage();
-      folderPage.verifyCreateFolderSucessMessageHasFocus();
+      FolderManagementPage.verifyCreateFolderSuccessMessage();
+      FolderManagementPage.verifyCreateFolderSuccessMessageHasFocus();
     });
   });
 
   describe('folder deleted message', () => {
-    const folderPage = new FolderManagementPage();
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const folderName = createdFolderResponse.data.attributes.name;
@@ -50,10 +48,10 @@ describe('manage folders', () => {
         folderId,
         folderName,
       );
-      folderPage.deleteFolderButton().click();
-      folderPage.confirmDeleteFolder(folderId);
-      folderPage.verifyDeleteSuccessMessage();
-      folderPage.verifyDeleteSuccessMessageHasFocus();
+      FolderManagementPage.deleteFolderButton().click();
+      FolderManagementPage.confirmDeleteFolder(folderId);
+      FolderManagementPage.verifyDeleteSuccessMessage();
+      FolderManagementPage.verifyDeleteSuccessMessageHasFocus();
     });
   });
 });

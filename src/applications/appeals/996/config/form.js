@@ -12,7 +12,7 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
-import WizardContainer from '../wizard/WizardContainer';
+import SubTaskContainer from '../subtask/SubTaskContainer';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -29,7 +29,7 @@ import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
-import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
+import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
@@ -59,7 +59,6 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
-  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -105,7 +104,7 @@ const formConfig = {
   additionalRoutes: [
     {
       path: 'start',
-      component: WizardContainer,
+      component: SubTaskContainer,
       pageKey: 'start',
       depends: () => false,
     },

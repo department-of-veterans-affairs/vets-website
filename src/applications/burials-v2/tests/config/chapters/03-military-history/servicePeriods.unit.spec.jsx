@@ -106,11 +106,11 @@ describe('ServicePeriodView', () => {
   it('should render `to` and `from` when date ranges service periods provided', () => {
     const formData = {
       serviceBranch: 'Navy',
-      dateRange: { from: '01-01-2019', to: '05-21-2024' },
+      dateRange: { from: '2019-02-02T02:00:00', to: '2024-05-21T02:00:00' },
     };
     const { queryByText } = render(<ServicePeriodView formData={formData} />);
 
     expect(queryByText('Navy')).to.exist;
-    expect(queryByText('January 1, 2019 - May 21, 2024')).to.exist;
+    expect(queryByText('February 2, 2019 - May 21, 2024')).to.exist;
   });
 });
