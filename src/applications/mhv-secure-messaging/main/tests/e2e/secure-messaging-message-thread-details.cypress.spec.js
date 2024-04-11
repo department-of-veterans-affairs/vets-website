@@ -44,7 +44,10 @@ describe('Secure Messaging Message Details', () => {
     detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 1);
     // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage group name only on received messages
     // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); // TODO UCD is still determining whether to display this
-    detailsPage.verifyExpandedMessageDateDisplay(mockParentMessageDetails, 1);
+    detailsPage.verifyExpandedMessageDateDisplayText(
+      mockParentMessageDetails,
+      1,
+    );
 
     detailsPage.verifyUnexpandedMessageAttachment(2);
     cy.injectAxe();
