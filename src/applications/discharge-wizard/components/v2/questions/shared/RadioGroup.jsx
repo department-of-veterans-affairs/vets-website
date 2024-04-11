@@ -77,7 +77,6 @@ const RadioGroup = ({
       );
     });
   };
-
   return (
     <>
       <VaRadio

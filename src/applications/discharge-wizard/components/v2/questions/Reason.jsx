@@ -73,10 +73,10 @@ const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
 
 Reason.propTypes = {
   formResponses: PropTypes.object,
-  setReason: PropTypes.func,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setReason: PropTypes.func,
   viewedIntroPage: PropTypes.bool,
 };
 

@@ -57,10 +57,10 @@ const Intention = ({
 
 Intention.propTypes = {
   formResponses: PropTypes.object,
-  setIntention: PropTypes.func,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setIntention: PropTypes.func,
   viewedIntroPage: PropTypes.bool,
 };
 
