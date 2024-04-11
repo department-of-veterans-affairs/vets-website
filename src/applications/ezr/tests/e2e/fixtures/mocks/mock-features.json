@@ -12,7 +12,7 @@
       },
       {
         "name": "ezrTeraEnabled",
-        "value": true
+        "value": false
       }
     ]
   }

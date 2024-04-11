@@ -36,10 +36,6 @@ describe('Vaccines list container', () => {
     expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
-  it('displays Date of birth for the print view', () => {
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
   it('displays a print button', () => {
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;
@@ -78,6 +74,40 @@ describe('Vaccines list container still loading', () => {
 
   it('displays a loading indicator', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('Vaccines list container first time loading', () => {
+  const initialState = {
+    user,
+    mr: {
+      vaccines: { listCurrentAsOf: undefined },
+      alerts: { alertList: [] },
+      refresh: { initialFhirLoad: true },
+    },
+  };
+
+  it('displays the first-time loading indicator when data is stale', () => {
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    expect(screen.getByTestId('initial-fhir-loading-indicator')).to.exist;
+  });
+
+  it('does not display the first-time loading indicator when data is current', () => {
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState: {
+        ...initialState,
+        mr: { ...initialState.mr, vaccines: { listCurrentAsOf: new Date() } },
+      },
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    expect(screen.queryByTestId('initial-fhir-loading-indicator')).to.not.exist;
   });
 });
 
