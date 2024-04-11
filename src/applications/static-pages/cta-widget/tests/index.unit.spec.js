@@ -805,7 +805,28 @@ describe('<CallToActionWidget>', () => {
   });
 
   describe('haCpapSuppliesCta feature', () => {
-    it('renders cta link when feature toggle is enabled', () => {
+    it('promps to sign in when feature enabled and user signed out', () => {
+      const { props, mockStore } = getData();
+      const tree = mount(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            featureToggles={{ loading: false, haCpapSuppliesCta: true }}
+            ariaLabel="test aria-label"
+            ariaDescribedby="test-id"
+          />
+        </Provider>,
+      );
+
+      const signIn = tree.find('SignIn');
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(signIn.exists()).to.be.true;
+      expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
+      expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
+      tree.unmount();
+    });
+
+    it('renders a link when feature enabled and user signed in', () => {
       const tree = mount(
         <CallToActionWidget
           appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
@@ -839,14 +860,13 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('does not render when feature toggle is disabled', () => {
+    it('does not render when feature disabled', () => {
       const tree = mount(
         <CallToActionWidget
           appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
-          isLoggedIn
           profile={{
             loading: false,
-            verified: true,
+            verified: false,
             multifactor: false,
           }}
           mhvAccount={{

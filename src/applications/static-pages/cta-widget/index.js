@@ -148,13 +148,6 @@ export class CallToActionWidget extends Component {
   };
 
   getContent = () => {
-    if (
-      this.props.appId === CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES &&
-      !this.props.featureToggles.haCpapSuppliesCta
-    ) {
-      return <></>;
-    }
-
     if (!this.props.isLoggedIn) {
       this.updateReturnUrl();
       if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
@@ -166,6 +159,12 @@ export class CallToActionWidget extends Component {
             ariaDescribedby={this.props.ariaDescribedby}
           />
         );
+      }
+      if (
+        this.props.appId === CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES &&
+        !this.props.featureToggles.haCpapSuppliesCta
+      ) {
+        return <></>;
       }
       return (
         <SignIn
