@@ -42,23 +42,23 @@ const uiSchema = {
     'ui:webComponentField': VaRadioField,
     'ui:title': 'Account type',
     'ui:errorMessages': {
-      required: 'Please select the type that best describes your account',
+      required: 'Select the type that best describes your account',
     },
   },
   routingNumber: {
     'ui:webComponentField': VaTextInputField,
     'ui:title': 'Routing number',
     'ui:errorMessages': {
-      pattern: 'Please enter your bank’s 9-digit routing number',
-      required: 'Please enter your bank’s 9-digit routing number',
+      pattern: 'Enter your bank’s 9-digit routing number',
+      required: 'Enter your bank’s 9-digit routing number',
     },
   },
   accountNumber: {
     'ui:webComponentField': VaTextInputField,
     'ui:title': 'Account number (No more than 17 digits)',
     'ui:errorMessages': {
-      pattern: 'Please enter your account number',
-      required: 'Please enter your account number',
+      pattern: 'Enter your account number',
+      required: 'Enter your account number',
     },
   },
   'view:directDepositInfo': {
