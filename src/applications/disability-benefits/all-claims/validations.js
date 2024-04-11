@@ -346,7 +346,9 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   // the return value will be negative.
   if (fieldData.match(/^XXXX-\d{2}-XX$/)) {
     err.addError('Enter a month and year.');
-  } else if (
+    return;
+  }
+  if (
     (fieldData.match(/^\d{4}-XX-XX$/) &&
       treatmentStartDate.diff(earliestServiceStartDate, 'year') < 0) ||
     (fieldData.match(/^\d{4}-\d{2}-XX$/) &&
