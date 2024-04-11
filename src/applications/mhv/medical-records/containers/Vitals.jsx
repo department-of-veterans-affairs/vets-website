@@ -30,13 +30,13 @@ const Vitals = () => {
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
-  const vatalsCurrentAsOf = useSelector(
+  const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
 
   useListRefresh({
     listState,
-    listCurrentAsOf: vatalsCurrentAsOf,
+    listCurrentAsOf: vitalsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
     dispatchAction: getVitals,
@@ -80,6 +80,18 @@ const Vitals = () => {
   const content = () => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
+    if (refresh.initialFhirLoad && !vitalsCurrentAsOf) {
+      return (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            class="hydrated initial-fhir-load"
+            message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
+            setFocus
+            data-testid="initial-fhir-loading-indicator"
+          />
+        </div>
+      );
     }
     if (vitals?.length === 0) {
       return (
