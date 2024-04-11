@@ -1,20 +1,21 @@
 import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import { breadcrumbsReducer } from '../../reducers/breadcrumbs';
+import { medicationsUrls } from '../../util/constants';
 
 const breadcrumbs = {
   crumbs: [
     {
-      url: '/my-health/medications/about',
+      url: `${medicationsUrls.MEDICATIONS_ABOUT}`,
       label: 'About medications',
     },
     {
-      url: '/my-health/medications/1',
+      url: `${medicationsUrls.MEDICATIONS_URL}/1`,
       label: 'Medications',
     },
   ],
   location: {
-    url: `/my-health/medications/prescription/000`,
+    url: `${medicationsUrls.PRESCRIPTION_DETAILS}/000`,
     label: 'Prescription Name',
   },
 };

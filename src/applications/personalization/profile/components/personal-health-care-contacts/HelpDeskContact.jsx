@@ -6,7 +6,7 @@ const HelpDeskContact = ({ testId }) => (
   <>
     <va-telephone
       data-testid={`${testId}-va-800-number`}
-      contact={CONTACTS.HELP_DESK}
+      contact={CONTACTS.VA_BENEFITS}
     />{' '}
     (
     <va-telephone

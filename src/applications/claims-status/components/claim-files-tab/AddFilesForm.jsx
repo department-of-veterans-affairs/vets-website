@@ -20,11 +20,7 @@ import {
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
-import {
-  displayFileSize,
-  DOC_TYPES,
-  getTopPosition,
-} from '../../utils/helpers';
+import { displayFileSize, DOC_TYPES } from '../../utils/helpers';
 import { setFocus } from '../../utils/page';
 import {
   validateIfDirty,
@@ -46,24 +42,7 @@ const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo(`documentScroll${position}`, options);
 };
-const scrollToError = () => {
-  const errors = document.querySelectorAll('.usa-input-error');
-  if (errors.length) {
-    const errorPosition = getTopPosition(errors[0]);
-    const options = getScrollOptions({ offset: -25 });
-    const errorID = errors[0].querySelector('label').getAttribute('for');
-    const errorInput = document.getElementById(`${errorID}`);
-    const inputType = errorInput.getAttribute('type');
-    scrollTo(errorPosition, options);
 
-    if (inputType === 'file') {
-      // Sends focus to the file input button
-      errors[0].querySelector('label[role="button"]').focus();
-    } else {
-      errorInput.focus();
-    }
-  }
-};
 const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
@@ -177,7 +156,6 @@ class AddFilesForm extends React.Component {
     }
 
     this.props.onDirtyFields();
-    setTimeout(scrollToError);
   };
 
   render() {
@@ -207,7 +185,7 @@ class AddFilesForm extends React.Component {
             error={this.getErrorMessage()}
             label="Upload additional evidence"
             hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
             onVaChange={e => this.add(e.detail.files)}
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
@@ -230,7 +208,6 @@ class AddFilesForm extends React.Component {
                   <div className="remove-document-button">
                     <va-button
                       secondary
-                      uswds
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
                     />
@@ -245,7 +222,6 @@ class AddFilesForm extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -261,7 +237,6 @@ class AddFilesForm extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -274,9 +249,6 @@ class AddFilesForm extends React.Component {
                     this.handleDocTypeChange(e.detail.value, index)
                   }
                 >
-                  <option disabled value="">
-                    Select a description
-                  </option>
                   {DOC_TYPES.map(doc => (
                     <option key={doc.value} value={doc.value}>
                       {doc.label}
@@ -293,7 +265,6 @@ class AddFilesForm extends React.Component {
           message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
-          uswds
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
@@ -306,7 +277,6 @@ class AddFilesForm extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--3"
           trigger="Need to mail your files?"
-          uswds
         >
           {mailMessage}
         </va-additional-info>

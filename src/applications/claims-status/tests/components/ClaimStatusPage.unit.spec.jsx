@@ -2,12 +2,13 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
+import { renderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -133,7 +134,7 @@ describe('<ClaimStatusPage>', () => {
               },
             };
 
-            const { container, getByText } = render(
+            const { container, getByText } = renderWithRouter(
               <Provider store={getStore()}>
                 <ClaimStatusPage
                   claim={claim}
@@ -186,7 +187,7 @@ describe('<ClaimStatusPage>', () => {
                 ],
               },
             };
-            const { container, getByText } = render(
+            const { container, getByText } = renderWithRouter(
               <Provider store={getStore()}>
                 <ClaimStatusPage
                   claim={claim}
@@ -244,7 +245,7 @@ describe('<ClaimStatusPage>', () => {
     const store = createStore(() => ({}));
 
     it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = render(
+      const screen = renderWithRouter(
         <Provider store={store}>
           <ClaimStatusPage
             claim={claim}

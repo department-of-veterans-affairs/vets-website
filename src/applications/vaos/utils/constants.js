@@ -314,18 +314,21 @@ export const TYPE_OF_VISIT = [
   {
     id: 'clinic',
     name: 'Office visit',
+    name2: 'In person',
     serviceName: 'Office Visit',
     vsGUI: 'FACE TO FACE',
   },
   {
     id: 'phone',
     name: 'Phone call',
+    name2: 'By phone',
     serviceName: 'Phone Call',
     vsGUI: 'TELEPHONE',
   },
   {
     id: 'telehealth',
     name: 'Telehealth (through VA Video Connect)',
+    name2: 'Through VA Video Connect (telehealth)',
     serviceName: 'Video Conference',
     vsGUI: 'VIDEO',
   },
@@ -472,10 +475,10 @@ export const SERVICE_CATEGORY = [
 ];
 
 export const OH_TRANSITION_SITES = {
-  Lovell: {
-    id: '556',
-    name: 'Lovell Federal Health Care Center',
-    transitionDate: 'March 9',
-    telephone: '8476881900',
+  siteName: {
+    id: '',
+    name: '',
+    transitionDate: '',
+    telephone: '',
   },
 };

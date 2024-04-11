@@ -7,6 +7,7 @@ import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
+import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -14,12 +15,12 @@ class MedicationsListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     ).as('medicationsList');
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
@@ -32,7 +33,12 @@ class MedicationsListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       emptyPrescriptionsList,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
@@ -61,7 +67,7 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find('[href="/my-health/medications/about/accordion-renew-rx"]')
+      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}"]`)
       .first()
       .click({ waitForAnimations: true });
   };
@@ -96,7 +102,7 @@ class MedicationsListPage {
       .first()
       .should(
         'have.text',
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
       );
   };
 
@@ -394,6 +400,35 @@ class MedicationsListPage {
       );
   };
 
+  clickSortLastFilledFirst = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      prescriptions,
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      prescriptions,
+    );
+
+    cy.get('[data-testid="sort-button"]').should('be.visible');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+  };
+
+  verifyPaginationDisplayedforSortLastFilledFirst = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]')
+      .first()
+      .should(
+        'have.text',
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+      );
+  };
+
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
       '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
@@ -454,6 +489,39 @@ class MedicationsListPage {
       'have.text',
       'Medications',
     );
+  };
+
+  verifyAboutMedicationsBreadcrumbTextOnListPage = () => {
+    cy.get('[href="/my-health/medications/about"]').should(
+      'contain',
+      'About medications',
+    );
+  };
+
+  verifyMedicationDescriptionDetails = (
+    shape,
+    color,
+    frontImprint,
+    backImprint,
+  ) => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[19].attributes).to.include({
+          shape,
+          color,
+          frontImprint,
+          backImprint,
+        });
+      });
+  };
+
+  verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('be.enabled');
+  };
+
+  verifyPrintAllMedicationsFromDropDownOnListPage = () => {
+    cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
   };
 }
 export default MedicationsListPage;

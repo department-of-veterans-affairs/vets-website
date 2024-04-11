@@ -14,7 +14,12 @@ import { focusElement } from 'platform/utilities/ui';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
-import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
+import {
+  CONTRIBUTION_AMOUNT_SUMMARY_TEXT,
+  NUMBER_OF_STUDENTS_SUMMARY_TEXT,
+  TOOL_TIP_CONTENT,
+  TOOL_TIP_LABEL,
+} from '../../constants';
 import { getCurrentAcademicYear, titleCase } from '../../helpers';
 
 export class SearchResults extends Component {
@@ -65,23 +70,41 @@ export class SearchResults extends Component {
   };
 
   deriveAdditionalParamsString = () => {
-    const { name, stateOrTerritory, city } = this.getSearchParams();
-    const formattedName = name ? titleCase(name) : '';
-    const formattedCity = city ? titleCase(city) : '';
-    const additionalSearchParams = [];
+    const {
+      name,
+      stateOrTerritory,
+      city,
+      contributionAmount,
+      numberOfStudents,
+    } = this.getSearchParams();
 
-    if (formattedName)
-      additionalSearchParams.push(
-        <strong key="name">"{formattedName}"</strong>,
-      );
-    if (formattedCity)
-      additionalSearchParams.push(
-        <strong key="city">"{formattedCity}"</strong>,
-      );
-    if (stateOrTerritory)
-      additionalSearchParams.push(
-        <strong key="state">"{stateOrTerritory}"</strong>,
-      );
+    const searchParams = [
+      { key: 'name', value: name, transform: val => titleCase(val) },
+      { key: 'city', value: city, transform: val => titleCase(val) },
+      { key: 'stateOrTerritory', value: stateOrTerritory },
+      {
+        key: 'contributionAmount',
+        value: contributionAmount,
+        text: CONTRIBUTION_AMOUNT_SUMMARY_TEXT,
+      },
+      {
+        key: 'numberOfStudents',
+        value: numberOfStudents,
+        text: NUMBER_OF_STUDENTS_SUMMARY_TEXT,
+      },
+    ];
+
+    const additionalSearchParams = searchParams.reduce(
+      (acc, { key, value, transform, text }) => {
+        if (value) {
+          const formattedValue = transform ? transform(value) : value;
+          const displayText = text || `"${formattedValue}"`;
+          acc.push(<strong key={key}>{displayText}</strong>);
+        }
+        return acc;
+      },
+      [],
+    );
 
     // Combine elements with commas
     const additionalParamsJsx = additionalSearchParams.reduce(
@@ -94,7 +117,7 @@ export class SearchResults extends Component {
     );
 
     if (additionalParamsJsx.length > 0) {
-      return <>: {additionalParamsJsx}</>; // Return JSX fragment
+      return <>: {additionalParamsJsx}</>;
     }
 
     return null;

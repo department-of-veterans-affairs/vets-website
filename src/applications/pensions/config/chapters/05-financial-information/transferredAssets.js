@@ -11,6 +11,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Transferred assets',
+  path: 'financial/transferred-assets',
   uiSchema: {
     ...titleUI('Income and assets'),
     'view:informationAlert': {

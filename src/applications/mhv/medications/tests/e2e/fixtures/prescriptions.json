@@ -573,27 +573,24 @@
                 "indicationForUse": null,
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
-                "trackingList": [
-                    [
-                        "tracking",
-                        [
-                            {
-                                "id": null,
-                                "stationNumber": null,
-                                "rxNumber": null,
-                                "carrier": "UPS",
-                                "trackingNumber": "1Z9799999993636979",
-                                "completeDateTime": "Mon, 02 Oct 2023 00:00:00 EDT",
-                                "divisionPhone": null,
-                                "ndc": null,
-                                "dateLoaded": null,
-                                "isLocalTracking": true,
-                                "othersInSamePackage": false,
-                                "viewImageDisplayed": false
-                            }
-                        ]
+                "trackingList": {
+                    "tracking": [
+                        {
+                            "id": null,
+                            "stationNumber": null,
+                            "rxNumber": null,
+                            "carrier": "UPS",
+                            "trackingNumber": "1Z9799999993636979",
+                            "completeDateTime": "Mon, 02 Oct 2023 00:00:00 EDT",
+                            "divisionPhone": null,
+                            "ndc": null,
+                            "dateLoaded": null,
+                            "isLocalTracking": true,
+                            "othersInSamePackage": false,
+                            "viewImageDisplayed": false
+                        }
                     ]
-                ],
+                },
                 "rxRfRecords": [
                     {
                         "refillStatus": "suspended",

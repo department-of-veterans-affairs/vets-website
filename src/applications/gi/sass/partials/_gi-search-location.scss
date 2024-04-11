@@ -15,7 +15,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .location-search-results-container {
-    border: solid $color-gray-lightest;
+    border: solid var(--vads-color-base-lightest);
     height: 565px;
     overflow-y: scroll;
 
@@ -30,8 +30,8 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 23px;
     height: 23px;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
-    border: solid 4px $color-white;
-    background-color: $color-red-dark;
+    border: solid 4px var(--vads-color-white);
+    background-color: var(--vads-color-secondary-dark);
   }
 
   .location-letter,
@@ -43,8 +43,8 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     font-family: $font-sans;
     align-items: center;
     justify-content: center;
-    background: $color-base;
-    color: $color-gray-lightest;
+    background: var(--vads-color-base);
+    color: var(--vads-color-base-lightest);
     text-align: center;
   }
 
@@ -53,12 +53,12 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 23px;
     height: 23px;
     box-shadow: 0 0 4px 0 $ct-locator-shadow;
-    border: solid 4px $color-white;
-    background-color: $color-red-dark;
+    border: solid 4px var(--vads-color-white);
+    background-color: var(--vads-color-secondary-dark);
   }
 
   .location-letter-marker:active {
-    background: $color-gray;
+    background: var(--vads-color-base-dark);
   }
 
   #mapbox-gl-container {
@@ -102,7 +102,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   canvas.mapboxgl-canvas:focus {
-    outline: 2px solid $color-gold-light;
+    outline: 2px solid var(--vads-color-action-focus-on-light);
     outline-offset: 2px;
   }
 
@@ -110,27 +110,27 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     z-index: 1;
 
     button:disabled {
-      background-color: $color-gray-medium;
+      background-color: var(--vads-color-gray-medium);
     }
   }
 
   .tab-form {
     .active-results-tab {
-      border-top: 4px solid $color-primary;
+      border-top: 4px solid var(--vads-color-primary);
     }
 
     .inactive-results-tab {
-      border-top: 2px solid $color-black;
+      border-top: 2px solid var(--vads-color-black);
     }
 
     .list-results-tab {
-      border-left: 2px solid $color-black;
-      border-right: 1px solid $color-black;
+      border-left: 2px solid var(--vads-color-black);
+      border-right: 1px solid var(--vads-color-black);
     }
 
     .map-results-tab {
-      border-left: 1px solid $color-black;
-      border-right: 2px solid $color-black;
+      border-left: 1px solid var(--vads-color-black);
+      border-right: 2px solid var(--vads-color-black);
     }
   }
 }
@@ -149,7 +149,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 .use-my-location-link {
   text-decoration: none;
   background-color: transparent;
-  color: $color-link-default;
+  color: var(--vads-color-link);
   font-weight: normal;
   padding: 0;
   margin: 0 0 0 20px;
@@ -163,7 +163,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .use-my-location-link:hover {
   background-color: transparent;
-  color: $color-link-default;
+  color: var(--vads-color-link);
 
   @media (max-width: $small-desktop-screen) {
     text-align: left;

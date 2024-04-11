@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
+  updatePageTitle,
+  reportGeneratedBy,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
   getPrescriptionDetails,
   getAllergiesList,
   clearAllergiesError,
@@ -18,7 +23,6 @@ import PrintDownload, {
   DOWNLOAD_FORMAT,
 } from '../components/shared/PrintDownload';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { updatePageTitle } from '../../shared/util/helpers';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -32,13 +36,11 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
+import { medicationsUrls, PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
-import { reportGeneratedBy } from '../../shared/util/constants';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
-import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -78,16 +80,16 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/medications/about',
+              url: medicationsUrls.MEDICATIONS_ABOUT,
               label: 'About medications',
             },
             {
-              url: '/my-health/medications/?page=1',
+              url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/prescription/${
+            url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${
               prescription.prescriptionId
             }`,
             label: prescriptionHeader,
@@ -110,7 +112,7 @@ const PrescriptionDetails = () => {
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
-  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   useEffect(
     () => {

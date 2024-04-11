@@ -1,7 +1,8 @@
 import moment from 'moment';
 import defaultVaccines from '../fixtures/vaccines/vaccines.json';
+import BaseDetailsPage from './BaseDetailsPage';
 
-class VaccinesDetailsPage {
+class VaccinesDetailsPage extends BaseDetailsPage {
   verifyVaccineName = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="vaccine-name"]').contains(
       VaccinesDetails.resource.vaccineCode.text,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { getUnixTime, isAfter, parseISO, startOfDay, subDays } from 'date-fns';
 import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
@@ -7,7 +7,6 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
-import { DATE_FORMATS } from '../constants';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 import {
   buildDateFormatter,
@@ -71,7 +70,7 @@ const getRecentlyClosedClaims = claims => {
     });
 };
 
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 const getLinkText = claim => {
   const claimType = isAppeal(claim)
@@ -90,7 +89,6 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         status="warning"
         closeable
         onCloseEvent={onClose}
-        uswds="false"
       >
         <h4 slot="headline">Recently closed:</h4>
         <div>
@@ -99,8 +97,8 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               <Link
                 to={
                   isAppeal(claim)
-                    ? `appeals/${claim.id}/status`
-                    : `your-claims/${claim.id}/status`
+                    ? `/appeals/${claim.id}/status`
+                    : `${claim.id}/status`
                 }
                 onClick={() => {
                   recordEvent({ event: 'claims-closed-alert-clicked' });

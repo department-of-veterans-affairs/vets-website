@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import Scroll from 'react-scroll';
 
 import {
@@ -12,16 +12,16 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+} from '~/platform/forms-system/src/js/utilities/file';
 
-import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { displayFileSize, DOC_TYPES } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
@@ -45,24 +45,7 @@ const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo(`documentScroll${position}`, options);
 };
-const scrollToError = () => {
-  const errors = document.querySelectorAll('.usa-input-error');
-  if (errors.length) {
-    const errorPosition = getTopPosition(errors[0]);
-    const options = getScrollOptions({ offset: -25 });
-    const errorID = errors[0].querySelector('label').getAttribute('for');
-    const errorInput = document.getElementById(`${errorID}`);
-    const inputType = errorInput.getAttribute('type');
-    scrollTo(errorPosition, options);
 
-    if (inputType === 'file') {
-      // Sends focus to the file input button
-      errors[0].querySelector('label[role="button"]').focus();
-    } else {
-      errorInput.focus();
-    }
-  }
-};
 const { Element } = Scroll;
 
 class AddFilesFormOld extends React.Component {
@@ -177,7 +160,6 @@ class AddFilesFormOld extends React.Component {
     }
 
     this.props.onDirtyFields();
-    setTimeout(scrollToError);
   };
 
   render() {
@@ -189,7 +171,6 @@ class AddFilesFormOld extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
-          uswds="false"
         >
           {mailMessage}
         </va-additional-info>
@@ -238,7 +219,6 @@ class AddFilesFormOld extends React.Component {
                       secondary
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                      uswds
                     />
                   </div>
                 </div>
@@ -251,7 +231,6 @@ class AddFilesFormOld extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds="false"
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -267,7 +246,6 @@ class AddFilesFormOld extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds="false"
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -280,9 +258,6 @@ class AddFilesFormOld extends React.Component {
                     this.handleDocTypeChange(e.detail.value, index)
                   }
                 >
-                  <option disabled value="">
-                    Select a description
-                  </option>
                   {DOC_TYPES.map(doc => (
                     <option key={doc.value} value={doc.value}>
                       {doc.label}
@@ -294,7 +269,6 @@ class AddFilesFormOld extends React.Component {
           ),
         )}
         <VaCheckbox
-          uswds="false"
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}

@@ -45,6 +45,7 @@ const generateMedicalCentersSchemas = (
           customTitle: ' ',
           confirmRemove: true,
           useDlWrap: true,
+          useVaCards: true,
         },
         items: {
           medicalCenter: {

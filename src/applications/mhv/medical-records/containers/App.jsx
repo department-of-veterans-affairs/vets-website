@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  renderMHVDowntime,
+  useDatadogRum,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
   externalServices,
@@ -16,7 +19,7 @@ import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import Navigation from '../components/Navigation';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+
 import {
   flagsLoadedAndMhvEnabled,
   selectConditionsFlag,
@@ -247,7 +250,7 @@ const App = ({ children }) => {
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4" />
+                    <div className="vads-u-margin-right--4 no-print" />
                   </>
                 )}
                 <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
