@@ -5,7 +5,6 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -13,7 +12,7 @@ import {
   recordType,
   refreshExtractTypes,
 } from '../util/constants';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 
@@ -47,36 +46,6 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
-  const content = () => {
-    if (accessAlert) {
-      return (
-        <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
-      );
-    }
-    if (labsAndTests?.length === 0) {
-      return <NoRecordsMessage type={recordType.LABS_AND_TESTS} />;
-    }
-    if (labsAndTests?.length > 0) {
-      return (
-        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
-      );
-    }
-    if (labsAndTests?.length === 0) {
-      return <NoRecordsMessage type={recordType.LABS_AND_TESTS} />;
-    }
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="Loading..."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      </div>
-    );
-  };
-
   return (
     <div id="labs-and-tests">
       <h1 className="page-title vads-u-margin-bottom--1">
@@ -89,7 +58,16 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
-      {content()}
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.LABS_AND_TESTS}
+        recordCount={labsAndTests?.length}
+        recordType={recordType.LABS_AND_TESTS}
+        listCurrentAsOf={labsAndTestsCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
+      </RecordListSection>
     </div>
   );
 };

@@ -252,6 +252,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       input,
       textarea,
       select,
+      va-select,
       .input-container {
         max-width: none;
         margin-bottom: 24px;
@@ -268,16 +269,33 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         padding: 0;
       }
 
+      va-select {
+        padding-right: 0;
+        padding-left: 0;
+      }
+
+      .service-type-dropdown-container {
+        align-content: end;
+      }
+
       input[type="submit"] {
         width: 100%;
         padding: 0 1rem;
         margin-top: 0;
 
         @media (min-width: $small-desktop-screen) {
-          margin-top: 27px;
+          margin-top: auto;
           min-width: 67px;
           width: auto;
         }
+      }
+
+      .typeahead + input[type="submit"] {
+        margin-bottom: 30px;
+      }
+
+      .typeahead:has(.usa-input-error) + input[type="submit"] {
+        margin-bottom: 38px;
       }
 
       #location-input-field {
@@ -315,6 +333,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       #search-controls-bottom-row {
         @media (min-width: $small-desktop-screen) {
           display: flex;
+          margin-top: -24px;
           flex-direction: row;
         }
       }
@@ -380,6 +399,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       margin: 0 0 2rem;
       border: 1px solid var(--vads-color-primary-dark);
     }
+  }
+
+  .typeahead {
+    margin-top: 25px;
   }
 }
 
@@ -600,7 +623,6 @@ canvas.mapboxgl-canvas:focus {
 }
 
 #street-city-state-zip {
-  font-weight: bold;
   padding-right: 36px !important;
 }
 
