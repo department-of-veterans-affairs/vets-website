@@ -144,7 +144,7 @@ class FolderManagementPage {
     return cy.get('[data-testid="alert-text"]');
   };
 
-  verifyDeleteSuccessMessage = () => {
+  verifyDeleteSuccessMessageText = () => {
     this.folderConfirmation().should(
       'contain.text',
       Data.FOLDER_REMOVED_SUCCESSFULLY,
