@@ -62,19 +62,19 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
-    expect(await screen.getByTestId('reason-comment-field')).to.have.attribute(
+    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
       'label',
       'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
     );
     expect(
-      await screen.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 1,
         name: /What’s the reason for this appointment?/i,
       }),
     );
 
     expect(
-      await screen.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
         name: /If you have an urgent medical need, please:/i,
       }),
@@ -99,15 +99,17 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
-    expect(await document.querySelectorAll('va-radio-option')).to.have.lengthOf(
-      4,
-    );
-    const radioOption = await document.querySelectorAll('va-radio-option');
-    expect(radioOption[0]).to.have.attribute(
-      'label',
-      'This is a routine or follow-up visit.',
-    );
-    fireEvent.click(await screen.getByText(/Continue/));
+
+    const selectors = screen.container.querySelectorAll('va-radio-option');
+    await waitFor(() => {
+      expect(selectors).to.have.lengthOf(4);
+      expect(selectors[0]).to.have.attribute(
+        'label',
+        'This is a routine or follow-up visit.',
+      );
+    });
+
+    fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByRole('alert')).to.contain.text(
       'Provide more information about why you are requesting this appointment',
@@ -214,7 +216,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       },
     );
 
-    expect(await screen.getByTestId('reason-comment-field')).to.have.attribute(
+    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
       'label',
       'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
     );
@@ -226,7 +228,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       }),
     );
 
-    fireEvent.click(await screen.getByText(/Continue/));
+    fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
