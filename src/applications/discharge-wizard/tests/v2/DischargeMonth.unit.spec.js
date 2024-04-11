@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { RESPONSES } from '../../constants/question-data-map';
 import { ROUTES } from '../../constants';
 
 import DischargeMonth from '../../components/v2/questions/DischargeMonth';
@@ -12,11 +11,7 @@ const mockStoreStandard = {
   getState: () => ({
     dischargeUpgradeWizard: {
       duwForm: {
-        form: {
-          SERVICE_BRANCH: null,
-          DISCHARGE_YEAR: null,
-          DISCHARGE_MONTH: null,
-        },
+        form: {},
         viewedIntroPage: true,
       },
     },
@@ -29,11 +24,7 @@ const mockStoreNoIntroPage = {
   getState: () => ({
     dischargeUpgradeWizard: {
       duwForm: {
-        form: {
-          SERVICE_BRANCH: null,
-          DISCHARGE_YEAR: null,
-          DISCHARGE_MONTH: null,
-        },
+        form: {},
         viewedIntroPage: false,
       },
     },
@@ -45,11 +36,7 @@ const mockStoreNoIntroPage = {
 const pushStub = sinon.stub();
 
 const propsStandard = {
-  formResponses: {
-    SERVICE_BRANCH: RESPONSES.ARMY,
-    DISCHARGE_YEAR: 2009,
-    DISCHARGE_MONTH: null,
-  },
+  formResponses: {},
   setDischargeMonth: () => {},
   router: {
     push: pushStub,
@@ -58,11 +45,7 @@ const propsStandard = {
 };
 
 const propsNoIntroPage = {
-  formResponses: {
-    SERVICE_BRANCH: RESPONSES.ARMY,
-    DISCHARGE_YEAR: null,
-    DISCHARGE_MONTH: null,
-  },
+  formResponses: {},
   setDischargeMonth: () => {},
   router: {
     push: pushStub,

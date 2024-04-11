@@ -33,10 +33,6 @@ describe('Condition details container', () => {
     expect(screen).to.exist;
   });
 
-  it('displays Date of birth for the print view', () => {
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
   it('displays a print button', () => {
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;

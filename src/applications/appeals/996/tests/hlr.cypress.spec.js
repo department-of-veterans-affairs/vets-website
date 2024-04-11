@@ -1,7 +1,8 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -9,7 +10,7 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API, WIZARD_STATUS, BASE_URL } from '../constants';
+import { CONTESTABLE_ISSUES_API, BASE_URL } from '../constants';
 
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
@@ -148,8 +149,9 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      window.sessionStorage.removeItem(WIZARD_STATUS);
       cypressSetup();
+
+      setStoredSubTask({ benefitType: 'compensation' });
 
       cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
       cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
