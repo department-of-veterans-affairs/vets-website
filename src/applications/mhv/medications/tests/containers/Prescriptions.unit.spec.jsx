@@ -120,7 +120,7 @@ describe('Medications Prescriptions container', () => {
     });
     expect(
       screen.getByText(
-        'You don’t have any medications in your medications list',
+        'You don’t have any VA prescriptions or medication records',
       ),
     ).to.exist;
   });
