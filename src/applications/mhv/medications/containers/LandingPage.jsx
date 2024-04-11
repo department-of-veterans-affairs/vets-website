@@ -79,7 +79,7 @@ const LandingPage = () => {
         ).then(() => setIsPrescriptionsLoading(false));
       }
     },
-    [dispatch, paginatedPrescriptionsList],
+    [dispatch, paginatedPrescriptionsList, isPrescriptionsLoading],
   );
 
   const content = () => {
