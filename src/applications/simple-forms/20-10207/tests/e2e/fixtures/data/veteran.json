@@ -22,7 +22,7 @@
     },
     "veteranPhone": "1234567890",
     "otherReasons": {
-      "OVER_85": true
+        "OVER_85": true
     },
     "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
