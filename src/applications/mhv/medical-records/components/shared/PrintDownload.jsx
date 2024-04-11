@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const PrintDownload = props => {
   const { downloadPdf, downloadTxt, list, allowTxtDownloads } = props;
@@ -51,14 +52,17 @@ const PrintDownload = props => {
   const handlePrint = () => {
     window.print();
     setMenuOpen(false);
+    focusElement(document.querySelector('#print-records-button'));
   };
   const handlePdfDownload = () => {
     downloadPdf();
     setMenuOpen(false);
+    focusElement(document.querySelector('#print-records-button'));
   };
   const handleTxtDownload = () => {
     downloadTxt();
     setMenuOpen(false);
+    focusElement(document.querySelector('#print-records-button'));
   };
 
   return (
@@ -73,6 +77,7 @@ const PrintDownload = props => {
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
         type="button"
         onClick={() => setMenuOpen(!menuOpen)}
+        id="print-records-button"
         data-testid="print-records-button"
         aria-expanded={menuOpen}
       >

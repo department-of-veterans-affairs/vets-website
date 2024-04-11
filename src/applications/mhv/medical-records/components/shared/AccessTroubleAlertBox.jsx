@@ -19,6 +19,7 @@ const AccessTroubleAlertBox = props => {
       status={ALERT_TYPE_ERROR}
       visible
       class={`vads-u-margin-top--4 ${className}`}
+      aria-live="polite"
     >
       <h2 slot="headline" data-testid="expired-alert-message">
         {alertType === accessAlertTypes.BLUE_BUTTON_REPORT
