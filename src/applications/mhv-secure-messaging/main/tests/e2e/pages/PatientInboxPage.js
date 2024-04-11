@@ -9,7 +9,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { Assertions, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Assertions, Paths } from '../utils/constants';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -453,7 +453,7 @@ class PatientInboxPage {
       .select('Medication');
   };
 
-  submitSearchButton = () => {
+  clickSubmitSearchButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click({
       waitForAnimations: true,
       force: true,
@@ -488,7 +488,7 @@ class PatientInboxPage {
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
-        this.sortMessagesByDate('Oldest to newest');
+        this.clickSortMessagesByDateButton('Oldest to newest');
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -506,14 +506,14 @@ class PatientInboxPage {
       .and('not.be.empty');
   };
 
-  inputFilterData = text => {
+  inputFilterDataText = text => {
     cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = mockFilterResponse => {
+  clickFilterMessagesButton = mockFilterResponse => {
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
@@ -523,7 +523,7 @@ class PatientInboxPage {
     cy.wait('@filterResult');
   };
 
-  verifyFilterResults = (filterValue, responseData) => {
+  verifyFilterResultsText = (filterValue, responseData) => {
     cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
@@ -539,7 +539,7 @@ class PatientInboxPage {
     });
   };
 
-  clearFilter = () => {
+  clickClearFilterButton = () => {
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
@@ -550,7 +550,10 @@ class PatientInboxPage {
       .should('be.empty');
   };
 
-  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+  clickSortMessagesByDateButton = (
+    text,
+    sortedResponse = mockSortedMessages,
+  ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
@@ -638,6 +641,19 @@ class PatientInboxPage {
       'have.class',
       'keyword-highlight',
     );
+  };
+
+  clickAdditionalFilterButton = () => {
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER)
+      .shadow()
+      .find('h3 button')
+      .click();
+  };
+
+  selectDateRange = dropDownValue => {
+    cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
+      .find('select')
+      .select(dropDownValue);
   };
 
   verifyFilterMessageHeadingText = (text = 'Filter messages in Inbox') => {
