@@ -21,6 +21,7 @@ function IntroductionLogin({
   route,
   showHideLoginModal,
   showMeb1990EMaintenanceAlert,
+  showMeb1990ER6MaintenanceMessage,
   user,
 }) {
   const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
@@ -38,6 +39,16 @@ function IntroductionLogin({
     !isPersonalInfoFetchFailed &&
     !showMeb1990EMaintenanceAlert;
   const shouldShowMaintenanceAlert = showMeb1990EMaintenanceAlert;
+  let maintenanceMessage;
+  if (showMeb1990ER6MaintenanceMessage) {
+    // Message for the R6 maintenance period
+    maintenanceMessage =
+      'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
+  } else if (showMeb1990EMaintenanceAlert) {
+    // General maintenance message
+    maintenanceMessage =
+      'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
+  }
   return (
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -58,11 +69,7 @@ function IntroductionLogin({
         >
           <h2 slot="headline">System Maintenance</h2>
           <div>
-            <p className="vads-u-margin-top--0">
-              We’re currently making updates to the My Education Benefits
-              platform. We apologize for the inconvenience. Please check back
-              soon.
-            </p>
+            <p className="vads-u-margin-top--0">{maintenanceMessage}</p>
           </div>
         </va-alert>
       )}
@@ -183,6 +190,7 @@ IntroductionLogin.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EMaintenanceAlert: PropTypes.bool,
+  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -192,6 +200,8 @@ const mapStateToProps = state => ({
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
   showMeb1990EMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EMaintenanceAlert],
+  showMeb1990ER6MaintenanceMessage:
+    state.featureToggles[featureFlagNames.showMeb1990ER6MaintenanceMessage],
 });
 
 const mapDispatchToProps = {
