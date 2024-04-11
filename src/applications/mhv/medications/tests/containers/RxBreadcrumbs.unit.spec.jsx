@@ -2,35 +2,37 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
+import * as redux from 'react-redux';
+import sinon from 'sinon';
 import reducers from '../../reducers';
 import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
-  const setup = () => {
-    return renderWithStoreAndRouter(<RxBreadcrumbs />, {
-      initialState: {
-        rx: {
-          breadcrumbs: {
-            list: [
-              {
-                url: `${medicationsUrls.MEDICATIONS_ABOUT}`,
-                label: 'About medications',
-              },
-              {
-                url: `${medicationsUrls.MEDICATIONS_URL}/1`,
-                label: 'Medications',
-              },
-            ],
-            location: {
-              url: `${medicationsUrls.PRESCRIPTION_DETAILS}/000`,
-              label: 'Prescription Name',
-            },
+  const initialState = {
+    rx: {
+      breadcrumbs: {
+        list: [
+          {
+            url: `${medicationsUrls.MEDICATIONS_ABOUT}`,
+            label: 'About medications',
           },
-        },
+          {
+            url: `${medicationsUrls.MEDICATIONS_URL}/1`,
+            label: 'Medications',
+          },
+        ],
       },
+    },
+  };
+  const setup = (
+    path = '/medications/prescription/000',
+    state = initialState,
+  ) => {
+    return renderWithStoreAndRouter(<RxBreadcrumbs />, {
+      initialState: state,
       reducers,
-      path: '/medications/prescription/000',
+      path,
     });
   };
 
@@ -57,5 +59,17 @@ describe('Medications Breadcrumbs', () => {
     fireEvent.click(linkButton);
     expect(screen.getByText('Back to About medications')).to.exist;
     expect(screen.queryByText('Back to Medications')).to.be.null;
+  });
+
+  it('should not render any crumbs when path is /about', () => {
+    const screen = setup('/about', []);
+    expect(screen.queryByText('Back to About medications')).to.be.null;
+  });
+  it('should dispatch when there is no crumb list and user is not in the about page', async () => {
+    const useDispatchMock = sinon.stub(redux, 'useDispatch');
+    const dispatch = sinon.spy();
+    useDispatchMock.returns(dispatch);
+    await setup('/refill', []);
+    expect(useDispatchMock.called);
   });
 });

@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
-import { Link } from 'react-router-dom';
-import { removeBreadcrumbs } from '../actions/breadcrumbs';
+import { Link, useLocation } from 'react-router-dom';
+import { removeBreadcrumbs, setBreadcrumbs } from '../actions/breadcrumbs';
+import { medicationsUrls } from '../util/constants';
 
 const RxBreadcrumbs = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
   const oneLevelDeepCrumb = crumbs?.length - 1;
+
+  useEffect(
+    () => {
+      if (!crumbs?.length && !location.pathname.includes('/about')) {
+        dispatch(
+          setBreadcrumbs({
+            url: medicationsUrls.subdirectories.ABOUT,
+            label: 'About medications',
+          }),
+        );
+      }
+    },
+    [dispatch, crumbs, location.pathname],
+  );
+
   const backLink = () => {
     dispatch(removeBreadcrumbs());
   };

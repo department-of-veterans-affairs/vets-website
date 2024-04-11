@@ -13,7 +13,6 @@ import {
   clearAllergiesError,
 } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   dateFormat,
   generateMedicationsPDF,
@@ -36,7 +35,7 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { medicationsUrls, PDF_TXT_GENERATE_STATUS } from '../util/constants';
+import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -48,7 +47,6 @@ const PrescriptionDetails = () => {
   );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
-  const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const dob = useSelector(state => state.user.profile.dob);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
@@ -73,20 +71,6 @@ const PrescriptionDetails = () => {
     cmopNdcNumber: prescription?.cmopNdcNumber,
     id: prescription?.prescriptionId,
   });
-
-  useEffect(
-    () => {
-      if (crumbs.length === 0) {
-        dispatch(
-          setBreadcrumbs({
-            url: medicationsUrls.subdirectories.ABOUT,
-            label: 'About medications',
-          }),
-        );
-      }
-    },
-    [dispatch, crumbs],
-  );
 
   useEffect(
     () => {

@@ -11,9 +11,8 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj, medicationsUrls } from '../util/constants';
+import { dispStatusObj } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
@@ -37,7 +36,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
@@ -119,20 +117,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, location.pathname, selectedSortOption, refillResult],
-  );
-
-  useEffect(
-    () => {
-      if (!crumbs.length) {
-        dispatch(
-          setBreadcrumbs({
-            url: medicationsUrls.subdirectories.ABOUT,
-            label: 'About medications',
-          }),
-        );
-      }
-    },
-    [crumbs],
   );
 
   const content = () => {

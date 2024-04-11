@@ -55,7 +55,6 @@ const Prescriptions = () => {
   );
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
-  const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -118,20 +117,6 @@ const Prescriptions = () => {
       window.print();
       setPrintedList(paginatedPrescriptionsList);
     }, 1);
-
-  useEffect(
-    () => {
-      if (!crumbs?.length) {
-        dispatch(
-          setBreadcrumbs({
-            url: medicationsUrls.subdirectories.ABOUT,
-            label: 'About medications',
-          }),
-        );
-      }
-    },
-    [dispatch, crumbs],
-  );
 
   useEffect(
     () => {
