@@ -74,22 +74,19 @@ const PrescriptionDetails = () => {
     id: prescription?.prescriptionId,
   });
 
-  useEffect(() => {
-    if (crumbs.length === 0 && prescription) {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: medicationsUrls.MEDICATIONS_ABOUT,
+  useEffect(
+    () => {
+      if (crumbs.length === 0) {
+        dispatch(
+          setBreadcrumbs({
+            url: medicationsUrls.subdirectories.ABOUT,
             label: 'About medications',
-          },
-          {
-            url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
-            label: 'Medications',
-          },
-        ]),
-      );
-    }
-  });
+          }),
+        );
+      }
+    },
+    [dispatch, crumbs],
+  );
 
   useEffect(
     () => {

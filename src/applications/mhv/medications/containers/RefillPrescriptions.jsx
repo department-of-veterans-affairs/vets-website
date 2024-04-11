@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   VaButton,
@@ -37,7 +37,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-
+  const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
@@ -114,19 +114,25 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           updateLoadingStatus(false);
         });
       }
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: `${medicationsUrls.MEDICATIONS_URL}/1`,
-            label: 'Medications',
-          },
-        ]),
-      );
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, location.pathname, selectedSortOption, refillResult],
+  );
+
+  useEffect(
+    () => {
+      if (!crumbs.length) {
+        dispatch(
+          setBreadcrumbs({
+            url: medicationsUrls.subdirectories.ABOUT,
+            label: 'About medications',
+          }),
+        );
+      }
+    },
+    [crumbs],
   );
 
   const content = () => {
@@ -142,15 +148,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     }
     return (
       <div>
-        <span className="refill-back-arrow">
-          <Link
-            data-testid="back-to-medications-page-link"
-            to="/"
-            className="refill-back-link"
-          >
-            Back to Medications
-          </Link>
-        </span>
         {fullRefillList?.length > 0 && (
           <div>
             <h1

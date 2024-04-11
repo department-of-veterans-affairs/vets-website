@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -33,10 +33,10 @@ const LandingPage = () => {
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
-    ? medicationsUrls.MEDICATIONS_URL
+    ? medicationsUrls.subdirectories.BASE
     : medicationsUrls.MEDICATIONS_LOGIN;
   const refillUrl = fullState.user.login.currentlyLoggedIn
-    ? medicationsUrls.MEDICATIONS_REFILL
+    ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
 
   const focusAndOpenAccordionRxRenew = () => {
@@ -80,20 +80,20 @@ const LandingPage = () => {
                   <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
                     Manage your medications
                   </h2>
-                  <a
+                  <Link
                     className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
-                    href={refillUrl}
+                    to={refillUrl}
                     data-testid="refill-nav-link"
                   >
                     Refill prescriptions
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                    href={medicationsUrl}
+                    to={medicationsUrl}
                     data-testid="prescriptions-nav-link"
                   >
                     Go to your medications list
-                  </a>
+                  </Link>
                 </>
               ) : (
                 <>
