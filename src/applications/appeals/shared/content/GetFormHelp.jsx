@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-export function GetFormHelp() {
+export default function GetFormHelp() {
   return (
     <div slot="content">
       <p>
@@ -16,5 +16,3 @@ export function GetFormHelp() {
     </div>
   );
 }
-
-export default GetFormHelp;
