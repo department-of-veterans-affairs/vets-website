@@ -231,6 +231,6 @@ describe('App-level feature flag functionality', () => {
       screenFeatureToggle
         .getByTestId('prescriptions-nav-link')
         .getAttribute('href'),
-    ).to.equal(medicationsUrls.MEDICATIONS_URL);
+    ).to.equal(medicationsUrls.subdirectories.BASE);
   });
 });

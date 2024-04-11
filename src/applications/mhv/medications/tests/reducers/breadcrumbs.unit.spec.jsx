@@ -29,4 +29,27 @@ describe('Breadcrumbs reducer', () => {
     const nextState = breadcrumbsReducer(initialState, action);
     expect(nextState.list).to.exist;
   });
+  it('remove breadcrumb should update the breadcrumbs list', () => {
+    const stateWithList = {
+      list: [
+        {
+          url: '/about',
+          label: 'About medications',
+        },
+        {
+          url: '/',
+          label: 'Medications',
+        },
+        {
+          url: '/refill',
+          label: 'Refill prescriptions',
+        },
+      ],
+    };
+    const action = {
+      type: Actions.Breadcrumbs.REMOVE_BREAD_CRUMB,
+    };
+    const nextState = breadcrumbsReducer(stateWithList, action);
+    expect(nextState.list.length).to.equal(2);
+  });
 });
