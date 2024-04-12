@@ -47,13 +47,10 @@ export const dateFormatInterpolators = {
     return formatDate(value, 'h:mm aaaa', { locale });
   },
   day: (value, _format, _lng, locale) => {
-    return formatDate(value, 'iiii', { locale });
+    return formatDate(value, 'EEEE', { locale });
   },
   monthDay: (value, _format, _lng, locale) => {
-    return formatDate(value, "MMMM' 'd", { locale });
-  },
-  dayOfWeek: (value, _format, _lng, locale) => {
-    return formatDate(value, 'eeee', { locale });
+    return formatDate(value, 'MMMM d', { locale });
   },
   dayOfWeekAbbr: (value, _format, _lng, locale) => {
     return formatDate(value, 'E', { locale });

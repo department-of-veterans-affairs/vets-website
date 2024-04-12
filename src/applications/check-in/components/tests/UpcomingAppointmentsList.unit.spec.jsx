@@ -18,7 +18,7 @@ describe('unified check-in experience', () => {
       );
       expect(getByTestId('appointments-list-monthyear-heading')).to.exist;
       expect(getByTestId('appointment-list')).to.exist;
-      expect(getAllByTestId('appointment-list-item').length).to.equal(3);
+      expect(getAllByTestId('appointment-list-item').length).to.equal(5);
     });
     it('displays the upcoming appointments list items components with day of the week headings properly', () => {
       const { getByTestId, getAllByTestId } = render(
