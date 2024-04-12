@@ -119,7 +119,7 @@ class PatientReplyPage {
     cy.get('va-alert').should('have.focus');
   };
 
-  verifyExpandedMessageDateDisplayText = (messageDetails, messageIndex = 0) => {
+  verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {
       cy.log('message index = 0');

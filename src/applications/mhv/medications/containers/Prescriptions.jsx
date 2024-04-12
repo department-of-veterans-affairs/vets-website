@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
@@ -117,26 +117,6 @@ const Prescriptions = () => {
       window.print();
       setPrintedList(paginatedPrescriptionsList);
     }, 1);
-
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: medicationsUrls.MEDICATIONS_ABOUT,
-              label: 'About medications',
-            },
-          ],
-          {
-            url: `${medicationsUrls.MEDICATIONS_URL}/?page=${page}`,
-            label: 'Medications',
-          },
-        ),
-      );
-    },
-    [dispatch, page],
-  );
 
   useEffect(
     () => {
@@ -453,6 +433,15 @@ const Prescriptions = () => {
     dispatch(clearAllergiesError());
   };
 
+  const handletoRefillLink = () => {
+    dispatch(
+      setBreadcrumbs({
+        url: medicationsUrls.subdirectories.BASE,
+        label: 'Medications',
+      }),
+    );
+  };
+
   const content = () => {
     if (!isLoading) {
       return (
@@ -479,13 +468,14 @@ const Prescriptions = () => {
                   <p className="vads-u-margin-y--3">
                     Find a list of prescriptions you can refill online.
                   </p>
-                  <a
+                  <Link
                     className="vads-c-action-link--green vads-u-margin--0"
-                    href={medicationsUrls.MEDICATIONS_REFILL}
+                    to={medicationsUrls.subdirectories.REFILL}
                     data-testid="prescriptions-nav-link-to-refill"
+                    onClick={handletoRefillLink}
                   >
                     Refill prescriptions
-                  </a>
+                  </Link>
                 </div>
               )}
               <Alert

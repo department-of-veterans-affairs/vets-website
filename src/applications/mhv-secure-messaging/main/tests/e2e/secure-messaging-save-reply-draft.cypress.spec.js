@@ -42,11 +42,11 @@ describe('Secure Messaging Reply', () => {
       }`,
     );
 
-    messageDetailsPage.ReplyToMessageTO(messageDetails);
+    messageDetailsPage.replyToMessageTo(messageDetails);
     // messageDetailsPage.ReplyToMessagesenderName(messageDetails); // TODO skipped for flakiness
-    messageDetailsPage.ReplyToMessageRecipientName(messageDetails);
-    messageDetailsPage.ReplyToMessageDate(messageDetails);
-    messageDetailsPage.ReplyToMessageId(messageDetails);
+    messageDetailsPage.replyToMessageRecipientName(messageDetails);
+    messageDetailsPage.replyToMessageDate(messageDetails);
+    messageDetailsPage.replyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
     // messageDetailsPage.ReplyToMessageBody(messageDetailsBody); // TODO skipped for flakiness
