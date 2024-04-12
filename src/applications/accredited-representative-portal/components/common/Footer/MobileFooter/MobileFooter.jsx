@@ -26,7 +26,7 @@ const MobileFooter = () => {
               <button
                 className="usa-button-unstyled usa-accordion-button va-footer-button"
                 aria-controls="footer-accredited-reps"
-                itemprop="name"
+                itemProp="name"
                 aria-expanded="false"
               >
                 For accredited representatives
@@ -38,19 +38,19 @@ const MobileFooter = () => {
               >
                 <ul className="va-footer-links">
                   <li>
-                    <a href="#">VA forms</a>
+                    <a href="https://va.gov">VA forms</a>
                   </li>
                   <li>
-                    <a href="#">Portal user guide</a>
+                    <a href="https://va.gov">Portal user guide</a>
                   </li>
                   <li>
-                    <a href="#">Contact us</a>
+                    <a href="https://va.gov">Contact us</a>
                   </li>
                   <li>
-                    <a href="#">Roadmap and upcoming features</a>
+                    <a href="https://va.gov">Roadmap and upcoming features</a>
                   </li>
                   <li>
-                    <a href="#">Sitemap</a>
+                    <a href="https://va.gov">Sitemap</a>
                   </li>
                 </ul>
               </div>
@@ -59,7 +59,7 @@ const MobileFooter = () => {
               <button
                 className="usa-button-unstyled usa-accordion-button va-footer-button"
                 aria-controls="footer-veteran-programs"
-                itemprop="name"
+                itemProp="name"
                 aria-expanded="false"
               >
                 Veteran programs and services
@@ -231,7 +231,7 @@ const MobileFooter = () => {
             </button>
             <div className="va-overlay-body va-crisis-panel-body">
               <h3 className="va-crisis-panel-title">
-                We’re here anytime, day or night – 24/7
+                We’re here anytime, day or night - 24/7
               </h3>
               <p>
                 If you are a Veteran in crisis or concerned about one, connect
@@ -244,18 +244,17 @@ const MobileFooter = () => {
                     className="fa fa-phone va-crisis-panel-icon"
                     aria-hidden="true"
                   />
-                  <a href="tel:988">
-                    Call <strong>988 and select 1</strong>
-                  </a>
+                  Call{' '}
+                  <strong>
+                    <va-telephone contact="988" /> and select 1
+                  </strong>
                 </li>
                 <li>
                   <i
                     className="fa fa-mobile-alt va-crisis-panel-icon"
                     aria-hidden="true"
                   />
-                  <a href="sms:838255">
-                    Text <strong>838255</strong>
-                  </a>
+                  Text <va-telephone contact="838255" sms />
                 </li>
                 <li>
                   <i
@@ -275,9 +274,10 @@ const MobileFooter = () => {
                     aria-hidden="true"
                   />
                   <p>
-                    <a href="tel:711" aria-label="7 1 1">
-                      For TTY, call <strong>711 then 988</strong>
-                    </a>
+                    For TTY, call{' '}
+                    <strong>
+                      <va-telephone contact="711" aria-label="7 1 1" /> then 988
+                    </strong>
                   </p>
                 </li>
               </ul>
