@@ -162,12 +162,6 @@ export class CallToActionWidget extends Component {
           />
         );
       }
-      if (
-        this.props.appId === CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES &&
-        !this.props.featureToggles.haCpapSuppliesCta
-      ) {
-        return <></>;
-      }
       return (
         <SignIn
           serviceDescription={this._serviceDescription}
