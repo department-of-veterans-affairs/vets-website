@@ -13,7 +13,7 @@ const MobileFooter = () => {
             <ul class="usa-accordion va-footer-accordion">
               <li>
                 <div class="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
-                  <va-button
+                  <button
                     class="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger"
                     data-show="#modal-crisisline"
                     id="footer-crisis-line"
@@ -23,11 +23,11 @@ const MobileFooter = () => {
                       aria-hidden="true"
                       class="fa fa-chevron-right vads-u-margin-left--1"
                     />
-                  </va-button>
+                  </button>
                 </div>
               </li>
               <li>
-              <va-button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="footer-accredited-reps" itemprop="name" aria-expanded="false">For accredited representatives</va-button>
+              <button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="footer-accredited-reps" itemprop="name" aria-expanded="false">For accredited representatives</button>
                   <div class="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="footer-accredited-reps">
                     <ul class="va-footer-links">
                       <li><a href="#">VA forms</a></li>
