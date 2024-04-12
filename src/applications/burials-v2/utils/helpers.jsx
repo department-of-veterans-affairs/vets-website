@@ -140,10 +140,11 @@ export const generateTitle = text => {
   return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
 };
 
-export const generateHelpText = text => {
-  return (
-    <span className="vads-u-color--gray vads-u-font-size--md">{text}</span>
-  );
+export const generateHelpText = (
+  text,
+  className = 'vads-u-color--gray vads-u-font-size--md',
+) => {
+  return <span className={className}>{text}</span>;
 };
 
 export const checkboxGroupSchemaWithReviewLabels = keys => {
