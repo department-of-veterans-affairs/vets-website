@@ -7,22 +7,16 @@ import { medicationsUrls } from '../../util/constants';
 describe('Set breadcrumbs action', () => {
   it('should dispatch a set breadcrumbs action', () => {
     const dispatch = sinon.spy();
-    return setBreadcrumbs(
-      [
-        {
-          url: medicationsUrls.MEDICATIONS_ABOUT,
-          label: 'About medications',
-        },
-        {
-          url: `${medicationsUrls.MEDICATIONS_URL}/1`,
-          label: 'Medications',
-        },
-      ],
+    return setBreadcrumbs([
       {
-        url: `${medicationsUrls.PRESCRIPTION_DETAILS}/000`,
-        label: 'Prescription Name',
+        url: medicationsUrls.MEDICATIONS_ABOUT,
+        label: 'About medications',
       },
-    )(dispatch).then(() => {
+      {
+        url: `${medicationsUrls.MEDICATIONS_URL}/1`,
+        label: 'Medications',
+      },
+    ])(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Breadcrumbs.SET_BREAD_CRUMBS,
       );
@@ -31,9 +25,6 @@ describe('Set breadcrumbs action', () => {
       );
       expect(dispatch.firstCall.args[0].payload.crumbs[1].label).to.equal(
         'Medications',
-      );
-      expect(dispatch.firstCall.args[0].payload.location.label).to.equal(
-        'Prescription Name',
       );
     });
   });
