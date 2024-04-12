@@ -53,7 +53,7 @@
   "date-of-birth": "Date of birth",
   "date-time": "{{date, time}}",
   "date-month-and-year": "{{date, monthAndYear}}",
-  "date-day-of-week": "{{date, dayOfWeek}}",
+  "date-day-of-week": "{{date, dayOfWeekAbbr}}",
   "date-day-of-month": "{{date, dayOfMonth}}",
   "daughter": "Daughter",
   "details": "Details",
