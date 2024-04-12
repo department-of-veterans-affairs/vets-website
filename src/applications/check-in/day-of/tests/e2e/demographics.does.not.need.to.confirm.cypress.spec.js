@@ -2,6 +2,7 @@ import '../../../tests/e2e/commands';
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
 import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
+import Arrived from './pages/Arrived';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import Confirmation from './pages/Confirmation';
 
@@ -50,6 +51,10 @@ describe('Check In Experience | Day Of |', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();

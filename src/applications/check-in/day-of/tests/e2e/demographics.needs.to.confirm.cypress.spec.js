@@ -7,6 +7,7 @@ import Demographics from '../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../tests/e2e/pages/NextOfKin';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
+import Arrived from './pages/Arrived';
 import SeeStaff from './pages/SeeStaff';
 import Confirmation from './pages/Confirmation';
 
@@ -40,6 +41,10 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage();
@@ -67,6 +72,10 @@ describe('Check In Experience | Day Of |', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();

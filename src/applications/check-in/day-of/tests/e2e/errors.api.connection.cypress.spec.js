@@ -9,6 +9,7 @@ import NextOfKin from '../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../tests/e2e/pages/EmergencyContact';
 import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
+import Arrived from './pages/Arrived';
 
 describe('Check In Experience | Day Of | API Errors', () => {
   const {
@@ -52,6 +53,10 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage();
@@ -89,6 +94,10 @@ describe('Check In Experience | Day Of | API Errors', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -137,6 +146,10 @@ describe('Check In Experience | Day Of | API Errors', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();

@@ -4,6 +4,7 @@ import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
 import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import Confirmation from './pages/Confirmation';
+import Arrived from './pages/Arrived';
 
 const dateFns = require('date-fns');
 
@@ -53,6 +54,10 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -87,6 +92,10 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
+
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -107,6 +116,10 @@ describe('Check In Experience | Day Of |', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -142,6 +155,10 @@ describe('Check In Experience | Day Of |', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
