@@ -113,7 +113,7 @@ jobs:
           cache-name: vagovprod-dependency
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: joshtestkey20242024
+          key: joshtest--${{ runner.os }}
             
   #TEST
 
@@ -694,7 +694,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: $GITHUB_WORKSPACE/build/vagovprod
-          key: joshtestkey20242024
+          key: joshtest--${{ runner.os }}
 
       - name: ensure vagovprod folder is present2 #DELETE
         run: |
