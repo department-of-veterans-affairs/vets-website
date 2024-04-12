@@ -63,10 +63,6 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     url: URLS.COMPLETE,
     order: 11,
   },
-  {
-    url: URLS.COMPLETE,
-    order: 12,
-  },
 ]);
 
 const createForm = () => {
