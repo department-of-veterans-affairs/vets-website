@@ -370,7 +370,6 @@ const SearchPage = props => {
           </div>
         )}
 
-
         <SearchControls
           geolocateUser={props.geolocateUser}
           currentQuery={props.currentQuery}
