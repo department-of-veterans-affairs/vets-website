@@ -2,6 +2,7 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import { apiRequest } from 'platform/utilities/api';
 import { formatISO } from 'date-fns';
 
@@ -143,4 +144,16 @@ export const generateHelpText = text => {
   return (
     <span className="vads-u-color--gray vads-u-font-size--md">{text}</span>
   );
+};
+
+export const checkboxGroupSchemaWithReviewLabels = keys => {
+  const schema = checkboxGroupSchema(keys);
+  keys.forEach(key => {
+    schema.properties[key] = {
+      ...schema.properties[key],
+      enum: [true, false],
+      enumNames: ['Selected', 'Not selected'],
+    };
+  });
+  return schema;
 };
