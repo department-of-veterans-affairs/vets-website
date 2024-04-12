@@ -37,6 +37,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       items: {
         previousFullName: fullNameUI(),

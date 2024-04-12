@@ -24,7 +24,7 @@ describe('LandingPage', () => {
   it('renders the link to sign in', () => {
     const { getByTestId } = getLandingPage();
     expect(getByTestId('landing-page-sign-in-link').textContent).to.eq(
-      'Sign in or create an account',
+      'Sign in or create account',
     );
   });
 });

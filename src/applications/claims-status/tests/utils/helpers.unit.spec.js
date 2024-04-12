@@ -10,7 +10,6 @@ import {
   hasBeenReviewed,
   getDocTypeDescription,
   displayFileSize,
-  getTrackedItemId,
   getFilesNeeded,
   getFilesOptional,
   getUserPhase,
@@ -29,6 +28,7 @@ import {
   mockData,
   roundToNearest,
   groupClaimsByDocsNeeded,
+  claimAvailable,
 } from '../../utils/helpers';
 
 import {
@@ -383,49 +383,6 @@ describe('Disability benefits helpers: ', () => {
       expect(size).to.equal('2MB');
     });
   });
-
-  // START lighthouse_migration
-  describe('getTrackedItemId', () => {
-    it('should return the value of the id key for Lighthouse claims', () => {
-      const trackedItem = {
-        id: 1,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(1);
-    });
-
-    it('should return the value of the trackedItemId key for EVSS claims', () => {
-      const trackedItem = {
-        trackedItemId: 1,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(1);
-    });
-
-    it('should return null if both the id and trackedItemId keys are not present', () => {
-      const trackedItem = {
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(undefined);
-    });
-
-    it('should return null if either the id or trackedItemId keys are null', () => {
-      const trackedItem = {
-        trackedItemId: null,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(undefined);
-    });
-  });
-  // END lighthouse_migration
 
   describe('getFilesNeeded', () => {
     context('when useLighthouse is true', () => {
@@ -1023,6 +980,53 @@ describe('Disability benefits helpers: ', () => {
       expect(getPageRange(2, 22)).to.deep.equal({ start: 11, end: 20 });
       expect(getPageRange(2, 25)).to.deep.equal({ start: 11, end: 20 });
       expect(getPageRange(3, 25)).to.deep.equal({ start: 21, end: 25 });
+    });
+  });
+
+  describe('claimAvaliable', () => {
+    it('should return false when claim is empty', () => {
+      const isClaimAvaliable = claimAvailable({});
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim is null', () => {
+      const isClaimAvaliable = claimAvailable(null);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim attributes are empty', () => {
+      const claim = {
+        id: 1,
+        attributes: {},
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim attributes are null', () => {
+      const claim = {
+        id: 1,
+        attributes: null,
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return true when claim attributes exist', () => {
+      const claim = {
+        id: 1,
+        attributes: {
+          claimType: 'Compensation',
+          claimDate: '2024-04-05',
+        },
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.true;
     });
   });
 });

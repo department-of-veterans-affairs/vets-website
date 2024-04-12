@@ -24,8 +24,9 @@ const ToxicExposureDescription = (
       </li>
     </ul>
     <p>
-      We’ll also determine if you’re more likely to get VA health care benefits.
-      We call this "enhanced eligibility status."
+      We’ll also determine if you qualify for enhanced eligibility status. This
+      means that we may place you in a higher priority group. This may affect
+      how much (if anything) you’ll have to pay toward the cost of your care.
     </p>
     <EnhancedEligibilityDescription />
   </>

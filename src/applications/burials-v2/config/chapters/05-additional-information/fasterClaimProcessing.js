@@ -18,11 +18,9 @@ export default {
           Claims (FDC) program.
         </p>
         <a
-          href="/how-to-file-claim/evidence-needed/fully-developed-claims/"
+          href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
           rel="noopener noreferrer"
           target="_blank"
-          aria-label="Learn more about getting help from an accredited representative
-          (opens on new tab)"
         >
           Learn more about fully developed claims (opens on new tab)
         </a>

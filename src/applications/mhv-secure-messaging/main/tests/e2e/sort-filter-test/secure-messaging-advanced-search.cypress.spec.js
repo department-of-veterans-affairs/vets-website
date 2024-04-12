@@ -24,7 +24,7 @@ describe(manifest.appName, () => {
       );
       landingPage.openAdvancedSearch();
       landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.submitSearchButton();
+      landingPage.clickSubmitSearchButton();
     });
     it('Check all inbox messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -73,7 +73,7 @@ describe(manifest.appName, () => {
       );
       landingPage.openAdvancedSearch();
       landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.submitSearchButton();
+      landingPage.clickSubmitSearchButton();
     });
     it('Check all draft messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -126,7 +126,7 @@ describe(manifest.appName, () => {
       ).as('advancedSearchRequest');
       landingPage.openAdvancedSearch();
       landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.submitSearchButton();
+      landingPage.clickSubmitSearchButton();
     });
     it('Check all sent messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -179,7 +179,7 @@ describe(manifest.appName, () => {
       );
       landingPage.openAdvancedSearch();
       landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.submitSearchButton();
+      landingPage.clickSubmitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -225,7 +225,7 @@ describe(manifest.appName, () => {
 
       landingPage.openAdvancedSearch();
       landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.submitSearchButton();
+      landingPage.clickSubmitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)

@@ -27,12 +27,9 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-
+import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateAllergiesIntro,
   generateAllergiesContent,
@@ -78,7 +75,6 @@ const Allergies = props => {
     pageTitles.ALLERGIES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
@@ -122,40 +118,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
     generateTextFile(content, fileName);
   };
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
-  const content = () => {
-    if (accessAlert) {
-      return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
-    }
-    if (allergies?.length === 0) {
-      return <NoRecordsMessage type="allergies or reactions" />;
-    }
-    if (allergies?.length) {
-      return (
-        <>
-          <PrintDownload
-            list
-            download={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateAllergiesTxt}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <RecordList records={allergies} type={recordType.ALLERGIES} />
-        </>
-      );
-    }
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="We’re loading your records. This could take up to a minute."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      </div>
-    );
-  };
-
   return (
     <div id="allergies">
       <PrintHeader />
@@ -169,7 +131,23 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
-      {content()}
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.ALLERGY}
+        recordCount={allergies?.length}
+        recordType="allergies or reactions"
+        listCurrentAsOf={allergiesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        <PrintDownload
+          list
+          download={generateAllergiesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateAllergiesTxt}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <RecordList records={allergies} type={recordType.ALLERGIES} />
+      </RecordListSection>
     </div>
   );
 };

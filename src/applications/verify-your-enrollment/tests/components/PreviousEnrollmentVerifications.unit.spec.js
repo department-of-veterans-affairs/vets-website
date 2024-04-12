@@ -85,7 +85,7 @@ describe('PreviousEnrollmentVerifications', () => {
       const textContent = pElement.text();
 
       expect(textContent).to.equal(
-        'Showing 7-12 of 15 monthly enrollments listed by most recent',
+        'Showing 7-12 of 14 monthly enrollments listed by most recent',
       );
     });
     wrapper.unmount();
@@ -114,7 +114,7 @@ describe('PreviousEnrollmentVerifications', () => {
       const textContent = pElement.text();
 
       expect(textContent).to.equal(
-        'Showing 13-15 of 15 monthly enrollments listed by most recent',
+        'Showing 13-14 of 14 monthly enrollments listed by most recent',
       );
     });
 

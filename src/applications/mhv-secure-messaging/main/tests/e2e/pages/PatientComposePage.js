@@ -236,7 +236,7 @@ class PatientComposePage {
   };
 
   attachMessageFromFile = filename => {
-    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
+    const filepath = `src/applications/mhv-secure-messaging/main/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
     });
@@ -329,7 +329,7 @@ class PatientComposePage {
     );
   };
 
-  verifyRecipient = (recipient = mockRecipients.data[0].id) => {
+  verifyRecipientNameText = (recipient = mockRecipients.data[0].id) => {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
@@ -337,7 +337,7 @@ class PatientComposePage {
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
-  verifySubjectField = subject => {
+  verifySubjectFieldText = subject => {
     cy.get(Locators.MESSAGE_SUBJECT).should('have.value', subject);
   };
 
@@ -384,7 +384,7 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  verifyDeleteDraftSuccessfulMessage = () => {
+  verifyDeleteDraftSuccessfulMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
       Data.MESSAGE_MOVED_TO_TRASH,
@@ -410,6 +410,12 @@ class PatientComposePage {
       .shadow()
       .find('[id=input-error-message]')
       .should('be.visible');
+  };
+
+  verifyDraftSaveButtonOnFocus = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should('exist')
+      .and('be.focused');
   };
 }
 

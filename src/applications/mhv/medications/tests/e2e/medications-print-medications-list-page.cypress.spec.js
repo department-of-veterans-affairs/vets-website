@@ -15,5 +15,7 @@ describe('Medications List Page Print List', () => {
     listPage.clickGotoMedicationsLink();
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyPrintMedicationsListEnabledOnListPage();
+    listPage.verifyPrintThisPageOptionFromDropDownMenuOnListPage();
+    listPage.verifyPrintAllMedicationsFromDropDownOnListPage();
   });
 });

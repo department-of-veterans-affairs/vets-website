@@ -4,7 +4,7 @@ import { Locators, Paths } from '../utils/constants';
 
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
-  clickSearchMessage = () => {
+  clickSearchMessageButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
   };
 
@@ -18,7 +18,7 @@ class PatientBasicSearchPage {
   };
 
   // This method clicks the Filter button on the Inbox page.
-  submitInboxSearch = () => {
+  clickInboxSearchButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -26,10 +26,10 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('inboxSearchResults');
-    this.clickSearchMessage();
+    this.clickSearchMessageButton();
   };
 
-  submitDraftSearch = () => {
+  clickDraftSearchButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -37,10 +37,10 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('DraftSearchResults');
-    this.clickSearchMessage();
+    this.clickSearchMessageButton();
   };
 
-  submitCustomFolderSearch = () => {
+  clickCustomFolderSearchButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -48,7 +48,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('CustomSearchResults');
-    this.clickSearchMessage();
+    this.clickSearchMessageButton();
   };
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.
@@ -82,4 +82,5 @@ class PatientBasicSearchPage {
   //   ).as('basicSearchInboxRequest');
   // }
 }
-export default PatientBasicSearchPage;
+
+export default new PatientBasicSearchPage();
