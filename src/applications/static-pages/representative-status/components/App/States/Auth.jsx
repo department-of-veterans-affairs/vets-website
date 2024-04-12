@@ -185,7 +185,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
     <>
       <va-card>
         <div className="auth-card">
-          {representative.id ? renderAuthRep() : renderAuthNoRep}
+          {representative.id ? renderAuthRep() : renderAuthNoRep()}
         </div>
       </va-card>
     </>
@@ -194,5 +194,6 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 
 Auth.propTypes = {
   DynamicHeader: PropTypes.string,
+  DynamicSubheader: PropTypes.string,
   hasRepresentative: PropTypes.bool,
 };

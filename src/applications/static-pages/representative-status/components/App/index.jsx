@@ -10,8 +10,9 @@ import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veter
 import { Auth } from './States/Auth';
 import { Unauth } from './States/Unauth';
 
-export const App = ({ hasRepresentative, toggleLoginModal }) => {
-  const DynamicHeader = 'h3';
+export const App = ({ baseHeader, toggleLoginModal }) => {
+  const DynamicHeader = `h${baseHeader}`;
+  const DynamicSubheader = `h${baseHeader + 1}`;
 
   const loggedIn = isAuthenticatedWithSSOe || isAuthenticatedWithOAuth;
 
@@ -19,8 +20,8 @@ export const App = ({ hasRepresentative, toggleLoginModal }) => {
     <>
       {loggedIn ? (
         <Auth
-          hasRepresentative={hasRepresentative}
           DynamicHeader={DynamicHeader}
+          DynamicSubheader={DynamicSubheader}
         />
       ) : (
         <Unauth
