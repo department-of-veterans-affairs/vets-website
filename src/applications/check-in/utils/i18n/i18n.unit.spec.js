@@ -16,7 +16,7 @@ describe('Date formatting interpolators', () => {
       time: '10:38 a.m.',
       day: 'Tuesday',
       monthDay: 'March 12',
-      dayOfWeek: 'Tuesday',
+      dayOfWeek: 'Tue',
     },
     es: {
       long: '12 de marzo de 2024',
@@ -25,7 +25,7 @@ describe('Date formatting interpolators', () => {
       time: '10:38 a.m.',
       day: 'martes',
       monthDay: 'marzo 12',
-      dayOfWeek: 'martes',
+      dayOfWeek: 'mar',
     },
   };
   languageCodes.forEach(lng => {
