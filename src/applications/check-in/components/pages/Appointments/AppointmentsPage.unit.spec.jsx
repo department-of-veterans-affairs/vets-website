@@ -3,12 +3,19 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import AppointmentsPage from './index';
 import UpcomingAppointments from '../../UpcomingAppointments';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import * as useGetCheckInDataModule from '../../../hooks/useGetCheckInData';
 
 describe('unified check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('AppointmentsPage', () => {
     it('renders regions', () => {
       // Mock the return value for the useGetCheckInData hook

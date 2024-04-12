@@ -29,7 +29,7 @@ const AppointmentsPage = props => {
   } = useGetCheckInData({
     refreshNeeded: false,
     router,
-    isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
+    app,
   });
 
   useEffect(
