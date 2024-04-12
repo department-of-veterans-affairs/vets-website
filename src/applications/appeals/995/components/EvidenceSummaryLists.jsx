@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import { parse } from 'date-fns';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { getDate } from '../../shared/utils/dates';
+import { parseDate } from '../../shared/utils/dates';
 
 import {
   EVIDENCE_VA_PATH,
@@ -17,7 +18,10 @@ import {
   LIMITATION_KEY,
 } from '../constants';
 
-import { FORMAT_COMPACT } from '../../shared/constants';
+import {
+  FORMAT_COMPACT_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+} from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',
@@ -42,7 +46,10 @@ const removeButtonClass = [
 ].join(' ');
 
 const formatDate = (date = '') => {
-  const result = getDate({ date, pattern: FORMAT_COMPACT });
+  // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
+  const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
+  const result = parseDate(parsedDate, FORMAT_COMPACT_DATE_FNS) || '';
+  // Not entirely sure what this check is for — can we just return `result`?
   return result.includes(',') ? result : '';
 };
 
