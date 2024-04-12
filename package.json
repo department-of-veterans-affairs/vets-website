@@ -290,7 +290,6 @@
     "moment-timezone": "^0.5.35",
     "octokit": "^1.7.1",
     "octokit-plugin-create-pull-request": "^3.11.0",
-    "papaparse": "^5.4.1",
     "prop-types": "^15.6.1",
     "react": "^17.0.2",
     "react-device-detect": "^2.2.3",
