@@ -126,7 +126,7 @@ const Error = () => {
       messageText = (
         <>
           <p className="vads-u-margin-top--0">
-            {t('were-sorry-something-went-wrong-on-our-end-please-try-again')}
+            {t('something-went-wrong-please-try-again')}
           </p>
           <p data-testid="date-message">
             {t('you-can-pre-check-in-online-until-date', {
@@ -200,7 +200,24 @@ const Error = () => {
     case 'reload-data-error':
       alertType = 'error';
       header = t('sorry-we-cant-complete-pre-check-in');
-      messageText = somethingWentWrongMesage;
+      messageText = (
+        <>
+          <p className="vads-u-margin-top--0">
+            {t('something-went-wrong-please-try-again')}
+          </p>
+          <p>{t('if-you-have-questions-call')}</p>
+          <p>
+            <ExternalLink
+              href="https://www.va.gov/find-locations"
+              hrefLang="en"
+              eventId="find-facility-locations--link-clicked"
+              eventPrefix="nav"
+            >
+              {t('find-your-va-health-facility')}
+            </ExternalLink>
+          </p>
+        </>
+      );
       break;
     default:
       // This is considered our generic error message
