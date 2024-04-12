@@ -13,7 +13,7 @@ describe(manifest.appName, () => {
   it('Check the Inbox folder', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    FolderLoadPage.getFolderHeader('Inbox');
+    FolderLoadPage.verifyFolderHeaderText('Inbox');
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
@@ -21,7 +21,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.loadDraftMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    FolderLoadPage.getFolderHeader('Drafts');
+    FolderLoadPage.verifyFolderHeaderText('Drafts');
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
@@ -29,7 +29,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.loadSentMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    FolderLoadPage.getFolderHeader('Sent');
+    FolderLoadPage.verifyFolderHeaderText('Sent');
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
@@ -43,7 +43,7 @@ describe(manifest.appName, () => {
         },
       },
     });
-    FolderLoadPage.getFolderHeader('Trash');
+    FolderLoadPage.verifyFolderHeaderText('Trash');
     FolderLoadPage.verifyBackToMessagesButton();
   });
 });

@@ -13,9 +13,8 @@ import {
   recordType,
   refreshExtractTypes,
 } from '../util/constants';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import RecordListSection from '../components/shared/RecordListSection';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -56,39 +55,6 @@ const CareSummariesAndNotes = () => {
     [dispatch],
   );
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
-  const content = () => {
-    if (accessAlert) {
-      return (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
-        />
-      );
-    }
-    if (careSummariesAndNotes?.length === 0) {
-      return <NoRecordsMessage type={recordType.CARE_SUMMARIES_AND_NOTES} />;
-    }
-    if (careSummariesAndNotes?.length) {
-      return (
-        <RecordList
-          records={careSummariesAndNotes}
-          type="care summaries and notes"
-          hideRecordsLabel
-        />
-      );
-    }
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="We’re loading your records. This could take up to a minute."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      </div>
-    );
-  };
-
   return (
     <div id="care-summaries-and-notes">
       <h1 data-testid="care-summaries-and-notes" className="page-title">
@@ -100,7 +66,20 @@ const CareSummariesAndNotes = () => {
         providers sign them. This list doesn’t include care summaries from
         before 2013.
       </p>
-      {content()}
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
+        recordCount={careSummariesAndNotes?.length}
+        recordType={recordType.CARE_SUMMARIES_AND_NOTES}
+        listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        <RecordList
+          records={careSummariesAndNotes}
+          type="care summaries and notes"
+          hideRecordsLabel
+        />
+      </RecordListSection>
     </div>
   );
 };

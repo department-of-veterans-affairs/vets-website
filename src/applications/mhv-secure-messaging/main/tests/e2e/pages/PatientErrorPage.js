@@ -1,4 +1,4 @@
-import { Paths, Alerts } from '../utils/constants';
+import { Paths, Alerts, Locators } from '../utils/constants';
 
 class PatienErrorPage {
   loadParticularFolderError = () => {
@@ -37,10 +37,18 @@ class PatienErrorPage {
     });
   };
 
-  verifyAlertMessage = () => {
+  verifyAlertMessageText = () => {
     cy.get('[data-testid="alert-text"]')
       .should('be.visible')
       .and('contain.text', Alerts.OUTAGE);
+  };
+
+  verifyFromToDateErrorMessageText = (index, text) => {
+    cy.get(Locators.FROM_TO_DATES_CONTAINER)
+      .find('#error-message')
+      .eq(index)
+      .scrollIntoView()
+      .should('contain.text', text);
   };
 }
 

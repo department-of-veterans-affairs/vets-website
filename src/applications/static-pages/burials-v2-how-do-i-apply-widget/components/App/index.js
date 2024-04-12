@@ -8,7 +8,7 @@ export const App = () => {
   if (burialFormV2) {
     return (
       <>
-        <va-summary-box>
+        <div className="feature">
           <h2 className="vads-u-margin-top--0">
             Am I eligible for allowances to help pay for a Veteran’s burial and
             funeral costs?
@@ -136,7 +136,7 @@ export const App = () => {
             </li>
             <li>While serving a federal prison sentence</li>
           </ul>
-        </va-summary-box>
+        </div>
         <h2>What kind of burial benefits can I get?</h2>
         <p>If you’re eligible, you may receive these benefits:</p>
         <ul>
@@ -219,16 +219,6 @@ export const App = () => {
         <h2>How do I apply?</h2>
         <p>You can apply online or by mail.</p>
         <h3>Option 1: Online</h3>
-        <va-alert>
-          <h3 className="vads-u-margin-top--0">We updated our online form</h3>
-          <p>
-            <strong>
-              If you started applying online before April 9, 2024,
-            </strong>{' '}
-            we have some new questions for you to answer. And we changed some
-            questions, so you may need to provide certain information again.
-          </p>
-        </va-alert>
         <p>You can apply online right now.</p>
         <p>
           <a
@@ -267,7 +257,7 @@ export const App = () => {
   }
   return (
     <>
-      <va-summary-box>
+      <div className="feature">
         <h2 className="vads-u-margin-top--0">
           Am I eligible for allowances to help pay for a Veteran’s burial and
           funeral costs?
@@ -383,7 +373,7 @@ export const App = () => {
           </li>
           <li>While serving a federal prison sentence</li>
         </ul>
-      </va-summary-box>
+      </div>
       <h2>What kind of burial benefits can I get?</h2>
       <p>If you’re eligible, you may receive these benefits:</p>
       <ul>

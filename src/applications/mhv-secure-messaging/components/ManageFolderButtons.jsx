@@ -151,6 +151,9 @@ const ManageFolderButtons = props => {
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
+            document
+              .querySelector('[data-testid=remove-folder-button]')
+              ?.focus();
           }}
           status="warning"
         >

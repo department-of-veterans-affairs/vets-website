@@ -38,17 +38,47 @@ describe('<DetailsPage>', () => {
     );
   });
 
-  it('should render not available with no claims', () => {
-    const { container } = renderWithRouter(
+  it('should render null when claim empty', () => {
+    const { container, getByText } = renderWithRouter(
       <Provider store={store}>
         <DetailsPage claim={{}} />
+      </Provider>,
+    );
+    expect($('.claim-detail-list', container)).to.not.exist;
+    expect(document.title).to.equal('Details Of Your Claim | Veterans Affairs');
+    getByText('Claim status is unavailable');
+  });
+
+  it('should render null when claim is null', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={store}>
+        <DetailsPage claim={null} />
+      </Provider>,
+    );
+    expect($('.claim-detail-list', container)).to.not.exist;
+    expect(document.title).to.equal('Details Of Your Claim | Veterans Affairs');
+    getByText('Claim status is unavailable');
+  });
+
+  it('should render not available when claim has no contentions', () => {
+    const claimNoContentions = {
+      attributes: {
+        contentions: [],
+        claimDate: '2024-01-08',
+      },
+    };
+    const { container } = renderWithRouter(
+      <Provider store={store}>
+        <DetailsPage claim={claimNoContentions} />
       </Provider>,
     );
     expect($('.claim-detail-list', container)).to.not.exist;
     expect($('.claim-details', container).textContent).to.contain(
       'Not Available',
     );
-    expect(document.title).to.equal('Details Of Your Claim | Veterans Affairs');
+    expect(document.title).to.equal(
+      'Details Of January 8, 2024 Disability Compensation Claim | Veterans Affairs',
+    );
   });
 
   it('should render loding state', () => {

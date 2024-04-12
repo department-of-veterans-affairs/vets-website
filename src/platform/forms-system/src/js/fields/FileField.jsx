@@ -46,6 +46,7 @@ import { MISSING_PASSWORD_ERROR } from '../validation';
  * @property {string} buttonText='Upload' - upload button text
  * @property {string} addAnotherLabel='Upload another' - upload another text,
  *  replaces upload button text when greater than one upload is showing
+ * @property {string} ariaLabelAdditionalText additional screen-reader text to be appended to upload button's aria-label attribute.
  * @property {string} tryAgain='Try again' - button in enableShortWorkflow
  * @property {string} newFile='Upload a new file' - button in enableShortWorkflow
  * @property {string} cancel='Cancel' - button visible while uploading & in enableShortWorkflow
@@ -110,6 +111,7 @@ const FileField = props => {
   const content = {
     upload: uiOptions.buttonText || 'Upload',
     uploadAnother: uiOptions.addAnotherLabel || 'Upload another',
+    ariaLabelAdditionalText: uiOptions.ariaLabelAdditionalText || '',
     passwordLabel: fileName => `Add a password for ${fileName}`,
     tryAgain: 'Try again',
     tryAgainLabel: fileName => `Try uploading ${fileName} again`,
@@ -675,7 +677,10 @@ const FileField = props => {
                   secondary
                   class="vads-u-padding-x--0 vads-u-padding-y--1"
                   onClick={() => fileInputRef?.current?.click()}
-                  label={`${uploadText} ${titleString || ''}`}
+                  // label is the aria-label
+                  label={`${uploadText} ${titleString || ''}. ${
+                    content.ariaLabelAdditionalText
+                  }`}
                   text={uploadText}
                   uswds
                 />

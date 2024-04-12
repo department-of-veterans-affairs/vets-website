@@ -9,6 +9,7 @@ import {
   buildDateFormatter,
   getClaimType,
   setDocumentTitle,
+  claimAvailable,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
@@ -45,7 +46,7 @@ class DetailsPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim.attributes !== undefined) {
+    if (claimAvailable(claim)) {
       const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Details Of ${claimDate} ${claimType} Claim`;
@@ -59,7 +60,12 @@ class DetailsPage extends React.Component {
   getPageContent() {
     const { claim } = this.props;
 
-    const { claimDate, claimType, contentions } = claim.attributes || {};
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
+
+    const { claimDate, claimType, contentions } = claim.attributes;
     const hasContentions = contentions && contentions.length;
 
     return (
