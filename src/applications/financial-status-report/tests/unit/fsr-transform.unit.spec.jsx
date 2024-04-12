@@ -779,7 +779,7 @@ describe('efsr-fsr transform information', () => {
           'utilities',
           'otherLivingExpenses',
           'expensesInstallmentContractsAndOtherDebts',
-          'calculatedTotalMonthlyExpenses',
+          'totalMonthlyExpenses',
         );
         expect(submissionObj.expenses.otherLivingExpenses).to.be.an('object');
       });
@@ -796,27 +796,25 @@ describe('efsr-fsr transform information', () => {
 
     describe('data validation', () => {
       it('has valid data for overall expenses', () => {
-        expect(submissionObj.expenses.rentOrMortgage).to.equal('40.00');
-        expect(submissionObj.expenses.food).to.equal('40.00');
-        expect(submissionObj.expenses.utilities).to.equal('265.00');
+        expect(submissionObj.expenses.rentOrMortgage).to.equal('2000.53');
+        expect(submissionObj.expenses.food).to.equal('1000.54');
+        expect(submissionObj.expenses.utilities).to.equal('701.35');
         expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
-          '580.00',
+          '195.25',
         );
         expect(
           submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
-        ).to.equal('1050.00');
-        expect(submissionObj.expenses.calculatedTotalMonthlyExpenses).to.equal(
-          '1975.00',
-        );
+        ).to.equal('2000.64');
+        expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('5898.31');
       });
 
       describe('efsr-other living expenses data', () => {
         it('has valid data', () => {
           expect(submissionObj.expenses.otherLivingExpenses.name).to.equal(
-            `Clothing, Entertainment, Family and child care, Health expenses, Household maintenance, Legal fees, Pet care, Transportation and car expenses, Renter's or home insurance, Property tax, Homeowner's Association (HOA) fees, Community Development District (CDD) fees`,
+            'Clothing, Veteran added, Property tax',
           );
           expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
-            '580.00',
+            '195.25',
           );
         });
       });
@@ -838,7 +836,7 @@ describe('efsr-fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('19413.36');
+      ).to.equal('15490.05');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('61.02');
@@ -952,25 +950,25 @@ describe('efsr-fsr transform information', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].purpose,
-        ).to.equal('Installment Contract');
+        ).to.equal('Credit card payments');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].creditorName,
-        ).to.equal('Creditor');
+        ).to.equal('Creditor One');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].originalAmount,
-        ).to.equal('1000');
+        ).to.equal('50000.54');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].unpaidBalance,
-        ).to.equal('500');
+        ).to.equal('15000.56');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].amountDueMonthly,
-        ).to.equal('20');
+        ).to.equal('800.10');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].dateStarted,
-        ).to.equal('02/2021');
+        ).to.equal('03/2017');
         expect(
           submissionObj.installmentContractsAndOtherDebts[0].amountPastDue,
-        ).to.equal('0');
+        ).to.equal('125.43');
       });
       describe('efsr-creditorAddress', () => {
         it('has valid structure', () => {
@@ -1057,16 +1055,16 @@ describe('efsr-fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.totalOfInstallmentContractsAndOtherDebts.originalAmount,
-      ).to.equal('6000.00');
+      ).to.equal('150000.97');
       expect(
         submissionObj.totalOfInstallmentContractsAndOtherDebts.unpaidBalance,
-      ).to.equal('3750.00');
+      ).to.equal('65000.82');
       expect(
         submissionObj.totalOfInstallmentContractsAndOtherDebts.amountDueMonthly,
-      ).to.equal('1050.00');
+      ).to.equal('2000.64');
       expect(
         submissionObj.totalOfInstallmentContractsAndOtherDebts.amountPastDue,
-      ).to.equal('105.00');
+      ).to.equal('125.43');
     });
   });
   describe('efsr-additionalData', () => {
@@ -1083,7 +1081,7 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.additionalData.additionalComments).to.equal(
-        `Supporting personal statement...\nIndividual expense amount: Clothing ($10.00), Entertainment ($20.00), Family and child care ($30.00), Health expenses ($50.00), Household maintenance ($60.00), Legal fees ($70.00), Pet care ($80.00), Transportation and car expenses ($90.00), Renter's or home insurance ($20.00), Property tax ($40.00), Homeowner's Association (HOA) fees ($50.00), Community Development District (CDD) fees ($60.00)`,
+        'Supporting personal statement...\nIndividual expense amount: Clothing ($10.00), Veteran added ($100.00), Property tax ($85.25)',
       );
     });
     describe('efsr-bankruptcy', () => {

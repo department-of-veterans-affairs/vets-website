@@ -40,6 +40,7 @@ export const transform = (formConfig, form) => {
     additionalData,
     expenses: { totalMonthlyExpenses },
     selectedDebtsAndCopays = [],
+    totalExpenses,
   } = form.data;
 
   try {
@@ -85,7 +86,7 @@ export const transform = (formConfig, form) => {
       filteredExpenses,
       installmentContractsAndCreditCards,
       expensesInstallmentContractsAndOtherDebts,
-    } = form.data.totalExpenses;
+    } = totalExpenses;
 
     const employmentHistory = getEmploymentHistory(form.data);
     const totalAssets = getTotalAssets(form.data);
