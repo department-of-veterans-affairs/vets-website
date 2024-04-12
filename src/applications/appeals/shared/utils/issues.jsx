@@ -1,7 +1,15 @@
 import React from 'react';
+import { parse } from 'date-fns';
 
 // import the toggleValues helper
-import { LEGACY_TYPE, REGEXP, SELECTED } from '../constants';
+import {
+  FORMAT_FULL_DATE,
+  FORMAT_YMD_DATE_FNS,
+  LEGACY_TYPE,
+  REGEXP,
+  SELECTED,
+} from '../constants';
+import { parseDate } from './dates';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -16,6 +24,13 @@ export const getIssueName = (entry = {}) =>
 
 export const getIssueDate = (entry = {}) =>
   entry.decisionDate || entry.attributes?.approxDecisionDate || '';
+
+export const getDecisionDate = issue => {
+  const dateToParse =
+    issue.attributes?.approxDecisionDate || issue.decisionDate || ''; // any reason not to use `getIssueDate` above? the ordering is different than this one so wasn't sure
+  const decisionDate = parse(dateToParse, FORMAT_YMD_DATE_FNS, new Date());
+  return parseDate(decisionDate, FORMAT_FULL_DATE);
+};
 
 // used for string comparison
 export const getIssueNameAndDate = (entry = {}) =>
