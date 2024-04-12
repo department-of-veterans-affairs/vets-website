@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { COMPLETE, ERROR, LOADING } from './loadingStatus';
+import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 
 function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
   let intervalCallCount = 0;
@@ -66,5 +66,5 @@ export default function useWebChatFramework(props) {
     );
   }
 
-  return { loadingStatus, WebChatFramework: window.WebChat };
+  return { loadingStatus, webChatFramework: window.WebChat };
 }

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
-import useWebChatFramework from '../chatbox/useWebChatFramework';
-import useVirtualAgentToken from '../chatbox/useVirtualAgentToken';
+import useWebChatFramework from '../../hooks/useWebChatFramework';
+import useVirtualAgentToken from '../../hooks/useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
 import ChatboxDisclaimer from '../chatbox/ChatboxDisclaimer';
 import {
@@ -11,8 +11,14 @@ import {
   COMPLETE,
   ERROR,
   LOADING,
-} from '../chatbox/loadingStatus';
-import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from '../chatbox/utils';
+} from '../../utils/loadingStatus';
+import {
+  getInAuthExp,
+  getLoggedInFlow,
+  setInAuthExp,
+  setLoggedInFlow,
+  storeUtterances,
+} from '../../utils/sessionStorage';
 
 // const ONE_MINUTE_IN_MS = 60_000;
 
@@ -27,7 +33,7 @@ function useWebChat(props) {
 
   return {
     token: token.token,
-    WebChatFramework: webchatFramework.WebChatFramework,
+    webChatFramework: webchatFramework.webChatFramework,
     loadingStatus,
     apiSession: token.apiSession,
   };
@@ -41,7 +47,8 @@ function showBot(
   setIsAuthTopic,
   props,
 ) {
-  if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
+  const inAuthExp = getInAuthExp();
+  if (!accepted && inAuthExp) {
     return <ChatboxDisclaimer />;
   }
 
@@ -51,7 +58,7 @@ function showBot(
         visible
         onClose={() => {
           setIsAuthTopic(false);
-          sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+          setLoggedInFlow('false');
         }}
       />
     );
@@ -72,7 +79,7 @@ export default function FloatingChatbox(props) {
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
       if (!isLoggedIn) {
-        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+        setLoggedInFlow('true');
         setIsAuthTopic(true);
       }
     }, 2000);
@@ -104,9 +111,10 @@ export default function FloatingChatbox(props) {
     };
   });
 
-  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
-    sessionStorage.setItem(IN_AUTH_EXP, 'true');
-    sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+  const loggedInFlow = getLoggedInFlow();
+  if (loggedInFlow === 'true' && isLoggedIn) {
+    setInAuthExp('true');
+    setLoggedInFlow('false');
   }
 
   const ONE_MINUTE = 60 * 1000;
@@ -130,7 +138,7 @@ export default function FloatingChatbox(props) {
 }
 
 function App(props) {
-  const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
+  const { token, webChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
   );
   switch (loadingStatus) {
@@ -142,7 +150,7 @@ function App(props) {
       return (
         <WebChat
           token={token}
-          WebChatFramework={WebChatFramework}
+          webChatFramework={webChatFramework}
           apiSession={apiSession}
         />
       );

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { ACCEPTED } from '../../actions';
-import { clearBotSessionStorage } from './utils';
+import { clearBotSessionStorage } from '../../utils/sessionStorage';
+import { ACCEPTED } from '../../reducers';
 
 export const ChatboxDisclaimer = () => {
   const dispatch = useDispatch();

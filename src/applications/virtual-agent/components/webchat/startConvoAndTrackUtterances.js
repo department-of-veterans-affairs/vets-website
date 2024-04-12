@@ -3,28 +3,16 @@ import {
   processSendMessageActivity,
   processIncomingActivity,
   processMicrophoneActivity,
-} from './helpers/startConvoAndTrackUtterancesHelpers';
+} from '../../utils/actions';
 
 const StartConvoAndTrackUtterances = {
-  makeBotStartConvoAndTrackUtterances: (
-    csrfToken,
-    apiSession,
-    apiURL,
-    baseURL,
-    userFirstName,
-    userUuid,
-    isMobile,
-  ) => ({ dispatch }) => next => action => {
+  makeBotStartConvoAndTrackUtterances: event => ({
+    dispatch,
+  }) => next => action => {
     const options = {
       action,
       dispatch,
-      csrfToken,
-      apiSession,
-      apiURL,
-      baseURL,
-      userFirstName,
-      userUuid,
-      isMobile,
+      ...event,
     };
 
     const processActionType = {

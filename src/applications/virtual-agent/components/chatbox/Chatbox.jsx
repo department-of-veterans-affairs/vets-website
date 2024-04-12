@@ -1,62 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
-import useWebChatFramework from './useWebChatFramework';
-import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-import ChatboxDisclaimer from './ChatboxDisclaimer.jsx';
+import ChatboxDisclaimer from './ChatboxDisclaimer';
+import { COMPLETE, ERROR, LOADING } from '../../utils/loadingStatus';
+import useWebChat from '../../hooks/useWebChat';
 import {
-  combineLoadingStatus,
-  COMPLETE,
-  ERROR,
-  LOADING,
-} from './loadingStatus';
-import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
+  getInAuthExp,
+  getLoggedInFlow,
+  setInAuthExp,
+  setLoggedInFlow,
+  storeUtterances,
+} from '../../utils/sessionStorage';
 
 // const ONE_MINUTE_IN_MS = 60_000;
-
-const getLoadingStatus = (
-  webchatLoadingStatus,
-  tokenLoadingStatus,
-  paramLoadingStatus,
-  featureFlag,
-) => {
-  const preliminaryCombinedLoadingStatus = combineLoadingStatus(
-    webchatLoadingStatus,
-    tokenLoadingStatus,
-  );
-  if (featureFlag) {
-    // we run this again to add a 3rd status to the mix
-    return combineLoadingStatus(
-      preliminaryCombinedLoadingStatus,
-      paramLoadingStatus,
-    );
-  }
-  // the original logic only combined 2 statuses
-  return preliminaryCombinedLoadingStatus;
-};
-
-function useWebChat(props, paramLoadingStatus) {
-  const webchatFramework = useWebChatFramework(props);
-  const token = useVirtualAgentToken(props);
-
-  const loadingStatus = getLoadingStatus(
-    webchatFramework.loadingStatus,
-    token.loadingStatus,
-    paramLoadingStatus,
-    props.virtualAgentEnableParamErrorDetection,
-  );
-
-  return {
-    token: token.token,
-    WebChatFramework: webchatFramework.WebChatFramework,
-    loadingStatus,
-    apiSession: token.apiSession,
-  };
-}
 
 function showBot(
   loggedIn,
@@ -66,7 +26,8 @@ function showBot(
   setIsAuthTopic,
   props,
 ) {
-  if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
+  const inAuthExp = getInAuthExp();
+  if (!accepted && !inAuthExp) {
     return <ChatboxDisclaimer />;
   }
 
@@ -76,7 +37,7 @@ function showBot(
         visible
         onClose={() => {
           setIsAuthTopic(false);
-          sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+          setLoggedInFlow('false');
         }}
       />
     );
@@ -106,7 +67,7 @@ function Chatbox(props) {
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
       if (!isLoggedIn) {
-        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+        setLoggedInFlow('true');
         setIsAuthTopic(true);
       }
     }, 2000);
@@ -138,9 +99,10 @@ function Chatbox(props) {
     };
   });
 
-  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
-    sessionStorage.setItem(IN_AUTH_EXP, 'true');
-    sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+  const loggedInFlow = getLoggedInFlow();
+  if (loggedInFlow === 'true' && isLoggedIn) {
+    setInAuthExp('true');
+    setLoggedInFlow('false');
   }
 
   const ONE_MINUTE = 60 * 1000;
@@ -166,7 +128,7 @@ function Chatbox(props) {
 function App(props) {
   // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
   const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
-  const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
+  const { token, webChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
     paramLoadingStatus,
   );
@@ -180,7 +142,7 @@ function App(props) {
       return (
         <WebChat
           token={token}
-          WebChatFramework={WebChatFramework}
+          webChatFramework={webChatFramework}
           apiSession={apiSession}
           setParamLoadingStatus={setParamLoadingStatus}
         />
