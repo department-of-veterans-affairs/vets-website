@@ -11,6 +11,7 @@ import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
 import incomeLimit from './fixtures/mocks/incomeLimit.json';
+import allExpenses from './fixtures/mocks/allExpenses.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -64,15 +65,11 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
 
-      const calculatedMonthlyExpenseResponse = {
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_expenses', {
         calculatedMonthlyExpenses: '6759',
-      };
+      });
 
-      cy.intercept(
-        'POST',
-        '/debts_api/v0/calculate_monthly_expenses',
-        calculatedMonthlyExpenseResponse,
-      );
+      cy.intercept('POST', '/debts_api/v0/calculate_all_expenses', allExpenses);
 
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
