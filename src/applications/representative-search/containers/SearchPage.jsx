@@ -13,7 +13,7 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import repStatusLoader from 'applications/static-pages/representative-status';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+// import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
@@ -54,11 +54,11 @@ const SearchPage = props => {
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
   const store = useStore();
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  // const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  const repStatusEnabled = useToggleValue(
-    TOGGLE_NAMES.representativeStatusEnabled,
-  );
+  // const repStatusEnabled = useToggleValue(
+  //   TOGGLE_NAMES.representativeStatusEnabled,
+  // );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
@@ -314,16 +314,10 @@ const SearchPage = props => {
   // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
+    if (!environment.isProduction()) {
+      repStatusLoader(store, 'representative-status', 3);
+    }
   }, []);
-
-  useEffect(
-    () => {
-      if (repStatusEnabled) {
-        repStatusLoader(store, 'representative-status');
-      }
-    },
-    [repStatusEnabled],
-  );
 
   const renderBreadcrumbs = () => {
     const breadcrumbs = [
@@ -365,17 +359,16 @@ const SearchPage = props => {
           </p>
         </div>
 
-        {!environment.isProduction() &&
-          repStatusEnabled && (
-            <div>
-              <h2>Check your current accredited representative</h2>
-              <p>
-                Va doesn’t automatically assign you an accredited
-                representative. But you may have appointed one in the past.{' '}
-              </p>
-              <div data-widget-type="representative-status" />
-            </div>
-          )}
+        {!environment.isProduction() && (
+          <div>
+            <h2>Check your current accredited representative</h2>
+            <p>
+              VA doesn’t automatically assign you an accredited representative.
+              But you may have appointed one in the past.{' '}
+            </p>
+            <div data-widget-type="representative-status" />
+          </div>
+        )}
 
         <SearchControls
           geolocateUser={props.geolocateUser}
