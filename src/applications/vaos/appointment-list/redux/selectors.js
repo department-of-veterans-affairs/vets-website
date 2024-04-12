@@ -23,6 +23,7 @@ import {
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
+  getPatientTelecom,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
@@ -260,17 +261,93 @@ export function getUpcomingAppointmentListInfo(state) {
   };
 }
 
+export function selectComment(appointment) {
+  if (!appointment) return '';
+
+  if (appointment.version === 2) {
+    return appointment.comment ? appointment.comment : 'none';
+  }
+
+  const { comment } = appointment;
+  if (appointment.vaos.isCommunityCare) {
+    return comment || 'none';
+  }
+  return appointment.reason && comment
+    ? `${appointment.reason}: ${comment}`
+    : comment || (appointment.reason ? appointment.reason : null);
+}
+
+export function selectProviderTelecom(appointment, system) {
+  return appointment?.communityCareProvider?.telecom.find(
+    t => t.system === system,
+  )?.value;
+}
+export function selectProvider(appointment) {
+  const { address, providerName, treatmentSpecialty } =
+    appointment?.communityCareProvider || {};
+  const phone = selectProviderTelecom(appointment, 'phone');
+
+  return {
+    address,
+    phone,
+    providerName,
+    treatmentSpecialty,
+  };
+}
+
+export function selectTypeOfCareName(appointment) {
+  if (!appointment) return '';
+
+  const { name } =
+    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || '';
+  const serviceCategoryName =
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
+  }
+  return name;
+}
+
 export function getConfirmedAppointmentDetailsInfo(state, id) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const appointment = selectAppointmentById(state, id);
   const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
     state,
   );
+
+  const comment = selectComment(appointment);
+  const isCommunityCare = appointment?.vaos?.isCommunityCare;
+  const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
+
+  const isVideo = appointment?.vaos?.isVideo;
+  const isVA = !isVideo && !isCommunityCare;
+
+  const locationId = getVAAppointmentLocationId(appointment);
+
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const facility = facilityData?.[locationId];
+
+  const phone = getPatientTelecom(appointment, 'phone');
+  const provider = selectProvider(appointment);
+  const startDate = moment.parseZone(appointment?.start);
+  const typeOfCareName = selectTypeOfCareName(appointment);
+
   return {
-    appointment: selectAppointmentById(state, id),
+    appointment,
     appointmentDetailsStatus,
+    appointmentTypePrefix,
     cancelInfo: getCancelInfo(state),
+    comment,
+    facility,
     facilityData,
+    isCommunityCare,
+    isVA,
+    isVideo,
+    phone,
+    provider,
     showCancelButton: selectFeatureCancel(state),
+    startDate,
+    typeOfCareName,
     useV2: featureVAOSServiceVAAppointments,
   };
 }
@@ -334,18 +411,6 @@ export function selectIsPhone(appointment) {
 
 export function selectIsVideo(appointment) {
   return appointment.vaos.isVideo;
-}
-
-export function selectTypeOfCareName(appointment) {
-  const { name } =
-    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
-  const serviceCategoryName =
-    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
-  if (serviceCategoryName === COMP_AND_PEN) {
-    const { displayName } = getTypeOfCareById(serviceCategoryName);
-    return displayName;
-  }
-  return name;
 }
 
 export function selectIsInPerson(appointment) {

@@ -3,7 +3,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
-import moment from '../../../lib/moment-tz';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import PageLayout from '../PageLayout';
@@ -24,8 +23,13 @@ export default function ConfirmedAppointmentDetailsPage() {
   const { id } = useParams();
   const {
     appointment,
+    appointmentDate,
     appointmentDetailsStatus,
+    appointmentTypePrefix,
     facilityData,
+    isCommunityCare,
+    isVA,
+    isVideo,
     useV2,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
@@ -37,13 +41,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
   );
-  const appointmentDate = moment.parseZone(appointment?.start);
-
-  const isVideo = appointment?.vaos?.isVideo;
-  const isCommunityCare = appointment?.vaos?.isCommunityCare;
-  const isVA = !isVideo && !isCommunityCare;
-
-  const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
   useEffect(
     () => {
