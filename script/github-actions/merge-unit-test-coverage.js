@@ -33,8 +33,10 @@ async function mergeCoverageReports(files) {
   }
 
   ['lines', 'functions', 'statements', 'branches'].forEach(key => {
-    merged.total[key].pct =
-      (merged.total[key].covered / merged.total[key].total) * 100;
+    merged.total[key].pct = (
+      (merged.total[key].covered / merged.total[key].total) *
+      100
+    ).toFixed(2);
   });
 
   return merged;

@@ -24,7 +24,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
 
     composePage.verifyComposePageValuesRetainedAfterContinueEditing();
 
-    composePage.verifyRecipient();
-    composePage.verifySubjectField('testSubject');
+    composePage.verifyRecipientNameText();
+    composePage.verifySubjectFieldText('testSubject');
   });
 });

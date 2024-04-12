@@ -538,6 +538,8 @@ jobs:
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
             ${{ steps.get-changed-apps.outputs.folders }}
           fi
+        env:
+          GITHUB_REF: ${{ github.ref }}
 
       - name: Run Stylelint
         if: ${{ always() }}

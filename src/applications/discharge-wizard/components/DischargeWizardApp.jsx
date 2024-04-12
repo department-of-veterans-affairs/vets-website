@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 import Breadcrumbs from './Breadcrumbs';
+import BreadcrumbsV2 from './v2/BreadcrumbsV2';
 
 export default function DischargeWizardApp({ children }) {
   const isProd = environment.isProduction();
@@ -16,7 +17,7 @@ export default function DischargeWizardApp({ children }) {
   }
   return (
     <div className="row discharge-wizard-v2 vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
-      <Breadcrumbs />
+      <BreadcrumbsV2 />
       <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>
   );
