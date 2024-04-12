@@ -99,6 +99,10 @@ jobs:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
+      - name: Create files
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/build/vagovprod
 
       - name: test paths #DELETE
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -107,7 +111,6 @@ jobs:
       - name: test paths #DELETE
         if: ${{ matrix.buildtype == 'vagovprod' }}
         run: ls $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
-
       - name: vaprod cache
         if: ${{ matrix.buildtype == 'vagovprod' }}
         id: vaprod-cache
