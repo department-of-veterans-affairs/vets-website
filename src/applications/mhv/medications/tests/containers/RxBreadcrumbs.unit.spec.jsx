@@ -71,5 +71,7 @@ describe('Medications Breadcrumbs', () => {
     useDispatchMock.returns(dispatch);
     await setup('/refill', []);
     expect(useDispatchMock.called);
+    useDispatchMock.reset();
+    dispatch.reset();
   });
 });
