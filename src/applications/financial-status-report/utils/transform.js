@@ -38,6 +38,7 @@ export const transform = (formConfig, form) => {
     },
     assets,
     additionalData,
+    expenses: { totalMonthlyExpenses },
     selectedDebtsAndCopays = [],
   } = form.data;
 
@@ -71,10 +72,11 @@ export const transform = (formConfig, form) => {
     );
 
     // === Expenses ===
-    const calculatedTotalMonthlyExpenses =
-      form.data.calculatedMonthlyExpensesResponse.calculatedMonthlyExpenses;
+    // expenses calculated in PreSubmit
 
     // Extract the values from calculated totals
+    // TODO double check this struct against previous implementation -- still
+    //  getting bad response when first submitting
     const {
       food,
       rentOrMortgage,
@@ -211,11 +213,11 @@ export const transform = (formConfig, form) => {
         utilities,
         otherLivingExpenses,
         expensesInstallmentContractsAndOtherDebts,
-        calculatedTotalMonthlyExpenses,
+        totalMonthlyExpenses,
       },
       discretionaryIncome: {
         netMonthlyIncomeLessExpenses:
-          totalMonthlyNetIncome - calculatedTotalMonthlyExpenses,
+          totalMonthlyNetIncome - totalMonthlyExpenses,
         amountCanBePaidTowardDebt,
       },
       assets: {

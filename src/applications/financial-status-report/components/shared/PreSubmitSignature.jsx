@@ -142,32 +142,6 @@ const PreSubmitSignature = ({
   // useEffect to get monthly expenses
   useEffect(
     () => {
-      getMonthlyExpensesAPI(formData)
-        .then(calculatedMonthlyExpensesResponse => {
-          dispatch(
-            setData({
-              ...formData,
-              calculatedMonthlyExpensesResponse,
-            }),
-          );
-        })
-        .catch(error => {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(
-              `calculate_monthly_expenses failed: ${error}`,
-            );
-          });
-        });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  // useEffect to get all expenses
-  useEffect(
-    () => {
       getAllExpensesAPI(formData)
         .then(totalExpenses => {
           dispatch(
@@ -181,6 +155,27 @@ const PreSubmitSignature = ({
           Sentry.withScope(scope => {
             scope.setExtra('error', error);
             Sentry.captureMessage(`calculate_all_expenses failed: ${error}`);
+          });
+        });
+
+      getMonthlyExpensesAPI(formData)
+        .then(({ calculatedMonthlyExpenses }) => {
+          dispatch(
+            setData({
+              ...formData,
+              expenses: {
+                ...formData.expenses,
+                totalMonthlyExpenses: calculatedMonthlyExpenses,
+              },
+            }),
+          );
+        })
+        .catch(error => {
+          Sentry.withScope(scope => {
+            scope.setExtra('error', error);
+            Sentry.captureMessage(
+              `calculate_monthly_expenses failed in PreSubmitSignature: ${error}`,
+            );
           });
         });
     },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -39,9 +39,8 @@ const OtherExpensesChecklist = ({
         });
   };
 
-  // Calculate Discretionary income as necessary
-  const updateStreamlinedValues = () => {
-    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
+  useEffect(() => {
+    if (!gmtData?.isEligibleForStreamlined) return;
 
     getMonthlyExpensesAPI(data)
       .then(({ calculatedMonthlyExpenses }) => {
@@ -62,10 +61,12 @@ const OtherExpensesChecklist = ({
       .catch(error => {
         Sentry.withScope(scope => {
           scope.setExtra('error', error);
-          Sentry.captureMessage(`calculate_monthly_expenses failed: ${error}`);
+          Sentry.captureMessage(
+            `calculate_monthly_expenses failed in OtherExpensesChecklist: ${error}`,
+          );
         });
       });
-  };
+  }, []);
 
   const onSubmit = event => {
     event.preventDefault();
@@ -106,7 +107,7 @@ const OtherExpensesChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}

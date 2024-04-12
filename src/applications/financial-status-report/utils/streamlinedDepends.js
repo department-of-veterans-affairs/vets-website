@@ -1,7 +1,6 @@
 import { DEBT_TYPES } from '../constants';
 import { getMonthlyIncome, safeNumber } from './calculateIncome';
 import { getTotalAssets } from './helpers';
-import { getMonthlyExpensesAPI } from './calculateExpenses';
 
 const VHA_LIMIT = 5000;
 
@@ -119,16 +118,4 @@ export const calculateLiquidAssets = formData => {
   return formData['view:streamlinedWaiverAssetUpdate']
     ? liquidAssets
     : getTotalAssets(formData);
-};
-
-/**
- * Discretionary income total baseed on total income less expenses
- * Long form only
- * @param {object} formData - all formData
- * @returns {number} Discretionary income
- */
-export const calculateDiscretionaryIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  const expenses = getMonthlyExpensesAPI(formData);
-  return totalMonthlyNetIncome - expenses.calculatedMonthlyExpenses;
 };

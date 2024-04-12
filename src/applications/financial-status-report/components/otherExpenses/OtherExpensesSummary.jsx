@@ -65,7 +65,9 @@ const OtherExpensesSummary = ({
       .catch(error => {
         Sentry.withScope(scope => {
           scope.setExtra('error', error);
-          Sentry.captureMessage(`calculate_monthly_expenses failed: ${error}`);
+          Sentry.captureMessage(
+            `calculate_monthly_expenses failed in OtherExpensesSummary: ${error}`,
+          );
         });
       });
   }, []);
