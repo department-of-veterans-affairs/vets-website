@@ -36,11 +36,6 @@ const Error = () => {
 
   let header = '';
 
-  let apptType = '';
-  if (appointments && appointments.length > 0) {
-    apptType = appointments[0]?.kind ?? 'clinic';
-  }
-
   let accordion = null;
   let alertType = '';
   let messageText = '';
@@ -68,10 +63,13 @@ const Error = () => {
       </p>
     </div>
   );
+  const chevRight = (
+    <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+  );
   const mixedModalityMessage = (
     <div data-testid="mixed-modality-message">
       <div>
-        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('in-person-appointment')}
         </span>
@@ -82,14 +80,24 @@ const Error = () => {
         )}
       </div>
       <div className="vads-u-margin-top--2">
-        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('video-appointment--title')}
         </span>
       </div>
       <div className="vads-u-margin-top--2">{t('video-error-help-text')}</div>
       <div className="vads-u-margin-top--2">
-        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        <ExternalLink
+          href="https://www.va.gov/resources/signing-in-to-vagov/"
+          hrefLang="en"
+          eventId="sign-in-to-find--link-clicked"
+          eventPrefix="nav"
+        >
+          {t('sign-in-to-find-appointment')}
+        </ExternalLink>
+      </div>
+      <div className="vads-u-margin-top--2">
+        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('phone-appointment')}
         </span>
@@ -117,14 +125,14 @@ const Error = () => {
       header = t('sorry-we-cant-complete-pre-check-in');
       messageText = (
         <>
-          <div>
+          <p className="vads-u-margin-top--0">
             {t('were-sorry-something-went-wrong-on-our-end-please-try-again')}
-          </div>
-          <div data-testid="date-message">
+          </p>
+          <p data-testid="date-message">
             {t('you-can-pre-check-in-online-until-date', {
               date: subDays(new Date(appointments[0].startTime), 1),
             })}
-          </div>
+          </p>
         </>
       );
       break;
@@ -218,7 +226,7 @@ const Error = () => {
       >
         <div>{messageText}</div>
       </va-alert>
-      <HowToLink apptType={apptType} />
+      <HowToLink />
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
     </Wrapper>
   );
