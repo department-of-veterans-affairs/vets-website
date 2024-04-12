@@ -325,7 +325,7 @@ class PatientComposePage {
     );
   };
 
-  verifyRecipient = (recipient = mockRecipients.data[0].id) => {
+  verifyRecipientNameText = (recipient = mockRecipients.data[0].id) => {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
@@ -333,7 +333,7 @@ class PatientComposePage {
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
-  verifySubjectField = subject => {
+  verifySubjectFieldText = subject => {
     cy.get(Locators.MESSAGE_SUBJECT).should('have.value', subject);
   };
 
@@ -380,7 +380,7 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  verifyDeleteDraftSuccessfulMessage = () => {
+  verifyDeleteDraftSuccessfulMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
       Data.MESSAGE_MOVED_TO_TRASH,
@@ -406,6 +406,12 @@ class PatientComposePage {
       .shadow()
       .find('[id=input-error-message]')
       .should('be.visible');
+  };
+
+  verifyDraftSaveButtonOnFocus = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should('exist')
+      .and('be.focused');
   };
 }
 
