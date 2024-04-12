@@ -6,23 +6,13 @@ const MobileFooter = () => {
   return (
     <div data-testid="mobile-footer" className="mobile">
         <div className="footer-inner">
-          <div
-            aria-hidden="false"
-            className="va-footer-content"
-          >
+          <div aria-hidden="false" className="va-footer-content">
             <ul className="usa-accordion va-footer-accordion">
               <li>
                 <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
-                  <button
-                    className="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger"
-                    data-show="#modal-crisisline"
-                    id="footer-crisis-line"
-                  >
+                  <button className="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger" data-show="#modal-crisisline" id="footer-crisis-line">
                     Talk to the <strong>Veterans Crisis Line</strong> now
-                    <i
-                      aria-hidden="true"
-                      className="fa fa-chevron-right vads-u-margin-left--1"
-                    />
+                    <i aria-hidden="true" className="fa fa-chevron-right vads-u-margin-left--1"/>
                   </button>
                 </div>
               </li>
@@ -56,16 +46,7 @@ const MobileFooter = () => {
                </li>
             </ul>
             <div className="usa-grid usa-grid-full footer-banner">
-              <a href="/" title="Go to VA.gov">
-                <img
-                  src={replaceWithStagingDomain(
-                    'https://www.va.gov/img/homepage/va-logo-white.png',
-                  )}
-                  alt="VA logo and Seal, U.S. Department of Veterans Affairs"
-                  width="200"
-                  className="vads-u-height--auto"
-                />
-              </a>
+              <a href="/" title="Go to VA.gov"><img src={replaceWithStagingDomain('https://www.va.gov/img/homepage/va-logo-white.png')} alt="VA logo and Seal, U.S. Department of Veterans Affairs" width="200" className="vads-u-height--auto" /></a>
             </div>
             <div className="usa-grid usa-grid-full va-footer-links-bottom">
               <ul>
@@ -94,8 +75,7 @@ const MobileFooter = () => {
                   <li><i className="fa fa-phone va-crisis-panel-icon" aria-hidden="true"></i><a href="tel:988">Call <strong>988 and select 1</strong></a></li>
                   <li><i className="fa fa-mobile-alt va-crisis-panel-icon" aria-hidden="true"></i><a href="sms:838255">Text <strong>838255</strong></a></li>
                   <li><i className="fa fa-comments va-crisis-panel-icon" aria-hidden="true"></i><a className="no-external-icon" href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a></li>
-                  <li>
-                     <i className="fa fa-deaf va-crisis-panel-icon" aria-hidden="true"></i>
+                  <li><i className="fa fa-deaf va-crisis-panel-icon" aria-hidden="true"></i>
                      <p><a href="tel:711" aria-label="7 1 1">For TTY, call <strong>711 then 988</strong></a></p>
                   </li>
                </ul>

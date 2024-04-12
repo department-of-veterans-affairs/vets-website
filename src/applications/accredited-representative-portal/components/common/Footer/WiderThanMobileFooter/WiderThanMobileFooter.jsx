@@ -37,8 +37,7 @@ const WiderThanMobileFooter = () => {
                     <div className="va-footer-linkgroup" id="veteran-crisis">
                         <h2 className="va-footer-linkgroup-title">In crisis? Talk to someone now</h2>
                         <ul className="va-footer-links">
-                            <li><va-button className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis
-                                Line</va-button></li>
+                            <li><va-button className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</va-button></li>
                         </ul>
                     </div>
                 </div>
@@ -51,9 +50,7 @@ const WiderThanMobileFooter = () => {
                 <div className="usa-grid usa-grid-full va-footer-links-bottom">
                     <ul>
                         <li><a href="https://va.gov/accessibility-at-va">Accessibility</a></li>
-                        <li><a
-                            href="https://va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/">Civil
-                            Rights</a></li>
+                        <li><a href="https://va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/">Civil Rights</a></li>
                         <li><a href="https://department.va.gov/foia/">Freedom of Information Act (FOIA)</a></li>
                         <li><a href="https://va.gov/report-harassment/">Harassment</a></li>
                         <li><a href="https://va.gov/oig/">Office of Inspector General</a></li>
@@ -73,19 +70,16 @@ const WiderThanMobileFooter = () => {
                         className="fas fa-times-circle va-overlay-close" aria-hidden="true"></i></va-button>
                     <div className="va-overlay-body va-crisis-panel-body">
                         <h3 className="va-crisis-panel-title">We're here anytime, day or night - 24/7</h3>
-                        <p>If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for
-                            confidential help. Many of them are Veterans themselves.</p>
+                        <p>If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.</p>
                         <ul className="va-crisis-panel-list">
-                            <li><i className="fa fa-phone va-crisis-panel-icon" aria-hidden="true"></i><a href="tel:988">Call <strong>988
-                                and select 1</strong></a></li>
-                            <li><i className="fa fa-mobile-alt va-crisis-panel-icon" aria-hidden="true"></i><a href="sms:838255">Text
-                                <strong>838255</strong></a></li>
-                            <li><i className="fa fa-comments va-crisis-panel-icon" aria-hidden="true"></i><a className="no-external-icon"
-                                href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a></li>
+                            <li><i className="fa fa-phone va-crisis-panel-icon" aria-hidden="true"></i><a href="tel:988">Call <strong>988 and select 1</strong></a></li>
+                            <li><i className="fa fa-mobile-alt va-crisis-panel-icon" aria-hidden="true"></i><a href="sms:838255">Text <strong>838255</strong></a></li>
+                            <li><i className="fa fa-comments va-crisis-panel-icon" aria-hidden="true"></i><a className="no-external-icon" href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a></li>
                             <li><i className="fa fa-deaf va-crisis-panel-icon" aria-hidden="true"></i>
                                 <p><a href="tel:711" aria-label="7 1 1">For TTY, call <strong>711 then 988</strong></a></p>
                             </li>
-                        </ul>Get more resources at <a className="no-external-icon"
+                        </ul>
+                        Get more resources at <a className="no-external-icon"
                             href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.
                     </div>
                 </div>
