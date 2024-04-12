@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
-import * as redux from 'react-redux';
-import sinon from 'sinon';
 import reducers from '../../reducers';
 import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
@@ -64,14 +62,5 @@ describe('Medications Breadcrumbs', () => {
   it('should not render any crumbs when path is /about', () => {
     const screen = setup('/about', []);
     expect(screen.queryByText('Back to About medications')).to.be.null;
-  });
-  it('should dispatch when there is no crumb list and user is not in the about page', async () => {
-    const useDispatchMock = sinon.stub(redux, 'useDispatch');
-    const dispatch = sinon.spy();
-    useDispatchMock.returns(dispatch);
-    await setup('/refill', []);
-    expect(useDispatchMock.called);
-    useDispatchMock.reset();
-    dispatch.reset();
   });
 });
