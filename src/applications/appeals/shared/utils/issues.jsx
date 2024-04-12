@@ -26,8 +26,7 @@ export const getIssueDate = (entry = {}) =>
   entry.decisionDate || entry.attributes?.approxDecisionDate || '';
 
 export const getDecisionDate = issue => {
-  const dateToParse =
-    issue.attributes?.approxDecisionDate || issue.decisionDate || ''; // any reason not to use `getIssueDate` above? the ordering is different than this one so wasn't sure
+  const dateToParse = getIssueDate(issue);
   const decisionDate = parse(dateToParse, FORMAT_YMD_DATE_FNS, new Date());
   return parseDate(decisionDate, FORMAT_FULL_DATE);
 };

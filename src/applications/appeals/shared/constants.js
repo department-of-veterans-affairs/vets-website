@@ -58,7 +58,6 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 export const FORMAT_FULL_DATE = 'MMMM d, yyyy'; // date-fn format
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM dd, yyyy';
-export const FORMAT_READABLE_DATE_FNS = 'PPP';
 
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise

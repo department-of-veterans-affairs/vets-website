@@ -28,12 +28,12 @@ describe('parseDate', () => {
       'June 17, 2023',
     );
     const dateFnsParsedDate = parse(
-      '2000-1-1',
+      '2000-12-13',
       FORMAT_YMD_DATE_FNS,
       new Date(),
     );
     expect(parseDate(dateFnsParsedDate, FORMAT_FULL_DATE)).to.eq(
-      'January 1, 2000',
+      'December 13, 2000',
     );
   });
   it('should return a formatted date string', () => {
