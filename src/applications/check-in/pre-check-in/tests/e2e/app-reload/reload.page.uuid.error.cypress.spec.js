@@ -79,7 +79,7 @@ describe('Pre-Check In Experience', () => {
       cy.reload();
       Error.validatePageLoadedNotAvailable();
       cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Pre-check-in--reload--404-uuid-not-found');
+      cy.createScreenshots('Pre-check-in-404-uuid-not-found');
     });
   });
 });
