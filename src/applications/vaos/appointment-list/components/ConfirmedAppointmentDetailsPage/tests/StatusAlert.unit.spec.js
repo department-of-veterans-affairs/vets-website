@@ -5,7 +5,7 @@ import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import StatusAlert from '../StatusAlert';
+import StatusAlert from '../../../../components/StatusAlert';
 import {
   Facility,
   MockAppointment,
@@ -76,7 +76,7 @@ describe('VAOS Component: StatusAlert', () => {
       },
     );
     expect(screen.baseElement).to.contain('.usa-alert-error');
-    expect(screen.baseElement).to.contain.text('You canceled your appointment');
+    expect(screen.baseElement).to.contain.text('You canceled this appointment');
 
     expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;

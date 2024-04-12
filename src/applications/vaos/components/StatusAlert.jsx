@@ -3,16 +3,15 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import InfoAlert from '../../../components/InfoAlert';
+import InfoAlert from './InfoAlert';
 import {
   APPOINTMENT_STATUS,
   CANCELLATION_REASONS,
   GA_PREFIX,
-} from '../../../utils/constants';
-import { startNewAppointmentFlow } from '../../redux/actions';
-// eslint-disable-next-line import/no-restricted-paths
-import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
-import { selectFeatureAfterVisitSummary } from '../../../redux/selectors';
+} from '../utils/constants';
+import { startNewAppointmentFlow } from '../appointment-list/redux/actions';
+import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
+import { selectFeatureAfterVisitSummary } from '../redux/selectors';
 
 function handleClick(history, dispatch, typeOfCare) {
   return () => {
@@ -24,7 +23,11 @@ function handleClick(history, dispatch, typeOfCare) {
   };
 }
 
-export default function StatusAlert({ appointment, facility }) {
+export default function StatusAlert({
+  appointment,
+  facility,
+  showScheduleLink = false,
+}) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -92,9 +95,18 @@ export default function StatusAlert({ appointment, facility }) {
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
-          <strong>{who} canceled your appointment. </strong>
+          <strong>{who} canceled this appointment. </strong>
           If you want to reschedule, call us or schedule a new appointment
           online.
+          {showScheduleLink && (
+            <p>
+              <va-link
+                text="Schedule a new appointment"
+                data-testid="schedule-appointment-link"
+                onClick={handleClick(history, dispatch, typeOfCare)}
+              />
+            </p>
+          )}
         </InfoAlert>
       </>
     );
@@ -159,6 +171,7 @@ StatusAlert.propTypes = {
   facility: PropTypes.shape({
     name: PropTypes.string,
   }),
+  showScheduleLink: PropTypes.bool,
 };
 StatusAlert.defaultProps = {
   appointment: {

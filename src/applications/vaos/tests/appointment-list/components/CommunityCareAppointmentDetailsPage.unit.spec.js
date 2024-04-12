@@ -61,6 +61,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
+        telecom: [],
       },
       serviceType: 'audiology',
       reasonCode: {
@@ -177,6 +178,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
+        telecom: [],
       },
     };
 
@@ -238,6 +240,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
+        telecom: [],
       },
     };
 
@@ -301,6 +304,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
+        telecom: [],
       },
     };
 
@@ -363,6 +367,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
         treatmentSpecialty: '',
+        telecom: [],
       },
     };
 
@@ -425,6 +430,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
         treatmentSpecialty: null,
+        telecom: [],
       },
     };
 
@@ -487,6 +493,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
         treatmentSpecialty: 'Optometry',
+        telecom: [],
       },
     };
 
@@ -544,6 +551,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
+        telecom: [],
       },
       status: 'cancelled',
     };
@@ -581,7 +589,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     ).to.be.ok;
 
     // Then the canceled status message should be displayed
-    expect(screen.getByText(/Facility canceled your appointment/)).to.be.ok;
+    expect(screen.getByText(/Facility canceled this appointment/)).to.be.ok;
 
     // Then the 'Add to calendar' link should not be displayed
     expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
