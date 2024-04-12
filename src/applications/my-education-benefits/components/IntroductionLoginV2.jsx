@@ -151,10 +151,10 @@ function IntroductionLoginV2({
             user={user}
           />
         )}
-      {apiCallsComplete &&
+      {!shouldShowMaintenanceAlert &&
+        apiCallsComplete &&
         isLoggedIn &&
-        isLOA3 === false &&
-        !shouldShowMaintenanceAlert && (
+        isLOA3 === false && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="continue"
