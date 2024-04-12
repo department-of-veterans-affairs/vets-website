@@ -14,16 +14,6 @@ import Wrapper from '../../../components/layout/Wrapper';
 
 import { getFirstCanceledAppointment } from '../../../utils/appointment';
 
-const appointmentAccordion = appointments => {
-  return (
-    <PreCheckInAccordionBlock
-      key="accordion"
-      errorPage
-      appointments={appointments}
-    />
-  );
-};
-
 const Error = () => {
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
@@ -36,7 +26,6 @@ const Error = () => {
 
   let header = '';
 
-  let accordion = null;
   let alertType = '';
   let messageText = '';
 
@@ -171,7 +160,6 @@ const Error = () => {
           )}
         </div>
       );
-      accordion = appointmentAccordion(appointments);
       break;
     }
     case 'pre-check-in-expired':
@@ -184,7 +172,6 @@ const Error = () => {
           {mixedModalityMessage}
         </>
       );
-      accordion = appointmentAccordion(appointments);
       break;
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
@@ -244,7 +231,13 @@ const Error = () => {
         <div>{messageText}</div>
       </va-alert>
       <HowToLink />
-      {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
+      <div className="vads-u-margin-top--3">
+        <PreCheckInAccordionBlock
+          key="accordion"
+          errorPage
+          appointments={appointments}
+        />
+      </div>
     </Wrapper>
   );
 };
