@@ -75,8 +75,7 @@ function IntroductionLogin({
       )}
 
       {!isLoggedIn &&
-        user?.login?.hasCheckedKeepAlive &&
-        !shouldShowMaintenanceAlert && (
+        user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert
               close-btn-aria-label="Close notification"

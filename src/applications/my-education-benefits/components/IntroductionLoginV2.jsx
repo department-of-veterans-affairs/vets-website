@@ -151,8 +151,7 @@ function IntroductionLoginV2({
             user={user}
           />
         )}
-      {!shouldShowMaintenanceAlert &&
-        apiCallsComplete &&
+      {apiCallsComplete &&
         isLoggedIn &&
         isLOA3 === false && (
           <va-alert
