@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { parse } from 'date-fns';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
@@ -47,10 +46,11 @@ const removeButtonClass = [
 
 const formatDate = (date = '') => {
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
-  const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
-  const result = parseDate(parsedDate, FORMAT_COMPACT_DATE_FNS) || '';
+  // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
+  const result =
+    parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
   // Not entirely sure what this check is for — can we just return `result`?
-  return result.includes(',') ? result : '';
+  return result || '';
 };
 
 /**

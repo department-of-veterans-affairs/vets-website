@@ -1,5 +1,4 @@
 import React from 'react';
-import { parse } from 'date-fns';
 
 // import the toggleValues helper
 import {
@@ -27,8 +26,7 @@ export const getIssueDate = (entry = {}) =>
 
 export const getDecisionDate = issue => {
   const dateToParse = getIssueDate(issue);
-  const decisionDate = parse(dateToParse, FORMAT_YMD_DATE_FNS, new Date());
-  return parseDate(decisionDate, FORMAT_FULL_DATE);
+  return parseDate(dateToParse, FORMAT_FULL_DATE, FORMAT_YMD_DATE_FNS);
 };
 
 // used for string comparison
