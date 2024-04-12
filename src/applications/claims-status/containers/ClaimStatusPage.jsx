@@ -22,6 +22,7 @@ import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
+  claimAvailable,
   getClaimType,
   getItemDate,
   getStatusMap,
@@ -195,8 +196,10 @@ class ClaimStatusPage extends React.Component {
   getPageContent() {
     const { claim, showClaimLettersLink } = this.props;
 
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
 
     const {
       claimPhaseDates,
@@ -204,14 +207,15 @@ class ClaimStatusPage extends React.Component {
       decisionLetterSent,
       documentsNeeded,
       status,
-    } = attributes;
+      trackedItems,
+    } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
+    const filesNeeded = itemsNeedingAttentionFromVet(trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
     return (
-      <div>
+      <div className="claim-status">
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
             <ClaimStatusHeader claim={claim} />
@@ -261,7 +265,7 @@ class ClaimStatusPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
@@ -314,7 +318,7 @@ ClaimStatusPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  message: PropTypes.string,
+  message: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
 };
 

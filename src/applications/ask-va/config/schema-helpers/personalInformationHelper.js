@@ -327,7 +327,15 @@ export const personalInformationAboutYourselfUiSchemas = {
   branchOfService: {
     'ui:title': 'Branch of service',
     'ui:webComponentField': VaSelectField,
-    'ui:required': () => true,
+    'ui:required': formData =>
+      (formData.questionAbout === 'MYSELF' ||
+        formData.questionAbout === 'SOMEONE_ELSE') &&
+      formData.personalRelationship === 'VETERAN' &&
+      (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
+        formData.selectCategory === 'Survivor Benefits' ||
+        formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
+        formData.selectCategory === "Women Veterans' issues" ||
+        formData.selectCategory === 'Benefits Issues Outside the US'),
     'ui:options': {
       uswds: true,
       hideIf: formData =>
