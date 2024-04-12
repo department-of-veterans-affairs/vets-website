@@ -6,6 +6,8 @@ import { recordDashboardClick } from '~/applications/personalization/dashboard/h
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
+const formatTitle = (title = '') => capitalize(title).replace(/\bva\b/, 'VA');
+
 const ApplicationInProgress = ({
   continueUrl,
   expirationDate,
@@ -27,7 +29,7 @@ const ApplicationInProgress = ({
           aria-describedby={formId}
           className="vads-u-font-size--h3 vads-u-margin-top--0"
         >
-          {capitalize(formTitle)}
+          {formatTitle(formTitle)}
         </h3>
         <div className="vads-u-display--flex">
           <i

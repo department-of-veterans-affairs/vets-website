@@ -334,5 +334,12 @@
   "start-travel-claim-over": "Start travel claim over",
   "if-your-appointment-is-in-person": "If your appointment is in person, a staff member will help you on the day of your appointment.",
   "or-you-can-sign-in": "Or you can <0>{{link}}</0> to your VA account to update your contact information online.",
-  "or-you-can-call-MyVA411": "Or you can call MyVA411 main information <0></0> or call your VA health care team."
+  "or-you-can-call-MyVA411": "Or you can call MyVA411 main information <0></0> or call your VA health care team.",
+  "at": "at",
+  "you-can-join-your-appointment-by-using-our-appointments-tool": "You can join your appointment by using our appointments tool on VA.gov. We’ll add the link 30 minutes before your scheduled appointment.",
+  "go-to-facility-for-this-video-appointment": "Go to {{facility}} for this video appointment.",
+  "video-appointment": "video appointment",
+  "video-at": "Video at",
+  "video-appointment-at-facility": "Video appointment at {{facility}}",
+  "video-appointment--title": "Video appointment"
 }

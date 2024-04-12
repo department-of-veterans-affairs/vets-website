@@ -100,7 +100,7 @@ const Error = () => {
           </div>
         </>
       );
-      showHowToLink = apptType === 'clinic';
+      showHowToLink = true;
       break;
     case 'appointment-canceled': {
       alertType = 'info';
@@ -200,7 +200,7 @@ const Error = () => {
       >
         <div>{messageText}</div>
       </va-alert>
-      {showHowToLink && <HowToLink apptType={apptType} />}
+      {showHowToLink && <HowToLink />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
     </Wrapper>
   );
