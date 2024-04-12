@@ -246,7 +246,8 @@ const MobileFooter = () => {
                   />
                   Call{' '}
                   <strong>
-                    <va-telephone contact="988" /> and select 1
+                    <va-telephone contact="988" aria-label="9 8 8" /> and select
+                    1
                   </strong>
                 </li>
                 <li>
@@ -254,7 +255,7 @@ const MobileFooter = () => {
                     className="fa fa-mobile-alt va-crisis-panel-icon"
                     aria-hidden="true"
                   />
-                  Text <va-telephone contact="838255" sms />
+                  Text <va-telephone contact="838255" sms aria-label="838255" />
                 </li>
                 <li>
                   <i

@@ -176,7 +176,7 @@ const WiderThanMobileFooter = () => {
           </va-button>
           <div className="va-overlay-body va-crisis-panel-body">
             <h3 className="va-crisis-panel-title">
-              We're here anytime, day or night - 24/7
+              We’re here anytime, day or night - 24/7
             </h3>
             <p>
               If you are a Veteran in crisis or concerned about one, connect
@@ -189,18 +189,17 @@ const WiderThanMobileFooter = () => {
                   className="fa fa-phone va-crisis-panel-icon"
                   aria-hidden="true"
                 />
-                <a href="tel:988">
-                  Call <strong>988 and select 1</strong>
-                </a>
+                Call{' '}
+                <strong>
+                  <va-telephone contact="988" aria-label="9 8 8" /> and select 1
+                </strong>
               </li>
               <li>
                 <i
                   className="fa fa-mobile-alt va-crisis-panel-icon"
                   aria-hidden="true"
                 />
-                <a href="sms:838255">
-                  Text <strong>838255</strong>
-                </a>
+                Text <va-telephone contact="838255" sms aria-label="838255" />
               </li>
               <li>
                 <i
@@ -220,9 +219,7 @@ const WiderThanMobileFooter = () => {
                   aria-hidden="true"
                 />
                 <p>
-                  <a href="tel:711" aria-label="7 1 1">
-                    For TTY, call <strong>711 then 988</strong>
-                  </a>
+                  <va-telephone contact="711" />
                 </p>
               </li>
             </ul>
