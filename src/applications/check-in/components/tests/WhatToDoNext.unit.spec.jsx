@@ -94,6 +94,14 @@ describe('unified check-in experience', () => {
         ...initAppointments[2],
         startTime: '2022-01-03T15:00:00',
       };
+      initAppointments[3] = {
+        ...initAppointments[3],
+        startTime: '2022-01-03T16:00:00',
+      };
+      initAppointments[4] = {
+        ...initAppointments[4],
+        startTime: '2022-01-03T17:00:00',
+      };
       const { getByTestId } = render(
         <CheckInProvider store={initStore}>
           <WhatToDoNext router={mockRouter} appointments={initAppointments} />
@@ -101,7 +109,7 @@ describe('unified check-in experience', () => {
       );
       expect(getByTestId('what-next-card-title')).to.exist;
       expect(getByTestId('what-next-card-title')).to.have.text(
-        'Review your contact information for your Monday, January 3, 2:00 p.m., Monday, January 3, 2:30 p.m. and Monday, January 3, 3:00 p.m. appointments',
+        'Review your contact information for your Monday, January 3, 2:00 p.m., Monday, January 3, 2:30 p.m., Monday, January 3, 3:00 p.m., Monday, January 3, 4:00 p.m. and Monday, January 3, 5:00 p.m. appointments',
       );
     });
     it('check in displays a clickable details link that calls go to details', () => {
