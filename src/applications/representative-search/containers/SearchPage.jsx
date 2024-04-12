@@ -13,7 +13,6 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import repStatusLoader from 'applications/static-pages/representative-status';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
@@ -54,11 +53,6 @@ const SearchPage = props => {
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
   const store = useStore();
-  // const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  // const repStatusEnabled = useToggleValue(
-  //   TOGGLE_NAMES.representativeStatusEnabled,
-  // );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
