@@ -50,7 +50,7 @@ export const dateFormatInterpolators = {
     return formatDate(value, 'iiii', { locale });
   },
   monthDay: (value, _format, _lng, locale) => {
-    return formatDate(value, "MMMM' 'dd", { locale });
+    return formatDate(value, "MMMM' 'd", { locale });
   },
   dayOfWeek: (value, _format, _lng, locale) => {
     return formatDate(value, 'eeee', { locale });
