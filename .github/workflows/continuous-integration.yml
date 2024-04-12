@@ -1295,6 +1295,10 @@ jobs:
           name: unit-test-coverage-txt
           path: qa-standards-dashboard-data/coverage/coverage_report.txt
 
+      - name: Process Coverage Report and post results to BigQuery
+        run: yarn unit-coverage-to-bigquery
+        working-directory: qa-standards-dashboard-data
+
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
         run: |
