@@ -101,9 +101,11 @@ jobs:
           retention-days: 1
 
       - name: test paths #DELETE
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         run: touch $GITHUB_WORKSPACE/build/vagovprod/test.txt
 
       - name: test paths #DELETE
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         run: ls $GITHUB_WORKSPACE/build/${{ matrix.buildtype }}
 
       - name: vaprod cache
