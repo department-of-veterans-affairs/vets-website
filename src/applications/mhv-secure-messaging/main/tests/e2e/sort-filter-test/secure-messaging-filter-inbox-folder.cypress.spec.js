@@ -1,7 +1,7 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
-import { Locators } from '../utils/constants';
+import { Locators, AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Inbox Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -21,13 +21,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
 
   it('Verify filter works correctly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     landingPage.inputFilterDataText('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
     landingPage.verifyFilterResultsText('test', mockFilterResults);
@@ -50,13 +44,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
 
   it('Check sorting works properly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     landingPage.verifySorting();
   });
 });
@@ -77,13 +65,7 @@ describe('Verify sorting feature with only one filter result', () => {
     landingPage.loadInboxMessages();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     landingPage.inputFilterDataText('draft');
     landingPage.clickFilterMessagesButton(mockSingleFilterResult);

@@ -1,6 +1,7 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessagesDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Draft Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -14,13 +15,7 @@ describe('Secure Messaging Draft Folder checks', () => {
 
   it('Verify filter works correctly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     draftsPage.inputFilterDataText('test');
     draftsPage.clickFilterMessagesButton();
     draftsPage.verifyFilterResultsText('test');
@@ -28,25 +23,13 @@ describe('Secure Messaging Draft Folder checks', () => {
 
   it('Verify filter works with Date', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     draftsPage.inputFilterDataText('Last 3 Months');
     draftsPage.clickFilterMessagesButton();
   });
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     draftsPage.inputFilterDataText('any');
     draftsPage.clickFilterMessagesButton();
     draftsPage.clickClearFilterButton();
@@ -55,13 +38,7 @@ describe('Secure Messaging Draft Folder checks', () => {
 
   it('Check sorting works properly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
     draftsPage.verifySorting();
   });
 });
