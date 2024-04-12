@@ -40,17 +40,13 @@ describe('Secure Messaging Message Details', () => {
   it('Has correct behavior when expanding one child thread message', () => {
     const updatedMockThread = detailsPage.getCurrentThread();
     detailsPage.expandThreadMessageDetails(updatedMockThread, 1);
-    // cy.reload(true);
-    detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 1);
-    // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage group name only on received messages
-    // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); // TODO UCD is still determining whether to display this
-    detailsPage.verifyExpandedMessageDateDisplayText(
-      mockParentMessageDetails,
-      1,
-    );
+    detailsPage.verifyExpandedMessageTo(mockParentMessageDetails, 1);
+    detailsPage.verifyExpandedMessageFrom(messageDetails);
+    detailsPage.verifyExpandedMessageId(messageDetails);
+    detailsPage.verifyExpandedMessageDate(mockParentMessageDetails, 1);
 
     detailsPage.verifyUnexpandedMessageAttachment(2);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

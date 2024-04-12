@@ -12,17 +12,17 @@ import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
+import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
+import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
+import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
+import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
+import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourPhoneAndEmailPage from '../chapters/personalInformation/yourPhoneAndEmail';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
-import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
-import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
-import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
-import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
-import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
 
@@ -84,6 +84,10 @@ const ch3Pages = {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
+    depends: form =>
+      form.selectCategory === 'VA Health Care' &&
+      (form.selectTopic === 'Medical Care Concerns at a VA Medical Facility' ||
+        form.selectTopic === 'VHA Audiology & Hearing Aids'),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -178,7 +182,6 @@ export const flowPages = (obj, list, path) => {
       flowGroup[key].onNavBack = ({ goPath }) => goPath('/question-3');
     }
   });
-
   return flowGroup;
 };
 

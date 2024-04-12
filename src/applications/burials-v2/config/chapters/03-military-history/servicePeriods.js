@@ -89,6 +89,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        itemAriaLabel: entry => entry.serviceBranch,
       },
       items: {
         dateRange: {
