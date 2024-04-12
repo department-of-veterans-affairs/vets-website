@@ -29,12 +29,12 @@ const MobileFooter = () => {
               <li>
               <va-button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="footer-accredited-reps" itemprop="name" aria-expanded="false">For accredited representatives</va-button>
                   <div class="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="footer-accredited-reps">
-                     <ul class="va-footer-links">
-                    <li><a href="#">VA forms</a></li>
-                    <li><a href="#">Portal user guide</a></li>
-                    <li><a href="#">Contact us</a></li>
-                    <li><a href="#">Roadmap and upcoming features</a></li>
-                    <li><a href="#">Sitemap</a></li>
+                    <ul class="va-footer-links">
+                      <li><a href="#">VA forms</a></li>
+                      <li><a href="#">Portal user guide</a></li>
+                      <li><a href="#">Contact us</a></li>
+                      <li><a href="#">Roadmap and upcoming features</a></li>
+                      <li><a href="#">Sitemap</a></li>
                   </ul>
                 </div>
               </li>
@@ -102,10 +102,10 @@ const MobileFooter = () => {
                Get more resources at <a class="no-external-icon" href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.
             </div>
          </div>
-          </div>
         </div>
       </div>
-      );
+    </div>
+  );
 };
 
 export default MobileFooter;
