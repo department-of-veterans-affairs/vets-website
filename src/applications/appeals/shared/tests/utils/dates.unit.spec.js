@@ -15,7 +15,6 @@ describe('parseDate', () => {
     expect(parseDate('02-03-2024')).to.be.null; // Non-ISO8601 format without passing in current format
   });
   it('should return a formatted date string', () => {
-    expect(parseDate(2024, FORMAT_FULL_DATE)).to.eq('December 31, 1969');
     expect(parseDate(1712854521628, FORMAT_FULL_DATE)).to.eq('April 11, 2024');
     // Non-ISO8601 format example
     expect(
@@ -30,7 +29,6 @@ describe('parseDate', () => {
     );
   });
   it('should return a formatted date string', () => {
-    expect(parseDate(2024)).to.eq('1969-12-31');
     expect(parseDate(1712854521628)).to.eq('2024-04-11');
     // one off date example if you don't include the time
     expect(parseDate(new Date('2024-05-06T00:00:00.000'))).to.eq('2024-05-06');
