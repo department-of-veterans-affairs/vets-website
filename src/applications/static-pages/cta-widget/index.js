@@ -45,6 +45,7 @@ export class CallToActionWidget extends Component {
     appId: PropTypes.string,
     children: PropTypes.node,
     headerLevel: PropTypes.string,
+    originalContent: PropTypes.node,
     setFocus: PropTypes.bool,
     // From mapStateToProps.
     authenticatedWithSSOe: PropTypes.bool,
@@ -78,6 +79,7 @@ export class CallToActionWidget extends Component {
     this._toolDetails = ctaWidget?.deriveToolUrlDetails() || {};
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
+    this._featureToggle = ctaWidget?.featureToggle;
   }
 
   componentDidMount() {
@@ -479,6 +481,7 @@ export class CallToActionWidget extends Component {
       children,
       featureToggles,
       mhvAccount,
+      originalContent,
       profile,
       setFocus,
     } = this.props;
@@ -495,6 +498,11 @@ export class CallToActionWidget extends Component {
 
     // Derive the CTA widget.
     const ctaWidget = ctaWidgetsLookup?.[appId];
+
+    // Render original content if feature toggle is off.
+    if (!!this._featureToggle && !featureToggles[this._featureToggle]) {
+      return originalContent;
+    }
 
     // Derive the CTA URL.
     const url = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe)?.url;

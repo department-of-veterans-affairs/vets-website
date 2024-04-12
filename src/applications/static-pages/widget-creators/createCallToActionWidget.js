@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import { connectFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 export default async function createCallToActionWidget(store, widgetType) {
   const widgets = Array.from(
@@ -19,7 +19,11 @@ export default async function createCallToActionWidget(store, widgetType) {
     widgets.forEach(el => {
       ReactDOM.render(
         <Provider store={store}>
-          <CallToActionWidget appId={el.dataset.appId} setFocus={false} />
+          <CallToActionWidget
+            appId={el.dataset.appId}
+            setFocus={false}
+            originalContent={el.cloneNode(true)}
+          />
         </Provider>,
         el,
       );

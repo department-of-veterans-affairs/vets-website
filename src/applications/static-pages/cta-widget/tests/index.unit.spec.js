@@ -860,7 +860,8 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('does not render when feature disabled', () => {
+    it('renders the original content when feature disabled', () => {
+      const originalContent = <div id="og-content" />;
       const tree = mount(
         <CallToActionWidget
           appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
@@ -877,9 +878,11 @@ describe('<CallToActionWidget>', () => {
             loading: false,
             haCpapSuppliesCta: false,
           }}
+          originalContent={originalContent}
         />,
       );
 
+      expect(tree.find('#og-content').exists()).to.be.true;
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
       expect(tree.find('SignIn').exists()).to.be.false;
       expect(tree.find('Verify').exists()).to.be.false;
