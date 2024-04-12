@@ -20,13 +20,12 @@ import {
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
-import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
-import improvedMilitaryHistoryPage from '../components/highestRankAutoSuggest';
+import highestRankAutoSuggest from '../components/highestRankAutoSuggest';
+import serviceBranchAutoSuggest from '../components/serviceBranchAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -866,11 +865,10 @@ export const serviceRecordsUI = {
     'ui:options': {
       itemName: 'Service Period',
     },
-    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
-      'ui:options': {
-        labels: serviceLabels,
-      },
-    }),
+    serviceBranch: {
+      'ui:title': 'Branch of service',
+      'ui:field': serviceBranchAutoSuggest,
+    },
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',
@@ -892,7 +890,7 @@ export const serviceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
-      'ui:field': improvedMilitaryHistoryPage,
+      'ui:field': highestRankAutoSuggest,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
