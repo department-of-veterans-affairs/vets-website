@@ -21,6 +21,7 @@ export function InPersonLayout() {
   const { id } = useParams();
   const {
     appointment,
+    comment,
     facility,
     isCovid,
     isPhoneAppointment,
@@ -31,21 +32,28 @@ export function InPersonLayout() {
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
+  const [reason, otherDetails] = comment.split(':');
 
   return (
     <DetailPageLayout
       header="In-person appointment"
       instructions={`Go to ${facility?.name} for this appointment`}
     >
-      <StatusAlert appointment={appointment} facility={facility} />
+      <StatusAlert
+        appointment={appointment}
+        facility={facility}
+        showScheduleLink
+      />
       <When>
         <AppointmentDate date={startDate} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        <VaButton text="Add to calendar" secondary onClick="" />
+        <div className="vads-u-margin-top--2">
+          <VaButton text="Add to calendar" secondary onClick="" />
+        </div>
       </When>
-      <What>{typeOfCareName}</What>
+      <What>{typeOfCareName || 'Type of care not noted'}</What>
       <Where>
         <VAFacilityLocation
           facility={facility}
@@ -57,7 +65,13 @@ export function InPersonLayout() {
           isPhone={isPhoneAppointment}
         />
       </Where>
-      <Section heading="Details you shared with your provider" />
+      <Section heading="Details you shared with your provider">
+        <span>
+          Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+        </span>
+        <br />
+        <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+      </Section>
     </DetailPageLayout>
   );
 }

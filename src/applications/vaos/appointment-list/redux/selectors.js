@@ -330,6 +330,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const phone = getPatientTelecom(appointment, 'phone');
   const provider = selectProvider(appointment);
   const startDate = moment.parseZone(appointment?.start);
+  const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
 
   return {
@@ -347,6 +348,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     provider,
     showCancelButton: selectFeatureCancel(state),
     startDate,
+    status,
     typeOfCareName,
     useV2: featureVAOSServiceVAAppointments,
   };

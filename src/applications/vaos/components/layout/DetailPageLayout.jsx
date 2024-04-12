@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import BackLink from '../BackLink';
 import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
 import NewTabAnchor from '../NewTabAnchor';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 
 export function Section({ children, heading }) {
   return (
@@ -51,7 +52,7 @@ Where.propTypes = {
 
 export default function DetailPageLayout({ children, header, instructions }) {
   const { id } = useParams();
-  const { appointment } = useSelector(
+  const { appointment, status } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
@@ -62,11 +63,13 @@ export default function DetailPageLayout({ children, header, instructions }) {
       <h1>{header}</h1>
       <p>{instructions}</p>
       {children}
-      <Section heading="Prepare for your visit">
-        <NewTabAnchor href="#" aria-label="">
-          Review your personal healthcare contacts
-        </NewTabAnchor>
-      </Section>
+      {status !== APPOINTMENT_STATUS.cancelled && (
+        <Section heading="Prepare for your visit">
+          <NewTabAnchor href="#" aria-label="">
+            Review your personal healthcare contacts
+          </NewTabAnchor>
+        </Section>
+      )}
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <VaButton
           text="Print"
@@ -75,7 +78,9 @@ export default function DetailPageLayout({ children, header, instructions }) {
           data-testid="print-button"
           uswds
         />
-        <VaButton text="Cancel appointment" secondary onClick="" />
+        {status !== APPOINTMENT_STATUS.cancelled && (
+          <VaButton text="Cancel appointment" secondary onClick="" />
+        )}
       </div>
     </>
   );
