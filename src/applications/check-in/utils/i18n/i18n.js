@@ -55,13 +55,13 @@ export const dateFormatInterpolators = {
     return formatDate(value, 'E', { locale });
   },
   monthAndYear: (value, _format, _lng, locale) => {
-    formatDate(value, 'MMMM Y', { locale });
+    return formatDate(value, 'MMMM Y', { locale });
   },
   dayOfMonth: (value, _format, _lng, locale) => {
-    formatDate(value, 'd', { locale });
+    return formatDate(value, 'd', { locale });
   },
   date: (value, _format, _lng, locale) => {
-    formatDate(value, 'E, MMMM do', { locale });
+    return formatDate(value, 'E, MMMM do', { locale });
   },
   default: (value, format, _lng, locale) => {
     return formatDate(value, format, { locale });

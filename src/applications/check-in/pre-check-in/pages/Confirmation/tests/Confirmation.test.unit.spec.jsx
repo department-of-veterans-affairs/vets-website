@@ -12,9 +12,8 @@ import * as useUpdateErrorModule from '../../../../hooks/useUpdateError';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 
 describe('pre-check-in', () => {
-  let i18n;
   beforeEach(() => {
-    i18n = setupI18n();
+    setupI18n();
   });
   afterEach(() => {
     teardownI18n();
