@@ -195,7 +195,7 @@ describe('check-in', () => {
           component.getByText('Sorry, pre-check-in is no longer available.'),
         ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
-        expect(component.queryByTestId('how-to-link')).to.not.exist;
+        expect(component.queryByTestId('how-to-link')).to.exist;
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(
