@@ -8,6 +8,11 @@ export const QUESTION_MAP = Object.freeze({
   INTENTION:
     'Do you want to change your name, discharge date, or something written in the "other remarks" section of your DD214?',
   COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
+  PREV_APPLICATION:
+    'Have you previously applied for and been denied a discharge upgrade for this period of service?',
+  PREV_APPLICATION_TYPE:
+    'What type of application did you make to upgrade your discharge previously?',
+  PREV_APPLICATION_YEAR: 'What year did you apply for a discharge upgrade?',
 });
 
 export const SHORT_NAME_MAP = Object.freeze({
@@ -16,11 +21,13 @@ export const SHORT_NAME_MAP = Object.freeze({
   DISCHARGE_YEAR: 'DISCHARGE_YEAR',
   DISCHARGE_MONTH: 'DISCHARGE_MONTH',
   REASON: 'REASON',
+  PREV_APPLICATION_TYPE_A: 'PREV_APPLICATION_TYPE',
   DISCHARGE_TYPE: 'DISCHARGE_TYPE',
   INTENTION: 'INTENTION',
   COURT_MARTIAL: 'COURT_MARTIAL',
-  PREVIOUS_APPLICATION_TYPE: 'PREVIOUS_APPLICATION_TYPE',
-  PREVIOUS_APPLICATION: 'PREVIOUS_APPLICATION',
+  PREV_APPLICATION: 'PREV_APPLICATION',
+  PREV_APPLICATION_YEAR: 'PREV_APPLICATION_YEAR',
+  PREV_APPLICATION_TYPE: 'PREV_APPLICATION_TYPE',
 });
 
 export const RESPONSES = Object.freeze({
@@ -55,4 +62,21 @@ export const RESPONSES = Object.freeze({
   DISCHARGE_TYPE_1:
     'My discharge is honorable or general under honorable conditions. I want to change only my narrative reason for discharge, separation code, or re-enlistment code.',
   DISCHARGE_TYPE_2: `My discharge isn't honorable or under honorable conditions.`,
+  PREV_APPLICATION_TYPE_1:
+    'I applied to a Discharge Review Board (DRB) for a Documentary Review',
+  PREV_APPLICATION_TYPE_2:
+    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review in Washington, DC',
+  PREV_APPLICATION_TYPE_3A:
+    'I applied to a Board for Correction of Military Records (BCMR)',
+  PREV_APPLICATION_TYPE_3B:
+    'I applied to the Board for Correction of Naval Records (BCNR)',
+  PREV_APPLICATION_TYPE_4: "I'm not sure",
+  PREV_APPLICATION_1: 'Yes',
+  PREV_APPLICATION_2: 'No',
+  PREV_APPLICATION_YEAR_1A: '2014 or earlier',
+  PREV_APPLICATION_YEAR_2A: 'After 2014',
+  PREV_APPLICATION_YEAR_1B: '2011 or earlier',
+  PREV_APPLICATION_YEAR_2B: 'After 2011',
+  PREV_APPLICATION_YEAR_1C: '2017 or earlier',
+  PREV_APPLICATION_YEAR_2C: 'After 2017',
 });
