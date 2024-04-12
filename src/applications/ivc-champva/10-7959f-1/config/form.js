@@ -25,7 +25,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
-// import mockdata from '../tests/fixtures/data/test-data.json';
+import mockdata from '../tests/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 
@@ -76,7 +76,7 @@ const formConfig = {
       title: 'Name and date of birth',
       pages: {
         page1: {
-          // initialData: mockdata.data,
+          initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
@@ -84,12 +84,14 @@ const formConfig = {
               'Name and date of birth',
               'We use this information to verify other details.',
             ),
+            messageAriaDescribedby:
+              'We use this information to verify other details.',
             fullName: veteranFullNameUI,
             veteranDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
-            required: ['fullNameUI.first', 'fullNameUI.last', 'veteranDOB'],
+            required: ['fullName', 'veteranDOB'],
             properties: {
               titleSchema,
               fullName: fullNameSchema,
@@ -110,6 +112,8 @@ const formConfig = {
               `Identification information`,
               `You must enter either a Social Security number of VA File number.`,
             ),
+            messageAriaDescribedby:
+              'You must enter either a Social Security number of VA File number.',
             ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
@@ -134,6 +138,8 @@ const formConfig = {
               'Home Address',
               'This is your current location, outside the United States.',
             ),
+            messageAriaDescribedby:
+              'This is your current location, outside the United States.',
             physicalAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
@@ -168,6 +174,8 @@ const formConfig = {
               'Mailing address',
               "We'll send any important information about your application to this address.",
             ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
             mailingAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
@@ -202,6 +210,8 @@ const formConfig = {
               'Phone and email address',
               'Please include this information so that we can contact you with questions or updates',
             ),
+            messageAriaDescribedby:
+              'Please include this information so that we can contact you with questions or updates.',
             phoneNumber: phoneUI(),
             emailAddress: emailUI(),
           },
