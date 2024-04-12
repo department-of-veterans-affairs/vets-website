@@ -28,6 +28,7 @@ const MobileFooter = () => {
                 aria-controls="footer-accredited-reps"
                 itemProp="name"
                 aria-expanded="false"
+                data-testid="footer-accredited-reps"
               >
                 For accredited representatives
               </button>
@@ -61,6 +62,7 @@ const MobileFooter = () => {
                 aria-controls="footer-veteran-programs"
                 itemProp="name"
                 aria-expanded="false"
+                data-testid="footer-veteran-prrograms"
               >
                 Veteran programs and services
               </button>
@@ -147,6 +149,7 @@ const MobileFooter = () => {
                 alt="VA logo and Seal, U.S. Department of Veterans Affairs"
                 width="200"
                 className="vads-u-height--auto"
+                data-testid="footer-logo"
               />
             </a>
           </div>

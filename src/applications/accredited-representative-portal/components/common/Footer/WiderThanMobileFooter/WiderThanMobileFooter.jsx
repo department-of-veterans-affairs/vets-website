@@ -9,7 +9,11 @@ const WiderThanMobileFooter = () => {
           aria-hidden="false"
           className="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"
         >
-          <div className="va-footer-linkgroup" id="footer-reps">
+          <div
+            className="va-footer-linkgroup"
+            id="footer-reps"
+            data-testid="footer-full-accredited-reps"
+          >
             <h2 className="va-footer-linkgroup-title">
               For Accredited Representatives
             </h2>
@@ -33,7 +37,11 @@ const WiderThanMobileFooter = () => {
               </li>
             </ul>
           </div>
-          <div className="va-footer-linkgroup" id="footer-services">
+          <div
+            className="va-footer-linkgroup"
+            id="footer-services"
+            data-testid="footer-full-veteran-services"
+          >
             <h2 className="va-footer-linkgroup-title">For Veterans</h2>
             <ul className="va-footer-links">
               <li>
@@ -54,7 +62,11 @@ const WiderThanMobileFooter = () => {
               </li>
             </ul>
           </div>
-          <div className="va-footer-linkgroup" id="footer-services-more">
+          <div
+            className="va-footer-linkgroup"
+            id="footer-services-more"
+            data-testid="footer-full-veteran-services-more"
+          >
             <ul className="vads-u-margin-top--5 va-footer-links">
               <li>
                 <a href="https://www.ptsd.va.gov/">PTSD</a>
@@ -77,7 +89,11 @@ const WiderThanMobileFooter = () => {
               </li>
             </ul>
           </div>
-          <div className="va-footer-linkgroup" id="veteran-crisis">
+          <div
+            className="va-footer-linkgroup"
+            id="veteran-crisis"
+            data-testid="footer-full-crisis-line"
+          >
             <h2 className="va-footer-linkgroup-title">
               In crisis? Talk to someone now
             </h2>
@@ -102,10 +118,14 @@ const WiderThanMobileFooter = () => {
               alt="VA logo and Seal, U.S. Department of Veterans Affairs"
               width="200"
               className="vads-u-height--auto"
+              data-testid="footer-full-logo"
             />
           </a>
         </div>
-        <div className="usa-grid usa-grid-full va-footer-links-bottom">
+        <div
+          className="usa-grid usa-grid-full va-footer-links-bottom"
+          data-testid="footer-full-links-bottom"
+        >
           <ul>
             <li>
               <a href="https://va.gov/accessibility-at-va">Accessibility</a>
