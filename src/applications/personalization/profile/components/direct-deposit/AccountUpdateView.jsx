@@ -112,7 +112,12 @@ export const AccountUpdateView = props => {
         >
           Save
         </LoadingButton>
-        <va-button onClick={onCancel} secondary text="Cancel" />
+        <va-button
+          data-testid="cancel-direct-deposit"
+          onClick={onCancel}
+          secondary
+          text="Cancel"
+        />
       </SchemaForm>
 
       <ConfirmCancelModal
