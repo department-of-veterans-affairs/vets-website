@@ -35,7 +35,7 @@ describe('Vaccines details container', () => {
   });
 
   it('displays a print button', () => {
-    const printButton = screen.getByTestId('print-records-button');
+    const printButton = screen.getByTestId('print-download-menu');
     expect(printButton).to.exist;
   });
 

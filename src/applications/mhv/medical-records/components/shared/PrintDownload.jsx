@@ -52,17 +52,17 @@ const PrintDownload = props => {
   const handlePrint = () => {
     window.print();
     setMenuOpen(false);
-    focusElement(document.querySelector('#print-records-button'));
+    focusElement(document.querySelector('#print-download-menu'));
   };
   const handlePdfDownload = () => {
     downloadPdf();
     setMenuOpen(false);
-    focusElement(document.querySelector('#print-records-button'));
+    focusElement(document.querySelector('#print-download-menu'));
   };
   const handleTxtDownload = () => {
     downloadTxt();
     setMenuOpen(false);
-    focusElement(document.querySelector('#print-records-button'));
+    focusElement(document.querySelector('#print-download-menu'));
   };
 
   return (
@@ -77,8 +77,8 @@ const PrintDownload = props => {
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
         type="button"
         onClick={() => setMenuOpen(!menuOpen)}
-        id="print-records-button"
-        data-testid="print-records-button"
+        id="print-download-menu"
+        data-testid="print-download-menu"
         aria-expanded={menuOpen}
       >
         <span>Print or download</span>

@@ -37,6 +37,7 @@ describe('Medical Records Labs and Tests List Page', () => {
       '',
     );
 
+    VaccineDetailsPage.clickPrintOrDownload();
     VaccineDetailsPage.clickDownloadTxtFile();
     site.verifyDownloadedTxtFile(
       'VA-labs-and-tests-details-Safari-Mhvtp',

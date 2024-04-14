@@ -37,7 +37,7 @@ describe('Vaccines list container', () => {
   });
 
   it('displays a print button', () => {
-    const printButton = screen.getByTestId('print-records-button');
+    const printButton = screen.getByTestId('print-download-menu');
     expect(printButton).to.exist;
   });
 
@@ -182,7 +182,7 @@ describe('Vaccines list container with errors', async () => {
   });
 
   it('does not display a print button', () => {
-    const printButton = screen.queryByTestId('print-records-button');
+    const printButton = screen.queryByTestId('print-download-menu');
     expect(printButton).to.be.null;
   });
 });
