@@ -1470,6 +1470,14 @@ const loa3UserWithoutMailingAddress = set(
   null,
 );
 
+const loa3UserWithoutLighthouseServiceAvailable = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.services',
+  baseUserResponses.loa3User72.data.attributes.services.filter(
+    service => service !== 'lighthouse',
+  ),
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1489,6 +1497,7 @@ const responses = {
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,
   loa3UserWithoutMailingAddress,
+  loa3UserWithoutLighthouseServiceAvailable,
 };
 
 // handler that can be used to customize the user data returned

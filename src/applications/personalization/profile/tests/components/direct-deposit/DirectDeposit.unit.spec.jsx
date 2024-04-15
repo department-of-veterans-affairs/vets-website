@@ -69,6 +69,7 @@ const createInitialState = ({
           authBroker: 'sis',
         },
         loading: false,
+        services: ['lighthouse'],
       },
     },
     featureToggles: toggles || baseToggles,
@@ -186,6 +187,24 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
     it('renders ineligible state when canUpdateDirectDeposit is false', () => {
       const state = createInitialState();
       state.directDeposit.controlInformation.canUpdateDirectDeposit = false;
+
+      const { getByText } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(
+        getByText(
+          /Our records show that you don’t receive benefit payments from VA/i,
+        ),
+      ).to.exist;
+    });
+
+    it('renders ineligible state when profile services do not include lighthouse', () => {
+      const state = createInitialState();
+      state.user.profile.services = [];
 
       const { getByText } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
