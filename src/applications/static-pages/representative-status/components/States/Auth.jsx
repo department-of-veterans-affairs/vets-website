@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { useRepresentativeStatus } from '../../../hooks/useRepresentativeStatus';
+import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   const { representative, isLoading, error } = useRepresentativeStatus();
