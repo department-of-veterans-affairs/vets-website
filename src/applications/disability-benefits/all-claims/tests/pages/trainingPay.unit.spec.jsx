@@ -1,8 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('Training Pay', () => {
@@ -13,7 +18,7 @@ describe('Training Pay', () => {
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
-    const form = mount(
+    render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -24,14 +29,13 @@ describe('Training Pay', () => {
     );
 
     // Expect one question with two radio inputs
-    expect(form.find('.form-radio-buttons').length).to.equal(1);
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-radio').length).to.equal(1);
+    expect($$('va-radio-option').length).to.equal(2);
   });
 
   it('should fail to submit if no answers provided', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -42,30 +46,32 @@ describe('Training Pay', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    // Check that form is not submitted due to missing answer.
     expect(onSubmit.called).to.be.false;
-    form.unmount();
+    expect($('va-radio').error).to.exist;
   });
 
   it('should submit if question answered with a no', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          hasTrainingPay: false,
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'N' },
+    });
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
     expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
   });
 });
