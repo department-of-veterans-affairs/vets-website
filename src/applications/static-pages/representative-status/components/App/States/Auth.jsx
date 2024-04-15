@@ -3,7 +3,32 @@ import PropTypes from 'prop-types';
 import { useRepresentativeStatus } from '../../../hooks/useRepresentativeStatus';
 
 export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
-  const representative = useRepresentativeStatus();
+  const { representative, isLoading, error } = useRepresentativeStatus();
+
+  if (isLoading) {
+    return (
+      <div>
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your representative..."
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="error"
+      uswds
+      visible
+    >
+      <h2 slot="headline">We’re sorry, something went wrong</h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">Please try again soon.</p>
+      </React.Fragment>
+    </va-alert>;
+  }
 
   const renderAuthNoRep = () => {
     return (
