@@ -45,7 +45,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     description: `What type of insurance is ${applicant} enrolled in?`,
     customTitle: `${applicant}’s ${
-      data[pagePerItemIndex]?.applicantPrimaryProvider
+      data?.applicants?.[pagePerItemIndex]?.applicantPrimaryProvider
     } insurance plan`,
   };
 }
