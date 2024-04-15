@@ -106,26 +106,18 @@ const ThreadListItem = props => {
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
         >
-          {hasAttachment ? (
-            <span
-              id={`message-link-has-attachment-${messageId}`}
-              className={`vads-u-font-size--lg ${
-                unreadMessages ? 'vads-u-font-weight--bold' : ''
-              }`}
-            >
-              {categoryLabel}: {getHighlightedText(subject)}
-              <span className="sr-only">Has attachment</span>
-            </span>
-          ) : (
-            <span
-              id={`message-link-${messageId}`}
-              className={`vads-u-font-size--lg ${
-                unreadMessages ? 'vads-u-font-weight--bold' : ''
-              }`}
-            >
-              {categoryLabel}: {getHighlightedText(subject)}
-            </span>
-          )}
+          <span
+            id={`message-link${
+              hasAttachment ? '-has-attachment' : ''
+            }-${messageId}`}
+            className={`vads-u-font-size--lg ${
+              unreadMessages ? 'vads-u-font-weight--bold' : ''
+            }`}
+          >
+            {unreadMessages && <span className="sr-only">Unread message.</span>}
+            {categoryLabel}: {getHighlightedText(subject)}
+            {hasAttachment && <span className="sr-only">Has attachment.</span>}
+          </span>
         </Link>
         <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
@@ -202,7 +194,7 @@ const ThreadListItem = props => {
                     <span className="thread-list-draft">(Draft)</span> -{' '}
                   </>
                 )}
-              </span>{' '}
+              </span>
               {unreadMessages ? (
                 <span data-testid="triageGroupName">
                   {getHighlightedText(senderName)} (Team: {triageGroupName})
@@ -213,7 +205,7 @@ const ThreadListItem = props => {
                   {getHighlightedText(senderName)} (Team: {triageGroupName})
                 </span>
               )}
-              <span />{' '}
+              <span />
               {messageCount > 1 && (
                 <span className="message-count" data-testid="message-count">
                   ({messageCount} messages)
@@ -224,7 +216,7 @@ const ThreadListItem = props => {
             <div>
               <div>
                 To: {recipientName} (Team: {triageGroupName}){' '}
-              </div>{' '}
+              </div>
               {messageCount > 1 && (
                 <span className="message-count">({messageCount} messages)</span>
               )}
@@ -238,16 +230,15 @@ const ThreadListItem = props => {
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
         >
-          {hasAttachment ? (
-            <span id={`message-link-has-attachment-${messageId}`}>
-              {categoryLabel}: {getHighlightedText(subject)}
-              <span className="sr-only">Has attachment</span>
-            </span>
-          ) : (
-            <span id={`message-link-${messageId}`}>
-              {categoryLabel}: {getHighlightedText(subject)}
-            </span>
-          )}
+          <span
+            id={`message-link${
+              hasAttachment ? '-has-attachment' : ''
+            }-${messageId}`}
+          >
+            {unreadMessages && <span className="sr-only">Unread message.</span>}
+            {categoryLabel}: {getHighlightedText(subject)}
+            {hasAttachment && <span className="sr-only">Has attachment.</span>}
+          </span>
         </Link>
 
         <p className="received-date vads-u-margin-y--0p5">
