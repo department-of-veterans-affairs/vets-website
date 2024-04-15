@@ -14,31 +14,25 @@ describe('Secure Messaging Draft Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
     draftsPage.inputFilterDataText('test');
     draftsPage.clickFilterMessagesButton();
     draftsPage.verifyFilterResultsText('test');
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Verify filter works with Date', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-    draftsPage.inputFilterDataText('Last 3 Months');
-    draftsPage.clickFilterMessagesButton();
-  });
   it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
     draftsPage.inputFilterDataText('any');
     draftsPage.clickFilterMessagesButton();
     draftsPage.clickClearFilterButton();
     draftsPage.verifyFilterFieldCleared();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Check sorting works properly', () => {
+    draftsPage.verifySorting();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    draftsPage.verifySorting();
   });
 });

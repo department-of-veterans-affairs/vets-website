@@ -20,32 +20,26 @@ describe('Secure Messaging Inbox Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
     landingPage.inputFilterDataText('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
     landingPage.verifyFilterResultsText('test', mockFilterResults);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     landingPage.inputFilterDataText('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
     landingPage.clickClearFilterButton();
     landingPage.verifyFilterFieldCleared();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Check sorting works properly', () => {
+    landingPage.verifySorting();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    landingPage.verifySorting();
   });
 });
 
@@ -64,13 +58,13 @@ describe('Verify sorting feature with only one filter result', () => {
     site.login();
     landingPage.loadInboxMessages();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
     landingPage.inputFilterDataText('draft');
     landingPage.clickFilterMessagesButton(mockSingleFilterResult);
     landingPage.verifyFilterResultsText('draft', mockSingleFilterResult);
 
     cy.get(Locators.DROPDOWN).should('not.exist');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
