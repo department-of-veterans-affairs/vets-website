@@ -24,11 +24,8 @@ describe('check in', () => {
           />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('travel-pay-eligible-success-message')).to
-        .exist;
-      expect(
-        component.getByTestId('travel-pay-eligible-success-message'),
-      ).to.have.text(
+      expect(component.getByTestId('travel-pay-message-success')).to.exist;
+      expect(component.getByTestId('travel-pay-message-success')).to.have.text(
         'We’re processing your travel reimbursement claim. We’ll send you a text to let you know the status of your claim.',
       );
     });
@@ -42,9 +39,9 @@ describe('check in', () => {
           />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('travel-pay-not-eligible-message')).to.exist;
+      expect(component.getByTestId('travel-pay-message-ineligible')).to.exist;
       expect(
-        component.getByTestId('travel-pay-not-eligible-message'),
+        component.getByTestId('travel-pay-message-ineligible'),
       ).to.have.text(
         'We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file within 30 days of the appointment.',
       );
