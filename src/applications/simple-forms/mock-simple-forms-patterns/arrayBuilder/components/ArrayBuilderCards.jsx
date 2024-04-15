@@ -12,10 +12,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import {
-  createArrayBuilderItemAddPath,
-  createArrayBuilderItemEditPath,
-} from '../helpers';
+import { createArrayBuilderItemEditPath } from '../helpers';
 
 const EditLink = ({ to, itemName }) => (
   <Link to={to} data-action="edit">
@@ -68,8 +65,8 @@ const IncompleteLabel = () => (
  *   setFormData: (formData: any) => void,
  *   titleHeaderLevel: string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
- *   goAddItem: () => void,
- *   required: boolean,
+ *   onRemoveAll: () => void,
+ *   required: (formData: any) => boolean,
  * }} props
  */
 const ArrayBuilderCards = ({
@@ -81,7 +78,7 @@ const ArrayBuilderCards = ({
   nounSingular,
   titleHeaderLevel = '3',
   getText,
-  goAddItem,
+  onRemoveAll,
   required,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -105,16 +102,15 @@ const ArrayBuilderCards = ({
   }
 
   function removeAction() {
-    const item = arrayData[currentIndex];
     const arrayWithRemovedItem = arrayData.filter(
-      data => data.name !== item.name,
+      (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
 
     setFormData(newData);
     hideRemoveConfirmationModal();
-    if (required && arrayWithRemovedItem.length === 0) {
-      goAddItem();
+    if (arrayWithRemovedItem.length === 0) {
+      onRemoveAll();
     }
   }
 
@@ -187,7 +183,7 @@ const ArrayBuilderCards = ({
         visible={isModalVisible}
         uswds
       >
-        {required && arrayData?.length === 1
+        {required(formData) && arrayData?.length === 1
           ? getText('removeNeedAtLeastOneDescription', currentItem)
           : getText('removeDescription', currentItem)}
       </VaModal>
@@ -214,31 +210,14 @@ ArrayBuilderCards.propTypes = {
   editItemPathUrl: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
-  goAddItem: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
   nounSingular: PropTypes.string.isRequired,
-  required: PropTypes.bool.isRequired,
+  required: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  onRemoveAll: PropTypes.func.isRequired,
   titleHeaderLevel: PropTypes.func,
 };
 
-/**
- * Usage:
- * ```
- * <ArrayBuilderCards
- *   cardDescription={itemData =>
- *     `${itemData?.dateStart} - ${itemData?.dateEnd}`
- *   }
- *   arrayPath="employers"
- *   nounSingular="employer"
- *   nounPlural="employers"
- *   isIncomplete={item => !item?.name}
- *   editItemPathUrl="/array-multiple-page-builder-item-page-1"
- * />
- * ```
- *
- * @param {Object} props
- */
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
