@@ -36,13 +36,13 @@ const schema = {
 
 const uiSchema = {
   'ui:description':
-    'Please provide your bank’s routing number as well as your current account and type.',
+    'Provide your account type, routing number, and account number.',
 
   accountType: {
     'ui:webComponentField': VaRadioField,
     'ui:title': 'Account type',
     'ui:errorMessages': {
-      required: 'Select the type that best describes your account',
+      required: 'Choose the type that best describes your account',
     },
   },
   routingNumber: {
