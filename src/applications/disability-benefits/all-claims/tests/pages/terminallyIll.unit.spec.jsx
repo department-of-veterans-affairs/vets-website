@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('Terminally Ill', () => {
@@ -37,7 +38,7 @@ describe('Terminally Ill', () => {
 
   it('should be allowed to submit if no answers are provided', () => {
     const onSubmit = sinon.spy();
-    const { getByText, queryByRole } = render(
+    const { getByText } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -51,29 +52,28 @@ describe('Terminally Ill', () => {
     userEvent.click(getByText(/submit/i));
     expect(onSubmit.called).to.be.true;
     // Check for absence of an error message.
-    const alert = queryByRole('alert');
-    expect(alert).to.be.null;
+    expect($('va-radio').error).to.be.null;
   });
 
   it('should submit if question answered with a no', () => {
     const onSubmit = sinon.spy();
-    const { getByText, queryByRole } = render(
+    const { getByText, container } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          isTerminallyIll: false,
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'N' },
+    });
     userEvent.click(getByText(/submit/i));
     expect(onSubmit.calledOnce).to.be.true;
     // Check for absence of an error message.
-    const alert = queryByRole('alert');
-    expect(alert).to.be.null;
+    expect($('va-radio').error).to.be.null;
   });
 });
