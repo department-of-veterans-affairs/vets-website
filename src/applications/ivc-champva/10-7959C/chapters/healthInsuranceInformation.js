@@ -11,6 +11,18 @@ import { applicantListSchema } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 
+const MEDIGAP = {
+  medigapPlanA: 'Medigap Plan A',
+  medigapPlanB: 'Medigap Plan B',
+  medigapPlanC: 'Medigap Plan C',
+  medigapPlanD: 'Medigap Plan D',
+  medigapPlanF: 'Medigap Plan F',
+  medigapPlanG: 'Medigap Plan G',
+  medigapPlanK: 'Medigap Plan K',
+  medigapPlanL: 'Medigap Plan L',
+  medigapPlanM: 'Medigap Plan M',
+};
+
 export const applicantHasPrimarySchema = {
   uiSchema: {
     applicants: { items: {} },
@@ -170,34 +182,14 @@ export const applicantPrimaryMedigapSchema = {
         primaryMedigapPlan: radioUI({
           title: 'Which type of Medigap plan is the applicant enrolled in?',
           required: () => true,
-          labels: {
-            medigapPlanA: 'Medigap Plan A',
-            medigapPlanB: 'Medigap Plan B',
-            medigapPlanC: 'Medigap Plan C',
-            medigapPlanD: 'Medigap Plan D',
-            medigapPlanF: 'Medigap Plan F',
-            medigapPlanG: 'Medigap Plan G',
-            medigapPlanK: 'Medigap Plan K',
-            medigapPlanL: 'Medigap Plan L',
-            medigapPlanM: 'Medigap Plan M',
-          },
+          labels: MEDIGAP,
         }),
       },
     },
   },
   schema: applicantListSchema(['primaryMedigapPlan'], {
     titleSchema,
-    primaryMedigapPlan: radioSchema([
-      'medigapPlanA',
-      'medigapPlanB',
-      'medigapPlanC',
-      'medigapPlanD',
-      'medigapPlanF',
-      'medigapPlanG',
-      'medigapPlanK',
-      'medigapPlanL',
-      'medigapPlanM',
-    ]),
+    primaryMedigapPlan: radioSchema(Object.keys(MEDIGAP)),
   }),
 };
 
