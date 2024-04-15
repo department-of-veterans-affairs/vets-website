@@ -114,13 +114,13 @@ describe('Check In Experience | Day Of | API Errors', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');
