@@ -140,7 +140,7 @@ const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
  * ```
  * @returns {UISchemaOptions}
  */
-const ssnOrVaFileNumberUI = ({ hideHint = false }) => {
+const ssnOrVaFileNumberUI = (hideHint = false) => {
   const hintText = hideHint
     ? null
     : 'You must enter either a VA file number or Social Security number.';
