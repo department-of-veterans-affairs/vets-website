@@ -294,7 +294,7 @@ const formConfig = {
         },
         veteranMailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.VETERAN,
           path: 'veteran-mailing-address',
           title: 'Mailing address',
@@ -304,7 +304,7 @@ const formConfig = {
         },
         nonVeteranMailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           path: 'non-veteran-mailing-address',
           title: 'Mailing address',
