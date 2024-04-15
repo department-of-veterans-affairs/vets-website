@@ -25,7 +25,6 @@ const Description = (
 export default {
   title: 'Special monthly pension',
   path: 'medical/history/monthly-pension',
-  pageClass: 'special-monthly-pension-question',
   uiSchema: {
     ...titleUI('Special monthly pension', Description),
     specialMonthlyPension: yesNoUI({

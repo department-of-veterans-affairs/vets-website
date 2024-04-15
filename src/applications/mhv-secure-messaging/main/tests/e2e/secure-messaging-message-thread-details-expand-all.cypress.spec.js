@@ -31,21 +31,14 @@ describe('Secure Messaging Message Details', () => {
 
   it('Expanded All Messages Contain all details without additional calls', () => {
     // const updatedMockThread = detailsPage.getCurrentThread();
-    detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 0);
+    detailsPage.verifyExpandedMessageTo(mockParentMessageDetails, 0);
 
     detailsPage.expandAllThreadMessages();
 
-    detailsPage.verifyExpandedThreadBodyDisplay(defaultMockThread, 2);
-    detailsPage.verifyExpandedThreadAttachmentDisplay(defaultMockThread, 2);
-    // detailsPage.verifyUnexpandedMessageAttachment(1); //TODO attachment icons will be added in a future story
+    detailsPage.verifyExpandedThreadBody(defaultMockThread, 2);
+    detailsPage.verifyExpandedThreadAttachment(defaultMockThread, 2);
     cy.get('@allMessageDetails.all').should('have.length', 0);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

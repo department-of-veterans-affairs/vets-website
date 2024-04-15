@@ -21,17 +21,17 @@ describe('Secure Messaging Reply Message Details Thread', () => {
       waitForAnimations: true,
     });
 
-    PatientReplyPage.verifyExpandedMessageDateDisplayText(testMessage);
-
+    PatientReplyPage.verifyExpandedMessageDate(testMessage);
     cy.get(
       `[data-testid='expand-message-button-${
         testMessage.data.attributes.messageId
       }']`,
     ).click({ waitforanimations: true, multiple: true });
-    PatientReplyPage.verifyExpandedMessageDateDisplayText(testMessage);
-    // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
-    messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
-    messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);
+    PatientReplyPage.verifyExpandedMessageDate(testMessage);
+    messageDetailsPage.verifyExpandedMessageId(testMessage);
+    messageDetailsPage.verifyExpandedMessageTo(testMessage);
+    messageDetailsPage.verifyUnexpandedMessageFrom(testMessage);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
