@@ -186,16 +186,17 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   };
 
-  goToPath = customPath => {
+  goToPath = (customPath, options = {}) => {
     const {
       form,
       route: { pageList },
       location,
     } = this.props;
+    const { force } = options;
 
     const path =
       customPath &&
-      checkValidPagePath(pageList, this.props.form.data, customPath)
+      (force || checkValidPagePath(pageList, this.props.form.data, customPath))
         ? customPath
         : getPreviousPagePath(pageList, form.data, location.pathname);
 
