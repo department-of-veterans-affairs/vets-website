@@ -83,7 +83,9 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
               Your accredited representative
             </DynamicHeader>
             <DynamicSubheader className="auth-rep-subheader">
-              {representative.name}
+              {representative.repType === 'individual'
+                ? representative.name
+                : `Accredited with ${representative.name}`}
             </DynamicSubheader>
 
             <div className="auth-rep-body">
@@ -122,36 +124,38 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                   </div>
                 </div>
               )}
-              {representative.email && (
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <div className="contact-icon">
-                    <va-icon
-                      icon="mail"
-                      size={2}
-                      srtext="Representative email"
+              {representative.repType === 'individual' &&
+                representative.email && (
+                  <div className="contact-info vads-u-margin-top--1p5">
+                    <div className="contact-icon">
+                      <va-icon
+                        icon="mail"
+                        size={2}
+                        srtext="Representative email"
+                      />
+                    </div>
+                    <a href={`mailto:${representative.email}`}>
+                      {representative.email}
+                    </a>
+                  </div>
+                )}
+              {representative.repType === 'individual' &&
+                representative.contact && (
+                  <div className="contact-info vads-u-margin-top--1p5">
+                    <div className="contact-icon">
+                      <va-icon
+                        icon="phone"
+                        size={2}
+                        srtext="Representative phone"
+                      />
+                    </div>
+                    <va-telephone
+                      contact={representative.contact}
+                      extension={representative.extension}
+                      disable-analytics
                     />
                   </div>
-                  <a href={`mailto:${representative.email}`}>
-                    {representative.email}
-                  </a>
-                </div>
-              )}
-              {representative.contact && (
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <div className="contact-icon">
-                    <va-icon
-                      icon="phone"
-                      size={2}
-                      srtext="Representative phone"
-                    />
-                  </div>
-                  <va-telephone
-                    contact={representative.contact}
-                    extension={representative.extension}
-                    disable-analytics
-                  />
-                </div>
-              )}
+                )}
 
               {(representative.contact || representative.email) && (
                 <div className="contact-info vads-u-margin-top--1p5">
