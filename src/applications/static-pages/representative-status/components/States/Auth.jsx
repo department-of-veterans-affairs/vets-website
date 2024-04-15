@@ -7,7 +7,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   const { representative, isLoading, error } = useRepresentativeStatus();
 
   const {
-    repType,
+    poaType,
     name,
     addressLine1,
     addressLine2,
@@ -98,9 +98,9 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
             </DynamicHeader>
             <div className="auth-rep-subheader">
               <DynamicSubheader>
-                {repType === 'oranization' ? <>Accredited with {name}</> : name}
+                {poaType === 'oranization' ? <>Accredited with {name}</> : name}
               </DynamicSubheader>
-              {repType === 'oranization' && (
+              {poaType === 'oranization' && (
                 <p>
                   You can work with any accredited representative at this
                   organization
@@ -139,7 +139,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                   </div>
                 </div>
               )}
-              {repType === 'individual' &&
+              {poaType === 'representative' &&
                 email && (
                   <div className="contact-info vads-u-margin-top--1p5">
                     <div className="contact-icon">
@@ -169,7 +169,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                 </div>
               )}
 
-              {repType === 'individual' &&
+              {poaType === 'representative' &&
                 (contact || email) && (
                   <div className="contact-info vads-u-margin-top--1p5">
                     <va-link

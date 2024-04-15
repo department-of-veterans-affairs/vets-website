@@ -47,7 +47,7 @@ export function useRepresentativeStatus() {
 
           setRepresentative({
             id: response.data.id,
-            repType: response.data.type,
+            poaType: response.data.type,
             ...attributes,
             concatAddress,
             contact,
