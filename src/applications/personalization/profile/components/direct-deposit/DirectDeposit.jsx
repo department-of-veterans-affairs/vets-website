@@ -59,6 +59,7 @@ export const DirectDeposit = () => {
     loadError,
     setFormData,
     hasUnsavedFormEdits,
+    isEligible,
   } = directDepositHookResult;
 
   useDirectDepositEffects({ ...directDepositHookResult, cardHeadingId });
@@ -117,7 +118,7 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (controlInformation?.canUpdateDirectDeposit === false) {
+  if (!isEligible) {
     return (
       <Wrapper>
         <Ineligible />
