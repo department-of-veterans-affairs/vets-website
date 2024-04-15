@@ -83,12 +83,12 @@ const useFormRouting = (router = {}) => {
       const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
       if (nextPage === 'complete' && app === APP_NAMES.CHECK_IN) {
-        router.push(`complete/${data.activeAppointmentId}`);
+        router.push(`complete/${data?.activeAppointmentId}`);
       } else {
         router.push(nextPage);
       }
     },
-    [app, data.activeAppointmentId, getCurrentPageFromRouter, pages, router],
+    [app, data?.activeAppointmentId, getCurrentPageFromRouter, pages, router],
   );
   const goToPreviousPage = () => {
     const { history } = window;
