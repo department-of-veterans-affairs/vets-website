@@ -13,7 +13,7 @@ export function useRepresentativeStatus() {
       setError(null);
 
       try {
-        const response = await RepresentativeStatusApi.getRepresentativeStatus;
+        const response = await RepresentativeStatusApi.getRepresentativeStatus();
         if (response.data.id) {
           const { attributes } = response.data;
           const { contact, extension } = parsePhoneNumber(attributes.phone);
@@ -56,7 +56,7 @@ export function useRepresentativeStatus() {
           });
         }
       } catch (e) {
-        setError(e);
+        setError(e.message);
       } finally {
         setIsLoading(false);
       }
