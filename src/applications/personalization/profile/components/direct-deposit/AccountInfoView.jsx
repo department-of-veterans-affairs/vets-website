@@ -48,6 +48,7 @@ const AccountWithInfo = ({
         </TransitionGroup>
       </div>
       <VaButton
+        data-testid="edit-bank-info-button"
         data-field-name="direct-deposit"
         text="Edit"
         className="vads-u-margin--0 vads-u-margin-top--1p5"

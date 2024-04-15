@@ -15,10 +15,7 @@ describe('Secure Messaging Compose', () => {
   });
   it('verify user can send a message', () => {
     composePage.selectRecipient(requestBody.recipientId);
-    composePage
-      .getCategory(requestBody.category)
-      .first()
-      .click({ force: true });
+    composePage.selectCategory(requestBody.category);
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()

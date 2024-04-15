@@ -4,6 +4,8 @@ import {
   titleSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantListSchema } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
@@ -140,5 +142,86 @@ export const applicantPrimaryEOBSchema = {
         _unused: { type: 'string' },
       },
     },
+  }),
+};
+
+export const applicantPrimaryTypeSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantPrimaryInsuranceType: {
+      type: 'string',
+    },
+  }),
+};
+
+export const applicantPrimaryMedigapSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': { viewField: ApplicantField },
+      items: {
+        ...titleUI(
+          ({ formData }) =>
+            `${applicantWording(formData)} ${
+              formData?.applicantPrimaryProvider
+            } Medigap information`,
+        ),
+        primaryMedigapPlan: radioUI({
+          title: 'Which type of Medigap plan is the applicant enrolled in?',
+          required: () => true,
+          labels: {
+            medigapPlanA: 'Medigap Plan A',
+            medigapPlanB: 'Medigap Plan B',
+            medigapPlanC: 'Medigap Plan C',
+            medigapPlanD: 'Medigap Plan D',
+            medigapPlanF: 'Medigap Plan F',
+            medigapPlanG: 'Medigap Plan G',
+            medigapPlanK: 'Medigap Plan K',
+            medigapPlanL: 'Medigap Plan L',
+            medigapPlanM: 'Medigap Plan M',
+          },
+        }),
+      },
+    },
+  },
+  schema: applicantListSchema(['primaryMedigapPlan'], {
+    titleSchema,
+    primaryMedigapPlan: radioSchema([
+      'medigapPlanA',
+      'medigapPlanB',
+      'medigapPlanC',
+      'medigapPlanD',
+      'medigapPlanF',
+      'medigapPlanG',
+      'medigapPlanK',
+      'medigapPlanL',
+      'medigapPlanM',
+    ]),
+  }),
+};
+
+export const applicantPrimaryCommentsSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': { viewField: ApplicantField },
+      items: {
+        ...titleUI(
+          ({ formData }) =>
+            `${applicantWording(formData)} ${
+              formData?.applicantPrimaryProvider
+            } additional comments`,
+        ),
+        primaryAdditionalComments: {
+          'ui:title':
+            'Any additional comments about this applicant’s health insurance?',
+          'ui:webComponentField': VaTextInputField,
+        },
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    primaryAdditionalComments: { type: 'string' },
   }),
 };

@@ -1,8 +1,8 @@
 import {
   addressNoMilitarySchema,
   addressNoMilitaryUI,
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
+  currentOrPastDateRangeSchema,
+  currentOrPastDateRangeUI,
   titleUI,
   yesNoSchema,
   yesNoUI,
@@ -16,6 +16,7 @@ export const employersOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
+  required: true,
   isItemIncomplete: item =>
     !item?.name ||
     !item?.address?.country ||
@@ -26,7 +27,8 @@ export const employersOptions = {
   text: {
     // if the value is null/undefined, it will use default text
     getItemName: item => item.name,
-    cardDescription: item => `${item?.dateStart} - ${item?.dateEnd}`,
+    cardDescription: item =>
+      `${item?.dateRange?.from} - ${item?.dateRange?.to}`,
   },
 };
 
@@ -119,15 +121,16 @@ export const employersDatesPage = {
           ? `Dates you were employed at ${formData.name}`
           : 'Dates you were employed',
     ),
-    dateStart: currentOrPastDateUI('Start date of employment'),
-    dateEnd: currentOrPastDateUI('End date of employment'),
+    dateRange: currentOrPastDateRangeUI(
+      'Start date of employment',
+      'End date of employment',
+      'End date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      dateStart: currentOrPastDateSchema,
-      dateEnd: currentOrPastDateSchema,
+      dateRange: currentOrPastDateRangeSchema,
     },
-    required: ['dateStart', 'dateEnd'],
   },
 };

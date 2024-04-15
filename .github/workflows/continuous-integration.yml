@@ -538,6 +538,8 @@ jobs:
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
             ${{ steps.get-changed-apps.outputs.folders }}
           fi
+        env:
+          GITHUB_REF: ${{ github.ref }}
 
       - name: Run Stylelint
         if: ${{ always() }}
@@ -1285,6 +1287,11 @@ jobs:
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+
+      - name: Copy merged coverage file to data directory
+        run: |
+          mkdir -p qa-standards-dashboard-data/src/testing-reports/data
+          cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data
       
       - name: Archive coverage txt
         if: ${{ always() }}
@@ -1292,6 +1299,10 @@ jobs:
         with:
           name: unit-test-coverage-txt
           path: qa-standards-dashboard-data/coverage/coverage_report.txt
+
+      - name: Process Coverage Report and post results to BigQuery
+        run: yarn unit-coverage-to-bigquery
+        working-directory: qa-standards-dashboard-data
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}

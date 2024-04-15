@@ -1,8 +1,7 @@
 import React from 'react';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { generateTitle } from '../../../utils/helpers';
+import { burialUploadUI } from '../../../utils/upload';
 
 const { files } = fullSchemaBurials.definitions;
 
@@ -25,17 +24,12 @@ export default {
       </>
     ),
     deathCertificate: {
-      ...fileUploadUI('Upload the Veteran’s death certificate', {
-        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-        confirmRemove: true,
-        uswds: true,
-        classNames: 'vads-u-font-size--md',
-      }),
-      'ui:required': () => true,
+      ...burialUploadUI('Upload the Veteran’s death certificate'),
     },
   },
   schema: {
     type: 'object',
+    required: ['deathCertificate'],
     properties: {
       deathCertificate: {
         ...files,

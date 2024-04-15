@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { addMonths, addYears, sub } from 'date-fns';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
@@ -9,7 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import AddIssue from '../../components/AddIssue';
-import { getDate } from '../../utils/dates';
+import { parseDate } from '../../utils/dates';
 
 import {
   CONTESTABLE_ISSUES_PATH,
@@ -26,7 +27,7 @@ import { maxNameLength } from '../../../995/validations/issues';
 import { validateDate } from '../../../995/validations/date';
 
 describe('<AddIssue>', () => {
-  const validDate = getDate({ offset: { months: -2 } });
+  const validDate = parseDate(sub(new Date(), { months: 2 }));
   const contestedIssues = [
     {
       type: 'contestableIssue',
@@ -139,7 +140,7 @@ describe('<AddIssue>', () => {
     expect(textInput.error).to.contain(errorMessages.maxLength);
   });
   it('should show error when issue date is not in range', () => {
-    const decisionDate = getDate({ offset: { years: +200 } });
+    const decisionDate = parseDate(addYears(new Date(), 200));
     const { container } = render(
       setup({
         data: {
@@ -158,7 +159,7 @@ describe('<AddIssue>', () => {
     expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
-    const decisionDate = getDate({ offset: { months: +13 } });
+    const decisionDate = parseDate(addMonths(new Date(), 13));
     const { container } = render(
       setup({
         data: {
@@ -177,7 +178,9 @@ describe('<AddIssue>', () => {
     expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 100 years in the past', () => {
-    const decisionDate = getDate({ offset: { years: -(MAX_YEARS_PAST + 1) } });
+    const decisionDate = parseDate(
+      sub(new Date(), { years: MAX_YEARS_PAST + 1 }),
+    );
     const { container } = render(
       setup({
         data: { contestedIssues, additionalIssues: [{ decisionDate }] },
@@ -212,7 +215,10 @@ describe('<AddIssue>', () => {
   it('should submit when everything is valid', () => {
     const goToPathSpy = sinon.spy();
     const additionalIssues = [
-      { issue: 'test', decisionDate: getDate({ offset: { months: -3 } }) },
+      {
+        issue: 'test',
+        decisionDate: parseDate(sub(new Date(), { months: 3 })),
+      },
     ];
     const { container } = render(
       setup({
@@ -231,7 +237,10 @@ describe('<AddIssue>', () => {
     window.sessionStorage.setItem(REVIEW_ISSUES, 'true');
     const goToPathSpy = sinon.spy();
     const additionalIssues = [
-      { issue: 'test', decisionDate: getDate({ offset: { months: -3 } }) },
+      {
+        issue: 'test',
+        decisionDate: parseDate(sub(new Date(), { months: 3 })),
+      },
     ];
     const { container } = render(
       setup({

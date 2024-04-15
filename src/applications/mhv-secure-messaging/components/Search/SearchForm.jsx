@@ -282,7 +282,7 @@ const SearchForm = props => {
           <va-button
             text="Filter"
             primary
-            class="filter-button vads-u-margin-left--0"
+            class="filter-button"
             data-testid="filter-messages-button"
             onClick={e => {
               e.preventDefault();
@@ -293,7 +293,7 @@ const SearchForm = props => {
             <va-button
               text="Clear Filters"
               secondary
-              class="clear-filter-button"
+              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
               onClick={handleFilterClear}
             />
           )}
