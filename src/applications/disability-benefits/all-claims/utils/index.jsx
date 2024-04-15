@@ -747,3 +747,50 @@ export const formTitle = title => (
     {title}
   </h3>
 );
+
+/**
+ * Creates consistent form sub title
+ * @param {string} title
+ * @returns {string} markup with h4 tag and consistent styling
+ */
+export const formSubtitle = title => (
+  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{title}</h4>
+);
+
+/**
+ * Formats a date in human-readable form. For example:
+ * 'January 2000' or '2000' or 'No date entered'
+ *
+ * @param {*} rawDate A date in the form 'MM-DD-YYYY'
+ * @returns A human-readable date string.
+ */
+export const formatMonthYearDate = rawDate => {
+  if (!rawDate || rawDate === 'XX-XX-XXXX') {
+    return '';
+  }
+
+  const dateParts = rawDate.split('-');
+  const year = dateParts[0];
+  const month = dateParts[1];
+
+  if (year === 'XXXX' && month === 'XX') {
+    return '';
+  }
+
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  return `${months[Number.parseInt(month, 10) - 1]} ${year}`;
+};
