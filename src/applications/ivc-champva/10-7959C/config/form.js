@@ -65,6 +65,7 @@ import {
   applicantPrimaryExpirationDateSchema,
   applicantPrimaryEOBSchema,
   applicantPrimaryPrescriptionSchema,
+  applicantPrimaryTypeSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -87,6 +88,10 @@ import {
   ApplicantPrimaryPrescriptionPage,
   ApplicantPrimaryPrescriptionReviewPage,
 } from '../components/ApplicantPrimaryPrescriptionPage';
+import {
+  ApplicantInsuranceTypePage,
+  ApplicantInsuranceTypeReviewPage,
+} from '../components/ApplicantInsurancePlanTypePage';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -416,6 +421,20 @@ const formConfig = {
           CustomPageReview: ApplicantPrimaryEOBReviewPage,
           uiSchema: applicantPrimaryEOBSchema.uiSchema,
           schema: applicantPrimaryEOBSchema.schema,
+        },
+        primaryType: {
+          path: ':index/primary-insurance-type',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } insurance plan`,
+          CustomPage: ApplicantInsuranceTypePage,
+          CustomPageReview: ApplicantInsuranceTypeReviewPage,
+          uiSchema: applicantPrimaryTypeSchema.uiSchema,
+          schema: applicantPrimaryTypeSchema.schema,
         },
       },
     },
