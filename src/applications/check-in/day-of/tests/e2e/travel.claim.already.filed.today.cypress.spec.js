@@ -3,6 +3,7 @@ import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
 import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
 import Confirmation from './pages/Confirmation';
+import Arrived from './pages/Arrived';
 
 const dateFns = require('date-fns');
 
@@ -56,6 +57,10 @@ describe('Check In Experience | Day Of |', () => {
       AppointmentsPage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
+
+      Arrived.validateArrivedPage();
+      cy.injectAxeThenAxeCheck();
+      Arrived.attemptToGoToNextPage();
 
       Confirmation.validatePageLoaded();
       Confirmation.validatePageLoadedWithNoBtsssClaim();
