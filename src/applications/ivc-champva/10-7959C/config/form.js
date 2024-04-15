@@ -66,6 +66,7 @@ import {
   applicantPrimaryEOBSchema,
   applicantPrimaryPrescriptionSchema,
   applicantPrimaryTypeSchema,
+  applicantPrimaryMedigapSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -435,6 +436,27 @@ const formConfig = {
           CustomPageReview: ApplicantInsuranceTypeReviewPage,
           uiSchema: applicantPrimaryTypeSchema.uiSchema,
           schema: applicantPrimaryTypeSchema.schema,
+        },
+        primaryMedigap: {
+          path: ':index/primary-medigap',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              hasPrimaryProvider(formData, index) &&
+              get(
+                'applicantPrimaryInsuranceType',
+                formData?.applicants?.[index],
+              )?.includes('medigap')
+            );
+          },
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } Medigap information`,
+          uiSchema: applicantPrimaryMedigapSchema.uiSchema,
+          schema: applicantPrimaryMedigapSchema.schema,
         },
       },
     },
